@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "start": "turbo run start",
+    "storybook": "turbo run storybook",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
