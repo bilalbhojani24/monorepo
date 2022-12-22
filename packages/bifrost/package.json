@@ -32,7 +32,8 @@
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=e55097a5c9b3"
   },
   "eslintConfig": {
     "extends": [
@@ -62,5 +63,7 @@
     "@storybook/react": "^6.1.20",
     "chromatic": "6.14.0",
     "component-file-generator": "0.5.2"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "bifrost@0.1.0"
 }
