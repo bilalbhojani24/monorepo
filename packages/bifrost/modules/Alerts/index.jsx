@@ -135,5 +135,4 @@ Alerts.defaultProps = {
   wrapperClass: "border-yellow-400 bg-yellow-50",
 };
 
-// adding a comment for storybook
 export default Alerts;
