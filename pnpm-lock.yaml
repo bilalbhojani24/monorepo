@@ -5,13 +5,13 @@ importers:
   .:
     specifiers:
       eslint-config-browserstack: workspace:*
-      prettier: latest
+      prettier-bs-config: workspace:*
       stylelint-bs-config: workspace:*
       tailwind-bs-config: workspace:*
       turbo: latest
     devDependencies:
       eslint-config-browserstack: link:packages/eslint-config-browserstack
-      prettier: 2.8.1
+      prettier-bs-config: link:packages/prettier-bs-config
       stylelint-bs-config: link:packages/stylelint-bs-config
       tailwind-bs-config: link:packages/tailwind-bs-config
       turbo: 1.6.3
@@ -21,11 +21,15 @@ importers:
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.4.0
       '@testing-library/user-event': ^13.5.0
+      eslint-config-browserstack: workspace:*
+      prettier-bs-config: workspace:*
       react: ^18.2.0
       react-dom: ^18.2.0
       react-scripts: 5.0.1
       web-vitals: ^2.1.4
     dependencies:
+      eslint-config-browserstack: link:../../packages/eslint-config-browserstack
+      prettier-bs-config: link:../../packages/prettier-bs-config
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-scripts: 5.0.1_eio2evl7y4ry2a3gwlos3ocmuq
@@ -61,9 +65,11 @@ importers:
       component-file-generator: 0.5.2
       craco: 0.0.3
       css-loader: 6.7.2
+      eslint-config-browserstack: workspace:*
       mini-css-extract-plugin: 2.7.2
       postcss: 8.4.20
       postcss-loader: 7.0.2
+      prettier-bs-config: workspace:*
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
@@ -88,9 +94,11 @@ importers:
       classnames: 2.3.2
       craco: 0.0.3_react-scripts@4.0.3
       css-loader: 6.7.2_webpack@5.75.0
+      eslint-config-browserstack: link:../eslint-config-browserstack
       mini-css-extract-plugin: 2.7.2_webpack@5.75.0
       postcss: 8.4.20
       postcss-loader: 7.0.2_qxxfhhrl3yknjjmta266mo3u64
+      prettier-bs-config: link:../prettier-bs-config
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -142,6 +150,12 @@ importers:
       eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
       eslint-webpack-plugin: 2.5.2_u2ubl3shblmc7225ne6wflnyua
 
+  packages/prettier-bs-config:
+    specifiers:
+      prettier: 2.8.1
+    dependencies:
+      prettier: 2.8.1
+
   packages/stylelint-bs-config:
     specifiers:
       stylelint: ^14.16.0
@@ -165,9 +179,6 @@ importers:
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
       tailwindcss: 3.2.4_postcss@8.4.20
-
-  packages/tsconfig:
-    specifiers: {}
 
 packages:
 
@@ -17819,6 +17830,7 @@ packages:
     resolution: {integrity: sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    dev: false
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
