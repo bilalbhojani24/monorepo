@@ -15,7 +15,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
+    "eslint-config-browserstack": "workspace:*",
     "stylelint-bs-config": "workspace:*",
     "tailwind-bs-config": "workspace:*",
     "prettier": "latest",
