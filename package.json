@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",
+    "stylelint-bs-config": "workspace:*",
     "prettier": "latest",
     "turbo": "latest"
   },
