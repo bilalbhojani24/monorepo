@@ -18,7 +18,7 @@ const link = (
     <a
       href="/"
       className={classNames("", linkClass, {
-        "underline ml-1": alertLinkPosition === ALERT_LINK_POSITION.inline,
+        "underline ml-1": alertLinkPosition === ALERT_LINK_POSITION[0],
       })}
       onClick={(event) => {
         event.preventDefault();
@@ -79,7 +79,7 @@ const Alerts = (props) => {
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className={classNames(`text-sm ${textColorClass}`)}>
                 {text}
-                {alertLinkPosition === ALERT_LINK_POSITION.inline &&
+                {alertLinkPosition === ALERT_LINK_POSITION[0] &&
                   link(
                     alertLinkPosition,
                     linkClass,
@@ -89,7 +89,7 @@ const Alerts = (props) => {
                   )}
               </p>
               <p className="mt-3 text-sm md:mt-0 md:ml-6">
-                {alertLinkPosition === ALERT_LINK_POSITION.end &&
+                {alertLinkPosition === ALERT_LINK_POSITION[1] &&
                   link(
                     alertLinkPosition,
                     linkClass,

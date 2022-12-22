@@ -27,7 +27,7 @@ const defaultConfig = {
     alertLinkPosition: {
       options: Object.values(ALERT_LINK_POSITION),
       control: { type: 'inline-radio' },
-      defaultValue: ALERT_LINK_POSITION.end
+      defaultValue: ALERT_LINK_POSITION[1]
     },
     handleLinkClick: {
       option: { type: null },
