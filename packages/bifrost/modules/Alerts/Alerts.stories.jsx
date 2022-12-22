@@ -19,10 +19,6 @@ const defaultConfig = {
       control: { type: 'boolean' },
       defaultValue: true
     },
-    AlertIcon: {
-      control: { type: null },
-      defaultValue: InformationCircleIcon
-    },
     alertLinkPosition: {
       options: Object.values(ALERT_LINK_POSITION),
       control: { type: 'inline-radio' },

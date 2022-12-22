@@ -12,7 +12,6 @@ import {
   XMarkIcon,
 } from "../Icon";
 import "./styles.scss";
-import matchers from "@testing-library/jest-dom/matchers";
 
 const link = (
   alertLinkPosition,
@@ -277,7 +276,6 @@ const Alerts = (props) => {
 
 Alerts.propTypes = {
   accentBorder: PropTypes.bool,
-  AlertIcon: PropTypes.elementType,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
   linkText: PropTypes.string,
@@ -297,7 +295,6 @@ Alerts.propTypes = {
 };
 Alerts.defaultProps = {
   accentBorder: false,
-  AlertIcon: InformationCircleIcon,
   alertLinkPosition: "end",
   handleLinkClick: () => {},
   linkText: "Details",
