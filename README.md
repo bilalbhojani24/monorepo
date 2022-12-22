@@ -8,13 +8,10 @@ This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes th
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `initial-app`: a dummy CRA for testing out configurations
+- `bifrost`: the browserstack DS components with storybook integration
 - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- `tsconfig`: `tsconfig.json`s used throughout the monorepo, currently dormant, might integrate in future.
 
 ### Utilities
 
@@ -24,12 +21,21 @@ This turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
+### Storybook
+
+To run storybook locally, run the following command:
+
+```
+cd frontend
+pnpm run storybook
+```
+
 ### Build
 
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd frontend
 pnpm run build
 ```
 
@@ -38,7 +44,7 @@ pnpm run build
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+cd frontend
 pnpm run dev
 ```
 
