@@ -51,6 +51,10 @@ const defaultConfig = {
       type: { summary: "STRING", required: false },
       defaultValue: ALERT_MODIFIER[0],
     },
+    title: {
+      option: { type: 'string' },
+      defaultValue: 'Attention needed'
+    }
   },
   controls: {}
 };

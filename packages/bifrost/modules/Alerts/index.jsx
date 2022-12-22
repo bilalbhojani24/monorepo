@@ -3,8 +3,8 @@ import classNames from "classnames";
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
-import { InformationCircleIcon } from "../Icon";
-// import { InformationCircleIcon, CheckCircleIcon ,ExclamationTriangleIcon, XCircleIcon, XMarkIcon } from "../Icon";
+// import { InformationCircleIcon } from "../Icon";
+import { InformationCircleIcon, CheckCircleIcon ,ExclamationTriangleIcon, XCircleIcon, XMarkIcon } from "../Icon";
 import "./styles.scss";
 
 const link = (
@@ -111,10 +111,7 @@ const Alerts = (props) => {
         >
           <div className="flex">
             <div className="flex-shrink-0">
-              <AlertIcon
-                className={classNames("h-5 w-5 ", {})}
-                aria-hidden="true"
-              />
+              {renderAlertIcon(modifier)}
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className={classNames(`text-sm ${textColorClass}`, {
@@ -160,8 +157,9 @@ Alerts.propTypes = {
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
-  description: PropTypes.string,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   modifier: PropTypes.string,
+  title: PropTypes.string,
 };
 Alerts.defaultProps = {
   accentBorder: false,
@@ -171,8 +169,17 @@ Alerts.defaultProps = {
   linkText: "Details",
   linkUrl: "/",
   show: true,
-  description: "A new software update is available. See what’s new in version 2.0.4.",
-  modifier: ALERT_MODIFIER[0]
+  description: "",
+  modifier: ALERT_MODIFIER[0],
+  title: "",
 };
+
+// Alerts.propTypes = {
+//   description: (props, propName) => {
+//     if(typeof props.propName !== "string" && props.title === ""){
+//       return new Error(`${propName} can only be of type string if no value is assigned to 'title' prop`)
+//     }
+//   },
+// }
 
 export default Alerts;
