@@ -21,26 +21,27 @@ const link = (
   linkText
 ) => {
   if (linkText?.length > 0)
-  return (
-    <a
-      href="/"
-      className={classNames("h-fit", {
-        "underline ml-1": alertLinkPosition === ALERT_LINK_POSITION[0],
-        "text-gray-700 hover:text-gray-600": modifier === ALERT_MODIFIER[0],
-        "text-blue-700 hover:text-blue-600": modifier === ALERT_MODIFIER[1],
-        "text-green-700 hover:text-green-600": modifier === ALERT_MODIFIER[2],
-        "text-red-700 hover:text-red-600": modifier === ALERT_MODIFIER[3],
-        "text-yellow-700 hover:text-yellow-600": modifier === ALERT_MODIFIER[4],
-      })}
-      onClick={(event) => {
-        event.preventDefault();
-        if (handleLinkClick) handleLinkClick(linkUrl);
-      }}
-    >
-      {linkText}
-      <span aria-hidden="true"> &rarr;</span>
-    </a>
-  );
+    return (
+      <a
+        href="/"
+        className={classNames("h-fit", {
+          "underline ml-1": alertLinkPosition === ALERT_LINK_POSITION[0],
+          "text-gray-700 hover:text-gray-600": modifier === ALERT_MODIFIER[0],
+          "text-blue-700 hover:text-blue-600": modifier === ALERT_MODIFIER[1],
+          "text-green-700 hover:text-green-600": modifier === ALERT_MODIFIER[2],
+          "text-red-700 hover:text-red-600": modifier === ALERT_MODIFIER[3],
+          "text-yellow-700 hover:text-yellow-600":
+            modifier === ALERT_MODIFIER[4],
+        })}
+        onClick={(event) => {
+          event.preventDefault();
+          if (handleLinkClick) handleLinkClick(linkUrl);
+        }}
+      >
+        {linkText}
+        <span aria-hidden="true"> &rarr;</span>
+      </a>
+    );
 };
 
 const Alerts = (props) => {
@@ -156,19 +157,32 @@ const Alerts = (props) => {
                   </h3>
                 )}
                 <span
-                  className={classNames(`text-sm flex items-end ${textColorClass}`, {
-                    "text-gray-700": modifier === ALERT_MODIFIER[0],
-                    "text-blue-700": modifier === ALERT_MODIFIER[1],
-                    "text-green-700": modifier === ALERT_MODIFIER[2],
-                    "text-red-700": modifier === ALERT_MODIFIER[3],
-                    "text-yellow-700": modifier === ALERT_MODIFIER[4],
-                  })}
+                  className={classNames(
+                    `text-sm flex items-end ${textColorClass}`,
+                    {
+                      "text-gray-700": modifier === ALERT_MODIFIER[0],
+                      "text-blue-700": modifier === ALERT_MODIFIER[1],
+                      "text-green-700": modifier === ALERT_MODIFIER[2],
+                      "text-red-700": modifier === ALERT_MODIFIER[3],
+                      "text-yellow-700": modifier === ALERT_MODIFIER[4],
+                    }
+                  )}
                 >
-                  <ul>
-                    <li>
-                      {description}
-                    </li>
-                  </ul>
+                  {typeof description === "object" ? (
+                    <div className="mt-2 text-sm">
+                      <ul role="list" className="list-disc space-y-1 pl-5">
+                        {description?.map((descriptionItem, index) => {
+                          return (
+                            <li key={`${descriptionItem}-${index}`}>
+                              {descriptionItem}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p>{description} </p>
+                  )}
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
                     link(
@@ -179,6 +193,7 @@ const Alerts = (props) => {
                       linkText
                     )}
                 </span>
+                
               </div>
               <p className="mt-3 text-sm md:mt-0 md:ml-6 h-fit">
                 {alertLinkPosition === ALERT_LINK_POSITION[1] &&
