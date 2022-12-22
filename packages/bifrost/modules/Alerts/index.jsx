@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import classNames from "classnames";
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
-import { ALERT_LINK_POSITION } from "./const/alertConstants";
+import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
 import { InformationCircleIcon } from "../Icon";
 
 import "./styles.scss";
@@ -35,16 +35,17 @@ const Alerts = (props) => {
   const {
     accentBorder,
     AlertIcon,
-    alertIconClassName,
+    // alertIconClassName,
     alertLinkPosition,
     handleLinkClick,
     linkClass,
     linkText,
     linkUrl,
     show,
-    text,
+    description,
     textColorClass,
     wrapperClass,
+    modifier
   } = props;
 
   return (
@@ -72,13 +73,13 @@ const Alerts = (props) => {
           <div className="flex">
             <div className="flex-shrink-0">
               <AlertIcon
-                className={classNames("h-5 w-5 ", alertIconClassName)}
+                className={classNames("h-5 w-5 ", {})}
                 aria-hidden="true"
               />
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className={classNames(`text-sm ${textColorClass}`)}>
-                {text}
+                {description}
                 {alertLinkPosition === ALERT_LINK_POSITION[0] &&
                   link(
                     alertLinkPosition,
@@ -109,30 +110,32 @@ const Alerts = (props) => {
 Alerts.propTypes = {
   accentBorder: PropTypes.bool,
   AlertIcon: PropTypes.elementType,
-  alertIconClassName: PropTypes.string,
+  // alertIconClassName: PropTypes.string,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
-  linkClass: PropTypes.string,
+  // linkClass: PropTypes.string,
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
-  text: PropTypes.string,
-  textColorClass: PropTypes.string,
-  wrapperClass: PropTypes.string,
+  description: PropTypes.string,
+  // textColorClass: PropTypes.string,
+  // wrapperClass: PropTypes.string,
+  modifier: PropTypes.string,
 };
 Alerts.defaultProps = {
   accentBorder: false,
   AlertIcon: InformationCircleIcon,
-  alertIconClassName: "text-yellow-400",
+  // alertIconClassName: "text-yellow-400",
   alertLinkPosition: "end",
   handleLinkClick: () => {},
-  linkClass: "text-yellow-700 hover:text-yellow-600",
+  // linkClass: "text-yellow-700 hover:text-yellow-600",
   linkText: "Details",
   linkUrl: "/",
   show: true,
-  text: "A new software update is available. See what’s new in version 2.0.4.",
-  textColorClass: "text-yellow-700",
-  wrapperClass: "border-yellow-400 bg-yellow-50",
+  description: "A new software update is available. See what’s new in version 2.0.4.",
+  // textColorClass: "text-yellow-700",
+  // wrapperClass: "border-yellow-400 bg-yellow-50",
+  modifier: ALERT_MODIFIER[0]
 };
 
 export default Alerts;
