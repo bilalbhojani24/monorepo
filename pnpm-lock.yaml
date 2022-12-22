@@ -106,6 +106,81 @@ importers:
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/user-event': 13.5.0_aaq3sbffpfe3jnxzm2zngsddei
 
+  packages/bifrost:
+    specifiers:
+      '@headlessui/react': 1.7.5
+      '@heroicons/react': 2.0.13
+      '@storybook/addon-a11y': 6.5.14
+      '@storybook/addon-actions': ^6.1.20
+      '@storybook/addon-docs': 6.4.19
+      '@storybook/addon-essentials': ^6.1.20
+      '@storybook/addon-links': ^6.1.20
+      '@storybook/builder-webpack5': 6.5.14
+      '@storybook/cli': ^6.5.15
+      '@storybook/manager-webpack5': 6.5.14
+      '@storybook/node-logger': ^6.1.20
+      '@storybook/preset-create-react-app': ^3.1.6
+      '@storybook/react': ^6.1.20
+      '@tailwindcss/forms': 0.5.3
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
+      '@testing-library/jest-dom': ^5.11.9
+      '@testing-library/react': ^11.2.5
+      '@testing-library/user-event': ^12.7.3
+      autoprefixer: 10.4.13
+      chromatic: 6.14.0
+      classnames: ^2.2.6
+      component-file-generator: 0.5.2
+      craco: 0.0.3
+      css-loader: 6.7.2
+      mini-css-extract-plugin: 2.7.2
+      postcss: 8.4.20
+      postcss-loader: 7.0.2
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-scripts: 4.0.3
+      sass-loader: 13.2.0
+      tailwindcss: 3.2.4
+      web-vitals: ^1.1.0
+      webpack: '5'
+    dependencies:
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@storybook/addon-a11y': 6.5.14_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-docs': 6.4.19_vxkdbq4skiaerydqs2alna3ury
+      '@storybook/builder-webpack5': 6.5.14_u7mmoyqfty2flmkfggora6dwra
+      '@storybook/manager-webpack5': 6.5.14_u7mmoyqfty2flmkfggora6dwra
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
+      '@testing-library/jest-dom': 5.16.5
+      '@testing-library/react': 11.2.7_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/user-event': 12.8.3_aaq3sbffpfe3jnxzm2zngsddei
+      autoprefixer: 10.4.13_postcss@8.4.20
+      classnames: 2.3.2
+      craco: 0.0.3_react-scripts@4.0.3
+      css-loader: 6.7.2_webpack@5.75.0
+      mini-css-extract-plugin: 2.7.2_webpack@5.75.0
+      postcss: 8.4.20
+      postcss-loader: 7.0.2_qxxfhhrl3yknjjmta266mo3u64
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-scripts: 4.0.3_cl6c6lk46klsk2subiyfxwnfya
+      sass-loader: 13.2.0_webpack@5.75.0
+      tailwindcss: 3.2.4_postcss@8.4.20
+      web-vitals: 1.1.2
+      webpack: 5.75.0
+    devDependencies:
+      '@storybook/addon-actions': 6.5.15_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-essentials': 6.5.15_7o4343ktihcf5r7a52ehunmmuu
+      '@storybook/addon-links': 6.5.15_biqbaboplfbrettd7655fr4n2y
+      '@storybook/cli': 6.5.15_u7mmoyqfty2flmkfggora6dwra
+      '@storybook/node-logger': 6.5.15
+      '@storybook/preset-create-react-app': 3.2.0_aprskwvektjv6usz4obtavyb5y
+      '@storybook/react': 6.5.15_jto3brdaszebs4ppo3qtsh37jm
+      chromatic: 6.14.0
+      component-file-generator: 0.5.2
+
   packages/eslint-config-custom:
     specifiers:
       eslint: ^7.23.0
