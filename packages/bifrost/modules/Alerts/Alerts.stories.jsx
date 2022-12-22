@@ -23,7 +23,6 @@ const defaultConfig = {
       control: { type: null },
       defaultValue: InformationCircleIcon
     },
-    // alertIconClassName: { option: { type: 'string' }, defaultValue: 'text-yellow-400' },
     alertLinkPosition: {
       options: Object.values(ALERT_LINK_POSITION),
       control: { type: 'inline-radio' },
@@ -35,25 +34,16 @@ const defaultConfig = {
         console.log(url);
       }
     },
-    // linkClass: { option: { type: 'string' }, defaultValue: 'text-yellow-700 hover:text-yellow-600' },
     linkText: { option: { type: 'string' }, defaultValue: 'Details' },
     linkUrl: { option: { type: 'string' }, defaultValue: '/' },
     show: {
       control: { type: 'boolean' },
       defaultValue: true
     },
-    text: {
+    description: {
       option: { type: 'string' },
       defaultValue: 'A new software update is available. See what’s new in version 2.0.4.'
     },
-    // textColorClass: {
-    //   option: { type: 'string' },
-    //   defaultValue: 'text-yellow-700'
-    // },
-    // wrapperClass: {
-    //   option: { type: 'string' },
-    //   defaultValue: 'border-yellow-400 bg-yellow-50'
-    // },
     modifier: {
       options: ALERT_MODIFIER,
       control: { type: "select" },

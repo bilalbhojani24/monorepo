@@ -35,7 +35,6 @@ const Alerts = (props) => {
   const {
     accentBorder,
     AlertIcon,
-    // alertIconClassName,
     alertLinkPosition,
     handleLinkClick,
     linkClass,
@@ -44,7 +43,6 @@ const Alerts = (props) => {
     show,
     description,
     textColorClass,
-    wrapperClass,
     modifier
   } = props;
 
@@ -67,7 +65,6 @@ const Alerts = (props) => {
               "border-l-4": accentBorder,
               "rounded-md ": !accentBorder,
             },
-            wrapperClass
           )}
         >
           <div className="flex">
@@ -110,31 +107,23 @@ const Alerts = (props) => {
 Alerts.propTypes = {
   accentBorder: PropTypes.bool,
   AlertIcon: PropTypes.elementType,
-  // alertIconClassName: PropTypes.string,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
-  // linkClass: PropTypes.string,
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
   description: PropTypes.string,
-  // textColorClass: PropTypes.string,
-  // wrapperClass: PropTypes.string,
   modifier: PropTypes.string,
 };
 Alerts.defaultProps = {
   accentBorder: false,
   AlertIcon: InformationCircleIcon,
-  // alertIconClassName: "text-yellow-400",
   alertLinkPosition: "end",
   handleLinkClick: () => {},
-  // linkClass: "text-yellow-700 hover:text-yellow-600",
   linkText: "Details",
   linkUrl: "/",
   show: true,
   description: "A new software update is available. See what’s new in version 2.0.4.",
-  // textColorClass: "text-yellow-700",
-  // wrapperClass: "border-yellow-400 bg-yellow-50",
   modifier: ALERT_MODIFIER[0]
 };
 
