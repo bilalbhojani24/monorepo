@@ -4,7 +4,13 @@ import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
 // import { InformationCircleIcon } from "../Icon";
-import { InformationCircleIcon, CheckCircleIcon ,ExclamationTriangleIcon, XCircleIcon, XMarkIcon } from "../Icon";
+import {
+  InformationCircleIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
+  XMarkIcon,
+} from "../Icon";
 import "./styles.scss";
 
 const link = (
@@ -14,16 +20,17 @@ const link = (
   linkUrl,
   linkText
 ) => {
+  if (linkText?.length > 0)
   return (
     <a
       href="/"
-      className={classNames("", {
+      className={classNames("h-fit", {
         "underline ml-1": alertLinkPosition === ALERT_LINK_POSITION[0],
         "text-gray-700 hover:text-gray-600": modifier === ALERT_MODIFIER[0],
         "text-blue-700 hover:text-blue-600": modifier === ALERT_MODIFIER[1],
         "text-green-700 hover:text-green-600": modifier === ALERT_MODIFIER[2],
         "text-red-700 hover:text-red-600": modifier === ALERT_MODIFIER[3],
-        "text-yellow-700 hover:text-yellow-600": modifier === ALERT_MODIFIER[4]
+        "text-yellow-700 hover:text-yellow-600": modifier === ALERT_MODIFIER[4],
       })}
       onClick={(event) => {
         event.preventDefault();
@@ -39,43 +46,63 @@ const link = (
 const Alerts = (props) => {
   const {
     accentBorder,
-    AlertIcon,
     alertLinkPosition,
     handleLinkClick,
-    linkClass,
     linkText,
     linkUrl,
     show,
     description,
     textColorClass,
-    modifier
+    modifier,
+    title,
   } = props;
 
   const renderAlertIcon = (modifier) => {
-    switch(modifier) {
+    switch (modifier) {
       case ALERT_MODIFIER[0]:
-        return <InformationCircleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return (
+          <InformationCircleIcon
+            className={iconClassTypes}
+            aria-hidden="true"
+          />
+        );
       case ALERT_MODIFIER[1]:
-        return <InformationCircleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return (
+          <InformationCircleIcon
+            className={iconClassTypes}
+            aria-hidden="true"
+          />
+        );
       case ALERT_MODIFIER[2]:
-        return <CheckCircleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return (
+          <CheckCircleIcon className={iconClassTypes} aria-hidden="true" />
+        );
       case ALERT_MODIFIER[3]:
-        return <XCircleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return <XCircleIcon className={iconClassTypes} aria-hidden="true" />;
       case ALERT_MODIFIER[4]:
-        return <ExclamationTriangleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return (
+          <ExclamationTriangleIcon
+            className={iconClassTypes}
+            aria-hidden="true"
+          />
+        );
       default:
-        return <InformationCircleIcon className={iconClassTypes} aria-hidden="true"/>;
+        return (
+          <InformationCircleIcon
+            className={iconClassTypes}
+            aria-hidden="true"
+          />
+        );
     }
-  }
+  };
 
   const iconClassTypes = classNames("h-5 w-5 ", {
-    'text-gray-400': modifier === ALERT_MODIFIER[0],
-    'text-blue-400': modifier === ALERT_MODIFIER[1],
-    'text-green-400': modifier === ALERT_MODIFIER[2],
-    'text-red-400': modifier === ALERT_MODIFIER[3],
-    'text-yellow-400': modifier === ALERT_MODIFIER[4]
-  })
-
+    "text-gray-400": modifier === ALERT_MODIFIER[0],
+    "text-blue-400": modifier === ALERT_MODIFIER[1],
+    "text-green-400": modifier === ALERT_MODIFIER[2],
+    "text-red-400": modifier === ALERT_MODIFIER[3],
+    "text-yellow-400": modifier === ALERT_MODIFIER[4],
+  });
 
   return (
     <>
@@ -90,48 +117,70 @@ const Alerts = (props) => {
         leaveTo="opacity-0"
       >
         <div
-          className={classNames(
-            `p-4`,
-            {
-              "rounded-md ": !accentBorder,
+          className={classNames(`p-4`, {
+            "rounded-md ": !accentBorder,
 
-              "border-l-4 border-gray-400": accentBorder && modifier === ALERT_MODIFIER[0],
-              "border-l-4 border-blue-400": accentBorder && modifier === ALERT_MODIFIER[1],
-              "border-l-4 border-green-400": accentBorder && modifier === ALERT_MODIFIER[2],
-              "border-l-4 border-red-400": accentBorder && modifier === ALERT_MODIFIER[3],
-              "border-l-4 border-yellow-400": accentBorder && modifier === ALERT_MODIFIER[4],
+            "border-l-4 border-gray-400":
+              accentBorder && modifier === ALERT_MODIFIER[0],
+            "border-l-4 border-blue-400":
+              accentBorder && modifier === ALERT_MODIFIER[1],
+            "border-l-4 border-green-400":
+              accentBorder && modifier === ALERT_MODIFIER[2],
+            "border-l-4 border-red-400":
+              accentBorder && modifier === ALERT_MODIFIER[3],
+            "border-l-4 border-yellow-400":
+              accentBorder && modifier === ALERT_MODIFIER[4],
 
-              "bg-gray-50": modifier === ALERT_MODIFIER[0],
-              "bg-blue-50": modifier === ALERT_MODIFIER[1],
-              "bg-green-50": modifier === ALERT_MODIFIER[2],
-              "bg-red-50": modifier === ALERT_MODIFIER[3],
-              "bg-yellow-50": modifier === ALERT_MODIFIER[4],
-            },
-          )}
+            "bg-gray-50": modifier === ALERT_MODIFIER[0],
+            "bg-blue-50": modifier === ALERT_MODIFIER[1],
+            "bg-green-50": modifier === ALERT_MODIFIER[2],
+            "bg-red-50": modifier === ALERT_MODIFIER[3],
+            "bg-yellow-50": modifier === ALERT_MODIFIER[4],
+          })}
         >
           <div className="flex">
-            <div className="flex-shrink-0">
-              {renderAlertIcon(modifier)}
-            </div>
-            <div className="ml-3 flex-1 md:flex md:justify-between">
-              <p className={classNames(`text-sm ${textColorClass}`, {
-                'text-gray-700': modifier === ALERT_MODIFIER[0],
-                'text-blue-700': modifier === ALERT_MODIFIER[1],
-                'text-green-700': modifier === ALERT_MODIFIER[2],
-                'text-red-700': modifier === ALERT_MODIFIER[3],
-                'text-yellow-700': modifier === ALERT_MODIFIER[4]
-              })}>
-                {description}
-                {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                  link(
-                    alertLinkPosition,
-                    modifier,
-                    handleLinkClick,
-                    linkUrl,
-                    linkText
-                  )}
-              </p>
-              <p className="mt-3 text-sm md:mt-0 md:ml-6">
+            <div className="flex-shrink-0">{renderAlertIcon(modifier)}</div>
+            <div className="ml-3 flex-1 md:flex md:justify-between items-end">
+              <div>
+                {title?.length > 0 && (
+                  <h3
+                    className={classNames("text-sm font-medium", {
+                      "text-gray-800": modifier === ALERT_MODIFIER[0],
+                      "text-blue-800": modifier === ALERT_MODIFIER[1],
+                      "text-green-800": modifier === ALERT_MODIFIER[2],
+                      "text-red-800": modifier === ALERT_MODIFIER[3],
+                      "text-yellow-800": modifier === ALERT_MODIFIER[4],
+                    })}
+                  >
+                    {title}
+                  </h3>
+                )}
+                <span
+                  className={classNames(`text-sm flex items-end ${textColorClass}`, {
+                    "text-gray-700": modifier === ALERT_MODIFIER[0],
+                    "text-blue-700": modifier === ALERT_MODIFIER[1],
+                    "text-green-700": modifier === ALERT_MODIFIER[2],
+                    "text-red-700": modifier === ALERT_MODIFIER[3],
+                    "text-yellow-700": modifier === ALERT_MODIFIER[4],
+                  })}
+                >
+                  <ul>
+                    <li>
+                      {description}
+                    </li>
+                  </ul>
+
+                  {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                    link(
+                      alertLinkPosition,
+                      modifier,
+                      handleLinkClick,
+                      linkUrl,
+                      linkText
+                    )}
+                </span>
+              </div>
+              <p className="mt-3 text-sm md:mt-0 md:ml-6 h-fit">
                 {alertLinkPosition === ALERT_LINK_POSITION[1] &&
                   link(
                     alertLinkPosition,
@@ -157,7 +206,10 @@ Alerts.propTypes = {
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
-  description: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   modifier: PropTypes.string,
   title: PropTypes.string,
 };

@@ -42,12 +42,13 @@ const defaultConfig = {
     },
     description: {
       option: { type: 'string' },
-      defaultValue: 'A new software update is available. See what’s new in version 2.0.4.'
+      description: "Render a text or list based upon type of input",
+      defaultValue: 'A new software update is available. See what’s new in version 2.0.4.5.'
     },
     modifier: {
       options: ALERT_MODIFIER,
       control: { type: "select" },
-      description: "Lorem Ipsum",
+      description: "Convey meaning through modifier types",
       type: { summary: "STRING", required: false },
       defaultValue: ALERT_MODIFIER[0],
     },
