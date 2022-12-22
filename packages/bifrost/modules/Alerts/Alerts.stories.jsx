@@ -55,7 +55,31 @@ const defaultConfig = {
     title: {
       option: { type: 'string' },
       defaultValue: 'Attention needed'
-    }
+    },
+    enableActions: {
+      option: {type: "boolean"}, 
+      defaultValue: false
+    },
+    alphaActionFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log('perform alpha action');
+      }
+    },
+    betaActionFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log('perform beta action');
+      }
+    },
+    alphaActionTitle: {
+      option: { type: 'string' },
+      defaultValue: "View Status"
+    },
+    betaActionTitle: {
+      option: { type: 'string' },
+      defaultValue: "Dismiss"
+    },
   },
   controls: {}
 };

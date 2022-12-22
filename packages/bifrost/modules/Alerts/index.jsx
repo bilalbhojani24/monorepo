@@ -12,6 +12,7 @@ import {
   XMarkIcon,
 } from "../Icon";
 import "./styles.scss";
+import matchers from "@testing-library/jest-dom/matchers";
 
 const link = (
   alertLinkPosition,
@@ -56,6 +57,11 @@ const Alerts = (props) => {
     textColorClass,
     modifier,
     title,
+    enableActions,
+    alphaActionFn,
+    betaActionFn,
+    alphaActionTitle,
+    betaActionTitle
   } = props;
 
   const renderAlertIcon = (modifier) => {
@@ -168,21 +174,78 @@ const Alerts = (props) => {
                     }
                   )}
                 >
-                  {typeof description === "object" ? (
-                    <div className="mt-2 text-sm">
-                      <ul role="list" className="list-disc space-y-1 pl-5">
-                        {description?.map((descriptionItem, index) => {
-                          return (
-                            <li key={`${descriptionItem}-${index}`}>
-                              {descriptionItem}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  ) : (
-                    <p>{description} </p>
-                  )}
+                  <div>
+                    {typeof description === "object" ? (
+                      <div className="mt-2 text-sm">
+                        <ul role="list" className="list-disc space-y-1 pl-5">
+                          {description?.map((descriptionItem, index) => {
+                            return (
+                              <li key={`${descriptionItem}-${index}`}>
+                                {descriptionItem}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    ) : (
+                      <p>{description} </p>
+                    )}
+
+                    {enableActions === true && (
+                      <div className="mt-4">
+                        <div className="-mx-2 -my-1.5 flex">
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              if (alphaActionFn) alphaActionFn();
+                            }}
+                            type="button"
+                            className={classNames(
+                              "rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2",
+                              {
+                                "bg-gray-50 text-gray-800 hover:bg-gray-100 focus:ring-gray-600 focus:ring-offset-gray-50":
+                                  modifier === ALERT_MODIFIER[0],
+                                "bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50":
+                                  modifier === ALERT_MODIFIER[1],
+                                "bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50":
+                                  modifier === ALERT_MODIFIER[2],
+                                "bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50":
+                                  modifier === ALERT_MODIFIER[3],
+                                "bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50":
+                                  modifier === ALERT_MODIFIER[4],
+                              }
+                            )}
+                          >
+                            {alphaActionTitle}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              if (betaActionFn) betaActionFn();
+                            }}
+                            className={classNames(
+                              "ml-3 rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2",
+                              {
+                                "bg-gray-50 text-gray-800 hover:bg-gray-100 focus:ring-gray-600 focus:ring-offset-gray-50":
+                                  modifier === ALERT_MODIFIER[0],
+                                "bg-blue-50 text-blue-800 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50":
+                                  modifier === ALERT_MODIFIER[1],
+                                "bg-green-50 text-green-800 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50":
+                                  modifier === ALERT_MODIFIER[2],
+                                "bg-red-50 text-red-800 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50":
+                                  modifier === ALERT_MODIFIER[3],
+                                "bg-yellow-50 text-yellow-800 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50":
+                                  modifier === ALERT_MODIFIER[4],
+                              }
+                            )}
+                          >
+                            {betaActionTitle}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
                     link(
@@ -193,7 +256,6 @@ const Alerts = (props) => {
                       linkText
                     )}
                 </span>
-                
               </div>
               <p className="mt-3 text-sm md:mt-0 md:ml-6 h-fit">
                 {alertLinkPosition === ALERT_LINK_POSITION[1] &&
@@ -227,6 +289,11 @@ Alerts.propTypes = {
   ]),
   modifier: PropTypes.string,
   title: PropTypes.string,
+  enableActions: PropTypes.bool,
+  alphaActionFn: PropTypes.func,
+  betaActionFn: PropTypes.func,
+  alphaActionTitle: PropTypes.string,
+  betaActionTitle: PropTypes.string,
 };
 Alerts.defaultProps = {
   accentBorder: false,
@@ -239,6 +306,11 @@ Alerts.defaultProps = {
   description: "",
   modifier: ALERT_MODIFIER[0],
   title: "",
+  enableActions: false,
+  alphaActionFn: () => {},
+  betaActionFn: () => {},
+  alphaActionTitle: "",
+  betaActionTitle: "",
 };
 
 // Alerts.propTypes = {
