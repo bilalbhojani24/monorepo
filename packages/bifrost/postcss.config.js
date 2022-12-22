@@ -1,1 +1,3 @@
-module.exports = require("../config/postcss.config");
+const globalCssConfigs = require("tailwind-bs-config");
+
+module.exports = globalCssConfigs.globalPostcssConfig;
