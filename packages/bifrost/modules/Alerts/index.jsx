@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
-// import { InformationCircleIcon } from "../Icon";
 import {
   InformationCircleIcon,
   CheckCircleIcon,
@@ -60,7 +59,9 @@ const Alerts = (props) => {
     alphaActionFn,
     betaActionFn,
     alphaActionTitle,
-    betaActionTitle
+    betaActionTitle,
+    dismissButton,
+    dismissButtonFn,
   } = props;
 
   const renderAlertIcon = (modifier) => {
@@ -148,6 +149,8 @@ const Alerts = (props) => {
             <div className="flex-shrink-0">{renderAlertIcon(modifier)}</div>
             <div className="ml-3 flex-1 md:flex md:justify-between items-end">
               <div>
+                {/* alert title */}
+
                 {title?.length > 0 && (
                   <h3
                     className={classNames("text-sm font-medium", {
@@ -174,6 +177,7 @@ const Alerts = (props) => {
                   )}
                 >
                   <div>
+                    {/* alert description */}
                     {typeof description === "object" ? (
                       <div className="mt-2 text-sm">
                         <ul role="list" className="list-disc space-y-1 pl-5">
@@ -189,6 +193,8 @@ const Alerts = (props) => {
                     ) : (
                       <p>{description} </p>
                     )}
+
+                    {/* alert actions */}
 
                     {enableActions === true && (
                       <div className="mt-4">
@@ -267,6 +273,39 @@ const Alerts = (props) => {
                   )}
               </p>
             </div>
+
+            {/* Dismiss alert */}
+            {dismissButton === true && (
+              <div className="ml-auto pl-3">
+                <div className="-mx-1.5 -my-1.5">
+                  <button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      if (dismissButtonFn) dismissButtonFn();
+                    }}
+                    type="button"
+                    className={classNames(
+                      "inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2",
+                      {
+                        "bg-gray-50 text-gray-500 hover:bg-gray-100 focus:ring-gray-600 focus:ring-offset-gray-50":
+                          modifier === ALERT_MODIFIER[0],
+                        "bg-blue-50 text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50":
+                          modifier === ALERT_MODIFIER[1],
+                        "bg-green-50 text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50":
+                          modifier === ALERT_MODIFIER[2],
+                        "bg-red-50 text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50":
+                          modifier === ALERT_MODIFIER[3],
+                        "bg-yellow-50 text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50":
+                          modifier === ALERT_MODIFIER[4],
+                      }
+                    )}
+                  >
+                    <span className="sr-only">Dismiss</span>
+                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Transition>
@@ -281,23 +320,30 @@ Alerts.propTypes = {
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
   modifier: PropTypes.string,
-  title: PropTypes.string,
+  dismissButton: PropTypes.bool,
   enableActions: PropTypes.bool,
   alphaActionFn: PropTypes.func,
   betaActionFn: PropTypes.func,
   alphaActionTitle: PropTypes.string,
   betaActionTitle: PropTypes.string,
   description: (props, propName) => {
-    if(typeof props.propName !== "string" && props.title === ""){
-      return new Error(`'${propName}' can only be of type 'String' if no value is assigned to 'title' prop`)
+    if (typeof props.propName !== "string" && props.title === "") {
+      return new Error(
+        `'${propName}' can only be of type 'String' if no value is assigned to 'title' prop.`
+      );
     }
   },
+  title: (props, propName) => {
+    if (props.title && props.dismissButton) {
+      return new Error(
+        `'${propName}' prop and 'dismissButton' prop should not be passed together.`
+      );
+    }
+  },
+  dismissButtonFn: PropTypes.func,
 };
+
 Alerts.defaultProps = {
   accentBorder: false,
   alertLinkPosition: "end",
@@ -313,6 +359,8 @@ Alerts.defaultProps = {
   betaActionFn: () => {},
   alphaActionTitle: "",
   betaActionTitle: "",
+  dismissButton: false,
+  dismissButtonFn: () => {},
 };
 
 export default Alerts;

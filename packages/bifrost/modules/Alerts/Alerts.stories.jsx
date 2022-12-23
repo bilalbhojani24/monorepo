@@ -2,7 +2,6 @@ import React from "react";
 import Alerts from "./index";
 import DocPageTemplate from "../../.storybook/DocPageTemplate";
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
-import { InformationCircleIcon } from "../Icon";
 
 const defaultConfig = {
   title: "Application/Components/Alerts",
@@ -56,6 +55,8 @@ const defaultConfig = {
     },
     title: {
       option: { type: "string" },
+      description:
+        "Renders title of the alert component, while passing title prop make sure 'dismissButton' prop is not enabled.",
       defaultValue: "Attention needed",
     },
     enableActions: {
@@ -65,13 +66,13 @@ const defaultConfig = {
     alphaActionFn: {
       option: { type: null },
       defaultValue: () => {
-        console.log("perform alpha action");
+        console.log("perform alpha fn");
       },
     },
     betaActionFn: {
       option: { type: null },
       defaultValue: () => {
-        console.log("perform beta action");
+        console.log("perform beta fn");
       },
     },
     alphaActionTitle: {
@@ -81,6 +82,16 @@ const defaultConfig = {
     betaActionTitle: {
       option: { type: "string" },
       defaultValue: "Dismiss",
+    },
+    dismissButton: {
+      option: { type: "boolean" },
+      defaultValue: false,
+    },
+    dismissButtonFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log("perform dismiss button fn");
+      },
     },
   },
   controls: {},
