@@ -292,6 +292,11 @@ Alerts.propTypes = {
   betaActionFn: PropTypes.func,
   alphaActionTitle: PropTypes.string,
   betaActionTitle: PropTypes.string,
+  description: (props, propName) => {
+    if(typeof props.propName !== "string" && props.title === ""){
+      return new Error(`'${propName}' can only be of type 'String' if no value is assigned to 'title' prop`)
+    }
+  },
 };
 Alerts.defaultProps = {
   accentBorder: false,
@@ -309,13 +314,5 @@ Alerts.defaultProps = {
   alphaActionTitle: "",
   betaActionTitle: "",
 };
-
-// Alerts.propTypes = {
-//   description: (props, propName) => {
-//     if(typeof props.propName !== "string" && props.title === ""){
-//       return new Error(`${propName} can only be of type string if no value is assigned to 'title' prop`)
-//     }
-//   },
-// }
 
 export default Alerts;
