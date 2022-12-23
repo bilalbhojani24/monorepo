@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -15,6 +15,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "bifrost": "workspace:*",
     "eslint-config-browserstack": "workspace:*",
     "stylelint-bs-config": "workspace:*",
     "tailwind-bs-config": "workspace:*",

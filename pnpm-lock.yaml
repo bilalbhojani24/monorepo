@@ -4,12 +4,14 @@ importers:
 
   .:
     specifiers:
+      bifrost: workspace:*
       eslint-config-browserstack: workspace:*
       prettier-bs-config: workspace:*
       stylelint-bs-config: workspace:*
       tailwind-bs-config: workspace:*
       turbo: latest
     devDependencies:
+      bifrost: link:packages/bifrost
       eslint-config-browserstack: link:packages/eslint-config-browserstack
       prettier-bs-config: link:packages/prettier-bs-config
       stylelint-bs-config: link:packages/stylelint-bs-config
@@ -63,7 +65,6 @@ importers:
       chromatic: 6.14.0
       classnames: ^2.2.6
       component-file-generator: 0.5.2
-      craco: 0.0.3
       css-loader: 6.7.2
       eslint-config-browserstack: workspace:*
       mini-css-extract-plugin: 2.7.2
@@ -92,7 +93,6 @@ importers:
       '@testing-library/user-event': 12.8.3_aaq3sbffpfe3jnxzm2zngsddei
       autoprefixer: 10.4.13_postcss@8.4.20
       classnames: 2.3.2
-      craco: 0.0.3_react-scripts@4.0.3
       css-loader: 6.7.2_webpack@5.75.0
       eslint-config-browserstack: link:../eslint-config-browserstack
       mini-css-extract-plugin: 2.7.2_webpack@5.75.0
@@ -1721,19 +1721,6 @@ packages:
     engines: {node: '>=0.1.90'}
     requiresBuild: true
     optional: true
-
-  /@craco/craco/5.9.0_react-scripts@4.0.3:
-    resolution: {integrity: sha512-2Q8gIB4W0/nPiUxr9iAKUhGsFlXYN0/wngUdK1VWtfV2NtBv+yllNn2AjieaLbttgpQinuOYmDU65vocC0NMDg==}
-    engines: {node: '>=6'}
-    hasBin: true
-    peerDependencies:
-      react-scripts: '*'
-    dependencies:
-      cross-spawn: 7.0.3
-      lodash: 4.17.21
-      react-scripts: 4.0.3_cl6c6lk46klsk2subiyfxwnfya
-      webpack-merge: 4.2.2
-    dev: false
 
   /@csstools/convert-colors/1.4.0:
     resolution: {integrity: sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==}
@@ -9010,22 +8997,6 @@ packages:
       p-map: 3.0.0
     transitivePeerDependencies:
       - supports-color
-
-  /craco/0.0.3_react-scripts@4.0.3:
-    resolution: {integrity: sha512-eeibbwJm1CTf/j3xvNgNmsRS7abegp4Cfm5qtn5nE9/0JjZRas+FHj8IlT8FMFWR0XOyZFGcWZgzaTU19DNGoQ==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      '@babel/core': 7.20.5
-      '@craco/craco': 5.9.0_react-scripts@4.0.3
-      '@types/babel__core': 7.1.20
-      '@types/webpack': 4.41.33
-      webpack: 4.46.0
-    transitivePeerDependencies:
-      - react-scripts
-      - supports-color
-      - webpack-cli
-      - webpack-command
-    dev: false
 
   /create-ecdh/4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
@@ -21783,12 +21754,6 @@ packages:
       tapable: 2.2.1
       webpack: 5.75.0
       webpack-sources: 2.3.1
-    dev: false
-
-  /webpack-merge/4.2.2:
-    resolution: {integrity: sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==}
-    dependencies:
-      lodash: 4.17.21
     dev: false
 
   /webpack-sources/1.4.3:
