@@ -31,3 +31,9 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+#[ignoring static files for bifrost]
+packages/bifrost/build
+packages/bifrost/node_modules
+packages/bifrost/storybook-static
+packages/bifrostbuild-storybook.log

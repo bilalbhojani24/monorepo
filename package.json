@@ -15,11 +15,13 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "webpack": "5",
     "bifrost": "workspace:*",
     "eslint-config-browserstack": "workspace:*",
     "stylelint-bs-config": "workspace:*",
     "tailwind-bs-config": "workspace:*",
     "prettier-bs-config": "workspace:*",
+    "webpack-config": "workspace:*",
     "turbo": "latest"
   },
   "engines": {
