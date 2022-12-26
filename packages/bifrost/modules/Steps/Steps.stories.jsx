@@ -40,7 +40,7 @@ const defaultConfig = {
     },
     label: {
       type: { summary: 'STRING', required: false },
-      description: 'Provide label to overall Step component for accessibility ',
+      description: 'Provide label to overall Step component for accessibility',
       control: { type: 'text' },
       defaultValue: 'label',
     },
