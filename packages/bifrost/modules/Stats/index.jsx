@@ -4,35 +4,46 @@ import { CursorArrowRaysIcon, EnvelopeOpenIcon, UsersIcon } from '../Icon';
 import PropTypes, { oneOf } from 'prop-types';
 import classNames from 'classnames';
 import './styles.scss';
+import { STATS_SPACING } from './const/statsConstants';
 
 const Stats = (props) => {
-  const { heading, options, withBrandIcon } = props;
+  const { heading, options, brandIcon, spacing, textColor } = props;
 
   return (
     <div>
       <h3 className="text-lg font-medium leading-6 text-gray-900">{heading}</h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <dl
+        className={classNames('mt-5 grid grid-cols-1', {
+          'gap-5 sm:grid-cols-2 lg:grid-cols-3': spacing === STATS_SPACING[0],
+          'divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x':
+            spacing === STATS_SPACING[1],
+        })}
+      >
         {options.map((item) => (
           <div
             key={item.id}
             className={classNames(
-              { 'pb-12 ': withBrandIcon },
-              'relative overflow-hidden rounded-lg bg-white px-4 pt-5 shadow sm:px-6 sm:pt-6'
+              {
+                'pb-12 ': brandIcon,
+                'rounded-lg': spacing === STATS_SPACING[0],
+                'shadow': spacing == STATS_SPACING[0]
+              },
+              'relative overflow-hidden bg-white px-4 pt-5 sm:px-6 sm:pt-6'
             )}
           >
             <dt>
-              {withBrandIcon && (
+              {brandIcon && (
                 <div className="absolute rounded-md bg-indigo-500 p-3">
                   <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
                 </div>
               )}
-              <p className={classNames({ 'ml-16': withBrandIcon }, 'truncate text-sm font-medium text-gray-500')}>
+              <p className={classNames({ 'ml-16': brandIcon }, 'truncate text-sm font-medium text-gray-500')}>
                 {item.name}
               </p>
             </dt>
-            <dd className={classNames({ 'ml-16': withBrandIcon }, 'flex items-baseline pb-6 sm:pb-7')}>
-              <p className="text-2xl font-semibold text-gray-900">{item.stat}</p>
-              {withBrandIcon && (
+            <dd className={classNames({ 'ml-16': brandIcon }, 'flex items-baseline pb-6 sm:pb-7')}>
+              <p className={`text-2xl font-semibold ${textColor}`}>{item.stat}</p>
+              {brandIcon && (
                 <p
                   className={classNames(
                     item.changeType === 'increase' ? 'text-green-600' : 'text-red-600',
@@ -48,8 +59,8 @@ const Stats = (props) => {
                   <span className="sr-only"> {item.changeType === 'increase' ? 'Increased' : 'Decreased'} by </span>
                   {item.change}
                 </p>
-              )}
-              {withBrandIcon && (
+              )} 
+              {brandIcon && (
                 <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
                   <div className="text-sm">
                     <a href="www.google.com" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -75,10 +86,12 @@ Stats.propTypes = {
       stat: PropTypes.string,
       icon: PropTypes.node,
       change: PropTypes.string,
-      changeType: oneOf(['increase', 'decrease'])
+      changeType: oneOf(['increase', 'decrease']),
     })
   ).isRequired,
-  withBrandIcon: PropTypes.bool
+  brandIcon: PropTypes.bool,
+  spacing: PropTypes.string,
+  textColor: PropTypes.bool,
 };
 Stats.defaultProps = {
   heading: 'Last 30 days',
@@ -91,10 +104,29 @@ Stats.defaultProps = {
       stat: '24.57%',
       icon: CursorArrowRaysIcon,
       change: '3.2%',
-      changeType: 'decrease'
-    }
+      changeType: 'decrease',
+    },
+    {
+      id: 3,
+      name: 'Avg. Click Rate',
+      stat: '24.57%',
+      icon: CursorArrowRaysIcon,
+      change: '3.2%',
+      changeType: 'decrease',
+    },
+    {
+      id: 3,
+      name: 'Avg. Click Rate',
+      stat: '24.57%',
+      icon: CursorArrowRaysIcon,
+      change: '3.2%',
+      changeType: 'decrease',
+    },
   ],
-  withBrandIcon: false
+  brandIcon: false,
+  spacing: STATS_SPACING[0],
+  badge: true,
+  textColor: "text-gray-900"
 };
 
 export default Stats;
