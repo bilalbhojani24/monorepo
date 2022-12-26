@@ -34,7 +34,7 @@ const defaultConfig = {
     },
     badge: {
         type: { summary: 'BOOLEAN', required: false },
-        defaultValue: 'false',
+        defaultValue: false,
     },
     options: {
       defaultValue: [
