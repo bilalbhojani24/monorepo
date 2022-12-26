@@ -26,6 +26,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   XCircleIcon,
+  ChevronUpDownIcon,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -56,4 +57,5 @@ export {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   XCircleIcon,
+  ChevronUpDownIcon,
 };

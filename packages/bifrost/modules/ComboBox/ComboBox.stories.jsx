@@ -1,17 +1,17 @@
 import React from 'react';
-import SelectMenu from './index';
+import ComboBox from './index';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 
 const defaultConfig = {
-  title: 'Application/Components/SelectMenu',
-  component: SelectMenu,
+  title: 'Application/Components/ComboBox',
+  component: ComboBox,
   parameters: {
     docs: {
       page: () => {
         return (
           <DocPageTemplate
-            importStatement={"import SelectMenu from 'bifrost/SelectMenu'"}
+            importStatement={"import ComboBox from 'bifrost/ComboBox'"}
           />
         );
       },
@@ -22,15 +22,8 @@ const defaultConfig = {
       options: CHECK_POSITION,
       control: { type: 'inline-radio' },
       description: 'Position of check icon',
-      defaultValue: CHECK_POSITION[0],
     },
-    defaultValue: {
-      option: { type: null },
-      description:
-        'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
-      defaultValue: null,
-    },
-    isMultiSelect: {
+    isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
       defaultValue: false,
@@ -48,22 +41,29 @@ const defaultConfig = {
       },
     },
     options: {
-      options: SELECT_OPTIONS,
+      options: COMBOBOX_OPTIONS,
       description: 'options for the combobox, array of objects',
+    },
+    defaultValue: {
+      option: { type: null },
+      description:
+        'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
+      defaultValue: null,
     },
     value: {
       option: { type: null },
       description:
         'Default selected values for the combobox, and the value state will be controlled externally',
-      defaultValue: SELECT_OPTIONS[0],
+      defaultValue: COMBOBOX_OPTIONS[0],
     },
   },
   controls: {},
 };
-const Template = (args) => <SelectMenu {...args} />;
-const MultiSelectTemplate = (args) => <SelectMenu {...args} />;
+const Template = (args) => <ComboBox {...args} />;
+const MultiSelectTemplate = (args) => <ComboBox {...args} />;
 const Primary = Template.bind({});
 const MultiSelect = MultiSelectTemplate.bind({});
+
 Primary.parameters = {
   controls: {},
 };
@@ -72,7 +72,7 @@ export default defaultConfig;
 export { Primary, MultiSelect };
 
 MultiSelect.args = {
-  defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
-  isMultiSelect: true,
-  value: null,
+  defaultValue: null,
+  isMulti: true,
+  value: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[1]],
 };

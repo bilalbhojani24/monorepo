@@ -1,1 +1,1 @@
-export const STATS_SPACING = ["Simple", "With shared borders"];
+export const STATS_SPACING = ["spaced", "shared-borders"];
