@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-import 'bifrost';
+const abc = 'asdasd';
 
 function App() {
   return (

@@ -1,4 +1,4 @@
-const globalWebpackConfig = require('webpack-config');
+const globalWebpackConfig = require('@browserstack/config/webpack.config');
 
 const path = require('path');
 

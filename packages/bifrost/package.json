@@ -1,7 +1,7 @@
 {
   "name": "bifrost",
   "version": "0.1.0",
-  "prettier": "prettier-bs-config",
+  "prettier": "@browserstack/config/prettier.config",
   "dependencies": {
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
@@ -10,14 +10,21 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "eslint-config-browserstack": "workspace:*",
-    "prettier-bs-config": "workspace:*",
-    "webpack-config": "workspace:*"
+    "@browserstack/config": "workspace:*"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token=e55097a5c9b3",
-    "build": "webpack"
+    "build": "webpack",
+    "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
+    "lint:fix": "npm run lint:check -- --fix",
+    "lint:fix:modified": "eslint --fix --max-warnings 0",
+    "stylelint:check": "stylelint --formatter=verbose \"**/*.{css,scss}\"",
+    "stylelint:fix": "npm run stylelint:check -- --fix",
+    "stylelint:fix:modified": "stylelint --fix",
+    "prettier:check": "prettier --check \"**/*.{js,jsx}\" \"**/*.{css,scss}\"",
+    "prettier:fix": "npm run prettier:check -- --write"
   },
   "devDependencies": {},
   "readme": "ERROR: No README data found!",

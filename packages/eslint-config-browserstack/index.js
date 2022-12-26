@@ -5,12 +5,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  extends: [
-    "airbnb",
-    "airbnb/hooks",
-    "plugin:prettier/recommended",
-    "prettier/react",
-  ],
+  extends: ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
   parser: "babel-eslint",
   settings: {
     "import/resolver": { node: {}, webpack: {} },
