@@ -2,25 +2,30 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import Button from '../Button';
 import { XMarkIcon } from '../Icon';
 import classNames from 'classnames';
-import './styles.scss';
 
-const isStringLengthGreaterThanZero = (str) => typeof str === 'string' && !!str.length;
+import './styles.scss';
 
 const Notifications = (props) => {
   const {
     description,
+    isCondensed,
     handleClose,
-    handleNegativeButton,
-    handlePositiveButton,
-    negativeButtonLabel,
+    handlePositiveClick,
+    negativeButtonProps,
     NotificationIcon,
     NotificationIconClassName,
-    positiveButtonLabel,
+    positiveButtonProps,
     show,
-    title
+    title,
   } = props;
+
+  const renderButton = (props) => {
+    if (Button) return <Button {...props} />;
+  };
+
   return (
     <div
       aria-live="assertive"
@@ -41,48 +46,47 @@ const Notifications = (props) => {
             <div className="p-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <NotificationIcon
-                    className={`h-6 w-6 text-gray-400 ${NotificationIconClassName}`}
-                    aria-hidden="true"
-                  />
+                  {!isCondensed && (
+                    <NotificationIcon
+                      className={`h-6 w-6 text-gray-400 ${NotificationIconClassName}`}
+                      aria-hidden="true"
+                    />
+                  )}
                 </div>
-                <div className="ml-3 w-0 flex-1 pt-0.5">
+                <div
+                  className={classNames('w-0 flex-1 pt-0.5', {
+                    'ml-3': !isCondensed,
+                  })}
+                >
                   <p className="text-sm font-medium text-gray-900">{title}</p>
-                  <p className="mt-1 text-sm text-gray-500">{description}</p>
-                  <div
-                    className={classNames('mt-3 flex space-x-7', {
-                      hidden:
-                        !isStringLengthGreaterThanZero(positiveButtonLabel) &&
-                        !isStringLengthGreaterThanZero(negativeButtonLabel)
-                    })}
-                  >
-                    {isStringLengthGreaterThanZero(positiveButtonLabel) && (
-                      <button
-                        type="button"
-                        className={
-                          'rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                        }
-                        onClick={() => {
-                          if (handlePositiveButton) handlePositiveButton();
-                        }}
-                      >
-                        {positiveButtonLabel}
-                      </button>
-                    )}
-                    {isStringLengthGreaterThanZero(negativeButtonLabel) && (
-                      <button
-                        type="button"
-                        className="rounded-md bg-white text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={() => {
-                          if (handleNegativeButton) handleNegativeButton();
-                        }}
-                      >
-                        {negativeButtonLabel}
-                      </button>
-                    )}
-                  </div>
+                  {!isCondensed && (
+                    <p className="mt-1 text-sm text-gray-500">{description}</p>
+                  )}
+                  {!isCondensed && (
+                    <div
+                      className={classNames('mt-3 flex space-x-7', {
+                        hidden:
+                          !negativeButtonProps?.children &&
+                          !positiveButtonProps?.children,
+                      })}
+                    >
+                      {renderButton(positiveButtonProps)}
+                      {renderButton(negativeButtonProps)}
+                    </div>
+                  )}
                 </div>
                 <div className="ml-4 flex flex-shrink-0">
+                  {isCondensed && (
+                    <button
+                      type="button"
+                      className="mr-3 flex-shrink-0 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        if (handlePositiveClick) handlePositiveClick();
+                      }}
+                    >
+                      Undo
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -105,28 +109,29 @@ const Notifications = (props) => {
 
 Notifications.propTypes = {
   description: PropTypes.string,
+  isCondensed: PropTypes.bool,
   handleClose: PropTypes.func,
-  handleNegativeButton: PropTypes.func,
-  handlePositiveButton: PropTypes.func,
-  negativeButtonLabel: PropTypes.string,
+  handlePositiveClick: PropTypes.func,
+  negativeButtonProps: PropTypes.shape(Button.propTypes),
   NotificationIcon: PropTypes.elementType,
   NotificationIconClassName: PropTypes.string,
-  positiveButtonLabel: PropTypes.string,
+  positiveButtonProps: PropTypes.shape(Button.propTypes),
   show: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 Notifications.defaultProps = {
-  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
+  description:
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
+  isCondensed: false,
   handleClose: () => {},
-  handleNegativeButton: () => {},
-  handlePositiveButton: () => {},
-  negativeButtonLabel: 'Dismiss',
+  handlePositiveClick: () => {},
+  negativeButtonProps: {},
   NotificationIcon: CheckCircleIcon,
   NotificationIconClassName: '',
-  positiveButtonLabel: 'Undo',
+  positiveButtonProps: {},
   show: false,
-  title: 'Discussion moved'
+  title: 'Discussion moved',
 };
 
 export default Notifications;

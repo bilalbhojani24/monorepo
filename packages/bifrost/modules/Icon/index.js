@@ -23,6 +23,7 @@ import {
   EllipsisVerticalIcon,
   CursorArrowRaysIcon,
   EnvelopeOpenIcon,
+  ChevronUpDownIcon,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -49,5 +50,6 @@ export {
   MagnifyingGlassIcon,
   EllipsisVerticalIcon,
   CursorArrowRaysIcon,
-  EnvelopeOpenIcon
+  EnvelopeOpenIcon,
+  ChevronUpDownIcon,
 };
