@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  CheckIcon,
-  ExclamationTriangleIcon,
-} from '@heroicons/react/24/outline';
+import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Modal from '../Modal';
 import Button from '../Button';
@@ -18,13 +15,16 @@ const ModalWActionButtons = (props) => {
     description,
     handleNegativeButtonClick,
     handlePositiveButtonClick,
+    handleDismissButtonClick,
     isAlert,
+    isFooter,
     negativeButtonLabel,
     onClose,
     positiveButtonLabel,
     show,
     size,
     title,
+    withDismissButton,
   } = props;
 
   const renderHeader = () => {
@@ -32,10 +32,7 @@ const ModalWActionButtons = (props) => {
       return (
         <div className="sm:flex sm:items-start">
           <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationTriangleIcon
-              className="h-6 w-6 text-red-600"
-              aria-hidden="true"
-            />
+            <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3 as="h3" className="text-lg font-medium leading-6 text-gray-900">
@@ -53,9 +50,7 @@ const ModalWActionButtons = (props) => {
           <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
         </div>
         <div className="mt-3 text-center sm:mt-5">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            {title}
-          </h3>
+          <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>
           <div className="mt-2">
             <p className="text-sm text-gray-500">{description}</p>
           </div>
@@ -65,17 +60,27 @@ const ModalWActionButtons = (props) => {
   };
 
   return (
-    <Modal size={size} show={show} onClose={onClose}>
-      {renderHeader()}
+    <Modal
+      size={size}
+      show={show}
+      onClose={onClose}
+      isFooter={isFooter}
+      withDismissButton={withDismissButton}
+      handleDismissButtonClick={handleDismissButtonClick}
+    >
       <div
-        className={classNames(
-          'mt-5 sm:flex sm:space-x-3 space-y-2 sm:space-y-0',
-          {
-            'sm:justify-end': isAlert,
-            'sm:justify-start':
-              buttonAlignment === BUTTON_ALIGNMENT[0] && isAlert,
-          }
-        )}
+        className={classNames({
+          'sm:pt-6 sm:px-6': isFooter,
+        })}
+      >
+        {renderHeader()}
+      </div>
+      <div
+        className={classNames('mt-5 py-3 px-6 sm:flex sm:space-x-3 space-y-2 sm:space-y-0', {
+          'sm:justify-end': buttonAlignment === BUTTON_ALIGNMENT[1] && isAlert,
+          'sm:pl-10': buttonAlignment === BUTTON_ALIGNMENT[0] && isAlert,
+          'bg-gray-50': isFooter && isAlert,
+        })}
       >
         {negativeButtonLabel ? (
           <Button
@@ -95,7 +100,7 @@ const ModalWActionButtons = (props) => {
             buttonType="half-rounded-button"
             wrapperClassName={classNames('inline-flex justify-center', {
               'w-full': !isAlert,
-              'bg-red-600': isAlert,
+              'bg-red-600 hover:bg-red-700': isAlert,
             })}
             onClick={() => {
               if (handlePositiveButtonClick) handlePositiveButtonClick();
@@ -114,26 +119,32 @@ ModalWActionButtons.propTypes = {
   description: PropTypes.string,
   handleNegativeButtonClick: PropTypes.func,
   handlePositiveButtonClick: PropTypes.func,
+  handleDismissButtonClick: PropTypes.func,
   isAlert: PropTypes.bool,
+  isFooter: PropTypes.bool,
   negativeButtonLabel: PropTypes.string,
   onClose: PropTypes.func,
   positiveButtonLabel: PropTypes.string,
   show: PropTypes.bool,
   size: PropTypes.string,
   title: PropTypes.string,
+  withDismissButton: PropTypes.bool,
 };
 ModalWActionButtons.defaultProps = {
   buttonAlignment: BUTTON_ALIGNMENT[1],
   description: '',
   handleNegativeButtonClick: () => {},
   handlePositiveButtonClick: () => {},
+  handleDismissButtonClick: () => {},
   isAlert: false,
+  isFooter: false,
   negativeButtonLabel: 'Cancel',
   onClose: () => {},
   positiveButtonLabel: 'Submit',
   show: false,
   size: MODAL_SIZE[0],
   title: '',
+  withDismissButton: false,
 };
 
 export default ModalWActionButtons;

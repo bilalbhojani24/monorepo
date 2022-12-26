@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Dialog, Transition } from '@headlessui/react';
 import { MODAL_SIZE } from './const/modalConstants';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import './styles.scss';
 
 const Modal = (props) => {
-  const { children, show, size, onClose } = props;
+  const { children, isFooter, handleDismissButtonClick, show, size, onClose, withDismissButton } = props;
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog
@@ -42,14 +43,29 @@ const Modal = (props) => {
             >
               <Dialog.Panel
                 className={classNames(
-                  'relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full  sm:p-6',
+                  'relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:p-6',
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
                     'sm:max-w-lg': MODAL_SIZE[2] === size,
+                    'px-0 sm:p-0': isFooter,
                   }
                 )}
               >
+                {withDismissButton ? (
+                  <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                    <button
+                      type="button"
+                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        if (handleDismissButtonClick) handleDismissButtonClick();
+                      }}
+                    >
+                      <span className="sr-only">Close</span>
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                ) : null}
                 {children ? children : null}
               </Dialog.Panel>
             </Transition.Child>
@@ -62,6 +78,7 @@ const Modal = (props) => {
 
 Modal.propTypes = {
   children: PropTypes.node,
+  isFooter: PropTypes.bool,
   onClose: PropTypes.func,
   size: PropTypes.string,
   show: PropTypes.bool,
@@ -69,9 +86,12 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   children: null,
+  isFooter: false,
+  handleDismissButtonClick: () => {},
   onClose: () => {},
   show: false,
   size: MODAL_SIZE[2],
+  withDismissButton: false,
 };
 
 export default Modal;

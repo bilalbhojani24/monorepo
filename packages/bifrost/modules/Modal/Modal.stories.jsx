@@ -10,11 +10,7 @@ const defaultConfig = {
   parameters: {
     docs: {
       page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={"import Modal from 'bifrost/Modal'"}
-          />
-        );
+        return <DocPageTemplate importStatement={"import Modal from 'bifrost/Modal'"} />;
       },
     },
   },
@@ -27,6 +23,14 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: () => {},
     },
+    isFooter: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
+    handleDismissButtonClick: {
+      option: { type: 'null' },
+      defaultValue: () => {},
+    },
     show: {
       option: { type: 'boolean' },
       defaultValue: false,
@@ -35,6 +39,10 @@ const defaultConfig = {
       options: MODAL_SIZE,
       control: { type: 'inline-radio' },
       defaultValue: MODAL_SIZE[0],
+    },
+    withDismissButton: {
+      option: { type: 'boolean' },
+      defaultValue: false,
     },
   },
   controls: {},

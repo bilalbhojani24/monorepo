@@ -9,13 +9,7 @@ const defaultConfig = {
   parameters: {
     docs: {
       page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={
-              "import ModalWActionButtons from 'bifrost/ModalWActionButtons'"
-            }
-          />
-        );
+        return <DocPageTemplate importStatement={"import ModalWActionButtons from 'bifrost/ModalWActionButtons'"} />;
       },
     },
   },
@@ -53,7 +47,7 @@ const defaultConfig = {
     },
     positiveButtonLabel: {
       option: { type: 'string' },
-      defaultValue: 'Submit',
+      defaultValue: 'Deactivate',
     },
     show: {
       option: { type: 'boolean' },
