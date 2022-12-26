@@ -7,6 +7,7 @@
     "building": "webpack"
   },
   "devDependencies": {
+    "babel-loader": "9.1.0",
     "css-loader": "6.7.2",
     "postcss": "8.4.20",
     "postcss-loader": "7.0.2",

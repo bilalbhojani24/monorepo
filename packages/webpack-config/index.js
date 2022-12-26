@@ -1,11 +1,20 @@
 const path = require("path");
 
+// console.log("\n\n\n==========\n\n\n", __dirname, "\n\n\n==========\n\n\n");
+
+const resolveLoaderViaDirname = (loaderName) => {
+  return path.resolve(`${__dirname}/node_modules/${loaderName}`);
+};
+
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
   },
   devServer: {
     static: {
@@ -19,6 +28,14 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        loader: resolveLoaderViaDirname("babel-loader"), // "babel-loader",
+        resolve: { extensions: [".js", ".jsx"] },
+        test: /\.js(?:|x)$/,
+        options: {
+          cacheDirectory: true,
+        },
+      },
       {
         test: /\.css$/i,
         include: path.resolve(__dirname, "src"),

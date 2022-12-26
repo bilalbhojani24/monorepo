@@ -9,7 +9,8 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "eslint-config-browserstack": "workspace:*",
-    "prettier-bs-config": "workspace:*"
+    "prettier-bs-config": "workspace:*",
+    "bifrost": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

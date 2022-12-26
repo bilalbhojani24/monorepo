@@ -33,7 +33,7 @@ yarn-error.log*
 .turbo
 
 #[ignoring static files for bifrost]
-packages/bifrost/build
+packages/bifrost/dist
 packages/bifrost/node_modules
 packages/bifrost/storybook-static
 packages/bifrostbuild-storybook.log
