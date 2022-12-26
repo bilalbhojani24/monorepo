@@ -29,19 +29,18 @@ const defaultConfig = {
   argTypes: {
     steps: {
       type: { summary: 'OBJECT', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'List of items to be covered in steps',
       control: { type: 'object' },
       defaultValue: steps,
     },
     onClick: {
       type: { summary: 'FUNCTION', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'Function callback when a step is clicked',
       control: { type: 'select' },
-      //   defaultValue: SH_VARIANTS[1]
     },
     label: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'Provide label to overall Step component for accessibility ',
       control: { type: 'text' },
       defaultValue: 'label',
     },
