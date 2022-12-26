@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Dialog, Transition } from '@headlessui/react';
 import { MODAL_SIZE } from './const/modalConstants';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '../Icon';
 
 import './styles.scss';
 

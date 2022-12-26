@@ -34,6 +34,18 @@ const defaultConfig = {
         console.log('handlePositiveButtonClick - called');
       },
     },
+    handleDismissButtonClick: {
+      option: { type: 'null' },
+      defaultValue: () => {},
+    },
+    isAlert: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
+    isFooter: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
     negativeButtonLabel: {
       option: { type: 'string' },
       defaultValue: 'Cancel',
@@ -63,6 +75,10 @@ const defaultConfig = {
     title: {
       option: { type: 'string' },
       defaultValue: 'Payment successful',
+    },
+    withDismissButton: {
+      option: { type: 'boolean' },
+      defaultValue: false,
     },
   },
   controls: {},
