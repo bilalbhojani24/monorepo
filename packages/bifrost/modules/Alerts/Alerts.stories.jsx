@@ -1,66 +1,105 @@
-import React from 'react';
-import Alerts from './index';
-import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { ALERT_LINK_POSITION } from './const/alertConstants';
-import { InformationCircleIcon } from '../Icon';
+import React from "react";
+import Alerts from "./index";
+import DocPageTemplate from "../../.storybook/DocPageTemplate";
+import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
 
 const defaultConfig = {
-  title: 'Application/Components/Alerts',
+  title: "Application/Components/Alerts",
   component: Alerts,
   parameters: {
     docs: {
       page: () => {
-        return <DocPageTemplate importStatement={"import Alerts from 'bifrost/Alerts'"} />;
-      }
-    }
+        return (
+          <DocPageTemplate
+            importStatement={"import Alerts from 'bifrost/Alerts'"}
+          />
+        );
+      },
+    },
   },
   argTypes: {
     accentBorder: {
-      control: { type: 'boolean' },
-      defaultValue: true
+      control: { type: "boolean" },
+      defaultValue: true,
     },
-    AlertIcon: {
-      control: { type: null },
-      defaultValue: InformationCircleIcon
-    },
-    alertIconClassName: { option: { type: 'string' }, defaultValue: 'text-yellow-400' },
     alertLinkPosition: {
       options: Object.values(ALERT_LINK_POSITION),
-      control: { type: 'inline-radio' },
-      defaultValue: ALERT_LINK_POSITION.end
+      control: { type: "inline-radio" },
+      defaultValue: ALERT_LINK_POSITION[1],
     },
     handleLinkClick: {
       option: { type: null },
       defaultValue: (url) => {
         console.log(url);
-      }
+      },
     },
-    linkClass: { option: { type: 'string' }, defaultValue: 'text-yellow-700 hover:text-yellow-600' },
-    linkText: { option: { type: 'string' }, defaultValue: 'Details' },
-    linkUrl: { option: { type: 'string' }, defaultValue: '/' },
+    linkText: { option: { type: "string" }, defaultValue: "Details" },
+    linkUrl: { option: { type: "string" }, defaultValue: "/" },
     show: {
-      control: { type: 'boolean' },
-      defaultValue: true
+      control: { type: "boolean" },
+      defaultValue: true,
     },
-    text: {
-      option: { type: 'string' },
-      defaultValue: 'A new software update is available. See what’s new in version 2.0.4.'
+    description: {
+      option: { type: "string" },
+      description:
+        "Renders a string if 'String' is passed as prop, renders a list if 'String[]' is passed. It should also be noted that 'title' prop should be a valid String if passing a 'String[]' as 'description' prop.",
+      defaultValue:
+        "A new software update is available. See what’s new in version 2.0.4.5.",
     },
-    textColorClass: {
-      option: { type: 'string' },
-      defaultValue: 'text-yellow-700'
+    modifier: {
+      options: ALERT_MODIFIER,
+      control: { type: "select" },
+      description: "Convey meaning through modifier types",
+      type: { summary: "STRING", required: false },
+      defaultValue: ALERT_MODIFIER[0],
     },
-    wrapperClass: {
-      option: { type: 'string' },
-      defaultValue: 'border-yellow-400 bg-yellow-50'
-    }
+    title: {
+      option: { type: "string" },
+      description:
+        "Renders title of the alert component, while passing title prop make sure 'dismissButton' prop is not enabled.",
+      defaultValue: "Attention needed",
+    },
+    enableActions: {
+      option: { type: "boolean" },
+      defaultValue: false,
+    },
+    alphaActionFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log("perform alpha fn");
+      },
+    },
+    betaActionFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log("perform beta fn");
+      },
+    },
+    alphaActionTitle: {
+      option: { type: "string" },
+      defaultValue: "View Status",
+    },
+    betaActionTitle: {
+      option: { type: "string" },
+      defaultValue: "Dismiss",
+    },
+    dismissButton: {
+      option: { type: "boolean" },
+      defaultValue: false,
+    },
+    dismissButtonFn: {
+      option: { type: null },
+      defaultValue: () => {
+        console.log("perform dismiss button fn");
+      },
+    },
   },
-  controls: {}
+  controls: {},
 };
 const Template = (args) => <Alerts {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;
