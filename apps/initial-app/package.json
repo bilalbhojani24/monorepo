@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "initial-app",
   "version": "0.1.0",
   "private": true,
   "prettier": "@browserstack/config/prettier.config",

@@ -7,12 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "turbo run start",
-    "storybook": "turbo run storybook",
-    "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "lint:check": "turbo run lint:check",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
@@ -34,9 +29,6 @@
     "style-loader": "^3.3.1",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
-    "@browserstack/bifrost": "workspace:*",
-    "eslint-config-browserstack": "workspace:*",
-    "@browserstack/config": "workspace:*",
     "turbo": "latest"
   },
   "engines": {
