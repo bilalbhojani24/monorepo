@@ -1,9 +1,5 @@
 const path = require('path');
 
-const resolveLoaderViaDirname = (loaderName) => {
-  return path.resolve(`${__dirname}/node_modules/${loaderName}`);
-};
-
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
@@ -27,7 +23,7 @@ module.exports = {
   module: {
     rules: [
       {
-        loader: resolveLoaderViaDirname('babel-loader'), // "babel-loader",
+        loader: 'babel-loader',
         resolve: { extensions: ['.js', '.jsx'] },
         test: /\.js(?:|x)$/,
         options: {

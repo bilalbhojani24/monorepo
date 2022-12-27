@@ -1,17 +1,9 @@
 {
-  "name": "bifrost",
-  "version": "0.1.0",
+  "name": "@browserstack/bifrost",
+  "version": "0.3.0",
+  "main": "dist/index.js",
+  "description": "UI Packages for Browserstack Frontend",
   "prettier": "@browserstack/config/prettier.config",
-  "dependencies": {
-    "@headlessui/react": "1.7.5",
-    "@heroicons/react": "2.0.13",
-    "classnames": "^2.2.6",
-    "prop-types": "15.8.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "eslint-config-browserstack": "workspace:*",
-    "@browserstack/config": "workspace:*"
-  },
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -26,7 +18,19 @@
     "prettier:check": "prettier --check \"**/*.{js,jsx}\" \"**/*.{css,scss}\"",
     "prettier:fix": "npm run prettier:check -- --write"
   },
-  "devDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "_id": "bifrost@0.1.0"
+  "dependencies": {
+    "@headlessui/react": "1.7.5",
+    "@heroicons/react": "2.0.13",
+    "classnames": "^2.2.6",
+    "prop-types": "15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-browserstack": "workspace:*",
+    "@browserstack/config": "workspace:*"
+  },
+  "files": [
+    "dist/*"
+  ]
 }
