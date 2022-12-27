@@ -69,19 +69,17 @@ const ModalWActionButtons = (props) => {
       handleDismissButtonClick={handleDismissButtonClick}
     >
       <div
-        className={classNames({
+        className={classNames('sm:pt-6 sm:px-6', {
           'sm:pt-6 sm:px-6': isFooter && isAlert,
-          'sm:pt-6 sm:px-6 sm:pt-6': isFooter && !isAlert,
         })}
       >
         {renderHeader()}
       </div>
       <div
-        className={classNames('mt-5 sm:flex sm:space-x-3 space-y-2 sm:space-y-0', {
+        className={classNames('mt-5 sm:flex sm:space-x-3 space-y-2 sm:space-y-0 py-3 px-6', {
           'sm:justify-end': buttonAlignment === BUTTON_ALIGNMENT[1] && isAlert,
           'sm:pl-10': buttonAlignment === BUTTON_ALIGNMENT[0] && isAlert,
-          'bg-gray-50 py-3 px-6': isFooter && isAlert,
-          'py-3 px-6': isFooter && !isAlert,
+          'bg-gray-50': isFooter && isAlert,
         })}
       >
         {negativeButtonLabel ? (
