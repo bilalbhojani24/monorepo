@@ -1,13 +1,19 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const abc = 'asdasd';
+import { Alerts } from '@browserstack/bifrost';
+
+console.log(Alerts);
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+
+        <Alerts />
+
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

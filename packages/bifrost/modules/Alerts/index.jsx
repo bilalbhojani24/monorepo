@@ -7,8 +7,6 @@ import { InformationCircleIcon } from '../Icon';
 
 import './styles.scss';
 
-const abc = 'asdasd';
-
 const link = (alertLinkPosition, linkClass, handleLinkClick, linkUrl, linkText) => {
   return (
     <a

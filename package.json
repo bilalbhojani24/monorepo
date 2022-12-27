@@ -29,7 +29,8 @@
     "style-loader": "^3.3.1",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
-    "turbo": "latest"
+    "turbo": "latest",
+    "eslint-config-browserstack": "workspace:*"
   },
   "engines": {
     "node": ">=14.0.0"

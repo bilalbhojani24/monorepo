@@ -1,3 +1,4 @@
+import React from 'react';
 import { PaperClipIcon } from '../../Icon';
 
 const Layout = () => (
@@ -27,39 +28,39 @@ const Layout = () => (
 export const descriptionsList = [
   {
     title: 'Full name',
-    description: 'Margot Foster'
+    description: 'Margot Foster',
   },
   {
     title: 'Application for',
-    description: 'Backend Developer'
+    description: 'Backend Developer',
   },
   {
     title: 'Email address',
-    description: 'margotfoster@example.com'
+    description: 'margotfoster@example.com',
   },
   {
     title: 'Salary expectation',
-    description: '$120,000'
+    description: '$120,000',
   },
   {
     title: 'About',
     description:
       'Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteurqui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrudpariatur mollit ad adipisicing reprehenderit deserunt qui eu.',
-    fullWidth: true
+    fullWidth: true,
   },
   {
     title: 'Attachments',
     description: '',
     Layout: Layout,
-    fullWidth: true
-  }
+    fullWidth: true,
+  },
 ];
 
 export const attachmentsList = [
   {
-    name: 'resume_back_end_developer.pdf'
+    name: 'resume_back_end_developer.pdf',
   },
   {
-    name: 'coverletter_back_end_developer.pdf'
-  }
+    name: 'coverletter_back_end_developer.pdf',
+  },
 ];
