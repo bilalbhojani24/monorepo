@@ -17,7 +17,7 @@ const defaultConfig = {
   argTypes: {
     steps: {
       type: { summary: 'OBJECT', required: false },
-      description: 'List of items to be covered in steps, max 12',
+      description: 'List of items to be covered in steps',
       control: { type: 'object' },
       defaultValue: steps,
     },
@@ -41,7 +41,7 @@ const defaultConfig = {
     },
     currentStep: {
       type: { summary: 'NUMBER', required: false },
-      description: 'Active step of progress bar, max 12',
+      description: 'Active progression in the progress bar',
       control: { type: 'number', min:0, max:12, step: 1 },
       defaultValue: '0',
     },
