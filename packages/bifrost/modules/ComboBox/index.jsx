@@ -7,15 +7,7 @@ import './styles.scss';
 import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 
 const ComboBox = (props) => {
-  const {
-    checkPosition,
-    defaultValue,
-    label,
-    onChange,
-    options,
-    isMulti,
-    value,
-  } = props;
+  const { checkPosition, defaultValue, label, onChange, options, isMulti, value } = props;
   const [query, setQuery] = useState('');
   const [selectOptions, setSelectedOptions] = useState(value || null);
 
@@ -37,24 +29,18 @@ const ComboBox = (props) => {
       multiple={isMulti}
       {...(defaultValue && { defaultValue })}
     >
-      <Combobox.Label className="block text-sm font-medium text-gray-700">
-        {label}
-      </Combobox.Label>
+      <Combobox.Label className="block text-sm font-medium text-gray-700">{label}</Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(p) => {
-            return isMulti && Array.isArray(p)
-              ? p?.map((p) => p.name).join(', ')
-              : p?.name;
+            return isMulti && Array.isArray(p) ? p?.map((p) => p.name).join(', ') : p?.name;
           }}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <ChevronUpDownIcon
-            className="h-5 w-5 text-gray-400"
-            aria-hidden="true"
-          />
+          {isMulti && selectOptions?.length && <span className="mr-1 font-bold">{`(${selectOptions.length})`}</span>}
+          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
         </Combobox.Button>
 
         {filteredPeople.length > 0 && (
@@ -78,20 +64,9 @@ const ComboBox = (props) => {
                   <>
                     <div className="flex items-center">
                       {person.image && (
-                        <img
-                          src={person.image}
-                          alt=""
-                          className="h-6 w-6 flex-shrink-0 rounded-full mr-3"
-                        />
+                        <img src={person.image} alt="" className="h-6 w-6 flex-shrink-0 rounded-full mr-3" />
                       )}
-                      <span
-                        className={classNames(
-                          'block truncate',
-                          selected && 'font-semibold'
-                        )}
-                      >
-                        {person.name}
-                      </span>
+                      <span className={classNames('block truncate', selected && 'font-semibold')}>{person.name}</span>
                     </div>
                     {selected && (
                       <span
@@ -99,11 +74,8 @@ const ComboBox = (props) => {
                           'absolute inset-y-0 right-0 flex items-center pr-4',
                           active ? 'text-white' : 'text-indigo-600',
                           {
-                            'right-0 pr-4':
-                              checkPosition === CHECK_POSITION[1] ||
-                              person?.image,
-                            'left-0 pl-1.5':
-                              checkPosition === CHECK_POSITION[0],
+                            'right-0 pr-4': checkPosition === CHECK_POSITION[1] || person?.image,
+                            'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
                           }
                         )}
                       >
@@ -126,8 +98,7 @@ ComboBox.propTypes = {
   defaultValue: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         name: PropTypes.string.isRequired,
         avatar: PropTypes.string,
       })
@@ -151,8 +122,7 @@ ComboBox.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         name: PropTypes.string.isRequired,
         avatar: PropTypes.string,
       })

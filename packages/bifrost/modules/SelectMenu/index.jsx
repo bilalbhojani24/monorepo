@@ -7,15 +7,8 @@ import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
 import './styles.scss';
 
 const SelectMenu = (props) => {
-  const {
-    label,
-    options,
-    onChange,
-    isMultiSelect,
-    defaultValue,
-    checkPosition,
-    value,
-  } = props;
+  const { label, options, onChange, isMultiSelect, defaultValue, checkPosition, value } = props;
+  console.log(value);
   const [selectedValues, setSelectedValues] = useState(value);
 
   return (
@@ -32,9 +25,7 @@ const SelectMenu = (props) => {
         {({ open }) => {
           return (
             <>
-              <Listbox.Label className="block text-sm font-medium text-gray-700">
-                {label}
-              </Listbox.Label>
+              <Listbox.Label className="block text-sm font-medium text-gray-700">{label}</Listbox.Label>
               <div className="relative mt-1">
                 <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                   {({ value }) => {
@@ -56,11 +47,12 @@ const SelectMenu = (props) => {
                             </div>
                           )}
                         </span>
+
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                          <ChevronUpDownIcon
-                            className="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
+                          {isMultiSelect && selectedValues?.length && (
+                            <span className="mr-1 font-bold">{`(${selectedValues.length})`}</span>
+                          )}
+                          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                         </span>
                       </>
                     );
@@ -84,10 +76,8 @@ const SelectMenu = (props) => {
                               {
                                 'text-white bg-indigo-600': active,
                                 'text-gray-900': !active,
-                                'py-2 pl-3 pr-9':
-                                  checkPosition === CHECK_POSITION[1],
-                                'py-2 pl-8 pr-4':
-                                  checkPosition === CHECK_POSITION[0],
+                                'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1],
+                                'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0],
                               },
                               'relative cursor-pointer select-none '
                             )
@@ -97,11 +87,7 @@ const SelectMenu = (props) => {
                           {({ active, selected }) => (
                             <div className="flex items-center">
                               {option.avatar && (
-                                <img
-                                  src={option.avatar}
-                                  alt=""
-                                  className="h-6 w-6 flex-shrink-0 rounded-full mr-2"
-                                />
+                                <img src={option.avatar} alt="" className="h-6 w-6 flex-shrink-0 rounded-full mr-2" />
                               )}
 
                               <span
@@ -121,18 +107,13 @@ const SelectMenu = (props) => {
                                     {
                                       'text-white': active,
                                       'text-indigo-600': !active,
-                                      'right-0 pr-4':
-                                        checkPosition === CHECK_POSITION[1],
-                                      'left-0 pl-1.5':
-                                        checkPosition === CHECK_POSITION[0],
+                                      'right-0 pr-4': checkPosition === CHECK_POSITION[1],
+                                      'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
                                     },
                                     'absolute inset-y-0 flex items-center'
                                   )}
                                 >
-                                  <CheckIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
+                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                 </span>
                               )}
                             </div>

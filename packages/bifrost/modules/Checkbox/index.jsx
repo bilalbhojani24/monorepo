@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {
-  CHECKBOX_DESCRIPTION_VARIANT,
-  CHECKBOX_POSITION_VARIANT,
-} from './const/checkboxConstants';
+import { CHECKBOX_DESCRIPTION_VARIANT, CHECKBOX_POSITION_VARIANT } from './const/checkboxConstants';
 
 import './styles.scss';
 
 const Checkbox = (props) => {
   const {
     border,
+    checked,
     data,
+    defaultChecked,
+    disabled,
     description,
     indeterminate,
     isCard,
@@ -20,26 +20,12 @@ const Checkbox = (props) => {
     position,
     wrapperClass,
   } = props;
-  const [selectedData, setSelectedData] = useState([]);
-  const [checkedItem, setCheckedItem] = useState([]);
+  const [check, setCheck] = useState(defaultChecked);
 
-  const handleChange = (event, selectedItem) => {
-    let updatedList = [];
-    if (checkedItem.includes(selectedItem.value)) {
-      updatedList = selectedData.filter(
-        (data) => data.value !== selectedItem.value
-      );
-      const filteredCheckItem = checkedItem.filter(
-        (data) => data !== selectedItem.value
-      );
-      setSelectedData(updatedList);
-      setCheckedItem(filteredCheckItem);
-    } else {
-      updatedList = [...selectedData, selectedItem];
-      setSelectedData(updatedList);
-      setCheckedItem([...checkedItem, selectedItem.value]);
-    }
-    if (onChange) onChange(selectedItem, updatedList, event);
+  const handleChange = (event) => {
+    if (disabled) return;
+    setCheck(event.target.checked);
+    if (onChange) onChange(event);
   };
 
   return (
@@ -48,73 +34,61 @@ const Checkbox = (props) => {
         className={classNames(
           'mt-4',
           {
-            'border-t border-b border-gray-200 divide-y divide-gray-200':
-              border && !isCard,
+            'border-t border-b border-gray-200 divide-y divide-gray-200': border && !isCard,
           },
           wrapperClass
         )}
       >
-        {!!data.length &&
-          data.map((item, itemIdx) => (
-            <div
-              key={itemIdx}
-              className={classNames('relative flex items-start py-4', {
-                'flex-row-reverse':
-                  position === CHECKBOX_POSITION_VARIANT.right,
-                'pl-2 mb-2': isCard,
+        <div
+          className={classNames('relative flex items-start py-4', {
+            'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
+            'pl-2 mb-2': isCard,
+          })}
+        >
+          <div
+            className={classNames('flex h-5 items-center', {
+              indeterminate: indeterminate,
+            })}
+          >
+            <input
+              id={`${name}-${data.value}`}
+              name={`${name}-${data.value}`}
+              type="checkbox"
+              className="checkbox h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              checked={checked || check}
+              onChange={(e) => handleChange(e, data)}
+              disabled={disabled}
+            />
+          </div>
+          <div
+            className={classNames('min-w-0 flex-1 text-sm', {
+              'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
+            })}
+          >
+            <label htmlFor={`${name}-${data.value}`} className="select-none font-medium text-gray-700">
+              {data.label}
+            </label>
+            <p
+              id={`${name}-${data.value}`}
+              className={classNames('text-gray-500', {
+                'inline ml-2': description === CHECKBOX_DESCRIPTION_VARIANT.inline,
+                block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
+                hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
               })}
             >
-              <div
-                className={classNames('flex h-5 items-center', {
-                  indeterminate: indeterminate,
-                })}
-              >
-                <input
-                  id={`${name}-${item.value}`}
-                  name={`${name}-${item.value}`}
-                  type="checkbox"
-                  className="checkbox h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  checked={checkedItem.includes(item.value)}
-                  onChange={(e) => handleChange(e, item)}
-                />
-              </div>
-              <div
-                className={classNames('min-w-0 flex-1 text-sm', {
-                  'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
-                })}
-              >
-                <label
-                  htmlFor={`${name}-${item.value}`}
-                  className="select-none font-medium text-gray-700"
-                >
-                  {item.label}
-                </label>
-                <p
-                  id={`${name}-${item.value}`}
-                  className={classNames('text-gray-500', {
-                    'inline ml-2':
-                      description === CHECKBOX_DESCRIPTION_VARIANT.inline,
-                    block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
-                    hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
-                  })}
-                >
-                  {item.description}
-                </p>
-              </div>
+              {data.description}
+            </p>
+          </div>
 
-              <span
-                className={classNames(
-                  checkedItem.includes(item.value) ? 'border' : 'border-2',
-                  checkedItem.includes(item.value)
-                    ? 'border-indigo-500'
-                    : 'border-transparent',
-                  'pointer-events-none absolute -inset-px rounded-lg',
-                  { hidden: !isCard }
-                )}
-                aria-hidden="true"
-              />
-            </div>
-          ))}
+          <span
+            className={classNames(
+              checked || check ? 'border border-indigo-500' : 'border-2 border-transparent',
+              'pointer-events-none absolute -inset-px rounded-lg',
+              { hidden: !isCard }
+            )}
+            aria-hidden="true"
+          />
+        </div>
       </div>
     </>
   );
@@ -122,13 +96,14 @@ const Checkbox = (props) => {
 
 Checkbox.propTypes = {
   border: PropTypes.bool,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      description: PropTypes.string,
-    })
-  ).isRequired,
+  checked: PropTypes.bool,
+  data: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  defaultChecked: PropTypes.bool,
+  disabled: PropTypes.bool,
   description: PropTypes.oneOf(Object.values(CHECKBOX_DESCRIPTION_VARIANT)),
   indeterminate: PropTypes.bool,
   isCard: PropTypes.bool,
@@ -140,9 +115,12 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
   border: true,
-  data: [],
+  checked: false,
+  data: {},
+  defaultChecked: true,
+  disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,
-  indeterminate: true,
+  indeterminate: false,
   isCard: false,
   name: 'checkbox',
   onChange: () => {},

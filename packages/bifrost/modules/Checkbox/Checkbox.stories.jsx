@@ -1,11 +1,7 @@
 import React from 'react';
 import Checkbox from './index';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import {
-  CHECKBOX_DESCRIPTION_VARIANT,
-  CHECKBOX_POSITION_VARIANT,
-  people,
-} from './const/checkboxConstants';
+import { CHECKBOX_DESCRIPTION_VARIANT, CHECKBOX_POSITION_VARIANT, people } from './const/checkboxConstants';
 
 const defaultConfig = {
   title: 'Application/Components/Checkbox',
@@ -13,11 +9,7 @@ const defaultConfig = {
   parameters: {
     docs: {
       page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={"import Checkbox from 'bifrost/Checkbox'"}
-          />
-        );
+        return <DocPageTemplate importStatement={"import Checkbox from 'bifrost/Checkbox'"} />;
       },
     },
   },
@@ -26,14 +18,34 @@ const defaultConfig = {
       control: { type: 'boolean' },
       defaultValue: true,
     },
+    checked: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+    },
     data: {
       control: { type: null },
-      defaultValue: people,
+      defaultValue: {
+        value: 1,
+        label: 'Annette Black',
+        description: 'Get notified when someones posts a comment on a posting',
+      },
+    },
+    defaultChecked: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+    },
+    disabled: {
+      control: { type: 'boolean' },
+      defaultValue: false,
     },
     description: {
       options: CHECKBOX_DESCRIPTION_VARIANT,
       control: { type: 'inline-radio' },
       defaultValue: CHECKBOX_DESCRIPTION_VARIANT.none,
+    },
+    indeterminate: {
+      control: { type: 'boolean' },
+      defaultValue: false,
     },
     isCard: {
       control: { type: 'boolean' },
@@ -43,17 +55,10 @@ const defaultConfig = {
       options: { type: 'string' },
       defaultValue: 'checkbox',
     },
-    onAllChange: {
-      control: { type: null },
-      defaultValue: (list, event) => {
-        console.log(list);
-      },
-    },
     onChange: {
       control: { type: null },
-      defaultValue: (curr, all, event) => {
-        console.log(curr);
-        console.log(all);
+      defaultValue: (event) => {
+        console.log(event.target.checked);
       },
     },
     position: {

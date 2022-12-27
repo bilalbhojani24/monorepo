@@ -9,11 +9,7 @@ const defaultConfig = {
   parameters: {
     docs: {
       page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={"import SelectMenu from 'bifrost/SelectMenu'"}
-          />
-        );
+        return <DocPageTemplate importStatement={"import SelectMenu from 'bifrost/SelectMenu'"} />;
       },
     },
   },
@@ -53,8 +49,7 @@ const defaultConfig = {
     },
     value: {
       option: { type: null },
-      description:
-        'Default selected values for the combobox, and the value state will be controlled externally',
+      description: 'Default selected values for the combobox, and the value state will be controlled externally',
       defaultValue: SELECT_OPTIONS[0],
     },
   },
@@ -72,7 +67,7 @@ export default defaultConfig;
 export { Primary, MultiSelect };
 
 MultiSelect.args = {
-  defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
+  defaultValue: null,
   isMultiSelect: true,
-  value: null,
+  value: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
 };
