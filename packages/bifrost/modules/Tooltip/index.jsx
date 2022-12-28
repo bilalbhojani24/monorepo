@@ -10,17 +10,15 @@ import { TOOLTIP_THEME } from './const/tooltipConstants';
 const Tooltip = (props) => {
   const { actionObject, children, delay, description, theme, title, placementAlign, placementSide } = props;
   return (
-    <div className="centered">
-      <TooltipContainer
-        content={<Layout actionObject={actionObject} description={description} title={title} theme={theme} />}
-        placementAlign={placementAlign}
-        placementSide={placementSide}
-        delay={delay}
-        arrowClassName={theme === TOOLTIP_THEME[1] ? 'dark-arrow' : ''}
-      >
-        {children}
-      </TooltipContainer>
-    </div>
+    <TooltipContainer
+      content={<Layout actionObject={actionObject} description={description} title={title} theme={theme} />}
+      placementAlign={placementAlign}
+      placementSide={placementSide}
+      delay={delay}
+      arrowClassName={theme === TOOLTIP_THEME[1] ? 'dark-arrow' : ''}
+    >
+      {children}
+    </TooltipContainer>
   );
 };
 
