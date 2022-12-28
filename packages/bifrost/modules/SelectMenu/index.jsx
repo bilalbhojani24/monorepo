@@ -3,12 +3,13 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Checkbox from '../Checkbox';
 import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+
 import './styles.scss';
 
 const SelectMenu = (props) => {
   const { label, options, onChange, isMultiSelect, defaultValue, checkPosition, value } = props;
-  console.log(value);
   const [selectedValues, setSelectedValues] = useState(value);
 
   return (
@@ -27,7 +28,9 @@ const SelectMenu = (props) => {
             <>
               <Listbox.Label className="block text-sm font-medium text-gray-700">{label}</Listbox.Label>
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                <Listbox.Button
+                  className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                >
                   {({ value }) => {
                     return (
                       <>
@@ -49,9 +52,9 @@ const SelectMenu = (props) => {
                         </span>
 
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                          {isMultiSelect && selectedValues?.length && (
+                          {isMultiSelect && selectedValues?.length ? (
                             <span className="mr-1 font-bold">{`(${selectedValues.length})`}</span>
-                          )}
+                          ) : null}
                           <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                         </span>
                       </>
@@ -74,50 +77,71 @@ const SelectMenu = (props) => {
                           className={({ active }) =>
                             classNames(
                               {
-                                'text-white bg-indigo-600': active,
+                                'text-white bg-indigo-600': active && !isMultiSelect,
                                 'text-gray-900': !active,
-                                'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1],
-                                'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0],
+                                'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMultiSelect,
+                                'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMultiSelect,
+                                'hover:bg-gray-50 pb-4 pl-3': isMultiSelect,
                               },
-                              'relative cursor-pointer select-none '
+                              'relative cursor-pointer select-none'
                             )
                           }
                           value={option}
                         >
-                          {({ active, selected }) => (
-                            <div className="flex items-center">
-                              {option.avatar && (
-                                <img src={option.avatar} alt="" className="h-6 w-6 flex-shrink-0 rounded-full mr-2" />
-                              )}
+                          {({ active, selected }) => {
+                            return (
+                              <>
+                                {!isMultiSelect ? (
+                                  <div className="flex items-center">
+                                    {option.avatar && (
+                                      <img
+                                        src={option.avatar}
+                                        alt=""
+                                        className="h-6 w-6 flex-shrink-0 rounded-full mr-2"
+                                      />
+                                    )}
 
-                              <span
-                                className={classNames(
-                                  {
-                                    'font-semibold': selected,
-                                    'font-normal': !selected,
-                                  },
-                                  'block truncate'
+                                    <span
+                                      className={classNames(
+                                        {
+                                          'font-semibold': selected,
+                                          'font-normal': !selected,
+                                        },
+                                        'block truncate'
+                                      )}
+                                    >
+                                      {option.label}
+                                    </span>
+                                    {selected && (
+                                      <span
+                                        className={classNames(
+                                          {
+                                            'text-white': active,
+                                            'text-indigo-600': !active,
+                                            'right-0 pr-4': checkPosition === CHECK_POSITION[1],
+                                            'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
+                                          },
+                                          'absolute inset-y-0 flex items-center'
+                                        )}
+                                      >
+                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                      </span>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <Checkbox
+                                    data={{
+                                      label: option.label,
+                                      value: option.value,
+                                    }}
+                                    border={false}
+                                    wrapperClass="py-0"
+                                    checked={selected}
+                                  />
                                 )}
-                              >
-                                {option.label}
-                              </span>
-                              {selected && (
-                                <span
-                                  className={classNames(
-                                    {
-                                      'text-white': active,
-                                      'text-indigo-600': !active,
-                                      'right-0 pr-4': checkPosition === CHECK_POSITION[1],
-                                      'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
-                                    },
-                                    'absolute inset-y-0 flex items-center'
-                                  )}
-                                >
-                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                </span>
-                              )}
-                            </div>
-                          )}
+                              </>
+                            );
+                          }}
                         </Listbox.Option>
                       );
                     })}

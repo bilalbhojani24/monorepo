@@ -29,68 +29,66 @@ const Checkbox = (props) => {
   };
 
   return (
-    <>
+    <div
+      className={classNames(
+        'pt-4',
+        {
+          'border-t border-b border-gray-200 divide-y divide-gray-200 py-4': border && !isCard,
+        },
+        wrapperClass
+      )}
+    >
       <div
-        className={classNames(
-          'mt-4',
-          {
-            'border-t border-b border-gray-200 divide-y divide-gray-200': border && !isCard,
-          },
-          wrapperClass
-        )}
+        className={classNames('relative flex items-start', {
+          'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
+          'pl-2 mb-2': isCard,
+        })}
       >
         <div
-          className={classNames('relative flex items-start py-4', {
-            'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
-            'pl-2 mb-2': isCard,
+          className={classNames('flex h-5 items-center', {
+            indeterminate: indeterminate,
           })}
         >
-          <div
-            className={classNames('flex h-5 items-center', {
-              indeterminate: indeterminate,
-            })}
-          >
-            <input
-              id={`${name}-${data.value}`}
-              name={`${name}-${data.value}`}
-              type="checkbox"
-              className="checkbox h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              checked={checked || check}
-              onChange={(e) => handleChange(e, data)}
-              disabled={disabled}
-            />
-          </div>
-          <div
-            className={classNames('min-w-0 flex-1 text-sm', {
-              'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
-            })}
-          >
-            <label htmlFor={`${name}-${data.value}`} className="select-none font-medium text-gray-700">
-              {data.label}
-            </label>
-            <p
-              id={`${name}-${data.value}`}
-              className={classNames('text-gray-500', {
-                'inline ml-2': description === CHECKBOX_DESCRIPTION_VARIANT.inline,
-                block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
-                hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
-              })}
-            >
-              {data.description}
-            </p>
-          </div>
-
-          <span
-            className={classNames(
-              checked || check ? 'border border-indigo-500' : 'border-2 border-transparent',
-              'pointer-events-none absolute -inset-px rounded-lg',
-              { hidden: !isCard }
-            )}
-            aria-hidden="true"
+          <input
+            id={`${name}-${data.value}`}
+            name={`${name}-${data.value}`}
+            type="checkbox"
+            className="checkbox h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            checked={checked || check}
+            onChange={(e) => handleChange(e, data)}
+            disabled={disabled}
           />
         </div>
+        <div
+          className={classNames('min-w-0 flex-1 text-sm', {
+            'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
+          })}
+        >
+          <label htmlFor={`${name}-${data.value}`} className="select-none font-medium text-gray-700">
+            {data.label}
+          </label>
+          <p
+            id={`${name}-${data.value}`}
+            className={classNames('text-gray-500', {
+              'inline ml-2': description === CHECKBOX_DESCRIPTION_VARIANT.inline,
+              block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
+              hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
+            })}
+          >
+            {data.description}
+          </p>
+        </div>
+
+        <span
+          className={classNames(
+            checked || check ? 'border border-indigo-500' : 'border-2 border-transparent',
+            'pointer-events-none absolute -inset-px rounded-lg',
+            { hidden: !isCard }
+          )}
+          aria-hidden="true"
+        />
       </div>
-    </>
+    </div>
   );
 };
 
@@ -117,7 +115,7 @@ Checkbox.defaultProps = {
   border: true,
   checked: false,
   data: {},
-  defaultChecked: true,
+  defaultChecked: false,
   disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,
   indeterminate: false,
