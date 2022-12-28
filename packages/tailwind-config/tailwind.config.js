@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["../../packages/bifrost/modules/**/*.{js,jsx}"],
+  content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
   darkMode: false,
   theme: {
     extend: {},
@@ -7,5 +7,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };
