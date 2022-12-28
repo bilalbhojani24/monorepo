@@ -3,7 +3,6 @@
   "version": "0.3.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
-  "prettier": "@browserstack/config/prettier.config",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -38,8 +37,27 @@
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.20",
     "component-file-generator": "0.5.2",
-    "eslint-config-browserstack": "workspace:*",
-    "@browserstack/config": "workspace:*"
+    "stylelint": "^14.16.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "latest",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-scss": "^4.3.0",
+    "webpack": "5",
+    "babel-loader": "9.1.0",
+    "css-loader": "6.7.2",
+    "style-loader": "^3.3.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "tailwindcss": "^3.1.4",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+    "postcss": "8.4.20",
+    "postcss-loader": "7.0.2",
+    "postcss-preset-env": "^7.8.3",
+    "@browserstack/eslint-config": "workspace:*",
+    "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/tailwind-config": "workspace:*",
+    "@browserstack/webpack-config": "workspace:*"
   },
   "files": [
     "dist/*"

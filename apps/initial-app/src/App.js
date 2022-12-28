@@ -4,8 +4,6 @@ import './App.css';
 
 import { Alerts } from '@browserstack/bifrost';
 
-console.log(Alerts);
-
 function App() {
   return (
     <div className="App">

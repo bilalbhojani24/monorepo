@@ -1,6 +1,6 @@
-const globalTailwindConfigs = require('@browserstack/config/tailwind.config');
+const globalConfigs = require('@browserstack/tailwind-config');
 
 module.exports = {
-  ...globalTailwindConfigs,
+  ...globalConfigs.globalTailwindConfig,
   plugins: [require('@tailwindcss/forms')],
 };

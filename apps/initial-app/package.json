@@ -2,7 +2,6 @@
   "name": "initial-app",
   "version": "0.1.0",
   "private": true,
-  "prettier": "@browserstack/config/prettier.config",
   "dependencies": {
     "@browserstack/bifrost": "0.3.0",
     "react": "^18.2.0",
@@ -11,11 +10,30 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@browserstack/config": "workspace:*",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "eslint-config-browserstack": "workspace:*"
+    "stylelint": "^14.16.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "latest",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-scss": "^4.3.0",
+    "webpack": "5",
+    "babel-loader": "9.1.0",
+    "css-loader": "6.7.2",
+    "style-loader": "^3.3.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "tailwindcss": "^3.1.4",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+    "postcss": "8.4.20",
+    "postcss-loader": "7.0.2",
+    "postcss-preset-env": "^7.8.3",
+    "@browserstack/eslint-config": "workspace:*",
+    "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/tailwind-config": "workspace:*",
+    "@browserstack/webpack-config": "workspace:*"
   },
   "scripts": {
     "start": "react-scripts start",

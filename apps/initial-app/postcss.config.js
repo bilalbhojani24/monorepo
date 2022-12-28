@@ -1,1 +1,6 @@
-module.exports = require('@browserstack/config/postcss.config');
+const globalConfigs = require('@browserstack/tailwind-config');
+
+module.exports = {
+  ...globalConfigs.globalPostcssConfig,
+ 
+};

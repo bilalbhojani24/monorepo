@@ -1,0 +1,9 @@
+{
+  "name": "@browserstack/prettier-config",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "prettier": "2.8.1"
+  }
+}

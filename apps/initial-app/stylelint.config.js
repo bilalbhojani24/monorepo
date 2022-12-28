@@ -1,1 +1,1 @@
-module.exports = { ...require('@browserstack/config/stylelint.config') };
+module.exports = { ...require('@browserstack/stylelint-config') };
