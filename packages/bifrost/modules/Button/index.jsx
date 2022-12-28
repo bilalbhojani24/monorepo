@@ -21,51 +21,55 @@ const Button = (props) => {
       type="button"
       ref={buttonRef}
       aria-disabled={disabled}
-      className={classNames('inline-flex items-center font-medium border border-transparent', wrapperClassName, {
-        // half rounded button
-        'px-2.5 py-1.5 text-xs rounded ': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[0],
-        'px-3 py-2 text-sm leading-4 rounded-md': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[0],
-        'px-4 py-2 text-sm rounded-md': size === BUTTON_SIZES[2] && buttonType === BUTTON_TYPES[0],
-        'px-4 py-2 text-base rounded-md': size === BUTTON_SIZES[3] && buttonType === BUTTON_TYPES[0],
-        'px-6 py-3 text-base rounded-md': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[0],
+      className={classNames(
+        'inline-flex items-center font-medium border border-transparent ashutosh-button',
+        wrapperClassName,
+        {
+          // half rounded button
+          'px-2.5 py-1.5 text-xs rounded ': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[0],
+          'px-3 py-2 text-sm leading-4 rounded-md': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[0],
+          'px-4 py-2 text-sm rounded-md': size === BUTTON_SIZES[2] && buttonType === BUTTON_TYPES[0],
+          'px-4 py-2 text-base rounded-md': size === BUTTON_SIZES[3] && buttonType === BUTTON_TYPES[0],
+          'px-6 py-3 text-base rounded-md': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[0],
 
-        // icon button
-        'text-sm p-1 rounded-full': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[1],
-        'text-base p-1.5 rounded-full': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[1],
-        'text-lg p-2 rounded-full':
-          (size === BUTTON_SIZES[2] || size === BUTTON_SIZES[3]) && buttonType === BUTTON_TYPES[1],
-        'text-lg p-3 rounded-full': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[1],
+          // icon button
+          'text-sm p-1 rounded-full': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[1],
+          'text-base p-1.5 rounded-full': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[1],
+          'text-lg p-2 rounded-full':
+            (size === BUTTON_SIZES[2] || size === BUTTON_SIZES[3]) && buttonType === BUTTON_TYPES[1],
+          'text-lg p-3 rounded-full': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[1],
 
-        // rounded button
-        'px-3 py-1.5 text-xs rounded-full': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[2],
-        'px-3.5 py-2 text-sm leading-4 rounded-full': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[2],
-        'px-4 py-2 text-sm rounded-full': size === BUTTON_SIZES[2] && buttonType === BUTTON_TYPES[2],
-        'px-5 py-2 text-base rounded-full': size === BUTTON_SIZES[3] && buttonType === BUTTON_TYPES[2],
-        'px-6 py-3 text-base rounded-full': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[2],
+          // rounded button
+          'px-3 py-1.5 text-xs rounded-full': size === BUTTON_SIZES[0] && buttonType === BUTTON_TYPES[2],
+          'px-3.5 py-2 text-sm leading-4 rounded-full': size === BUTTON_SIZES[1] && buttonType === BUTTON_TYPES[2],
+          'px-4 py-2 text-sm rounded-full': size === BUTTON_SIZES[2] && buttonType === BUTTON_TYPES[2],
+          'px-5 py-2 text-base rounded-full': size === BUTTON_SIZES[3] && buttonType === BUTTON_TYPES[2],
+          'px-6 py-3 text-base rounded-full': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[2],
 
-        // primary
-        'bg-indigo-600 text-white shadow-sm': variant === BUTTON_VARIANTS[0] && !disabled,
-        // pseudo classes
-        'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
-          variant === BUTTON_VARIANTS[0] && !disabled,
-        'bg-neutral-200 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[0] && disabled,
+          // primary
+          'bg-indigo-600 text-white shadow-sm': variant === BUTTON_VARIANTS[0] && !disabled,
+          // pseudo classes
+          'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+            variant === BUTTON_VARIANTS[0] && !disabled,
+          'bg-neutral-200 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[0] && disabled,
 
-        // secondary
-        'bg-indigo-100 text-indigo-700': variant === BUTTON_VARIANTS[1] && !disabled,
-        // pseudo classes
-        'hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
-          variant === BUTTON_VARIANTS[1] && !disabled,
-        // disabled
-        'bg-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[1] && disabled,
+          // secondary
+          'bg-indigo-100 text-indigo-700': variant === BUTTON_VARIANTS[1] && !disabled,
+          // pseudo classes
+          'hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+            variant === BUTTON_VARIANTS[1] && !disabled,
+          // disabled
+          'bg-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[1] && disabled,
 
-        //outline
-        'border border-gray-300 bg-white text-gray-700 shadow-sm': variant === BUTTON_VARIANTS[2] && !disabled,
-        'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
-          variant === BUTTON_VARIANTS[2] && !disabled,
+          //outline
+          'border border-gray-300 bg-white text-gray-700 shadow-sm': variant === BUTTON_VARIANTS[2] && !disabled,
+          'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+            variant === BUTTON_VARIANTS[2] && !disabled,
 
-        // outline disabled
-        'border-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[2] && disabled
-      })}
+          // outline disabled
+          'border-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[2] && disabled
+        }
+      )}
       onClick={handleClick}
     >
       {effectiveChildren}

@@ -6,4 +6,4 @@
  * https://prettier.io/docs/en/configuration.html#sharing-configurations
  */
 
-module.exports = { printWidth: 120, singleQuote: true, arrowParens: 'always' };
+module.exports = { printWidth: 120, singleQuote: true, arrowParens: 'always', trailingComma: 'none' };

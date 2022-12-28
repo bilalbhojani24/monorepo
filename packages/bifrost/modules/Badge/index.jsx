@@ -7,7 +7,7 @@ import './styles.scss';
 const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, text, wrapperClassName }) => {
   return (
     <span
-      className={classNames('inline-flex items-center font-medium', wrapperClassName, {
+      className={classNames('inline-flex items-center font-medium ashutosh-badge', wrapperClassName, {
         'px-2.5 py-0.5 text-xs': size === BADGE_SIZE[0],
         'px-3 py-0.5 text-sm': size === BADGE_SIZE[1],
         'bg-gray-100 text-gray-800': modifier === BADGE_MODIFIER[0],

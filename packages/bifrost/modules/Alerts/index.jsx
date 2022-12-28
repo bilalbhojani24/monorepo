@@ -12,7 +12,7 @@ const link = (alertLinkPosition, linkClass, handleLinkClick, linkUrl, linkText) 
     <a
       href="/"
       className={classNames('', linkClass, {
-        'underline ml-1': alertLinkPosition === ALERT_LINK_POSITION.inline,
+        'underline ml-1': alertLinkPosition === ALERT_LINK_POSITION.inline
       })}
       onClick={(event) => {
         event.preventDefault();
@@ -38,7 +38,7 @@ const Alerts = (props) => {
     show,
     text,
     textColorClass,
-    wrapperClass,
+    wrapperClass
   } = props;
 
   return (
@@ -55,10 +55,10 @@ const Alerts = (props) => {
       >
         <div
           className={classNames(
-            `p-4`,
+            `p-4 ashutosh-alert`,
             {
               'border-l-4': accentBorder,
-              'rounded-md ': !accentBorder,
+              'rounded-md ': !accentBorder
             },
             wrapperClass
           )}
@@ -97,7 +97,7 @@ Alerts.propTypes = {
   show: PropTypes.bool,
   text: PropTypes.string,
   textColorClass: PropTypes.string,
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 Alerts.defaultProps = {
   accentBorder: false,
@@ -111,7 +111,7 @@ Alerts.defaultProps = {
   show: true,
   text: 'A new software update is available. See what’s new in version 2.0.4.',
   textColorClass: 'text-yellow-700',
-  wrapperClass: 'border-yellow-400 bg-yellow-50',
+  wrapperClass: 'border-yellow-400 bg-yellow-50'
 };
 
 export default Alerts;
