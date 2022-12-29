@@ -22,7 +22,6 @@ import { defineConfig } from 'vite';
 export default defineConfig((configEnv) => ({
   plugins: [react()],
   build: {
-    target: 'esnext',
     lib: {
       entry: resolve('./index.js'),
       name: 'BiFrOsT',
@@ -30,7 +29,8 @@ export default defineConfig((configEnv) => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: ['react']
+      external: ['react'],
+      preserveModules: true // this was done for webpack tree-shakability
     }
   }
 }));

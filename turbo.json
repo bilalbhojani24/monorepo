@@ -5,7 +5,7 @@
       "outputs": []
     },
     "build-vite": {
-      "outputs": []
+      "cache": false
     },
     "lint": {
       "outputs": []
