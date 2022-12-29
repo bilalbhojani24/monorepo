@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '../Icon';
 import { STACK_LIST_MODES } from './const/stackedListWTwoColumnsConstants';
 import Badge from '../Badge';
 
-const StackedListWTwoColumns = ({ list, format }) => {
+const StackedListWTwoColumns = ({ list, format, badgeProps, avatarVisible }) => {
   switch (format) {
     case STACK_LIST_MODES[0]:
       return (
@@ -16,7 +16,7 @@ const StackedListWTwoColumns = ({ list, format }) => {
                 <a href={listItem.link} className="block hover:bg-gray-50 cursor-pointer">
                   <div className="flex items-center px-4 py-4 sm:px-6">
                     <div className="flex min-w-0 flex-1 items-center">
-                      <div className="flex-shrink-0">{listItem.avatar}</div>
+                      {avatarVisible && <div className="flex-shrink-0">{listItem.avatar}</div>}
                       <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                         <div>
                           <p className="truncate text-sm font-medium">{listItem.firstColumn.heading}</p>
@@ -68,7 +68,7 @@ const StackedListWTwoColumns = ({ list, format }) => {
                         </div>
                       </div>
                       <div className="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
-                        <div className="flex -space-x-1 overflow-hidden">{listItem.avatar}</div>
+                        {avatarVisible && <div className="flex -space-x-1 overflow-hidden">{listItem.avatar}</div>}
                       </div>
                     </div>
                     <div className="ml-5 flex-shrink-0">
@@ -92,11 +92,11 @@ const StackedListWTwoColumns = ({ list, format }) => {
                     <div className="flex items-center justify-between">
                       <p className="truncate text-sm font-medium text-indigo-600">{listItem.firstColumn.heading}</p>
                       <div className="ml-2 flex flex-shrink-0">
-                        <Badge text={listItem.secondColumn.heading} />
+                        <Badge {...badgeProps} text={listItem.secondColumn.heading} />
                       </div>
                     </div>
                     <div className="mt-2 sm:flex sm:justify-between">
-                      <div className="sm:flex">{listItem.avatar}</div>
+                      <div className="sm:flex">{avatarVisible && listItem.avatar}</div>
                       <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         {listItem.secondColumn.metaNode}
                         <p>{listItem.secondColumn.subHeading}</p>
@@ -131,10 +131,15 @@ StackedListWTwoColumns.propTypes = {
     })
   ),
   format: PropTypes.string,
+  badgeProps: PropTypes.shape({}),
+  avatarVisible: PropTypes.bool,
 };
+
 StackedListWTwoColumns.defaultProps = {
   list: [],
   format: STACK_LIST_MODES[0],
+  badgeProps: {},
+  avatarVisible: true,
 };
 
 export default StackedListWTwoColumns;

@@ -56,6 +56,20 @@ const defaultConfig = {
       description: 'Format of two column stack list component',
       type: { summary: 'STRING', required: false },
     },
+    badgeProps: {
+      defaultValue: {
+        modifier: 'primary',
+      },
+      type: { summary: 'OBJECT', required: false },
+      description: 'Props to be passed into badge component',
+      control: { type: 'object' },
+    },
+    avatarVisible: {
+      control: { type: 'boolean' },
+      description: 'Hide/Show avatar',
+      type: { summary: 'BOOLEAN', required: false },
+      defaultValue: true,
+    },
   },
   controls: {},
 };
