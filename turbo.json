@@ -2,9 +2,6 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "outputs": []
-    },
-    "build-vite": {
       "cache": false
     },
     "lint": {

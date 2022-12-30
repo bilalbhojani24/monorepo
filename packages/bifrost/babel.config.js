@@ -1,1 +1,1 @@
-module.exports = require('@browserstack/webpack-config/babel.config');
+module.exports = require('@browserstack/vite-config/babel.config');

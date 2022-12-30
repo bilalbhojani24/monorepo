@@ -32,7 +32,7 @@
     "postcss-preset-env": "^7.8.3",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
-    "@browserstack/webpack-config": "workspace:*"
+    "@browserstack/vite-config": "workspace:*"
   },
   "scripts": {
     "start": "react-scripts start",

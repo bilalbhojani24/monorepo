@@ -1,26 +1,11 @@
 import { resolve } from 'path';
 
-import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
-// export default defineConfig((configEnv) => ({
-//   plugins: [react()],
-//   build: {
-//     lib: {
-//       entry: resolve('./index.js'),
-//       name: 'BiFrOsT',
-//       formats: ['es'],
-//       fileName: (format) => `index.js`
-//     },
-//     rollupOptions: {
-//       external: ['react']
-//     }
-//   }
-// }));
+const globalViteConfig = require('@browserstack/vite-config');
 
 export default defineConfig((configEnv) => ({
-  plugins: [react()],
+  ...globalViteConfig,
   build: {
     lib: {
       entry: resolve('./index.js'),
@@ -29,8 +14,8 @@ export default defineConfig((configEnv) => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: ['react'],
-      preserveModules: true // this was done for webpack tree-shakability
+      ...globalViteConfig.build.rollupOptions,
+      preserveModules: true
     }
   }
 }));
