@@ -55,7 +55,7 @@ const Alerts = (props) => {
       >
         <div
           className={classNames(
-            `p-4 ashutosh-alert`,
+            `p-4`,
             {
               'border-l-4': accentBorder,
               'rounded-md ': !accentBorder
