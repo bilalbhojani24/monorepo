@@ -5,33 +5,33 @@ export const columns = [
     name: 'Name',
     key: 'name',
     style: {},
-    isSortable: true,
+    isSortable: true
   },
   {
     name: 'Title',
     key: 'title',
     style: {},
-    isSortable: true,
+    isSortable: true
   },
   {
     name: 'Email',
     key: 'email',
-    style: {},
+    style: {}
   },
   {
     name: 'Role',
     key: 'role',
-    style: {},
+    style: {}
   },
   {
     name: 'Price',
     key: 'price',
-    style: {},
+    style: {}
   },
   {
     name: 'Quantity',
     key: 'quantity',
-    style: {},
+    style: {}
   },
   {
     name: '',
@@ -39,8 +39,8 @@ export const columns = [
     cell: (rowData) => {
       return <button>Edit</button>;
     },
-    style: {},
-  },
+    style: {}
+  }
 ];
 
 export const rows = [
@@ -50,7 +50,7 @@ export const rows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     quantity: '12.00',
-    price: '$123',
+    price: '$123'
   },
   {
     name: 'Courtney Henry',
@@ -58,7 +58,7 @@ export const rows = [
     email: 'courtney.henry@example.com',
     role: 'Admin',
     quantity: '19.00',
-    price: '$1230',
+    price: '$1230'
   },
   {
     name: 'Lindsay Walton',
@@ -66,7 +66,7 @@ export const rows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     quantity: '21.00',
-    price: '$12388',
+    price: '$12388'
   },
   {
     name: 'Lindsay Walton',
@@ -74,7 +74,7 @@ export const rows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     quantity: '21.00',
-    price: '$12388',
+    price: '$12388'
   },
   {
     name: 'Lindsay Walton',
@@ -82,6 +82,6 @@ export const rows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     quantity: '21.00',
-    price: '$12388',
-  },
+    price: '$12388'
+  }
 ];
