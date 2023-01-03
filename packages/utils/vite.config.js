@@ -15,14 +15,14 @@ export default defineConfig((configEnv) => ({
     },
     rollupOptions: {
       external: [
-        ...globalViteConfig.build.rollupOptions.external,
+        'react',
         '@reduxjs/toolkit',
         'redux-mock-store',
         'react-redux',
         'enzyme',
         'uuid',
-        'react/jsx-runtime',
-        'dexie'
+        'dexie',
+        'react/jsx-runtime'
       ]
     }
   }

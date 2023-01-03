@@ -14,8 +14,6 @@ module.exports = {
     lib: {
       fileName: () => `index.js`
     },
-    rollupOptions: {
-      external: ['react']
-    }
+    rollupOptions: {}
   }
 };

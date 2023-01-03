@@ -15,7 +15,7 @@ export default defineConfig((configEnv) => ({
     },
     rollupOptions: {
       external: [
-        ...globalViteConfig.build.rollupOptions.external,
+        'react',
         '@reduxjs/toolkit',
         'redux-mock-store',
         'react-redux',
