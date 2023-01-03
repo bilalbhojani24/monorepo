@@ -31,7 +31,7 @@ const SidebarNavigation = (props) => {
   };
 
   return (
-    <div className={classNames('flex flex-col overflow-y-auto pt-5 pb-4 px-1', wrapperClass)}>
+    <div className={classNames('sticky top-0 flex flex-col pb-4 px-1 h-screen w-72', wrapperClass)}>
       {!!brandImage.length ? (
         <div className={classNames('flex flex-shrink-0 items-center space-y-5 px-4', brandImageContainerClass)}>
           <img className={classNames('h-8 w-auto', brandImageClass)} src={brandImage} alt="sidebar-nav-icon" />
@@ -56,7 +56,7 @@ const SidebarNavigation = (props) => {
           ))}
         </nav>
       </div>
-      <div className="flex  flex-col flex-shrink-0">
+      <div className="flex flex-col flex-shrink-0 overflow-y-auto">
         {secondaryNavItems.map((nav, index) => (
           <SidebarItem
             active={active}
