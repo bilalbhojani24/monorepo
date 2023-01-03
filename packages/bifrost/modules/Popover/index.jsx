@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TooltipContainer from '../TooltipContainer';
+import { BUTTON_TYPE, PLACEMENT_ALIGN, PLACEMENT_SIDE, TOOLTIP_THEME } from '../SharedTooltipPopover/const';
 import Layout from '../SharedTooltipPopover/component/Layout';
-import { TOOLTIP_THEME, PLACEMENT_ALIGN, PLACEMENT_SIDE, BUTTON_TYPE } from '../SharedTooltipPopover/const';
+import PopoverContainer from '../PopoverContainer';
 
 import './styles.scss';
 
-const Tooltip = (props) => {
-  const { actionObject, buttonType, children, delay, description, theme, title, placementAlign, placementSide } = props;
+const Popover = (props) => {
+  const { actionObject, buttonType, children, description, theme, title, placementAlign, placementSide } = props;
   return (
-    <TooltipContainer
+    <PopoverContainer
       content={
         <Layout
           actionObject={actionObject}
@@ -21,15 +21,14 @@ const Tooltip = (props) => {
       }
       placementAlign={placementAlign}
       placementSide={placementSide}
-      delay={delay}
       arrowClassName={theme === TOOLTIP_THEME[1] ? 'dark-arrow' : ''}
     >
       {children}
-    </TooltipContainer>
+    </PopoverContainer>
   );
 };
 
-Tooltip.propTypes = {
+Popover.propTypes = {
   actionObject: {
     primaryButtonLabel: PropTypes.string,
     primaryButtonUrl: PropTypes.string,
@@ -40,25 +39,24 @@ Tooltip.propTypes = {
   },
   buttonType: PropTypes.oneOf(BUTTON_TYPE),
   children: PropTypes.node,
-  delay: PropTypes.number,
   description: PropTypes.string,
   theme: PropTypes.oneOf(TOOLTIP_THEME),
   title: PropTypes.string,
   placementAlign: PropTypes.oneOf(PLACEMENT_ALIGN),
   placementSide: PropTypes.oneOf(PLACEMENT_SIDE),
 };
-Tooltip.defaultProps = {
+
+Popover.defaultProps = {
   actionObject: {
     primaryButtonLabel: '',
     primaryButtonAction: () => {},
-    primaryButtonUrl: () => {},
+    primaryButtonUrl: '',
     secondaryButtonLabel: '',
     secondaryButtonAction: () => {},
-    secondaryButtonUrl: () => {},
+    secondaryButtonUrl: '',
   },
   buttonType: BUTTON_TYPE[0],
   children: null,
-  delay: 200,
   description: '',
   theme: TOOLTIP_THEME[0],
   title: '',
@@ -66,4 +64,4 @@ Tooltip.defaultProps = {
   placementSide: PLACEMENT_SIDE[0],
 };
 
-export default Tooltip;
+export default Popover;

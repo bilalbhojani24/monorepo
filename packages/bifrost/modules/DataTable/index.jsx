@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { columns, rows } from './const/dataTableConstants';
 import Row from './components/Row';
 import Cell from './components/Cell';
 import Header from './components/Header';
+import useDataTable from './useDataTable';
 
 import './styles.scss';
-import useDataTable from './useDataTable';
 
 const DataTable = (props) => {
   const {
@@ -24,13 +23,13 @@ const DataTable = (props) => {
     rows,
     selectedRowClass,
     tableClass,
-    tableContainerClass
+    tableContainerClass,
   } = props;
   const { tableData, tableRef, selectedRow, handleRowChange, handleToggleAll, sort, handleSort } = useDataTable({
     rows,
     onSort,
     onRowSelect,
-    onAllRowSelect
+    onAllRowSelect,
   });
 
   return (
@@ -38,7 +37,7 @@ const DataTable = (props) => {
       className={classNames(
         'shadow-sm ring-1 ring-black ring-opacity-5',
         {
-          'overflow-hidden': !isHeaderSticky
+          'overflow-hidden': !isHeaderSticky,
         },
         tableContainerClass
       )}
@@ -65,11 +64,11 @@ const DataTable = (props) => {
                 className={classNames(
                   {
                     'bg-gray-50': rowIdx % 2 !== 0 && isStriped,
-                    'bg-white-50': isFullWhite
+                    'bg-white-50': isFullWhite,
                   },
                   rowClass,
                   {
-                    [selectedRowClass]: selectedRow.includes(row)
+                    [selectedRowClass]: selectedRow.includes(row),
                   }
                 )}
               >
@@ -93,7 +92,7 @@ const DataTable = (props) => {
                       <Cell
                         key={colVal.key}
                         className={classNames('whitespace-nowrap py-4 px-3 text-sm', {
-                          'bg-white-50': isFullWhite
+                          'bg-white-50': isFullWhite,
                         })}
                         index={colIdx}
                       >
@@ -118,7 +117,7 @@ DataTable.propTypes = {
       key: PropTypes.string,
       cell: PropTypes.elementType,
       style: PropTypes.object,
-      isSortable: PropTypes.bool
+      isSortable: PropTypes.bool,
     })
   ),
   isFullWhite: PropTypes.bool,
@@ -133,11 +132,11 @@ DataTable.propTypes = {
   rows: PropTypes.array,
   selectedRowClass: PropTypes.string,
   tableClass: PropTypes.string,
-  tableContainerClass: PropTypes.string
+  tableContainerClass: PropTypes.string,
 };
 
 DataTable.defaultProps = {
-  columns: columns,
+  columns: [],
   isFullWhite: false,
   isHeaderCapitalize: false,
   isHeaderSticky: false,
@@ -147,10 +146,10 @@ DataTable.defaultProps = {
   onRowSelect: () => {},
   onSort: () => {},
   rowClass: '',
-  rows: rows,
+  rows: [],
   selectedRowClass: '',
   tableClass: '',
-  tableContainerClass: ''
+  tableContainerClass: '',
 };
 
 export default DataTable;

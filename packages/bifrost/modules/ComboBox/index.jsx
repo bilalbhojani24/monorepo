@@ -158,7 +158,7 @@ ComboBox.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   defaultValue: null,
   isMulti: false,
-  label: 'Assigned to',
+  label: '',
   onChange: () => {},
   options: COMBOBOX_OPTIONS,
   value: null,

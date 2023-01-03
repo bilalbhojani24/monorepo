@@ -1,16 +1,17 @@
 import React from 'react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import PropTypes from 'prop-types';
-import './styles.scss';
-import { PLACEMENT_ALIGN, PLACEMENT_SIDE } from './const/tooltipContainerConstants';
 import classNames from 'classnames';
+import { PLACEMENT_ALIGN, PLACEMENT_SIDE } from '../SharedTooltipPopover/const';
+
+import './styles.scss';
 
 const TooltipContainer = (props) => {
   const { arrowClassName, children, content, delay, placementAlign, placementSide } = props;
 
   return (
     <TooltipPrimitive.Provider delayDuration={delay} skipDelayDuration={500}>
-      <TooltipPrimitive.Root>
+      <TooltipPrimitive.Root open>
         <TooltipPrimitive.Trigger as>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content sideOffset={5} side={placementSide} align={placementAlign}>

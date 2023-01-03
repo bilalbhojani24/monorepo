@@ -1,16 +1,16 @@
 import React from 'react';
-import Tooltip from './index';
+import Popover from './index';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { PLACEMENT_ALIGN, TOOLTIP_THEME, PLACEMENT_SIDE, BUTTON_TYPE } from '../SharedTooltipPopover/const';
 import Button from '../Button';
-import { BUTTON_TYPE, PLACEMENT_ALIGN, PLACEMENT_SIDE, TOOLTIP_THEME } from '../SharedTooltipPopover/const';
 
 const defaultConfig = {
-  title: 'Application/Components/Tooltip',
-  component: Tooltip,
+  title: 'Application/Components/Popover',
+  component: Popover,
   parameters: {
     docs: {
       page: () => {
-        return <DocPageTemplate importStatement={"import Tooltip from 'bifrost/Tooltip'"} />;
+        return <DocPageTemplate importStatement={"import Popover from 'bifrost/Popover'"} />;
       },
     },
   },
@@ -37,11 +37,7 @@ const defaultConfig = {
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Hover me</Button>,
-    },
-    delay: {
-      option: { type: 'number' },
-      defaultValue: 200,
+      defaultValue: <Button>Click me</Button>,
     },
     description: {
       option: { type: 'string' },
@@ -70,7 +66,7 @@ const defaultConfig = {
   },
   controls: {},
 };
-const Template = (args) => <Tooltip {...args} />;
+const Template = (args) => <Popover {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {},

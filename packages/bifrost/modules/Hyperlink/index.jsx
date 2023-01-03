@@ -12,7 +12,7 @@ const Hyperlink = (props) => {
       rel={rel}
       className={classNames('flex items-center', wrapperClassName, color, fontSize, fontWeight, {
         underline: underlined,
-        'cursor-not-allowed': disabled
+        'cursor-not-allowed': disabled,
       })}
     >
       {children}
@@ -29,7 +29,7 @@ Hyperlink.propTypes = {
   href: PropTypes.string,
   rel: PropTypes.string,
   underlined: PropTypes.bool,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
 };
 Hyperlink.defaultProps = {
   children: (
@@ -45,7 +45,7 @@ Hyperlink.defaultProps = {
   href: 'www.google.com',
   rel: '',
   underlined: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
 };
 
 export default Hyperlink;
