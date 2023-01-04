@@ -27,7 +27,6 @@ import RadioTable from './modules/RadioTable/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
-import StackedList from './modules/StackedList/index';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
 import Switch from './modules/Switch/index';
@@ -91,7 +90,6 @@ export {
   SectionHeadings,
   SelectMenu,
   SidebarNavigation,
-  StackedList,
   Stats,
   Steps,
   Switch,
