@@ -22,6 +22,7 @@ export default defineConfig((configEnv) => ({
         'dexie',
         'enzyme',
         'uuid',
+        '@juggle/resize-observer',
         'react/jsx-runtime'
       ]
     }
