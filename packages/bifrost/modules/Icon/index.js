@@ -27,6 +27,7 @@ import {
   ExclamationTriangleIcon,
   XCircleIcon,
   ChevronUpDownIcon,
+  Bars3Icon,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -58,4 +59,5 @@ export {
   ExclamationTriangleIcon,
   XCircleIcon,
   ChevronUpDownIcon,
+  Bars3Icon,
 };

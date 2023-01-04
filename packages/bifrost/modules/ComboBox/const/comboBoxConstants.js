@@ -2,32 +2,32 @@ export const CHECK_POSITION = ['left', 'right'];
 
 export const COMBOBOX_OPTIONS = [
   {
-    id: 1,
-    name: 'Wade Cooper',
+    value: 1,
+    label: 'Wade Cooper',
     image:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
-    id: 2,
-    name: 'Arlene Mccoy',
+    value: 2,
+    label: 'Arlene Mccoy',
     image:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
-    id: 3,
-    name: 'Devon Webb',
+    value: 3,
+    label: 'Devon Webb',
     image:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
-    id: 4,
-    name: 'Tom Cook',
+    value: 4,
+    label: 'Tom Cook',
     image:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
   {
-    id: 5,
-    name: 'Tanya Fox',
+    value: 5,
+    label: 'Tanya Fox',
     image:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   },
