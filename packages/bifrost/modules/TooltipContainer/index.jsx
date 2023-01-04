@@ -11,7 +11,7 @@ const TooltipContainer = (props) => {
 
   return (
     <TooltipPrimitive.Provider delayDuration={delay} skipDelayDuration={500}>
-      <TooltipPrimitive.Root open>
+      <TooltipPrimitive.Root>
         <TooltipPrimitive.Trigger as>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content sideOffset={5} side={placementSide} align={placementAlign}>
