@@ -43,12 +43,11 @@ const Modal = (props) => {
             >
               <Dialog.Panel
                 className={classNames(
-                  'relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:p-6',
+                  'relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full px-0 sm:p-0',
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
                     'sm:max-w-lg': MODAL_SIZE[2] === size,
-                    'px-0 sm:p-0': isFooter,
                   }
                 )}
               >
