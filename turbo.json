@@ -2,10 +2,18 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "storybook-static/**"]
+      "cache": false
     },
     "lint": {
+      "outputs": []
+    },
+    "lint:check": {
+      "outputs": []
+    },
+    "stylelint:check": {
+      "outputs": []
+    },
+    "prettier:check": {
       "outputs": []
     },
     "dev": {
@@ -15,6 +23,9 @@
       "cache": false
     },
     "storybook": {
+      "cache": false
+    },
+    "build-storybook": {
       "cache": false
     }
   }

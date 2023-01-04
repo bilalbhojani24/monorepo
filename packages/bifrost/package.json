@@ -1,74 +1,64 @@
 {
-  "name": "bifrost",
-  "version": "0.1.0",
-  "private": true,
-  "prettier": "prettier-bs-config",
-  "dependencies": {
-    "@headlessui/react": "1.7.5",
-    "@heroicons/react": "2.0.13",
-    "@storybook/addon-a11y": "6.5.14",
-    "@storybook/addon-docs": "6.4.19",
-    "@storybook/builder-webpack5": "6.5.14",
-    "@storybook/manager-webpack5": "6.5.14",
-    "@tailwindcss/forms": "0.5.3",
-    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.7.3",
-    "autoprefixer": "10.4.13",
-    "classnames": "^2.2.6",
-    "craco": "0.0.3",
-    "css-loader": "6.7.2",
-    "mini-css-extract-plugin": "2.7.2",
-    "postcss": "8.4.20",
-    "postcss-loader": "7.0.2",
-    "prop-types": "15.8.1",
-    "@radix-ui/react-tooltip": "1.0.2",
-    "@radix-ui/react-popover": "1.0.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-scripts": "4.0.3",
-    "sass-loader": "13.2.0",
-    "tailwindcss": "3.2.4",
-    "web-vitals": "^1.1.0",
-    "webpack": "5",
-    "eslint-config-browserstack": "workspace:*",
-    "prettier-bs-config": "workspace:*"
-  },
+  "name": "@browserstack/bifrost",
+  "version": "0.4.7",
+  "main": "dist/index.js",
+  "description": "UI Packages for Browserstack Frontend",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=e55097a5c9b3"
+    "chromatic": "npx chromatic --project-token=e55097a5c9b3",
+    "build": "vite build",
+    "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
+    "lint:fix": "npm run lint:check -- --fix",
+    "lint:fix:modified": "eslint --fix --max-warnings 0",
+    "stylelint:check": "stylelint --formatter=verbose \"**/*.{css,scss}\"",
+    "stylelint:fix": "npm run stylelint:check -- --fix",
+    "stylelint:fix:modified": "stylelint --fix",
+    "prettier:check": "prettier --check \"**/*.{js,jsx}\" \"**/*.{css,scss}\"",
+    "prettier:fix": "npm run prettier:check -- --write"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@headlessui/react": "1.7.5",
+    "@heroicons/react": "2.0.13",
+    "classnames": "^2.2.6",
+    "prop-types": "15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/tailwind-config": "workspace:*",
+    "@browserstack/vite-config": "workspace:*",
+    "@storybook/addon-a11y": "6.5.14",
     "@storybook/addon-actions": "^6.1.20",
+    "@storybook/addon-docs": "6.4.19",
     "@storybook/addon-essentials": "^6.1.20",
     "@storybook/addon-links": "^6.1.20",
-    "@storybook/cli": "^6.5.15",
+    "@storybook/builder-webpack5": "6.5.14",
+    "@storybook/manager-webpack5": "6.5.14",
     "@storybook/node-logger": "^6.1.20",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.20",
-    "chromatic": "6.14.0",
+    "stylelint": "^14.16.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "latest",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-scss": "^4.3.0",
+    "tailwindcss": "^3.1.4",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+    "postcss": "8.4.20",
+    "postcss-loader": "7.0.2",
+    "postcss-preset-env": "^7.8.3",
+    "css-loader": "6.7.2",
+    "style-loader": "^3.3.1",
+    "sass": "^1.57.1",
+    "vite": "^4.0.0",
+    "@vitejs/plugin-react": "^3.0.0",
     "component-file-generator": "0.5.2"
   },
-  "readme": "ERROR: No README data found!",
-  "_id": "bifrost@0.1.0"
+  "files": [
+    "dist/*"
+  ],
+  "sideEffects": false
 }
