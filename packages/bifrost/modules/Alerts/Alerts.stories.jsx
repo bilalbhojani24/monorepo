@@ -1,11 +1,10 @@
-import React from 'react';
-import Alerts from './index';
-import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { ALERT_LINK_POSITION } from './const/alertConstants';
-import { InformationCircleIcon } from '../Icon';
+import React from "react";
+import Alerts from "./index";
+import DocPageTemplate from "../../.storybook/DocPageTemplate";
+import { ALERT_LINK_POSITION, ALERT_MODIFIER } from "./const/alertConstants";
 
 const defaultConfig = {
-  title: 'Application/Components/Alerts',
+  title: "Application/Components/Alerts",
   component: Alerts,
   parameters: {
     docs: {
@@ -35,9 +34,8 @@ const defaultConfig = {
         console.log(url);
       },
     },
-    linkClass: { option: { type: 'string' }, defaultValue: 'text-yellow-700 hover:text-yellow-600' },
-    linkText: { option: { type: 'string' }, defaultValue: 'Details' },
-    linkUrl: { option: { type: 'string' }, defaultValue: '/' },
+    linkText: { option: { type: "string" }, defaultValue: "Details" },
+    linkUrl: { option: { type: "string" }, defaultValue: "/" },
     show: {
       control: { type: 'boolean' },
       defaultValue: true,

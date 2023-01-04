@@ -23,6 +23,9 @@ import {
   EllipsisVerticalIcon,
   CursorArrowRaysIcon,
   EnvelopeOpenIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
   ChevronUpDownIcon,
   Bars3Icon,
 } from '@heroicons/react/20/solid';
@@ -52,6 +55,9 @@ export {
   EllipsisVerticalIcon,
   CursorArrowRaysIcon,
   EnvelopeOpenIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  XCircleIcon,
   ChevronUpDownIcon,
   Bars3Icon,
 };
