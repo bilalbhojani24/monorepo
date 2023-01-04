@@ -1,6 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+dist
+storybook-static
+build-storybook.log
 node_modules
 .pnp
 .pnp.js
@@ -33,8 +36,4 @@ yarn-error.log*
 # turbo
 .turbo
 
-#[ignoring static files for bifrost]
-packages/bifrost/dist
-packages/bifrost/node_modules
-packages/bifrost/storybook-static
-packages/bifrostbuild-storybook.log
+
