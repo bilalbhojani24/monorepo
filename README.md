@@ -10,7 +10,7 @@ This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes th
 
 - `initial-app`: a dummy CRA for testing out configurations
 - `bifrost`: the browserstack DS components with storybook integration
-- `eslint-config-browserstack`: `eslint` configurations (includes those from BSFE)
+- `@browserstack/eslint-config`: `eslint` configurations (includes those from BSFE)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo, currently dormant, might integrate in future.
 
 ### Utilities

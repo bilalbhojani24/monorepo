@@ -1,25 +1,19 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "start": "turbo run start",
-    "storybook": "turbo run storybook",
-    "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint-config-browserstack": "workspace:*",
-    "stylelint-bs-config": "workspace:*",
-    "tailwind-bs-config": "workspace:*",
-    "prettier-bs-config": "workspace:*",
-    "turbo": "latest"
+    "turbo": "latest",
+    "@browserstack/eslint-config": "workspace:*",
+    "@browserstack/prettier-config": "workspace:*"
   },
   "engines": {
     "node": ">=14.0.0"
