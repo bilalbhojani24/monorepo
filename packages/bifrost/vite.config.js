@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 
 const globalViteConfig = require('@browserstack/vite-config');
 
-export default defineConfig((configEnv) => ({
+export default defineConfig(() => ({
   ...globalViteConfig,
   build: {
     lib: {
