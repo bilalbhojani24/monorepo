@@ -1,0 +1,23 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "@browserstack/eslint-config": "workspace:*",
+    "@browserstack/prettier-config": "workspace:*"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "packageManager": "pnpm@7.18.2"
+}
