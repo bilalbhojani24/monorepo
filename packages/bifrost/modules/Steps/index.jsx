@@ -288,8 +288,6 @@ const Steps = ({ label, onClick, steps, format }) => {
                 return renderCircleListStep(step, stepIdx);
               case STEPS_FORMAT[4]:
                 return renderBulletAndTextListStep(step, stepIdx);
-              // case STEPS_FORMAT[5]:
-              //     return renderBulletAndTestListStep(step, stepIdx);
               default:
                 return renderSimpleListStep(step);
             }
