@@ -1,37 +1,110 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { descriptionsList } from './const/descriptionListConstants';
+import {
+  descriptionsList,
+  DESCRIPTION_LIST_ALIGNMENT,
+  classList,
+} from './const/descriptionListConstants';
 
 import './styles.scss';
 
 const DescriptionList = (props) => {
-  const { descriptions, gridContainerClass, gridItemClass, heading, subHeading, wrapperClass } = props;
+  const {
+    alignment,
+    descriptions,
+    heading,
+    isStriped,
+    isCard,
+    subHeading,
+    wrapperClass,
+  } = props;
 
   return (
-    <div className={classNames('overflow-hidden bg-white shadow sm:rounded-lg', wrapperClass)}>
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">{heading}</h3>
+    <div
+      className={classNames(
+        'overflow-hidden bg-white sm:rounded-lg',
+        {
+          shadow: isCard,
+        },
+        wrapperClass
+      )}
+    >
+      <div
+        className={classNames('px-4 py-5 sm:px-6', {
+          'sm:px-0': !isCard && DESCRIPTION_LIST_ALIGNMENT[0] === alignment,
+        })}
+      >
+        <h3 className="text-lg font-medium leading-6 text-gray-900">
+          {heading}
+        </h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">{subHeading}</p>
       </div>
-      <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <dl className={classNames('grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2', gridContainerClass)}>
-          {descriptions.map((desc, index) => (
-            <div
-              key={index}
-              className={classNames(
-                'sm:col-span-1',
-                {
-                  'sm:col-span-2': desc?.fullWidth
-                },
-                gridItemClass
-              )}
-            >
-              <dt className="text-sm font-medium text-gray-500">{desc.title}</dt>
-              {!!desc.description.length && <dd className="mt-1 text-sm text-gray-900">{desc.description}</dd>}
-              {desc.Layout && <desc.Layout />}
-            </div>
-          ))}
+      <div
+        className={classNames('border-t border-gray-200', {
+          'sm:px-6 py-5': DESCRIPTION_LIST_ALIGNMENT[1] === alignment,
+        })}
+      >
+        <dl
+          className={classNames({
+            [classList.leftAligned.container]:
+              DESCRIPTION_LIST_ALIGNMENT[0] === alignment,
+            [classList.twoColumned.container]:
+              DESCRIPTION_LIST_ALIGNMENT[1] === alignment,
+          })}
+        >
+          {descriptions.map((desc, index) => {
+            const {
+              title,
+              fullWidth,
+              description,
+              actionButtonLabel,
+              actionButtonClick,
+            } = desc;
+            return (
+              <div
+                key={index}
+                className={classNames({
+                  [classList.leftAligned.itemContainer]:
+                    DESCRIPTION_LIST_ALIGNMENT[0] === alignment,
+                  [classList.twoColumned.itemContainerHalf]:
+                    DESCRIPTION_LIST_ALIGNMENT[1] === alignment,
+                  [classList.twoColumned.itemConatainerFull]:
+                    DESCRIPTION_LIST_ALIGNMENT[1] === alignment && fullWidth,
+                  'bg-gray-50':
+                    index % 2 === 0 &&
+                    isStriped &&
+                    DESCRIPTION_LIST_ALIGNMENT[0] === alignment,
+                  'sm:px-0':
+                    !isCard && DESCRIPTION_LIST_ALIGNMENT[0] === alignment,
+                })}
+              >
+                <dt className="text-sm font-medium text-gray-500 text-sm font-medium text-gray-500">
+                  {title}
+                </dt>
+                {!!description.length && (
+                  <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <span className="flex-grow">{description}</span>
+                    {actionButtonLabel &&
+                      DESCRIPTION_LIST_ALIGNMENT[0] === alignment && (
+                        <span className="ml-4 flex-shrink-0">
+                          <button
+                            type="button"
+                            className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => {
+                              if (actionButtonClick) actionButtonClick();
+                            }}
+                          >
+                            {actionButtonLabel}
+                          </button>
+                        </span>
+                      )}
+                  </dd>
+                )}
+                {desc.Layout && <desc.Layout />}
+              </div>
+            );
+          })}
         </dl>
       </div>
     </div>
@@ -39,26 +112,32 @@ const DescriptionList = (props) => {
 };
 
 DescriptionList.propTypes = {
+  alignment: PropTypes.oneOf(DESCRIPTION_LIST_ALIGNMENT),
   descriptions: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
       description: PropTypes.string,
-      fullWidth: PropTypes.bool
+      fullWidth: PropTypes.bool,
+      actionButtonLabel: PropTypes.string,
+      actionButtonClick: PropTypes.func,
+      Layout: PropTypes.node,
     })
   ),
-  gridContainerClass: PropTypes.string,
-  gridItemClass: PropTypes.string,
   heading: PropTypes.string,
+  isStriped: PropTypes.bool,
+  isCard: PropTypes.bool,
   subHeading: PropTypes.string,
-  wrapperClass: PropTypes.string
+  wrapperClass: PropTypes.string,
 };
 DescriptionList.defaultProps = {
+  alignment: DESCRIPTION_LIST_ALIGNMENT[0],
   descriptions: descriptionsList,
   gridContainerClass: '',
-  gridItemClass: '',
   heading: 'Application Infomration',
+  isStriped: false,
+  isCard: true,
   subHeading: 'Personal details and application',
-  wrapperClass: ''
+  wrapperClass: '',
 };
 
 export default DescriptionList;

@@ -1,14 +1,31 @@
 import React from 'react';
 import { PaperClipIcon } from '../../Icon';
 
+export const DESCRIPTION_LIST_ALIGNMENT = ['left', 'two-column'];
+
+export const classList = {
+  leftAligned: {
+    container: 'sm:divide-y sm:divide-gray-200',
+    itemContainer: 'py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6',
+  },
+  twoColumned: {
+    container: 'grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2',
+    itemContainerHalf: 'sm:col-span-1',
+    itemConatainerFull: 'sm:col-span-2',
+  },
+};
+
 const Layout = () => (
   <>
-    <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
+    <ul className="divide-y divide-gray-200 rounded-md border border-gray-200 sm:col-span-2">
       {attachmentsList.map((attachment) => (
         <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-          <div className="flex w-0 flex-1 items-center">
-            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-            <span className="ml-2 w-0 flex-1 truncate">resume_back_end_developer.pdf</span>
+          <div className="flex w-full flex-1 items-center">
+            <PaperClipIcon
+              className="h-5 w-5 flex-shrink-0 text-gray-400"
+              aria-hidden="true"
+            />
+            <span className="ml-2 w-0 flex-1 truncate">{attachment.name}</span>
           </div>
           <div className="ml-4 flex-shrink-0">
             <a
