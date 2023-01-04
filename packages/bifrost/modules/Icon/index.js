@@ -24,6 +24,7 @@ import {
   CursorArrowRaysIcon,
   EnvelopeOpenIcon,
   ChevronUpDownIcon,
+  Bars3Icon,
 } from '@heroicons/react/20/solid';
 
 export {
@@ -52,4 +53,5 @@ export {
   CursorArrowRaysIcon,
   EnvelopeOpenIcon,
   ChevronUpDownIcon,
+  Bars3Icon,
 };
