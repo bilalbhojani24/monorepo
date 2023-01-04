@@ -11,8 +11,8 @@ const PageHeadings = (props) => {
   return (
     <div
       className={classNames('p-8 overflow-hidden rounded-lg', {
-        'border border-gray-300 bg-white color': theme === PAGE_HEADINGS_THEME[0],
-        'bg-gray-800': theme === PAGE_HEADINGS_THEME[1],
+        'border border-base-300 bg-white color': theme === PAGE_HEADINGS_THEME[0],
+        'bg-base-800': theme === PAGE_HEADINGS_THEME[1]
       })}
     >
       <div className="lg:flex lg:items-center lg:justify-between">
@@ -23,9 +23,9 @@ const PageHeadings = (props) => {
           {/* title */}
           <h2
             className={classNames('text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight', {
-              'text-gray-900': theme === PAGE_HEADINGS_THEME[0],
+              'text-base-900': theme === PAGE_HEADINGS_THEME[0],
               'text-white': theme === PAGE_HEADINGS_THEME[1],
-              'mt-2': breadcrumbData?.length > 0,
+              'mt-2': breadcrumbData?.length > 0
             })}
           >
             {heading}
@@ -37,9 +37,9 @@ const PageHeadings = (props) => {
               <div
                 key={data.id}
                 className={classNames('mt-2 flex items-center text-sm', {
-                  'text-gray-500': theme === PAGE_HEADINGS_THEME[0],
-                  'text-gray-300': theme === PAGE_HEADINGS_THEME[1],
-                  'mt-1': heading.length > 0,
+                  'text-base-500': theme === PAGE_HEADINGS_THEME[0],
+                  'text-base-300': theme === PAGE_HEADINGS_THEME[1],
+                  'mt-1': heading.length > 0
                 })}
               >
                 {data.metaNode}
@@ -75,13 +75,13 @@ PageHeadings.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       url: PropTypes.string,
-      current: PropTypes.bool,
+      current: PropTypes.bool
     })
   ),
   metaData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      metaNode: PropTypes.node,
+      metaNode: PropTypes.node
     })
   ),
   actionsData: PropTypes.arrayOf(
@@ -89,18 +89,18 @@ PageHeadings.propTypes = {
       id: PropTypes.string,
       actionNode: PropTypes.node,
       actionButtonFn: PropTypes.func,
-      variant: PropTypes.string,
+      variant: PropTypes.string
     })
   ),
   heading: PropTypes.string,
-  theme: PropTypes.string,
+  theme: PropTypes.string
 };
 PageHeadings.defaultProps = {
   breadcrumbData: [],
   metaData: [],
   actionsData: [],
   heading: 'Frontend Engineers',
-  propTypes: PAGE_HEADINGS_THEME[0],
+  propTypes: PAGE_HEADINGS_THEME[0]
 };
 
 export default PageHeadings;

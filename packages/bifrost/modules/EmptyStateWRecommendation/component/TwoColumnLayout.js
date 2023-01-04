@@ -18,12 +18,12 @@ const TwoColumnLayout = ({ item, handleClick }) => {
             <img className="h-10 w-10 rounded-full" src={item.image} alt="" />
           </span>
           <span className="block min-w-0 flex-1">
-            <span className="block truncate text-sm font-medium text-gray-900">{item.title}</span>
-            <span className="block truncate text-sm font-medium text-gray-500">{item.description}</span>
+            <span className="block truncate text-sm font-medium text-base-900">{item.title}</span>
+            <span className="block truncate text-sm font-medium text-base-500">{item.description}</span>
           </span>
         </span>
         <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center">
-          <PlusIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+          <PlusIcon className="h-5 w-5 text-base-400 group-hover:text-base-500" aria-hidden="true" />
         </span>
       </Button>
     </li>

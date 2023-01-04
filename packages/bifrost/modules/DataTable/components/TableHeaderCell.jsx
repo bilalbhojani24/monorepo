@@ -20,8 +20,8 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
     <th
       key={col.key}
       scope="col"
-      className={classNames('py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 bg-white-600', {
-        'sticky top-0 z-10 border-b border-gray-300 bg-opacity-75': isHeaderSticky
+      className={classNames('py-2 pl-4 pr-3 text-left text-sm font-semibold text-base-900 sm:pl-6 bg-white-600', {
+        'sticky top-0 z-10 border-b border-base-300 bg-opacity-75': isHeaderSticky
       })}
       {...(col.isSortable && {
         role: 'button',
@@ -40,7 +40,7 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
         {col.name}
         <div className="flex ml-2 flex-col">
           <span
-            className={classNames('rounded text-gray-400', {
+            className={classNames('rounded text-base-400', {
               hidden: !col.isSortable
             })}
           >
@@ -52,7 +52,7 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
             />
           </span>
           <span
-            className={classNames('rounded text-gray-400', {
+            className={classNames('rounded text-base-400', {
               hidden: !col.isSortable
             })}
           >

@@ -19,7 +19,7 @@ const Notifications = (props) => {
     NotificationIconClassName,
     positiveButtonProps,
     show,
-    title,
+    title
   } = props;
 
   const renderButton = (props) => {
@@ -48,26 +48,22 @@ const Notifications = (props) => {
                 <div className="flex-shrink-0">
                   {!isCondensed && (
                     <NotificationIcon
-                      className={`h-6 w-6 text-gray-400 ${NotificationIconClassName}`}
+                      className={`h-6 w-6 text-base-400 ${NotificationIconClassName}`}
                       aria-hidden="true"
                     />
                   )}
                 </div>
                 <div
                   className={classNames('w-0 flex-1 pt-0.5', {
-                    'ml-3': !isCondensed,
+                    'ml-3': !isCondensed
                   })}
                 >
-                  <p className="text-sm font-medium text-gray-900">{title}</p>
-                  {!isCondensed && (
-                    <p className="mt-1 text-sm text-gray-500">{description}</p>
-                  )}
+                  <p className="text-sm font-medium text-base-900">{title}</p>
+                  {!isCondensed && <p className="mt-1 text-sm text-base-500">{description}</p>}
                   {!isCondensed && (
                     <div
                       className={classNames('mt-3 flex space-x-7', {
-                        hidden:
-                          !negativeButtonProps?.children &&
-                          !positiveButtonProps?.children,
+                        hidden: !negativeButtonProps?.children && !positiveButtonProps?.children
                       })}
                     >
                       {renderButton(positiveButtonProps)}
@@ -89,7 +85,7 @@ const Notifications = (props) => {
                   )}
                   <button
                     type="button"
-                    className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={() => {
                       if (handleClose) handleClose();
                     }}
@@ -117,12 +113,11 @@ Notifications.propTypes = {
   NotificationIconClassName: PropTypes.string,
   positiveButtonProps: PropTypes.shape(Button.propTypes),
   show: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 Notifications.defaultProps = {
-  description:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
+  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
   isCondensed: false,
   handleClose: () => {},
   handlePositiveClick: () => {},
@@ -131,7 +126,7 @@ Notifications.defaultProps = {
   NotificationIconClassName: '',
   positiveButtonProps: {},
   show: false,
-  title: 'Discussion moved',
+  title: 'Discussion moved'
 };
 
 export default Notifications;

@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* tailwind: gray */
+    --colors-base-50: #f9fafb;
+    --colors-base-100: #f3f4f6;
+    --colors-base-200: #e5e7eb;
+    --colors-base-300: #d1d5db;
+    --colors-base-400: #9ca3af;
+    --colors-base-500: #6b7280;
+    --colors-base-600: #4b5563;
+    --colors-base-700: #374151;
+    --colors-base-800: #1f2937;
+    --colors-base-900: #111827;
+
+    /* tailwind: blue */
+    --colors-brand-50: #eff6ff;
+    --colors-brand-100: #dbeafe;
+    --colors-brand-200: #bfdbfe;
+    --colors-brand-300: #93c5fd;
+    --colors-brand-400: #60a5fa;
+    --colors-brand-500: #3b82f6;
+    --colors-brand-600: #2563eb;
+    --colors-brand-700: #1d4ed8;
+    --colors-brand-800: #1e40af;
+    --colors-brand-900: #1e3a8a;
+
+    /* tailwind: red */
+    --colors-danger-50: #fef2f2;
+    --colors-danger-100: #fee2e2;
+    --colors-danger-200: #fecaca;
+    --colors-danger-300: #fca5a5;
+    --colors-danger-400: #f87171;
+    --colors-danger-500: #ef4444;
+    --colors-danger-600: #dc2626;
+    --colors-danger-700: #b91c1c;
+    --colors-danger-800: #991b1b;
+    --colors-danger-900: #7f1d1d;
+
+    /* tailwind: green */
+    --colors-success-50: #f0fdf4;
+    --colors-success-100: #dcfce7;
+    --colors-success-200: #bbf7d0;
+    --colors-success-300: #86efac;
+    --colors-success-400: #4ade80;
+    --colors-success-500: #22c55e;
+    --colors-success-600: #16a34a;
+    --colors-success-700: #15803d;
+    --colors-success-800: #166534;
+    --colors-success-900: #14532d;
+
+    /* tailwind: yellow */
+    --colors-attention-50: #fefce8;
+    --colors-attention-100: #fef9c3;
+    --colors-attention-200: #fef08a;
+    --colors-attention-300: #fde047;
+    --colors-attention-400: #facc15;
+    --colors-attention-500: #eab308;
+    --colors-attention-600: #ca8a04;
+    --colors-attention-700: #a16207;
+    --colors-attention-800: #854d0e;
+    --colors-attention-900: #713f12;
+
+    /* tailwind: sky */
+    --colors-information-50: #f0f9ff;
+    --colors-information-100: #e0f2fe;
+    --colors-information-200: #bae6fd;
+    --colors-information-300: #7dd3fc;
+    --colors-information-400: #38bdf8;
+    --colors-information-500: #0ea5e9;
+    --colors-information-600: #0284c7;
+    --colors-information-700: #0369a1;
+    --colors-information-800: #075985;
+    --colors-information-900: #0c4a6e;
+  }
+}

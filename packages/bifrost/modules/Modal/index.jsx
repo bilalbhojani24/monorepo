@@ -27,7 +27,7 @@ const Modal = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-base-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -47,7 +47,7 @@ const Modal = (props) => {
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
-                    'sm:max-w-lg': MODAL_SIZE[2] === size,
+                    'sm:max-w-lg': MODAL_SIZE[2] === size
                   }
                 )}
               >
@@ -55,7 +55,7 @@ const Modal = (props) => {
                   <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                     <button
                       type="button"
-                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       onClick={() => {
                         if (handleDismissButtonClick) handleDismissButtonClick();
                       }}
@@ -80,7 +80,7 @@ Modal.propTypes = {
   isFooter: PropTypes.bool,
   onClose: PropTypes.func,
   size: PropTypes.string,
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 Modal.defaultProps = {
@@ -90,7 +90,7 @@ Modal.defaultProps = {
   onClose: () => {},
   show: false,
   size: MODAL_SIZE[2],
-  withDismissButton: false,
+  withDismissButton: false
 };
 
 export default Modal;
