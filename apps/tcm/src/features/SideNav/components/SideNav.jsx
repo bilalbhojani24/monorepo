@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SidebarNavigation } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 import useSideNav from './useSideNav';
@@ -7,6 +7,7 @@ import { basePrimaryNavLinks, internalPrimaryNavLinks, secondaryNavLinks } from 
 
 const SideNav = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { allProjects } = useSideNav();
   const [primaryNavs, setPrimaryNavs] = useState();
   const [secondaryNavs, setSecondaryNavs] = useState([]);
@@ -14,8 +15,9 @@ const SideNav = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
 
-  const onLinkChange = (a, b, c) => {
+  const onLinkChange = (linkItem) => {
     debugger;
+    navigate(linkItem.path);
   };
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const SideNav = () => {
       primaryNavItems={primaryNavs}
       active={activeRoute}
       handleClick={onLinkChange}
-      selectOptions={allProjects}
+      selectOptions={allProjectsDrop}
       withSelect={showProjects}
       secondaryNavItems={secondaryNavs}
     />

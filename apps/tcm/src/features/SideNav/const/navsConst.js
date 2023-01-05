@@ -10,61 +10,65 @@ export const basePrimaryNavLinks = [
     path: AppRoute.PROJECTS
   },
   {
-    id: 'settings',
+    id: AppRoute.SETTINGS,
     label: 'Settings',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
-    path: AppRoute.TEST_RUNS
+    path: AppRoute.SETTINGS
   },
   {
-    id: 'documentation',
+    id: AppRoute.DOCUMENTATION,
     label: 'Documentation',
     activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon
+    inActiveIcon: HomeOutlinedIcon,
+    path: AppRoute.DOCUMENTATION
   }
 ];
 
 export const internalPrimaryNavLinks = [
   {
-    id: 'dashboard',
+    id: AppRoute.PROJECTS,
     label: 'Dashboard',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
     path: AppRoute.PROJECTS
   },
   {
-    id: 'repository',
+    id: AppRoute.REPO,
     label: 'Repository',
+    activeIcon: HomeOutlinedIcon,
+    inActiveIcon: HomeOutlinedIcon,
+    path: AppRoute.REPO
+  },
+  {
+    id: AppRoute.TEST_RUNS,
+    label: 'Test Runs',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
     path: AppRoute.TEST_RUNS
   },
   {
-    id: 'testruns',
-    label: 'Test Runs',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon
-  },
-  {
-    id: 'reports',
+    id: AppRoute.REPORTS,
     label: 'Reports',
     activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon
+    inActiveIcon: HomeOutlinedIcon,
+    path: AppRoute.REPORTS
   }
 ];
 
 export const secondaryNavLinks = [
   {
-    id: 'settings',
+    id: AppRoute.SETTINGS,
     label: 'Settings',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
-    path: AppRoute.TEST_RUNS
+    path: AppRoute.SETTINGS
   },
   {
-    id: 'documentation',
+    id: AppRoute.DOCUMENTATION,
     label: 'Documentation',
     activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon
+    inActiveIcon: HomeOutlinedIcon,
+    path: AppRoute.DOCUMENTATION
   }
 ];
