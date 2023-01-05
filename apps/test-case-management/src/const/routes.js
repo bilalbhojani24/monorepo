@@ -1,5 +1,6 @@
 const AppRoute = {
-  PROJECTS: '/',
+  ROOT: '/',
+  PROJECTS: '/projects',
   REPO: '/repo'
 };
 

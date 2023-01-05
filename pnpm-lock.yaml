@@ -12,7 +12,7 @@ importers:
       '@browserstack/prettier-config': link:packages/prettier-config
       turbo: 1.6.3
 
-  apps/TCM:
+  apps/test-case-management:
     specifiers:
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*

@@ -8,6 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path={AppRoute.ROOT} element={'Landing'}></Route>
         <Route path={AppRoute.PROJECTS}>
           <Route index={true} element={<Counter />}></Route>
           {/* <Route path={AppRoute.REPO + '/:projectId'} element={<Repository />} />
