@@ -35,10 +35,10 @@ const InputField = forwardRef(
       <div className="bifrost-input-field">
         {(label || cornerHintText) && (
           <div className="flex justify-between" role="contentinfo">
-            <label htmlFor={id} id={id + 'label-wrap'} className="block text-sm font-medium text-gray-700">
+            <label htmlFor={id} id={id + 'label-wrap'} className="block text-sm font-medium text-base-700">
               {label}
             </label>
-            {cornerHintText && <span className="text-sm text-gray-500">{cornerHintText}</span>}
+            {cornerHintText && <span className="text-sm text-base-500">{cornerHintText}</span>}
           </div>
         )}
         <div className="relative mt-1 rounded-md shadow-sm">
@@ -54,10 +54,11 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={classNames(
-              'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+              'block w-full rounded-md border-base-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
               {
-                'text-red-900 focus:border-red-500 focus:ring-red-500': errorText,
-                'disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500': disabled,
+                'text-danger-900 focus:border-danger-500 focus:ring-danger-500': errorText,
+                'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':
+                  disabled,
                 'pl-10': !!leadingIcon,
                 'pr-10': !!trailingIcon
               }
@@ -70,12 +71,12 @@ const InputField = forwardRef(
           />
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             {trailingIcon}
-            {errorText && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+            {errorText && <ExclamationCircleIcon className="h-5 w-5 text-danger-500" aria-hidden="true" />}
           </div>
         </div>
-        {description && <p className="mt-2 text-sm text-gray-500">{description}</p>}
+        {description && <p className="mt-2 text-sm text-base-500">{description}</p>}
         {errorText && (
-          <p className="mt-2 text-sm text-red-600" id={id + 'error-wrap'}>
+          <p className="mt-2 text-sm text-danger-600" id={id + 'error-wrap'}>
             {errorText}
           </p>
         )}

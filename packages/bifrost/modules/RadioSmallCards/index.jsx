@@ -18,7 +18,7 @@ const RadioSmallCards = (props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        {heading && <h2 className="text-sm font-medium text-gray-900">{heading}</h2>}
+        {heading && <h2 className="text-sm font-medium text-base-900">{heading}</h2>}
         {/* <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
           See performance specs
         </a> */}
@@ -37,7 +37,7 @@ const RadioSmallCards = (props) => {
                   active ? 'ring-2 ring-offset-2 ring-indigo-500' : '',
                   checked
                     ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
-                    : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',
+                    : 'bg-white border-base-200 text-base-900 hover:bg-base-50',
                   'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1'
                 )
               }

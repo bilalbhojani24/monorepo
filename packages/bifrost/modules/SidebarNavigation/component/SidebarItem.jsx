@@ -12,7 +12,7 @@ const SidebarItem = ({
   inActiveClass,
   inActiveIconClass,
   nav,
-  index,
+  index
 }) => {
   const isCurrent = (currentNav, index) => `${index}__${currentNav.id}` === `${index}__${active?.id}`;
 
@@ -24,10 +24,10 @@ const SidebarItem = ({
             <>
               <Disclosure.Button
                 className={classNames(
-                  `group w-full flex items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 pl-2`,
+                  `group w-full flex items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-base-600 hover:bg-base-50 hover:text-base-900 pl-2`,
                   {
-                    [`bg-gray-100 text-gray-900 ${activeClass}`]: isCurrent(nav, index),
-                    [`${inActiveClass}`]: !isCurrent(nav, index),
+                    [`bg-base-100 text-base-900 ${activeClass}`]: isCurrent(nav, index),
+                    [`${inActiveClass}`]: !isCurrent(nav, index)
                   }
                 )}
               >
@@ -35,7 +35,7 @@ const SidebarItem = ({
                   <PrintIcon
                     Icon={nav.inActiveIcon}
                     classes={classNames(
-                      'mr-3 flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500',
+                      'mr-3 flex-shrink-0 h-6 w-6 text-base-400 group-hover:text-base-500',
                       inActiveIconClass
                     )}
                   />
@@ -43,8 +43,8 @@ const SidebarItem = ({
                 {nav.label}
                 <svg
                   className={classNames(
-                    open ? 'text-gray-400 rotate-90' : 'text-gray-300',
-                    'ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-400'
+                    open ? 'text-base-400 rotate-90' : 'text-base-300',
+                    'ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-base-400'
                   )}
                   viewBox="0 0 20 20"
                   aria-hidden="true"
@@ -58,7 +58,7 @@ const SidebarItem = ({
                     key={`${index}__${subIndex}__${subNav.label}`}
                     as="a"
                     href={subNav.path}
-                    className="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    className="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-base-600 hover:bg-base-50 hover:text-base-900"
                     onClick={(e) => handleNavigationClick(e, subNav, nav)}
                   >
                     {subNav.label}
@@ -73,7 +73,7 @@ const SidebarItem = ({
           href={nav.path}
           className={classNames(`group flex items-center px-3 py-2 text-sm font-medium`, {
             [`border-l-4 bg-indigo-50 border-indigo-600 text-indigo-600 ${activeClass}`]: isCurrent(nav, index),
-            [`${inActiveClass}`]: !isCurrent(nav, index),
+            [`${inActiveClass}`]: !isCurrent(nav, index)
           })}
           onClick={(e) => handleNavigationClick(e, nav)}
         >
@@ -86,14 +86,14 @@ const SidebarItem = ({
             <PrintIcon
               Icon={nav.inActiveIcon}
               classes={classNames(
-                'mr-3 flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500',
+                'mr-3 flex-shrink-0 h-6 w-6 text-base-400 group-hover:text-base-500',
                 inActiveIconClass
               )}
             />
           )}
           {nav.label}
           {nav.badgeLabel && !!nav.badgeLabel.length && (
-            <span className="bg-gray-100 group-hover:bg-gray-200 ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full">
+            <span className="bg-base-100 group-hover:bg-base-200 ml-3 inline-block py-0.5 px-3 text-xs font-medium rounded-full">
               {nav.badgeLabel}
             </span>
           )}

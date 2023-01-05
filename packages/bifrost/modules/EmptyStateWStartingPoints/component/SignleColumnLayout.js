@@ -12,7 +12,7 @@ const SignleColumnLayout = ({ item, itemIdx, handleClick }) => {
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-medium text-gray-900">
+          <div className="text-sm font-medium text-base-900">
             <a
               href={item.href}
               onClick={(e) => {
@@ -24,10 +24,10 @@ const SignleColumnLayout = ({ item, itemIdx, handleClick }) => {
               {item.title}
             </a>
           </div>
-          <p className="text-sm text-gray-500">{item.description}</p>
+          <p className="text-sm text-base-500">{item.description}</p>
         </div>
         <div className="flex-shrink-0 self-center">
-          <ChevronRightIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+          <ChevronRightIcon className="h-5 w-5 text-base-400 group-hover:text-base-500" aria-hidden="true" />
         </div>
       </div>
     </li>

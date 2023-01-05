@@ -59,12 +59,12 @@ const Button = (props) => {
         'bg-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[1] && disabled,
 
         //outline
-        'border border-gray-300 bg-white text-gray-700 shadow-sm': variant === BUTTON_VARIANTS[2] && !disabled,
-        'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+        'border border-base-300 bg-white text-base-700 shadow-sm': variant === BUTTON_VARIANTS[2] && !disabled,
+        'hover:bg-base-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
           variant === BUTTON_VARIANTS[2] && !disabled,
 
         // outline disabled
-        'border-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[2] && disabled,
+        'border-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[2] && disabled
       })}
       onClick={handleClick}
     >
@@ -81,7 +81,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   size: PropTypes.oneOf(BUTTON_SIZES),
   variant: PropTypes.oneOf(BUTTON_VARIANTS),
-  wrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -91,7 +91,7 @@ Button.defaultProps = {
   onClick: () => {},
   size: BUTTON_SIZES[1],
   variant: BUTTON_VARIANTS[0],
-  wrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default Button;

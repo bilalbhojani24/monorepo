@@ -32,7 +32,7 @@ const RadioStackedCard = (props) => {
             value={item}
             className={({ checked, active }) =>
               classNames(
-                checked ? 'border-transparent' : 'border-gray-300',
+                checked ? 'border-transparent' : 'border-base-300',
                 active ? 'border-indigo-500 ring-2 ring-indigo-500' : '',
                 'relative cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none',
                 placement === RADIO_STACKED_CARD_PLACEMENT.horizontal
@@ -45,15 +45,15 @@ const RadioStackedCard = (props) => {
               <>
                 <span className="flex flex-1">
                   <span className="flex flex-col">
-                    <RadioGroup.Label as="span" className="block text-sm font-medium text-gray-900">
+                    <RadioGroup.Label as="span" className="block text-sm font-medium text-base-900">
                       {item.label}
                     </RadioGroup.Label>
-                    <RadioGroup.Description as="span" className="mt-1 flex items-center text-sm text-gray-500">
+                    <RadioGroup.Description as="span" className="mt-1 flex items-center text-sm text-base-500">
                       {item.description}
                     </RadioGroup.Description>
                     <RadioGroup.Description
                       as="span"
-                      className={classNames('mt-6 text-sm font-medium text-gray-900', {
+                      className={classNames('mt-6 text-sm font-medium text-base-900', {
                         hidden: placement === RADIO_STACKED_CARD_PLACEMENT.vertical
                       })}
                     >
@@ -63,7 +63,7 @@ const RadioStackedCard = (props) => {
                 </span>
                 <RadioGroup.Description
                   as="span"
-                  className={classNames('text-sm font-medium text-gray-900', {
+                  className={classNames('text-sm font-medium text-base-900', {
                     hidden: placement === RADIO_STACKED_CARD_PLACEMENT.horizontal
                   })}
                 >

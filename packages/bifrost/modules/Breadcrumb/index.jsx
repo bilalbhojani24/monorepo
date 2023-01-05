@@ -22,7 +22,7 @@ const Breadcrumb = (props) => {
       className={classNames(
         'flex',
         {
-          'border-b border-gray-200 bg-slate-50': size === BREADCRUMB_SIZE.fullWidth
+          'border-b border-base-200 bg-slate-50': size === BREADCRUMB_SIZE.fullWidth
         },
         wrapperClass
       )}
@@ -47,13 +47,13 @@ const Breadcrumb = (props) => {
                 })}
               >
                 <ChevronIcon
-                  className={classNames(`h-5 w-5 flex-shrink-0 text-gray-400 mr-2 ${ChevronIconClass}`)}
+                  className={classNames(`h-5 w-5 flex-shrink-0 text-base-400 mr-2 ${ChevronIconClass}`)}
                   aria-hidden="true"
                 />
               </div>
               <a
                 href={page.url}
-                className="flex text-sm font-medium text-gray-500 hover:text-gray-700"
+                className="flex text-sm font-medium text-base-500 hover:text-base-700"
                 aria-current={page.current ? 'page' : undefined}
                 onClick={(e) => handleClick(e, page)}
               >

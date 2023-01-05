@@ -10,12 +10,12 @@ const Stats = (props) => {
 
   return (
     <div>
-      {heading?.length > 0 && <h3 className="text-lg font-medium leading-6 text-gray-900 mb-5">{heading}</h3>}
+      {heading?.length > 0 && <h3 className="text-lg font-medium leading-6 text-base-900 mb-5">{heading}</h3>}
       <dl
         className={classNames(' grid grid-cols-1', {
           'gap-5 sm:grid-cols-2 lg:grid-cols-3': spacing === STATS_SPACING[0],
           'md:divide-x': spacing === STATS_SPACING[1] && options?.length < 4,
-          'divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3': spacing === STATS_SPACING[1],
+          'divide-base-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3': spacing === STATS_SPACING[1]
         })}
       >
         {options.map((item, index) => (
@@ -27,8 +27,8 @@ const Stats = (props) => {
                 'py-10 sm:py-10': badge,
                 'shadow rounded-lg': spacing === STATS_SPACING[0],
                 'border-b': spacing == STATS_SPACING[1] && index < options?.length - (options?.length % 3),
-                'md:border-r border-gray-200':
-                  spacing == STATS_SPACING[1] && (index + 1) % 3 !== 0 && options?.length > 3,
+                'md:border-r border-base-200':
+                  spacing == STATS_SPACING[1] && (index + 1) % 3 !== 0 && options?.length > 3
               },
               'relative overflow-hidden bg-white px-4 sm:px-6'
             )}
@@ -41,8 +41,8 @@ const Stats = (props) => {
               )}
               <p
                 className={classNames({
-                  'truncate ml-16 font-medium text-sm text-gray-500': badge,
-                  'font-normal text-base text-gray-900': !badge,
+                  'truncate ml-16 font-medium text-sm text-base-500': badge,
+                  'font-normal text-base text-base-900': !badge
                 })}
               >
                 {item.name}
@@ -53,20 +53,20 @@ const Stats = (props) => {
                 <p className={`text-2xl font-semibold ${textColor}`}>{item.stat}</p>
                 <p
                   className={classNames(
-                    item.changeType === 'increase' ? 'text-green-600' : 'text-red-600',
+                    item.changeType === 'increase' ? 'text-success-600' : 'text-danger-600',
                     'ml-2 flex items-baseline text-sm font-semibold'
                   )}
                 >
                   {item.changeType === 'increase' ? (
-                    <ArrowUpIcon className="h-5 w-5 flex-shrink-0 self-center text-green-500" aria-hidden="true" />
+                    <ArrowUpIcon className="h-5 w-5 flex-shrink-0 self-center text-success-500" aria-hidden="true" />
                   ) : (
-                    <ArrowDownIcon className="h-5 w-5 flex-shrink-0 self-center text-red-500" aria-hidden="true" />
+                    <ArrowDownIcon className="h-5 w-5 flex-shrink-0 self-center text-danger-500" aria-hidden="true" />
                   )}
 
                   <span className="sr-only"> {item.changeType === 'increase' ? 'Increased' : 'Decreased'} by </span>
                   {item.change}
                 </p>
-                <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+                <div className="absolute inset-x-0 bottom-0 bg-base-50 px-4 py-4 sm:px-6">
                   <div className="text-sm">
                     <a href={item.link} className="font-medium text-indigo-600 hover:text-indigo-500">
                       View all<span className="sr-only"> {item.name} stats</span>
@@ -78,23 +78,25 @@ const Stats = (props) => {
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
                 <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                   {item.stat}
-                  <span className="ml-2 text-sm font-medium text-gray-500">from {item.previousStat}</span>
+                  <span className="ml-2 text-sm font-medium text-base-500">from {item.previousStat}</span>
                 </div>
 
                 <div
                   className={classNames(
-                    item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                    item.changeType === 'increase'
+                      ? 'bg-success-100 text-success-800'
+                      : 'bg-danger-100 text-danger-800',
                     'inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0'
                   )}
                 >
                   {item.changeType === 'increase' ? (
                     <ArrowUpIcon
-                      className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                      className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-success-500"
                       aria-hidden="true"
                     />
                   ) : (
                     <ArrowDownIcon
-                      className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+                      className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-danger-500"
                       aria-hidden="true"
                     />
                   )}
@@ -122,19 +124,19 @@ Stats.propTypes = {
       change: PropTypes.string,
       previousStat: PropTypes.string,
       link: PropTypes.string,
-      changeType: oneOf(['increase', 'decrease']),
+      changeType: oneOf(['increase', 'decrease'])
     })
   ).isRequired,
   badge: PropTypes.bool,
   spacing: PropTypes.string,
-  textColor: PropTypes.string,
+  textColor: PropTypes.string
 };
 Stats.defaultProps = {
   heading: '',
   options: [],
   badge: false,
   spacing: STATS_SPACING[0],
-  textColor: 'text-gray-900',
+  textColor: 'text-base-900'
 };
 
 export default Stats;
