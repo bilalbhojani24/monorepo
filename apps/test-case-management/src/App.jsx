@@ -11,9 +11,11 @@ function App() {
         <Route path={AppRoute.ROOT} element={'Landing'}></Route>
         <Route path={AppRoute.PROJECTS}>
           <Route index={true} element={<Counter />}></Route>
-          {/* <Route path={AppRoute.REPO + '/:projectId'} element={<Repository />} />
-          <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={<Repository />} /> */}
         </Route>
+        <Route path={AppRoute.REPO + '/:projectId'} element={'REPO'} />
+        <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={'REPO'} />
+        <Route exact path={AppRoute.TEST_CASES + '/:projectId'} element={'TEST_CASES'} />
+        <Route exact path={AppRoute.TEST_RUNS + '/:projectId'} element={'TEST_RUNS'} />
       </Routes>
     </BrowserRouter>
   );
