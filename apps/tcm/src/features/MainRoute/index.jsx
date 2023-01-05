@@ -3,17 +3,16 @@ import AppRoute from 'const/routes';
 
 const MainRoute = () => {
   return (
-    <Routes>
-      {/* <Route path={AppRoute.ROOT} element={'Landing'}></Route>
-  <SideNav />
-  <Route path={AppRoute.PROJECTS}>
-    <Route index={true} element={<Counter />}></Route>
-  </Route>
-  <Route path={AppRoute.REPO + '/:projectId'} element={'REPO'} />
-  <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={'REPO'} />
-  <Route exact path={AppRoute.TEST_CASES + '/:projectId'} element={'TEST_CASES'} />
-  <Route exact path={AppRoute.TEST_RUNS + '/:projectId'} element={'TEST_RUNS'} /> */}
-    </Routes>
+    <div className="flex flex-1 flex-col md:pl-64">
+      <Routes>
+        <Route path={AppRoute.ROOT} element={'Landing'}></Route>
+        <Route path={AppRoute.PROJECTS}>{/* <Route index={true} element={<Counter />}></Route> */}</Route>
+        <Route path={AppRoute.REPO + '/:projectId'} element={'REPO'} />
+        <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={'REPO'} />
+        <Route exact path={AppRoute.TEST_CASES + '/:projectId'} element={'TEST_CASES'} />
+        <Route exact path={AppRoute.TEST_RUNS + '/:projectId'} element={'TEST_RUNS'} />
+      </Routes>
+    </div>
   );
 };
 
