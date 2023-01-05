@@ -1,29 +1,20 @@
-import React from 'react';
-import reactLogo from './assets/react.svg';
-import Counter from './features/Counter';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import './App.scss';
+import AppRoute from 'const/routes';
+import Counter from 'features/Counter';
+// import Repository from './routes/Repository';
 
 function App() {
   return (
-    <div className="App">
-      <div className="flex justify-center">
-        <a className="p-8" href="https://vitejs.dev">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a className="p-8" href="https://reactjs.org">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="p-4">Vite + React</h1>
-      <div className="card">
-        <Counter />
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppRoute.PROJECTS}>
+          <Route index={true} element={<Counter />}></Route>
+          {/* <Route path={AppRoute.REPO + '/:projectId'} element={<Repository />} />
+          <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={<Repository />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
