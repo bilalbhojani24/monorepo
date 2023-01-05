@@ -102,7 +102,7 @@ const defaultConfig = {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: null },
-      defaultValue: <UsersIcon className="h-5 w-5 text-gray-400" />
+      defaultValue: <UsersIcon className="h-5 w-5 text-base-400" />
     }
   },
   controls: {}

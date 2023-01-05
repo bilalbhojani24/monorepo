@@ -10,7 +10,7 @@ const list = [
     firstColumn: {
       heading: 'Ricardo Cooper',
       subHeading: 'ricardo.cooper@example.com',
-      metaNode: <EnvelopeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />,
+      metaNode: <EnvelopeIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-base-400" aria-hidden="true" />
     },
     avatar: (
       <img
@@ -24,10 +24,10 @@ const list = [
     secondColumn: {
       heading: "I'm aside heading",
       subHeading: "I'm aside subheading",
-      metaNode: <CheckCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-green-400" aria-hidden="true" />,
+      metaNode: <CheckCircleIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-success-400" aria-hidden="true" />
     },
-    href: '#',
-  },
+    href: '#'
+  }
 ];
 
 const defaultConfig = {
@@ -39,44 +39,44 @@ const defaultConfig = {
         return (
           <DocPageTemplate importStatement={"import StackedListWTwoColumns from 'bifrost/StackedListWTwoColumns'"} />
         );
-      },
-    },
+      }
+    }
   },
   argTypes: {
     list: {
       defaultValue: list,
       type: { summary: 'OBJECT', required: false },
       description: 'List of items to be covered in Stacked list',
-      control: { type: 'object' },
+      control: { type: 'object' }
     },
     format: {
       defaultValue: STACK_LIST_MODES[0],
       options: STACK_LIST_MODES,
       control: { type: 'select' },
       description: 'Format of two column stack list component',
-      type: { summary: 'STRING', required: false },
+      type: { summary: 'STRING', required: false }
     },
     badgeProps: {
       defaultValue: {
-        modifier: 'primary',
+        modifier: 'primary'
       },
       type: { summary: 'OBJECT', required: false },
       description: 'Props to be passed into badge component',
-      control: { type: 'object' },
+      control: { type: 'object' }
     },
     avatarVisible: {
       control: { type: 'boolean' },
       description: 'Hide/Show avatar',
       type: { summary: 'BOOLEAN', required: false },
-      defaultValue: true,
-    },
+      defaultValue: true
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <StackedListWTwoColumns {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

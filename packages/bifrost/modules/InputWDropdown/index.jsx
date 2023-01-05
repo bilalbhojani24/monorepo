@@ -50,7 +50,7 @@ const InputWDropdown = forwardRef(
             aria-label={label + ' select'}
             onChange={onDropdownChange}
             id={dropdownName}
-            className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-base-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           >
             {dropdownList?.length ? (
               dropdownList.map((item) => <option>{item}</option>)
@@ -74,13 +74,13 @@ const InputWDropdown = forwardRef(
                   multiPosition === INPUT_MULTI_POSITION[0] ? 'pr-3 right-0' : 'pl-3 left-0'
                 ]
               : [
-                  'inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm'
+                  'inline-flex items-center rounded-l-md border border-r-0 border-base-300 bg-base-50 px-3 text-base-500 sm:text-sm'
                 ]
           )}
         >
           <span
             className={classNames('', {
-              'text-gray-500 sm:text-sm': isAddOnInline
+              'text-base-500 sm:text-sm': isAddOnInline
             })}
           >
             {addOnText}
@@ -101,10 +101,10 @@ const InputWDropdown = forwardRef(
       <div className="bifrost-input-field">
         {(label || cornerHintText) && (
           <div className="flex justify-between">
-            <label htmlFor={id} id={id + 'label-wrap'} className="block text-sm font-medium text-gray-700">
+            <label htmlFor={id} id={id + 'label-wrap'} className="block text-sm font-medium text-base-700">
               {label}
             </label>
-            {cornerHintText && <span className="text-sm text-gray-500">{cornerHintText}</span>}
+            {cornerHintText && <span className="text-sm text-base-500">{cornerHintText}</span>}
           </div>
         )}
         <div
@@ -124,7 +124,7 @@ const InputWDropdown = forwardRef(
             ref={ref || inputRef}
             id={id}
             className={classNames(
-              'focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm block w-full border-gray-300',
+              'focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm block w-full border-base-300',
               addOnText && !isAddOnInline ? ['min-w-0 flex-1'] : ['rounded-md shadow-sm'],
               isAddOnInline
                 ? ['rounded-md py-2', { 'pl-20 rounded-r-md': hasLeftPadding, 'pr-16': hasRightPadding }]
@@ -134,8 +134,9 @@ const InputWDropdown = forwardRef(
                     }
                   ],
               {
-                'text-red-900 focus:border-red-500 focus:ring-red-500': errorText,
-                'disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500': disabled
+                'text-danger-900 focus:border-danger-500 focus:ring-danger-500': errorText,
+                'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':
+                  disabled
               }
             )}
             placeholder={placeholder}
@@ -146,12 +147,12 @@ const InputWDropdown = forwardRef(
           />
           <RightElement />
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            {errorText && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+            {errorText && <ExclamationCircleIcon className="h-5 w-5 text-danger-500" aria-hidden="true" />}
           </div>
         </div>
-        {description && <p className="mt-2 text-sm text-gray-500">{description}</p>}
+        {description && <p className="mt-2 text-sm text-base-500">{description}</p>}
         {errorText && (
-          <p className="mt-2 text-sm text-red-600" id={id + 'error-wrap'}>
+          <p className="mt-2 text-sm text-danger-600" id={id + 'error-wrap'}>
             {errorText}
           </p>
         )}
