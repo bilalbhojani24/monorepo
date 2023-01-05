@@ -14,7 +14,7 @@ export default defineConfig(() => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: [...packageViteConfig.build.rollupOptions.external, 'prop-types'],
+      external: [...packageViteConfig.build.rollupOptions.external, 'prop-types', 'react/jsx-runtime'],
       preserveModules: true
     }
   }
