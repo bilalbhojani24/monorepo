@@ -40,6 +40,40 @@ const defaultConfig = {
       description: 'Subdescription of data visualization card',
       defaultValue:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies justo in est imperdiet efficitur. Vestibulum pharetra pulvinar est, eget'
+    },
+    analytics: {
+      type: { summary: 'NODE', required: false },
+      description: 'Chart Node to be injected',
+      defaultValue: null
+    },
+    footerProps: {
+      type: { summary: 'OBJECT', required: false },
+      description: 'Object of props belonging to the Alerts component',
+      control: { type: 'object' },
+      defaultValue: {
+        description: 'Subtext or supplementary info here',
+        linkText: 'Learn more',
+        linkTo: '#'
+      }
+    },
+    statProps: {
+      description: 'Array of objects containing stat info',
+      defaultValue: [
+        {
+          title: 'lorem',
+          changeType: 'increase',
+          difference: '55',
+          description: 'Array of objects containing stat info',
+          percentage: '420'
+        },
+        {
+          title: 'ipsum',
+          changeType: 'descrease',
+          difference: '35',
+          description: 'Array of objects containing stat info',
+          percentage: '69'
+        }
+      ]
     }
   },
   controls: {}
