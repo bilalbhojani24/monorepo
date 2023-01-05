@@ -93,4 +93,5 @@ module.exports = {
     'tailwindcss/no-custom-classname': 2,
     'tailwindcss/no-contradicting-classname': 2,
   },
+  globals: {}
 };
