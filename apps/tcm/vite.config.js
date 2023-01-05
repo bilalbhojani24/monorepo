@@ -12,7 +12,9 @@ export default defineConfig({
       api: path.resolve(__dirname, 'src/api'),
       assets: path.resolve(__dirname, 'src/assets'),
       const: path.resolve(__dirname, 'src/const'),
-      features: path.resolve(__dirname, 'src/features')
+      features: path.resolve(__dirname, 'src/features'),
+      icons: path.resolve(__dirname, 'src/features/Icons'),
+      globalSlice: path.resolve(__dirname, 'src/slices')
     }
   }
 });
