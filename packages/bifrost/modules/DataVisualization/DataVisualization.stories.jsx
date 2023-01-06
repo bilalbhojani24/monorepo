@@ -1,7 +1,8 @@
 import React from 'react';
 import DataVisualization from './index';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { DATA_VISUALIZATION_SIZES } from './const/dataVisualizationConstants';
+import { DATA_VISUALIZATION_SIZES, DATA_VISUALIZATION_DESC_POSITION } from './const/dataVisualizationConstants';
+import Dropdown from '../Dropdown';
 
 const defaultConfig = {
   title: 'Application/Components/DataVisualization',
@@ -34,12 +35,12 @@ const defaultConfig = {
       defaultValue:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies justo in est imperdiet efficitur. Vestibulum pharetra pulvinar est, eget'
     },
-    subDesc: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: true },
-      description: 'Subdescription of data visualization card',
-      defaultValue:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies justo in est imperdiet efficitur. Vestibulum pharetra pulvinar est, eget'
+    descPosition: {
+      control: { type: 'inline-radio' },
+      type: { summary: DATA_VISUALIZATION_DESC_POSITION.join(', '), required: true },
+      options: DATA_VISUALIZATION_DESC_POSITION,
+      description: 'Place description of data visualization card at the top or bottom of the visualization',
+      defaultValue: DATA_VISUALIZATION_DESC_POSITION[0]
     },
     analytics: {
       type: { summary: 'NODE', required: false },
@@ -56,24 +57,38 @@ const defaultConfig = {
         linkTo: '#'
       }
     },
-    statProps: {
-      description: 'Array of objects containing stat info',
+    KpiProps: {
+      description: 'Array of objects containing Kpi info',
       defaultValue: [
         {
           title: 'lorem',
           changeType: 'increase',
-          difference: '55',
-          description: 'Array of objects containing stat info',
-          percentage: '420'
+          difference: '65',
+          description: 'Kpi info',
+          percentage: '02',
+          direction: 'vertical'
         },
         {
           title: 'ipsum',
           changeType: 'descrease',
           difference: '35',
-          description: 'Array of objects containing stat info',
-          percentage: '69'
+          description: 'Kpi info',
+          percentage: '69',
+          direction: 'vertical'
         }
       ]
+    },
+    filterDropdown: {
+      defaultValue: <Dropdown />
+    },
+    otherOptions: {
+      defaultValue: <Dropdown triggerVariant="menu-button" />
+    },
+    infoIconVisible: {
+      control: { type: 'boolean' },
+      description: 'Enable/disable info icon besides the title section',
+      type: { summary: 'BOOLEAN', required: false },
+      defaultValue: true
     }
   },
   controls: {}
