@@ -1,6 +1,7 @@
 import { useLocation, Route, Routes } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import LoginScreen from '../Login';
+import AllProjects from '../Projects';
 import classNames from 'classnames';
 
 const MainRoute = () => {
@@ -14,7 +15,7 @@ const MainRoute = () => {
     >
       <Routes>
         <Route path={AppRoute.ROOT} element={<LoginScreen />}></Route>
-        <Route path={AppRoute.PROJECTS} element={'Projects'}></Route>
+        <Route path={AppRoute.PROJECTS} element={<AllProjects />}></Route>
         <Route path={AppRoute.REPO + '/:projectId'} element={'REPO'} />
         <Route path={AppRoute.REPO + '/:projectId/folder/:folderId'} element={'REPO'} />
         <Route exact path={AppRoute.TEST_CASES + '/:projectId'} element={'TEST_CASES'} />

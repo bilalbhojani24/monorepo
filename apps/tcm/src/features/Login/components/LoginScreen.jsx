@@ -5,7 +5,6 @@ const LoginScreen = (props) => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    // api call to users if users enter the application else redirect
     login().then((data) => {
       if (data) navigate('/projects');
     });

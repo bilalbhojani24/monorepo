@@ -9,7 +9,7 @@ export const fetchPost = async (url, data, config) => {
 export const fetchGet = async (url, config) => {
   const response = await axios.get(BASE_URL + url, config).catch((error) => {
     console.log(error);
-    // window.location.href = 'https://www.browserstack.com/users/sign_in';
+    window.location.href = 'https://www.browserstack.com/users/sign_in';
   });
   return response?.data;
 };
