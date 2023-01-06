@@ -1,8 +1,8 @@
+import React from 'react';
 import { EmptyState } from '@browserstack/bifrost';
 import { DescriptionOutlinedIcon } from 'icons';
 
 // import useFolders from './useFolders';
-
 import '../styles/TestCases.scss';
 
 export default function TestCases() {

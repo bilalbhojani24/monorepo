@@ -1,11 +1,10 @@
+import React from 'react';
 import { SectionHeadings } from '@browserstack/bifrost';
 
-const TopSection = () => {
-  return (
-    <div className="w-full pt-5">
-      <SectionHeadings title="Repository" variant="button" />
-    </div>
-  );
-};
+const TopSection = () => (
+  <div className="w-full pt-5">
+    <SectionHeadings title="Repository" variant="button" />
+  </div>
+);
 
 export default TopSection;

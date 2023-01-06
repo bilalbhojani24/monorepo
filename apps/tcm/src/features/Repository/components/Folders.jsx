@@ -1,8 +1,8 @@
+import React from 'react';
 import { EmptyState } from '@browserstack/bifrost';
 import { CreateNewFolderOutlinedIcon } from 'icons';
 
 // import useFolders from './useFolders';
-
 import '../styles/Folders.scss';
 
 export default function Folders() {
