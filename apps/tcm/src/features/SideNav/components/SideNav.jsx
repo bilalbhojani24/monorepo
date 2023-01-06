@@ -34,7 +34,11 @@ const SideNav = () => {
       setSecondaryNavs(secondaryNavLinks);
     }
 
-    // set basic view
+    debugger;
+    // set current view
+    setActiveRoute({
+      id: location.pathname
+    });
   }, [location.pathname]);
 
   useEffect(() => {
