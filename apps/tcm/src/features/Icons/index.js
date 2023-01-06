@@ -7,6 +7,7 @@ import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
 
 export {
   AssignmentOutlinedIcon,
@@ -18,4 +19,5 @@ export {
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
   SettingsOutlinedIcon,
+  SourceOutlinedIcon,
 };
