@@ -42,6 +42,8 @@ const SideNav = () => {
     // to be mapped
   }, [allProjects]);
 
+  if (location.pathname === AppRoute.ROOT) return;
+
   return (
     <SidebarNavigation
       wrapperClass="mt-16"
