@@ -8,7 +8,8 @@ const AppRoute = {
   TEST_RUNS: '/test-runs',
   DOCUMENTATION: '/documentation',
   SETTINGS: '/settings',
-  REPORTS: '/reports'
+  REPORTS: '/reports',
+  DASHBOARD: '/dashboard',
 };
 
 export default AppRoute;

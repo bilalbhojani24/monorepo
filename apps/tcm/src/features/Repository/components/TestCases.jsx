@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, InputField } from '@browserstack/bifrost';
+import { SearchIcon } from 'icons';
 
 import BlankPage from './BlankPage';
 
@@ -10,7 +11,10 @@ export default function TestCases() {
   return (
     <div className="flex w-full flex-col items-start">
       <div className="flex w-full items-start border-b border-base-300 p-3">
-        <InputField placeholder="Search by Test Case name, ID" />
+        <InputField
+          placeholder="Search by Test Case name, ID"
+          leadingIcon={<SearchIcon className="text-base-400" />}
+        />
         <Button
           buttonType="half-rounded-button"
           variant="white"
