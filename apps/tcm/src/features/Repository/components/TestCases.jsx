@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, InputField } from '@browserstack/bifrost';
-import { DescriptionOutlinedIcon } from 'icons';
+
+import BlankPage from './BlankPage';
 
 // import useFolders from './useFolders';
 import '../styles/TestCases.scss';
@@ -19,7 +20,9 @@ export default function TestCases() {
           Filter
         </Button>
       </div>
-      <div className="flex flex-1">test</div>
+      <div className="flex w-full flex-1 items-center justify-center border-l border-base-300">
+        <BlankPage />
+      </div>
     </div>
   );
 }
