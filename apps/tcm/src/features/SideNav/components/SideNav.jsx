@@ -34,7 +34,6 @@ const SideNav = () => {
       setSecondaryNavs(secondaryNavLinks);
     }
 
-    debugger;
     // set current view
     setActiveRoute({
       id: location.pathname
