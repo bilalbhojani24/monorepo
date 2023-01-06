@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Repository from 'features/Repository';
 
+import LoginScreen from '../Login';
+import AllProjects from '../Projects';
+
 const MainRoute = () => {
   const location = useLocation();
 
@@ -14,8 +17,8 @@ const MainRoute = () => {
       })}
     >
       <Routes>
-        <Route path={AppRoute.ROOT} element="Landing" />
-        <Route path={AppRoute.PROJECTS} element="Projects" />
+        <Route path={AppRoute.ROOT} element={<LoginScreen />} />
+        <Route path={AppRoute.PROJECTS} element={<AllProjects />} />
         <Route
           path={`${AppRoute.REPO}/:projectId?/folder?/:folderId?`}
           element={<Repository />}

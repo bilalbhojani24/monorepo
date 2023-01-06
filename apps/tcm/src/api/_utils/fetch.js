@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const BASE_URL = 'https://teststack.bsstag.com';
 
 export const fetchPost = async (url, data, config) => {
@@ -7,21 +8,17 @@ export const fetchPost = async (url, data, config) => {
 };
 
 export const fetchGet = async (url, config) => {
-  const response = await axios.get(BASE_URL + url, config).catch((error) => {
-    console.log(error);
-    window.location.href = 'https://www.browserstack.com/users/sign_in';
-  });
+  const response = await axios.get(BASE_URL + url, config);
   return response?.data;
 };
 
-export const fetchHead = async (url, config) => {
-  const response = await axios.head(BASE_URL + url, config);
-  return response;
-};
+export const fetchHead = async (url, config) =>
+  await axios.head(BASE_URL + url, config);
 
-export const retryRequest = (func, retryCount = 1, retryInterval = 1000) => {
+export const retryRequest =
+  (func, retryCount = 1, retryInterval = 1000) =>
   /* eslint-disable no-await-in-loop */
-  return async (...args) => {
+  async (...args) => {
     for (let i = 0; i <= retryCount; i += 1) {
       try {
         return await func(...args);
@@ -34,5 +31,4 @@ export const retryRequest = (func, retryCount = 1, retryInterval = 1000) => {
     }
     return undefined;
   };
-  /* eslint-enable no-await-in-loop */
-};
+/* eslint-enable no-await-in-loop */
