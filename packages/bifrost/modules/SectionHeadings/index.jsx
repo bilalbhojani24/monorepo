@@ -22,18 +22,18 @@ const SectionHeadings = ({
   variant
 }) => {
   return (
-    <div className={classNames('', { 'border-b border-gray-200 pb-5': !tabsProps })}>
-      <div className="border-gray-200 sm:flex sm:justify-between sm:items-baseline">
+    <div className={classNames('', { 'border-b border-base-200 pb-5': !tabsProps })}>
+      <div className="border-base-200 sm:flex sm:justify-between sm:items-baseline">
         <div className="w-full" role="contentinfo">
           {(subTitle || title) && (
             <div className="flex flex-wrap items-baseline">
-              {title && <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>}
-              {subTitle && <p className="ml-2 mt-1 truncate text-sm text-gray-500">{subTitle}</p>}
+              {title && <h3 className="text-lg font-medium leading-6 text-base-900">{title}</h3>}
+              {subTitle && <p className="ml-2 mt-1 truncate text-sm text-base-500">{subTitle}</p>}
             </div>
           )}
 
           {description && (
-            <p className={classNames('mt-2 max-w-4xl text-sm text-gray-500', { 'mb-2': !!tabsProps })}>{description}</p>
+            <p className={classNames('mt-2 max-w-4xl text-sm text-base-500', { 'mb-2': !!tabsProps })}>{description}</p>
           )}
         </div>
         {variant === SH_VARIANTS[1] && (
@@ -57,7 +57,7 @@ const SectionHeadings = ({
       {tabsProps && (
         <div
           className={classNames({
-            '-mt-2': variant !== SH_VARIANTS[3] && (variant !== SH_VARIANTS[0] && !description)
+            '-mt-2': variant !== SH_VARIANTS[3] && variant !== SH_VARIANTS[0] && !description
           })}
         >
           <Tabs {...tabsProps} />

@@ -1,5 +1,13 @@
 import AppRoute from 'const/routes';
-import { HomeOutlinedIcon } from 'icons';
+import {
+  HomeOutlinedIcon,
+  BarChartOutlinedIcon,
+  FolderOpenOutlinedIcon,
+  CodeOutlinedIcon,
+  DonutLargeOutlinedIcon,
+  SettingsOutlinedIcon,
+  AssignmentOutlinedIcon 
+} from 'icons';
 
 export const basePrimaryNavLinks = [
   {
@@ -12,15 +20,15 @@ export const basePrimaryNavLinks = [
   {
     id: AppRoute.SETTINGS,
     label: 'Settings',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: SettingsOutlinedIcon,
+    inActiveIcon: SettingsOutlinedIcon,
     path: AppRoute.SETTINGS
   },
   {
     id: AppRoute.DOCUMENTATION,
     label: 'Documentation',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: AssignmentOutlinedIcon,
+    inActiveIcon: AssignmentOutlinedIcon,
     path: AppRoute.DOCUMENTATION
   }
 ];
@@ -29,29 +37,29 @@ export const internalPrimaryNavLinks = [
   {
     id: AppRoute.PROJECTS,
     label: 'Dashboard',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: BarChartOutlinedIcon,
+    inActiveIcon: BarChartOutlinedIcon,
     path: AppRoute.PROJECTS
   },
   {
     id: AppRoute.REPO,
     label: 'Repository',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: FolderOpenOutlinedIcon,
+    inActiveIcon: FolderOpenOutlinedIcon,
     path: AppRoute.REPO
   },
   {
     id: AppRoute.TEST_RUNS,
     label: 'Test Runs',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: CodeOutlinedIcon,
+    inActiveIcon: CodeOutlinedIcon,
     path: AppRoute.TEST_RUNS
   },
   {
     id: AppRoute.REPORTS,
     label: 'Reports',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: DonutLargeOutlinedIcon,
+    inActiveIcon: DonutLargeOutlinedIcon,
     path: AppRoute.REPORTS
   }
 ];
@@ -60,15 +68,15 @@ export const secondaryNavLinks = [
   {
     id: AppRoute.SETTINGS,
     label: 'Settings',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: SettingsOutlinedIcon,
+    inActiveIcon: SettingsOutlinedIcon,
     path: AppRoute.SETTINGS
   },
   {
     id: AppRoute.DOCUMENTATION,
     label: 'Documentation',
-    activeIcon: HomeOutlinedIcon,
-    inActiveIcon: HomeOutlinedIcon,
+    activeIcon: AssignmentOutlinedIcon,
+    inActiveIcon: AssignmentOutlinedIcon,
     path: AppRoute.DOCUMENTATION
   }
 ];

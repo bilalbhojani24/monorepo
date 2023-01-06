@@ -26,9 +26,9 @@ const SelectMenu = (props) => {
         {({ open }) => {
           return (
             <>
-              <Listbox.Label className="block text-sm font-medium text-gray-700">{label}</Listbox.Label>
+              <Listbox.Label className="block text-sm font-medium text-base-700">{label}</Listbox.Label>
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                   {({ value }) => {
                     return (
                       <>
@@ -53,7 +53,7 @@ const SelectMenu = (props) => {
                           {isMultiSelect && selectedValues?.length ? (
                             <span className="mr-1 font-bold">{`(${selectedValues.length})`}</span>
                           ) : null}
-                          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          <ChevronUpDownIcon className="h-5 w-5 text-base-400" aria-hidden="true" />
                         </span>
                       </>
                     );
@@ -76,10 +76,10 @@ const SelectMenu = (props) => {
                             classNames(
                               {
                                 'text-white bg-indigo-600': active && !isMultiSelect,
-                                'text-gray-900': !active,
+                                'text-base-900': !active,
                                 'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMultiSelect,
                                 'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMultiSelect,
-                                'hover:bg-gray-50 pb-4 pl-3': isMultiSelect,
+                                'hover:bg-base-50 pb-4 pl-3': isMultiSelect
                               },
                               'relative cursor-pointer select-none'
                             )
@@ -103,7 +103,7 @@ const SelectMenu = (props) => {
                                       className={classNames(
                                         {
                                           'font-semibold': selected,
-                                          'font-normal': !selected,
+                                          'font-normal': !selected
                                         },
                                         'block truncate'
                                       )}
@@ -117,7 +117,7 @@ const SelectMenu = (props) => {
                                             'text-white': active,
                                             'text-indigo-600': !active,
                                             'right-0 pr-4': checkPosition === CHECK_POSITION[1],
-                                            'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
+                                            'left-0 pl-1.5': checkPosition === CHECK_POSITION[0]
                                           },
                                           'absolute inset-y-0 flex items-center'
                                         )}
@@ -130,7 +130,7 @@ const SelectMenu = (props) => {
                                   <Checkbox
                                     data={{
                                       label: option.label,
-                                      value: option.value,
+                                      value: option.value
                                     }}
                                     border={false}
                                     wrapperClass="py-0"
@@ -160,15 +160,15 @@ SelectMenu.propTypes = {
     PropTypes.shape({
       value: PropTypes.number,
       label: PropTypes.string,
-      image: PropTypes.string,
+      image: PropTypes.string
     }),
     PropTypes.arrayOf(
       PropTypes.shape({
         label: PropTypes.number,
         value: PropTypes.string,
-        image: PropTypes.string,
+        image: PropTypes.string
       })
-    ),
+    )
   ]),
   isMultiSelect: PropTypes.bool,
   label: PropTypes.string,
@@ -176,7 +176,7 @@ SelectMenu.propTypes = {
     PropTypes.shape({
       value: PropTypes.number,
       label: PropTypes.string,
-      image: PropTypes.string,
+      image: PropTypes.string
     })
   ).isRequired,
   onChange: PropTypes.func,
@@ -184,16 +184,16 @@ SelectMenu.propTypes = {
     PropTypes.shape({
       value: PropTypes.number,
       label: PropTypes.string,
-      image: PropTypes.string,
+      image: PropTypes.string
     }),
     PropTypes.arrayOf(
       PropTypes.shape({
         value: PropTypes.number,
         null: PropTypes.string,
-        image: PropTypes.string,
+        image: PropTypes.string
       })
-    ),
-  ]),
+    )
+  ])
 };
 
 SelectMenu.defaultProps = {
@@ -203,7 +203,7 @@ SelectMenu.defaultProps = {
   label: '',
   options: SELECT_OPTIONS,
   onChange: () => {},
-  value: null,
+  value: null
 };
 
 export default SelectMenu;

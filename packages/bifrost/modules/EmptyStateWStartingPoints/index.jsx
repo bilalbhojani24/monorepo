@@ -17,14 +17,14 @@ const EmptyStateWStartingPoints = (props) => {
 
   return (
     <div>
-      <h2 className="text-lg font-medium text-gray-900">{heading}</h2>
-      <p className="mt-1 text-sm text-gray-500">{subHeading}</p>
+      <h2 className="text-lg font-medium text-base-900">{heading}</h2>
+      <p className="mt-1 text-sm text-base-500">{subHeading}</p>
       <ul
         role="list"
         className={classNames('', {
-          'mt-6 grid grid-cols-1 gap-6 border-t border-b border-gray-200 py-6 sm:grid-cols-2':
+          'mt-6 grid grid-cols-1 gap-6 border-t border-b border-base-200 py-6 sm:grid-cols-2':
             layout === LAYOUT_TYPES[0],
-          'mt-6 divide-y divide-gray-200 border-t border-b border-gray-200': layout === LAYOUT_TYPES[1],
+          'mt-6 divide-y divide-base-200 border-t border-b border-base-200': layout === LAYOUT_TYPES[1]
         })}
       >
         {data.map((item, itemIdx) => (
@@ -61,13 +61,13 @@ EmptyStateWStartingPoints.propTypes = {
       description: PropTypes.string,
       background: PropTypes.string,
       icon: PropTypes.elementType,
-      onClick: PropTypes.func,
+      onClick: PropTypes.func
     })
   ),
   handleCTAClick: PropTypes.func,
   heading: PropTypes.string,
   layout: PropTypes.string,
-  subHeading: PropTypes.string,
+  subHeading: PropTypes.string
 };
 
 EmptyStateWStartingPoints.defaultProps = {
@@ -76,7 +76,7 @@ EmptyStateWStartingPoints.defaultProps = {
   handleCTAClick: () => {},
   heading: '',
   layout: LAYOUT_TYPES[0],
-  subHeading: '',
+  subHeading: ''
 };
 
 export default EmptyStateWStartingPoints;

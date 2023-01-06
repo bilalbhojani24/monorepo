@@ -24,35 +24,35 @@ const ModalWActionButtons = (props) => {
     show,
     size,
     title,
-    withDismissButton,
+    withDismissButton
   } = props;
 
   const renderHeader = () => {
     if (isAlert)
       return (
         <div className="sm:flex sm:items-start">
-          <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+          <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-danger-100 sm:mx-0 sm:h-10 sm:w-10">
+            <ExclamationTriangleIcon className="h-6 w-6 text-danger-600" aria-hidden="true" />
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 as="h3" className="text-lg font-medium leading-6 text-gray-900">
+            <h3 as="h3" className="text-lg font-medium leading-6 text-base-900">
               {title}
             </h3>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">{description}</p>
+              <p className="text-sm text-base-500">{description}</p>
             </div>
           </div>
         </div>
       );
     return (
       <div>
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-success-100">
+          <CheckIcon className="h-6 w-6 text-success-600" aria-hidden="true" />
         </div>
         <div className="mt-3 text-center sm:mt-5">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">{title}</h3>
+          <h3 className="text-lg font-medium leading-6 text-base-900">{title}</h3>
           <div className="mt-2">
-            <p className="text-sm text-gray-500">{description}</p>
+            <p className="text-sm text-base-500">{description}</p>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ const ModalWActionButtons = (props) => {
     >
       <div
         className={classNames('sm:pt-6 sm:px-6', {
-          'sm:pt-6 sm:px-6': isFooter && isAlert,
+          'sm:pt-6 sm:px-6': isFooter && isAlert
         })}
       >
         {renderHeader()}
@@ -79,14 +79,14 @@ const ModalWActionButtons = (props) => {
         className={classNames('mt-5 sm:flex sm:space-x-3 space-y-2 sm:space-y-0 py-3 px-6', {
           'sm:justify-end': buttonAlignment === BUTTON_ALIGNMENT[1] && isAlert,
           'sm:pl-10': buttonAlignment === BUTTON_ALIGNMENT[0] && isAlert,
-          'bg-gray-50': isFooter && isAlert,
+          'bg-base-50': isFooter && isAlert
         })}
       >
         {negativeButtonLabel ? (
           <Button
             variant="white"
             wrapperClassName={classNames('inline-flex justify-center', {
-              'w-full': !isAlert,
+              'w-full': !isAlert
             })}
             onClick={() => {
               if (handleNegativeButtonClick) handleNegativeButtonClick();
@@ -100,7 +100,7 @@ const ModalWActionButtons = (props) => {
             buttonType="half-rounded-button"
             wrapperClassName={classNames('inline-flex justify-center', {
               'w-full': !isAlert,
-              'bg-red-600 hover:bg-red-700': isAlert,
+              'bg-danger-600 hover:bg-danger-700': isAlert
             })}
             onClick={() => {
               if (handlePositiveButtonClick) handlePositiveButtonClick();
@@ -128,7 +128,7 @@ ModalWActionButtons.propTypes = {
   show: PropTypes.bool,
   size: PropTypes.string,
   title: PropTypes.string,
-  withDismissButton: PropTypes.bool,
+  withDismissButton: PropTypes.bool
 };
 ModalWActionButtons.defaultProps = {
   buttonAlignment: BUTTON_ALIGNMENT[1],
@@ -144,7 +144,7 @@ ModalWActionButtons.defaultProps = {
   show: false,
   size: MODAL_SIZE[0],
   title: '',
-  withDismissButton: false,
+  withDismissButton: false
 };
 
 export default ModalWActionButtons;
