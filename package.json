@@ -8,16 +8,28 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "turbo": "latest",
     "@browserstack/eslint-config": "workspace:*",
-    "@browserstack/prettier-config": "workspace:*"
+    "@browserstack/prettier-config": "workspace:*",
+    "@browserstack/stylelint-config": "workspace:*",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
+    "turbo": "latest"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
-  "packageManager": "pnpm@7.18.2"
+  "packageManager": "pnpm@7.18.2",
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write",
+      "npx eslint --fix"
+    ],
+    "**/*.{css, scss}": [
+      "npx stylelint --fix"
+    ]
+  }
 }

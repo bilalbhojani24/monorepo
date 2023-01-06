@@ -7,14 +7,5 @@
     "prettier": "2.8.1",
     "prettier-plugin-css-order": "^1.3.0",
     "prettier-plugin-tailwindcss": "^0.2.1"
-  },
-  "postcss": {
-    "syntax": "postcss-scss",
-    "map": false,
-    "plugins": {
-      "css-declaration-sorter": {
-        "order": "alphabetical"
-      }
-    }
   }
 }
