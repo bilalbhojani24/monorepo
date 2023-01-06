@@ -55,13 +55,13 @@ export const internalPrimaryNavLinks = [
     inActiveIcon: CodeOutlinedIcon,
     path: AppRoute.TEST_RUNS
   },
-  {
-    id: AppRoute.REPORTS,
-    label: 'Reports',
-    activeIcon: DonutLargeOutlinedIcon,
-    inActiveIcon: DonutLargeOutlinedIcon,
-    path: AppRoute.REPORTS
-  }
+  // {
+  //   id: AppRoute.REPORTS,
+  //   label: 'Reports',
+  //   activeIcon: DonutLargeOutlinedIcon,
+  //   inActiveIcon: DonutLargeOutlinedIcon,
+  //   path: AppRoute.REPORTS
+  // }
 ];
 
 export const secondaryNavLinks = [
