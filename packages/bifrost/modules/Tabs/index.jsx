@@ -34,7 +34,7 @@ const Tabs = ({ defaultIndex, id, isContained, isFullWidth, label, onTabChange, 
               id={id}
               name={id}
               onChange={onTabClickHandler}
-              className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-base-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm"
               defaultValue={selectedTab?.name}
             >
               {tabsArray?.map((tab) => (
@@ -43,12 +43,12 @@ const Tabs = ({ defaultIndex, id, isContained, isFullWidth, label, onTabChange, 
             </select>
           </div>
           <div className="hidden sm:block">
-            <div className="border-gray-200">
+            <div className="border-base-200">
               <nav
                 className={classNames('-mb-px flex', {
                   'space-x-8': !isFullWidth,
                   'border-b': isFullWidth,
-                  'isolate flex divide-x divide-gray-200 rounded-lg shadow space-x-0': isContained,
+                  'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0': isContained
                 })}
                 aria-label="Tabs"
               >
@@ -86,9 +86,9 @@ Tabs.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       icon: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
-      count: PropTypes.string,
+      count: PropTypes.string
     })
-  ).isRequired,
+  ).isRequired
 };
 
 Tabs.defaultProps = {
@@ -99,7 +99,7 @@ Tabs.defaultProps = {
   label: '',
   onTabChange: () => {},
   shape: TAB_SHAPE[0],
-  tabsArray: [],
+  tabsArray: []
 };
 
 export default Tabs;

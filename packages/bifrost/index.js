@@ -95,7 +95,6 @@ export {
   Switch,
   Tabs,
   TextArea,
-
   // Icons
   BarsArrowUpIcon,
   CheckIcon,

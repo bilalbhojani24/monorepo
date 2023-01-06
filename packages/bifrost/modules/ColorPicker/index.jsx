@@ -17,7 +17,7 @@ const ColorPicker = (props) => {
   };
   return (
     <RadioGroup value={selectedColor} onChange={handleChange}>
-      {label && <RadioGroup.Label className="block text-sm font-medium text-gray-700">{label}</RadioGroup.Label>}
+      {label && <RadioGroup.Label className="block text-sm font-medium text-base-700">{label}</RadioGroup.Label>}
       <div className="mt-4 flex items-center space-x-3">
         {options.map((option) => (
           <RadioGroup.Option
@@ -61,9 +61,9 @@ ColorPicker.defaultProps = {
   options: [
     { name: 'Pink', bgColor: 'bg-pink-500', selectedColor: 'ring-pink-500' },
     { name: 'Purple', bgColor: 'bg-purple-500', selectedColor: 'ring-purple-500' },
-    { name: 'Blue', bgColor: 'bg-blue-500', selectedColor: 'ring-blue-500' },
-    { name: 'Green', bgColor: 'bg-green-500', selectedColor: 'ring-green-500' },
-    { name: 'Yellow', bgColor: 'bg-yellow-500', selectedColor: 'ring-yellow-500' }
+    { name: 'Blue', bgColor: 'bg-brand-500', selectedColor: 'ring-brand-500' },
+    { name: 'Green', bgColor: 'bg-success-500', selectedColor: 'ring-success-500' },
+    { name: 'Yellow', bgColor: 'bg-attention-500', selectedColor: 'ring-attention-500' }
   ],
   label: 'Pick a color'
 };
