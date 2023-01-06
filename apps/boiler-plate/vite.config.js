@@ -11,10 +11,10 @@ export default defineConfig({
       entry: resolve('./index.js'),
       name: 'boiletplate-project',
       formats: ['es'],
-      fileName: () => `index.js`
+      fileName: () => `index.js`,
     },
     rollupOptions: {
-      ...globalViteConfig.build.rollupOptions
-    }
-  }
+      ...globalViteConfig.build.rollupOptions,
+    },
+  },
 });

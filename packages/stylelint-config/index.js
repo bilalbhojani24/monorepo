@@ -12,6 +12,7 @@ module.exports = {
     //     mappedFiles: {},
     //   },
     // ],
+    'declaration-block-no-duplicate-properties': true,
     'string-quotes': 'single',
     'at-rule-no-unknown': [
       true,
