@@ -1,10 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useLocation, Route, Routes } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import LoginScreen from '../Login';
+import classNames from 'classnames';
 
 const MainRoute = () => {
+  const location = useLocation();
+
   return (
-    <div className="flex flex-1 flex-col md:pl-64">
+    <div
+      className={classNames('flex flex-1 flex-col', {
+        'md:pl-64': location.pathname !== AppRoute.ROOT
+      })}
+    >
       <Routes>
         <Route path={AppRoute.ROOT} element={<LoginScreen />}></Route>
         <Route path={AppRoute.PROJECTS} element={'Projects'}></Route>
