@@ -14,23 +14,27 @@ const SideNav = () => {
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
+  const baseViewRoutes = [AppRoute.PROJECTS, AppRoute.SETTINGS, AppRoute.DOCUMENTATION];
 
   const onLinkChange = (linkItem) => {
-    debugger;
     navigate(linkItem.path);
   };
 
   useEffect(() => {
-    if (location.pathname === AppRoute.PROJECTS) {
-      // in all projects dashboard
+    //set view
+    if (baseViewRoutes.includes(location.pathname)) {
+      // basic view page without secondary navs
       setShowProjects(false);
       setPrimaryNavs(basePrimaryNavLinks);
       setSecondaryNavs([]);
     } else {
+      // with secondary navs
       setShowProjects(true);
       setPrimaryNavs(internalPrimaryNavLinks);
       setSecondaryNavs(secondaryNavLinks);
     }
+
+    // set basic view
   }, [location.pathname]);
 
   useEffect(() => {
@@ -38,7 +42,6 @@ const SideNav = () => {
     // to be mapped
   }, [allProjects]);
 
-  console.log(location.pathname);
   return (
     <SidebarNavigation
       wrapperClass="mt-16"
