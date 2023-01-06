@@ -5,4 +5,5 @@ module.exports = {
   ...bsPrettier,
   plugins: [...bsPrettier.plugins, prettierPluginTalwind],
   tailwindConfig: "./tailwind.config.js",
+  "pluginSearchDirs": []
 };

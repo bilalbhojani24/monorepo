@@ -1,9 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SidebarNavigation } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
+
+import {
+  basePrimaryNavLinks,
+  internalPrimaryNavLinks,
+  secondaryNavLinks,
+} from '../const/navsConst';
+
 import useSideNav from './useSideNav';
-import { basePrimaryNavLinks, internalPrimaryNavLinks, secondaryNavLinks } from '../const/navsConst';
 
 const SideNav = () => {
   const location = useLocation();
@@ -14,14 +20,18 @@ const SideNav = () => {
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
-  const baseViewRoutes = [AppRoute.PROJECTS, AppRoute.SETTINGS, AppRoute.DOCUMENTATION];
+  const baseViewRoutes = [
+    AppRoute.PROJECTS,
+    AppRoute.SETTINGS,
+    AppRoute.DOCUMENTATION,
+  ];
 
   const onLinkChange = (linkItem) => {
     navigate(linkItem.path);
   };
 
   useEffect(() => {
-    //set view
+    // set view
     if (baseViewRoutes.includes(location.pathname)) {
       // basic view page without secondary navs
       setShowProjects(false);
@@ -36,7 +46,7 @@ const SideNav = () => {
 
     // set current view
     setActiveRoute({
-      id: location.pathname
+      id: location.pathname,
     });
   }, [location.pathname]);
 
@@ -48,15 +58,17 @@ const SideNav = () => {
   if (location.pathname === AppRoute.ROOT) return;
 
   return (
-    <SidebarNavigation
-      wrapperClass="mt-16"
-      primaryNavItems={primaryNavs}
-      active={activeRoute}
-      handleClick={onLinkChange}
-      selectOptions={allProjectsDrop}
-      withSelect={showProjects}
-      secondaryNavItems={secondaryNavs}
-    />
+    <div>
+      <SidebarNavigation
+        wrapperClass="mt-16"
+        primaryNavItems={primaryNavs}
+        active={activeRoute}
+        handleClick={onLinkChange}
+        selectOptions={allProjectsDrop}
+        withSelect={showProjects}
+        secondaryNavItems={secondaryNavs}
+      />
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function useSideNav() {
   const allProjects = useSelector((state) => state.global.projects);
