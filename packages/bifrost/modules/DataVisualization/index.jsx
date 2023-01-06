@@ -5,6 +5,7 @@ import { DATA_VISUALIZATION_DESC_POSITION, DATA_VISUALIZATION_SIZES } from './co
 import { InformationCircleIcon } from '../Icon';
 import classNames from 'classnames';
 import Kpi from './components/Kpi';
+import ToolTip from '../Tooltip';
 
 const DataVisualization = ({
   size,
@@ -16,7 +17,8 @@ const DataVisualization = ({
   KpiProps,
   otherOptions,
   filterDropdown,
-  infoIconVisible
+  headerInfo,
+  headerInfoTooltipProps
 }) => {
   return (
     <div
@@ -31,8 +33,10 @@ const DataVisualization = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <h3 className="text-lg font-medium leading-6 mr-2.5">{title}</h3>
-            {infoIconVisible && (
-              <InformationCircleIcon className="cursor-pointer h-5 w-5 flex-shrink-0" aria-hidden="true" />
+            {headerInfo && (
+              <ToolTip {...headerInfoTooltipProps}>
+                <InformationCircleIcon className="cursor-pointer h-5 w-5 flex-shrink-0" aria-hidden="true" />
+              </ToolTip>
             )}
           </div>
 
@@ -105,7 +109,8 @@ DataVisualization.propTypes = {
   }),
   otherOptions: PropTypes.node,
   filterDropdown: PropTypes.node,
-  infoIconVisible: PropTypes.bool
+  headerInfo: PropTypes.bool,
+  headerInfoTooltipProps: PropTypes.shape({})
 };
 DataVisualization.defaultProps = {
   size: DATA_VISUALIZATION_SIZES[1],
@@ -117,7 +122,8 @@ DataVisualization.defaultProps = {
   KpiProps: [],
   otherOptions: null,
   filterDropdown: null,
-  infoIconVisible: true
+  headerInfo: true,
+  headerInfoTooltipProps: {}
 };
 
 export default DataVisualization;

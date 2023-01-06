@@ -84,11 +84,24 @@ const defaultConfig = {
     otherOptions: {
       defaultValue: <Dropdown triggerVariant="menu-button" />
     },
-    infoIconVisible: {
+    headerInfo: {
       control: { type: 'boolean' },
       description: 'Enable/disable info icon besides the title section',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: true
+    },
+    headerInfoTooltipProps: {
+      description: 'Props object for header tooltip component.',
+      defaultValue: {
+        description:
+          'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus.',
+        actionObject: {
+          primaryButtonLabel: 'Action 1',
+          primaryButtonUrl: 'www.facebook.com',
+          secondaryButtonLabel: 'Action 2',
+          secondaryButtonUrl: 'www.facebook.com'
+        }
+      }
     }
   },
   controls: {}
