@@ -178,7 +178,7 @@ const AllProjects = (props) => (
         <Button>Add Project</Button>
       </div>
     </div>
-    <div className="bg-base-100">
+    <div className="bg-base-100 p-4">
       <div>
         <Tabs
           id="project-tabs"
