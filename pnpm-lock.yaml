@@ -31,6 +31,7 @@ importers:
       classnames: ^2.2.6
       postcss: 8.4.20
       postcss-preset-env: ^7.8.3
+      prettier-plugin-tailwindcss: ^0.2.1
       react: ^18.2.0
       react-dom: ^18.2.0
       react-redux: ^8.0.5
@@ -68,6 +69,7 @@ importers:
       '@vitejs/plugin-react': 3.0.0_vite@4.0.3
       postcss: 8.4.20
       postcss-preset-env: 7.8.3_postcss@8.4.20
+      prettier-plugin-tailwindcss: 0.2.1
       sass: 1.57.1
       stylelint: 14.16.1
       stylelint-config-prettier: 9.0.4_stylelint@14.16.1
@@ -13351,6 +13353,13 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       fast-diff: 1.2.0
+    dev: true
+
+  /prettier-plugin-tailwindcss/0.2.1:
+    resolution: {integrity: sha512-aIO8IguumORyRsmT+E7JfJ3A9FEoyhqZR7Au7TBOege3VZkgMvHJMkufeYp4zjnDK2iq4ktkvGMNOQR9T8lisQ==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      prettier: '>=2.2.0'
     dev: true
 
   /prettier/2.3.0:
