@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button, DataTable, InputField, Tabs } from '@browserstack/bifrost';
+import {
+  Button,
+  DataTable,
+  InputField,
+  PageHeadings,
+  Tabs,
+} from '@browserstack/bifrost';
 
 import { SearchIcon } from '../../Icons';
 
@@ -170,13 +176,20 @@ const ROWS = [
 const AllProjects = (props) => (
   <div>
     {/* header */}
-    <div className="border-b-2 border-base-200">
-      <div className="mx-4 my-5 flex justify-between">
-        <span className="text-2xl font-bold leading-7 text-base-700">
-          All Projects
-        </span>
-        <Button>Add Project</Button>
-      </div>
+    <div className="border-b-2 border-base-300">
+      <PageHeadings
+        heading="All Projects"
+        actionsData={[
+          {
+            id: 'node-1',
+            actionsNode: <>Add projects</>,
+            actionFn: () => {
+              console.log('Action button fn 1');
+            },
+            variant: 'white',
+          },
+        ]}
+      />
     </div>
     <div className="bg-base-100 p-4">
       <div>
