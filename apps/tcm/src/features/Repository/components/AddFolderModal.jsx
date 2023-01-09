@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, InputField, Modal } from '@browserstack/bifrost';
 import { addFolder } from 'api/folders.api.js';
+import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';
 
@@ -60,6 +61,10 @@ const AddFolderModal = ({ projectId }) => {
       </div>
     </Modal>
   );
+};
+
+AddFolderModal.propTypes = {
+  projectId: PropTypes.string.isRequired,
 };
 
 export default AddFolderModal;

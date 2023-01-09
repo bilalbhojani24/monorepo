@@ -26,6 +26,8 @@ export default function useFolders() {
     dispatch(setAddFolderModalVisibility(false));
   };
   const fetchAllFolders = () => {
+    console.log('initiated fetchall Folders');
+
     if (projectId)
       getFolders({ projectId }).then((data) => {
         setAllFolders(data?.folders || []);
