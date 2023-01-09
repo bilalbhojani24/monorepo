@@ -19,7 +19,7 @@ export default function useSideNav() {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [
-    AppRoute.PROJECTS,
+    AppRoute.ROOT,
     AppRoute.SETTINGS,
     AppRoute.DOCUMENTATION,
   ];

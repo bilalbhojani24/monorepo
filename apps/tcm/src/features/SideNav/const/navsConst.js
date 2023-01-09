@@ -11,11 +11,11 @@ import {
 
 export const basePrimaryNavLinks = [
   {
-    id: AppRoute.PROJECTS,
+    id: AppRoute.ROOT,
     label: 'All Projects',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
-    path: AppRoute.PROJECTS,
+    path: AppRoute.ROOT,
   },
   {
     id: AppRoute.SETTINGS,
