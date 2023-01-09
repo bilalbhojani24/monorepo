@@ -1,7 +1,6 @@
 import React from 'react';
-import { DataTable, PageHeadings } from '@browserstack/bifrost';
-
-import { SearchIcon } from '../../Icons';
+import { DataTable } from '@browserstack/bifrost';
+// import { SearchIcon } from 'Icons';
 
 const COLUMNS = [
   {

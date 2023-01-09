@@ -1,6 +1,6 @@
 import React from 'react';
 import { EmptyState } from '@browserstack/bifrost';
-import { SourceOutlinedIcon } from 'icons';
+import { SourceOutlinedIcon } from 'Icons';
 
 export default function BlankPage() {
   return (

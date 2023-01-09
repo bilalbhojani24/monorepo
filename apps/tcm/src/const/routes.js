@@ -9,6 +9,7 @@ const AppRoute = {
   DOCUMENTATION: '/documentation',
   SETTINGS: '/settings',
   REPORTS: '/reports',
+  DASHBOARD: '/dashboard',
 };
 
 export default AppRoute;

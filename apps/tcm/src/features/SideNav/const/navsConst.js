@@ -7,7 +7,7 @@ import {
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
   SettingsOutlinedIcon,
-} from 'icons';
+} from 'Icons';
 
 export const basePrimaryNavLinks = [
   {
@@ -35,11 +35,11 @@ export const basePrimaryNavLinks = [
 
 export const internalPrimaryNavLinks = [
   {
-    id: AppRoute.PROJECTS,
+    id: AppRoute.DASHBOARD,
     label: 'Dashboard',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
-    path: AppRoute.PROJECTS,
+    path: AppRoute.DASHBOARD,
   },
   {
     id: AppRoute.REPO,

@@ -22,7 +22,7 @@ const Repository = () => {
                 <TestCases />
               </section>
 
-              <aside className="hidden lg:order-first lg:block lg:shrink-0">
+              <aside className="lg:order-first lg:block lg:shrink-0">
                 <div className="bg-gray-100 relative flex h-full w-96 flex-col overflow-y-auto">
                   <Folders />
                 </div>

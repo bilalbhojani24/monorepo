@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@browserstack/bifrost';
-import { CreateNewFolderOutlinedIcon } from 'icons';
+import { CreateNewFolderOutlinedIcon } from 'Icons';
 
 // import useFolders from './useFolders';
 import '../styles/Folders.scss';

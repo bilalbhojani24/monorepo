@@ -9,7 +9,10 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        paths: [path.resolve(__dirname, 'src')],
+        paths: [
+          path.resolve(__dirname, 'src/features'),
+          path.resolve(__dirname, 'src'),
+        ],
       },
     },
   },
