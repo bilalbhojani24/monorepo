@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestCases } from 'api/testcases.api';
 
-import { updateAllTestCases } from '../slices/repositorySlice';
+import {
+  setAddTestCaseVisibility,
+  updateAllTestCases,
+} from '../slices/repositorySlice';
 
-export default function useFolders() {
+export default function useTestCases() {
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -13,16 +16,16 @@ export default function useFolders() {
     (state) => state.repository.selectedFolder,
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
+  const isAddTestCasePageVisible = useSelector(
+    (state) => state.repository.isAddTestCasePageVisible,
+  );
 
-  // const setAllFolders = (data) => {
-  //   dispatch(updateAllTestCases(data));
-  // };
-  // const showAddFolderModal = () => {
-  //   dispatch(setAddFolderModalVisibility(true));
-  // };
-  // const hideAddFolderModal = () => {
-  //   dispatch(setAddFolderModalVisibility(false));
-  // };
+  const showTestCaseAdditionPage = () => {
+    dispatch(setAddTestCaseVisibility(true));
+  };
+  const hideTestCaseAdditionPage = () => {
+    dispatch(setAddTestCaseVisibility(false));
+  };
 
   const fetchAllTestCases = () => {
     if (folderId)
@@ -39,6 +42,9 @@ export default function useFolders() {
 
   return {
     selectedFolder,
+    showTestCaseAdditionPage,
+    hideTestCaseAdditionPage,
     allTestCases,
+    isAddTestCasePageVisible,
   };
 }

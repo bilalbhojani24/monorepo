@@ -2,13 +2,15 @@ import React from 'react';
 import { Button, DataTable, Dropdown, InputField } from '@browserstack/bifrost';
 import { SearchIcon } from 'Icons';
 
+import AddTestCase from './AddTestCase';
 import BlankPage from './BlankPage';
 import useTestCases from './useTestCases';
 
 import '../styles/TestCases.scss';
 
 export default function TestCases() {
-  const { selectedFolder, allTestCases } = useTestCases();
+  const { selectedFolder, allTestCases, isAddTestCasePageVisible } =
+    useTestCases();
 
   const datatableColumns = [
     {
@@ -45,6 +47,8 @@ export default function TestCases() {
       style: {},
     },
   ];
+
+  if (isAddTestCasePageVisible) return <AddTestCase />;
 
   return (
     <div className="flex w-full flex-col items-start">
