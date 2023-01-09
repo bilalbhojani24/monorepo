@@ -6,6 +6,7 @@ import { setSelectedProject } from 'globalSlice/globalSlice';
 
 import {
   setAddFolderModalVisibility,
+  setSelectedFolder,
   updateAllFolders,
 } from '../slices/repositorySlice';
 
@@ -18,21 +19,19 @@ export default function useFolders() {
     (state) => state.repository.showAddFolderModal,
   );
 
-  const setAllFolders = (data) => {
-    dispatch(updateAllFolders(data));
-  };
   const showAddFolderModal = () => {
     dispatch(setAddFolderModalVisibility(true));
   };
   const hideAddFolderModal = () => {
     dispatch(setAddFolderModalVisibility(false));
   };
+
   const fetchAllFolders = () => {
     if (projectId)
       getFolders({ projectId }).then((data) => {
-        setAllFolders(data?.folders || []);
+        dispatch(updateAllFolders(data?.folders || []));
       });
-    else setAllFolders([]);
+    else dispatch(updateAllFolders([]));
   };
 
   useEffect(() => {
@@ -41,9 +40,19 @@ export default function useFolders() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
+  useEffect(() => {
+    const selectedFolder = allFolders.find((item) => `${item.id}` === folderId);
+
+    if (selectedFolder) {
+      dispatch(setSelectedFolder(selectedFolder));
+    } else {
+      dispatch(setSelectedFolder(null));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folderId, allFolders]);
+
   return {
     allFolders,
-    setAllFolders,
     hideAddFolderModal,
     showAddFolderModal,
     isAddFolderModalVisible,

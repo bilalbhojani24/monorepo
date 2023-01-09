@@ -25,12 +25,8 @@ const MainRoute = () => {
           element={<Repository />}
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_CASES}`}
-          element={<Repository />}
-        />
-        <Route
           path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_RUNS}`}
-          element={<Repository />}
+          element="Test Runs"
         />
       </Routes>
     </div>
