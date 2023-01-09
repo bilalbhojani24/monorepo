@@ -1,9 +1,9 @@
 import React from 'react';
-import { SectionHeadings } from '@browserstack/bifrost';
+import { PageHeadings } from '@browserstack/bifrost';
 
 const TopSection = () => (
-  <div className="w-full pt-5">
-    <SectionHeadings title="Repository" variant="button" />
+  <div className="w-full">
+    <PageHeadings heading="Repository" />
   </div>
 );
 
