@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, InputField } from '@browserstack/bifrost';
-import { SearchIcon } from 'icons';
+import { SearchIcon } from 'Icons';
 
 import BlankPage from './BlankPage';
 

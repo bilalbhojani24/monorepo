@@ -7,7 +7,7 @@ import {
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
   SettingsOutlinedIcon,
-} from 'icons';
+} from 'Icons';
 
 export const basePrimaryNavLinks = [
   {

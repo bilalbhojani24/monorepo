@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import path from 'path';
+import { defineConfig } from 'vite';
 
 const { productViteConfig } = require('@browserstack/vite-config');
 
@@ -13,8 +13,8 @@ export default defineConfig({
       assets: path.resolve(__dirname, 'src/assets'),
       const: path.resolve(__dirname, 'src/const'),
       features: path.resolve(__dirname, 'src/features'),
-      icons: path.resolve(__dirname, 'src/features/Icons'),
-      globalSlice: path.resolve(__dirname, 'src/slices')
-    }
-  }
+      Icons: path.resolve(__dirname, 'src/features/Icons'),
+      globalSlice: path.resolve(__dirname, 'src/slices'),
+    },
+  },
 });
