@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getFolders } from 'api/folders.api.js';
+import { setSelectedProject } from 'globalSlice/globalSlice';
 
 import {
   setAddFolderModalVisibility,
@@ -11,6 +12,7 @@ import {
 export default function useFolders() {
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
+
   const allFolders = useSelector((state) => state.repository.allFolders);
   const isAddFolderModalVisible = useSelector(
     (state) => state.repository.showAddFolderModal,
@@ -26,8 +28,6 @@ export default function useFolders() {
     dispatch(setAddFolderModalVisibility(false));
   };
   const fetchAllFolders = () => {
-    console.log('initiated fetchall Folders');
-
     if (projectId)
       getFolders({ projectId }).then((data) => {
         setAllFolders(data?.folders || []);
@@ -37,6 +37,7 @@ export default function useFolders() {
 
   useEffect(() => {
     fetchAllFolders();
+    dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 

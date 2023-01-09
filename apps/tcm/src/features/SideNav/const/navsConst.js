@@ -35,25 +35,25 @@ export const basePrimaryNavLinks = [
 
 export const internalPrimaryNavLinks = [
   {
-    id: AppRoute.DASHBOARD,
+    id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.DASHBOARD}`,
     label: 'Dashboard',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
-    path: AppRoute.DASHBOARD,
+    path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.DASHBOARD}`,
   },
   {
-    id: AppRoute.REPO,
+    id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.REPO}`,
     label: 'Repository',
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
-    path: AppRoute.REPO,
+    path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.REPO}`,
   },
   {
-    id: AppRoute.TEST_RUNS,
+    id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_RUNS}`,
     label: 'Test Runs',
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
-    path: AppRoute.TEST_RUNS,
+    path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_RUNS}`,
   },
   // {
   //   id: AppRoute.REPORTS,

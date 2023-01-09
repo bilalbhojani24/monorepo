@@ -19,19 +19,18 @@ const MainRoute = () => {
       <Routes>
         <Route path={AppRoute.ROOT} element={<LoginScreen />} />
         <Route path={AppRoute.PROJECTS} element={<AllProjects />} />
+        <Route path={`${AppRoute.PROJECTS}/:projectId`} element="Dashboard" />
         <Route
-          path={`${AppRoute.REPO}/:projectId?/folder?/:folderId?`}
+          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.REPO}/folder?/:folderId?`}
           element={<Repository />}
         />
         <Route
-          exact
-          path={`${AppRoute.TEST_CASES}/:projectId`}
-          element="TEST_CASES"
+          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_CASES}`}
+          element={<Repository />}
         />
         <Route
-          exact
-          path={`${AppRoute.TEST_RUNS}/:projectId`}
-          element="TEST_RUNS"
+          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_RUNS}`}
+          element={<Repository />}
         />
       </Routes>
     </div>
