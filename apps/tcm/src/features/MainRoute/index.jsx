@@ -1,13 +1,17 @@
-import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
+import Cookies from 'universal-cookie';
 
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
+
+const cookies = new Cookies();
 
 const MainRoute = () => {
   const location = useLocation();
@@ -19,8 +23,22 @@ const MainRoute = () => {
       })}
     >
       <Routes>
-        <Route path={AppRoute.ROOT} element={<LoginScreen />} />
-        <Route path={AppRoute.PROJECTS} element={<AllProjects />} />
+        <Route
+          path={AppRoute.LANDING}
+          element={
+            <OnlyPublicComponent>
+              <LoginScreen />
+            </OnlyPublicComponent>
+          }
+        />
+        <Route
+          path={AppRoute.ROOT}
+          element={
+            <PrivateComponent>
+              <AllProjects />
+            </PrivateComponent>
+          }
+        />
         <Route
           path={`${AppRoute.PROJECTS}/:projectId${AppRoute.DASHBOARD}?`}
           element={<Dashboard />}
@@ -37,5 +55,21 @@ const MainRoute = () => {
     </div>
   );
 };
+
+const PrivateComponent = ({ children }) => children;
+// const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
+
+// /// if not logged in, redirect to login
+// return isAuthenticatedUser ? (
+//   children || ''
+// ) : (
+//   <Navigate to={AppRoute.LANDING} />
+// );
+
+const OnlyPublicComponent = ({ children }) => children;
+// const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
+
+// // if logged in redirect to dashboard
+// return !isAuthenticatedUser ? children : <Navigate to={AppRoute.ROOT} />;
 
 export default MainRoute;

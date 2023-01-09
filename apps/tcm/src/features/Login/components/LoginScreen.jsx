@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AUTH_TOKEN_KEY } from 'const/immutables';
+import AppRoute from 'const/routes';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const LoginScreen = (props) => {
   const [loginUrl, setLoginUrl] = useState('');
   const navigate = useNavigate();
+
+  const handleResponse = (data) => {
+    if (data.response.data.data.login_url) {
+      setLoginUrl(data.response.data.data.login_url);
+      cookies.remove(AUTH_TOKEN_KEY);
+    } else {
+      cookies.set(AUTH_TOKEN_KEY, 'set');
+      navigate(AppRoute.PROJECTS);
+    }
+  };
 
   useEffect(() => {
     axios
       .get('https://teststack.bsstag.com/api/v1')
       .then((data) => {
-        if (data.response.data.data.login_url)
-          setLoginUrl(data.response.data.data.login_url);
-        else navigate('/projects');
+        handleResponse(data);
       })
       .catch((data) => {
-        if (data.response.data.data.login_url)
-          setLoginUrl(data.response.data.data.login_url);
-        else navigate('/projects');
+        handleResponse(data);
       });
   }, [navigate]);
 

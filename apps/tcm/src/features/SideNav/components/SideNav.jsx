@@ -16,7 +16,7 @@ const SideNav = () => {
     activeRoute,
   } = useSideNav();
 
-  if (location.pathname === AppRoute.ROOT) return '';
+  if (location.pathname === AppRoute.LANDING) return '';
 
   return (
     <div>
