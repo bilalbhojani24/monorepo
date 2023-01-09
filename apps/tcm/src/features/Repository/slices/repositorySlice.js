@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: 0
+  allFolders: [],
 };
 
 export const repositorySlice = createSlice({
   name: 'repository',
   initialState,
   reducers: {
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    }
-  }
+    updateAllFolders: (state, { payload }) => {
+      state.allFolders = payload;
+    },
+  },
 });
 
-export const { incrementByAmount } = repositorySlice.actions;
+export const { updateAllFolders } = repositorySlice.actions;
 
 export default repositorySlice.reducer;
