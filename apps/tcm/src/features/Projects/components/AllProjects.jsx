@@ -3,20 +3,19 @@ import { PageHeadings, Tabs } from '@browserstack/bifrost';
 import { string } from 'prop-types';
 
 import ActiveProjects from './ActiveProjects';
+import AddProjects from './AddProjects';
 import ClosedProjects from './ClosedProjects';
+import useProjects from './useProjects';
 
 const AllProjects = (props) => {
   const { defaultTab } = props;
+  const [currentTab, setCurrentTab] = useState(defaultTab);
   const ACTIVE_PROJECTS = 'Active Projects';
 
-  const [currentTab, setCurrentTab] = useState(defaultTab);
+  const { activeProjects, addingProject, showAddModal } = useProjects();
 
   const handleTabChange = (tabName) => {
     setCurrentTab(tabName.name);
-  };
-
-  const addProject = () => {
-    // open modal to add a new project
   };
 
   return (
@@ -28,7 +27,7 @@ const AllProjects = (props) => {
             {
               id: 'node-1',
               actionsNode: <>Add projects</>,
-              actionFn: addProject,
+              actionFn: addingProject,
               variant: 'white',
             },
           ]}
@@ -41,7 +40,12 @@ const AllProjects = (props) => {
           onTabChange={handleTabChange}
         />
       </div>
-      {currentTab === ACTIVE_PROJECTS ? <ActiveProjects /> : <ClosedProjects />}
+      {currentTab === ACTIVE_PROJECTS ? (
+        <ActiveProjects rowsData={activeProjects} />
+      ) : (
+        <ClosedProjects />
+      )}
+      {showAddModal ? <AddProjects /> : ''}
     </div>
   );
 };

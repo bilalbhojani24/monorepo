@@ -5,8 +5,8 @@ const initialState = {
   projects: [
     { label: 'Project 1', value: 'p1' },
     { label: 'Project 2', value: 'p2' },
-    { label: 'Project 3', value: 'p3' }
-  ]
+    { label: 'Project 3', value: 'p3' },
+  ],
 };
 
 export const globalSlice = createSlice({
@@ -18,8 +18,8 @@ export const globalSlice = createSlice({
     },
     setUser: (state, { payload }) => {
       state.user = payload;
-    }
-  }
+    },
+  },
 });
 
 export const { setProjects, setUser } = globalSlice.actions;

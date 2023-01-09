@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { DataTable, Dropdown } from '@browserstack/bifrost';
+import React from 'react';
+import { DataTable } from '@browserstack/bifrost';
+import { arrayOf, node, shape, string } from 'prop-types';
 
-import { getProjects } from '../../../api/projects.api';
+// import { getProjects } from '../../../api/projects.api';
+
+// import useProjects from './useProjects';
 
 const styles = {
   color: '#6B7280',
@@ -24,8 +27,8 @@ const COLUMNS = [
     // isSortable: true,
   },
   {
-    name: 'Priority',
-    key: 'priority',
+    name: 'Quick Links',
+    key: 'quickLinks',
     style: styles,
   },
   {
@@ -35,29 +38,7 @@ const COLUMNS = [
 ];
 
 const ActiveProjects = (props) => {
-  const [rowData, setRowData] = useState([]);
-
-  useEffect(() => {
-    getProjects().then((res) => {
-      setRowData(
-        res.projects.map((data, idx) => ({
-          id: `TC${idx + 1}`,
-          projectTitle: data.name,
-          priority: '185 Test Cases',
-          action: (
-            <Dropdown
-              triggerVariant="meatball-button"
-              dividerRequired
-              options={[
-                { id: '1', name: 'Edit Project' },
-                { id: '2', name: 'Delete' },
-              ]}
-            />
-          ),
-        })),
-      );
-    });
-  }, []);
+  const { rowsData } = props;
 
   return (
     <div>
@@ -68,13 +49,28 @@ const ActiveProjects = (props) => {
             isHeaderCapitalize
             isHeaderSticky
             columns={COLUMNS}
-            rows={rowData}
+            rows={rowsData}
             isFullWhite={false}
           />
         </div>
       </div>
     </div>
   );
+};
+
+ActiveProjects.propTypes = {
+  rowsData: arrayOf(
+    shape({
+      id: string,
+      projectTitle: string,
+      quickLinks: node,
+      action: node,
+    }),
+  ),
+};
+
+ActiveProjects.defaultProps = {
+  rowsData: [],
 };
 
 export default ActiveProjects;
