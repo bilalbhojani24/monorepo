@@ -7,6 +7,7 @@ const initialState = {
     { label: 'Project 2', value: 'p2' },
     { label: 'Project 3', value: 'p3' },
   ],
+  selectedProjectId: null,
 };
 
 export const globalSlice = createSlice({
@@ -19,9 +20,12 @@ export const globalSlice = createSlice({
     setUser: (state, { payload }) => {
       state.user = payload;
     },
+    setSelectedProject: (state, { payload }) => {
+      state.selectedProjectId = payload;
+    },
   },
 });
 
-export const { setProjects, setUser } = globalSlice.actions;
+export const { setProjects, setUser, setSelectedProject } = globalSlice.actions;
 
 export default globalSlice.reducer;
