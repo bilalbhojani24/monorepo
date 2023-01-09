@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getFolders } from 'api/folders.api.js';
+import { getFolders } from 'api/folders.api';
 import { setSelectedProject } from 'globalSlice/globalSlice';
 
 import {

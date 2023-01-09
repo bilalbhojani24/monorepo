@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, InputField } from '@browserstack/bifrost';
+import { Button, DataTable, Dropdown, InputField } from '@browserstack/bifrost';
 import { SearchIcon } from 'Icons';
 
 import BlankPage from './BlankPage';
@@ -8,7 +8,43 @@ import useTestCases from './useTestCases';
 import '../styles/TestCases.scss';
 
 export default function TestCases() {
-  const { selectedFolder } = useTestCases();
+  const { selectedFolder, allTestCases } = useTestCases();
+
+  const datatableColumns = [
+    {
+      name: 'ID',
+      key: 'id',
+      style: {},
+      cell: (rowData) => `TC${rowData?.id}`,
+    },
+    {
+      name: 'TITLE',
+      key: 'name',
+      style: {},
+    },
+    {
+      name: 'PRIORITY',
+      key: 'priority',
+      cell: (rowData) => <span className="capitalize">{rowData.priority}</span>,
+      style: {},
+    },
+    {
+      name: '',
+      key: 'action',
+      cell: (rowData) => (
+        <Dropdown
+          options={[{ id: '1', name: 'Edit' }]}
+          triggerVariant="meatball-button"
+          onClick={() => {
+            console.log(rowData);
+          }}
+        >
+          Edit
+        </Dropdown>
+      ),
+      style: {},
+    },
+  ];
 
   return (
     <div className="flex w-full flex-col items-start">
@@ -40,9 +76,19 @@ export default function TestCases() {
           </div>
         )}
 
-        <div className="flex w-full flex-1 items-center justify-center">
-          <BlankPage />
-        </div>
+        {allTestCases.length ? (
+          <DataTable
+            isSelectable
+            isHeaderSticky
+            columns={datatableColumns}
+            rows={allTestCases}
+            // isSortable={false}
+          />
+        ) : (
+          <div className="flex w-full flex-1 items-center justify-center">
+            <BlankPage />
+          </div>
+        )}
       </div>
     </div>
   );

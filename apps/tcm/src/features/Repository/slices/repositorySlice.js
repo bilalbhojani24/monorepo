@@ -30,6 +30,7 @@ export const {
   updateAllFolders,
   setAddFolderModalVisibility,
   setSelectedFolder,
+  updateAllTestCases,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

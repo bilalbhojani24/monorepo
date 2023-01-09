@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getFolders } from 'api/folders.api.js';
-import { setSelectedProject } from 'globalSlice/globalSlice';
+import { getTestCases } from 'api/testcases.api';
 
-import {
-  setAddFolderModalVisibility,
-  updateAllFolders,
-} from '../slices/repositorySlice';
+import { updateAllTestCases } from '../slices/repositorySlice';
 
 export default function useFolders() {
   const { projectId, folderId } = useParams();
@@ -16,9 +12,10 @@ export default function useFolders() {
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder,
   );
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   // const setAllFolders = (data) => {
-  //   dispatch(updateAllFolders(data));
+  //   dispatch(updateAllTestCases(data));
   // };
   // const showAddFolderModal = () => {
   //   dispatch(setAddFolderModalVisibility(true));
@@ -26,21 +23,22 @@ export default function useFolders() {
   // const hideAddFolderModal = () => {
   //   dispatch(setAddFolderModalVisibility(false));
   // };
-  // const fetchAllTestCases = () => {
-  //   if (folderId)
-  //     getFolders({ projectId }).then((data) => {
-  //       setAllFolders(data?.folders || []);
-  //     });
-  //   else setAllFolders([]);
-  // };
 
-  // useEffect(() => {
-  //   fetchAllFolders();
-  //   dispatch(setSelectedProject(projectId));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [projectId]);
+  const fetchAllTestCases = () => {
+    if (folderId)
+      getTestCases({ projectId, folderId }).then((data) => {
+        dispatch(updateAllTestCases(data?.testcases || []));
+      });
+    else dispatch(updateAllTestCases([]));
+  };
+
+  useEffect(() => {
+    fetchAllTestCases();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, folderId]);
 
   return {
     selectedFolder,
+    allTestCases,
   };
 }
