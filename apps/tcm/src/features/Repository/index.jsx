@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+// import Folders from './components/Folders';
 import BlankPage from './components/BlankPage';
 import Folders from './components/Folders';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
-// import Folders from './components/Folders';
+import useFolders from './components/useFolders';
 
 const Repository = () => {
-  const isEmpty = false;
+  const { allFolders } = useFolders();
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
       <TopSection />
       <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
         <div className="flex flex-1 items-stretch justify-center overflow-hidden border border-base-200 bg-white sm:rounded-lg">
-          {isEmpty ? (
+          {!allFolders.length ? (
             <BlankPage />
           ) : (
             <main className="w-full min-w-0 lg:flex">

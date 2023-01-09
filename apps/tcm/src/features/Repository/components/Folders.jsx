@@ -1,34 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button } from '@browserstack/bifrost';
-import { getFolders } from 'api/folders.api.js';
 import AppRoute from 'const/routes';
 import { CreateNewFolderOutlinedIcon } from 'Icons';
 
+import AddFolderModal from './AddFolderModal';
 import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
 
 export default function Folders() {
   const { projectId } = useParams();
-  const { allFolders, setAllFolders } = useFolders();
+  const { allFolders, isAddFolderModalVisible, showAddFolderModal } =
+    useFolders();
 
   // const folderClickHandler = (data) => {
   //   setSelectedFolder(data);
   // };
 
-  useEffect(() => {
-    if (projectId) {
-      getFolders({ projectId }).then((data) => {
-        setAllFolders(data?.folders || []);
-      });
-    } else {
-      debugger;
-    }
-  }, []);
-
   return (
     <div className="flex flex-col">
+      {isAddFolderModalVisible && <AddFolderModal projectId={projectId} />}
       <div className="flex items-center border-b border-base-300 p-3">
         <span className="text-base">Folders</span>
         <Button
@@ -36,6 +28,7 @@ export default function Folders() {
           variant="white"
           wrapperClassName="ml-2"
           size="extra-small"
+          onClick={showAddFolderModal}
         >
           <CreateNewFolderOutlinedIcon className="text-base-500" />
         </Button>
@@ -54,6 +47,7 @@ export default function Folders() {
   );
 }
 
+// this is obviously temporary skip its errors
 const FolderItem = ({ title, onClick, id }) => {
   const { projectId } = useParams();
   return (

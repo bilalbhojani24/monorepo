@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   allFolders: [],
+  showAddFolderModal: false,
 };
 
 export const repositorySlice = createSlice({
@@ -11,9 +12,13 @@ export const repositorySlice = createSlice({
     updateAllFolders: (state, { payload }) => {
       state.allFolders = payload;
     },
+    setAddFolderModalVisibility: (state, { payload }) => {
+      state.showAddFolderModal = payload;
+    },
   },
 });
 
-export const { updateAllFolders } = repositorySlice.actions;
+export const { updateAllFolders, setAddFolderModalVisibility } =
+  repositorySlice.actions;
 
 export default repositorySlice.reducer;
