@@ -33,6 +33,7 @@ importers:
       postcss: 8.4.20
       postcss-preset-env: ^7.8.3
       prettier-plugin-tailwindcss: ^0.2.1
+      prop-types: 15.8.1
       react: ^18.2.0
       react-dom: ^18.2.0
       react-redux: ^8.0.5
@@ -54,6 +55,7 @@ importers:
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
       classnames: 2.3.2
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-redux: 8.0.5_gm3gubmwja4o7q6fr6adx3fpz4
