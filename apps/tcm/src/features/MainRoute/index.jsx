@@ -18,7 +18,10 @@ const MainRoute = () => {
     >
       <Routes>
         <Route path={AppRoute.ROOT} element={<LoginScreen />} />
-        <Route path={AppRoute.PROJECTS} element={<AllProjects />} />
+        <Route
+          path={AppRoute.PROJECTS}
+          element={<AllProjects defaultTab="Active Projects" />}
+        />
         <Route
           path={`${AppRoute.REPO}/:projectId?/folder?/:folderId?`}
           element={<Repository />}

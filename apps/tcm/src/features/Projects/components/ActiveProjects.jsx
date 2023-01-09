@@ -1,186 +1,80 @@
-import React from 'react';
-import { DataTable } from '@browserstack/bifrost';
-// import { SearchIcon } from 'Icons';
+import React, { useEffect, useState } from 'react';
+import { DataTable, Dropdown } from '@browserstack/bifrost';
+
+import { getProjects } from '../../../api/projects.api';
+
+const styles = {
+  color: '#6B7280',
+  fontWeight: 500,
+  fontSize: '12px',
+  lineHeight: '16px',
+};
 
 const COLUMNS = [
   {
-    name: 'Name',
-    key: 'name',
-    style: {},
+    name: 'ID',
+    key: 'id',
+    style: styles,
     // isSortable: true,
   },
   {
-    name: 'Title',
-    key: 'title',
-    style: {},
+    name: 'Project Title',
+    key: 'projectTitle',
+    style: styles,
     // isSortable: true,
   },
   {
-    name: 'Email',
-    key: 'email',
-    style: {},
-  },
-  {
-    name: 'Role',
-    key: 'role',
-    style: {},
-  },
-  {
-    name: 'Price',
-    key: 'price',
-    style: {},
-  },
-  {
-    name: 'Quantity',
-    key: 'quantity',
-    style: {},
+    name: 'Priority',
+    key: 'priority',
+    style: styles,
   },
   {
     name: '',
     key: 'action',
-    // cell: (rowData) => (
-    //   <button
-    //     onClick={() => {
-    //       console.log(rowData);
-    //     }}
-    //   >
-    //     Edit
-    //   </button>
-    // ),
-    style: {},
   },
 ];
 
-const ROWS = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '12.00',
-    price: '$123',
-  },
-  {
-    name: 'Courtney Henry',
-    title: 'Designer',
-    email: 'courtney.henry@example.com',
-    role: 'Admin',
-    quantity: '19.00',
-    price: '$1230',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
-  },
-];
+const ActiveProjects = (props) => {
+  const [rowData, setRowData] = useState([]);
 
-const ActiveProjects = (props) => (
-  <div>
-    {/* header */}
-    <div className="bg-base-100 px-4 py-2">
-      <div className="mt-4">
-        <DataTable
-          isSelectable
-          isHeaderSticky
-          columns={COLUMNS}
-          rows={ROWS}
-          // isSortable={false}
-        />
+  useEffect(() => {
+    getProjects().then((res) => {
+      setRowData(
+        res.projects.map((data, idx) => ({
+          id: `TC${idx + 1}`,
+          projectTitle: data.name,
+          priority: '185 Test Cases',
+          action: (
+            <Dropdown
+              triggerVariant="meatball-button"
+              dividerRequired
+              options={[
+                { id: '1', name: 'Edit Project' },
+                { id: '2', name: 'Delete' },
+              ]}
+            />
+          ),
+        })),
+      );
+    });
+  }, []);
+
+  return (
+    <div>
+      {/* header */}
+      <div className="px-4 py-2">
+        <div className="mt-4">
+          <DataTable
+            isHeaderCapitalize
+            isHeaderSticky
+            columns={COLUMNS}
+            rows={rowData}
+            isFullWhite={false}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ActiveProjects;

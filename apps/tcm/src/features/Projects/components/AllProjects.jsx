@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { PageHeadings, Tabs } from '@browserstack/bifrost';
+import { string } from 'prop-types';
 
 import ActiveProjects from './ActiveProjects';
-
-const ACTIVE_PROJECTS = 'Active Projects';
+import ClosedProjects from './ClosedProjects';
 
 const AllProjects = (props) => {
   const { defaultTab } = props;
+  const ACTIVE_PROJECTS = 'Active Projects';
 
   const [currentTab, setCurrentTab] = useState(defaultTab);
 
   const handleTabChange = (tabName) => {
-    // console.log(tabName.name);
     setCurrentTab(tabName.name);
+  };
+
+  const addProject = () => {
+    // open modal to add a new project
   };
 
   return (
@@ -24,10 +28,8 @@ const AllProjects = (props) => {
             {
               id: 'node-1',
               actionsNode: <>Add projects</>,
-              actionFn: () => {
-                console.log('Action button fn 1');
-              },
-              variant: 'primary',
+              actionFn: addProject,
+              variant: 'white',
             },
           ]}
         />
@@ -39,13 +41,17 @@ const AllProjects = (props) => {
           onTabChange={handleTabChange}
         />
       </div>
-      {currentTab === ACTIVE_PROJECTS ? (
-        <ActiveProjects />
-      ) : (
-        <>Closed Projects</>
-      )}
+      {currentTab === ACTIVE_PROJECTS ? <ActiveProjects /> : <ClosedProjects />}
     </div>
   );
+};
+
+AllProjects.propTypes = {
+  defaultTab: string,
+};
+
+AllProjects.defaultProps = {
+  defaultTab: 'Active Projects',
 };
 
 export default AllProjects;
