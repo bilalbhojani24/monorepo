@@ -9,8 +9,11 @@ const projectSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    updateProjects: (state, { payload }) => {
+    setProjects: (state, { payload }) => {
       state.allProjects = payload;
+    },
+    updateProjects: (state, { payload }) => {
+      state.allProjects.push(payload);
     },
     setAddProjectModalVisibility: (state, { payload }) => {
       state.showAddProjectModal = payload;
@@ -18,6 +21,6 @@ const projectSlice = createSlice({
   },
 });
 
-export const { updateProjects, setAddProjectModalVisibility } =
+export const { setProjects, updateProjects, setAddProjectModalVisibility } =
   projectSlice.actions;
 export default projectSlice.reducer;

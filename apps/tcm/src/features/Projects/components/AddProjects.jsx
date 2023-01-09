@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import { Button, InputField, Modal } from '@browserstack/bifrost';
 import { addProjects } from 'api/projects.api';
 
-import { setAddProjectModalVisibility } from '../slices/projectSlice';
-
-import useProjects from './useProjects';
+import {
+  setAddProjectModalVisibility,
+  updateProjects,
+} from '../slices/projectSlice';
 
 const AddProjects = () => {
   const [formData, setFormData] = useState({
@@ -15,15 +16,13 @@ const AddProjects = () => {
   });
 
   const dispatch = useDispatch();
-  const { getAllProjects } = useProjects();
-
   const hideAddProjectModal = () => {
     dispatch(setAddProjectModalVisibility(false));
   };
 
   const createProjectHandler = () => {
-    addProjects(formData).then(() => {
-      getAllProjects();
+    addProjects(formData).then((res) => {
+      dispatch(updateProjects(res.data.project));
       hideAddProjectModal();
     });
   };
