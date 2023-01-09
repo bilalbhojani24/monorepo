@@ -24,7 +24,7 @@ const Drawer = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-base-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
         )}
 
@@ -56,7 +56,7 @@ const Drawer = (props) => {
                       <div className="flex items-start justify-between">
                         <Dialog.Title
                           className={classNames(
-                            { 'text-white': brandingHeader, 'text-gray-900': !brandingHeader },
+                            { 'text-white': brandingHeader, 'text-base-900': !brandingHeader },
                             'text-lg font-medium'
                           )}
                         >
@@ -67,10 +67,10 @@ const Drawer = (props) => {
                             type="button"
                             className={classNames(
                               {
-                                'bg-white text-gray-400': !brandingHeader,
+                                'bg-white text-base-400': !brandingHeader,
                                 'bg-indigo-700 text-indigo-200': brandingHeader
                               },
-                              'rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                              'rounded-md hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                             )}
                             onClick={() => setOpen(false)}
                           >
@@ -89,7 +89,7 @@ const Drawer = (props) => {
                       {bodyNode}
                       {!bodyNode && (
                         <div className="absolute inset-0 px-4 sm:px-6">
-                          <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" />
+                          <div className="h-full border-2 border-dashed border-base-200" aria-hidden="true" />
                         </div>
                       )}
                     </div>

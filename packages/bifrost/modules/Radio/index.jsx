@@ -24,8 +24,8 @@ const Radio = (props) => {
         type="radio"
         disabled={disabled}
         checked={isChecked}
-        className={classNames('h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 mt-0.5', {
-          'border-gray-200 text-gray-200': disabled
+        className={classNames('h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500 mt-0.5', {
+          'border-base-200 text-base-200': disabled
         })}
         onChange={handleChange}
       />
@@ -34,8 +34,8 @@ const Radio = (props) => {
         {name && (
           <label
             htmlFor={id}
-            className={classNames('font-medium text-gray-700', {
-              'text-gray-400': disabled
+            className={classNames('font-medium text-base-700', {
+              'text-base-400': disabled
             })}
           >
             {name}
@@ -44,8 +44,8 @@ const Radio = (props) => {
         {description && (
           <p
             id={`${id}-description`}
-            className={classNames('text-gray-500', {
-              'text-gray-300': disabled
+            className={classNames('text-base-500', {
+              'text-base-300': disabled
             })}
           >
             {description}

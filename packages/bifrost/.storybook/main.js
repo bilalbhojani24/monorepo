@@ -8,49 +8,25 @@ module.exports = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-interactions'
-    // {
-    //   name: "@storybook/addon-postcss",
-    //   options: {
-    //     postcssLoaderOptions: {
-    //       implementation: require("postcss"),
-    //     },
-    //   },
-    // },
+    '@storybook/addon-interactions',
+    {
+      name: 'storybook-addon-sass-postcss',
+      options: {
+        loadSassAfterPostCSS: true,
+        postcssLoaderOptions: {
+          implementation: require('postcss')
+        },
+        rule: {
+          test: /\.(scss|sass)$/i
+        }
+      }
+    }
   ],
   framework: '@storybook/react',
   core: {
     builder: 'webpack5'
   },
   webpackFinal: (config) => {
-    config.module.rules.push({
-      test: /\.(scss)$/,
-      use: [
-        IS_DEV
-          ? 'style-loader'
-          : {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: './'
-              }
-            },
-        { loader: 'css-loader', options: { sourceMap: IS_DEV } }
-      ]
-    });
-    config.module.rules.push({
-      test: /\.(css|scss)$/,
-      use: [
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [require('@tailwindcss/nesting'), require('tailwindcss'), require('autoprefixer')]
-            }
-          }
-        }
-      ],
-      include: path.resolve(__dirname, '../')
-    });
     return config;
   }
 };

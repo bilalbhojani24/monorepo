@@ -10,8 +10,8 @@ const SignleColumnLayout = ({ item, handleClick }) => {
           <img className="h-10 w-10 rounded-full" src={item.image} alt="" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-gray-900">{item.title}</p>
-          <p className="truncate text-sm font-medium text-gray-500">{item.description}</p>
+          <p className="truncate text-sm font-medium text-base-900">{item.title}</p>
+          <p className="truncate text-sm font-medium text-base-500">{item.description}</p>
         </div>
       </div>
       <div className="flex-shrink-0">
@@ -22,8 +22,8 @@ const SignleColumnLayout = ({ item, handleClick }) => {
             handleClick(e, item.handleButtonClick, item);
           }}
         >
-          <PlusIcon className="-ml-1 mr-0.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-          <span className="text-sm font-medium text-gray-900">
+          <PlusIcon className="-ml-1 mr-0.5 h-5 w-5 text-base-400" aria-hidden="true" />
+          <span className="text-sm font-medium text-base-900">
             {item.buttonText} <span className="sr-only">{item.item}</span>
           </span>
         </Button>

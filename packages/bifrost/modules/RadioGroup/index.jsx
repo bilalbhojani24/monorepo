@@ -29,20 +29,20 @@ const RadioGroup = (props) => {
               name="plan"
               type="radio"
               defaultChecked={option.id === selectedId}
-              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              className="h-4 w-4 border-base-300 text-indigo-600 focus:ring-indigo-500"
               onChange={handleChange(option.id)}
             />
           </div>
           <div className={classNames({ 'flex-col': !inlineDescription, 'flex-1': rightAligned }, 'flex ml-3 text-sm')}>
             {option.name && (
-              <label htmlFor={option.id} className="font-medium text-gray-700">
+              <label htmlFor={option.id} className="font-medium text-base-700">
                 {option.name}
               </label>
             )}
             {option.description && (
               <div
                 id={`${option.id}-description`}
-                className={classNames({ 'ml-2': inlineDescription }, 'text-gray-500')}
+                className={classNames({ 'ml-2': inlineDescription }, 'text-base-500')}
               >
                 {option.description}
               </div>

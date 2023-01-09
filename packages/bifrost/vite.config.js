@@ -2,10 +2,10 @@ import { resolve } from 'path';
 
 import { defineConfig } from 'vite';
 
-const globalViteConfig = require('@browserstack/vite-config');
+const { packageViteConfig } = require('@browserstack/vite-config');
 
 export default defineConfig(() => ({
-  ...globalViteConfig,
+  ...packageViteConfig,
   build: {
     lib: {
       entry: resolve('./index.js'),
@@ -14,7 +14,7 @@ export default defineConfig(() => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      ...globalViteConfig.build.rollupOptions,
+      external: [...packageViteConfig.build.rollupOptions.external, 'prop-types'],
       preserveModules: true
     }
   }

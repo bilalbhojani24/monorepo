@@ -1,0 +1,19 @@
+{
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "[javascriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  // Code Action kinds to be run on save.
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.enable": true, // Controls whether eslint is enabled or not.
+  "eslint.alwaysShowStatus": true, // Always show the ESlint status bar item.
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Use prettier as default formatter
+  // Next 3 properties will disable all built-in CSS validations - we validate using stylelint
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
+}
