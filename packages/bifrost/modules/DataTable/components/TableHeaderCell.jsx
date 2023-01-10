@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
 import { ChevronDownIcon, ChevronUpIcon } from '../../Icon';
 
 const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
@@ -20,45 +21,45 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
     <th
       key={col.key}
       scope="col"
-      className={classNames('py-2 pl-4 pr-3 text-left text-sm font-semibold text-base-900 sm:pl-6 bg-white-600', {
-        'sticky top-0 z-10 border-b border-base-300 bg-opacity-75': isHeaderSticky
-      })}
+      className={classNames(
+        'bg-white-600 py-2 pl-4 pr-3 text-left text-sm font-semibold text-base-900 sm:pl-6',
+      )}
       {...(col.isSortable && {
         role: 'button',
         onClick: () => handleSortClick(col.key),
         onKeyPress: (e) => handleKeyPress(e, col.key),
         tabIndex: 0,
-        'aria-sort': sortType ? `${sortType}ending` : ''
+        'aria-sort': sortType ? `${sortType}ending` : '',
       })}
       style={col.style}
     >
       <div
         className={classNames({
-          'group inline-flex items-center': col.isSortable
+          'group inline-flex items-center': col.isSortable,
         })}
       >
         {col.name}
-        <div className="flex ml-2 flex-col">
+        <div className="ml-2 flex flex-col">
           <span
             className={classNames('rounded text-base-400', {
-              hidden: !col.isSortable
+              hidden: !col.isSortable,
             })}
           >
             <ChevronUpIcon
               className={classNames('h-4 w-4 cursor-pointer', {
-                'text-indigo-600': sortType && sortType === 'desc'
+                'text-indigo-600': sortType && sortType === 'desc',
               })}
               aria-hidden="true"
             />
           </span>
           <span
             className={classNames('rounded text-base-400', {
-              hidden: !col.isSortable
+              hidden: !col.isSortable,
             })}
           >
             <ChevronDownIcon
               className={classNames('h-4 w-4 cursor-pointer', {
-                'text-indigo-600': sortType && sortType === 'asc'
+                'text-indigo-600': sortType && sortType === 'asc',
               })}
               aria-hidden="true"
             />
@@ -75,11 +76,11 @@ TableHeaderCell.propTypes = {
     key: PropTypes.string,
     style: PropTypes.object,
     isSortable: PropTypes.bool,
-    cell: PropTypes.elementType
+    cell: PropTypes.elementType,
   }),
   isHeaderSticky: PropTypes.bool,
   sortType: PropTypes.string,
-  handleSort: PropTypes.func
+  handleSort: PropTypes.func,
 };
 
 export default TableHeaderCell;

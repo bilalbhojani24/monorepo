@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Row from './components/Row';
+import PropTypes from 'prop-types';
+
 import Cell from './components/Cell';
 import Header from './components/Header';
+import Row from './components/Row';
 import useDataTable from './useDataTable';
 
 import './styles.scss';
@@ -23,13 +24,21 @@ const DataTable = (props) => {
     rows,
     selectedRowClass,
     tableClass,
-    tableContainerClass
+    tableContainerClass,
   } = props;
-  const { tableData, tableRef, selectedRow, handleRowChange, handleToggleAll, sort, handleSort } = useDataTable({
+  const {
+    tableData,
+    tableRef,
+    selectedRow,
+    handleRowChange,
+    handleToggleAll,
+    sort,
+    handleSort,
+  } = useDataTable({
     rows,
     onSort,
     onRowSelect,
-    onAllRowSelect
+    onAllRowSelect,
   });
 
   return (
@@ -37,12 +46,18 @@ const DataTable = (props) => {
       className={classNames(
         'shadow-sm ring-1 ring-black ring-opacity-5',
         {
-          'overflow-hidden': !isHeaderSticky
+          'overflow-hidden': !isHeaderSticky,
         },
-        tableContainerClass
+        tableContainerClass,
       )}
     >
-      <table ref={tableRef} className={classNames('min-w-full divide-y divide-base-300', tableClass)}>
+      <table
+        ref={tableRef}
+        className={classNames(
+          'min-w-full divide-y divide-base-300 bg-white',
+          tableClass,
+        )}
+      >
         <Header
           columns={columns}
           isHeaderCapitalize={isHeaderCapitalize}
@@ -55,31 +70,38 @@ const DataTable = (props) => {
           handleSort={handleSort}
           isFullWhite={isFullWhite}
         />
-        <tbody>
-          {tableData.map((row, rowIdx) => {
-            return (
+        <tbody
+          className={classNames({
+            'divide-y divide-base-200': !isStriped,
+          })}
+        >
+          {tableData.map((row, rowIdx) => (
+            <React.Fragment key={row.id}>
               <Row
-                key={row.id}
                 index={rowIdx}
                 className={classNames(
                   {
                     'bg-base-50': rowIdx % 2 !== 0 && isStriped,
-                    'bg-white-50': isFullWhite
+                    'bg-white-50': isFullWhite,
                   },
                   rowClass,
                   {
-                    [selectedRowClass]: selectedRow.includes(row)
-                  }
+                    [selectedRowClass]: selectedRow.includes(row),
+                  },
                 )}
               >
                 {isSelectable && (
                   <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                     {selectedRow.includes(row) && (
-                      <div className={classNames('absolute inset-y-0 left-0 w-0.5 bg-indigo-600')} />
+                      <div
+                        className={classNames(
+                          'bg-indigo-600 absolute inset-y-0 left-0 w-0.5',
+                        )}
+                      />
                     )}
                     <input
                       type="checkbox"
-                      className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-base-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                      className="text-indigo-600 focus:ring-indigo-500 absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-base-300 sm:left-6"
                       checked={selectedRow.includes(row)}
                       onChange={(e) => handleRowChange(e, row)}
                     />
@@ -88,22 +110,23 @@ const DataTable = (props) => {
                 {columns.map((colVal, colIdx) => {
                   const value = row[colVal.key];
                   return (
-                    <>
-                      <Cell
-                        key={colVal.key}
-                        className={classNames('whitespace-nowrap py-4 px-3 text-sm', {
-                          'bg-white-50': isFullWhite
-                        })}
-                        index={colIdx}
-                      >
-                        {colVal.cell ? colVal.cell(row) : value}
-                      </Cell>
-                    </>
+                    <Cell
+                      key={colVal.key}
+                      className={classNames(
+                        'whitespace-nowrap py-4 px-3 text-sm',
+                        {
+                          'bg-white-50': isFullWhite,
+                        },
+                      )}
+                      index={colIdx}
+                    >
+                      {colVal.cell ? colVal.cell(row) : value}
+                    </Cell>
                   );
                 })}
               </Row>
-            );
-          })}
+            </React.Fragment>
+          ))}
         </tbody>
       </table>
     </div>
@@ -117,8 +140,8 @@ DataTable.propTypes = {
       key: PropTypes.string,
       cell: PropTypes.elementType,
       style: PropTypes.object,
-      isSortable: PropTypes.bool
-    })
+      isSortable: PropTypes.bool,
+    }),
   ),
   isFullWhite: PropTypes.bool,
   isHeaderCapitalize: PropTypes.bool,
@@ -132,7 +155,7 @@ DataTable.propTypes = {
   rows: PropTypes.array,
   selectedRowClass: PropTypes.string,
   tableClass: PropTypes.string,
-  tableContainerClass: PropTypes.string
+  tableContainerClass: PropTypes.string,
 };
 
 DataTable.defaultProps = {
@@ -149,7 +172,7 @@ DataTable.defaultProps = {
   rows: [],
   selectedRowClass: '',
   tableClass: '',
-  tableContainerClass: ''
+  tableContainerClass: '',
 };
 
 export default DataTable;

@@ -1,6 +1,8 @@
 import React from 'react';
-import DataTable from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import DataTable from './index';
 
 const columns = [
   {
@@ -38,17 +40,15 @@ const columns = [
   {
     name: '',
     key: 'action',
-    cell: (rowData) => {
-      return (
-        <button
-          onClick={() => {
-            console.log(rowData);
-          }}
-        >
-          Edit
-        </button>
-      );
-    },
+    cell: (rowData) => (
+      <button
+        onClick={() => {
+          console.log(rowData);
+        }}
+      >
+        Edit
+      </button>
+    ),
     style: {},
   },
 ];
@@ -94,6 +94,118 @@ const rows = [
     quantity: '21.00',
     price: '$12388',
   },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    quantity: '21.00',
+    price: '$12388',
+  },
 ];
 
 const defaultConfig = {
@@ -101,9 +213,11 @@ const defaultConfig = {
   component: DataTable,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import DataTable from 'bifrost/DataTable'"} />;
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import DataTable from 'bifrost/DataTable'"}
+        />
+      ),
     },
   },
   argTypes: {
