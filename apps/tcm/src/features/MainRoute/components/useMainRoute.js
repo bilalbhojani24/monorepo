@@ -11,7 +11,7 @@ export default function useMainRoute() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const onSuccessHandler = (res) => {
+  const onAuthSuccessHandler = (res) => {
     localStorage.setItem(AUTH_TOKEN_KEY, 'true');
     if (location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
     if (res.data?.data?.user) {
@@ -19,7 +19,7 @@ export default function useMainRoute() {
     }
   };
 
-  const onFailureHandler = (res) => {
+  const onAuthFailureHandler = (res) => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     if (res?.response?.data?.data?.login_url) {
       dispatch(setLoginURL(res.response.data.data.login_url));
@@ -31,7 +31,7 @@ export default function useMainRoute() {
     if (window.location.host === 'localhost:5173') {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {
-        onFailureHandler({
+        onAuthFailureHandler({
           response: {
             data: {
               data: {
@@ -41,14 +41,14 @@ export default function useMainRoute() {
           },
         });
       } else {
-        onSuccessHandler({
+        onAuthSuccessHandler({
           data: {
             data: { full_name: 'Faker Name', email: 'fake2@example.com' },
           },
         });
       }
     } else {
-      authUser().then(onSuccessHandler).catch(onFailureHandler);
+      authUser().then(onAuthSuccessHandler).catch(onAuthFailureHandler);
     }
   }, []);
 
