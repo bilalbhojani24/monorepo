@@ -1,6 +1,12 @@
 import React from 'react';
 import { Button, DataTable, Dropdown, InputField } from '@browserstack/bifrost';
-import { SearchIcon } from 'Icons';
+import {
+  ArrowDownwardOutlinedIcon,
+  ArrowUpwardOutlinedIcon,
+  KeyboardDoubleArrowUpOutlinedIcon,
+  RemoveOutlinedIcon,
+  SearchIcon,
+} from 'Icons';
 
 import AddTestCase from './AddTestCase';
 import BlankPage from './BlankPage';
@@ -11,6 +17,23 @@ import '../styles/TestCases.scss';
 export default function TestCases() {
   const { selectedFolder, allTestCases, isAddTestCasePageVisible } =
     useTestCases();
+
+  const formatPriority = (priority) => {
+    switch (priority) {
+      case 'high':
+        return <ArrowUpwardOutlinedIcon className="mr-2 text-danger-500" />;
+      case 'low':
+        return <ArrowDownwardOutlinedIcon className="mr-2 text-success-500" />;
+      case 'critical':
+        return (
+          <KeyboardDoubleArrowUpOutlinedIcon className="mr-2 text-danger-700" />
+        );
+      case 'medium':
+        return <RemoveOutlinedIcon className="mr-2 text-brand-500" />;
+      default:
+        return '';
+    }
+  };
 
   const datatableColumns = [
     {
@@ -27,7 +50,12 @@ export default function TestCases() {
     {
       name: 'PRIORITY',
       key: 'priority',
-      cell: (rowData) => <span className="capitalize">{rowData.priority}</span>,
+      cell: (rowData) => (
+        <span className="capitalize">
+          {formatPriority(rowData.priority)}
+          {rowData.priority}
+        </span>
+      ),
       style: {},
     },
     {
