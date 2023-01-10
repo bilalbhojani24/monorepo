@@ -2,10 +2,12 @@ import React from 'react';
 
 // import { EnvelopeIcon } from '@heroicons/react/20/solid';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { EnvelopeIcon } from '../Icon';
 
 import {
+  BUTTON_FORMAT,
+  BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
-  BUTTON_TYPES,
   BUTTON_VARIANTS,
 } from './const/buttonConstants';
 import Button from './index';
@@ -40,11 +42,25 @@ const defaultConfig = {
       type: { summary: 'BOOLEAN', required: false },
       description: 'Lorem Ipsum',
     },
-    buttonType: {
+    buttonFormat: {
       control: { type: 'inline-radio' },
-      type: { summary: BUTTON_TYPES.join(', '), required: false },
-      options: BUTTON_TYPES,
+      type: { summary: BUTTON_FORMAT.join(', '), required: false },
+      options: BUTTON_FORMAT,
       description: 'Lorem Ipsum ',
+    },
+    fullWidth: {
+      control: { type: 'boolean' },
+      description: 'Lorem Ipsum',
+      type: { summary: 'BOOLEAN', required: false },
+      defaultValue: { summary: 'false' },
+    },
+    icon: {
+      defaultValue: <EnvelopeIcon />,
+    },
+    iconPlacement: {
+      options: BUTTON_ICON_PLACEMENT,
+      control: { type: 'inline-radio' },
+      defaultValue: BUTTON_ICON_PLACEMENT[0],
     },
   },
   controls: {},
