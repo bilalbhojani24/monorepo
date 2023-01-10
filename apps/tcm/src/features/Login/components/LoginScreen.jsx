@@ -33,7 +33,7 @@ const LoginScreen = (props) => {
             <div className="lg:self-center">
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 <span className="block">Ready to dive in?</span>
-                <span className="block">Welcome to Test Case Management</span>
+                <span className="block">Welcome to Test Management</span>
               </h2>
               <button
                 type="button"
