@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
@@ -43,7 +43,7 @@ const MainRoute = () => {
           }
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId${AppRoute.DASHBOARD}?`}
+          path={`${AppRoute.PROJECTS}/:projectId${AppRoute.DASHBOARD}`}
           element={
             <PrivateComponent>
               <Dashboard />
@@ -66,6 +66,7 @@ const MainRoute = () => {
             </PrivateComponent>
           }
         />
+        <Route path="*" element={<Navigate to={AppRoute.ROOT} replace />} />
       </Routes>
     </div>
   );
