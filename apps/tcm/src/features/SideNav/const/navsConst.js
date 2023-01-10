@@ -42,11 +42,11 @@ export const internalPrimaryNavLinks = [
     path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.DASHBOARD}`,
   },
   {
-    id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.REPO}`,
-    label: 'Repository',
+    id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_CASES}`,
+    label: 'Test Cases',
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
-    path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.REPO}`,
+    path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_CASES}`,
   },
   {
     id: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_RUNS}`,

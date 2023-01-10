@@ -52,7 +52,7 @@ const FolderItem = ({ title, onClick, id }) => {
   const { projectId } = useParams();
   return (
     <Link
-      to={`${AppRoute.PROJECTS}/${projectId}${AppRoute.REPO}/folder/${id}`}
+      to={`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}/folder/${id}`}
       className="w-full cursor-pointer border-b border-base-200 p-2"
       onClick={onClick}
     >

@@ -44,7 +44,7 @@ const MainRoute = () => {
           element={<Dashboard />}
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.REPO}/folder?/:folderId?`}
+          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_CASES}/folder?/:folderId?`}
           element={<Repository />}
         />
         <Route

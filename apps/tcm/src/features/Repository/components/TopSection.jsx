@@ -9,7 +9,7 @@ const TopSection = () => {
   return (
     <div className="w-full">
       <PageHeadings
-        heading="Repository"
+        heading="Test Cases"
         actionsData={[
           {
             id: 'node-1',
