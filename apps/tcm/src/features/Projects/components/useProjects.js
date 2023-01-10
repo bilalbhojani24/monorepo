@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from 'api/projects.api';
 
-import { setProjects } from '../../../slices/globalSlice';
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
 const useProjects = () => {
@@ -16,22 +13,10 @@ const useProjects = () => {
     dispatch(setAddProjectModalVisibility(true));
   };
 
-  const getAllProjects = () => {
-    getProjects().then((res) => {
-      dispatch(setProjects(res.projects));
-    });
-  };
-
-  useEffect(() => {
-    getAllProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return {
     activeProjects,
     showAddModal,
     addingProject,
-    getAllProjects,
   };
 };
 
