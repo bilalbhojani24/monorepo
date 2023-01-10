@@ -21,14 +21,14 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
   return (
     <>
       {nav ? (
-        <div>
+        <div className="mt-1">
           {nav.childrens && nav.childrens.length ? (
             <Disclosure as="div" key={nav.label} className="space-y-1">
               {({ open }) => (
                 <>
                   <Disclosure.Button
                     className={classNames(
-                      `group flex w-full items-center rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm font-medium text-base-600 hover:bg-base-50 hover:text-base-900`,
+                      `justify-between group flex w-full items-center rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm text-base-600 hover:bg-base-50 hover:text-base-900`,
                       {
                         [MODIFIER_CLASSNAMES[modifier].activeItemClass]:
                           current,
@@ -37,18 +37,21 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                       },
                     )}
                   >
-                    {nav.inActiveIcon && (
-                      <>
-                        {printIcon(
-                          nav.inActiveIcon,
-                          classNames(
-                            'mr-3 flex-shrink-0 h-6 w-6 text-base-400 group-hover:text-base-500',
-                            MODIFIER_CLASSNAMES[modifier].inActiveIconClass,
-                          ),
-                        )}
-                      </>
-                    )}
-                    {nav.label}
+                    <div className="flex items-center">
+                      {nav.inActiveIcon && (
+                        <>
+                          {printIcon(
+                            nav.inActiveIcon,
+                            classNames(
+                              'mr-3 flex-shrink-0 h-6 w-6 text-base-400 group-hover:text-base-500',
+                              MODIFIER_CLASSNAMES[modifier].inActiveIconClass,
+                            ),
+                          )}
+                        </>
+                      )}
+                      {nav.label}
+                    </div>
+
                     <svg
                       className={classNames(
                         open ? 'rotate-90 text-base-400' : 'text-base-300',
@@ -88,7 +91,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
             <a
               href={nav.path}
               className={classNames(
-                `group flex items-center rounded-md px-2 py-2 text-sm font-medium`,
+                `group flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium text-base-600 hover:bg-base-50 hover:text-base-900`,
                 {
                   [MODIFIER_CLASSNAMES[modifier].activeItemClass]: current,
                   [MODIFIER_CLASSNAMES[modifier].inActiveItemClass]: !current,
@@ -96,22 +99,24 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
               )}
               onClick={(e) => handleClick(e, nav)}
             >
-              {current ? (
-                <>
-                  {printIcon(
-                    nav.activeIcon,
-                    `mr-3 flex-shrink-0 ${MODIFIER_CLASSNAMES[modifier].activeIconClass}`,
-                  )}
-                </>
-              ) : (
-                <>
-                  {printIcon(
-                    nav.inActiveIcon,
-                    `mr-3 flex-shrink-0  ${MODIFIER_CLASSNAMES[modifier].inActiveIconClass}`,
-                  )}
-                </>
-              )}
-              {nav.label}
+              <div className="flex items-center">
+                {current ? (
+                  <>
+                    {printIcon(
+                      nav.activeIcon,
+                      `mr-3 flex-shrink-0 ${MODIFIER_CLASSNAMES[modifier].activeIconClass}`,
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {printIcon(
+                      nav.inActiveIcon,
+                      `mr-3 flex-shrink-0  ${MODIFIER_CLASSNAMES[modifier].inActiveIconClass}`,
+                    )}
+                  </>
+                )}
+                {nav.label}
+              </div>
               {nav.badgeLabel && !!nav.badgeLabel.length && (
                 <span
                   className={classNames(

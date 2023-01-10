@@ -19,7 +19,7 @@ const SidebarHeader = ({
     {brandImage?.length ? (
       <div
         className={classNames(
-          'flex flex-shrink-0 items-center px-4 py-4',
+          'flex flex-shrink-0 items-center px-4',
           brandImageContainerClass,
         )}
       >
@@ -32,7 +32,7 @@ const SidebarHeader = ({
     ) : null}
 
     {dropdownOptions.length ? (
-      <div className="py-4 px-1">
+      <div className="px-1">
         <SelectMenu
           options={dropdownOptions}
           value={dropdownValue || dropdownOptions[0]}
