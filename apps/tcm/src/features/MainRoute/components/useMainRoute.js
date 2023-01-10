@@ -21,8 +21,8 @@ export default function useMainRoute() {
 
   const onFailureHandler = (res) => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
-    if (res?.data?.data?.login_url) {
-      dispatch(setLoginURL(res.data.data.login_url));
+    if (res?.response?.data?.data?.login_url) {
+      dispatch(setLoginURL(res.response.data.data.login_url));
       navigate(AppRoute.LANDING);
     }
   };
@@ -32,9 +32,11 @@ export default function useMainRoute() {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {
         onFailureHandler({
-          data: {
+          response: {
             data: {
-              login_url: 'https://browserstack.com/',
+              data: {
+                login_url: 'https://browserstack.com/',
+              },
             },
           },
         });
