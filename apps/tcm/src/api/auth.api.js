@@ -1,4 +1,4 @@
-import { fetchGet } from './_utils/fetch';
+import axios from 'axios';
 
 export const authUser = async () =>
-  await fetchGet(`https://teststack.bsstag.com/api/v1`);
+  await axios.get(`https://teststack.bsstag.com/api/v1`);
