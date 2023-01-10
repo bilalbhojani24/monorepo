@@ -23,7 +23,7 @@ export default function useSideNav() {
     AppRoute.SETTINGS,
     AppRoute.DOCUMENTATION,
   ];
-  const allProjects = useSelector((state) => state.global.projects);
+  const allProjects = useSelector((state) => state.global.activeProjects);
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId,
   );
@@ -59,7 +59,13 @@ export default function useSideNav() {
   }, [location.pathname, selectedProjectId]);
 
   useEffect(() => {
-    setAllProjectsDrop(allProjects);
+    setAllProjectsDrop(
+      allProjects.map((item) => ({
+        ...item,
+        label: item.name,
+        value: item.id,
+      })),
+    );
     // to be mapped
   }, [allProjects]);
 
