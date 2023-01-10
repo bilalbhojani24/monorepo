@@ -10,7 +10,6 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
-  const selectedProject = null;
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -43,7 +42,6 @@ export default function useSideNav() {
     const navigateLink = activeRoute.dynamicPath
       ? activeRoute.dynamicPath.replace('$PROJECTID$', project?.id)
       : activeRoute.path;
-    debugger;
     navigate(navigateLink);
   };
 
@@ -88,7 +86,6 @@ export default function useSideNav() {
     allProjectsDrop,
     showProjects,
     activeRoute,
-    selectedProject,
     onProjectChange,
     selectedProjectId,
   };

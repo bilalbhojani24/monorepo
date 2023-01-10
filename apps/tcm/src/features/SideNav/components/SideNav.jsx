@@ -18,7 +18,6 @@ const SideNav = () => {
     allProjectsDrop,
     showProjects,
     activeRoute,
-    selectedProject,
     selectedProjectId,
     onProjectChange,
   } = useSideNav();
@@ -51,7 +50,9 @@ const SideNav = () => {
           <SidebarHeader
             dropdownOptions={allProjectsDrop}
             onDropdownValueChange={onProjectChange}
-            // dropdownValue={selectedProject}
+            dropdownValue={allProjectsDrop.find(
+              (item) => `${item.value}` === selectedProjectId,
+            )}
           />
         )
       }
