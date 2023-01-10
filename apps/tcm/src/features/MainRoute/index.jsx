@@ -43,15 +43,27 @@ const MainRoute = () => {
         />
         <Route
           path={`${AppRoute.PROJECTS}/:projectId${AppRoute.DASHBOARD}?`}
-          element={<Dashboard />}
+          element={
+            <PrivateComponent>
+              <Dashboard />
+            </PrivateComponent>
+          }
         />
         <Route
           path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_CASES}/folder?/:folderId?`}
-          element={<Repository />}
+          element={
+            <PrivateComponent>
+              <Repository />
+            </PrivateComponent>
+          }
         />
         <Route
           path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_RUNS}`}
-          element={<TestRuns />}
+          element={
+            <PrivateComponent>
+              <TestRuns />
+            </PrivateComponent>
+          }
         />
       </Routes>
     </div>
