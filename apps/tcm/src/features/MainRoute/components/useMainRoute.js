@@ -21,7 +21,7 @@ export default function useMainRoute() {
         navigate(AppRoute.LANDING);
       } else {
         cookies.set(AUTH_TOKEN_KEY, 'true');
-        navigate(AppRoute.PROJECTS);
+        navigate(AppRoute.ROOT);
         dispatch(
           setUser({ full_name: 'Faker Name', email: 'fake2@example.com' }),
         );
@@ -30,7 +30,7 @@ export default function useMainRoute() {
       authUser()
         .then((res) => {
           cookies.set(AUTH_TOKEN_KEY, 'true');
-          navigate(AppRoute.PROJECTS);
+          navigate(AppRoute.ROOT);
           if (res.data?.data?.user) {
             dispatch(setUser(res.data.data.user));
           }

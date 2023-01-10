@@ -3,7 +3,6 @@ import { BrowserRouter } from 'react-router-dom';
 import HeaderDummy from 'features/HeaderDummy';
 import MainRoute from 'features/MainRoute';
 import SideNav from 'features/SideNav';
-// import Repository from './routes/Repository';
 
 function App() {
   return (

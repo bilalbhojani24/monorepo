@@ -41,7 +41,7 @@ const ActiveProjects = (props) => {
   };
 
   const handleTestCasesClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.REPO}`);
+    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}`);
   };
 
   const rows = rowsData.map((data) => ({
