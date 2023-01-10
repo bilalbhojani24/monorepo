@@ -28,7 +28,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                 <>
                   <Disclosure.Button
                     className={classNames(
-                      `justify-between group flex w-full items-center rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm text-base-600 hover:bg-base-50 hover:text-base-900`,
+                      `group flex w-full items-center justify-between rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm text-base-600 hover:bg-base-50 hover:text-base-900`,
                       {
                         [MODIFIER_CLASSNAMES[modifier].activeItemClass]:
                           current,
