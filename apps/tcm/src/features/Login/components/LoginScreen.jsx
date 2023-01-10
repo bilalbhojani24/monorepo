@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
-import axios from 'axios';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import Cookies from 'universal-cookie';
