@@ -23,8 +23,8 @@ export default function useMainRoute() {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     if (res?.response?.data?.data?.login_url) {
       dispatch(setLoginURL(res.response.data.data.login_url));
-      navigate(AppRoute.LANDING);
     }
+    navigate(AppRoute.LANDING);
   };
 
   useEffect(() => {
