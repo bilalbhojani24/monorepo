@@ -45,7 +45,7 @@ const ActiveProjects = (props) => {
   };
 
   const rows = rowsData.map((data) => ({
-    id: `TC${data.id}`,
+    id: `PR-${data.id}`,
     projectTitle: data.name,
     quickLinks: (
       <>
