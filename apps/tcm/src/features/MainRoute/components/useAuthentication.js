@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
@@ -7,15 +7,15 @@ import { setLoginURL, setUser } from 'globalSlice/globalSlice';
 
 const useAuthentication = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
     localStorage.setItem(AUTH_TOKEN_KEY, 'true');
-    if (location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
     if (res.data?.data?.user) {
       dispatch(setUser(res.data.data.user));
     }
+    // on redirection after login, location.pathname tanks! hence using window.location.pathname
+    if (window.location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
   };
 
   const onAuthFailureHandler = (res) => {
