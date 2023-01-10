@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button, InputField, Modal } from '@browserstack/bifrost';
 import { addProjects } from 'api/projects.api';
+import AppRoute from 'const/routes';
 
 import { updateProjects } from '../../../slices/globalSlice';
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
 const AddProjects = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -21,6 +24,9 @@ const AddProjects = () => {
   const createProjectHandler = () => {
     addProjects(formData).then((res) => {
       dispatch(updateProjects(res.data.project));
+      navigate(
+        `${AppRoute.PROJECTS}/${res.data.project.id}${AppRoute.TEST_CASES}`,
+      );
       hideAddProjectModal();
     });
   };
