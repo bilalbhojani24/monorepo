@@ -65,6 +65,12 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ['*.stories.jsx'],
+      rules: {
+        'react/jsx-props-no-spreading': 0,
+      },
+    },
   ],
   rules: {
     'comma-dangle': 0,
@@ -93,5 +99,5 @@ module.exports = {
     'tailwindcss/no-custom-classname': 2,
     'tailwindcss/no-contradicting-classname': 2,
   },
-  globals: {}
+  globals: {},
 };
