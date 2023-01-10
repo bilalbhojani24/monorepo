@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTestCases } from 'api/testcases.api';
+import { addTestCase, getTestCases } from 'api/testcases.api';
 
 import {
+  addSingleTestCase,
   setAddTestCaseVisibility,
   updateAllTestCases,
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const [showNotification, setShowNotification] = useState(false);
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -35,6 +37,14 @@ export default function useTestCases() {
     else dispatch(updateAllTestCases([]));
   };
 
+  const saveTestCase = (pId, fId, payload) => () => {
+    addTestCase({ pId, fId, payload }).then((data) => {
+      dispatch(addSingleTestCase(data));
+      setShowNotification(true);
+      dispatch(setAddTestCaseVisibility(false));
+    });
+  };
+
   useEffect(() => {
     fetchAllTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,5 +56,7 @@ export default function useTestCases() {
     hideTestCaseAdditionPage,
     allTestCases,
     isAddTestCasePageVisible,
+    saveTestCase,
+    showNotification,
   };
 }
