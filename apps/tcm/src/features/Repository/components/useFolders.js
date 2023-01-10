@@ -34,6 +34,10 @@ export default function useFolders() {
     else dispatch(updateAllFolders([]));
   };
 
+  const updateFolders = (folderItem) => {
+    dispatch(updateAllFolders([...allFolders, folderItem]));
+  };
+
   useEffect(() => {
     fetchAllFolders();
     dispatch(setSelectedProject(projectId));
@@ -56,5 +60,6 @@ export default function useFolders() {
     hideAddFolderModal,
     showAddFolderModal,
     isAddFolderModalVisible,
+    updateFolders,
   };
 }

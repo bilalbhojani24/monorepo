@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import useFolders from './useFolders';
 
 const AddFolderModal = ({ projectId }) => {
-  const { hideAddFolderModal } = useFolders();
+  const { hideAddFolderModal, updateFolders } = useFolders();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: '',
@@ -17,8 +17,7 @@ const AddFolderModal = ({ projectId }) => {
       projectId,
       payload: filledFormData,
     }).then((item) => {
-      // refresh all folders
-      // fetchAllFolders();
+      if (item.data?.folder) updateFolders(item.data.folder);
       hideAddFolderModal();
     });
   };
