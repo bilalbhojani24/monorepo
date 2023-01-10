@@ -10,10 +10,11 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
+  const selectedProject = null;
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [primaryNavs, setPrimaryNavs] = useState();
+  const [primaryNavs, setPrimaryNavs] = useState([]);
   const [secondaryNavs, setSecondaryNavs] = useState([]);
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
   const [showProjects, setShowProjects] = useState(true);
@@ -38,6 +39,10 @@ export default function useSideNav() {
       path: item.path.replace('$PROJECTID$', selectedProjectId),
     }));
 
+  const onProjectChange = (d) => {
+    debugger;
+  };
+
   useEffect(() => {
     // set view
     if (baseViewRoutes.includes(location.pathname)) {
@@ -51,12 +56,16 @@ export default function useSideNav() {
       setPrimaryNavs(dynamicLinkReplaceHelper(internalPrimaryNavLinks));
       setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
     }
-
-    // set current view
-    setActiveRoute({
-      id: location.pathname,
-    });
   }, [location.pathname, selectedProjectId]);
+
+  useEffect(() => {
+    const allNavs = [...primaryNavs, ...secondaryNavs];
+    const matchedRoute = allNavs
+      .reverse()
+      .find((item) => location.pathname.includes(item.path));
+    // set current view
+    setActiveRoute(matchedRoute);
+  }, [location.pathname, primaryNavs, secondaryNavs]);
 
   useEffect(() => {
     setAllProjectsDrop(
@@ -66,7 +75,6 @@ export default function useSideNav() {
         value: item.id,
       })),
     );
-    // to be mapped
   }, [allProjects]);
 
   return {
@@ -76,5 +84,8 @@ export default function useSideNav() {
     allProjectsDrop,
     showProjects,
     activeRoute,
+    selectedProject,
+    onProjectChange,
+    selectedProjectId,
   };
 }

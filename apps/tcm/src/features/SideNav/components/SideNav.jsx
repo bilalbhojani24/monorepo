@@ -18,6 +18,9 @@ const SideNav = () => {
     allProjectsDrop,
     showProjects,
     activeRoute,
+    selectedProject,
+    selectedProjectId,
+    onProjectChange,
   } = useSideNav();
 
   if (location.pathname === AppRoute.LANDING) return '';
@@ -25,23 +28,33 @@ const SideNav = () => {
   return (
     <SidebarNavigation
       wrapperClass="mt-16"
-      // primaryNavItems={primaryNavs}
-      // active={activeRoute}
-      // handleClick={onLinkChange}
-      // selectOptions={allProjectsDrop}
-      // withSelect={showProjects}
-      // secondaryNavItems={secondaryNavs}
-      sidebarPrimaryNavigation={primaryNavs?.map((item, idx) => (
+      sidebarPrimaryNavigation={primaryNavs?.map((item) => (
         <React.Fragment key={Math.random()}>
-          <SidebarItem nav={item} current={idx === 3} />
+          <SidebarItem
+            nav={item}
+            current={activeRoute?.id === item.id}
+            handleNavigationClick={onLinkChange}
+          />
         </React.Fragment>
       ))}
-      sidebarSecondaryNavigation={secondaryNavs?.map((item, idx) => (
+      sidebarSecondaryNavigation={secondaryNavs?.map((item) => (
         <React.Fragment key={Math.random()}>
-          <SidebarItem nav={item} current={idx === 3} />
+          <SidebarItem
+            nav={item}
+            current={activeRoute?.id === item.id}
+            handleNavigationClick={onLinkChange}
+          />
         </React.Fragment>
       ))}
-      sidebarHeader={<SidebarHeader dropdownOptions={allProjectsDrop} />}
+      sidebarHeader={
+        showProjects && (
+          <SidebarHeader
+            dropdownOptions={allProjectsDrop}
+            onDropdownValueChange={onProjectChange}
+            // dropdownValue={selectedProject}
+          />
+        )
+      }
     />
   );
 };
