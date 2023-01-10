@@ -9,7 +9,7 @@ const HeaderDummy = () => {
 
   return (
     <div className="fixed top-0 z-[99] w-full bg-white pt-5">
-      <SectionHeadings title="BrowserStack | TM" />
+      <SectionHeadings title="BrowserStack | Test Case Management" />
     </div>
   );
 };

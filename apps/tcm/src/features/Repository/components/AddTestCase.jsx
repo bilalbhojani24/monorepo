@@ -32,7 +32,8 @@ const AddTestCase = () => {
         variant="buttons"
         secondaryButtonProps={{
           children: 'Save',
-          onClick: saveTestCase(projectId, selectedFolder.id, {
+          variant: 'white',
+          onClick: saveTestCase(projectId, selectedFolder?.id, {
             name: testCaseName,
           }),
         }}

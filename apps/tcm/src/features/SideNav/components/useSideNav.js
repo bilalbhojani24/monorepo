@@ -39,8 +39,12 @@ export default function useSideNav() {
       path: item.path.replace('$PROJECTID$', selectedProjectId),
     }));
 
-  const onProjectChange = (d) => {
+  const onProjectChange = (project) => {
+    const navigateLink = activeRoute.dynamicPath
+      ? activeRoute.dynamicPath.replace('$PROJECTID$', project?.id)
+      : activeRoute.path;
     debugger;
+    navigate(navigateLink);
   };
 
   useEffect(() => {

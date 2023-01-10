@@ -15,7 +15,7 @@ const TopSection = () => {
             id: 'node-1',
             actionsNode: <>Add Test Case</>,
             actionFn: showTestCaseAdditionPage,
-            variant: 'primary',
+            variant: 'white',
           },
         ]}
       />

@@ -40,6 +40,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
     path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.DASHBOARD}`,
+    dynamicPath: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.DASHBOARD}`,
   },
   {
     id: AppRoute.TEST_CASES,
@@ -47,6 +48,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
     path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_CASES}`,
+    dynamicPath: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_CASES}`,
   },
   {
     id: AppRoute.TEST_RUNS,
@@ -54,6 +56,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
     path: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_RUNS}`,
+    dynamicPath: `${AppRoute.PROJECTS}/$PROJECTID$${AppRoute.TEST_RUNS}`,
   },
   // {
   //   id: AppRoute.REPORTS,
