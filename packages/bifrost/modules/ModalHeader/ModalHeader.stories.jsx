@@ -20,7 +20,7 @@ const defaultConfig = {
 
   argTypes: {
     dismissButton: {
-      option: { type: null },
+      option: { type: 'boolean' },
       defaultValue: true,
     },
     handleDismissClick: {
@@ -32,6 +32,10 @@ const defaultConfig = {
     heading: {
       option: { type: 'string' },
       defaultValue: 'Deactivate account',
+    },
+    isBorder: {
+      option: { type: 'boolean' },
+      defaultValue: false,
     },
     subHeading: {
       option: { type: 'string' },

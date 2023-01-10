@@ -13,6 +13,7 @@ const ModalFooter = ({
   children,
   handlePrimaryButtonClick,
   handleSecondaryButtonClick,
+  isBorder,
   position,
   primaryButtonLabel,
   secondaryButtonLabel,
@@ -20,9 +21,11 @@ const ModalFooter = ({
 }) => (
   <div
     className={classNames(
-      `mt-5 space-y-2 space-x-3 px-6 py-4 sm:flex sm:space-y-0  ${backgroundColorClass}`,
+      `sticky bottom-0 left-0 w-full space-y-2 space-x-3 px-6 py-4 sm:flex sm:space-y-0 ${backgroundColorClass}`,
       {
         'sm:justify-end': position === POSITION[1],
+        'border-t border-base-300': isBorder,
+        'space-x-0': position === POSITION[0],
       },
     )}
   >
@@ -68,6 +71,7 @@ ModalFooter.propTypes = {
   children: PropTypes.node,
   handlePrimaryButtonClick: PropTypes.func,
   handleSecondaryButtonClick: PropTypes.func,
+  isBorder: PropTypes.bool,
   position: PropTypes.oneOf(POSITION),
   primaryButtonLabel: PropTypes.string,
   secondaryButtonLabel: PropTypes.string,
@@ -78,9 +82,10 @@ ModalFooter.defaultProps = {
   children: null,
   handlePrimaryButtonClick: () => {},
   handleSecondaryButtonClick: () => {},
+  isBorder: false,
   position: POSITION[0],
-  primaryButtonLabel: 'Submit',
-  secondaryButtonLabel: 'Cancel',
+  primaryButtonLabel: '',
+  secondaryButtonLabel: '',
   variant: VARIANT[0],
 };
 

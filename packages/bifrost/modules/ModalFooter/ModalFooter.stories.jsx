@@ -37,6 +37,10 @@ const defaultConfig = {
         console.log('handleSecondaryButtonClick - called');
       },
     },
+    isBorder: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
     position: {
       options: POSITION,
       controls: { type: 'inline-radio' },

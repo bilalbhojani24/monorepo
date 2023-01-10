@@ -10,10 +10,17 @@ const ModalHeader = ({
   dismissButton,
   handleDismissClick,
   heading,
+  isBorder,
   Icon,
   subHeading,
 }) => (
-  <div className="px-6 pt-4 sm:flex sm:items-start">
+  <div
+    className={`sticky top-0 left-0 w-full overflow-hidden  bg-white px-6 py-4 sm:flex sm:items-start ${classNames(
+      {
+        'border-b border-base-300': isBorder,
+      },
+    )}`}
+  >
     {Icon ? (
       <div className="mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-danger-100 sm:h-10 sm:w-10">
         <Icon className="h-6 w-6 text-danger-600" aria-hidden="true" />
@@ -62,6 +69,7 @@ ModalHeader.propTypes = {
   dismissButton: PropTypes.bool,
   handleDismissClick: PropTypes.func,
   heading: PropTypes.string,
+  isBorder: PropTypes.bool,
   Icon: PropTypes.node,
   subHeading: PropTypes.string,
 };
@@ -69,6 +77,7 @@ ModalHeader.defaultProps = {
   dismissButton: true,
   handleDismissClick: () => {},
   heading: '',
+  isBorder: false,
   Icon: null,
   subHeading: '',
 };

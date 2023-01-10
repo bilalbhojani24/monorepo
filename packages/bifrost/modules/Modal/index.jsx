@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import classNames from 'classnames';
@@ -42,7 +43,7 @@ const Modal = (props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel
-                className={`relative overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full ${classNames(
+                className={`relative max-h-[35rem] overflow-hidden overflow-y-scroll rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full ${classNames(
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
@@ -51,7 +52,7 @@ const Modal = (props) => {
                 )}`}
               >
                 {header}
-                <div className="mt-5 px-6">{body}</div>
+                {body ? <div className="py-5 px-6">{body}</div> : null}
                 {footer}
               </Dialog.Panel>
             </Transition.Child>
