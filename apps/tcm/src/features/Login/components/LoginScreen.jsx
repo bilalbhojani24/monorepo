@@ -1,34 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authUser } from 'api/auth.api';
-import { AUTH_TOKEN_KEY } from 'const/immutables';
-import AppRoute from 'const/routes';
-import Cookies from 'universal-cookie';
+import React, { useState } from 'react';
 
-const cookies = new Cookies();
+import useLoginScreen from './useLoginScreen';
+
 const LoginScreen = () => {
-  const [loginUrl, setLoginUrl] = useState('');
-  const navigate = useNavigate();
-
-  const handleResponse = (data) => {
-    if (data.response.data.data.login_url) {
-      setLoginUrl(data.response.data.data.login_url);
-      cookies.remove(AUTH_TOKEN_KEY);
-    } else {
-      cookies.set(AUTH_TOKEN_KEY, 'set');
-      navigate(AppRoute.PROJECTS);
-    }
-  };
-
-  useEffect(() => {
-    authUser()
-      .then((data) => {
-        handleResponse(data);
-      })
-      .catch((data) => {
-        handleResponse(data);
-      });
-  }, []);
+  const { loginUrl } = useLoginScreen();
 
   const handleLoginClick = () => {
     window.location.href = loginUrl;
