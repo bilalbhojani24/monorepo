@@ -10,12 +10,41 @@ import Drawer from './modules/Drawer/index';
 import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import Hyperlink from './modules/Hyperlink/index';
+import {
+  ArrowLongLeftIcon,
+  ArrowLongRightIcon,
+  BarsArrowUpIcon,
+  CalendarIcon,
+  ChartBarIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  CursorArrowRaysIcon,
+  EllipsisVerticalIcon,
+  EnvelopeIcon,
+  EnvelopeOpenIcon,
+  ExclamationCircleIcon,
+  FolderIcon,
+  HomeIcon,
+  InboxIcon,
+  InformationCircleIcon,
+  MagnifyingGlassIcon,
+  PaperClipIcon,
+  PlusIcon,
+  UsersIcon,
+  XMarkIcon,
+} from './modules/Icon/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
 import InputWButton from './modules/InputWButton/index';
 import InputWDropdown from './modules/InputWDropdown/index';
 import InputWKB from './modules/InputWKB/index';
 import Loader from './modules/Loader/index';
+import Modal from './modules/Modal';
+import ModalFooter from './modules/ModalFooter';
+import ModalHeader from './modules/ModalHeader';
 import Notifications from './modules/Notifications/index';
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
@@ -33,55 +62,54 @@ import Switch from './modules/Switch/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
 
-import {
-  BarsArrowUpIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  EnvelopeIcon,
-  ExclamationCircleIcon,
-  HomeIcon,
-  InformationCircleIcon,
-  PlusIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  InboxIcon,
-  UsersIcon,
-  PaperClipIcon,
-  ChevronUpIcon,
-  ChevronLeftIcon,
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-  EllipsisVerticalIcon,
-  CursorArrowRaysIcon,
-  EnvelopeOpenIcon
-} from './modules/Icon/index';
-
 export {
   Alerts,
+  ArrowLongLeftIcon,
+  ArrowLongRightIcon,
   Badge,
+  // Icons
+  BarsArrowUpIcon,
   Breadcrumb,
   Button,
+  CalendarIcon,
+  ChartBarIcon,
   Checkbox,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
   ColorPicker,
+  CursorArrowRaysIcon,
   DataTable,
   DescriptionList,
   Drawer,
   Dropdown,
+  EllipsisVerticalIcon,
   EmptyState,
+  EnvelopeIcon,
+  EnvelopeOpenIcon,
+  ExclamationCircleIcon,
+  FolderIcon,
+  HomeIcon,
   Hyperlink,
+  InboxIcon,
+  InformationCircleIcon,
   InputAddOnTexts,
   InputField,
   InputWButton,
   InputWDropdown,
   InputWKB,
   Loader,
+  MagnifyingGlassIcon,
+  Modal,
+  ModalFooter,
+  ModalHeader,
   Notifications,
   PageHeadings,
   Pagination,
+  PaperClipIcon,
+  PlusIcon,
   Radio,
   RadioGroup,
   RadioSmallCards,
@@ -95,29 +123,6 @@ export {
   Switch,
   Tabs,
   TextArea,
-  // Icons
-  BarsArrowUpIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  EnvelopeIcon,
-  ExclamationCircleIcon,
-  HomeIcon,
-  InformationCircleIcon,
-  PlusIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  InboxIcon,
   UsersIcon,
-  PaperClipIcon,
-  ChevronUpIcon,
-  ChevronLeftIcon,
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
-  MagnifyingGlassIcon,
   XMarkIcon,
-  EllipsisVerticalIcon,
-  CursorArrowRaysIcon,
-  EnvelopeOpenIcon
 };
