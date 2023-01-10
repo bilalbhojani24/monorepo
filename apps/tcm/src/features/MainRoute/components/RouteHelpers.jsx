@@ -3,12 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const PrivateComponent = ({ children }) => {
-  const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
+  const isAuthenticatedUser = localStorage.getItem(AUTH_TOKEN_KEY);
 
   /// if not logged in, redirect to login
   return isAuthenticatedUser ? (
@@ -23,7 +20,7 @@ PrivateComponent.propTypes = {
 };
 
 const OnlyPublicComponent = ({ children }) => {
-  const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
+  const isAuthenticatedUser = localStorage.getItem(AUTH_TOKEN_KEY);
 
   // if logged in redirect to dashboard
   return !isAuthenticatedUser ? children : <Navigate to={AppRoute.ROOT} />;
