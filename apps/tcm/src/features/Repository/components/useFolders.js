@@ -56,6 +56,5 @@ export default function useFolders() {
     hideAddFolderModal,
     showAddFolderModal,
     isAddFolderModalVisible,
-    fetchAllFolders,
   };
 }
