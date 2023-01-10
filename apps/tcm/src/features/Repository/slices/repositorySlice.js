@@ -18,6 +18,9 @@ export const repositorySlice = createSlice({
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
     },
+    addSingleTestCase: (state, { payload }) => {
+      state.allTestCases.push(payload);
+    },
     setAddFolderModalVisibility: (state, { payload }) => {
       state.showAddFolderModal = payload;
     },
@@ -31,6 +34,7 @@ export const repositorySlice = createSlice({
 });
 
 export const {
+  addSingleTestCase,
   updateAllFolders,
   setAddFolderModalVisibility,
   setSelectedFolder,
