@@ -1,6 +1,7 @@
-import { fetchGet } from './_utils/fetch';
+import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getProjects = async () => {
-  const data = await fetchGet('/api/v1/projects');
-  return data;
-};
+export const getProjects = async () => await fetchGet('/api/v1/projects');
+
+export const addProjects = async (payload) =>
+  // const data = payload;
+  await fetchPost(`/api/v1/projects`, payload);

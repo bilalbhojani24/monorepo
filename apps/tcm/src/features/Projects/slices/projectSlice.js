@@ -1,7 +1,18 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-// const initialState = {
-//     something: 0
-// };
+const initialState = {
+  showAddProjectModal: false,
+};
 
-// const
+const projectSlice = createSlice({
+  name: 'projects',
+  initialState,
+  reducers: {
+    setAddProjectModalVisibility: (state, { payload }) => {
+      state.showAddProjectModal = payload;
+    },
+  },
+});
+
+export const { setAddProjectModalVisibility } = projectSlice.actions;
+export default projectSlice.reducer;
