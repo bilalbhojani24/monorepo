@@ -2,14 +2,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from 'api/projects.api';
 
-import {
-  setAddProjectModalVisibility,
-  setProjects,
-} from '../slices/projectSlice';
+import { setProjects } from '../../../slices/globalSlice';
+import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
 const useProjects = () => {
   const dispatch = useDispatch();
-  const activeProjects = useSelector((state) => state.projects.allProjects);
+  const activeProjects = useSelector((state) => state.global.activeProjects);
   const showAddModal = useSelector(
     (state) => state.projects.showAddProjectModal,
   );

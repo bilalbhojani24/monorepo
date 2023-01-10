@@ -2,11 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: {},
-  projects: [
-    { label: 'Project 1', value: 'p1' },
-    { label: 'Project 2', value: 'p2' },
-    { label: 'Project 3', value: 'p3' },
-  ],
+  activeProjects: [],
   selectedProjectId: null,
 };
 
@@ -15,7 +11,10 @@ export const globalSlice = createSlice({
   initialState,
   reducers: {
     setProjects: (state, { payload }) => {
-      state.projects = payload;
+      state.activeProjects = payload;
+    },
+    updateProjects: (state, { payload }) => {
+      state.activeProjects.push(payload);
     },
     setUser: (state, { payload }) => {
       state.user = payload;
@@ -26,6 +25,7 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setProjects, setUser, setSelectedProject } = globalSlice.actions;
+export const { setProjects, setUser, setSelectedProject, updateProjects } =
+  globalSlice.actions;
 
 export default globalSlice.reducer;

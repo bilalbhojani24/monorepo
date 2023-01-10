@@ -3,10 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Button, InputField, Modal } from '@browserstack/bifrost';
 import { addProjects } from 'api/projects.api';
 
-import {
-  setAddProjectModalVisibility,
-  updateProjects,
-} from '../slices/projectSlice';
+import { updateProjects } from '../../../slices/globalSlice';
+import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
 const AddProjects = () => {
   const [formData, setFormData] = useState({
