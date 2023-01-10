@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { SidebarNavigation } from '@browserstack/bifrost';
+import {
+  SidebarHeader,
+  SidebarItem,
+  SidebarNavigation,
+} from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 
 import useSideNav from './useSideNav';
@@ -19,17 +23,26 @@ const SideNav = () => {
   if (location.pathname === AppRoute.LANDING) return '';
 
   return (
-    <div>
-      <SidebarNavigation
-        wrapperClass="mt-16"
-        primaryNavItems={primaryNavs}
-        active={activeRoute}
-        handleClick={onLinkChange}
-        selectOptions={allProjectsDrop}
-        withSelect={showProjects}
-        secondaryNavItems={secondaryNavs}
-      />
-    </div>
+    <SidebarNavigation
+      wrapperClass="mt-16"
+      // primaryNavItems={primaryNavs}
+      // active={activeRoute}
+      // handleClick={onLinkChange}
+      // selectOptions={allProjectsDrop}
+      // withSelect={showProjects}
+      // secondaryNavItems={secondaryNavs}
+      sidebarPrimaryNavigation={primaryNavs?.map((item, idx) => (
+        <React.Fragment key={Math.random()}>
+          <SidebarItem nav={item} current={idx === 3} />
+        </React.Fragment>
+      ))}
+      sidebarSecondaryNavigation={secondaryNavs?.map((item, idx) => (
+        <React.Fragment key={Math.random()}>
+          <SidebarItem nav={item} current={idx === 3} />
+        </React.Fragment>
+      ))}
+      sidebarHeader={<SidebarHeader dropdownOptions={allProjectsDrop} />}
+    />
   );
 };
 

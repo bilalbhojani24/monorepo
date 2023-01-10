@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
@@ -16,12 +16,13 @@ import {
 import useMainRoute from './components/useMainRoute';
 
 const MainRoute = () => {
+  const location = useLocation();
   useMainRoute();
 
   return (
     <div
       className={classNames('flex flex-1 flex-col items-stretch', {
-        // 'md:pl-64': location.pathname !== AppRoute.ROOT,
+        'md:pl-64': location.pathname !== AppRoute.LANDING,
       })}
     >
       <Routes>

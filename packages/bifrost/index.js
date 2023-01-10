@@ -53,6 +53,8 @@ import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
+import SidebarHeader from './modules/SidebarHeader/index';
+import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
@@ -113,6 +115,8 @@ export {
   RadioTable,
   SectionHeadings,
   SelectMenu,
+  SidebarHeader,
+  SidebarItem,
   SidebarNavigation,
   Stats,
   Steps,
