@@ -1,17 +1,15 @@
-import React, { useMemo } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import classNames from 'classnames';
-import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
-import Cookies from 'universal-cookie';
 
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 
-const cookies = new Cookies();
+import { OnlyPublicComponent, PrivateComponent } from './RouteHelpers';
 
 const MainRoute = () => (
   <div
@@ -51,21 +49,5 @@ const MainRoute = () => (
     </Routes>
   </div>
 );
-
-const PrivateComponent = ({ children }) => children;
-// const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
-
-// /// if not logged in, redirect to login
-// return isAuthenticatedUser ? (
-//   children || ''
-// ) : (
-//   <Navigate to={AppRoute.LANDING} />
-// );
-
-const OnlyPublicComponent = ({ children }) => children;
-// const isAuthenticatedUser = useMemo(() => cookies.get(AUTH_TOKEN_KEY), []);
-
-// // if logged in redirect to dashboard
-// return !isAuthenticatedUser ? children : <Navigate to={AppRoute.ROOT} />;
 
 export default MainRoute;

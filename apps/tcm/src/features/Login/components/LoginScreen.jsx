@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authUser } from 'api/auth.api';
 import axios from 'axios';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-const LoginScreen = (props) => {
+const LoginScreen = () => {
   const [loginUrl, setLoginUrl] = useState('');
   const navigate = useNavigate();
 
@@ -21,15 +22,14 @@ const LoginScreen = (props) => {
   };
 
   useEffect(() => {
-    axios
-      .get('https://teststack.bsstag.com/api/v1')
+    authUser()
       .then((data) => {
         handleResponse(data);
       })
       .catch((data) => {
         handleResponse(data);
       });
-  }, [navigate]);
+  }, []);
 
   const handleLoginClick = () => {
     window.location.href = loginUrl;
