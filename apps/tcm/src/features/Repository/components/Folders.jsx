@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { TMButton } from '_proxyComp';
+import { TMButton } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 import { CreateNewFolderOutlinedIcon } from 'Icons';
 

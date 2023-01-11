@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TMButton, TMInputField, TMModal } from '_proxyComp';
 import { addFolder } from 'api/folders.api.js';
+import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
 import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';

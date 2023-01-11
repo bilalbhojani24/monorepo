@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMPageHeadings } from '_proxyComp';
+import { TMPageHeadings } from 'bifrostProxy';
 
 import useTestCases from './useTestCases';
 

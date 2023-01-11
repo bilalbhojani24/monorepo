@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { TMSectionHeadings } from '_proxyComp';
+import { TMSectionHeadings } from 'bifrostProxy';
 
 const HeaderDummy = () => {
   const userDetails = useSelector((state) => state.global.user);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TMPageHeadings, TMTabs } from '_proxyComp';
+import { TMPageHeadings, TMTabs } from 'bifrostProxy';
 import { string } from 'prop-types';
 
 import ActiveProjects from './ActiveProjects';

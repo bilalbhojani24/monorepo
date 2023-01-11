@@ -15,7 +15,7 @@ export default defineConfig({
       features: path.resolve(__dirname, 'src/features'),
       Icons: path.resolve(__dirname, 'src/features/Icons'),
       globalSlice: path.resolve(__dirname, 'src/slices'),
-      _proxyComp: path.resolve(__dirname, 'src/_proxyComp'),
+      bifrostProxy: path.resolve(__dirname, 'src/bifrostProxy'),
     },
   },
 });

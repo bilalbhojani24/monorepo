@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TMDataTable, TMDropdown } from '_proxyComp';
+import { TMDataTable, TMDropdown } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 import { arrayOf, node, shape, string } from 'prop-types';
 

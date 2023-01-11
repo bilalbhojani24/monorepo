@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TMButton, TMInputField, TMModal } from '_proxyComp';
 import { addProjects } from 'api/projects.api';
+import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 
 import { updateProjects } from '../../../slices/globalSlice';

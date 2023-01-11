@@ -5,7 +5,7 @@ import {
   TMNotifications,
   TMSectionHeadings,
   TMSelectMenu,
-} from '_proxyComp';
+} from 'bifrostProxy';
 
 import useTestCases from './useTestCases';
 

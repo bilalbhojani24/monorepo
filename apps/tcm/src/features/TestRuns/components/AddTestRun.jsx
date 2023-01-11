@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TMButton, TMInputField, TMModal } from '_proxyComp';
+import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
 // import { addTestRuns } from 'api/projects.api';
 import AppRoute from 'const/routes';
 

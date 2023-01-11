@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMButton, TMDataTable, TMDropdown, TMInputField } from '_proxyComp';
+import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
