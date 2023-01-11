@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addTestCase, getTestCases } from 'api/testcases.api';
@@ -8,9 +8,10 @@ import {
   setAddTestCaseVisibility,
   updateAllTestCases,
 } from '../slices/repositorySlice';
+import { addFormPayload } from '../slices/testCaseFormSlice';
 
 export default function useTestCases() {
-  const [showNotification, setShowNotification] = useState(false);
+  // const [inputError, setInputError] = useState(false);
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -20,6 +21,9 @@ export default function useTestCases() {
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible,
+  );
+  const testCaseFormPayload = useSelector(
+    (state) => state.testCaseForm.formPayload,
   );
 
   const showTestCaseAdditionPage = () => {
@@ -38,11 +42,20 @@ export default function useTestCases() {
   };
 
   const saveTestCase = (pId, fId, payload) => () => {
+    // if (!payload.testCaseFormPayload.name) {
+    //   setInputError(true);
+    // } else {
     addTestCase({ pId, fId, payload }).then((data) => {
       dispatch(addSingleTestCase(data));
-      setShowNotification(true);
       dispatch(setAddTestCaseVisibility(false));
     });
+    // }
+  };
+
+  const handleTestCaseFieldChange = (field) => (e) => {
+    const { value: val } = e.target;
+    dispatch(addFormPayload({ field, val }));
+    // if (val) setInputError(false);
   };
 
   useEffect(() => {
@@ -51,12 +64,14 @@ export default function useTestCases() {
   }, [projectId, folderId]);
 
   return {
+    handleTestCaseFieldChange,
+    testCaseFormPayload,
+    // inputError,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAdditionPage,
     allTestCases,
     isAddTestCasePageVisible,
     saveTestCase,
-    showNotification,
   };
 }

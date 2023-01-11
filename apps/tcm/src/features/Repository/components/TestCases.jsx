@@ -10,6 +10,7 @@ import {
 
 import AddTestCase from './AddTestCase';
 import BlankPage from './BlankPage';
+import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 import '../styles/TestCases.scss';
@@ -122,6 +123,7 @@ export default function TestCases() {
           </div>
         )}
       </div>
+      <InlineAddTestCase />
     </div>
   );
 }
