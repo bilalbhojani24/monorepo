@@ -1,16 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getFolders } from 'api/folders.api';
+import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice/globalSlice';
 
 import {
   setAddFolderModalVisibility,
+  setAddTestCaseVisibility,
   setSelectedFolder,
   updateAllFolders,
 } from '../slices/repositorySlice';
 
 export default function useFolders() {
+  const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -27,9 +30,21 @@ export default function useFolders() {
   };
 
   const fetchAllFolders = () => {
+    dispatch(setAddTestCaseVisibility(false));
     if (projectId)
       getFolders({ projectId }).then((data) => {
         dispatch(updateAllFolders(data?.folders || []));
+        if (
+          data?.folders &&
+          window.location.pathname.includes(AppRoute.TEST_CASES)
+        ) {
+          // select first folder by default, only if the test cases page is still open
+          const firstFolderId = data.folders[0]?.id;
+          if (firstFolderId)
+            navigate(
+              `${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}/folder/${firstFolderId}`,
+            );
+        }
       });
     else dispatch(updateAllFolders([]));
   };

@@ -28,7 +28,7 @@ const AllProjects = (props) => {
               id: 'node-1',
               actionsNode: <>Add projects</>,
               actionFn: addingProject,
-              variant: 'white',
+              variant: 'primary',
             },
           ]}
         />

@@ -14,7 +14,6 @@ const AddTestCase = () => {
   const {
     selectedFolder,
     hideTestCaseAdditionPage,
-    isAddTestCasePageVisible,
     saveTestCase,
     showNotification,
   } = useTestCases();
@@ -32,7 +31,7 @@ const AddTestCase = () => {
         variant="buttons"
         secondaryButtonProps={{
           children: 'Save',
-          variant: 'white',
+          variant: 'primary',
           onClick: saveTestCase(projectId, selectedFolder?.id, {
             name: testCaseName,
           }),

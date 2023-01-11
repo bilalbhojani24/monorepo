@@ -76,7 +76,7 @@ export default function TestCases() {
     },
   ];
 
-  if (isAddTestCasePageVisible) return <AddTestCase />;
+  if (isAddTestCasePageVisible && selectedFolder) return <AddTestCase />;
 
   return (
     <div className="flex w-full flex-col items-start">
@@ -110,8 +110,8 @@ export default function TestCases() {
 
         {allTestCases.length ? (
           <DataTable
-            isSelectable
-            isHeaderSticky
+            // isSelectable
+            // isHeaderSticky
             columns={datatableColumns}
             rows={allTestCases}
             // isSortable={false}
