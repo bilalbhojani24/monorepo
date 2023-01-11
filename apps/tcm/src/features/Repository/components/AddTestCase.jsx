@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { TMInputField, TMSectionHeadings, TMSelectMenu } from 'bifrostProxy';
 
+import { priorityOptions, templateOptions } from '../const/addTestCaseConst';
+
 import useTestCases from './useTestCases';
 
 const AddTestCase = () => {
@@ -43,13 +45,10 @@ const AddTestCase = () => {
       </div>
       <div className="w-1/3">
         <TMSelectMenu
-          defaultValue={{ label: 'Text', value: 'text' }}
+          defaultValue={templateOptions[0]}
           checkPosition="right"
           label="Choose Template*"
-          options={[
-            { label: 'Text', value: 'text' },
-            { label: 'Steps', value: 'steps' },
-          ]}
+          options={templateOptions}
           onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
       </div>
@@ -64,13 +63,12 @@ const AddTestCase = () => {
         />
       </div>
       <div className="mt-4">
-        <TMInputField
-          // value={newTestCaseData?.priority}
-          id="test-case-priority"
-          label="Priority"
-          onChange={(e) =>
-            handleTestCaseFieldChange('priority', e.currentTarget.value)
-          }
+        <TMSelectMenu
+          defaultValue={priorityOptions[0]}
+          checkPosition="right"
+          label="Priority*"
+          options={priorityOptions}
+          onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
         />
       </div>
       <div className="mt-4">
