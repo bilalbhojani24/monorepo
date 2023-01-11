@@ -8,11 +8,10 @@ const AddTestCase = () => {
   const { projectId } = useParams();
   const {
     handleTestCaseFieldChange,
-    // inputError,
+    newTestCaseData,
     selectedFolder,
     hideTestCaseAdditionPage,
     saveTestCase,
-    newTestCaseData,
   } = useTestCases();
 
   return (
