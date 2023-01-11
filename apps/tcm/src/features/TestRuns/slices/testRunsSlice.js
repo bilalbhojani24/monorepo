@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showAddTestRunsModal: false,
+  allTestRunsArray: [],
 };
 
 const testRunslice = createSlice({
@@ -11,8 +12,12 @@ const testRunslice = createSlice({
     setAddTestRunsModalVisibility: (state, { payload }) => {
       state.showAddTestRunsModal = payload;
     },
+    updateAllTestRuns: (state, { payload }) => {
+      state.allTestRunsArray = payload;
+    },
   },
 });
 
-export const { setAddTestRunsModalVisibility } = testRunslice.actions;
+export const { setAddTestRunsModalVisibility, updateAllTestRuns } =
+  testRunslice.actions;
 export default testRunslice.reducer;

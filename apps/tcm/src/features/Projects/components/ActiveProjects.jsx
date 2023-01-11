@@ -4,13 +4,6 @@ import { TMDataTable, TMDropdown } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 import { arrayOf, node, shape, string } from 'prop-types';
 
-const styles = {
-  color: '#6B7280',
-  fontWeight: 500,
-  fontSize: '12px',
-  lineHeight: '16px',
-};
-
 const ActiveProjects = (props) => {
   const { rowsData } = props;
   const navigate = useNavigate();
@@ -30,7 +23,6 @@ const ActiveProjects = (props) => {
     {
       name: 'ID',
       key: 'id',
-      style: styles,
       cell: (rowData) => (
         <div
           role="button"
@@ -46,7 +38,6 @@ const ActiveProjects = (props) => {
     {
       name: 'Project Title',
       key: 'name',
-      style: styles,
       cell: (rowData) => (
         <div
           role="button"
@@ -62,7 +53,6 @@ const ActiveProjects = (props) => {
     {
       name: 'Quick Links',
       key: 'quickLinks',
-      style: styles,
       cell: (rowData) => (
         <>
           <span

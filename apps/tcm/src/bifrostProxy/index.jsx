@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Button,
   DataTable,
+  Drawer,
   Dropdown,
   EmptyState,
   InputField,
@@ -24,3 +25,4 @@ export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
+export const TMDrawer = (props) => <Drawer {...props} />;

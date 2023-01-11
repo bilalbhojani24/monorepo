@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TMPageHeadings, TMTabs } from 'bifrostProxy';
 import { string } from 'prop-types';
 
-import ActiveTestRuns from './ActiveTestRuns';
 import AddTestRun from './AddTestRun';
-import ClosedTestRuns from './ClosedTestRuns';
+import TestRunsTable from './TestRunsTable';
 import useTestRuns from './useTestRuns';
 
-const TestRuns = (props) => {
-  const { defaultTab } = props;
-  const [currentTab, setCurrentTab] = useState(defaultTab);
-  const ACTIVE_PROJECTS = 'Active Test Runs';
-
-  const { activeTestRuns, addingTestRun, showAddModal } = useTestRuns();
-
-  const handleTabChange = (tabName) => {
-    setCurrentTab(tabName.name);
-  };
+const TestRuns = () => {
+  const { addingTestRun, showAddModal } = useTestRuns();
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
@@ -33,26 +24,10 @@ const TestRuns = (props) => {
           ]}
         />
       </div>
-      <div className="flex flex-1 flex-col items-stretch bg-base-100">
-        <div className="p-5">
-          <TMTabs
-            id="project-tabs"
-            tabsArray={[
-              { name: 'Active Test Runs' },
-              { name: 'Closed Test Runs' },
-            ]}
-            onTabChange={handleTabChange}
-          />
-        </div>
-        <div>
-          {currentTab === ACTIVE_PROJECTS ? (
-            <ActiveTestRuns rowsData={activeTestRuns} />
-          ) : (
-            <ClosedTestRuns />
-          )}
-          {showAddModal ? <AddTestRun /> : ''}
-        </div>
+      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
+        <TestRunsTable />
       </div>
+      {showAddModal ? <AddTestRun /> : ''}
     </div>
   );
 };

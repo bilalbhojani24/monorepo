@@ -50,7 +50,6 @@ export default function useTestCases() {
       dispatch(addSingleTestCase(data));
       dispatch(setAddTestCaseVisibility(false));
     });
-    // }
   };
 
   const handleTestCaseFieldChange = (key, value) => {
