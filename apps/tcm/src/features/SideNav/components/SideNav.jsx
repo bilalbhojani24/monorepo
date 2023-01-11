@@ -28,22 +28,20 @@ const SideNav = () => {
     <SidebarNavigation
       wrapperClass="mt-16"
       sidebarPrimaryNavigation={primaryNavs?.map((item) => (
-        <React.Fragment key={Math.random()}>
-          <SidebarItem
-            nav={item}
-            current={activeRoute?.id === item.id}
-            handleNavigationClick={onLinkChange}
-          />
-        </React.Fragment>
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={activeRoute?.id === item.id}
+          handleNavigationClick={onLinkChange}
+        />
       ))}
       sidebarSecondaryNavigation={secondaryNavs?.map((item) => (
-        <React.Fragment key={Math.random()}>
-          <SidebarItem
-            nav={item}
-            current={activeRoute?.id === item.id}
-            handleNavigationClick={onLinkChange}
-          />
-        </React.Fragment>
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={activeRoute?.id === item.id}
+          handleNavigationClick={onLinkChange}
+        />
       ))}
       sidebarHeader={
         showProjects && (
