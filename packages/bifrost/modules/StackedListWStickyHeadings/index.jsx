@@ -13,7 +13,7 @@ const StackedListWStickyHeadings = ({ list, avatarVisible }) => {
           <ul role="list" className="relative z-0 divide-y divide-base-200">
             {listItem.contents.map((listItemContent) => (
               <li key={listItemContent.id} className="bg-white">
-                <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 hover:bg-base-50">
+                <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-500 hover:bg-base-50">
                   <div className="flex-shrink-0">{avatarVisible && listItemContent.avatar}</div>
                   <div className="min-w-0 flex-1">
                     <a href={listItemContent.link} className="focus:outline-none">

@@ -48,7 +48,7 @@ const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, tota
         {isContained && (
           <span
             aria-hidden="true"
-            className={classNames(isCurrent ? 'bg-indigo-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5')}
+            className={classNames(isCurrent ? 'bg-brand-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5')}
           />
         )}
         {tab.count && shape === TAB_SHAPE[0] && !isContained ? (

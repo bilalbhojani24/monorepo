@@ -46,7 +46,7 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
           >
             <ChevronUpIcon
               className={classNames('h-4 w-4 cursor-pointer', {
-                'text-indigo-600': sortType && sortType === 'desc'
+                'text-brand-600': sortType && sortType === 'desc'
               })}
               aria-hidden="true"
             />
@@ -58,7 +58,7 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
           >
             <ChevronDownIcon
               className={classNames('h-4 w-4 cursor-pointer', {
-                'text-indigo-600': sortType && sortType === 'asc'
+                'text-brand-600': sortType && sortType === 'asc'
               })}
               aria-hidden="true"
             />

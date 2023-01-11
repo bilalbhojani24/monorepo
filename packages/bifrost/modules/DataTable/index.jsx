@@ -75,11 +75,11 @@ const DataTable = (props) => {
                 {isSelectable && (
                   <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                     {selectedRow.includes(row) && (
-                      <div className={classNames('absolute inset-y-0 left-0 w-0.5 bg-indigo-600')} />
+                      <div className={classNames('absolute inset-y-0 left-0 w-0.5 bg-brand-600')} />
                     )}
                     <input
                       type="checkbox"
-                      className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-base-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
+                      className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-base-300 text-brand-600 focus:ring-brand-500 sm:left-6"
                       checked={selectedRow.includes(row)}
                       onChange={(e) => handleRowChange(e, row)}
                     />

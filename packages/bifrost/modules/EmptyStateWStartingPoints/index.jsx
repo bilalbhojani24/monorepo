@@ -40,7 +40,7 @@ const EmptyStateWStartingPoints = (props) => {
       <div className="mt-4 flex">
         <a
           href="/"
-          className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+          className="text-sm font-medium text-brand-600 hover:text-brand-500"
           onClick={(e) => {
             handleClick(e, handleCTAClick);
           }}

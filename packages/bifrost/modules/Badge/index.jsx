@@ -15,6 +15,7 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
         'bg-success-100 text-success-800': modifier === BADGE_MODIFIER[2],
         'bg-danger-100 text-danger-800': modifier === BADGE_MODIFIER[3],
         'bg-attention-100 text-attention-800': modifier === BADGE_MODIFIER[4],
+        'bg-info-100 text-info-800': modifier === BADGE_MODIFIER[5],
         'rounded-full': !isRounded,
         'rounded ': isRounded,
         'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
@@ -28,7 +29,8 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
             'text-brand-400': modifier === BADGE_MODIFIER[1],
             'text-success-400': modifier === BADGE_MODIFIER[2],
             'text-danger-400': modifier === BADGE_MODIFIER[3],
-            'text-attention-400': modifier === BADGE_MODIFIER[4]
+            'text-attention-400': modifier === BADGE_MODIFIER[4],
+            'text-info-400': modifier === BADGE_MODIFIER[5]
           })}
           fill="currentColor"
           viewBox="0 0 8 8"
@@ -52,7 +54,9 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
               'hover:bg-danger-200 hover:text-danger-500 focus:bg-danger-500 text-danger-400':
                 modifier === BADGE_MODIFIER[3],
               'hover:bg-attention-200 hover:text-attention-500 focus:bg-attention-500 text-attention-400':
-                modifier === BADGE_MODIFIER[4]
+                modifier === BADGE_MODIFIER[4],
+              'hover:bg-info-200 hover:text-info-500 focus:bg-info-500 text-info-400':
+                modifier === BADGE_MODIFIER[5]
             }
           )}
         >

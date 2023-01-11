@@ -36,6 +36,7 @@ const link = (
             modifier === ALERT_MODIFIER[3],
           'text-attention-700 hover:text-attention-600':
             modifier === ALERT_MODIFIER[4],
+          'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5],
         })}
         onClick={(event) => {
           event.preventDefault();
@@ -114,6 +115,7 @@ const Alerts = (props) => {
     'text-success-400': modifier === ALERT_MODIFIER[2],
     'text-danger-400': modifier === ALERT_MODIFIER[3],
     'text-attention-400': modifier === ALERT_MODIFIER[4],
+    'text-info-700': modifier === ALERT_MODIFIER[5],
   });
 
   return (
@@ -142,12 +144,15 @@ const Alerts = (props) => {
               accentBorder && modifier === ALERT_MODIFIER[3],
             'border-l-4 border-attention-400':
               accentBorder && modifier === ALERT_MODIFIER[4],
+            'border-info-400 border-l-4':
+              accentBorder && modifier === ALERT_MODIFIER[5],
 
             'bg-base-50': modifier === ALERT_MODIFIER[0],
             'bg-brand-50': modifier === ALERT_MODIFIER[1],
             'bg-success-50': modifier === ALERT_MODIFIER[2],
             'bg-danger-50': modifier === ALERT_MODIFIER[3],
             'bg-attention-50': modifier === ALERT_MODIFIER[4],
+            'bg-info-50': modifier === ALERT_MODIFIER[5],
           })}
         >
           <div className="flex">
@@ -164,6 +169,7 @@ const Alerts = (props) => {
                       'text-success-800': modifier === ALERT_MODIFIER[2],
                       'text-danger-800': modifier === ALERT_MODIFIER[3],
                       'text-attention-800': modifier === ALERT_MODIFIER[4],
+                      'text-info-800': modifier === ALERT_MODIFIER[5],
                     })}
                   >
                     {title}
@@ -178,6 +184,7 @@ const Alerts = (props) => {
                       'text-success-700': modifier === ALERT_MODIFIER[2],
                       'text-danger-700': modifier === ALERT_MODIFIER[3],
                       'text-attention-700': modifier === ALERT_MODIFIER[4],
+                      'text-info-700': modifier === ALERT_MODIFIER[5],
                     },
                   )}
                 >
@@ -221,6 +228,8 @@ const Alerts = (props) => {
                                   modifier === ALERT_MODIFIER[3],
                                 'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                                   modifier === ALERT_MODIFIER[4],
+                                'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
+                                  modifier === ALERT_MODIFIER[5],
                               },
                             )}
                           >
@@ -245,6 +254,8 @@ const Alerts = (props) => {
                                   modifier === ALERT_MODIFIER[3],
                                 'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                                   modifier === ALERT_MODIFIER[4],
+                                'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
+                                  modifier === ALERT_MODIFIER[5],
                               },
                             )}
                           >
@@ -300,6 +311,8 @@ const Alerts = (props) => {
                           modifier === ALERT_MODIFIER[3],
                         'bg-attention-50 text-attention-500 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                           modifier === ALERT_MODIFIER[4],
+                        'bg-info-50 text-info-500 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
+                          modifier === ALERT_MODIFIER[5],
                       },
                     )}
                   >

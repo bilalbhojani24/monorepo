@@ -71,7 +71,7 @@ const InputAddOnTexts = forwardRef(
             ref={ref || inputRef}
             id={id}
             className={classNames(
-              'focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm block w-full border-base-300',
+              'focus:border-brand-500 focus:ring-brand-500 sm:text-sm block w-full border-base-300',
               (leadingAddOnText || trailingAddOnText) && !isAddOnInline ? ['min-w-0 flex-1'] : ['rounded-md shadow-sm'],
               isAddOnInline
                 ? ['rounded-md py-2', { 'pl-16 rounded-r-md': leadingAddOnText, 'pr-16': trailingAddOnText }]
