@@ -5,13 +5,12 @@ import { InputWButton } from '@browserstack/bifrost';
 import useTestCases from './useTestCases';
 
 const InlineAddTestCase = () => {
-  const { projectId, folderId } = useParams();
   const [testCase, setTestCase] = useState('');
 
   const { saveTestCase } = useTestCases();
 
   const handleInlineInputButtonClick = () => {
-    saveTestCase(projectId, folderId, { name: testCase })();
+    saveTestCase({ name: testCase })();
     setTestCase('');
   };
 

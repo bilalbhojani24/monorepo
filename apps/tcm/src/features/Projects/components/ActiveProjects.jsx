@@ -11,28 +11,6 @@ const styles = {
   lineHeight: '16px',
 };
 
-const COLUMNS = [
-  {
-    name: 'ID',
-    key: 'id',
-    style: styles,
-  },
-  {
-    name: 'Project Title',
-    key: 'projectTitle',
-    style: styles,
-  },
-  {
-    name: 'Quick Links',
-    key: 'quickLinks',
-    style: styles,
-  },
-  {
-    name: '',
-    key: 'action',
-  },
-];
-
 const ActiveProjects = (props) => {
   const { rowsData } = props;
   const navigate = useNavigate();
@@ -44,42 +22,85 @@ const ActiveProjects = (props) => {
     navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}`);
   };
 
-  const rows = rowsData.map((data) => ({
-    id: `PR-${data.id}`,
-    projectTitle: data.name,
-    quickLinks: (
-      <>
-        <span
-          onClick={handleTestCasesClick(data.id)}
-          onKeyDown={handleTestCasesClick(data.id)}
+  const handleProjectClick = (projectId) => () => {
+    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.DASHBOARD}`);
+  };
+
+  const tableColumns = [
+    {
+      name: 'ID',
+      key: 'id',
+      style: styles,
+      cell: (rowData) => (
+        <div
           role="button"
-          tabIndex={0}
           className="cursor-pointer hover:text-brand-600"
-        >
-          {data.test_cases_count} Test Cases
-        </span>
-        <span
           tabIndex={0}
-          role="button"
-          className="ml-6 cursor-pointer hover:text-brand-600"
-          onClick={handleTestRunsClick(data.id)}
-          onKeyDown={handleTestRunsClick(data.id)}
+          onClick={handleProjectClick(rowData.id)}
+          onKeyDown={handleProjectClick(rowData.id)}
         >
-          {data.test_runs_count} Test Runs
-        </span>
-      </>
-    ),
-    action: (
-      <TMDropdown
-        triggerVariant="meatball-button"
-        dividerRequired
-        options={[
-          { id: '1', name: 'Edit Project' },
-          { id: '2', name: 'Delete' },
-        ]}
-      />
-    ),
-  }));
+          PR-{rowData.id}
+        </div>
+      ),
+    },
+    {
+      name: 'Project Title',
+      key: 'name',
+      style: styles,
+      cell: (rowData) => (
+        <div
+          role="button"
+          className="cursor-pointer hover:text-brand-600"
+          tabIndex={0}
+          onClick={handleProjectClick(rowData.id)}
+          onKeyDown={handleProjectClick(rowData.id)}
+        >
+          {rowData.name}
+        </div>
+      ),
+    },
+    {
+      name: 'Quick Links',
+      key: 'quickLinks',
+      style: styles,
+      cell: (rowData) => (
+        <>
+          <span
+            onClick={handleTestCasesClick(rowData.id)}
+            onKeyDown={handleTestCasesClick(rowData.id)}
+            role="button"
+            tabIndex={0}
+            className="cursor-pointer hover:text-brand-600"
+          >
+            {rowData.test_cases_count} Test Cases
+          </span>
+          <span
+            tabIndex={0}
+            role="button"
+            className="ml-6 cursor-pointer hover:text-brand-600"
+            onClick={handleTestRunsClick(rowData.id)}
+            onKeyDown={handleTestRunsClick(rowData.id)}
+          >
+            {rowData.test_runs_count} Test Runs
+          </span>
+        </>
+      ),
+    },
+    {
+      name: '',
+      key: 'action',
+      cell: () => (
+        <TMDropdown
+          triggerVariant="meatball-button"
+          dividerRequired
+          options={[
+            { id: '1', name: 'Edit Project' },
+            { id: '2', name: 'Delete' },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
     <div>
@@ -89,8 +110,8 @@ const ActiveProjects = (props) => {
           <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
-            columns={COLUMNS}
-            rows={rows}
+            columns={tableColumns}
+            rows={rowsData}
             isFullWhite={false}
           />
         </div>
@@ -103,7 +124,7 @@ ActiveProjects.propTypes = {
   rowsData: arrayOf(
     shape({
       id: string,
-      projectTitle: string,
+      name: string,
       quickLinks: node,
       action: node,
     }),

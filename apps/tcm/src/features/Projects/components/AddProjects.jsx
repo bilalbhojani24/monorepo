@@ -56,7 +56,7 @@ const AddProjects = () => {
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
         >
-          Create Folder
+          Create Project
         </TMButton>
       </div>
     </TMModal>

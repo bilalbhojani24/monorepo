@@ -24,7 +24,7 @@ const AddTestCase = () => {
         secondaryButtonProps={{
           children: 'Save',
           variant: 'primary',
-          onClick: saveTestCase(),
+          onClick: saveTestCase(newTestCaseData),
         }}
         primaryButtonProps={{
           children: 'Cancel',
@@ -43,7 +43,7 @@ const AddTestCase = () => {
           // errorText={inputError ? "This field can't be left empty" : ''}
         />
       </div>
-      <div className="w-1/3">
+      {/* <div className="w-1/3">
         <TMSelectMenu
           defaultValue={templateOptions[0]}
           checkPosition="right"
@@ -51,7 +51,7 @@ const AddTestCase = () => {
           options={templateOptions}
           onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
-      </div>
+      </div> */}
       <div className="mt-4">
         <TMInputField
           // value={newTestCaseData?.type}

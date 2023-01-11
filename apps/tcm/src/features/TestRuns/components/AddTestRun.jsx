@@ -55,7 +55,7 @@ const AddTestRuns = () => {
           wrapperClassName="ml-3"
           onClick={createTestRunHandler}
         >
-          Create Folder
+          Create Test Run
         </TMButton>
       </div>
     </TMModal>

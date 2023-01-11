@@ -41,11 +41,12 @@ export default function useTestCases() {
     else dispatch(updateAllTestCases([]));
   };
 
-  const saveTestCase = () => () => {
+  const saveTestCase = (formData) => () => {
+    debugger;
     addTestCase({
       projectId,
       folderId,
-      payload: { test_case: newTestCaseData },
+      payload: { test_case: formData },
     }).then((data) => {
       dispatch(addSingleTestCase(data));
       dispatch(setAddTestCaseVisibility(false));
