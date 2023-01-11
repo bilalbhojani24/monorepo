@@ -1,22 +1,91 @@
-import React, { useState } from 'react';
-import { TMPageHeadings, TMTabs } from 'bifrostProxy';
+import React from 'react';
+import { TMDataTable, TMDropdown, TMPageHeadings } from 'bifrostProxy';
 import { string } from 'prop-types';
 
-import ActiveProjects from './ActiveProjects';
 import AddProjects from './AddProjects';
-import ClosedProjects from './ClosedProjects';
 import useProjects from './useProjects';
 
-const AllProjects = (props) => {
-  const { defaultTab } = props;
-  const [currentTab, setCurrentTab] = useState(defaultTab);
-  const ACTIVE_PROJECTS = 'Active Projects';
-
-  const { activeProjects, addingProject, showAddModal } = useProjects();
-
-  const handleTabChange = (tabName) => {
-    setCurrentTab(tabName.name);
-  };
+const AllProjects = () => {
+  const {
+    activeProjects,
+    addingProject,
+    showAddModal,
+    handleTestRunsClick,
+    handleTestCasesClick,
+    handleProjectClick,
+  } = useProjects();
+  const tableColumns = [
+    {
+      name: 'ID',
+      key: 'id',
+      cell: (rowData) => (
+        <div
+          role="button"
+          className="cursor-pointer hover:text-brand-600"
+          tabIndex={0}
+          onClick={handleProjectClick(rowData.id)}
+          onKeyDown={handleProjectClick(rowData.id)}
+        >
+          PR-{rowData.id}
+        </div>
+      ),
+    },
+    {
+      name: 'Project Title',
+      key: 'name',
+      cell: (rowData) => (
+        <div
+          role="button"
+          className="cursor-pointer hover:text-brand-600"
+          tabIndex={0}
+          onClick={handleProjectClick(rowData.id)}
+          onKeyDown={handleProjectClick(rowData.id)}
+        >
+          {rowData.name}
+        </div>
+      ),
+    },
+    {
+      name: 'Quick Links',
+      key: 'quickLinks',
+      cell: (rowData) => (
+        <>
+          <span
+            onClick={handleTestCasesClick(rowData.id)}
+            onKeyDown={handleTestCasesClick(rowData.id)}
+            role="button"
+            tabIndex={0}
+            className="cursor-pointer hover:text-brand-600"
+          >
+            {rowData.test_cases_count} Test Cases
+          </span>
+          <span
+            tabIndex={0}
+            role="button"
+            className="ml-6 cursor-pointer hover:text-brand-600"
+            onClick={handleTestRunsClick(rowData.id)}
+            onKeyDown={handleTestRunsClick(rowData.id)}
+          >
+            {rowData.test_runs_count} Test Runs
+          </span>
+        </>
+      ),
+    },
+    {
+      name: '',
+      key: 'action',
+      cell: () => (
+        <TMDropdown
+          triggerVariant="meatball-button"
+          dividerRequired
+          options={[
+            { id: '1', name: 'Edit Project' },
+            { id: '2', name: 'Delete' },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
@@ -33,25 +102,18 @@ const AllProjects = (props) => {
           ]}
         />
       </div>
-      <div className="flex flex-1 flex-col items-stretch bg-base-100">
-        <div className="p-5">
-          <TMTabs
-            id="project-tabs"
-            tabsArray={[
-              { name: 'Active Projects' },
-              { name: 'Closed Projects' },
-            ]}
-            onTabChange={handleTabChange}
+      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
+        <div className="flex flex-1  flex-col items-stretch justify-start overflow-hidden border border-base-200 bg-white sm:rounded-lg">
+          <TMDataTable
+            isHeaderCapitalize
+            isHeaderSticky
+            columns={tableColumns}
+            rows={activeProjects}
+            isFullWhite={false}
           />
         </div>
-
-        {currentTab === ACTIVE_PROJECTS ? (
-          <ActiveProjects rowsData={activeProjects} />
-        ) : (
-          <ClosedProjects />
-        )}
-        {showAddModal ? <AddProjects /> : ''}
       </div>
+      {showAddModal && <AddProjects />}
     </div>
   );
 };

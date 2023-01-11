@@ -38,7 +38,7 @@ const MainRoute = () => {
           path={AppRoute.ROOT}
           element={
             <PrivateComponent>
-              <AllProjects defaultTab="Active Projects" />
+              <AllProjects />
             </PrivateComponent>
           }
         />
