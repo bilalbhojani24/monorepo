@@ -19,7 +19,7 @@ const RadioSmallCards = (props) => {
     <div>
       <div className="flex items-center justify-between">
         {heading && <h2 className="text-sm font-medium text-base-900">{heading}</h2>}
-        {/* <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+        {/* <a href="#" className="text-sm font-medium text-brand-600 hover:text-brand-500">
           See performance specs
         </a> */}
       </div>
@@ -34,9 +34,9 @@ const RadioSmallCards = (props) => {
               className={({ active, checked }) =>
                 classNames(
                   option.disabled ? 'opacity-25 cursor-not-allowed' : 'cursor-pointer focus:outline-none',
-                  active ? 'ring-2 ring-offset-2 ring-indigo-500' : '',
+                  active ? 'ring-2 ring-offset-2 ring-brand-500' : '',
                   checked
-                    ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
+                    ? 'bg-brand-600 border-transparent text-white hover:bg-brand-700'
                     : 'bg-white border-base-200 text-base-900 hover:bg-base-50',
                   'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1'
                 )

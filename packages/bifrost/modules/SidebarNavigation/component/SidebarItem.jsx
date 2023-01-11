@@ -24,7 +24,7 @@ const SidebarItem = ({
             <>
               <Disclosure.Button
                 className={classNames(
-                  `group w-full flex items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-base-600 hover:bg-base-50 hover:text-base-900 pl-2`,
+                  `group w-full flex items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-base-600 hover:bg-base-50 hover:text-base-900 pl-2`,
                   {
                     [`bg-base-100 text-base-900 ${activeClass}`]: isCurrent(nav, index),
                     [`${inActiveClass}`]: !isCurrent(nav, index)
@@ -72,7 +72,7 @@ const SidebarItem = ({
         <a
           href={nav.path}
           className={classNames(`group flex items-center px-3 py-2 text-sm font-medium`, {
-            [`border-l-4 bg-indigo-50 border-indigo-600 text-indigo-600 ${activeClass}`]: isCurrent(nav, index),
+            [`border-l-4 bg-brand-50 border-brand-600 text-brand-600 ${activeClass}`]: isCurrent(nav, index),
             [`${inActiveClass}`]: !isCurrent(nav, index)
           })}
           onClick={(e) => handleNavigationClick(e, nav)}
@@ -80,7 +80,7 @@ const SidebarItem = ({
           {isCurrent(nav, index) ? (
             <PrintIcon
               Icon={nav.activeIcon}
-              classes={classNames('mr-3 flex-shrink-0 h-6 w-6 text-indigo-500', activeIconClass)}
+              classes={classNames('mr-3 flex-shrink-0 h-6 w-6 text-brand-500', activeIconClass)}
             />
           ) : (
             <PrintIcon

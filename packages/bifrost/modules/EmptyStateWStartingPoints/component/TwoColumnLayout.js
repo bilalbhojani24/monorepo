@@ -4,7 +4,7 @@ import classNames from 'classnames';
 const TwoColumnLayout = ({ item, itemIdx, handleClick }) => {
   return (
     <li className="flow-root">
-      <div className="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-base-50">
+      <div className="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-brand-500 hover:bg-base-50">
         <div
           className={classNames(item.background, 'flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg')}
         >

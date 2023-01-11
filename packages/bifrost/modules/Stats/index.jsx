@@ -35,7 +35,7 @@ const Stats = (props) => {
           >
             <dt>
               {badge && (
-                <div className="absolute rounded-md bg-indigo-500 p-3">
+                <div className="absolute rounded-md bg-brand-500 p-3">
                   <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
                 </div>
               )}
@@ -68,7 +68,7 @@ const Stats = (props) => {
                 </p>
                 <div className="absolute inset-x-0 bottom-0 bg-base-50 px-4 py-4 sm:px-6">
                   <div className="text-sm">
-                    <a href={item.link} className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href={item.link} className="font-medium text-brand-600 hover:text-brand-500">
                       View all<span className="sr-only"> {item.name} stats</span>
                     </a>
                   </div>
@@ -76,7 +76,7 @@ const Stats = (props) => {
               </dd>
             ) : (
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
+                <div className="flex items-baseline text-2xl font-semibold text-brand-600">
                   {item.stat}
                   <span className="ml-2 text-sm font-medium text-base-500">from {item.previousStat}</span>
                 </div>

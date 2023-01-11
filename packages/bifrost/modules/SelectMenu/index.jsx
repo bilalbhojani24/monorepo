@@ -28,7 +28,7 @@ const SelectMenu = (props) => {
             <>
               <Listbox.Label className="block text-sm font-medium text-base-700">{label}</Listbox.Label>
               <div className="relative mt-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 sm:text-sm">
                   {({ value }) => {
                     return (
                       <>
@@ -75,7 +75,7 @@ const SelectMenu = (props) => {
                           className={({ active }) =>
                             classNames(
                               {
-                                'text-white bg-indigo-600': active && !isMultiSelect,
+                                'text-white bg-brand-600': active && !isMultiSelect,
                                 'text-base-900': !active,
                                 'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMultiSelect,
                                 'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMultiSelect,
@@ -115,7 +115,7 @@ const SelectMenu = (props) => {
                                         className={classNames(
                                           {
                                             'text-white': active,
-                                            'text-indigo-600': !active,
+                                            'text-brand-600': !active,
                                             'right-0 pr-4': checkPosition === CHECK_POSITION[1],
                                             'left-0 pl-1.5': checkPosition === CHECK_POSITION[0]
                                           },

@@ -33,7 +33,7 @@ const RadioStackedCard = (props) => {
             className={({ checked, active }) =>
               classNames(
                 checked ? 'border-transparent' : 'border-base-300',
-                active ? 'border-indigo-500 ring-2 ring-indigo-500' : '',
+                active ? 'border-brand-500 ring-2 ring-brand-500' : '',
                 'relative cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none',
                 placement === RADIO_STACKED_CARD_PLACEMENT.horizontal
                   ? 'flex border p-4'
@@ -71,14 +71,14 @@ const RadioStackedCard = (props) => {
                 </RadioGroup.Description>
                 {placement === RADIO_STACKED_CARD_PLACEMENT.horizontal ? (
                   <CheckCircleIcon
-                    className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600')}
+                    className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-brand-600')}
                     aria-hidden="true"
                   />
                 ) : null}
                 <span
                   className={classNames(
                     active ? 'border' : 'border-2',
-                    checked ? 'border-indigo-500' : 'border-transparent',
+                    checked ? 'border-brand-500' : 'border-transparent',
                     'pointer-events-none absolute -inset-px rounded-lg'
                   )}
                   aria-hidden="true"
