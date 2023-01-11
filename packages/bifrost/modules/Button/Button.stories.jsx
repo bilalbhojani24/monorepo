@@ -5,7 +5,7 @@ import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { EnvelopeIcon } from '../Icon';
 
 import {
-  BUTTON_FORMAT,
+  BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
   BUTTON_VARIANTS,
@@ -42,17 +42,11 @@ const defaultConfig = {
       type: { summary: 'BOOLEAN', required: false },
       description: 'Lorem Ipsum',
     },
-    buttonFormat: {
-      control: { type: 'inline-radio' },
-      type: { summary: BUTTON_FORMAT.join(', '), required: false },
-      options: BUTTON_FORMAT,
-      description: 'Lorem Ipsum ',
-    },
     fullWidth: {
       control: { type: 'boolean' },
       description: 'Lorem Ipsum',
       type: { summary: 'BOOLEAN', required: false },
-      defaultValue: { summary: 'false' },
+      defaultValue: false,
     },
     icon: {
       defaultValue: <EnvelopeIcon />,
@@ -61,6 +55,11 @@ const defaultConfig = {
       options: BUTTON_ICON_PLACEMENT,
       control: { type: 'inline-radio' },
       defaultValue: BUTTON_ICON_PLACEMENT[0],
+    },
+    colors: {
+      options: BUTTON_COLORS,
+      control: { type: 'inline-radio' },
+      defaultValue: BUTTON_COLORS[0],
     },
   },
   controls: {},

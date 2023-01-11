@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Loader from '../Loader/index';
 
 import {
-  BUTTON_FORMAT,
+  BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
@@ -15,7 +15,6 @@ import {
 import './styles.scss';
 
 const Button = ({
-  buttonFormat,
   children,
   disabled,
   size,
@@ -26,6 +25,7 @@ const Button = ({
   fullWidth,
   icon,
   iconPlacement,
+  colors,
 }) => {
   const buttonRef = useRef();
 
@@ -62,10 +62,11 @@ const Button = ({
         'border border-transparent font-medium',
         wrapperClassName,
         disabled
-          ? BUTTON_STYLE_CLASSES[`${size}-${variant}-${buttonFormat}-disabled`]
-          : BUTTON_STYLE_CLASSES[`${size}-${variant}-${buttonFormat}`],
+          ? BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-disabled`]
+          : BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`],
         {
           'w-full': fullWidth === true,
+          'bg-success-500': loading === true,
         },
       )}
       onClick={handleClick}
@@ -76,7 +77,7 @@ const Button = ({
 };
 
 Button.propTypes = {
-  buttonFormat: PropTypes.oneOf(BUTTON_FORMAT),
+  // buttonFormat: PropTypes.oneOf(BUTTON_FORMAT),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -87,10 +88,11 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
   iconPlacement: PropTypes.string,
+  colors: PropTypes.oneOf(BUTTON_COLORS),
 };
 
 Button.defaultProps = {
-  buttonFormat: BUTTON_FORMAT[0],
+  // buttonFormat: BUTTON_FORMAT[0],
   disabled: false,
   loading: false,
   onClick: () => {},
@@ -101,6 +103,7 @@ Button.defaultProps = {
   fullWidth: false,
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
+  colors: BUTTON_COLORS[0],
 };
 
 export default Button;
