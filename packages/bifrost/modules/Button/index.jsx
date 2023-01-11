@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -31,7 +31,15 @@ const Button = ({
 
   const effectiveChildren =
     loading && !disabled && variant !== BUTTON_VARIANTS[3] ? (
-      <Loader />
+      <Loader
+        wrapperStyle="mx-auto"
+        height={
+          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
+        }
+        width={
+          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
+        }
+      />
     ) : (
       <span
         className={classNames({
@@ -53,7 +61,16 @@ const Button = ({
     onClick(e);
   };
 
-  const stylePicker = (disabledStatus, loadingStatus) => {
+  const buttonDimensions = useMemo(() => {
+    if (loading) {
+      return {
+        width: buttonRef?.current?.getBoundingClientRect()?.width,
+        height: buttonRef?.current?.getBoundingClientRect()?.height,
+      };
+    }
+  }, [loading]);
+
+  const stylePicker = () => {
     if (disabled) {
       return BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-disabled`];
     }
@@ -67,13 +84,19 @@ const Button = ({
 
   return (
     <button
+      {...(buttonDimensions && {
+        style: {
+          width: buttonDimensions.width,
+          height: buttonDimensions.height,
+        },
+      })}
       type="button"
       ref={buttonRef}
       aria-disabled={disabled}
       className={classNames(
         'border border-transparent font-medium',
         wrapperClassName,
-        stylePicker(disabled, loading),
+        stylePicker(),
         {
           'w-full': fullWidth === true,
         },
@@ -86,7 +109,6 @@ const Button = ({
 };
 
 Button.propTypes = {
-  // buttonFormat: PropTypes.oneOf(BUTTON_FORMAT),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -101,7 +123,6 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  // buttonFormat: BUTTON_FORMAT[0],
   disabled: false,
   loading: false,
   onClick: () => {},
