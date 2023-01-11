@@ -7,8 +7,8 @@ import {
   addSingleTestCase,
   setAddTestCaseVisibility,
   updateAllTestCases,
+  updateTestCaseFormData,
 } from '../slices/repositorySlice';
-import { addFormPayload } from '../slices/testCaseFormSlice';
 
 export default function useTestCases() {
   // const [inputError, setInputError] = useState(false);
@@ -22,8 +22,8 @@ export default function useTestCases() {
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible,
   );
-  const testCaseFormPayload = useSelector(
-    (state) => state.testCaseForm.formPayload,
+  const newTestCaseData = useSelector(
+    (state) => state.repository.newTestCaseData,
   );
 
   const showTestCaseAdditionPage = () => {
@@ -41,21 +41,25 @@ export default function useTestCases() {
     else dispatch(updateAllTestCases([]));
   };
 
-  const saveTestCase = (pId, fId, payload) => () => {
-    // if (!payload.testCaseFormPayload.name) {
+  const saveTestCase = () => () => {
+    // if (!payload.newTestCaseData.name) {
     //   setInputError(true);
     // } else {
-    addTestCase({ pId, fId, payload }).then((data) => {
+
+    debugger;
+    addTestCase({
+      projectId,
+      folderId,
+      payload: { test_case: newTestCaseData },
+    }).then((data) => {
       dispatch(addSingleTestCase(data));
       dispatch(setAddTestCaseVisibility(false));
     });
     // }
   };
 
-  const handleTestCaseFieldChange = (field) => (e) => {
-    const { value: val } = e.target;
-    dispatch(addFormPayload({ field, val }));
-    // if (val) setInputError(false);
+  const handleTestCaseFieldChange = (key, value) => {
+    dispatch(updateTestCaseFormData({ key, value }));
   };
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function useTestCases() {
 
   return {
     handleTestCaseFieldChange,
-    testCaseFormPayload,
+    newTestCaseData,
     // inputError,
     selectedFolder,
     showTestCaseAdditionPage,

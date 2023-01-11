@@ -6,6 +6,16 @@ const initialState = {
   selectedFolder: null,
   showAddFolderModal: false,
   isAddTestCasePageVisible: false,
+  newTestCaseData: {
+    name: '',
+    description: '',
+    estimate: '',
+    type: '',
+    priority: '',
+    owner: '',
+    state: '',
+    precondition: '',
+  },
 };
 
 export const repositorySlice = createSlice({
@@ -14,6 +24,9 @@ export const repositorySlice = createSlice({
   reducers: {
     updateAllFolders: (state, { payload }) => {
       state.allFolders = payload;
+    },
+    updateTestCaseFormData: (state, { payload }) => {
+      state.newTestCaseData[payload.key] = payload.value;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
@@ -40,6 +53,7 @@ export const {
   setSelectedFolder,
   updateAllTestCases,
   setAddTestCaseVisibility,
+  updateTestCaseFormData,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

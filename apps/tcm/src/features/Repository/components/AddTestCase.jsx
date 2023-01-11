@@ -12,25 +12,18 @@ const AddTestCase = () => {
     selectedFolder,
     hideTestCaseAdditionPage,
     saveTestCase,
-    testCaseFormPayload,
+    newTestCaseData,
   } = useTestCases();
 
-  const handleTemplateChange = () => {
-    // console.log('from template', e);
-  };
-
-  console.log('test case form payload', testCaseFormPayload);
   return (
     <div className="w-full border-l border-base-200 p-4 pt-4">
       <TMSectionHeadings
-        title={`${selectedFolder?.name} / ${testCaseFormPayload?.name}`}
+        title={`${selectedFolder?.name} / ${newTestCaseData?.name}`}
         variant="buttons"
         secondaryButtonProps={{
           children: 'Save',
           variant: 'primary',
-          onClick: saveTestCase(projectId, selectedFolder?.id, {
-            name: testCaseFormPayload,
-          }),
+          onClick: saveTestCase(),
         }}
         primaryButtonProps={{
           children: 'Cancel',
@@ -40,10 +33,12 @@ const AddTestCase = () => {
       />
       <div className="my-4">
         <TMInputField
-          // value={testCaseFormPayload?.name}
+          // value={newTestCaseData?.name}
           id="test-case-name"
           label="Name of Test Case*"
-          onChange={handleTestCaseFieldChange('name')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('name', e.currentTarget.value)
+          }
           // errorText={inputError ? "This field can't be left empty" : ''}
         />
       </div>
@@ -56,63 +51,77 @@ const AddTestCase = () => {
             { label: 'Text', value: 'text' },
             { label: 'Steps', value: 'steps' },
           ]}
-          onChange={handleTemplateChange}
+          onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.type}
+          // value={newTestCaseData?.type}
           id="test-case-type"
           label="Test Case Type"
-          onChange={handleTestCaseFieldChange('type')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('type', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.priority}
+          // value={newTestCaseData?.priority}
           id="test-case-priority"
           label="Priority"
-          onChange={handleTestCaseFieldChange('priority')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('priority', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.description}
+          // value={newTestCaseData?.description}
           id="test-case-description"
           label="Description"
-          onChange={handleTestCaseFieldChange('description')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('description', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.state}
+          // value={newTestCaseData?.state}
           id="test-case-state"
           label="State"
-          onChange={handleTestCaseFieldChange('state')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('state', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.owner}
+          // value={newTestCaseData?.owner}
           id="test-case-owner"
           label="Owner"
-          onChange={handleTestCaseFieldChange('owner')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('owner', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.precondition}
+          // value={newTestCaseData?.precondition}
           id="test-case-precondition"
           label="Preconditions"
-          onChange={handleTestCaseFieldChange('precondition')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('precondition', e.currentTarget.value)
+          }
         />
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={testCaseFormPayload?.estimate}
+          // value={newTestCaseData?.estimate}
           id="test-case-estimate"
           label="Estimate"
-          onChange={handleTestCaseFieldChange('estimate')}
+          onChange={(e) =>
+            handleTestCaseFieldChange('estimate', e.currentTarget.value)
+          }
         />
       </div>
     </div>
