@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, InputField, Modal } from '@browserstack/bifrost';
+import { TMButton, TMInputField, TMModal } from '_proxyComp';
 import { addFolder } from 'api/folders.api.js';
 import PropTypes from 'prop-types';
 
@@ -23,13 +23,13 @@ const AddFolderModal = ({ projectId }) => {
   };
 
   return (
-    <Modal
+    <TMModal
       show
       withDismissButton
       handleDismissButtonClick={hideAddFolderModal}
       onClose={hideAddFolderModal}
     >
-      <InputField
+      <TMInputField
         wrapperClass="mb-2"
         label="Folder name"
         placeholder="Folder Name 01"
@@ -38,7 +38,7 @@ const AddFolderModal = ({ projectId }) => {
           setFormData({ ...filledFormData, name: e.currentTarget.value })
         }
       />
-      <InputField
+      <TMInputField
         label="Description"
         placeholder="Enter folder description/notes"
         value={filledFormData.notes}
@@ -47,18 +47,18 @@ const AddFolderModal = ({ projectId }) => {
         }
       />
       <div className="mt-3 flex justify-end">
-        <Button variant="white" onClick={hideAddFolderModal}>
+        <TMButton variant="white" onClick={hideAddFolderModal}>
           Cancel
-        </Button>
-        <Button
+        </TMButton>
+        <TMButton
           variant="primary"
           wrapperClassName="ml-3"
           onClick={createFolderHandler}
         >
           Create Folder
-        </Button>
+        </TMButton>
       </div>
-    </Modal>
+    </TMModal>
   );
 };
 

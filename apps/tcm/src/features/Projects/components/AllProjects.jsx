@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PageHeadings, Tabs } from '@browserstack/bifrost';
+import { TMPageHeadings, TMTabs } from '_proxyComp';
 import { string } from 'prop-types';
 
 import ActiveProjects from './ActiveProjects';
@@ -21,7 +21,7 @@ const AllProjects = (props) => {
   return (
     <div className="flex flex-1 flex-col items-stretch">
       <div className="border-b  border-base-300">
-        <PageHeadings
+        <TMPageHeadings
           heading="All Projects"
           actionsData={[
             {
@@ -35,7 +35,7 @@ const AllProjects = (props) => {
       </div>
       <div className="flex flex-1 flex-col items-stretch bg-base-100">
         <div className="p-5">
-          <Tabs
+          <TMTabs
             id="project-tabs"
             tabsArray={[
               { name: 'Active Projects' },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeadings } from '@browserstack/bifrost';
+import { TMPageHeadings } from '_proxyComp';
 
 import useTestCases from './useTestCases';
 
@@ -8,7 +8,7 @@ const TopSection = () => {
 
   return (
     <div className="w-full">
-      <PageHeadings
+      <TMPageHeadings
         heading="Test Cases"
         actionsData={[
           {

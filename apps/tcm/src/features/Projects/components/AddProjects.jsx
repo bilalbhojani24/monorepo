@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, InputField, Modal } from '@browserstack/bifrost';
+import { TMButton, TMInputField, TMModal } from '_proxyComp';
 import { addProjects } from 'api/projects.api';
 import AppRoute from 'const/routes';
 
@@ -32,13 +32,13 @@ const AddProjects = () => {
   };
 
   return (
-    <Modal
+    <TMModal
       show
       withDismissButton
       handleDismissButtonClick={hideAddProjectModal}
       onClose={hideAddProjectModal}
     >
-      <InputField
+      <TMInputField
         wrapperClass="mb-2"
         label="Project Name"
         placeholder="Project Name 01"
@@ -48,18 +48,18 @@ const AddProjects = () => {
         }
       />
       <div className="mt-3 flex justify-end">
-        <Button variant="white" onClick={hideAddProjectModal}>
+        <TMButton variant="white" onClick={hideAddProjectModal}>
           Cancel
-        </Button>
-        <Button
+        </TMButton>
+        <TMButton
           variant="white"
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
         >
           Create Folder
-        </Button>
+        </TMButton>
       </div>
-    </Modal>
+    </TMModal>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DataTable, Dropdown } from '@browserstack/bifrost';
+import { TMDataTable, TMDropdown } from '_proxyComp';
 import AppRoute from 'const/routes';
 import { arrayOf, node, shape, string } from 'prop-types';
 
@@ -70,7 +70,7 @@ const ActiveProjects = (props) => {
       </>
     ),
     action: (
-      <Dropdown
+      <TMDropdown
         triggerVariant="meatball-button"
         dividerRequired
         options={[
@@ -86,7 +86,7 @@ const ActiveProjects = (props) => {
       {/* header */}
       <div className="px-4 py-2">
         <div className="bg-white">
-          <DataTable
+          <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
             columns={COLUMNS}

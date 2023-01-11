@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  InputField,
-  Notifications,
-  SectionHeadings,
-  SelectMenu,
-} from '@browserstack/bifrost';
+  TMInputField,
+  TMNotifications,
+  TMSectionHeadings,
+  TMSelectMenu,
+} from '_proxyComp';
 
 import useTestCases from './useTestCases';
 
@@ -26,7 +26,7 @@ const AddTestCase = () => {
 
   return (
     <div className="w-full border-l border-base-200 p-4 pt-4">
-      <SectionHeadings
+      <TMSectionHeadings
         title={`${selectedFolder?.name}${testCaseNameInHeader}`}
         variant="buttons"
         secondaryButtonProps={{
@@ -43,14 +43,14 @@ const AddTestCase = () => {
         }}
       />
       <div className="my-4">
-        <InputField
+        <TMInputField
           id="test-case-name"
           label="Name of Test Case*"
           onChange={handleChange}
         />
       </div>
       <div className="w-1/3">
-        <SelectMenu
+        <TMSelectMenu
           defaultValue={{ label: 'Text', value: 'text' }}
           checkPosition="right"
           label="Choose Template*"
@@ -60,7 +60,7 @@ const AddTestCase = () => {
           ]}
         />
       </div>
-      <Notifications
+      <TMNotifications
         title="Test Case has been created"
         description={`'${testCaseNameInHeader}' has been successfully created`}
         show={showNotification}

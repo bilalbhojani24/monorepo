@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, InputField, Modal } from '@browserstack/bifrost';
+import { TMButton, TMInputField, TMModal } from '_proxyComp';
 // import { addTestRuns } from 'api/projects.api';
 import AppRoute from 'const/routes';
 
@@ -31,13 +31,13 @@ const AddTestRuns = () => {
   };
 
   return (
-    <Modal
+    <TMModal
       show
       withDismissButton
       handleDismissButtonClick={hideAddTestRunModal}
       onClose={hideAddTestRunModal}
     >
-      <InputField
+      <TMInputField
         wrapperClass="mb-2"
         label="TestRun Name"
         placeholder="TestRun Name 01"
@@ -47,18 +47,18 @@ const AddTestRuns = () => {
         }
       />
       <div className="mt-3 flex justify-end">
-        <Button variant="white" onClick={hideAddTestRunModal}>
+        <TMButton variant="white" onClick={hideAddTestRunModal}>
           Cancel
-        </Button>
-        <Button
+        </TMButton>
+        <TMButton
           variant="white"
           wrapperClassName="ml-3"
           onClick={createTestRunHandler}
         >
           Create Folder
-        </Button>
+        </TMButton>
       </div>
-    </Modal>
+    </TMModal>
   );
 };
 

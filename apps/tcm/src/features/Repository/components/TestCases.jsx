@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, DataTable, Dropdown, InputField } from '@browserstack/bifrost';
+import { TMButton, TMDataTable, TMDropdown, TMInputField } from '_proxyComp';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
@@ -62,7 +62,7 @@ export default function TestCases() {
       name: '',
       key: 'action',
       cell: (rowData) => (
-        <Dropdown
+        <TMDropdown
           options={[{ id: '1', name: 'Edit' }]}
           triggerVariant="meatball-button"
           onClick={() => {
@@ -70,7 +70,7 @@ export default function TestCases() {
           }}
         >
           Edit
-        </Dropdown>
+        </TMDropdown>
       ),
       style: {},
     },
@@ -81,18 +81,18 @@ export default function TestCases() {
   return (
     <div className="flex w-full flex-col items-start">
       <div className="flex w-full items-start border-b border-base-300 p-3">
-        <InputField
+        <TMInputField
           placeholder="Search by Test Case name, ID"
           leadingIcon={<SearchIcon className="text-base-400" />}
         />
-        <Button
+        <TMButton
           buttonType="half-rounded-button"
           variant="white"
           wrapperClassName="ml-3"
           size="default"
         >
           Filter
-        </Button>
+        </TMButton>
       </div>
       <div className="flex w-full flex-1 flex-col border-l border-base-300">
         {selectedFolder && (
@@ -109,7 +109,7 @@ export default function TestCases() {
         )}
 
         {allTestCases.length ? (
-          <DataTable
+          <TMDataTable
             // isSelectable
             // isHeaderSticky
             columns={datatableColumns}

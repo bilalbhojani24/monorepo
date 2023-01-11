@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button } from '@browserstack/bifrost';
+import { TMButton } from '_proxyComp';
 import AppRoute from 'const/routes';
 import { CreateNewFolderOutlinedIcon } from 'Icons';
 
@@ -23,7 +23,7 @@ export default function Folders() {
       {isAddFolderModalVisible && <AddFolderModal projectId={projectId} />}
       <div className="flex items-center border-b border-base-300 p-3">
         <span className="text-base">Folders</span>
-        <Button
+        <TMButton
           buttonType="half-rounded-button"
           variant="white"
           wrapperClassName="ml-2"
@@ -31,7 +31,7 @@ export default function Folders() {
           onClick={showAddFolderModal}
         >
           <CreateNewFolderOutlinedIcon className="text-base-500" />
-        </Button>
+        </TMButton>
       </div>
       <div className="flex w-full flex-col">
         {allFolders?.map((item) => (
