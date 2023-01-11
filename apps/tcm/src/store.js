@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import projectReducer from 'features/Projects/slices/projectSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
+import testRunsReducer from 'features/TestRuns/slices/testRunsSlice';
 import globalReducer from 'globalSlice/globalSlice';
 
 export const store = configureStore({
@@ -8,5 +9,6 @@ export const store = configureStore({
     repository: repositoryReducer,
     global: globalReducer,
     projects: projectReducer,
+    testRuns: testRunsReducer,
   },
 });

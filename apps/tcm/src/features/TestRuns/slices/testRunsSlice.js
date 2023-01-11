@@ -1,17 +1,18 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-// const initialState = {};
+const initialState = {
+  showAddTestRunsModal: false,
+};
 
-// export const testRunsSlice = createSlice({
-//   name: 'testRuns',
-//   initialState,
-//   reducers: {
-//     updateAllFolders: (state, { payload }) => {
-//       state.allFolders = payload;
-//     },
-//   },
-// });
+const testRunslice = createSlice({
+  name: 'testRuns',
+  initialState,
+  reducers: {
+    setAddTestRunsModalVisibility: (state, { payload }) => {
+      state.showAddTestRunsModal = payload;
+    },
+  },
+});
 
-// export const { updateAllFolders } = testRunsSlice.actions;
-
-// export default testRunsSlice.reducer;
+export const { setAddTestRunsModalVisibility } = testRunslice.actions;
+export default testRunslice.reducer;

@@ -1,16 +1,23 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { setSelectedProject } from 'globalSlice/globalSlice';
 
-export default function useTestRuns() {
-  const { projectId } = useParams();
+import { setAddTestRunsModalVisibility } from '../slices/testRunsSlice';
+
+const useTestRunss = () => {
   const dispatch = useDispatch();
+  const activeTestRunss = [];
+  const showAddModal = useSelector(
+    (state) => state.testRuns.showAddTestRunsModal,
+  );
 
-  useEffect(() => {
-    dispatch(setSelectedProject(projectId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
+  const addingTestRuns = () => {
+    dispatch(setAddTestRunsModalVisibility(true));
+  };
 
-  return { projectId };
-}
+  return {
+    activeTestRunss,
+    showAddModal,
+    addingTestRuns,
+  };
+};
+
+export default useTestRunss;
