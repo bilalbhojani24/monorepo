@@ -74,7 +74,7 @@ const MainRoute = () => {
           path={AppRoute.DOCUMENTATION}
           element={<PrivateComponent>DOCUMENTATION</PrivateComponent>}
         />
-        <Route path="*" element={<Navigate to={AppRoute.ROOT} replace />} />
+        <Route path="*" element="Error 404" />
       </Routes>
     </div>
   );

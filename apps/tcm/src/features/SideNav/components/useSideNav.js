@@ -32,11 +32,16 @@ export default function useSideNav() {
     navigate(linkItem.path);
   };
 
-  const dynamicLinkReplaceHelper = (array) =>
-    array.map((item) => ({
+  const dynamicLinkReplaceHelper = (array) => {
+    const replaceProjectId =
+      !selectedProjectId || `${selectedProjectId}` === 'null'
+        ? allProjectsDrop?.[0]?.value || null
+        : selectedProjectId;
+    return array.map((item) => ({
       ...item,
-      path: item.path.replace('$PROJECTID$', selectedProjectId),
+      path: item.path.replace('$PROJECTID$', replaceProjectId),
     }));
+  };
 
   const onProjectChange = (project) => {
     const navigateLink = activeRoute.dynamicPath
@@ -58,7 +63,8 @@ export default function useSideNav() {
       setPrimaryNavs(dynamicLinkReplaceHelper(internalPrimaryNavLinks));
       setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
     }
-  }, [location.pathname, selectedProjectId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, selectedProjectId, allProjectsDrop]);
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
