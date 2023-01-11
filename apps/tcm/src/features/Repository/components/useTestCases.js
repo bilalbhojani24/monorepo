@@ -42,7 +42,6 @@ export default function useTestCases() {
   };
 
   const saveTestCase = (formData) => () => {
-    debugger;
     addTestCase({
       projectId,
       folderId,
@@ -58,11 +57,6 @@ export default function useTestCases() {
     dispatch(updateTestCaseFormData({ key, value }));
   };
 
-  useEffect(() => {
-    fetchAllTestCases();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, folderId]);
-
   return {
     handleTestCaseFieldChange,
     newTestCaseData,
@@ -73,5 +67,8 @@ export default function useTestCases() {
     allTestCases,
     isAddTestCasePageVisible,
     saveTestCase,
+    folderId,
+    projectId,
+    fetchAllTestCases,
   };
 }

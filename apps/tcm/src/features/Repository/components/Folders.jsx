@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TMButton } from 'bifrostProxy';
 import AppRoute from 'const/routes';
@@ -13,10 +13,6 @@ export default function Folders() {
   const { projectId } = useParams();
   const { allFolders, isAddFolderModalVisible, showAddFolderModal } =
     useFolders();
-
-  // const folderClickHandler = (data) => {
-  //   setSelectedFolder(data);
-  // };
 
   return (
     <div className="flex flex-col">

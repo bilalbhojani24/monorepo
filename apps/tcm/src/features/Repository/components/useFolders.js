@@ -30,6 +30,7 @@ export default function useFolders() {
   };
 
   const fetchAllFolders = () => {
+    dispatch(setSelectedProject(projectId));
     dispatch(setAddTestCaseVisibility(false));
     if (projectId)
       getFolders({ projectId }).then((data) => {
@@ -55,12 +56,6 @@ export default function useFolders() {
   };
 
   useEffect(() => {
-    fetchAllFolders();
-    dispatch(setSelectedProject(projectId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
-
-  useEffect(() => {
     const selectedFolder = allFolders.find((item) => `${item.id}` === folderId);
 
     if (selectedFolder) {
@@ -77,5 +72,6 @@ export default function useFolders() {
     showAddFolderModal,
     isAddFolderModalVisible,
     updateFolders,
+    fetchAllFolders,
   };
 }

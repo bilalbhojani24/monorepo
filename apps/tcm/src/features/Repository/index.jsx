@@ -6,9 +6,21 @@ import Folders from './components/Folders';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
+import useTestCases from './components/useTestCases';
 
 const Repository = () => {
-  const { allFolders } = useFolders();
+  const { allFolders, fetchAllFolders } = useFolders();
+  const { fetchAllTestCases, folderId, projectId } = useTestCases();
+
+  useEffect(() => {
+    fetchAllFolders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
+
+  useEffect(() => {
+    fetchAllTestCases();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, folderId]);
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
