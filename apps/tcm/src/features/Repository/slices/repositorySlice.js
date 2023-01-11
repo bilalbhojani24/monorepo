@@ -6,6 +6,7 @@ const initialState = {
   selectedFolder: null,
   showAddFolderModal: false,
   isAddTestCasePageVisible: false,
+  isTestCaseViewVisible: false,
   newTestCaseData: {
     name: '',
     description: '',
@@ -37,6 +38,9 @@ export const repositorySlice = createSlice({
     setAddFolderModalVisibility: (state, { payload }) => {
       state.showAddFolderModal = payload;
     },
+    setTestCaseViewVisibility: (state, { payload }) => {
+      state.isTestCaseViewVisible = payload;
+    },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
 
@@ -58,6 +62,7 @@ export const {
   setSelectedFolder,
   updateAllTestCases,
   setAddTestCaseVisibility,
+  setTestCaseViewVisibility,
   updateTestCaseFormData,
 } = repositorySlice.actions;
 

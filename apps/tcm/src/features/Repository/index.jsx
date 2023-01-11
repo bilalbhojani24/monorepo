@@ -4,13 +4,15 @@ import React, { useEffect } from 'react';
 import BlankPage from './components/BlankPage';
 import Folders from './components/Folders';
 import TestCases from './components/TestCases';
+import TestCaseView from './components/TestCaseView';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
 import useTestCases from './components/useTestCases';
 
 const Repository = () => {
   const { allFolders, fetchAllFolders } = useFolders();
-  const { fetchAllTestCases, folderId, projectId } = useTestCases();
+  const { fetchAllTestCases, folderId, projectId, isTestCaseViewVisible } =
+    useTestCases();
 
   useEffect(() => {
     fetchAllFolders();
@@ -44,6 +46,7 @@ const Repository = () => {
           )}
         </div>
       </div>
+      {isTestCaseViewVisible && <TestCaseView />}
     </div>
   );
 };

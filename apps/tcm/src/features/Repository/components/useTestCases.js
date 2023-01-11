@@ -6,6 +6,7 @@ import { addTestCase, getTestCases } from 'api/testcases.api';
 import {
   addSingleTestCase,
   setAddTestCaseVisibility,
+  setTestCaseViewVisibility,
   updateAllTestCases,
   updateTestCaseFormData,
 } from '../slices/repositorySlice';
@@ -24,6 +25,9 @@ export default function useTestCases() {
   );
   const newTestCaseData = useSelector(
     (state) => state.repository.newTestCaseData,
+  );
+  const isTestCaseViewVisible = useSelector(
+    (state) => state.repository.isTestCaseViewVisible,
   );
 
   const showTestCaseAdditionPage = () => {
@@ -56,6 +60,11 @@ export default function useTestCases() {
     dispatch(updateTestCaseFormData({ key, value }));
   };
 
+  const handleTestCaseViewClick = (testCaseItem) => () => {
+    dispatch(setTestCaseViewVisibility(true));
+    // navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_RUNS}`);
+  };
+
   return {
     handleTestCaseFieldChange,
     newTestCaseData,
@@ -69,5 +78,7 @@ export default function useTestCases() {
     folderId,
     projectId,
     fetchAllTestCases,
+    handleTestCaseViewClick,
+    isTestCaseViewVisible,
   };
 }

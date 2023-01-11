@@ -16,8 +16,12 @@ import useTestCases from './useTestCases';
 import '../styles/TestCases.scss';
 
 export default function TestCases() {
-  const { selectedFolder, allTestCases, isAddTestCasePageVisible } =
-    useTestCases();
+  const {
+    selectedFolder,
+    allTestCases,
+    isAddTestCasePageVisible,
+    handleTestCaseViewClick,
+  } = useTestCases();
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -40,13 +44,23 @@ export default function TestCases() {
     {
       name: 'ID',
       key: 'id',
-      style: {},
+
       cell: (rowData) => `TC${rowData?.id}`,
     },
     {
       name: 'TITLE',
       key: 'name',
-      style: {},
+      cell: (rowData) => (
+        <div
+          role="button"
+          className="cursor-pointer hover:text-brand-600"
+          tabIndex={0}
+          onClick={handleTestCaseViewClick(rowData)}
+          onKeyDown={handleTestCaseViewClick(rowData)}
+        >
+          {rowData.name}
+        </div>
+      ),
     },
     {
       name: 'PRIORITY',
@@ -57,7 +71,6 @@ export default function TestCases() {
           {rowData.priority}
         </span>
       ),
-      style: {},
     },
     {
       name: '',
@@ -73,7 +86,6 @@ export default function TestCases() {
           Edit
         </TMDropdown>
       ),
-      style: {},
     },
   ];
 
