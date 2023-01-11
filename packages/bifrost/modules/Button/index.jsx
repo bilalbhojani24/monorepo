@@ -64,9 +64,11 @@ const Button = ({
         disabled
           ? BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-disabled`]
           : BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`],
+        loading === true
+          ? BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`]
+          : null,
         {
           'w-full': fullWidth === true,
-          'bg-success-500': loading === true,
         },
       )}
       onClick={handleClick}

@@ -20,23 +20,23 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
 export const BUTTON_STYLE_CLASSES = {
-  'extra-small-brand-primary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-600 text-white hover:bg-brand-700',
-  'extra-small-brand-secondary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-100 text-brand-700 hover:bg-brand-200',
+  'extra-small-brand-primary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-600 text-white hover:bg-brand-700',
+  'extra-small-brand-secondary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-100 text-brand-700 hover:bg-brand-200',
   'extra-small-brand-rounded': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-600 text-white hover:bg-brand-700',
   'extra-small-brand-minimal': ' rounded text-xs text-brand-600 hover:text-brand-500 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
-  'extra-small-success-primary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-600 text-white hover:bg-success-700',
-  'extra-small-success-secondary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-100 text-success-700 hover:bg-success-200',
+  'extra-small-success-primary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-600 text-white hover:bg-success-700',
+  'extra-small-success-secondary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-100 text-success-700 hover:bg-success-200',
   'extra-small-success-rounded': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-600 text-white hover:bg-success-700',
 
-  'extra-small-danger-primary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-600 text-white hover:bg-danger-700',
-  'extra-small-danger-secondary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-100 text-danger-700 hover:bg-danger-200',
+  'extra-small-danger-primary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-600 text-white hover:bg-danger-700',
+  'extra-small-danger-secondary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-100 text-danger-700 hover:bg-danger-200',
   'extra-small-danger-rounded': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-600 text-white hover:bg-danger-700',
 
-  'extra-small-attention-primary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'extra-small-attention-secondary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-100 text-attention-800 hover:bg-attention-200',
+  'extra-small-attention-primary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-300 text-attention-900 hover:bg-attention-400',
+  'extra-small-attention-secondary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-100 text-attention-800 hover:bg-attention-200',
   'extra-small-attention-rounded': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-300 text-attention-900 hover:bg-attention-400',
 
-  'extra-small-white-primary': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
+  'extra-small-white-primary': 'rounded py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
 
   'extra-small-white-rounded': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
   'extra-small-white-minimal': ' text-xs rounded focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-base-700',
@@ -121,130 +121,25 @@ export const BUTTON_STYLE_CLASSES = {
   'extra-large-white-rounded': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
   'extra-large-white-minimal': 'text-base rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
 
-
-  // loading states
-
-  'extra-small-brand-primary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-600 text-white hover:bg-brand-700',
-  'extra-small-brand-secondary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-100 text-brand-700 hover:bg-brand-200',
-  'extra-small-brand-rounded-loading': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-brand-600 text-white hover:bg-brand-700',
-  'extra-small-brand-minimal-loading': ' rounded text-xs text-brand-600 hover:text-brand-500 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
-  'extra-small-success-primary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-600 text-white hover:bg-success-700',
-  'extra-small-success-secondary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-100 text-success-700 hover:bg-success-200',
-  'extra-small-success-rounded-loading': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-success-600 text-white hover:bg-success-700',
-
-  'extra-small-danger-primary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-600 text-white hover:bg-danger-700',
-  'extra-small-danger-secondary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-100 text-danger-700 hover:bg-danger-200',
-  'extra-small-danger-rounded-loading': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-danger-600 text-white hover:bg-danger-700',
-
-  'extra-small-attention-primary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'extra-small-attention-secondary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-100 text-attention-800 hover:bg-attention-200',
-  'extra-small-attention-rounded-loading': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-attention-300 text-attention-900 hover:bg-attention-400',
-
-  'extra-small-white-primary-loading': ' focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-
-  'extra-small-white-rounded-loading': 'rounded-full py-1.5 px-2.5 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-xs bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-  'extra-small-white-minimal-loading': ' text-xs rounded focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-base-700',
-  'small-brand-primary-loading': 'rounded-md py-2 px-3 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-sm bg-brand-600 text-white hover:bg-brand-700',
-  'small-brand-secondary-loading': 'rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-100 text-brand-700 hover:bg-brand-200',
-  'small-brand-rounded-loading': 'rounded-full py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'small-brand-minimal-loading': 'text-sm rounded focus:ring-brand-500 focus:ring-2 focus:ring-offset-2 text-brand-600 hover:text-brand-500',
-  'small-success-primary-loading': 'rounded-md py-2 px-3 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-sm bg-success-600 text-white hover:bg-success-700',
-  'small-success-secondary-loading': 'rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-100 text-success-700 hover:bg-success-200',
-  'small-success-rounded-loading': 'rounded-full py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-
-  'small-danger-primary-loading': 'rounded-md py-2 px-3 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-sm bg-danger-600 text-white hover:bg-danger-700',
-  'small-danger-secondary-loading': 'rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-100 text-danger-700 hover:bg-danger-200',
-  'small-danger-rounded-loading': 'rounded-full py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-
-  'small-attention-primary-loading': 'rounded-md py-2 px-3 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-sm bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'small-attention-secondary-loading': 'rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-100 text-attention-800 hover:bg-attention-200',
-  'small-attention-rounded-loading': 'rounded-full py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-
-  'small-white-primary-loading': 'rounded-md py-2 px-3 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-sm bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-
-  'small-white-rounded-loading': 'rounded-full py-2 px-3 text-sm focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-  'small-white-minimal-loading': 'text-sm rounded focus:ring-brand-500 focus:ring-2 focus:ring-offset-2',
-  'default-brand-primary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'default-brand-secondary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-100 text-brand-700 hover:bg-brand-200',
-  'default-brand-rounded-loading': 'text-sm py-2 px-4 rounded-full focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'default-brand-minimal-loading': 'text-sm rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-brand-600 hover:text-brand-500',
-  'default-success-primary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-  'default-success-secondary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-100 text-success-700 hover:bg-success-200',
-  'default-success-rounded-loading': 'text-sm py-2 px-4 rounded-full focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-
-  'default-danger-primary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-  'default-danger-secondary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-100 text-danger-700 hover:bg-danger-200',
-  'default-danger-rounded-loading': 'text-sm py-2 px-4 rounded-full focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-
-  'default-attention-primary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'default-attention-secondary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-100 text-attention-800 hover:bg-attention-200',
-  'default-attention-rounded-loading': 'text-sm py-2 px-4 rounded-full focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-
-  'default-white-primary-loading': 'text-sm py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-
-  'default-white-rounded-loading': 'text-sm py-2 px-4 rounded-full focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-  'default-white-minimal-loading': 'text-sm rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
-  'large-brand-primary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'large-brand-secondary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-100 text-brand-700 hover:bg-brand-200',
-  'large-brand-rounded-loading': 'text-base py-2 px-4 rounded-full bg-brand-600 text-white hover:bg-brand-700',
-  'large-brand-minimal-loading': 'text-base rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-brand-600 hover:text-brand-500',
-  'large-success-primary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-  'large-success-secondary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-100 text-success-700 hover:bg-success-200',
-  'large-success-rounded-loading': 'text-base py-2 px-4 rounded-full bg-success-600 text-white hover:bg-success-700',
-
-  'large-danger-primary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-  'large-danger-secondary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-100 text-danger-700 hover:bg-danger-200',
-  'large-danger-rounded-loading': 'text-base py-2 px-4 rounded-full bg-danger-600 text-white hover:bg-danger-700',
-
-  'large-attention-primary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'large-attention-secondary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-100 text-attention-800 hover:bg-attention-200',
-  'large-attention-rounded-loading': 'text-base py-2 px-4 rounded-full bg-attention-300 text-attention-900 hover:bg-attention-400',
-
-  'large-white-primary-loading': 'text-base py-2 px-4 rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-
-  'large-white-rounded-loading': 'text-base py-2 px-4 rounded-full bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-  'large-white-minimal-loading': 'text-base rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
-  'extra-large-brand-primary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'extra-large-brand-secondary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-100 text-brand-700 hover:bg-brand-200',
-  'extra-large-brand-rounded-loading': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-brand-600 text-white hover:bg-brand-700',
-  'extra-large-brand-minimal-loading': 'text-base rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 text-brand-600 hover:text-brand-500',
-  'extra-large-success-primary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-  'extra-large-success-secondary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-100 text-success-700 hover:bg-success-200',
-  'extra-large-success-rounded-loading': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-success-600 text-white hover:bg-success-700',
-
-  'extra-large-danger-primary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-  'extra-large-danger-secondary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-100 text-danger-700 hover:bg-danger-200',
-  'extra-large-danger-rounded-loading': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-danger-600 text-white hover:bg-danger-700',
-
-  'extra-large-attention-primary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-  'extra-large-attention-secondary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-100 text-attention-800 hover:bg-attention-200',
-  'extra-large-attention-rounded-loading': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-attention-300 text-attention-900 hover:bg-attention-400',
-
-  'extra-large-white-primary-loading': 'text-base rounded-md py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-
-  'extra-large-white-rounded-loading': 'rounded-full text-base py-4 px-6 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 bg-white shadow-sm text-base-700  border border-base-300 hover:bg-base-50',
-  'extra-large-white-minimal-loading': 'text-base rounded-md focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
-
-
   // disabled states
-
-  'extra-small-brand-primary-disabled': ' text-xs text-brand-200 bg-brand-500 cursor-not-allowed',
-  'extra-small-brand-secondary-disabled': ' text-xs bg-brand-50 text-brand-300 cursor-not-allowed',
+  
+  'extra-small-brand-primary-disabled': 'rounded py-1.5 px-2.5 text-xs text-brand-200 bg-brand-500 cursor-not-allowed',
+  'extra-small-brand-secondary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-brand-50 text-brand-300 cursor-not-allowed',
   'extra-small-brand-rounded-disabled': 'rounded-full py-1.5 px-2.5 text-xs text-brand-200 bg-brand-500 cursor-not-allowed',
   'extra-small-brand-minimal-disabled': ' text-xs text-brand-300 cursor-not-allowed',
-  'extra-small-success-primary-disabled': ' text-xs bg-success-500 text-success-200 cursor-not-allowed',
-  'extra-small-success-secondary-disabled': ' text-xs bg-success-50 text-success-300 cursor-not-allowed',
+  'extra-small-success-primary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-success-500 text-success-200 cursor-not-allowed',
+  'extra-small-success-secondary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-success-50 text-success-300 cursor-not-allowed',
   'extra-small-success-rounded-disabled': 'rounded-full py-1.5 px-2.5 text-xs bg-success-500 text-success-200 cursor-not-allowed',
 
-  'extra-small-danger-primary-disabled': ' text-xs bg-danger-500 text-danger-200 cursor-not-allowed',
-  'extra-small-danger-secondary-disabled': ' text-xs bg-danger-50 text-danger-300 cursor-not-allowed',
+  'extra-small-danger-primary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-danger-500 text-danger-200 cursor-not-allowed',
+  'extra-small-danger-secondary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-danger-50 text-danger-300 cursor-not-allowed',
   'extra-small-danger-rounded-disabled': 'rounded-full py-1.5 px-2.5 text-xs bg-danger-500 text-danger-200 cursor-not-allowed',
 
-  'extra-small-attention-primary-disabled': ' text-xs bg-attention-200 text-attention-500 cursor-not-allowed',
-  'extra-small-attention-secondary-disabled': ' text-xs bg-attention-50 text-attention-400 cursor-not-allowed',
+  'extra-small-attention-primary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-attention-200 text-attention-500 cursor-not-allowed',
+  'extra-small-attention-secondary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-attention-50 text-attention-400 cursor-not-allowed',
   'extra-small-attention-rounded-disabled': 'rounded-full py-1.5 px-2.5 text-xs bg-attention-200 text-attention-500 cursor-not-allowed',
 
-  'extra-small-white-primary-disabled': ' text-xs bg-base-200 text-base-500 cursor-not-allowed',
+  'extra-small-white-primary-disabled': 'rounded py-1.5 px-2.5 text-xs bg-base-200 text-base-500 cursor-not-allowed',
 
   'extra-small-white-rounded-disabled': 'rounded-full py-1.5 px-2.5 text-xs bg-base-200 text-base-500 cursor-not-allowed',
   'extra-small-white-minimal-disabled': ' text-xs text-base-400 cursor-not-allowed',
