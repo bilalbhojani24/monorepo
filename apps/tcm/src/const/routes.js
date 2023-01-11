@@ -2,7 +2,7 @@ const AppRoute = {
   ROOT: '/',
   LANDING: '/landing',
   PROJECTS: '/projects',
-  TEST_CASES: '/test-cases',
+  TEST_CASES: '/repository',
   DASHBOARD: '/dashboard',
   ONBOARDING: '/onboarding',
   TEST_RUNS: '/test-runs',
