@@ -53,6 +53,18 @@ const Button = ({
     onClick(e);
   };
 
+  const stylePicker = (disabledStatus, loadingStatus) => {
+    if (disabled) {
+      return BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-disabled`];
+    }
+
+    if (loading) {
+      return BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-loading`];
+    }
+
+    return BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`];
+  };
+
   return (
     <button
       type="button"
@@ -61,12 +73,7 @@ const Button = ({
       className={classNames(
         'border border-transparent font-medium',
         wrapperClassName,
-        disabled
-          ? BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}-disabled`]
-          : BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`],
-        loading === true
-          ? BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`]
-          : null,
+        stylePicker(disabled, loading),
         {
           'w-full': fullWidth === true,
         },
