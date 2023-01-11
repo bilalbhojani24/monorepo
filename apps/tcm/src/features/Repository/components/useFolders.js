@@ -35,6 +35,7 @@ export default function useFolders() {
       getFolders({ projectId }).then((data) => {
         dispatch(updateAllFolders(data?.folders || []));
         if (
+          !folderId &&
           data?.folders &&
           window.location.pathname.includes(AppRoute.TEST_CASES)
         ) {
