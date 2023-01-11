@@ -66,6 +66,14 @@ const MainRoute = () => {
             </PrivateComponent>
           }
         />
+        <Route
+          path={AppRoute.SETTINGS}
+          element={<PrivateComponent>SETTINGS</PrivateComponent>}
+        />
+        <Route
+          path={AppRoute.DOCUMENTATION}
+          element={<PrivateComponent>DOCUMENTATION</PrivateComponent>}
+        />
         <Route path="*" element={<Navigate to={AppRoute.ROOT} replace />} />
       </Routes>
     </div>
