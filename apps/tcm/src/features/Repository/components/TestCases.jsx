@@ -110,20 +110,22 @@ export default function TestCases() {
         )}
 
         {allTestCases.length ? (
-          <TMDataTable
-            // isSelectable
-            // isHeaderSticky
-            columns={datatableColumns}
-            rows={allTestCases}
-            // isSortable={false}
-          />
+          <>
+            <TMDataTable
+              // isSelectable
+              // isHeaderSticky
+              columns={datatableColumns}
+              rows={allTestCases}
+              // isSortable={false}
+            />
+            <InlineAddTestCase />
+          </>
         ) : (
           <div className="flex w-full flex-1 items-center justify-center">
             <BlankPage />
           </div>
         )}
       </div>
-      <InlineAddTestCase />
     </div>
   );
 }

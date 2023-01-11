@@ -39,6 +39,11 @@ export const repositorySlice = createSlice({
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
+
+      if (payload) {
+        // reset form data
+        state.newTestCaseData = initialState.newTestCaseData;
+      }
     },
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;

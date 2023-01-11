@@ -42,11 +42,6 @@ export default function useTestCases() {
   };
 
   const saveTestCase = () => () => {
-    // if (!payload.newTestCaseData.name) {
-    //   setInputError(true);
-    // } else {
-
-    debugger;
     addTestCase({
       projectId,
       folderId,

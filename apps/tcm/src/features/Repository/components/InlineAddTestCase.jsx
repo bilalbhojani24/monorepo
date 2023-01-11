@@ -16,10 +16,7 @@ const InlineAddTestCase = () => {
   };
 
   return (
-    <div
-      className="shadow-slate-200 fixed bottom-0 bg-white p-2"
-      style={{ width: '756px', right: '22px' }}
-    >
+    <div className="shadow-slate-200 relative w-full p-2">
       <InputWButton
         value={testCase}
         id="inline-add-test-case"
