@@ -10,7 +10,8 @@ export default function useMainRoute() {
   useEffect(() => {
     authInit();
     initApp();
-  }, [authInit, initApp]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {};
 }
