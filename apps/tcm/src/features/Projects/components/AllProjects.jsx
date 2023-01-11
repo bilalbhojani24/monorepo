@@ -19,8 +19,8 @@ const AllProjects = (props) => {
   };
 
   return (
-    <div>
-      <div className="border-b-2 border-base-300">
+    <div className="flex flex-1 flex-col items-stretch">
+      <div className="border-b  border-base-300">
         <PageHeadings
           heading="All Projects"
           actionsData={[
@@ -33,19 +33,25 @@ const AllProjects = (props) => {
           ]}
         />
       </div>
-      <div className="bg-base-100 px-4 py-2">
-        <Tabs
-          id="project-tabs"
-          tabsArray={[{ name: 'Active Projects' }, { name: 'Closed Projects' }]}
-          onTabChange={handleTabChange}
-        />
+      <div className="flex flex-1 flex-col items-stretch bg-base-100">
+        <div className="p-5">
+          <Tabs
+            id="project-tabs"
+            tabsArray={[
+              { name: 'Active Projects' },
+              { name: 'Closed Projects' },
+            ]}
+            onTabChange={handleTabChange}
+          />
+        </div>
+
+        {currentTab === ACTIVE_PROJECTS ? (
+          <ActiveProjects rowsData={activeProjects} />
+        ) : (
+          <ClosedProjects />
+        )}
+        {showAddModal ? <AddProjects /> : ''}
       </div>
-      {currentTab === ACTIVE_PROJECTS ? (
-        <ActiveProjects rowsData={activeProjects} />
-      ) : (
-        <ClosedProjects />
-      )}
-      {showAddModal ? <AddProjects /> : ''}
     </div>
   );
 };

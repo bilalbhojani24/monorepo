@@ -20,17 +20,19 @@ const TestRuns = (props) => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <PageHeadings
-        heading="Test Runs"
-        actionsData={[
-          {
-            id: 'node-1',
-            actionsNode: <>Add Test Run</>,
-            actionFn: addingTestRun,
-            variant: 'primary',
-          },
-        ]}
-      />
+      <div className="border-b  border-base-300">
+        <PageHeadings
+          heading="Test Runs"
+          actionsData={[
+            {
+              id: 'node-1',
+              actionsNode: <>Add Test Run</>,
+              actionFn: addingTestRun,
+              variant: 'primary',
+            },
+          ]}
+        />
+      </div>
       <div className="flex flex-1 flex-col items-stretch bg-base-100">
         <div className="p-5">
           <Tabs

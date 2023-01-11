@@ -85,15 +85,13 @@ const ActiveTestRuns = (props) => {
     <div>
       {/* header */}
       <div className="px-4 py-2">
-        <div className="mt-4">
-          <DataTable
-            isHeaderCapitalize
-            isHeaderSticky
-            columns={COLUMNS}
-            rows={rows}
-            isFullWhite={false}
-          />
-        </div>
+        <DataTable
+          isHeaderCapitalize
+          isHeaderSticky
+          columns={COLUMNS}
+          rows={rows}
+          isFullWhite={false}
+        />
       </div>
     </div>
   );
