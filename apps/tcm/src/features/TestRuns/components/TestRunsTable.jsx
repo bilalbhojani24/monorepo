@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TMDataTable, TMDropdown, TMTabs } from 'bifrostProxy';
-import AppRoute from 'const/routes';
-import { arrayOf, node, shape, string } from 'prop-types';
+
+import { TABS_ARRAY } from '../const/immutableConst';
 
 import useTestRuns from './useTestRuns';
 
 const TestRunsTable = () => {
-  const [currentTab, setCurrentTab] = useState('Active Test Runs');
-  const navigate = useNavigate();
+  const [currentTab, setCurrentTab] = useState(TABS_ARRAY[0]);
   const { allTestRunsArray, projectId, fetchAllTestRuns } = useTestRuns();
 
-  // const handleTestRunsClick = (projectId) => () => {
-  //   navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_RUNS}`);
-  // };
-
-  // const handleTestCasesClick = (projectId) => () => {
-  //   navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}`);
-  // };
   const handleTabChange = (tabName) => {
     setCurrentTab(tabName.name);
   };
@@ -82,10 +73,7 @@ const TestRunsTable = () => {
       <div className="mb-4 w-full px-2">
         <TMTabs
           id="project-tabs"
-          tabsArray={[
-            { name: 'Active Test Runs' },
-            { name: 'Closed Test Runs' },
-          ]}
+          tabsArray={TABS_ARRAY}
           onTabChange={handleTabChange}
         />
       </div>
@@ -100,19 +88,8 @@ const TestRunsTable = () => {
   );
 };
 
-TestRunsTable.propTypes = {
-  rowsData: arrayOf(
-    shape({
-      id: string,
-      projectTitle: string,
-      quickLinks: node,
-      action: node,
-    }),
-  ),
-};
+TestRunsTable.propTypes = {};
 
-TestRunsTable.defaultProps = {
-  rowsData: [],
-};
+TestRunsTable.defaultProps = {};
 
 export default TestRunsTable;
