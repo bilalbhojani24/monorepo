@@ -134,7 +134,7 @@ const Pagination = (props) => {
         <div className="hidden md:-mt-px md:flex">
           {renderPageNumber(
             'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-base-500 hover:border-base-300 hover:text-base-700',
-            'inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600'
+            'inline-flex items-center border-t-2 border-brand-500 px-4 pt-4 text-sm font-medium text-brand-600'
           )}
         </div>
         <div className="-mt-px flex w-0 flex-1 justify-end">
@@ -184,7 +184,7 @@ const Pagination = (props) => {
         </a>
         {renderPageNumber(
           'inline-flex items-center border border-base-300 bg-white px-4 py-2 text-sm font-medium text-base-500 hover:bg-base-50',
-          'z-10 border-indigo-500 bg-indigo-50 text-indigo-600'
+          'z-10 border-brand-500 bg-brand-50 text-brand-600'
         )}
         <a
           href="/"

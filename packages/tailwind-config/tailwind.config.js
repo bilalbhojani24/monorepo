@@ -69,16 +69,16 @@ module.exports = {
         900: 'var(--colors-attention-900)'
       },
       information: {
-        50: 'var(--colors-information-50)',
-        100: 'var(--colors-information-100)',
-        200: 'var(--colors-information-200)',
-        300: 'var(--colors-information-300)',
-        400: 'var(--colors-information-400)',
-        500: 'var(--colors-information-500)',
-        600: 'var(--colors-information-600)',
-        700: 'var(--colors-information-700)',
-        800: 'var(--colors-information-800)',
-        900: 'var(--colors-information-900)'
+        50: 'var(--colors-info-50)',
+        100: 'var(--colors-info-100)',
+        200: 'var(--colors-info-200)',
+        300: 'var(--colors-info-300)',
+        400: 'var(--colors-info-400)',
+        500: 'var(--colors-info-500)',
+        600: 'var(--colors-info-600)',
+        700: 'var(--colors-info-700)',
+        800: 'var(--colors-info-800)',
+        900: 'var(--colors-info-900)'
       }
     }
   },

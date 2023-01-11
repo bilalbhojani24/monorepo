@@ -29,7 +29,7 @@ const RadioGroup = (props) => {
               name="plan"
               type="radio"
               defaultChecked={option.id === selectedId}
-              className="h-4 w-4 border-base-300 text-indigo-600 focus:ring-indigo-500"
+              className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
               onChange={handleChange(option.id)}
             />
           </div>

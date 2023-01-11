@@ -90,7 +90,7 @@ const StackedListWTwoColumns = ({ list, format, badgeProps, avatarVisible }) => 
                 <a href={listItem.link} className="block hover:bg-base-50 cursor-pointer">
                   <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
-                      <p className="truncate text-sm font-medium text-indigo-600">{listItem.firstColumn.heading}</p>
+                      <p className="truncate text-sm font-medium text-brand-600">{listItem.firstColumn.heading}</p>
                       <div className="ml-2 flex flex-shrink-0">
                         <Badge {...badgeProps} text={listItem.secondColumn.heading} />
                       </div>

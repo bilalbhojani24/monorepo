@@ -52,7 +52,7 @@ const Drawer = (props) => {
                       'flex h-full flex-col overflow-y-scroll bg-white  shadow-xl'
                     )}
                   >
-                    <div className={classNames({ 'bg-indigo-700 py-6': brandingHeader }, 'px-4 sm:px-6')}>
+                    <div className={classNames({ 'bg-brand-700 py-6': brandingHeader }, 'px-4 sm:px-6')}>
                       <div className="flex items-start justify-between">
                         <Dialog.Title
                           className={classNames(
@@ -68,9 +68,9 @@ const Drawer = (props) => {
                             className={classNames(
                               {
                                 'bg-white text-base-400': !brandingHeader,
-                                'bg-indigo-700 text-indigo-200': brandingHeader
+                                'bg-brand-700 text-brand-200': brandingHeader
                               },
-                              'rounded-md hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                              'rounded-md hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
                             )}
                             onClick={() => setOpen(false)}
                           >
@@ -81,7 +81,7 @@ const Drawer = (props) => {
                       </div>
                       {brandingHeader && (
                         <div className="mt-1">
-                          <p className="text-sm text-indigo-300">{description}</p>
+                          <p className="text-sm text-brand-300">{description}</p>
                         </div>
                       )}
                     </div>

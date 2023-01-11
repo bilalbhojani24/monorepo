@@ -75,7 +75,7 @@ const Notifications = (props) => {
                   {isCondensed && (
                     <button
                       type="button"
-                      className="mr-3 flex-shrink-0 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="mr-3 flex-shrink-0 rounded-md bg-white text-sm font-medium text-brand-600 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                       onClick={() => {
                         if (handlePositiveClick) handlePositiveClick();
                       }}
@@ -85,7 +85,7 @@ const Notifications = (props) => {
                   )}
                   <button
                     type="button"
-                    className="inline-flex rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                     onClick={() => {
                       if (handleClose) handleClose();
                     }}

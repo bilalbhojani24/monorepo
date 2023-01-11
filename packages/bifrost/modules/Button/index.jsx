@@ -44,23 +44,23 @@ const Button = (props) => {
         'px-6 py-3 text-base rounded-full': size === BUTTON_SIZES[4] && buttonType === BUTTON_TYPES[2],
 
         // primary
-        'bg-indigo-600 text-white shadow-sm': variant === BUTTON_VARIANTS[0] && !disabled,
+        'bg-brand-600 text-white shadow-sm': variant === BUTTON_VARIANTS[0] && !disabled,
         // pseudo classes
-        'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+        'hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2':
           variant === BUTTON_VARIANTS[0] && !disabled,
         'bg-neutral-200 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[0] && disabled,
 
         // secondary
-        'bg-indigo-100 text-indigo-700': variant === BUTTON_VARIANTS[1] && !disabled,
+        'bg-brand-100 text-brand-700': variant === BUTTON_VARIANTS[1] && !disabled,
         // pseudo classes
-        'hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+        'hover:bg-brand-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2':
           variant === BUTTON_VARIANTS[1] && !disabled,
         // disabled
         'bg-neutral-100 text-neutral-400 cursor-not-allowed': variant === BUTTON_VARIANTS[1] && disabled,
 
         //outline
         'border border-base-300 bg-white text-base-700 shadow-sm': variant === BUTTON_VARIANTS[2] && !disabled,
-        'hover:bg-base-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2':
+        'hover:bg-base-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2':
           variant === BUTTON_VARIANTS[2] && !disabled,
 
         // outline disabled

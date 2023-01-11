@@ -54,7 +54,7 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
             <Hyperlink
               underlined
               fontWeight="font-light"
-              color={TOOLTIP_THEME[0] === theme ? 'text-indigo-600' : 'text-white'}
+              color={TOOLTIP_THEME[0] === theme ? 'text-brand-600' : 'text-white'}
               wrapperClassName={classNames('mr-4')}
               href={actionObject.primaryButtonUrl}
               rel="noreferrer noopener"
@@ -64,7 +64,7 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
             <Hyperlink
               underlined
               fontWeight="font-light"
-              color={TOOLTIP_THEME[0] === theme ? 'text-indigo-600' : 'text-white'}
+              color={TOOLTIP_THEME[0] === theme ? 'text-brand-600' : 'text-white'}
               href={actionObject.secondaryButtonUrl}
               rel="noreferrer noopener"
             >

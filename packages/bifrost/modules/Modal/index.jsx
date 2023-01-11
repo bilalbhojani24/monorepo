@@ -55,7 +55,7 @@ const Modal = (props) => {
                   <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                     <button
                       type="button"
-                      className="rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="rounded-md bg-white text-base-400 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                       onClick={() => {
                         if (handleDismissButtonClick) handleDismissButtonClick();
                       }}
