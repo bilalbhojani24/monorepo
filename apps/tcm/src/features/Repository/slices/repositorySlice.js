@@ -17,6 +17,7 @@ const initialState = {
     state: '',
     precondition: '',
   },
+  testCaseDetails: null,
 };
 
 export const repositorySlice = createSlice({
@@ -41,6 +42,9 @@ export const repositorySlice = createSlice({
     setTestCaseViewVisibility: (state, { payload }) => {
       state.isTestCaseViewVisible = payload;
     },
+    setTestCaseDetails: (state, { payload }) => {
+      state.testCaseDetails = payload;
+    },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
 
@@ -64,6 +68,7 @@ export const {
   setAddTestCaseVisibility,
   setTestCaseViewVisibility,
   updateTestCaseFormData,
+  setTestCaseDetails,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

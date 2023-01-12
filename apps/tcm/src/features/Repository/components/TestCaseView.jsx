@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
 import { TMDrawer } from 'bifrostProxy';
 
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseView = () => {
-  const { hideTestCaseViewDrawer } = useTestCaseView();
+  const { hideTestCaseViewDrawer, fetchTestCaseDetails } = useTestCaseView();
+
+  useEffect(() => {
+    fetchTestCaseDetails();
+  }, []);
 
   return (
     <div className="test pt-5">
