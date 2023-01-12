@@ -30,7 +30,7 @@ const TestRunsTable = () => {
         // onClick={handleProjectClick(rowData.id)}
         // onKeyDown={handleProjectClick(rowData.id)}
         >
-          TC-{rowData.id}
+          TR-{rowData.id}
         </div>
       ),
     },
