@@ -93,11 +93,13 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full flex-col items-start">
-      <div className="flex w-full items-start border-b border-base-300 p-3">
-        <TMInputField
-          placeholder="Search by Test Case name, ID"
-          leadingIcon={<SearchIcon className="text-base-400" />}
-        />
+      <div className="flex w-full items-start border-b border-base-300 py-3 pr-3">
+        <div className="w-full">
+          <TMInputField
+            placeholder="Search by Test Case name, ID"
+            leadingIcon={<SearchIcon className="text-base-400" />}
+          />
+        </div>
         <TMButton
           buttonType="half-rounded-button"
           wrapperClassName="ml-3"

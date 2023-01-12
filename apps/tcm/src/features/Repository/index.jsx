@@ -33,7 +33,7 @@ const Repository = () => {
             <BlankPage />
           ) : (
             <main className="w-full min-w-0 lg:flex">
-              <section className="flex h-full w-full  min-w-0 overflow-y-auto lg:order-last">
+              <section className="flex h-full w-full  min-w-0 lg:order-last">
                 <TestCases />
               </section>
 
