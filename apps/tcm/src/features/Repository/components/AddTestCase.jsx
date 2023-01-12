@@ -1,13 +1,16 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { TMInputField, TMSectionHeadings, TMSelectMenu } from 'bifrostProxy';
 
-import { priorityOptions, templateOptions } from '../const/addTestCaseConst';
+import {
+  priorityOptions,
+  stateOptions,
+  templateOptions,
+  testCaseTypesOptions,ownerOptions
+} from '../const/addTestCaseConst';
 
 import useTestCases from './useTestCases';
 
 const AddTestCase = () => {
-  const { projectId } = useParams();
   const {
     handleTestCaseFieldChange,
     newTestCaseData,
@@ -53,13 +56,12 @@ const AddTestCase = () => {
         />
       </div> */}
       <div className="mt-4">
-        <TMInputField
-          // value={newTestCaseData?.type}
-          id="test-case-type"
+        <TMSelectMenu
+          defaultValue={priorityOptions[0]}
+          checkPosition="right"
           label="Test Case Type"
-          onChange={(e) =>
-            handleTestCaseFieldChange('type', e.currentTarget.value)
-          }
+          options={testCaseTypesOptions}
+          onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
       </div>
       <div className="mt-4">
@@ -82,23 +84,21 @@ const AddTestCase = () => {
         />
       </div>
       <div className="mt-4">
-        <TMInputField
-          // value={newTestCaseData?.state}
-          id="test-case-state"
+        <TMSelectMenu
+          defaultValue={priorityOptions[0]}
+          checkPosition="right"
           label="State"
-          onChange={(e) =>
-            handleTestCaseFieldChange('state', e.currentTarget.value)
-          }
+          options={stateOptions}
+          onChange={(e) => handleTestCaseFieldChange('state', e.value)}
         />
       </div>
       <div className="mt-4">
-        <TMInputField
-          // value={newTestCaseData?.owner}
-          id="test-case-owner"
+        <TMSelectMenu
+          defaultValue={ownerOptions[]}
+          checkPosition="right"
           label="Owner"
-          onChange={(e) =>
-            handleTestCaseFieldChange('owner', e.currentTarget.value)
-          }
+          options={ownerOptions}
+          onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
         />
       </div>
       <div className="mt-4">
