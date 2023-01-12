@@ -1,16 +1,20 @@
 import React from 'react';
-import SelectMenu from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
 import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+import SelectMenu from './index';
 
 const defaultConfig = {
   title: 'Application/Components/SelectMenu',
   component: SelectMenu,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import SelectMenu from 'bifrost/SelectMenu'"} />;
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import SelectMenu from 'bifrost/SelectMenu'"}
+        />
+      ),
     },
   },
   argTypes: {
@@ -46,10 +50,12 @@ const defaultConfig = {
     options: {
       options: SELECT_OPTIONS,
       description: 'options for the combobox, array of objects',
+      defaultValue: SELECT_OPTIONS,
     },
     value: {
       option: { type: null },
-      description: 'Default selected values for the combobox, and the value state will be controlled externally',
+      description:
+        'Default selected values for the combobox, and the value state will be controlled externally',
       defaultValue: SELECT_OPTIONS[0],
     },
   },
@@ -64,7 +70,7 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { Primary, MultiSelect };
+export { MultiSelect, Primary };
 
 MultiSelect.args = {
   defaultValue: null,

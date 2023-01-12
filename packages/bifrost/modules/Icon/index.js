@@ -28,6 +28,8 @@ import {
   XCircleIcon,
   ChevronUpDownIcon,
   Bars3Icon,
+  ArrowDownIcon,
+  ArrowUpIcon
 } from '@heroicons/react/20/solid';
 
 export {
@@ -60,4 +62,6 @@ export {
   XCircleIcon,
   ChevronUpDownIcon,
   Bars3Icon,
+  ArrowDownIcon,
+  ArrowUpIcon
 };
