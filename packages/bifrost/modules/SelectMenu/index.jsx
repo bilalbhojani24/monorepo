@@ -6,9 +6,14 @@ import PropTypes from 'prop-types';
 
 import Checkbox from '../Checkbox';
 
-import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+import { CHECK_POSITION } from './const/selectMenuConstants';
 
 import './styles.scss';
+
+const getValue = (isMultiSelect, options) => {
+  if (!isMultiSelect) return options[0];
+  return [options[0]];
+};
 
 const SelectMenu = (props) => {
   const {
@@ -20,18 +25,20 @@ const SelectMenu = (props) => {
     checkPosition,
     value,
   } = props;
-  const [selectedValues, setSelectedValues] = useState(value);
+  const [selectedValues, setSelectedValues] = useState(
+    value || getValue(isMultiSelect, options),
+  );
 
   return (
     <>
       <Listbox
-        {...(value && { value: selectedValues })}
-        onChange={(value) => {
-          setSelectedValues(value);
-          if (onChange) onChange(value);
+        value={selectedValues}
+        onChange={(val) => {
+          setSelectedValues(val);
+          if (onChange) onChange(val);
         }}
         multiple={isMultiSelect}
-        {...(defaultValue && { defaultValue })}
+        defaultValue={defaultValue}
       >
         {({ open }) => (
           <>
@@ -39,29 +46,29 @@ const SelectMenu = (props) => {
               {label}
             </Listbox.Label>
             <div className="relative mt-1">
-              <Listbox.Button className="focus:border-brand-500 focus:ring-brand-500 relative w-full cursor-default rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-1 sm:text-sm">
-                {({ value }) => (
+              <Listbox.Button className="focus:border-indigo-500 focus:ring-indigo-500 relative w-full cursor-default rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-1 sm:text-sm">
+                {({ value: buttonValue }) => (
                   <>
-                    <span className="block flex items-center truncate">
-                      {isMultiSelect && Array.isArray(value) ? (
-                        value.map((val) => val.label).join(', ')
+                    <span className="flex items-center truncate">
+                      {isMultiSelect && Array.isArray(buttonValue) ? (
+                        buttonValue.map((val) => val.label).join(', ')
                       ) : (
-                        <div className="block flex items-center truncate">
-                          {value?.image && (
+                        <div className="flex items-center truncate">
+                          {buttonValue?.image && (
                             <img
                               className="mr-2 h-6 w-6 shrink-0 rounded-full"
-                              src={value.image}
-                              alt={value.label}
+                              src={buttonValue.image}
+                              alt={buttonValue.label}
                             />
                           )}
-                          {value?.label}
+                          {buttonValue?.label}
                         </div>
                       )}
                     </span>
 
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      {isMultiSelect && selectedValues?.length ? (
-                        <span className="mr-1 font-bold">{`(${selectedValues.length})`}</span>
+                      {isMultiSelect && buttonValue?.length ? (
+                        <span className="mr-1 font-bold">{`(${buttonValue.length})`}</span>
                       ) : null}
                       <ChevronUpDownIcon
                         className="h-5 w-5 text-base-400"
@@ -86,8 +93,7 @@ const SelectMenu = (props) => {
                       className={({ active }) =>
                         classNames(
                           {
-                            'bg-brand-600 text-white':
-                              active && !isMultiSelect,
+                            'bg-brand-600 text-white': active && !isMultiSelect,
                             'text-base-900': !active,
                             'py-2 pl-3 pr-9':
                               checkPosition === CHECK_POSITION[1] &&
@@ -218,7 +224,6 @@ SelectMenu.defaultProps = {
   defaultValue: null,
   isMultiSelect: false,
   label: '',
-  options: SELECT_OPTIONS,
   onChange: () => {},
   value: null,
 };

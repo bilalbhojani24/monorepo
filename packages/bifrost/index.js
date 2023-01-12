@@ -16,6 +16,10 @@ import InputWButton from './modules/InputWButton/index';
 import InputWDropdown from './modules/InputWDropdown/index';
 import InputWKB from './modules/InputWKB/index';
 import Loader from './modules/Loader/index';
+import Modal from './modules/Modal';
+import ModalBody from './modules/ModalBody';
+import ModalFooter from './modules/ModalFooter';
+import ModalHeader from './modules/ModalHeader';
 import Notifications from './modules/Notifications/index';
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
@@ -56,6 +60,10 @@ export {
   InputWDropdown,
   InputWKB,
   Loader,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Notifications,
   PageHeadings,
   Pagination,
