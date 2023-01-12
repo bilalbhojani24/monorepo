@@ -75,7 +75,7 @@ Modal.defaultProps = {
   body: null,
   footer: null,
   header: null,
-  onClose: () => {},
+  onClose: null,
   show: false,
   size: MODAL_SIZE[2],
 };
