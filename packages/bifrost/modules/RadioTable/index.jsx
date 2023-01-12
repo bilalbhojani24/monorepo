@@ -26,7 +26,7 @@ const RadioTable = (props) => {
                 {
                   'rounded-tl-md rounded-tr-md': optionIdx === 0,
                   'rounded-bl-md rounded-br-md': optionIdx === options.length - 1,
-                  'bg-indigo-50 border-indigo-200 z-10': checked,
+                  'bg-brand-50 border-brand-200 z-10': checked,
                   'border-base-200': !checked
                 },
                 'relative border p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none'
@@ -39,9 +39,9 @@ const RadioTable = (props) => {
                   <span
                     className={classNames(
                       {
-                        'bg-indigo-600 border-transparent': checked,
+                        'bg-brand-600 border-transparent': checked,
                         'bg-white border-base-300': !checked,
-                        'ring-2 ring-offset-2 ring-indigo-500': active
+                        'ring-2 ring-offset-2 ring-brand-500': active
                       },
                       'h-4 w-4 rounded-full border flex items-center justify-center'
                     )}
@@ -54,7 +54,7 @@ const RadioTable = (props) => {
                     as="span"
                     className={classNames(
                       {
-                        'text-indigo-900': checked,
+                        'text-brand-900': checked,
                         'text-base-900': !checked
                       },
                       'ml-3 font-medium'
@@ -64,7 +64,7 @@ const RadioTable = (props) => {
                   </RadioGroup.Label>
                   <RadioGroup.Description
                     as="span"
-                    className={classNames(checked ? 'text-indigo-700' : 'text-base-500', 'block text-sm ml-2')}
+                    className={classNames(checked ? 'text-brand-700' : 'text-base-500', 'block text-sm ml-2')}
                   >
                     {option.description}
                   </RadioGroup.Description>
@@ -75,7 +75,7 @@ const RadioTable = (props) => {
                       <span
                         className={classNames(
                           {
-                            'text-indigo-900': checked,
+                            'text-brand-900': checked,
                             'text-base-900': !checked
                           },
                           'font-medium'
@@ -88,7 +88,7 @@ const RadioTable = (props) => {
                       as="span"
                       className={classNames(
                         {
-                          'text-indigo-700': checked,
+                          'text-brand-700': checked,
                           'text-base-500': !checked
                         },
                         'ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right'

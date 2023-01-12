@@ -1,7 +1,9 @@
 import React from 'react';
-import InputWButton from './index';
 import { UsersIcon } from '@heroicons/react/20/solid';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import InputWButton from './index';
 
 const dropdownOptions = ['USD', 'CAD', 'EUR', 'INR'];
 const defaultConfig = {
@@ -9,108 +11,110 @@ const defaultConfig = {
   component: InputWButton,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import InputWButton from 'bifrost/InputWButton'"} />;
-      }
-    }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import InputWButton from 'bifrost/InputWButton'"}
+        />
+      ),
+    },
   },
   argTypes: {
     label: {
       type: { summary: 'STRING', required: false },
       description: 'Content that goes inside the banner',
       control: { type: 'text' },
-      defaultValue: 'Label'
+      defaultValue: 'Label',
     },
     autoComplete: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'off'
+      defaultValue: 'off',
     },
     cornerHintText: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: ''
+      defaultValue: '',
     },
     defaultValue: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: ''
+      defaultValue: '',
     },
     description: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: ''
+      defaultValue: '',
     },
     errorText: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: ''
+      defaultValue: '',
     },
     addOnText: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Add On'
+      defaultValue: 'Add On',
     },
     id: {
       type: { summary: 'STRING', required: true },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'test-id'
+      defaultValue: 'test-id',
     },
     inputRef: {
       type: { summary: 'OBJECT', required: false },
       description: 'ABCDEFGHIJK',
-      control: { type: null }
+      control: { type: null },
     },
     isAddOnInline: {
       control: { type: 'boolean' },
       description: 'Lorem Ipsum',
       type: { summary: 'BOOLEAN', required: false },
-      defaultValue: true
+      defaultValue: true,
     },
     placeholder: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Placeholder text'
+      defaultValue: 'Placeholder text',
     },
     buttonElement: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Button'
+      defaultValue: 'Button',
     },
     type: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'text'
+      defaultValue: 'text',
     },
     dropdownList: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       // control: { type: 'text' },
-      defaultValue: dropdownOptions
+      defaultValue: dropdownOptions,
     },
     icon: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: null },
-      defaultValue: <UsersIcon className="h-5 w-5 text-base-400" />
-    }
+      defaultValue: <UsersIcon className="h-5 w-5 text-base-400" />,
+    },
   },
-  controls: {}
+  controls: {},
 };
 const Template = (args) => <InputWButton {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;

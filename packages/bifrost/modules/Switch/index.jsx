@@ -45,11 +45,11 @@ const Switch = ({
         className={classNames(
           isShortToggle
             ? [
-                'group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                'group relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
               ]
             : [
-                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-                enabled ? 'bg-indigo-600' : 'bg-base-200'
+                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
+                enabled ? 'bg-brand-600' : 'bg-base-200'
               ]
         )}
       >
@@ -61,7 +61,7 @@ const Switch = ({
               aria-hidden="true"
               className={classNames(
                 'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out',
-                enabled ? 'bg-indigo-600' : 'bg-base-200'
+                enabled ? 'bg-brand-600' : 'bg-base-200'
               )}
             />
           </>

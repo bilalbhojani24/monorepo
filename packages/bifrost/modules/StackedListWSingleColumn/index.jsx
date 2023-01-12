@@ -21,7 +21,7 @@ const StackedListWSingleColumn = ({ descriptionMaxLength, list, handleListClick,
           <ul role="list" className="-my-5 divide-y divide-base-200">
             {list.map((listItem) => (
               <li key={listItem.id} className="py-5">
-                <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">
+                <div className="relative focus-within:ring-2 focus-within:ring-brand-500">
                   <h3 className="text-sm font-semibold text-base-800">
                     <a href={listItem.link} className="hover:underline focus:outline-none">
                       <span className="absolute inset-0" aria-hidden="true" />
@@ -45,7 +45,7 @@ const StackedListWSingleColumn = ({ descriptionMaxLength, list, handleListClick,
       {list.map((listItem) => (
         <li
           key={listItem.id}
-          className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-base-50"
+          className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-600 hover:bg-base-50"
         >
           <div className="flex justify-between space-x-3">
             <div className="min-w-0 flex-1">

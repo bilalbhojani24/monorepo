@@ -58,7 +58,7 @@ const DescriptionList = (props) => {
                       <span className="ml-4 flex-shrink-0">
                         <button
                           type="button"
-                          className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          className="rounded-md bg-white font-medium text-brand-600 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                           onClick={() => {
                             if (actionButtonClick) actionButtonClick();
                           }}

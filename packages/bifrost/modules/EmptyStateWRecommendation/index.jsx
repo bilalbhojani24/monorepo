@@ -45,7 +45,7 @@ const EmptyStateWRecommendation = (props) => {
             type="email"
             name="email"
             id="email"
-            className="block w-full rounded-md border-base-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
             placeholder="Enter an email"
           />
           <Button wrapperClassName="ml-4 flex-shrink-0">{buttonLabel}</Button>

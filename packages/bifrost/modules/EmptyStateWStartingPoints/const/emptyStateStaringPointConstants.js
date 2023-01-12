@@ -50,7 +50,7 @@ export const ESSP_DATA = [
     title: 'Create a Spreadsheet',
     description: 'Lots of numbers and things — good for nerds.',
     icon: TableCellsIcon,
-    background: 'bg-indigo-500',
+    background: 'bg-brand-500',
     onClick: (currentItem) => {
       console.log(currentItem);
     }
