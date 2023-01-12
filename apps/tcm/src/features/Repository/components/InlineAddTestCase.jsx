@@ -10,7 +10,7 @@ const InlineAddTestCase = () => {
   const { saveTestCase } = useTestCases();
 
   const handleInlineInputButtonClick = () => {
-    saveTestCase({ name: testCase })();
+    saveTestCase({ name: testCase });
     setTestCase('');
   };
 
