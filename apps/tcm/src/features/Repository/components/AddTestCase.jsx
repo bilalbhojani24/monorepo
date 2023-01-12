@@ -29,11 +29,14 @@ const AddTestCase = () => {
         secondaryButtonProps={{
           children: 'Save',
           variant: 'primary',
-          onClick: saveTestCase(newTestCaseData),
+          onClick: () => {
+            saveTestCase(newTestCaseData);
+          },
         }}
         primaryButtonProps={{
           children: 'Cancel',
-          variant: 'white',
+          variant: 'primary',
+          colors: 'white',
           onClick: hideTestCaseAdditionPage,
         }}
       />
@@ -41,6 +44,7 @@ const AddTestCase = () => {
         <TMInputField
           id="test-case-name"
           label="Name of Test Case*"
+          placeholder="Test Case 01"
           onChange={(e) =>
             handleTestCaseFieldChange('name', e.currentTarget.value)
           }
@@ -58,7 +62,7 @@ const AddTestCase = () => {
       </div> */}
       <div className="mt-4">
         <TMSelectMenu
-          defaultValue={priorityOptions[0]}
+          defaultValue={testCaseTypesOptions[0]}
           checkPosition="right"
           label="Test Case Type"
           options={testCaseTypesOptions}
@@ -78,6 +82,7 @@ const AddTestCase = () => {
         <TMInputField
           id="test-case-description"
           label="Description"
+          placeholder="Write in brief about this test case"
           onChange={(e) =>
             handleTestCaseFieldChange('description', e.currentTarget.value)
           }
@@ -85,7 +90,7 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMSelectMenu
-          defaultValue={priorityOptions[0]}
+          defaultValue={stateOptions[0]}
           checkPosition="right"
           label="State"
           options={stateOptions}
@@ -103,6 +108,7 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
+          placeholder="Mention preconditions if any needed before executing this test"
           id="test-case-precondition"
           label="Preconditions"
           onChange={(e) =>
@@ -114,6 +120,7 @@ const AddTestCase = () => {
         <TMInputField
           id="test-case-estimate"
           label="Estimate"
+          placeholder="Eg: 1m, 2.5h, 2d etc"
           onChange={(e) =>
             handleTestCaseFieldChange('estimate', e.currentTarget.value)
           }

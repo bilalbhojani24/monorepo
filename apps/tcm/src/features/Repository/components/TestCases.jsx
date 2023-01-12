@@ -100,9 +100,10 @@ export default function TestCases() {
         />
         <TMButton
           buttonType="half-rounded-button"
-          variant="white"
           wrapperClassName="ml-3"
           size="default"
+          variant="primary"
+          colors="white"
         >
           Filter
         </TMButton>
