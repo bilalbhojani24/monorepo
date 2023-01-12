@@ -6,6 +6,7 @@ import {
   Dropdown,
   EmptyState,
   InputField,
+  InputWButton,
   Modal,
   ModalBody,
   ModalFooter,
@@ -22,6 +23,7 @@ export const TMPageHeadings = (props) => <PageHeadings {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
+export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
 export const TMDataTable = (props) => <DataTable {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;

@@ -2,8 +2,15 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addTestRun } from 'api/testruns.api';
-import { TMInputField, TMPageHeadings, TMSelectMenu } from 'bifrostProxy';
+import {
+  TMInputField,
+  TMInputWButton,
+  TMPageHeadings,
+  TMSelectMenu,
+} from 'bifrostProxy';
 
+import { PostAddIcon } from '../../Icons';
+import { ASSIGN_TO_OPTIONS, STATE_OPTIONS } from '../const/immutableConst';
 import { addSingleTestRun, setAddTestRun } from '../slices/testRunsSlice';
 
 import useTestRuns from './useTestRuns';
@@ -27,7 +34,7 @@ const AddTestRuns = () => {
   };
 
   return (
-    <div className="w-full border-l border-base-200">
+    <div className="flex w-full flex-1 flex-col items-stretch border-l border-base-200">
       <TMPageHeadings
         heading="Create New Test Runs"
         actionsData={[
@@ -35,12 +42,14 @@ const AddTestRuns = () => {
             id: 'cancel-test-run',
             actionsNode: <>Cancel</>,
             actionFn: cancelTestRunHandler,
-            variant: 'white',
+            colors: 'white',
+            variant: 'primary',
           },
           {
             id: 'create-test-run',
             actionsNode: <>Create Run</>,
             actionFn: createTestRunHandler,
+            colors: 'brand',
             variant: 'primary',
           },
         ]}
@@ -67,22 +76,38 @@ const AddTestRuns = () => {
           </div>
           <div className="mt-4">
             <TMSelectMenu
-              defaultValue="Assign to"
+              defaultValue={ASSIGN_TO_OPTIONS[0]}
               checkPosition="right"
               label="Assign To"
-              // options={stateOptions}
+              isMultiSelect
+              options={ASSIGN_TO_OPTIONS}
               onChange={(e) => handleTestRunFieldChange('assignTo', e.value)}
             />
           </div>
           <div className="mt-4">
             <TMSelectMenu
-              defaultValue="state"
+              defaultValue={STATE_OPTIONS[0]}
               checkPosition="right"
               label="State"
-              // options={ownerOptions}
+              isMultiSelect
+              options={STATE_OPTIONS}
               onChange={(e) => handleTestRunFieldChange('state', e.value)}
             />
           </div>
+          {/* <div> */}
+          <div className="mt-4 text-lg font-medium text-base-900">
+            Associated Test Cases
+          </div>
+          <div className="mt-4">
+            <TMInputWButton
+              id="add-test-cases"
+              label="Test Cases"
+              buttonElement="Add Test Cases"
+              icon={<PostAddIcon />}
+              placeholder="0 Test Cases Selected"
+            />
+          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>

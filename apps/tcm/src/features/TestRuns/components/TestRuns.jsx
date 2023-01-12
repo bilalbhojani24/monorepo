@@ -22,7 +22,7 @@ const TestRuns = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-b  border-base-300">
+      <div className="border-b border-base-300">
         <TMPageHeadings
           heading="Test Runs"
           actionsData={[
