@@ -58,7 +58,7 @@ const AddTestCase = () => {
       </div> */}
       <div className="mt-4">
         <TMSelectMenu
-          defaultValue={priorityOptions[0]}
+          defaultValue={testCaseTypesOptions[0]}
           checkPosition="right"
           label="Test Case Type"
           options={testCaseTypesOptions}
