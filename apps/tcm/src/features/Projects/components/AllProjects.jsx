@@ -1,8 +1,10 @@
 import React from 'react';
 import { TMDataTable, TMDropdown, TMPageHeadings } from 'bifrostProxy';
+import AppRoute from 'const/routes';
 import { string } from 'prop-types';
 
 import AddProjects from './AddProjects';
+import EditProjects from './EditProjects';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
@@ -10,9 +12,8 @@ const AllProjects = () => {
     activeProjects,
     addingProject,
     showAddModal,
-    handleTestRunsClick,
-    handleTestCasesClick,
-    handleProjectClick,
+    showEditModal,
+    handleClickDynamicLink,
   } = useProjects();
   const tableColumns = [
     {
@@ -23,8 +24,8 @@ const AllProjects = () => {
           role="button"
           className="cursor-pointer hover:text-brand-600"
           tabIndex={0}
-          onClick={handleProjectClick(rowData.id)}
-          onKeyDown={handleProjectClick(rowData.id)}
+          onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
+          onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
         >
           PR-{rowData.id}
         </div>
@@ -38,8 +39,8 @@ const AllProjects = () => {
           role="button"
           className="cursor-pointer hover:text-brand-600"
           tabIndex={0}
-          onClick={handleProjectClick(rowData.id)}
-          onKeyDown={handleProjectClick(rowData.id)}
+          onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
+          onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
         >
           {rowData.name}
         </div>
@@ -51,8 +52,8 @@ const AllProjects = () => {
       cell: (rowData) => (
         <>
           <span
-            onClick={handleTestCasesClick(rowData.id)}
-            onKeyDown={handleTestCasesClick(rowData.id)}
+            onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+            onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
             role="button"
             tabIndex={0}
             className="cursor-pointer hover:text-brand-600"
@@ -63,8 +64,8 @@ const AllProjects = () => {
             tabIndex={0}
             role="button"
             className="ml-6 cursor-pointer hover:text-brand-600"
-            onClick={handleTestRunsClick(rowData.id)}
-            onKeyDown={handleTestRunsClick(rowData.id)}
+            onClick={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
+            onKeyDown={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
           >
             {rowData.test_runs_count} Test Runs
           </span>
@@ -114,16 +115,13 @@ const AllProjects = () => {
         </div>
       </div>
       {showAddModal && <AddProjects />}
+      {showEditModal && <EditProjects />}
     </div>
   );
 };
 
-AllProjects.propTypes = {
-  defaultTab: string,
-};
+AllProjects.propTypes = {};
 
-AllProjects.defaultProps = {
-  defaultTab: 'Active Projects',
-};
+AllProjects.defaultProps = {};
 
 export default AllProjects;

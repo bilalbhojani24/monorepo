@@ -5,3 +5,7 @@ export const getProjects = async () => await fetchGet('/api/v1/projects');
 export const addProjects = async (payload) =>
   // const data = payload;
   await fetchPost(`/api/v1/projects`, payload);
+
+export const editProjects = async (projectId, payload) =>
+  // const data = payload;
+  await fetchPost(`/api/v1/projects/${projectId}`, payload);

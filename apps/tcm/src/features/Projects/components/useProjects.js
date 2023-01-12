@@ -1,9 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { setAddProjectModalVisibility } from '../slices/projectSlice';
+import {
+  setAddProjectModalVisibility,
+  setDeleteProjectModalVisibility,
+  setEditProjectModalVisibility,
+} from '../slices/projectSlice';
 
 const useProjects = () => {
   const navigate = useNavigate();
@@ -12,30 +15,20 @@ const useProjects = () => {
   const showAddModal = useSelector(
     (state) => state.projects.showAddProjectModal,
   );
+  const showEditModal = useSelector(
+    (state) => state.projects.showEditProjectModal,
+  );
+  const showDeleteModal = useSelector(
+    (state) => state.projects.showDeleteProjectModal,
+  );
 
   const addingProject = () => {
     dispatch(setAddProjectModalVisibility(true));
   };
 
-  const handleTestRunsClick = (projectId) => () => {
+  const handleClickDynamicLink = (route, projectId) => () => {
     navigate(
-      routeFormatter(AppRoute.TEST_RUNS, {
-        projectId,
-      }),
-    );
-  };
-
-  const handleTestCasesClick = (projectId) => () => {
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-      }),
-    );
-  };
-
-  const handleProjectClick = (projectId) => () => {
-    navigate(
-      routeFormatter(AppRoute.DASHBOARD, {
+      routeFormatter(route, {
         projectId,
       }),
     );
@@ -44,10 +37,10 @@ const useProjects = () => {
   return {
     activeProjects,
     showAddModal,
+    showEditModal,
+    showDeleteModal,
     addingProject,
-    handleTestRunsClick,
-    handleTestCasesClick,
-    handleProjectClick,
+    handleClickDynamicLink,
   };
 };
 
