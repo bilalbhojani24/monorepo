@@ -93,8 +93,7 @@ const SelectMenu = (props) => {
                       className={({ active }) =>
                         classNames(
                           {
-                            'bg-indigo-600 text-white':
-                              active && !isMultiSelect,
+                            'bg-brand-600 text-white': active && !isMultiSelect,
                             'text-base-900': !active,
                             'py-2 pl-3 pr-9':
                               checkPosition === CHECK_POSITION[1] &&
@@ -137,7 +136,7 @@ const SelectMenu = (props) => {
                                   className={classNames(
                                     {
                                       'text-white': active,
-                                      'text-indigo-600': !active,
+                                      'text-brand-600': !active,
                                       'right-0 pr-4':
                                         checkPosition === CHECK_POSITION[1],
                                       'left-0 pl-1.5':

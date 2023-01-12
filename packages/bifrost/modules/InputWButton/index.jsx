@@ -54,7 +54,7 @@ const InputWButton = forwardRef(
               ref={ref || inputRef}
               id={id}
               className={classNames(
-                'block w-full rounded-none rounded-l-md border-base-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                'block w-full rounded-none rounded-l-md border-base-300 pl-10 focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
 
                 {
                   'text-danger-900 focus:border-danger-500 focus:ring-danger-500': errorText,
@@ -72,7 +72,7 @@ const InputWButton = forwardRef(
           <button
             onClick={onButtonClick}
             type="button"
-            className="relative -ml-px inline-flex items-center space-x-2 rounded-r-md border border-base-300 bg-base-50 px-4 py-2 text-sm font-medium text-base-700 hover:bg-base-100 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="relative -ml-px inline-flex items-center space-x-2 rounded-r-md border border-base-300 bg-base-50 px-4 py-2 text-sm font-medium text-base-700 hover:bg-base-100 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
           >
             {buttonElement}
           </button>

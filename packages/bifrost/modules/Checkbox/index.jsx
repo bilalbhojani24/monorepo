@@ -53,7 +53,7 @@ const Checkbox = (props) => {
             id={`${name}-${data.value}`}
             name={`${name}-${data.value}`}
             type="checkbox"
-            className="checkbox h-4 w-4 rounded border-base-300 text-indigo-600 focus:ring-indigo-500"
+            className="checkbox h-4 w-4 rounded border-base-300 text-brand-600 focus:ring-brand-500"
             checked={checked || check}
             onChange={(e) => handleChange(e, data)}
             disabled={disabled}
@@ -81,7 +81,7 @@ const Checkbox = (props) => {
 
         <span
           className={classNames(
-            checked || check ? 'border border-indigo-500' : 'border-2 border-transparent',
+            checked || check ? 'border border-brand-500' : 'border-2 border-transparent',
             'pointer-events-none absolute -inset-px rounded-lg',
             { hidden: !isCard }
           )}

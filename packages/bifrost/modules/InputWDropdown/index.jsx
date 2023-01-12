@@ -50,7 +50,7 @@ const InputWDropdown = forwardRef(
             aria-label={label + ' select'}
             onChange={onDropdownChange}
             id={dropdownName}
-            className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-base-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-base-500 focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
           >
             {dropdownList?.length ? (
               dropdownList.map((item) => <option>{item}</option>)
@@ -124,7 +124,7 @@ const InputWDropdown = forwardRef(
             ref={ref || inputRef}
             id={id}
             className={classNames(
-              'focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm block w-full border-base-300',
+              'focus:border-brand-500 focus:ring-brand-500 sm:text-sm block w-full border-base-300',
               addOnText && !isAddOnInline ? ['min-w-0 flex-1'] : ['rounded-md shadow-sm'],
               isAddOnInline
                 ? ['rounded-md py-2', { 'pl-20 rounded-r-md': hasLeftPadding, 'pr-16': hasRightPadding }]

@@ -54,7 +54,7 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={classNames(
-              'block w-full rounded-md border-base-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+              'block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
               {
                 'text-danger-900 focus:border-danger-500 focus:ring-danger-500': errorText,
                 'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':

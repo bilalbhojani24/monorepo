@@ -27,7 +27,7 @@ const Layout = () => (
           <div className="ml-4 flex-shrink-0">
             <a
               href="/"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-brand-600 hover:text-brand-500"
               onClick={(e) => e.preventDefault()}
             >
               Download
