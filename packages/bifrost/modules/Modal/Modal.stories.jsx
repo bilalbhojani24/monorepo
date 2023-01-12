@@ -2,6 +2,7 @@ import React from 'react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 import { CheckIcon } from '../Icon';
 import ModalBody from '../ModalBody';
 import ModalFooter from '../ModalFooter';
@@ -109,10 +110,11 @@ CustomBody.args = {
           </div>
         </div>
       </ModalBody>
-      <ModalFooter
-        primaryButtonLabel="Go back to dashboard"
-        position="full-width"
-      />
+      <ModalFooter>
+        <Button fullWidth colors="brand">
+          Go to Dashboard
+        </Button>
+      </ModalFooter>
     </>
   ),
 };
@@ -128,13 +130,10 @@ HeaderWithIcon.args = {
         subHeading="Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
         Icon={ExclamationTriangleIcon}
       />
-      <ModalFooter
-        primaryButtonLabel="Cancel"
-        secondaryButtonLabel="Deactive"
-        variant="alert"
-        position="right"
-        backgroundColorClass="bg-base-100"
-      />
+      <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
+        <Button colors="white">Cancel</Button>
+        <Button colors="danger">Deactivate</Button>
+      </ModalFooter>
     </>
   ),
 };
@@ -182,14 +181,10 @@ ScrollableModal.args = {
           <h1>Last am Modal Body</h1>
         </div>
       </ModalBody>
-      <ModalFooter
-        primaryButtonLabel="Deactivate"
-        secondaryButtonLabel="Cancel"
-        variant="alert"
-        position="right"
-        backgroundColorClass="bg-base-100"
-        isBorder
-      />
+      <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
+        <Button colors="white">Cancel</Button>
+        <Button colors="danger">Deactivate</Button>
+      </ModalFooter>
     </>
   ),
 };

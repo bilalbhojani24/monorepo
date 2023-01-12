@@ -1,2 +1,1 @@
-export const VARIANT = ['base', 'alert'];
-export const POSITION = ['left', 'right', 'full-width'];
+export const POSITION = ['left', 'right', 'center'];

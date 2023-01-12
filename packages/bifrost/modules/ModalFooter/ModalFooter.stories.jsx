@@ -1,8 +1,9 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 
-import { POSITION, VARIANT } from './const/modalFooterConstants';
+import { POSITION } from './const/modalFooterConstants';
 import ModalFooter from './index';
 
 const defaultConfig = {
@@ -23,20 +24,6 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: '',
     },
-    handlePrimaryButtonClick: {
-      option: { type: null },
-      description: 'Callback when negative button is clicked',
-      defaultValue: () => {
-        console.log('handlePrimaryButtonClick - called');
-      },
-    },
-    handleSecondaryButtonClick: {
-      option: { type: null },
-      description: 'Callback when positive button is clicked',
-      defaultValue: () => {
-        console.log('handleSecondaryButtonClick - called');
-      },
-    },
     isBorder: {
       option: { type: 'boolean' },
       defaultValue: false,
@@ -46,27 +33,63 @@ const defaultConfig = {
       controls: { type: 'inline-radio' },
       defaultValue: POSITION[0],
     },
-    primaryButtonLabel: {
-      option: { type: 'string' },
-      defaultValue: 'Submit',
-    },
-    secondaryButtonLabel: {
-      option: { type: 'string' },
-      defaultValue: 'Cancel',
-    },
-    variant: {
-      options: VARIANT,
-      controls: { type: 'inline-radio' },
-      defaultValue: VARIANT[0],
+    children: {
+      option: { type: null },
+      defaultValue: (
+        <>
+          <Button colors="white">Cancel</Button>
+          <Button colors="danger">Deactivate</Button>
+        </>
+      ),
     },
   },
   controls: {},
 };
 const Template = (args) => <ModalFooter {...args} />;
+const SingleButtonTemplate = (args) => <ModalFooter {...args} />;
+const FullWidthButtonTemplate = (args) => <ModalFooter {...args} />;
+const RightAlignedButtonTemplate = (args) => <ModalFooter {...args} />;
+
 const Primary = Template.bind({});
+const SingleButton = SingleButtonTemplate.bind({});
+const FullWidthButton = FullWidthButtonTemplate.bind({});
+const RightAlignedButton = RightAlignedButtonTemplate.bind({});
 Primary.parameters = {
   controls: {},
 };
 
 export default defaultConfig;
-export { Primary };
+export { FullWidthButton, Primary, RightAlignedButton, SingleButton };
+
+SingleButton.args = {
+  children: (
+    <>
+      <Button colors="brand" fullWidth>
+        Deactivate
+      </Button>
+    </>
+  ),
+};
+
+FullWidthButton.args = {
+  children: (
+    <>
+      <Button colors="white" fullWidth>
+        Cancel
+      </Button>
+      <Button colors="brand" fullWidth>
+        Deactivate
+      </Button>
+    </>
+  ),
+};
+
+RightAlignedButton.args = {
+  children: (
+    <>
+      <Button colors="white">Cancel</Button>
+      <Button colors="danger">Deactivate</Button>
+    </>
+  ),
+  position: POSITION[1],
+};
