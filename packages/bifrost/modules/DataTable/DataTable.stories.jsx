@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 
 import DataTable from './index';
 
@@ -8,7 +9,9 @@ const columns = [
   {
     name: 'Name',
     key: 'name',
-    style: {},
+    style: {
+      width: '200px',
+    },
     isSortable: true,
   },
   {
@@ -41,13 +44,14 @@ const columns = [
     name: '',
     key: 'action',
     cell: (rowData) => (
-      <button
+      <Button
+        variant="white"
         onClick={() => {
           console.log(rowData);
         }}
       >
         Edit
-      </button>
+      </Button>
     ),
     style: {},
   },
@@ -252,6 +256,12 @@ const defaultConfig = {
         console.log(selectedRows);
       },
     },
+    onRowClick: {
+      option: { type: null },
+      defaultValue: (row) => {
+        console.log(row);
+      },
+    },
     onRowSelect: {
       option: { type: null },
       defaultValue: (selectedRow, selectedRows) => {
@@ -261,9 +271,7 @@ const defaultConfig = {
     },
     onSort: {
       option: { type: null },
-      defaultValue: (key, direction) => {
-        console.log(key, direction);
-      },
+      defaultValue: null,
     },
     rowClass: {
       option: { type: 'string' },

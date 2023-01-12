@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { ChevronDownIcon, ChevronUpIcon } from '../../Icon';
 
-const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
+const TableHeaderCell = ({ col, sortType, handleSort }) => {
   const handleSortClick = (selectedColumnKey) => {
     const type = !sortType || sortType === 'asc' ? 'desc' : 'asc';
     handleSort(selectedColumnKey, type);
@@ -22,7 +22,7 @@ const TableHeaderCell = ({ col, isHeaderSticky, sortType, handleSort }) => {
       key={col.key}
       scope="col"
       className={classNames(
-        'bg-white-600 py-2 pl-4 pr-3 text-left text-sm font-semibold text-base-900 sm:pl-6',
+        'bg-white-600 py-2 px-3 text-sm font-semibold text-base-900',
       )}
       {...(col.isSortable && {
         role: 'button',

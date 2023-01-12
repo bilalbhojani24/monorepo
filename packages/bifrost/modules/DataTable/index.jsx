@@ -18,6 +18,7 @@ const DataTable = (props) => {
     isSelectable,
     isStriped,
     onAllRowSelect,
+    onRowClick,
     onRowSelect,
     onSort,
     rowClass,
@@ -80,6 +81,7 @@ const DataTable = (props) => {
               <Row
                 index={rowIdx}
                 className={classNames(
+                  'cursor-pointer',
                   {
                     'bg-base-50': rowIdx % 2 !== 0 && isStriped,
                     'bg-white-50': isFullWhite,
@@ -89,6 +91,8 @@ const DataTable = (props) => {
                     [selectedRowClass]: selectedRow.includes(row),
                   },
                 )}
+                row={row}
+                onRowClick={onRowClick}
               >
                 {isSelectable && (
                   <td className="relative w-12 px-6 sm:w-16 sm:px-8">
@@ -149,6 +153,7 @@ DataTable.propTypes = {
   isSelectable: PropTypes.bool,
   isStriped: PropTypes.bool,
   onAllRowSelect: PropTypes.func,
+  onRowClick: PropTypes.func,
   onRowSelect: PropTypes.func,
   onSort: PropTypes.func,
   rowClass: PropTypes.string,
@@ -166,6 +171,7 @@ DataTable.defaultProps = {
   isSelectable: false,
   isStriped: false,
   onAllRowSelect: () => {},
+  onRowClick: () => {},
   onRowSelect: () => {},
   onSort: () => {},
   rowClass: '',

@@ -24,7 +24,7 @@ const Header = ({
       'sticky top-0 z-10 bg-base-50 bg-opacity-75': isHeaderSticky,
     })}
   >
-    <tr>
+    <tr >
       {isSelectable && (
         <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
           <input

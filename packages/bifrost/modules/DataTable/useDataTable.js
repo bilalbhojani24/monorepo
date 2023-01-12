@@ -7,7 +7,9 @@ const useDataTable = ({ rows, onSort, onRowSelect, onAllRowSelect }) => {
   const [sort, setSort] = useState({});
 
   const handleRowChange = (e, row) => {
-    const updatedRows = e.target.checked ? [...selectedRow, row] : selectedRow.filter((r) => r !== row);
+    const updatedRows = e.target.checked
+      ? [...selectedRow, row]
+      : selectedRow.filter((r) => r !== row);
     setSelectedRow(updatedRows);
     if (onRowSelect) onRowSelect(row, updatedRows);
   };
@@ -22,18 +24,30 @@ const useDataTable = ({ rows, onSort, onRowSelect, onAllRowSelect }) => {
     setSort((prevState) => ({
       ...prevState,
       [key]: {
-        key: key,
-        type: sortType
-      }
+        key,
+        type: sortType,
+      },
     }));
+
     if (onSort) onSort(key, sortType);
+    else if (sortType === 'asc')
+      tableData.sort((a, b) => (a[key] < b[key] ? -1 : 1));
+    else tableData.sort((a, b) => (a[key] > b[key] ? -1 : 1));
   };
 
   useEffect(() => {
     setTableData(rows);
   }, [rows]);
 
-  return { tableData, tableRef, selectedRow, handleRowChange, handleToggleAll, handleSort, sort };
+  return {
+    tableData,
+    tableRef,
+    selectedRow,
+    handleRowChange,
+    handleToggleAll,
+    handleSort,
+    sort,
+  };
 };
 
 export default useDataTable;
