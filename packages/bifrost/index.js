@@ -10,32 +10,6 @@ import Drawer from './modules/Drawer/index';
 import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import Hyperlink from './modules/Hyperlink/index';
-import {
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
-  BarsArrowUpIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  CursorArrowRaysIcon,
-  EllipsisVerticalIcon,
-  EnvelopeIcon,
-  EnvelopeOpenIcon,
-  ExclamationCircleIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  InformationCircleIcon,
-  MagnifyingGlassIcon,
-  PaperClipIcon,
-  PlusIcon,
-  UsersIcon,
-  XMarkIcon,
-} from './modules/Icon/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
 import InputWButton from './modules/InputWButton/index';
@@ -56,6 +30,8 @@ import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
+import SidebarHeader from './modules/SidebarHeader/index';
+import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
@@ -63,46 +39,27 @@ import Switch from './modules/Switch/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
 
+export * from './modules/Icon/index';
+
 export {
   Alerts,
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
   Badge,
-  // Icons
-  BarsArrowUpIcon,
   Breadcrumb,
   Button,
-  CalendarIcon,
-  ChartBarIcon,
   Checkbox,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
   ColorPicker,
-  CursorArrowRaysIcon,
   DataTable,
   DescriptionList,
   Drawer,
   Dropdown,
-  EllipsisVerticalIcon,
   EmptyState,
-  EnvelopeIcon,
-  EnvelopeOpenIcon,
-  ExclamationCircleIcon,
-  FolderIcon,
-  HomeIcon,
   Hyperlink,
-  InboxIcon,
-  InformationCircleIcon,
   InputAddOnTexts,
   InputField,
   InputWButton,
   InputWDropdown,
   InputWKB,
   Loader,
-  MagnifyingGlassIcon,
   Modal,
   ModalBody,
   ModalFooter,
@@ -110,8 +67,6 @@ export {
   Notifications,
   PageHeadings,
   Pagination,
-  PaperClipIcon,
-  PlusIcon,
   Radio,
   RadioGroup,
   RadioSmallCards,
@@ -119,12 +74,12 @@ export {
   RadioTable,
   SectionHeadings,
   SelectMenu,
+  SidebarHeader,
+  SidebarItem,
   SidebarNavigation,
   Stats,
   Steps,
   Switch,
   Tabs,
   TextArea,
-  UsersIcon,
-  XMarkIcon,
 };
