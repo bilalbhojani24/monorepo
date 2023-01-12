@@ -21,7 +21,8 @@ export default function Folders() {
         <span className="text-base">Folders</span>
         <TMButton
           buttonType="half-rounded-button"
-          variant="white"
+          variant="primary"
+          colors="white"
           wrapperClassName="ml-2"
           size="extra-small"
           onClick={showAddFolderModal}

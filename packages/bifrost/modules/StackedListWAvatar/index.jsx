@@ -1,11 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import './styles.scss';
-import { STACK_LIST_MODES } from './const/stackedListWAvatarConstants';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+
 import Button from '../Button';
 
-const StackedListWAvatar = ({ list, format, action, avatarVisible, actionTitle }) => {
+import { STACK_LIST_MODES } from './const/stackedListWAvatarConstants';
+
+import './styles.scss';
+
+const StackedListWAvatar = ({
+  list,
+  format,
+  action,
+  avatarVisible,
+  actionTitle,
+}) => {
   if (format === STACK_LIST_MODES[0])
     return (
       <ul role="list" className="divide-y divide-base-200">
@@ -13,7 +22,9 @@ const StackedListWAvatar = ({ list, format, action, avatarVisible, actionTitle }
           <li key={listItem.id} className="flex py-4">
             {avatarVisible && listItem.avatar}
             <div className={classNames({ 'ml-3': avatarVisible })}>
-              <p className="text-sm font-medium text-base-900">{listItem.heading}</p>
+              <p className="text-sm font-medium text-base-900">
+                {listItem.heading}
+              </p>
               <p className="text-sm text-base-500">{listItem.subHeading}</p>
             </div>
           </li>
@@ -27,10 +38,16 @@ const StackedListWAvatar = ({ list, format, action, avatarVisible, actionTitle }
           {list.map((listItem) => (
             <li key={listItem.id} className="py-4">
               <div className="flex items-center space-x-4">
-                {avatarVisible && <div className="flex-shrink-0">{listItem.avatar}</div>}
+                {avatarVisible && (
+                  <div className="shrink-0">{listItem.avatar}</div>
+                )}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-base-900">{listItem.heading}</p>
-                  <p className="truncate text-sm text-base-500">{listItem.subHeading}</p>
+                  <p className="truncate text-sm font-medium text-base-900">
+                    {listItem.heading}
+                  </p>
+                  <p className="truncate text-sm text-base-500">
+                    {listItem.subHeading}
+                  </p>
                 </div>
                 <div>
                   <a
@@ -60,27 +77,26 @@ StackedListWAvatar.propTypes = {
       subHeading: PropTypes.string,
       link: PropTypes.string,
       textAside: PropTypes.string,
-      avatar: PropTypes.node
-    })
+      avatar: PropTypes.node,
+    }),
   ),
   format: PropTypes.string,
   action: PropTypes.shape({}),
   avatarVisible: PropTypes.bool,
-  actionTitle: PropTypes.string
+  actionTitle: PropTypes.string,
 };
 StackedListWAvatar.defaultProps = {
   list: [],
   format: '',
-  action: null,
   avatarVisible: true,
   action: {
     title: 'View',
     variant: '',
     buttonType: '',
     wrapperClassName: '',
-    onClick: () => {}
+    onClick: () => {},
   },
-  actionTitle: 'Demo'
+  actionTitle: 'Demo',
 };
 
 export default StackedListWAvatar;
