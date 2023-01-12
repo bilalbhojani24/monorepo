@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addProjects } from 'api/projects.api';
-import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
+import { TMButton, TMInputField, TMModal, TMTextArea } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 
 import { updateProjects } from '../../../slices/globalSlice';
@@ -47,16 +47,25 @@ const AddProjects = () => {
           setFormData({ ...formData, name: e.currentTarget.value })
         }
       />
+      <TMTextArea
+        wrapperClass="mb-2"
+        label="Description"
+        placeholder="Explaining in brief about the project description"
+        value={formData.description}
+        onChange={(e) =>
+          setFormData({ ...formData, description: e.currentTarget.value })
+        }
+      />
       <div className="mt-3 flex justify-end">
         <TMButton variant="white" onClick={hideAddProjectModal}>
           Cancel
         </TMButton>
         <TMButton
-          variant="white"
+          variant="primary"
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
         >
-          Create Folder
+          Add Project
         </TMButton>
       </div>
     </TMModal>

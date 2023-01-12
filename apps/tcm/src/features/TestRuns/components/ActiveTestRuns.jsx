@@ -1,81 +1,27 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TMDataTable, TMDropdown } from 'bifrostProxy';
-import AppRoute from 'const/routes';
 import { arrayOf, node, shape, string } from 'prop-types';
 
-const styles = {
-  color: '#6B7280',
-  fontWeight: 500,
-  fontSize: '12px',
-  lineHeight: '16px',
-};
-
-const COLUMNS = [
-  {
-    name: 'ID',
-    key: 'id',
-    style: styles,
-  },
-  {
-    name: 'TestRun Title',
-    key: 'projectTitle',
-    style: styles,
-  },
-  {
-    name: 'Quick Links',
-    key: 'quickLinks',
-    style: styles,
-  },
-  {
-    name: '',
-    key: 'action',
-  },
-];
+import { TEST_RUNS_COL } from '../const/testRunsCol';
 
 const ActiveTestRuns = (props) => {
   const { rowsData } = props;
-  const navigate = useNavigate();
-  const handleTestRunsClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_RUNS}`);
-  };
-
-  const handleTestCasesClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}`);
-  };
 
   const rows = rowsData.map((data) => ({
-    id: `PR-${data.id}`,
-    projectTitle: data.name,
-    quickLinks: (
-      <>
-        <span
-          onClick={handleTestCasesClick(data.id)}
-          onKeyDown={handleTestCasesClick(data.id)}
-          role="button"
-          tabIndex={0}
-          className="cursor-pointer hover:text-brand-600"
-        >
-          {data.test_cases_count} Test Cases
-        </span>
-        <span
-          tabIndex={0}
-          role="button"
-          className="ml-6 cursor-pointer hover:text-brand-600"
-          onClick={handleTestRunsClick(data.id)}
-          onKeyDown={handleTestRunsClick(data.id)}
-        >
-          {data.test_runs_count} Test Runs
-        </span>
-      </>
-    ),
+    id: `TR-${data.id}`,
+    title: data.name,
+    createdDate: data.createdDate,
+    assignedTo: data.owner,
+    overallProgress: null,
     action: (
       <TMDropdown
         triggerVariant="meatball-button"
         dividerRequired
         options={[
-          { id: '1', name: 'Edit TestRun' },
-          { id: '2', name: 'Delete' },
+          { id: '1', name: 'Edit Details' },
+          { id: '2', name: 'Assign' },
+          { id: '3', name: 'Close Run' },
+          { id: '4', name: 'Delete' },
         ]}
       />
     ),
@@ -89,7 +35,7 @@ const ActiveTestRuns = (props) => {
           <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
-            columns={COLUMNS}
+            columns={TEST_RUNS_COL}
             rows={rows}
             isFullWhite={false}
           />

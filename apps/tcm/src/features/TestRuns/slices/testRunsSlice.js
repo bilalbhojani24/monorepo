@@ -1,18 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  showAddTestRunsModal: false,
+  activeTestRuns: [],
+  addTestRun: false,
 };
 
 const testRunslice = createSlice({
   name: 'testRuns',
   initialState,
   reducers: {
-    setAddTestRunsModalVisibility: (state, { payload }) => {
-      state.showAddTestRunsModal = payload;
+    setTestRuns: (state, { payload }) => {
+      state.activeTestRuns = payload;
+    },
+    setAddTestRun: (state, { payload }) => {
+      state.addTestRun = payload;
     },
   },
 });
 
-export const { setAddTestRunsModalVisibility } = testRunslice.actions;
+export const { setTestRuns, setAddTestRun } = testRunslice.actions;
 export default testRunslice.reducer;

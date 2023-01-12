@@ -1,15 +1,20 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { TMInputField, TMSectionHeadings, TMSelectMenu } from 'bifrostProxy';
 
-import { priorityOptions, templateOptions } from '../const/addTestCaseConst';
+import {
+  priorityOptions,
+  stateOptions,
+  templateOptions,
+} from '../const/addTestCaseConst';
 
 import useTestCases from './useTestCases';
 
 const AddTestCase = () => {
-  const { projectId } = useParams();
+  // const { projectId } = useParams();
   const {
     handleTestCaseFieldChange,
+    inputError,
     newTestCaseData,
     selectedFolder,
     hideTestCaseAdditionPage,
@@ -24,7 +29,7 @@ const AddTestCase = () => {
         secondaryButtonProps={{
           children: 'Save',
           variant: 'primary',
-          onClick: saveTestCase(),
+          onClick: saveTestCase,
         }}
         primaryButtonProps={{
           children: 'Cancel',
@@ -34,13 +39,12 @@ const AddTestCase = () => {
       />
       <div className="my-4">
         <TMInputField
-          // value={newTestCaseData?.name}
           id="test-case-name"
           label="Name of Test Case*"
           onChange={(e) =>
             handleTestCaseFieldChange('name', e.currentTarget.value)
           }
-          // errorText={inputError ? "This field can't be left empty" : ''}
+          errorText={inputError ? "This field can't be left empty" : ''}
         />
       </div>
       <div className="w-1/3">
@@ -53,13 +57,13 @@ const AddTestCase = () => {
         />
       </div>
       <div className="mt-4">
-        <TMInputField
-          // value={newTestCaseData?.type}
+        <TMSelectMenu
+          defaultValue={stateOptions[0]}
+          options={stateOptions}
+          checkPosition="right"
           id="test-case-type"
           label="Test Case Type"
-          onChange={(e) =>
-            handleTestCaseFieldChange('type', e.currentTarget.value)
-          }
+          onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
       </div>
       <div className="mt-4">
@@ -73,7 +77,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.description}
           id="test-case-description"
           label="Description"
           onChange={(e) =>
@@ -83,7 +86,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.state}
           id="test-case-state"
           label="State"
           onChange={(e) =>
@@ -93,7 +95,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.owner}
           id="test-case-owner"
           label="Owner"
           onChange={(e) =>
@@ -103,7 +104,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.precondition}
           id="test-case-precondition"
           label="Preconditions"
           onChange={(e) =>
@@ -113,7 +113,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.estimate}
           id="test-case-estimate"
           label="Estimate"
           onChange={(e) =>

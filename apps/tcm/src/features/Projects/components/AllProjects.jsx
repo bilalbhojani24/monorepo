@@ -20,13 +20,13 @@ const AllProjects = (props) => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-b  border-base-300">
+      <div className="border-b border-base-300">
         <TMPageHeadings
           heading="All Projects"
           actionsData={[
             {
               id: 'node-1',
-              actionsNode: <>Add projects</>,
+              actionsNode: <>Add project</>,
               actionFn: addingProject,
               variant: 'primary',
             },

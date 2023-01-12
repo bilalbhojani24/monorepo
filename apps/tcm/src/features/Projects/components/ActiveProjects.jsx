@@ -4,34 +4,7 @@ import { TMDataTable, TMDropdown } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 import { arrayOf, node, shape, string } from 'prop-types';
 
-const styles = {
-  color: '#6B7280',
-  fontWeight: 500,
-  fontSize: '12px',
-  lineHeight: '16px',
-};
-
-const COLUMNS = [
-  {
-    name: 'ID',
-    key: 'id',
-    style: styles,
-  },
-  {
-    name: 'Project Title',
-    key: 'projectTitle',
-    style: styles,
-  },
-  {
-    name: 'Quick Links',
-    key: 'quickLinks',
-    style: styles,
-  },
-  {
-    name: '',
-    key: 'action',
-  },
-];
+import { PROJECTS_COL } from '../const/projectCol';
 
 const ActiveProjects = (props) => {
   const { rowsData } = props;
@@ -89,7 +62,7 @@ const ActiveProjects = (props) => {
           <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
-            columns={COLUMNS}
+            columns={PROJECTS_COL}
             rows={rows}
             isFullWhite={false}
           />

@@ -12,7 +12,7 @@ const TestRuns = (props) => {
   const [currentTab, setCurrentTab] = useState(defaultTab);
   const ACTIVE_PROJECTS = 'Active Test Runs';
 
-  const { activeTestRuns, addingTestRun, showAddModal } = useTestRuns();
+  const { activeTestRuns, addingTestRun, addTestRun } = useTestRuns();
 
   const handleTabChange = (tabName) => {
     setCurrentTab(tabName.name);
@@ -20,7 +20,7 @@ const TestRuns = (props) => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-b  border-base-300">
+      <div className="border-base-300  border-b">
         <TMPageHeadings
           heading="Test Runs"
           actionsData={[
@@ -33,7 +33,7 @@ const TestRuns = (props) => {
           ]}
         />
       </div>
-      <div className="flex flex-1 flex-col items-stretch bg-base-100">
+      <div className="bg-base-100 flex flex-1 flex-col items-stretch">
         <div className="p-5">
           <TMTabs
             id="project-tabs"
@@ -50,7 +50,7 @@ const TestRuns = (props) => {
           ) : (
             <ClosedTestRuns />
           )}
-          {showAddModal ? <AddTestRun /> : ''}
+          {addTestRun ? <AddTestRun /> : ''}
         </div>
       </div>
     </div>

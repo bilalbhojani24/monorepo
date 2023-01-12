@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
 // import { addTestRuns } from 'api/projects.api';
-import AppRoute from 'const/routes';
+// import AppRoute from 'const/routes';
 
-import { setAddTestRunsModalVisibility } from '../slices/testRunsSlice';
+// import { setAddTestRunsModalVisibility } from '../slices/testRunsSlice';
 
 const AddTestRuns = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const AddTestRuns = () => {
 
   const dispatch = useDispatch();
   const hideAddTestRunModal = () => {
-    dispatch(setAddTestRunsModalVisibility(false));
+    // dispatch(setAddTestRunsModalVisibility(false));
   };
 
   const createTestRunHandler = () => {
