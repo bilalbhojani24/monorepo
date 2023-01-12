@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
@@ -43,7 +43,7 @@ const MainRoute = () => {
           }
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId${AppRoute.DASHBOARD}`}
+          path={AppRoute.DASHBOARD}
           element={
             <PrivateComponent>
               <Dashboard />
@@ -51,7 +51,7 @@ const MainRoute = () => {
           }
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_CASES}/folder?/:folderId?`}
+          path={AppRoute.TEST_CASES}
           element={
             <PrivateComponent>
               <Repository />
@@ -59,7 +59,7 @@ const MainRoute = () => {
           }
         />
         <Route
-          path={`${AppRoute.PROJECTS}/:projectId?${AppRoute.TEST_RUNS}`}
+          path={AppRoute.TEST_RUNS}
           element={
             <PrivateComponent>
               <TestRuns />

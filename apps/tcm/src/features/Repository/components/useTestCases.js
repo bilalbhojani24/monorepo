@@ -66,7 +66,6 @@ export default function useTestCases() {
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
     dispatch(setTestCaseViewVisibility(true));
-    // navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_RUNS}`);
   };
 
   return {

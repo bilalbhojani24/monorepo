@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
@@ -17,15 +18,27 @@ const useProjects = () => {
   };
 
   const handleTestRunsClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_RUNS}`);
+    navigate(
+      routeFormatter(AppRoute.TEST_RUNS, {
+        projectId,
+      }),
+    );
   };
 
   const handleTestCasesClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}`);
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+      }),
+    );
   };
 
   const handleProjectClick = (projectId) => () => {
-    navigate(`${AppRoute.PROJECTS}/${projectId}${AppRoute.DASHBOARD}`);
+    navigate(
+      routeFormatter(AppRoute.DASHBOARD, {
+        projectId,
+      }),
+    );
   };
 
   return {

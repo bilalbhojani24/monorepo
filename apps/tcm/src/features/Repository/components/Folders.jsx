@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TMButton } from 'bifrostProxy';
 import AppRoute from 'const/routes';
 import { CreateNewFolderOutlinedIcon } from 'Icons';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import AddFolderModal from './AddFolderModal';
 import useFolders from './useFolders';
@@ -49,7 +50,10 @@ const FolderItem = ({ title, onClick, id }) => {
   const { projectId } = useParams();
   return (
     <Link
-      to={`${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}/folder/${id}`}
+      to={routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId: id,
+      })}
       className="w-full cursor-pointer border-b border-base-200 p-2"
       onClick={onClick}
     >

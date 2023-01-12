@@ -12,6 +12,7 @@ import {
   TMTextArea,
 } from 'bifrostProxy';
 import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import { updateProjects } from '../../../slices/globalSlice';
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
@@ -33,7 +34,9 @@ const AddProjects = () => {
     addProjects(formData).then((res) => {
       dispatch(updateProjects(res.data.project));
       navigate(
-        `${AppRoute.PROJECTS}/${res.data.project.id}${AppRoute.TEST_CASES}`,
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: res.data.project.id,
+        }),
       );
       hideAddProjectModal();
     });

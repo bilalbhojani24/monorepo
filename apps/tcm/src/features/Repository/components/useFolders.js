@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice/globalSlice';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   setAddFolderModalVisibility,
@@ -38,13 +39,20 @@ export default function useFolders() {
         if (
           !folderId &&
           data?.folders &&
-          window.location.pathname.includes(AppRoute.TEST_CASES)
+          window.location.pathname.includes(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId,
+            }),
+          )
         ) {
           // select first folder by default, only if the test cases page is still open
           const firstFolderId = data.folders[0]?.id;
           if (firstFolderId)
             navigate(
-              `${AppRoute.PROJECTS}/${projectId}${AppRoute.TEST_CASES}/folder/${firstFolderId}`,
+              routeFormatter(AppRoute.TEST_CASES, {
+                projectId,
+                folderId: firstFolderId,
+              }),
             );
         }
       });

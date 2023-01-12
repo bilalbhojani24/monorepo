@@ -21,11 +21,6 @@ const AddTestRuns = () => {
   };
 
   const createTestRunHandler = () => {
-    // addTestRuns(formData).then((res) => {
-    // dispatch(updateTestRuns(res.data.project));
-    // navigate(
-    //   `${AppRoute.PROJECTS}/${res.data.project.id}${AppRoute.TEST_CASES}`,
-    // );
     hideAddTestRunModal();
     // });
   };

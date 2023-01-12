@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   basePrimaryNavLinks,
@@ -39,15 +40,18 @@ export default function useSideNav() {
         : selectedProjectId;
     return array.map((item) => ({
       ...item,
-      path: item.path.replace('$PROJECTID$', replaceProjectId),
+      path: routeFormatter(item.path, {
+        projectId: replaceProjectId,
+      }),
     }));
   };
 
   const onProjectChange = (project) => {
-    const navigateLink = activeRoute.dynamicPath
-      ? activeRoute.dynamicPath.replace('$PROJECTID$', project?.id)
-      : activeRoute.path;
-    navigate(navigateLink);
+    navigate(
+      routeFormatter(activeRoute.id, {
+        projectId: project?.id,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -68,11 +72,16 @@ export default function useSideNav() {
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
-    const matchedRoute = allNavs
-      .reverse()
-      .find((item) => location.pathname.includes(item.path));
+    let exactMatchRoute = allNavs.find(
+      (item) => location.pathname === routeFormatter(item.path),
+    );
+    if (!exactMatchRoute)
+      // only if no exact match found then check for partial match
+      exactMatchRoute = allNavs
+        .reverse()
+        .find((item) => location.pathname.includes(item.path));
     // set current view
-    setActiveRoute(matchedRoute);
+    setActiveRoute(exactMatchRoute);
   }, [location.pathname, primaryNavs, secondaryNavs]);
 
   useEffect(() => {
