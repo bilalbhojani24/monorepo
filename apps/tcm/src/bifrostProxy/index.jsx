@@ -7,6 +7,9 @@ import {
   EmptyState,
   InputField,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Notifications,
   PageHeadings,
   SectionHeadings,
@@ -28,3 +31,6 @@ export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
 export const TMDrawer = (props) => <Drawer {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
+export const TMModalBody = (props) => <ModalBody {...props} />;
+export const TMModalFooter = (props) => <ModalFooter {...props} />;
+export const TMModalHeader = (props) => <ModalHeader {...props} />;
