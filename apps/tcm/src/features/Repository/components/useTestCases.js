@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addTestCase, getTestCases } from 'api/testcases.api';
@@ -12,7 +12,7 @@ import {
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
-  // const [inputError, setInputError] = useState(false);
+  const [inputError, setInputError] = useState(false);
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -45,18 +45,22 @@ export default function useTestCases() {
     else dispatch(updateAllTestCases([]));
   };
 
-  const saveTestCase = (formData) => () => {
-    addTestCase({
-      projectId,
-      folderId,
-      payload: { test_case: formData },
-    }).then((data) => {
-      dispatch(addSingleTestCase(data));
-      dispatch(setAddTestCaseVisibility(false));
-    });
+  const saveTestCase = (formData) => {
+    if (!formData.name) setInputError(true);
+    else {
+      addTestCase({
+        projectId,
+        folderId,
+        payload: { test_case: formData },
+      }).then((data) => {
+        dispatch(addSingleTestCase(data));
+        dispatch(setAddTestCaseVisibility(false));
+      });
+    }
   };
 
   const handleTestCaseFieldChange = (key, value) => {
+    if (key === 'name' && value) setInputError(false);
     dispatch(updateTestCaseFormData({ key, value }));
   };
 
@@ -68,7 +72,7 @@ export default function useTestCases() {
   return {
     handleTestCaseFieldChange,
     newTestCaseData,
-    // inputError,
+    inputError,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAdditionPage,

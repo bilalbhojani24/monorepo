@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TMButton, TMInputField, TMModal } from 'bifrostProxy';
 // import { addTestRuns } from 'api/projects.api';
-import AppRoute from 'const/routes';
+// import AppRoute from 'const/routes';
 
-import { setAddTestRunsModalVisibility } from '../slices/testRunsSlice';
+// import { setAddTestRunsModalVisibility } from '../slices/testRunsSlice';
 
 const AddTestRuns = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const AddTestRuns = () => {
 
   const dispatch = useDispatch();
   const hideAddTestRunModal = () => {
-    dispatch(setAddTestRunsModalVisibility(false));
+    // dispatch(setAddTestRunsModalVisibility(false));
   };
 
   const createTestRunHandler = () => {
@@ -30,36 +30,7 @@ const AddTestRuns = () => {
     // });
   };
 
-  return (
-    <TMModal
-      show
-      withDismissButton
-      handleDismissButtonClick={hideAddTestRunModal}
-      onClose={hideAddTestRunModal}
-    >
-      <TMInputField
-        wrapperClass="mb-2"
-        label="TestRun Name"
-        placeholder="TestRun Name 01"
-        value={formData.name}
-        onChange={(e) =>
-          setFormData({ ...formData, name: e.currentTarget.value })
-        }
-      />
-      <div className="mt-3 flex justify-end">
-        <TMButton variant="white" onClick={hideAddTestRunModal}>
-          Cancel
-        </TMButton>
-        <TMButton
-          variant="white"
-          wrapperClassName="ml-3"
-          onClick={createTestRunHandler}
-        >
-          Create Test Run
-        </TMButton>
-      </div>
-    </TMModal>
-  );
+  return <div>Add test runs</div>;
 };
 
 export default AddTestRuns;

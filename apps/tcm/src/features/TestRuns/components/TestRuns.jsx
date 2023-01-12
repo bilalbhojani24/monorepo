@@ -1,13 +1,22 @@
-import React from 'react';
-import { TMPageHeadings, TMTabs } from 'bifrostProxy';
-import { string } from 'prop-types';
+import React, { useEffect } from 'react';
+import { TMPageHeadings } from 'bifrostProxy';
 
 import AddTestRun from './AddTestRun';
 import TestRunsTable from './TestRunsTable';
 import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
-  const { addingTestRun, showAddModal } = useTestRuns();
+  const {
+    showTestRunAddForm,
+    showAddTestRunsForm,
+    fetchAllTestRuns,
+    projectId,
+  } = useTestRuns();
+
+  useEffect(() => {
+    fetchAllTestRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
@@ -18,26 +27,22 @@ const TestRuns = () => {
             {
               id: 'node-1',
               actionsNode: <>Add Test Run</>,
-              actionFn: addingTestRun,
+              actionFn: showTestRunAddForm,
               variant: 'primary',
             },
           ]}
         />
       </div>
+
       <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
-        <TestRunsTable />
+        {showAddTestRunsForm ? <AddTestRun /> : <TestRunsTable />}
       </div>
-      {showAddModal ? <AddTestRun /> : ''}
     </div>
   );
 };
 
-TestRuns.propTypes = {
-  defaultTab: string,
-};
+TestRuns.propTypes = {};
 
-TestRuns.defaultProps = {
-  defaultTab: 'Active Test Runs',
-};
+TestRuns.defaultProps = {};
 
 export default TestRuns;

@@ -9,5 +9,11 @@ export const templateOptions = [
   { label: 'Steps', value: 'steps' },
 ];
 export const testCaseTypesOptions = [{ label: 'Text', value: 'text' }];
-export const stateOptions = [{ label: 'Text', value: 'text' }];
 export const ownerOptions = [{ label: 'Myself', value: 'myself' }];
+export const stateOptions = [
+  { label: 'Active', value: 'active' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Under Review', value: 'under review' },
+  { label: 'Rejected', value: 'rejected' },
+  { label: 'Retired', value: 'retired' },
+];

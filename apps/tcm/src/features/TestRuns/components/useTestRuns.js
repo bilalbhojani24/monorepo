@@ -9,17 +9,17 @@ import {
   updateAllTestRuns,
 } from '../slices/testRunsSlice';
 
-const useTestRunss = () => {
+const useTestRuns = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const allTestRunsArray = useSelector(
     (state) => state.testRuns.allTestRunsArray,
   );
-  const showAddModal = useSelector(
-    (state) => state.testRuns.showAddTestRunsModal,
+  const showAddTestRunsForm = useSelector(
+    (state) => state.testRuns.showAddTestRunsForm,
   );
 
-  const addingTestRuns = () => {
+  const showTestRunAddForm = () => {
     dispatch(setAddTestRunsModalVisibility(true));
   };
 
@@ -31,18 +31,13 @@ const useTestRunss = () => {
     else dispatch(updateAllTestRuns([]));
   };
 
-  useEffect(() => {
-    dispatch(setSelectedProject(projectId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
-
   return {
     allTestRunsArray,
-    showAddModal,
-    addingTestRuns,
+    showAddTestRunsForm,
+    showTestRunAddForm,
     projectId,
     fetchAllTestRuns,
   };
 };
 
-export default useTestRunss;
+export default useTestRuns;

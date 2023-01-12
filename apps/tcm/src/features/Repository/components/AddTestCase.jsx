@@ -14,6 +14,7 @@ import useTestCases from './useTestCases';
 const AddTestCase = () => {
   const {
     handleTestCaseFieldChange,
+    inputError,
     newTestCaseData,
     selectedFolder,
     hideTestCaseAdditionPage,
@@ -38,13 +39,12 @@ const AddTestCase = () => {
       />
       <div className="my-4">
         <TMInputField
-          // value={newTestCaseData?.name}
           id="test-case-name"
           label="Name of Test Case*"
           onChange={(e) =>
             handleTestCaseFieldChange('name', e.currentTarget.value)
           }
-          // errorText={inputError ? "This field can't be left empty" : ''}
+          errorText={inputError ? "This field can't be left empty" : ''}
         />
       </div>
       {/* <div className="w-1/3">
@@ -76,7 +76,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.description}
           id="test-case-description"
           label="Description"
           onChange={(e) =>
@@ -104,7 +103,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.precondition}
           id="test-case-precondition"
           label="Preconditions"
           onChange={(e) =>
@@ -114,7 +112,6 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMInputField
-          // value={newTestCaseData?.estimate}
           id="test-case-estimate"
           label="Estimate"
           onChange={(e) =>

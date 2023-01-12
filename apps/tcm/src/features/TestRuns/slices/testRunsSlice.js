@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  showAddTestRunsModal: false,
+  showAddTestRunsForm: false,
   allTestRunsArray: [],
 };
 
@@ -9,8 +9,11 @@ const testRunslice = createSlice({
   name: 'testRuns',
   initialState,
   reducers: {
-    setAddTestRunsModalVisibility: (state, { payload }) => {
-      state.showAddTestRunsModal = payload;
+    setTestRuns: (state, { payload }) => {
+      state.activeTestRuns = payload;
+    },
+    setAddTestRun: (state, { payload }) => {
+      state.addTestRun = payload;
     },
     updateAllTestRuns: (state, { payload }) => {
       state.allTestRunsArray = payload;

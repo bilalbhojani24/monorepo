@@ -12,6 +12,7 @@ import {
   SectionHeadings,
   SelectMenu,
   Tabs,
+  TextArea,
 } from '@browserstack/bifrost';
 
 export const TMPageHeadings = (props) => <PageHeadings {...props} />;
@@ -26,3 +27,4 @@ export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
 export const TMDrawer = (props) => <Drawer {...props} />;
+export const TMTextArea = (props) => <TextArea {...props} />;
