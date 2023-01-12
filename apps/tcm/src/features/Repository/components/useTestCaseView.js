@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTestCaseDetails, getTestRunOfTestCase } from 'api/testcases.api';
+import { getTestCaseDetails } from 'api/testcases.api';
 
-import { setTestCaseDetails } from '../slices/repositorySlice';
+import {
+  setTestCaseDetails,
+  setTestCaseViewVisibility,
+} from '../slices/repositorySlice';
 
 export default function useTestCases() {
   // const [inputError, setInputError] = useState(false);
@@ -18,10 +21,7 @@ export default function useTestCases() {
   const fetchTestCaseDetails = () => {
     if (folderId) {
       getTestCaseDetails({ projectId, folderId, testCaseId }).then((data) => {
-        dispatch(setTestCaseDetails(data?.data?.['test-case'] || null));
-      });
-      getTestRunOfTestCase({ projectId, folderId, testCaseId }).then((data) => {
-        dispatch(setTestCaseDetails(data?.test_runs || null));
+        dispatch(setTestCaseDetails(data || null));
       });
     }
   };
@@ -30,9 +30,12 @@ export default function useTestCases() {
     dispatch(setTestCaseViewVisibility(false));
   };
 
+  const handleTabChange = () => {};
+
   return {
     hideTestCaseViewDrawer,
     isTestCaseViewVisible,
     fetchTestCaseDetails,
+    handleTabChange,
   };
 }

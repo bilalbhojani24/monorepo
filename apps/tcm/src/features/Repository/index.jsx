@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { TMDrawer } from 'bifrostProxy';
 
 // import Folders from './components/Folders';
 import BlankPage from './components/BlankPage';
@@ -46,7 +47,13 @@ const Repository = () => {
           )}
         </div>
       </div>
-      {isTestCaseViewVisible && <TestCaseView />}
+      {isTestCaseViewVisible && (
+        <TMDrawer
+          title="Check Register flow as Tester"
+          description=""
+          bodyNode={<TestCaseView />}
+        />
+      )}
     </div>
   );
 };
