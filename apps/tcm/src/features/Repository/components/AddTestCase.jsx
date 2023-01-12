@@ -2,10 +2,11 @@ import React from 'react';
 import { TMInputField, TMSectionHeadings, TMSelectMenu } from 'bifrostProxy';
 
 import {
+  ownerOptions,
   priorityOptions,
   stateOptions,
   templateOptions,
-  testCaseTypesOptions,ownerOptions
+  testCaseTypesOptions,
 } from '../const/addTestCaseConst';
 
 import useTestCases from './useTestCases';
@@ -94,7 +95,7 @@ const AddTestCase = () => {
       </div>
       <div className="mt-4">
         <TMSelectMenu
-          defaultValue={ownerOptions[]}
+          defaultValue={ownerOptions[0]}
           checkPosition="right"
           label="Owner"
           options={ownerOptions}
