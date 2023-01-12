@@ -7,12 +7,7 @@ import { TABS_ARRAY } from '../const/testCaseViewConst';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseView = () => {
-  const { hideTestCaseViewDrawer, fetchTestCaseDetails, handleTabChange } =
-    useTestCaseView();
-
-  useEffect(() => {
-    fetchTestCaseDetails();
-  }, []);
+  const { handleTabChange } = useTestCaseView();
 
   return (
     <div className="flex h-full flex-col items-stretch pt-5">

@@ -10,8 +10,7 @@ import {
 
 export default function useTestCases() {
   // const [inputError, setInputError] = useState(false);
-  const testCaseId = 128;
-  const { projectId, folderId } = useParams();
+  const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
   const isTestCaseViewVisible = useSelector(
@@ -19,7 +18,8 @@ export default function useTestCases() {
   );
 
   const fetchTestCaseDetails = () => {
-    if (folderId) {
+    dispatch(setTestCaseViewVisibility(true));
+    if (folderId && testCaseId) {
       getTestCaseDetails({ projectId, folderId, testCaseId }).then((data) => {
         dispatch(setTestCaseDetails(data || null));
       });
@@ -33,6 +33,7 @@ export default function useTestCases() {
   const handleTabChange = () => {};
 
   return {
+    testCaseId,
     hideTestCaseViewDrawer,
     isTestCaseViewVisible,
     fetchTestCaseDetails,

@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { addTestCase, getTestCases } from 'api/testcases.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   addSingleTestCase,
   setAddTestCaseVisibility,
-  setTestCaseViewVisibility,
   updateAllTestCases,
   updateTestCaseFormData,
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
-  const [inputError, setInputError] = useState(false);
+  const navigate = useNavigate();
   const { projectId, folderId } = useParams();
+  const [inputError, setInputError] = useState(false);
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
@@ -65,7 +67,13 @@ export default function useTestCases() {
   };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
-    dispatch(setTestCaseViewVisibility(true));
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId,
+        testCaseId: testCaseItem?.id,
+      }),
+    );
   };
 
   return {

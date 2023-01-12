@@ -9,16 +9,24 @@ import TestCaseView from './components/TestCaseView';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
 import useTestCases from './components/useTestCases';
+import useTestCaseView from './components/useTestCaseView';
 
 const Repository = () => {
   const { allFolders, fetchAllFolders } = useFolders();
   const { fetchAllTestCases, folderId, projectId, isTestCaseViewVisible } =
     useTestCases();
+  const { testCaseId, fetchTestCaseDetails, hideTestCaseViewDrawer } =
+    useTestCaseView();
 
   useEffect(() => {
     fetchAllFolders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
+
+  useEffect(() => {
+    fetchTestCaseDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testCaseId]);
 
   useEffect(() => {
     fetchAllTestCases();
@@ -49,6 +57,7 @@ const Repository = () => {
       </div>
       {isTestCaseViewVisible && (
         <TMDrawer
+          onClose={hideTestCaseViewDrawer}
           title="Check Register flow as Tester"
           description=""
           bodyNode={<TestCaseView />}
