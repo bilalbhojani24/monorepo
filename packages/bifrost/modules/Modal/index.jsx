@@ -9,7 +9,7 @@ import { MODAL_SIZE } from './const/modalConstants';
 import './styles.scss';
 
 const Modal = (props) => {
-  const { body, footer, header, onClose, show, size } = props;
+  const { children, onClose, onOverlayClick, show, size } = props;
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog
@@ -17,6 +17,9 @@ const Modal = (props) => {
         className="relative z-10"
         onClose={() => {
           if (onClose) onClose();
+        }}
+        onClick={() => {
+          if (onOverlayClick) onOverlayClick();
         }}
       >
         <Transition.Child
@@ -51,9 +54,7 @@ const Modal = (props) => {
                   },
                 )}`}
               >
-                {header}
-                {body ? <div className="py-5 px-6">{body}</div> : null}
-                {footer}
+                {children}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -64,17 +65,15 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-  body: PropTypes.node,
-  footer: PropTypes.node,
-  header: PropTypes.node,
+  children: PropTypes.node,
+  onOverlayClick: PropTypes.func,
   onClose: PropTypes.func,
   show: PropTypes.bool,
   size: PropTypes.string,
 };
 Modal.defaultProps = {
-  body: null,
-  footer: null,
-  header: null,
+  children: null,
+  onOverlayClick: null,
   onClose: null,
   show: false,
   size: MODAL_SIZE[2],
