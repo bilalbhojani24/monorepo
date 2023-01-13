@@ -28,7 +28,6 @@ DropdownItem.propTypes = {
   option: PropTypes.shape({
     id: PropTypes.string,
     body: PropTypes.string,
-    callback: PropTypes.func,
     divider: PropTypes.bool,
   }),
   index: PropTypes.number,

@@ -40,11 +40,11 @@ const Dropdown = (props) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-base-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="divide-base-100 absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {headerVisible && (
             <div className="px-4 py-3">
               <p className="text-sm">{heading}</p>
-              <p className="truncate text-sm font-medium text-base-900">
+              <p className="text-base-900 truncate text-sm font-medium">
                 {subHeading}
               </p>
             </div>
@@ -71,7 +71,6 @@ Dropdown.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       body: PropTypes.node,
-      callback: PropTypes.func,
       divider: PropTypes.bool,
     }),
   ),
