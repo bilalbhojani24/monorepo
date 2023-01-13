@@ -2,10 +2,10 @@ import { resolve } from 'path';
 
 import { defineConfig } from 'vite';
 
-const globalViteConfig = require('@browserstack/vite-config');
+const { packageViteConfig } = require('@browserstack/vite-config');
 
 export default defineConfig((configEnv) => ({
-  ...globalViteConfig,
+  ...packageViteConfig,
   build: {
     lib: {
       entry: resolve('./index.js'),
@@ -15,7 +15,7 @@ export default defineConfig((configEnv) => ({
     },
     rollupOptions: {
       external: [
-        'react',
+        ...packageViteConfig.build.rollupOptions.external,
         '@reduxjs/toolkit',
         'redux-mock-store',
         'react-redux',

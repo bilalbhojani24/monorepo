@@ -25,7 +25,7 @@ const defaultConfig = {
     textColor: {
       type: { summary: 'STRING', required: false },
       control: { type: 'text' },
-      defaultValue: 'text-indigo-600',
+      defaultValue: 'text-brand-600',
     },
     heading: {
         type: { summary: 'STRING', required: false },

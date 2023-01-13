@@ -18,7 +18,7 @@ const Checkbox = (props) => {
     name,
     onChange,
     position,
-    wrapperClass,
+    wrapperClass
   } = props;
   const [check, setCheck] = useState(defaultChecked);
 
@@ -33,7 +33,7 @@ const Checkbox = (props) => {
       className={classNames(
         'pt-4',
         {
-          'border-t border-b border-gray-200 divide-y divide-gray-200 py-4': border && !isCard,
+          'border-t border-b border-base-200 divide-y divide-base-200 py-4': border && !isCard
         },
         wrapperClass
       )}
@@ -41,19 +41,19 @@ const Checkbox = (props) => {
       <div
         className={classNames('relative flex items-start', {
           'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
-          'pl-2 mb-2': isCard,
+          'pl-2 mb-2': isCard
         })}
       >
         <div
           className={classNames('flex h-5 items-center', {
-            indeterminate: indeterminate,
+            indeterminate: indeterminate
           })}
         >
           <input
             id={`${name}-${data.value}`}
             name={`${name}-${data.value}`}
             type="checkbox"
-            className="checkbox h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            className="checkbox h-4 w-4 rounded border-base-300 text-brand-600 focus:ring-brand-500"
             checked={checked || check}
             onChange={(e) => handleChange(e, data)}
             disabled={disabled}
@@ -61,18 +61,18 @@ const Checkbox = (props) => {
         </div>
         <div
           className={classNames('min-w-0 flex-1 text-sm', {
-            'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
+            'ml-3': position === CHECKBOX_POSITION_VARIANT.left
           })}
         >
-          <label htmlFor={`${name}-${data.value}`} className="select-none font-medium text-gray-700">
+          <label htmlFor={`${name}-${data.value}`} className="select-none font-medium text-base-700">
             {data.label}
           </label>
           <p
             id={`${name}-${data.value}`}
-            className={classNames('text-gray-500', {
+            className={classNames('text-base-500', {
               'inline ml-2': description === CHECKBOX_DESCRIPTION_VARIANT.inline,
               block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
-              hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
+              hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none
             })}
           >
             {data.description}
@@ -81,7 +81,7 @@ const Checkbox = (props) => {
 
         <span
           className={classNames(
-            checked || check ? 'border border-indigo-500' : 'border-2 border-transparent',
+            checked || check ? 'border border-brand-500' : 'border-2 border-transparent',
             'pointer-events-none absolute -inset-px rounded-lg',
             { hidden: !isCard }
           )}
@@ -98,7 +98,7 @@ Checkbox.propTypes = {
   data: PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    description: PropTypes.string,
+    description: PropTypes.string
   }).isRequired,
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -108,7 +108,7 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -123,7 +123,7 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default Checkbox;

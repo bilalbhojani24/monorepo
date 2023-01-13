@@ -27,6 +27,9 @@
     },
     "build-storybook": {
       "cache": false
+    },
+    "tailwind-preview": {
+      "cache": false
     }
   }
 }

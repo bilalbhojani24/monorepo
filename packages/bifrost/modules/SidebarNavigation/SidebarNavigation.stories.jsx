@@ -1,14 +1,24 @@
 import React from 'react';
-import SidebarNavigation from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon } from '../Icon';
+import {
+  CalendarIcon,
+  ChartBarIcon,
+  FolderIcon,
+  HomeIcon,
+  InboxIcon,
+  UsersIcon,
+} from '../Icon';
+import SidebarHeader from '../SidebarHeader';
+import SidebarItem from '../SidebarItem';
+
+import SidebarNavigation from './index';
 
 const selectOptions = [
   { label: 'Project 1', value: 'p1' },
   { label: 'Project 2', value: 'p2' },
   { label: 'Project 3', value: 'p3' },
 ];
-
 const primaryNavs = [
   {
     id: 'dashboard',
@@ -93,62 +103,27 @@ const defaultConfig = {
   component: SidebarNavigation,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import SidebarNavigation from 'bifrost/SidebarNavigation'"} />;
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={
+            "import SidebarNavigation from 'bifrost/SidebarNavigation'"
+          }
+        />
+      ),
     },
   },
   argTypes: {
-    activeClass: {
-      options: { type: 'string' },
-      defaultValue: '',
+    sidebarHeader: {
+      option: { type: null },
+      defaultValue: null,
     },
-    activeIconClass: {
-      options: { type: 'string' },
-      defaultValue: '',
+    sidebarPrimaryNavigation: {
+      option: { type: null },
+      defaultValue: null,
     },
-    brandImage: {
-      options: { type: 'string' },
-      defaultValue: 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
-    },
-    brandImageContainerClass: {
-      options: { type: 'string' },
-      defaultValue: '',
-    },
-    brandImageClass: {
-      options: { type: 'string' },
-      defaultValue: '',
-    },
-    handleClick: {
-      options: { type: null },
-      defaultValue: (currentItem, parentItem) => {
-        console.log(currentItem);
-        console.log(parentItem);
-      },
-    },
-    inActiveClass: {
-      options: { type: 'string' },
-      defaultValue: '',
-    },
-    inActiveIconClass: {
-      options: { type: 'string' },
-      defaultValue: '',
-    },
-    primaryNavItems: {
-      options: { type: null },
-      defaultValue: primaryNavs,
-    },
-    secondaryNavItems: {
-      options: { type: null },
-      defaultValue: secondaryNavs,
-    },
-    selectOptions: {
-      options: { typee: null },
-      defaultValue: selectOptions,
-    },
-    withSelect: {
-      options: { typee: 'boolean' },
-      defaultValue: false,
+    sidebarSecondaryNavigation: {
+      option: { type: null },
+      defaultValue: null,
     },
     wrapperClass: {
       options: { type: 'string' },
@@ -157,11 +132,100 @@ const defaultConfig = {
   },
   controls: {},
 };
+
 const Template = (args) => <SidebarNavigation {...args} />;
+const SidebarwithBrandImageTemplate = (args) => <SidebarNavigation {...args} />;
+const SidebarwithSelectTemplate = (args) => <SidebarNavigation {...args} />;
+const SidebarwithSecondaryNavigation = (args) => (
+  <SidebarNavigation {...args} />
+);
+
 const Primary = Template.bind({});
+const SidebarwithBrandImage = SidebarwithBrandImageTemplate.bind({});
+const SidebarwithSelect = SidebarwithSelectTemplate.bind({});
+const SidebarwithSecondary = SidebarwithSecondaryNavigation.bind({});
+
 Primary.parameters = {
   controls: {},
 };
 
 export default defaultConfig;
-export { Primary };
+export {
+  Primary,
+  SidebarwithBrandImage,
+  SidebarwithSecondary,
+  SidebarwithSelect,
+};
+
+/* ----------------------------
+ * SidebarwithBrandImage
+ * ----------------------------*/
+const SWBHeader = (
+  <SidebarHeader brandImage="https://tailwindui.com/img/logos/mark.svg" />
+);
+
+const SWBSidebarPri = (
+  <>
+    {primaryNavs.map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+SidebarwithBrandImage.args = {
+  sidebarHeader: SWBHeader,
+  sidebarPrimaryNavigation: SWBSidebarPri,
+};
+
+/* ----------------------------
+ * SidebarwithSelect
+ * ----------------------------*/
+const SWSHeader = <SidebarHeader dropdownOptions={selectOptions} />;
+
+const SWSSidebarPri = (
+  <>
+    {primaryNavs.map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+SidebarwithSelect.args = {
+  sidebarHeader: SWSHeader,
+  sidebarPrimaryNavigation: SWSSidebarPri,
+};
+
+/* ----------------------------
+ * SidebarWithSecondary
+ * ----------------------------*/
+const SSHeader = <SidebarHeader dropdownOptions={selectOptions} />;
+
+const SSSidebarPri = (
+  <>
+    {primaryNavs.map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+const SSSidebarSec = (
+  <>
+    {secondaryNavs.map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+SidebarwithSecondary.args = {
+  sidebarHeader: SSHeader,
+  sidebarPrimaryNavigation: SSSidebarPri,
+  sidebarSecondaryNavigation: SSSidebarSec,
+};

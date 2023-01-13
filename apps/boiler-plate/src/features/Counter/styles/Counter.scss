@@ -1,0 +1,9 @@
+.counter-button {
+  &.button-increment {
+    color: blue;
+  }
+
+  &.button-decrement {
+    color: red;
+  }
+}

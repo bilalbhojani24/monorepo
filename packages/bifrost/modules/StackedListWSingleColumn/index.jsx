@@ -18,17 +18,17 @@ const StackedListWSingleColumn = ({ descriptionMaxLength, list, handleListClick,
     return (
       <div>
         <div className="mt-6 flow-root">
-          <ul role="list" className="-my-5 divide-y divide-gray-200">
+          <ul role="list" className="-my-5 divide-y divide-base-200">
             {list.map((listItem) => (
               <li key={listItem.id} className="py-5">
-                <div className="relative focus-within:ring-2 focus-within:ring-indigo-500">
-                  <h3 className="text-sm font-semibold text-gray-800">
+                <div className="relative focus-within:ring-2 focus-within:ring-brand-500">
+                  <h3 className="text-sm font-semibold text-base-800">
                     <a href={listItem.link} className="hover:underline focus:outline-none">
                       <span className="absolute inset-0" aria-hidden="true" />
                       {listItem.heading}
                     </a>
                   </h3>
-                  <p className="mt-1 text-sm text-gray-600 line-clamp-2">{listItem.preview}</p>
+                  <p className="mt-1 text-sm text-base-600 line-clamp-2">{listItem.preview}</p>
                 </div>
               </li>
             ))}
@@ -41,26 +41,26 @@ const StackedListWSingleColumn = ({ descriptionMaxLength, list, handleListClick,
     );
 
   return (
-    <ul className="divide-y divide-gray-200">
+    <ul className="divide-y divide-base-200">
       {list.map((listItem) => (
         <li
           key={listItem.id}
-          className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50"
+          className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-600 hover:bg-base-50"
         >
           <div className="flex justify-between space-x-3">
             <div className="min-w-0 flex-1">
               <a href="/" className="block focus:outline-none" onClick={(e) => handleClick(e, listItem)}>
                 <span className="absolute inset-0" aria-hidden="true" />
-                <p className="text-sm font-medium text-gray-900">{listItem.heading}</p>
-                <p className="text-sm text-gray-500">{listItem.subHeading}</p>
+                <p className="text-sm font-medium text-base-900">{listItem.heading}</p>
+                <p className="text-sm text-base-500">{listItem.subHeading}</p>
               </a>
             </div>
-            <time dateTime={listItem.datetime} className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">
+            <time dateTime={listItem.datetime} className="flex-shrink-0 whitespace-nowrap text-sm text-base-500">
               {listItem.textAside}
             </time>
           </div>
           <div className="mt-1">
-            <p className="text-sm text-gray-600 line-clamp-2">{truncate(listItem.preview, descriptionMaxLength)}</p>
+            <p className="text-sm text-base-600 line-clamp-2">{truncate(listItem.preview, descriptionMaxLength)}</p>
           </div>
         </li>
       ))}
@@ -78,12 +78,12 @@ StackedListWSingleColumn.propTypes = {
       subHeading: PropTypes.string,
       preview: PropTypes.string,
       link: PropTypes.string,
-      textAside: PropTypes.string,
+      textAside: PropTypes.string
     })
   ),
   format: PropTypes.string,
   action: PropTypes.shape({}),
-  actionTitle: PropTypes.string,
+  actionTitle: PropTypes.string
 };
 StackedListWSingleColumn.defaultProps = {
   descriptionMaxLength: 150,
@@ -95,9 +95,9 @@ StackedListWSingleColumn.defaultProps = {
     variant: '',
     buttonType: '',
     wrapperClassName: '',
-    onClick: () => {},
+    onClick: () => {}
   },
-  actionTitle: 'Demo',
+  actionTitle: 'Demo'
 };
 
 export default StackedListWSingleColumn;

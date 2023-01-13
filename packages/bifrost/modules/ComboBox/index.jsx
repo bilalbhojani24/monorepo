@@ -30,10 +30,10 @@ const ComboBox = (props) => {
       multiple={isMulti}
       {...(defaultValue && { defaultValue })}
     >
-      <Combobox.Label className="block text-sm font-medium text-gray-700">{label}</Combobox.Label>
+      <Combobox.Label className="block text-sm font-medium text-base-700">{label}</Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+          className="w-full rounded-md border border-base-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(p) => {
             return isMulti && Array.isArray(p) ? p?.map((p) => p.label).join(', ') : p?.label;
@@ -43,7 +43,7 @@ const ComboBox = (props) => {
           {isMulti && selectOptions?.length ? (
             <span className="mr-1 font-bold">{`(${selectOptions.length})`}</span>
           ) : null}
-          <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <ChevronUpDownIcon className="h-5 w-5 text-base-400" aria-hidden="true" />
         </Combobox.Button>
 
         {filteredPeople.length > 0 && (
@@ -55,11 +55,11 @@ const ComboBox = (props) => {
                 className={({ active }) =>
                   classNames(
                     'relative cursor-pointer select-none py-2 pl-3 pr-9',
-                    active && !isMulti ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                    active && !isMulti ? 'bg-brand-600 text-white' : 'text-base-900',
                     {
                       'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,
                       'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMulti,
-                      'hover:bg-gray-50 pb-4 pl-2 cursor-pointer': isMulti,
+                      'hover:bg-base-50 pb-4 pl-2 cursor-pointer': isMulti
                     }
                   )
                 }
@@ -80,10 +80,10 @@ const ComboBox = (props) => {
                           <span
                             className={classNames(
                               'absolute inset-y-0 right-0 flex items-center pr-4',
-                              active ? 'text-white' : 'text-indigo-600',
+                              active ? 'text-white' : 'text-brand-600',
                               {
                                 'right-0 pr-4': checkPosition === CHECK_POSITION[1] || option?.image,
-                                'left-0 pl-1.5': checkPosition === CHECK_POSITION[0],
+                                'left-0 pl-1.5': checkPosition === CHECK_POSITION[0]
                               }
                             )}
                           >
@@ -95,7 +95,7 @@ const ComboBox = (props) => {
                       <Checkbox
                         data={{
                           label: option.label,
-                          value: option.value,
+                          value: option.value
                         }}
                         border={false}
                         wrapperClass="py-0"
@@ -120,14 +120,14 @@ ComboBox.propTypes = {
       PropTypes.shape({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         label: PropTypes.string.isRequired,
-        image: PropTypes.string,
+        image: PropTypes.string
       })
     ),
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
-      image: PropTypes.string,
-    }),
+      image: PropTypes.string
+    })
   ]),
   isMulti: PropTypes.bool,
   label: PropTypes.string,
@@ -136,7 +136,7 @@ ComboBox.propTypes = {
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
-      image: PropTypes.string,
+      image: PropTypes.string
     })
   ).isRequired,
   value: PropTypes.oneOfType([
@@ -144,15 +144,15 @@ ComboBox.propTypes = {
       PropTypes.shape({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         label: PropTypes.string.isRequired,
-        image: PropTypes.string,
+        image: PropTypes.string
       })
     ),
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       label: PropTypes.string.isRequired,
-      image: PropTypes.string,
-    }),
-  ]),
+      image: PropTypes.string
+    })
+  ])
 };
 ComboBox.defaultProps = {
   checkPosition: CHECK_POSITION[0],
@@ -161,7 +161,7 @@ ComboBox.defaultProps = {
   label: '',
   onChange: () => {},
   options: COMBOBOX_OPTIONS,
-  value: null,
+  value: null
 };
 
 export default ComboBox;

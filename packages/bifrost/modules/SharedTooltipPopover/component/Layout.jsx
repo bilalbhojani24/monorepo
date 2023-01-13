@@ -1,20 +1,21 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
+
 import Button from '../../Button';
 import Hyperlink from '../../Hyperlink';
-import { TOOLTIP_THEME, BUTTON_TYPE } from '../const';
+import { BUTTON_TYPE, TOOLTIP_THEME } from '../const';
 
 const Layout = ({ actionObject, buttonType, description, title, theme }) => {
   console.log(actionObject);
   return (
     <div
-      className={classNames('rounded-md shadow max-w-xs p-3', {
+      className={classNames('max-w-xs rounded-md p-3 shadow', {
         'bg-white ': TOOLTIP_THEME[0] === theme,
-        'bg-gray-800': TOOLTIP_THEME[1] === theme,
+        'bg-base-800': TOOLTIP_THEME[1] === theme,
       })}
     >
       <p
-        className={classNames('font-semibold mb-2', {
+        className={classNames('mb-2 font-semibold', {
           'text-white': TOOLTIP_THEME[1] === theme,
         })}
       >
@@ -22,7 +23,7 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
       </p>
       <p
         className={classNames('mb-2 ', {
-          'text-gray-300': TOOLTIP_THEME[1] === theme,
+          'text-base-300': TOOLTIP_THEME[1] === theme,
         })}
       >
         {description}
@@ -32,7 +33,8 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
           <>
             <Button
               onClick={() => {
-                if (actionObject.primaryButtonAction) actionObject.primaryButtonAction();
+                if (actionObject.primaryButtonAction)
+                  actionObject.primaryButtonAction();
               }}
             >
               {actionObject.primaryButtonLabel}
@@ -40,10 +42,11 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
             <Button
               variant="white"
               onClick={() => {
-                if (actionObject.secondaryButtonAction) actionObject.secondaryButtonAction();
+                if (actionObject.secondaryButtonAction)
+                  actionObject.secondaryButtonAction();
               }}
               wrapperClassName={classNames({
-                'bg-gray-600 text-white outline-0': theme === TOOLTIP_THEME[1],
+                'bg-base-600 text-white outline-0': theme === TOOLTIP_THEME[1],
               })}
             >
               {actionObject.secondaryButtonLabel}
@@ -54,7 +57,9 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
             <Hyperlink
               underlined
               fontWeight="font-light"
-              color={TOOLTIP_THEME[0] === theme ? 'text-indigo-600' : 'text-white'}
+              color={
+                TOOLTIP_THEME[0] === theme ? 'text-brand-600' : 'text-white'
+              }
               wrapperClassName={classNames('mr-4')}
               href={actionObject.primaryButtonUrl}
               rel="noreferrer noopener"
@@ -64,7 +69,9 @@ const Layout = ({ actionObject, buttonType, description, title, theme }) => {
             <Hyperlink
               underlined
               fontWeight="font-light"
-              color={TOOLTIP_THEME[0] === theme ? 'text-indigo-600' : 'text-white'}
+              color={
+                TOOLTIP_THEME[0] === theme ? 'text-brand-600' : 'text-white'
+              }
               href={actionObject.secondaryButtonUrl}
               rel="noreferrer noopener"
             >

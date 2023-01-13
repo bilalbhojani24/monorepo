@@ -32,8 +32,8 @@ const RadioStackedCard = (props) => {
             value={item}
             className={({ checked, active }) =>
               classNames(
-                checked ? 'border-transparent' : 'border-gray-300',
-                active ? 'border-indigo-500 ring-2 ring-indigo-500' : '',
+                checked ? 'border-transparent' : 'border-base-300',
+                active ? 'border-brand-500 ring-2 ring-brand-500' : '',
                 'relative cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none',
                 placement === RADIO_STACKED_CARD_PLACEMENT.horizontal
                   ? 'flex border p-4'
@@ -45,15 +45,15 @@ const RadioStackedCard = (props) => {
               <>
                 <span className="flex flex-1">
                   <span className="flex flex-col">
-                    <RadioGroup.Label as="span" className="block text-sm font-medium text-gray-900">
+                    <RadioGroup.Label as="span" className="block text-sm font-medium text-base-900">
                       {item.label}
                     </RadioGroup.Label>
-                    <RadioGroup.Description as="span" className="mt-1 flex items-center text-sm text-gray-500">
+                    <RadioGroup.Description as="span" className="mt-1 flex items-center text-sm text-base-500">
                       {item.description}
                     </RadioGroup.Description>
                     <RadioGroup.Description
                       as="span"
-                      className={classNames('mt-6 text-sm font-medium text-gray-900', {
+                      className={classNames('mt-6 text-sm font-medium text-base-900', {
                         hidden: placement === RADIO_STACKED_CARD_PLACEMENT.vertical
                       })}
                     >
@@ -63,7 +63,7 @@ const RadioStackedCard = (props) => {
                 </span>
                 <RadioGroup.Description
                   as="span"
-                  className={classNames('text-sm font-medium text-gray-900', {
+                  className={classNames('text-sm font-medium text-base-900', {
                     hidden: placement === RADIO_STACKED_CARD_PLACEMENT.horizontal
                   })}
                 >
@@ -71,14 +71,14 @@ const RadioStackedCard = (props) => {
                 </RadioGroup.Description>
                 {placement === RADIO_STACKED_CARD_PLACEMENT.horizontal ? (
                   <CheckCircleIcon
-                    className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600')}
+                    className={classNames(!checked ? 'invisible' : '', 'h-5 w-5 text-brand-600')}
                     aria-hidden="true"
                   />
                 ) : null}
                 <span
                   className={classNames(
                     active ? 'border' : 'border-2',
-                    checked ? 'border-indigo-500' : 'border-transparent',
+                    checked ? 'border-brand-500' : 'border-transparent',
                     'pointer-events-none absolute -inset-px rounded-lg'
                   )}
                   aria-hidden="true"

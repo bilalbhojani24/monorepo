@@ -10,11 +10,12 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
       className={classNames('inline-flex items-center font-medium', wrapperClassName, {
         'px-2.5 py-0.5 text-xs': size === BADGE_SIZE[0],
         'px-3 py-0.5 text-sm': size === BADGE_SIZE[1],
-        'bg-gray-100 text-gray-800': modifier === BADGE_MODIFIER[0],
-        'bg-blue-100 text-blue-800': modifier === BADGE_MODIFIER[1],
-        'bg-green-100 text-green-800': modifier === BADGE_MODIFIER[2],
-        'bg-red-100 text-red-800': modifier === BADGE_MODIFIER[3],
-        'bg-yellow-100 text-yellow-800': modifier === BADGE_MODIFIER[4],
+        'bg-base-100 text-base-800': modifier === BADGE_MODIFIER[0],
+        'bg-brand-100 text-brand-800': modifier === BADGE_MODIFIER[1],
+        'bg-success-100 text-success-800': modifier === BADGE_MODIFIER[2],
+        'bg-danger-100 text-danger-800': modifier === BADGE_MODIFIER[3],
+        'bg-attention-100 text-attention-800': modifier === BADGE_MODIFIER[4],
+        'bg-info-100 text-info-800': modifier === BADGE_MODIFIER[5],
         'rounded-full': !isRounded,
         'rounded ': isRounded,
         'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
@@ -24,11 +25,12 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
       {hasDot && (
         <svg
           className={classNames('-ml-0.5 mr-1.5 h-2 w-2 ', {
-            'text-gray-400': modifier === BADGE_MODIFIER[0],
-            'text-blue-400': modifier === BADGE_MODIFIER[1],
-            'text-green-400': modifier === BADGE_MODIFIER[2],
-            'text-red-400': modifier === BADGE_MODIFIER[3],
-            'text-yellow-400': modifier === BADGE_MODIFIER[4]
+            'text-base-400': modifier === BADGE_MODIFIER[0],
+            'text-brand-400': modifier === BADGE_MODIFIER[1],
+            'text-success-400': modifier === BADGE_MODIFIER[2],
+            'text-danger-400': modifier === BADGE_MODIFIER[3],
+            'text-attention-400': modifier === BADGE_MODIFIER[4],
+            'text-info-400': modifier === BADGE_MODIFIER[5]
           })}
           fill="currentColor"
           viewBox="0 0 8 8"
@@ -44,13 +46,17 @@ const Badge = ({ hasDot, hasRemoveButton, isRounded, modifier, onClose, size, te
           className={classNames(
             'ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus:text-white focus:outline-none',
             {
-              'hover:bg-gray-200 hover:text-gray-500 focus:bg-gray-500 text-gray-400': modifier === BADGE_MODIFIER[0],
-              'hover:bg-blue-200 hover:text-blue-500 focus:bg-blue-500 text-blue-400': modifier === BADGE_MODIFIER[1],
-              'hover:bg-green-200 hover:text-green-500 focus:bg-green-500 text-green-400':
+              'hover:bg-base-200 hover:text-base-500 focus:bg-base-500 text-base-400': modifier === BADGE_MODIFIER[0],
+              'hover:bg-brand-200 hover:text-brand-500 focus:bg-brand-500 text-brand-400':
+                modifier === BADGE_MODIFIER[1],
+              'hover:bg-success-200 hover:text-success-500 focus:bg-success-500 text-success-400':
                 modifier === BADGE_MODIFIER[2],
-              'hover:bg-red-200 hover:text-red-500 focus:bg-red-500 text-red-400': modifier === BADGE_MODIFIER[3],
-              'hover:bg-yellow-200 hover:text-yellow-500 focus:bg-yellow-500 text-yellow-400':
-                modifier === BADGE_MODIFIER[4]
+              'hover:bg-danger-200 hover:text-danger-500 focus:bg-danger-500 text-danger-400':
+                modifier === BADGE_MODIFIER[3],
+              'hover:bg-attention-200 hover:text-attention-500 focus:bg-attention-500 text-attention-400':
+                modifier === BADGE_MODIFIER[4],
+              'hover:bg-info-200 hover:text-info-500 focus:bg-info-500 text-info-400':
+                modifier === BADGE_MODIFIER[5]
             }
           )}
         >

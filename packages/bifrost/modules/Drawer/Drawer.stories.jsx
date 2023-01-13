@@ -100,10 +100,10 @@ Primary.parameters = {
 FormDrawer.args = {
   bodyNode: (
     <div className="flex flex-1 flex-col justify-between">
-      <div className="divide-y divide-gray-200 px-4 sm:px-6">
+      <div className="divide-y divide-base-200 px-4 sm:px-6">
         <div className="space-y-6 pt-6 pb-5">
           <div>
-            <label htmlFor="project-name" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="project-name" className="block text-sm font-medium text-base-900">
               Project name
             </label>
             <div className="mt-1">
@@ -111,12 +111,12 @@ FormDrawer.args = {
                 type="text"
                 name="project-name"
                 id="project-name"
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="description" className="block text-sm font-medium text-base-900">
               Description
             </label>
             <div className="mt-1">
@@ -124,13 +124,13 @@ FormDrawer.args = {
                 id="description"
                 name="description"
                 rows={4}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
                 defaultValue={''}
               />
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-900">Team Members</h3>
+            <h3 className="text-sm font-medium text-base-900">Team Members</h3>
             <div className="mt-2">
               <div className="flex space-x-2">
                 {team.map((person) => (
@@ -140,7 +140,7 @@ FormDrawer.args = {
                 ))}
                 <button
                   type="button"
-                  className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-base-200 bg-white text-base-400 hover:border-base-300 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
                 >
                   <span className="sr-only">Add team member</span>
                   <PlusIcon className="h-5 w-5" aria-hidden="true" />
@@ -149,7 +149,7 @@ FormDrawer.args = {
             </div>
           </div>
           <fieldset>
-            <legend className="text-sm font-medium text-gray-900">Privacy</legend>
+            <legend className="text-sm font-medium text-base-900">Privacy</legend>
             <div className="mt-2 space-y-5">
               <div className="relative flex items-start">
                 <div className="absolute flex h-5 items-center">
@@ -158,15 +158,15 @@ FormDrawer.args = {
                     name="privacy"
                     aria-describedby="privacy-public-description"
                     type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                     defaultChecked
                   />
                 </div>
                 <div className="pl-7 text-sm">
-                  <label htmlFor="privacy-public" className="font-medium text-gray-900">
+                  <label htmlFor="privacy-public" className="font-medium text-base-900">
                     Public access
                   </label>
-                  <p id="privacy-public-description" className="text-gray-500">
+                  <p id="privacy-public-description" className="text-base-500">
                     Everyone with the link will see this project.
                   </p>
                 </div>
@@ -179,14 +179,14 @@ FormDrawer.args = {
                       name="privacy"
                       aria-describedby="privacy-private-to-project-description"
                       type="radio"
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                     />
                   </div>
                   <div className="pl-7 text-sm">
-                    <label htmlFor="privacy-private-to-project" className="font-medium text-gray-900">
+                    <label htmlFor="privacy-private-to-project" className="font-medium text-base-900">
                       Private to project members
                     </label>
-                    <p id="privacy-private-to-project-description" className="text-gray-500">
+                    <p id="privacy-private-to-project-description" className="text-base-500">
                       Only members of this project would be able to access.
                     </p>
                   </div>
@@ -200,14 +200,14 @@ FormDrawer.args = {
                       name="privacy"
                       aria-describedby="privacy-private-to-project-description"
                       type="radio"
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                     />
                   </div>
                   <div className="pl-7 text-sm">
-                    <label htmlFor="privacy-private" className="font-medium text-gray-900">
+                    <label htmlFor="privacy-private" className="font-medium text-base-900">
                       Private to you
                     </label>
-                    <p id="privacy-private-description" className="text-gray-500">
+                    <p id="privacy-private-description" className="text-base-500">
                       You are the only one able to access this project.
                     </p>
                   </div>
@@ -220,15 +220,15 @@ FormDrawer.args = {
           <div className="flex text-sm">
             <a
               href="www.google.com"
-              className="group inline-flex items-center font-medium text-indigo-600 hover:text-indigo-900"
+              className="group inline-flex items-center font-medium text-brand-600 hover:text-brand-900"
             >
-              <LinkIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900" aria-hidden="true" />
+              <LinkIcon className="h-5 w-5 text-brand-500 group-hover:text-brand-900" aria-hidden="true" />
               <span className="ml-2">Copy link</span>
             </a>
           </div>
           <div className="mt-4 flex text-sm">
-            <a href="www.google.com" className="group inline-flex items-center text-gray-500 hover:text-gray-900">
-              <QuestionMarkCircleIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+            <a href="www.google.com" className="group inline-flex items-center text-base-500 hover:text-base-900">
+              <QuestionMarkCircleIcon className="h-5 w-5 text-base-400 group-hover:text-base-500" aria-hidden="true" />
               <span className="ml-2">Learn more about sharing</span>
             </a>
           </div>
@@ -246,11 +246,11 @@ FormDrawer.args = {
 
 WiderFormDrawer.args = {
   bodyNode: (
-    <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
+    <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-base-200 sm:py-0">
       {/* Project name */}
       <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
         <div>
-          <label htmlFor="project-name" className="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2">
+          <label htmlFor="project-name" className="block text-sm font-medium text-base-900 sm:mt-px sm:pt-2">
             Project name
           </label>
         </div>
@@ -259,7 +259,7 @@ WiderFormDrawer.args = {
             type="text"
             name="project-name"
             id="project-name"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
           />
         </div>
       </div>
@@ -267,7 +267,7 @@ WiderFormDrawer.args = {
       {/* Project description */}
       <div className="space-y-1 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
         <div>
-          <label htmlFor="project-description" className="block text-sm font-medium text-gray-900 sm:mt-px sm:pt-2">
+          <label htmlFor="project-description" className="block text-sm font-medium text-base-900 sm:mt-px sm:pt-2">
             Description
           </label>
         </div>
@@ -276,7 +276,7 @@ WiderFormDrawer.args = {
             id="project-description"
             name="project-description"
             rows={3}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
             defaultValue={''}
           />
         </div>
@@ -285,7 +285,7 @@ WiderFormDrawer.args = {
       {/* Team members */}
       <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
         <div>
-          <h3 className="text-sm font-medium text-gray-900">Team Members</h3>
+          <h3 className="text-sm font-medium text-base-900">Team Members</h3>
         </div>
         <div className="sm:col-span-2">
           <div className="flex space-x-2">
@@ -297,7 +297,7 @@ WiderFormDrawer.args = {
 
             <button
               type="button"
-              className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-base-200 bg-white text-base-400 hover:border-base-300 hover:text-base-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
             >
               <span className="sr-only">Add team member</span>
               <PlusIcon className="h-5 w-5" aria-hidden="true" />
@@ -309,7 +309,7 @@ WiderFormDrawer.args = {
       {/* Privacy */}
       <fieldset className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
         <legend className="sr-only">Privacy</legend>
-        <div className="text-sm font-medium text-gray-900" aria-hidden="true">
+        <div className="text-sm font-medium text-base-900" aria-hidden="true">
           Privacy
         </div>
         <div className="space-y-5 sm:col-span-2">
@@ -321,15 +321,15 @@ WiderFormDrawer.args = {
                   name="privacy"
                   aria-describedby="public-access-description"
                   type="radio"
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                   defaultChecked
                 />
               </div>
               <div className="pl-7 text-sm">
-                <label htmlFor="public-access" className="font-medium text-gray-900">
+                <label htmlFor="public-access" className="font-medium text-base-900">
                   Public access
                 </label>
-                <p id="public-access-description" className="text-gray-500">
+                <p id="public-access-description" className="text-base-500">
                   Everyone with the link will see this project
                 </p>
               </div>
@@ -341,14 +341,14 @@ WiderFormDrawer.args = {
                   name="privacy"
                   aria-describedby="restricted-access-description"
                   type="radio"
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                 />
               </div>
               <div className="pl-7 text-sm">
-                <label htmlFor="restricted-access" className="font-medium text-gray-900">
+                <label htmlFor="restricted-access" className="font-medium text-base-900">
                   Private to Project Members
                 </label>
-                <p id="restricted-access-description" className="text-gray-500">
+                <p id="restricted-access-description" className="text-base-500">
                   Only members of this project would be able to access
                 </p>
               </div>
@@ -360,37 +360,37 @@ WiderFormDrawer.args = {
                   name="privacy"
                   aria-describedby="private-access-description"
                   type="radio"
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500"
                 />
               </div>
               <div className="pl-7 text-sm">
-                <label htmlFor="private-access" className="font-medium text-gray-900">
+                <label htmlFor="private-access" className="font-medium text-base-900">
                   Private to you
                 </label>
-                <p id="private-access-description" className="text-gray-500">
+                <p id="private-access-description" className="text-base-500">
                   You are the only one able to access this project
                 </p>
               </div>
             </div>
           </div>
-          <hr className="border-gray-200" />
+          <hr className="border-base-200" />
           <div className="space-between sm:space-between flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0">
             <div className="flex-1">
               <a
                 href="www.google.com"
-                className="group flex items-center space-x-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-900"
+                className="group flex items-center space-x-2.5 text-sm font-medium text-brand-600 hover:text-brand-900"
               >
-                <LinkIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900" aria-hidden="true" />
+                <LinkIcon className="h-5 w-5 text-brand-500 group-hover:text-brand-900" aria-hidden="true" />
                 <span>Copy link</span>
               </a>
             </div>
             <div>
               <a
                 href="www.google.com"
-                className="group flex items-center space-x-2.5 text-sm text-gray-500 hover:text-gray-900"
+                className="group flex items-center space-x-2.5 text-sm text-base-500 hover:text-base-900"
               >
                 <QuestionMarkCircleIcon
-                  className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                  className="h-5 w-5 text-base-400 group-hover:text-base-500"
                   aria-hidden="true"
                 />
                 <span>Learn more about sharing</span>

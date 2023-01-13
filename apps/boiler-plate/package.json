@@ -16,13 +16,15 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
-    "@browserstack/vite-config": "workspace:*",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
+    "@browserstack/vite-config": "workspace:*",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@types/react": "^18.0.26",
