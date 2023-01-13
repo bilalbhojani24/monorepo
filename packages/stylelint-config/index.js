@@ -2,10 +2,9 @@
 
 module.exports = {
   // plugins: ['stylelint-scss', variableLintRules],
-  plugins: ['stylelint-scss', 'stylelint-order'],
+  plugins: ['stylelint-scss'],
   extends: ['stylelint-config-standard-scss', 'stylelint-prettier/recommended'],
   rules: {
-    'order/properties-alphabetical-order': true,
     // 'browserstack/consistent-css-variables': [
     //   ['color', 'font-size'],
     //   {
@@ -13,6 +12,7 @@ module.exports = {
     //     mappedFiles: {},
     //   },
     // ],
+    'declaration-block-no-duplicate-properties': true,
     'string-quotes': 'single',
     'at-rule-no-unknown': [
       true,
