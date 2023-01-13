@@ -12,7 +12,7 @@ import {
   TMTextArea,
 } from 'bifrostProxy';
 import AppRoute from 'const/routes';
-import { updateProjects } from 'slices/index';
+import { updateProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { setEditProjectModalVisibility } from '../slices/projectSlice';

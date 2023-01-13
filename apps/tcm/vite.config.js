@@ -13,7 +13,7 @@ export default defineConfig({
       assets: path.resolve(__dirname, 'src/assets'),
       const: path.resolve(__dirname, 'src/const'),
       features: path.resolve(__dirname, 'src/features'),
-      globalSlice: path.resolve(__dirname, 'src/slices'),
+      globalSlice: path.resolve(__dirname, 'src/globalSlice'),
       utils: path.resolve(__dirname, 'src/utils'),
       bifrostProxy: path.resolve(__dirname, 'src/bifrostProxy'),
     },

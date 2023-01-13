@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { setSelectedProject } from 'slices/index';
+import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
