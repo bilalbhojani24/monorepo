@@ -10,7 +10,7 @@ const DetailsSnippet = ({ title, value }) => (
 
 DetailsSnippet.propTypes = {
   title: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType(PropTypes.string, PropTypes.node),
 };
 
 DetailsSnippet.defaultProps = {

@@ -1,32 +1,22 @@
 import React, { useEffect } from 'react';
-import { TMDrawer } from 'bifrostProxy';
+import TestCaseDetailsView from 'features/TestCaseDetailsView';
 
 // import Folders from './components/Folders';
 import BlankPage from './components/BlankPage';
 import Folders from './components/Folders';
 import TestCases from './components/TestCases';
-import TestCaseView from './components/TestCaseView';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
 import useTestCases from './components/useTestCases';
-import useTestCaseView from './components/useTestCaseView';
 
 const Repository = () => {
   const { allFolders, fetchAllFolders } = useFolders();
-  const { fetchAllTestCases, folderId, projectId, isTestCaseViewVisible } =
-    useTestCases();
-  const { testCaseId, fetchTestCaseDetails, hideTestCaseViewDrawer } =
-    useTestCaseView();
+  const { fetchAllTestCases, folderId, projectId } = useTestCases();
 
   useEffect(() => {
     fetchAllFolders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
-
-  useEffect(() => {
-    fetchTestCaseDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testCaseId]);
 
   useEffect(() => {
     fetchAllTestCases();
@@ -55,14 +45,7 @@ const Repository = () => {
           )}
         </div>
       </div>
-      {isTestCaseViewVisible && (
-        <TMDrawer
-          onClose={hideTestCaseViewDrawer}
-          title="Check Register flow as Tester"
-          description=""
-          bodyNode={<TestCaseView />}
-        />
-      )}
+      <TestCaseDetailsView />
     </div>
   );
 };
