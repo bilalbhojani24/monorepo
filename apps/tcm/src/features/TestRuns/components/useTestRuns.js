@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestRuns } from 'api/testruns.api';
 
-// import { setSelectedProject } from 'globalSlice/globalSlice';
 import { setAddTestRun, updateAllTestRuns } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
@@ -36,11 +35,7 @@ const useTestRuns = () => {
   };
 
   const handleTestRunFieldChange = (key, value) => {
-    setTestRunFormData((prevState) => {
-      const newState = { ...prevState };
-      newState[`${key}`] = value;
-      return newState;
-    });
+    setTestRunFormData({ ...testRunFormData, [key]: value });
   };
 
   return {

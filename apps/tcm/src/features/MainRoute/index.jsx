@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';

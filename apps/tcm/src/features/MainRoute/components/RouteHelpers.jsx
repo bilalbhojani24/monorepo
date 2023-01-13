@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
