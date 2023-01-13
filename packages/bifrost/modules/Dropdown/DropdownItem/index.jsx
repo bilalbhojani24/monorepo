@@ -3,10 +3,11 @@ import { Menu } from '@headlessui/react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-const DropdownItem = ({ option, index }) => (
+const DropdownItem = ({ option, index, callback }) => (
   <Menu.Item>
     {({ active }) => (
       <button
+        onClick={callback}
         type="button"
         className={classNames(
           {
@@ -31,10 +32,12 @@ DropdownItem.propTypes = {
     divider: PropTypes.bool,
   }),
   index: PropTypes.number,
+  callback: PropTypes.func,
 };
 DropdownItem.defaultProps = {
   option: {},
   index: 0,
+  callback: () => {},
 };
 
 export default DropdownItem;

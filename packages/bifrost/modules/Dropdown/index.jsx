@@ -13,10 +13,16 @@ const Dropdown = (props) => {
     options,
     triggerTitle,
     triggerVariant,
-    headerRequired,
+    headerVisible,
     heading,
     subHeading,
+    onClick,
   } = props;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    onClick(e);
+  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -35,7 +41,7 @@ const Dropdown = (props) => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-base-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {headerRequired && (
+          {headerVisible && (
             <div className="px-4 py-3">
               <p className="text-sm">{heading}</p>
               <p className="truncate text-sm font-medium text-base-900">
@@ -46,10 +52,10 @@ const Dropdown = (props) => {
           <div className="py-1">
             {options.map((option, optionIdx) => (
               <DropdownItem
-                onClick={option.onClick}
                 key={`${option.body}-${option.id}`}
                 index={optionIdx}
                 option={option}
+                callback={handleClick}
               />
             ))}
           </div>
@@ -70,35 +76,19 @@ Dropdown.propTypes = {
     }),
   ),
   triggerVariant: PropTypes.oneOf(DROPDOWN_TYPES),
-  headerRequired: PropTypes.bool,
+  headerVisible: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
+  onClick: PropTypes.func,
 };
 Dropdown.defaultProps = {
   triggerTitle: 'Options',
-  options: [
-    {
-      id: '1',
-      body: 'Edit',
-      callback: () => {},
-    },
-    {
-      id: '2',
-      body: 'Duplicate',
-      callback: () => {},
-      divider: false,
-    },
-    {
-      id: '3',
-      body: 'Archive',
-      callback: () => {},
-      divider: true,
-    },
-  ],
+  options: [],
   triggerVariant: DROPDOWN_TYPES[0],
-  headerRequired: false,
-  heading: 'Signed in as',
-  subHeading: 'tom@example.com',
+  headerVisible: false,
+  heading: '',
+  subHeading: '',
+  onClick: () => {},
 };
 
 export default Dropdown;

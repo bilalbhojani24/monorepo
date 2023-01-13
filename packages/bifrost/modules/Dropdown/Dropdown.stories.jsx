@@ -29,20 +29,41 @@ const defaultConfig = {
       options: DROPDOWN_TYPES,
       description: 'Lorem Ipsum',
     },
-    headerRequired: {
+    headerVisible: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
       description: 'Lorem Ipsum',
+      defaultValue: false,
     },
     heading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem Ipsum',
+      defaultValue: 'Lorem',
     },
     subHeading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem Ipsum',
+      defaultValue: 'Ipsum',
+    },
+    options: {
+      defaultValue: [
+        {
+          id: '1',
+          body: 'Edit',
+        },
+        {
+          id: '2',
+          body: 'Duplicate',
+          divider: false,
+        },
+        {
+          id: '3',
+          body: 'Archive',
+          divider: true,
+        },
+      ],
     },
   },
   controls: {},
