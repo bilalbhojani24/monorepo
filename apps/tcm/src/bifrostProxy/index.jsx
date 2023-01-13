@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Badge,
   Button,
   DataTable,
   Drawer,
@@ -36,3 +37,4 @@ export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
+export const TMBadge = (props) => <Badge {...props} />;
