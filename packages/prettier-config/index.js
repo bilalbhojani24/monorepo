@@ -8,11 +8,7 @@
 
 // explore for rules : http://json.schemastore.org/prettierrc
 
-const prettierPluginTalwind = require('prettier-plugin-tailwindcss');
-
 module.exports = {
-  plugins: ['prettier-plugin-css-order', prettierPluginTalwind],
-  tailwindConfig: 'packages/tailwind-config/tailwind.config.js',
   pluginSearchDirs: false,
   printWidth: 80,
   tabWidth: 2,

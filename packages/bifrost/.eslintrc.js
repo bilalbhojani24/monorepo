@@ -1,8 +1,13 @@
-const prettierConfig = require("./.prettierrc.js");
+const tailwindConfig = require('./tailwind.config.js');
 
 module.exports = {
-  extends: ["@browserstack/eslint-config"],
+  extends: ['@browserstack/eslint-config'],
   rules: {
-    "prettier/prettier": [2, prettierConfig],
+    'tailwindcss/no-custom-classname': [
+      2,
+      {
+        config: tailwindConfig,
+      },
+    ],
   },
 };
