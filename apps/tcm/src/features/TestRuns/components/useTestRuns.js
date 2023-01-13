@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addTestRun, getTestRuns } from 'api/testruns.api';
-import { setSelectedProject } from 'globalSlice/globalSlice';
+import { getTestRuns } from 'api/testruns.api';
 
-import {
-  setAddTestRunsModalVisibility,
-  updateAllTestRuns,
-} from '../slices/testRunsSlice';
+import { setAddTestRun, updateAllTestRuns } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
+  const [testRunFormData, setTestRunFormData] = useState({
+    name: '',
+    description: '',
+    state: '',
+    assignTo: '',
+  });
+
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const allTestRunsArray = useSelector(
@@ -19,8 +22,8 @@ const useTestRuns = () => {
     (state) => state.testRuns.showAddTestRunsForm,
   );
 
-  const showTestRunAddForm = () => {
-    dispatch(setAddTestRunsModalVisibility(true));
+  const showTestRunAddFormHandler = () => {
+    dispatch(setAddTestRun(true));
   };
 
   const fetchAllTestRuns = () => {
@@ -31,12 +34,18 @@ const useTestRuns = () => {
     else dispatch(updateAllTestRuns([]));
   };
 
+  const handleTestRunFieldChange = (key, value) => {
+    setTestRunFormData({ ...testRunFormData, [key]: value });
+  };
+
   return {
     allTestRunsArray,
-    showAddTestRunsForm,
-    showTestRunAddForm,
-    projectId,
     fetchAllTestRuns,
+    handleTestRunFieldChange,
+    projectId,
+    testRunFormData,
+    showTestRunAddFormHandler,
+    showAddTestRunsForm,
   };
 };
 

@@ -9,11 +9,11 @@ const testRunslice = createSlice({
   name: 'testRuns',
   initialState,
   reducers: {
-    setTestRuns: (state, { payload }) => {
-      state.activeTestRuns = payload;
-    },
     setAddTestRun: (state, { payload }) => {
-      state.addTestRun = payload;
+      state.showAddTestRunsForm = payload;
+    },
+    addSingleTestRun: (state, { payload }) => {
+      state.allTestRunsArray.push(payload);
     },
     updateAllTestRuns: (state, { payload }) => {
       state.allTestRunsArray = payload;
@@ -21,6 +21,6 @@ const testRunslice = createSlice({
   },
 });
 
-export const { setAddTestRunsModalVisibility, updateAllTestRuns } =
+export const { addSingleTestRun, updateAllTestRuns, setAddTestRun } =
   testRunslice.actions;
 export default testRunslice.reducer;
