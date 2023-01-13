@@ -54,7 +54,7 @@ const TestCaseMutliData = () => {
 
       {selectedTab === TABS_ARRAY[0] && (
         <>
-          {!testRunsDetails ? (
+          {testRunsDetails && testRunsDetails.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
