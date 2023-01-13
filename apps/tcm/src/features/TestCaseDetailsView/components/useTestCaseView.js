@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestCaseDetails } from 'api/testcases.api';
 
+import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
   setTestCaseDetails,
   setTestCaseViewVisibility,
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCases() {
+  const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   // const [inputError, setInputError] = useState(false);
   const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
@@ -24,6 +27,10 @@ export default function useTestCases() {
   );
   const testRunsDetails = useSelector(
     (state) => state.testCaseDetails.testCaseDetails?.test_runs || null,
+  );
+  const testCaseIssues = useSelector(
+    (state) =>
+      state.testCaseDetails.testCaseDetails?.test_case?.jira_tickets || null,
   );
 
   const currentFlow = `${selectedFolder?.name || '...'} > ${
@@ -43,10 +50,14 @@ export default function useTestCases() {
     dispatch(setTestCaseViewVisibility(false));
   };
 
-  const handleTabChange = () => {};
+  const handleTabChange = (value) => {
+    setTab(value);
+  };
 
   return {
+    selectedTab,
     currentFlow,
+    testCaseIssues,
     testCaseId,
     testCaseDetails,
     testRunsDetails,

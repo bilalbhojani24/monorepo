@@ -1,12 +1,18 @@
 import React from 'react';
-import { TMBadge, TMDataTable, TMTabs } from 'bifrostProxy';
+import {
+  TMBadge,
+  TMDataTable,
+  TMStackedListWSingleColumn,
+  TMTabs,
+} from 'bifrostProxy';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseMutliData = () => {
-  const { testRunsDetails, handleTabChange } = useTestCaseView();
+  const { selectedTab, testRunsDetails, testCaseIssues, handleTabChange } =
+    useTestCaseView();
 
   const tableColumns = [
     {
@@ -45,14 +51,36 @@ const TestCaseMutliData = () => {
         tabsArray={TABS_ARRAY}
         onTabChange={handleTabChange}
       />
-      <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
-        <TMDataTable
-          isHeaderCapitalize
-          columns={tableColumns}
-          rows={testRunsDetails}
-          isFullWhite={false}
+
+      {selectedTab === TABS_ARRAY[0] && (
+        <>
+          {!testRunsDetails ? (
+            <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
+              <TMDataTable
+                isHeaderCapitalize
+                columns={tableColumns}
+                rows={testRunsDetails}
+                isFullWhite={false}
+              />
+            </div>
+          ) : (
+            'No Data'
+          )}
+        </>
+      )}
+
+      {selectedTab === TABS_ARRAY[1] && (
+        <TMStackedListWSingleColumn
+          format="with_truncated_content_preview"
+          list={testCaseIssues.map((item) => ({
+            ...item,
+            heading: item.jira_id,
+            subHeading: item.jira_id,
+            textAside: item.jira_id,
+            preview: item.test_case_id,
+          }))}
         />
-      </div>
+      )}
     </>
   );
 };

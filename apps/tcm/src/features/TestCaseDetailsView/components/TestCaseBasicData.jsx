@@ -9,7 +9,7 @@ const TestCaseBasicData = () => {
 
   return (
     <>
-      <div className="mb-4 flex w-full items-center text-xs">
+      <div className="mb-4 flex w-full text-xs">
         <div className="mr-1 font-semibold">Location:</div>
         <div className="text-base-700">{currentFlow}</div>
       </div>
@@ -33,7 +33,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Estimate"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.estimate || 'N/A'}
             />
           </div>
           <div className="w-3/6">
@@ -45,7 +45,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Priority"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.priority || 'N/A'}
             />
           </div>
           <div className="w-3/6">

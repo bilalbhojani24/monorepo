@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { TMButton, TMTabs } from 'bifrostProxy';
+import React from 'react';
+import { TMButton } from 'bifrostProxy';
 
 import TestCaseBasicData from './TestCaseBasicData';
 import TestCaseMutliData from './TestCaseMutliData';
