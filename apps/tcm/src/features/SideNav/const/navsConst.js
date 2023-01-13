@@ -1,13 +1,12 @@
-import AppRoute from 'const/routes';
 import {
   AssignmentOutlinedIcon,
   BarChartOutlinedIcon,
   CodeOutlinedIcon,
-  DonutLargeOutlinedIcon,
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
   SettingsOutlinedIcon,
-} from 'Icons';
+} from 'assets/icons';
+import AppRoute from 'const/routes';
 
 export const basePrimaryNavLinks = [
   {

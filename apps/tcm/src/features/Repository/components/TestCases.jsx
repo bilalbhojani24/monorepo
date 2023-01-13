@@ -1,12 +1,12 @@
 import React from 'react';
-import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
   SearchIcon,
-} from 'Icons';
+} from 'assets/icons';
+import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
 
 import AddTestCase from './AddTestCase';
 import BlankPage from './BlankPage';
@@ -26,15 +26,15 @@ export default function TestCases() {
   const formatPriority = (priority) => {
     switch (priority) {
       case 'high':
-        return <ArrowUpwardOutlinedIcon className="mr-2 text-danger-500" />;
+        return <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
       case 'low':
-        return <ArrowDownwardOutlinedIcon className="mr-2 text-success-500" />;
+        return <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
       case 'critical':
         return (
-          <KeyboardDoubleArrowUpOutlinedIcon className="mr-2 text-danger-700" />
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
         );
       case 'medium':
-        return <RemoveOutlinedIcon className="mr-2 text-brand-500" />;
+        return <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
       default:
         return '';
     }
@@ -53,7 +53,7 @@ export default function TestCases() {
       cell: (rowData) => (
         <div
           role="button"
-          className="cursor-pointer hover:text-brand-600"
+          className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
@@ -75,12 +75,12 @@ export default function TestCases() {
     {
       name: '',
       key: 'action',
-      cell: (rowData) => (
+      cell: () => (
         <TMDropdown
           options={[{ id: '1', name: 'Edit' }]}
           triggerVariant="meatball-button"
           onClick={() => {
-            console.log(rowData);
+            // console.log(rowData);
           }}
         >
           Edit
@@ -93,7 +93,7 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full flex-col items-start">
-      <div className="flex w-full items-start border-b border-base-300 py-3 pr-3">
+      <div className="border-base-300 flex w-full items-start border-b py-3 pr-3">
         <div className="w-full">
           <TMInputField
             placeholder="Search by Test Case name, ID"
@@ -110,14 +110,14 @@ export default function TestCases() {
           Filter
         </TMButton>
       </div>
-      <div className="flex w-full flex-1 flex-col border-l border-base-300">
+      <div className="border-base-300 flex w-full flex-1 flex-col border-l">
         {selectedFolder && (
-          <div className="w-full border-b border-base-200 px-4 py-4">
-            <div className="w-full font-medium text-base-800">
+          <div className="border-base-200 w-full border-b p-4">
+            <div className="text-base-800 w-full font-medium">
               {selectedFolder?.name}
             </div>
             {selectedFolder?.notes && (
-              <div className="mt-1 w-full text-base-500">
+              <div className="text-base-500 mt-1 w-full">
                 {selectedFolder?.notes}
               </div>
             )}

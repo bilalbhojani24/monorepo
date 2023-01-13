@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addTestRun } from 'api/testruns.api';
+import { PostAddIcon } from 'assets/icons';
 import {
   TMInputField,
   TMInputWButton,
@@ -9,7 +10,6 @@ import {
   TMSelectMenu,
 } from 'bifrostProxy';
 
-import { PostAddIcon } from '../../Icons';
 import { ASSIGN_TO_OPTIONS, STATE_OPTIONS } from '../const/immutableConst';
 import { addSingleTestRun, setAddTestRun } from '../slices/testRunsSlice';
 
@@ -34,7 +34,7 @@ const AddTestRuns = () => {
   };
 
   return (
-    <div className="flex w-full flex-1 flex-col items-stretch border-l border-base-200">
+    <div className="border-base-200 flex w-full flex-1 flex-col items-stretch border-l">
       <TMPageHeadings
         heading="Create New Test Runs"
         actionsData={[
@@ -54,8 +54,8 @@ const AddTestRuns = () => {
           },
         ]}
       />
-      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
-        <div className="flex flex-1 flex-col items-stretch justify-start overflow-hidden border border-base-200 bg-white p-4 sm:rounded-lg">
+      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
+        <div className="border-base-200 flex flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white p-4 sm:rounded-lg">
           <div className="mt-4">
             <TMInputField
               id="test-run-name"
@@ -95,7 +95,7 @@ const AddTestRuns = () => {
             />
           </div>
           {/* <div> */}
-          <div className="mt-4 text-lg font-medium text-base-900">
+          <div className="text-base-900 mt-4 text-lg font-medium">
             Associated Test Cases
           </div>
           <div className="mt-4">

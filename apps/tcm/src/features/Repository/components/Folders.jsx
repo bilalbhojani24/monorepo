@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { CreateNewFolderOutlinedIcon } from 'assets/icons';
 import { TMButton } from 'bifrostProxy';
 import AppRoute from 'const/routes';
-import { CreateNewFolderOutlinedIcon } from 'Icons';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import AddFolderModal from './AddFolderModal';
@@ -18,7 +18,7 @@ export default function Folders() {
   return (
     <div className="flex flex-col">
       {isAddFolderModalVisible && <AddFolderModal projectId={projectId} />}
-      <div className="flex items-center border-b border-base-300 p-3">
+      <div className="border-base-300 flex items-center border-b p-3">
         <span className="text-base">Folders</span>
         <TMButton
           buttonType="half-rounded-button"
@@ -46,6 +46,7 @@ export default function Folders() {
 }
 
 // this is obviously temporary skip its errors
+// eslint-disable-next-line react/prop-types
 const FolderItem = ({ title, onClick, id }) => {
   const { projectId } = useParams();
   return (
@@ -54,7 +55,7 @@ const FolderItem = ({ title, onClick, id }) => {
         projectId,
         folderId: id,
       })}
-      className="w-full cursor-pointer border-b border-base-200 p-2"
+      className="border-base-200 w-full cursor-pointer border-b p-2"
       onClick={onClick}
     >
       {title}
