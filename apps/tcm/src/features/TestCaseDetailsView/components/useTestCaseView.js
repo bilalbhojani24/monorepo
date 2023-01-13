@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestCaseDetails } from 'api/testcases.api';
@@ -40,7 +39,7 @@ export default function useTestCases() {
     }
   };
 
-  const hideTestCaseViewDrawer = () => () => {
+  const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
   };
 
