@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
-import { setLoginURL, setUser } from 'globalSlice/globalSlice';
+import { setLoginURL, setUser } from 'globalSlice';
 
 const useAuthentication = () => {
   const navigate = useNavigate();

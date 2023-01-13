@@ -3,7 +3,7 @@ import projectReducer from 'features/Projects/slices/projectSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
 import testCaseDetailsReducer from 'features/TestCaseDetailsView/slices/testCaseDetailsSlice';
 import testRunsReducer from 'features/TestRuns/slices/testRunsSlice';
-import globalReducer from 'globalSlice/globalSlice';
+import globalReducer from 'globalSlice';
 
 export const store = configureStore({
   reducer: {
