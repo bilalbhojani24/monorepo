@@ -47,6 +47,7 @@ const link = (
         <span aria-hidden="true"> &rarr;</span>
       </a>
     );
+  return null;
 };
 
 const Alerts = (props) => {
@@ -70,22 +71,17 @@ const Alerts = (props) => {
     dismissButtonFn,
   } = props;
 
-  const renderAlertIcon = (modifier) => {
-    switch (modifier) {
-      case ALERT_MODIFIER[0]:
-        return (
-          <InformationCircleIcon
-            className={iconClassTypes}
-            aria-hidden="true"
-          />
-        );
-      case ALERT_MODIFIER[1]:
-        return (
-          <InformationCircleIcon
-            className={iconClassTypes}
-            aria-hidden="true"
-          />
-        );
+  const iconClassTypes = classNames('h-5 w-5 ', {
+    'text-base-400': modifier === ALERT_MODIFIER[0],
+    'text-brand-400': modifier === ALERT_MODIFIER[1],
+    'text-success-400': modifier === ALERT_MODIFIER[2],
+    'text-danger-400': modifier === ALERT_MODIFIER[3],
+    'text-attention-400': modifier === ALERT_MODIFIER[4],
+    'text-info-700': modifier === ALERT_MODIFIER[5],
+  });
+
+  const renderAlertIcon = (mod) => {
+    switch (mod) {
       case ALERT_MODIFIER[2]:
         return (
           <CheckCircleIcon className={iconClassTypes} aria-hidden="true" />
@@ -108,15 +104,6 @@ const Alerts = (props) => {
         );
     }
   };
-
-  const iconClassTypes = classNames('h-5 w-5 ', {
-    'text-base-400': modifier === ALERT_MODIFIER[0],
-    'text-brand-400': modifier === ALERT_MODIFIER[1],
-    'text-success-400': modifier === ALERT_MODIFIER[2],
-    'text-danger-400': modifier === ALERT_MODIFIER[3],
-    'text-attention-400': modifier === ALERT_MODIFIER[4],
-    'text-info-700': modifier === ALERT_MODIFIER[5],
-  });
 
   return (
     <>
@@ -192,7 +179,7 @@ const Alerts = (props) => {
                     {/* alert description */}
                     {typeof description === 'object' ? (
                       <div className="mt-2 text-sm">
-                        <ul role="list" className="list-disc space-y-1 pl-5">
+                        <ul className="list-disc space-y-1 pl-5">
                           {description?.map((descriptionItem, index) => (
                             <li key={`${descriptionItem}-${index}`}>
                               {descriptionItem}
@@ -349,15 +336,19 @@ Alerts.propTypes = {
         `'${propName}' can only be of type 'String' if no value is assigned to 'title' prop.`,
       );
     }
+    return null;
   },
   title: (props, propName) => {
-    if (props.title && props.dismissButton) {
+    const { title, dismissButton } = props;
+    if (title && dismissButton) {
       return new Error(
         `'${propName}' prop and 'dismissButton' prop should not be passed together.`,
       );
     }
+    return null;
   },
   dismissButtonFn: PropTypes.func,
+  textColorClass: PropTypes.string,
 };
 
 Alerts.defaultProps = {
@@ -377,6 +368,7 @@ Alerts.defaultProps = {
   betaActionTitle: '',
   dismissButton: false,
   dismissButtonFn: () => {},
+  textColorClass: '',
 };
 
 export default Alerts;

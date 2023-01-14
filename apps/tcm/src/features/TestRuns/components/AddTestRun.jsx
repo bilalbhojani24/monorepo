@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addTestRun } from 'api/testruns.api';
+import { PostAddIcon } from 'assets/icons';
 import {
   TMInputField,
   TMInputWButton,
@@ -10,7 +11,6 @@ import {
 } from 'bifrostProxy';
 
 import { getFolders } from '../../../api/folders.api';
-import { PostAddIcon } from '../../Icons';
 import { ASSIGN_TO_OPTIONS, STATE_OPTIONS } from '../const/immutableConst';
 import {
   addSingleTestRun,

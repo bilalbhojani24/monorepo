@@ -6,7 +6,6 @@ const initialState = {
   selectedFolder: null,
   showAddFolderModal: false,
   isAddTestCasePageVisible: false,
-  isTestCaseViewVisible: false,
   newTestCaseData: {
     name: '',
     description: '',
@@ -17,7 +16,6 @@ const initialState = {
     state: '',
     precondition: '',
   },
-  testCaseDetails: null,
 };
 
 export const repositorySlice = createSlice({
@@ -38,12 +36,6 @@ export const repositorySlice = createSlice({
     },
     setAddFolderModalVisibility: (state, { payload }) => {
       state.showAddFolderModal = payload;
-    },
-    setTestCaseViewVisibility: (state, { payload }) => {
-      state.isTestCaseViewVisible = payload;
-    },
-    setTestCaseDetails: (state, { payload }) => {
-      state.testCaseDetails = payload;
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
@@ -66,9 +58,7 @@ export const {
   setSelectedFolder,
   updateAllTestCases,
   setAddTestCaseVisibility,
-  setTestCaseViewVisibility,
   updateTestCaseFormData,
-  setTestCaseDetails,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;
