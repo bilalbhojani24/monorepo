@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestRuns } from 'api/testruns.api';
 
-import { setAddTestRun, updateAllTestRuns } from '../slices/testRunsSlice';
+import {
+  setAddTestRun,
+  setAddTestRunFormData,
+  updateAllTestRuns,
+} from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
-  const [testRunFormData, setTestRunFormData] = useState({
-    name: '',
-    description: '',
-    state: '',
-    assignTo: '',
-  });
-
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const allTestRunsArray = useSelector(
@@ -20,6 +16,12 @@ const useTestRuns = () => {
   );
   const showAddTestRunsForm = useSelector(
     (state) => state.testRuns.showAddTestRunsForm,
+  );
+  const testRunFormData = useSelector(
+    (state) => state.testRuns.testRunFormData,
+  );
+  const showAddTestCaseModal = useSelector(
+    (state) => state.testRuns.showAddTestCaseModal,
   );
 
   const showTestRunAddFormHandler = () => {
@@ -34,8 +36,8 @@ const useTestRuns = () => {
     else dispatch(updateAllTestRuns([]));
   };
 
-  const handleTestRunFieldChange = (key, value) => {
-    setTestRunFormData({ ...testRunFormData, [key]: value });
+  const handleTestRunFieldChange = (key1, key2) => (e) => {
+    dispatch(setAddTestRunFormData({ key1, key2, value: e.target.value }));
   };
 
   return {
@@ -46,6 +48,7 @@ const useTestRuns = () => {
     testRunFormData,
     showTestRunAddFormHandler,
     showAddTestRunsForm,
+    showAddTestCaseModal,
   };
 };
 
