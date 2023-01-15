@@ -17,30 +17,32 @@ const TableCell = ({
   align,
   children,
   className,
+  colspan,
   onSort,
-  variant,
   sortable,
   sortDirection,
   textTransform,
+  variant,
 }) => {
   const [sortDir, setSortDir] = useState(sortDirection);
   return (
     <td
-      className={`text-base-500 whitespace-nowrap px-3 py-4 text-sm ${className} ${classNames(
-        {
-          'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
-            variant === CELL_VARIANT[1],
-          [`text-${align}`]: align,
-          [textTransform]: textTransform,
-        },
-      )}`}
+      className={`${classNames({
+        'text-base-500 whitespace-nowrap px-3 py-4 text-sm':
+          variant === CELL_VARIANT[0],
+        'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
+          variant === CELL_VARIANT[1],
+        [`text-${align}`]: align,
+        [textTransform]: textTransform,
+      })} ${className}`}
+      colSpan={colspan}
     >
-      <div className="group inline-flex items-center">
+      <div className="inline-flex">
         {children}
         {sortable ? (
           <button
             type="button"
-            className="group/abcd:bg-success-200 bg-base-200 text-base-900 hover:bg-base-300 ml-2 flex-none rounded"
+            className="bg-base-200 text-base-900 hover:bg-base-300 ml-2 inline-flex flex-none self-center rounded"
             onClick={() => {
               if (onSort) {
                 const direction =
@@ -52,7 +54,7 @@ const TableCell = ({
               }
             }}
           >
-            {sortDir === CELL_DIRECTION[0] ? (
+            {sortDir === CELL_DIRECTION[1] ? (
               <ChevronUpIcon
                 className={classNames('h-5 w-5 cursor-pointer')}
                 aria-hidden="true"
@@ -74,10 +76,11 @@ TableCell.propTypes = {
   align: PropTypes.oneOf(CELL_ALIGNMENT),
   children: PropTypes.node,
   className: PropTypes.node,
+  colspan: PropTypes.number,
   onSort: PropTypes.func,
-  textTransform: PropTypes.oneOf(CELL_TEXT_TRANSFORM),
   sortDirection: PropTypes.string,
   sortable: PropTypes.bool,
+  textTransform: PropTypes.oneOf(CELL_TEXT_TRANSFORM),
   variant: PropTypes.oneOf(CELL_VARIANT),
 };
 
@@ -85,11 +88,12 @@ TableCell.defaultProps = {
   align: CELL_ALIGNMENT[0],
   children: null,
   className: '',
+  colspan: 0,
   onSort: () => {},
-  textTransform: CELL_TEXT_TRANSFORM[0],
   sortable: false,
   sortDirection: CELL_DIRECTION[0],
-  variant: CELL_ALIGNMENT[0],
+  textTransform: CELL_TEXT_TRANSFORM[0],
+  variant: CELL_VARIANT[0],
 };
 
 export default TableCell;

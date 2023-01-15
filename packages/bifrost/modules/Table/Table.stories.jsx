@@ -1,7 +1,10 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
+import Checkbox from '../Checkbox';
 import TableBody from '../TableBody';
 import TableCell from '../TableCell';
 import TableHead from '../TableHead';
@@ -29,12 +32,13 @@ const columns = [
     key: 'role',
   },
   {
-    name: 'Price',
-    key: 'price',
-  },
-  {
-    name: 'Quantity',
-    key: 'quantity',
+    name: '',
+    key: 'action',
+    cell: () => (
+      <Button variant="mininal" colors="brand">
+        Edit
+      </Button>
+    ),
   },
 ];
 
@@ -44,24 +48,18 @@ const rows = [
     title: 'Front-end Developer',
     email: 'lindsay.walton@example.com',
     role: 'Member',
-    quantity: '12.00',
-    price: '$123',
   },
   {
     name: 'Courtney Henry',
     title: 'Designer',
     email: 'courtney.henry@example.com',
     role: 'Admin',
-    quantity: '19.00',
-    price: '$1230',
   },
   {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-    quantity: '21.00',
-    price: '$12388',
+    name: 'Courtney Henry',
+    title: 'Designer',
+    email: 'courtney.henry@example.com',
+    role: 'Admin',
   },
 ];
 
@@ -94,9 +92,9 @@ const defaultConfig = {
                 <TableCell
                   key={col.key}
                   variant="header"
-                  sortable
-                  onSort={(dir) => {
-                    handleSort(col, dir);
+                  sortable={col.isSortable}
+                  onSort={(key) => {
+                    handleSort(col, key);
                   }}
                 >
                   {col.name}
@@ -106,10 +104,14 @@ const defaultConfig = {
           </TableHead>
           <TableBody>
             {rows.map((row, idx) => (
-              <TableRow hover selected={idx % 2 !== 0}>
+              <TableRow key={idx}>
                 {columns.map((column) => {
                   const value = row[column.key];
-                  return <TableCell key={column.id}>{value}</TableCell>;
+                  return (
+                    <TableCell key={column.id}>
+                      {column.cell ? <>{column.cell(row)}</> : value}
+                    </TableCell>
+                  );
                 })}
               </TableRow>
             ))}
@@ -128,11 +130,442 @@ const defaultConfig = {
   },
   controls: {},
 };
+
 const Template = (args) => <Table {...args} />;
+const FullWidthTableTemplate = (args) => <Table {...args} />;
+const StripedTableTemplate = (args) => <Table {...args} />;
+const UppercaseHeadingTableTemplate = (args) => <Table {...args} />;
+const WhiteBackgroundTableTemplate = (args) => <Table {...args} />;
+const MultiLineContentTableTemplate = (args) => <Table {...args} />;
+const GroupedRowsTableTemplate = (args) => <Table {...args} />;
+const StickyHeaderTableTemplate = (args) => <Table {...args} />;
+const SelectableTableTemplate = (args) => <Table {...args} />;
+
 const Primary = Template.bind({});
+const FullWidthTable = FullWidthTableTemplate.bind({});
+const StripedTable = StripedTableTemplate.bind({});
+const UppercaseHeadingTable = UppercaseHeadingTableTemplate.bind({});
+const WhiteBackgroundTable = WhiteBackgroundTableTemplate.bind({});
+const MultiLineContentTable = MultiLineContentTableTemplate.bind({});
+const GroupedRowsTable = GroupedRowsTableTemplate.bind({});
+const StickyHeaderTable = StickyHeaderTableTemplate.bind({});
+const SelectableTable = SelectableTableTemplate.bind({});
+
 Primary.parameters = {
   controls: {},
 };
 
 export default defaultConfig;
-export { Primary };
+export {
+  FullWidthTable,
+  GroupedRowsTable,
+  MultiLineContentTable,
+  Primary,
+  SelectableTable,
+  StickyHeaderTable,
+  StripedTable,
+  UppercaseHeadingTable,
+  WhiteBackgroundTable,
+};
+
+// Fullwidth Table start
+FullWidthTable.args = {
+  containerClass: 'md:rounded-none',
+};
+// Fullwidth Table end
+
+// Group row Table start
+const GRTColumns = [
+  {
+    name: 'Name',
+    key: 'name',
+  },
+  {
+    name: 'Title',
+    key: 'title',
+  },
+  {
+    name: 'Email',
+    key: 'role',
+  },
+  {
+    name: 'Role',
+    key: 'role',
+  },
+];
+const GRTRows = [
+  {
+    name: 'Edinburgh',
+    people: [
+      {
+        name: 'Lindsay Walton',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member',
+      },
+      {
+        name: 'Courtney Henry',
+        title: 'Designer',
+        email: 'courtney.henry@example.com',
+        role: 'Admin',
+      },
+    ],
+  },
+  {
+    name: 'London',
+    people: [
+      {
+        name: 'Tom cook',
+        title: 'Front-end Developer',
+        email: 'lindsay.walton@example.com',
+        role: 'Member',
+      },
+      {
+        name: 'Whitney Francis',
+        title: 'Designer',
+        email: 'courtney.henry@example.com',
+        role: 'Admin',
+      },
+    ],
+  },
+];
+GroupedRowsTable.args = {
+  children: (
+    <>
+      <TableHead className="bg-white">
+        <TableRow>
+          {GRTColumns.map((col) => (
+            <TableCell key={col.key} variant="header">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {GRTRows.map((row, idx) => (
+          <>
+            <TableRow>
+              <TableCell variant="header" className="bg-base-50" colspan={4}>
+                {row.name}
+              </TableCell>
+            </TableRow>
+            {row.people.map((per, perIdx) => (
+              <TableRow key={idx + perIdx}>
+                {GRTColumns.map((column) => {
+                  const value = per[column.key];
+                  return (
+                    <TableCell key={column.id}>
+                      {column.cell ? <>{column.cell(row)}</> : value}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// Group row Table end
+
+// MultiLineContentTable Table start
+const MLCColumns = [
+  {
+    name: 'Name',
+    key: 'name',
+    cell: (value) => (
+      <div className="flex items-center">
+        <div className="h-10 w-10 shrink-0">
+          <img className="h-10 w-10 rounded-full" src={value.image} alt="" />
+        </div>
+        <div className="ml-4">
+          <div className="text-base-900 font-medium">{value.name}</div>
+          <div className="text-base-500">{value.email}</div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Title',
+    key: 'title',
+    cell: (row) => (
+      <>
+        <div className="text-base-900">{row.title}</div>
+        <div className="text-base-500">{row.department}</div>
+      </>
+    ),
+  },
+  {
+    name: 'Status',
+    key: 'status',
+    cell: () => (
+      <span className="bg-success-100 text-success-800 inline-flex rounded-full px-2 text-xs font-semibold leading-5">
+        Active
+      </span>
+    ),
+  },
+  {
+    name: 'Role',
+    key: 'role',
+  },
+  {
+    name: '',
+    key: 'action',
+    cell: (row) => (
+      <a href="/" className="hover:text-brand-900 text-brand-600">
+        Edit<span className="sr-only">, {row.name}</span>
+      </a>
+    ),
+  },
+];
+const MLCRows = [
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    department: 'Optimization',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    department: 'Optimization',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    department: 'Optimization',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+];
+MultiLineContentTable.args = {
+  containerClass: 'md:rounded-none',
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {MLCColumns.map((col) => (
+            <TableCell key={col.key} variant="header">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {MLCRows.map((row, idx) => (
+          <TableRow key={idx}>
+            {MLCColumns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell(row)}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// MultiLineContentTable Table end
+
+// Sticky Header Table start
+StickyHeaderTable.args = {
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell
+              key={col.key}
+              variant="header"
+              className="bg-base-50 border-base-300 sticky top-0 z-10 border-b"
+            >
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+  containerClass: 'overflow-visible overflow-x-visible md:rounded-none',
+};
+// Sticky Header Table end
+
+// SelectableTable Table start
+SelectableTable.args = {
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col, id) => (
+            <>
+              {id === 0 ? (
+                <>
+                  <TableCell
+                    key={col.key}
+                    variant="header"
+                    className="flex items-center"
+                  >
+                    <Checkbox wrapperClass="!p-0" border={false} />
+                    {col.name}
+                  </TableCell>
+                </>
+              ) : (
+                <TableCell key={col.key} variant="header">
+                  {col.name}
+                </TableCell>
+              )}
+            </>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column, colIdx) => {
+              const value = row[column.key];
+              return (
+                <>
+                  {colIdx === 0 ? (
+                    <TableCell key={column.id} className="flex items-center">
+                      <Checkbox border={false} wrapperClass="!p-0" />
+                      {column.cell ? <>{column.cell}</> : value}
+                    </TableCell>
+                  ) : (
+                    <TableCell key={column.id}>
+                      {column.cell ? <>{column.cell}</> : value}
+                    </TableCell>
+                  )}
+                </>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// SelectableTable Table end
+
+// Striped Table start
+StripedTable.args = {
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell key={col.key} variant="header">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx} selected={idx % 2 !== 0}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// Striped Table end
+
+// UppercaseHeadingTable Table start
+UppercaseHeadingTable.args = {
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell key={col.key} variant="header" textTransform="uppercase">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// UppercaseHeadingTable Table end
+
+// WhiteBackgroundTable Table start
+WhiteBackgroundTable.args = {
+  containerClass: 'bg-white ring-0 shadow-none',
+  children: (
+    <>
+      <TableHead className="bg-white">
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell key={col.key} variant="header" textTransform="uppercase">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// WhiteBackgroundTable Table end
