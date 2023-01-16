@@ -75,7 +75,7 @@ const defaultConfig = {
     docs: {
       page: () => (
         <DocPageTemplate
-          importStatement={"import Table from 'bifrost/Table'"}
+          importStatement={"import {Table} from '@browserstack/bifrost'"}
         />
       ),
     },

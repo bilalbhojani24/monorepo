@@ -1,24 +1,29 @@
 import React from 'react';
-import TableBody from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
+import TableBody from './index';
+
 const defaultConfig = {
-    title: 'Application/Components/TableBody',
-    component: TableBody,
-    parameters: {
-        docs: {
-        page: () => {
-            return <DocPageTemplate importStatement={"import TableBody from 'bifrost/TableBody'"} />;
-        }
-        }
+  title: 'Application/Components/TableBody',
+  component: TableBody,
+  parameters: {
+    docs: {
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import {TableBody} from '@browserstack/bifrost'"}
+        />
+      ),
     },
-    argTypes: {},
-    controls: {}
+  },
+
+  argTypes: {},
+  controls: {},
 };
 const Template = (args) => <TableBody {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;
