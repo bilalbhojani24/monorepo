@@ -20,6 +20,7 @@ import {
   StackedListWSingleColumn,
   Tabs,
   TextArea,
+  Tooltip,
 } from '@browserstack/bifrost';
 
 export const TMPageHeadings = (props) => <PageHeadings {...props} />;
@@ -40,6 +41,7 @@ export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
+export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );

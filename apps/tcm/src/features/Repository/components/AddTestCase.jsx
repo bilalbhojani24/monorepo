@@ -1,5 +1,10 @@
 import React from 'react';
-import { TMInputField, TMSectionHeadings, TMSelectMenu } from 'bifrostProxy';
+import {
+  TMInputField,
+  TMSectionHeadings,
+  TMSelectMenu,
+  TMTooltip,
+} from 'bifrostProxy';
 
 import {
   ownerOptions,
@@ -22,7 +27,7 @@ const AddTestCase = () => {
   } = useTestCases();
 
   return (
-    <div className="w-full border-l border-base-200 p-4 pt-4">
+    <div className="border-base-200 w-full border-l p-4">
       <TMSectionHeadings
         title={`${selectedFolder?.name} / ${newTestCaseData?.name}`}
         variant="buttons"
@@ -119,7 +124,18 @@ const AddTestCase = () => {
       <div className="mt-4">
         <TMInputField
           id="test-case-estimate"
-          label="Estimate"
+          label={
+            <>
+              Estimate{' '}
+              <TMTooltip
+                description="test test"
+                placementSide="bottom"
+                theme="dark"
+              >
+                <span />
+              </TMTooltip>
+            </>
+          }
           placeholder="Eg: 1m, 2.5h, 2d etc"
           onChange={(e) =>
             handleTestCaseFieldChange('estimate', e.currentTarget.value)
