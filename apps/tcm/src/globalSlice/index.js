@@ -14,8 +14,18 @@ export const globalSlice = createSlice({
     setProjects: (state, { payload }) => {
       state.activeProjects = payload;
     },
-    updateProjects: (state, { payload }) => {
+    addProject: (state, { payload }) => {
       state.activeProjects.push(payload);
+    },
+    updateProject: (state, { payload }) => {
+      state.activeProjects = state.activeProjects.map((item) =>
+        item.id === payload.id ? payload : item,
+      );
+    },
+    deleteProject: (state, { payload }) => {
+      state.activeProjects = state.activeProjects.filter(
+        (item) => item.id !== payload.id,
+      );
     },
     setUser: (state, { payload }) => {
       state.user = payload;
@@ -30,10 +40,12 @@ export const globalSlice = createSlice({
 });
 
 export const {
+  updateProject,
+  deleteProject,
   setProjects,
   setUser,
   setSelectedProject,
-  updateProjects,
+  addProject,
   setLoginURL,
 } = globalSlice.actions;
 

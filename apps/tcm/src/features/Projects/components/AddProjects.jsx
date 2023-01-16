@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addProjects } from 'api/projects.api';
+import { addProjectsAPI } from 'api/projects.api';
 import {
   TMButton,
   TMInputField,
@@ -12,7 +12,7 @@ import {
   TMTextArea,
 } from 'bifrostProxy';
 import AppRoute from 'const/routes';
-import { updateProjects } from 'globalSlice';
+import { addProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
@@ -22,7 +22,6 @@ const AddProjects = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    access: 'private_proj',
   });
 
   const dispatch = useDispatch();
@@ -31,8 +30,8 @@ const AddProjects = () => {
   };
 
   const createProjectHandler = () => {
-    addProjects(formData).then((res) => {
-      dispatch(updateProjects(res.data.project));
+    addProjectsAPI(formData).then((res) => {
+      dispatch(addProject(res.data.project));
       navigate(
         routeFormatter(AppRoute.TEST_CASES, {
           projectId: res.data.project.id,

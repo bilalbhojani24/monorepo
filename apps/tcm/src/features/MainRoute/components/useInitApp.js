@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { getProjects } from 'api/projects.api';
+import { getProjectsAPI } from 'api/projects.api';
 import { setProjects } from 'globalSlice';
 
 const useInitApp = () => {
   const dispatch = useDispatch();
 
   const initApp = () => {
-    getProjects().then((res) => {
+    getProjectsAPI().then((res) => {
       dispatch(setProjects(res.projects));
     });
   };

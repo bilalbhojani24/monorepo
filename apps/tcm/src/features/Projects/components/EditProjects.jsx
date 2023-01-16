@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { editProjects } from 'api/projects.api';
+import { editProjectAPI } from 'api/projects.api';
 import {
   TMButton,
   TMInputField,
@@ -9,21 +8,21 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
+  TMSelectMenu,
   TMTextArea,
 } from 'bifrostProxy';
-import AppRoute from 'const/routes';
-import { updateProjects } from 'globalSlice';
-import { routeFormatter } from 'utils/helperFunctions';
+import { updateProject } from 'globalSlice';
 
+import { projectStatus } from '../const/projectsConst';
 import { setEditProjectModalVisibility } from '../slices/projectSlice';
 
+import useProjects from './useProjects';
+
 const EditProjects = () => {
-  const projectId = null;
-  const navigate = useNavigate();
+  const { selectedProject } = useProjects();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    access: 'private_proj',
   });
 
   const dispatch = useDispatch();
@@ -31,18 +30,25 @@ const EditProjects = () => {
     dispatch(setEditProjectModalVisibility(false));
   };
 
-  const createProjectHandler = () => {
-    editProjects(projectId, formData).then((res) => {
-      dispatch(updateProjects(res.data.project));
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.data.project.id,
-        }),
-      );
+  const editProjectHandler = () => {
+    editProjectAPI(selectedProject.id, {
+      project: formData,
+    }).then((res) => {
+      dispatch(updateProject(res.data.project));
       hideEditProjectModal();
     });
   };
 
+  useEffect(() => {
+    if (selectedProject)
+      setFormData({
+        name: selectedProject.name,
+        description: selectedProject.description,
+        state: selectedProject.state,
+      });
+  }, [selectedProject]);
+
+  // debugger;
   return (
     <TMModal show withDismissButton onOverlayClick={hideEditProjectModal}>
       <TMModalHeader
@@ -60,14 +66,23 @@ const EditProjects = () => {
             }
           />
         </div>
-        <TMTextArea
-          label="Description"
-          placeholder="Explaining in brief about the project description"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.currentTarget.value })
-          }
-        />
+        <div className="mb-4">
+          <TMTextArea
+            label="Description"
+            placeholder="Explaining in brief about the project description"
+            defaultValue={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.currentTarget.value })
+            }
+          />
+        </div>
+        <div className="w-2/4">
+          <TMSelectMenu
+            label="State"
+            onChange={(e) => setFormData({ ...formData, state: e.value })}
+            options={projectStatus}
+          />
+        </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton
@@ -80,7 +95,7 @@ const EditProjects = () => {
         <TMButton
           variant="primary"
           wrapperClassName="ml-3"
-          onClick={createProjectHandler}
+          onClick={editProjectHandler}
         >
           Update Project
         </TMButton>

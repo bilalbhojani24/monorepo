@@ -14,6 +14,7 @@ import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 
 export {
   ArrowDownwardOutlinedIcon,
@@ -32,4 +33,5 @@ export {
   SearchIcon,
   SettingsOutlinedIcon,
   SourceOutlinedIcon,
+  WarningAmberOutlinedIcon,
 };
