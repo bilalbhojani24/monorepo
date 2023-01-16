@@ -6,10 +6,10 @@ import './styles.scss';
 
 const TableRow = ({ children, className, hover, selected }) => (
   <tr
-    className={`${className} ${classNames({
+    className={classNames(className, {
       'cursor-pointer hover:bg-base-50': hover,
       'bg-base-50': selected,
-    })}`}
+    })}
   >
     {children}
   </tr>
