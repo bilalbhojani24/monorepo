@@ -1,15 +1,23 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getTestCases = async ({ folderId, projectId }) =>
-  await fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`);
+export const getTestCasesAPI = async ({ folderId, projectId }) =>
+  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`);
 
-export const addTestCase = async ({ projectId, folderId, payload }) =>
-  await fetchPost(
+export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
+  fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases`,
     payload,
   );
+export const deleteTestCaseAPI = async ({ projectId, folderId, testCaseId }) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/delete`,
+  );
 
-export const getTestCaseDetails = async ({ folderId, projectId, testCaseId }) =>
-  await fetchGet(
+export const getTestCaseDetailsAPI = async ({
+  folderId,
+  projectId,
+  testCaseId,
+}) =>
+  fetchGet(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`,
   );

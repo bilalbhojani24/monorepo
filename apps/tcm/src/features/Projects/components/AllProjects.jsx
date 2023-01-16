@@ -1,9 +1,11 @@
 import React from 'react';
 import { TMDataTable, TMDropdown, TMPageHeadings } from 'bifrostProxy';
 import AppRoute from 'const/routes';
-import { string } from 'prop-types';
+
+import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
+import DeleteProjects from './DeleteProjects';
 import EditProjects from './EditProjects';
 import useProjects from './useProjects';
 
@@ -13,7 +15,9 @@ const AllProjects = () => {
     addingProject,
     showAddModal,
     showEditModal,
+    showDeleteModal,
     handleClickDynamicLink,
+    onDropDownChange,
   } = useProjects();
   const tableColumns = [
     {
@@ -22,7 +26,7 @@ const AllProjects = () => {
       cell: (rowData) => (
         <div
           role="button"
-          className="cursor-pointer hover:text-brand-600"
+          className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
@@ -37,7 +41,7 @@ const AllProjects = () => {
       cell: (rowData) => (
         <div
           role="button"
-          className="cursor-pointer hover:text-brand-600"
+          className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
@@ -56,14 +60,14 @@ const AllProjects = () => {
             onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
             role="button"
             tabIndex={0}
-            className="cursor-pointer hover:text-brand-600"
+            className="hover:text-brand-600 cursor-pointer"
           >
             {rowData.test_cases_count} Test Cases
           </span>
           <span
             tabIndex={0}
             role="button"
-            className="ml-6 cursor-pointer hover:text-brand-600"
+            className="hover:text-brand-600 ml-6 cursor-pointer"
             onClick={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
             onKeyDown={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
           >
@@ -75,14 +79,12 @@ const AllProjects = () => {
     {
       name: '',
       key: 'action',
-      cell: () => (
+      cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={[
-            { id: '1', name: 'Edit Project' },
-            { id: '2', name: 'Delete' },
-          ]}
+          onClick={(e) => onDropDownChange(e, data)}
+          options={dropDownOptions}
         />
       ),
     },
@@ -90,7 +92,7 @@ const AllProjects = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-b border-base-300">
+      <div className="border-base-300 border-b">
         <TMPageHeadings
           heading="All Projects"
           actionsData={[
@@ -103,8 +105,8 @@ const AllProjects = () => {
           ]}
         />
       </div>
-      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
-        <div className="flex flex-1  flex-col items-stretch justify-start overflow-hidden border border-base-200 bg-white sm:rounded-lg">
+      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
+        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white sm:rounded-lg">
           <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
@@ -116,6 +118,7 @@ const AllProjects = () => {
       </div>
       {showAddModal && <AddProjects />}
       {showEditModal && <EditProjects />}
+      {showDeleteModal && <DeleteProjects />}
     </div>
   );
 };

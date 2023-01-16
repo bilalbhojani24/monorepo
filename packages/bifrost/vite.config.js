@@ -6,6 +6,7 @@ const { packageViteConfig } = require('@browserstack/vite-config');
 export default defineConfig(() => ({
   ...packageViteConfig,
   build: {
+    minify: false,
     lib: {
       entry: resolve('./index.js'),
       name: 'BiFrOsT',

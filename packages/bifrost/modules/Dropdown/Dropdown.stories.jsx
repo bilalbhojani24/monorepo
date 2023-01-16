@@ -1,52 +1,72 @@
 import React from 'react';
-import Dropdown from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
 import { DROPDOWN_TYPES } from './const/dropdownConstants';
+import Dropdown from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Dropdown',
   component: Dropdown,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Dropdown from 'bifrost/Dropdown'"} />;
-      }
-    }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Dropdown from 'bifrost/Dropdown'"}
+        />
+      ),
+    },
   },
   argTypes: {
     triggerTitle: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum'
-    },
-    dividerRequired: {
-      control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum'
+      description: 'Lorem Ipsum',
     },
     triggerVariant: {
       control: { type: 'inline-radio' },
       type: { summary: DROPDOWN_TYPES.join(', '), required: false },
       options: DROPDOWN_TYPES,
-      description: 'Lorem Ipsum'
+      description: 'Lorem Ipsum',
     },
-    headerRequired: {
+    headerVisible: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum'
+      description: 'Lorem Ipsum',
+      defaultValue: false,
     },
     heading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum'
+      description: 'Lorem Ipsum',
+      defaultValue: 'Lorem',
     },
     subHeading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum'
-    }
+      description: 'Lorem Ipsum',
+      defaultValue: 'Ipsum',
+    },
+    options: {
+      defaultValue: [
+        {
+          id: '1',
+          body: 'Edit',
+        },
+        {
+          id: '2',
+          body: 'Duplicate',
+          divider: false,
+        },
+        {
+          id: '3',
+          body: 'Archive',
+          divider: true,
+        },
+      ],
+    },
   },
-  controls: {}
+  controls: {},
 };
 const Template = (args) => (
   <div className="flex justify-center">
@@ -55,7 +75,7 @@ const Template = (args) => (
 );
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;

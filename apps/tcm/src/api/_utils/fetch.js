@@ -7,8 +7,17 @@ export const fetchPost = async (url, data, config) => {
   return response.data;
 };
 
+export const fetchPatch = async (url, data, config) => {
+  const response = await axios.patch(BASE_URL + url, data, config);
+  return response.data;
+};
+
 export const fetchGet = async (url, config) => {
   const response = await axios.get(BASE_URL + url, config);
+  return response?.data;
+};
+export const fetchDel = async (url, config) => {
+  const response = await axios.delete(BASE_URL + url, config);
   return response?.data;
 };
 

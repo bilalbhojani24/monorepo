@@ -26,8 +26,8 @@ const Repository = () => {
   return (
     <div className="flex flex-1 flex-col items-stretch">
       <TopSection />
-      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
-        <div className="flex flex-1 items-stretch justify-center overflow-hidden border border-base-200 bg-white sm:rounded-lg">
+      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
+        <div className="border-base-200 flex flex-1 items-stretch justify-center overflow-hidden border bg-white sm:rounded-lg">
           {!allFolders.length ? (
             <BlankPage />
           ) : (
@@ -37,7 +37,7 @@ const Repository = () => {
               </section>
 
               <aside className="lg:order-first lg:block lg:shrink-0">
-                <div className="bg-gray-100 relative flex h-full w-96 flex-col overflow-y-auto">
+                <div className="relative flex h-full w-96 flex-col overflow-y-auto">
                   <Folders />
                 </div>
               </aside>
