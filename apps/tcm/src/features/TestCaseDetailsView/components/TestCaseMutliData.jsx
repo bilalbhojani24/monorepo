@@ -49,11 +49,17 @@ const TestCaseMutliData = () => {
     <>
       <TMTabs
         id="project-tabs"
-        tabsArray={TABS_ARRAY}
+        tabsArray={TABS_ARRAY.map((item) => ({
+          ...item,
+          count:
+            item.name === 'Results'
+              ? `${testRunsDetails.length}`
+              : `${testCaseIssues.length}`,
+        }))}
         onTabChange={handleTabChange}
       />
 
-      {selectedTab === TABS_ARRAY[0] && (
+      {selectedTab.name === TABS_ARRAY[0].name && (
         <>
           {testRunsDetails && testRunsDetails.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
@@ -70,7 +76,7 @@ const TestCaseMutliData = () => {
         </>
       )}
 
-      {selectedTab === TABS_ARRAY[1] && (
+      {selectedTab.name === TABS_ARRAY[1].name && (
         <TMStackedListWSingleColumn
           format="with_truncated_content_preview"
           list={testCaseIssues.map((item) => ({
