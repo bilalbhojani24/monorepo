@@ -1,4 +1,5 @@
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
@@ -18,6 +19,7 @@ import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
 
 export {
   ArrowDownwardOutlinedIcon,
+  ArrowForwardIcon,
   ArrowUpwardOutlinedIcon,
   AssignmentOutlinedIcon,
   BarChartOutlinedIcon,

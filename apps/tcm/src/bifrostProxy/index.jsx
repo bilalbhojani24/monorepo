@@ -15,6 +15,7 @@ import {
   ModalHeader,
   Notifications,
   PageHeadings,
+  RadioGroup,
   SectionHeadings,
   SelectMenu,
   StackedListWSingleColumn,
@@ -43,3 +44,4 @@ export const TMBadge = (props) => <Badge {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
+export const TMRadioGroup = (props) => <RadioGroup {...props} />;
