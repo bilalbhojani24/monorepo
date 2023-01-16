@@ -8,6 +8,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
@@ -26,6 +27,7 @@ export {
   DonutLargeOutlinedIcon,
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
+  InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   PostAddIcon,
   RemoveOutlinedIcon,

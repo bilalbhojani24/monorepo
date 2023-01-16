@@ -50,7 +50,7 @@ const TestCaseModal = (props) => {
         handleDismissClick={hideAddTestCaseModal}
       />
       <TMModalBody>
-        <div className="flex ">
+        <div className="flex">
           <FolderForModal allFolders={allFolders} />
           <TableForModal />
         </div>

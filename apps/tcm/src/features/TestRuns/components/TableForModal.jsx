@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestCases } from 'api/testcases.api';
-import { TMDataTable } from 'bifrostProxy';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
+  InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
-} from 'Icons';
+} from 'assets/icons';
+import { TMDataTable } from 'bifrostProxy';
 
 import { setAddTestRunFormData } from '../slices/testRunsSlice';
 
@@ -77,8 +78,11 @@ const TableForModal = () => {
 
   return (
     <div className="mt-4 grow">
-      <div className="rounded-t-md border border-solid border-base-200 p-4">
+      <div className="flex items-center rounded-t-md border border-solid border-base-200 p-4">
         {currentFolderName}
+        <span className="ml-1">
+          <InfoOutlinedIcon fontSize="inherit" />
+        </span>
       </div>
       <TMDataTable
         isSelectable

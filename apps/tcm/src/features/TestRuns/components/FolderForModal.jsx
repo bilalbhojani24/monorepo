@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { arrayOf, number, shape, string } from 'prop-types';
 
 import { setCurrentFolder } from '../slices/testRunsSlice';
 
@@ -11,7 +12,7 @@ const FolderForModal = (props) => {
     setCurrentFolder({ id: allFolders[0]?.id, name: allFolders[0]?.name }),
   );
   return (
-    <div className="mt-4 mr-4 grow-0 rounded-md border-2 border-solid border-base-200">
+    <div className="mt-4 mr-4 h-full grow-0 rounded-md border-2 border-solid border-base-200">
       <div className="border-b-2 border-solid border-base-200 p-4 text-sm font-semibold">
         Folders
       </div>
@@ -24,8 +25,21 @@ const FolderForModal = (props) => {
   );
 };
 
+FolderForModal.defaultProps = {
+  allFolders: arrayOf(
+    shape({
+      id: string,
+      name: string,
+      ui_position: number,
+    }),
+  ),
+};
+
+FolderForModal.defaultProps = {
+  allFolders: [],
+};
+
 const FolderItem = ({ title, id }) => {
-  //   const { projectId } = useParams();
   const dispatch = useDispatch();
 
   const itemClickHandler = () => {
@@ -44,6 +58,16 @@ const FolderItem = ({ title, id }) => {
       {title}
     </div>
   );
+};
+
+FolderItem.propTypes = {
+  title: string,
+  id: string,
+};
+
+FolderItem.defaultProps = {
+  title: '',
+  id: '',
 };
 
 export default FolderForModal;
