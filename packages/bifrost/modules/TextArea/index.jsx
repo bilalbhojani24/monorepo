@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import './styles.scss';
 
 const TextArea = (props) => {
-  const { defaultValue, disabled, id, label, name, rows } = props;
+  const { defaultValue, disabled, id, label, name, onChange, rows, value } =
+    props;
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-base-700">
+      <label htmlFor={id} className="text-base-700 block text-sm font-medium">
         {label}
       </label>
       <div className="mt-1">
@@ -15,9 +17,11 @@ const TextArea = (props) => {
           rows={rows}
           name={name}
           id={id}
-          className="block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
           defaultValue={defaultValue}
+          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm"
           disabled={disabled}
+          onChange={onChange}
+          value={value}
         />
       </div>
     </div>
@@ -30,15 +34,19 @@ TextArea.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string,
-  rows: PropTypes.number
+  onChange: PropTypes.func,
+  rows: PropTypes.number,
+  value: PropTypes.string,
 };
 TextArea.defaultProps = {
-  id: 'comment',
-  defaultValue: '',
+  id: '',
+  defaultValue: undefined,
   disabled: false,
-  label: 'Add your comment',
-  name: 'comment',
-  rows: 3
+  label: '',
+  name: '',
+  onChange: null,
+  rows: 3,
+  value: undefined,
 };
 
 export default TextArea;
