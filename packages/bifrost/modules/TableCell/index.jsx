@@ -54,7 +54,7 @@ const TableCell = ({
               }
             }}
           >
-            {sortDir === CELL_DIRECTION[1] ? (
+            {sortDir === CELL_DIRECTION[0] ? (
               <ChevronUpIcon
                 className={classNames('h-5 w-5 cursor-pointer')}
                 aria-hidden="true"

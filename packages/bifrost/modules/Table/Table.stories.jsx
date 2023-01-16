@@ -89,14 +89,7 @@ const defaultConfig = {
           <TableHead>
             <TableRow>
               {columns.map((col) => (
-                <TableCell
-                  key={col.key}
-                  variant="header"
-                  sortable={col.isSortable}
-                  onSort={(key) => {
-                    handleSort(col, key);
-                  }}
-                >
+                <TableCell key={col.key} variant="header">
                   {col.name}
                 </TableCell>
               ))}
@@ -140,6 +133,7 @@ const MultiLineContentTableTemplate = (args) => <Table {...args} />;
 const GroupedRowsTableTemplate = (args) => <Table {...args} />;
 const StickyHeaderTableTemplate = (args) => <Table {...args} />;
 const SelectableTableTemplate = (args) => <Table {...args} />;
+const SortableTableTemplate = (args) => <Table {...args} />;
 
 const Primary = Template.bind({});
 const FullWidthTable = FullWidthTableTemplate.bind({});
@@ -150,6 +144,7 @@ const MultiLineContentTable = MultiLineContentTableTemplate.bind({});
 const GroupedRowsTable = GroupedRowsTableTemplate.bind({});
 const StickyHeaderTable = StickyHeaderTableTemplate.bind({});
 const SelectableTable = SelectableTableTemplate.bind({});
+const SortableTable = SortableTableTemplate.bind({});
 
 Primary.parameters = {
   controls: {},
@@ -162,6 +157,7 @@ export {
   MultiLineContentTable,
   Primary,
   SelectableTable,
+  SortableTable,
   StickyHeaderTable,
   StripedTable,
   UppercaseHeadingTable,
@@ -472,6 +468,46 @@ SelectableTable.args = {
   ),
 };
 // SelectableTable Table end
+
+// sortable table start
+SortableTable.args = {
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell
+              key={col.key}
+              variant="header"
+              sortable={col.isSortable}
+              onSort={(key) => {
+                handleSort(col, key);
+              }}
+              sortDirection="desc"
+            >
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell(row)}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
+};
+// sortable table end
 
 // Striped Table start
 StripedTable.args = {
