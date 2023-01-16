@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTestCaseDetails } from 'api/testcases.api';
+import { getTestCaseDetailsAPI } from 'api/testcases.api';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
@@ -40,9 +40,11 @@ export default function useTestCases() {
   const fetchTestCaseDetails = () => {
     dispatch(setTestCaseViewVisibility(true));
     if (folderId && testCaseId) {
-      getTestCaseDetails({ projectId, folderId, testCaseId }).then((data) => {
-        dispatch(setTestCaseDetails(data || null));
-      });
+      getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
+        (data) => {
+          dispatch(setTestCaseDetails(data || null));
+        },
+      );
     }
   };
 

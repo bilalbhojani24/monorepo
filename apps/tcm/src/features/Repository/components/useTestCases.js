@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addTestCase, getTestCases } from 'api/testcases.api';
+import {
+  addTestCaseAPI,
+  deleteTestCaseAPI,
+  getTestCasesAPI,
+} from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { dropDownOptions } from '../const/testCaseConst';
 import {
   addSingleTestCase,
+  deleteTestCase,
   setAddTestCaseVisibility,
+  setDeleteTestCaseModalVisibility,
+  setEditTestCaseModalVisibility,
+  setSelectedTestCase,
   updateAllTestCases,
   updateTestCaseFormData,
 } from '../slices/repositorySlice';
@@ -31,6 +40,15 @@ export default function useTestCases() {
   const isTestCaseViewVisible = useSelector(
     (state) => state.repository.isTestCaseViewVisible,
   );
+  const showEditPage = useSelector(
+    (state) => state.repository.showEditTestCaseForm,
+  );
+  const showDeleteModal = useSelector(
+    (state) => state.repository.showDeleteTestCaseModal,
+  );
+  const selectedTestCase = useSelector(
+    (state) => state.repository.selectedTestCase,
+  );
 
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
@@ -41,7 +59,7 @@ export default function useTestCases() {
 
   const fetchAllTestCases = () => {
     if (folderId)
-      getTestCases({ projectId, folderId }).then((data) => {
+      getTestCasesAPI({ projectId, folderId }).then((data) => {
         dispatch(updateAllTestCases(data?.testcases || []));
       });
     else dispatch(updateAllTestCases([]));
@@ -50,7 +68,7 @@ export default function useTestCases() {
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);
     else {
-      addTestCase({
+      addTestCaseAPI({
         projectId,
         folderId,
         payload: { test_case: formData },
@@ -76,7 +94,35 @@ export default function useTestCases() {
     );
   };
 
+  const onDropDownChange = (e, selectedItem) => {
+    if (e.currentTarget.textContent === dropDownOptions[0].body) {
+      dispatch(setEditTestCaseModalVisibility(true));
+    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+      dispatch(setDeleteTestCaseModalVisibility(true));
+    }
+    dispatch(setSelectedTestCase(selectedItem));
+  };
+
+  const hideDeleteTestCaseModal = () => {
+    dispatch(setDeleteTestCaseModalVisibility(false));
+  };
+
+  const deleteTestCaseHandler = () => {
+    if (selectedTestCase)
+      deleteTestCaseAPI({
+        projectId,
+        folderId,
+        testCaseId: selectedTestCase.id,
+      }).then((res) => {
+        dispatch(deleteTestCase(res.data.project));
+        hideDeleteTestCaseModal();
+      });
+  };
+
   return {
+    hideDeleteTestCaseModal,
+    deleteTestCaseHandler,
+    onDropDownChange,
     handleTestCaseFieldChange,
     newTestCaseData,
     inputError,
@@ -91,5 +137,8 @@ export default function useTestCases() {
     fetchAllTestCases,
     handleTestCaseViewClick,
     isTestCaseViewVisible,
+    showEditPage,
+    showDeleteModal,
+    selectedTestCase,
   };
 }

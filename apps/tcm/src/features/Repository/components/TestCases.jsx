@@ -8,8 +8,11 @@ import {
 } from 'assets/icons';
 import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
 
+import { dropDownOptions } from '../const/testCaseConst';
+
 import AddTestCase from './AddTestCase';
 import BlankPage from './BlankPage';
+import DeleteTestCase from './DeleteTestCase';
 import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
@@ -17,6 +20,8 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    showDeleteModal,
+    onDropDownChange,
     selectedFolder,
     allTestCases,
     isAddTestCasePageVisible,
@@ -75,16 +80,12 @@ export default function TestCases() {
     {
       name: '',
       key: 'action',
-      cell: () => (
+      cell: (data) => (
         <TMDropdown
-          options={[{ id: '1', name: 'Edit' }]}
+          options={dropDownOptions}
           triggerVariant="meatball-button"
-          onClick={() => {
-            // console.log(rowData);
-          }}
-        >
-          Edit
-        </TMDropdown>
+          onClick={(e) => onDropDownChange(e, data)}
+        />
       ),
     },
   ];
@@ -141,6 +142,7 @@ export default function TestCases() {
           </div>
         )}
       </div>
+      {showDeleteModal && <DeleteTestCase />}
     </div>
   );
 }

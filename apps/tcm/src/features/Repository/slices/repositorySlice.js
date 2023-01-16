@@ -16,6 +16,9 @@ const initialState = {
     state: '',
     precondition: '',
   },
+  showEditTestCaseForm: false,
+  showDeleteTestCaseModal: false,
+  selectedTestCase: null,
 };
 
 export const repositorySlice = createSlice({
@@ -48,6 +51,24 @@ export const repositorySlice = createSlice({
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
     },
+    setEditTestCaseModalVisibility: (state, { payload }) => {
+      state.showEditTestCaseForm = payload;
+
+      if (!state.selectedTestCase) state.selectedTestCase = null;
+    },
+    setDeleteTestCaseModalVisibility: (state, { payload }) => {
+      state.showDeleteTestCaseModal = payload;
+
+      if (!state.selectedTestCase) state.selectedTestCase = null;
+    },
+    setSelectedTestCase: (state, { payload }) => {
+      state.selectedTestCase = payload;
+    },
+    deleteTestCase: (state, { payload }) => {
+      state.allTestCases = state.allTestCases.filter(
+        (item) => item.id !== payload.id,
+      );
+    },
   },
 });
 
@@ -59,6 +80,10 @@ export const {
   updateAllTestCases,
   setAddTestCaseVisibility,
   updateTestCaseFormData,
+  setDeleteTestCaseModalVisibility,
+  setEditTestCaseModalVisibility,
+  setSelectedTestCase,
+  deleteTestCase,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;
