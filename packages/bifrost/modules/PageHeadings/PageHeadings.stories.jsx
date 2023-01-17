@@ -1,26 +1,29 @@
 import React from 'react';
-import PageHeadings from './index';
-import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import {
   BriefcaseIcon,
   CalendarIcon,
   CurrencyDollarIcon,
-  MapPinIcon,
-  CheckIcon,
   LinkIcon,
-  PencilIcon
+  MapPinIcon,
+  PencilIcon,
 } from '@heroicons/react/20/solid';
+
+import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
+import PageHeadings from './index';
 
 const defaultConfig = {
   title: 'Application/Components/PageHeadings',
   component: PageHeadings,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import PageHeadings from 'bifrost/PageHeadings'"} />;
-      }
-    }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import PageHeadings from 'bifrost/PageHeadings'"}
+        />
+      ),
+    },
   },
   argTypes: {
     theme: {
@@ -28,14 +31,14 @@ const defaultConfig = {
       control: { type: 'select' },
       description: 'Set light or dark theme for the component.',
       type: { summary: 'STRING', required: false },
-      defaultValue: PAGE_HEADINGS_THEME[0]
+      defaultValue: PAGE_HEADINGS_THEME[0],
     },
-    breadcrumbData: {
+    breadcrumbs: {
       defaultValue: [
         { name: 'Jobs', url: 'www.google.com', current: true },
-        { name: 'Engineering', url: 'www.google.com', current: false },
-        { name: 'Frontend Engineers', url: 'www.google.com', current: false }
-      ]
+        { name: 'Engineering', url: 'www.youtube.com', current: false },
+        { name: 'Frontend Engineers', url: 'www.google.com', current: false },
+      ],
     },
     metaData: {
       defaultValue: [
@@ -43,77 +46,91 @@ const defaultConfig = {
           id: 'node-1',
           metaNode: (
             <>
-              <BriefcaseIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-base-400" aria-hidden="true" />
+              <BriefcaseIcon
+                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
+                aria-hidden="true"
+              />
               Full-time
             </>
-          )
+          ),
         },
         {
           id: 'node-2',
           metaNode: (
             <>
-              <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-base-400" aria-hidden="true" />
+              <MapPinIcon
+                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
+                aria-hidden="true"
+              />
               Remote
             </>
-          )
+          ),
         },
         {
           id: 'node-3',
           metaNode: (
             <>
-              <CurrencyDollarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-base-400" aria-hidden="true" />
+              <CurrencyDollarIcon
+                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
+                aria-hidden="true"
+              />
               $120k &ndash; $140k
             </>
-          )
+          ),
         },
         {
           id: 'node-4',
           metaNode: (
             <>
-              <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-base-400" aria-hidden="true" />
+              <CalendarIcon
+                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
+                aria-hidden="true"
+              />
               Closing on January 9, 2020
             </>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     },
-    actionsData: {
+    actions: {
       defaultValue: [
         {
           id: 'node-1',
-          actionsNode: (
-            <>
-              <PencilIcon className="-ml-1 mr-2 h-5 w-5 text-base-500" aria-hidden="true" />
-              Edit
-            </>
-          ),
-          actionFn: () => {
-            console.log('Action button fn 1');
+          actionProps: {
+            icon: (
+              <PencilIcon
+                className="text-base-500 -ml-1 mr-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            ),
+            children: 'Edit',
+            colors: 'white',
           },
-          variant: 'white'
+          callback: () => {},
         },
         {
           id: 'node-2',
-          actionsNode: (
-            <>
-              <LinkIcon className="-ml-1 mr-2 h-5 w-5 text-base-500" aria-hidden="true" />
-              View
-            </>
-          ),
-          actionFn: () => {
-            console.log('Action button fn 2');
+          actionProps: {
+            icon: (
+              <LinkIcon
+                className="-ml-1 mr-2 h-5 w-5 text-white"
+                aria-hidden="true"
+              />
+            ),
+            children: 'View',
+            variant: 'primary',
           },
-          variant: 'primary'
-        }
-      ]
-    }
+          callback: () => {},
+        },
+      ],
+    },
   },
-  controls: {}
+  controls: {},
 };
 const Template = (args) => <PageHeadings {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;
