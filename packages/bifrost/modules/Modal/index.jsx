@@ -1,7 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-// import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
