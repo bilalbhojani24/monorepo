@@ -17,8 +17,6 @@ export default defineConfig(() => ({
         ...packageViteConfig.build.rollupOptions.external,
         'prop-types',
       ],
-      preserveModules: true,
     },
-    minify: false,
   },
 }));
