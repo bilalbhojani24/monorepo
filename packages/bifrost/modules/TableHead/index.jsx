@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
+
 import './styles.scss';
 
 const TableHead = ({ children, wrapperClass }) => (
-  <thead className={`bg-base-50 ${wrapperClass}`}>{children}</thead>
+  <thead className={twClassNames('bg-base-50', wrapperClass)}>{children}</thead>
 );
 
 TableHead.propTypes = {
