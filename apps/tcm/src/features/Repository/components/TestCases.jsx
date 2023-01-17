@@ -10,7 +10,7 @@ import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
 
 import { dropDownOptions } from '../const/testCaseConst';
 
-import AddTestCase from './AddTestCase';
+import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
 import DeleteTestCase from './DeleteTestCase';
 import InlineAddTestCase from './InlineAddTestCase';
@@ -90,7 +90,7 @@ export default function TestCases() {
     },
   ];
 
-  if (isAddTestCasePageVisible && selectedFolder) return <AddTestCase />;
+  if (isAddTestCasePageVisible && selectedFolder) return <AddEditTestCase />;
 
   return (
     <div className="flex w-full flex-col items-start">

@@ -51,10 +51,8 @@ export const repositorySlice = createSlice({
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
     },
-    setEditTestCaseModalVisibility: (state, { payload }) => {
+    setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
-
-      if (!state.selectedTestCase) state.selectedTestCase = null;
     },
     setDeleteTestCaseModalVisibility: (state, { payload }) => {
       state.showDeleteTestCaseModal = payload;
@@ -81,7 +79,7 @@ export const {
   setAddTestCaseVisibility,
   updateTestCaseFormData,
   setDeleteTestCaseModalVisibility,
-  setEditTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
   setSelectedTestCase,
   deleteTestCase,
 } = repositorySlice.actions;

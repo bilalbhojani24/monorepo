@@ -16,7 +16,7 @@ import {
 
 import useTestCases from './useTestCases';
 
-const AddTestCase = () => {
+const AddEditTestCase = () => {
   const {
     handleTestCaseFieldChange,
     inputError,
@@ -146,4 +146,4 @@ const AddTestCase = () => {
   );
 };
 
-export default AddTestCase;
+export default AddEditTestCase;

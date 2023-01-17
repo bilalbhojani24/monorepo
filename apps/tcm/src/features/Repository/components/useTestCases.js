@@ -15,7 +15,7 @@ import {
   deleteTestCase,
   setAddTestCaseVisibility,
   setDeleteTestCaseModalVisibility,
-  setEditTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
   setSelectedTestCase,
   updateAllTestCases,
   updateTestCaseFormData,
@@ -55,6 +55,7 @@ export default function useTestCases() {
   };
   const hideTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(false));
+    dispatch(setEditTestCasePageVisibility(false));
   };
 
   const fetchAllTestCases = () => {
@@ -96,7 +97,8 @@ export default function useTestCases() {
 
   const onDropDownChange = (e, selectedItem) => {
     if (e.currentTarget.textContent === dropDownOptions[0].body) {
-      dispatch(setEditTestCaseModalVisibility(true));
+      dispatch(setEditTestCasePageVisibility(true));
+      dispatch(setAddTestCaseVisibility(true));
     } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
       dispatch(setDeleteTestCaseModalVisibility(true));
     }
