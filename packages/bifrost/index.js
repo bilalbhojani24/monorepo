@@ -5,7 +5,6 @@ import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
 import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
-import DataTable from './modules/DataTable/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
 import Drawer from './modules/Drawer/index';
@@ -47,6 +46,11 @@ import StackedListWTwoColumns from './modules/StackedListWTwoColumns/index';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
 import Switch from './modules/Switch/index';
+import Table from './modules/Table/index';
+import TableBody from './modules/TableBody/index';
+import TableCell from './modules/TableCell/index';
+import TableHead from './modules/TableHead/index';
+import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
 import Tooltip from './modules/Tooltip/index';
@@ -62,7 +66,6 @@ export {
   Checkbox,
   ColorPicker,
   ComboBox,
-  DataTable,
   DataVisualization,
   DescriptionList,
   Drawer,
@@ -104,6 +107,11 @@ export {
   Stats,
   Steps,
   Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Tabs,
   TextArea,
   Tooltip,
