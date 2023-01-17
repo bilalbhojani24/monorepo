@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
+
 import './styles.scss';
 
 const Table = ({ children, containerWrapperClass, tableWrapperClass }) => (
   <div
-    className={`overflow-hidden overflow-x-auto bg-white shadow ring-1 ring-black/5 md:rounded-lg ${containerWrapperClass}`}
+    className={twClassNames(
+      'overflow-hidden overflow-x-auto bg-white shadow ring-1 ring-black/5 md:rounded-lg',
+      containerWrapperClass,
+    )}
   >
     <table
-      className={`divide-base-300 min-w-full divide-y ${tableWrapperClass}`}
+      className={twClassNames(
+        'divide-base-300 min-w-full divide-y ',
+        tableWrapperClass,
+      )}
     >
       {children}
     </table>
