@@ -1,8 +1,6 @@
 import React from 'react';
 import { TMButton } from 'bifrostProxy';
 
-import ConfigurePlatform from './ConfigurePatlform';
-
 const ImportSteps = (props) => {
   const { steps } = props;
 
@@ -13,7 +11,6 @@ const ImportSteps = (props) => {
           <TMButton>{step.name}</TMButton>
         ))}
       </div>
-      <ConfigurePlatform />
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TMBadge, TMButton, TMRadioGroup } from 'bifrostProxy';
 
-import TermsAndConditions from './TermsAndConditions';
 import TestRailImportForm from './TestRailImportForm';
 
 const ConfigurePlatform = () => {
@@ -83,17 +82,16 @@ const ConfigurePlatform = () => {
                 ),
                 description: `Enter credentials we'll import your data`,
               },
-              //   {
-              //     id: 'upload-file',
-              //     name: 'Upload file',
-              //     description: `Upload TestRail’s XML file with test case data`,
-              //   },
+              {
+                id: 'upload-file',
+                name: 'Upload file',
+                description: `Upload TestRail’s XML file with test case data`,
+              },
             ]}
           />
         </div>
       </div>
       {getForm()}
-      <TermsAndConditions />
     </div>
   );
 };

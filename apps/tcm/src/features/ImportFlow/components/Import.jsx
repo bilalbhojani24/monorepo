@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ConfigurePlatform from './ConfigurePatlform';
 import ImportHeader from './ImportHeader';
 import Steps from './ImportSteps';
 
@@ -33,6 +34,7 @@ const Import = () => (
         { name: 'CONFIRM IMPORT' },
       ]}
     />
+    <ConfigurePlatform />
   </>
 );
 

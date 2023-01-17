@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTestCases } from 'api/testcases.api';
+import { getTestCasesAPI } from 'api/testcases.api';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
@@ -70,7 +70,7 @@ const TableForModal = () => {
 
   useEffect(() => {
     if (currentFolderId) {
-      getTestCases({ projectId, folderId: currentFolderId }).then((data) => {
+      getTestCasesAPI({ projectId, folderId: currentFolderId }).then((data) => {
         setTestCases(data.testcases);
       });
     }

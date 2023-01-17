@@ -26,8 +26,12 @@ const AddTestRuns = () => {
   const [folders, setFolders] = useState([]);
   // const [showAddTestCaseModal, setShowAddTestCaseModal] = useState(false);
   const { projectId } = useParams();
-  const { testRunFormData, handleTestRunFieldChange, showAddTestCaseModal } =
-    useTestRuns();
+  const {
+    testRunFormData,
+    handleTestRunInputFieldChange,
+    handleSelectMenuChange,
+    showAddTestCaseModal,
+  } = useTestRuns();
 
   const cancelTestRunHandler = () => {
     dispatch(setAddTestRun(false));
@@ -59,7 +63,7 @@ const AddTestRuns = () => {
                 actionsNode: <>Cancel</>,
                 actionFn: cancelTestRunHandler,
                 colors: 'white',
-                variant: 'primary',
+                variant: 'secondary',
               },
               {
                 id: 'create-test-run',
@@ -77,7 +81,7 @@ const AddTestRuns = () => {
                   value={testRunFormData.test_run.name}
                   id="test-run-name"
                   label="Test Run Name*"
-                  onChange={handleTestRunFieldChange('test_run', 'name')}
+                  onChange={handleTestRunInputFieldChange('test_run', 'name')}
                 />
               </div>
               <div className="mt-4">
@@ -85,7 +89,10 @@ const AddTestRuns = () => {
                   value={testRunFormData.test_run.description}
                   id="test-run-description"
                   label="Description"
-                  onChange={handleTestRunFieldChange('test_run', 'description')}
+                  onChange={handleTestRunInputFieldChange(
+                    'test_run',
+                    'description',
+                  )}
                 />
               </div>
               <div className="mt-4">
@@ -95,7 +102,7 @@ const AddTestRuns = () => {
                   label="Assign To"
                   isMultiSelect
                   options={ASSIGN_TO_OPTIONS}
-                  onChange={handleTestRunFieldChange('test_run', 'assignTo')}
+                  onChange={handleSelectMenuChange('test_run', 'assignTo')}
                 />
               </div>
               <div className="mt-4">
@@ -103,12 +110,10 @@ const AddTestRuns = () => {
                   defaultValue={STATE_OPTIONS[0]}
                   checkPosition="right"
                   label="State"
-                  isMultiSelect
                   options={STATE_OPTIONS}
-                  onChange={handleTestRunFieldChange('test_run', 'state')}
+                  onChange={handleSelectMenuChange('test_run', 'state')}
                 />
               </div>
-              {/* <div> */}
               <div className="mt-4 text-lg font-medium text-base-900">
                 Associated Test Cases
               </div>

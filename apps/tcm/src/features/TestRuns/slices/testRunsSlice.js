@@ -42,7 +42,9 @@ const testRunslice = createSlice({
           state.testRunFormData[payload.key1][payload.key2].push(payload.value);
 
         state.testRunFormData[payload.key1][payload.key2] = payload.value;
-      } else state.testRunFormData[payload.key1] = payload.value;
+      } else {
+        state.testRunFormData[payload.key1] = payload.value;
+      }
     },
     setAddTestCaseModal: (state, { payload }) => {
       state.showAddTestCaseModal = payload;

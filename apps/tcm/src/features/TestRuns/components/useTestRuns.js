@@ -36,14 +36,20 @@ const useTestRuns = () => {
     else dispatch(updateAllTestRuns([]));
   };
 
-  const handleTestRunFieldChange = (key1, key2) => (e) => {
+  const handleTestRunInputFieldChange = (key1, key2) => (e) => {
     dispatch(setAddTestRunFormData({ key1, key2, value: e.target.value }));
+  };
+
+  const handleSelectMenuChange = (key1, key2) => (value) => {
+    console.log('gone in select menu');
+    dispatch(setAddTestRunFormData({ key1, key2, value }));
   };
 
   return {
     allTestRunsArray,
     fetchAllTestRuns,
-    handleTestRunFieldChange,
+    handleTestRunInputFieldChange,
+    handleSelectMenuChange,
     projectId,
     testRunFormData,
     showTestRunAddFormHandler,
