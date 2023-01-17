@@ -112,11 +112,11 @@ const defaultConfig = {
         </>
       ),
     },
-    containerClass: {
+    containerWrapperClass: {
       option: { type: 'string' },
       defaultValue: '',
     },
-    tableClass: {
+    tableWrapperClass: {
       option: { type: 'string' },
       defaultValue: '',
     },
@@ -166,7 +166,7 @@ export {
 
 // Fullwidth Table start
 FullWidthTable.args = {
-  containerClass: 'md:rounded-none',
+  containerWrapperClass: 'md:rounded-none',
 };
 // Fullwidth Table end
 
@@ -228,7 +228,7 @@ const GRTRows = [
 GroupedRowsTable.args = {
   children: (
     <>
-      <TableHead className="bg-white">
+      <TableHead wrapperClass="bg-white">
         <TableRow>
           {GRTColumns.map((col) => (
             <TableCell key={col.key} variant="header">
@@ -241,7 +241,7 @@ GroupedRowsTable.args = {
         {GRTRows.map((row, idx) => (
           <>
             <TableRow>
-              <TableCell variant="header" className="bg-base-50" colspan={4}>
+              <TableCell variant="header" wrapperClass="bg-base-50" colspan={4}>
                 {row.name}
               </TableCell>
             </TableRow>
@@ -345,7 +345,7 @@ const MLCRows = [
   },
 ];
 MultiLineContentTable.args = {
-  containerClass: 'md:rounded-none',
+  containerWrapperClass: 'md:rounded-none',
   children: (
     <>
       <TableHead>
@@ -383,11 +383,7 @@ StickyHeaderTable.args = {
       <TableHead>
         <TableRow>
           {columns.map((col) => (
-            <TableCell
-              key={col.key}
-              variant="header"
-              className="bg-base-50 border-base-300 sticky top-0 z-10 border-b"
-            >
+            <TableCell key={col.key} variant="header" isSticky>
               {col.name}
             </TableCell>
           ))}
@@ -409,7 +405,7 @@ StickyHeaderTable.args = {
       </TableBody>
     </>
   ),
-  containerClass: 'overflow-visible overflow-x-visible md:rounded-none',
+  containerWrapperClass: 'overflow-visible overflow-x-visible md:rounded-none',
 };
 // Sticky Header Table end
 
@@ -426,7 +422,7 @@ SelectableTable.args = {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    className="flex items-center"
+                    wrapperClass="flex items-center"
                   >
                     <Checkbox wrapperClass="!p-0" border={false} />
                     {col.name}
@@ -449,7 +445,7 @@ SelectableTable.args = {
               return (
                 <>
                   {colIdx === 0 ? (
-                    <TableCell key={column.id} className="flex items-center">
+                    <TableCell key={column.id} wrapperClass="flex items-center">
                       <Checkbox border={false} wrapperClass="!p-0" />
                       {column.cell ? <>{column.cell}</> : value}
                     </TableCell>
@@ -575,10 +571,10 @@ UppercaseHeadingTable.args = {
 
 // WhiteBackgroundTable Table start
 WhiteBackgroundTable.args = {
-  containerClass: 'bg-white ring-0 shadow-none',
+  containerWrapperClass: 'bg-white ring-0 shadow-none',
   children: (
     <>
-      <TableHead className="bg-white">
+      <TableHead wrapperClass="bg-white">
         <TableRow>
           {columns.map((col) => (
             <TableCell key={col.key} variant="header" textTransform="uppercase">

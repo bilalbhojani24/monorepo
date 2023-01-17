@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-const Table = ({ children, containerClass, tableClass }) => (
+const Table = ({ children, containerWrapperClass, tableWrapperClass }) => (
   <div
-    className={`overflow-hidden overflow-x-auto bg-white shadow ring-1 ring-black/5 md:rounded-lg ${containerClass}`}
+    className={`overflow-hidden overflow-x-auto bg-white shadow ring-1 ring-black/5 md:rounded-lg ${containerWrapperClass}`}
   >
-    <table className={`divide-base-300 min-w-full divide-y ${tableClass}`}>
+    <table
+      className={`divide-base-300 min-w-full divide-y ${tableWrapperClass}`}
+    >
       {children}
     </table>
   </div>
@@ -15,13 +17,13 @@ const Table = ({ children, containerClass, tableClass }) => (
 
 Table.propTypes = {
   children: PropTypes.node,
-  containerClass: PropTypes.string,
-  tableClass: PropTypes.string,
+  containerWrapperClass: PropTypes.string,
+  tableWrapperClass: PropTypes.string,
 };
 Table.defaultProps = {
   children: null,
-  containerClass: '',
-  tableClass: '',
+  containerWrapperClass: '',
+  tableWrapperClass: '',
 };
 
 export default Table;

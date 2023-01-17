@@ -1,15 +1,19 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
+import { twClassNames } from '../../utils/tailwindUtils';
 
 import './styles.scss';
 
-const TableRow = ({ children, className, hover, selected }) => (
+const TableRow = ({ children, wrapperClass, hover, selected }) => (
   <tr
-    className={classNames(className, {
-      'cursor-pointer hover:bg-base-50': hover,
-      'bg-base-50': selected,
-    })}
+    className={twClassNames(
+      {
+        'cursor-pointer hover:bg-base-50': hover,
+        'bg-base-50': selected,
+      },
+      wrapperClass,
+    )}
   >
     {children}
   </tr>
@@ -17,13 +21,13 @@ const TableRow = ({ children, className, hover, selected }) => (
 
 TableRow.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
+  wrapperClass: PropTypes.string,
   hover: PropTypes.bool,
   selected: PropTypes.bool,
 };
 TableRow.defaultProps = {
   children: null,
-  className: '',
+  wrapperClass: '',
   hover: false,
   selected: false,
 };

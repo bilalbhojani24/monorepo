@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-const TableHead = ({ children, className }) => (
-  <thead className={`bg-base-50 ${className}`}>{children}</thead>
+const TableHead = ({ children, wrapperClass }) => (
+  <thead className={`bg-base-50 ${wrapperClass}`}>{children}</thead>
 );
 
 TableHead.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.node,
+  wrapperClass: PropTypes.node,
 };
 TableHead.defaultProps = {
   children: null,
-  className: '',
+  wrapperClass: '',
 };
 
 export default TableHead;

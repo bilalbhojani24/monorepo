@@ -1,7 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronUpIcon } from '../Icon';
 
 import {
@@ -16,13 +17,14 @@ import './styles.scss';
 const TableCell = ({
   align,
   children,
-  className,
   colspan,
+  isSticky,
   onSort,
   sortable,
   sortDirection,
   textTransform,
   variant,
+  wrapperClass,
 }) => {
   const handleSort = () => {
     if (onSort) {
@@ -35,14 +37,18 @@ const TableCell = ({
   };
   return (
     <td
-      className={`${classNames({
-        'text-base-500 whitespace-nowrap px-3 py-4 text-sm':
-          variant === CELL_VARIANT[0],
-        'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
-          variant === CELL_VARIANT[1],
-        [`text-${align}`]: align,
-        [textTransform]: textTransform,
-      })} ${className}`}
+      className={twClassNames(
+        {
+          'text-base-500 whitespace-nowrap px-3 py-4 text-sm':
+            variant === CELL_VARIANT[0],
+          'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
+            variant === CELL_VARIANT[1],
+          [`text-${align}`]: align,
+          [textTransform]: textTransform,
+          'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky,
+        },
+        wrapperClass,
+      )}
       colSpan={colspan}
     >
       <div className="inline-flex">
@@ -55,12 +61,12 @@ const TableCell = ({
           >
             {sortDirection === CELL_DIRECTION[0] ? (
               <ChevronUpIcon
-                className={classNames('h-5 w-5 cursor-pointer')}
+                className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
             ) : (
               <ChevronDownIcon
-                className={classNames('h-5 w-5 cursor-pointer')}
+                className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
             )}
@@ -74,25 +80,27 @@ const TableCell = ({
 TableCell.propTypes = {
   align: PropTypes.oneOf(CELL_ALIGNMENT),
   children: PropTypes.node,
-  className: PropTypes.node,
   colspan: PropTypes.number,
+  isSticky: PropTypes.bool,
   onSort: PropTypes.func,
   sortDirection: PropTypes.string,
   sortable: PropTypes.bool,
   textTransform: PropTypes.oneOf(CELL_TEXT_TRANSFORM),
   variant: PropTypes.oneOf(CELL_VARIANT),
+  wrapperClass: PropTypes.node,
 };
 
 TableCell.defaultProps = {
   align: CELL_ALIGNMENT[0],
   children: null,
-  className: '',
   colspan: 0,
+  isSticky: false,
   onSort: () => {},
   sortable: false,
   sortDirection: CELL_DIRECTION[0],
   textTransform: CELL_TEXT_TRANSFORM[0],
   variant: CELL_VARIANT[0],
+  wrapperClass: '',
 };
 
 export default TableCell;
