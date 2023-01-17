@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
 import { XMarkIcon } from '../Icon';
 
 import './styles.scss';
@@ -15,11 +15,12 @@ const ModalHeader = ({
   subHeading,
 }) => (
   <div
-    className={`w-full rounded-t-lg bg-white px-6 py-4 sm:flex sm:items-start ${classNames(
+    className={twClassNames(
+      'w-full rounded-t-lg bg-white px-6 py-4 sm:flex sm:items-start',
       {
         'border-b border-base-300': isBorder,
       },
-    )}`}
+    )}
   >
     {Icon ? (
       <div className="bg-danger-100 mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10">
@@ -30,10 +31,10 @@ const ModalHeader = ({
     <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
       {heading || dismissButton ? (
         <div
-          className={`flex w-full  ${classNames({
+          className={twClassNames('flex w-full', {
             'justify-between': heading,
             'justify-end': !heading,
-          })}`}
+          })}
         >
           {heading ? (
             <h3 className="text-base-900 text-lg font-medium leading-6">

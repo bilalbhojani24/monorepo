@@ -1,8 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
+import { twClassNames } from '../../utils/tailwindUtils';
 
 import { MODAL_SIZE } from './const/modalConstants';
 
@@ -10,6 +12,7 @@ import './styles.scss';
 
 const Modal = (props) => {
   const { children, onClose, onOverlayClick, show, size } = props;
+
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog
@@ -46,7 +49,8 @@ const Modal = (props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel
-                className={`relative flex max-h-[35rem] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full ${classNames(
+                className={twClassNames(
+                  'relative flex max-h-[35rem] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
@@ -57,7 +61,7 @@ const Modal = (props) => {
                     'sm:max-w-4xl': MODAL_SIZE[6] === size,
                     'sm:max-w-full': MODAL_SIZE[7] === size,
                   },
-                )}`}
+                )}
               >
                 {children}
               </Dialog.Panel>
