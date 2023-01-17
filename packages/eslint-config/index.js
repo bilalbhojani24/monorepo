@@ -84,6 +84,13 @@ module.exports = {
       2,
       { required: { some: ['nesting', 'id'] } },
     ],
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
+      },
+    ],
     // This is good for accessibility
     'jsx-a11y/click-events-have-key-events': 2,
     'func-names': 0,
@@ -99,5 +106,4 @@ module.exports = {
     'tailwindcss/no-custom-classname': 2,
     'tailwindcss/no-contradicting-classname': 2,
   },
-  globals: {},
 };
