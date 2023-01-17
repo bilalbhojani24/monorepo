@@ -37,10 +37,12 @@ const defaultConfig = {
           />
           <ModalFooter
             position="right"
-            variant="alert"
-            primaryButtonLabel="Deactivate"
-            secondaryButtonLabel="Cancel"
-          />
+            backgroundColorClass="bg-base-100"
+            isBorder
+          >
+            <Button colors="white">Cancel</Button>
+            <Button colors="brand">Deactivate</Button>
+          </ModalFooter>
         </>
       ),
     },
@@ -89,20 +91,20 @@ export { CustomBody, HeaderWithIcon, Primary, ScrollableModal };
 CustomBody.args = {
   children: (
     <>
-      <ModalBody>
+      <ModalBody className="py-5">
         <div>
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-success-100">
+          <div className="bg-success-100 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
             <CheckIcon
-              className="h-6 w-6 text-success-600"
+              className="text-success-600 h-6 w-6"
               aria-hidden="true"
             />
           </div>
           <div className="mt-3 text-center sm:mt-5">
-            <h3 as="h3" className="text-gray-900 text-lg font-medium leading-6">
+            <h3 as="h3" className="text-base-900 text-lg font-medium leading-6">
               Payment successful
             </h3>
             <div className="mt-2">
-              <p className="text-gray-500 text-sm">
+              <p className="text-base-500 text-sm">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Consequatur amet labore.
               </p>
@@ -149,37 +151,36 @@ ScrollableModal.args = {
         subHeading="Are you sure you want to deactivate your account?"
         isBorder
       />
-      <ModalBody>
-        <div
-          style={{
-            height: '600px',
-          }}
-        >
-          <h1>First am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>I am Modal Body</h1>
-          <h1>Last am Modal Body</h1>
-        </div>
+      <ModalBody className="py-2">
+        <h1>First am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>Last am Modal Body</h1>
       </ModalBody>
       <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
         <Button colors="white">Cancel</Button>
