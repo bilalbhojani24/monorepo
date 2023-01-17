@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Badge,
   Button,
-  DataTable,
   Drawer,
   Dropdown,
   EmptyState,
@@ -18,10 +17,16 @@ import {
   SectionHeadings,
   SelectMenu,
   StackedListWSingleColumn,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Tabs,
   TextArea,
   Tooltip,
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 export const TMPageHeadings = (props) => <PageHeadings {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
@@ -29,7 +34,6 @@ export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
-export const TMDataTable = (props) => <DataTable {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
@@ -45,3 +49,37 @@ export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
+
+export const TMDataTable = ({ columns, rows }) => (
+  <Table>
+    <TableHead wrapperClass="w-full rounded-xs">
+      <TableRow>
+        {columns?.map((col) => (
+          <TableCell key={col.key} variant="body" wrapperClass="test-base-500">
+            {col.name}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {rows?.map((row, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <TableRow key={idx}>
+          {columns?.map((column) => {
+            const value = row[column.key];
+            return (
+              <TableCell key={column.id}>
+                {column.cell ? <>{column.cell(row)}</> : value}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
+TMDataTable.propTypes = {
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

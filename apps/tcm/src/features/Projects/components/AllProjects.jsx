@@ -36,7 +36,7 @@ const AllProjects = () => {
       ),
     },
     {
-      name: 'Project Title',
+      name: 'PROJECT TITLE',
       key: 'name',
       cell: (rowData) => (
         <div
@@ -51,7 +51,7 @@ const AllProjects = () => {
       ),
     },
     {
-      name: 'Quick Links',
+      name: 'QUICK LINKS',
       key: 'quickLinks',
       cell: (rowData) => (
         <>
@@ -108,7 +108,7 @@ const AllProjects = () => {
         />
       </div>
       <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
-        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white sm:rounded-lg">
+        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
           <TMDataTable
             isHeaderCapitalize
             isHeaderSticky
