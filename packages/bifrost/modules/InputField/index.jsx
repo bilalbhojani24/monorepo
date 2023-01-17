@@ -29,22 +29,22 @@ const InputField = forwardRef(
       // trailingAddOnText,
       trailingIcon,
       type,
-      ...rest
+      value,
     },
     ref,
   ) => (
-    <div className="bifrost-input-field">
+    <div>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between" role="contentinfo">
           <label
             htmlFor={id}
             id={`${id}label-wrap`}
-            className="block text-sm font-medium text-base-700"
+            className="text-base-700 block text-sm font-medium"
           >
             {label}
           </label>
           {cornerHintText && (
-            <span className="text-sm text-base-500">{cornerHintText}</span>
+            <span className="text-base-500 text-sm">{cornerHintText}</span>
           )}
         </div>
       )}
@@ -56,6 +56,7 @@ const InputField = forwardRef(
           aria-invalid={!!errorText}
           aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
           defaultValue={defaultValue}
+          value={value}
           disabled={disabled}
           onChange={onChange}
           type={type}
@@ -77,23 +78,22 @@ const InputField = forwardRef(
           onFocus={onFocus}
           onBlur={onBlur}
           autoComplete={autoComplete}
-          {...rest}
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           {trailingIcon}
           {errorText && (
             <ExclamationCircleIcon
-              className="h-5 w-5 text-danger-500"
+              className="text-danger-500 h-5 w-5"
               aria-hidden="true"
             />
           )}
         </div>
       </div>
       {description && (
-        <p className="mt-2 text-sm text-base-500">{description}</p>
+        <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
       {errorText && (
-        <p className="mt-2 text-sm text-danger-600" id={`${id}error-wrap`}>
+        <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
           {errorText}
         </p>
       )}
@@ -110,8 +110,8 @@ InputField.propTypes = {
   errorText: PropTypes.string,
   id: PropTypes.string.isRequired,
   inputRef: PropTypes.oneOfType([
-    PropTypes.shape({ current: PropTypes.any }),
     PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
   label: PropTypes.string,
   leadingIcon: PropTypes.node,
@@ -121,12 +121,13 @@ InputField.propTypes = {
   placeholder: PropTypes.string,
   trailingIcon: PropTypes.node,
   type: PropTypes.string,
+  value: PropTypes.string,
 };
 
 InputField.defaultProps = {
   autoComplete: 'off',
   cornerHintText: '',
-  defaultValue: '',
+  defaultValue: undefined,
   description: '',
   disabled: false,
   errorText: '',
@@ -139,6 +140,7 @@ InputField.defaultProps = {
   placeholder: '',
   trailingIcon: null,
   type: 'text',
+  value: undefined,
 };
 
 export default InputField;
