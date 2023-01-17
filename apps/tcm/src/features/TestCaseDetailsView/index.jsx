@@ -6,6 +6,7 @@ import useTestCaseView from './components/useTestCaseView';
 
 const TestCaseDetailsView = () => {
   const {
+    testCaseDetails,
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,
@@ -24,7 +25,7 @@ const TestCaseDetailsView = () => {
         <TMDrawer
           key={testCaseId}
           onClose={hideTestCaseViewDrawer}
-          title="Check Register flow as Tester"
+          title={testCaseDetails?.name || ''}
           description=""
           bodyNode={<TestCaseView />}
         />
