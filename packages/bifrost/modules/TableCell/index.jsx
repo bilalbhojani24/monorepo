@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -24,7 +24,15 @@ const TableCell = ({
   textTransform,
   variant,
 }) => {
-  const [sortDir, setSortDir] = useState(sortDirection);
+  const handleSort = () => {
+    if (onSort) {
+      const direction =
+        sortDirection === CELL_DIRECTION[1]
+          ? CELL_DIRECTION[0]
+          : CELL_DIRECTION[1];
+      onSort(direction);
+    }
+  };
   return (
     <td
       className={`${classNames({
@@ -43,18 +51,9 @@ const TableCell = ({
           <button
             type="button"
             className="bg-base-200 text-base-900 hover:bg-base-300 ml-2 inline-flex flex-none self-center rounded"
-            onClick={() => {
-              if (onSort) {
-                const direction =
-                  sortDir === CELL_DIRECTION[1]
-                    ? CELL_DIRECTION[0]
-                    : CELL_DIRECTION[1];
-                onSort(direction);
-                setSortDir(direction);
-              }
-            }}
+            onClick={handleSort}
           >
-            {sortDir === CELL_DIRECTION[0] ? (
+            {sortDirection === CELL_DIRECTION[0] ? (
               <ChevronUpIcon
                 className={classNames('h-5 w-5 cursor-pointer')}
                 aria-hidden="true"
