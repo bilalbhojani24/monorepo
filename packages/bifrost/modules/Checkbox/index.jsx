@@ -56,8 +56,8 @@ const Checkbox = (props) => {
           })}
         >
           <input
-            id={`${name}-${data.value}`}
-            name={`${name}-${data.value}`}
+            id={`${name}${data?.value || ''}`}
+            name={`${name}${data?.value || ''}`}
             type="checkbox"
             className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded"
             checked={checked || check}
@@ -65,29 +65,31 @@ const Checkbox = (props) => {
             disabled={disabled}
           />
         </div>
-        <div
-          className={twClassNames('min-w-0 flex-1 text-sm', {
-            'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
-          })}
-        >
-          <label
-            htmlFor={`${name}-${data.value}`}
-            className="text-base-700 select-none font-medium"
-          >
-            {data.label}
-          </label>
-          <p
-            id={`${name}-${data.value}`}
-            className={twClassNames('text-base-500', {
-              'inline ml-2':
-                description === CHECKBOX_DESCRIPTION_VARIANT.inline,
-              block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
-              hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
+        {data ? (
+          <div
+            className={twClassNames('min-w-0 flex-1 text-sm', {
+              'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
             })}
           >
-            {data.description}
-          </p>
-        </div>
+            <label
+              htmlFor={`${name}-${data.value}`}
+              className="text-base-700 select-none font-medium"
+            >
+              {data.label}
+            </label>
+            <p
+              id={`${name}-${data.value}`}
+              className={twClassNames('text-base-500', {
+                'inline ml-2':
+                  description === CHECKBOX_DESCRIPTION_VARIANT.inline,
+                block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
+                hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
+              })}
+            >
+              {data.description}
+            </p>
+          </div>
+        ) : null}
 
         <span
           className={twClassNames(
@@ -111,7 +113,7 @@ Checkbox.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     description: PropTypes.string,
-  }).isRequired,
+  }),
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
   description: PropTypes.oneOf(Object.values(CHECKBOX_DESCRIPTION_VARIANT)),
@@ -126,6 +128,7 @@ Checkbox.propTypes = {
 Checkbox.defaultProps = {
   border: true,
   checked: false,
+  data: null,
   defaultChecked: false,
   disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,

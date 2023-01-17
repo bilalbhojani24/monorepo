@@ -424,7 +424,11 @@ SelectableTable.args = {
                     variant="header"
                     wrapperClass="flex items-center"
                   >
-                    <Checkbox wrapperClass="p-0" border={false} />
+                    <Checkbox
+                      wrapperClass="pt-0 mr-2"
+                      border={false}
+                      name={col.key}
+                    />
                     {col.name}
                   </TableCell>
                 </>
@@ -446,7 +450,7 @@ SelectableTable.args = {
                 <>
                   {colIdx === 0 ? (
                     <TableCell key={column.id} wrapperClass="flex items-center">
-                      <Checkbox border={false} wrapperClass="p-0" />
+                      <Checkbox border={false} wrapperClass="pt-0 mr-2" />
                       {column.cell ? <>{column.cell}</> : value}
                     </TableCell>
                   ) : (
