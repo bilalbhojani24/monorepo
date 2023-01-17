@@ -95,12 +95,14 @@ const AllProjects = () => {
       <div className="border-base-300 border-b">
         <TMPageHeadings
           heading="All Projects"
-          actionsData={[
+          actions={[
             {
               id: 'node-1',
-              actionsNode: <>Add project</>,
-              actionFn: addingProject,
-              variant: 'primary',
+              callback: addingProject,
+              actionProps: {
+                children: <>Add project</>,
+                variant: 'primary',
+              },
             },
           ]}
         />

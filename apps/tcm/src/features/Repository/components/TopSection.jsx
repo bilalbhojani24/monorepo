@@ -10,12 +10,14 @@ const TopSection = () => {
     <div className="w-full">
       <TMPageHeadings
         heading="Test Cases"
-        actionsData={[
+        actions={[
           {
             id: 'node-1',
-            actionsNode: <>Add Test Case</>,
-            actionFn: showTestCaseAdditionPage,
-            variant: 'primary',
+            callback: showTestCaseAdditionPage,
+            actionProps: {
+              children: <>Add Test Case</>,
+              variant: 'primary',
+            },
           },
         ]}
       />

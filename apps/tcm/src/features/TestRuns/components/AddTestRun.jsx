@@ -37,6 +37,26 @@ const AddTestRuns = () => {
     <div className="border-base-200 flex w-full flex-1 flex-col items-stretch border-l">
       <TMPageHeadings
         heading="Create New Test Runs"
+        actions={[
+          {
+            id: 'cancel-test-run',
+            callback: cancelTestRunHandler,
+            actionProps: {
+              children: <>Cancel</>,
+              variant: 'primary',
+              colors: 'white',
+            },
+          },
+          {
+            id: 'create-test-run',
+            callback: createTestRunHandler,
+            actionProps: {
+              children: <>Create Run</>,
+              variant: 'primary',
+              colors: 'brand',
+            },
+          },
+        ]}
         actionsData={[
           {
             id: 'cancel-test-run',
