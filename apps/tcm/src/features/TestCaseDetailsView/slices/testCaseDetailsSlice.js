@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isTestCaseViewVisible: false,
-  testCaseDetails: null,
+  allData: null,
 };
 
 export const testCaseDetailsSlice = createSlice({
@@ -13,7 +13,7 @@ export const testCaseDetailsSlice = createSlice({
       state.isTestCaseViewVisible = payload;
     },
     setTestCaseDetails: (state, { payload }) => {
-      state.testCaseDetails = payload;
+      state.allData = payload;
     },
   },
 });

@@ -31,14 +31,15 @@ const TestCaseMutliData = () => {
     },
     {
       name: 'Status',
-      key: 'test_run_status',
+      key: 'latest_status',
       cell: (rowData) => (
         <TMBadge
-          text={rowData.test_run_status}
+          wrapperClassName="capitalize"
+          text={rowData.latest_status}
           modifier={
-            rowData.test_run_status === 'untested'
+            rowData.latest_status === 'untested'
               ? 'base'
-              : rowData.test_run_status
+              : rowData.latest_status
           }
         />
       ),

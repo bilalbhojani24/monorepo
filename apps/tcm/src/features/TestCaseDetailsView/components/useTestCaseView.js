@@ -23,14 +23,13 @@ export default function useTestCases() {
     (state) => state.testCaseDetails.isTestCaseViewVisible,
   );
   const testCaseDetails = useSelector(
-    (state) => state.testCaseDetails.testCaseDetails?.test_case || null,
+    (state) => state.testCaseDetails.allData || null,
   );
   const testRunsDetails = useSelector(
-    (state) => state.testCaseDetails.testCaseDetails?.test_runs || null,
+    (state) => state.testCaseDetails.allData?.test_runs || null,
   );
   const testCaseIssues = useSelector(
-    (state) =>
-      state.testCaseDetails.testCaseDetails?.test_case?.jira_tickets || null,
+    (state) => state.testCaseDetails.allData?.jira_tickets || null,
   );
 
   const currentFlow = `${selectedFolder?.name || '...'} > ${
@@ -42,7 +41,7 @@ export default function useTestCases() {
     if (folderId && testCaseId) {
       getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
         (data) => {
-          dispatch(setTestCaseDetails(data || null));
+          dispatch(setTestCaseDetails(data?.data?.test_case || null));
         },
       );
     }
