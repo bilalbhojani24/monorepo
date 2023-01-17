@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import importReducer from 'features/ImportFlow/slices/importSlice';
 import projectReducer from 'features/Projects/slices/projectSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
 import testCaseDetailsReducer from 'features/TestCaseDetailsView/slices/testCaseDetailsSlice';
@@ -12,5 +13,6 @@ export const store = configureStore({
     projects: projectReducer,
     testRuns: testRunsReducer,
     testCaseDetails: testCaseDetailsReducer,
+    import: importReducer,
   },
 });

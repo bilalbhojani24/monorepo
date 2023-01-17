@@ -1,41 +1,55 @@
-import { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { testConnection } from '../../../api/import.api';
+import {
+  setCurrentScreen,
+  setProjectForTestRailsImport,
+  setTestRailsCred,
+} from '../slices/importSlice';
 
 const useImport = () => {
-  const emailRef = useRef();
-  const hostRef = useRef();
-  const apiRef = useRef();
+  const dispatch = useDispatch();
 
   const getUserEmail = useSelector((state) => {
-    if (!state.global.user.email) return 'arsalan@browserstack.com';
+    if (!state.global.user.email) return 'procurement@browserstack.com';
     return state.global.user?.email;
   });
 
+  const testRailsCred = useSelector((state) => state.import.testRailsCred);
+  const testRailProjects = useSelector(
+    (state) => state.import.projectsForTestRailImport,
+  );
+  const currentScreen = useSelector((state) => state.import.currentScreen);
+
+  const handleInputFieldChange = (key) => (e) => {
+    const { value } = e.target;
+    dispatch(setTestRailsCred({ key, value }));
+  };
+
   const handleTestConnection = () => {
-    console.log(
-      'inside test connection',
-      emailRef.current,
-      hostRef.current,
-      apiRef.current,
-    );
+    // make the api call
+    testConnection(testRailsCred)
+      .then((data) => {
+        // show the success banner
+        dispatch(setProjectForTestRailsImport(data.projects));
+      })
+      .catch(() => {
+        // show failure banner
+      });
   };
 
   const handleProceed = () => {
-    console.log(
-      'inside proceed',
-      emailRef.current.value,
-      hostRef.current.value,
-      apiRef.current.value,
-    );
+    if (testRailProjects.length === 0) handleTestConnection();
+    dispatch(setCurrentScreen('configureData'));
   };
 
   return {
-    apiRef,
-    emailRef,
-    hostRef,
     getUserEmail,
+    testRailProjects,
+    handleInputFieldChange,
     handleTestConnection,
     handleProceed,
+    currentScreen,
   };
 };
 

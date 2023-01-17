@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { TMBadge, TMButton, TMRadioGroup } from 'bifrostProxy';
 
 import TestRailImportForm from './TestRailImportForm';
 
-const ConfigurePlatform = () => {
+const ConfigureTool = () => {
   const [buttonText, setButtonText] = useState('');
   const [selectedRadioId, setSelectedRadioId] = useState('');
 
@@ -96,4 +97,4 @@ const ConfigurePlatform = () => {
   );
 };
 
-export default ConfigurePlatform;
+export default ConfigureTool;

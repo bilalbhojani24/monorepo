@@ -7,10 +7,8 @@ import useImport from './useImport';
 
 const TestRailImportForm = () => {
   const {
-    apiRef,
-    emailRef,
-    hostRef,
     getUserEmail,
+    handleInputFieldChange,
     handleTestConnection,
     handleProceed,
   } = useImport();
@@ -20,9 +18,9 @@ const TestRailImportForm = () => {
       <div className="space-around flex">
         <div className="mr-6 w-full">
           <TMInputField
-            ref={emailRef}
             defaultValue={getUserEmail}
             id="email"
+            onChange={handleInputFieldChange('email')}
             label={
               <>
                 TestRail Email Address
@@ -35,8 +33,8 @@ const TestRailImportForm = () => {
         </div>
         <div className="w-full">
           <TMInputField
-            ref={hostRef}
             id="host-name"
+            onChange={handleInputFieldChange('host')}
             label={
               <>
                 TestRail Host Name
@@ -51,9 +49,9 @@ const TestRailImportForm = () => {
       </div>
       <div className="mt-4 w-1/2">
         <TMInputField
-          ref={apiRef}
           type="password"
           id="api-key"
+          onChange={handleInputFieldChange('key')}
           label={
             <>
               TestRail API Key
