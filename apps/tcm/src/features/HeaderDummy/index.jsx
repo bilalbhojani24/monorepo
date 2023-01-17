@@ -1,15 +1,12 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { TMSectionHeadings } from 'bifrostProxy';
+import { Link } from 'react-router-dom';
+import AppRoute from 'const/routes';
 
-const HeaderDummy = () => {
-  const userDetails = useSelector((state) => state.global.user);
-
-  return (
-    <div className="fixed top-0 z-[99] w-full bg-white pt-5">
-      <TMSectionHeadings title="BrowserStack | Test Case Management" />
-    </div>
-  );
-};
+const HeaderDummy = () => (
+  <div className="border-base-300 fixed top-0 z-[99] h-16 w-full border-b bg-white pt-5">
+    <Link to={AppRoute.ROOT}>BrowserStack | Test Case Management</Link>
+  </div>
+);
 
 export default HeaderDummy;
