@@ -17,6 +17,7 @@ const TopSection = () => {
             actionProps: {
               children: <>Add Test Case</>,
               variant: 'primary',
+              colors: 'white',
             },
           },
         ]}

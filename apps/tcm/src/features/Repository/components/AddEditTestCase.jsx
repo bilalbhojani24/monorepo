@@ -15,7 +15,7 @@ import {
   testCaseTypesOptions,
 } from '../const/addTestCaseConst';
 
-import useTestCases from './useTestCases';
+import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
@@ -27,7 +27,7 @@ const AddEditTestCase = () => {
     saveTestCase,
     editTestCase,
     isTestCaseEditing,
-  } = useTestCases();
+  } = useAddEditTestCase();
 
   return (
     <div className="border-base-200 w-full border-l p-4">
@@ -61,7 +61,7 @@ const AddEditTestCase = () => {
           errorText={inputError ? "This field can't be left empty" : ''}
         />
       </div>
-      {/* <div className="w-1/3">
+      <div className="w-1/3">
         <TMSelectMenu
           defaultValue={templateOptions[0]}
           checkPosition="right"
@@ -69,7 +69,7 @@ const AddEditTestCase = () => {
           options={templateOptions}
           onChange={(e) => handleTestCaseFieldChange('type', e.value)}
         />
-      </div> */}
+      </div>
       <div className="mt-4">
         <TMSelectMenu
           defaultValue={testCaseTypesOptions[0]}

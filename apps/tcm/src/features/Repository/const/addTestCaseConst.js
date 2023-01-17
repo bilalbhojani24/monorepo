@@ -4,11 +4,12 @@ export const priorityOptions = [
   { label: 'Low', value: 'low' },
   { label: 'Medium', value: 'medium' },
 ];
+
 export const templateOptions = [
   { label: 'Text', value: 'text' },
   { label: 'Steps', value: 'steps' },
-  { label: 'BDD', value: 'bdd' },
 ];
+
 export const testCaseTypesOptions = [
   { label: 'Acceptance', value: 'Acceptance' },
   { label: 'Accessibility', value: 'Accessibility' },
@@ -25,6 +26,7 @@ export const testCaseTypesOptions = [
 ];
 
 export const ownerOptions = [{ label: 'Myself', value: 'myself' }];
+
 export const stateOptions = [
   { label: 'Active', value: 'active' },
   { label: 'Draft', value: 'draft' },

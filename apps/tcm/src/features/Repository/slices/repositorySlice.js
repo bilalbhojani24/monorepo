@@ -74,7 +74,7 @@ export const repositorySlice = createSlice({
     },
     setTestCaseFormData: (state, { payload }) => {
       // prefill for edit
-      state.testCaseFormData = payload;
+      state.testCaseFormData = payload || initialState.testCaseFormData;
     },
   },
 });

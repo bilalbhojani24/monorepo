@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { InputWButton } from '@browserstack/bifrost';
 
-import useTestCases from './useTestCases';
+import useAddEditTestCase from './useAddEditTestCase';
 
 const InlineAddTestCase = () => {
   const [testCase, setTestCase] = useState('');
 
-  const { saveTestCase } = useTestCases();
+  const { saveTestCase } = useAddEditTestCase();
 
   const handleInlineInputButtonClick = () => {
     saveTestCase({ name: testCase });
@@ -15,7 +14,7 @@ const InlineAddTestCase = () => {
   };
 
   return (
-    <div className="shadow-slate-200 relative w-full p-2">
+    <div className="relative w-full p-2">
       <InputWButton
         value={testCase}
         id="inline-add-test-case"
