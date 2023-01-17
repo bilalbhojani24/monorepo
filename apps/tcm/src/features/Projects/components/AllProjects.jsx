@@ -109,13 +109,7 @@ const AllProjects = () => {
       </div>
       <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
         <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
-          <TMDataTable
-            isHeaderCapitalize
-            isHeaderSticky
-            columns={tableColumns}
-            rows={activeProjects}
-            isFullWhite={false}
-          />
+          <TMDataTable columns={tableColumns} rows={activeProjects} />
         </div>
       </div>
       {showAddModal && <AddProjects />}
