@@ -46,7 +46,8 @@ const AllProjects = () => {
           onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
         >
-          {rowData.name}
+          <div className="text-base-900 font-medium">{rowData.name}</div>
+          <div className="text-base-400">{rowData.description}</div>
         </div>
       ),
     },
@@ -100,7 +101,7 @@ const AllProjects = () => {
               id: 'node-1',
               callback: addingProject,
               actionProps: {
-                children: <>Add project</>,
+                children: <>Create Project</>,
                 variant: 'primary',
               },
             },
