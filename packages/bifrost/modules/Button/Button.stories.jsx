@@ -2,7 +2,7 @@ import React from 'react';
 
 // import { EnvelopeIcon } from '@heroicons/react/20/solid';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { EnvelopeIcon } from '../Icon';
+import { EnvelopeIcon, PlusIcon } from '../Icon';
 
 import {
   BUTTON_COLORS,
@@ -26,16 +26,17 @@ const defaultConfig = {
   },
   argTypes: {
     variant: {
+      // eslint-disable-next-line sonarjs/no-duplicate-string
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_VARIANTS.join(', '), required: false },
       options: BUTTON_VARIANTS,
-      description: 'Lorem Ipsum',
+      description: 'Lorem',
     },
     size: {
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_SIZES.join(', '), required: false },
       options: BUTTON_SIZES,
-      description: 'Lorem Ipsum',
+      description: 'Ipsum',
     },
     disabled: {
       control: { type: 'boolean' },
@@ -64,7 +65,11 @@ const defaultConfig = {
   },
   controls: {},
 };
-const Template = (args) => <Button {...args}>Button</Button>;
+const Template = (args) => (
+  <Button {...args}>
+    <PlusIcon className="h-5 w-5" />
+  </Button>
+);
 const Default = Template.bind({});
 Default.parameters = {
   size: 'primary',
