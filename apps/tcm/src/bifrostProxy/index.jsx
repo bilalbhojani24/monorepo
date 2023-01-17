@@ -55,7 +55,12 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
     <TableHead wrapperClass="w-full rounded-xs">
       <TableRow>
         {columns?.map((col) => (
-          <TableCell key={col.key} variant="body" wrapperClass="test-base-500">
+          <TableCell
+            key={col.key}
+            variant="body"
+            wrapperClass="test-base-500"
+            textTransform="uppercase"
+          >
             {col.name}
           </TableCell>
         ))}
