@@ -114,7 +114,8 @@ export default function useTestCases() {
         folderId,
         testCaseId: selectedTestCase.id,
       }).then((res) => {
-        dispatch(deleteTestCase(res.data.project));
+        dispatch(deleteTestCase(res.data['test-case']));
+        dispatch(setDeleteTestCaseModalVisibility(false));
         hideDeleteTestCaseModal();
       });
   };
