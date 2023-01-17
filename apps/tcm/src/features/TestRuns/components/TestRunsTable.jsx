@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TMDataTable, TMDropdown, TMTabs } from 'bifrostProxy';
+import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 
@@ -40,7 +41,8 @@ const TestRunsTable = () => {
     },
     {
       name: 'CREATED DATE',
-      key: 'id',
+      key: 'created_at',
+      cell: (rowData) => formatTime(rowData.created_at),
     },
     {
       name: 'ASSIGNED TO',
@@ -69,7 +71,7 @@ const TestRunsTable = () => {
   ];
 
   return (
-    <div className="flex flex-1  flex-col items-stretch justify-start overflow-hidden border border-base-200 bg-white sm:rounded-lg">
+    <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white sm:rounded-lg">
       <div className="mb-4 w-full px-2">
         <TMTabs
           id="project-tabs"
@@ -78,11 +80,9 @@ const TestRunsTable = () => {
         />
       </div>
       <TMDataTable
-        isHeaderCapitalize
-        isHeaderSticky
+        containerWrapperClass="md:rounded-none"
         columns={tableColumns}
         rows={allTestRunsArray}
-        isFullWhite={false}
       />
     </div>
   );

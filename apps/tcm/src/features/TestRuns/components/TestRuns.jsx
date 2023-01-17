@@ -22,21 +22,23 @@ const TestRuns = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-b border-base-300">
+      <div className="border-base-300 border-b">
         <TMPageHeadings
           heading="Test Runs"
-          actionsData={[
+          actions={[
             {
               id: 'node-1',
-              actionsNode: <>Add Test Run</>,
-              actionFn: showTestRunAddFormHandler,
-              variant: 'primary',
+              callback: showTestRunAddFormHandler,
+              actionProps: {
+                children: <>Add Test Run</>,
+                variant: 'primary',
+              },
             },
           ]}
         />
       </div>
 
-      <div className="flex flex-1 flex-col items-stretch bg-base-100 p-5">
+      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
         <TestRunsTable />
       </div>
     </div>

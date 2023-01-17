@@ -72,8 +72,8 @@ const MainRoute = () => {
           element={<PrivateComponent>SETTINGS</PrivateComponent>}
         />
         <Route
-          path={AppRoute.DOCUMENTATION}
-          element={<PrivateComponent>DOCUMENTATION</PrivateComponent>}
+          path={AppRoute.RESOURCES}
+          element={<PrivateComponent>RESOURCES</PrivateComponent>}
         />
         <Route
           path={AppRoute.IMPORT}

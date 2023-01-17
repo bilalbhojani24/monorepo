@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestRuns } from 'api/testruns.api';
+import { setSelectedProject } from 'globalSlice';
 
 import {
   setAddTestRun,
@@ -29,11 +30,12 @@ const useTestRuns = () => {
   };
 
   const fetchAllTestRuns = () => {
-    if (projectId)
+    if (projectId) {
+      dispatch(setSelectedProject(projectId));
       getTestRuns({ projectId }).then((data) => {
         dispatch(updateAllTestRuns(data?.testruns || []));
       });
-    else dispatch(updateAllTestRuns([]));
+    } else dispatch(updateAllTestRuns([]));
   };
 
   const handleTestRunInputFieldChange = (key1, key2) => (e) => {

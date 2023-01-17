@@ -8,12 +8,12 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMSelectMenu,
+  // TMSelectMenu,
   TMTextArea,
 } from 'bifrostProxy';
 import { updateProject } from 'globalSlice';
 
-import { projectStatus } from '../const/projectsConst';
+// import { projectStatus } from '../const/projectsConst';
 import { setEditProjectModalVisibility } from '../slices/projectSlice';
 
 import useProjects from './useProjects';
@@ -76,13 +76,13 @@ const EditProjects = () => {
             }
           />
         </div>
-        <div className="w-2/4">
+        {/* <div className="w-2/4">
           <TMSelectMenu
             label="State"
             onChange={(e) => setFormData({ ...formData, state: e.value })}
             options={projectStatus}
           />
-        </div>
+        </div> */}
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton

@@ -1,6 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
+import { twClassNames } from '../../utils/tailwindUtils';
 
 import { POSITION } from './const/modalFooterConstants';
 
@@ -13,8 +14,9 @@ const ModalFooter = ({
   position,
 }) => (
   <div
-    className={classNames(
-      `sticky bottom-0 left-0 w-full space-y-2 space-x-3 px-6 py-4 sm:flex sm:space-y-0 ${backgroundColorClass}`,
+    className={twClassNames(
+      'w-full space-y-2 space-x-3 px-6 py-4 sm:flex sm:space-y-0 rounded-b-lg',
+      backgroundColorClass,
       {
         'sm:justify-end': position === POSITION[1],
         'sm:justify-center': position === POSITION[2],

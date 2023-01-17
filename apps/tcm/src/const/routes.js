@@ -6,7 +6,7 @@ const AppRoute = {
   DASHBOARD: '/projects/:projectId?',
   TEST_RUNS: '/projects/:projectId?/test-runs',
   ONBOARDING: '/onboarding',
-  DOCUMENTATION: '/documentation',
+  RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',
   IMPORT: '/import',

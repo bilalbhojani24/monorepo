@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
 import { XMarkIcon } from '../Icon';
 
 import './styles.scss';
@@ -15,28 +15,29 @@ const ModalHeader = ({
   subHeading,
 }) => (
   <div
-    className={`sticky top-0 left-0 w-full overflow-hidden  bg-white px-6 py-4 sm:flex sm:items-start ${classNames(
+    className={twClassNames(
+      'w-full rounded-t-lg bg-white px-6 py-4 sm:flex sm:items-start',
       {
         'border-b border-base-300': isBorder,
       },
-    )}`}
+    )}
   >
     {Icon ? (
-      <div className="mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-danger-100 sm:h-10 sm:w-10">
-        <Icon className="h-6 w-6 text-danger-600" aria-hidden="true" />
+      <div className="bg-danger-100 mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10">
+        <Icon className="text-danger-600 h-6 w-6" aria-hidden="true" />
       </div>
     ) : null}
 
     <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
       {heading || dismissButton ? (
         <div
-          className={`flex w-full  ${classNames({
+          className={twClassNames('flex w-full', {
             'justify-between': heading,
             'justify-end': !heading,
-          })}`}
+          })}
         >
           {heading ? (
-            <h3 className="text-gray-900 text-lg font-medium leading-6">
+            <h3 className="text-base-900 text-lg font-medium leading-6">
               {heading}
             </h3>
           ) : null}
@@ -44,13 +45,13 @@ const ModalHeader = ({
           {dismissButton ? (
             <button
               type="button"
-              className="text-gray-400 hover:text-gray-500 focus:ring-indigo-500 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+              className="hover:text-base-500 focus:ring-brand-500 text-base-400 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
               onClick={() => {
                 if (handleDismissClick) handleDismissClick();
               }}
             >
               <span className="sr-only">Close</span>
-              <XMarkIcon className="h-6 w-6 text-base-400" aria-hidden="true" />
+              <XMarkIcon className="text-base-400 h-6 w-6" aria-hidden="true" />
             </button>
           ) : null}
         </div>
@@ -58,7 +59,7 @@ const ModalHeader = ({
 
       {subHeading ? (
         <div className="mt-2">
-          <p className="text-gray-500 text-sm">{subHeading}</p>
+          <p className="text-base-500 text-sm">{subHeading}</p>
         </div>
       ) : null}
     </div>

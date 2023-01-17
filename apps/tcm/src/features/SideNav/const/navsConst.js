@@ -16,20 +16,6 @@ export const basePrimaryNavLinks = [
     inActiveIcon: HomeOutlinedIcon,
     path: AppRoute.ROOT,
   },
-  {
-    id: AppRoute.SETTINGS,
-    label: 'Settings',
-    activeIcon: SettingsOutlinedIcon,
-    inActiveIcon: SettingsOutlinedIcon,
-    path: AppRoute.SETTINGS,
-  },
-  {
-    id: AppRoute.DOCUMENTATION,
-    label: 'Documentation',
-    activeIcon: AssignmentOutlinedIcon,
-    inActiveIcon: AssignmentOutlinedIcon,
-    path: AppRoute.DOCUMENTATION,
-  },
 ];
 
 export const internalPrimaryNavLinks = [
@@ -72,10 +58,10 @@ export const secondaryNavLinks = [
     path: AppRoute.SETTINGS,
   },
   {
-    id: AppRoute.DOCUMENTATION,
-    label: 'Documentation',
+    id: AppRoute.RESOURCES,
+    label: 'Resources',
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,
-    path: AppRoute.DOCUMENTATION,
+    path: AppRoute.RESOURCES,
   },
 ];

@@ -5,7 +5,7 @@ import {
   TMStackedListWSingleColumn,
   TMTabs,
 } from 'bifrostProxy';
-import moment from 'moment';
+import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
@@ -31,14 +31,15 @@ const TestCaseMutliData = () => {
     },
     {
       name: 'Status',
-      key: 'test_run_status',
+      key: 'latest_status',
       cell: (rowData) => (
         <TMBadge
-          text={rowData.test_run_status}
+          wrapperClassName="capitalize"
+          text={rowData.latest_status}
           modifier={
-            rowData.test_run_status === 'untested'
+            rowData.latest_status === 'untested'
               ? 'base'
-              : rowData.test_run_status
+              : rowData.latest_status
           }
         />
       ),
@@ -49,11 +50,17 @@ const TestCaseMutliData = () => {
     <>
       <TMTabs
         id="project-tabs"
-        tabsArray={TABS_ARRAY}
+        tabsArray={TABS_ARRAY.map((item) => ({
+          ...item,
+          count:
+            item.name === 'Results'
+              ? `${testRunsDetails.length}`
+              : `${testCaseIssues.length}`,
+        }))}
         onTabChange={handleTabChange}
       />
 
-      {selectedTab === TABS_ARRAY[0] && (
+      {selectedTab.name === TABS_ARRAY[0].name && (
         <>
           {testRunsDetails && testRunsDetails.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
@@ -70,14 +77,14 @@ const TestCaseMutliData = () => {
         </>
       )}
 
-      {selectedTab === TABS_ARRAY[1] && (
+      {selectedTab.name === TABS_ARRAY[1].name && (
         <TMStackedListWSingleColumn
           format="with_truncated_content_preview"
           list={testCaseIssues.map((item) => ({
             ...item,
             heading: item.jira_id,
             subHeading: item.jira_id,
-            textAside: moment(item.created_at).fromNow(),
+            textAside: formatTime(item.created_at, 'ago'),
             preview: item.test_case_id,
           }))}
         />

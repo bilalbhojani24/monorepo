@@ -57,20 +57,24 @@ const AddTestRuns = () => {
         <div className="flex w-full flex-1 flex-col items-stretch border-l border-base-200">
           <TMPageHeadings
             heading="Create New Test Runs"
-            actionsData={[
+            actions={[
               {
                 id: 'cancel-test-run',
-                actionsNode: <>Cancel</>,
-                actionFn: cancelTestRunHandler,
-                colors: 'white',
-                variant: 'secondary',
+                callback: cancelTestRunHandler,
+                actionProps: {
+                  children: <>Cancel</>,
+                  variant: 'primary',
+                  colors: 'white',
+                },
               },
               {
                 id: 'create-test-run',
-                actionsNode: <>Create Run</>,
-                actionFn: createTestRunHandler,
-                colors: 'brand',
-                variant: 'primary',
+                callback: createTestRunHandler,
+                actionProps: {
+                  children: <>Create Run</>,
+                  variant: 'primary',
+                  colors: 'brand',
+                },
               },
             ]}
           />

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   addTestCaseAPI,
   deleteTestCaseAPI,
+  editTestCaseAPI,
   getTestCasesAPI,
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
@@ -15,9 +16,11 @@ import {
   deleteTestCase,
   setAddTestCaseVisibility,
   setDeleteTestCaseModalVisibility,
-  setEditTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
   setSelectedTestCase,
+  setTestCaseFormData,
   updateAllTestCases,
+  updateTestCase,
   updateTestCaseFormData,
 } from '../slices/repositorySlice';
 
@@ -34,8 +37,11 @@ export default function useTestCases() {
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible,
   );
-  const newTestCaseData = useSelector(
-    (state) => state.repository.newTestCaseData,
+  const isTestCaseEditing = useSelector(
+    (state) => state.repository.showEditTestCaseForm,
+  );
+  const testCaseFormData = useSelector(
+    (state) => state.repository.testCaseFormData,
   );
   const isTestCaseViewVisible = useSelector(
     (state) => state.repository.isTestCaseViewVisible,
@@ -55,6 +61,7 @@ export default function useTestCases() {
   };
   const hideTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(false));
+    dispatch(setEditTestCasePageVisibility(false));
   };
 
   const fetchAllTestCases = () => {
@@ -79,6 +86,22 @@ export default function useTestCases() {
     }
   };
 
+  const editTestCase = (formData) => {
+    if (!formData.name) setInputError(true);
+    else {
+      editTestCaseAPI({
+        projectId,
+        folderId,
+        testCaseId: selectedTestCase.id,
+        payload: { test_case: formData },
+      }).then((data) => {
+        dispatch(updateTestCase(data));
+        dispatch(setAddTestCaseVisibility(false));
+        dispatch(setEditTestCasePageVisibility(false));
+      });
+    }
+  };
+
   const handleTestCaseFieldChange = (key, value) => {
     if (key === 'name' && value) setInputError(false);
     dispatch(updateTestCaseFormData({ key, value }));
@@ -96,8 +119,12 @@ export default function useTestCases() {
 
   const onDropDownChange = (e, selectedItem) => {
     if (e.currentTarget.textContent === dropDownOptions[0].body) {
-      dispatch(setEditTestCaseModalVisibility(true));
+      // edit
+      dispatch(setEditTestCasePageVisibility(true));
+      dispatch(setAddTestCaseVisibility(true));
+      dispatch(setTestCaseFormData(selectedItem));
     } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+      // delete
       dispatch(setDeleteTestCaseModalVisibility(true));
     }
     dispatch(setSelectedTestCase(selectedItem));
@@ -114,7 +141,8 @@ export default function useTestCases() {
         folderId,
         testCaseId: selectedTestCase.id,
       }).then((res) => {
-        dispatch(deleteTestCase(res.data.project));
+        dispatch(deleteTestCase(res.data['test-case']));
+        dispatch(setDeleteTestCaseModalVisibility(false));
         hideDeleteTestCaseModal();
       });
   };
@@ -124,7 +152,7 @@ export default function useTestCases() {
     deleteTestCaseHandler,
     onDropDownChange,
     handleTestCaseFieldChange,
-    newTestCaseData,
+    testCaseFormData,
     inputError,
     selectedFolder,
     showTestCaseAdditionPage,
@@ -132,6 +160,7 @@ export default function useTestCases() {
     allTestCases,
     isAddTestCasePageVisible,
     saveTestCase,
+    editTestCase,
     folderId,
     projectId,
     fetchAllTestCases,
@@ -140,5 +169,6 @@ export default function useTestCases() {
     showEditPage,
     showDeleteModal,
     selectedTestCase,
+    isTestCaseEditing,
   };
 }

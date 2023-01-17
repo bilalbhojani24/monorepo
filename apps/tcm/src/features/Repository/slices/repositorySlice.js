@@ -6,7 +6,7 @@ const initialState = {
   selectedFolder: null,
   showAddFolderModal: false,
   isAddTestCasePageVisible: false,
-  newTestCaseData: {
+  testCaseFormData: {
     name: '',
     description: '',
     estimate: '',
@@ -29,13 +29,18 @@ export const repositorySlice = createSlice({
       state.allFolders = payload;
     },
     updateTestCaseFormData: (state, { payload }) => {
-      state.newTestCaseData[payload.key] = payload.value;
+      state.testCaseFormData[payload.key] = payload.value;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
     },
     addSingleTestCase: (state, { payload }) => {
       state.allTestCases.push(payload);
+    },
+    updateTestCase: (state, { payload }) => {
+      state.allTestCases = state.allTestCases.map((item) =>
+        item.id === payload.id ? payload : item,
+      );
     },
     setAddFolderModalVisibility: (state, { payload }) => {
       state.showAddFolderModal = payload;
@@ -45,16 +50,14 @@ export const repositorySlice = createSlice({
 
       if (payload) {
         // reset form data
-        state.newTestCaseData = initialState.newTestCaseData;
+        state.testCaseFormData = initialState.testCaseFormData;
       }
     },
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
     },
-    setEditTestCaseModalVisibility: (state, { payload }) => {
+    setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
-
-      if (!state.selectedTestCase) state.selectedTestCase = null;
     },
     setDeleteTestCaseModalVisibility: (state, { payload }) => {
       state.showDeleteTestCaseModal = payload;
@@ -69,6 +72,10 @@ export const repositorySlice = createSlice({
         (item) => item.id !== payload.id,
       );
     },
+    setTestCaseFormData: (state, { payload }) => {
+      // prefill for edit
+      state.testCaseFormData = payload;
+    },
   },
 });
 
@@ -81,9 +88,11 @@ export const {
   setAddTestCaseVisibility,
   updateTestCaseFormData,
   setDeleteTestCaseModalVisibility,
-  setEditTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
   setSelectedTestCase,
   deleteTestCase,
+  setTestCaseFormData,
+  updateTestCase,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

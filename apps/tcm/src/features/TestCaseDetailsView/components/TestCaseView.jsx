@@ -1,6 +1,6 @@
 import React from 'react';
-import { TMButton } from 'bifrostProxy';
 
+// import { TMButton } from 'bifrostProxy';
 import TestCaseBasicData from './TestCaseBasicData';
 import TestCaseMutliData from './TestCaseMutliData';
 import useTestCaseView from './useTestCaseView';
@@ -17,14 +17,14 @@ const TestCaseView = () => {
         <TestCaseBasicData />
         <TestCaseMutliData />
       </div>
-      <div className="flex w-full justify-between">
+      {/* <div className="flex w-full justify-between">
         <TMButton variant="minimal" colors="white">
           Previous
         </TMButton>
         <TMButton variant="minimal" colors="white">
           Next
         </TMButton>
-      </div>
+      </div> */}
     </div>
   );
 };

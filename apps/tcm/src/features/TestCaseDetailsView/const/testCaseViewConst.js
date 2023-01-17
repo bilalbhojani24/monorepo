@@ -1,1 +1,4 @@
-export const TABS_ARRAY = [{ name: 'Results' }, { name: 'Issues' }];
+export const TABS_ARRAY = [
+  { name: 'Results', count: 0 },
+  { name: 'Issues', count: 0 },
+];

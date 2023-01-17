@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -13,17 +13,12 @@ import {
 export default function useSideNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
   const [primaryNavs, setPrimaryNavs] = useState([]);
-  const [secondaryNavs, setSecondaryNavs] = useState([]);
+  const [secondaryNavs] = useState(secondaryNavLinks);
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
-  const baseViewRoutes = [
-    AppRoute.ROOT,
-    AppRoute.SETTINGS,
-    AppRoute.DOCUMENTATION,
-  ];
+  const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
   const allProjects = useSelector((state) => state.global.activeProjects);
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId,
@@ -60,12 +55,12 @@ export default function useSideNav() {
       // basic view page without secondary navs
       setShowProjects(false);
       setPrimaryNavs(dynamicLinkReplaceHelper(basePrimaryNavLinks));
-      setSecondaryNavs([]);
+      // setSecondaryNavs([]);
     } else {
       // with secondary navs
       setShowProjects(true);
       setPrimaryNavs(dynamicLinkReplaceHelper(internalPrimaryNavLinks));
-      setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
+      // setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, selectedProjectId, allProjectsDrop]);
