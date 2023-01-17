@@ -128,11 +128,9 @@ export default function TestCases() {
         {allTestCases.length ? (
           <>
             <TMDataTable
-              // isSelectable
-              // isHeaderSticky
+              containerWrapperClass="md:rounded-none"
               columns={datatableColumns}
               rows={allTestCases}
-              // isSortable={false}
             />
             <InlineAddTestCase />
           </>

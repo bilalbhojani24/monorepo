@@ -57,22 +57,6 @@ const AddTestRuns = () => {
             },
           },
         ]}
-        actionsData={[
-          {
-            id: 'cancel-test-run',
-            actionsNode: <>Cancel</>,
-            actionFn: cancelTestRunHandler,
-            colors: 'white',
-            variant: 'primary',
-          },
-          {
-            id: 'create-test-run',
-            actionsNode: <>Create Run</>,
-            actionFn: createTestRunHandler,
-            colors: 'brand',
-            variant: 'primary',
-          },
-        ]}
       />
       <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
         <div className="border-base-200 flex flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white p-4 sm:rounded-lg">
