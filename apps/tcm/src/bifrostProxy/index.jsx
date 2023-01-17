@@ -50,8 +50,8 @@ export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
 
-export const TMDataTable = ({ columns, rows }) => (
-  <Table>
+export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
+  <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">
       <TableRow>
         {columns?.map((col) => (
@@ -82,4 +82,9 @@ export const TMDataTable = ({ columns, rows }) => (
 TMDataTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  containerWrapperClass: PropTypes.string,
+};
+
+TMDataTable.defaultProps = {
+  containerWrapperClass: '',
 };

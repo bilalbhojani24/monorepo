@@ -5,7 +5,7 @@ import {
   TMStackedListWSingleColumn,
   TMTabs,
 } from 'bifrostProxy';
-import moment from 'moment';
+import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
@@ -84,7 +84,7 @@ const TestCaseMutliData = () => {
             ...item,
             heading: item.jira_id,
             subHeading: item.jira_id,
-            textAside: moment(item.created_at).fromNow(),
+            textAside: formatTime(item.created_at, 'ago'),
             preview: item.test_case_id,
           }))}
         />
