@@ -20,27 +20,24 @@ const TestCaseDetailsView = () => {
   }, [testCaseId]);
 
   return (
-    <>
-      {isTestCaseViewVisible && (
-        <TMSlideover
-          key={testCaseId}
-          show
-          onClose={hideTestCaseViewDrawer}
-          onOverlayClick={hideTestCaseViewDrawer}
-          closeButtonOutside={false}
-          description=""
-          topMarginElementId="whole-header"
-          slideoverWidth="w-[488px]"
-        >
-          <TMSlideoverHeader
-            heading={testCaseDetails?.name || ''}
-            isBorder
-            handleDismissClick={hideTestCaseViewDrawer}
-          />
-          <TestCaseView />
-        </TMSlideover>
-      )}
-    </>
+    <TMSlideover
+      key={testCaseId}
+      show={isTestCaseViewVisible}
+      onClose={hideTestCaseViewDrawer}
+      onOverlayClick={hideTestCaseViewDrawer}
+      closeButtonOutside={false}
+      description=""
+      topMarginElementId="whole-header"
+      slideoverWidth="w-[488px]"
+      backgroundOverlay={false}
+    >
+      <TMSlideoverHeader
+        heading={testCaseDetails?.name || ''}
+        isBorder
+        handleDismissClick={hideTestCaseViewDrawer}
+      />
+      <TestCaseView />
+    </TMSlideover>
   );
 };
 
