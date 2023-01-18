@@ -26,7 +26,6 @@ import Notifications from './modules/Notifications/index';
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
-import PopoverContainer from './modules/PopoverContainer/index';
 import ProgressBar from './modules/ProgressBar/index';
 import Radio from './modules/Radio/index';
 import RadioGroup from './modules/RadioGroup/index';
@@ -57,7 +56,9 @@ import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
 import Tooltip from './modules/Tooltip/index';
-import TooltipContainer from './modules/TooltipContainer/index';
+import TooltipBody from './modules/TooltipBody/index';
+import TooltipFooter from './modules/TooltipFooter/index';
+import TooltipHeader from './modules/TooltipHeader/index';
 
 export * from './modules/Icon/index';
 
@@ -90,7 +91,9 @@ export {
   PageHeadings,
   Pagination,
   Popover,
-  PopoverContainer,
+  TooltipBody as PopoverBody,
+  TooltipFooter as PopoverFooter,
+  TooltipHeader as PopoverHeader,
   ProgressBar,
   Radio,
   RadioGroup,
@@ -121,5 +124,7 @@ export {
   Tabs,
   TextArea,
   Tooltip,
-  TooltipContainer,
+  TooltipBody,
+  TooltipFooter,
+  TooltipHeader,
 };
