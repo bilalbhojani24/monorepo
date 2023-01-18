@@ -1,16 +1,23 @@
 import React from 'react';
-import Checkbox from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { CHECKBOX_DESCRIPTION_VARIANT, CHECKBOX_POSITION_VARIANT, people } from './const/checkboxConstants';
+
+import {
+  CHECKBOX_DESCRIPTION_VARIANT,
+  CHECKBOX_POSITION_VARIANT,
+} from './const/checkboxConstants';
+import Checkbox from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Checkbox',
   component: Checkbox,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Checkbox from 'bifrost/Checkbox'"} />;
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Checkbox from 'bifrost/Checkbox'"}
+        />
+      ),
     },
   },
   argTypes: {
@@ -20,19 +27,19 @@ const defaultConfig = {
     },
     checked: {
       control: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: undefined,
     },
     data: {
       control: { type: null },
       defaultValue: {
-        value: 1,
+        value: '1',
         label: 'Annette Black',
         description: 'Get notified when someones posts a comment on a posting',
       },
     },
     defaultChecked: {
       control: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: true,
     },
     disabled: {
       control: { type: 'boolean' },
@@ -74,8 +81,16 @@ const defaultConfig = {
   controls: {},
 };
 const Template = (args) => <Checkbox {...args} />;
+const ControlledCheckboxTemplate = (args) => <Checkbox {...args} />;
 const CheckboxPrimary = Template.bind({});
+const ControlledCheckbox = ControlledCheckboxTemplate.bind({});
+
 CheckboxPrimary.parameters = {};
 
 export default defaultConfig;
-export { CheckboxPrimary };
+export { CheckboxPrimary, ControlledCheckbox };
+
+ControlledCheckbox.args = {
+  checked: true,
+  defaultChecked: undefined,
+};
