@@ -2,7 +2,7 @@ import React from 'react';
 
 // import { EnvelopeIcon } from '@heroicons/react/20/solid';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { EnvelopeIcon, PlusIcon } from '../Icon';
+import { EnvelopeIcon } from '../Icon';
 
 import {
   BUTTON_COLORS,
@@ -65,11 +65,7 @@ const defaultConfig = {
   },
   controls: {},
 };
-const Template = (args) => (
-  <Button {...args}>
-    <PlusIcon className="h-5 w-5" />
-  </Button>
-);
+const Template = (args) => <Button {...args}>Button</Button>;
 const Default = Template.bind({});
 Default.parameters = {
   size: 'primary',
