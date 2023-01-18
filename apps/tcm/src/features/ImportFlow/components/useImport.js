@@ -1,14 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 import { testConnection } from '../../../api/import.api';
 import {
   setCurrentScreen,
   setProjectForTestRailsImport,
   setTestRailsCred,
+  setConfigureDataTestRails,
 } from '../slices/importSlice';
+import { insertProjects } from 'api/import.api';
 
 const useImport = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getUserEmail = useSelector((state) => {
     if (!state.global.user.email) return 'procurement@browserstack.com';
@@ -20,6 +23,9 @@ const useImport = () => {
     (state) => state.import.projectsForTestRailImport,
   );
   const currentScreen = useSelector((state) => state.import.currentScreen);
+  const selectedTestRailsProjects = useSelector(
+    (state) => state.import.selectedProjectsTestRailImport,
+  );
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
@@ -43,13 +49,47 @@ const useImport = () => {
     dispatch(setCurrentScreen('configureData'));
   };
 
+  const setSelectedProjects = (projectsArray) => {
+    if (projectsArray.length === 0) dispatch(setConfigureDataTestRails([]));
+    else {
+      const onlyChecked = projectsArray.map((project) => {
+        if (project.checked) {
+          const { checked, ...rest } = project;
+          return rest;
+        }
+      });
+      const filteredArray = onlyChecked.filter((item) => item);
+      console.log(filteredArray);
+      dispatch(setConfigureDataTestRails(filteredArray));
+    }
+  };
+
+  const handleConfigureDataProceed = () => {
+    dispatch(setCurrentScreen('confirmImport'));
+  };
+
+  const handleConfirmImport = () => {
+    insertProjects({
+      ...testRailsCred,
+      testrail_projects: selectedTestRailsProjects,
+    }).then(() => {
+      console.log('done successfully');
+    });
+    navigate(-1);
+  };
+
   return {
     getUserEmail,
     testRailProjects,
+    testRailsCred,
     handleInputFieldChange,
     handleTestConnection,
     handleProceed,
     currentScreen,
+    setSelectedProjects,
+    selectedTestRailsProjects,
+    handleConfigureDataProceed,
+    handleConfirmImport,
   };
 };
 

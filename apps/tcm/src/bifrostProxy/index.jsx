@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Badge,
   Button,
+  Checkbox,
   Drawer,
   Dropdown,
   EmptyState,
@@ -51,6 +52,7 @@ export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
+export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
   <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">

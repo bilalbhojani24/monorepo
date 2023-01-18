@@ -2,20 +2,24 @@ import React from 'react';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
+import ConfirmImport from './ConfirmImport';
 import ImportHeader from './ImportHeader';
 import Steps from './ImportSteps';
 import useImport from './useImport';
 
 const Import = () => {
-  const { currentScreen, testRailProjects } = useImport();
+  const { currentScreen, testRailProjects, selectedTestRailsProjects } =
+    useImport();
 
-  const getCurrentScreen = () => (
-    // if (currentScreen === 'configureTool') return <ConfigureTool />;
-    // if (currentScreen === 'configureData')
-    //   return <ConfigureData projects={testRailProjects} />;
-    // return <>Something went wrong!</>;
-    <ConfigureData projects={testRailProjects} />
-  );
+  const getCurrentScreen = () => {
+    if (currentScreen === 'configureTool') return <ConfigureTool />;
+    if (currentScreen === 'configureData')
+      return <ConfigureData projects={testRailProjects} />;
+    if (currentScreen === 'confirmImport')
+      return <ConfirmImport projects={selectedTestRailsProjects} />;
+    return <>Something went wrong!</>;
+  };
+
   return (
     <>
       <ImportHeader

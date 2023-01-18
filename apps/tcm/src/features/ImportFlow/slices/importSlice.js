@@ -8,6 +8,7 @@ const initialState = {
   },
   projectsForTestRailImport: [],
   currentScreen: 'configureTool',
+  selectedProjectsTestRailImport: [],
 };
 
 const importSlice = createSlice({
@@ -23,11 +24,15 @@ const importSlice = createSlice({
     setCurrentScreen: (state, { payload }) => {
       state.currentScreen = payload;
     },
+    setConfigureDataTestRails: (state, { payload }) => {
+      state.selectedProjectsTestRailImport = payload;
+    },
   },
 });
 
 export const {
   setCurrentScreen,
+  setConfigureDataTestRails,
   setTestRailsCred,
   setProjectForTestRailsImport,
 } = importSlice.actions;

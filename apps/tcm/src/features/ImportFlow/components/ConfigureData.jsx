@@ -1,96 +1,20 @@
-import React from 'react';
-import { TMDataTable, TMSectionHeadings } from 'bifrostProxy';
-
-const projects = [
-  {
-    id: 1,
-    name: 'Local',
-    suite_mode: 1,
-  },
-  {
-    id: 2,
-    name: 'Dummy Project',
-    suite_mode: 1,
-  },
-  {
-    id: 3,
-    name: 'automation',
-    suite_mode: 1,
-  },
-  {
-    id: 4,
-    name: 'example',
-    suite_mode: 1,
-  },
-  {
-    id: 5,
-    name: 'Desktop platform',
-    suite_mode: 1,
-  },
-  {
-    id: 6,
-    name: 'Testing import',
-    suite_mode: 1,
-  },
-  {
-    id: 7,
-    name: 'E1',
-    suite_mode: 1,
-  },
-  {
-    id: 8,
-    name: 'E2',
-    suite_mode: 1,
-  },
-  {
-    id: 9,
-    name: 'TestRail Sample',
-    suite_mode: 1,
-  },
-  {
-    id: 10,
-    name: 'TT1',
-    suite_mode: 1,
-  },
-  {
-    id: 11,
-    name: 'Tt111',
-    suite_mode: 1,
-  },
-  {
-    id: 12,
-    name: 'aAAAA',
-    suite_mode: 1,
-  },
-  {
-    id: 13,
-    name: 'completed project',
-    suite_mode: 3,
-  },
-  {
-    id: 14,
-    name: 'Example (harsh)',
-    suite_mode: 1,
-  },
-];
+import React, { useState, useEffect } from 'react';
+import { TMSectionHeadings } from 'bifrostProxy';
+import ConfigureDataList from './ConfigureDataList';
+import useImport from './useImport';
 
 const ConfigureData = (props) => {
-  //   const { projects } = props;
-  const handleRowSelect = (data) => {
-    console.log('data', data);
-  };
-  const tableColumns = [
-    {
-      name: `All Projects (${projects.length})`,
-      key: 'allProjects',
-      cell: (rowData) => (
-        <>
-          <div>{rowData.name}</div>
-          {/* <div>{rowData?.description}</div> */}
-        </>
-      ),
-    },
-  ];
+  const { projects } = props;
+  const [projectsWithCheck, setProjectsWithCheck] = useState(projects);
+  const { handleConfigureDataProceed } = useImport();
+
+  useEffect(() => {
+    setProjectsWithCheck(
+      projects.map((project) => {
+        return { ...project, checked: true };
+      }),
+    );
+  }, [projects]);
 
   return (
     <div className="flex justify-center">
@@ -101,15 +25,10 @@ const ConfigureData = (props) => {
           primaryButtonProps={{
             children: 'Proceed',
             size: 'default',
+            onClick: handleConfigureDataProceed,
           }}
         />
-        <TMDataTable
-          isFullWhite
-          isSelectable
-          rows={projects}
-          columns={tableColumns}
-          onRowSelect={handleRowSelect}
-        />
+        <ConfigureDataList projects={projectsWithCheck} />
       </div>
     </div>
   );

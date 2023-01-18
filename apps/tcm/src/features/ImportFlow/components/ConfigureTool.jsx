@@ -16,9 +16,13 @@ const ConfigureTool = () => {
   };
 
   const getForm = () => {
-    if (selectedRadioId === 'import-from-tool') return <TestRailImportForm />;
-    if (selectedRadioId === 'upload-file') return 'Upload';
-    return 'Nothing';
+    if (buttonText === 'testrails') {
+      if (selectedRadioId === 'import-from-tool') return <TestRailImportForm />;
+      if (selectedRadioId === 'upload-file') return 'Upload';
+      return 'Nothing';
+    } else if (buttonText === 'zephyr') {
+      return <>Zephyr</>;
+    }
   };
 
   return (
@@ -81,12 +85,12 @@ const ConfigureTool = () => {
                     <TMBadge text="Recommended" modifier="warn" size="large" />
                   </>
                 ),
-                description: `Enter credentials we'll import your data`,
+                description: `Enter ${buttonText} credentials we'll import your data`,
               },
               {
                 id: 'upload-file',
                 name: 'Upload file',
-                description: `Upload TestRail’s XML file with test case data`,
+                description: `Upload ${buttonText} XML file with test case data`,
               },
             ]}
           />

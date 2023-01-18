@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import { TMButton, TMInputField } from 'bifrostProxy';
 
 import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
+import { setTestRailsCred } from '../slices/importSlice';
 
 const TestRailImportForm = () => {
   const {
@@ -12,6 +14,11 @@ const TestRailImportForm = () => {
     handleTestConnection,
     handleProceed,
   } = useImport();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
+  }, []);
 
   return (
     <div className="mt-12">
