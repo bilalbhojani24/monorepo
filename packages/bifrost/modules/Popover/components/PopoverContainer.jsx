@@ -39,13 +39,18 @@ const PopoverContainer = (props) => {
             align={placementAlign}
           >
             <div
-              className={twClassNames('rounded-md p-4 shadow bg-white', {
+              className={twClassNames('rounded-md shadow bg-white py-4', {
                 'bg-white': theme === TP_TOOLTIP_THEME[0],
                 'bg-base-800': theme === TP_TOOLTIP_THEME[1],
-                'max-w-xs': size === TP_SIZE[0],
-                'max-w-sm': size === TP_SIZE[1],
-                'max-w-md': size === TP_SIZE[2],
-                'max-w-lg': size === TP_SIZE[3],
+                'max-w-xs': TP_SIZE[0] === size,
+                'sm:max-w-sm': TP_SIZE[1] === size,
+                'sm:max-w-md': TP_SIZE[2] === size,
+                'sm:max-w-lg': TP_SIZE[3] === size,
+                'sm:max-w-xl': TP_SIZE[4] === size,
+                'sm:max-w-2xl': TP_SIZE[5] === size,
+                'sm:max-w-3xl': TP_SIZE[6] === size,
+                'sm:max-w-4xl': TP_SIZE[7] === size,
+                'sm:max-w-full': TP_SIZE[8] === size,
               })}
             >
               {content}

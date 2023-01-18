@@ -13,7 +13,7 @@ const TooltipHeader = ({ children, wrapperClass }) => {
   return (
     <p
       className={twClassNames(
-        'mb-2 font-semibold',
+        'font-semibold px-4 mb-2',
         {
           'text-base-900': theme === TP_TOOLTIP_THEME[0],
           'text-base-50': theme === TP_TOOLTIP_THEME[1],

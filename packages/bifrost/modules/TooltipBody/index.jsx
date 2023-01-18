@@ -13,7 +13,7 @@ const TooltipBody = ({ children, wrapperClass }) => {
   return (
     <p
       className={twClassNames(
-        'mb-2',
+        'px-4 mb-2',
         {
           'text-base-500': theme === TP_TOOLTIP_THEME[0],
           'text-base-300': theme === TP_TOOLTIP_THEME[1],
