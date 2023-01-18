@@ -9,9 +9,9 @@ import {
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
 import Hyperlink from '../Hyperlink';
-import TooltipBody from '../TooltipBody';
-import TooltipFooter from '../TooltipFooter';
-import TooltipHeader from '../TooltipHeader';
+import PopoverBody from '../TooltipBody';
+import PopoverFooter from '../TooltipFooter';
+import PopoverHeader from '../TooltipHeader';
 
 import Popover from './index';
 
@@ -39,15 +39,15 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <TooltipHeader>This is a tooltip heading</TooltipHeader>
-          <TooltipBody>
+          <PopoverHeader>This is a tooltip heading</PopoverHeader>
+          <PopoverBody>
             Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
             Donec sodales augue eu viverra tempus.
-          </TooltipBody>
-          <TooltipFooter>
+          </PopoverBody>
+          <PopoverFooter>
             <Button>Action 1</Button>
             <Button colors="white">Action 2</Button>
-          </TooltipFooter>
+          </PopoverFooter>
         </>
       ),
     },
@@ -100,12 +100,12 @@ DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
+      <PopoverHeader>This is a tooltip heading</PopoverHeader>
+      <PopoverBody>
         Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
         sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
+      </PopoverBody>
+      <PopoverFooter>
         <Button>Action 1</Button>
         <Button
           // colors="white"
@@ -113,7 +113,7 @@ DarkTheme.args = {
         >
           Action 2
         </Button>
-      </TooltipFooter>
+      </PopoverFooter>
     </>
   ),
 };
@@ -123,12 +123,12 @@ DarkTheme.args = {
 LightThemeHyperlink.args = {
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
+      <PopoverHeader>This is a tooltip heading</PopoverHeader>
+      <PopoverBody>
         Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
         sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
+      </PopoverBody>
+      <PopoverFooter>
         <Hyperlink
           underlined
           fontWeight="font-light"
@@ -149,7 +149,7 @@ LightThemeHyperlink.args = {
         >
           Action 1
         </Hyperlink>
-      </TooltipFooter>
+      </PopoverFooter>
     </>
   ),
 };
@@ -160,12 +160,12 @@ DarkThemeHyperlink.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
+      <PopoverHeader>This is a tooltip heading</PopoverHeader>
+      <PopoverBody>
         Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
         sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
+      </PopoverBody>
+      <PopoverFooter>
         <Hyperlink
           underlined
           fontWeight="font-light"
@@ -185,7 +185,7 @@ DarkThemeHyperlink.args = {
         >
           Action 1
         </Hyperlink>
-      </TooltipFooter>
+      </PopoverFooter>
     </>
   ),
 };
