@@ -1,5 +1,6 @@
 import React from 'react';
 import { TMButton } from 'bifrostProxy';
+import { arrayOf, shape, string } from 'prop-types';
 
 const ImportSteps = (props) => {
   const { steps } = props;
@@ -13,6 +14,18 @@ const ImportSteps = (props) => {
       </div>
     </>
   );
+};
+
+ImportSteps.propTypes = {
+  steps: arrayOf(
+    shape({
+      name: string,
+    }),
+  ),
+};
+
+ImportSteps.defaultProps = {
+  steps: [],
 };
 
 export default ImportSteps;
