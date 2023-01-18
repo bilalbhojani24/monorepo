@@ -4,7 +4,6 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import { CheckIcon } from '../Icon';
-import SlideoverBody from '../SlideoverBody';
 import SlideoverFooter from '../SlideoverFooter';
 import SlideoverHeader from '../SlideoverHeader';
 
@@ -93,22 +92,17 @@ predefinedComponents.args = {
         lightText
       />
 
-      <SlideoverBody>
-        <div className="flex-1 py-4">
-          <div className="bg-success-100 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-            <CheckIcon
-              className="text-success-600 h-6 w-6"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="mt-3 text-center sm:mt-5">
-            <h3 as="h3" className="text-base-900 text-lg font-medium leading-6">
-              Payment successful
-            </h3>
-            <div className="mt-2" />
-          </div>
+      <div className="flex-1 py-4">
+        <div className="bg-success-100 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+          <CheckIcon className="text-success-600 h-6 w-6" aria-hidden="true" />
         </div>
-      </SlideoverBody>
+        <div className="mt-3 text-center sm:mt-5">
+          <h3 as="h3" className="text-base-900 text-lg font-medium leading-6">
+            Payment successful
+          </h3>
+          <div className="mt-2" />
+        </div>
+      </div>
 
       <SlideoverFooter backgroundColorClass="bg-brand-100">
         <Button fullWidth colors="brand">
