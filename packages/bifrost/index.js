@@ -7,7 +7,6 @@ import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
-import Drawer from './modules/Drawer/index';
 import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
@@ -53,7 +52,6 @@ import Notifications from './modules/Notifications/index';
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
-import PopoverContainer from './modules/PopoverContainer/index';
 import ProgressBar from './modules/ProgressBar/index';
 import Radio from './modules/Radio/index';
 import RadioGroup from './modules/RadioGroup/index';
@@ -65,6 +63,10 @@ import SelectMenu from './modules/SelectMenu/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
+import Slideover from './modules/Slideover/index';
+import SlideoverBody from './modules/SlideoverBody';
+import SlideoverFooter from './modules/SlideoverFooter';
+import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
 import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
 import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
@@ -80,7 +82,9 @@ import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
 import Tooltip from './modules/Tooltip/index';
-import TooltipContainer from './modules/TooltipContainer/index';
+import TooltipBody from './modules/TooltipBody/index';
+import TooltipFooter from './modules/TooltipFooter/index';
+import TooltipHeader from './modules/TooltipHeader/index';
 
 export * from './modules/Icon/index';
 
@@ -105,7 +109,6 @@ export {
   ComboBox,
   DataVisualization,
   DescriptionList,
-  Drawer,
   Dropdown,
   EllipsisVerticalIcon,
   EmptyState,
@@ -128,7 +131,9 @@ export {
   PageHeadings,
   Pagination,
   Popover,
-  PopoverContainer,
+  TooltipBody as PopoverBody,
+  TooltipFooter as PopoverFooter,
+  TooltipHeader as PopoverHeader,
   ProgressBar,
   Radio,
   RadioGroup,
@@ -140,6 +145,10 @@ export {
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
+  Slideover,
+  SlideoverBody,
+  SlideoverFooter,
+  SlideoverHeader,
   StackedListWAvatar,
   StackedListWSingleColumn,
   StackedListWStickyHeadings,
@@ -155,5 +164,7 @@ export {
   Tabs,
   TextArea,
   Tooltip,
-  TooltipContainer,
+  TooltipBody,
+  TooltipFooter,
+  TooltipHeader,
 };
