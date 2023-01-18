@@ -16,7 +16,6 @@ import {
   SectionHeadings,
   SelectMenu,
   Slideover,
-  SlideoverBody,
   SlideoverHeader,
   StackedListWSingleColumn,
   Table,
@@ -38,7 +37,6 @@ export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
-export const TMSlideoverBody = (props) => <SlideoverBody {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
