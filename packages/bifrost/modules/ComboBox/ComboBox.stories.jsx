@@ -1,20 +1,20 @@
 import React from 'react';
-import ComboBox from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
 import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
+import ComboBox from './index';
 
 const defaultConfig = {
   title: 'Application/Components/ComboBox',
   component: ComboBox,
   parameters: {
     docs: {
-      page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={"import ComboBox from 'bifrost/ComboBox'"}
-          />
-        );
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import ComboBox from 'bifrost/ComboBox'"}
+        />
+      ),
     },
   },
   argTypes: {
@@ -36,13 +36,11 @@ const defaultConfig = {
     onChange: {
       option: { type: null },
       description: 'Callback function when combobox value is changed',
-      defaultValue: (selectedOptions) => {
-        console.log(selectedOptions);
-      },
+      defaultValue: () => {},
     },
     options: {
-      options: COMBOBOX_OPTIONS,
       description: 'options for the combobox, array of objects',
+      defaultValue: COMBOBOX_OPTIONS,
     },
     defaultValue: {
       option: { type: null },
@@ -69,7 +67,7 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { Primary, MultiSelect };
+export { MultiSelect, Primary };
 
 MultiSelect.args = {
   defaultValue: null,
