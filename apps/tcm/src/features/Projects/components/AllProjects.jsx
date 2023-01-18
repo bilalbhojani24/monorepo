@@ -46,7 +46,9 @@ const AllProjects = () => {
           onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
         >
-          <div className="text-base-900 font-medium">{rowData.name}</div>
+          <div className="text-base-900 hover:text-brand-600 font-medium">
+            {rowData.name}
+          </div>
           <div className="text-base-400">{rowData.description}</div>
         </div>
       ),

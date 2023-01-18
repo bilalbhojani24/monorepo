@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import {
+  priorityOptions,
+  statusOptions,
+  templateOptions,
+} from '../const/addTestCaseConst';
+
 const initialState = {
   allFolders: [],
   allTestCases: [],
@@ -10,15 +16,21 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    type: '',
-    priority: '',
-    owner: '',
-    state: '',
+    case_type: '',
+    priority: priorityOptions[2].value,
+    owner: null,
+    status: statusOptions[0].value,
     precondition: '',
+    template: templateOptions[0].value,
+    steps: [''],
   },
   showEditTestCaseForm: false,
   showDeleteTestCaseModal: false,
   selectedTestCase: null,
+  usersDetails: {
+    projectId: null,
+    users: null,
+  },
 };
 
 export const repositorySlice = createSlice({
@@ -76,6 +88,10 @@ export const repositorySlice = createSlice({
       // prefill for edit
       state.testCaseFormData = payload || initialState.testCaseFormData;
     },
+    setUsers: (state, { payload }) => {
+      // prefill for edit
+      state.usersDetails = payload || initialState.usersDetails;
+    },
   },
 });
 
@@ -93,6 +109,7 @@ export const {
   deleteTestCase,
   setTestCaseFormData,
   updateTestCase,
+  setUsers,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;
