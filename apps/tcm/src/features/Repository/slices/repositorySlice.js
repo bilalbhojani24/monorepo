@@ -4,6 +4,7 @@ import {
   priorityOptions,
   statusOptions,
   templateOptions,
+  testCaseTypesOptions,
 } from '../const/addTestCaseConst';
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: '',
+    case_type: testCaseTypesOptions[0].value,
     priority: priorityOptions[2].value,
     owner: null,
     status: statusOptions[0].value,

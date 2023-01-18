@@ -100,13 +100,13 @@ const AddEditTestCase = () => {
           </div>
           <div className="mt-4">
             <TMTextArea
-              value={testCaseFormData.espected_results}
+              value={testCaseFormData.expected_result}
               id="test-case-expected-results"
               label="Expected Results"
               placeholder="Write in brief about this test case"
               onChange={(e) =>
                 handleTestCaseFieldChange(
-                  'espected_results',
+                  'expected_result',
                   e.currentTarget.value,
                 )
               }

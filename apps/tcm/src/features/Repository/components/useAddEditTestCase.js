@@ -103,7 +103,12 @@ export default function useAddEditTestCase() {
         projectId,
         folderId,
         testCaseId: selectedTestCase.id,
-        payload: { test_case: formData },
+        payload: {
+          test_case: {
+            ...formData,
+            steps: JSON.stringify(formData.steps),
+          },
+        },
       }).then((data) => {
         dispatch(updateTestCase(data));
         dispatch(setAddTestCaseVisibility(false));

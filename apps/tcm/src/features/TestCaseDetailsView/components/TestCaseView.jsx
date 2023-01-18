@@ -12,7 +12,7 @@ const TestCaseView = () => {
     return 'Loading..';
 
   return (
-    <div className="flex h-full flex-col items-stretch pt-5">
+    <div className="flex h-full flex-col items-stretch px-6 pt-5">
       <div className="h-full w-full overflow-y-auto">
         <TestCaseBasicData />
         <TestCaseMutliData />

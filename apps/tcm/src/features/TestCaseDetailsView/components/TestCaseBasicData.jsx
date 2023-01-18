@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMButton } from 'bifrostProxy';
+// import { TMButton } from 'bifrostProxy';
 import { DetailsSnippet } from 'features/Reusables';
 
 import useTestCaseView from './useTestCaseView';
@@ -27,7 +27,9 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Template"
-              value={testCaseDetails?.description || 'N/A'}
+              value={
+                testCaseDetails?.template?.replace('test_case_', '') || 'N/A'
+              }
             />
           </div>
           <div className="w-3/6">
@@ -39,7 +41,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Configurations"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.configurations || 'N/A'}
             />
           </div>
           <div className="w-3/6">
@@ -51,19 +53,19 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Tags"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.tags || 'N/A'}
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Issues"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.issues || 'N/A'}
             />
           </div>
         </div>
         <DetailsSnippet
           title="Attachments"
-          value={testCaseDetails?.description || 'N/A'}
+          value={testCaseDetails?.attachments || 'N/A'}
         />
         <div />
       </div>

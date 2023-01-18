@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Badge,
   Button,
-  Drawer,
   Dropdown,
   EmptyState,
   InputField,
@@ -16,6 +15,9 @@ import {
   PageHeadings,
   SectionHeadings,
   SelectMenu,
+  Slideover,
+  SlideoverBody,
+  SlideoverHeader,
   StackedListWSingleColumn,
   Table,
   TableBody,
@@ -25,7 +27,6 @@ import {
   Tabs,
   TextArea,
   Tooltip,
-  TooltipContainer,
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
@@ -37,17 +38,18 @@ export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
+export const TMSlideoverBody = (props) => <SlideoverBody {...props} />;
+export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
-export const TMDrawer = (props) => <Drawer {...props} />;
+export const TMSlideover = (props) => <Slideover {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
-export const TMTooltipContainer = (props) => <TooltipContainer {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );

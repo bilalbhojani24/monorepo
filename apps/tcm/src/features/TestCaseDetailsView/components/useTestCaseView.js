@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
@@ -10,6 +12,7 @@ import {
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCases() {
+  const navigate = useNavigate();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   // const [inputError, setInputError] = useState(false);
   const { projectId, folderId, testCaseId } = useParams();
@@ -49,6 +52,12 @@ export default function useTestCases() {
 
   const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId,
+      }),
+    );
   };
 
   const handleTabChange = (value) => {

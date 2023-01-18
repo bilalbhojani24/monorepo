@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TMDrawer } from 'bifrostProxy';
+import { TMSlideover, TMSlideoverHeader } from 'bifrostProxy';
 
 import TestCaseView from './components/TestCaseView';
 import useTestCaseView from './components/useTestCaseView';
@@ -22,13 +22,23 @@ const TestCaseDetailsView = () => {
   return (
     <>
       {isTestCaseViewVisible && (
-        <TMDrawer
+        <TMSlideover
           key={testCaseId}
+          show
           onClose={hideTestCaseViewDrawer}
-          title={testCaseDetails?.name || ''}
+          onOverlayClick={hideTestCaseViewDrawer}
+          closeButtonOutside={false}
           description=""
-          bodyNode={<TestCaseView />}
-        />
+          topMarginElementId="whole-header"
+          slideoverWidth="w-[488px]"
+        >
+          <TMSlideoverHeader
+            heading={testCaseDetails?.name || ''}
+            isBorder
+            handleDismissClick={hideTestCaseViewDrawer}
+          />
+          <TestCaseView />
+        </TMSlideover>
       )}
     </>
   );
