@@ -7,7 +7,6 @@ import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
-import Drawer from './modules/Drawer/index';
 import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
@@ -39,6 +38,10 @@ import SelectMenu from './modules/SelectMenu/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
+import Slideover from './modules/Slideover/index';
+import SlideoverBody from './modules/SlideoverBody';
+import SlideoverFooter from './modules/SlideoverFooter';
+import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
 import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
 import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
@@ -68,7 +71,6 @@ export {
   ComboBox,
   DataVisualization,
   DescriptionList,
-  Drawer,
   Dropdown,
   EmptyState,
   EmptyStateWRecommendation,
@@ -100,6 +102,10 @@ export {
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
+  Slideover,
+  SlideoverBody,
+  SlideoverFooter,
+  SlideoverHeader,
   StackedListWAvatar,
   StackedListWSingleColumn,
   StackedListWStickyHeadings,
