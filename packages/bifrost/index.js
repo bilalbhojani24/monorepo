@@ -64,7 +64,6 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Slideover from './modules/Slideover/index';
-import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
@@ -146,7 +145,6 @@ export {
   SidebarItem,
   SidebarNavigation,
   Slideover,
-  SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
   StackedListWAvatar,

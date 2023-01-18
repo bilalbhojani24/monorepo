@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
@@ -25,11 +25,9 @@ const Checkbox = (props) => {
     position,
     wrapperClass,
   } = props;
-  const [check, setCheck] = useState(defaultChecked);
 
   const handleChange = (event) => {
     if (disabled) return;
-    setCheck(event.target.checked);
     if (onChange) onChange(event);
   };
 
@@ -47,7 +45,7 @@ const Checkbox = (props) => {
       <div
         className={twClassNames('relative flex items-start', {
           'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
-          'pl-2 mb-2': isCard,
+          'pl-2 mb-2 py-4': isCard,
         })}
       >
         <div
@@ -60,7 +58,8 @@ const Checkbox = (props) => {
             name={`${name}${data?.value || ''}`}
             type="checkbox"
             className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded"
-            checked={checked || check}
+            defaultChecked={defaultChecked}
+            checked={checked}
             onChange={(e) => handleChange(e)}
             disabled={disabled}
           />
@@ -93,7 +92,7 @@ const Checkbox = (props) => {
 
         <span
           className={twClassNames(
-            checked || check
+            checked || defaultChecked
               ? 'border border-brand-500'
               : 'border-2 border-transparent',
             'pointer-events-none absolute -inset-px rounded-lg',
@@ -127,9 +126,9 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
   border: true,
-  checked: false,
+  checked: undefined,
   data: null,
-  defaultChecked: false,
+  defaultChecked: undefined,
   disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,
   indeterminate: false,
