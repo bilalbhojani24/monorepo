@@ -30,7 +30,7 @@ const TestRuns = () => {
               id: 'node-1',
               callback: showTestRunAddFormHandler,
               actionProps: {
-                children: <>Add Test Run</>,
+                children: <>Create TestRun</>,
                 variant: 'primary',
               },
             },

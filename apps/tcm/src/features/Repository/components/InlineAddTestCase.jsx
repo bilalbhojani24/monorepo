@@ -18,7 +18,7 @@ const InlineAddTestCase = () => {
       <InputWButton
         value={testCase}
         id="inline-add-test-case"
-        buttonElement="Add Test Case"
+        buttonElement="Create Test Case"
         placeholder="Add new test case"
         onChange={(e) => setTestCase(e.target.value)}
         onButtonClick={handleInlineInputButtonClick}

@@ -106,7 +106,7 @@ const AddTestRuns = () => {
             <TMInputWButton
               id="add-test-cases"
               label="Test Cases"
-              buttonElement="Add Test Cases"
+              buttonElement="Create Test Cases"
               icon={<PostAddIcon />}
               placeholder="0 Test Cases Selected"
             />

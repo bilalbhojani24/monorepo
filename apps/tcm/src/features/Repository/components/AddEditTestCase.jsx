@@ -88,7 +88,7 @@ const AddEditTestCase = () => {
         <>
           <div className="mt-4">
             <TMTextArea
-              value={testCaseFormData.steps[0]}
+              value={testCaseFormData?.steps?.[0]}
               id="test-case-steps"
               label="Steps"
               placeholder="Steps of the test"

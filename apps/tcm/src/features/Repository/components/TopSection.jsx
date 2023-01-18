@@ -15,7 +15,7 @@ const TopSection = () => {
             id: 'node-1',
             callback: showTestCaseAdditionPage,
             actionProps: {
-              children: <>Add Test Case</>,
+              children: <>Create Test Case</>,
               variant: 'primary',
               colors: 'white',
             },
