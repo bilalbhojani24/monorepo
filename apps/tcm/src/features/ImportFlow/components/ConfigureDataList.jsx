@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TMCheckBox } from 'bifrostProxy';
+import { number, shapeOf, string } from 'prop-types';
+
 import useImport from './useImport';
 
 const ConfigureDataList = (props) => {
@@ -16,16 +18,12 @@ const ConfigureDataList = (props) => {
     if (name === 'allProjects') {
       if (e.target.checked) {
         setAllProjectsArray(
-          allProjectsArray.map((project) => {
-            return { ...project, checked: true };
-          }),
+          allProjectsArray.map((project) => ({ ...project, checked: true })),
         );
         setSelectedProjects(allProjectsArray);
       } else {
         setAllProjectsArray(
-          allProjectsArray.map((project) => {
-            return { ...project, checked: false };
-          }),
+          allProjectsArray.map((project) => ({ ...project, checked: false })),
         );
         setSelectedProjects([]);
       }
@@ -51,22 +49,31 @@ const ConfigureDataList = (props) => {
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
       />
-      {allProjectsArray.map((project) => {
-        return (
-          <TMCheckBox
-            position="left"
-            data={{
-              label: project.name,
-              value: project.name,
-              description: project.description,
-            }}
-            onChange={handleCheckBoxChange(project.name)}
-            checked={project.checked}
-          />
-        );
-      })}
+      {allProjectsArray.map((project) => (
+        <TMCheckBox
+          position="left"
+          data={{
+            label: project.name,
+            value: project.name,
+            description: project.description,
+          }}
+          onChange={handleCheckBoxChange(project.name)}
+          checked={project.checked}
+        />
+      ))}
     </>
   );
+};
+ConfigureDataList.propTypes = {
+  projects: shapeOf({
+    id: number,
+    name: string,
+    suite_mode: number,
+  }),
+};
+
+ConfigureDataList.defaultProps = {
+  projects: [],
 };
 
 export default ConfigureDataList;

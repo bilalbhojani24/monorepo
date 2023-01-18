@@ -28,7 +28,7 @@ const Import = () => {
           {
             id: 'change-setup',
             actionFn: () => {
-              console.log('Change Setup');
+              // console.log('Change Setup');
             },
             variant: 'white',
             colors: 'white',
@@ -36,7 +36,7 @@ const Import = () => {
           {
             id: 'skip-for-now',
             actionFn: () => {
-              console.log('skip for now');
+              // console.log('skip for now');
             },
             variant: 'white',
             colors: 'white',

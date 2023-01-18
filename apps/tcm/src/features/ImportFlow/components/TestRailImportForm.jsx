@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import { TMButton, TMInputField } from 'bifrostProxy';
 
+import { setTestRailsCred } from '../slices/importSlice';
+
 import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
-import { setTestRailsCred } from '../slices/importSlice';
 
 const TestRailImportForm = () => {
   const {
@@ -18,11 +19,11 @@ const TestRailImportForm = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
-  }, []);
+  }, [dispatch, getUserEmail]);
 
   return (
     <div className="mt-12">
-      <div className="space-around flex">
+      <div className="flex justify-around">
         <div className="mr-6 w-full">
           <TMInputField
             defaultValue={getUserEmail}

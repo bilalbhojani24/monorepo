@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { TMBadge, TMButton, TMRadioGroup } from 'bifrostProxy';
 
 import TestRailImportForm from './TestRailImportForm';
@@ -20,13 +19,15 @@ const ConfigureTool = () => {
       if (selectedRadioId === 'import-from-tool') return <TestRailImportForm />;
       if (selectedRadioId === 'upload-file') return 'Upload';
       return 'Nothing';
-    } else if (buttonText === 'zephyr') {
+    }
+    if (buttonText === 'zephyr') {
       return <>Zephyr</>;
     }
+    return null;
   };
 
   return (
-    <div className="m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid border-base-200 p-6">
+    <div className="border-base-200 m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid p-6">
       <div className="text-lg">Choose your existing tool</div>
       <div className="mt-2 flex">
         <div className="mr-3">

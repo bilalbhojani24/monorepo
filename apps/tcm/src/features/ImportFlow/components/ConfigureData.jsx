@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TMSectionHeadings } from 'bifrostProxy';
+import { number, shapeOf, string } from 'prop-types';
+
 import ConfigureDataList from './ConfigureDataList';
 import useImport from './useImport';
 
@@ -10,15 +12,13 @@ const ConfigureData = (props) => {
 
   useEffect(() => {
     setProjectsWithCheck(
-      projects.map((project) => {
-        return { ...project, checked: true };
-      }),
+      projects.map((project) => ({ ...project, checked: true })),
     );
   }, [projects]);
 
   return (
     <div className="flex justify-center">
-      <div className="shadow-gray-200 mt-4 w-3/4 rounded-md border-2 border-base-100 p-6">
+      <div className="border-base-100 shadow-base-200 mt-4 w-3/4 rounded-md border-2 p-6">
         <TMSectionHeadings
           title="Select Projects you would like to import:"
           variant="buttons"
@@ -33,4 +33,17 @@ const ConfigureData = (props) => {
     </div>
   );
 };
+
+ConfigureData.propTypes = {
+  projects: shapeOf({
+    id: number,
+    name: string,
+    suite_mode: number,
+  }),
+};
+
+ConfigureData.defaultProps = {
+  projects: [],
+};
+
 export default ConfigureData;
