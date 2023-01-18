@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { testConnection } from '../../../api/import.api';
+import { insertProjects, testConnection } from 'api/import.api';
+
 import {
+  setConfigureDataTestRails,
   setCurrentScreen,
   setProjectForTestRailsImport,
   setTestRailsCred,
-  setConfigureDataTestRails,
 } from '../slices/importSlice';
-import { insertProjects } from 'api/import.api';
 
 const useImport = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const useImport = () => {
     // make the api call
     testConnection(testRailsCred)
       .then((data) => {
-        // show the success banner
+        // show the success banners
         dispatch(setProjectForTestRailsImport(data.projects));
       })
       .catch(() => {
@@ -57,9 +57,10 @@ const useImport = () => {
           const { checked, ...rest } = project;
           return rest;
         }
+        return null;
       });
       const filteredArray = onlyChecked.filter((item) => item);
-      console.log(filteredArray);
+      // console.log(filteredArray);
       dispatch(setConfigureDataTestRails(filteredArray));
     }
   };
@@ -73,7 +74,7 @@ const useImport = () => {
       ...testRailsCred,
       testrail_projects: selectedTestRailsProjects,
     }).then(() => {
-      console.log('done successfully');
+      // console.log('done successfully');
     });
     navigate(-1);
   };
