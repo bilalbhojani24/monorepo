@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TMCheckBox } from 'bifrostProxy';
-import { number, shapeOf, string } from 'prop-types';
+import { number, shape, string } from 'prop-types';
 
 import useImport from './useImport';
 
@@ -65,7 +65,7 @@ const ConfigureDataList = (props) => {
   );
 };
 ConfigureDataList.propTypes = {
-  projects: shapeOf({
+  projects: shape({
     id: number,
     name: string,
     suite_mode: number,
