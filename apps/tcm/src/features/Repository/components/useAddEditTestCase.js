@@ -159,7 +159,7 @@ export default function useAddEditTestCase() {
   };
 
   const addMoreClickHandler = () => {
-    uploadElementRef?.current.click();
+    uploadElementRef?.current?.click();
   };
 
   useEffect(() => {
