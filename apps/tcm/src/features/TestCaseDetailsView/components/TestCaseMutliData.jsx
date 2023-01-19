@@ -64,7 +64,7 @@ const TestCaseMutliData = () => {
 
       {selectedTab.name === TABS_ARRAY[0].name && (
         <>
-          {testRunsDetails && testRunsDetails.length ? (
+          {testRunsDetails?.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
@@ -89,16 +89,31 @@ const TestCaseMutliData = () => {
       )}
 
       {selectedTab.name === TABS_ARRAY[1].name && (
-        <TMStackedListWSingleColumn
-          format="with_truncated_content_preview"
-          list={testCaseIssues.map((item) => ({
-            ...item,
-            heading: item.jira_id,
-            subHeading: item.jira_id,
-            textAside: formatTime(item.created_at, 'ago'),
-            preview: item.test_case_id,
-          }))}
-        />
+        <>
+          {testCaseIssues?.length ? (
+            <TMStackedListWSingleColumn
+              format="with_truncated_content_preview"
+              list={testCaseIssues.map((item) => ({
+                ...item,
+                heading: item.jira_id,
+                subHeading: item.jira_id,
+                textAside: formatTime(item.created_at, 'ago'),
+                preview: item.test_case_id,
+              }))}
+            />
+          ) : (
+            <div className="mt-10">
+              <TMEmptyState
+                title="No Issues"
+                description="Once you start linking issues with this test run, it will show here"
+                mainIcon={
+                  <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                }
+                buttonProps={null}
+              />
+            </div>
+          )}
+        </>
       )}
     </>
   );
