@@ -1,20 +1,20 @@
 import React from 'react';
-import ComboBox from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
 import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
+import ComboBox from './index';
 
 const defaultConfig = {
   title: 'Application/Components/ComboBox',
   component: ComboBox,
   parameters: {
     docs: {
-      page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={"import ComboBox from 'bifrost/ComboBox'"}
-          />
-        );
-      },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import ComboBox from 'bifrost/ComboBox'"}
+        />
+      ),
     },
   },
   argTypes: {
@@ -22,6 +22,12 @@ const defaultConfig = {
       options: CHECK_POSITION,
       control: { type: 'inline-radio' },
       description: 'Position of check icon',
+    },
+    defaultValue: {
+      option: { type: null },
+      description:
+        'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
+      defaultValue: COMBOBOX_OPTIONS[0],
     },
     isMulti: {
       option: { type: 'boolean' },
@@ -41,38 +47,45 @@ const defaultConfig = {
       },
     },
     options: {
-      options: COMBOBOX_OPTIONS,
-      description: 'options for the combobox, array of objects',
-    },
-    defaultValue: {
       option: { type: null },
-      description:
-        'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
-      defaultValue: null,
+      description: 'options for the combobox, array of objects',
+      defaultValue: COMBOBOX_OPTIONS,
+    },
+    placeholder: {
+      option: { type: 'string' },
+      defaultValue: 'placeholder text...',
     },
     value: {
       option: { type: null },
       description:
         'Default selected values for the combobox, and the value state will be controlled externally',
-      defaultValue: COMBOBOX_OPTIONS[0],
+      defaultValue: null,
     },
   },
   controls: {},
 };
 const Template = (args) => <ComboBox {...args} />;
 const MultiSelectTemplate = (args) => <ComboBox {...args} />;
+const PlaceholderTemplate = (args) => <ComboBox {...args} />;
+
 const Primary = Template.bind({});
 const MultiSelect = MultiSelectTemplate.bind({});
+const Placeholder = PlaceholderTemplate.bind({});
 
 Primary.parameters = {
   controls: {},
 };
 
 export default defaultConfig;
-export { Primary, MultiSelect };
+export { MultiSelect, Placeholder, Primary };
 
 MultiSelect.args = {
-  defaultValue: null,
+  value: null,
   isMulti: true,
-  value: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[1]],
+  defaultValue: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[4]],
+};
+
+Placeholder.args = {
+  value: null,
+  defaultValue: null,
 };
