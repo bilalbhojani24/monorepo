@@ -31,6 +31,8 @@ const AddEditTestCase = () => {
     setShowMoreFields,
     fetchUsers,
     usersArray,
+    tagsArray,
+    issuesArray,
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -191,6 +193,12 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex-1">
               <TMSelectMenu
+                value={
+                  testCaseFormData.owner &&
+                  usersArray.find(
+                    (item) => item.value === testCaseFormData.owner,
+                  )
+                }
                 checkPosition="right"
                 label="Owner"
                 options={usersArray}
@@ -232,10 +240,57 @@ const AddEditTestCase = () => {
                 }
               />
             </div>
-            <div className="flex-1">TAGS</div>
+            <div className="flex flex-1 items-end justify-between">
+              <div className="mr-4 flex-1">
+                <TMSelectMenu
+                  checkPosition="right"
+                  isMultiSelect
+                  label="Tags"
+                  options={tagsArray}
+                  // value={
+                  //   testCaseFormData.tags &&
+                  //   templateOptions.find(
+                  //     (item) => item.value === testCaseFormData.tags,
+                  //   )
+                  // }
+                  onChange={(e) => handleTestCaseFieldChange('tags', e.value)}
+                />
+              </div>
+              <TMButton wrapperClassName="" colors="white">
+                Add New Tag
+              </TMButton>
+            </div>
           </div>
           <div className="mt-4 flex gap-4">
-            <div className="flex-1">Issues</div>
+            <div className="flex flex-1 items-end justify-between">
+              <div className="mr-4 flex-1">
+                <TMSelectMenu
+                  checkPosition="right"
+                  isMultiSelect
+                  label="Issues"
+                  options={issuesArray}
+                  // value={
+                  //   testCaseFormData.tags &&
+                  //   templateOptions.find(
+                  //     (item) => item.value === testCaseFormData.tags,
+                  //   )
+                  // }
+                  onChange={(e) => handleTestCaseFieldChange('issues', e.value)}
+                />
+              </div>
+              <TMButton wrapperClassName="" colors="white">
+                Add New Issue
+              </TMButton>
+            </div>
+            <div className="flex-1" />
+          </div>
+          <div className="mt-4 flex gap-4">
+            <div className="flex flex-col">
+              <label className="text-base-700 mb-2 block text-sm font-medium">
+                Attachments
+              </label>
+              <input type="file" name="attachment" id="attachment" />
+            </div>
             <div className="flex-1" />
           </div>
         </>

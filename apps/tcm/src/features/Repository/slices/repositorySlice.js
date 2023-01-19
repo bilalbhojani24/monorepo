@@ -32,6 +32,16 @@ const initialState = {
     projectId: null,
     users: null,
   },
+  tagsArray: [
+    { label: 'tag1', value: 'tag1' },
+    { label: 'tag2', value: 'tag2' },
+    { label: 'tag3', value: 'tag3' },
+  ],
+  issuesArray: [
+    { label: 'tag1', value: 'tag1' },
+    { label: 'tag2', value: 'tag2' },
+    { label: 'tag3', value: 'tag3' },
+  ],
 };
 
 export const repositorySlice = createSlice({

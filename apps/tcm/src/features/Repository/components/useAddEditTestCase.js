@@ -23,7 +23,7 @@ export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const [inputError, setInputError] = useState(false);
   const [usersArray, setUsersArray] = useState([]);
-  const [showMoreFields, setShowMoreFields] = useState(false);
+  const [showMoreFields, setShowMoreFields] = useState(true);
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
@@ -39,6 +39,8 @@ export default function useAddEditTestCase() {
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase,
   );
+  const tagsArray = useSelector((state) => state.repository.tagsArray);
+  const issuesArray = useSelector((state) => state.repository.issuesArray);
 
   const usersDetails = useSelector((state) => state.repository.usersDetails);
 
@@ -69,10 +71,10 @@ export default function useAddEditTestCase() {
           }),
         );
 
-        if (data?.myself?.id)
-          dispatch(
-            updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
-          );
+        // if (data?.myself?.id)
+        //   dispatch(
+        //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
+        //   );
       });
     }
   };
@@ -148,6 +150,8 @@ export default function useAddEditTestCase() {
   }, [projectId, usersDetails]);
 
   return {
+    tagsArray,
+    issuesArray,
     usersArray,
     fetchUsers,
     handleTestCaseFieldChange,
