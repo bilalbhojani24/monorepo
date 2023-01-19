@@ -58,7 +58,9 @@ const Modal = (props) => {
                     'sm:max-w-2xl': MODAL_SIZE[4] === size,
                     'sm:max-w-3xl': MODAL_SIZE[5] === size,
                     'sm:max-w-4xl': MODAL_SIZE[6] === size,
-                    'sm:max-w-full': MODAL_SIZE[7] === size,
+                    'sm:max-w-5xl': MODAL_SIZE[7] === size,
+                    'sm:max-w-6xl': MODAL_SIZE[8] === size,
+                    'sm:max-w-full': MODAL_SIZE[9] === size,
                   },
                 )}
               >

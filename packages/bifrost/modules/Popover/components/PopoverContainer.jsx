@@ -50,7 +50,9 @@ const PopoverContainer = (props) => {
                 'sm:max-w-2xl': TP_SIZE[5] === size,
                 'sm:max-w-3xl': TP_SIZE[6] === size,
                 'sm:max-w-4xl': TP_SIZE[7] === size,
-                'sm:max-w-full': TP_SIZE[8] === size,
+                'sm:max-w-5xl': TP_SIZE[8] === size,
+                'sm:max-w-6xl': TP_SIZE[9] === size,
+                'sm:max-w-full': TP_SIZE[10] === size,
               })}
             >
               {content}

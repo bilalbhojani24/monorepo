@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Badge from '../Badge';
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -26,7 +27,7 @@ const primaryNavs = [
     activeIcon: HomeIcon,
     inActiveIcon: HomeIcon,
     path: '/',
-    badgeLabel: 'Active',
+    badge: <Badge text="Active" />,
   },
   {
     id: 'team',
@@ -41,7 +42,7 @@ const primaryNavs = [
     activeIcon: FolderIcon,
     inActiveIcon: FolderIcon,
     path: '/projects',
-    badgeLabel: 'Active',
+    badge: <Badge text="Active" modifier="success" />,
   },
   {
     id: 'calendar',
