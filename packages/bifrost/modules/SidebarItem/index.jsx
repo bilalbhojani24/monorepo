@@ -70,7 +70,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                         as="a"
                         href={subNav.path}
                         className={classNames(
-                          'group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-base-600',
+                          'group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-base-600',
                           {
                             [MODIFIER_CLASSNAMES[modifier].activeItemClass]:
                               current,
@@ -117,19 +117,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                 )}
                 {nav.label}
               </div>
-              {nav.badgeLabel && !!nav.badgeLabel.length && (
-                <span
-                  className={classNames(
-                    'ml-3 inline-block rounded-full bg-base-100 py-0.5 px-3 text-xs font-medium group-hover:bg-base-200',
-                    {
-                      'bg-brand-700 text-white group-hover:bg-brand-200':
-                        modifier === SIDEBAR_MODIFIER[1],
-                    },
-                  )}
-                >
-                  {nav.badgeLabel}
-                </span>
-              )}
+              {nav.badge ? nav.badge : null}
             </a>
           )}
         </div>
@@ -146,9 +134,11 @@ SidebarItem.propTypes = {
     id: PropTypes.string,
     label: PropTypes.string,
     path: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     activeIcon: PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
     inActiveIcon: PropTypes.object,
-    badgeLabel: PropTypes.string,
+    badge: PropTypes.node,
     childrens: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
