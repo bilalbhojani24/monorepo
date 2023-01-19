@@ -6,6 +6,7 @@ import Dashboard from 'features/Dashboard';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
 
+import Import from '../ImportFlow/components/Import';
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 
@@ -73,6 +74,14 @@ const MainRoute = () => {
         <Route
           path={AppRoute.RESOURCES}
           element={<PrivateComponent>RESOURCES</PrivateComponent>}
+        />
+        <Route
+          path={AppRoute.IMPORT}
+          element={
+            <PrivateComponent>
+              <Import />
+            </PrivateComponent>
+          }
         />
         <Route path="*" element="Error 404" />
       </Routes>

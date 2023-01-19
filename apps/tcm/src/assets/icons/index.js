@@ -1,5 +1,6 @@
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
@@ -22,6 +23,7 @@ import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 export {
   AddBoxOutlinedIcon,
   ArrowDownwardOutlinedIcon,
+  ArrowForwardIcon,
   ArrowUpwardOutlinedIcon,
   AssignmentOutlinedIcon,
   BarChartOutlinedIcon,

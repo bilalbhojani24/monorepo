@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Badge,
   Button,
+  Checkbox,
   Dropdown,
   EmptyState,
   InputField,
@@ -13,6 +14,7 @@ import {
   ModalHeader,
   Notifications,
   PageHeadings,
+  RadioGroup,
   SectionHeadings,
   SelectMenu,
   Slideover,
@@ -51,7 +53,8 @@ export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
-
+export const TMRadioGroup = (props) => <RadioGroup {...props} />;
+export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
   <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">

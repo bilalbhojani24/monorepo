@@ -9,6 +9,7 @@ const AppRoute = {
   RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',
+  IMPORT: '/import',
 };
 
 export default AppRoute;
