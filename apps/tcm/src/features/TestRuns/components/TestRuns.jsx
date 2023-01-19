@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TMPageHeadings } from 'bifrostProxy';
+import { TMPageHeadings } from 'common/bifrostProxy';
 
 import AddTestRun from './AddTestRun';
 import TestRunsTable from './TestRunsTable';

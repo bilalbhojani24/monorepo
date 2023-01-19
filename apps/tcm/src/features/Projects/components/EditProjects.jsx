@@ -10,7 +10,7 @@ import {
   TMModalHeader,
   // TMSelectMenu,
   TMTextArea,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 import { updateProject } from 'globalSlice';
 
 // import { projectStatus } from '../const/projectsConst';

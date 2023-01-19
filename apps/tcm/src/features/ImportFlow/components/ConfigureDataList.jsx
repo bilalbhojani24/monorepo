@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TMCheckBox } from 'bifrostProxy';
+import { TMCheckBox } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
 import useImport from './useImport';

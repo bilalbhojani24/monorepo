@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TMSteps } from 'bifrostProxy';
+import { TMSteps } from 'common/bifrostProxy';
 import { arrayOf, shape, string } from 'prop-types';
 
 const ImportSteps = (props) => {

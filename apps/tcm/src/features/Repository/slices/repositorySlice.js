@@ -21,7 +21,7 @@ const initialState = {
     priority: priorityOptions[2].value,
     owner: null,
     status: statusOptions[0].value,
-    precondition: '',
+    preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
   },
@@ -32,6 +32,16 @@ const initialState = {
     projectId: null,
     users: null,
   },
+  tagsArray: [
+    { label: 'tag1', value: 'tag1' },
+    { label: 'tag2', value: 'tag2' },
+    { label: 'tag3', value: 'tag3' },
+  ],
+  issuesArray: [
+    { label: 'Issue1', value: 'Issue1' },
+    { label: 'Issue2', value: 'Issue2' },
+    { label: 'Issue3', value: 'Issue3' },
+  ],
 };
 
 export const repositorySlice = createSlice({
@@ -48,7 +58,7 @@ export const repositorySlice = createSlice({
       state.allTestCases = payload;
     },
     addSingleTestCase: (state, { payload }) => {
-      state.allTestCases.push(payload);
+      state.allTestCases = [payload, ...state.allTestCases];
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>

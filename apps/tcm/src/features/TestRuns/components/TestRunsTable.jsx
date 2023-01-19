@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TMDataTable, TMDropdown, TMTabs } from 'bifrostProxy';
+import { TMDataTable, TMDropdown, TMTabs } from 'common/bifrostProxy';
 import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/immutableConst';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TMBadge, TMButton, TMRadioGroup } from 'bifrostProxy';
+import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
 import TestRailImportForm from './TestRailImportForm';
 

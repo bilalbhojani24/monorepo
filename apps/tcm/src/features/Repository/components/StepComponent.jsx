@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AddBoxOutlinedIcon, DeleteOutlineOutlinedIcon } from 'assets/icons';
-import { TMButton, TMTextArea } from 'bifrostProxy';
+import { TMButton, TMTextArea } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { stepTemplate } from '../const/addTestCaseConst';

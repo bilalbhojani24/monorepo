@@ -1,6 +1,6 @@
 import React from 'react';
 import { SourceOutlinedIcon } from 'assets/icons';
-import { TMEmptyState } from 'bifrostProxy';
+import { TMEmptyState } from 'common/bifrostProxy';
 
 export default function BlankPage() {
   return (

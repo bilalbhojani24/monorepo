@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMPageHeadings } from 'bifrostProxy';
+import { TMPageHeadings } from 'common/bifrostProxy';
 import { arrayOf, func, shape, string } from 'prop-types';
 
 const ImportHeader = (props) => {

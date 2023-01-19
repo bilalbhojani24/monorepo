@@ -8,7 +8,7 @@ import {
   TMInputWButton,
   TMPageHeadings,
   TMSelectMenu,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 
 import { getFolders } from '../../../api/folders.api';
 import { ASSIGN_TO_OPTIONS, STATE_OPTIONS } from '../const/immutableConst';

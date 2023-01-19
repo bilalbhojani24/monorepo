@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMSectionHeadings } from 'bifrostProxy';
+import { TMSectionHeadings } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
 import useImport from './useImport';

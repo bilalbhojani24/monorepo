@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addFolder } from 'api/folders.api.js';
+import { addFolder } from 'api/folders.api';
 import {
   TMButton,
   TMInputField,
@@ -8,7 +8,7 @@ import {
   TMModalFooter,
   TMModalHeader,
   TMTextArea,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';
