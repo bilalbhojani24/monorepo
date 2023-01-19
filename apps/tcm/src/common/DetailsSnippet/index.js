@@ -1,3 +1,3 @@
 import DetailsSnippet from './components/DetailsSnippet';
 
-export { DetailsSnippet };
+export default DetailsSnippet;

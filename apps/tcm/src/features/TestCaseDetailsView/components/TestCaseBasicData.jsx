@@ -1,6 +1,6 @@
 import React from 'react';
 // import { TMButton } from 'bifrostProxy';
-import { DetailsSnippet } from 'features/Reusables';
+import DetailsSnippet from 'common/DetailsSnippet';
 
 import useTestCaseView from './useTestCaseView';
 
