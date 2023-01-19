@@ -48,7 +48,7 @@ export const repositorySlice = createSlice({
       state.allTestCases = payload;
     },
     addSingleTestCase: (state, { payload }) => {
-      state.allTestCases.push(payload);
+      state.allTestCases = [payload, ...state.allTestCases];
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
