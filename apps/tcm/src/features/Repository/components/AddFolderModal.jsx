@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addFolder } from 'api/folders.api.js';
+import { addFolder } from 'api/folders.api';
 import {
   TMButton,
   TMInputField,

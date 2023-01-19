@@ -193,13 +193,12 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex-1">
               <TMSelectMenu
-                // value={
-                //   testCaseFormData.owner &&
-                //   usersArray.find(
-                //     (item) => item.value === testCaseFormData.owner,
-                //   )
-                // }
-                value={usersArray[0]}
+                value={
+                  testCaseFormData.owner &&
+                  usersArray.find(
+                    (item) => item.value === testCaseFormData.owner,
+                  )
+                }
                 checkPosition="right"
                 label="Owner"
                 options={usersArray}
