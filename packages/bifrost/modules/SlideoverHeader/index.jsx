@@ -19,7 +19,7 @@ const SlideoverHeader = ({
 }) => (
   <div
     className={twClassNames(
-      `sticky top-0 left-0 w-full overflow-hidden  bg-white px-6 py-4 sm:flex sm:items-start`,
+      `sticky top-0 left-0 w-full flex bg-white px-6 py-4 sm:flex sm:items-start`,
       {
         'border-b border-base-300': isBorder,
       },
@@ -77,7 +77,7 @@ const SlideoverHeader = ({
       {subHeading ? (
         <div className="mt-2">
           <p
-            className={twClassNames(' text-sm', {
+            className={twClassNames(' text-sm text-left', {
               'text-white': lightText,
               'text-base-500': !lightText,
             })}
