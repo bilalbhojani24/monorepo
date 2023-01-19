@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { TMDrawer } from 'bifrostProxy';
+import { TMSlideover, TMSlideoverHeader } from 'bifrostProxy';
 
 import TestCaseView from './components/TestCaseView';
 import useTestCaseView from './components/useTestCaseView';
 
 const TestCaseDetailsView = () => {
   const {
+    testCaseDetails,
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,
@@ -19,17 +20,24 @@ const TestCaseDetailsView = () => {
   }, [testCaseId]);
 
   return (
-    <>
-      {isTestCaseViewVisible && (
-        <TMDrawer
-          key={testCaseId}
-          onClose={hideTestCaseViewDrawer}
-          title="Check Register flow as Tester"
-          description=""
-          bodyNode={<TestCaseView />}
-        />
-      )}
-    </>
+    <TMSlideover
+      key={testCaseId}
+      show={isTestCaseViewVisible}
+      onClose={hideTestCaseViewDrawer}
+      onOverlayClick={hideTestCaseViewDrawer}
+      closeButtonOutside={false}
+      description=""
+      topMarginElementId="whole-header"
+      slideoverWidth="w-[488px]"
+      backgroundOverlay={false}
+    >
+      <TMSlideoverHeader
+        heading={testCaseDetails?.name || ''}
+        isBorder
+        handleDismissClick={hideTestCaseViewDrawer}
+      />
+      <TestCaseView />
+    </TMSlideover>
   );
 };
 

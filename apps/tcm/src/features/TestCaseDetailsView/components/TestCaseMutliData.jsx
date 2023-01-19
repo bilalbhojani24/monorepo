@@ -1,7 +1,9 @@
 import React from 'react';
+import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMBadge,
   TMDataTable,
+  TMEmptyState,
   TMStackedListWSingleColumn,
   TMTabs,
 } from 'bifrostProxy';
@@ -72,7 +74,16 @@ const TestCaseMutliData = () => {
               />
             </div>
           ) : (
-            'No Data'
+            <div className="mt-10">
+              <TMEmptyState
+                title="No Results"
+                description="Once you start linking this test case in a test run, historical result will appear here"
+                mainIcon={
+                  <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                }
+                buttonProps={null}
+              />
+            </div>
           )}
         </>
       )}

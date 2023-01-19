@@ -1,44 +1,67 @@
 import React from 'react';
-import Radio from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import Radio from './index';
 
 const defaultConfig = {
   title: 'Application/Components/RadioButton',
   component: Radio,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Radio from 'bifrost/Radio'"} />;
-      }
-    }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Radio from 'bifrost/Radio'"}
+        />
+      ),
+    },
   },
   argTypes: {
     id: {
-      control: { type: 'text' },
-      defaultValue: 'radio-id'
+      option: { type: 'string' },
+      defaultValue: 'radio-id',
     },
-    isChecked: {
-      control: { type: 'boolean' }
+    checked: {
+      option: { type: 'boolean' },
+      defaultValue: undefined,
+    },
+    defaultChecked: {
+      option: { type: 'boolean' },
+      defaultValue: false,
     },
     description: {
-      control: { type: 'text' },
-      defaultValue: 'It is the description'
+      option: { type: 'string' },
+      defaultValue: 'It is the description',
     },
     disabled: {
-      control: { type: 'boolean' }
+      option: { type: 'boolean' },
+      defaultValue: false,
     },
     name: {
+      option: { type: 'string' },
+      defaultValue: 'Name',
+    },
+    onChange: {
       control: { type: 'text' },
-      defaultValue: 'Name'
-    }
+      defaultValue: (e) => console.log(e.target.value),
+    },
   },
-  controls: {}
+  controls: {},
 };
 const Template = (args) => <Radio {...args} />;
+const ControlledRadioTemplate = (args) => <Radio {...args} />;
+
 const Primary = Template.bind({});
+const ControlledRadio = ControlledRadioTemplate.bind({});
+
 Primary.parameters = {
-  controls: {}
+  controls: {},
 };
 
 export default defaultConfig;
-export { Primary };
+export { ControlledRadio, Primary };
+
+ControlledRadio.args = {
+  checked: false,
+  defaultChecked: undefined,
+};

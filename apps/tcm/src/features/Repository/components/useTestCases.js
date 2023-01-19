@@ -1,18 +1,11 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  addTestCaseAPI,
-  deleteTestCaseAPI,
-  editTestCaseAPI,
-  getTestCasesAPI,
-} from 'api/testcases.api';
+import { deleteTestCaseAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/testCaseConst';
 import {
-  addSingleTestCase,
   deleteTestCase,
   setAddTestCaseVisibility,
   setDeleteTestCaseModalVisibility,
@@ -20,14 +13,11 @@ import {
   setSelectedTestCase,
   setTestCaseFormData,
   updateAllTestCases,
-  updateTestCase,
-  updateTestCaseFormData,
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
-  const [inputError, setInputError] = useState(false);
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
@@ -37,17 +27,8 @@ export default function useTestCases() {
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible,
   );
-  const isTestCaseEditing = useSelector(
-    (state) => state.repository.showEditTestCaseForm,
-  );
-  const testCaseFormData = useSelector(
-    (state) => state.repository.testCaseFormData,
-  );
   const isTestCaseViewVisible = useSelector(
     (state) => state.repository.isTestCaseViewVisible,
-  );
-  const showEditPage = useSelector(
-    (state) => state.repository.showEditTestCaseForm,
   );
   const showDeleteModal = useSelector(
     (state) => state.repository.showDeleteTestCaseModal,
@@ -70,41 +51,6 @@ export default function useTestCases() {
         dispatch(updateAllTestCases(data?.testcases || []));
       });
     else dispatch(updateAllTestCases([]));
-  };
-
-  const saveTestCase = (formData) => {
-    if (!formData.name) setInputError(true);
-    else {
-      addTestCaseAPI({
-        projectId,
-        folderId,
-        payload: { test_case: formData },
-      }).then((data) => {
-        dispatch(addSingleTestCase(data));
-        dispatch(setAddTestCaseVisibility(false));
-      });
-    }
-  };
-
-  const editTestCase = (formData) => {
-    if (!formData.name) setInputError(true);
-    else {
-      editTestCaseAPI({
-        projectId,
-        folderId,
-        testCaseId: selectedTestCase.id,
-        payload: { test_case: formData },
-      }).then((data) => {
-        dispatch(updateTestCase(data));
-        dispatch(setAddTestCaseVisibility(false));
-        dispatch(setEditTestCasePageVisibility(false));
-      });
-    }
-  };
-
-  const handleTestCaseFieldChange = (key, value) => {
-    if (key === 'name' && value) setInputError(false);
-    dispatch(updateTestCaseFormData({ key, value }));
   };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
@@ -151,24 +97,17 @@ export default function useTestCases() {
     hideDeleteTestCaseModal,
     deleteTestCaseHandler,
     onDropDownChange,
-    handleTestCaseFieldChange,
-    testCaseFormData,
-    inputError,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAdditionPage,
     allTestCases,
     isAddTestCasePageVisible,
-    saveTestCase,
-    editTestCase,
     folderId,
     projectId,
     fetchAllTestCases,
     handleTestCaseViewClick,
     isTestCaseViewVisible,
-    showEditPage,
     showDeleteModal,
     selectedTestCase,
-    isTestCaseEditing,
   };
 }

@@ -4,7 +4,6 @@ import {
   Badge,
   Button,
   Checkbox,
-  Drawer,
   Dropdown,
   EmptyState,
   InputField,
@@ -18,6 +17,8 @@ import {
   RadioGroup,
   SectionHeadings,
   SelectMenu,
+  Slideover,
+  SlideoverHeader,
   StackedListWSingleColumn,
   Table,
   TableBody,
@@ -38,10 +39,11 @@ export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
+export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
-export const TMDrawer = (props) => <Drawer {...props} />;
+export const TMSlideover = (props) => <Slideover {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
@@ -58,7 +60,12 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
     <TableHead wrapperClass="w-full rounded-xs">
       <TableRow>
         {columns?.map((col) => (
-          <TableCell key={col.key} variant="body" wrapperClass="test-base-500">
+          <TableCell
+            key={col.key}
+            variant="body"
+            wrapperClass="test-base-500"
+            textTransform="uppercase"
+          >
             {col.name}
           </TableCell>
         ))}
