@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { uploadFilesAPI } from 'api/attachments.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
@@ -23,6 +24,7 @@ import {
 
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
+  const uploadElementRef = useRef();
   const [inputError, setInputError] = useState(false);
   const [usersArray, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(true);
@@ -146,6 +148,20 @@ export default function useAddEditTestCase() {
     dispatch(updateTestCaseFormData({ key, value }));
   };
 
+  const fileUploaderHelper = (e) => {
+    if (e?.currentTarget?.files?.length) {
+      const filesData = new FormData();
+      for (let idx = 0; idx < e.currentTarget.files.length; idx += 1) {
+        filesData.append('attachments[]', e.currentTarget.files[idx]);
+      }
+      uploadFilesAPI({ projectId, payload: filesData });
+    }
+  };
+
+  const addMoreClickHandler = () => {
+    uploadElementRef?.current.click();
+  };
+
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,6 +179,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersDetails]);
 
   return {
+    uploadElementRef,
     isAddTagModalShown,
     tagsArray,
     issuesArray,
@@ -184,5 +201,7 @@ export default function useAddEditTestCase() {
     showAddTagsModal,
     hideAddTagsModal,
     addTagsHelper,
+    fileUploaderHelper,
+    addMoreClickHandler,
   };
 }

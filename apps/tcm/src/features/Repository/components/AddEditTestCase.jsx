@@ -21,6 +21,7 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
+    uploadElementRef,
     isAddTagModalShown,
     handleTestCaseFieldChange,
     inputError,
@@ -38,6 +39,8 @@ const AddEditTestCase = () => {
     showAddTagsModal,
     hideAddTagsModal,
     addTagsHelper,
+    fileUploaderHelper,
+    addMoreClickHandler,
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -298,12 +301,29 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex-1" />
           </div>
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 w-full">
             <div className="flex flex-col">
-              <label className="text-base-700 mb-2 block text-sm font-medium">
-                Attachments
-              </label>
-              <input type="file" name="attachment" id="attachment" />
+              <div className="flex w-full justify-between">
+                <div className="text-base-700 mb-2 block text-sm font-medium">
+                  Attachments
+                </div>
+                <TMButton
+                  colors="brand"
+                  variant="minimal"
+                  onClick={addMoreClickHandler}
+                >
+                  Add More
+                </TMButton>
+              </div>
+              <input
+                ref={uploadElementRef}
+                onChange={fileUploaderHelper}
+                type="file"
+                name="attachment"
+                multiple
+                id="file-attachment"
+                accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
+              />
             </div>
             <div className="flex-1" />
           </div>
