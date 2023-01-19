@@ -26,6 +26,7 @@ const initialState = {
     steps: [''],
   },
   showEditTestCaseForm: false,
+  showAddTagModal: false,
   showDeleteTestCaseModal: false,
   selectedTestCase: null,
   usersDetails: {
@@ -79,6 +80,9 @@ export const repositorySlice = createSlice({
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
     },
+    setAddTagModal: (state, { payload }) => {
+      state.showAddTagModal = payload;
+    },
     setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
     },
@@ -103,10 +107,14 @@ export const repositorySlice = createSlice({
       // prefill for edit
       state.usersDetails = payload || initialState.usersDetails;
     },
+    setTagsArray: (state, { payload }) => {
+      state.tagsArray = payload;
+    },
   },
 });
 
 export const {
+  setTagsArray,
   addSingleTestCase,
   updateAllFolders,
   setAddFolderModalVisibility,
@@ -121,6 +129,7 @@ export const {
   setTestCaseFormData,
   updateTestCase,
   setUsers,
+  setAddTagModal,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

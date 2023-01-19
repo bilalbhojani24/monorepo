@@ -11,8 +11,10 @@ import {
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  setAddTagModal,
   setAddTestCaseVisibility,
   setEditTestCasePageVisibility,
+  setTagsArray,
   setTestCaseFormData,
   setUsers,
   updateTestCase,
@@ -32,6 +34,9 @@ export default function useAddEditTestCase() {
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm,
   );
+  const isAddTagModalShown = useSelector(
+    (state) => state.repository.showAddTagModal,
+  );
   const testCaseFormData = useSelector(
     (state) => state.repository.testCaseFormData,
   );
@@ -47,6 +52,16 @@ export default function useAddEditTestCase() {
   const hideTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
+  };
+  const showAddTagsModal = () => {
+    dispatch(setAddTagModal(true));
+  };
+  const hideAddTagsModal = () => {
+    dispatch(setAddTagModal(false));
+  };
+
+  const addTagsHelper = (data) => {
+    dispatch(setTagsArray([...tagsArray, { value: data, label: data }]));
   };
 
   const fetchTestCaseDetails = () => {
@@ -79,18 +94,21 @@ export default function useAddEditTestCase() {
     }
   };
 
+  const formDataStandardiser = (formData) => ({
+    test_case: {
+      ...formData,
+      steps: JSON.stringify(formData.steps),
+      tags: formData?.tags.map((item) => item.label),
+    },
+  });
+
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);
     else {
       addTestCaseAPI({
         projectId,
         folderId,
-        payload: {
-          test_case: {
-            ...formData,
-            steps: JSON.stringify(formData.steps),
-          },
-        },
+        payload: formDataStandardiser(formData),
       }).then((data) => {
         dispatch(addSingleTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -105,12 +123,7 @@ export default function useAddEditTestCase() {
         projectId,
         folderId,
         testCaseId: selectedTestCase.id,
-        payload: {
-          test_case: {
-            ...formData,
-            steps: JSON.stringify(formData.steps),
-          },
-        },
+        payload: formDataStandardiser(formData),
       }).then((data) => {
         dispatch(updateTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -150,6 +163,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersDetails]);
 
   return {
+    isAddTagModalShown,
     tagsArray,
     issuesArray,
     usersArray,
@@ -167,5 +181,8 @@ export default function useAddEditTestCase() {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
+    showAddTagsModal,
+    hideAddTagsModal,
+    addTagsHelper,
   };
 }

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import AddTagModal from 'common/AddTagModal';
 import {
   TMButton,
   TMInputField,
@@ -20,6 +21,7 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
+    isAddTagModalShown,
     handleTestCaseFieldChange,
     inputError,
     testCaseFormData,
@@ -33,6 +35,9 @@ const AddEditTestCase = () => {
     usersArray,
     tagsArray,
     issuesArray,
+    showAddTagsModal,
+    hideAddTagsModal,
+    addTagsHelper,
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -256,10 +261,14 @@ const AddEditTestCase = () => {
                   //     (item) => item.value === testCaseFormData.tags,
                   //   )
                   // }
-                  onChange={(e) => handleTestCaseFieldChange('tags', e.value)}
+                  onChange={(e) => handleTestCaseFieldChange('tags', e)}
                 />
               </div>
-              <TMButton wrapperClassName="" colors="white">
+              <TMButton
+                wrapperClassName=""
+                colors="white"
+                onClick={showAddTagsModal}
+              >
                 Add New Tag
               </TMButton>
             </div>
@@ -300,6 +309,13 @@ const AddEditTestCase = () => {
           </div>
         </>
       )}
+
+      <AddTagModal
+        isVisible={isAddTagModalShown}
+        hideAddTagsModal={hideAddTagsModal}
+        existingTags={tagsArray?.map((item) => item.label).join(', ')}
+        addSelectedTags={addTagsHelper}
+      />
     </div>
   );
 };
