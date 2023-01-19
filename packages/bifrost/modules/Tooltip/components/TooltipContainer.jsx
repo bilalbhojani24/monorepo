@@ -6,6 +6,7 @@ import {
   TP_PLACEMENT_ALIGN,
   TP_PLACEMENT_SIDE,
   TP_SIZE,
+  TP_STICKY_OPTIONS,
   TP_TOOLTIP_THEME,
 } from '../../../shared/tooltipPopoverConstants';
 import { ThemeContextData } from '../../../shared/tooltipPopoverThemeContext';
@@ -16,12 +17,24 @@ import '../styles.scss';
 const TooltipContainer = (props) => {
   const {
     arrowClassName,
+    arrowWidth,
+    arrowHeight,
+    arrowPadding,
+    alignOffset,
+    avoidCollisions,
     children,
     content,
     delay,
+    defaultOpen,
+    onEscapeKeyDown,
+    onPointerDownOutside,
+    onOpenChange,
     placementAlign,
     placementSide,
     size,
+    show,
+    sideOffset,
+    sticky,
     theme,
   } = props;
 
@@ -32,13 +45,23 @@ const TooltipContainer = (props) => {
       }}
     >
       <TooltipPrimitive.Provider delayDuration={delay} skipDelayDuration={500}>
-        <TooltipPrimitive.Root>
+        <TooltipPrimitive.Root
+          open={show}
+          defaultOpen={defaultOpen}
+          onOpenChange={onOpenChange}
+        >
           <TooltipPrimitive.Trigger as>{children}</TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content
-              sideOffset={5}
+              alignOffset={alignOffset}
+              avoidCollisions={avoidCollisions}
+              arrowPadding={arrowPadding}
               side={placementSide}
               align={placementAlign}
+              onEscapeKeyDown={onEscapeKeyDown}
+              onPointerDownOutside={onPointerDownOutside}
+              sideOffset={sideOffset}
+              sticky={sticky}
             >
               <div
                 className={twClassNames('rounded-md shadow bg-white py-4', {
@@ -60,8 +83,8 @@ const TooltipContainer = (props) => {
                 {content}
               </div>
               <TooltipPrimitive.Arrow
-                height={10}
-                width={20}
+                height={arrowHeight}
+                width={arrowWidth}
                 className={twClassNames(
                   {
                     arrow: theme === TP_TOOLTIP_THEME[0],
@@ -80,22 +103,46 @@ const TooltipContainer = (props) => {
 
 TooltipContainer.propTypes = {
   arrowClassName: PropTypes.string,
+  arrowWidth: PropTypes.number,
+  arrowHeight: PropTypes.number,
+  arrowPadding: PropTypes.number,
+  alignOffset: PropTypes.number,
+  avoidCollisions: PropTypes.bool,
   content: PropTypes.node,
   children: PropTypes.node,
   delay: PropTypes.number,
+  defaultOpen: PropTypes.bool,
+  onEscapeKeyDown: PropTypes.func,
+  onPointerDownOutside: PropTypes.func,
+  onOpenChange: PropTypes.func,
   placementAlign: PropTypes.oneOf(TP_PLACEMENT_ALIGN),
   placementSide: PropTypes.oneOf(TP_PLACEMENT_SIDE),
   size: PropTypes.oneOf(TP_SIZE),
+  sideOffset: PropTypes.number,
+  sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
+  show: PropTypes.bool,
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
 };
 TooltipContainer.defaultProps = {
   arrowClassName: '',
+  arrowWidth: 20,
+  arrowHeight: 10,
+  arrowPadding: 0,
+  alignOffset: 0,
+  avoidCollisions: true,
   content: null,
   children: null,
   delay: 200,
+  defaultOpen: undefined,
+  onEscapeKeyDown: null,
+  onPointerDownOutside: null,
+  onOpenChange: null,
   placementAlign: TP_PLACEMENT_ALIGN[0],
   placementSide: TP_PLACEMENT_SIDE[0],
   size: TP_SIZE[0],
+  show: undefined,
+  sideOffset: 5,
+  sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
 };
 

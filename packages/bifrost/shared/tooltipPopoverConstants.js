@@ -15,3 +15,4 @@ export const TP_SIZE = [
   '6xl',
   'full',
 ];
+export const TP_STICKY_OPTIONS = ['partial', 'always'];
