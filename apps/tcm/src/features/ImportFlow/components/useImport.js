@@ -5,6 +5,7 @@ import { insertProjects, testConnection } from 'api/import.api';
 import {
   setConfigureDataTestRails,
   setCurrentScreen,
+  setImportSteps,
   setProjectForTestRailsImport,
   setTestRailsCred,
 } from '../slices/importSlice';
@@ -26,6 +27,7 @@ const useImport = () => {
   const selectedTestRailsProjects = useSelector(
     (state) => state.import.selectedProjectsTestRailImport,
   );
+  const allImportSteps = useSelector((state) => state.import.importSteps);
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
@@ -44,8 +46,21 @@ const useImport = () => {
       });
   };
 
+  const handleStepChange = (prevStep, currentStep) =>
+    allImportSteps.map((step) => {
+      if (step.name.toLowerCase() === prevStep)
+        return { ...step, status: 'complete' };
+      if (step.name.toLowerCase() === currentStep)
+        return { ...step, status: 'current' };
+      return step;
+    });
+
   const handleProceed = () => {
     if (testRailProjects.length === 0) handleTestConnection();
+
+    dispatch(
+      setImportSteps(handleStepChange('configure tool', 'configure data')),
+    );
     dispatch(setCurrentScreen('configureData'));
   };
 
@@ -65,6 +80,9 @@ const useImport = () => {
   };
 
   const handleConfigureDataProceed = () => {
+    dispatch(
+      setImportSteps(handleStepChange('configure data', 'confirm import')),
+    );
     dispatch(setCurrentScreen('confirmImport'));
   };
 
@@ -79,6 +97,7 @@ const useImport = () => {
   };
 
   return {
+    allImportSteps,
     getUserEmail,
     testRailProjects,
     testRailsCred,

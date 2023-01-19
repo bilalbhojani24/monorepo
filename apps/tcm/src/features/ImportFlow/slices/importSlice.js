@@ -8,6 +8,7 @@ const initialState = {
   },
   projectsForTestRailImport: [],
   currentScreen: 'configureTool',
+  importSteps: [],
   selectedProjectsTestRailImport: [],
 };
 
@@ -27,6 +28,9 @@ const importSlice = createSlice({
     setConfigureDataTestRails: (state, { payload }) => {
       state.selectedProjectsTestRailImport = payload;
     },
+    setImportSteps: (state, { payload }) => {
+      state.importSteps = payload;
+    },
   },
 });
 
@@ -35,5 +39,6 @@ export const {
   setConfigureDataTestRails,
   setTestRailsCred,
   setProjectForTestRailsImport,
+  setImportSteps,
 } = importSlice.actions;
 export default importSlice.reducer;

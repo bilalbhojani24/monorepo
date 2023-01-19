@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { IMPORT_STEPS } from '../const/importSteps';
+import { setImportSteps } from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -8,8 +12,18 @@ import Steps from './ImportSteps';
 import useImport from './useImport';
 
 const Import = () => {
-  const { currentScreen, testRailProjects, selectedTestRailsProjects } =
-    useImport();
+  const dispatch = useDispatch();
+  const {
+    currentScreen,
+    testRailProjects,
+    selectedTestRailsProjects,
+    allImportSteps,
+  } = useImport();
+
+  // console.log('all import steps', allImportSteps);
+  // const currentScreen = allImportSteps.filter(
+  //   (step) => step.status === 'current',
+  // );
 
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
@@ -20,36 +34,38 @@ const Import = () => {
     return <>Something went wrong!</>;
   };
 
+  useEffect(() => {
+    dispatch(setImportSteps(IMPORT_STEPS));
+  }, [dispatch]);
+
   return (
     <>
       <ImportHeader
         heading="Quick Import"
-        actionsData={[
+        actions={[
           {
             id: 'change-setup',
-            actionFn: () => {
+            callback: () => {
               // console.log('Change Setup');
             },
-            variant: 'white',
-            colors: 'white',
+            actionProps: {
+              children: 'Change Setup',
+              colors: 'white',
+            },
           },
           {
             id: 'skip-for-now',
-            actionFn: () => {
+            callback: () => {
               // console.log('skip for now');
             },
-            variant: 'white',
-            colors: 'white',
+            actionProps: {
+              children: 'Skip for now',
+              colors: 'white',
+            },
           },
         ]}
       />
-      <Steps
-        steps={[
-          { name: 'CONFIGURE PLATFORM' },
-          { name: 'CONFIGURE DATA' },
-          { name: 'CONFIRM IMPORT' },
-        ]}
-      />
+      <Steps steps={allImportSteps} />
       {getCurrentScreen()}
     </>
   );

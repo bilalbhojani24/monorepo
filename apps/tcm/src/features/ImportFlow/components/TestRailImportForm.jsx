@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMButton, TMInputField } from 'bifrostProxy';
+import { TMButton, TMInputField, TMTooltip } from 'bifrostProxy';
 
 import { setTestRailsCred } from '../slices/importSlice';
 
@@ -47,7 +47,14 @@ const TestRailImportForm = () => {
               <>
                 TestRail Host Name
                 <span className="ml-1">
-                  <InfoOutlinedIcon fontSize="inherit" />
+                  <TMTooltip
+                    theme="dark"
+                    content="Host Name is your TestRail’s web address. Eg: https://abcd.testrail.io"
+                    placementAlign="start"
+                    placementSide="right"
+                  >
+                    <InfoOutlinedIcon fontSize="inherit" />
+                  </TMTooltip>
                 </span>
               </>
             }
@@ -64,7 +71,14 @@ const TestRailImportForm = () => {
             <>
               TestRail API Key
               <span className="ml-1">
-                <InfoOutlinedIcon fontSize="inherit" />
+                <TMTooltip
+                  theme="dark"
+                  content="API Key is located at My Settings > API Keys"
+                  placementAlign="start"
+                  placementSide="right"
+                >
+                  <InfoOutlinedIcon fontSize="inherit" />
+                </TMTooltip>
               </span>
             </>
           }

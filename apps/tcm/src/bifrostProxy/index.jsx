@@ -20,6 +20,7 @@ import {
   Slideover,
   SlideoverHeader,
   StackedListWSingleColumn,
+  Steps,
   Table,
   TableBody,
   TableCell,
@@ -53,6 +54,7 @@ export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
+export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
