@@ -6,7 +6,12 @@ import {
   RemoveOutlinedIcon,
   SearchIcon,
 } from 'assets/icons';
-import { TMButton, TMDataTable, TMDropdown, TMInputField } from 'bifrostProxy';
+import {
+  TMButton,
+  TMDataTable,
+  TMDropdown,
+  TMInputField,
+} from 'common/bifrostProxy';
 
 import { dropDownOptions } from '../const/testCaseConst';
 

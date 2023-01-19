@@ -6,7 +6,7 @@ import {
   TMEmptyState,
   TMStackedListWSingleColumn,
   TMTabs,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';

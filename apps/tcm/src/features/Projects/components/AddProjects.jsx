@@ -10,7 +10,7 @@ import {
   TMModalFooter,
   TMModalHeader,
   TMTextArea,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { addProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';

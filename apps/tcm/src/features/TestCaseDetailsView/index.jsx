@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TMSlideover, TMSlideoverHeader } from 'bifrostProxy';
+import { TMSlideover, TMSlideoverHeader } from 'common/bifrostProxy';
 
 import TestCaseView from './components/TestCaseView';
 import useTestCaseView from './components/useTestCaseView';

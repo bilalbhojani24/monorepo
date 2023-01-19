@@ -6,7 +6,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 
 import {
   setAddTestCaseModal,

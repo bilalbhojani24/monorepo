@@ -9,7 +9,7 @@ import {
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
 } from 'assets/icons';
-import { TMDataTable } from 'bifrostProxy';
+import { TMDataTable } from 'common/bifrostProxy';
 
 import { setAddTestRunFormData } from '../slices/testRunsSlice';
 
@@ -21,15 +21,15 @@ const TableForModal = () => {
   const formatPriority = (priority) => {
     switch (priority) {
       case 'high':
-        return <ArrowUpwardOutlinedIcon className="mr-2 text-danger-500" />;
+        return <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
       case 'low':
-        return <ArrowDownwardOutlinedIcon className="mr-2 text-success-500" />;
+        return <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
       case 'critical':
         return (
-          <KeyboardDoubleArrowUpOutlinedIcon className="mr-2 text-danger-700" />
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
         );
       case 'medium':
-        return <RemoveOutlinedIcon className="mr-2 text-brand-500" />;
+        return <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
       default:
         return '';
     }
@@ -78,7 +78,7 @@ const TableForModal = () => {
 
   return (
     <div className="mt-4 grow">
-      <div className="flex items-center rounded-t-md border border-solid border-base-200 p-4">
+      <div className="border-base-200 flex items-center rounded-t-md border border-solid p-4">
         {currentFolderName}
         <span className="ml-1">
           <InfoOutlinedIcon fontSize="inherit" />

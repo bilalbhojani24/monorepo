@@ -2,7 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteProjectAPI } from 'api/projects.api';
 import { WarningAmberOutlinedIcon } from 'assets/icons';
-import { TMButton, TMModal, TMModalFooter, TMModalHeader } from 'bifrostProxy';
+import {
+  TMButton,
+  TMModal,
+  TMModalFooter,
+  TMModalHeader,
+} from 'common/bifrostProxy';
 import { deleteProject } from 'globalSlice';
 
 import { setDeleteProjectModalVisibility } from '../slices/projectSlice';

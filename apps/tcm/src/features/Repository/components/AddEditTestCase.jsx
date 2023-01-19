@@ -6,7 +6,7 @@ import {
   TMSelectMenu,
   TMTextArea,
   TMTooltip,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 
 import {
   priorityOptions,
@@ -193,12 +193,13 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex-1">
               <TMSelectMenu
-                value={
-                  testCaseFormData.owner &&
-                  usersArray.find(
-                    (item) => item.value === testCaseFormData.owner,
-                  )
-                }
+                // value={
+                //   testCaseFormData.owner &&
+                //   usersArray.find(
+                //     (item) => item.value === testCaseFormData.owner,
+                //   )
+                // }
+                value={usersArray[0]}
                 checkPosition="right"
                 label="Owner"
                 options={usersArray}

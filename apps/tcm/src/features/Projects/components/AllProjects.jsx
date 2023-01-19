@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMDataTable, TMDropdown, TMPageHeadings } from 'bifrostProxy';
+import { TMDataTable, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
 import { dropDownOptions } from '../const/projectsConst';

@@ -1,6 +1,11 @@
 import React from 'react';
 import { WarningAmberOutlinedIcon } from 'assets/icons';
-import { TMButton, TMModal, TMModalFooter, TMModalHeader } from 'bifrostProxy';
+import {
+  TMButton,
+  TMModal,
+  TMModalFooter,
+  TMModalHeader,
+} from 'common/bifrostProxy';
 
 import useTestCases from './useTestCases';
 

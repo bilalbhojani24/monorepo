@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMButton, TMInputField } from 'bifrostProxy';
+import { TMButton, TMInputField } from 'common/bifrostProxy';
 
 import { setTestRailsCred } from '../slices/importSlice';
 

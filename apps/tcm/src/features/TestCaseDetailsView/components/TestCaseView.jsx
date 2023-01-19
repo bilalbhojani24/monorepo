@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import { TMButton } from 'bifrostProxy';
+// import { TMButton } from 'common/bifrostProxy';
 import TestCaseBasicData from './TestCaseBasicData';
 import TestCaseMutliData from './TestCaseMutliData';
 import useTestCaseView from './useTestCaseView';

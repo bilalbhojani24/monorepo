@@ -8,7 +8,7 @@ import {
   TMModalFooter,
   TMModalHeader,
   TMTextArea,
-} from 'bifrostProxy';
+} from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMButton } from 'bifrostProxy';
+import { TMButton } from 'common/bifrostProxy';
 import { arrayOf, shape, string } from 'prop-types';
 
 const ImportSteps = (props) => {
