@@ -38,9 +38,9 @@ const initialState = {
     { label: 'tag3', value: 'tag3' },
   ],
   issuesArray: [
-    { label: 'tag1', value: 'tag1' },
-    { label: 'tag2', value: 'tag2' },
-    { label: 'tag3', value: 'tag3' },
+    { label: 'Issue1', value: 'Issue1' },
+    { label: 'Issue2', value: 'Issue2' },
+    { label: 'Issue3', value: 'Issue3' },
   ],
 };
 
