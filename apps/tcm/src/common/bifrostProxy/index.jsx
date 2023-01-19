@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import {
+  Alerts,
   Badge,
   Button,
   Checkbox,
@@ -32,6 +33,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => <PageHeadings {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;

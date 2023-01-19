@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMButton, TMInputField, TMTooltip } from 'common/bifrostProxy';
+import { TMAlerts, TMButton, TMInputField } from 'common/bifrostProxy';
 
 import { setTestRailsCred } from '../slices/importSlice';
 
@@ -14,6 +14,7 @@ const TestRailImportForm = () => {
     handleInputFieldChange,
     handleTestConnection,
     handleProceed,
+    testRailsConnectionStatus,
   } = useImport();
 
   const dispatch = useDispatch();
@@ -47,14 +48,7 @@ const TestRailImportForm = () => {
               <>
                 TestRail Host Name
                 <span className="ml-1">
-                  <TMTooltip
-                    theme="dark"
-                    content="Host Name is your TestRail’s web address. Eg: https://abcd.testrail.io"
-                    placementAlign="start"
-                    placementSide="right"
-                  >
-                    <InfoOutlinedIcon fontSize="inherit" />
-                  </TMTooltip>
+                  <InfoOutlinedIcon fontSize="inherit" />
                 </span>
               </>
             }
@@ -62,7 +56,7 @@ const TestRailImportForm = () => {
           />
         </div>
       </div>
-      <div className="mt-4 w-1/2">
+      <div className="my-4 w-1/2">
         <TMInputField
           type="password"
           id="api-key"
@@ -71,20 +65,26 @@ const TestRailImportForm = () => {
             <>
               TestRail API Key
               <span className="ml-1">
-                <TMTooltip
-                  theme="dark"
-                  content="API Key is located at My Settings > API Keys"
-                  placementAlign="start"
-                  placementSide="right"
-                >
-                  <InfoOutlinedIcon fontSize="inherit" />
-                </TMTooltip>
+                <InfoOutlinedIcon fontSize="inherit" />
               </span>
             </>
           }
           placeholder="Enter API Key"
         />
       </div>
+      {testRailsConnectionStatus && (
+        <TMAlerts
+          accentBorder={false}
+          show={!!testRailsConnectionStatus}
+          modifier={testRailsConnectionStatus}
+          title={
+            testRailsConnectionStatus === 'success'
+              ? 'Connection was successful. Proceed to continue.'
+              : 'Connection was not successful. Try again.'
+          }
+          linkText={null}
+        />
+      )}
       <TermsAndConditions />
       <div className="flex justify-end">
         <TMButton

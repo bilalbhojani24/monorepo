@@ -10,7 +10,7 @@ const ImportSteps = (props) => {
     setStepOptions(steps);
   }, [steps]);
 
-  const handleStepClick = (stepId, e) => {
+  const handleStepClick = () => {
     // console.log('step click', stepId, e);
   };
 

@@ -7,6 +7,7 @@ import {
   setCurrentScreen,
   setImportSteps,
   setProjectForTestRailsImport,
+  setTestRailsConnectionState,
   setTestRailsCred,
 } from '../slices/importSlice';
 
@@ -28,6 +29,9 @@ const useImport = () => {
     (state) => state.import.selectedProjectsTestRailImport,
   );
   const allImportSteps = useSelector((state) => state.import.importSteps);
+  const testRailsConnectionStatus = useSelector(
+    (state) => state.import.testRailsConnectionEst,
+  );
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
@@ -35,14 +39,15 @@ const useImport = () => {
   };
 
   const handleTestConnection = () => {
-    // make the api call
     testConnection(testRailsCred)
       .then((data) => {
         // show the success banners
+        dispatch(setTestRailsConnectionState('success'));
         dispatch(setProjectForTestRailsImport(data.projects));
       })
       .catch(() => {
         // show failure banner
+        dispatch(setTestRailsConnectionState('error'));
       });
   };
 
@@ -101,6 +106,7 @@ const useImport = () => {
     getUserEmail,
     testRailProjects,
     testRailsCred,
+    testRailsConnectionStatus,
     handleInputFieldChange,
     handleTestConnection,
     handleProceed,
