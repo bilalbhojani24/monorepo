@@ -60,7 +60,6 @@ const useImport = () => {
         return null;
       });
       const filteredArray = onlyChecked.filter((item) => item);
-      // console.log(filteredArray);
       dispatch(setConfigureDataTestRails(filteredArray));
     }
   };
@@ -76,7 +75,7 @@ const useImport = () => {
     }).then(() => {
       // console.log('done successfully');
     });
-    navigate(-1);
+    navigate('/');
   };
 
   return {

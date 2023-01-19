@@ -71,32 +71,38 @@ const ConfigureTool = () => {
           </TMButton>
         </div> */}
       </div>
-      <div className="mt-6">
-        <div className="text-lg">Choose import Type:</div>
-        <div className="mt-3">
-          <TMRadioGroup
-            direction="horizontal"
-            onChange={handleRadioGroupChange}
-            options={[
-              {
-                id: 'import-from-tool',
-                name: (
-                  <>
-                    <span className="mr-1">Import data from tool</span>
-                    <TMBadge text="Recommended" modifier="warn" size="large" />
-                  </>
-                ),
-                description: `Enter ${buttonText} credentials we'll import your data`,
-              },
-              {
-                id: 'upload-file',
-                name: 'Upload file',
-                description: `Upload ${buttonText} XML file with test case data`,
-              },
-            ]}
-          />
+      {buttonText && (
+        <div className="mt-6">
+          <div className="text-lg">Choose import Type:</div>
+          <div className="mt-3">
+            <TMRadioGroup
+              direction="horizontal"
+              onChange={handleRadioGroupChange}
+              options={[
+                {
+                  id: 'import-from-tool',
+                  name: (
+                    <>
+                      <span className="mr-1">Import data from tool</span>
+                      <TMBadge
+                        text="Recommended"
+                        modifier="warn"
+                        size="large"
+                      />
+                    </>
+                  ),
+                  description: `Enter ${buttonText} credentials we'll import your data`,
+                },
+                {
+                  id: 'upload-file',
+                  name: 'Upload file',
+                  description: `Upload ${buttonText} XML file with test case data`,
+                },
+              ]}
+            />
+          </div>
         </div>
-      </div>
+      )}
       {getForm()}
     </div>
   );

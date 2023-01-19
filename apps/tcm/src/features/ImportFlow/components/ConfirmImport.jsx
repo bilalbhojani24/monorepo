@@ -1,6 +1,6 @@
 import React from 'react';
 import { TMSectionHeadings } from 'bifrostProxy';
-import { number, shapeOf, string } from 'prop-types';
+import { number, shape, string } from 'prop-types';
 
 import useImport from './useImport';
 
@@ -40,7 +40,7 @@ const ConfirmImport = (props) => {
 };
 
 ConfirmImport.propTypes = {
-  projects: shapeOf({
+  projects: shape({
     id: number,
     name: string,
     suite_mode: number,
