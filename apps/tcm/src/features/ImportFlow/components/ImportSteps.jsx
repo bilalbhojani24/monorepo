@@ -1,18 +1,25 @@
-import React from 'react';
-import { TMButton } from 'common/bifrostProxy';
+import React, { useEffect, useState } from 'react';
+import { TMSteps } from 'common/bifrostProxy';
 import { arrayOf, shape, string } from 'prop-types';
 
 const ImportSteps = (props) => {
   const { steps } = props;
+  const [stepOptions, setStepOptions] = useState([...steps]);
+
+  useEffect(() => {
+    setStepOptions(steps);
+  }, [steps]);
+
+  const handleStepClick = () => {
+    // console.log('step click', stepId, e);
+  };
 
   return (
-    <>
-      <div className="mt-4 flex justify-around">
-        {steps.map((step) => (
-          <TMButton>{step.name}</TMButton>
-        ))}
-      </div>
-    </>
+    <TMSteps
+      steps={stepOptions}
+      format="panels-with-borders"
+      onClick={handleStepClick}
+    />
   );
 };
 

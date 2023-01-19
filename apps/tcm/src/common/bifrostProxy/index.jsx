@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import {
+  Alerts,
   Badge,
   Button,
   Checkbox,
@@ -20,6 +21,7 @@ import {
   Slideover,
   SlideoverHeader,
   StackedListWSingleColumn,
+  Steps,
   Table,
   TableBody,
   TableCell,
@@ -31,6 +33,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => <PageHeadings {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;
@@ -53,6 +56,7 @@ export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
+export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (

@@ -3,10 +3,10 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
+import Import from 'features/ImportFlow';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
 
-import Import from '../ImportFlow/components/Import';
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 

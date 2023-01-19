@@ -12,15 +12,21 @@ const ConfigureDataList = (props) => {
 
   useEffect(() => {
     setAllProjectsArray(projects);
+    setSelectedProjects(
+      projects.map((project) => ({ ...project, checked: true })),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects]);
 
   const handleCheckBoxChange = (name) => (e) => {
     if (name === 'allProjects') {
       if (e.target.checked) {
-        setAllProjectsArray(
-          allProjectsArray.map((project) => ({ ...project, checked: true })),
-        );
-        setSelectedProjects(allProjectsArray);
+        const checkedProjects = allProjectsArray.map((project) => ({
+          ...project,
+          checked: true,
+        }));
+        setAllProjectsArray(checkedProjects);
+        setSelectedProjects(checkedProjects);
       } else {
         setAllProjectsArray(
           allProjectsArray.map((project) => ({ ...project, checked: false })),
