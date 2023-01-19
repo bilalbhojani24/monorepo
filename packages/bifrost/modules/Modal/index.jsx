@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
@@ -13,19 +12,16 @@ const Modal = (props) => {
   const { children, onClose, onOverlayClick, show, size } = props;
 
   return (
-    <Transition.Root show={show} as={Fragment}>
+    <Transition.Root show={show}>
       <Dialog
         as="div"
         className="relative z-10"
         onClose={() => {
           if (onClose) onClose();
-        }}
-        onClick={() => {
           if (onOverlayClick) onOverlayClick();
         }}
       >
         <Transition.Child
-          as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -33,7 +29,7 @@ const Modal = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="bg-base-500 fixed inset-0 opacity-75 transition-opacity" />
+          <div className="bg-base-500 fixed inset-0  opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">

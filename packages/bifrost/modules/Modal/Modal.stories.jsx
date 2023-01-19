@@ -54,7 +54,9 @@ const defaultConfig = {
     },
     onClose: {
       option: { type: null },
-      defaultValue: () => {},
+      defaultValue: () => {
+        console.log('onClose called');
+      },
     },
     show: {
       option: { type: 'boolean' },
