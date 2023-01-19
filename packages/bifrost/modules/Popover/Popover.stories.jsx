@@ -66,6 +66,10 @@ const defaultConfig = {
       control: { type: inlineRadio },
       defaultValue: TP_PLACEMENT_SIDE[0],
     },
+    show: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
     size: {
       options: TP_SIZE,
       control: { type: inlineRadio },

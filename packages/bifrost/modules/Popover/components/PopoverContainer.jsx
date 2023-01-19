@@ -20,6 +20,7 @@ const PopoverContainer = (props) => {
     content,
     placementAlign,
     placementSide,
+    show,
     size,
     theme,
   } = props;
@@ -30,7 +31,7 @@ const PopoverContainer = (props) => {
         theme,
       }}
     >
-      <PopoverPrimitive.Root>
+      <PopoverPrimitive.Root open={show}>
         <PopoverPrimitive.Trigger as>{children}</PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
@@ -81,6 +82,7 @@ PopoverContainer.propTypes = {
   children: PropTypes.node,
   placementAlign: PropTypes.oneOf(TP_PLACEMENT_ALIGN),
   placementSide: PropTypes.oneOf(TP_PLACEMENT_SIDE),
+  show: PropTypes.bool,
   size: PropTypes.oneOf(TP_SIZE),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
 };
@@ -90,6 +92,7 @@ PopoverContainer.defaultProps = {
   children: null,
   placementAlign: TP_PLACEMENT_ALIGN[0],
   placementSide: TP_PLACEMENT_SIDE[0],
+  show: false,
   size: TP_SIZE[0],
   theme: TP_TOOLTIP_THEME[0],
 };
