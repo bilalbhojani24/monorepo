@@ -21,7 +21,7 @@ const initialState = {
     priority: priorityOptions[2].value,
     owner: null,
     status: statusOptions[0].value,
-    precondition: '',
+    preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
   },

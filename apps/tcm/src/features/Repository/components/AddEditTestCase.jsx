@@ -208,12 +208,15 @@ const AddEditTestCase = () => {
           </div>
           <div className="mt-4">
             <TMTextArea
-              value={testCaseFormData.precondition}
+              value={testCaseFormData.preconditions}
               placeholder="Mention preconditions if any needed before executing this test"
-              id="test-case-precondition"
+              id="test-case-preconditions"
               label="Preconditions"
               onChange={(e) =>
-                handleTestCaseFieldChange('precondition', e.currentTarget.value)
+                handleTestCaseFieldChange(
+                  'preconditions',
+                  e.currentTarget.value,
+                )
               }
             />
           </div>
@@ -275,7 +278,9 @@ const AddEditTestCase = () => {
                   //     (item) => item.value === testCaseFormData.tags,
                   //   )
                   // }
-                  onChange={(e) => handleTestCaseFieldChange('issues', e.value)}
+                  onChange={(e) =>
+                    handleTestCaseFieldChange('jira_tickets', e.value)
+                  }
                 />
               </div>
               <TMButton wrapperClassName="" colors="white">
