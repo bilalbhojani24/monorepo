@@ -2,6 +2,7 @@ const globalConfigs = require('@browserstack/tailwind-config');
 
 const bifrostTailwindConfig = {
   ...globalConfigs.globalTailwindConfig,
+  content: ['./modules/**/*.{js,jsx}'],
 };
 
 bifrostTailwindConfig.theme.configViewer = {
