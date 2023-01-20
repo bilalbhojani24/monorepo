@@ -34,7 +34,12 @@ import {
 import PropTypes from 'prop-types';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-export const TMPageHeadings = (props) => <PageHeadings {...props} />;
+export const TMPageHeadings = (props) => (
+  <PageHeadings
+    wrapperClassName="px-4 py-6 border-b border-base-300 "
+    {...props}
+  />
+);
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;

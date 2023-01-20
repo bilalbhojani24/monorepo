@@ -78,7 +78,7 @@ const AddTestRuns = () => {
               </>
             }
           />
-          <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
+          <div className="bg-base-100 flex flex-1 flex-col items-stretch p-4">
             <div className="border-base-200 flex flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white p-4 sm:rounded-lg">
               <div className="mt-4">
                 <TMInputField
