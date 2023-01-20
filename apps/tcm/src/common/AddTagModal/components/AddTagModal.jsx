@@ -26,7 +26,7 @@ const AddTagModal = ({
       show={isVisible}
       withDismissButton
       onOverlayClick={hideAddTagsModal}
-      size="large"
+      // size="medium"
     >
       <TMModalHeader heading="Add Tag" handleDismissClick={hideAddTagsModal} />
       <TMModalBody>
