@@ -42,9 +42,7 @@ const defaultConfig = {
     onChange: {
       option: { type: null },
       description: 'Callback function when combobox value is changed',
-      defaultValue: (selectedOptions) => {
-        console.log(selectedOptions);
-      },
+      defaultValue: () => {},
     },
     options: {
       option: { type: null },

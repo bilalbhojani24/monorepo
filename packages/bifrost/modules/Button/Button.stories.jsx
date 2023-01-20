@@ -26,16 +26,17 @@ const defaultConfig = {
   },
   argTypes: {
     variant: {
+      // eslint-disable-next-line sonarjs/no-duplicate-string
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_VARIANTS.join(', '), required: false },
       options: BUTTON_VARIANTS,
-      description: 'Lorem Ipsum',
+      description: 'Lorem',
     },
     size: {
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_SIZES.join(', '), required: false },
       options: BUTTON_SIZES,
-      description: 'Lorem Ipsum',
+      description: 'Ipsum',
     },
     disabled: {
       control: { type: 'boolean' },
