@@ -112,7 +112,7 @@ const AllProjects = () => {
           }
         />
       </div>
-      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-4">
+      <div className="flex flex-1 flex-col items-stretch p-4">
         <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
           <TMDataTable columns={tableColumns} rows={activeProjects} />
         </div>

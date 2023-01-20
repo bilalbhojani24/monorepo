@@ -35,7 +35,7 @@ const TestRuns = () => {
         />
       </div>
 
-      <div className="bg-base-100 flex flex-1 flex-col items-stretch p-4">
+      <div className="flex flex-1 flex-col items-stretch p-4">
         <TestRunsTable />
       </div>
     </div>

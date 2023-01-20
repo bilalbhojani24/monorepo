@@ -36,7 +36,7 @@ import PropTypes from 'prop-types';
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
   <PageHeadings
-    wrapperClassName="px-4 py-6 border-b border-base-300 "
+    wrapperClassName="px-4 py-6 border-b border-base-300 bg-transparent"
     {...props}
   />
 );
