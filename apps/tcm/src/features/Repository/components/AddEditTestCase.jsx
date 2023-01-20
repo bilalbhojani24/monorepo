@@ -261,27 +261,10 @@ const AddEditTestCase = () => {
                   isMultiSelect
                   placeholder="Select from options"
                   label="Tags"
-                  options={
-                    tagsArray
-                      ? tagsArray?.map((item) => ({
-                          value: item,
-                          label: item,
-                        }))
-                      : []
-                  }
-                  value={tagsArray?.map((item) => ({
-                    value: item,
-                    label: item,
-                  }))}
-                  // value={testCaseFormData?.tags?.map((item) => ({
-                  //   value: item,
-                  //   label: item,
-                  // }))}
+                  options={tagsArray}
+                  value={testCaseFormData?.tags}
                   onChange={(e) => {
-                    handleTestCaseFieldChange(
-                      'tags',
-                      e.map((item) => item.label),
-                    );
+                    handleTestCaseFieldChange('tags', e);
                   }}
                 />
               </div>
@@ -365,7 +348,7 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         hideAddTagsModal={hideAddTagsModal}
-        existingTags={tagsArray || []}
+        existingTags={tagsArray.map((item) => item.value) || []}
         verifierFunction={tagVerifierFunction}
       />
     </div>

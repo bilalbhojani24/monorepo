@@ -21,10 +21,13 @@ const useAddTagModal = ({
     });
   };
 
-  const onTagRemoveClick = () => {};
+  const onTagRemoveClick = (tag) => {
+    setAllTags(allTags.filter((item) => item !== tag));
+    setNewTags(newTags.filter((item) => item !== tag));
+  };
 
   const onCloseHandler = () => {
-    hideAddTagsModal(newTags);
+    hideAddTagsModal(allTags);
   };
 
   useEffect(() => {

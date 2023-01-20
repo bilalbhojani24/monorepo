@@ -62,7 +62,11 @@ const AddTagModal = ({
         </div>
         <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
           {allTags?.map((item) => (
-            <TMBadge text={item} hasRemoveButton onClose={onTagRemoveClick} />
+            <TMBadge
+              text={item}
+              hasRemoveButton
+              onClose={() => onTagRemoveClick(item)}
+            />
           ))}
         </div>
       </TMModalBody>

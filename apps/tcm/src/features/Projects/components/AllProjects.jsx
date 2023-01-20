@@ -100,18 +100,16 @@ const AllProjects = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <div className="border-base-300 border-b">
-        <TMPageHeadings
-          heading="All Projects"
-          actions={
-            <>
-              <TMButton variant="primary" onClick={addingProject}>
-                Create Project
-              </TMButton>
-            </>
-          }
-        />
-      </div>
+      <TMPageHeadings
+        heading="All Projects"
+        actions={
+          <>
+            <TMButton variant="primary" onClick={addingProject}>
+              Create Project
+            </TMButton>
+          </>
+        }
+      />
       <div className="flex flex-1 flex-col items-stretch p-4">
         <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
           <TMDataTable columns={tableColumns} rows={activeProjects} />

@@ -32,7 +32,7 @@ const initialState = {
   selectedTestCase: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
   usersArray: null,
-  tagsArray: null,
+  tagsArray: [],
   issuesArray: [
     { label: 'Issue1', value: 'Issue1' },
     { label: 'Issue2', value: 'Issue2' },

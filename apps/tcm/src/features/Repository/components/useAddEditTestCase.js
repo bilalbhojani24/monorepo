@@ -97,7 +97,9 @@ export default function useAddEditTestCase() {
   };
   const fetchTags = () => {
     getTagsAPI({ projectId }).then((data) => {
-      dispatch(setTagsArray(data.tags));
+      dispatch(
+        setTagsArray(data.tags.map((item) => ({ label: item, value: item }))),
+      );
     });
   };
 
@@ -114,6 +116,7 @@ export default function useAddEditTestCase() {
     test_case: {
       ...formData,
       steps: JSON.stringify(formData.steps),
+      tags: JSON.stringify(formData.steps),
     },
   });
 
@@ -205,14 +208,11 @@ export default function useAddEditTestCase() {
     );
   };
 
-  const hideAddTagsModal = (newTags) => {
-    dispatch(setTagsArray([...tagsArray, ...newTags]));
-    handleTestCaseFieldChange(
-      'tags',
-      testCaseFormData?.tags
-        ? [...testCaseFormData?.tags, ...newTags]
-        : newTags,
-    );
+  const hideAddTagsModal = (allTags) => {
+    const mappedTags = allTags.map((item) => ({ label: item, value: item }));
+
+    dispatch(setTagsArray(mappedTags));
+    handleTestCaseFieldChange('tags', mappedTags);
     dispatch(setAddTagModal(false));
   };
 

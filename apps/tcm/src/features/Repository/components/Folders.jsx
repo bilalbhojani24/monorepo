@@ -17,7 +17,7 @@ export default function Folders() {
 
   return (
     <div className="flex flex-col">
-      {isAddFolderModalVisible && <AddFolderModal projectId={projectId} />}
+      <AddFolderModal show={isAddFolderModalVisible} projectId={projectId} />
       <div className="border-base-300 flex items-center border-b p-3">
         <span className="text-base">Folders</span>
         <TMButton
