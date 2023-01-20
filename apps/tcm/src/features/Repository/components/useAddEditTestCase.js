@@ -150,16 +150,36 @@ export default function useAddEditTestCase() {
 
   const fileUploaderHelper = (e) => {
     if (e?.currentTarget?.files?.length) {
+      const selectedFiles = e?.currentTarget?.files;
       const filesData = new FormData();
-      for (let idx = 0; idx < e.currentTarget.files.length; idx += 1) {
-        filesData.append('attachments[]', e.currentTarget.files[idx]);
+      for (let idx = 0; idx < selectedFiles.length; idx += 1) {
+        filesData.append('attachments[]', selectedFiles[idx]);
       }
-      uploadFilesAPI({ projectId, payload: filesData });
+      uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
+        const uploadedFiles = [];
+        for (let idx = 0; idx < selectedFiles.length; idx += 1) {
+          uploadedFiles.push({
+            name: selectedFiles[idx].name,
+            id: item.generic_attachment[idx],
+          });
+        }
+        handleTestCaseFieldChange('attachments', [
+          ...testCaseFormData?.attachments,
+          ...uploadedFiles,
+        ]);
+      });
     }
   };
 
   const addMoreClickHandler = () => {
     uploadElementRef?.current?.click();
+  };
+
+  const fileRemoveHandler = (data) => {
+    handleTestCaseFieldChange(
+      'attachments',
+      testCaseFormData?.attachments.filter((item) => item.id !== data.id),
+    );
   };
 
   useEffect(() => {
@@ -203,5 +223,6 @@ export default function useAddEditTestCase() {
     addTagsHelper,
     fileUploaderHelper,
     addMoreClickHandler,
+    fileRemoveHandler,
   };
 }

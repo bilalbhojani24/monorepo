@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import AddTagModal from 'common/AddTagModal';
+import Attachments from 'common/Attachments';
 import {
   TMButton,
   TMInputField,
@@ -41,6 +42,7 @@ const AddEditTestCase = () => {
     addTagsHelper,
     fileUploaderHelper,
     addMoreClickHandler,
+    fileRemoveHandler,
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -307,22 +309,29 @@ const AddEditTestCase = () => {
                 <div className="text-base-700 mb-2 block text-sm font-medium">
                   Attachments
                 </div>
-                <TMButton
-                  colors="brand"
-                  variant="minimal"
-                  onClick={addMoreClickHandler}
-                >
-                  Add More
-                </TMButton>
+                {testCaseFormData?.attachments?.length && (
+                  <TMButton
+                    colors="brand"
+                    variant="minimal"
+                    onClick={addMoreClickHandler}
+                  >
+                    Add More
+                  </TMButton>
+                )}
               </div>
               <input
                 ref={uploadElementRef}
+                className="mb-4"
                 onChange={fileUploaderHelper}
                 type="file"
                 name="attachment"
                 multiple
                 id="file-attachment"
                 accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
+              />
+              <Attachments
+                attachments={testCaseFormData?.attachments}
+                onRemoveClick={fileRemoveHandler}
               />
             </div>
             <div className="flex-1" />
