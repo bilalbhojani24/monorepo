@@ -6,6 +6,7 @@ import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
   editTestCaseAPI,
+  getTagsAPI,
   getTestCaseDetailsAPI,
 } from 'api/testcases.api';
 
@@ -15,6 +16,7 @@ import {
   setAddTagModal,
   setAddTestCaseVisibility,
   setEditTestCasePageVisibility,
+  setLoadedDataProjectId,
   setTagsArray,
   setTestCaseFormData,
   setUsers,
@@ -26,7 +28,7 @@ export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const uploadElementRef = useRef();
   const [inputError, setInputError] = useState(false);
-  const [usersArray, setUsersArray] = useState([]);
+  const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(true);
   const dispatch = useDispatch();
 
@@ -42,6 +44,9 @@ export default function useAddEditTestCase() {
   const testCaseFormData = useSelector(
     (state) => state.repository.testCaseFormData,
   );
+  const loadedDataProjectId = useSelector(
+    (state) => state.repository.loadedDataProjectId,
+  );
 
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase,
@@ -49,7 +54,7 @@ export default function useAddEditTestCase() {
   const tagsArray = useSelector((state) => state.repository.tagsArray);
   const issuesArray = useSelector((state) => state.repository.issuesArray);
 
-  const usersDetails = useSelector((state) => state.repository.usersDetails);
+  const usersArray = useSelector((state) => state.repository.usersArray);
 
   const hideTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(false));
@@ -66,6 +71,10 @@ export default function useAddEditTestCase() {
     dispatch(setTagsArray([...tagsArray, { value: data, label: data }]));
   };
 
+  const updateLoadedDataProjectId = () => {
+    dispatch(setLoadedDataProjectId(projectId));
+  };
+
   const fetchTestCaseDetails = () => {
     if (folderId && selectedTestCase?.id) {
       getTestCaseDetailsAPI({
@@ -79,20 +88,29 @@ export default function useAddEditTestCase() {
   };
 
   const fetchUsers = () => {
-    if (!usersDetails?.projectId || usersDetails.projectId !== projectId) {
-      getUsersOfProjectAPI(projectId).then((data) => {
-        dispatch(
-          setUsers({
-            projectId,
-            users: [{ full_name: 'Myself', id: data.myself.id }, ...data.users],
-          }),
-        );
+    getUsersOfProjectAPI(projectId).then((data) => {
+      dispatch(
+        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users]),
+      );
 
-        // if (data?.myself?.id)
-        //   dispatch(
-        //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
-        //   );
-      });
+      updateLoadedDataProjectId();
+
+      // if (data?.myself?.id)
+      //   dispatch(
+      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
+      //   );
+    });
+  };
+  const fetchTags = () => {
+    getTagsAPI({ projectId }).then((data) => {
+      dispatch(setTagsArray(data.tags));
+    });
+  };
+
+  const fetchFormData = () => {
+    if (loadedDataProjectId !== projectId) {
+      fetchUsers();
+      fetchTags();
     }
   };
 
@@ -100,7 +118,7 @@ export default function useAddEditTestCase() {
     test_case: {
       ...formData,
       steps: JSON.stringify(formData.steps),
-      tags: formData?.tags.map((item) => item.label),
+      // tags: formData?.tags?.map((item) => item.label) || [],
     },
   });
 
@@ -188,22 +206,22 @@ export default function useAddEditTestCase() {
   }, [isTestCaseEditing]);
 
   useEffect(() => {
-    if (projectId === usersDetails?.projectId)
+    if (projectId === usersArray?.projectId)
       setUsersArray(
-        usersDetails.users.map((item) => ({
+        usersArrayMapped.map((item) => ({
           label: item.full_name,
           value: item.id,
         })),
       );
     else setUsersArray([]);
-  }, [projectId, usersDetails]);
+  }, [projectId, usersArray]);
 
   return {
     uploadElementRef,
     isAddTagModalShown,
     tagsArray,
     issuesArray,
-    usersArray,
+    usersArrayMapped,
     fetchUsers,
     handleTestCaseFieldChange,
     testCaseFormData,
@@ -224,5 +242,6 @@ export default function useAddEditTestCase() {
     fileUploaderHelper,
     addMoreClickHandler,
     fileRemoveHandler,
+    fetchFormData,
   };
 }

@@ -49,11 +49,7 @@ const AddTagModal = ({
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton
-          variant="primary"
-          colors="white"
-          onClick={() => addSelectedTags(enteredTag)}
-        >
+        <TMButton variant="primary" colors="white" onClick={hideAddTagsModal}>
           Close
         </TMButton>
       </TMModalFooter>

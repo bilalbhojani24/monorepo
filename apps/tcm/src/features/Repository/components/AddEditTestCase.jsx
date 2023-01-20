@@ -34,8 +34,8 @@ const AddEditTestCase = () => {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
-    fetchUsers,
-    usersArray,
+    fetchFormData,
+    usersArrayMapped,
     tagsArray,
     issuesArray,
     showAddTagsModal,
@@ -47,7 +47,7 @@ const AddEditTestCase = () => {
   } = useAddEditTestCase();
 
   useEffect(() => {
-    fetchUsers();
+    fetchFormData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -206,13 +206,13 @@ const AddEditTestCase = () => {
               <TMSelectMenu
                 value={
                   testCaseFormData.owner &&
-                  usersArray.find(
+                  usersArrayMapped.find(
                     (item) => item.value === testCaseFormData.owner,
                   )
                 }
                 checkPosition="right"
                 label="Owner"
-                options={usersArray}
+                options={usersArrayMapped}
                 onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
               />
             </div>
@@ -260,7 +260,15 @@ const AddEditTestCase = () => {
                   checkPosition="right"
                   isMultiSelect
                   label="Tags"
-                  options={tagsArray}
+                  options={
+                    tagsArray
+                      ? tagsArray.map((item) => ({
+                          value: item,
+                          label: item,
+                        }))
+                      : []
+                  }
+                  // options={[{}]}
                   // value={
                   //   testCaseFormData.tags &&
                   //   templateOptions.find(
@@ -325,7 +333,7 @@ const AddEditTestCase = () => {
               <input
                 ref={uploadElementRef}
                 className={className({
-                  'hidden ': testCaseFormData?.attachments.length,
+                  'hidden ': testCaseFormData?.attachments?.length,
                 })}
                 onChange={fileUploaderHelper}
                 type="file"
@@ -336,7 +344,7 @@ const AddEditTestCase = () => {
               />
               <div className="mt-2">
                 <Attachments
-                  attachments={testCaseFormData?.attachments}
+                  attachments={testCaseFormData?.attachments || []}
                   onRemoveClick={fileRemoveHandler}
                 />
               </div>
@@ -349,7 +357,7 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         hideAddTagsModal={hideAddTagsModal}
-        existingTags={tagsArray?.map((item) => item.label)}
+        existingTags={tagsArray || []}
         addSelectedTags={addTagsHelper}
       />
     </div>

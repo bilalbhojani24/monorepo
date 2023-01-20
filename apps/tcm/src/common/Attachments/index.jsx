@@ -4,7 +4,7 @@ import { TMButton } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 const Attachments = ({ attachments, onRemoveClick }) => {
-  if (!attachments.length) return '';
+  if (!attachments?.length) return '';
 
   return (
     <div className="w-full">

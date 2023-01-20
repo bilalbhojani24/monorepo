@@ -33,3 +33,11 @@ export const getTestCaseDetailsAPI = async ({
   fetchGet(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`,
   );
+
+export const getTagsAPI = async ({ projectId }) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
+
+export const addTagsAPI = async ({ projectId, tag }) =>
+  fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
+    tag: { name: tag },
+  });
