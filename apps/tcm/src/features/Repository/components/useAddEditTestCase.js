@@ -114,7 +114,6 @@ export default function useAddEditTestCase() {
     test_case: {
       ...formData,
       steps: JSON.stringify(formData.steps),
-      // tags: formData?.tags?.map((item) => item.label) || [],
     },
   });
 

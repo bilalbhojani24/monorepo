@@ -261,19 +261,24 @@ const AddEditTestCase = () => {
                   isMultiSelect
                   placeholder="Select from options"
                   label="Tags"
-                  options={
-                    tagsArray
-                      ? tagsArray.map((item) => ({
-                          value: item,
-                          label: item,
-                        }))
-                      : []
-                  }
-                  value={testCaseFormData?.tags?.map((item) => ({
+                  options={tagsArray?.map((item) => ({
                     value: item,
                     label: item,
                   }))}
-                  onChange={(e) => handleTestCaseFieldChange('tags', e)}
+                  value={tagsArray?.map((item) => ({
+                    value: item,
+                    label: item,
+                  }))}
+                  // value={testCaseFormData?.tags?.map((item) => ({
+                  //   value: item,
+                  //   label: item,
+                  // }))}
+                  onChange={(e) =>
+                    handleTestCaseFieldChange(
+                      'tags',
+                      e.map((item) => item.label),
+                    )
+                  }
                 />
               </div>
               <TMButton
