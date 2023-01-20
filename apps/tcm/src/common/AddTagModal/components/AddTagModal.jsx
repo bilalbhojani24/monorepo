@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
+  TMBadge,
   TMButton,
-  TMInputField,
+  TMInputWButton,
   TMModal,
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea,
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -17,6 +17,8 @@ const AddTagModal = ({
   existingTags,
 }) => {
   const [enteredTag, setTagEntered] = useState('');
+  const addTagHandler = () => {};
+  const onTagRemoveClick = () => {};
   if (!isVisible) return '';
 
   return (
@@ -28,35 +30,31 @@ const AddTagModal = ({
     >
       <TMModalHeader heading="Add Tag" handleDismissClick={hideAddTagsModal} />
       <TMModalBody>
-        <TMInputField
+        <TMInputWButton
           id="tag-name"
           value={enteredTag}
+          onButtonClick={addTagHandler}
+          buttonElement="Add Tag"
           label="Tag Name"
-          placeholder="Enter New Tag Name"
+          placeholder="Enter Tag name separated by comma"
           onChange={(e) => setTagEntered(e.currentTarget.value)}
         />
-        <div className="mt-4">
-          <TMTextArea
-            value={existingTags}
-            id="Existing Tags"
-            label="Existing Tags"
-            // onChange={(e) =>
-            //   // BE expects string in an array
-            //   handleTestCaseFieldChange('steps', [e.currentTarget.value])
-            // }
-          />
+        <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
+          Existing Tags in this test case:
+        </div>
+        <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
+          {existingTags?.map((item) => (
+            <TMBadge text={item} hasRemoveButton onClose={onTagRemoveClick} />
+          ))}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideAddTagsModal}>
-          Cancel
-        </TMButton>
         <TMButton
           variant="primary"
-          wrapperClassName="ml-3"
+          colors="white"
           onClick={() => addSelectedTags(enteredTag)}
         >
-          Add & Select
+          Close
         </TMButton>
       </TMModalFooter>
     </TMModal>

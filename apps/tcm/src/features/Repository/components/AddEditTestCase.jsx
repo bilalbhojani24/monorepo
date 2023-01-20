@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import className from 'classnames';
 import AddTagModal from 'common/AddTagModal';
 import Attachments from 'common/Attachments';
 import {
@@ -309,7 +310,7 @@ const AddEditTestCase = () => {
                 <div className="text-base-700 mb-2 block text-sm font-medium">
                   Attachments
                 </div>
-                {testCaseFormData?.attachments?.length && (
+                {testCaseFormData?.attachments?.length ? (
                   <TMButton
                     colors="brand"
                     variant="minimal"
@@ -317,11 +318,15 @@ const AddEditTestCase = () => {
                   >
                     Add More
                   </TMButton>
+                ) : (
+                  ''
                 )}
               </div>
               <input
                 ref={uploadElementRef}
-                className="mb-4"
+                className={className({
+                  'hidden ': testCaseFormData?.attachments.length,
+                })}
                 onChange={fileUploaderHelper}
                 type="file"
                 name="attachment"
@@ -329,10 +334,12 @@ const AddEditTestCase = () => {
                 id="file-attachment"
                 accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
               />
-              <Attachments
-                attachments={testCaseFormData?.attachments}
-                onRemoveClick={fileRemoveHandler}
-              />
+              <div className="mt-2">
+                <Attachments
+                  attachments={testCaseFormData?.attachments}
+                  onRemoveClick={fileRemoveHandler}
+                />
+              </div>
             </div>
             <div className="flex-1" />
           </div>
@@ -342,7 +349,7 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         hideAddTagsModal={hideAddTagsModal}
-        existingTags={tagsArray?.map((item) => item.label).join(', ')}
+        existingTags={tagsArray?.map((item) => item.label)}
         addSelectedTags={addTagsHelper}
       />
     </div>
