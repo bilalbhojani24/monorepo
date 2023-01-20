@@ -273,12 +273,12 @@ const AddEditTestCase = () => {
                   //   value: item,
                   //   label: item,
                   // }))}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     handleTestCaseFieldChange(
                       'tags',
                       e.map((item) => item.label),
-                    )
-                  }
+                    );
+                  }}
                 />
               </div>
               <TMButton

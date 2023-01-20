@@ -12,13 +12,14 @@ import {
   TMTextArea,
 } from 'common/bifrostProxy';
 import { updateProject } from 'globalSlice';
+import PropTypes from 'prop-types';
 
 // import { projectStatus } from '../const/projectsConst';
 import { setEditProjectModalVisibility } from '../slices/projectSlice';
 
 import useProjects from './useProjects';
 
-const EditProjects = () => {
+const EditProjects = ({ show }) => {
   const { selectedProject } = useProjects();
   const [formData, setFormData] = useState({
     name: '',
@@ -50,7 +51,11 @@ const EditProjects = () => {
 
   // debugger;
   return (
-    <TMModal show withDismissButton onOverlayClick={hideEditProjectModal}>
+    <TMModal
+      show={show}
+      withDismissButton
+      onOverlayClick={hideEditProjectModal}
+    >
       <TMModalHeader
         heading="Edit Project"
         handleDismissClick={hideEditProjectModal}
@@ -102,6 +107,13 @@ const EditProjects = () => {
       </TMModalFooter>
     </TMModal>
   );
+};
+EditProjects.propTypes = {
+  show: PropTypes.bool,
+};
+
+EditProjects.defaultProps = {
+  show: false,
 };
 
 export default EditProjects;

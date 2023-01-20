@@ -9,12 +9,13 @@ import {
   TMModalHeader,
 } from 'common/bifrostProxy';
 import { deleteProject } from 'globalSlice';
+import PropTypes from 'prop-types';
 
 import { setDeleteProjectModalVisibility } from '../slices/projectSlice';
 
 import useProjects from './useProjects';
 
-const DeleteProjects = () => {
+const DeleteProjects = ({ show }) => {
   const { selectedProject } = useProjects();
 
   const dispatch = useDispatch();
@@ -31,7 +32,11 @@ const DeleteProjects = () => {
   };
 
   return (
-    <TMModal show withDismissButton onOverlayClick={hideDeleteProjectModal}>
+    <TMModal
+      show={show}
+      withDismissButton
+      onOverlayClick={hideDeleteProjectModal}
+    >
       <TMModalHeader
         heading="Delete Project"
         subHeading="Are you sure you want to delete your project? All the data will be permanently deleted. This action cannot be undone."
@@ -58,5 +63,11 @@ const DeleteProjects = () => {
     </TMModal>
   );
 };
+DeleteProjects.propTypes = {
+  show: PropTypes.bool,
+};
 
+DeleteProjects.defaultProps = {
+  show: false,
+};
 export default DeleteProjects;

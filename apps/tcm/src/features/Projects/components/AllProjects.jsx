@@ -117,9 +117,9 @@ const AllProjects = () => {
           <TMDataTable columns={tableColumns} rows={activeProjects} />
         </div>
       </div>
-      {showAddModal && <AddProjects />}
-      {showEditModal && <EditProjects />}
-      {showDeleteModal && <DeleteProjects />}
+      <AddProjects show={showAddModal} />
+      <EditProjects show={showEditModal} />
+      <DeleteProjects show={showDeleteModal} />
     </div>
   );
 };

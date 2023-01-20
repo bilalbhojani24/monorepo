@@ -13,11 +13,12 @@ import {
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { addProject } from 'globalSlice';
+import PropTypes from 'prop-types';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { setAddProjectModalVisibility } from '../slices/projectSlice';
 
-const AddProjects = () => {
+const AddProjects = ({ show }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -42,7 +43,7 @@ const AddProjects = () => {
   };
 
   return (
-    <TMModal show withDismissButton onOverlayClick={hideAddProjectModal}>
+    <TMModal show={show} withDismissButton onOverlayClick={hideAddProjectModal}>
       <TMModalHeader
         heading="Add Project"
         handleDismissClick={hideAddProjectModal}
@@ -85,6 +86,14 @@ const AddProjects = () => {
       </TMModalFooter>
     </TMModal>
   );
+};
+
+AddProjects.propTypes = {
+  show: PropTypes.bool,
+};
+
+AddProjects.defaultProps = {
+  show: false,
 };
 
 export default AddProjects;
