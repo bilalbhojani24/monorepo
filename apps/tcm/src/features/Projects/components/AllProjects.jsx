@@ -1,5 +1,10 @@
 import React from 'react';
-import { TMDataTable, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
+import {
+  TMButton,
+  TMDataTable,
+  TMDropdown,
+  TMPageHeadings,
+} from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
 import { dropDownOptions } from '../const/projectsConst';
@@ -98,16 +103,13 @@ const AllProjects = () => {
       <div className="border-base-300 border-b">
         <TMPageHeadings
           heading="All Projects"
-          actions={[
-            {
-              id: 'node-1',
-              callback: addingProject,
-              actionProps: {
-                children: <>Create Project</>,
-                variant: 'primary',
-              },
-            },
-          ]}
+          actions={
+            <>
+              <TMButton variant="primary" onClick={addingProject}>
+                Create Project
+              </TMButton>
+            </>
+          }
         />
       </div>
       <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">

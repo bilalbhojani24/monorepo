@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TMPageHeadings } from 'common/bifrostProxy';
+import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
 
 import AddTestRun from './AddTestRun';
 import TestRunsTable from './TestRunsTable';
@@ -25,16 +25,13 @@ const TestRuns = () => {
       <div className="border-base-300 border-b">
         <TMPageHeadings
           heading="Test Runs"
-          actions={[
-            {
-              id: 'node-1',
-              callback: showTestRunAddFormHandler,
-              actionProps: {
-                children: <>Create TestRun</>,
-                variant: 'primary',
-              },
-            },
-          ]}
+          actions={
+            <>
+              <TMButton variant="primary" onClick={showTestRunAddFormHandler}>
+                Create Test Run
+              </TMButton>
+            </>
+          }
         />
       </div>
 

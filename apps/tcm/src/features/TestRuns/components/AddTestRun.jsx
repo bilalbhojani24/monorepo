@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { addTestRun } from 'api/testruns.api';
 import { PostAddIcon } from 'assets/icons';
 import {
+  TMButton,
   TMInputField,
   TMInputWButton,
   TMPageHeadings,
@@ -57,26 +58,25 @@ const AddTestRuns = () => {
         <div className="border-base-200 flex w-full flex-1 flex-col items-stretch border-l">
           <TMPageHeadings
             heading="Create New Test Runs"
-            actions={[
-              {
-                id: 'cancel-test-run',
-                callback: cancelTestRunHandler,
-                actionProps: {
-                  children: <>Cancel</>,
-                  variant: 'primary',
-                  colors: 'white',
-                },
-              },
-              {
-                id: 'create-test-run',
-                callback: createTestRunHandler,
-                actionProps: {
-                  children: <>Create Run</>,
-                  variant: 'primary',
-                  colors: 'brand',
-                },
-              },
-            ]}
+            actions={
+              <>
+                <TMButton
+                  variant="primary"
+                  colors="white"
+                  onClick={cancelTestRunHandler}
+                >
+                  Cancel
+                </TMButton>
+                <TMButton
+                  wrapperClassName="ml-2"
+                  variant="primary"
+                  colors="brand"
+                  onClick={createTestRunHandler}
+                >
+                  Create Run
+                </TMButton>
+              </>
+            }
           />
           <div className="bg-base-100 flex flex-1 flex-col items-stretch p-5">
             <div className="border-base-200 flex flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white p-4 sm:rounded-lg">

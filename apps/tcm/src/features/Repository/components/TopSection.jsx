@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMPageHeadings } from 'common/bifrostProxy';
+import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
 
 import useTestCases from './useTestCases';
 
@@ -10,17 +10,17 @@ const TopSection = () => {
     <div className="w-full">
       <TMPageHeadings
         heading="Test Cases"
-        actions={[
-          {
-            id: 'node-1',
-            callback: showTestCaseAdditionPage,
-            actionProps: {
-              children: <>Create Test Case</>,
-              variant: 'primary',
-              colors: 'white',
-            },
-          },
-        ]}
+        actions={
+          <>
+            <TMButton
+              variant="primary"
+              colors="white"
+              onClick={showTestCaseAdditionPage}
+            >
+              Create Test Case
+            </TMButton>
+          </>
+        }
       />
     </div>
   );
