@@ -261,10 +261,14 @@ const AddEditTestCase = () => {
                   isMultiSelect
                   placeholder="Select from options"
                   label="Tags"
-                  options={tagsArray?.map((item) => ({
-                    value: item,
-                    label: item,
-                  }))}
+                  options={
+                    tagsArray
+                      ? tagsArray?.map((item) => ({
+                          value: item,
+                          label: item,
+                        }))
+                      : []
+                  }
                   value={tagsArray?.map((item) => ({
                     value: item,
                     label: item,
