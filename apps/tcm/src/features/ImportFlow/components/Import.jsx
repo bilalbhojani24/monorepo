@@ -15,20 +15,15 @@ const Import = () => {
   const dispatch = useDispatch();
   const {
     currentScreen,
-    testRailProjects,
+    testManagementProjects,
     selectedTestRailsProjects,
     allImportSteps,
   } = useImport();
 
-  // console.log('all import steps', allImportSteps);
-  // const currentScreen = allImportSteps.filter(
-  //   (step) => step.status === 'current',
-  // );
-
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
     if (currentScreen === 'configureData')
-      return <ConfigureData projects={testRailProjects} />;
+      return <ConfigureData projects={testManagementProjects} />;
     if (currentScreen === 'confirmImport')
       return <ConfirmImport projects={selectedTestRailsProjects} />;
     return <>Something went wrong!</>;

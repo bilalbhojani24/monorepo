@@ -6,11 +6,18 @@ const initialState = {
     host: '',
     key: '',
   },
-  projectsForTestRailImport: [],
+  zephyrCred: {
+    zephyr_key: '',
+    email: '',
+    jira_key: '',
+    host: '',
+  },
+  projectsForTestManagementImport: [],
   currentScreen: 'configureTool',
   importSteps: [],
   selectedProjectsTestRailImport: [],
-  testRailsConnectionEst: '',
+  connectionEst: '',
+  currentTestManagementTool: '',
 };
 
 const importSlice = createSlice({
@@ -20,30 +27,38 @@ const importSlice = createSlice({
     setTestRailsCred: (state, { payload }) => {
       state.testRailsCred[payload.key] = payload.value;
     },
-    setProjectForTestRailsImport: (state, { payload }) => {
-      state.projectsForTestRailImport = payload;
+    setProjectForTestManagementImport: (state, { payload }) => {
+      state.projectsForTestManagementImport = payload;
     },
     setCurrentScreen: (state, { payload }) => {
       state.currentScreen = payload;
     },
-    setConfigureDataTestRails: (state, { payload }) => {
+    setSelectedProjectsForTestManagement: (state, { payload }) => {
       state.selectedProjectsTestRailImport = payload;
     },
     setImportSteps: (state, { payload }) => {
       state.importSteps = payload;
     },
-    setTestRailsConnectionState: (state, { payload }) => {
-      state.testRailsConnectionEst = payload;
+    setConnectionState: (state, { payload }) => {
+      state.connectionEst = payload;
+    },
+    setCurrentTestManagementTool: (state, { payload }) => {
+      state.currentTestManagementTool = payload;
+    },
+    setZephyrCred: (state, { payload }) => {
+      state.zephyrCred[payload.key] = payload.value;
     },
   },
 });
 
 export const {
+  setCurrentTestManagementTool,
   setCurrentScreen,
-  setConfigureDataTestRails,
+  setSelectedProjectsForTestManagement,
   setTestRailsCred,
-  setProjectForTestRailsImport,
+  setZephyrCred,
+  setProjectForTestManagementImport,
   setImportSteps,
-  setTestRailsConnectionState,
+  setConnectionState,
 } = importSlice.actions;
 export default importSlice.reducer;

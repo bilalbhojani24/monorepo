@@ -6,7 +6,7 @@ import useImport from './useImport';
 
 const ConfigureDataList = (props) => {
   const { projects } = props;
-  const [allProjectsArray, setAllProjectsArray] = useState([...projects]);
+  const [allProjectsArray, setAllProjectsArray] = useState(projects);
   const { setSelectedProjects } = useImport();
   const allChecked = allProjectsArray.every((project) => project.checked);
 

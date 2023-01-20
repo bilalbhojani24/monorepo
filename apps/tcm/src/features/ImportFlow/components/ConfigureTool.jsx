@@ -1,27 +1,42 @@
 import React, { useState } from 'react';
 import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
+import { IMPORT_FROM_TOOL, UPLOAD_FILE } from '../const/importSteps';
+
+import ImportFooter from './ImportFooter';
 import TestRailImportForm from './TestRailImportForm';
+import useImport from './useImport';
+import ZephyrImportForm from './ZephyrImportForm';
 
 const ConfigureTool = () => {
-  const [buttonText, setButtonText] = useState('');
   const [selectedRadioId, setSelectedRadioId] = useState('');
 
+  const {
+    jiraConfigured,
+    isJiraConfiguredForZephyr,
+    setTestManagementTool,
+    currentTestManagementTool,
+  } = useImport();
+
   const handleButtonClick = (text) => () => {
-    setButtonText(text);
+    if (text === 'zephyr') isJiraConfiguredForZephyr();
+    setTestManagementTool(text);
   };
-  const handleRadioGroupChange = (e, id) => {
+  const handleRadioGroupChange = (_, id) => {
     setSelectedRadioId(id);
   };
 
   const getForm = () => {
-    if (buttonText === 'testrails') {
-      if (selectedRadioId === 'import-from-tool') return <TestRailImportForm />;
-      if (selectedRadioId === 'upload-file') return 'Upload';
+    if (currentTestManagementTool === 'testrails') {
+      if (selectedRadioId === IMPORT_FROM_TOOL) return <TestRailImportForm />;
+      if (selectedRadioId === UPLOAD_FILE) return 'Upload';
       return 'Nothing';
     }
-    if (buttonText === 'zephyr') {
-      return <>Zephyr</>;
+    if (currentTestManagementTool === 'zephyr') {
+      if (selectedRadioId === IMPORT_FROM_TOOL)
+        return <ZephyrImportForm jiraConfigured={jiraConfigured} />;
+      if (selectedRadioId === UPLOAD_FILE) return 'Upload';
+      return 'Nothing';
     }
     return null;
   };
@@ -32,8 +47,14 @@ const ConfigureTool = () => {
       <div className="mt-2 flex">
         <div className="mr-3">
           <TMButton
-            colors={buttonText === 'testrails' ? 'brand' : 'white'}
-            variant={buttonText === 'testrails' ? 'secondary' : 'primary'}
+            colors={
+              currentTestManagementTool === 'testrails' ? 'brand' : 'white'
+            }
+            variant={
+              currentTestManagementTool === 'testrails'
+                ? 'secondary'
+                : 'primary'
+            }
             size="extra-large"
             onClick={handleButtonClick('testrails')}
           >
@@ -42,8 +63,10 @@ const ConfigureTool = () => {
         </div>
         <div className="mr-3">
           <TMButton
-            colors={buttonText === 'zephyr' ? 'brand' : 'white'}
-            variant={buttonText === 'zephyr' ? 'secondary' : 'primary'}
+            colors={currentTestManagementTool === 'zephyr' ? 'brand' : 'white'}
+            variant={
+              currentTestManagementTool === 'zephyr' ? 'secondary' : 'primary'
+            }
             size="extra-large"
             onClick={handleButtonClick('zephyr')}
           >
@@ -71,7 +94,7 @@ const ConfigureTool = () => {
           </TMButton>
         </div> */}
       </div>
-      {buttonText && (
+      {currentTestManagementTool && (
         <div className="mt-6">
           <div className="text-lg">Choose import Type:</div>
           <div className="mt-3">
@@ -91,12 +114,12 @@ const ConfigureTool = () => {
                       />
                     </>
                   ),
-                  description: `Enter ${buttonText} credentials we'll import your data`,
+                  description: `Enter ${currentTestManagementTool} credentials we'll import your data`,
                 },
                 {
                   id: 'upload-file',
                   name: 'Upload file',
-                  description: `Upload ${buttonText} XML file with test case data`,
+                  description: `Upload ${currentTestManagementTool} XML file with test case data`,
                 },
               ]}
             />
@@ -104,6 +127,11 @@ const ConfigureTool = () => {
         </div>
       )}
       {getForm()}
+      {currentTestManagementTool && selectedRadioId === IMPORT_FROM_TOOL && (
+        <div className="flex justify-end">
+          <ImportFooter />
+        </div>
+      )}
     </div>
   );
 };
