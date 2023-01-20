@@ -15,7 +15,6 @@ const initialState = {
   projectsForTestManagementImport: [],
   currentScreen: 'configureTool',
   importSteps: [],
-  selectedProjectsTestRailImport: [],
   connectionEst: '',
   currentTestManagementTool: '',
 };
@@ -32,9 +31,6 @@ const importSlice = createSlice({
     },
     setCurrentScreen: (state, { payload }) => {
       state.currentScreen = payload;
-    },
-    setSelectedProjectsForTestManagement: (state, { payload }) => {
-      state.selectedProjectsTestRailImport = payload;
     },
     setImportSteps: (state, { payload }) => {
       state.importSteps = payload;
@@ -54,7 +50,6 @@ const importSlice = createSlice({
 export const {
   setCurrentTestManagementTool,
   setCurrentScreen,
-  setSelectedProjectsForTestManagement,
   setTestRailsCred,
   setZephyrCred,
   setProjectForTestManagementImport,

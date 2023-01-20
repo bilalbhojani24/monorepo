@@ -13,7 +13,6 @@ import {
   setCurrentTestManagementTool,
   setImportSteps,
   setProjectForTestManagementImport,
-  setSelectedProjectsForTestManagement,
   setTestRailsCred,
   setZephyrCred,
 } from '../slices/importSlice';
@@ -34,9 +33,6 @@ const useImport = () => {
     (state) => state.import.projectsForTestManagementImport,
   );
   const currentScreen = useSelector((state) => state.import.currentScreen);
-  const selectedTestRailsProjects = useSelector(
-    (state) => state.import.selectedProjectsTestRailImport,
-  );
   const allImportSteps = useSelector((state) => state.import.importSteps);
   const connectionStatus = useSelector((state) => state.import.connectionEst);
   const currentTestManagementTool = useSelector(
@@ -50,21 +46,6 @@ const useImport = () => {
     else if (currentTestManagementTool === 'zephyr')
       dispatch(setZephyrCred({ key, value }));
   };
-  const setSelectedProjects = (projectsArray) => {
-    if (projectsArray.length === 0)
-      dispatch(setSelectedProjectsForTestManagement([]));
-    else {
-      const onlyChecked = projectsArray.map((project) => {
-        if (project.checked) {
-          const { checked, ...rest } = project;
-          return rest;
-        }
-        return null;
-      });
-      const filteredArray = onlyChecked.filter((item) => item);
-      dispatch(setSelectedProjectsForTestManagement(filteredArray));
-    }
-  };
 
   const handleTestConnection = () => {
     if (currentTestManagementTool === 'testrails') {
@@ -72,7 +53,11 @@ const useImport = () => {
         .then((data) => {
           // show the success banners
           dispatch(setConnectionState('success'));
-          dispatch(setProjectForTestManagementImport(data.projects));
+          dispatch(
+            setProjectForTestManagementImport(
+              data.projects.map((project) => ({ ...project, checked: true })),
+            ),
+          );
         })
         .catch(() => {
           // show failure banner
@@ -82,7 +67,11 @@ const useImport = () => {
       checkTestManagementConnection('zephyr', zephyrCred)
         .then((data) => {
           dispatch(setConnectionState('success'));
-          dispatch(setProjectForTestManagementImport(data.projects));
+          dispatch(
+            setProjectForTestManagementImport(
+              data.projects.map((project) => ({ ...project, checked: true })),
+            ),
+          );
         })
         .catch(() => {
           // show failure banner
@@ -120,14 +109,18 @@ const useImport = () => {
     if (currentTestManagementTool === 'testrails') {
       importProjects('testrail', {
         ...testRailsCred,
-        testrail_projects: selectedTestRailsProjects,
+        testrail_projects: testManagementProjects
+          .map((project) => (project.checked ? project : null))
+          .filter((project) => project !== null),
       }).then(() => {
         // console.log('done successfully');
       });
     } else if (currentTestManagementTool === 'zephyr') {
       importProjects('zephyr', {
         ...zephyrCred,
-        projects: selectedTestRailsProjects,
+        projects: testManagementProjects
+          .map((project) => (project.checked ? project : null))
+          .filter((project) => project !== null),
       }).then(() => {
         // console.log('done successfully');
       });
@@ -160,8 +153,6 @@ const useImport = () => {
     handleTestConnection,
     handleProceed,
     currentScreen,
-    setSelectedProjects,
-    selectedTestRailsProjects,
     setTestManagementTool,
     handleConfigureDataProceed,
     handleConfirmImport,

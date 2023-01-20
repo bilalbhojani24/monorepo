@@ -14,19 +14,14 @@ import useImport from './useImport';
 
 const Import = () => {
   const dispatch = useDispatch();
-  const {
-    currentScreen,
-    testManagementProjects,
-    selectedTestRailsProjects,
-    allImportSteps,
-  } = useImport();
+  const { currentScreen, testManagementProjects, allImportSteps } = useImport();
 
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
     if (currentScreen === 'configureData')
       return <ConfigureData projects={testManagementProjects} />;
     if (currentScreen === 'confirmImport')
-      return <ConfirmImport projects={selectedTestRailsProjects} />;
+      return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
 
