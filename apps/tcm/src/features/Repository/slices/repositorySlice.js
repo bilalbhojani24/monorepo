@@ -24,7 +24,7 @@ const initialState = {
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
-    attachments: null,
+    attachments: [],
   },
   showEditTestCaseForm: false,
   showAddTagModal: false,

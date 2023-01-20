@@ -23,6 +23,7 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
+    isTagDuplicated,
     uploadElementRef,
     isAddTagModalShown,
     handleTestCaseFieldChange,
@@ -359,6 +360,7 @@ const AddEditTestCase = () => {
         hideAddTagsModal={hideAddTagsModal}
         existingTags={tagsArray || []}
         addSelectedTags={addTagsHelper}
+        isDuplicateExists={isTagDuplicated}
       />
     </div>
   );

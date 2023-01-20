@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
+  addTagsAPI,
   addTestCaseAPI,
   editTestCaseAPI,
   getTagsAPI,
@@ -28,6 +29,7 @@ export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const uploadElementRef = useRef();
   const [inputError, setInputError] = useState(false);
+  const [isTagDuplicated, setTagDuplicate] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(true);
   const dispatch = useDispatch();
@@ -65,10 +67,6 @@ export default function useAddEditTestCase() {
   };
   const hideAddTagsModal = () => {
     dispatch(setAddTagModal(false));
-  };
-
-  const addTagsHelper = (data) => {
-    dispatch(setTagsArray([...tagsArray, { value: data, label: data }]));
   };
 
   const updateLoadedDataProjectId = () => {
@@ -112,6 +110,15 @@ export default function useAddEditTestCase() {
       fetchUsers();
       fetchTags();
     }
+  };
+
+  const addTagsHelper = (tag) => {
+    setTagDuplicate(false);
+    addTagsAPI({ projectId, tag }).then((data) => {
+      if (data) fetchTags();
+      else setTagDuplicate(true);
+      // dispatch(setTagsArray([...tagsArray, { value: data, label: data }]));
+    });
   };
 
   const formDataStandardiser = (formData) => ({
@@ -169,22 +176,32 @@ export default function useAddEditTestCase() {
   const fileUploaderHelper = (e) => {
     if (e?.currentTarget?.files?.length) {
       const selectedFiles = e?.currentTarget?.files;
+      const files = testCaseFormData?.attachments
+        ? [...testCaseFormData?.attachments]
+        : [];
+      for (let idx = 0; idx < selectedFiles.length; idx += 1) {
+        files.push({
+          name: selectedFiles[idx].name,
+          id: null,
+        });
+      }
+      handleTestCaseFieldChange('attachments', files);
+
       const filesData = new FormData();
       for (let idx = 0; idx < selectedFiles.length; idx += 1) {
         filesData.append('attachments[]', selectedFiles[idx]);
       }
+
       uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
-        const uploadedFiles = [];
+        const uploadedFiles = testCaseFormData?.attachments.filter(
+          (thisItem) => thisItem.id,
+        );
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
           uploadedFiles.push({
             name: selectedFiles[idx].name,
             id: item.generic_attachment[idx],
           });
         }
-        handleTestCaseFieldChange('attachments', [
-          ...testCaseFormData?.attachments,
-          ...uploadedFiles,
-        ]);
       });
     }
   };
@@ -214,9 +231,11 @@ export default function useAddEditTestCase() {
         })),
       );
     else setUsersArray([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, usersArray]);
 
   return {
+    isTagDuplicated,
     uploadElementRef,
     isAddTagModalShown,
     tagsArray,

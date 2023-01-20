@@ -9,15 +9,20 @@ import {
   TMModalHeader,
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 const AddTagModal = ({
   isVisible,
   hideAddTagsModal,
   addSelectedTags,
   existingTags,
+  isDuplicateExists,
 }) => {
   const [enteredTag, setTagEntered] = useState('');
-  const addTagHandler = () => {};
+  const addTagHandler = () => {
+    addSelectedTags(enteredTag);
+    setTagEntered('');
+  };
   const onTagRemoveClick = () => {};
   if (!isVisible) return '';
 
@@ -33,9 +38,13 @@ const AddTagModal = ({
         <TMInputWButton
           id="tag-name"
           value={enteredTag}
+          onKeyDown={onSubmitKeyHandler(addTagHandler)}
           onButtonClick={addTagHandler}
           buttonElement="Add Tag"
           label="Tag Name"
+          description={
+            isDuplicateExists || 'A tag with the same name already exists'
+          }
           placeholder="Enter Tag name separated by comma"
           onChange={(e) => setTagEntered(e.currentTarget.value)}
         />
@@ -61,6 +70,7 @@ AddTagModal.propTypes = {
   hideAddTagsModal: PropTypes.func,
   addSelectedTags: PropTypes.func,
   isVisible: PropTypes.bool,
+  isDuplicateExists: PropTypes.bool,
   existingTags: PropTypes.string,
 };
 
@@ -68,6 +78,7 @@ AddTagModal.defaultProps = {
   hideAddTagsModal: () => {},
   addSelectedTags: () => {},
   isVisible: false,
+  isDuplicateExists: false,
   existingTags: '',
 };
 

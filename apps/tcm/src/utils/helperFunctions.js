@@ -25,3 +25,7 @@ export const formatTime = (date, to) => {
       return moment(date).format('DD/MM/YYYY');
   }
 };
+
+export const onSubmitKeyHandler = (e) => (doAfter) => {
+  if (e?.key === 'Enter') doAfter();
+};
