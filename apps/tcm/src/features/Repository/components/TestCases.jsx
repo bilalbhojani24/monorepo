@@ -63,7 +63,7 @@ export default function TestCases() {
       cell: (rowData) => (
         <div
           role="button"
-          className="hover:text-brand-600 cursor-pointer"
+          className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           tabIndex={0}
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}

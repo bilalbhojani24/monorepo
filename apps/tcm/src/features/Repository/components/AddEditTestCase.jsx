@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import className from 'classnames';
+import AddTagModal from 'common/AddTagModal';
+import Attachments from 'common/Attachments';
 import {
   TMButton,
   TMInputField,
@@ -20,6 +23,8 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
+    uploadElementRef,
+    isAddTagModalShown,
     handleTestCaseFieldChange,
     inputError,
     testCaseFormData,
@@ -29,14 +34,20 @@ const AddEditTestCase = () => {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
-    fetchUsers,
-    usersArray,
+    fetchFormData,
+    usersArrayMapped,
     tagsArray,
     issuesArray,
+    showAddTagsModal,
+    hideAddTagsModal,
+    fileUploaderHelper,
+    addMoreClickHandler,
+    fileRemoveHandler,
+    tagVerifierFunction,
   } = useAddEditTestCase();
 
   useEffect(() => {
-    fetchUsers();
+    fetchFormData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -195,13 +206,13 @@ const AddEditTestCase = () => {
               <TMSelectMenu
                 value={
                   testCaseFormData.owner &&
-                  usersArray.find(
+                  usersArrayMapped.find(
                     (item) => item.value === testCaseFormData.owner,
                   )
                 }
                 checkPosition="right"
                 label="Owner"
-                options={usersArray}
+                options={usersArrayMapped}
                 onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
               />
             </div>
@@ -248,18 +259,37 @@ const AddEditTestCase = () => {
                 <TMSelectMenu
                   checkPosition="right"
                   isMultiSelect
+                  placeholder="Select from options"
                   label="Tags"
-                  options={tagsArray}
-                  // value={
-                  //   testCaseFormData.tags &&
-                  //   templateOptions.find(
-                  //     (item) => item.value === testCaseFormData.tags,
-                  //   )
-                  // }
-                  onChange={(e) => handleTestCaseFieldChange('tags', e.value)}
+                  options={
+                    tagsArray
+                      ? tagsArray?.map((item) => ({
+                          value: item,
+                          label: item,
+                        }))
+                      : []
+                  }
+                  value={tagsArray?.map((item) => ({
+                    value: item,
+                    label: item,
+                  }))}
+                  // value={testCaseFormData?.tags?.map((item) => ({
+                  //   value: item,
+                  //   label: item,
+                  // }))}
+                  onChange={(e) => {
+                    handleTestCaseFieldChange(
+                      'tags',
+                      e.map((item) => item.label),
+                    );
+                  }}
                 />
               </div>
-              <TMButton wrapperClassName="" colors="white">
+              <TMButton
+                wrapperClassName=""
+                colors="white"
+                onClick={showAddTagsModal}
+              >
                 Add New Tag
               </TMButton>
             </div>
@@ -270,6 +300,7 @@ const AddEditTestCase = () => {
                 <TMSelectMenu
                   checkPosition="right"
                   isMultiSelect
+                  placeholder="Select from options"
                   label="Issues"
                   options={issuesArray}
                   // value={
@@ -289,17 +320,54 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex-1" />
           </div>
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 w-full">
             <div className="flex flex-col">
-              <label className="text-base-700 mb-2 block text-sm font-medium">
-                Attachments
-              </label>
-              <input type="file" name="attachment" id="attachment" />
+              <div className="flex w-full justify-between">
+                <div className="text-base-700 mb-2 block text-sm font-medium">
+                  Attachments
+                </div>
+                {testCaseFormData?.attachments?.length ? (
+                  <TMButton
+                    colors="brand"
+                    variant="minimal"
+                    onClick={addMoreClickHandler}
+                  >
+                    Add More
+                  </TMButton>
+                ) : (
+                  ''
+                )}
+              </div>
+              <input
+                ref={uploadElementRef}
+                className={className({
+                  'hidden ': testCaseFormData?.attachments?.length,
+                })}
+                onChange={fileUploaderHelper}
+                type="file"
+                name="attachment"
+                multiple
+                id="file-attachment"
+                accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
+              />
+              <div className="mt-2">
+                <Attachments
+                  attachments={testCaseFormData?.attachments || []}
+                  onRemoveClick={fileRemoveHandler}
+                />
+              </div>
             </div>
             <div className="flex-1" />
           </div>
         </>
       )}
+
+      <AddTagModal
+        isVisible={isAddTagModalShown}
+        hideAddTagsModal={hideAddTagsModal}
+        existingTags={tagsArray || []}
+        verifierFunction={tagVerifierFunction}
+      />
     </div>
   );
 };

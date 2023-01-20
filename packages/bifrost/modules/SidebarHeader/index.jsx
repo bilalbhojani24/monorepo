@@ -19,7 +19,7 @@ const SidebarHeader = ({
     {brandImage?.length ? (
       <div
         className={classNames(
-          'flex flex-shrink-0 items-center px-4',
+          'flex flex-shrink-0 items-center px-2',
           brandImageContainerClass,
         )}
       >

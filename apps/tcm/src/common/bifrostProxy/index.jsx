@@ -34,12 +34,16 @@ import {
 import PropTypes from 'prop-types';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-export const TMPageHeadings = (props) => <PageHeadings {...props} />;
+export const TMPageHeadings = (props) => (
+  <PageHeadings
+    wrapperClassName="px-4 py-6 border-b border-base-300 bg-transparent"
+    {...props}
+  />
+);
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
-export const TMModal = (props) => <Modal {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
@@ -48,6 +52,7 @@ export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
 export const TMSlideover = (props) => <Slideover {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
+export const TMModal = (props) => <Modal {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
@@ -59,6 +64,7 @@ export const TMStackedListWSingleColumn = (props) => (
 export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
+
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
   <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">

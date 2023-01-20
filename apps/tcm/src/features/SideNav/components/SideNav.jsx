@@ -26,7 +26,7 @@ const SideNav = () => {
 
   return (
     <SidebarNavigation
-      wrapperClass="mt-16"
+      wrapperClass="mt-16 bg-white"
       sidebarPrimaryNavigation={primaryNavs?.map((item) => (
         <SidebarItem
           key={item.id}

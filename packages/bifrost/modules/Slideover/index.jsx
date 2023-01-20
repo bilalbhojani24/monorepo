@@ -61,14 +61,11 @@ const Slideover = (props) => {
         leaveTo="translate-x-full"
       >
         <div
+          className="fixed inset-y-0 right-0 z-10 flex items-start"
           style={{ marginTop: marginTopAdjustment }}
-          className={twClassNames(
-            `relative ml-auto flex h-full flex-col overflow-x-visible bg-white shadow-xl fixed z-10 inset-0`,
-            slideoverWidth,
-          )}
         >
           {closeButtonOutside && (
-            <div className="absolute top-0 left-0 -ml-8 flex pt-4 pr-1">
+            <div className="flex pt-4 pr-1">
               <Button
                 colors="white"
                 size="large"
@@ -84,7 +81,15 @@ const Slideover = (props) => {
               </Button>
             </div>
           )}
-          {children}
+
+          <div
+            className={twClassNames(
+              `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
+              slideoverWidth,
+            )}
+          >
+            {children}
+          </div>
         </div>
       </Transition.Child>
     </Transition>

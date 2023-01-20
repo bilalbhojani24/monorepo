@@ -24,19 +24,15 @@ const initialState = {
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
+    attachments: [],
   },
   showEditTestCaseForm: false,
+  showAddTagModal: false,
   showDeleteTestCaseModal: false,
   selectedTestCase: null,
-  usersDetails: {
-    projectId: null,
-    users: null,
-  },
-  tagsArray: [
-    { label: 'tag1', value: 'tag1' },
-    { label: 'tag2', value: 'tag2' },
-    { label: 'tag3', value: 'tag3' },
-  ],
+  loadedDataProjectId: null, // data fetched for which projectID (to cache data)
+  usersArray: null,
+  tagsArray: null,
   issuesArray: [
     { label: 'Issue1', value: 'Issue1' },
     { label: 'Issue2', value: 'Issue2' },
@@ -79,6 +75,9 @@ export const repositorySlice = createSlice({
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
     },
+    setAddTagModal: (state, { payload }) => {
+      state.showAddTagModal = payload;
+    },
     setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
     },
@@ -101,12 +100,20 @@ export const repositorySlice = createSlice({
     },
     setUsers: (state, { payload }) => {
       // prefill for edit
-      state.usersDetails = payload || initialState.usersDetails;
+      state.usersArray = payload || initialState.usersArray;
+    },
+    setTagsArray: (state, { payload }) => {
+      state.tagsArray = payload;
+    },
+    setLoadedDataProjectId: (state, { payload }) => {
+      state.loadedDataProjectId = payload;
     },
   },
 });
 
 export const {
+  setLoadedDataProjectId,
+  setTagsArray,
   addSingleTestCase,
   updateAllFolders,
   setAddFolderModalVisibility,
@@ -121,6 +128,7 @@ export const {
   setTestCaseFormData,
   updateTestCase,
   setUsers,
+  setAddTagModal,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

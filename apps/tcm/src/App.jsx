@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <HeaderDummy />
-      <div className="flex min-h-screen items-stretch pt-16">
+      <div className="bg-base-50 flex min-h-screen items-stretch pt-16">
         <SideNav />
         <MainRoute />
       </div>

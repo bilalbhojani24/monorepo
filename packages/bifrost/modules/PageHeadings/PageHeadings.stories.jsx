@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/20/solid';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
+import Dropdown from '../Dropdown';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import PageHeadings from './index';
@@ -93,36 +95,10 @@ const defaultConfig = {
       ],
     },
     actions: {
-      defaultValue: [
-        {
-          id: 'node-1',
-          actionProps: {
-            icon: (
-              <PencilIcon
-                className="text-base-500 -ml-1 mr-2 h-5 w-5"
-                aria-hidden="true"
-              />
-            ),
-            children: 'Edit',
-            colors: 'white',
-          },
-          callback: () => {},
-        },
-        {
-          id: 'node-2',
-          actionProps: {
-            icon: (
-              <LinkIcon
-                className="-ml-1 mr-2 h-5 w-5 text-white"
-                aria-hidden="true"
-              />
-            ),
-            children: 'View',
-            variant: 'primary',
-          },
-          callback: () => {},
-        },
-      ],
+      defaultValue: [],
+    },
+    wrapperClassName: {
+      defaultValue: 'p-8 rounded-lg border border-base-300',
     },
   },
   controls: {},
@@ -133,5 +109,104 @@ Primary.parameters = {
   controls: {},
 };
 
+const ActionsWithButtonsTemplate = (args) => <PageHeadings {...args} />;
+const ActionsWithButtons = ActionsWithButtonsTemplate.bind({});
+ActionsWithButtons.parameters = {
+  controls: {},
+};
+
+const ActionsWithDropdownsTemplate = (args) => <PageHeadings {...args} />;
+const ActionsWithDropdowns = ActionsWithDropdownsTemplate.bind({});
+ActionsWithDropdowns.parameters = {
+  controls: {},
+};
+
+ActionsWithButtons.args = {
+  actions: (
+    <>
+      <Button
+        variant="primary"
+        size="default"
+        onClick={(event) => {
+          event.preventDefault();
+        }}
+        colors="white"
+        icon={
+          <PencilIcon
+            className="text-base-500 -ml-1 mr-2 h-5 w-5"
+            aria-hidden="true"
+          />
+        }
+      >
+        Edit
+      </Button>
+      <Button
+        wrapperClassName="ml-3"
+        variant="primary"
+        size="default"
+        onClick={(event) => {
+          event.preventDefault();
+        }}
+        icon={
+          <LinkIcon
+            className="-ml-1 mr-2 h-5 w-5 text-white"
+            aria-hidden="true"
+          />
+        }
+      >
+        View
+      </Button>
+    </>
+  ),
+};
+
+ActionsWithDropdowns.args = {
+  actions: (
+    // <div className="flex items-center">
+    <>
+      <div className="mr-2">
+        <Dropdown
+          options={[
+            {
+              id: '1',
+              body: 'Edit',
+            },
+            {
+              id: '2',
+              body: 'Duplicate',
+              divider: false,
+            },
+            {
+              id: '3',
+              body: 'Archive',
+              divider: true,
+            },
+          ]}
+        />
+      </div>
+      <Dropdown
+        triggerVariant="menu-button"
+        options={[
+          {
+            id: '1',
+            body: 'Edit',
+          },
+          {
+            id: '2',
+            body: 'Duplicate',
+            divider: false,
+          },
+          {
+            id: '3',
+            body: 'Archive',
+            divider: true,
+          },
+        ]}
+      />
+    </>
+    // </div>
+  ),
+};
+
 export default defaultConfig;
-export { Primary };
+export { ActionsWithButtons, ActionsWithDropdowns, Primary };
