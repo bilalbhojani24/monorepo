@@ -23,7 +23,6 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
-    isTagDuplicated,
     uploadElementRef,
     isAddTagModalShown,
     handleTestCaseFieldChange,
@@ -41,10 +40,10 @@ const AddEditTestCase = () => {
     issuesArray,
     showAddTagsModal,
     hideAddTagsModal,
-    addTagsHelper,
     fileUploaderHelper,
     addMoreClickHandler,
     fileRemoveHandler,
+    tagVerifierFunction,
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -260,6 +259,7 @@ const AddEditTestCase = () => {
                 <TMSelectMenu
                   checkPosition="right"
                   isMultiSelect
+                  placeholder="Select from options"
                   label="Tags"
                   options={
                     tagsArray
@@ -269,13 +269,10 @@ const AddEditTestCase = () => {
                         }))
                       : []
                   }
-                  // options={[{}]}
-                  // value={
-                  //   testCaseFormData.tags &&
-                  //   templateOptions.find(
-                  //     (item) => item.value === testCaseFormData.tags,
-                  //   )
-                  // }
+                  value={testCaseFormData?.tags?.map((item) => ({
+                    value: item,
+                    label: item,
+                  }))}
                   onChange={(e) => handleTestCaseFieldChange('tags', e)}
                 />
               </div>
@@ -294,6 +291,7 @@ const AddEditTestCase = () => {
                 <TMSelectMenu
                   checkPosition="right"
                   isMultiSelect
+                  placeholder="Select from options"
                   label="Issues"
                   options={issuesArray}
                   // value={
@@ -359,8 +357,7 @@ const AddEditTestCase = () => {
         isVisible={isAddTagModalShown}
         hideAddTagsModal={hideAddTagsModal}
         existingTags={tagsArray || []}
-        addSelectedTags={addTagsHelper}
-        isDuplicateExists={isTagDuplicated}
+        verifierFunction={tagVerifierFunction}
       />
     </div>
   );

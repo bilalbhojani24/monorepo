@@ -37,7 +37,7 @@ export const getTestCaseDetailsAPI = async ({
 export const getTagsAPI = async ({ projectId }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
 
-export const addTagsAPI = async ({ projectId, tag }) =>
+export const verifyTagAPI = async ({ projectId, tag }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
     tag: { name: tag },
   });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TMBadge,
   TMButton,
@@ -11,29 +11,37 @@ import {
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
+import useAddTagModal from './useAddTagModal';
+
 const AddTagModal = ({
   isVisible,
   hideAddTagsModal,
-  addSelectedTags,
   existingTags,
-  isDuplicateExists,
+  verifierFunction,
 }) => {
-  const [enteredTag, setTagEntered] = useState('');
-  const addTagHandler = () => {
-    addSelectedTags(enteredTag);
-    setTagEntered('');
-  };
-  const onTagRemoveClick = () => {};
-  if (!isVisible) return '';
+  const {
+    duplicateTags,
+    enteredTag,
+    allTags,
+    setTagEntered,
+    addTagHandler,
+    onTagRemoveClick,
+    onCloseHandler,
+  } = useAddTagModal({
+    isVisible,
+    hideAddTagsModal,
+    verifierFunction,
+    existingTags,
+  });
 
   return (
     <TMModal
       show={isVisible}
       withDismissButton
-      onOverlayClick={hideAddTagsModal}
+      onOverlayClick={onCloseHandler}
       // size="medium"
     >
-      <TMModalHeader heading="Add Tag" handleDismissClick={hideAddTagsModal} />
+      <TMModalHeader heading="Add Tag" handleDismissClick={onCloseHandler} />
       <TMModalBody>
         <TMInputWButton
           id="tag-name"
@@ -42,8 +50,9 @@ const AddTagModal = ({
           onButtonClick={addTagHandler}
           buttonElement="Add Tag"
           label="Tag Name"
-          description={
-            isDuplicateExists || 'A tag with the same name already exists'
+          errorText={
+            duplicateTags.includes(enteredTag) &&
+            'A tag with the same name already exists'
           }
           placeholder="Enter Tag name separated by comma"
           onChange={(e) => setTagEntered(e.currentTarget.value)}
@@ -52,13 +61,13 @@ const AddTagModal = ({
           Existing Tags in this test case:
         </div>
         <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
-          {existingTags?.map((item) => (
+          {allTags?.map((item) => (
             <TMBadge text={item} hasRemoveButton onClose={onTagRemoveClick} />
           ))}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideAddTagsModal}>
+        <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
           Close
         </TMButton>
       </TMModalFooter>
@@ -68,17 +77,15 @@ const AddTagModal = ({
 
 AddTagModal.propTypes = {
   hideAddTagsModal: PropTypes.func,
-  addSelectedTags: PropTypes.func,
+  verifierFunction: PropTypes.func,
   isVisible: PropTypes.bool,
-  isDuplicateExists: PropTypes.bool,
   existingTags: PropTypes.string,
 };
 
 AddTagModal.defaultProps = {
   hideAddTagsModal: () => {},
-  addSelectedTags: () => {},
+  verifierFunction: () => {},
   isVisible: false,
-  isDuplicateExists: false,
   existingTags: '',
 };
 

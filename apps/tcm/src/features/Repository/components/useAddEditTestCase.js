@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
-  addTagsAPI,
   addTestCaseAPI,
   editTestCaseAPI,
   getTagsAPI,
   getTestCaseDetailsAPI,
+  verifyTagAPI,
 } from 'api/testcases.api';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
@@ -29,7 +29,6 @@ export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const uploadElementRef = useRef();
   const [inputError, setInputError] = useState(false);
-  const [isTagDuplicated, setTagDuplicate] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(true);
   const dispatch = useDispatch();
@@ -64,9 +63,6 @@ export default function useAddEditTestCase() {
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
-  };
-  const hideAddTagsModal = () => {
-    dispatch(setAddTagModal(false));
   };
 
   const updateLoadedDataProjectId = () => {
@@ -112,14 +108,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const addTagsHelper = (tag) => {
-    setTagDuplicate(false);
-    addTagsAPI({ projectId, tag }).then((data) => {
-      if (data) fetchTags();
-      else setTagDuplicate(true);
-      // dispatch(setTagsArray([...tagsArray, { value: data, label: data }]));
-    });
-  };
+  const tagVerifierFunction = async (tag) => verifyTagAPI({ projectId, tag });
 
   const formDataStandardiser = (formData) => ({
     test_case: {
@@ -217,15 +206,26 @@ export default function useAddEditTestCase() {
     );
   };
 
+  const hideAddTagsModal = (newTags) => {
+    dispatch(setTagsArray([...tagsArray, ...newTags]));
+    handleTestCaseFieldChange(
+      'tags',
+      testCaseFormData?.tags
+        ? [...testCaseFormData?.tags, ...newTags]
+        : newTags,
+    );
+    dispatch(setAddTagModal(false));
+  };
+
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing]);
 
   useEffect(() => {
-    if (projectId === usersArray?.projectId)
+    if (projectId === loadedDataProjectId)
       setUsersArray(
-        usersArrayMapped.map((item) => ({
+        usersArray.map((item) => ({
           label: item.full_name,
           value: item.id,
         })),
@@ -235,7 +235,6 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
-    isTagDuplicated,
     uploadElementRef,
     isAddTagModalShown,
     tagsArray,
@@ -257,10 +256,10 @@ export default function useAddEditTestCase() {
     setShowMoreFields,
     showAddTagsModal,
     hideAddTagsModal,
-    addTagsHelper,
     fileUploaderHelper,
     addMoreClickHandler,
     fileRemoveHandler,
     fetchFormData,
+    tagVerifierFunction,
   };
 }
