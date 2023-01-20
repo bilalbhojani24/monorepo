@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { TMButton } from 'common/bifrostProxy';
 
 import { IMPORT_STEPS } from '../const/importSteps';
 import { setImportSteps } from '../slices/importSlice';
@@ -37,28 +38,16 @@ const Import = () => {
     <>
       <ImportHeader
         heading="Quick Import"
-        actions={[
-          {
-            id: 'change-setup',
-            callback: () => {
-              // console.log('Change Setup');
-            },
-            actionProps: {
-              children: 'Change Setup',
-              colors: 'white',
-            },
-          },
-          {
-            id: 'skip-for-now',
-            callback: () => {
-              // console.log('skip for now');
-            },
-            actionProps: {
-              children: 'Skip for now',
-              colors: 'white',
-            },
-          },
-        ]}
+        actions={
+          <>
+            <TMButton variant="primary" colors="white" wrapperClassName="mr-4">
+              Change Setup
+            </TMButton>
+            <TMButton variant="primary" colors="white">
+              Skip for now
+            </TMButton>
+          </>
+        }
       />
       <Steps steps={allImportSteps} />
       {getCurrentScreen()}
