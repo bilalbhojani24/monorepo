@@ -30,7 +30,7 @@ const Sidebar = (props) => {
       </div>
 
       {sidebarSecondaryNavigation ? (
-        <div className="flex shrink-0 flex-col">
+        <div className="flex shrink-0 flex-col pb-2">
           {sidebarSecondaryNavigation}
         </div>
       ) : null}

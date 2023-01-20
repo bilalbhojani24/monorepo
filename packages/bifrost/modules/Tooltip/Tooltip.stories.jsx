@@ -5,6 +5,7 @@ import {
   TP_PLACEMENT_ALIGN,
   TP_PLACEMENT_SIDE,
   TP_SIZE,
+  TP_STICKY_OPTIONS,
   TP_TOOLTIP_THEME,
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
@@ -34,6 +35,26 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: '',
     },
+    arrowWidth: {
+      option: { type: 'number' },
+      defaultValue: 20,
+    },
+    arrowHeight: {
+      option: { type: 'number' },
+      defaultValue: 10,
+    },
+    arrowPadding: {
+      option: { type: 'number' },
+      defaultValue: 10,
+    },
+    alignOffset: {
+      option: { type: 'number' },
+      defaultValue: 10,
+    },
+    avoidCollisions: {
+      option: { type: 'boolean' },
+      defaultValue: true,
+    },
     content: {
       option: { type: null },
       defaultValue: (
@@ -58,6 +79,22 @@ const defaultConfig = {
       option: { type: 'number' },
       defaultValue: 200,
     },
+    defaultOpen: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+    },
+    onOpenChange: {
+      option: { type: null },
+      defaultValue: null,
+    },
+    onEscapeKeyDown: {
+      option: { type: null },
+      defaultValue: null,
+    },
+    onPointerDownOutside: {
+      option: { type: null },
+      defaultValue: null,
+    },
     placementAlign: {
       options: TP_PLACEMENT_ALIGN,
       control: { type: inlineRadio },
@@ -68,10 +105,23 @@ const defaultConfig = {
       control: { type: inlineRadio },
       defaultValue: TP_PLACEMENT_SIDE[0],
     },
+    show: {
+      option: { type: 'boolean' },
+      defaultValue: undefined,
+    },
+    sideOffset: {
+      option: { type: 'number' },
+      defaultValue: 5,
+    },
     size: {
       options: TP_SIZE,
       control: { type: inlineRadio },
       defaultValue: TP_SIZE[0],
+    },
+    sticky: {
+      options: TP_STICKY_OPTIONS,
+      control: { type: inlineRadio },
+      defaultValue: TP_STICKY_OPTIONS[0],
     },
     theme: {
       options: TP_TOOLTIP_THEME,

@@ -27,8 +27,8 @@ const defaultConfig = {
     defaultValue: {
       option: { type: null },
       description:
-        'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
-      defaultValue: null,
+        'Default selected values for the selectMenu, and the value state will be controlled internally, means values doesnt get updated on re-render',
+      defaultValue: SELECT_OPTIONS[0],
     },
     isMultiSelect: {
       option: { type: 'boolean' },
@@ -38,42 +38,56 @@ const defaultConfig = {
     label: {
       option: { type: 'string' },
       defaultValue: 'Assigned to',
-      description: 'Description for combobox',
+      description: 'Description for selectMenu',
     },
     onChange: {
       option: { type: null },
-      description: 'Callback function when combobox value is changed',
+      description: 'Callback function when selectMenu value is changed',
       defaultValue: (selectedOptions) => {
         console.log(selectedOptions);
       },
     },
     options: {
       options: SELECT_OPTIONS,
-      description: 'options for the combobox, array of objects',
+      description: 'options for the selectMenu, array of objects',
       defaultValue: SELECT_OPTIONS,
+    },
+    placeholder: {
+      option: { type: 'string' },
+      description: 'Select menu...',
     },
     value: {
       option: { type: null },
       description:
-        'Default selected values for the combobox, and the value state will be controlled externally',
-      defaultValue: SELECT_OPTIONS[0],
+        'Default selected values for the selectMenu, and the value state will be controlled externally',
+      defaultValue: undefined,
     },
   },
   controls: {},
 };
 const Template = (args) => <SelectMenu {...args} />;
 const MultiSelectTemplate = (args) => <SelectMenu {...args} />;
+const SelectWithPlaceholderTemplate = (args) => <SelectMenu {...args} />;
+
 const Primary = Template.bind({});
 const MultiSelect = MultiSelectTemplate.bind({});
+const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
+
 Primary.parameters = {
   controls: {},
 };
 
 export default defaultConfig;
-export { MultiSelect, Primary };
+export { MultiSelect, Primary, SelectWithPlaceholder };
 
 MultiSelect.args = {
-  defaultValue: null,
+  defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
   isMultiSelect: true,
-  value: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
+  value: undefined,
+};
+
+SelectWithPlaceholder.args = {
+  placeholder: 'Placeholder text...',
+  value: null,
+  defaultValue: null,
 };
