@@ -193,15 +193,15 @@ export default function useAddEditTestCase() {
       }
 
       uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
-        const uploadedFiles = testCaseFormData?.attachments.filter(
-          (thisItem) => thisItem.id,
-        );
+        const uploadedFiles = files.filter((thisItem) => thisItem.id);
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
           uploadedFiles.push({
             name: selectedFiles[idx].name,
             id: item.generic_attachment[idx],
           });
         }
+        // update with id
+        handleTestCaseFieldChange('attachments', uploadedFiles);
       });
     }
   };
