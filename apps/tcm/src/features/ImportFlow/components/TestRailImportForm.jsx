@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMAlerts, TMButton, TMInputField } from 'common/bifrostProxy';
+import { TMAlerts, TMInputField } from 'common/bifrostProxy';
 
 import { setTestRailsCred } from '../slices/importSlice';
 
@@ -9,13 +9,8 @@ import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
 
 const TestRailImportForm = () => {
-  const {
-    getUserEmail,
-    handleInputFieldChange,
-    handleTestConnection,
-    handleProceed,
-    testRailsConnectionStatus,
-  } = useImport();
+  const { getUserEmail, handleInputFieldChange, connectionStatus } =
+    useImport();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -72,13 +67,13 @@ const TestRailImportForm = () => {
           placeholder="Enter API Key"
         />
       </div>
-      {testRailsConnectionStatus && (
+      {connectionStatus && (
         <TMAlerts
           accentBorder={false}
-          show={!!testRailsConnectionStatus}
-          modifier={testRailsConnectionStatus}
+          show={!!connectionStatus}
+          modifier={connectionStatus}
           title={
-            testRailsConnectionStatus === 'success'
+            connectionStatus === 'success'
               ? 'Connection was successful. Proceed to continue.'
               : 'Connection was not successful. Try again.'
           }
@@ -86,25 +81,6 @@ const TestRailImportForm = () => {
         />
       )}
       <TermsAndConditions />
-      <div className="flex justify-end">
-        <TMButton
-          colors="white"
-          variant="primary"
-          size="default"
-          wrapperClassName="mr-3"
-          onClick={handleTestConnection}
-        >
-          Test Connection
-        </TMButton>
-        <TMButton
-          colors="brand"
-          variant="primary"
-          size="default"
-          onClick={handleProceed}
-        >
-          Proceed
-        </TMButton>
-      </div>
     </div>
   );
 };

@@ -17,26 +17,26 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import ListTree from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     children: {
       option: { type: null },
-      defaultValue: <></>,
+      defaultValue: <></>
     },
     isTreeOpen: {
       option: { type: 'boolean' },
       defaultValue: false,
       description:
-        'this is to be used only when tree hide/show is to be controlled by the products business logic',
+        'this is to be used only when tree hide/show is to be controlled by the products business logic'
     },
     indentationLevel: {
       option: { type: 'number' },
-      defaultValue: 1,
-    },
+      defaultValue: 1
+    }
   },
-  controls: {},
+  controls: {}
 };
 
 const listTreeDemoDataSet = [
@@ -45,37 +45,37 @@ const listTreeDemoDataSet = [
     contents: [
       {
         name: 'file A-1',
-        contents: null,
+        contents: null
       },
       {
         name: 'file A-2',
         contents: [
           {
             name: 'file A-2-a',
-            contents: null,
-          },
-        ],
-      },
-    ],
+            contents: null
+          }
+        ]
+      }
+    ]
   },
   {
     name: 'file 2',
     contents: [
       {
         name: 'file 2a',
-        contents: null,
+        contents: null
       },
       {
         name: 'file 2b',
         contents: [
           {
             name: 'file 2b1',
-            contents: null,
-          },
-        ],
-      },
-    ],
-  },
+            contents: null
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 // eslint-disable-next-line no-unused-vars
@@ -112,7 +112,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
   const [openNodeMap, setOpenNodeMap] = useState({
     'file 2': true,
     'file 2b': true,
-    'file A': true,
+    'file A': true
   });
 
   return (
@@ -149,18 +149,18 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
                 options={[
                   {
                     id: '1',
-                    body: 'Edit',
+                    body: 'Edit'
                   },
                   {
                     id: '2',
                     body: 'Duplicate',
-                    divider: false,
+                    divider: false
                   },
                   {
                     id: '3',
                     body: 'Archive',
-                    divider: true,
-                  },
+                    divider: true
+                  }
                 ]}
               />
             }
@@ -201,18 +201,18 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
                 options={[
                   {
                     id: '1',
-                    body: 'Edit',
+                    body: 'Edit'
                   },
                   {
                     id: '2',
                     body: 'Duplicate',
-                    divider: false,
+                    divider: false
                   },
                   {
                     id: '3',
                     body: 'Archive',
-                    divider: true,
-                  },
+                    divider: true
+                  }
                 ]}
               />
             }

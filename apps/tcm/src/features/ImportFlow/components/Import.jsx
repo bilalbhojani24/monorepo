@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { TMButton } from 'common/bifrostProxy';
 
 import { IMPORT_STEPS } from '../const/importSteps';
 import { setImportSteps } from '../slices/importSlice';
@@ -13,24 +14,14 @@ import useImport from './useImport';
 
 const Import = () => {
   const dispatch = useDispatch();
-  const {
-    currentScreen,
-    testRailProjects,
-    selectedTestRailsProjects,
-    allImportSteps,
-  } = useImport();
-
-  // console.log('all import steps', allImportSteps);
-  // const currentScreen = allImportSteps.filter(
-  //   (step) => step.status === 'current',
-  // );
+  const { currentScreen, testManagementProjects, allImportSteps } = useImport();
 
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
     if (currentScreen === 'configureData')
-      return <ConfigureData projects={testRailProjects} />;
+      return <ConfigureData projects={testManagementProjects} />;
     if (currentScreen === 'confirmImport')
-      return <ConfirmImport projects={selectedTestRailsProjects} />;
+      return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
 
@@ -42,28 +33,16 @@ const Import = () => {
     <>
       <ImportHeader
         heading="Quick Import"
-        actions={[
-          {
-            id: 'change-setup',
-            callback: () => {
-              // console.log('Change Setup');
-            },
-            actionProps: {
-              children: 'Change Setup',
-              colors: 'white',
-            },
-          },
-          {
-            id: 'skip-for-now',
-            callback: () => {
-              // console.log('skip for now');
-            },
-            actionProps: {
-              children: 'Skip for now',
-              colors: 'white',
-            },
-          },
-        ]}
+        actions={
+          <>
+            <TMButton variant="primary" colors="white" wrapperClassName="mr-4">
+              Change Setup
+            </TMButton>
+            <TMButton variant="primary" colors="white">
+              Skip for now
+            </TMButton>
+          </>
+        }
       />
       <Steps steps={allImportSteps} />
       {getCurrentScreen()}

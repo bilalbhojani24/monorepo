@@ -10,7 +10,6 @@ import {
   EmptyState,
   InputField,
   InputWButton,
-  ListTree,
   Modal,
   ModalBody,
   ModalFooter,
@@ -46,7 +45,6 @@ export const TMPageHeadings = (props) => (
 );
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMButton = (props) => <Button {...props} />;
-export const TMListTree = (props) => <ListTree {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;

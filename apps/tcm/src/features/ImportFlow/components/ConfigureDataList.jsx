@@ -1,46 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { TMCheckBox } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
-import useImport from './useImport';
+import { setProjectForTestManagementImport } from '../slices/importSlice';
 
 const ConfigureDataList = (props) => {
   const { projects } = props;
-  const [allProjectsArray, setAllProjectsArray] = useState([...projects]);
-  const { setSelectedProjects } = useImport();
-  const allChecked = allProjectsArray.every((project) => project.checked);
-
-  useEffect(() => {
-    setAllProjectsArray(projects);
-    setSelectedProjects(
-      projects.map((project) => ({ ...project, checked: true })),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projects]);
+  const dispatch = useDispatch();
+  const allChecked = projects.every((project) => project.checked);
 
   const handleCheckBoxChange = (name) => (e) => {
     if (name === 'allProjects') {
       if (e.target.checked) {
-        const checkedProjects = allProjectsArray.map((project) => ({
-          ...project,
-          checked: true,
-        }));
-        setAllProjectsArray(checkedProjects);
-        setSelectedProjects(checkedProjects);
-      } else {
-        setAllProjectsArray(
-          allProjectsArray.map((project) => ({ ...project, checked: false })),
+        dispatch(
+          setProjectForTestManagementImport(
+            projects.map((project) => ({
+              ...project,
+              checked: true,
+            })),
+          ),
         );
-        setSelectedProjects([]);
+      } else {
+        dispatch(
+          setProjectForTestManagementImport(
+            projects.map((project) => ({ ...project, checked: false })),
+          ),
+        );
       }
     } else {
-      const filteredProjects = allProjectsArray.map((project) => {
+      const filteredProjects = projects.map((project) => {
         if (project.name === name)
           return { ...project, checked: !project.checked };
         return { ...project };
       });
-      setAllProjectsArray(filteredProjects);
-      setSelectedProjects(filteredProjects);
+      dispatch(setProjectForTestManagementImport(filteredProjects));
     }
   };
 
@@ -49,13 +43,13 @@ const ConfigureDataList = (props) => {
       <TMCheckBox
         position="left"
         data={{
-          label: `All Projects (${allProjectsArray.length})`,
+          label: `All Projects (${projects.length})`,
           value: 'allProjects',
         }}
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
       />
-      {allProjectsArray.map((project) => (
+      {projects.map((project) => (
         <TMCheckBox
           position="left"
           data={{

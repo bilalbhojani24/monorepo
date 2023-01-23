@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TMSectionHeadings } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
@@ -7,14 +7,7 @@ import useImport from './useImport';
 
 const ConfigureData = (props) => {
   const { projects } = props;
-  const [projectsWithCheck, setProjectsWithCheck] = useState(projects);
   const { handleConfigureDataProceed } = useImport();
-
-  useEffect(() => {
-    setProjectsWithCheck(
-      projects.map((project) => ({ ...project, checked: true })),
-    );
-  }, [projects]);
 
   return (
     <div className="flex justify-center">
@@ -28,7 +21,7 @@ const ConfigureData = (props) => {
             onClick: handleConfigureDataProceed,
           }}
         />
-        <ConfigureDataList projects={projectsWithCheck} />
+        <ConfigureDataList projects={projects} />
       </div>
     </div>
   );

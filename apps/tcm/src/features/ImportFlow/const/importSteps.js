@@ -18,3 +18,6 @@ export const IMPORT_STEPS = [
     status: 'upcoming',
   },
 ];
+
+export const IMPORT_FROM_TOOL = 'import-from-tool';
+export const UPLOAD_FILE = 'upload-file';

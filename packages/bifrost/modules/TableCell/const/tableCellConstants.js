@@ -4,6 +4,6 @@ export const CELL_TEXT_TRANSFORM = [
   'inherit',
   'lowercase',
   'uppercase',
-  'capitalize',
+  'capitalize'
 ];
 export const CELL_DIRECTION = ['asc', 'desc'];
