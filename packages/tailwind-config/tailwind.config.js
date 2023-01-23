@@ -1,3 +1,5 @@
+const tailwindForms = require('@tailwindcss/forms');
+
 module.exports = {
   content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
   darkMode: false,
@@ -80,10 +82,29 @@ module.exports = {
         800: 'var(--colors-info-800)',
         900: 'var(--colors-info-900)'
       }
+    },
+    fontFamily: {
+      sans: [
+        'Inter var',
+        'ui-sans-serif',
+        'system-ui',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'Noto Sans',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji'
+      ]
     }
   },
   variants: {
     extend: {}
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [tailwindForms]
 };
