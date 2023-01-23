@@ -23,6 +23,10 @@ import ModalBody from './modules/ModalBody';
 import ModalFooter from './modules/ModalFooter';
 import ModalHeader from './modules/ModalHeader';
 import Notifications from './modules/Notifications/index';
+import {
+  NotificationsContainer,
+  notify
+} from './modules/Notifications/notificationsUtils';
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
@@ -87,6 +91,8 @@ export {
   ModalFooter,
   ModalHeader,
   Notifications,
+  NotificationsContainer,
+  notify,
   PageHeadings,
   Pagination,
   Popover,
@@ -124,5 +130,5 @@ export {
   Tooltip,
   TooltipBody,
   TooltipFooter,
-  TooltipHeader,
+  TooltipHeader
 };

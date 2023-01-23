@@ -5,6 +5,7 @@ import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 
 import Notifications from './index';
+import { NotificationsContainer, notify } from './notificationsUtils';
 
 const defaultConfig = {
   title: 'Application/Components/Notifications',
@@ -78,14 +79,11 @@ Basic.args = {
 };
 
 Condensed.args = {
-  actionButtons: (toastData) => {
-    console.log(toastData);
-    return (
-      <Button variant="minimal" colors="brand">
-        Undo
-      </Button>
-    );
-  },
+  actionButtons: (toastData) => (
+    <Button variant="minimal" colors="brand">
+      Undo
+    </Button>
+  ),
   isCondensed: true,
   headerIcon: null,
   description: '',
@@ -93,17 +91,14 @@ Condensed.args = {
 };
 
 FillButtonAndAvatar.args = {
-  actionButtons: (toastData) => {
-    console.log(toastData);
-    return (
-      <>
-        <Button>Undo</Button>
-        <Button variant="primary" colors="white">
-          Dismiss
-        </Button>
-      </>
-    );
-  },
+  actionButtons: (toastData) => (
+    <>
+      <Button>Undo</Button>
+      <Button variant="primary" colors="white">
+        Dismiss
+      </Button>
+    </>
+  ),
   headerIcon: (
     <img
       className="h-10 w-10 rounded-full"
@@ -114,3 +109,157 @@ FillButtonAndAvatar.args = {
   description: 'Sent you an invite to connect.',
   title: 'Emilia Gates'
 };
+
+/**
+ * STEPS TO USE STACKED NOTIFICATION
+ * import {notify, NotificationContainer} from "@browserstack/bifrost"
+ * Add <NotificationContainer /> at the App.js file
+ * Now whenever you want to trigger notification call notify() function
+ * notify => notify(CustomComponent, optionsObject)
+ * optionsObject : {
+ *    duration: number, [default - 4000]
+      position: 'top-right' | "top-left" | "bottom-left" | "bottom-right", [default - 'top-right']
+      ariaProps: {
+         role: '',
+        'aria-live': '',
+      }
+ * }
+ */
+
+export const StackedNotification = () => (
+  <>
+    <div className="flex h-screen items-center justify-center space-x-3">
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Successfully saved!"
+              description="Anyone with a link can now view this file."
+              actionButtons={null}
+              headerIcon={
+                <CheckCircleIcon className="text-success-400 h-6 w-6" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-left',
+              duration: 4000
+            }
+          )
+        }
+      >
+        Top Left
+      </Button>
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Movement"
+              isCondensed
+              actionButtons={(toastData) => (
+                <Button
+                  variant="minimal"
+                  colors="brand"
+                  onClick={() => {
+                    console.log(toastData);
+                  }}
+                >
+                  Undo
+                </Button>
+              )}
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 4000
+            }
+          )
+        }
+      >
+        Top Right
+      </Button>
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Emilia Gates"
+              description="Sent you an invite to connect."
+              headerIcon={
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                  alt=""
+                />
+              }
+              actionButtons={(toastData) => (
+                <>
+                  <Button>Undo</Button>
+                  <Button
+                    variant="primary"
+                    colors="white"
+                    onClick={() => {
+                      notify.remove(toastData.id);
+                    }}
+                  >
+                    Dismiss
+                  </Button>
+                </>
+              )}
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'bottom-left',
+              duration: 4000
+            }
+          )
+        }
+      >
+        Bottom Left
+      </Button>
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Movement"
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur."
+              headerIcon={<CheckCircleIcon className="text-base-600 h-6 w-6" />}
+              actionButtons={(toastData) => (
+                <>
+                  <Button variant="minimal" colors="brand">
+                    Undo
+                  </Button>
+                  <Button
+                    variant="minimal"
+                    wrapperClassName="text-base-600"
+                    onClick={() => {
+                      notify.remove(toastData.id);
+                    }}
+                  >
+                    Dismiss
+                  </Button>
+                </>
+              )}
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'bottom-right',
+              duration: 4000
+            }
+          )
+        }
+      >
+        Bottom Right
+      </Button>
+    </div>
+
+    <NotificationsContainer />
+  </>
+);
