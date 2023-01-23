@@ -18,7 +18,7 @@ module.exports = {
         600: 'var(--colors-base-600)',
         700: 'var(--colors-base-700)',
         800: 'var(--colors-base-800)',
-        900: 'var(--colors-base-900)'
+        900: 'var(--colors-base-900)',
       },
       brand: {
         50: 'var(--colors-brand-50)',
@@ -30,7 +30,7 @@ module.exports = {
         600: 'var(--colors-brand-600)',
         700: 'var(--colors-brand-700)',
         800: 'var(--colors-brand-800)',
-        900: 'var(--colors-brand-900)'
+        900: 'var(--colors-brand-900)',
       },
       danger: {
         50: 'var(--colors-danger-50)',
@@ -42,7 +42,7 @@ module.exports = {
         600: 'var(--colors-danger-600)',
         700: 'var(--colors-danger-700)',
         800: 'var(--colors-danger-800)',
-        900: 'var(--colors-danger-900)'
+        900: 'var(--colors-danger-900)',
       },
       success: {
         50: 'var(--colors-success-50)',
@@ -54,7 +54,7 @@ module.exports = {
         600: 'var(--colors-success-600)',
         700: 'var(--colors-success-700)',
         800: 'var(--colors-success-800)',
-        900: 'var(--colors-success-900)'
+        900: 'var(--colors-success-900)',
       },
       attention: {
         50: 'var(--colors-attention-50)',
@@ -66,9 +66,9 @@ module.exports = {
         600: 'var(--colors-attention-600)',
         700: 'var(--colors-attention-700)',
         800: 'var(--colors-attention-800)',
-        900: 'var(--colors-attention-900)'
+        900: 'var(--colors-attention-900)',
       },
-      information: {
+      info: {
         50: 'var(--colors-info-50)',
         100: 'var(--colors-info-100)',
         200: 'var(--colors-info-200)',
@@ -78,12 +78,13 @@ module.exports = {
         600: 'var(--colors-info-600)',
         700: 'var(--colors-info-700)',
         800: 'var(--colors-info-800)',
-        900: 'var(--colors-info-900)'
-      }
-    }
+        900: 'var(--colors-info-900)',
+      },
+    },
   },
   variants: {
-    extend: {}
+    extend: {},
   },
-  plugins: [require('@tailwindcss/forms')]
+  // eslint-disable-next-line global-require
+  plugins: [require('@tailwindcss/forms')],
 };
