@@ -20,7 +20,7 @@ const AddTagModal = ({
   verifierFunction,
 }) => {
   const {
-    duplicateTags,
+    errorText,
     enteredTag,
     allTags,
     setTagEntered,
@@ -50,10 +50,7 @@ const AddTagModal = ({
           onButtonClick={addTagHandler}
           buttonElement="Add Tag"
           label="Tag Name"
-          errorText={
-            duplicateTags.includes(enteredTag) &&
-            'A tag with the same name already exists'
-          }
+          errorText={errorText}
           placeholder="Enter Tag name separated by comma"
           onChange={(e) => setTagEntered(e.currentTarget.value)}
         />
