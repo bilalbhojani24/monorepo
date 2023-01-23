@@ -14,55 +14,53 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import ComboBox from 'bifrost/ComboBox'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     checkPosition: {
       options: CHECK_POSITION,
       control: { type: 'inline-radio' },
-      description: 'Position of check icon',
+      description: 'Position of check icon'
     },
     defaultValue: {
       option: { type: null },
       description:
         'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
-      defaultValue: COMBOBOX_OPTIONS[0],
+      defaultValue: COMBOBOX_OPTIONS[0]
     },
     isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
-      defaultValue: false,
+      defaultValue: false
     },
     label: {
       option: { type: 'string' },
       defaultValue: 'Assigned to',
-      description: 'Description for combobox',
+      description: 'Description for combobox'
     },
     onChange: {
       option: { type: null },
       description: 'Callback function when combobox value is changed',
-      defaultValue: (selectedOptions) => {
-        console.log(selectedOptions);
-      },
+      defaultValue: () => {}
     },
     options: {
       option: { type: null },
       description: 'options for the combobox, array of objects',
-      defaultValue: COMBOBOX_OPTIONS,
+      defaultValue: COMBOBOX_OPTIONS
     },
     placeholder: {
       option: { type: 'string' },
-      defaultValue: 'placeholder text...',
+      defaultValue: 'placeholder text...'
     },
     value: {
       option: { type: null },
       description:
         'Default selected values for the combobox, and the value state will be controlled externally',
-      defaultValue: null,
-    },
+      defaultValue: null
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <ComboBox {...args} />;
 const MultiSelectTemplate = (args) => <ComboBox {...args} />;
@@ -73,7 +71,7 @@ const MultiSelect = MultiSelectTemplate.bind({});
 const Placeholder = PlaceholderTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -82,10 +80,10 @@ export { MultiSelect, Placeholder, Primary };
 MultiSelect.args = {
   value: null,
   isMulti: true,
-  defaultValue: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[4]],
+  defaultValue: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[4]]
 };
 
 Placeholder.args = {
   value: null,
-  defaultValue: null,
+  defaultValue: null
 };

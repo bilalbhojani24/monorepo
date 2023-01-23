@@ -8,7 +8,7 @@ import {
   BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
-  BUTTON_VARIANTS,
+  BUTTON_VARIANTS
 } from './const/buttonConstants';
 import Button from './index';
 
@@ -21,53 +21,54 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Button from 'bifrost/Button'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     variant: {
+      // eslint-disable-next-line sonarjs/no-duplicate-string
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_VARIANTS.join(', '), required: false },
       options: BUTTON_VARIANTS,
-      description: 'Lorem Ipsum',
+      description: 'Lorem'
     },
     size: {
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_SIZES.join(', '), required: false },
       options: BUTTON_SIZES,
-      description: 'Lorem Ipsum',
+      description: 'Ipsum'
     },
     disabled: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum',
+      description: 'Lorem Ipsum'
     },
     fullWidth: {
       control: { type: 'boolean' },
       description: 'Lorem Ipsum',
       type: { summary: 'BOOLEAN', required: false },
-      defaultValue: false,
+      defaultValue: false
     },
     icon: {
-      defaultValue: <EnvelopeIcon />,
+      defaultValue: <EnvelopeIcon />
     },
     iconPlacement: {
       options: BUTTON_ICON_PLACEMENT,
       control: { type: 'inline-radio' },
-      defaultValue: BUTTON_ICON_PLACEMENT[0],
+      defaultValue: BUTTON_ICON_PLACEMENT[0]
     },
     colors: {
       options: BUTTON_COLORS,
       control: { type: 'inline-radio' },
-      defaultValue: BUTTON_COLORS[0],
-    },
+      defaultValue: BUTTON_COLORS[0]
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Button {...args}>Button</Button>;
 const Default = Template.bind({});
 Default.parameters = {
-  size: 'primary',
+  size: 'primary'
 };
 
 export default defaultConfig;

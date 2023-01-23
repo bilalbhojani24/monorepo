@@ -2,6 +2,7 @@ const globalConfigs = require('@browserstack/tailwind-config');
 
 const bifrostTailwindConfig = {
   ...globalConfigs.globalTailwindConfig,
+  content: ['./modules/**/*.{js,jsx}']
 };
 
 bifrostTailwindConfig.theme.configViewer = {
@@ -70,8 +71,8 @@ bifrostTailwindConfig.theme.configViewer = {
     'var(--colors-info-600)': '#0284c7',
     'var(--colors-info-700)': '#0369a1',
     'var(--colors-info-800)': '#075985',
-    'var(--colors-info-900)': '#0c4a6e',
-  },
+    'var(--colors-info-900)': '#0c4a6e'
+  }
 };
 
 module.exports = bifrostTailwindConfig;

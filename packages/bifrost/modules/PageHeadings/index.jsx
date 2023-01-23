@@ -3,22 +3,16 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import Breadcrumbs from '../Breadcrumb';
-import Button from '../Button';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 
 import './styles.scss';
 
 const PageHeadings = (props) => {
-  const { breadcrumbs, metaData, heading, theme, actions } = props;
+  const { breadcrumbs, metaData, heading, theme, actions, wrapperClassName } =
+    props;
   return (
-    <div
-      className={classNames('p-8 overflow-hidden rounded-lg', {
-        'border border-base-300 bg-white color':
-          theme === PAGE_HEADINGS_THEME[0],
-        'bg-base-800': theme === PAGE_HEADINGS_THEME[1],
-      })}
-    >
+    <div className={wrapperClassName}>
       <div className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           {/* breadcrumbs */}
@@ -33,8 +27,8 @@ const PageHeadings = (props) => {
               {
                 'text-base-900': theme === PAGE_HEADINGS_THEME[0],
                 'text-white': theme === PAGE_HEADINGS_THEME[1],
-                'mt-2': breadcrumbs?.length > 0,
-              },
+                'mt-2': breadcrumbs?.length > 0
+              }
             )}
           >
             {heading}
@@ -48,7 +42,7 @@ const PageHeadings = (props) => {
                 className={classNames('mt-2 flex items-center text-sm', {
                   'text-base-500': theme === PAGE_HEADINGS_THEME[0],
                   'text-base-300': theme === PAGE_HEADINGS_THEME[1],
-                  'mt-1': heading.length > 0,
+                  'mt-1': heading.length > 0
                 })}
               >
                 {data.metaNode}
@@ -56,22 +50,7 @@ const PageHeadings = (props) => {
             ))}
           </div>
         </div>
-        <div className="mt-5 flex lg:mt-0 lg:ml-4">
-          {actions.map((data) => (
-            <span key={data.id} className="ml-3 hidden sm:block">
-              <Button
-                {...data.actionProps}
-                size="default"
-                onClick={(event) => {
-                  event.preventDefault();
-                  if (data.callback) data.callback();
-                }}
-              >
-                {data?.actionProps?.children}
-              </Button>
-            </span>
-          ))}
-        </div>
+        <div className="mt-5 flex lg:mt-0 lg:ml-4">{actions}</div>
       </div>
     </div>
   );
@@ -82,24 +61,19 @@ PageHeadings.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       url: PropTypes.string,
-      current: PropTypes.bool,
-    }),
+      current: PropTypes.bool
+    })
   ),
   metaData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      metaNode: PropTypes.node,
-    }),
+      metaNode: PropTypes.node
+    })
   ),
-  actions: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      actionProps: PropTypes.shape({}),
-      callback: PropTypes.func,
-    }),
-  ),
+  wrapperClassName: PropTypes.string,
+  actions: PropTypes.node,
   heading: PropTypes.string,
-  theme: PropTypes.string,
+  theme: PropTypes.string
 };
 PageHeadings.defaultProps = {
   breadcrumbs: [],
@@ -107,6 +81,7 @@ PageHeadings.defaultProps = {
   actions: [],
   heading: 'Frontend Engineers',
   theme: PAGE_HEADINGS_THEME[0],
+  wrapperClassName: ''
 };
 
 export default PageHeadings;

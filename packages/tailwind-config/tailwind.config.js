@@ -70,7 +70,7 @@ module.exports = {
         800: 'var(--colors-attention-800)',
         900: 'var(--colors-attention-900)'
       },
-      information: {
+      info: {
         50: 'var(--colors-info-50)',
         100: 'var(--colors-info-100)',
         200: 'var(--colors-info-200)',
