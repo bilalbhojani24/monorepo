@@ -29,3 +29,9 @@ export const formatTime = (date, to) => {
 export const onSubmitKeyHandler = (e) => (doAfter) => {
   if (e?.key === 'Enter') doAfter();
 };
+
+export const selectMenuValueMapper = (data) =>
+  data.map((item) => ({
+    label: item,
+    value: item,
+  }));

@@ -5,6 +5,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  ComboBox,
   Dropdown,
   EmptyState,
   InputField,
@@ -45,6 +46,7 @@ export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
+export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;

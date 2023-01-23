@@ -4,6 +4,7 @@ import AddTagModal from 'common/AddTagModal';
 import Attachments from 'common/Attachments';
 import {
   TMButton,
+  TMComboBox,
   TMInputField,
   TMSectionHeadings,
   TMSelectMenu,
@@ -34,7 +35,7 @@ const AddEditTestCase = () => {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
-    fetchFormData,
+    initFormValues,
     usersArrayMapped,
     tagsArray,
     issuesArray,
@@ -47,7 +48,7 @@ const AddEditTestCase = () => {
   } = useAddEditTestCase();
 
   useEffect(() => {
-    fetchFormData();
+    initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -256,9 +257,9 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex flex-1 items-end justify-between">
               <div className="mr-4 flex-1">
-                <TMSelectMenu
+                <TMComboBox
                   checkPosition="right"
-                  isMultiSelect
+                  isMulti
                   placeholder="Select from options"
                   label="Tags"
                   options={tagsArray}
