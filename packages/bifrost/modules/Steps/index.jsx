@@ -1,8 +1,8 @@
 import React from 'react';
-import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
+import { CheckCircleIcon, CheckIcon } from '../Icon';
 
 import { STEPS_FORMAT, STEPS_STATUS } from './const/stepsConstants';
 
@@ -100,8 +100,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             <span
               className={twClassNames(
                 stepIdx !== 0 ? 'lg:pl-9' : '',
-                // eslint-disable-next-line sonarjs/no-duplicate-string
-                'px-6 py-5 flex items-start text-sm font-medium',
+                'py-5 px-6 flex items-start text-sm font-medium',
               )}
             >
               <span className="shrink-0">
