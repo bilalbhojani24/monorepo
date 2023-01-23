@@ -5,7 +5,7 @@ import {
   CurrencyDollarIcon,
   LinkIcon,
   MapPinIcon,
-  PencilIcon,
+  PencilIcon
 } from '@heroicons/react/20/solid';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -24,8 +24,8 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import PageHeadings from 'bifrost/PageHeadings'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     theme: {
@@ -33,14 +33,14 @@ const defaultConfig = {
       control: { type: 'select' },
       description: 'Set light or dark theme for the component.',
       type: { summary: 'STRING', required: false },
-      defaultValue: PAGE_HEADINGS_THEME[0],
+      defaultValue: PAGE_HEADINGS_THEME[0]
     },
     breadcrumbs: {
       defaultValue: [
         { name: 'Jobs', url: 'www.google.com', current: true },
         { name: 'Engineering', url: 'www.youtube.com', current: false },
-        { name: 'Frontend Engineers', url: 'www.google.com', current: false },
-      ],
+        { name: 'Frontend Engineers', url: 'www.google.com', current: false }
+      ]
     },
     metaData: {
       defaultValue: [
@@ -54,7 +54,7 @@ const defaultConfig = {
               />
               Full-time
             </>
-          ),
+          )
         },
         {
           id: 'node-2',
@@ -66,7 +66,7 @@ const defaultConfig = {
               />
               Remote
             </>
-          ),
+          )
         },
         {
           id: 'node-3',
@@ -78,7 +78,7 @@ const defaultConfig = {
               />
               $120k &ndash; $140k
             </>
-          ),
+          )
         },
         {
           id: 'node-4',
@@ -90,35 +90,35 @@ const defaultConfig = {
               />
               Closing on January 9, 2020
             </>
-          ),
-        },
-      ],
+          )
+        }
+      ]
     },
     actions: {
-      defaultValue: [],
+      defaultValue: []
     },
     wrapperClassName: {
-      defaultValue: 'p-8 rounded-lg border border-base-300',
-    },
+      defaultValue: 'p-8 rounded-lg border border-base-300'
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <PageHeadings {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 const ActionsWithButtonsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithButtons = ActionsWithButtonsTemplate.bind({});
 ActionsWithButtons.parameters = {
-  controls: {},
+  controls: {}
 };
 
 const ActionsWithDropdownsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithDropdowns = ActionsWithDropdownsTemplate.bind({});
 ActionsWithDropdowns.parameters = {
-  controls: {},
+  controls: {}
 };
 
 ActionsWithButtons.args = {
@@ -157,7 +157,7 @@ ActionsWithButtons.args = {
         View
       </Button>
     </>
-  ),
+  )
 };
 
 ActionsWithDropdowns.args = {
@@ -169,18 +169,18 @@ ActionsWithDropdowns.args = {
           options={[
             {
               id: '1',
-              body: 'Edit',
+              body: 'Edit'
             },
             {
               id: '2',
               body: 'Duplicate',
-              divider: false,
+              divider: false
             },
             {
               id: '3',
               body: 'Archive',
-              divider: true,
-            },
+              divider: true
+            }
           ]}
         />
       </div>
@@ -189,23 +189,23 @@ ActionsWithDropdowns.args = {
         options={[
           {
             id: '1',
-            body: 'Edit',
+            body: 'Edit'
           },
           {
             id: '2',
             body: 'Duplicate',
-            divider: false,
+            divider: false
           },
           {
             id: '3',
             body: 'Archive',
-            divider: true,
-          },
+            divider: true
+          }
         ]}
       />
     </>
     // </div>
-  ),
+  )
 };
 
 export default defaultConfig;

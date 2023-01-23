@@ -29,7 +29,7 @@ import {
   PlusIcon,
   UsersIcon,
   XCircleIcon,
-  XMarkIcon,
+  XMarkIcon
 } from '@heroicons/react/20/solid';
 
 export {
@@ -63,5 +63,5 @@ export {
   PlusIcon,
   UsersIcon,
   XCircleIcon,
-  XMarkIcon,
+  XMarkIcon
 };

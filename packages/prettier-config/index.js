@@ -15,7 +15,7 @@ module.exports = {
   useTabs: false,
   semi: true,
   singleQuote: true,
-  trailingComma: 'all',
+  trailingComma: 'none',
   endOfLine: 'lf',
-  arrowParens: 'always',
+  arrowParens: 'always'
 };

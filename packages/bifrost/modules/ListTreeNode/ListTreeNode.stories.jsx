@@ -14,11 +14,11 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import ListTree from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {},
-  controls: {},
+  controls: {}
 };
 
 const FolderNodeTemplate = (args) => (

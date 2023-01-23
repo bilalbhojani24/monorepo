@@ -6,18 +6,18 @@ import { twClassNames } from '../../utils/tailwindUtils';
 import './styles.scss';
 
 const TableBody = ({ children, wrapperClass }) => (
-  <tbody className={twClassNames('divide-base-200 divide-y ', wrapperClass)}>
+  <tbody className={twClassNames('divide-base-200 divide-y', wrapperClass)}>
     {children}
   </tbody>
 );
 
 TableBody.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 TableBody.defaultProps = {
   children: null,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default TableBody;

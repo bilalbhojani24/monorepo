@@ -14,8 +14,8 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import {TableRow} from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
@@ -30,19 +30,19 @@ const defaultConfig = {
           <TableCell>$123</TableCell>
           <TableCell>12.00</TableCell>
         </>
-      ),
+      )
     },
     isSelected: {
       option: { type: 'boolean' },
-      defaultValue: true,
-    },
+      defaultValue: true
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <TableRow {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

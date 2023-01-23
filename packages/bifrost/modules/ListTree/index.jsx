@@ -11,7 +11,7 @@ const ListTree = ({ children, indentationLevel, isTreeOpen }) => (
     as="div"
     defaultOpen={isTreeOpen}
     className={twClassNames('', {
-      'ml-4 pl-2': indentationLevel > 1,
+      'ml-4 pl-2': indentationLevel > 1
     })}
   >
     {children}
@@ -21,13 +21,13 @@ const ListTree = ({ children, indentationLevel, isTreeOpen }) => (
 ListTree.propTypes = {
   children: PropTypes.node,
   isTreeOpen: PropTypes.bool,
-  indentationLevel: PropTypes.number,
+  indentationLevel: PropTypes.number
 };
 
 ListTree.defaultProps = {
   children: null,
   isTreeOpen: false,
-  indentationLevel: 1,
+  indentationLevel: 1
 };
 
 export default ListTree;

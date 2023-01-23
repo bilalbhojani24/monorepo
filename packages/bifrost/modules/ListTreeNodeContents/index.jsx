@@ -22,12 +22,12 @@ const ListTreeNodeContents = ({ children, isTreeOpen }) => (
 
 ListTreeNodeContents.propTypes = {
   children: PropTypes.node,
-  isTreeOpen: PropTypes.oneOfType([PropTypes.bool, undefined]),
+  isTreeOpen: PropTypes.oneOfType([PropTypes.bool, undefined])
 };
 
 ListTreeNodeContents.defaultProps = {
   children: null,
-  isTreeOpen: undefined,
+  isTreeOpen: undefined
 };
 
 export default ListTreeNodeContents;

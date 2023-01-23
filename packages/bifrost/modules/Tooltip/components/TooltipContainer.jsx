@@ -7,7 +7,7 @@ import {
   TP_PLACEMENT_SIDE,
   TP_SIZE,
   TP_STICKY_OPTIONS,
-  TP_TOOLTIP_THEME,
+  TP_TOOLTIP_THEME
 } from '../../../shared/tooltipPopoverConstants';
 import { ThemeContextData } from '../../../shared/tooltipPopoverThemeContext';
 import { twClassNames } from '../../../utils/tailwindUtils';
@@ -35,13 +35,13 @@ const TooltipContainer = (props) => {
     show,
     sideOffset,
     sticky,
-    theme,
+    theme
   } = props;
 
   return (
     <ThemeContextData.Provider
       value={{
-        theme,
+        theme
       }}
     >
       <TooltipPrimitive.Provider delayDuration={delay} skipDelayDuration={500}>
@@ -77,7 +77,7 @@ const TooltipContainer = (props) => {
                   'sm:max-w-4xl': TP_SIZE[7] === size,
                   'sm:max-w-5xl': TP_SIZE[8] === size,
                   'sm:max-w-6xl': TP_SIZE[9] === size,
-                  'sm:max-w-full': TP_SIZE[10] === size,
+                  'sm:max-w-full': TP_SIZE[10] === size
                 })}
               >
                 {content}
@@ -87,10 +87,11 @@ const TooltipContainer = (props) => {
                 width={arrowWidth}
                 className={twClassNames(
                   {
-                    arrow: theme === TP_TOOLTIP_THEME[0],
-                    'dark-arrow': theme === TP_TOOLTIP_THEME[1],
+                    'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
+                    'drop-shadow-sm fill-base-800':
+                      theme === TP_TOOLTIP_THEME[1]
                   },
-                  arrowClassName,
+                  arrowClassName
                 )}
               />
             </TooltipPrimitive.Content>
@@ -121,7 +122,7 @@ TooltipContainer.propTypes = {
   sideOffset: PropTypes.number,
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   show: PropTypes.bool,
-  theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
+  theme: PropTypes.oneOf(TP_TOOLTIP_THEME)
 };
 TooltipContainer.defaultProps = {
   arrowClassName: '',
@@ -143,7 +144,7 @@ TooltipContainer.defaultProps = {
   show: undefined,
   sideOffset: 5,
   sticky: TP_STICKY_OPTIONS[0],
-  theme: TP_TOOLTIP_THEME[0],
+  theme: TP_TOOLTIP_THEME[0]
 };
 
 export default TooltipContainer;

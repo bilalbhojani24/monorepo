@@ -14,14 +14,14 @@ const ListTreeNode = ({
   onNodeClick,
   onNodeOpen,
   isNodeSelected,
-  trailingVisualElement,
+  trailingVisualElement
 }) => (
   <div
     className={twClassNames(
       'hover:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
       {
-        'bg-info-50': isNodeSelected,
-      },
+        'bg-info-50': isNodeSelected
+      }
     )}
     tabIndex="0"
     role="button"
@@ -54,8 +54,8 @@ const ListTreeNode = ({
         className={twClassNames(
           'text-base-700 mr-2 text-xs leading-5 max-w-xs truncate',
           {
-            'font-medium': isNodeSelected,
-          },
+            'font-medium': isNodeSelected
+          }
         )}
       >
         {label}
@@ -74,7 +74,7 @@ const ListTreeNode = ({
 
     <div
       className={twClassNames('text-base-600 text-xs leading-5', {
-        'font-medium': isNodeSelected,
+        'font-medium': isNodeSelected
       })}
     >
       {description}
@@ -89,7 +89,7 @@ ListTreeNode.propTypes = {
   onNodeClick: PropTypes.func,
   onNodeOpen: PropTypes.func,
   isNodeSelected: PropTypes.bool,
-  trailingVisualElement: PropTypes.node,
+  trailingVisualElement: PropTypes.node
 };
 
 ListTreeNode.defaultProps = {
@@ -99,7 +99,7 @@ ListTreeNode.defaultProps = {
   onNodeClick: () => {},
   onNodeOpen: () => {},
   isNodeSelected: false,
-  trailingVisualElement: null,
+  trailingVisualElement: null
 };
 
 export default ListTreeNode;
