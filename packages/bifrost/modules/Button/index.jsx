@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
 import Loader from '../Loader/index';
 
 import {
@@ -9,7 +9,7 @@ import {
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
-  BUTTON_VARIANTS,
+  BUTTON_VARIANTS
 } from './const/buttonConstants';
 
 import './styles.scss';
@@ -25,7 +25,7 @@ const Button = ({
   fullWidth,
   icon,
   iconPlacement,
-  colors,
+  colors
 }) => {
   const buttonRef = useRef();
 
@@ -42,12 +42,12 @@ const Button = ({
       />
     ) : (
       <span
-        className={classNames({
+        className={twClassNames({
           'mx-auto grid w-fit items-center gap-2.5': icon !== null,
           'grid-cols-[16px,2fr]':
             iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon !== null,
           'grid-cols-[2fr,16px]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null,
+            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null
         })}
       >
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon}
@@ -65,9 +65,11 @@ const Button = ({
     if (loading) {
       return {
         width: buttonRef?.current?.getBoundingClientRect()?.width,
-        height: buttonRef?.current?.getBoundingClientRect()?.height,
+        height: buttonRef?.current?.getBoundingClientRect()?.height
       };
     }
+
+    return null;
   }, [loading]);
 
   const stylePicker = () => {
@@ -84,22 +86,23 @@ const Button = ({
 
   return (
     <button
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...(buttonDimensions && {
         style: {
           width: buttonDimensions.width,
-          height: buttonDimensions.height,
-        },
+          height: buttonDimensions.height
+        }
       })}
       type="button"
       ref={buttonRef}
       aria-disabled={disabled}
-      className={classNames(
+      className={twClassNames(
         'border border-transparent font-medium',
-        wrapperClassName,
         stylePicker(),
         {
-          'w-full': fullWidth === true,
+          'w-full': fullWidth === true
         },
+        wrapperClassName
       )}
       onClick={handleClick}
     >
@@ -119,7 +122,7 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
   iconPlacement: PropTypes.string,
-  colors: PropTypes.oneOf(BUTTON_COLORS),
+  colors: PropTypes.oneOf(BUTTON_COLORS)
 };
 
 Button.defaultProps = {
@@ -133,7 +136,7 @@ Button.defaultProps = {
   fullWidth: false,
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
-  colors: BUTTON_COLORS[0],
+  colors: BUTTON_COLORS[0]
 };
 
 export default Button;

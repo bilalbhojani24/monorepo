@@ -1,8 +1,30 @@
+const tailwindForms = require('@tailwindcss/forms');
+
 module.exports = {
   content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        enter: 'enter 200ms ease-out',
+        'slide-in': 'slide-in 1s cubic-bezier(.41,.73,.51,1.02)',
+        leave: 'leave 150ms ease-in forwards'
+      },
+      keyframes: {
+        enter: {
+          '0%': { transform: 'scale(0.9)', opacity: 0 },
+          '100%': { transform: 'scale(1)', opacity: 1 }
+        },
+        leave: {
+          '0%': { transform: 'scale(1)', opacity: 1 },
+          '100%': { transform: 'scale(0.9)', opacity: 0 }
+        },
+        'slide-in': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' }
+        }
+      }
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -68,7 +90,7 @@ module.exports = {
         800: 'var(--colors-attention-800)',
         900: 'var(--colors-attention-900)'
       },
-      information: {
+      info: {
         50: 'var(--colors-info-50)',
         100: 'var(--colors-info-100)',
         200: 'var(--colors-info-200)',
@@ -80,10 +102,29 @@ module.exports = {
         800: 'var(--colors-info-800)',
         900: 'var(--colors-info-900)'
       }
+    },
+    fontFamily: {
+      sans: [
+        'Inter var',
+        'ui-sans-serif',
+        'system-ui',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'Noto Sans',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji'
+      ]
     }
   },
   variants: {
     extend: {}
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [tailwindForms]
 };

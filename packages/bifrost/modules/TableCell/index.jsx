@@ -9,7 +9,7 @@ import {
   CELL_ALIGNMENT,
   CELL_DIRECTION,
   CELL_TEXT_TRANSFORM,
-  CELL_VARIANT,
+  CELL_VARIANT
 } from './const/tableCellConstants';
 
 import './styles.scss';
@@ -24,7 +24,7 @@ const TableCell = ({
   sortDirection,
   textTransform,
   variant,
-  wrapperClass,
+  wrapperClass
 }) => {
   const handleSort = () => {
     if (onSort) {
@@ -39,15 +39,16 @@ const TableCell = ({
     <td
       className={twClassNames(
         {
-          'text-base-500 whitespace-nowrap px-3 py-4 text-sm':
+          'px-3 py-3.5 text-base-500 whitespace-nowrap py-4 text-sm':
             variant === CELL_VARIANT[0],
           'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
             variant === CELL_VARIANT[1],
           [`text-${align}`]: align,
           [textTransform]: textTransform,
-          'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky,
+          'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky
         },
         wrapperClass,
+        'first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6'
       )}
       colSpan={colspan}
     >
@@ -87,7 +88,7 @@ TableCell.propTypes = {
   sortable: PropTypes.bool,
   textTransform: PropTypes.oneOf(CELL_TEXT_TRANSFORM),
   variant: PropTypes.oneOf(CELL_VARIANT),
-  wrapperClass: PropTypes.node,
+  wrapperClass: PropTypes.node
 };
 
 TableCell.defaultProps = {
@@ -100,7 +101,7 @@ TableCell.defaultProps = {
   sortDirection: CELL_DIRECTION[0],
   textTransform: CELL_TEXT_TRANSFORM[0],
   variant: CELL_VARIANT[0],
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default TableCell;
