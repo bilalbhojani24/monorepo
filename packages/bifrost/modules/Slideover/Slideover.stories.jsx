@@ -18,8 +18,8 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Slideover from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     children: {
@@ -38,38 +38,40 @@ const defaultConfig = {
             secondaryButtonLabel="Cancel"
           />
         </>
-      ),
+      )
     },
     show: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     slideoverWidth: {
       option: { type: 'string' },
-      defaultValue: 'w-96',
+      defaultValue: 'w-96'
     },
     backgroundOverlay: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     closeButtonOutside: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     onOverlayClick: {
       option: { type: null },
-      defaultValue: () => {},
+      defaultValue: () => {
+        console.log('Overlay clicked');
+      }
     },
     onClose: {
       option: { type: null },
-      defaultValue: () => {},
+      defaultValue: () => {}
     },
     topMarginElementId: {
       option: { type: 'string' },
-      defaultValue: 'topMarginTrial',
-    },
+      defaultValue: 'topMarginTrial'
+    }
   },
-  controls: {},
+  controls: {}
 };
 
 const predefinedComponentsTemplate = (args) => <Slideover {...args} />;
@@ -130,5 +132,5 @@ predefinedComponents.args = {
         </Button>
       </SlideoverFooter>
     </>
-  ),
+  )
 };

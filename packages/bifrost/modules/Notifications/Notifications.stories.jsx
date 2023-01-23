@@ -1,69 +1,116 @@
 import React from 'react';
-import Notifications from './index';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { BUTTON_VARIANTS } from '../Button/const/buttonConstants';
+import Button from '../Button';
+
+import Notifications from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Notifications',
   component: Notifications,
   parameters: {
     docs: {
-      page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={
-              "import Notifications from 'bifrost/Notifications'"
-            }
-          />
-        );
-      },
-    },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Notifications from 'bifrost/Notifications'"}
+        />
+      )
+    }
   },
   argTypes: {
+    actionButtons: {
+      option: { type: null },
+      defaultValue: (toastData) => (
+        <>
+          <Button variant="minimal" colors="brand">
+            Undo
+          </Button>
+          <Button variant="minimal" wrapperClassName="text-base-600">
+            Dismiss
+          </Button>
+        </>
+      )
+    },
     description: {
       option: { type: 'string' },
       defaultValue:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.'
     },
     isCondensed: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     handleClose: {
       option: { type: null },
-      defaultValue: () => {},
+      defaultValue: () => {}
     },
-    negativeButtonProps: {
-      type: { summary: 'OBJECT', required: false },
-      control: { type: 'object' },
-      defaultValue: {
-        children: <>Dismiss</>,
-        variant: BUTTON_VARIANTS[1],
-      },
+    headerIcon: {
+      options: { type: null },
+      defaultValue: <CheckCircleIcon className="text-base-600 h-6 w-6" />
     },
-    positiveButtonProps: {
-      type: { summary: 'OBJECT', required: false },
-      control: { type: 'object' },
-      defaultValue: {
-        children: <>Undo</>,
-        variant: BUTTON_VARIANTS[0],
-      },
-    },
-    NotificationIcon: {},
-    NotificationIconClassName: { option: { type: 'string' }, defaultValue: '' },
-    title: { option: { type: 'string' }, defaultValue: 'Discussion moved' },
-    show: {
-      control: { type: 'boolean' },
-      defaultValue: true,
-    },
+    title: { option: { type: 'string' }, defaultValue: 'Discussion moved' }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Notifications {...args} />;
+const BasicTemplate = (args) => <Notifications {...args} />;
+const CondensedTemplate = (args) => <Notifications {...args} />;
+const FillButtonAndAvatarTemplate = (args) => <Notifications {...args} />;
+
 const Primary = Template.bind({});
+const Basic = BasicTemplate.bind({});
+const Condensed = CondensedTemplate.bind({});
+const FillButtonAndAvatar = FillButtonAndAvatarTemplate.bind({});
+
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+export { Basic, Condensed, FillButtonAndAvatar, Primary };
+
+Basic.args = {
+  actionButtons: null,
+  description: 'Anyone with a link can now view this file.',
+  title: 'Successfully saved!',
+  headerIcon: <CheckCircleIcon className="text-success-400 h-6 w-6" />
+};
+
+Condensed.args = {
+  actionButtons: (toastData) => {
+    console.log(toastData);
+    return (
+      <Button variant="minimal" colors="brand">
+        Undo
+      </Button>
+    );
+  },
+  isCondensed: true,
+  headerIcon: null,
+  description: '',
+  title: 'Discussion archived'
+};
+
+FillButtonAndAvatar.args = {
+  actionButtons: (toastData) => {
+    console.log(toastData);
+    return (
+      <>
+        <Button>Undo</Button>
+        <Button variant="primary" colors="white">
+          Dismiss
+        </Button>
+      </>
+    );
+  },
+  headerIcon: (
+    <img
+      className="h-10 w-10 rounded-full"
+      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+      alt=""
+    />
+  ),
+  description: 'Sent you an invite to connect.',
+  title: 'Emilia Gates'
+};
