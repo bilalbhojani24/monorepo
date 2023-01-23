@@ -11,11 +11,11 @@ const TableHead = ({ children, wrapperClass }) => (
 
 TableHead.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.node,
+  wrapperClass: PropTypes.node
 };
 TableHead.defaultProps = {
   children: null,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default TableHead;

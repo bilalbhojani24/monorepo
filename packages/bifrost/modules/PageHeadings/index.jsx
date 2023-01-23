@@ -27,8 +27,8 @@ const PageHeadings = (props) => {
               {
                 'text-base-900': theme === PAGE_HEADINGS_THEME[0],
                 'text-white': theme === PAGE_HEADINGS_THEME[1],
-                'mt-2': breadcrumbs?.length > 0,
-              },
+                'mt-2': breadcrumbs?.length > 0
+              }
             )}
           >
             {heading}
@@ -42,7 +42,7 @@ const PageHeadings = (props) => {
                 className={classNames('mt-2 flex items-center text-sm', {
                   'text-base-500': theme === PAGE_HEADINGS_THEME[0],
                   'text-base-300': theme === PAGE_HEADINGS_THEME[1],
-                  'mt-1': heading.length > 0,
+                  'mt-1': heading.length > 0
                 })}
               >
                 {data.metaNode}
@@ -61,19 +61,19 @@ PageHeadings.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       url: PropTypes.string,
-      current: PropTypes.bool,
-    }),
+      current: PropTypes.bool
+    })
   ),
   metaData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      metaNode: PropTypes.node,
-    }),
+      metaNode: PropTypes.node
+    })
   ),
   wrapperClassName: PropTypes.string,
   actions: PropTypes.node,
   heading: PropTypes.string,
-  theme: PropTypes.string,
+  theme: PropTypes.string
 };
 PageHeadings.defaultProps = {
   breadcrumbs: [],
@@ -81,7 +81,7 @@ PageHeadings.defaultProps = {
   actions: [],
   heading: 'Frontend Engineers',
   theme: PAGE_HEADINGS_THEME[0],
-  wrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default PageHeadings;
