@@ -6,7 +6,7 @@ import { twClassNames } from '../../utils/tailwindUtils';
 import './styles.scss';
 
 const TableBody = ({ children, wrapperClass }) => (
-  <tbody className={twClassNames('divide-base-200 divide-y ', wrapperClass)}>
+  <tbody className={twClassNames('divide-base-200 divide-y', wrapperClass)}>
     {children}
   </tbody>
 );

@@ -35,7 +35,7 @@ const columns = [
     name: '',
     key: 'action',
     cell: () => (
-      <Button variant="mininal" colors="brand">
+      <Button variant="minimal" colors="brand">
         Edit
       </Button>
     ),
@@ -98,10 +98,17 @@ const defaultConfig = {
           <TableBody>
             {rows.map((row, idx) => (
               <TableRow key={idx}>
-                {columns.map((column) => {
+                {columns.map((column, colIdx) => {
                   const value = row[column.key];
                   return (
-                    <TableCell key={column.id}>
+                    <TableCell
+                      key={column.id}
+                      wrapperClass={
+                        colIdx === 0
+                          ? 'text-base-900 font-medium'
+                          : 'text-base-500'
+                      }
+                    >
                       {column.cell ? <>{column.cell(row)}</> : value}
                     </TableCell>
                   );
@@ -166,7 +173,44 @@ export {
 
 // Fullwidth Table start
 FullWidthTable.args = {
-  containerWrapperClass: 'md:rounded-none',
+  containerWrapperClass: 'md:rounded-none shadow-none',
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell
+              key={col.key}
+              variant="header"
+              isSticky
+              wrapperClass="sm:first:pl-6 sm:last:pr-6 lg:first:pl-8 lg:last:pr-8"
+            >
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow key={idx}>
+            {columns.map((column, colIdx) => {
+              const value = row[column.key];
+              return (
+                <TableCell
+                  key={column.id}
+                  wrapperClass={`sm:first:pl-6 sm:last:pr-6 lg:first:pl-8 lg:last:pr-8 ${
+                    colIdx === 0 ? 'font-medium text-base-900' : ''
+                  }`}
+                >
+                  {column.cell ? <>{column.cell()}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  ),
 };
 // Fullwidth Table end
 
@@ -187,6 +231,15 @@ const GRTColumns = [
   {
     name: 'Role',
     key: 'role',
+  },
+  {
+    name: '',
+    key: 'action',
+    cell: () => (
+      <Button variant="minimal" colors="brand">
+        Edit
+      </Button>
+    ),
   },
 ];
 const GRTRows = [
@@ -231,7 +284,11 @@ GroupedRowsTable.args = {
       <TableHead wrapperClass="bg-white">
         <TableRow>
           {GRTColumns.map((col) => (
-            <TableCell key={col.key} variant="header">
+            <TableCell
+              key={col.key}
+              variant="header"
+              wrapperClass="sm:first:pl-6 sm:last:pr-4"
+            >
               {col.name}
             </TableCell>
           ))}
@@ -241,16 +298,27 @@ GroupedRowsTable.args = {
         {GRTRows.map((row, idx) => (
           <>
             <TableRow>
-              <TableCell variant="header" wrapperClass="bg-base-50" colspan={4}>
+              <TableCell
+                variant="header"
+                colspan={GRTColumns.length}
+                wrapperClass="bg-base-50 sm:first:pl-6 sm:last:pr-6"
+              >
                 {row.name}
               </TableCell>
             </TableRow>
             {row.people.map((per, perIdx) => (
               <TableRow key={idx + perIdx}>
-                {GRTColumns.map((column) => {
+                {GRTColumns.map((column, colIdx) => {
                   const value = per[column.key];
                   return (
-                    <TableCell key={column.id}>
+                    <TableCell
+                      key={column.id}
+                      wrapperClass={`${
+                        colIdx === 0
+                          ? 'text-base-900 font-medium'
+                          : 'text-base-500'
+                      } sm:first:pl-6 sm:last:pr-4`}
+                    >
                       {column.cell ? <>{column.cell(row)}</> : value}
                     </TableCell>
                   );
@@ -286,10 +354,10 @@ const MLCColumns = [
     name: 'Title',
     key: 'title',
     cell: (row) => (
-      <>
+      <div>
         <div className="text-base-900">{row.title}</div>
         <div className="text-base-500">{row.department}</div>
-      </>
+      </div>
     ),
   },
   {
@@ -345,7 +413,6 @@ const MLCRows = [
   },
 ];
 MultiLineContentTable.args = {
-  containerWrapperClass: 'md:rounded-none',
   children: (
     <>
       <TableHead>
@@ -422,10 +489,10 @@ SelectableTable.args = {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    wrapperClass="flex items-center"
+                    wrapperClass="flex items-center !pl-6"
                   >
                     <Checkbox
-                      wrapperClass="pt-0 mr-2"
+                      wrapperClass="pt-0 mr-6 h-4 w-4"
                       border={false}
                       name={col.key}
                     />
@@ -449,8 +516,14 @@ SelectableTable.args = {
               return (
                 <>
                   {colIdx === 0 ? (
-                    <TableCell key={column.id} wrapperClass="flex items-center">
-                      <Checkbox border={false} wrapperClass="pt-0 mr-2" />
+                    <TableCell
+                      key={column.id}
+                      wrapperClass="flex items-center text-base-900 font-medium !pl-6"
+                    >
+                      <Checkbox
+                        border={false}
+                        wrapperClass="pt-0 mr-6 h-4 w-4"
+                      />
                       {column.cell ? <>{column.cell}</> : value}
                     </TableCell>
                   ) : (
@@ -493,10 +566,15 @@ SortableTable.args = {
       <TableBody>
         {rows.map((row, idx) => (
           <TableRow key={idx}>
-            {columns.map((column) => {
+            {columns.map((column, colIdx) => {
               const value = row[column.key];
               return (
-                <TableCell key={column.id}>
+                <TableCell
+                  key={column.id}
+                  wrapperClass={
+                    colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
+                  }
+                >
                   {column.cell ? <>{column.cell(row)}</> : value}
                 </TableCell>
               );
@@ -522,14 +600,19 @@ StripedTable.args = {
           ))}
         </TableRow>
       </TableHead>
-      <TableBody>
+      <TableBody wrapperClass="divide-y-0">
         {rows.map((row, idx) => (
           <TableRow key={idx} selected={idx % 2 !== 0}>
-            {columns.map((column) => {
+            {columns.map((column, colIdx) => {
               const value = row[column.key];
               return (
-                <TableCell key={column.id}>
-                  {column.cell ? <>{column.cell}</> : value}
+                <TableCell
+                  key={column.id}
+                  wrapperClass={
+                    colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
+                  }
+                >
+                  {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
               );
             })}
@@ -548,7 +631,12 @@ UppercaseHeadingTable.args = {
       <TableHead>
         <TableRow>
           {columns.map((col) => (
-            <TableCell key={col.key} variant="header" textTransform="uppercase">
+            <TableCell
+              key={col.key}
+              variant="header"
+              textTransform="uppercase"
+              wrapperClass="text-base-500 font-medium"
+            >
               {col.name}
             </TableCell>
           ))}
@@ -557,11 +645,16 @@ UppercaseHeadingTable.args = {
       <TableBody>
         {rows.map((row, idx) => (
           <TableRow key={idx}>
-            {columns.map((column) => {
+            {columns.map((column, colIdx) => {
               const value = row[column.key];
               return (
-                <TableCell key={column.id}>
-                  {column.cell ? <>{column.cell}</> : value}
+                <TableCell
+                  key={column.id}
+                  wrapperClass={
+                    colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
+                  }
+                >
+                  {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
               );
             })}
@@ -594,7 +687,7 @@ WhiteBackgroundTable.args = {
               const value = row[column.key];
               return (
                 <TableCell key={column.id}>
-                  {column.cell ? <>{column.cell}</> : value}
+                  {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
               );
             })}

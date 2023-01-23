@@ -39,7 +39,7 @@ const TableCell = ({
     <td
       className={twClassNames(
         {
-          'text-base-500 whitespace-nowrap px-3 py-4 text-sm':
+          'px-3 py-3.5 text-base-500 whitespace-nowrap py-4 text-sm':
             variant === CELL_VARIANT[0],
           'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
             variant === CELL_VARIANT[1],
@@ -48,6 +48,7 @@ const TableCell = ({
           'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky,
         },
         wrapperClass,
+        'first:pl-4 last:pr-4 last:text-right',
       )}
       colSpan={colspan}
     >
