@@ -7,22 +7,22 @@ module.exports = {
     es6: true,
     node: true,
     jest: true,
-    es2021: true,
+    es2021: true
   },
   extends: [
     'airbnb',
     'prettier',
     'plugin:react-hooks/recommended',
     'plugin:sonarjs/recommended',
-    'plugin:tailwindcss/recommended',
+    'plugin:tailwindcss/recommended'
   ],
   globals: {},
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 2021,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: [
     'prettier',
@@ -32,12 +32,12 @@ module.exports = {
     'jest',
     'simple-import-sort',
     'sonarjs',
-    'tailwindcss',
+    'tailwindcss'
   ],
   settings: {
     react: {
-      version: 'detect',
-    },
+      version: 'detect'
+    }
   },
   ignorePatterns: ['node_modules/'],
   overrides: [
@@ -59,18 +59,18 @@ module.exports = {
               // Other relative imports. Put same-folder imports and `.` last.
               ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
               // Style imports.
-              ['^.+\\.?(css)$'],
-            ],
-          },
-        ],
-      },
+              ['^.+\\.?(css)$']
+            ]
+          }
+        ]
+      }
     },
     {
       files: ['*.stories.jsx'],
       rules: {
-        'react/jsx-props-no-spreading': 0,
-      },
-    },
+        'react/jsx-props-no-spreading': 0
+      }
+    }
   ],
   rules: {
     'comma-dangle': 0,
@@ -82,14 +82,14 @@ module.exports = {
     'no-tabs': [2, { allowIndentationTabs: true }],
     'jsx-a11y/label-has-associated-control': [
       2,
-      { required: { some: ['nesting', 'id'] } },
+      { required: { some: ['nesting', 'id'] } }
     ],
     'no-param-reassign': [
       'error',
       {
         props: true,
-        ignorePropertyModificationsFor: ['state'],
-      },
+        ignorePropertyModificationsFor: ['state']
+      }
     ],
     // This is good for accessibility
     'jsx-a11y/click-events-have-key-events': 2,
@@ -104,6 +104,6 @@ module.exports = {
     'tailwindcss/migration-from-tailwind-2': 2,
     'tailwindcss/no-arbitrary-value': 2,
     'tailwindcss/no-custom-classname': 2,
-    'tailwindcss/no-contradicting-classname': 2,
-  },
+    'tailwindcss/no-contradicting-classname': 2
+  }
 };

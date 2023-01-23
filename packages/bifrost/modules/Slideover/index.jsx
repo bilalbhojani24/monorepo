@@ -26,28 +26,30 @@ const Slideover = (props) => {
 
   return (
     <Transition show={show} unmount={false}>
-      <Transition.Child
-        appear="true"
-        unmount={false}
-        enter="ease-in duration-500"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="ease-in duration-500"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div
-          role="presentation"
-          style={{ marginTop: marginTopAdjustment }}
-          className={twClassNames(`bg-base-500 fixed inset-0 z-10`, {
-            'opacity-75': backgroundOverlay,
-            'opacity-0': !backgroundOverlay,
-          })}
-          onClick={() => {
-            onOverlayClick?.();
-          }}
-        />
-      </Transition.Child>
+      {backgroundOverlay ? (
+        <Transition.Child
+          appear="true"
+          unmount={false}
+          enter="ease-in duration-500"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-500"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            role="presentation"
+            style={{ marginTop: marginTopAdjustment }}
+            className={twClassNames(`bg-base-500 fixed inset-0 z-10`, {
+              'opacity-75': backgroundOverlay,
+              'opacity-0': !backgroundOverlay,
+            })}
+            onClick={() => {
+              onOverlayClick?.();
+            }}
+          />
+        </Transition.Child>
+      ) : null}
 
       <Transition.Child
         as={Fragment}
