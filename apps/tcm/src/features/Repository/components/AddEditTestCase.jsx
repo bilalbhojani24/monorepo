@@ -210,7 +210,7 @@ const AddEditTestCase = () => {
               <TMSelectMenu
                 value={
                   testCaseFormData.owner &&
-                  usersArrayMapped.find(
+                  usersArrayMapped?.find(
                     (item) => item.value === testCaseFormData.owner,
                   )
                 }

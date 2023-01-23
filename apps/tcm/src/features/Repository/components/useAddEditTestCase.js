@@ -31,7 +31,7 @@ export default function useAddEditTestCase() {
   const uploadElementRef = useRef();
   const [inputError, setInputError] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
-  const [showMoreFields, setShowMoreFields] = useState(true);
+  const [showMoreFields, setShowMoreFields] = useState(false);
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
@@ -94,7 +94,7 @@ export default function useAddEditTestCase() {
 
   const formDataRetriever = (formData) => ({
     ...formData,
-    tags: selectMenuValueMapper(formData?.tags),
+    tags: tagsArray.filter((item) => formData?.tags.includes(item.value)),
   });
 
   const fetchTestCaseDetails = () => {
@@ -231,7 +231,9 @@ export default function useAddEditTestCase() {
     if (projectId === loadedDataProjectId) {
       if (tagsArray && !isTestCaseEditing)
         handleTestCaseFieldChange('tags', tagsArray);
-      setUsersArray(selectMenuValueMapper(usersArray));
+      setUsersArray(
+        usersArray.map((item) => ({ label: item.full_name, value: item.id })),
+      );
     } else {
       setUsersArray([]);
     }
