@@ -216,7 +216,7 @@ importers:
       eslint-loader: 4.0.2_u2ubl3shblmc7225ne6wflnyua
       eslint-plugin-import: 2.22.1_esjapnlebzkymzlt75pf56bxiy
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
-      eslint-plugin-prettier: 3.1.4_gh2oiagmiutamvmt5zs74mwusq
+      eslint-plugin-prettier: 3.1.4_mgo57nc4pwtdlxjp6ju5mhox7e
       eslint-plugin-react: 7.21.5_eslint@7.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@7.32.0
       eslint-plugin-simple-import-sort: 8.0.0_eslint@7.32.0
@@ -8060,10 +8060,6 @@ packages:
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
-
-  /axe-core/4.6.1:
-    resolution: {integrity: sha512-lCZN5XRuOnpG4bpMq8v0khrWtUOn+i8lZSb6wHZH56ZfbIEv6XwJV84AAueh9/zi7qPVJ/E4yz6fmsiyOmXR4w==}
-    engines: {node: '>=4'}
 
   /axe-core/4.6.2:
     resolution: {integrity: sha512-b1WlTV8+XKLj9gZy2DZXgQiyDp9xkkoe2a6U6UbYccScq2wgH/YwCeI2/Jq2mgo0HzQxqJOjWZBLeA/mqsk5Mg==}
