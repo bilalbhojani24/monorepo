@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { InfoOutlinedIcon } from 'assets/icons';
 import className from 'classnames';
 import AddTagModal from 'common/AddTagModal';
 import Attachments from 'common/Attachments';
@@ -10,6 +11,8 @@ import {
   TMSelectMenu,
   TMTextArea,
   TMTooltip,
+  TMTooltipBody,
+  TMTooltipHeader,
 } from 'common/bifrostProxy';
 
 import {
@@ -238,16 +241,35 @@ const AddEditTestCase = () => {
                 id="test-case-estimate"
                 value={testCaseFormData.estimate}
                 label={
-                  <>
+                  <div className="flex items-center">
                     Estimate
                     <TMTooltip
-                      description="test test"
+                      size="xs"
                       placementSide="bottom"
                       theme="dark"
+                      content={
+                        <>
+                          <TMTooltipHeader>Estimate</TMTooltipHeader>
+                          <TMTooltipBody>
+                            <p className="text-sm">
+                              You can define an estimate time you would require
+                              for this test case. Below format types are
+                              permitted:
+                            </p>
+                            <ul className="list-disc pl-5 text-sm">
+                              <li>Seconds (s)</li>
+                              <li>Minutes (m)</li>
+                              <li>Hours (h)</li>
+                              <li>Minutes:Seconds (m:s)</li>
+                              <li>Hours:Minutes:Seconds (h:m:s)</li>
+                            </ul>
+                          </TMTooltipBody>
+                        </>
+                      }
                     >
-                      <span />
+                      <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
                     </TMTooltip>
-                  </>
+                  </div>
                 }
                 placeholder="Eg: 1m, 2.5h, 2d etc"
                 onChange={(e) =>

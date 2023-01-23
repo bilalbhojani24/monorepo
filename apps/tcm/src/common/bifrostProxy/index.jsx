@@ -31,6 +31,8 @@ import {
   Tabs,
   TextArea,
   Tooltip,
+  TooltipBody,
+  TooltipHeader,
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
@@ -60,6 +62,8 @@ export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
+export const TMTooltipBody = (props) => <TooltipBody {...props} />;
+export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );

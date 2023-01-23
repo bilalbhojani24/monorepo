@@ -4,7 +4,6 @@ import {
   TMBadge,
   TMDataTable,
   TMEmptyState,
-  TMStackedListWSingleColumn,
   TMTabs,
 } from 'common/bifrostProxy';
 import { formatTime } from 'utils/helperFunctions';
@@ -17,19 +16,18 @@ const TestCaseMutliData = () => {
   const { selectedTab, testRunsDetails, testCaseIssues, handleTabChange } =
     useTestCaseView();
 
-  const tableColumns = [
+  const resultsTableColumn = [
     {
-      name: 'ID',
-      key: 'test_run_id',
+      name: 'Test Run Details',
+      key: 'test_case_id',
       cell: (rowData) => (
-        <div role="button" className="hover:text-brand-600 cursor-pointer">
-          {rowData.test_run_id}
+        <div className="flex flex-col">
+          <div className="text-base-900 font-medium">{`TR-${rowData.test_case_id} | ${rowData.test_run_name}`}</div>
+          <div className="text-base-500">
+            {formatTime(rowData.created_at, 'time')}
+          </div>
         </div>
       ),
-    },
-    {
-      name: 'Test Run Name',
-      key: 'test_run_name',
     },
     {
       name: 'Status',
@@ -38,13 +36,39 @@ const TestCaseMutliData = () => {
         <TMBadge
           wrapperClassName="capitalize"
           text={rowData.latest_status}
-          modifier={
-            rowData.latest_status === 'untested'
-              ? 'base'
-              : rowData.latest_status
-          }
+          modifier={rowData.latest_status
+            .replace('untested', 'base')
+            .replace('passed', 'success')
+            .replace('failed', 'error')}
         />
       ),
+    },
+  ];
+
+  const issuesTableColumn = [
+    {
+      name: 'Issue',
+      key: 'jira_id',
+      cell: (rowData) => (
+        <div className="text-base-900 font-medium">{`${rowData.jira_id}`}</div>
+      ),
+    },
+    {
+      name: 'Test Run',
+      key: 'jira_id',
+      cell: (rowData) => (
+        <div className="flex flex-col">
+          <div className="text-base-900 font-medium">{`TR-${
+            rowData?.test_run_identifier || ''
+          }`}</div>
+          <div className="text-base-500">{rowData?.test_run_name}</div>
+        </div>
+      ),
+    },
+    {
+      name: 'Created On',
+      key: 'created_at',
+      cell: (rowData) => formatTime(rowData.created_at, 'date'),
     },
   ];
 
@@ -56,8 +80,8 @@ const TestCaseMutliData = () => {
           ...item,
           count:
             item.name === 'Results'
-              ? `${testRunsDetails.length}`
-              : `${testCaseIssues.length}`,
+              ? testRunsDetails.length
+              : testCaseIssues.length,
         }))}
         onTabChange={handleTabChange}
       />
@@ -68,9 +92,8 @@ const TestCaseMutliData = () => {
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
-                columns={tableColumns}
+                columns={resultsTableColumn}
                 rows={testRunsDetails}
-                isFullWhite={false}
               />
             </div>
           ) : (
@@ -91,16 +114,13 @@ const TestCaseMutliData = () => {
       {selectedTab.name === TABS_ARRAY[1].name && (
         <>
           {testCaseIssues?.length ? (
-            <TMStackedListWSingleColumn
-              format="with_truncated_content_preview"
-              list={testCaseIssues.map((item) => ({
-                ...item,
-                heading: item.jira_id,
-                subHeading: item.jira_id,
-                textAside: formatTime(item.created_at, 'ago'),
-                preview: item.test_case_id,
-              }))}
-            />
+            <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
+              <TMDataTable
+                isHeaderCapitalize
+                columns={issuesTableColumn}
+                rows={testCaseIssues}
+              />
+            </div>
           ) : (
             <div className="mt-10">
               <TMEmptyState
