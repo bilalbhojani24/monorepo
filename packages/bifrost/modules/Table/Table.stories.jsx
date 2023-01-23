@@ -16,20 +16,20 @@ const columns = [
   {
     name: 'Name',
     key: 'name',
-    isSortable: true,
+    isSortable: true
   },
   {
     name: 'Title',
     key: 'title',
-    isSortable: true,
+    isSortable: true
   },
   {
     name: 'Email',
-    key: 'email',
+    key: 'email'
   },
   {
     name: 'Role',
-    key: 'role',
+    key: 'role'
   },
   {
     name: '',
@@ -38,8 +38,8 @@ const columns = [
       <Button variant="minimal" colors="brand">
         Edit
       </Button>
-    ),
-  },
+    )
+  }
 ];
 
 const rows = [
@@ -47,20 +47,20 @@ const rows = [
     name: 'Lindsay Walton',
     title: 'Front-end Developer',
     email: 'lindsay.walton@example.com',
-    role: 'Member',
+    role: 'Member'
   },
   {
     name: 'Courtney Henry',
     title: 'Designer',
     email: 'courtney.henry@example.com',
-    role: 'Admin',
+    role: 'Admin'
   },
   {
     name: 'Courtney Henry',
     title: 'Designer',
     email: 'courtney.henry@example.com',
-    role: 'Admin',
-  },
+    role: 'Admin'
+  }
 ];
 
 const handleSort = (col, dir) => {
@@ -71,14 +71,15 @@ const handleSort = (col, dir) => {
 const defaultConfig = {
   title: 'Application/Components/Table',
   component: Table,
+  subcomponents: { TableBody, TableHead, TableCell, TableRow },
   parameters: {
     docs: {
       page: () => (
         <DocPageTemplate
           importStatement={"import {Table} from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
@@ -117,18 +118,18 @@ const defaultConfig = {
             ))}
           </TableBody>
         </>
-      ),
+      )
     },
     containerWrapperClass: {
       option: { type: 'string' },
-      defaultValue: '',
+      defaultValue: ''
     },
     tableWrapperClass: {
       option: { type: 'string' },
-      defaultValue: '',
-    },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 
 const Template = (args) => <Table {...args} />;
@@ -141,6 +142,7 @@ const GroupedRowsTableTemplate = (args) => <Table {...args} />;
 const StickyHeaderTableTemplate = (args) => <Table {...args} />;
 const SelectableTableTemplate = (args) => <Table {...args} />;
 const SortableTableTemplate = (args) => <Table {...args} />;
+const CondensedTableTemplate = (args) => <Table {...args} />;
 
 const Primary = Template.bind({});
 const FullWidthTable = FullWidthTableTemplate.bind({});
@@ -152,13 +154,15 @@ const GroupedRowsTable = GroupedRowsTableTemplate.bind({});
 const StickyHeaderTable = StickyHeaderTableTemplate.bind({});
 const SelectableTable = SelectableTableTemplate.bind({});
 const SortableTable = SortableTableTemplate.bind({});
+const CondensedTable = CondensedTableTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
 export {
+  CondensedTable,
   FullWidthTable,
   GroupedRowsTable,
   MultiLineContentTable,
@@ -168,11 +172,11 @@ export {
   StickyHeaderTable,
   StripedTable,
   UppercaseHeadingTable,
-  WhiteBackgroundTable,
+  WhiteBackgroundTable
 };
 
-// Fullwidth Table start
-FullWidthTable.args = {
+// Condensed Table start
+CondensedTable.args = {
   containerWrapperClass: 'md:rounded-none shadow-none',
   children: (
     <>
@@ -182,9 +186,51 @@ FullWidthTable.args = {
             <TableCell
               key={col.key}
               variant="header"
-              isSticky
-              wrapperClass="sm:first:pl-6 sm:last:pr-6 lg:first:pl-8 lg:last:pr-8"
+              wrapperClass="first:pr-3 last:pl-3 px-2"
             >
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, idx) => (
+          <TableRow
+            key={idx}
+            onRowClick={() => {
+              console.log('Row clicked');
+            }}
+          >
+            {columns.map((column, colIdx) => {
+              const value = row[column.key];
+              return (
+                <TableCell
+                  key={column.id}
+                  wrapperClass={`
+                    ${colIdx === 0 ? 'font-medium text-base-900' : ''}
+                   first:pr-3 last:pl-3 px-2 py-2`}
+                >
+                  {column.cell ? <>{column.cell()}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </>
+  )
+};
+// Condensed Table end
+
+// Fullwidth Table start
+FullWidthTable.args = {
+  containerWrapperClass: 'md:rounded-none shadow-none',
+  children: (
+    <>
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell key={col.key} variant="header">
               {col.name}
             </TableCell>
           ))}
@@ -198,9 +244,7 @@ FullWidthTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={`sm:first:pl-6 sm:last:pr-6 lg:first:pl-8 lg:last:pr-8 ${
-                    colIdx === 0 ? 'font-medium text-base-900' : ''
-                  }`}
+                  wrapperClass={colIdx === 0 ? 'font-medium text-base-900' : ''}
                 >
                   {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
@@ -210,7 +254,7 @@ FullWidthTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // Fullwidth Table end
 
@@ -218,19 +262,19 @@ FullWidthTable.args = {
 const GRTColumns = [
   {
     name: 'Name',
-    key: 'name',
+    key: 'name'
   },
   {
     name: 'Title',
-    key: 'title',
+    key: 'title'
   },
   {
     name: 'Email',
-    key: 'role',
+    key: 'role'
   },
   {
     name: 'Role',
-    key: 'role',
+    key: 'role'
   },
   {
     name: '',
@@ -239,8 +283,8 @@ const GRTColumns = [
       <Button variant="minimal" colors="brand">
         Edit
       </Button>
-    ),
-  },
+    )
+  }
 ];
 const GRTRows = [
   {
@@ -250,15 +294,15 @@ const GRTRows = [
         name: 'Lindsay Walton',
         title: 'Front-end Developer',
         email: 'lindsay.walton@example.com',
-        role: 'Member',
+        role: 'Member'
       },
       {
         name: 'Courtney Henry',
         title: 'Designer',
         email: 'courtney.henry@example.com',
-        role: 'Admin',
-      },
-    ],
+        role: 'Admin'
+      }
+    ]
   },
   {
     name: 'London',
@@ -267,16 +311,16 @@ const GRTRows = [
         name: 'Tom cook',
         title: 'Front-end Developer',
         email: 'lindsay.walton@example.com',
-        role: 'Member',
+        role: 'Member'
       },
       {
         name: 'Whitney Francis',
         title: 'Designer',
         email: 'courtney.henry@example.com',
-        role: 'Admin',
-      },
-    ],
-  },
+        role: 'Admin'
+      }
+    ]
+  }
 ];
 GroupedRowsTable.args = {
   children: (
@@ -284,11 +328,7 @@ GroupedRowsTable.args = {
       <TableHead wrapperClass="bg-white">
         <TableRow>
           {GRTColumns.map((col) => (
-            <TableCell
-              key={col.key}
-              variant="header"
-              wrapperClass="sm:first:pl-6 sm:last:pr-4"
-            >
+            <TableCell key={col.key} variant="header">
               {col.name}
             </TableCell>
           ))}
@@ -301,7 +341,7 @@ GroupedRowsTable.args = {
               <TableCell
                 variant="header"
                 colspan={GRTColumns.length}
-                wrapperClass="bg-base-50 sm:first:pl-6 sm:last:pr-6"
+                wrapperClass="bg-base-50"
               >
                 {row.name}
               </TableCell>
@@ -313,11 +353,11 @@ GroupedRowsTable.args = {
                   return (
                     <TableCell
                       key={column.id}
-                      wrapperClass={`${
+                      wrapperClass={
                         colIdx === 0
                           ? 'text-base-900 font-medium'
                           : 'text-base-500'
-                      } sm:first:pl-6 sm:last:pr-4`}
+                      }
                     >
                       {column.cell ? <>{column.cell(row)}</> : value}
                     </TableCell>
@@ -329,7 +369,7 @@ GroupedRowsTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // Group row Table end
 
@@ -348,7 +388,7 @@ const MLCColumns = [
           <div className="text-base-500">{value.email}</div>
         </div>
       </div>
-    ),
+    )
   },
   {
     name: 'Title',
@@ -358,7 +398,7 @@ const MLCColumns = [
         <div className="text-base-900">{row.title}</div>
         <div className="text-base-500">{row.department}</div>
       </div>
-    ),
+    )
   },
   {
     name: 'Status',
@@ -367,11 +407,11 @@ const MLCColumns = [
       <span className="bg-success-100 text-success-800 inline-flex rounded-full px-2 text-xs font-semibold leading-5">
         Active
       </span>
-    ),
+    )
   },
   {
     name: 'Role',
-    key: 'role',
+    key: 'role'
   },
   {
     name: '',
@@ -380,8 +420,8 @@ const MLCColumns = [
       <a href="/" className="hover:text-brand-900 text-brand-600">
         Edit<span className="sr-only">, {row.name}</span>
       </a>
-    ),
-  },
+    )
+  }
 ];
 const MLCRows = [
   {
@@ -391,7 +431,7 @@ const MLCRows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   },
   {
     name: 'Lindsay Walton',
@@ -400,7 +440,7 @@ const MLCRows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   },
   {
     name: 'Lindsay Walton',
@@ -409,8 +449,8 @@ const MLCRows = [
     email: 'lindsay.walton@example.com',
     role: 'Member',
     image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  },
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+  }
 ];
 MultiLineContentTable.args = {
   children: (
@@ -439,7 +479,7 @@ MultiLineContentTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // MultiLineContentTable Table end
 
@@ -457,7 +497,7 @@ StickyHeaderTable.args = {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row, idx) => (
+        {[...rows, ...rows, ...rows, ...rows, ...rows].map((row, idx) => (
           <TableRow key={idx}>
             {columns.map((column) => {
               const value = row[column.key];
@@ -472,7 +512,7 @@ StickyHeaderTable.args = {
       </TableBody>
     </>
   ),
-  containerWrapperClass: 'overflow-visible overflow-x-visible md:rounded-none',
+  containerWrapperClass: 'overflow-visible overflow-x-visible md:rounded-none'
 };
 // Sticky Header Table end
 
@@ -538,7 +578,7 @@ SelectableTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // SelectableTable Table end
 
@@ -583,7 +623,7 @@ SortableTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // sortable table end
 
@@ -620,7 +660,7 @@ StripedTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // Striped Table end
 
@@ -662,7 +702,7 @@ UppercaseHeadingTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // UppercaseHeadingTable Table end
 
@@ -695,6 +735,6 @@ WhiteBackgroundTable.args = {
         ))}
       </TableBody>
     </>
-  ),
+  )
 };
 // WhiteBackgroundTable Table end

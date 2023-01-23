@@ -13,16 +13,16 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import {TableHead} from '@browserstack/bifrost'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {},
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <TableHead {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

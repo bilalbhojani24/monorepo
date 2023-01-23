@@ -13,11 +13,11 @@ const TableBody = ({ children, wrapperClass }) => (
 
 TableBody.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 TableBody.defaultProps = {
   children: null,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default TableBody;
