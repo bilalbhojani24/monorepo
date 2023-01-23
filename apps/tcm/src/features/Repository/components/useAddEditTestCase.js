@@ -138,7 +138,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const tagVerifierFunction = async (tag) => verifyTagAPI({ projectId, tag });
+  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);

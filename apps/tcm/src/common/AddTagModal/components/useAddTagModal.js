@@ -12,12 +12,14 @@ const useAddTagModal = ({
   const [duplicateTags, setDuplicateTag] = useState(existingTags);
 
   const addTagHandler = () => {
-    verifierFunction(enteredTag).then((data) => {
+    const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
+
+    verifierFunction(tagsSplitted).then((data) => {
       if (data) {
-        setNewTags([...newTags, enteredTag]);
-        setAllTags([...allTags, enteredTag]);
+        setNewTags([...newTags, ...tagsSplitted]);
+        setAllTags([...allTags, ...tagsSplitted]);
         setTagEntered('');
-      } else setDuplicateTag([...duplicateTags, enteredTag]);
+      } else setDuplicateTag([...duplicateTags, ...tagsSplitted]);
     });
   };
 
