@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CreateNewFolderOutlinedIcon } from 'assets/icons';
 import { TMButton } from 'common/bifrostProxy';
+import FolderExplorer from 'common/FolderExplorer';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -12,8 +13,12 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const { projectId } = useParams();
-  const { allFolders, isAddFolderModalVisible, showAddFolderModal } =
-    useFolders();
+  const {
+    allFolders,
+    isAddFolderModalVisible,
+    showAddFolderModal,
+    folderClickHandler,
+  } = useFolders();
 
   return (
     <div className="flex flex-col">
@@ -32,33 +37,12 @@ export default function Folders() {
         </TMButton>
       </div>
       <div className="flex w-full flex-col">
-        {allFolders?.map((item) => (
-          <FolderItem
-            title={item?.name}
-            key={item.id}
-            id={item.id}
-            // onClick={() => folderClickHandler(item)}
-          />
-        ))}
+        <FolderExplorer
+          projectId={projectId}
+          allFolders={allFolders}
+          onFolderClick={folderClickHandler}
+        />
       </div>
     </div>
   );
 }
-
-// this is obviously temporary skip its errors
-// eslint-disable-next-line react/prop-types
-const FolderItem = ({ title, onClick, id }) => {
-  const { projectId } = useParams();
-  return (
-    <Link
-      to={routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId: id,
-      })}
-      className="border-base-200 w-full cursor-pointer border-b p-2"
-      onClick={onClick}
-    >
-      {title}
-    </Link>
-  );
-};

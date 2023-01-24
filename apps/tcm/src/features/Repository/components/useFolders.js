@@ -63,6 +63,15 @@ export default function useFolders() {
     dispatch(updateAllFolders([...allFolders, folderItem]));
   };
 
+  const folderClickHandler = (selectedFolder) => {
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId: selectedFolder.id,
+      }),
+    );
+  };
+
   useEffect(() => {
     const selectedFolder = allFolders.find((item) => `${item.id}` === folderId);
 
@@ -81,5 +90,6 @@ export default function useFolders() {
     isAddFolderModalVisible,
     updateFolders,
     fetchAllFolders,
+    folderClickHandler,
   };
 }

@@ -214,6 +214,7 @@ const AddEditTestCase = () => {
                     (item) => item.value === testCaseFormData.owner,
                   )
                 }
+                placeholder="Select owner"
                 checkPosition="right"
                 label="Owner"
                 options={usersArrayMapped}
@@ -300,7 +301,7 @@ const AddEditTestCase = () => {
               </TMButton>
             </div>
           </div>
-          <div className="mt-4 flex hidden gap-4">
+          <div className="mt-4 flex gap-4">
             <div className="flex flex-1 items-end justify-between">
               <div className="mr-4 flex-1">
                 <TMSelectMenu

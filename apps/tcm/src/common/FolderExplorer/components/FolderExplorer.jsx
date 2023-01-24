@@ -1,17 +1,33 @@
 import React from 'react';
-import { TMBadge } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
+import ConrolledNestedTree from './ConrolledNestedTree';
 import useFolderExplorer from './useFolderExplorer';
 
-const FolderExplorer = () => {
-  const {} = useFolderExplorer();
+const FolderExplorer = ({ allFolders, projectId, onFolderClick }) => {
+  const { folderClickHandler, foldersArray } = useFolderExplorer({
+    allFolders,
+    projectId,
+    onFolderClick,
+  });
 
-  return <div />;
+  return (
+    <div className="w-full">
+      <ConrolledNestedTree foldersArray={foldersArray} />
+    </div>
+  );
 };
 
-FolderExplorer.propTypes = {};
+FolderExplorer.propTypes = {
+  allFolders: PropTypes.arrayOf(PropTypes.object),
+  onFolderClick: PropTypes.func,
+  projectId: PropTypes.string,
+};
 
-FolderExplorer.defaultProps = {};
+FolderExplorer.defaultProps = {
+  allFolders: [],
+  projectId: null,
+  onFolderClick: () => {},
+};
 
 export default FolderExplorer;

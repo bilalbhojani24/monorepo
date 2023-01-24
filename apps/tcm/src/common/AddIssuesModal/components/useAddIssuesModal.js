@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useAddTagModal = ({
+const useAddIssuesModal = ({
   isVisible,
   hideAddTagsModal,
   verifierFunction,
@@ -67,4 +67,4 @@ const useAddTagModal = ({
     onCloseHandler,
   };
 };
-export default useAddTagModal;
+export default useAddIssuesModal;

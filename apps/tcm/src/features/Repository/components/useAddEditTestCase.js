@@ -214,11 +214,16 @@ export default function useAddEditTestCase() {
     );
   };
 
-  const hideAddTagsModal = (allTags) => {
-    const mappedTags = selectMenuValueMapper(allTags);
+  const hideAddTagsModal = (allTags, newTags) => {
+    const mappedNewTags = selectMenuValueMapper(newTags);
+    const newAlltags = [...tagsArray, ...mappedNewTags];
 
-    dispatch(setTagsArray(mappedTags));
-    handleTestCaseFieldChange('tags', mappedTags);
+    debugger;
+    dispatch(setTagsArray(newAlltags));
+    handleTestCaseFieldChange(
+      'tags',
+      newAlltags.filter((element) => allTags.includes(element.value)),
+    );
     dispatch(setAddTagModal(false));
   };
 
