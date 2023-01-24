@@ -6,38 +6,38 @@ export const getTestCasesAPI = async ({ folderId, projectId }) =>
 export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases`,
-    payload,
+    payload
   );
 
 export const deleteTestCaseAPI = async ({ projectId, folderId, testCaseId }) =>
   fetchPost(
-    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/delete`,
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/delete`
   );
 
 export const editTestCaseAPI = async ({
   projectId,
   folderId,
   testCaseId,
-  payload,
+  payload
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/edit`,
-    payload,
+    payload
   );
 
 export const getTestCaseDetailsAPI = async ({
   folderId,
   projectId,
-  testCaseId,
+  testCaseId
 }) =>
   fetchGet(
-    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`,
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`
   );
 
 export const getTagsAPI = async ({ projectId }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
 
-export const verifyTagAPI = async ({ projectId, tags }) =>
+export const verifyTagAPI = async ({ projectId, tag }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
-    tags,
+    tag
   });

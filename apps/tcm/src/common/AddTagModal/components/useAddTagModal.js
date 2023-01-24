@@ -4,7 +4,7 @@ const useAddTagModal = ({
   isVisible,
   hideAddTagsModal,
   verifierFunction,
-  existingTags,
+  existingTags
 }) => {
   const [allTags, setAllTags] = useState(existingTags);
   const [newTags, setNewTags] = useState([]);
@@ -13,18 +13,23 @@ const useAddTagModal = ({
 
   const addTagHandler = () => {
     setErrorText(null);
-    const tagsSplitted = enteredTag
-      .split(',')
-      .map((item) => item.trim())
-      .filter((item) => item !== '');
-
+    const tagsSplitted = [
+      ...new Set(
+        enteredTag
+          .split(',')
+          .map((item) => item.trim())
+          .filter((item) => item !== '')
+      )
+    ];
     verifierFunction(tagsSplitted).then((data) => {
       if (data) {
         setNewTags(data?.tags);
         setAllTags([...allTags, ...data?.tags]);
         setTagEntered(data?.error_tags.join(', '));
-        setErrorText('A tag with the same name already exists');
       }
+
+      if (data?.error_tags?.length)
+        setErrorText('A tag with the same name already exists');
     });
   };
 
@@ -37,17 +42,17 @@ const useAddTagModal = ({
     hideAddTagsModal(allTags, newTags);
   };
 
-  useEffect(() => {
-    // check duplicates on change
-    //   const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
-    //   setErrorText(
-    //     allTags.filter((element) => tagsSplitted.includes(element)).length
-    //       ? 'test'
-    //       : null,
-    //   );
-    if (errorText) setErrorText(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enteredTag]);
+  // useEffect(() => {
+  // check duplicates on change
+  //   const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
+  //   setErrorText(
+  //     allTags.filter((element) => tagsSplitted.includes(element)).length
+  //       ? 'test'
+  //       : null,
+  //   );
+  // if (errorText) setErrorText(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [enteredTag]);
 
   useEffect(() => {
     if (isVisible) {
@@ -64,7 +69,7 @@ const useAddTagModal = ({
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
-    onCloseHandler,
+    onCloseHandler
   };
 };
 export default useAddTagModal;
