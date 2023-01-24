@@ -89,6 +89,7 @@ const ImportStatus = () => {
           Check Import Status
         </TMButton>
         {notification.show &&
+          !document.querySelector('.go4109123758') && // a hack will remove this post fix from DS team
           notify(
             <Notifications
               id="import-notification"
