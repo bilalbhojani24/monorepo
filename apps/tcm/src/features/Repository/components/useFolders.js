@@ -84,6 +84,8 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    projectId,
+    folderId,
     allFolders,
     hideAddFolderModal,
     showAddFolderModal,

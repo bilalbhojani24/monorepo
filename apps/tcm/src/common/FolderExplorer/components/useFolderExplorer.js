@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 
-const useFolderExplorer = ({ onFolderClick, allFolders }) => {
+const useFolderExplorer = ({
+  folderId,
+  projectId,
+  onFolderClick,
+  allFolders,
+}) => {
   const [foldersArray, setFoldersArray] = useState([]);
+
   const folderClickHandler = (selectedFolder) => {
     setFoldersArray(
       foldersArray.map((item) =>
         item.id === selectedFolder.id
-          ? { ...item, isSelected: true, isOpened: true }
-          : { ...item, isSelected: false, isOpened: false }
-      )
+          ? { ...item, isSelected: true }
+          : { ...item, isSelected: false },
+      ),
     );
     onFolderClick(selectedFolder);
   };
@@ -17,9 +23,9 @@ const useFolderExplorer = ({ onFolderClick, allFolders }) => {
     setFoldersArray(
       allFolders.map((item) => ({
         ...item,
-        isSelected: false,
-        isOpened: false
-      }))
+        isSelected: `${item.id}` === folderId,
+        isOpened: false,
+      })),
     );
   }, [allFolders]);
 

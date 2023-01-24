@@ -1,10 +1,7 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { CreateNewFolderOutlinedIcon } from 'assets/icons';
 import { TMButton } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
-import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
 
 import AddFolderModal from './AddFolderModal';
 import useFolders from './useFolders';
@@ -12,8 +9,9 @@ import useFolders from './useFolders';
 import '../styles/Folders.scss';
 
 export default function Folders() {
-  const { projectId } = useParams();
   const {
+    projectId,
+    folderId,
     allFolders,
     isAddFolderModalVisible,
     showAddFolderModal,
@@ -39,6 +37,7 @@ export default function Folders() {
       <div className="flex w-full flex-col">
         <FolderExplorer
           projectId={projectId}
+          folderId={folderId}
           allFolders={allFolders}
           onFolderClick={folderClickHandler}
         />

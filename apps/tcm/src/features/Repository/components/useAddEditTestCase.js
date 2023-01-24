@@ -138,7 +138,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
+  const tagVerifierFunction = async (tag) => verifyTagAPI({ projectId, tag });
 
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);
@@ -218,7 +218,6 @@ export default function useAddEditTestCase() {
     const mappedNewTags = selectMenuValueMapper(newTags);
     const newAlltags = [...tagsArray, ...mappedNewTags];
 
-    debugger;
     dispatch(setTagsArray(newAlltags));
     handleTestCaseFieldChange(
       'tags',

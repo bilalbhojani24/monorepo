@@ -8,12 +8,14 @@ const FolderExplorer = ({
   actionsEnabled,
   allFolders,
   projectId,
-  onFolderClick
+  folderId,
+  onFolderClick,
 }) => {
   const { folderClickHandler, foldersArray } = useFolderExplorer({
     allFolders,
     projectId,
-    onFolderClick
+    folderId,
+    onFolderClick,
   });
 
   return (
@@ -31,14 +33,16 @@ FolderExplorer.propTypes = {
   allFolders: PropTypes.arrayOf(PropTypes.object),
   onFolderClick: PropTypes.func,
   projectId: PropTypes.string,
-  actionsEnabled: PropTypes.bool
+  folderId: PropTypes.string,
+  actionsEnabled: PropTypes.bool,
 };
 
 FolderExplorer.defaultProps = {
   allFolders: [],
   projectId: null,
+  folderId: null,
   onFolderClick: () => {},
-  actionsEnabled: false
+  actionsEnabled: false,
 };
 
 export default FolderExplorer;
