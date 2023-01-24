@@ -20,7 +20,7 @@ export const notify = (Layout, options) =>
         </div>
       </NotificationsContextData.Provider>
     ),
-    options
+    { ...options, duration: options.autoClose ? 2147483647 : options.duration }
   );
 
 notify.remove = toast.remove;

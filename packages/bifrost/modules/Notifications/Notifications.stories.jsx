@@ -123,6 +123,8 @@ FillButtonAndAvatar.args = {
          role: '',
         'aria-live': '',
       }
+      autoClose : true/false, [default - false],
+      id : string should be unique [To avoid duplicate]
  * }
  */
 
@@ -145,7 +147,9 @@ export const StackedNotification = () => (
             />,
             {
               position: 'top-left',
-              duration: 4000
+              duration: 4000,
+              autoClose: true,
+              id: 'one'
             }
           )
         }
