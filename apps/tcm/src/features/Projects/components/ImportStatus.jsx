@@ -16,8 +16,19 @@ const ImportStatus = () => {
             'Import activity still in progress. We will notify you once it completes',
           isCondensed: false,
         });
+      } else if (data.status === 'success') {
+        setNotificationData({
+          title: 'Project Imported Successfully',
+          description:
+            'Congratulations, all your selected projects have been successfully imported.',
+          isCondensed: false,
+        });
       }
     });
+  };
+
+  const handleNotificationClose = () => {
+    setShowNotification(false);
   };
 
   useEffect(() => {
@@ -32,10 +43,13 @@ const ImportStatus = () => {
         <TMButton onClick={checkImportStatusHandler}>
           Check Import Status
         </TMButton>
-        <TMNotifications
-          show={showNotification}
-          title={notificationData.title}
-        />
+        {showNotification && (
+          <TMNotifications
+            show={showNotification}
+            title={notificationData.title}
+            handleClose={handleNotificationClose}
+          />
+        )}
       </>
     )
   );

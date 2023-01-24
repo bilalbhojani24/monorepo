@@ -1,7 +1,7 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
 const STATUS_OBJECT = {
-  status: 'ongoing',
+  status: 'success',
   total: 0,
   success_count: 0,
   projects: [],

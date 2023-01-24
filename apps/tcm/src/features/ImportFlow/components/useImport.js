@@ -13,6 +13,7 @@ import {
   setCurrentTestManagementTool,
   setImportSteps,
   setProjectForTestManagementImport,
+  setSelectedRadioId,
   setTestRailsCred,
   setZephyrCred,
 } from '../slices/importSlice';
@@ -38,6 +39,7 @@ const useImport = () => {
   const currentTestManagementTool = useSelector(
     (state) => state.import.currentTestManagementTool,
   );
+  const selectedRadioId = useSelector((state) => state.import.selectedRadioId);
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
@@ -140,6 +142,10 @@ const useImport = () => {
     dispatch(setCurrentTestManagementTool(tool));
   };
 
+  const handleRadioGroupChange = (_, id) => {
+    dispatch(setSelectedRadioId(id));
+  };
+
   return {
     allImportSteps,
     currentTestManagementTool,
@@ -154,8 +160,10 @@ const useImport = () => {
     handleProceed,
     currentScreen,
     setTestManagementTool,
+    selectedRadioId,
     handleConfigureDataProceed,
     handleConfirmImport,
+    handleRadioGroupChange,
   };
 };
 

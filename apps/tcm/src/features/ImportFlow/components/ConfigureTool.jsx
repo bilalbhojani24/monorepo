@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
 import { IMPORT_FROM_TOOL, UPLOAD_FILE } from '../const/importSteps';
@@ -9,21 +9,18 @@ import useImport from './useImport';
 import ZephyrImportForm from './ZephyrImportForm';
 
 const ConfigureTool = () => {
-  const [selectedRadioId, setSelectedRadioId] = useState('');
-
   const {
     jiraConfigured,
     isJiraConfiguredForZephyr,
     setTestManagementTool,
     currentTestManagementTool,
+    handleRadioGroupChange,
+    selectedRadioId,
   } = useImport();
 
   const handleButtonClick = (text) => () => {
     if (text === 'zephyr') isJiraConfiguredForZephyr();
     setTestManagementTool(text);
-  };
-  const handleRadioGroupChange = (_, id) => {
-    setSelectedRadioId(id);
   };
 
   const getForm = () => {
@@ -101,6 +98,7 @@ const ConfigureTool = () => {
             <TMRadioGroup
               direction="horizontal"
               onChange={handleRadioGroupChange}
+              defaultSelectedOption={{ id: selectedRadioId }}
               options={[
                 {
                   id: 'import-from-tool',

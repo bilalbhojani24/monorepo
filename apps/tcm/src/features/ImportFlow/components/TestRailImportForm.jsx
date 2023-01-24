@@ -9,8 +9,12 @@ import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
 
 const TestRailImportForm = () => {
-  const { getUserEmail, handleInputFieldChange, connectionStatus } =
-    useImport();
+  const {
+    connectionStatus,
+    getUserEmail,
+    handleInputFieldChange,
+    testRailsCred,
+  } = useImport();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,6 +42,7 @@ const TestRailImportForm = () => {
         <div className="w-full">
           <TMInputField
             id="host-name"
+            value={testRailsCred.host}
             onChange={handleInputFieldChange('host')}
             label={
               <>
@@ -55,6 +60,7 @@ const TestRailImportForm = () => {
         <TMInputField
           type="password"
           id="api-key"
+          value={testRailsCred.key}
           onChange={handleInputFieldChange('key')}
           label={
             <>
