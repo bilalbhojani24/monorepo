@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { twClassNames } from '../../utils/tailwindUtils';
 import { ExclamationCircleIcon } from '../Icon';
 
 import './styles.scss';
@@ -64,7 +64,7 @@ const InputField = forwardRef(
           ref={ref || inputRef}
           name={label}
           id={id}
-          className={classNames(
+          className={twClassNames(
             'block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
             {
               'text-danger-900 border-danger-500 ring-danger-500': errorText,
