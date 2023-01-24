@@ -116,7 +116,7 @@ export default function TestCases() {
           Filter
         </TMButton>
       </div>
-      <div className="border-base-300 flex w-full flex-1 flex-col border-l">
+      <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
         {selectedFolder && (
           <div className="border-base-200 w-full border-b p-4">
             <div className="text-base-800 w-full font-medium">
@@ -132,11 +132,13 @@ export default function TestCases() {
 
         {allTestCases.length ? (
           <>
-            <TMDataTable
-              containerWrapperClass="md:rounded-none"
-              columns={datatableColumns}
-              rows={allTestCases}
-            />
+            <div className="flex-1 flex-col items-stretch overflow-y-auto ">
+              <TMDataTable
+                containerWrapperClass="md:rounded-none"
+                columns={datatableColumns}
+                rows={allTestCases}
+              />
+            </div>
             <InlineAddTestCase />
           </>
         ) : (

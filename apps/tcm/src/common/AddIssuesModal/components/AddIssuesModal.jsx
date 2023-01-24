@@ -1,37 +1,29 @@
 import React from 'react';
+import { OpenInNewOutlinedIcon } from 'assets/icons';
 import {
-  TMBadge,
   TMButton,
-  TMInputWButton,
+  TMInputField,
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMSelectMenu,
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
-import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useAddIssuesModal from './useAddIssuesModal';
 
-const AddIssuesModal = ({
-  isVisible,
-  onClose,
-  existingTags,
-  verifierFunction
-}) => {
+const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const {
     errorText,
-    enteredTag,
-    allTags,
-    setTagEntered,
-    addTagHandler,
-    onTagRemoveClick,
-    onCloseHandler
+    enterdIssueIDs,
+    onCloseHandler,
+    onLinkIssueClick,
+    setIssueIds,
   } = useAddIssuesModal({
     isVisible,
     onClose,
-    verifierFunction,
-    existingTags
+    onSave,
   });
 
   return (
@@ -41,35 +33,55 @@ const AddIssuesModal = ({
       onOverlayClick={onCloseHandler}
       // size="medium"
     >
-      <TMModalHeader heading="Add Tag" handleDismissClick={onCloseHandler} />
+      <TMModalHeader
+        heading="Add Link"
+        handleDismissClick={onCloseHandler}
+        subHeading="Add your Issue ID from your projects or create a new one:"
+      />
       <TMModalBody>
-        <TMInputWButton
-          id="tag-name"
-          value={enteredTag}
-          onKeyDown={onSubmitKeyHandler(addTagHandler)}
-          onButtonClick={addTagHandler}
-          buttonElement="Add Tag"
-          label="Tag Name"
-          errorText={errorText}
-          placeholder="Enter Tag name separated by comma"
-          onChange={(e) => setTagEntered(e.currentTarget.value)}
+        <TMInputField
+          id="jira-account"
+          label="JIRA Account"
+          disabled
+          value="BrowserStack"
         />
-        <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
-          Existing Tags in this test case:
+        <div className="mt-4">
+          <TMSelectMenu
+            checkPosition="right"
+            label="Select Project"
+            placeholder="Select Project"
+            options={[]}
+          />
         </div>
-        <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
-          {allTags?.map((item) => (
-            <TMBadge
-              text={item}
-              hasRemoveButton
-              onClose={() => onTagRemoveClick(item)}
+        <div className="mt-4 mb-2 flex flex-1 items-start justify-between">
+          <div className="mr-4 flex-1">
+            <TMInputField
+              placeholder="Enter JIRA IDs (separated by comma)"
+              label="Issue IDs"
+              errorText={errorText}
+              value={enterdIssueIDs}
+              onChange={(e) => {
+                setIssueIds(e.currentTarget.value);
+              }}
             />
-          ))}
+          </div>
+          <TMButton
+            wrapperClassName="mt-6"
+            colors="white"
+            icon={<OpenInNewOutlinedIcon className="!h-4 !w-4" />}
+            iconPlacement="end"
+            // onClick={showAddTagsModal}
+          >
+            Add New Issue
+          </TMButton>
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
-          Close
+          Cancel
+        </TMButton>
+        <TMButton variant="primary" onClick={onLinkIssueClick}>
+          Link Issue
         </TMButton>
       </TMModalFooter>
     </TMModal>
@@ -78,16 +90,14 @@ const AddIssuesModal = ({
 
 AddIssuesModal.propTypes = {
   onClose: PropTypes.func,
-  verifierFunction: PropTypes.func,
+  onSave: PropTypes.func,
   isVisible: PropTypes.bool,
-  existingTags: PropTypes.string
 };
 
 AddIssuesModal.defaultProps = {
   onClose: () => {},
-  verifierFunction: () => {},
+  onSave: () => {},
   isVisible: false,
-  existingTags: ''
 };
 
 export default AddIssuesModal;

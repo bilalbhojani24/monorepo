@@ -51,7 +51,8 @@ const AddEditTestCase = () => {
     fileRemoveHandler,
     tagVerifierFunction,
     showAddIssueModal,
-    hideAddIssueModal
+    hideAddIssueModal,
+    addIssuesSaveHelper
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -314,12 +315,7 @@ const AddEditTestCase = () => {
                   placeholder="Select from options"
                   label="Issues"
                   options={issuesArray}
-                  // value={
-                  //   testCaseFormData.tags &&
-                  //   templateOptions.find(
-                  //     (item) => item.value === testCaseFormData.tags,
-                  //   )
-                  // }
+                  value={testCaseFormData?.issues}
                   onChange={(e) =>
                     handleTestCaseFieldChange('jira_tickets', e.value)
                   }
@@ -386,8 +382,7 @@ const AddEditTestCase = () => {
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}
         onClose={hideAddIssueModal}
-        existingTags={tagsArray.map((item) => item.value) || []}
-        verifierFunction={tagVerifierFunction}
+        onSave={addIssuesSaveHelper}
       />
     </div>
   );

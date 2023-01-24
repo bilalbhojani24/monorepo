@@ -4,7 +4,7 @@ import {
   priorityOptions,
   statusOptions,
   templateOptions,
-  testCaseTypesOptions
+  testCaseTypesOptions,
 } from '../const/addTestCaseConst';
 
 const initialState = {
@@ -24,7 +24,8 @@ const initialState = {
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
-    attachments: []
+    attachments: [],
+    issues: [],
   },
   showEditTestCaseForm: false,
   showAddTagModal: false,
@@ -34,11 +35,7 @@ const initialState = {
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
   usersArray: null,
   tagsArray: [],
-  issuesArray: [
-    { label: 'Issue1', value: 'Issue1' },
-    { label: 'Issue2', value: 'Issue2' },
-    { label: 'Issue3', value: 'Issue3' }
-  ]
+  issuesArray: [],
 };
 
 export const repositorySlice = createSlice({
@@ -59,7 +56,7 @@ export const repositorySlice = createSlice({
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
-        item.id === payload.id ? payload : item
+        item.id === payload.id ? payload : item,
       );
     },
     setAddFolderModalVisibility: (state, { payload }) => {
@@ -95,7 +92,7 @@ export const repositorySlice = createSlice({
     },
     deleteTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.filter(
-        (item) => item.id !== payload.id
+        (item) => item.id !== payload.id,
       );
     },
     setTestCaseFormData: (state, { payload }) => {
@@ -109,10 +106,13 @@ export const repositorySlice = createSlice({
     setTagsArray: (state, { payload }) => {
       state.tagsArray = payload;
     },
+    setIssuesArray: (state, { payload }) => {
+      state.issuesArray = payload;
+    },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -133,7 +133,8 @@ export const {
   updateTestCase,
   setUsers,
   setAddTagModal,
-  setAddIssuesModal
+  setAddIssuesModal,
+  setIssuesArray,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { splitStringToArray } from 'utils/helperFunctions';
 
 const useAddTagModal = ({
   isVisible,
   onClose,
   verifierFunction,
-  existingTags
+  existingTags,
 }) => {
   const [allTags, setAllTags] = useState(existingTags);
   const [newTags, setNewTags] = useState([]);
@@ -13,14 +14,7 @@ const useAddTagModal = ({
 
   const addTagHandler = () => {
     setErrorText(null);
-    const tagsSplitted = [
-      ...new Set(
-        enteredTag
-          .split(',')
-          .map((item) => item.trim())
-          .filter((item) => item !== '')
-      )
-    ];
+    const tagsSplitted = splitStringToArray(enteredTag, ',');
     verifierFunction(tagsSplitted).then((data) => {
       if (data) {
         setNewTags(data?.tags);
@@ -69,7 +63,7 @@ const useAddTagModal = ({
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
-    onCloseHandler
+    onCloseHandler,
   };
 };
 export default useAddTagModal;

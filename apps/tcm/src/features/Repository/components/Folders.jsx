@@ -34,7 +34,7 @@ export default function Folders() {
           <CreateNewFolderOutlinedIcon className="text-base-500" />
         </TMButton>
       </div>
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-col overflow-y-auto">
         <FolderExplorer
           projectId={projectId}
           folderId={folderId}
