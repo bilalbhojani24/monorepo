@@ -80,8 +80,8 @@ const TestCaseMutliData = () => {
           ...item,
           count:
             item.name === 'Results'
-              ? testRunsDetails.length
-              : testCaseIssues.length,
+              ? testRunsDetails?.length
+              : testCaseIssues?.length,
         }))}
         onTabChange={handleTabChange}
       />

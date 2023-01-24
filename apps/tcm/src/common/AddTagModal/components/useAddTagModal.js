@@ -17,9 +17,11 @@ const useAddTagModal = ({
     const tagsSplitted = splitStringToArray(enteredTag, ',');
     verifierFunction(tagsSplitted).then((data) => {
       if (data) {
-        setNewTags(data?.tags);
-        setAllTags([...allTags, ...data?.tags]);
-        setTagEntered(data?.error_tags.join(', '));
+        if (data?.tags) {
+          setNewTags([...newTags, ...data?.tags]);
+          setAllTags([...new Set([...allTags, ...data?.tags])]);
+        }
+        setTagEntered(data?.error_tags?.join(', ') || '');
       }
 
       if (data?.error_tags?.length)

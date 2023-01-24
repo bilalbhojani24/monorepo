@@ -4,7 +4,7 @@ import {
   priorityOptions,
   statusOptions,
   templateOptions,
-  testCaseTypesOptions
+  testCaseTypesOptions,
 } from '../const/addTestCaseConst';
 
 const initialState = {
@@ -25,7 +25,8 @@ const initialState = {
     template: templateOptions[0].value,
     steps: [''],
     attachments: [],
-    tc_jira_tickets: []
+    issues: [],
+    tags: [],
   },
   showEditTestCaseForm: false,
   showAddTagModal: false,
@@ -35,7 +36,7 @@ const initialState = {
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
   usersArray: null,
   tagsArray: [],
-  issuesArray: []
+  issuesArray: [],
 };
 
 export const repositorySlice = createSlice({
@@ -56,7 +57,7 @@ export const repositorySlice = createSlice({
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
-        item.id === payload.id ? payload : item
+        item.id === payload.id ? payload : item,
       );
     },
     setAddFolderModalVisibility: (state, { payload }) => {
@@ -92,7 +93,7 @@ export const repositorySlice = createSlice({
     },
     deleteTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.filter(
-        (item) => item.id !== payload.id
+        (item) => item.id !== payload.id,
       );
     },
     setTestCaseFormData: (state, { payload }) => {
@@ -111,8 +112,8 @@ export const repositorySlice = createSlice({
     },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -134,7 +135,7 @@ export const {
   setUsers,
   setAddTagModal,
   setAddIssuesModal,
-  setIssuesArray
+  setIssuesArray,
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;
