@@ -50,7 +50,9 @@ const TooltipContainer = (props) => {
           defaultOpen={defaultOpen}
           onOpenChange={onOpenChange}
         >
-          <TooltipPrimitive.Trigger as>{children}</TooltipPrimitive.Trigger>
+          <TooltipPrimitive.Trigger asChild>
+            {children}
+          </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content
               alignOffset={alignOffset}
