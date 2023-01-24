@@ -4,13 +4,13 @@ import {
   ArrowUpwardOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
-  SearchIcon,
+  SearchIcon
 } from 'assets/icons';
 import {
   TMButton,
   TMDataTable,
   TMDropdown,
-  TMInputField,
+  TMInputField
 } from 'common/bifrostProxy';
 
 import { dropDownOptions } from '../const/testCaseConst';
@@ -30,7 +30,7 @@ export default function TestCases() {
     selectedFolder,
     allTestCases,
     isAddTestCasePageVisible,
-    handleTestCaseViewClick,
+    handleTestCaseViewClick
   } = useTestCases();
 
   const formatPriority = (priority) => {
@@ -55,7 +55,7 @@ export default function TestCases() {
       name: 'ID',
       key: 'id',
 
-      cell: (rowData) => `TC${rowData?.id}`,
+      cell: (rowData) => `TC${rowData?.id}`
     },
     {
       name: 'TITLE',
@@ -70,7 +70,7 @@ export default function TestCases() {
         >
           {rowData.name}
         </div>
-      ),
+      )
     },
     {
       name: 'PRIORITY',
@@ -80,7 +80,7 @@ export default function TestCases() {
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
-      ),
+      )
     },
     {
       name: '',
@@ -91,8 +91,8 @@ export default function TestCases() {
           triggerVariant="meatball-button"
           onClick={(e) => onDropDownChange(e, data)}
         />
-      ),
-    },
+      )
+    }
   ];
 
   if (isAddTestCasePageVisible && selectedFolder) return <AddEditTestCase />;
@@ -134,6 +134,7 @@ export default function TestCases() {
           <>
             <div className="flex-1 flex-col items-stretch overflow-y-auto ">
               <TMDataTable
+                isCondensed
                 containerWrapperClass="md:rounded-none"
                 columns={datatableColumns}
                 rows={allTestCases}

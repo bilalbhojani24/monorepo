@@ -1,5 +1,6 @@
 import React from 'react';
-// import { TMButton } from 'common/bifrostProxy';
+import Attachments from 'common/Attachments';
+import { TMBadge } from 'common/bifrostProxy';
 import DetailsSnippet from 'common/DetailsSnippet';
 
 import useTestCaseView from './useTestCaseView';
@@ -38,12 +39,12 @@ const TestCaseBasicData = () => {
               value={testCaseDetails?.estimate || 'N/A'}
             />
           </div>
-          <div className="w-3/6">
+          {/* <div className="w-3/6">
             <DetailsSnippet
               title="Configurations"
               value={testCaseDetails?.configurations || 'N/A'}
             />
-          </div>
+          </div> */}
           <div className="w-3/6">
             <DetailsSnippet
               title="Priority"
@@ -53,7 +54,17 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Tags"
-              value={testCaseDetails?.tags || 'N/A'}
+              value={
+                testCaseDetails?.tags ? (
+                  <div className="flex flex-wrap gap-1 normal-case">
+                    {testCaseDetails.tags.map((item) => (
+                      <TMBadge text={item} size="large" isRounded />
+                    ))}
+                  </div>
+                ) : (
+                  'N/A'
+                )
+              }
             />
           </div>
           {/* <div className="w-3/6">
@@ -65,7 +76,16 @@ const TestCaseBasicData = () => {
         </div>
         <DetailsSnippet
           title="Attachments"
-          value={testCaseDetails?.attachments || 'N/A'}
+          value={
+            testCaseDetails?.attachments ? (
+              <Attachments
+                wrapperClassName="mt-2"
+                attachments={testCaseDetails?.attachments || []}
+              />
+            ) : (
+              'N/A'
+            )
+          }
         />
         <div />
       </div>

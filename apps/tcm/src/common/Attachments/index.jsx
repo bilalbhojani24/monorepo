@@ -1,13 +1,14 @@
 import React from 'react';
 import { AttachFileOutlinedIcon } from 'assets/icons';
+import classNames from 'classnames';
 import { TMButton } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const Attachments = ({ attachments, onRemoveClick }) => {
+const Attachments = ({ attachments, onRemoveClick, wrapperClassName }) => {
   if (!attachments?.length) return '';
 
   return (
-    <div className="w-full">
+    <div className={classNames('w-full', wrapperClassName)}>
       <ul className="divide-base-200 border-base-200 divide-y rounded-md border">
         {attachments.map((attachment) => (
           <li
@@ -42,6 +43,11 @@ const Attachments = ({ attachments, onRemoveClick }) => {
 Attachments.propTypes = {
   attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
   onRemoveClick: PropTypes.func.isRequired,
+  wrapperClassName: PropTypes.string
+};
+
+Attachments.defaultProps = {
+  wrapperClassName: ''
 };
 
 export default Attachments;

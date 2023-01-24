@@ -35,8 +35,9 @@ import {
   TextArea,
   Tooltip,
   TooltipBody,
-  TooltipHeader,
+  TooltipHeader
 } from '@browserstack/bifrost';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
@@ -79,7 +80,13 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 
-export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
+export const TMDataTable = ({
+  columns,
+  rows,
+  containerWrapperClass,
+  isCondensed,
+  isLoading
+}) => (
   <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">
       <TableRow>
@@ -96,19 +103,30 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      {rows?.map((row, idx) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <TableRow key={idx}>
-          {columns?.map((column) => {
-            const value = row[column.key];
-            return (
-              <TableCell key={column.id}>
-                {column.cell ? <>{column.cell(row)}</> : value}
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      ))}
+      {isLoading ? (
+        'Loading..'
+      ) : (
+        <>
+          {rows?.map((row, idx) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <TableRow key={idx}>
+              {columns?.map((column) => {
+                const value = row[column.key];
+                return (
+                  <TableCell
+                    key={column.id}
+                    wrapperClass={classNames({
+                      'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                    })}
+                  >
+                    {column.cell ? <>{column.cell(row)}</> : value}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </>
+      )}
     </TableBody>
   </Table>
 );
@@ -117,8 +135,12 @@ TMDataTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   containerWrapperClass: PropTypes.string,
+  isCondensed: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 TMDataTable.defaultProps = {
   containerWrapperClass: '',
+  isCondensed: false,
+  isLoading: false
 };
