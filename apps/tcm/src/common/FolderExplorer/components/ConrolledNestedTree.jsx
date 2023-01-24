@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TMDropdown,
   TMListTree,
   TMListTreeNode,
-  TMListTreeNodeContents,
+  TMListTreeNodeContents
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const ConrolledNestedTree = ({ foldersArray, indent }) => {
-  const [selectedNodeMap, setSelectedNodeMap] = useState({});
-
+const ConrolledNestedTree = ({
+  foldersArray,
+  indent,
+  onFolderOpen,
+  onFolderClick,
+  actionsEnabled
+}) => (
   /**
    * use a map for keeping your treenodes under parent control,
    * Remember: for controlled treenodes or pre-opened treenodes,
@@ -18,81 +22,75 @@ const ConrolledNestedTree = ({ foldersArray, indent }) => {
    * ListTreeNode => onNodeOpen
    * ListTreeContents => isTreeOpen
    */
-  const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true,
-  });
 
-  return (
-    <>
-      {foldersArray.map((item) => (
-        <TMListTree
-          key={item.name}
-          indentationLevel={indent}
-          isTreeOpen={openNodeMap[item.name]}
-        >
-          <TMListTreeNode
-            label={item.name}
-            description={`(level=${indent})`}
-            isNodeSelected={selectedNodeMap[item.name]}
-            onNodeClick={() => {
-              if (selectedNodeMap[item.name] !== undefined) {
-                selectedNodeMap[item.name] = !selectedNodeMap[item.name];
-              } else {
-                selectedNodeMap[item.name] = true;
-              }
-              setSelectedNodeMap({ ...selectedNodeMap });
-            }}
-            onNodeOpen={() => {
-              if (openNodeMap[item.name] !== undefined) {
-                openNodeMap[item.name] = !openNodeMap[item.name];
-              } else {
-                openNodeMap[item.name] = true;
-              }
-              setOpenNodeMap({ ...openNodeMap });
-            }}
-            trailingVisualElement={
-              <TMDropdown
-                triggerVariant="meatball-button"
-                options={[
-                  {
-                    id: '1',
-                    body: 'Edit',
-                  },
-                  {
-                    id: '2',
-                    body: 'Duplicate',
-                    divider: false,
-                  },
-                  {
-                    id: '3',
-                    body: 'Archive',
-                    divider: true,
-                  },
-                ]}
-              />
-            }
-          />
-          {!!item?.contents && (
-            <TMListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-              <ConrolledNestedTree data={item.contents} indent={1 + indent} />
-            </TMListTreeNodeContents>
-          )}
-        </TMListTree>
-      ))}
-    </>
-  );
-};
-
+  <>
+    {foldersArray.map((item) => (
+      <TMListTree
+        key={item.name}
+        indentationLevel={indent}
+        isTreeOpen={item.isOpened}
+      >
+        <TMListTreeNode
+          label={item.name}
+          description={`(level=${indent})`}
+          isNodeSelected={item.isSelected}
+          onNodeClick={() => onFolderClick(item)}
+          onNodeOpen={() => onFolderOpen(item)}
+          trailingVisualElement={
+            <>
+              {actionsEnabled ? (
+                <TMDropdown
+                  triggerVariant="meatball-button"
+                  options={[
+                    {
+                      id: '1',
+                      body: 'Edit'
+                    },
+                    {
+                      id: '2',
+                      body: 'Duplicate',
+                      divider: false
+                    },
+                    {
+                      id: '3',
+                      body: 'Archive',
+                      divider: true
+                    }
+                  ]}
+                />
+              ) : (
+                ''
+              )}
+            </>
+          }
+        />
+        {!!item?.contents && (
+          <TMListTreeNodeContents isTreeOpen={item.isOpened}>
+            <ConrolledNestedTree
+              data={item.contents}
+              indent={1 + indent}
+              actionsEnabled={actionsEnabled}
+            />
+          </TMListTreeNodeContents>
+        )}
+      </TMListTree>
+    ))}
+  </>
+);
 ConrolledNestedTree.propTypes = {
   foldersArray: PropTypes.arrayOf(PropTypes.object),
   indent: PropTypes.number,
+  actionsEnabled: PropTypes.bool,
+  onFolderOpen: PropTypes.func,
+  onFolderClick: PropTypes.func
 };
 
 ConrolledNestedTree.defaultProps = {
   foldersArray: [],
   indent: 1,
+  actionsEnabled: false,
+  onFolderOpen: () => {},
+  onFolderClick: () => {}
 };
 
 export default ConrolledNestedTree;

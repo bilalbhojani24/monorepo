@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
 
-const useFolderExplorer = ({ projectId, onFolderClick, allFolders }) => {
+const useFolderExplorer = ({ onFolderClick, allFolders }) => {
   const [foldersArray, setFoldersArray] = useState([]);
-  const folderClickHandler = (item) => {
-    onFolderClick(item);
+  const folderClickHandler = (selectedFolder) => {
+    setFoldersArray(
+      foldersArray.map((item) =>
+        item.id === selectedFolder.id
+          ? { ...item, isSelected: true, isOpened: true }
+          : { ...item, isSelected: false, isOpened: false }
+      )
+    );
+    onFolderClick(selectedFolder);
   };
 
   useEffect(() => {
-    setFoldersArray(allFolders);
+    setFoldersArray(
+      allFolders.map((item) => ({
+        ...item,
+        isSelected: false,
+        isOpened: false
+      }))
+    );
   }, [allFolders]);
 
   return { foldersArray, folderClickHandler };
