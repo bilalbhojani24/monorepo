@@ -26,7 +26,7 @@ const ConrolledNestedTree = ({
   <>
     {foldersArray.map((item) => (
       <TMListTree
-        key={item.name}
+        key={item.id}
         indentationLevel={indent}
         isTreeOpen={item.isOpened}
       >

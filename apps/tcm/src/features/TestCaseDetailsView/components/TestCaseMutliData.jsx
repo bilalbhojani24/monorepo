@@ -13,8 +13,13 @@ import { TABS_ARRAY } from '../const/testCaseViewConst';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseMutliData = () => {
-  const { selectedTab, testRunsDetails, testCaseIssues, handleTabChange } =
-    useTestCaseView();
+  const {
+    testRunsCount,
+    selectedTab,
+    testRunsDetails,
+    testCaseIssues,
+    handleTabChange,
+  } = useTestCaseView();
 
   const resultsTableColumn = [
     {
@@ -79,9 +84,7 @@ const TestCaseMutliData = () => {
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
-            item.name === 'Results'
-              ? testRunsDetails?.length
-              : testCaseIssues?.length,
+            item.name === 'Results' ? testRunsCount : testCaseIssues?.length,
         }))}
         onTabChange={handleTabChange}
       />

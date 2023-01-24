@@ -34,6 +34,9 @@ export default function useTestCases() {
   const testCaseIssues = useSelector(
     (state) => state.testCaseDetails.allData?.test_run_issues || null,
   );
+  const testRunsCount = useSelector(
+    (state) => state.testCaseDetails.allData?.test_runs_count || null,
+  );
 
   const currentFlow = `${selectedFolder?.name || '...'} > ${
     testCaseDetails?.name || '...'
@@ -65,6 +68,7 @@ export default function useTestCases() {
   };
 
   return {
+    testRunsCount,
     selectedTab,
     currentFlow,
     testCaseIssues,
