@@ -17,6 +17,7 @@ const initialState = {
   importSteps: [],
   connectionEst: '',
   currentTestManagementTool: '',
+  selectedRadioId: '',
 };
 
 const importSlice = createSlice({
@@ -38,6 +39,9 @@ const importSlice = createSlice({
     setConnectionState: (state, { payload }) => {
       state.connectionEst = payload;
     },
+    setSelectedRadioId: (state, { payload }) => {
+      state.selectedRadioId = payload;
+    },
     setCurrentTestManagementTool: (state, { payload }) => {
       state.currentTestManagementTool = payload;
     },
@@ -55,5 +59,6 @@ export const {
   setProjectForTestManagementImport,
   setImportSteps,
   setConnectionState,
+  setSelectedRadioId,
 } = importSlice.actions;
 export default importSlice.reducer;

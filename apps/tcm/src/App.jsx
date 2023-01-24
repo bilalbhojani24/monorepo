@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { NotificationsContainer } from '@browserstack/bifrost';
 import HeaderDummy from 'features/HeaderDummy';
 import MainRoute from 'features/MainRoute';
 import SideNav from 'features/SideNav';
@@ -12,6 +13,7 @@ function App() {
         <SideNav />
         <MainRoute />
       </div>
+      <NotificationsContainer />
     </BrowserRouter>
   );
 }
