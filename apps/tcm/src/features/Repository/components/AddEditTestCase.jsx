@@ -315,9 +315,9 @@ const AddEditTestCase = () => {
                   placeholder="Select from options"
                   label="Issues"
                   options={issuesArray}
-                  value={testCaseFormData?.issues}
+                  value={testCaseFormData?.tc_jira_tickets}
                   onChange={(e) =>
-                    handleTestCaseFieldChange('jira_tickets', e.value)
+                    handleTestCaseFieldChange('tc_jira_tickets', e.value)
                   }
                 />
               </div>

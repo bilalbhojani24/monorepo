@@ -8,7 +8,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
   setTestCaseDetails,
-  setTestCaseViewVisibility,
+  setTestCaseViewVisibility
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCases() {
@@ -19,20 +19,20 @@ export default function useTestCases() {
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
-    (state) => state.repository.selectedFolder,
+    (state) => state.repository.selectedFolder
   );
 
   const isTestCaseViewVisible = useSelector(
-    (state) => state.testCaseDetails.isTestCaseViewVisible,
+    (state) => state.testCaseDetails.isTestCaseViewVisible
   );
   const testCaseDetails = useSelector(
-    (state) => state.testCaseDetails.allData || null,
+    (state) => state.testCaseDetails.allData || null
   );
   const testRunsDetails = useSelector(
-    (state) => state.testCaseDetails.allData?.test_runs || null,
+    (state) => state.testCaseDetails.allData?.test_runs || null
   );
   const testCaseIssues = useSelector(
-    (state) => state.testCaseDetails.allData?.jira_tickets || null,
+    (state) => state.testCaseDetails.allData?.tc_jira_tickets || null
   );
 
   const currentFlow = `${selectedFolder?.name || '...'} > ${
@@ -45,7 +45,7 @@ export default function useTestCases() {
       getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
         (data) => {
           dispatch(setTestCaseDetails(data?.data?.test_case || null));
-        },
+        }
       );
     }
   };
@@ -55,8 +55,8 @@ export default function useTestCases() {
     navigate(
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,
-        folderId,
-      }),
+        folderId
+      })
     );
   };
 
@@ -74,6 +74,6 @@ export default function useTestCases() {
     hideTestCaseViewDrawer,
     isTestCaseViewVisible,
     fetchTestCaseDetails,
-    handleTabChange,
+    handleTabChange
   };
 }

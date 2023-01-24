@@ -59,7 +59,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Issues"
-              value={testCaseDetails?.issues || 'N/A'}
+              value={testCaseDetails?.tc_jira_tickets || 'N/A'}
             />
           </div>
         </div>
