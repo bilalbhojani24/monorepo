@@ -4,7 +4,7 @@ import {
   priorityOptions,
   statusOptions,
   templateOptions,
-  testCaseTypesOptions,
+  testCaseTypesOptions
 } from '../const/addTestCaseConst';
 
 const initialState = {
@@ -24,10 +24,11 @@ const initialState = {
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
-    attachments: [],
+    attachments: []
   },
   showEditTestCaseForm: false,
   showAddTagModal: false,
+  showAddIssuesModal: false,
   showDeleteTestCaseModal: false,
   selectedTestCase: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
@@ -36,8 +37,8 @@ const initialState = {
   issuesArray: [
     { label: 'Issue1', value: 'Issue1' },
     { label: 'Issue2', value: 'Issue2' },
-    { label: 'Issue3', value: 'Issue3' },
-  ],
+    { label: 'Issue3', value: 'Issue3' }
+  ]
 };
 
 export const repositorySlice = createSlice({
@@ -58,7 +59,7 @@ export const repositorySlice = createSlice({
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
-        item.id === payload.id ? payload : item,
+        item.id === payload.id ? payload : item
       );
     },
     setAddFolderModalVisibility: (state, { payload }) => {
@@ -78,6 +79,9 @@ export const repositorySlice = createSlice({
     setAddTagModal: (state, { payload }) => {
       state.showAddTagModal = payload;
     },
+    setAddIssuesModal: (state, { payload }) => {
+      state.showAddIssuesModal = payload;
+    },
     setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
     },
@@ -91,7 +95,7 @@ export const repositorySlice = createSlice({
     },
     deleteTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.filter(
-        (item) => item.id !== payload.id,
+        (item) => item.id !== payload.id
       );
     },
     setTestCaseFormData: (state, { payload }) => {
@@ -107,8 +111,8 @@ export const repositorySlice = createSlice({
     },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
-    },
-  },
+    }
+  }
 });
 
 export const {
@@ -129,6 +133,7 @@ export const {
   updateTestCase,
   setUsers,
   setAddTagModal,
+  setAddIssuesModal
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

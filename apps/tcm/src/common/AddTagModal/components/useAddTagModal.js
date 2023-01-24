@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const useAddTagModal = ({
   isVisible,
-  hideAddTagsModal,
+  onClose,
   verifierFunction,
   existingTags
 }) => {
@@ -39,7 +39,7 @@ const useAddTagModal = ({
   };
 
   const onCloseHandler = () => {
-    hideAddTagsModal(allTags, newTags);
+    onClose(allTags, newTags);
   };
 
   // useEffect(() => {

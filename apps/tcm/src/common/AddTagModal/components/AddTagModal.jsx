@@ -6,7 +6,7 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader,
+  TMModalHeader
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -15,9 +15,9 @@ import useAddTagModal from './useAddTagModal';
 
 const AddTagModal = ({
   isVisible,
-  hideAddTagsModal,
+  onClose,
   existingTags,
-  verifierFunction,
+  verifierFunction
 }) => {
   const {
     errorText,
@@ -26,12 +26,12 @@ const AddTagModal = ({
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
-    onCloseHandler,
+    onCloseHandler
   } = useAddTagModal({
     isVisible,
-    hideAddTagsModal,
+    onClose,
     verifierFunction,
-    existingTags,
+    existingTags
   });
 
   return (
@@ -77,17 +77,17 @@ const AddTagModal = ({
 };
 
 AddTagModal.propTypes = {
-  hideAddTagsModal: PropTypes.func,
+  onClose: PropTypes.func,
   verifierFunction: PropTypes.func,
   isVisible: PropTypes.bool,
-  existingTags: PropTypes.string,
+  existingTags: PropTypes.string
 };
 
 AddTagModal.defaultProps = {
-  hideAddTagsModal: () => {},
+  onClose: () => {},
   verifierFunction: () => {},
   isVisible: false,
-  existingTags: '',
+  existingTags: ''
 };
 
 export default AddTagModal;

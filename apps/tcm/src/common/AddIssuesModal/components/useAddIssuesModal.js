@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 const useAddIssuesModal = ({
   isVisible,
-  hideAddTagsModal,
+  onClose,
   verifierFunction,
-  existingTags,
+  existingTags
 }) => {
   const [allTags, setAllTags] = useState(existingTags);
   const [newTags, setNewTags] = useState([]);
@@ -34,7 +34,7 @@ const useAddIssuesModal = ({
   };
 
   const onCloseHandler = () => {
-    hideAddTagsModal(allTags, newTags);
+    onClose(allTags, newTags);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const useAddIssuesModal = ({
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
-    onCloseHandler,
+    onCloseHandler
   };
 };
 export default useAddIssuesModal;

@@ -8,13 +8,14 @@ import {
   editTestCaseAPI,
   getTagsAPI,
   getTestCaseDetailsAPI,
-  verifyTagAPI,
+  verifyTagAPI
 } from 'api/testcases.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseVisibility,
   setEditTestCasePageVisibility,
@@ -23,7 +24,7 @@ import {
   setTestCaseFormData,
   setUsers,
   updateTestCase,
-  updateTestCaseFormData,
+  updateTestCaseFormData
 } from '../slices/repositorySlice';
 
 export default function useAddEditTestCase() {
@@ -35,23 +36,26 @@ export default function useAddEditTestCase() {
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
-    (state) => state.repository.selectedFolder,
+    (state) => state.repository.selectedFolder
   );
   const isTestCaseEditing = useSelector(
-    (state) => state.repository.showEditTestCaseForm,
+    (state) => state.repository.showEditTestCaseForm
   );
   const isAddTagModalShown = useSelector(
-    (state) => state.repository.showAddTagModal,
+    (state) => state.repository.showAddTagModal
+  );
+  const isAddIssuesModalShown = useSelector(
+    (state) => state.repository.showAddIssuesModal
   );
   const testCaseFormData = useSelector(
-    (state) => state.repository.testCaseFormData,
+    (state) => state.repository.testCaseFormData
   );
   const loadedDataProjectId = useSelector(
-    (state) => state.repository.loadedDataProjectId,
+    (state) => state.repository.loadedDataProjectId
   );
 
   const selectedTestCase = useSelector(
-    (state) => state.repository.selectedTestCase,
+    (state) => state.repository.selectedTestCase
   );
   const tagsArray = useSelector((state) => state.repository.tagsArray);
   const issuesArray = useSelector((state) => state.repository.issuesArray);
@@ -65,6 +69,9 @@ export default function useAddEditTestCase() {
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
   };
+  const showAddIssueModal = () => {
+    dispatch(setAddIssuesModal(true));
+  };
 
   const updateLoadedDataProjectId = () => {
     dispatch(setLoadedDataProjectId(projectId));
@@ -77,8 +84,8 @@ export default function useAddEditTestCase() {
       dispatch(
         updateTestCaseFormData({
           key: 'steps',
-          value: value === templateOptions[1].value ? [stepTemplate] : [''],
-        }),
+          value: value === templateOptions[1].value ? [stepTemplate] : ['']
+        })
       );
     }
     dispatch(updateTestCaseFormData({ key, value }));
@@ -88,13 +95,13 @@ export default function useAddEditTestCase() {
     test_case: {
       ...formData,
       steps: JSON.stringify(formData.steps),
-      tags: formData?.tags?.map((item) => item.value),
-    },
+      tags: formData?.tags?.map((item) => item.value)
+    }
   });
 
   const formDataRetriever = (formData) => ({
     ...formData,
-    tags: tagsArray.filter((item) => formData?.tags.includes(item.value)),
+    tags: tagsArray.filter((item) => formData?.tags.includes(item.value))
   });
 
   const fetchTestCaseDetails = () => {
@@ -102,7 +109,7 @@ export default function useAddEditTestCase() {
       getTestCaseDetailsAPI({
         projectId,
         folderId,
-        testCaseId: selectedTestCase.id,
+        testCaseId: selectedTestCase.id
       }).then((data) => {
         dispatch(setTestCaseFormData(formDataRetriever(data?.data?.test_case)));
       });
@@ -112,7 +119,7 @@ export default function useAddEditTestCase() {
   const fetchUsers = () => {
     getUsersOfProjectAPI(projectId).then((data) => {
       dispatch(
-        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users]),
+        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users])
       );
 
       updateLoadedDataProjectId();
@@ -138,7 +145,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const tagVerifierFunction = async (tag) => verifyTagAPI({ projectId, tag });
+  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);
@@ -146,7 +153,7 @@ export default function useAddEditTestCase() {
       addTestCaseAPI({
         projectId,
         folderId,
-        payload: formDataFormatter(formData),
+        payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(addSingleTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -161,7 +168,7 @@ export default function useAddEditTestCase() {
         projectId,
         folderId,
         testCaseId: selectedTestCase.id,
-        payload: formDataFormatter(formData),
+        payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -179,7 +186,7 @@ export default function useAddEditTestCase() {
       for (let idx = 0; idx < selectedFiles.length; idx += 1) {
         files.push({
           name: selectedFiles[idx].name,
-          id: null,
+          id: null
         });
       }
       handleTestCaseFieldChange('attachments', files);
@@ -194,7 +201,7 @@ export default function useAddEditTestCase() {
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
           uploadedFiles.push({
             name: selectedFiles[idx].name,
-            id: item.generic_attachment[idx],
+            id: item.generic_attachment[idx]
           });
         }
         // update with id
@@ -210,7 +217,7 @@ export default function useAddEditTestCase() {
   const fileRemoveHandler = (data) => {
     handleTestCaseFieldChange(
       'attachments',
-      testCaseFormData?.attachments.filter((item) => item.id !== data.id),
+      testCaseFormData?.attachments.filter((item) => item.id !== data.id)
     );
   };
 
@@ -221,9 +228,21 @@ export default function useAddEditTestCase() {
     dispatch(setTagsArray(newAlltags));
     handleTestCaseFieldChange(
       'tags',
-      newAlltags.filter((element) => allTags.includes(element.value)),
+      newAlltags.filter((element) => allTags.includes(element.value))
     );
     dispatch(setAddTagModal(false));
+  };
+
+  const hideAddIssueModal = () => {
+    // const mappedNewTags = selectMenuValueMapper(newTags);
+    // const newAlltags = [...tagsArray, ...mappedNewTags];
+
+    // dispatch(setTagsArray(newAlltags));
+    // handleTestCaseFieldChange(
+    //   'tags',
+    //   newAlltags.filter((element) => allTags.includes(element.value)),
+    // );
+    dispatch(setAddIssuesModal(false));
   };
 
   useEffect(() => {
@@ -236,7 +255,7 @@ export default function useAddEditTestCase() {
       if (tagsArray && !isTestCaseEditing)
         handleTestCaseFieldChange('tags', tagsArray);
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id })),
+        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
       );
     } else {
       setUsersArray([]);
@@ -246,6 +265,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    isAddIssuesModalShown,
     uploadElementRef,
     isAddTagModalShown,
     tagsArray,
@@ -272,5 +292,7 @@ export default function useAddEditTestCase() {
     fileRemoveHandler,
     initFormValues,
     tagVerifierFunction,
+    showAddIssueModal,
+    hideAddIssueModal
   };
 }
