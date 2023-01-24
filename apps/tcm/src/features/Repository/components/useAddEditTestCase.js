@@ -247,10 +247,22 @@ export default function useAddEditTestCase() {
 
   const addIssuesSaveHelper = (newIssuesArray) => {
     hideAddIssueModal();
-    const mappedIssues = selectMenuValueMapper(newIssuesArray);
-    const combinedIssues = [...issuesArray, ...mappedIssues];
+    const updatedAllIssues = selectMenuValueMapper([
+      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray]),
+    ]);
+    const selectedIssues = testCaseFormData?.issues
+      ? [
+          ...new Set([
+            ...newIssuesArray,
+            ...testCaseFormData?.issues?.map((item) => item.value),
+          ]),
+        ]
+      : newIssuesArray;
+    const combinedIssues = updatedAllIssues.filter((item) =>
+      selectedIssues.includes(item.value),
+    );
 
-    dispatch(setIssuesArray(combinedIssues));
+    dispatch(setIssuesArray(updatedAllIssues));
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 

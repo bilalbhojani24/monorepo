@@ -30,7 +30,10 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   useEffect(() => {
-    if (isVisible) getJIRAConfigAPI().then(() => {});
+    if (isVisible) {
+      setIssueIds('');
+      getJIRAConfigAPI().then(() => {});
+    }
   }, [isVisible]);
 
   return {

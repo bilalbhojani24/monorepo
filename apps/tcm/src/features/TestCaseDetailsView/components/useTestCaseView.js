@@ -32,7 +32,7 @@ export default function useTestCases() {
     (state) => state.testCaseDetails.allData?.test_runs || null,
   );
   const testCaseIssues = useSelector(
-    (state) => state.testCaseDetails.allData?.issues || null,
+    (state) => state.testCaseDetails.allData?.test_run_issues || null,
   );
 
   const currentFlow = `${selectedFolder?.name || '...'} > ${

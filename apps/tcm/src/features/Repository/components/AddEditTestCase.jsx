@@ -316,7 +316,7 @@ const AddEditTestCase = () => {
                   label="Issues"
                   options={issuesArray}
                   value={testCaseFormData?.issues}
-                  onChange={(e) => handleTestCaseFieldChange('issues', e.value)}
+                  onChange={(e) => handleTestCaseFieldChange('issues', e)}
                 />
               </div>
               <TMButton

@@ -56,12 +56,12 @@ const TestCaseBasicData = () => {
               value={testCaseDetails?.tags || 'N/A'}
             />
           </div>
-          <div className="w-3/6">
+          {/* <div className="w-3/6">
             <DetailsSnippet
               title="Issues"
               value={testCaseDetails?.issues || 'N/A'}
             />
-          </div>
+          </div> */}
         </div>
         <DetailsSnippet
           title="Attachments"
