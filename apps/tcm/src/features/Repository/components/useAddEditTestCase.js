@@ -8,7 +8,7 @@ import {
   editTestCaseAPI,
   getTagsAPI,
   getTestCaseDetailsAPI,
-  verifyTagAPI,
+  verifyTagAPI
 } from 'api/testcases.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
@@ -25,7 +25,7 @@ import {
   setTestCaseFormData,
   setUsers,
   updateTestCase,
-  updateTestCaseFormData,
+  updateTestCaseFormData
 } from '../slices/repositorySlice';
 
 export default function useAddEditTestCase() {
@@ -37,26 +37,26 @@ export default function useAddEditTestCase() {
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
-    (state) => state.repository.selectedFolder,
+    (state) => state.repository.selectedFolder
   );
   const isTestCaseEditing = useSelector(
-    (state) => state.repository.showEditTestCaseForm,
+    (state) => state.repository.showEditTestCaseForm
   );
   const isAddTagModalShown = useSelector(
-    (state) => state.repository.showAddTagModal,
+    (state) => state.repository.showAddTagModal
   );
   const isAddIssuesModalShown = useSelector(
-    (state) => state.repository.showAddIssuesModal,
+    (state) => state.repository.showAddIssuesModal
   );
   const testCaseFormData = useSelector(
-    (state) => state.repository.testCaseFormData,
+    (state) => state.repository.testCaseFormData
   );
   const loadedDataProjectId = useSelector(
-    (state) => state.repository.loadedDataProjectId,
+    (state) => state.repository.loadedDataProjectId
   );
 
   const selectedTestCase = useSelector(
-    (state) => state.repository.selectedTestCase,
+    (state) => state.repository.selectedTestCase
   );
   const tagsArray = useSelector((state) => state.repository.tagsArray);
   const issuesArray = useSelector((state) => state.repository.issuesArray);
@@ -85,8 +85,8 @@ export default function useAddEditTestCase() {
       dispatch(
         updateTestCaseFormData({
           key: 'steps',
-          value: value === templateOptions[1].value ? [stepTemplate] : [''],
-        }),
+          value: value === templateOptions[1].value ? [stepTemplate] : ['']
+        })
       );
     }
     dispatch(updateTestCaseFormData({ key, value }));
@@ -97,14 +97,14 @@ export default function useAddEditTestCase() {
       ...formData,
       steps: JSON.stringify(formData.steps),
       tags: formData?.tags?.map((item) => item.value),
-      issues: formData?.issues?.map((item) => item.value),
-    },
+      issues: formData?.issues?.map((item) => item.value)
+    }
   });
 
   const formDataRetriever = (formData) => ({
     ...formData,
     tags: tagsArray.filter((item) => formData?.tags.includes(item.value)),
-    issues: issuesArray.filter((item) => formData?.issues.includes(item.value)),
+    issues: selectMenuValueMapper(formData?.issues?.map((item) => item.jira_id))
   });
 
   const fetchTestCaseDetails = () => {
@@ -112,9 +112,12 @@ export default function useAddEditTestCase() {
       getTestCaseDetailsAPI({
         projectId,
         folderId,
-        testCaseId: selectedTestCase.id,
+        testCaseId: selectedTestCase.id
       }).then((data) => {
-        dispatch(setTestCaseFormData(formDataRetriever(data?.data?.test_case)));
+        const formattedData = formDataRetriever(data?.data?.test_case);
+        dispatch(setTestCaseFormData(formattedData));
+        if (formattedData.issues)
+          dispatch(setIssuesArray(formattedData.issues));
       });
     }
   };
@@ -122,7 +125,7 @@ export default function useAddEditTestCase() {
   const fetchUsers = () => {
     getUsersOfProjectAPI(projectId).then((data) => {
       dispatch(
-        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users]),
+        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users])
       );
 
       updateLoadedDataProjectId();
@@ -156,7 +159,7 @@ export default function useAddEditTestCase() {
       addTestCaseAPI({
         projectId,
         folderId,
-        payload: formDataFormatter(formData),
+        payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(addSingleTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -171,7 +174,7 @@ export default function useAddEditTestCase() {
         projectId,
         folderId,
         testCaseId: selectedTestCase.id,
-        payload: formDataFormatter(formData),
+        payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
         dispatch(setAddTestCaseVisibility(false));
@@ -189,7 +192,7 @@ export default function useAddEditTestCase() {
       for (let idx = 0; idx < selectedFiles.length; idx += 1) {
         files.push({
           name: selectedFiles[idx].name,
-          id: null,
+          id: null
         });
       }
       handleTestCaseFieldChange('attachments', files);
@@ -204,7 +207,7 @@ export default function useAddEditTestCase() {
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
           uploadedFiles.push({
             name: selectedFiles[idx].name,
-            id: item.generic_attachment[idx],
+            id: item.generic_attachment[idx]
           });
         }
         // update with id
@@ -220,7 +223,7 @@ export default function useAddEditTestCase() {
   const fileRemoveHandler = (data) => {
     handleTestCaseFieldChange(
       'attachments',
-      testCaseFormData?.attachments.filter((item) => item.id !== data.id),
+      testCaseFormData?.attachments.filter((item) => item.id !== data.id)
     );
   };
 
@@ -235,8 +238,8 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange(
       'tags',
       updatedAllTags.filter((element) =>
-        currentSelectedTags.includes(element.value),
-      ),
+        currentSelectedTags.includes(element.value)
+      )
     );
     dispatch(setAddTagModal(false));
   };
@@ -248,18 +251,18 @@ export default function useAddEditTestCase() {
   const addIssuesSaveHelper = (newIssuesArray) => {
     hideAddIssueModal();
     const updatedAllIssues = selectMenuValueMapper([
-      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray]),
+      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray])
     ]);
     const selectedIssues = testCaseFormData?.issues
       ? [
           ...new Set([
             ...newIssuesArray,
-            ...testCaseFormData?.issues?.map((item) => item.value),
-          ]),
+            ...testCaseFormData?.issues?.map((item) => item.value)
+          ])
         ]
       : newIssuesArray;
     const combinedIssues = updatedAllIssues.filter((item) =>
-      selectedIssues.includes(item.value),
+      selectedIssues.includes(item.value)
     );
 
     dispatch(setIssuesArray(updatedAllIssues));
@@ -274,7 +277,7 @@ export default function useAddEditTestCase() {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id })),
+        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
       );
     } else {
       setUsersArray([]);
@@ -313,6 +316,6 @@ export default function useAddEditTestCase() {
     tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper,
+    addIssuesSaveHelper
   };
 }
