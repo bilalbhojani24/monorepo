@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';
 
-const AddFolderModal = ({ projectId }) => {
+const AddFolderModal = ({ projectId, show }) => {
   const { hideAddFolderModal, updateFolders } = useFolders();
   const [filledFormData, setFormData] = useState({
     name: '',
@@ -31,7 +31,7 @@ const AddFolderModal = ({ projectId }) => {
   };
 
   return (
-    <TMModal show withDismissButton onOverlayClick={hideAddFolderModal}>
+    <TMModal show={show} withDismissButton onOverlayClick={hideAddFolderModal}>
       <TMModalHeader
         heading="Add Folder"
         handleDismissClick={hideAddFolderModal}
@@ -75,6 +75,11 @@ const AddFolderModal = ({ projectId }) => {
 
 AddFolderModal.propTypes = {
   projectId: PropTypes.string.isRequired,
+  show: PropTypes.bool,
+};
+
+AddFolderModal.defaultProps = {
+  show: false,
 };
 
 export default AddFolderModal;

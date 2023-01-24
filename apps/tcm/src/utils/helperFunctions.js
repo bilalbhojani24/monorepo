@@ -20,7 +20,7 @@ export const formatTime = (date, to) => {
     case 'date':
       return moment(date).format('DD/MM/YYYY');
     case 'time':
-      return moment(date).format('DD/MM/YYYY HH:mm');
+      return moment(date).format('DD/MM/YYYY | h:mm A');
     default:
       return moment(date).format('DD/MM/YYYY');
   }
@@ -29,3 +29,9 @@ export const formatTime = (date, to) => {
 export const onSubmitKeyHandler = (e) => (doAfter) => {
   if (e?.key === 'Enter') doAfter();
 };
+
+export const selectMenuValueMapper = (data) =>
+  data.map((item) => ({
+    label: item,
+    value: item,
+  }));

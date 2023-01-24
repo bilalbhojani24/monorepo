@@ -9,11 +9,15 @@ const TestCaseView = () => {
   const { testCaseDetails, testCaseId } = useTestCaseView();
 
   if (!testCaseDetails || testCaseId !== `${testCaseDetails?.id}`)
-    return 'Loading..';
+    return (
+      <div className="flex h-full flex-col items-stretch px-6 pt-5">
+        Loading..
+      </div>
+    );
 
   return (
     <div className="flex h-full flex-col items-stretch px-6 pt-5">
-      <div className="h-full w-full">
+      <div className="pb-4">
         <TestCaseBasicData />
         <TestCaseMutliData />
       </div>

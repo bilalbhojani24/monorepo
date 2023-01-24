@@ -26,8 +26,8 @@ const Repository = () => {
   return (
     <div className="flex flex-1 flex-col items-stretch">
       <TopSection />
-      <div className="flex flex-1 flex-col items-stretch p-4">
-        <div className="border-base-200 flex flex-1 items-stretch justify-center overflow-hidden border bg-white sm:rounded-lg">
+      <div className="flex flex-1 flex-col items-stretch">
+        <div className="flex flex-1 items-stretch justify-center  bg-white">
           {!allFolders.length ? (
             <BlankPage />
           ) : (

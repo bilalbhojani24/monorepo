@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react';
+import { InfoOutlinedIcon } from 'assets/icons';
 import className from 'classnames';
 import AddTagModal from 'common/AddTagModal';
 import Attachments from 'common/Attachments';
 import {
   TMButton,
+  TMComboBox,
   TMInputField,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
   TMTooltip,
+  TMTooltipBody,
+  TMTooltipHeader,
 } from 'common/bifrostProxy';
 
 import {
@@ -34,7 +38,7 @@ const AddEditTestCase = () => {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
-    fetchFormData,
+    initFormValues,
     usersArrayMapped,
     tagsArray,
     issuesArray,
@@ -47,7 +51,7 @@ const AddEditTestCase = () => {
   } = useAddEditTestCase();
 
   useEffect(() => {
-    fetchFormData();
+    initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -206,7 +210,7 @@ const AddEditTestCase = () => {
               <TMSelectMenu
                 value={
                   testCaseFormData.owner &&
-                  usersArrayMapped.find(
+                  usersArrayMapped?.find(
                     (item) => item.value === testCaseFormData.owner,
                   )
                 }
@@ -237,16 +241,35 @@ const AddEditTestCase = () => {
                 id="test-case-estimate"
                 value={testCaseFormData.estimate}
                 label={
-                  <>
+                  <div className="flex items-center">
                     Estimate
                     <TMTooltip
-                      description="test test"
+                      size="xs"
                       placementSide="bottom"
                       theme="dark"
+                      content={
+                        <>
+                          <TMTooltipHeader>Estimate</TMTooltipHeader>
+                          <TMTooltipBody>
+                            <p className="text-sm">
+                              You can define an estimate time you would require
+                              for this test case. Below format types are
+                              permitted:
+                            </p>
+                            <ul className="list-disc pl-5 text-sm">
+                              <li>Seconds (s)</li>
+                              <li>Minutes (m)</li>
+                              <li>Hours (h)</li>
+                              <li>Minutes:Seconds (m:s)</li>
+                              <li>Hours:Minutes:Seconds (h:m:s)</li>
+                            </ul>
+                          </TMTooltipBody>
+                        </>
+                      }
                     >
-                      <span />
+                      <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
                     </TMTooltip>
-                  </>
+                  </div>
                 }
                 placeholder="Eg: 1m, 2.5h, 2d etc"
                 onChange={(e) =>
@@ -256,32 +279,15 @@ const AddEditTestCase = () => {
             </div>
             <div className="flex flex-1 items-end justify-between">
               <div className="mr-4 flex-1">
-                <TMSelectMenu
+                <TMComboBox
                   checkPosition="right"
-                  isMultiSelect
+                  isMulti
                   placeholder="Select from options"
                   label="Tags"
-                  options={
-                    tagsArray
-                      ? tagsArray?.map((item) => ({
-                          value: item,
-                          label: item,
-                        }))
-                      : []
-                  }
-                  value={tagsArray?.map((item) => ({
-                    value: item,
-                    label: item,
-                  }))}
-                  // value={testCaseFormData?.tags?.map((item) => ({
-                  //   value: item,
-                  //   label: item,
-                  // }))}
+                  options={tagsArray}
+                  value={testCaseFormData?.tags}
                   onChange={(e) => {
-                    handleTestCaseFieldChange(
-                      'tags',
-                      e.map((item) => item.label),
-                    );
+                    handleTestCaseFieldChange('tags', e);
                   }}
                 />
               </div>
@@ -294,7 +300,7 @@ const AddEditTestCase = () => {
               </TMButton>
             </div>
           </div>
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 flex hidden gap-4">
             <div className="flex flex-1 items-end justify-between">
               <div className="mr-4 flex-1">
                 <TMSelectMenu
@@ -365,7 +371,7 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         hideAddTagsModal={hideAddTagsModal}
-        existingTags={tagsArray || []}
+        existingTags={tagsArray.map((item) => item.value) || []}
         verifierFunction={tagVerifierFunction}
       />
     </div>

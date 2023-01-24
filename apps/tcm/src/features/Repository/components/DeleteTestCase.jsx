@@ -6,14 +6,19 @@ import {
   TMModalFooter,
   TMModalHeader,
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import useTestCases from './useTestCases';
 
-const DeleteTestCase = () => {
+const DeleteTestCase = ({ show }) => {
   const { deleteTestCaseHandler, hideDeleteTestCaseModal } = useTestCases();
 
   return (
-    <TMModal show withDismissButton onOverlayClick={hideDeleteTestCaseModal}>
+    <TMModal
+      show={show}
+      withDismissButton
+      onOverlayClick={hideDeleteTestCaseModal}
+    >
       <TMModalHeader
         heading="Delete Test Case"
         subHeading="Are you sure you want to delete this test case? All the data will be permanently deleted. This action cannot be undone."
@@ -39,6 +44,14 @@ const DeleteTestCase = () => {
       </TMModalFooter>
     </TMModal>
   );
+};
+
+DeleteTestCase.propTypes = {
+  show: PropTypes.bool,
+};
+
+DeleteTestCase.defaultProps = {
+  show: false,
 };
 
 export default DeleteTestCase;

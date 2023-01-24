@@ -20,7 +20,7 @@ const AddTagModal = ({
   verifierFunction,
 }) => {
   const {
-    duplicateTags,
+    errorText,
     enteredTag,
     allTags,
     setTagEntered,
@@ -50,10 +50,7 @@ const AddTagModal = ({
           onButtonClick={addTagHandler}
           buttonElement="Add Tag"
           label="Tag Name"
-          errorText={
-            duplicateTags.includes(enteredTag) &&
-            'A tag with the same name already exists'
-          }
+          errorText={errorText}
           placeholder="Enter Tag name separated by comma"
           onChange={(e) => setTagEntered(e.currentTarget.value)}
         />
@@ -62,7 +59,11 @@ const AddTagModal = ({
         </div>
         <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
           {allTags?.map((item) => (
-            <TMBadge text={item} hasRemoveButton onClose={onTagRemoveClick} />
+            <TMBadge
+              text={item}
+              hasRemoveButton
+              onClose={() => onTagRemoveClick(item)}
+            />
           ))}
         </div>
       </TMModalBody>

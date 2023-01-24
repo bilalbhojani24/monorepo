@@ -9,29 +9,47 @@ const useAddTagModal = ({
   const [allTags, setAllTags] = useState(existingTags);
   const [newTags, setNewTags] = useState([]);
   const [enteredTag, setTagEntered] = useState('');
-  const [duplicateTags, setDuplicateTag] = useState(existingTags);
+  const [errorText, setErrorText] = useState(null);
 
   const addTagHandler = () => {
-    verifierFunction(enteredTag).then((data) => {
+    setErrorText(null);
+    const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
+
+    verifierFunction(tagsSplitted).then((data) => {
       if (data) {
-        setNewTags([...newTags, enteredTag]);
-        setAllTags([...allTags, enteredTag]);
-        setTagEntered('');
-      } else setDuplicateTag([...duplicateTags, enteredTag]);
+        setNewTags(data?.tags);
+        setAllTags([...allTags, ...data?.tags]);
+        setTagEntered(data?.error_tags.join(', '));
+        setErrorText('A tag with the same name already exists');
+      }
     });
   };
 
-  const onTagRemoveClick = () => {};
+  const onTagRemoveClick = (tag) => {
+    setAllTags(allTags.filter((item) => item !== tag));
+    setNewTags(newTags.filter((item) => item !== tag));
+  };
 
   const onCloseHandler = () => {
-    hideAddTagsModal(newTags);
+    hideAddTagsModal(allTags, newTags);
   };
+
+  useEffect(() => {
+    // check duplicates on change
+    //   const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
+    //   setErrorText(
+    //     allTags.filter((element) => tagsSplitted.includes(element)).length
+    //       ? 'test'
+    //       : null,
+    //   );
+    if (errorText) setErrorText(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enteredTag]);
 
   useEffect(() => {
     if (isVisible) {
       setNewTags([]);
       setAllTags(existingTags);
-      setDuplicateTag(existingTags);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
@@ -39,7 +57,7 @@ const useAddTagModal = ({
   return {
     allTags,
     enteredTag,
-    duplicateTags,
+    errorText,
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,

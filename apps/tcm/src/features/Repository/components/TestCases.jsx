@@ -145,7 +145,7 @@ export default function TestCases() {
           </div>
         )}
       </div>
-      {showDeleteModal && <DeleteTestCase />}
+      <DeleteTestCase show={showDeleteModal} />
     </div>
   );
 }

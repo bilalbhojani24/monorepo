@@ -5,6 +5,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  ComboBox,
   Dropdown,
   EmptyState,
   InputField,
@@ -30,6 +31,8 @@ import {
   Tabs,
   TextArea,
   Tooltip,
+  TooltipBody,
+  TooltipHeader,
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
@@ -45,6 +48,7 @@ export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMDropdown = (props) => <Dropdown {...props} />;
+export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
@@ -58,6 +62,8 @@ export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
+export const TMTooltipBody = (props) => <TooltipBody {...props} />;
+export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 export const TMStackedListWSingleColumn = (props) => (
   <StackedListWSingleColumn {...props} />
 );
