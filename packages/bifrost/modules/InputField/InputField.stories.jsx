@@ -14,94 +14,100 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import InputField from 'bifrost/InputField'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     label: {
       type: { summary: 'STRING', required: false },
       description: 'Content that goes inside the banner',
       control: { type: 'text' },
-      defaultValue: 'Label',
+      defaultValue: 'Label'
     },
     autoComplete: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'off',
+      defaultValue: 'off'
     },
     cornerHintText: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: '',
+      defaultValue: ''
     },
     defaultValue: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     value: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     description: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: '',
+      defaultValue: ''
     },
     errorText: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: '',
+      defaultValue: ''
     },
     id: {
       type: { summary: 'STRING', required: true },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'test-id',
+      defaultValue: 'test-id'
     },
     inputRef: {
       type: { summary: 'OBJECT', required: false },
       description: 'ABCDEFGHIJK',
-      control: { type: null },
+      control: { type: null }
     },
     leadingIcon: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: null },
-      defaultValue: <UsersIcon className="text-base-400 h-5 w-5" />,
+      defaultValue: <UsersIcon className="text-base-400 h-5 w-5" />
     },
     trailingIcon: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       //   control: { type: null },
-      defaultValue: <UsersIcon className="text-base-400 h-5 w-5" />,
+      defaultValue: <UsersIcon className="text-base-400 h-5 w-5" />
     },
     placeholder: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Placeholder text',
+      defaultValue: 'Placeholder text'
+    },
+    readonly: {
+      type: { summary: 'STRING', required: false },
+      description: 'ABCDEFGHIJK',
+      control: { type: 'boolean' },
+      defaultValue: false
     },
     type: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'text',
-    },
+      defaultValue: 'text'
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <InputField {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
