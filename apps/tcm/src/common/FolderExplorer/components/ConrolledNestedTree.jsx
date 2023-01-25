@@ -7,7 +7,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { folderDropOptions } from '../const/folderConst';
+import { folderDropOptions } from '../../../features/Repository/const/folderConst';
 
 const ConrolledNestedTree = ({
   foldersArray,

@@ -8,7 +8,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import useFolderActions from './useFolderActions';
+import useFolderActions from '../../../common/FolderExplorer/components/useFolderActions';
 
 const DeleteFolder = ({ show, hideModal }) => {
   const { deleteFolderHandler } = useFolderActions(hideModal);

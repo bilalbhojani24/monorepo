@@ -3,11 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { folderDropOptions } from '../const/folderConst';
-
 import ConrolledNestedTree from './ConrolledNestedTree';
-import DeleteFolder from './DeleteFolder';
-import useFolderActions from './useFolderActions';
 import useFolderExplorer from './useFolderExplorer';
 
 const FolderExplorer = ({
@@ -16,35 +12,28 @@ const FolderExplorer = ({
   projectId,
   folderId,
   onFolderClick,
-  onFoldersUpdate
+  onFoldersUpdate,
+  actionOptions,
+  actionClickHandler
 }) => {
-  const {
-    openedModal,
-    folderClickHandler,
-    foldersArray,
-    subFolderOpenHandler,
-    actionClickHandler,
-    hideModal
-  } = useFolderExplorer({
-    allFolders,
-    projectId,
-    folderId,
-    onFolderClick,
-    onFoldersUpdate
-  });
+  const { folderClickHandler, foldersArray, subFolderOpenHandler, hideModal } =
+    useFolderExplorer({
+      allFolders,
+      projectId,
+      folderId,
+      onFolderClick,
+      onFoldersUpdate
+    });
 
   return (
     <>
       <ConrolledNestedTree
+        actionOptions={actionOptions}
         foldersArray={foldersArray}
         actionsEnabled={actionsEnabled}
         onFolderClick={folderClickHandler}
         onFolderOpen={subFolderOpenHandler}
         onActionClick={actionClickHandler}
-      />
-      <DeleteFolder
-        show={openedModal === folderDropOptions[4]?.body}
-        hideModal={hideModal}
       />
     </>
   );
@@ -54,9 +43,11 @@ FolderExplorer.propTypes = {
   allFolders: PropTypes.arrayOf(PropTypes.object),
   onFolderClick: PropTypes.func,
   onFoldersUpdate: PropTypes.func,
+  actionClickHandler: PropTypes.func,
   projectId: PropTypes.string,
   folderId: PropTypes.string,
-  actionsEnabled: PropTypes.bool
+  actionsEnabled: PropTypes.bool,
+  actionOptions: PropTypes.arrayOf(PropTypes.object)
 };
 
 FolderExplorer.defaultProps = {
@@ -65,7 +56,9 @@ FolderExplorer.defaultProps = {
   folderId: null,
   onFolderClick: () => {},
   onFoldersUpdate: () => {},
-  actionsEnabled: false
+  actionClickHandler: () => {},
+  actionsEnabled: false,
+  actionOptions: []
 };
 
 export default FolderExplorer;

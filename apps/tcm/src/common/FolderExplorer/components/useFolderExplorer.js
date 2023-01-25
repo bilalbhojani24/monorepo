@@ -8,7 +8,6 @@ const useFolderExplorer = ({
   allFolders,
   onFoldersUpdate
 }) => {
-  const [openedModal, setOpenedModal] = useState(null);
   const [foldersArray, setFoldersArray] = useState([]);
 
   const fireOnFoldersUpdate = (folders, testCases) => {
@@ -105,14 +104,6 @@ const useFolderExplorer = ({
       setFoldersArray(allFolders);
   };
 
-  const hideModal = () => {
-    setOpenedModal(null);
-  };
-
-  const actionClickHandler = (e, folder) => {
-    setOpenedModal(e.currentTarget.textContent);
-  };
-
   useEffect(() => {
     initFoldersArray();
     // if folderId enabled it will screw up the isSelected functioning
@@ -125,12 +116,9 @@ const useFolderExplorer = ({
   }, [projectId]);
 
   return {
-    openedModal,
     foldersArray,
     folderClickHandler,
-    subFolderOpenHandler,
-    hideModal,
-    actionClickHandler
+    subFolderOpenHandler
   };
 };
 export default useFolderExplorer;

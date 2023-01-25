@@ -72,6 +72,10 @@ export default function useFolders() {
     );
   };
 
+  const folderActionsHandler = (e, folder) => {
+    // setOpenedModal(e.currentTarget.textContent);
+  };
+
   const folderUpdateHandler = (newFolders, newTestCases) => {
     dispatch(updateAllFolders(newFolders));
   };
@@ -115,6 +119,7 @@ export default function useFolders() {
     updateFolders,
     fetchAllFolders,
     folderClickHandler,
-    folderUpdateHandler
+    folderUpdateHandler,
+    folderActionsHandler
   };
 }

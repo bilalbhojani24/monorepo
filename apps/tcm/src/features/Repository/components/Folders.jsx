@@ -3,6 +3,8 @@ import { CreateNewFolderOutlinedIcon } from 'assets/icons';
 import { TMButton } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
 
+import { folderDropOptions } from '../const/folderConst';
+
 import AddFolderModal from './AddFolderModal';
 import useFolders from './useFolders';
 
@@ -16,7 +18,8 @@ export default function Folders() {
     isAddFolderModalVisible,
     showAddFolderModal,
     folderClickHandler,
-    folderUpdateHandler
+    folderUpdateHandler,
+    folderActionsHandler
   } = useFolders();
 
   return (
@@ -43,6 +46,8 @@ export default function Folders() {
           actionsEnabled
           onFolderClick={folderClickHandler}
           onFoldersUpdate={folderUpdateHandler}
+          actionOptions={folderDropOptions}
+          actionClickHandler={folderActionsHandler}
         />
       </div>
     </div>
