@@ -11,14 +11,17 @@ const FolderExplorer = ({
   allFolders,
   projectId,
   folderId,
-  onFolderClick
+  onFolderClick,
+  onFoldersUpdate
 }) => {
-  const { folderClickHandler, foldersArray } = useFolderExplorer({
-    allFolders,
-    projectId,
-    folderId,
-    onFolderClick
-  });
+  const { folderClickHandler, foldersArray, subFolderOpenHandler } =
+    useFolderExplorer({
+      allFolders,
+      projectId,
+      folderId,
+      onFolderClick,
+      onFoldersUpdate
+    });
 
   return (
     <div className="w-full">
@@ -26,6 +29,7 @@ const FolderExplorer = ({
         foldersArray={foldersArray}
         actionsEnabled={actionsEnabled}
         onFolderClick={folderClickHandler}
+        onFolderOpen={subFolderOpenHandler}
       />
     </div>
   );
@@ -34,6 +38,7 @@ const FolderExplorer = ({
 FolderExplorer.propTypes = {
   allFolders: PropTypes.arrayOf(PropTypes.object),
   onFolderClick: PropTypes.func,
+  onFoldersUpdate: PropTypes.func,
   projectId: PropTypes.string,
   folderId: PropTypes.string,
   actionsEnabled: PropTypes.bool
@@ -44,6 +49,7 @@ FolderExplorer.defaultProps = {
   projectId: null,
   folderId: null,
   onFolderClick: () => {},
+  onFoldersUpdate: () => {},
   actionsEnabled: false
 };
 

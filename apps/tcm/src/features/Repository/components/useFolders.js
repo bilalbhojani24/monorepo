@@ -10,7 +10,7 @@ import {
   setAddFolderModalVisibility,
   setAddTestCaseVisibility,
   setSelectedFolder,
-  updateAllFolders,
+  updateAllFolders
 } from '../slices/repositorySlice';
 
 export default function useFolders() {
@@ -20,7 +20,7 @@ export default function useFolders() {
 
   const allFolders = useSelector((state) => state.repository.allFolders);
   const isAddFolderModalVisible = useSelector(
-    (state) => state.repository.showAddFolderModal,
+    (state) => state.repository.showAddFolderModal
   );
 
   const showAddFolderModal = () => {
@@ -41,8 +41,8 @@ export default function useFolders() {
           data?.folders &&
           window.location.pathname.includes(
             routeFormatter(AppRoute.TEST_CASES, {
-              projectId,
-            }),
+              projectId
+            })
           )
         ) {
           // select first folder by default, only if the test cases page is still open
@@ -51,8 +51,8 @@ export default function useFolders() {
             navigate(
               routeFormatter(AppRoute.TEST_CASES, {
                 projectId,
-                folderId: firstFolderId,
-              }),
+                folderId: firstFolderId
+              })
             );
         }
       });
@@ -67,9 +67,13 @@ export default function useFolders() {
     navigate(
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,
-        folderId: selectedFolder.id,
-      }),
+        folderId: selectedFolder.id
+      })
     );
+  };
+
+  const folderUpdateHandler = (newFolders, newTestCases) => {
+    debugger;
   };
 
   useEffect(() => {
@@ -93,5 +97,6 @@ export default function useFolders() {
     updateFolders,
     fetchAllFolders,
     folderClickHandler,
+    folderUpdateHandler
   };
 }
