@@ -30,9 +30,21 @@ const useFolderExplorer = ({
     newContents,
     level = 0
   ) =>
-    folders.map((item) => {
+    folders?.map((item) => {
       if (`${item.id}` === `${workingFolderId}`) {
-        return { ...item, contents: newContents, isOpened, isSelected };
+        return {
+          ...item,
+          contents: folderArrayUpdateHelper(
+            newContents,
+            workingFolderId,
+            isOpened,
+            false,
+            null,
+            level + 1
+          ),
+          isOpened,
+          isSelected
+        };
       }
 
       if (item?.contents?.length) {
@@ -46,8 +58,7 @@ const useFolderExplorer = ({
         );
         return {
           ...item,
-          isSelected:
-            !!updatedContents.find((inItem) => inItem.isSelected) || false,
+          isSelected: false,
           contents: updatedContents
         };
       }

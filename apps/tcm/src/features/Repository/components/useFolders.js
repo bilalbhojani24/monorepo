@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteFolder, getFolders } from 'api/folders.api';
@@ -69,7 +69,6 @@ export default function useFolders() {
   };
 
   const folderActionsHandler = ({ e, folder }) => {
-    debugger;
     if (e?.currentTarget?.textContent) {
       dispatch(
         setFolderModalConf({ modal: e.currentTarget.textContent, folder })
@@ -153,7 +152,6 @@ export default function useFolders() {
     if (openedFolderModal && openedFolderModal?.folder?.id) {
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
         (item) => {
-          debugger;
           if (item?.data?.folder?.id)
             setAllFolders(
               deleteFolderFromArray(allFolders, item.data.folder.id)
