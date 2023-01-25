@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getFolders } from 'api/folders.api';
+import { deleteFolder, getFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { addFolderModalKey } from '../const/folderConst';
 import {
-  setAddFolderModalVisibility,
   setAddTestCaseVisibility,
+  setFolderModalConf,
   setSelectedFolder,
   updateAllFolders
 } from '../slices/repositorySlice';
@@ -19,15 +20,14 @@ export default function useFolders() {
   const dispatch = useDispatch();
 
   const allFolders = useSelector((state) => state.repository.allFolders);
-  const isAddFolderModalVisible = useSelector(
-    (state) => state.repository.showAddFolderModal
+  const openedFolderModal = useSelector(
+    (state) => state.repository.openedFolderModal
   );
-
-  const showAddFolderModal = () => {
-    dispatch(setAddFolderModalVisibility(true));
+  const setAllFolders = (data) => {
+    dispatch(updateAllFolders(data));
   };
-  const hideAddFolderModal = () => {
-    dispatch(setAddFolderModalVisibility(false));
+  const showAddFolderModal = () => {
+    dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
   const fetchAllFolders = () => {
@@ -35,7 +35,7 @@ export default function useFolders() {
     dispatch(setAddTestCaseVisibility(false));
     if (projectId)
       getFolders({ projectId }).then((data) => {
-        dispatch(updateAllFolders(data?.folders || []));
+        setAllFolders(data?.folders || []);
         if (
           !folderId &&
           data?.folders &&
@@ -56,11 +56,7 @@ export default function useFolders() {
             );
         }
       });
-    else dispatch(updateAllFolders([]));
-  };
-
-  const updateFolders = (folderItem) => {
-    dispatch(updateAllFolders([...allFolders, folderItem]));
+    else setAllFolders([]);
   };
 
   const folderClickHandler = (selectedFolder) => {
@@ -72,12 +68,21 @@ export default function useFolders() {
     );
   };
 
-  const folderActionsHandler = (e, folder) => {
-    // setOpenedModal(e.currentTarget.textContent);
+  const folderActionsHandler = ({ e, folder }) => {
+    debugger;
+    if (e?.currentTarget?.textContent) {
+      dispatch(
+        setFolderModalConf({ modal: e.currentTarget.textContent, folder })
+      );
+    }
+  };
+
+  const hideFolderModal = () => {
+    dispatch(setFolderModalConf(false));
   };
 
   const folderUpdateHandler = (newFolders, newTestCases) => {
-    dispatch(updateAllFolders(newFolders));
+    setAllFolders(newFolders);
   };
 
   const findSelectedFolder = (foldersArray, findFolderId) => {
@@ -99,6 +104,68 @@ export default function useFolders() {
     return selectedItem;
   };
 
+  const injectFolderToParent = (array, toBeInjectedFolder, parentID) =>
+    array.map((item) => {
+      if (item.id === parentID) {
+        if (item?.contents)
+          return { ...item, contents: [...item.contents, toBeInjectedFolder] };
+        return { ...item, contents: [toBeInjectedFolder] };
+      }
+      if (item?.contents) {
+        return {
+          ...item,
+          contents: injectFolderToParent(
+            item.contents,
+            toBeInjectedFolder,
+            parentID
+          )
+        };
+      }
+      return item;
+    });
+
+  const updateFolders = (folderItem, parentId) => {
+    if (!parentId) setAllFolders([...allFolders, folderItem]);
+    else {
+      setAllFolders(injectFolderToParent(allFolders, folderItem, parentId));
+    }
+  };
+
+  const deleteFolderFromArray = (foldersArray, thisFolderID) => {
+    let removedArray = foldersArray.filter(
+      (thisFolder) => thisFolder.id !== thisFolderID
+    );
+    if (removedArray.length < foldersArray.length) return removedArray;
+
+    removedArray = foldersArray.map((item) => {
+      if (item?.contents)
+        return {
+          ...item,
+          contents: deleteFolderFromArray(item.contents, thisFolderID)
+        };
+      return item;
+    });
+
+    return removedArray;
+  };
+
+  const deleteFolderHandler = () => {
+    if (openedFolderModal && openedFolderModal?.folder?.id) {
+      deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
+        (item) => {
+          debugger;
+          if (item?.data?.folder?.id)
+            setAllFolders(
+              deleteFolderFromArray(allFolders, item.data.folder.id)
+            );
+
+          hideFolderModal();
+        }
+      );
+    }
+    // deleteFolder()
+  };
+
   useEffect(() => {
     const selectedFolder = findSelectedFolder(allFolders, folderId);
     if (selectedFolder) {
@@ -110,16 +177,17 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    openedFolderModal,
     projectId,
     folderId,
     allFolders,
-    hideAddFolderModal,
     showAddFolderModal,
-    isAddFolderModalVisible,
     updateFolders,
     fetchAllFolders,
     folderClickHandler,
     folderUpdateHandler,
-    folderActionsHandler
+    folderActionsHandler,
+    hideFolderModal,
+    deleteFolderHandler
   };
 }

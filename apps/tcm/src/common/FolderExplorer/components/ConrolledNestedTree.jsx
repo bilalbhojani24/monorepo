@@ -7,14 +7,13 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { folderDropOptions } from '../../../features/Repository/const/folderConst';
-
 const ConrolledNestedTree = ({
   foldersArray,
   indent,
   onFolderOpen,
   onFolderClick,
   actionsEnabled,
+  actionOptions,
   onActionClick
 }) => (
   /**
@@ -40,17 +39,11 @@ const ConrolledNestedTree = ({
           onNodeClick={() => onFolderClick(item)}
           onNodeOpen={() => onFolderOpen(item)}
           trailingVisualElement={
-            <>
-              {actionsEnabled ? (
-                <TMDropdown
-                  onClick={(e) => onActionClick(e, item)}
-                  triggerVariant="meatball-button"
-                  options={folderDropOptions}
-                />
-              ) : (
-                ''
-              )}
-            </>
+            <TMDropdown
+              onClick={(e) => onActionClick({ e, folder: item })}
+              triggerVariant="meatball-button"
+              options={actionOptions}
+            />
           }
         />
         {!!item?.contents && (
@@ -62,6 +55,7 @@ const ConrolledNestedTree = ({
               onFolderOpen={onFolderOpen}
               onFolderClick={onFolderClick}
               onActionClick={onActionClick}
+              actionOptions={actionOptions}
             />
           </TMListTreeNodeContents>
         )}
@@ -75,7 +69,8 @@ ConrolledNestedTree.propTypes = {
   actionsEnabled: PropTypes.bool,
   onFolderOpen: PropTypes.func,
   onActionClick: PropTypes.func,
-  onFolderClick: PropTypes.func
+  onFolderClick: PropTypes.func,
+  actionOptions: PropTypes.arrayOf(PropTypes.object)
 };
 
 ConrolledNestedTree.defaultProps = {
@@ -84,7 +79,8 @@ ConrolledNestedTree.defaultProps = {
   actionsEnabled: false,
   onFolderOpen: () => {},
   onActionClick: () => {},
-  onFolderClick: () => {}
+  onFolderClick: () => {},
+  actionOptions: []
 };
 
 export default ConrolledNestedTree;

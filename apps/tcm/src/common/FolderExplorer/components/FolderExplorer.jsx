@@ -16,7 +16,7 @@ const FolderExplorer = ({
   actionOptions,
   actionClickHandler
 }) => {
-  const { folderClickHandler, foldersArray, subFolderOpenHandler, hideModal } =
+  const { folderClickHandler, foldersArray, subFolderOpenHandler } =
     useFolderExplorer({
       allFolders,
       projectId,

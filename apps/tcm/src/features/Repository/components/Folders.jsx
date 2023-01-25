@@ -3,19 +3,20 @@ import { CreateNewFolderOutlinedIcon } from 'assets/icons';
 import { TMButton } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
 
-import { folderDropOptions } from '../const/folderConst';
+import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 
 import AddFolderModal from './AddFolderModal';
+import DeleteFolder from './DeleteFolder';
 import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
+    openedFolderModal,
     projectId,
     folderId,
     allFolders,
-    isAddFolderModalVisible,
     showAddFolderModal,
     folderClickHandler,
     folderUpdateHandler,
@@ -24,7 +25,20 @@ export default function Folders() {
 
   return (
     <div className="flex h-full flex-col items-stretch">
-      <AddFolderModal show={isAddFolderModalVisible} projectId={projectId} />
+      <AddFolderModal
+        show={openedFolderModal?.modal === addFolderModalKey}
+        projectId={projectId}
+      />
+      <AddFolderModal
+        isSubFolder
+        folderId={openedFolderModal?.folder?.id}
+        show={openedFolderModal?.modal === folderDropOptions[0].body}
+        projectId={projectId}
+      />
+      <DeleteFolder
+        show={openedFolderModal?.modal === folderDropOptions[4].body}
+        projectId={projectId}
+      />
       <div className="border-base-300 flex items-center border-b p-3">
         <span className="text-base">Folders</span>
         <TMButton

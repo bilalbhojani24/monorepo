@@ -24,3 +24,5 @@ export const folderDropOptions = [
     divider: false
   }
 ];
+
+export const addFolderModalKey = 'Add Folder';
