@@ -22,17 +22,42 @@ const useFolderExplorer = ({
       });
   };
 
+  const findSelectedFolder = (thisArray, findFolderId) => {
+    if (!thisArray || !thisArray.length) return false;
+    let selectedItem = null;
+    thisArray?.every((item) => {
+      if (`${item.id}` === findFolderId) {
+        selectedItem = item;
+        return false;
+      }
+      if (item.contents) {
+        const matched = findSelectedFolder(item.contents, findFolderId);
+        if (matched) {
+          selectedItem = matched;
+          return false;
+        }
+      }
+      return true;
+    });
+    return selectedItem;
+  };
+
   const folderArrayUpdateHelper = (
     folders,
     workingFolderId,
     isOpened,
     isSelected,
     newContents,
-    level = 0
+    level = 0,
+    isSelectTriggered
   ) =>
     folders?.map((item) => {
       if (`${item.id}` === `${workingFolderId}`) {
-        return {
+        const isCurrentFolderAChild = findSelectedFolder(
+          item.contents,
+          folderId
+        );
+        const thisFolderItem = {
           ...item,
           contents: folderArrayUpdateHelper(
             newContents,
@@ -40,11 +65,16 @@ const useFolderExplorer = ({
             isOpened,
             false,
             null,
-            level + 1
+            level + 1,
+            isSelectTriggered
           ),
           isOpened,
-          isSelected
+          isSelected: isCurrentFolderAChild ? true : isSelected // if oneof the current selected item is a child of this folder, then set this folder as the next selected folder
         };
+        if (isCurrentFolderAChild) {
+          onFolderClick(thisFolderItem);
+        }
+        return thisFolderItem;
       }
 
       if (item?.contents?.length) {
@@ -54,7 +84,8 @@ const useFolderExplorer = ({
           isOpened,
           isSelected,
           newContents,
-          level + 1
+          level + 1,
+          isSelectTriggered
         );
         return {
           ...item,
@@ -65,7 +96,7 @@ const useFolderExplorer = ({
 
       return {
         ...item,
-        isSelected: isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
+        isSelected: isSelectTriggered || isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
       };
     });
 
@@ -76,7 +107,9 @@ const useFolderExplorer = ({
         selectedFolder.id,
         selectedFolder?.isOpened,
         true,
-        selectedFolder?.contents
+        selectedFolder?.contents,
+        0,
+        true
       )
     );
     onFolderClick(selectedFolder);
