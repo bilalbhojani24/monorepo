@@ -54,7 +54,7 @@ const useFolderExplorer = ({
 
       return {
         ...item,
-        isSelected: false
+        isSelected: isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
       };
     });
 
@@ -73,7 +73,7 @@ const useFolderExplorer = ({
 
   const subFolderOpenHandler = (openedFolder) => {
     if (!openedFolder?.isOpened) {
-      folderClickHandler(openedFolder);
+      // folderClickHandler(openedFolder);
       if (openedFolder?.id)
         getSubFolders({ projectId, folderId: openedFolder.id }).then((data) => {
           const newMap = folderArrayUpdateHelper(
