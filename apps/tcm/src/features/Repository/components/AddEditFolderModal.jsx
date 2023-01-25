@@ -1,7 +1,7 @@
 // if folderId exists then it is a subfolder creation
 
 import React, { useEffect, useState } from 'react';
-import { addFolder, addSubFolder } from 'api/folders.api';
+import { addFolder, addSubFolder, renameFolder } from 'api/folders.api';
 import {
   TMButton,
   TMInputField,
@@ -15,7 +15,15 @@ import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';
 
-const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
+const AddEditFolderModal = ({
+  projectId,
+  show,
+  folderId,
+  isSubFolder,
+  isEditFolder,
+  currentData
+}) => {
+  const functionName = isEditFolder ? 'Edit' : 'Add';
   const { hideFolderModal, updateFolders } = useFolders();
   const [filledFormData, setFormData] = useState({
     name: '',
@@ -23,7 +31,7 @@ const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
   });
 
   const createFolderHandler = () => {
-    if (folderId)
+    if (isSubFolder && folderId) {
       addSubFolder({
         projectId,
         folderId,
@@ -32,7 +40,16 @@ const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
         if (item.data?.folder) updateFolders(item.data.folder, folderId);
         hideFolderModal();
       });
-    else
+    } else if (isEditFolder && folderId) {
+      renameFolder({
+        projectId,
+        folderId,
+        payload: filledFormData
+      }).then((item) => {
+        if (item.data?.folder) updateFolders(item.data.folder, folderId);
+        hideFolderModal();
+      });
+    } else {
       addFolder({
         projectId,
         payload: filledFormData
@@ -40,6 +57,7 @@ const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
         if (item.data?.folder) updateFolders(item.data.folder);
         hideFolderModal();
       });
+    }
   };
 
   useEffect(() => {
@@ -50,10 +68,21 @@ const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
       });
   }, [show]);
 
+  useEffect(() => {
+    if (currentData) {
+      setFormData({
+        name: currentData?.name,
+        notes: currentData?.notes
+      });
+    }
+  }, [currentData]);
+
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
       <TMModalHeader
-        heading={isSubFolder ? 'Add Sub Folder' : 'Add Folder'}
+        heading={
+          isSubFolder ? `${functionName} Sub Folder` : `${functionName} Folder`
+        }
         handleDismissClick={hideFolderModal}
       />
       <TMModalBody>
@@ -86,24 +115,30 @@ const AddFolderModal = ({ projectId, show, folderId, isSubFolder }) => {
           wrapperClassName="ml-3"
           onClick={createFolderHandler}
         >
-          {isSubFolder ? 'Add Sub Folder' : 'Add Folder'}
+          {isSubFolder
+            ? `${functionName} Sub Folder`
+            : `${functionName} Folder`}
         </TMButton>
       </TMModalFooter>
     </TMModal>
   );
 };
 
-AddFolderModal.propTypes = {
+AddEditFolderModal.propTypes = {
   projectId: PropTypes.string.isRequired,
   folderId: PropTypes.number,
   show: PropTypes.bool,
-  isSubFolder: PropTypes.bool
+  isSubFolder: PropTypes.bool,
+  isEditFolder: PropTypes.bool,
+  currentData: PropTypes.objectOf()
 };
 
-AddFolderModal.defaultProps = {
+AddEditFolderModal.defaultProps = {
   show: false,
   isSubFolder: false,
-  folderId: null
+  isEditFolder: false,
+  folderId: null,
+  currentData: null
 };
 
-export default AddFolderModal;
+export default AddEditFolderModal;

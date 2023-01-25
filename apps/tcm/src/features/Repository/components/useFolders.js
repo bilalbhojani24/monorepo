@@ -6,7 +6,7 @@ import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { addFolderModalKey } from '../const/folderConst';
+import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 import {
   setAddTestCaseVisibility,
   setFolderModalConf,
@@ -14,7 +14,10 @@ import {
   updateAllFolders
 } from '../slices/repositorySlice';
 
+import useTestCases from './useTestCases';
+
 export default function useFolders() {
+  const { showTestCaseAdditionPage } = useTestCases();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -73,6 +76,11 @@ export default function useFolders() {
       dispatch(
         setFolderModalConf({ modal: e.currentTarget.textContent, folder })
       );
+
+      if (e.currentTarget.textContent === folderDropOptions[0].body) {
+        // create test case
+        showTestCaseAdditionPage();
+      }
     }
   };
 

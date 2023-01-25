@@ -5,7 +5,7 @@ import FolderExplorer from 'common/FolderExplorer';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 
-import AddFolderModal from './AddFolderModal';
+import AddEditFolderModal from './AddEditFolderModal';
 import DeleteFolder from './DeleteFolder';
 import useFolders from './useFolders';
 
@@ -25,14 +25,21 @@ export default function Folders() {
 
   return (
     <div className="flex h-full flex-col items-stretch">
-      <AddFolderModal
+      <AddEditFolderModal
         show={openedFolderModal?.modal === addFolderModalKey}
         projectId={projectId}
       />
-      <AddFolderModal
+      <AddEditFolderModal
         isSubFolder
         folderId={openedFolderModal?.folder?.id}
-        show={openedFolderModal?.modal === folderDropOptions[0].body}
+        show={openedFolderModal?.modal === folderDropOptions[1].body}
+        projectId={projectId}
+      />
+      <AddEditFolderModal
+        isEditFolder
+        currentData={openedFolderModal?.folder}
+        folderId={openedFolderModal?.folder?.id}
+        show={openedFolderModal?.modal === folderDropOptions[3].body}
         projectId={projectId}
       />
       <DeleteFolder
