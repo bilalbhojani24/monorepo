@@ -73,12 +73,30 @@ export default function useFolders() {
   };
 
   const folderUpdateHandler = (newFolders, newTestCases) => {
-    debugger;
+    dispatch(updateAllFolders(newFolders));
+  };
+
+  const findSelectedFolder = (foldersArray, findFolderId) => {
+    let selectedItem = null;
+    foldersArray.every((item) => {
+      if (`${item.id}` === findFolderId) {
+        selectedItem = item;
+        return false;
+      }
+      if (item.contents) {
+        const matched = findSelectedFolder(item.contents, findFolderId);
+        if (matched) {
+          selectedItem = matched;
+          return false;
+        }
+      }
+      return true;
+    });
+    return selectedItem;
   };
 
   useEffect(() => {
-    const selectedFolder = allFolders.find((item) => `${item.id}` === folderId);
-
+    const selectedFolder = findSelectedFolder(allFolders, folderId);
     if (selectedFolder) {
       dispatch(setSelectedFolder(selectedFolder));
     } else {

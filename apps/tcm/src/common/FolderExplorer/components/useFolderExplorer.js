@@ -73,7 +73,7 @@ const useFolderExplorer = ({
 
   const subFolderOpenHandler = (openedFolder) => {
     if (!openedFolder?.isOpened) {
-      // folderClickHandler(openedFolder);
+      onFolderClick(openedFolder);
       if (openedFolder?.id)
         getSubFolders({ projectId, folderId: openedFolder.id }).then((data) => {
           const newMap = folderArrayUpdateHelper(
@@ -99,7 +99,8 @@ const useFolderExplorer = ({
   };
 
   useEffect(() => {
-    if (allFolders)
+    if (allFolders && !foldersArray.length)
+      // should only set allFolders on initial load only
       setFoldersArray(
         folderArrayUpdateHelper(allFolders, folderId, false, false)
       );
