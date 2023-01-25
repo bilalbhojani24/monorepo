@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
+import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/ImportFlow';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
@@ -12,7 +13,7 @@ import AllProjects from '../Projects';
 
 import {
   OnlyPublicComponent,
-  PrivateComponent,
+  PrivateComponent
 } from './components/RouteHelpers';
 import useMainRoute from './components/useMainRoute';
 
@@ -23,7 +24,7 @@ const MainRoute = () => {
   return (
     <div
       className={classNames('flex flex-1 flex-col items-stretch', {
-        'md:pl-64': location.pathname !== AppRoute.LANDING,
+        'md:pl-64': location.pathname !== AppRoute.LANDING
       })}
     >
       <Routes>
@@ -80,6 +81,14 @@ const MainRoute = () => {
           element={
             <PrivateComponent>
               <Import />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.IMPORT_CSV}
+          element={
+            <PrivateComponent>
+              <ImportCSV />
             </PrivateComponent>
           }
         />

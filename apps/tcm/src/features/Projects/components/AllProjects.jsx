@@ -3,7 +3,7 @@ import {
   TMButton,
   TMDataTable,
   TMDropdown,
-  TMPageHeadings,
+  TMPageHeadings
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
@@ -23,7 +23,7 @@ const AllProjects = () => {
     showEditModal,
     showDeleteModal,
     handleClickDynamicLink,
-    onDropDownChange,
+    onDropDownChange
   } = useProjects();
   const tableColumns = [
     {
@@ -39,7 +39,7 @@ const AllProjects = () => {
         >
           PR-{rowData.id}
         </div>
-      ),
+      )
     },
     {
       name: 'PROJECT TITLE',
@@ -57,7 +57,7 @@ const AllProjects = () => {
           </div>
           <div className="text-base-400">{rowData.description}</div>
         </div>
-      ),
+      )
     },
     {
       name: 'QUICK LINKS',
@@ -83,7 +83,7 @@ const AllProjects = () => {
             {rowData.test_runs_count} Test Runs
           </span>
         </>
-      ),
+      )
     },
     {
       name: '',
@@ -95,8 +95,8 @@ const AllProjects = () => {
           onClick={(e) => onDropDownChange(e, data)}
           options={dropDownOptions}
         />
-      ),
-    },
+      )
+    }
   ];
 
   return (
