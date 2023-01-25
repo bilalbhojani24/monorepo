@@ -20,7 +20,7 @@ export default function Folders() {
   } = useFolders();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-full flex-col items-stretch">
       <AddFolderModal show={isAddFolderModalVisible} projectId={projectId} />
       <div className="border-base-300 flex items-center border-b p-3">
         <span className="text-base">Folders</span>
@@ -35,7 +35,7 @@ export default function Folders() {
           <CreateNewFolderOutlinedIcon className="text-base-500" />
         </TMButton>
       </div>
-      <div className="flex w-full flex-col overflow-y-auto">
+      <div className="flex h-full w-full flex-col items-stretch overflow-y-auto">
         <FolderExplorer
           projectId={projectId}
           folderId={folderId}

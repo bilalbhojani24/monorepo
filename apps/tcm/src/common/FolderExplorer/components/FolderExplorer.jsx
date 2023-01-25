@@ -3,7 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { folderDropOptions } from '../const/folderConst';
+
 import ConrolledNestedTree from './ConrolledNestedTree';
+import DeleteFolder from './DeleteFolder';
+import useFolderActions from './useFolderActions';
 import useFolderExplorer from './useFolderExplorer';
 
 const FolderExplorer = ({
@@ -14,24 +18,35 @@ const FolderExplorer = ({
   onFolderClick,
   onFoldersUpdate
 }) => {
-  const { folderClickHandler, foldersArray, subFolderOpenHandler } =
-    useFolderExplorer({
-      allFolders,
-      projectId,
-      folderId,
-      onFolderClick,
-      onFoldersUpdate
-    });
+  const {
+    openedModal,
+    folderClickHandler,
+    foldersArray,
+    subFolderOpenHandler,
+    actionClickHandler,
+    hideModal
+  } = useFolderExplorer({
+    allFolders,
+    projectId,
+    folderId,
+    onFolderClick,
+    onFoldersUpdate
+  });
 
   return (
-    <div className="w-full">
+    <>
       <ConrolledNestedTree
         foldersArray={foldersArray}
         actionsEnabled={actionsEnabled}
         onFolderClick={folderClickHandler}
         onFolderOpen={subFolderOpenHandler}
+        onActionClick={actionClickHandler}
       />
-    </div>
+      <DeleteFolder
+        show={openedModal === folderDropOptions[4]?.body}
+        hideModal={hideModal}
+      />
+    </>
   );
 };
 

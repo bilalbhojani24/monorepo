@@ -12,3 +12,6 @@ export const addFolder = async ({ projectId, payload }) => {
   };
   return fetchPost(`/api/v1/projects/${projectId}/repository/mkdir`, data);
 };
+
+export const deleteFolder = async ({ projectId, folderId }) =>
+  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}`);

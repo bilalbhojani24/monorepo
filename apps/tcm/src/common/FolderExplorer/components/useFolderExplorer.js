@@ -8,6 +8,7 @@ const useFolderExplorer = ({
   allFolders,
   onFoldersUpdate
 }) => {
+  const [openedModal, setOpenedModal] = useState(null);
   const [foldersArray, setFoldersArray] = useState([]);
 
   const fireOnFoldersUpdate = (folders, testCases) => {
@@ -98,12 +99,22 @@ const useFolderExplorer = ({
     }
   };
 
-  useEffect(() => {
-    if (allFolders && !foldersArray.length)
+  const initFoldersArray = () => {
+    if (allFolders)
       // should only set allFolders on initial load only
-      setFoldersArray(
-        folderArrayUpdateHelper(allFolders, folderId, false, false)
-      );
+      setFoldersArray(allFolders);
+  };
+
+  const hideModal = () => {
+    setOpenedModal(null);
+  };
+
+  const actionClickHandler = (e, folder) => {
+    setOpenedModal(e.currentTarget.textContent);
+  };
+
+  useEffect(() => {
+    initFoldersArray();
     // if folderId enabled it will screw up the isSelected functioning
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allFolders]);
@@ -113,6 +124,13 @@ const useFolderExplorer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
-  return { foldersArray, folderClickHandler, subFolderOpenHandler };
+  return {
+    openedModal,
+    foldersArray,
+    folderClickHandler,
+    subFolderOpenHandler,
+    hideModal,
+    actionClickHandler
+  };
 };
 export default useFolderExplorer;

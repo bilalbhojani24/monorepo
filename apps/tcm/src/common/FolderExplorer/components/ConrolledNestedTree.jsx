@@ -7,12 +7,15 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
+import { folderDropOptions } from '../const/folderConst';
+
 const ConrolledNestedTree = ({
   foldersArray,
   indent,
   onFolderOpen,
   onFolderClick,
-  actionsEnabled
+  actionsEnabled,
+  onActionClick
 }) => (
   /**
    * use a map for keeping your treenodes under parent control,
@@ -40,23 +43,9 @@ const ConrolledNestedTree = ({
             <>
               {actionsEnabled ? (
                 <TMDropdown
+                  onClick={(e) => onActionClick(e, item)}
                   triggerVariant="meatball-button"
-                  options={[
-                    {
-                      id: '1',
-                      body: 'Edit'
-                    },
-                    {
-                      id: '2',
-                      body: 'Duplicate',
-                      divider: false
-                    },
-                    {
-                      id: '3',
-                      body: 'Archive',
-                      divider: true
-                    }
-                  ]}
+                  options={folderDropOptions}
                 />
               ) : (
                 ''
@@ -72,6 +61,7 @@ const ConrolledNestedTree = ({
               actionsEnabled={actionsEnabled}
               onFolderOpen={onFolderOpen}
               onFolderClick={onFolderClick}
+              onActionClick={onActionClick}
             />
           </TMListTreeNodeContents>
         )}
@@ -84,6 +74,7 @@ ConrolledNestedTree.propTypes = {
   indent: PropTypes.number,
   actionsEnabled: PropTypes.bool,
   onFolderOpen: PropTypes.func,
+  onActionClick: PropTypes.func,
   onFolderClick: PropTypes.func
 };
 
@@ -92,6 +83,7 @@ ConrolledNestedTree.defaultProps = {
   indent: 1,
   actionsEnabled: false,
   onFolderOpen: () => {},
+  onActionClick: () => {},
   onFolderClick: () => {}
 };
 
