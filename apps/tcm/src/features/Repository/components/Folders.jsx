@@ -39,11 +39,11 @@ export default function Folders() {
         isEditFolder
         currentData={openedFolderModal?.folder}
         folderId={openedFolderModal?.folder?.id}
-        show={openedFolderModal?.modal === folderDropOptions[3].body}
+        show={openedFolderModal?.modal === folderDropOptions[2].body}
         projectId={projectId}
       />
       <DeleteFolder
-        show={openedFolderModal?.modal === folderDropOptions[4].body}
+        show={openedFolderModal?.modal === folderDropOptions[3].body}
         projectId={projectId}
       />
       <div className="border-base-300 flex items-center border-b p-3">

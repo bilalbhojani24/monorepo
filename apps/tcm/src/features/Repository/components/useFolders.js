@@ -17,7 +17,7 @@ import {
 import useTestCases from './useTestCases';
 
 export default function useFolders() {
-  const { showTestCaseAdditionPage } = useTestCases();
+  const { showTestCaseAdditionPage, hideTestCaseAdditionPage } = useTestCases();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -80,7 +80,7 @@ export default function useFolders() {
       if (e.currentTarget.textContent === folderDropOptions[0].body) {
         // create test case
         showTestCaseAdditionPage();
-      }
+      } else hideTestCaseAdditionPage();
     }
   };
 
