@@ -1,7 +1,9 @@
 import React from 'react';
+import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMBadge,
   TMButton,
+  TMEmptyState,
   TMInputWButton,
   TMModal,
   TMModalBody,
@@ -58,13 +60,28 @@ const AddTagModal = ({
           Existing Tags in this test case:
         </div>
         <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
-          {allTags?.map((item) => (
-            <TMBadge
-              text={item}
-              hasRemoveButton
-              onClose={() => onTagRemoveClick(item)}
-            />
-          ))}
+          {allTags.length ? (
+            <>
+              {allTags?.map((item) => (
+                <TMBadge
+                  text={item}
+                  hasRemoveButton
+                  onClose={() => onTagRemoveClick(item)}
+                />
+              ))}
+            </>
+          ) : (
+            <div className="flex w-full justify-center p-6">
+              <TMEmptyState
+                title=""
+                description="No tags added for this test case"
+                mainIcon={
+                  <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                }
+                buttonProps={null}
+              />
+            </div>
+          )}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
