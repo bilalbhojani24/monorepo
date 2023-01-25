@@ -97,7 +97,8 @@ export default function useAddEditTestCase() {
       ...formData,
       steps: JSON.stringify(formData.steps),
       tags: formData?.tags?.map((item) => item.value),
-      issues: formData?.issues?.map((item) => item.value)
+      issues: formData?.issues?.map((item) => item.value),
+      attachments: formData?.attachments?.map((item) => item.id)
     }
   });
 

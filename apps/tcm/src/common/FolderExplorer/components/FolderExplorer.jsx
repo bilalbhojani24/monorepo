@@ -1,3 +1,5 @@
+// if folderId and allFolders are null, allFolders will be fetched by the component itself using th projectId
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,13 +11,13 @@ const FolderExplorer = ({
   allFolders,
   projectId,
   folderId,
-  onFolderClick,
+  onFolderClick
 }) => {
   const { folderClickHandler, foldersArray } = useFolderExplorer({
     allFolders,
     projectId,
     folderId,
-    onFolderClick,
+    onFolderClick
   });
 
   return (
@@ -34,7 +36,7 @@ FolderExplorer.propTypes = {
   onFolderClick: PropTypes.func,
   projectId: PropTypes.string,
   folderId: PropTypes.string,
-  actionsEnabled: PropTypes.bool,
+  actionsEnabled: PropTypes.bool
 };
 
 FolderExplorer.defaultProps = {
@@ -42,7 +44,7 @@ FolderExplorer.defaultProps = {
   projectId: null,
   folderId: null,
   onFolderClick: () => {},
-  actionsEnabled: false,
+  actionsEnabled: false
 };
 
 export default FolderExplorer;

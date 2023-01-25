@@ -15,7 +15,7 @@ export default function Folders() {
     allFolders,
     isAddFolderModalVisible,
     showAddFolderModal,
-    folderClickHandler,
+    folderClickHandler
   } = useFolders();
 
   return (
@@ -39,6 +39,7 @@ export default function Folders() {
           projectId={projectId}
           folderId={folderId}
           allFolders={allFolders}
+          actionsEnabled
           onFolderClick={folderClickHandler}
         />
       </div>
