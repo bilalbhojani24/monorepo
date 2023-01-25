@@ -4,20 +4,20 @@ const initialState = {
   testRailsCred: {
     email: '',
     host: '',
-    key: '',
+    key: ''
   },
   zephyrCred: {
     zephyr_key: '',
     email: '',
     jira_key: '',
-    host: '',
+    host: ''
   },
+  connectionStatusMap: { testrails: '', zephyr: '' },
+  selectedRadioIdMap: { testrails: '', zephyr: '' },
   projectsForTestManagementImport: [],
   currentScreen: 'configureTool',
   importSteps: [],
-  connectionEst: '',
-  currentTestManagementTool: '',
-  selectedRadioId: '',
+  currentTestManagementTool: ''
 };
 
 const importSlice = createSlice({
@@ -36,19 +36,28 @@ const importSlice = createSlice({
     setImportSteps: (state, { payload }) => {
       state.importSteps = payload;
     },
-    setConnectionState: (state, { payload }) => {
-      state.connectionEst = payload;
+    setConnectionStatusMap: (state, { payload }) => {
+      state.connectionStatusMap[payload.key] = payload.value;
+      if (payload.key === 'testrails') {
+        state.zephyrCred = initialState.zephyrCred;
+        state.connectionStatusMap.zephyr = '';
+        state.selectedRadioIdMap.zephyr = '';
+      } else if (payload.key === 'zephyr') {
+        state.testRailsCred = initialState.testRailsCred;
+        state.connectionStatusMap.testrails = '';
+        state.selectedRadioIdMap.testrails = '';
+      }
     },
-    setSelectedRadioId: (state, { payload }) => {
-      state.selectedRadioId = payload;
+    setSelectedRadioIdMap: (state, { payload }) => {
+      state.selectedRadioIdMap[payload.key] = payload.value;
     },
     setCurrentTestManagementTool: (state, { payload }) => {
       state.currentTestManagementTool = payload;
     },
     setZephyrCred: (state, { payload }) => {
       state.zephyrCred[payload.key] = payload.value;
-    },
-  },
+    }
+  }
 });
 
 export const {
@@ -58,7 +67,7 @@ export const {
   setZephyrCred,
   setProjectForTestManagementImport,
   setImportSteps,
-  setConnectionState,
-  setSelectedRadioId,
+  setConnectionStatusMap,
+  setSelectedRadioIdMap
 } = importSlice.actions;
 export default importSlice.reducer;

@@ -3,12 +3,15 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import { TMAlerts, TMInputField } from 'common/bifrostProxy';
 import { bool } from 'prop-types';
 
+import { ZEPHYR } from '../const/importSteps';
+
 import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
 
 const ZephyrImportForm = (props) => {
   const { jiraConfigured } = props;
-  const { connectionStatus, handleInputFieldChange } = useImport();
+  const { connectionStatusMap, handleInputFieldChange, zephyrCred } =
+    useImport();
 
   return (
     <div className="mt-12">
@@ -19,6 +22,7 @@ const ZephyrImportForm = (props) => {
               <TMInputField
                 id="jira-host-name"
                 onChange={handleInputFieldChange('host')}
+                value={zephyrCred.host}
                 label={
                   <>
                     JIRA Host Name
@@ -34,6 +38,7 @@ const ZephyrImportForm = (props) => {
               <TMInputField
                 id="jira-api-token"
                 onChange={handleInputFieldChange('jira_key')}
+                value={zephyrCred.jira_key}
                 label={
                   <>
                     JIRA API Token
@@ -51,6 +56,7 @@ const ZephyrImportForm = (props) => {
               <TMInputField
                 id="jira-email"
                 onChange={handleInputFieldChange('email')}
+                value={zephyrCred.email}
                 label={
                   <>
                     JIRA Email Address
@@ -66,6 +72,7 @@ const ZephyrImportForm = (props) => {
               <TMInputField
                 id="zephyr-api-token"
                 onChange={handleInputFieldChange('zephyr_key')}
+                value={zephyrCred.zephyr_key}
                 label={
                   <>
                     Zephyr API Token
@@ -81,13 +88,13 @@ const ZephyrImportForm = (props) => {
         </>
       )}
       {jiraConfigured && <>Jira Is Configured</>}
-      {connectionStatus && (
+      {connectionStatusMap[ZEPHYR] && (
         <TMAlerts
           accentBorder={false}
-          show={!!connectionStatus}
-          modifier={connectionStatus}
+          show={!!connectionStatusMap[ZEPHYR]}
+          modifier={connectionStatusMap[ZEPHYR]}
           title={
-            connectionStatus === 'success'
+            connectionStatusMap[ZEPHYR] === 'success'
               ? 'Connection was successful. Proceed to continue.'
               : 'Connection was not successful. Try again.'
           }
@@ -100,11 +107,11 @@ const ZephyrImportForm = (props) => {
 };
 
 ZephyrImportForm.propTypes = {
-  jiraConfigured: bool,
+  jiraConfigured: bool
 };
 
 ZephyrImportForm.defaultProps = {
-  jiraConfigured: false,
+  jiraConfigured: false
 };
 
 export default ZephyrImportForm;

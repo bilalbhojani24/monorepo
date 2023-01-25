@@ -1,7 +1,12 @@
 import React from 'react';
 import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
-import { IMPORT_FROM_TOOL, UPLOAD_FILE } from '../const/importSteps';
+import {
+  IMPORT_FROM_TOOL,
+  TEST_RAILS,
+  UPLOAD_FILE,
+  ZEPHYR
+} from '../const/importSteps';
 
 import ImportFooter from './ImportFooter';
 import TestRailImportForm from './TestRailImportForm';
@@ -15,25 +20,24 @@ const ConfigureTool = () => {
     setTestManagementTool,
     currentTestManagementTool,
     handleRadioGroupChange,
-    selectedRadioId,
+    selectedRadioIdMap
   } = useImport();
 
   const handleButtonClick = (text) => () => {
-    if (text === 'zephyr') isJiraConfiguredForZephyr();
+    if (text === ZEPHYR) isJiraConfiguredForZephyr();
     setTestManagementTool(text);
   };
 
   const getForm = () => {
-    if (currentTestManagementTool === 'testrails') {
-      if (selectedRadioId === IMPORT_FROM_TOOL) return <TestRailImportForm />;
-      if (selectedRadioId === UPLOAD_FILE) return 'Upload';
-      return 'Nothing';
+    if (selectedRadioIdMap[currentTestManagementTool] === IMPORT_FROM_TOOL) {
+      return currentTestManagementTool === TEST_RAILS ? (
+        <TestRailImportForm />
+      ) : (
+        <ZephyrImportForm jiraConfigured={jiraConfigured} />
+      );
     }
-    if (currentTestManagementTool === 'zephyr') {
-      if (selectedRadioId === IMPORT_FROM_TOOL)
-        return <ZephyrImportForm jiraConfigured={jiraConfigured} />;
-      if (selectedRadioId === UPLOAD_FILE) return 'Upload';
-      return 'Nothing';
+    if (selectedRadioIdMap[currentTestManagementTool] === UPLOAD_FILE) {
+      return 'Upload';
     }
     return null;
   };
@@ -45,27 +49,25 @@ const ConfigureTool = () => {
         <div className="mr-3">
           <TMButton
             colors={
-              currentTestManagementTool === 'testrails' ? 'brand' : 'white'
+              currentTestManagementTool === TEST_RAILS ? 'brand' : 'white'
             }
             variant={
-              currentTestManagementTool === 'testrails'
-                ? 'secondary'
-                : 'primary'
+              currentTestManagementTool === TEST_RAILS ? 'secondary' : 'primary'
             }
             size="extra-large"
-            onClick={handleButtonClick('testrails')}
+            onClick={handleButtonClick(TEST_RAILS)}
           >
             TestRail
           </TMButton>
         </div>
         <div className="mr-3">
           <TMButton
-            colors={currentTestManagementTool === 'zephyr' ? 'brand' : 'white'}
+            colors={currentTestManagementTool === ZEPHYR ? 'brand' : 'white'}
             variant={
-              currentTestManagementTool === 'zephyr' ? 'secondary' : 'primary'
+              currentTestManagementTool === ZEPHYR ? 'secondary' : 'primary'
             }
             size="extra-large"
-            onClick={handleButtonClick('zephyr')}
+            onClick={handleButtonClick(ZEPHYR)}
           >
             Zephyr
           </TMButton>
@@ -97,8 +99,10 @@ const ConfigureTool = () => {
           <div className="mt-3">
             <TMRadioGroup
               direction="horizontal"
-              onChange={handleRadioGroupChange}
-              defaultSelectedOption={{ id: selectedRadioId }}
+              onChange={handleRadioGroupChange(currentTestManagementTool)}
+              defaultSelectedOption={{
+                id: selectedRadioIdMap[currentTestManagementTool]
+              }}
               options={[
                 {
                   id: 'import-from-tool',
@@ -112,24 +116,25 @@ const ConfigureTool = () => {
                       />
                     </>
                   ),
-                  description: `Enter ${currentTestManagementTool} credentials we'll import your data`,
+                  description: `Enter ${currentTestManagementTool} credentials we'll import your data`
                 },
                 {
                   id: 'upload-file',
                   name: 'Upload file',
-                  description: `Upload ${currentTestManagementTool} XML file with test case data`,
-                },
+                  description: `Upload ${currentTestManagementTool} XML file with test case data`
+                }
               ]}
             />
           </div>
         </div>
       )}
       {getForm()}
-      {currentTestManagementTool && selectedRadioId === IMPORT_FROM_TOOL && (
-        <div className="flex justify-end">
-          <ImportFooter />
-        </div>
-      )}
+      {currentTestManagementTool &&
+        selectedRadioIdMap[currentTestManagementTool] === IMPORT_FROM_TOOL && (
+          <div className="flex justify-end">
+            <ImportFooter />
+          </div>
+        )}
     </div>
   );
 };
