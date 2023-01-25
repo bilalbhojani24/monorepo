@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Notifications, notify } from '@browserstack/bifrost';
+import { Banner, Notifications, notify } from '@browserstack/bifrost';
 import {
   dismissNotificationForImport,
   getLatestQuickImportConfig,
@@ -13,7 +13,11 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 
-import { CheckCircleRoundedIcon, ErrorIcon } from '../../../assets/icons';
+import {
+  AccessTimeFilledRoundedIcon,
+  CheckCircleRoundedIcon,
+  ErrorIcon
+} from '../../../assets/icons';
 import {
   COMPLETED,
   FAILURE,
@@ -85,9 +89,27 @@ const ImportStatus = () => {
   return (
     showRibbonNotification && (
       <>
-        <TMButton onClick={checkImportStatusClickHandler}>
+        <Banner
+          align="extreme"
+          description="We’ve started importing your projects which will take some time. We’ll also notify you over email once it’s completed."
+          isDismissButton={false}
+          placement="top"
+          bannerIcon={
+            <AccessTimeFilledRoundedIcon className="text-brand-500" />
+          }
+          ctaButton={
+            <TMButton
+              variant="minimal"
+              wrapperClassName="text-brand-50 underline hover:text-brand-50"
+              onClick={checkImportStatusClickHandler}
+            >
+              Check Import Status
+            </TMButton>
+          }
+        />
+        {/* <TMButton onClick={checkImportStatusClickHandler}>
           Check Import Status
-        </TMButton>
+        </TMButton> */}
         {notification.show &&
           !document.querySelector('.go4109123758') && // a hack will remove this post fix from DS team
           notify(

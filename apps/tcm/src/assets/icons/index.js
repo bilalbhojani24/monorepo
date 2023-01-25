@@ -1,4 +1,5 @@
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -28,6 +29,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 export {
   AccessTimeFilledIcon,
+  AccessTimeFilledRoundedIcon,
   AddBoxOutlinedIcon,
   ArrowDownwardOutlinedIcon,
   ArrowForwardIcon,
