@@ -32,28 +32,70 @@ export default function useFolders() {
     (state) => state.repository.openedFolderModal
   );
   const setAllFolders = (data) => {
+    console.log(data);
     dispatch(updateAllFolders(data));
   };
   const showAddFolderModal = () => {
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
+  const mapFolderAncestorHelper = (ancestorsArray) => {
+    let newContentObject = null;
+    ancestorsArray?.forEach((item, iDx) => {
+      if (iDx === 0) {
+        newContentObject = item;
+        newContentObject.isOpened = true;
+        newContentObject.isSelected = true;
+      } else {
+        const newItem = item;
+        newItem.contents = item.contents
+          ? item.contents.map((intItem) =>
+              intItem.id === newContentObject?.id ? newContentObject : intItem
+            )
+          : newContentObject;
+        newItem.isOpened = true;
+        newContentObject = newItem;
+      }
+    });
+    return newContentObject;
+  };
+
   const fetchFolderSelectedFromParam = (loadedFolders) => {
     if (folderId)
-      getSubFolders({ projectId, folderId }).then((res) => {
-        res?.ancestors?.reverse().forEach((item) => {
-          const mapped = loadedFolders.map((folder) =>
-            folder.id === item.id
-              ? {
-                  ...item,
-                  contents: [],
-                  isOpened: true
-                }
-              : item
-          );
-          setAllFolders(mapped);
-        });
-      });
+      getSubFolders({ projectId, folderId, fetchAncestors: true }).then(
+        (res) => {
+          const newContentObject = mapFolderAncestorHelper(res?.ancestors);
+          if (newContentObject) {
+            setAllFolders(
+              loadedFolders.map((item) =>
+                item.id === newContentObject.id ? newContentObject : item
+              )
+            );
+          } else setAllFolders(loadedFolders);
+        }
+      );
+  };
+
+  const selectFolderPerDefault = (foldersArray) => {
+    if (
+      !folderId &&
+      foldersArray &&
+      window.location.pathname.includes(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })
+      )
+    ) {
+      // select first folder by default, only if the test cases page is still open
+      const firstFolderId = foldersArray[0]?.id;
+      if (firstFolderId)
+        navigate(
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId,
+            folderId: firstFolderId
+          })
+        );
+    }
   };
 
   const fetchAllFolders = () => {
@@ -61,34 +103,15 @@ export default function useFolders() {
     dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
       getFolders({ projectId }).then((data) => {
-        setAllFolders(data?.folders || []);
-        if (folderId) {
-          const match = data?.folders?.find(
-            (item) => `${item.id}` === folderId
-          );
-          // if (!match)
-          //   // if the folderId in URL is not a parent level folder
-          //   fetchFolderSelectedFromParam(data?.folders || []);
-        }
-        if (
-          !folderId &&
-          data?.folders &&
-          window.location.pathname.includes(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId
-            })
-          )
-        ) {
-          // select first folder by default, only if the test cases page is still open
-          const firstFolderId = data.folders[0]?.id;
-          if (firstFolderId)
-            navigate(
-              routeFormatter(AppRoute.TEST_CASES, {
-                projectId,
-                folderId: firstFolderId
-              })
-            );
-        }
+        const isParentFolderDefault = data?.folders?.find(
+          (item) => `${item.id}` === folderId
+        );
+        if (folderId && !isParentFolderDefault) {
+          // if the folderId in URL is not a parent level folder
+          fetchFolderSelectedFromParam(data?.folders || []);
+        } else setAllFolders(data?.folders || []);
+
+        selectFolderPerDefault(data?.folders);
       });
     } else setAllFolders([]);
   };
