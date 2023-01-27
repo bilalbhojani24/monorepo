@@ -8,6 +8,7 @@ import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
@@ -40,6 +41,7 @@ export {
   AssignmentOutlinedIcon,
   AttachFileOutlinedIcon,
   BarChartOutlinedIcon,
+  BugReportOutlinedIcon,
   CancelRoundedIcon,
   CheckCircleRoundedIcon,
   CodeOutlinedIcon,

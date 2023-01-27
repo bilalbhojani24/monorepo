@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import useTestCases from 'features/Repository/components/useTestCases';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
@@ -11,8 +12,9 @@ import {
   setTestCaseViewVisibility
 } from '../slices/testCaseDetailsSlice';
 
-export default function useTestCases() {
+export default function useTestCasesView() {
   const navigate = useNavigate();
+  const { onDropDownChange } = useTestCases();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   // const [inputError, setInputError] = useState(false);
   const { projectId, folderId, testCaseId } = useParams();
@@ -59,6 +61,11 @@ export default function useTestCases() {
     setTab(value);
   };
 
+  const actionHandler = (e) => {
+    hideTestCaseViewDrawer();
+    onDropDownChange(e, testCaseDetails);
+  };
+
   return {
     testRunsCount,
     selectedTab,
@@ -69,6 +76,7 @@ export default function useTestCases() {
     hideTestCaseViewDrawer,
     isTestCaseViewVisible,
     fetchTestCaseDetails,
-    handleTabChange
+    handleTabChange,
+    actionHandler
   };
 }

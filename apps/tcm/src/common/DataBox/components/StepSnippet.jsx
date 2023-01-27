@@ -3,7 +3,7 @@ import className from 'classnames';
 import PropTypes from 'prop-types';
 
 const StepSnippet = ({ index, step, result }) => (
-  <div className="border-base-300 mt-2 mb-4 flex flex-row justify-between rounded-md border p-4">
+  <div className="border-base-300 mt-2 flex flex-row justify-between rounded-md border p-4">
     <div className="border-base-200 text-brand-600 w-8 border-r pr-4 text-base font-semibold">
       {index.toLocaleString('en-US', {
         minimumIntegerDigits: 2,
