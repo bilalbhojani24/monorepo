@@ -1,3 +1,4 @@
+import Accordion from './modules/Accordion';
 import Alerts from './modules/Alerts/index';
 import Badge from './modules/Badge/index';
 import Breadcrumb from './modules/Breadcrumb/index';
@@ -95,6 +96,7 @@ import TooltipHeader from './modules/TooltipHeader/index';
 export * from './modules/Icon/index';
 
 export {
+  Accordion,
   Alerts,
   ArrowLongLeftIcon,
   ArrowLongRightIcon,

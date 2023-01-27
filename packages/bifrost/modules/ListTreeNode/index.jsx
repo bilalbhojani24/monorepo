@@ -10,6 +10,7 @@ import './styles.scss';
 const ListTreeNode = ({
   label,
   description,
+  nodeLabelClassName,
   onTrailingIconClick,
   onNodeClick,
   onNodeOpen,
@@ -52,7 +53,8 @@ const ListTreeNode = ({
 
       <div
         className={twClassNames(
-          'text-base-700 mr-2 text-xs leading-5 max-w-xs truncate',
+          'text-base-700 mr-2 text-xs leading-5 truncate',
+          nodeLabelClassName,
           {
             'font-medium': isNodeSelected
           }
@@ -73,9 +75,12 @@ const ListTreeNode = ({
     </div>
 
     <div
-      className={twClassNames('text-base-600 text-xs leading-5', {
-        'font-medium': isNodeSelected
-      })}
+      className={twClassNames(
+        'text-base-600 text-xs leading-5 truncate max-w-[55px]',
+        {
+          'font-medium': isNodeSelected
+        }
+      )}
     >
       {description}
     </div>
@@ -85,6 +90,7 @@ const ListTreeNode = ({
 ListTreeNode.propTypes = {
   label: PropTypes.string,
   description: PropTypes.string,
+  nodeLabelClassName: PropTypes.string,
   onTrailingIconClick: PropTypes.func,
   onNodeClick: PropTypes.func,
   onNodeOpen: PropTypes.func,
@@ -95,6 +101,7 @@ ListTreeNode.propTypes = {
 ListTreeNode.defaultProps = {
   label: 'Folder Name',
   description: '(762)',
+  nodeLabelClassName: '',
   onTrailingIconClick: () => {},
   onNodeClick: () => {},
   onNodeOpen: () => {},
