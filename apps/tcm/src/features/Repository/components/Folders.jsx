@@ -7,6 +7,7 @@ import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 
 import AddEditFolderModal from './AddEditFolderModal';
 import DeleteFolder from './DeleteFolder';
+import MoveFolderModal from './MoveFolderModal';
 import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
@@ -35,15 +36,19 @@ export default function Folders() {
         show={openedFolderModal?.modal === folderDropOptions[1].body}
         projectId={projectId}
       />
+      <MoveFolderModal
+        show={openedFolderModal?.modal === folderDropOptions[2].body}
+        projectId={projectId}
+      />
       <AddEditFolderModal
         isEditFolder
         currentData={openedFolderModal?.folder}
         folderId={openedFolderModal?.folder?.id}
-        show={openedFolderModal?.modal === folderDropOptions[2].body}
+        show={openedFolderModal?.modal === folderDropOptions[3].body}
         projectId={projectId}
       />
       <DeleteFolder
-        show={openedFolderModal?.modal === folderDropOptions[3].body}
+        show={openedFolderModal?.modal === folderDropOptions[4].body}
         projectId={projectId}
       />
       <div className="border-base-300 flex items-center border-b p-3">

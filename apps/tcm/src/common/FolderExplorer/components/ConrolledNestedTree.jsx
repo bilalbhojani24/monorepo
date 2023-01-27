@@ -39,11 +39,15 @@ const ConrolledNestedTree = ({
           onNodeClick={() => onFolderClick(item)}
           onNodeOpen={() => onFolderOpen(item)}
           trailingVisualElement={
-            <TMDropdown
-              onClick={(e) => onActionClick({ e, folder: item })}
-              triggerVariant="meatball-button"
-              options={actionOptions}
-            />
+            <>
+              {actionsEnabled && actionOptions.length && (
+                <TMDropdown
+                  onClick={(e) => onActionClick({ e, folder: item })}
+                  triggerVariant="meatball-button"
+                  options={actionOptions}
+                />
+              )}
+            </>
           }
         />
         {!!item?.contents && (

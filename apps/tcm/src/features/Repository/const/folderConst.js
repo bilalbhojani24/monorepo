@@ -8,11 +8,11 @@ export const folderDropOptions = [
     body: 'Add Sub Folder',
     divider: false
   },
-  // {
-  //   id: 'move_sub',
-  //   body: 'Move Folder',
-  //   divider: true
-  // },
+  {
+    id: 'move_sub',
+    body: 'Move Folder',
+    divider: true
+  },
   {
     id: 'edit_folder',
     body: 'Edit Folder',

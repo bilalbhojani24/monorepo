@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteFolder, getFolders } from 'api/folders.api';
+import { deleteFolder, getFolders, getSubFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -33,12 +33,38 @@ export default function useFolders() {
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
+  const fetchFolderSelectedFromParam = (loadedFolders) => {
+    if (folderId)
+      getSubFolders({ projectId, folderId }).then((res) => {
+        res?.ancestors?.reverse().forEach((item) => {
+          const mapped = loadedFolders.map((folder) =>
+            folder.id === item.id
+              ? {
+                  ...item,
+                  contents: [],
+                  isOpened: true
+                }
+              : item
+          );
+          setAllFolders(mapped);
+        });
+      });
+  };
+
   const fetchAllFolders = () => {
     dispatch(setSelectedProject(projectId));
     dispatch(setAddTestCaseVisibility(false));
-    if (projectId)
+    if (projectId) {
       getFolders({ projectId }).then((data) => {
         setAllFolders(data?.folders || []);
+        if (folderId) {
+          const match = data?.folders?.find(
+            (item) => `${item.id}` === folderId
+          );
+          // if (!match)
+          //   // if the folderId in URL is not a parent level folder
+          //   fetchFolderSelectedFromParam(data?.folders || []);
+        }
         if (
           !folderId &&
           data?.folders &&
@@ -59,7 +85,7 @@ export default function useFolders() {
             );
         }
       });
-    else setAllFolders([]);
+    } else setAllFolders([]);
   };
 
   const folderClickHandler = (selectedFolder) => {
