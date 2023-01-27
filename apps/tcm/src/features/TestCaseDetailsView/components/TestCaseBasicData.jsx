@@ -100,7 +100,7 @@ const TestCaseBasicData = () => {
               }
             />
           </div>
-          <div className="w-full">
+          {/* <div className="w-full">
             <DetailsSnippet
               title="Issues"
               value={
@@ -115,7 +115,7 @@ const TestCaseBasicData = () => {
                 )
               }
             />
-          </div>
+          </div> */}
         </div>
         <DetailsSnippet
           title="Attachments"
