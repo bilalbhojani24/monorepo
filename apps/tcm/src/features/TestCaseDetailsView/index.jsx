@@ -32,7 +32,7 @@ const TestCaseDetailsView = () => {
       backgroundOverlay={false}
     >
       <TMSlideoverHeader
-        heading={testCaseDetails?.name || ''}
+        heading="Test Case Details"
         isBorder
         handleDismissClick={hideTestCaseViewDrawer}
       />

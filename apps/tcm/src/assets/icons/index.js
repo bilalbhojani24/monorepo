@@ -1,7 +1,9 @@
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
@@ -30,8 +32,10 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 export {
   AccessTimeFilledIcon,
   AddBoxOutlinedIcon,
+  ArrowBackOutlinedIcon,
   ArrowDownwardOutlinedIcon,
   ArrowForwardIcon,
+  ArrowForwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
   AssignmentOutlinedIcon,
   AttachFileOutlinedIcon,

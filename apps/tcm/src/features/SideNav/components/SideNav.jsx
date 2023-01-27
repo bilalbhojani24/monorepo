@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {
   SidebarHeader,
   SidebarItem,
-  SidebarNavigation,
+  SidebarNavigation
 } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 
@@ -19,14 +19,14 @@ const SideNav = () => {
     showProjects,
     activeRoute,
     selectedProjectId,
-    onProjectChange,
+    onProjectChange
   } = useSideNav();
 
   if (location.pathname === AppRoute.LANDING) return '';
 
   return (
     <SidebarNavigation
-      wrapperClass="mt-16 bg-white"
+      wrapperClass="mt-16 bg-white z-[5]"
       sidebarPrimaryNavigation={primaryNavs?.map((item) => (
         <SidebarItem
           key={item.id}
@@ -49,7 +49,7 @@ const SideNav = () => {
             dropdownOptions={allProjectsDrop}
             onDropdownValueChange={onProjectChange}
             dropdownValue={allProjectsDrop.find(
-              (item) => `${item.value}` === selectedProjectId,
+              (item) => `${item.value}` === selectedProjectId
             )}
           />
         )

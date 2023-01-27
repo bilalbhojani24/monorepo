@@ -3,6 +3,7 @@ import React from 'react';
 // import { TMButton } from 'common/bifrostProxy';
 import TestCaseBasicData from './TestCaseBasicData';
 import TestCaseMutliData from './TestCaseMutliData';
+import TestCaseTopBar from './TestCaseTopBar';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseView = () => {
@@ -18,6 +19,7 @@ const TestCaseView = () => {
   return (
     <div className="flex h-full flex-col items-stretch px-6 pt-5">
       <div className="pb-4">
+        <TestCaseTopBar />
         <TestCaseBasicData />
         <TestCaseMutliData />
       </div>
