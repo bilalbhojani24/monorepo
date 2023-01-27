@@ -35,6 +35,7 @@ const ConrolledNestedTree = ({
         <TMListTreeNode
           label={item.name}
           description=""
+          // nodeLabelClassName="max-w-xs"
           isNodeSelected={item.isSelected}
           onNodeClick={() => onFolderClick(item)}
           onNodeOpen={() => onFolderOpen(item)}

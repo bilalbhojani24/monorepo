@@ -21,3 +21,14 @@ export const addSubFolder = async ({ projectId, folderId, payload }) =>
 
 export const deleteFolder = async ({ projectId, folderId }) =>
   fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/rm`);
+
+export const moveFolder = async ({
+  projectId,
+  folderId,
+  newParentFolderId,
+  isCopy
+}) =>
+  fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/mv`, {
+    new_base_folder_id: newParentFolderId,
+    user_action: isCopy ? 'copy_folder' : 'move_folder'
+  });

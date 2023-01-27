@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getFolders, getSubFolders } from 'api/folders.api';
+import { folderArrayUpdateHelper } from 'utils/folderHelpers';
 
 const useFolderExplorer = ({
   folderId,
@@ -22,84 +23,6 @@ const useFolderExplorer = ({
       });
   };
 
-  const findSelectedFolder = (thisArray, findFolderId) => {
-    if (!thisArray || !thisArray.length) return false;
-    let selectedItem = null;
-    thisArray?.every((item) => {
-      if (`${item.id}` === findFolderId) {
-        selectedItem = item;
-        return false;
-      }
-      if (item.contents) {
-        const matched = findSelectedFolder(item.contents, findFolderId);
-        if (matched) {
-          selectedItem = matched;
-          return false;
-        }
-      }
-      return true;
-    });
-    return selectedItem;
-  };
-
-  const folderArrayUpdateHelper = (
-    folders,
-    workingFolderId,
-    isOpened,
-    isSelected,
-    newContents,
-    level = 0,
-    isSelectTriggered
-  ) =>
-    folders?.map((item) => {
-      if (`${item.id}` === `${workingFolderId}`) {
-        const isCurrentFolderAChild = findSelectedFolder(
-          item.contents,
-          folderId
-        );
-        const thisFolderItem = {
-          ...item,
-          contents: folderArrayUpdateHelper(
-            newContents,
-            workingFolderId,
-            isOpened,
-            false,
-            null,
-            level + 1,
-            isSelectTriggered
-          ),
-          isOpened,
-          isSelected: isCurrentFolderAChild ? true : isSelected // if oneof the current selected item is a child of this folder, then set this folder as the next selected folder
-        };
-        if (isCurrentFolderAChild) {
-          onFolderClick(thisFolderItem);
-        }
-        return thisFolderItem;
-      }
-
-      if (item?.contents?.length) {
-        const updatedContents = folderArrayUpdateHelper(
-          item.contents,
-          workingFolderId,
-          isOpened,
-          isSelected,
-          newContents,
-          level + 1,
-          isSelectTriggered
-        );
-        return {
-          ...item,
-          isSelected: false,
-          contents: updatedContents
-        };
-      }
-
-      return {
-        ...item,
-        isSelected: isSelectTriggered || isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
-      };
-    });
-
   const folderClickHandler = (selectedFolder) => {
     setFoldersArray(
       folderArrayUpdateHelper(
@@ -108,8 +31,9 @@ const useFolderExplorer = ({
         selectedFolder?.isOpened,
         true,
         selectedFolder?.contents,
-        0,
-        true
+        true,
+        folderId,
+        onFolderClick
       )
     );
     onFolderClick(selectedFolder);
@@ -125,7 +49,10 @@ const useFolderExplorer = ({
             openedFolder?.id,
             true,
             true,
-            data.folders
+            data.folders,
+            false,
+            folderId,
+            onFolderClick
           );
           fireOnFoldersUpdate(newMap, data?.test_cases || []);
           setFoldersArray(newMap);
@@ -135,7 +62,11 @@ const useFolderExplorer = ({
         foldersArray,
         openedFolder?.id,
         false,
-        openedFolder?.isSelected
+        openedFolder?.isSelected,
+        null,
+        false,
+        folderId,
+        onFolderClick
       );
 
       setFoldersArray(newMap);

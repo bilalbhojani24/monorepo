@@ -33,7 +33,7 @@ export const onSubmitKeyHandler = (e) => (doAfter) => {
 export const selectMenuValueMapper = (data) =>
   data.map((item) => ({
     label: item,
-    value: item,
+    value: item
   }));
 
 export const splitStringToArray = (string, splitKey) => [
@@ -41,6 +41,6 @@ export const splitStringToArray = (string, splitKey) => [
     string
       .split(splitKey)
       .map((item) => item.trim())
-      .filter((item) => item !== ''),
-  ),
+      .filter((item) => item !== '')
+  )
 ];

@@ -1,8 +1,9 @@
-// if folderId exists then it is a subfolder creation
+// TODO: after success, rearrange the folder, challenge updatedfolder structure to be fetched in allFolders
 
 import React, { useEffect, useState } from 'react';
-import { addFolder } from 'api/folders.api';
+import { moveFolder } from 'api/folders.api';
 import {
+  TMAlerts,
   TMButton,
   TMModal,
   TMModalBody,
@@ -15,11 +16,27 @@ import PropTypes from 'prop-types';
 import useFolders from './useFolders';
 
 const MoveFolderModal = ({ show }) => {
-  const { hideFolderModal, allFolders, projectId } = useFolders();
+  const [selectedFolder, setSelectedFolder] = useState(null);
+  const { hideFolderModal, allFolders, projectId, folderId, moveFolderHelper } =
+    useFolders();
+  const [internalAllFolders, setInternalAllFolders] = useState(null);
 
-  const editFolderHandler = () => {
-    debugger;
+  const moveFolderOnOkHandler = () => {
+    if (selectedFolder?.id) {
+      moveFolder({
+        projectId,
+        folderId,
+        newParentFolderId: selectedFolder.id
+      }).then((data) => {
+        moveFolderHelper(folderId, selectedFolder.id, internalAllFolders);
+        hideFolderModal();
+      });
+    }
   };
+
+  useEffect(() => {
+    if (show) setInternalAllFolders(allFolders);
+  }, [show]);
 
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
@@ -29,13 +46,19 @@ const MoveFolderModal = ({ show }) => {
         handleDismissClick={hideFolderModal}
       />
       <TMModalBody>
-        <div className="border-base-300 border">
+        <div className="border-base-300 mb-4 max-h-72 overflow-auto border">
           <FolderExplorer
             projectId={projectId}
             allFolders={allFolders}
-            // onFolderClick={folderClickHandler}
+            onFolderClick={(folder) => setSelectedFolder(folder)}
+            onFoldersUpdate={(data) => setInternalAllFolders(data)}
           />
         </div>
+        <TMAlerts
+          modifier="primary"
+          linkText={null}
+          description="The selected folder will be moved from the current location to the above selected folder."
+        />
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton colors="white" onClick={hideFolderModal} variant="primary">
@@ -44,7 +67,7 @@ const MoveFolderModal = ({ show }) => {
         <TMButton
           variant="primary"
           wrapperClassName="ml-3"
-          onClick={editFolderHandler}
+          onClick={moveFolderOnOkHandler}
         >
           OK
         </TMButton>

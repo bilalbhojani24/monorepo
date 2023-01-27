@@ -4,6 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { deleteFolder, getFolders, getSubFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
+import {
+  deleteFolderFromArray,
+  findSelectedFolder,
+  injectFolderToParent
+} from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
@@ -118,68 +123,11 @@ export default function useFolders() {
     setAllFolders(newFolders);
   };
 
-  const findSelectedFolder = (foldersArray, findFolderId) => {
-    let selectedItem = null;
-    foldersArray.every((item) => {
-      if (`${item.id}` === findFolderId) {
-        selectedItem = item;
-        return false;
-      }
-      if (item.contents) {
-        const matched = findSelectedFolder(item.contents, findFolderId);
-        if (matched) {
-          selectedItem = matched;
-          return false;
-        }
-      }
-      return true;
-    });
-    return selectedItem;
-  };
-
-  const injectFolderToParent = (array, toBeInjectedFolder, parentID) =>
-    array.map((item) => {
-      if (item.id === parentID) {
-        if (item?.contents)
-          return { ...item, contents: [...item.contents, toBeInjectedFolder] };
-        return { ...item, contents: [toBeInjectedFolder] };
-      }
-      if (item?.contents) {
-        return {
-          ...item,
-          contents: injectFolderToParent(
-            item.contents,
-            toBeInjectedFolder,
-            parentID
-          )
-        };
-      }
-      return item;
-    });
-
   const updateFolders = (folderItem, parentId) => {
     if (!parentId) setAllFolders([...allFolders, folderItem]);
     else {
       setAllFolders(injectFolderToParent(allFolders, folderItem, parentId));
     }
-  };
-
-  const deleteFolderFromArray = (foldersArray, thisFolderID) => {
-    let removedArray = foldersArray.filter(
-      (thisFolder) => thisFolder.id !== thisFolderID
-    );
-    if (removedArray.length < foldersArray.length) return removedArray;
-
-    removedArray = foldersArray.map((item) => {
-      if (item?.contents)
-        return {
-          ...item,
-          contents: deleteFolderFromArray(item.contents, thisFolderID)
-        };
-      return item;
-    });
-
-    return removedArray;
   };
 
   const deleteFolderHandler = () => {
@@ -198,8 +146,28 @@ export default function useFolders() {
     // deleteFolder()
   };
 
+  const moveFolderHelper = (thisFolderID, baseFolderID, internalAllFolders) => {
+    const movedFolder = findSelectedFolder(
+      internalAllFolders,
+      parseInt(thisFolderID, 10)
+    );
+    let updatedFolders = deleteFolderFromArray(
+      [...internalAllFolders],
+      parseInt(thisFolderID, 10)
+    );
+    updatedFolders = injectFolderToParent(
+      updatedFolders,
+      movedFolder,
+      baseFolderID
+    );
+    setAllFolders(updatedFolders);
+  };
+
   useEffect(() => {
-    const selectedFolder = findSelectedFolder(allFolders, folderId);
+    const selectedFolder = findSelectedFolder(
+      allFolders,
+      parseInt(folderId, 10)
+    );
     if (selectedFolder) {
       dispatch(setSelectedFolder(selectedFolder));
     } else {
@@ -220,6 +188,7 @@ export default function useFolders() {
     folderUpdateHandler,
     folderActionsHandler,
     hideFolderModal,
-    deleteFolderHandler
+    deleteFolderHandler,
+    moveFolderHelper
   };
 }
