@@ -8,7 +8,17 @@ import {
 } from '../const/addTestCaseConst';
 
 const initialState = {
-  allFolders: [],
+  allFolders: [
+    {
+      id: 1,
+      name: 'new folder',
+      ui_position: 0,
+      notes: null,
+      links: {
+        self: '/api/v1/projects/1/folder/1'
+      }
+    }
+  ],
   allTestCases: [],
   selectedFolder: null,
   isAddTestCasePageVisible: false,
@@ -43,8 +53,8 @@ export const repositorySlice = createSlice({
   name: 'repository',
   initialState,
   reducers: {
-    updateAllFolders: (state, { payload }) => {
-      state.allFolders = payload;
+    setAllFolders: (state, { payload }) => {
+      state.allFolders = [...payload];
     },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
@@ -121,7 +131,7 @@ export const {
   setLoadedDataProjectId,
   setTagsArray,
   addSingleTestCase,
-  updateAllFolders,
+  setAllFolders,
   setSelectedFolder,
   updateAllTestCases,
   setAddTestCaseVisibility,

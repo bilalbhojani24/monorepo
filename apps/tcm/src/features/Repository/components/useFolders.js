@@ -14,9 +14,9 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 import {
   setAddTestCaseVisibility,
+  setAllFolders,
   setFolderModalConf,
-  setSelectedFolder,
-  updateAllFolders
+  setSelectedFolder
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
@@ -27,13 +27,13 @@ export default function useFolders() {
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
-  const allFolders = useSelector((state) => state.repository.allFolders);
+  const allFolders = useSelector((state) => state.repository?.allFolders);
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
-  const setAllFolders = (data) => {
+  const setAllFoldersHelper = (data) => {
     console.log(data);
-    dispatch(updateAllFolders(data));
+    dispatch(setAllFolders(data));
   };
   const showAddFolderModal = () => {
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
@@ -45,7 +45,11 @@ export default function useFolders() {
       if (iDx === 0) {
         newContentObject = item;
         newContentObject.isOpened = true;
-        newContentObject.isSelected = true;
+        newContentObject.contents = newContentObject.contents.map((thisItem) =>
+          thisItem.id === parseInt(folderId, 10)
+            ? { ...thisItem, isSelected: true }
+            : thisItem
+        );
       } else {
         const newItem = item;
         newItem.contents = item.contents
@@ -66,12 +70,12 @@ export default function useFolders() {
         (res) => {
           const newContentObject = mapFolderAncestorHelper(res?.ancestors);
           if (newContentObject) {
-            setAllFolders(
+            setAllFoldersHelper(
               loadedFolders.map((item) =>
                 item.id === newContentObject.id ? newContentObject : item
               )
             );
-          } else setAllFolders(loadedFolders);
+          } else setAllFoldersHelper(loadedFolders);
         }
       );
   };
@@ -109,11 +113,11 @@ export default function useFolders() {
         if (folderId && !isParentFolderDefault) {
           // if the folderId in URL is not a parent level folder
           fetchFolderSelectedFromParam(data?.folders || []);
-        } else setAllFolders(data?.folders || []);
+        } else setAllFoldersHelper(data?.folders || []);
 
         selectFolderPerDefault(data?.folders);
       });
-    } else setAllFolders([]);
+    } else setAllFoldersHelper([]);
   };
 
   const folderClickHandler = (selectedFolder) => {
@@ -143,13 +147,15 @@ export default function useFolders() {
   };
 
   const folderUpdateHandler = (newFolders, newTestCases) => {
-    setAllFolders(newFolders);
+    setAllFoldersHelper(newFolders);
   };
 
   const updateFolders = (folderItem, parentId) => {
-    if (!parentId) setAllFolders([...allFolders, folderItem]);
+    if (!parentId) setAllFoldersHelper([...allFolders, folderItem]);
     else {
-      setAllFolders(injectFolderToParent(allFolders, folderItem, parentId));
+      setAllFoldersHelper(
+        injectFolderToParent(allFolders, folderItem, parentId)
+      );
     }
   };
 
@@ -158,7 +164,7 @@ export default function useFolders() {
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
         (item) => {
           if (item?.data?.folder?.id)
-            setAllFolders(
+            setAllFoldersHelper(
               deleteFolderFromArray(allFolders, item.data.folder.id)
             );
 
@@ -183,7 +189,7 @@ export default function useFolders() {
       movedFolder,
       baseFolderID
     );
-    setAllFolders(updatedFolders);
+    setAllFoldersHelper(updatedFolders);
   };
 
   useEffect(() => {
