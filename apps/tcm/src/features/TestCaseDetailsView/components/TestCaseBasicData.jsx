@@ -1,7 +1,7 @@
 import React from 'react';
 import Attachments from 'common/Attachments';
 import { TMBadge } from 'common/bifrostProxy';
-import DetailsSnippet from 'common/DetailsSnippet';
+import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import useTestCaseView from './useTestCaseView';
@@ -9,11 +9,10 @@ import useTestCaseView from './useTestCaseView';
 const TestCaseBasicData = () => {
   const { testCaseDetails } = useTestCaseView();
 
-  debugger;
   return (
     <>
       <div className="flex flex-col">
-        {testCaseDetails.template === templateOptions[0] ? (
+        {testCaseDetails.template === templateOptions?.[0].value ? (
           <>
             <DetailsSnippet
               isPrimary
@@ -40,7 +39,18 @@ const TestCaseBasicData = () => {
             <DetailsSnippet
               isPrimary
               title="All Steps & Results:"
-              value={testCaseDetails?.description || 'N/A'}
+              value={
+                <>
+                  {testCaseDetails?.steps?.map((item, index) => (
+                    <StepSnippet
+                      key={item.step}
+                      step={item.step}
+                      result={item.expected_result}
+                      index={index + 1}
+                    />
+                  ))}
+                </>
+              }
             />
           </>
         )}
