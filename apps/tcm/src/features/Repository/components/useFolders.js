@@ -32,7 +32,6 @@ export default function useFolders() {
     (state) => state.repository.openedFolderModal
   );
   const setAllFoldersHelper = (data) => {
-    console.log(data);
     dispatch(setAllFolders(data));
   };
   const showAddFolderModal = () => {
@@ -172,7 +171,6 @@ export default function useFolders() {
         }
       );
     }
-    // deleteFolder()
   };
 
   const moveFolderHelper = (thisFolderID, baseFolderID, internalAllFolders) => {

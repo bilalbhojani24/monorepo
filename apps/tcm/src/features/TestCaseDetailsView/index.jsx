@@ -10,7 +10,7 @@ const TestCaseDetailsView = () => {
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,
-    isTestCaseViewVisible,
+    isTestCaseViewVisible
   } = useTestCaseView();
 
   useEffect(() => {

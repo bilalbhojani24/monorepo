@@ -27,15 +27,24 @@ const MoveFolderModal = ({ show }) => {
         projectId,
         folderId,
         newParentFolderId: selectedFolder.id
-      }).then((data) => {
-        moveFolderHelper(folderId, selectedFolder.id, internalAllFolders);
-        hideFolderModal();
-      });
+      })
+        .then((data) => {
+          if (data?.data?.success) {
+            moveFolderHelper(folderId, selectedFolder.id, internalAllFolders);
+            hideFolderModal();
+          }
+        })
+        .catch((error) => {
+          // TODO: give proper info
+          // eslint-dsable no-console
+          console.log(error.response.data.errors[0].title);
+        });
     }
   };
 
   useEffect(() => {
     if (show) setInternalAllFolders(allFolders);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   return (

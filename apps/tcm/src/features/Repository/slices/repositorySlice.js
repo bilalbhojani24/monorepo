@@ -8,17 +8,7 @@ import {
 } from '../const/addTestCaseConst';
 
 const initialState = {
-  allFolders: [
-    {
-      id: 1,
-      name: 'new folder',
-      ui_position: 0,
-      notes: null,
-      links: {
-        self: '/api/v1/projects/1/folder/1'
-      }
-    }
-  ],
+  allFolders: [],
   allTestCases: [],
   selectedFolder: null,
   isAddTestCasePageVisible: false,
