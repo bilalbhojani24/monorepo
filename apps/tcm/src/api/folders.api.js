@@ -34,3 +34,49 @@ export const moveFolder = async ({
     new_base_folder_id: newParentFolderId,
     user_action: isCopy ? 'copy_folder' : 'move_folder'
   });
+
+export const moveTestCasesBulk = async ({
+  projectId,
+  folderId,
+  newParentFolderId,
+  testCaseIds
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-move`,
+    {
+      test_case: {
+        ids: testCaseIds,
+        folder_id: newParentFolderId
+      }
+    }
+  );
+
+export const deleteTestCasesBulk = async ({
+  projectId,
+  folderId,
+  testCaseIds
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
+    {
+      test_case: {
+        ids: testCaseIds
+      }
+    }
+  );
+
+export const editTestCasesBulk = async ({
+  projectId,
+  folderId,
+  testCaseIds,
+  data
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-edit`,
+    {
+      test_case: {
+        ...data,
+        ids: testCaseIds
+      }
+    }
+  );
