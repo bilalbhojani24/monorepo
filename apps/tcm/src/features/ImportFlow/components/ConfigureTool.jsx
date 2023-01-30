@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+// import { retryImport } from 'api/import.api';
 import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
 import {
@@ -14,6 +16,7 @@ import useImport from './useImport';
 import ZephyrImportForm from './ZephyrImportForm';
 
 const ConfigureTool = () => {
+  const { state } = useLocation();
   const {
     jiraConfigured,
     isJiraConfiguredForZephyr,
@@ -42,6 +45,19 @@ const ConfigureTool = () => {
     return null;
   };
 
+  useEffect(() => {
+    // console.log('hello from use effect', state?.tool);
+    // let myTool;
+    // if (state?.tool === 'testrail_quick') myTool = 'testrail';
+    // else if (state?.tool === 'zephyr_quick') myTool = 'zephyr';
+    // console.log('use effect me ', state?.importId, myTool);
+    // if (state?.importId && myTool) {
+    //   retryImport(state?.importId, myTool).then((data) => {
+    //     console.log('inside retry', data);
+    //   });
+    // }
+  }, [state?.importId, state?.tool]);
+
   return (
     <div className="border-base-200 m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid p-6">
       <div className="text-lg">Choose your existing tool</div>
@@ -54,7 +70,7 @@ const ConfigureTool = () => {
             variant={
               currentTestManagementTool === TEST_RAILS ? 'secondary' : 'primary'
             }
-            size="extra-large"
+            size="large"
             onClick={handleButtonClick(TEST_RAILS)}
           >
             TestRail
@@ -66,7 +82,7 @@ const ConfigureTool = () => {
             variant={
               currentTestManagementTool === ZEPHYR ? 'secondary' : 'primary'
             }
-            size="extra-large"
+            size="large"
             onClick={handleButtonClick(ZEPHYR)}
           >
             Zephyr

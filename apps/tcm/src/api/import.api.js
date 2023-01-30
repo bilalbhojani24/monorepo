@@ -24,3 +24,6 @@ export const getQuickImportStatus = async (id) =>
 
 export const dismissNotificationForImport = async (id) =>
   await fetchPost(`/api/v1/import/quick/${id}/dismiss_notification`);
+
+export const retryImport = async (id, tool) =>
+  await fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);

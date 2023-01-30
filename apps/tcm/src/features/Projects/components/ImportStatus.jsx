@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Banner, Notifications, notify } from '@browserstack/bifrost';
 import {
   dismissNotificationForImport,
   getLatestQuickImportConfig,
   getQuickImportStatus
 } from 'api/import.api';
+import {
+  AccessTimeFilledRoundedIcon,
+  CheckCircleRoundedIcon,
+  ErrorIcon
+} from 'assets/icons';
 import {
   TMButton,
   TMModal,
@@ -13,11 +20,7 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 
-import {
-  AccessTimeFilledRoundedIcon,
-  CheckCircleRoundedIcon,
-  ErrorIcon
-} from '../../../assets/icons';
+import { setCurrentScreen } from '../../ImportFlow/slices/importSlice';
 import {
   COMPLETED,
   FAILURE,
@@ -29,6 +32,8 @@ import {
 } from '../const/importConst';
 
 const ImportStatus = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [latestImportConfig, setLatestImportConfig] = useState(null);
   const [notification, setNotification] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -50,7 +55,8 @@ const ImportStatus = () => {
           setNotification({
             show: true,
             data: FAILURE_DATA,
-            projects: data.projects
+            projects: data.projects,
+            tool: data.type
           });
         } else setNotification({ show: true, data: SUCCESS_DATA });
       }
@@ -63,7 +69,16 @@ const ImportStatus = () => {
     }
   };
 
-  const handleSecondButtonClick = (toastData) => () => {
+  const handleSecondButtonClick = (toastData, buttonData) => () => {
+    if (buttonData === 'Retry Import') {
+      dispatch(setCurrentScreen('configureTool'));
+      navigate('/import', {
+        state: {
+          importId: latestImportConfig.importId,
+          tool: notification.tool
+        }
+      });
+    }
     dismissToast(toastData);
   };
 
@@ -131,7 +146,10 @@ const ImportStatus = () => {
                   <TMButton
                     variant="minimal"
                     wrapperClassName="text-base-600"
-                    onClick={handleSecondButtonClick(toastData)}
+                    onClick={handleSecondButtonClick(
+                      toastData,
+                      notification?.data?.secondButton
+                    )}
                   >
                     {notification?.data?.secondButton}
                   </TMButton>
