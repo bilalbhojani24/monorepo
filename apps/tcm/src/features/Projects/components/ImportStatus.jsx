@@ -88,7 +88,10 @@ const ImportStatus = () => {
       setShowModal(true);
       dismissNotification(toastData);
       setNotification({ ...notification, show: false });
-    } else navigate('/');
+    } else {
+      dismissNotification(toastData);
+      navigate('/');
+    }
   };
 
   const handleSecondButtonClick = (toastData, buttonData) => () => {
