@@ -41,14 +41,14 @@ const useFolderExplorer = ({
 
   const subFolderOpenHandler = (openedFolder) => {
     if (!openedFolder?.isOpened) {
-      // onFolderClick(openedFolder);
+      onFolderClick(openedFolder);
       if (openedFolder?.id)
         getSubFolders({ projectId, folderId: openedFolder.id }).then((data) => {
           const newMap = folderArrayUpdateHelper(
             foldersArray,
             openedFolder?.id,
             true,
-            openedFolder?.isSelected,
+            true,
             data.folders,
             false,
             folderId,
