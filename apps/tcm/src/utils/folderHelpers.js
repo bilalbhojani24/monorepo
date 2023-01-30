@@ -44,6 +44,8 @@ export const folderArrayUpdateHelper = (
           false,
           null,
           isSelectTriggered,
+          folderId,
+          onFolderClick,
           level + 1
         ),
         isOpened,
@@ -63,11 +65,13 @@ export const folderArrayUpdateHelper = (
         isSelected,
         newContents,
         isSelectTriggered,
+        folderId,
+        onFolderClick,
         level + 1
       );
       return {
         ...item,
-        isSelected: false,
+        isSelected: item?.isSelected,
         contents: updatedContents
       };
     }
