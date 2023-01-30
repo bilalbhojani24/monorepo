@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-// import { retryImport } from 'api/import.api';
+import React from 'react';
 import { TMBadge, TMButton, TMRadioGroup } from 'common/bifrostProxy';
 
 import {
@@ -16,7 +14,6 @@ import useImport from './useImport';
 import ZephyrImportForm from './ZephyrImportForm';
 
 const ConfigureTool = () => {
-  const { state } = useLocation();
   const {
     jiraConfigured,
     isJiraConfiguredForZephyr,
@@ -44,19 +41,6 @@ const ConfigureTool = () => {
     }
     return null;
   };
-
-  useEffect(() => {
-    // console.log('hello from use effect', state?.tool);
-    // let myTool;
-    // if (state?.tool === 'testrail_quick') myTool = 'testrail';
-    // else if (state?.tool === 'zephyr_quick') myTool = 'zephyr';
-    // console.log('use effect me ', state?.importId, myTool);
-    // if (state?.importId && myTool) {
-    //   retryImport(state?.importId, myTool).then((data) => {
-    //     console.log('inside retry', data);
-    //   });
-    // }
-  }, [state?.importId, state?.tool]);
 
   return (
     <div className="border-base-200 m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid p-6">

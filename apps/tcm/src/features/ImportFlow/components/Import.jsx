@@ -26,7 +26,18 @@ const Import = () => {
   };
 
   useEffect(() => {
-    dispatch(setImportSteps(IMPORT_STEPS));
+    if (localStorage.getItem('retryImport') === 'true') {
+      dispatch(
+        setImportSteps(
+          IMPORT_STEPS.map((step, idx) => {
+            if (idx === 0) return { ...step, status: 'complete' };
+            if (idx === 1) return { ...step, status: 'current' };
+            return step;
+          })
+        )
+      );
+    } else dispatch(setImportSteps(IMPORT_STEPS));
+    localStorage.removeItem('retryImport');
   }, [dispatch]);
 
   return (
