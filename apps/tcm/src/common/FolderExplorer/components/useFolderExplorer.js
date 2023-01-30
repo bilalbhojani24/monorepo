@@ -9,6 +9,7 @@ const useFolderExplorer = ({
   allFolders,
   onFoldersUpdate
 }) => {
+  const [onLoadFolderSelected, setOnLoadFolderSelection] = useState(false);
   const [foldersArray, setFoldersArray] = useState([]);
 
   const fireOnFoldersUpdate = (folders, testCases) => {
@@ -75,7 +76,7 @@ const useFolderExplorer = ({
 
   const initFoldersArray = () => {
     if (allFolders)
-      if (folderId) {
+      if (onLoadFolderSelected && folderId) {
         // should only set allFolders on initial load only
         setFoldersArray(
           folderArrayUpdateHelper(
@@ -89,6 +90,7 @@ const useFolderExplorer = ({
             onFolderClick
           )
         );
+        setOnLoadFolderSelection(true);
       } else setFoldersArray(allFolders);
   };
 
