@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
 
-import { BANNER_ALIGN, BANNER_PLACEMENT } from './const/bannerConstants';
+import {
+  BANNER_ALIGN,
+  BANNER_MODIFIER,
+  BANNER_PLACEMENT,
+  classes
+} from './const/bannerConstants';
 
 import './styles.scss';
 
@@ -14,13 +19,18 @@ const Banner = ({
   ctaButton,
   description,
   isDismissButton,
+  modifier,
   onDismissClick,
   placement
 }) => (
   <div
-    className={twClassNames('relative bg-brand-600 fixed inset-x-0 mx-auto', {
-      'bottom-0': placement === BANNER_PLACEMENT[1]
-    })}
+    className={twClassNames(
+      'relative fixed inset-x-0 mx-auto',
+      {
+        'bottom-0': placement === BANNER_PLACEMENT[1]
+      },
+      classes[modifier].containerColor
+    )}
   >
     <div
       className={twClassNames('flex flex-wrap items-center  py-3 px-8', {
@@ -35,11 +45,25 @@ const Banner = ({
         })}
       >
         {bannerIcon ? (
-          <span className="bg-brand-800 flex rounded-lg p-2">{bannerIcon}</span>
+          <span
+            className={twClassNames(
+              'flex rounded-lg p-2',
+              classes[modifier].iconBackgroundColor
+            )}
+          >
+            {bannerIcon}
+          </span>
         ) : null}
 
         {description ? (
-          <p className="ml-3 truncate font-medium text-white">{description}</p>
+          <p
+            className={twClassNames(
+              'ml-3 truncate font-medium text-white',
+              classes[modifier].textColor
+            )}
+          >
+            {description}
+          </p>
         ) : null}
       </div>
       {ctaButton ? (
@@ -56,11 +80,17 @@ const Banner = ({
         >
           <button
             type="button"
-            className="hover:bg-brand-500 -mr-1 flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
+            className="-mr-1 flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
             onClick={() => onDismissClick?.()}
           >
             <span className="sr-only">Dismiss</span>
-            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+            <XMarkIcon
+              className={twClassNames(
+                'h-6 w-6 text-white',
+                classes[modifier].dismissIconColor
+              )}
+              aria-hidden="true"
+            />
           </button>
         </div>
       ) : null}
@@ -74,6 +104,7 @@ Banner.propTypes = {
   ctaButton: PropTypes.node,
   description: PropTypes.string,
   isDismissButton: PropTypes.bool,
+  modifier: PropTypes.oneOf(BANNER_MODIFIER),
   onDismissClick: PropTypes.func,
   placement: PropTypes.oneOf(BANNER_PLACEMENT)
 };
@@ -83,6 +114,7 @@ Banner.defaultProps = {
   ctaButton: null,
   description: '',
   isDismissButton: true,
+  modifier: BANNER_MODIFIER[0],
   onDismissClick: null,
   placement: BANNER_PLACEMENT[0]
 };
