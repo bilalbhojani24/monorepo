@@ -31,10 +31,10 @@ export const folderArrayUpdateHelper = (
 ) =>
   folders?.map((item) => {
     if (`${item.id}` === `${workingFolderId}`) {
-      const isCurrentFolderAChild = findSelectedFolder(
-        item.contents,
-        parseInt(folderId, 10)
-      );
+      const isCurrentFolderAChild = !isOpened
+        ? findSelectedFolder(item.contents, parseInt(folderId, 10))
+        : false;
+      debugger;
       const thisFolderItem = {
         ...item,
         contents: folderArrayUpdateHelper(
@@ -71,7 +71,7 @@ export const folderArrayUpdateHelper = (
       );
       return {
         ...item,
-        isSelected: item?.isSelected,
+        isSelected: isSelectTriggered ? false : item?.isSelected,
         contents: updatedContents
       };
     }
