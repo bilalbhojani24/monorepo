@@ -36,7 +36,12 @@ const initialState = {
   usersArray: null,
   tagsArray: [],
   issuesArray: [],
-  openedFolderModal: null
+  openedFolderModal: null,
+  bulkSelection: {
+    selected_ids: [],
+    deselected_ids: [],
+    select_all: false
+  }
 };
 
 export const repositorySlice = createSlice({
@@ -107,6 +112,15 @@ export const repositorySlice = createSlice({
     setTagsArray: (state, { payload }) => {
       state.tagsArray = payload;
     },
+    setBulkSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.selected_ids = payload;
+    },
+    setBulkDeSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.deselected_ids = payload;
+    },
+    setBulkAllSelected: (state, { payload }) => {
+      state.bulkSelection.select_all = payload;
+    },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
@@ -135,7 +149,10 @@ export const {
   setUsers,
   setAddTagModal,
   setAddIssuesModal,
-  setIssuesArray
+  setIssuesArray,
+  setBulkSelectedtestCaseIDs,
+  setBulkDeSelectedtestCaseIDs,
+  setBulkAllSelected
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

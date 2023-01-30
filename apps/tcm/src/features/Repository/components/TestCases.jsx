@@ -1,24 +1,12 @@
 import React from 'react';
-import {
-  ArrowDownwardOutlinedIcon,
-  ArrowUpwardOutlinedIcon,
-  KeyboardDoubleArrowUpOutlinedIcon,
-  RemoveOutlinedIcon,
-  SearchIcon
-} from 'assets/icons';
-import {
-  TMButton,
-  TMDataTable,
-  TMDropdown,
-  TMInputField
-} from 'common/bifrostProxy';
-
-import { dropDownOptions } from '../const/testCaseConst';
+import { SearchIcon } from 'assets/icons';
+import { TMButton, TMInputField } from 'common/bifrostProxy';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
 import DeleteTestCase from './DeleteTestCase';
 import InlineAddTestCase from './InlineAddTestCase';
+import TestCasesTable from './TestCasesTable';
 import useTestCases from './useTestCases';
 
 import '../styles/TestCases.scss';
@@ -26,74 +14,10 @@ import '../styles/TestCases.scss';
 export default function TestCases() {
   const {
     showDeleteModal,
-    onDropDownChange,
     selectedFolder,
     allTestCases,
-    isAddTestCasePageVisible,
-    handleTestCaseViewClick
+    isAddTestCasePageVisible
   } = useTestCases();
-
-  const formatPriority = (priority) => {
-    switch (priority) {
-      case 'high':
-        return <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
-      case 'low':
-        return <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
-      case 'critical':
-        return (
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
-        );
-      case 'medium':
-        return <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
-      default:
-        return '';
-    }
-  };
-
-  const datatableColumns = [
-    {
-      name: 'ID',
-      key: 'id',
-
-      cell: (rowData) => `TC${rowData?.id}`
-    },
-    {
-      name: 'TITLE',
-      key: 'name',
-      cell: (rowData) => (
-        <div
-          role="button"
-          className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
-          tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
-        >
-          {rowData.name}
-        </div>
-      )
-    },
-    {
-      name: 'PRIORITY',
-      key: 'priority',
-      cell: (rowData) => (
-        <span className="capitalize">
-          {formatPriority(rowData.priority)}
-          {rowData.priority}
-        </span>
-      )
-    },
-    {
-      name: '',
-      key: 'action',
-      cell: (data) => (
-        <TMDropdown
-          options={dropDownOptions}
-          triggerVariant="meatball-button"
-          onClick={(e) => onDropDownChange(e, data)}
-        />
-      )
-    }
-  ];
 
   if (isAddTestCasePageVisible && selectedFolder) return <AddEditTestCase />;
 
@@ -133,10 +57,9 @@ export default function TestCases() {
         {allTestCases.length ? (
           <>
             <div className="flex-1 flex-col items-stretch overflow-y-auto ">
-              <TMDataTable
+              <TestCasesTable
                 isCondensed
                 containerWrapperClass="md:rounded-none"
-                columns={datatableColumns}
                 rows={allTestCases}
               />
             </div>
