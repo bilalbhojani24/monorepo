@@ -30,6 +30,7 @@ const TestCasesTable = ({
   const { onDropDownChange, handleTestCaseViewClick } = useTestCases();
   const {
     selectedTestCaseIDs,
+    deSelectedTestCaseIDs,
     isAllSelected,
     updateSelection,
     selectAll,
@@ -115,7 +116,7 @@ const TestCasesTable = ({
             <TMCheckBox
               border={false}
               wrapperClass="pt-0"
-              checked={isAllSelected}
+              checked={isAllSelected && !deSelectedTestCaseIDs.length}
               indeterminate
               onChange={selectAll}
             />
@@ -131,7 +132,7 @@ const TestCasesTable = ({
             >
               {col.name}
 
-              {index === 0 && selectedTestCaseIDs.length ? (
+              {index === 0 && (selectedTestCaseIDs.length || isAllSelected) ? (
                 <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
                   <TMButton
                     colors="white"
@@ -186,7 +187,8 @@ const TestCasesTable = ({
                     border={false}
                     wrapperClass="pt-0"
                     checked={
-                      isAllSelected || selectedTestCaseIDs.includes(row.id)
+                      !deSelectedTestCaseIDs.includes(row.id) &&
+                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
                     }
                     onChange={(e) => updateSelection(e, row)}
                   />

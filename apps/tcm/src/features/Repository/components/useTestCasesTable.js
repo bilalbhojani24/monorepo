@@ -15,6 +15,9 @@ const useTestCasesTable = ({ rows }) => {
   const setDeSelectedTestCaseIDs = (data) => {
     dispatch(setBulkDeSelectedtestCaseIDs(data));
   };
+  const setBulkAll = (data) => {
+    dispatch(setBulkAllSelected(data));
+  };
 
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.selected_ids
@@ -33,7 +36,13 @@ const useTestCasesTable = ({ rows }) => {
         deSelectedTestCaseIDs.filter((item) => item !== listItem.id)
       );
     } else {
-      setDeSelectedTestCaseIDs([...deSelectedTestCaseIDs, listItem.id]);
+      const deselectedUpdates = [...deSelectedTestCaseIDs, listItem.id];
+      debugger;
+      //   if (deselectedUpdates.length === rows.length) {
+      //     // everything deselected
+      //     setBulkAll(false);
+      //   }
+      setDeSelectedTestCaseIDs(deselectedUpdates);
       setSelectedTestCaseIDs(
         selectedTestCaseIDs.filter((item) => item !== listItem.id)
       );
@@ -42,10 +51,10 @@ const useTestCasesTable = ({ rows }) => {
 
   const selectAll = (e) => {
     if (e.currentTarget.checked) {
-      dispatch(setBulkAllSelected(true));
+      setBulkAll(true);
       setDeSelectedTestCaseIDs([]);
     } else {
-      dispatch(setBulkAllSelected(false));
+      setBulkAll(false);
       setSelectedTestCaseIDs([]);
       setDeSelectedTestCaseIDs([]);
     }
@@ -59,6 +68,7 @@ const useTestCasesTable = ({ rows }) => {
   return {
     isAllSelected,
     selectedTestCaseIDs,
+    deSelectedTestCaseIDs,
     selectAll,
     updateSelection,
     initBulkMove,
