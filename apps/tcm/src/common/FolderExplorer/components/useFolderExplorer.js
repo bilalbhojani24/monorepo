@@ -41,14 +41,14 @@ const useFolderExplorer = ({
 
   const subFolderOpenHandler = (openedFolder) => {
     if (!openedFolder?.isOpened) {
-      onFolderClick(openedFolder);
+      // onFolderClick(openedFolder);
       if (openedFolder?.id)
         getSubFolders({ projectId, folderId: openedFolder.id }).then((data) => {
           const newMap = folderArrayUpdateHelper(
             foldersArray,
             openedFolder?.id,
             true,
-            true,
+            openedFolder?.isSelected,
             data.folders,
             false,
             folderId,
@@ -75,8 +75,21 @@ const useFolderExplorer = ({
 
   const initFoldersArray = () => {
     if (allFolders)
-      // should only set allFolders on initial load only
-      setFoldersArray(allFolders);
+      if (folderId) {
+        // should only set allFolders on initial load only
+        setFoldersArray(
+          folderArrayUpdateHelper(
+            allFolders,
+            folderId,
+            false,
+            true,
+            null,
+            false,
+            folderId,
+            onFolderClick
+          )
+        );
+      } else setFoldersArray(allFolders);
   };
 
   useEffect(() => {

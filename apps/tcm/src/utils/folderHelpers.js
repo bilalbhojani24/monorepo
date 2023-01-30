@@ -67,7 +67,7 @@ export const folderArrayUpdateHelper = (
       );
       return {
         ...item,
-        isSelected: false,
+        isSelected: item?.isSelected,
         contents: updatedContents
       };
     }
