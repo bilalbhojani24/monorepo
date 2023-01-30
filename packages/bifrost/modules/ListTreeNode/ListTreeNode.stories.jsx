@@ -17,7 +17,12 @@ const defaultConfig = {
       )
     }
   },
-  argTypes: {},
+  argTypes: {
+    nodeLabelClassName: {
+      option: { type: 'string' },
+      defaultValue: 'max-w-sm'
+    }
+  },
   controls: {}
 };
 
