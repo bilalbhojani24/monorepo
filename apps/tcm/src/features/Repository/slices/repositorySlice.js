@@ -124,6 +124,9 @@ export const repositorySlice = createSlice({
     setBulkAllSelected: (state, { payload }) => {
       state.bulkSelection.select_all = payload;
     },
+    resetBulkSelection: (state) => {
+      state.bulkSelection = initialState.bulkSelection;
+    },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
@@ -159,7 +162,8 @@ export const {
   setBulkSelectedtestCaseIDs,
   setBulkDeSelectedtestCaseIDs,
   setBulkAllSelected,
-  setBulkUpdateProgress
+  setBulkUpdateProgress,
+  resetBulkSelection
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

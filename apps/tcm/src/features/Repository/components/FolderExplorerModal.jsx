@@ -1,7 +1,6 @@
 // TODO: after success, rearrange the folder, challenge updatedfolder structure to be fetched in allFolders
 
 import React, { useEffect, useState } from 'react';
-import { moveFolder } from 'api/folders.api';
 import {
   TMAlerts,
   TMButton,
@@ -15,31 +14,20 @@ import PropTypes from 'prop-types';
 
 import useFolders from './useFolders';
 
-const MoveFolderModal = ({ show }) => {
+const FolderExplorerModal = ({
+  show,
+  heading,
+  subHeading,
+  alertText,
+  onOK,
+  onClose
+}) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const { hideFolderModal, allFolders, projectId, folderId, moveFolderHelper } =
-    useFolders();
+  const { allFolders, projectId } = useFolders();
   const [internalAllFolders, setInternalAllFolders] = useState(null);
 
   const moveFolderOnOkHandler = () => {
-    if (selectedFolder?.id) {
-      moveFolder({
-        projectId,
-        folderId,
-        newParentFolderId: selectedFolder.id
-      })
-        .then((data) => {
-          if (data?.data?.success) {
-            moveFolderHelper(folderId, selectedFolder.id, internalAllFolders);
-            hideFolderModal();
-          }
-        })
-        .catch((error) => {
-          // TODO: give proper info
-          // eslint-dsable no-console
-          console.log(error.response.data.errors[0].title);
-        });
-    }
+    onOK(selectedFolder, internalAllFolders);
   };
 
   useEffect(() => {
@@ -48,11 +36,11 @@ const MoveFolderModal = ({ show }) => {
   }, [show]);
 
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
+    <TMModal show={show} withDismissButton onOverlayClick={onClose}>
       <TMModalHeader
-        heading="Move Folder"
-        subHeading="Choose desired folder where you want to move the folder:"
-        handleDismissClick={hideFolderModal}
+        heading={heading}
+        subHeading={subHeading}
+        handleDismissClick={onClose}
       />
       <TMModalBody>
         <div className="border-base-300 mb-4 max-h-72 overflow-auto border">
@@ -63,14 +51,10 @@ const MoveFolderModal = ({ show }) => {
             onFoldersUpdate={(data) => setInternalAllFolders(data)}
           />
         </div>
-        <TMAlerts
-          modifier="primary"
-          linkText={null}
-          description="The selected folder will be moved from the current location to the above selected folder."
-        />
+        <TMAlerts modifier="primary" linkText={null} description={alertText} />
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton colors="white" onClick={hideFolderModal} variant="primary">
+        <TMButton colors="white" onClick={onClose} variant="primary">
           Cancel
         </TMButton>
         <TMButton
@@ -85,12 +69,22 @@ const MoveFolderModal = ({ show }) => {
   );
 };
 
-MoveFolderModal.propTypes = {
-  show: PropTypes.bool
+FolderExplorerModal.propTypes = {
+  show: PropTypes.bool,
+  onClose: PropTypes.func,
+  onOK: PropTypes.func,
+  heading: PropTypes.string,
+  subHeading: PropTypes.string,
+  alertText: PropTypes.string
 };
 
-MoveFolderModal.defaultProps = {
-  show: false
+FolderExplorerModal.defaultProps = {
+  show: false,
+  onClose: () => {},
+  onOK: () => {},
+  heading: '',
+  subHeading: '',
+  alertText: ''
 };
 
-export default MoveFolderModal;
+export default FolderExplorerModal;

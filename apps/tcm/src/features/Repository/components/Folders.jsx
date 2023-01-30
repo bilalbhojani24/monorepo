@@ -7,7 +7,7 @@ import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 
 import AddEditFolderModal from './AddEditFolderModal';
 import DeleteFolder from './DeleteFolder';
-import MoveFolderModal from './MoveFolderModal';
+import FolderExplorerModal from './FolderExplorerModal';
 import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
@@ -21,7 +21,9 @@ export default function Folders() {
     showAddFolderModal,
     folderClickHandler,
     folderUpdateHandler,
-    folderActionsHandler
+    folderActionsHandler,
+    moveFolderOnOkHandler,
+    hideFolderModal
   } = useFolders();
 
   return (
@@ -36,9 +38,13 @@ export default function Folders() {
         show={openedFolderModal?.modal === folderDropOptions[1].body}
         projectId={projectId}
       />
-      <MoveFolderModal
+      <FolderExplorerModal
         show={openedFolderModal?.modal === folderDropOptions[2].body}
-        projectId={projectId}
+        heading="Move Folder"
+        subHeading="Choose desired folder where you want to move the folder:"
+        alertText="The selected folder will be moved from the current location to the above selected folder."
+        onOK={moveFolderOnOkHandler}
+        onClose={hideFolderModal}
       />
       <AddEditFolderModal
         isEditFolder

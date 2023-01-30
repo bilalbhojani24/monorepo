@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 
 import { dropDownOptions } from '../const/testCaseConst';
 
+import FolderExplorerModal from './FolderExplorerModal';
 import useTestCases from './useTestCases';
 import useTestCasesTable from './useTestCasesTable';
 
@@ -29,6 +30,7 @@ const TestCasesTable = ({
 }) => {
   const { onDropDownChange, handleTestCaseViewClick } = useTestCases();
   const {
+    showMoveModal,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
     isAllSelected,
@@ -37,7 +39,9 @@ const TestCasesTable = ({
     initBulkMove,
     initBulkEdit,
     initBulkLink,
-    initBulkDelete
+    initBulkDelete,
+    hideFolderModal,
+    moveTestCasesHandler
   } = useTestCasesTable({
     rows
   });
@@ -105,113 +109,131 @@ const TestCasesTable = ({
   ];
 
   return (
-    <Table containerWrapperClass={containerWrapperClass}>
-      <TableHead wrapperClass="w-full rounded-xs">
-        <TableRow wrapperClass="relative">
-          <TableCell
-            variant="body"
-            wrapperClass="test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0"
-            textTransform="uppercase"
-          >
-            <TMCheckBox
-              border={false}
-              wrapperClass="pt-0"
-              checked={isAllSelected && !deSelectedTestCaseIDs.length}
-              indeterminate
-              onChange={selectAll}
-            />
-          </TableCell>
-          {datatableColumns?.map((col, index) => (
+    <>
+      <Table containerWrapperClass={containerWrapperClass}>
+        <TableHead wrapperClass="w-full rounded-xs">
+          <TableRow wrapperClass="relative">
             <TableCell
-              key={col.key}
               variant="body"
-              wrapperClass={classNames('test-base-500', {
-                'first:pr-3 last:pl-3 px-2 py-2': isCondensed
-              })}
+              wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
-              {col.name}
-
-              {index === 0 && (selectedTestCaseIDs.length || isAllSelected) ? (
-                <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
-                  <TMButton
-                    colors="white"
-                    size="extra-small"
-                    onClick={initBulkMove}
-                  >
-                    Move
-                  </TMButton>
-                  <TMButton
-                    colors="white"
-                    size="extra-small"
-                    onClick={initBulkEdit}
-                  >
-                    Bulk Edit
-                  </TMButton>
-                  <TMButton
-                    colors="white"
-                    size="extra-small"
-                    onClick={initBulkLink}
-                  >
-                    Link to JIRA
-                  </TMButton>
-                  <TMButton
-                    colors="white"
-                    size="extra-small"
-                    onClick={initBulkDelete}
-                  >
-                    Bulk Delete
-                  </TMButton>
-                </div>
-              ) : (
-                ''
-              )}
+              <TMCheckBox
+                border={false}
+                wrapperClass="pt-0"
+                checked={isAllSelected && !deSelectedTestCaseIDs.length}
+                indeterminate
+                onChange={selectAll}
+              />
             </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {isLoading ? (
-          'Loading..'
-        ) : (
-          <>
-            {rows?.map((row, idx) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <TableRow key={idx} classNames="border-l border-base-500">
-                <TableCell
-                  variant="body"
-                  wrapperClass="test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0"
-                  textTransform="uppercase"
-                >
-                  <TMCheckBox
-                    border={false}
-                    wrapperClass="pt-0"
-                    checked={
-                      !deSelectedTestCaseIDs.includes(row.id) &&
-                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                    }
-                    onChange={(e) => updateSelection(e, row)}
-                  />
-                </TableCell>
-                {datatableColumns?.map((column) => {
-                  const value = row[column.key];
-                  return (
-                    <TableCell
-                      key={column.id}
-                      wrapperClass={classNames({
-                        'first:pr-3 last:pl-3 px-2 py-2': isCondensed
-                      })}
-                    >
-                      {column.cell ? <>{column.cell(row)}</> : value}
-                    </TableCell>
-                  );
+            {datatableColumns?.map((col, index) => (
+              <TableCell
+                key={col.key}
+                variant="body"
+                wrapperClass={classNames('test-base-500', {
+                  'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                  'flex-1 w-9/12': index === 1,
+                  'min-w-[50%]': index === 2
                 })}
-              </TableRow>
+                textTransform="uppercase"
+              >
+                {col.name}
+                {index === 0 &&
+                (selectedTestCaseIDs.length || isAllSelected) ? (
+                  <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={initBulkMove}
+                    >
+                      Move
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={initBulkEdit}
+                    >
+                      Bulk Edit
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={initBulkLink}
+                    >
+                      Link to JIRA
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={initBulkDelete}
+                    >
+                      Bulk Delete
+                    </TMButton>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </TableCell>
             ))}
-          </>
-        )}
-      </TableBody>
-    </Table>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {isLoading ? (
+            'Loading..'
+          ) : (
+            <>
+              {rows?.map((row, idx) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <TableRow isSelected key={row.id}>
+                  <TableCell
+                    variant="body"
+                    wrapperClass={classNames(
+                      'border-l-2 test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0',
+                      !deSelectedTestCaseIDs.includes(row.id) &&
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                        ? 'border-l-brand-600'
+                        : 'border-l-white'
+                    )}
+                    textTransform="uppercase"
+                  >
+                    <TMCheckBox
+                      border={false}
+                      wrapperClass="pt-0"
+                      checked={
+                        !deSelectedTestCaseIDs.includes(row.id) &&
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      }
+                      onChange={(e) => updateSelection(e, row)}
+                    />
+                  </TableCell>
+                  {datatableColumns?.map((column) => {
+                    const value = row[column.key];
+                    return (
+                      <TableCell
+                        key={column.id}
+                        wrapperClass={classNames({
+                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                        })}
+                      >
+                        {column.cell ? <>{column.cell(row)}</> : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </>
+          )}
+        </TableBody>
+      </Table>
+      <FolderExplorerModal
+        show={showMoveModal}
+        heading="Move Test Cases"
+        subHeading="Choose desired folder where you want to move the test cases:"
+        alertText="The selected test cases will be moved from the current location to the above selected folder."
+        onOK={moveTestCasesHandler}
+        onClose={hideFolderModal}
+      />
+    </>
   );
 };
 

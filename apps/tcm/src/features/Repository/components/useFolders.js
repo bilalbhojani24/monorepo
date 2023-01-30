@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteFolder, getFolders, getSubFolders } from 'api/folders.api';
+import {
+  deleteFolder,
+  getFolders,
+  getSubFolders,
+  moveFolder
+} from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import {
@@ -190,6 +195,27 @@ export default function useFolders() {
     setAllFoldersHelper(updatedFolders);
   };
 
+  const moveFolderOnOkHandler = (selectedFolder, internalAllFolders) => {
+    if (selectedFolder?.id) {
+      moveFolder({
+        projectId,
+        folderId,
+        newParentFolderId: selectedFolder.id
+      })
+        .then((data) => {
+          if (data?.data?.success) {
+            moveFolderHelper(folderId, selectedFolder.id, internalAllFolders);
+            hideFolderModal();
+          }
+        })
+        .catch((error) => {
+          // TODO: give proper info
+          // eslint-dsable no-console
+          console.log(error.response.data.errors[0].title);
+        });
+    }
+  };
+
   useEffect(() => {
     const selectedFolder = findSelectedFolder(
       allFolders,
@@ -216,6 +242,7 @@ export default function useFolders() {
     folderActionsHandler,
     hideFolderModal,
     deleteFolderHandler,
-    moveFolderHelper
+    moveFolderHelper,
+    moveFolderOnOkHandler
   };
 }

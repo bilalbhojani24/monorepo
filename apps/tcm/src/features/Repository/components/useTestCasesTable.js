@@ -1,14 +1,21 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { moveTestCasesBulkAPI } from 'api/testcases.api';
 
 import {
+  resetBulkSelection,
   setBulkAllSelected,
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
-  setDeleteTestCaseModalVisibility
+  setDeleteTestCaseModalVisibility,
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
+  const { projectId, folderId } = useParams();
+  const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -33,6 +40,7 @@ const useTestCasesTable = () => {
   const isAllSelected = useSelector(
     (state) => state.repository.bulkSelection.select_all
   );
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
@@ -64,17 +72,50 @@ const useTestCasesTable = () => {
     }
   };
 
-  const initBulkMove = () => {};
+  const getSelectedBulkIDs = () => {
+    if (isAllSelected) {
+      const allIDs = allTestCases.map((item) => item.id);
+      if (deSelectedTestCaseIDs.length) {
+        return allIDs.filter((item) => !deSelectedTestCaseIDs.includes(item));
+      }
+      return allIDs;
+    }
+    return selectedTestCaseIDs;
+  };
+
+  const initBulkMove = () => {
+    setshowMoveModal(true);
+  };
+
   const initBulkLink = () => {};
+
   const initBulkEdit = () => {};
+
   const initBulkDelete = () => {
     dispatch(setDeleteTestCaseModalVisibility(true));
     setBulkStatus(true);
   };
 
-  const hideDeleteTestCaseBulkModal = () => {};
+  const hideFolderModal = () => {
+    setshowMoveModal(false);
+  };
+
+  const moveTestCasesHandler = (selectedFolder) => {
+    if (selectedFolder?.id)
+      moveTestCasesBulkAPI({
+        projectId,
+        folderId,
+        newParentFolderId: selectedFolder.id,
+        testCaseIds: getSelectedBulkIDs()
+      }).then((data) => {
+        dispatch(updateAllTestCases(data?.testcases || []));
+        dispatch(resetBulkSelection());
+        hideFolderModal();
+      });
+  };
 
   return {
+    showMoveModal,
     isAllSelected,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
@@ -84,7 +125,8 @@ const useTestCasesTable = () => {
     initBulkEdit,
     initBulkLink,
     initBulkDelete,
-    hideDeleteTestCaseBulkModal
+    hideFolderModal,
+    moveTestCasesHandler
   };
 };
 export default useTestCasesTable;
