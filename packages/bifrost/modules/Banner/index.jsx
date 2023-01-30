@@ -1,8 +1,8 @@
 import React from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
+import { XMarkIcon } from '../Icon';
 
 import {
   BANNER_ALIGN,
@@ -22,81 +22,102 @@ const Banner = ({
   modifier,
   onDismissClick,
   placement
-}) => (
-  <div
-    className={twClassNames(
-      'relative fixed inset-x-0 mx-auto',
-      {
-        'bottom-0': placement === BANNER_PLACEMENT[1]
-      },
-      classes[modifier].containerColor
-    )}
-  >
-    <div
-      className={twClassNames('flex flex-wrap items-center  py-3 px-8', {
-        'justify-between': BANNER_ALIGN[0] === align,
-        'justify-center space-x-2': BANNER_ALIGN[1] === align
-      })}
+}) => {
+  const renderDismissButton = () => (
+    <button
+      type="button"
+      className="flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white"
+      onClick={() => onDismissClick?.()}
     >
-      <div
-        className={twClassNames('flex items-center', {
-          'flex-1': BANNER_ALIGN[0] === align,
-          'flex-0': BANNER_ALIGN[1] === align
-        })}
-      >
-        {bannerIcon ? (
-          <span
-            className={twClassNames(
-              'flex rounded-lg p-2',
-              classes[modifier].iconBackgroundColor
-            )}
-          >
-            {bannerIcon}
-          </span>
-        ) : null}
+      <span className="sr-only">Dismiss</span>
+      <XMarkIcon
+        className={twClassNames(
+          'h-6 w-6 text-white',
+          classes[modifier].dismissIconColor
+        )}
+        aria-hidden="true"
+      />
+    </button>
+  );
 
-        {description ? (
-          <p
-            className={twClassNames(
-              'ml-3 truncate font-medium text-white',
-              classes[modifier].textColor
-            )}
-          >
-            {description}
-          </p>
-        ) : null}
+  const renderDescription = (truncate = true, inlineCTA = false) => (
+    <p
+      className={twClassNames(
+        'ml-3 font-medium text-white',
+        classes[modifier].textColor,
+        {
+          truncate
+        }
+      )}
+    >
+      {description}
+      {inlineCTA && ctaButton ? (
+        <span className="block sm:ml-2 sm:inline-block">{ctaButton}</span>
+      ) : null}
+    </p>
+  );
+
+  const renderCenteredBanner = () => (
+    <>
+      <div className="sm:px-16 sm:text-center">
+        {description ? renderDescription(false, true) : null}
       </div>
-      {ctaButton ? (
-        <div className="mt-2 w-full shrink-0 sm:mt-0 sm:w-auto">
-          {ctaButton}
-        </div>
-      ) : null}
-
       {isDismissButton ? (
-        <div
-          className={twClassNames('shrink-0 self-end sm:ml-3', {
-            'fixed right-10': BANNER_ALIGN[1] === align
-          })}
-        >
-          <button
-            type="button"
-            className="-mr-1 flex rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
-            onClick={() => onDismissClick?.()}
-          >
-            <span className="sr-only">Dismiss</span>
-            <XMarkIcon
-              className={twClassNames(
-                'h-6 w-6 text-white',
-                classes[modifier].dismissIconColor
-              )}
-              aria-hidden="true"
-            />
-          </button>
+        <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-center sm:pr-2">
+          {renderDismissButton()}
         </div>
       ) : null}
+    </>
+  );
+
+  return (
+    <div
+      className={twClassNames(
+        'fixed inset-x-0',
+        {
+          'top-0': placement === BANNER_PLACEMENT[0],
+          'bottom-0': placement === BANNER_PLACEMENT[1]
+        },
+        classes[modifier].containerColor
+      )}
+    >
+      <div className="mx-auto max-w-7xl p-3 sm:px-6 lg:px-8">
+        {BANNER_ALIGN[1] === align ? (
+          renderCenteredBanner()
+        ) : (
+          <>
+            <div className="flex flex-wrap items-center justify-between">
+              <div className="flex w-0 flex-1 items-center">
+                {bannerIcon ? (
+                  <span
+                    className={twClassNames(
+                      'flex rounded-lg p-2',
+                      classes[modifier].iconBackgroundColor
+                    )}
+                  >
+                    {bannerIcon}
+                  </span>
+                ) : null}
+                <p className="ml-3 truncate font-medium text-white">
+                  {description ? renderDescription() : null}
+                </p>
+              </div>
+              {ctaButton ? (
+                <div className="mt-2 w-full sm:mt-0 sm:w-auto">{ctaButton}</div>
+              ) : null}
+
+              {isDismissButton ? (
+                <div className={twClassNames('shrink-0 self-end sm:ml-3')}>
+                  {renderDismissButton()}
+                </div>
+              ) : null}
+            </div>
+          </>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 Banner.propTypes = {
   align: PropTypes.oneOf(BANNER_ALIGN),
