@@ -38,7 +38,6 @@ const TestCasesTable = ({
     selectAll,
     initBulkMove,
     initBulkEdit,
-    initBulkLink,
     initBulkDelete,
     hideFolderModal,
     moveTestCasesHandler
@@ -154,13 +153,6 @@ const TestCasesTable = ({
                       onClick={initBulkEdit}
                     >
                       Bulk Edit
-                    </TMButton>
-                    <TMButton
-                      colors="white"
-                      size="extra-small"
-                      onClick={initBulkLink}
-                    >
-                      Link to JIRA
                     </TMButton>
                     <TMButton
                       colors="white"

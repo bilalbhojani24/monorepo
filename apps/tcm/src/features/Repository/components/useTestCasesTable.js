@@ -87,8 +87,6 @@ const useTestCasesTable = () => {
     setshowMoveModal(true);
   };
 
-  const initBulkLink = () => {};
-
   const initBulkEdit = () => {};
 
   const initBulkDelete = () => {
@@ -123,7 +121,6 @@ const useTestCasesTable = () => {
     updateSelection,
     initBulkMove,
     initBulkEdit,
-    initBulkLink,
     initBulkDelete,
     hideFolderModal,
     moveTestCasesHandler
