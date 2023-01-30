@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteTestCaseAPI, getTestCasesAPI } from 'api/testcases.api';
+import {
+  deleteTestCaseAPI,
+  deleteTestCasesBulkAPI,
+  getTestCasesAPI
+} from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   deleteTestCase,
-  deleteTestCasesBulkAPI,
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
