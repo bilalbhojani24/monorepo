@@ -20,7 +20,7 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 
-import { setCurrentScreen } from '../../ImportFlow/slices/importSlice';
+import { setCurrentScreen } from '../../quickImportFlow/slices/importSlice';
 import {
   COMPLETED,
   FAILURE,

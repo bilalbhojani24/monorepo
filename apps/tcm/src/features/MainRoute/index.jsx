@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
-import Import from 'features/ImportFlow';
+import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
 

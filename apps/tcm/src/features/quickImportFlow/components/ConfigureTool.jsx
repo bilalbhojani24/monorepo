@@ -42,6 +42,12 @@ const ConfigureTool = () => {
     return null;
   };
 
+  console.log(
+    'inside configure tool',
+    selectedRadioIdMap,
+    currentTestManagementTool,
+    selectedRadioIdMap[currentTestManagementTool]
+  );
   return (
     <div className="border-base-200 m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid p-6">
       <div className="text-lg">Choose your existing tool</div>

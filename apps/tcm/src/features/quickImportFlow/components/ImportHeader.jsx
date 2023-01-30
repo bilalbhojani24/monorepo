@@ -18,14 +18,14 @@ ImportHeader.propTypes = {
     shape({
       id: string,
       actionProps: shape({}),
-      callback: func,
-    }),
-  ),
+      callback: func
+    })
+  )
 };
 
 ImportHeader.defaultProps = {
   heading: '',
-  actions: [],
+  actions: []
 };
 
 export default ImportHeader;

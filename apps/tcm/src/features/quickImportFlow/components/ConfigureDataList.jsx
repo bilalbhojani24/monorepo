@@ -17,15 +17,15 @@ const ConfigureDataList = (props) => {
           setProjectForTestManagementImport(
             projects.map((project) => ({
               ...project,
-              checked: true,
-            })),
-          ),
+              checked: true
+            }))
+          )
         );
       } else {
         dispatch(
           setProjectForTestManagementImport(
-            projects.map((project) => ({ ...project, checked: false })),
-          ),
+            projects.map((project) => ({ ...project, checked: false }))
+          )
         );
       }
     } else {
@@ -44,7 +44,7 @@ const ConfigureDataList = (props) => {
         position="left"
         data={{
           label: `All Projects (${projects.length})`,
-          value: 'allProjects',
+          value: 'allProjects'
         }}
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
@@ -55,7 +55,7 @@ const ConfigureDataList = (props) => {
           data={{
             label: project.name,
             value: project.name,
-            description: project.description,
+            description: project.description
           }}
           onChange={handleCheckBoxChange(project.name)}
           checked={project.checked}
@@ -68,12 +68,12 @@ ConfigureDataList.propTypes = {
   projects: shape({
     id: number,
     name: string,
-    suite_mode: number,
-  }),
+    suite_mode: number
+  })
 };
 
 ConfigureDataList.defaultProps = {
-  projects: [],
+  projects: []
 };
 
 export default ConfigureDataList;
