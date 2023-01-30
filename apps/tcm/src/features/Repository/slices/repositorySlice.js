@@ -41,7 +41,8 @@ const initialState = {
     selected_ids: [],
     deselected_ids: [],
     select_all: false
-  }
+  },
+  isBulkUpdateInit: false
 };
 
 export const repositorySlice = createSlice({
@@ -75,6 +76,8 @@ export const repositorySlice = createSlice({
     },
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
+
+      state.bulkSelection = initialState.bulkSelection;
     },
     setAddTagModal: (state, { payload }) => {
       state.showAddTagModal = payload;
@@ -98,7 +101,7 @@ export const repositorySlice = createSlice({
     },
     deleteTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.filter(
-        (item) => item.id !== payload.id
+        (item) => !payload.includes(item.id)
       );
     },
     setTestCaseFormData: (state, { payload }) => {
@@ -123,6 +126,9 @@ export const repositorySlice = createSlice({
     },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
+    },
+    setBulkUpdateProgress: (state, { payload }) => {
+      state.isBulkUpdateInit = payload;
     },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
@@ -152,7 +158,8 @@ export const {
   setIssuesArray,
   setBulkSelectedtestCaseIDs,
   setBulkDeSelectedtestCaseIDs,
-  setBulkAllSelected
+  setBulkAllSelected,
+  setBulkUpdateProgress
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

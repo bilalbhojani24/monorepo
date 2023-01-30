@@ -42,7 +42,7 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
     tags
   });
 
-export const moveTestCasesBulk = async ({
+export const moveTestCasesBulkAPI = async ({
   projectId,
   folderId,
   newParentFolderId,
@@ -58,7 +58,7 @@ export const moveTestCasesBulk = async ({
     }
   );
 
-export const deleteTestCasesBulk = async ({
+export const deleteTestCasesBulkAPI = async ({
   projectId,
   folderId,
   testCaseIds
@@ -72,7 +72,7 @@ export const deleteTestCasesBulk = async ({
     }
   );
 
-export const editTestCasesBulk = async ({
+export const editTestCasesBulkAPI = async ({
   projectId,
   folderId,
   testCaseIds,

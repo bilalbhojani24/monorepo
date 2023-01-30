@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setBulkAllSelected,
   setBulkDeSelectedtestCaseIDs,
-  setBulkSelectedtestCaseIDs
+  setBulkSelectedtestCaseIDs,
+  setBulkUpdateProgress,
+  setDeleteTestCaseModalVisibility
 } from '../slices/repositorySlice';
 
-const useTestCasesTable = ({ rows }) => {
+const useTestCasesTable = () => {
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -17,6 +19,9 @@ const useTestCasesTable = ({ rows }) => {
   };
   const setBulkAll = (data) => {
     dispatch(setBulkAllSelected(data));
+  };
+  const setBulkStatus = (data) => {
+    dispatch(setBulkUpdateProgress(data));
   };
 
   const selectedTestCaseIDs = useSelector(
@@ -37,7 +42,6 @@ const useTestCasesTable = ({ rows }) => {
       );
     } else {
       const deselectedUpdates = [...deSelectedTestCaseIDs, listItem.id];
-      debugger;
       //   if (deselectedUpdates.length === rows.length) {
       //     // everything deselected
       //     setBulkAll(false);
@@ -63,7 +67,12 @@ const useTestCasesTable = ({ rows }) => {
   const initBulkMove = () => {};
   const initBulkLink = () => {};
   const initBulkEdit = () => {};
-  const initBulkDelete = () => {};
+  const initBulkDelete = () => {
+    dispatch(setDeleteTestCaseModalVisibility(true));
+    setBulkStatus(true);
+  };
+
+  const hideDeleteTestCaseBulkModal = () => {};
 
   return {
     isAllSelected,
@@ -74,7 +83,8 @@ const useTestCasesTable = ({ rows }) => {
     initBulkMove,
     initBulkEdit,
     initBulkLink,
-    initBulkDelete
+    initBulkDelete,
+    hideDeleteTestCaseBulkModal
   };
 };
 export default useTestCasesTable;

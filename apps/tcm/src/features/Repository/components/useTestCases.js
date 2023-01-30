@@ -7,12 +7,14 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   deleteTestCase,
+  deleteTestCasesBulkAPI,
   setAddTestCaseVisibility,
+  setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
   setSelectedTestCase,
   setTestCaseFormData,
-  updateAllTestCases,
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
@@ -21,20 +23,26 @@ export default function useTestCases() {
   const dispatch = useDispatch();
 
   const selectedFolder = useSelector(
-    (state) => state.repository.selectedFolder,
+    (state) => state.repository.selectedFolder
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
-    (state) => state.repository.isAddTestCasePageVisible,
+    (state) => state.repository.isAddTestCasePageVisible
   );
   const isTestCaseViewVisible = useSelector(
-    (state) => state.repository.isTestCaseViewVisible,
+    (state) => state.repository.isTestCaseViewVisible
   );
   const showDeleteModal = useSelector(
-    (state) => state.repository.showDeleteTestCaseModal,
+    (state) => state.repository.showDeleteTestCaseModal
   );
   const selectedTestCase = useSelector(
-    (state) => state.repository.selectedTestCase,
+    (state) => state.repository.selectedTestCase
+  );
+  const isBulkUpdate = useSelector(
+    (state) => state.repository.isBulkUpdateInit
+  );
+  const bulkSelectionValue = useSelector(
+    (state) => state.repository.bulkSelection
   );
 
   const showTestCaseAdditionPage = () => {
@@ -58,8 +66,8 @@ export default function useTestCases() {
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,
         folderId,
-        testCaseId: testCaseItem?.id,
-      }),
+        testCaseId: testCaseItem?.id
+      })
     );
   };
 
@@ -78,17 +86,28 @@ export default function useTestCases() {
 
   const hideDeleteTestCaseModal = () => {
     dispatch(setDeleteTestCaseModalVisibility(false));
+    setTimeout(() => {
+      // animation wait
+      dispatch(setBulkUpdateProgress(false));
+    }, 500);
   };
 
   const deleteTestCaseHandler = () => {
-    if (selectedTestCase)
+    if (isBulkUpdate) {
+      debugger;
+      // bulkSelectionValue
+      const testCaseIds = [];
+      // deleteTestCasesBulkAPI((projectId, folderId, testCaseIds)).then((res) => {
+      //   dispatch(deleteTestCase([selectedTestCase.id]));
+      //   hideDeleteTestCaseModal();
+      // });
+    } else if (selectedTestCase)
       deleteTestCaseAPI({
         projectId,
         folderId,
-        testCaseId: selectedTestCase.id,
+        testCaseId: selectedTestCase.id
       }).then((res) => {
-        dispatch(deleteTestCase(res.data['test-case']));
-        dispatch(setDeleteTestCaseModalVisibility(false));
+        dispatch(deleteTestCase([selectedTestCase.id]));
         hideDeleteTestCaseModal();
       });
   };
@@ -109,5 +128,6 @@ export default function useTestCases() {
     isTestCaseViewVisible,
     showDeleteModal,
     selectedTestCase,
+    isBulkUpdate
   };
 }
