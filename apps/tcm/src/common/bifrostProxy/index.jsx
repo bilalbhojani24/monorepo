@@ -2,12 +2,14 @@
 import React from 'react';
 import {
   Alerts,
+  Attachments,
   Badge,
   Button,
   Checkbox,
   ComboBox,
   Dropdown,
   EmptyState,
+  FileUpload,
   InputField,
   InputWButton,
   ListTree,
@@ -70,6 +72,7 @@ export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
+export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
@@ -143,4 +146,36 @@ TMDataTable.defaultProps = {
   containerWrapperClass: '',
   isCondensed: false,
   isLoading: false
+};
+
+export const TMAttachments = ({
+  attachments,
+  onRemoveClick,
+  wrapperClassName
+}) => {
+  if (!attachments?.length) return '';
+
+  return (
+    <Attachments
+      attachments={attachments.map((item) => ({
+        fileName: item.name,
+        actions: (
+          <TMButton onClick={() => onRemoveClick(item)} variant="minimal">
+            Remove
+          </TMButton>
+        )
+      }))}
+      wrapperClassName={wrapperClassName}
+    />
+  );
+};
+
+TMAttachments.propTypes = {
+  attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
+  wrapperClassName: PropTypes.string
+};
+
+TMAttachments.defaultProps = {
+  wrapperClassName: ''
 };

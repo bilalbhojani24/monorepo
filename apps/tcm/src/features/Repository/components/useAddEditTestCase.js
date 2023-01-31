@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
+import { addFolder } from 'api/folders.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
@@ -10,9 +11,14 @@ import {
   getTestCaseDetailsAPI,
   verifyTagAPI
 } from 'api/testcases.api';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import AppRoute from 'const/routes';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
-import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
+import {
+  emptyFolderName,
+  stepTemplate,
+  templateOptions
+} from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
   setAddIssuesModal,
@@ -28,10 +34,14 @@ import {
   updateTestCaseFormData
 } from '../slices/repositorySlice';
 
+import useFolders from './useFolders';
+
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
-  const uploadElementRef = useRef();
+  const navigate = useNavigate();
+  const { updateFolders } = useFolders();
   const [inputError, setInputError] = useState(false);
+  const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const dispatch = useDispatch();
@@ -54,6 +64,8 @@ export default function useAddEditTestCase() {
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
   );
+
+  const allFolders = useSelector((state) => state.repository?.allFolders);
 
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
@@ -154,18 +166,37 @@ export default function useAddEditTestCase() {
 
   const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
+  const addTestCaseAPIHelper = (formData, thisFolderID) => {
+    addTestCaseAPI({
+      projectId,
+      folderId: thisFolderID,
+      payload: formDataFormatter(formData)
+    }).then((data) => {
+      dispatch(addSingleTestCase(data));
+      dispatch(setAddTestCaseVisibility(false));
+    });
+  };
+
   const saveTestCase = (formData) => {
     if (!formData.name) setInputError(true);
-    else {
-      addTestCaseAPI({
+    else if (!allFolders.length) {
+      // if no folders, create a folder and then move forward
+      addFolder({
         projectId,
-        folderId,
-        payload: formDataFormatter(formData)
-      }).then((data) => {
-        dispatch(addSingleTestCase(data));
-        dispatch(setAddTestCaseVisibility(false));
+        payload: { name: emptyFolderName }
+      }).then((item) => {
+        if (item.data?.folder) {
+          updateFolders(item.data.folder);
+          addTestCaseAPIHelper(formData, item.data.folder.id);
+          navigate(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId,
+              folderId: item.data.folder.id
+            })
+          );
+        }
       });
-    }
+    } else addTestCaseAPIHelper(formData, folderId);
   };
 
   const editTestCase = (formData) => {
@@ -203,6 +234,7 @@ export default function useAddEditTestCase() {
         filesData.append('attachments[]', selectedFiles[idx]);
       }
 
+      setUploadProgress(true);
       uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
         const uploadedFiles = files.filter((thisItem) => thisItem.id);
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
@@ -213,12 +245,9 @@ export default function useAddEditTestCase() {
         }
         // update with id
         handleTestCaseFieldChange('attachments', uploadedFiles);
+        setUploadProgress(false);
       });
     }
-  };
-
-  const addMoreClickHandler = () => {
-    uploadElementRef?.current?.click();
   };
 
   const fileRemoveHandler = (data) => {
@@ -288,8 +317,8 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    isUploadInProgress,
     isAddIssuesModalShown,
-    uploadElementRef,
     isAddTagModalShown,
     tagsArray,
     issuesArray,
@@ -311,7 +340,6 @@ export default function useAddEditTestCase() {
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
-    addMoreClickHandler,
     fileRemoveHandler,
     initFormValues,
     tagVerifierFunction,

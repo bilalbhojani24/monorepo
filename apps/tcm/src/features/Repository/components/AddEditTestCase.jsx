@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
-import className from 'classnames';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
-import Attachments from 'common/Attachments';
 import {
+  TMAttachments,
   TMButton,
   TMComboBox,
+  TMFileUpload,
   TMInputField,
   TMSectionHeadings,
   TMSelectMenu,
@@ -28,8 +28,8 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
+    isUploadInProgress,
     isAddIssuesModalShown,
-    uploadElementRef,
     isAddTagModalShown,
     handleTestCaseFieldChange,
     inputError,
@@ -47,7 +47,6 @@ const AddEditTestCase = () => {
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
-    addMoreClickHandler,
     fileRemoveHandler,
     tagVerifierFunction,
     showAddIssueModal,
@@ -335,36 +334,27 @@ const AddEditTestCase = () => {
                 <div className="text-base-700 mb-2 block text-sm font-medium">
                   Attachments
                 </div>
-                {testCaseFormData?.attachments?.length ? (
-                  <TMButton
-                    colors="brand"
-                    variant="minimal"
-                    onClick={addMoreClickHandler}
-                  >
-                    Add More
-                  </TMButton>
-                ) : (
-                  ''
-                )}
               </div>
-              <input
-                ref={uploadElementRef}
-                className={className({
-                  'hidden ': testCaseFormData?.attachments?.length
-                })}
-                onChange={fileUploaderHelper}
-                type="file"
-                name="attachment"
+              {testCaseFormData?.attachments.length ? (
+                <div className="mb-4">
+                  <TMAttachments
+                    attachments={testCaseFormData?.attachments || []}
+                    onRemoveClick={fileRemoveHandler}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
+              <TMFileUpload
+                isUploading={isUploadInProgress}
                 multiple
-                id="file-attachment"
+                wrapperClassName="w-64 h-36"
+                heading="or drag and drop"
+                linkText="Upload a file"
+                subHeading="PNG, JPG, PDF up to 10MB"
+                onChange={fileUploaderHelper}
                 accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
               />
-              <div className="mt-2">
-                <Attachments
-                  attachments={testCaseFormData?.attachments || []}
-                  onRemoveClick={fileRemoveHandler}
-                />
-              </div>
             </div>
             <div className="flex-1" />
           </div>

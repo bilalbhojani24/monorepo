@@ -24,7 +24,7 @@ export default function TestCases() {
     isAddTestCasePageVisible
   } = useTestCases();
 
-  if (isAddTestCasePageVisible && selectedFolder) return <AddEditTestCase />;
+  if (isAddTestCasePageVisible) return <AddEditTestCase />;
 
   return (
     <div className="flex w-full flex-col items-start">
@@ -69,7 +69,7 @@ export default function TestCases() {
                 </TMTooltip>
             </div>
             {selectedFolder?.notes && (
-              <div className="mt-1 text-xs text-base-500">
+              <div className="text-base-500 mt-1 text-xs">
                 {selectedFolder?.notes}
               </div>
             )}

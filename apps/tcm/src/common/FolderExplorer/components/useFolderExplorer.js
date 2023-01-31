@@ -48,7 +48,7 @@ const useFolderExplorer = ({
             foldersArray,
             openedFolder?.id,
             true,
-            false,
+            openedFolder?.isSelected,
             data.folders,
             false,
             folderId,
@@ -75,12 +75,13 @@ const useFolderExplorer = ({
 
   const initFoldersArray = () => {
     if (allFolders)
-      if (onLoadFolderSelected && folderId) {
+      if (!onLoadFolderSelected) {
+        const thisFolderID = folderId || allFolders[0].id;
         // should only set allFolders on initial load only
         setFoldersArray(
           folderArrayUpdateHelper(
             allFolders,
-            folderId,
+            thisFolderID,
             false,
             true,
             null,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CreateNewFolderOutlinedIcon } from 'assets/icons';
-import { TMButton } from 'common/bifrostProxy';
+import { CreateNewFolderOutlinedIcon, SourceOutlinedIcon } from 'assets/icons';
+import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
@@ -19,7 +19,7 @@ export default function Folders() {
     folderId,
     allFolders,
     showAddFolderModal,
-    folderClickHandler,
+    updateRouteHelper,
     folderUpdateHandler,
     folderActionsHandler,
     moveFolderOnOkHandler,
@@ -71,16 +71,30 @@ export default function Folders() {
         </TMButton>
       </div>
       <div className="flex h-full w-full flex-col items-stretch overflow-y-auto">
-        <FolderExplorer
-          projectId={projectId}
-          folderId={folderId}
-          allFolders={allFolders}
-          actionsEnabled
-          onFolderClick={folderClickHandler}
-          onFoldersUpdate={folderUpdateHandler}
-          actionOptions={folderDropOptions}
-          actionClickHandler={folderActionsHandler}
-        />
+        {allFolders.length ? (
+          <FolderExplorer
+            projectId={projectId}
+            folderId={folderId}
+            allFolders={allFolders}
+            actionsEnabled
+            onFolderClick={updateRouteHelper}
+            onFoldersUpdate={folderUpdateHandler}
+            actionOptions={folderDropOptions}
+            actionClickHandler={folderActionsHandler}
+          />
+        ) : (
+          <div className="flex h-full w-full flex-col items-stretch justify-center">
+            <TMEmptyState
+              title="Create New Folder"
+              description="You can get started by creating test cases/folders by entering details below."
+              mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
+              buttonProps={{
+                children: 'Create Folder',
+                onClick: showAddFolderModal
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
