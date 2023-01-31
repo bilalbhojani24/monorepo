@@ -14,7 +14,9 @@ export const addFolder = async ({ projectId, payload }) =>
   });
 
 export const renameFolder = async ({ projectId, folderId, payload }) =>
-  fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/rename`, payload);
+  fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/rename`, {
+    folder: payload
+  });
 
 export const addSubFolder = async ({ projectId, folderId, payload }) =>
   fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/mkdir`, {

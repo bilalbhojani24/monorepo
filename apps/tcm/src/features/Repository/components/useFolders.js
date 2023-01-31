@@ -12,7 +12,8 @@ import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findSelectedFolder,
-  injectFolderToParent
+  injectFolderToParent,
+  replaceFolderHelper
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -160,7 +161,7 @@ export default function useFolders() {
     dispatch(setFolderModalConf(false));
   };
 
-  const folderUpdateHandler = (newFolders, newTestCases) => {
+  const folderUpdateHandler = (newFolders) => {
     setAllFoldersHelper(newFolders);
   };
 
@@ -171,6 +172,11 @@ export default function useFolders() {
         injectFolderToParent(allFolders, folderItem, parentId)
       );
     }
+  };
+
+  const renameFolderHelper = (folderItem) => {
+    debugger;
+    setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
   };
 
   const deleteFolderHandler = () => {
@@ -262,6 +268,7 @@ export default function useFolders() {
     hideFolderModal,
     deleteFolderHandler,
     moveFolderHelper,
-    moveFolderOnOkHandler
+    moveFolderOnOkHandler,
+    renameFolderHelper
   };
 }

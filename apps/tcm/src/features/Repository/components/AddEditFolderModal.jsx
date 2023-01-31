@@ -24,7 +24,7 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Add';
-  const { hideFolderModal, updateFolders } = useFolders();
+  const { hideFolderModal, updateFolders, renameFolderHelper } = useFolders();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: ''
@@ -46,7 +46,7 @@ const AddEditFolderModal = ({
         folderId,
         payload: filledFormData
       }).then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder, folderId);
+        if (item.data?.folder) renameFolderHelper(item.data.folder, folderId);
         hideFolderModal();
       });
     } else {
