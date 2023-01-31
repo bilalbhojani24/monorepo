@@ -73,10 +73,10 @@ const Banner = ({
   return (
     <div
       className={twClassNames(
-        'fixed inset-x-0',
         {
-          'top-0': placement === BANNER_PLACEMENT[0],
-          'bottom-0': placement === BANNER_PLACEMENT[1]
+          'relative w-full': placement === BANNER_PLACEMENT[0],
+          'fixed top-0 inset-x-0 z-999': placement === BANNER_PLACEMENT[1],
+          'fixed bottom-0 inset-x-0 z-999': placement === BANNER_PLACEMENT[2]
         },
         classes[modifier].containerColor
       )}

@@ -13,6 +13,7 @@ import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
+import FileUpload from './modules/FileUpload/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
@@ -86,6 +87,7 @@ export {
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
+  FileUpload,
   Hyperlink,
   InputAddOnTexts,
   InputField,

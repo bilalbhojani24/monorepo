@@ -1,4 +1,4 @@
-export const BANNER_PLACEMENT = ['top', 'bottom'];
+export const BANNER_PLACEMENT = ['relative', 'top', 'bottom'];
 export const BANNER_ALIGN = ['extreme', 'centered'];
 
 export const BANNER_MODIFIER = ['brand', 'success', 'attention', 'danger'];

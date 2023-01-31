@@ -8,17 +8,17 @@ import { twClassNames } from '../../utils/tailwindUtils';
 import './styles.scss';
 
 const TooltipBody = ({ children, wrapperClass }) => {
-  const { theme } = useContext(ThemeContextData);
+  const tooltipTheme = useContext(ThemeContextData);
 
   return (
     <p
       className={twClassNames(
         'px-4 mb-2',
         {
-          'text-base-500': theme === TP_TOOLTIP_THEME[0],
-          'text-base-300': theme === TP_TOOLTIP_THEME[1],
+          'text-base-500': tooltipTheme?.theme === TP_TOOLTIP_THEME[0],
+          'text-base-300': tooltipTheme?.theme === TP_TOOLTIP_THEME[1]
         },
-        wrapperClass,
+        wrapperClass
       )}
     >
       {children}
@@ -28,11 +28,11 @@ const TooltipBody = ({ children, wrapperClass }) => {
 
 TooltipBody.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 TooltipBody.defaultProps = {
   children: null,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default TooltipBody;
