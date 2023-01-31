@@ -1,6 +1,7 @@
 import Accordion from './modules/Accordion';
 import Alerts from './modules/Alerts/index';
 import Badge from './modules/Badge/index';
+import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
@@ -73,6 +74,7 @@ export {
   Accordion,
   Alerts,
   Badge,
+  Banner,
   Breadcrumb,
   Button,
   Checkbox,
