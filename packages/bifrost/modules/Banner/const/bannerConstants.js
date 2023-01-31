@@ -1,10 +1,10 @@
 export const BANNER_PLACEMENT = ['top', 'bottom'];
 export const BANNER_ALIGN = ['extreme', 'centered'];
 
-export const BANNER_MODIFIER = ['info', 'success', 'warning', 'error'];
+export const BANNER_MODIFIER = ['brand', 'success', 'attention', 'danger'];
 
 export const classes = {
-  info: {
+  brand: {
     containerColor: 'bg-brand-600',
     iconBackgroundColor: 'bg-brand-800'
   },
@@ -12,13 +12,13 @@ export const classes = {
     containerColor: 'bg-success-600',
     iconBackgroundColor: 'bg-success-800'
   },
-  warning: {
+  attention: {
     containerColor: 'bg-attention-300',
     textColor: 'text-attention-900',
     iconBackgroundColor: 'bg-attention-700',
     dismissIconColor: 'text-attention-900'
   },
-  error: {
+  danger: {
     containerColor: 'bg-danger-600',
     iconBackgroundColor: 'bg-danger-800'
   }
