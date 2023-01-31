@@ -4,8 +4,17 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 
 const TextArea = (props) => {
-  const { defaultValue, disabled, id, label, name, onChange, rows, value } =
-    props;
+  const {
+    defaultValue,
+    disabled,
+    id,
+    label,
+    name,
+    onChange,
+    placeholder,
+    rows,
+    value
+  } = props;
 
   return (
     <div>
@@ -22,6 +31,7 @@ const TextArea = (props) => {
           disabled={disabled}
           onChange={onChange}
           value={value}
+          placeholder={placeholder}
         />
       </div>
     </div>
@@ -35,8 +45,9 @@ TextArea.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
+  placeholder: PropTypes.string,
   rows: PropTypes.number,
-  value: PropTypes.string,
+  value: PropTypes.string
 };
 TextArea.defaultProps = {
   id: '',
@@ -45,8 +56,9 @@ TextArea.defaultProps = {
   label: '',
   name: '',
   onChange: null,
+  placeholder: '',
   rows: 3,
-  value: undefined,
+  value: undefined
 };
 
 export default TextArea;

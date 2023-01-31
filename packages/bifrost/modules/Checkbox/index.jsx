@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
 
 import {
   CHECKBOX_DESCRIPTION_VARIANT,
-  CHECKBOX_POSITION_VARIANT,
+  CHECKBOX_POSITION_VARIANT
 } from './const/checkboxConstants';
 
 import './styles.scss';
@@ -23,8 +23,13 @@ const Checkbox = (props) => {
     name,
     onChange,
     position,
-    wrapperClass,
+    wrapperClass
   } = props;
+  const ref = useRef();
+
+  useLayoutEffect(() => {
+    if (ref) ref.current.indeterminate = indeterminate;
+  }, [indeterminate]);
 
   const handleChange = (event) => {
     if (disabled) return;
@@ -37,27 +42,26 @@ const Checkbox = (props) => {
         'pt-4',
         {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
-            border && !isCard,
+            border && !isCard
         },
-        wrapperClass,
+        wrapperClass
       )}
     >
       <div
         className={twClassNames('relative flex items-start', {
           'flex-row-reverse': position === CHECKBOX_POSITION_VARIANT.right,
-          'pl-2 mb-2 py-4': isCard,
+          'pl-2 mb-2 py-4': isCard
         })}
       >
-        <div
-          className={twClassNames('flex h-5 items-center', {
-            indeterminate,
-          })}
-        >
+        <div className={twClassNames('flex h-5 items-center')}>
           <input
+            ref={ref}
             id={`${name}${data?.value || ''}`}
             name={`${name}${data?.value || ''}`}
             type="checkbox"
-            className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded"
+            className={twClassNames(
+              'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded'
+            )}
             defaultChecked={defaultChecked}
             checked={checked}
             onChange={(e) => handleChange(e)}
@@ -67,7 +71,7 @@ const Checkbox = (props) => {
         {data ? (
           <div
             className={twClassNames('min-w-0 flex-1 text-sm', {
-              'ml-3': position === CHECKBOX_POSITION_VARIANT.left,
+              'ml-3': position === CHECKBOX_POSITION_VARIANT.left
             })}
           >
             <label
@@ -82,7 +86,7 @@ const Checkbox = (props) => {
                 'inline ml-2':
                   description === CHECKBOX_DESCRIPTION_VARIANT.inline,
                 block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
-                hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none,
+                hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none
               })}
             >
               {data.description}
@@ -96,7 +100,7 @@ const Checkbox = (props) => {
               ? 'border border-brand-500'
               : 'border-2 border-transparent',
             'pointer-events-none absolute -inset-px rounded-lg',
-            { hidden: !isCard },
+            { hidden: !isCard }
           )}
           aria-hidden="true"
         />
@@ -111,7 +115,7 @@ Checkbox.propTypes = {
   data: PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    description: PropTypes.string,
+    description: PropTypes.string
   }),
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -121,7 +125,7 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -136,7 +140,7 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default Checkbox;
