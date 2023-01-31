@@ -47,7 +47,7 @@ export default function TestCases() {
               {selectedFolder?.name}
             </div>
             {selectedFolder?.notes && (
-              <div className="mt-1 text-xs text-base-500">
+              <div className="text-base-500 mt-1 text-xs">
                 {selectedFolder?.notes}
               </div>
             )}

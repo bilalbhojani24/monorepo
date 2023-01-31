@@ -1,12 +1,12 @@
 import React from 'react';
+import { SourceOutlinedIcon } from 'assets/icons';
 import Attachments from 'common/Attachments';
-import { TMBadge } from 'common/bifrostProxy';
+import { TMBadge, TMButton } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import useTestCaseView from './useTestCaseView';
-import {TMButton} from "../../../common/bifrostProxy";
-import { SourceOutlinedIcon } from 'assets/icons';
+
 const TestCaseBasicData = () => {
   const { testCaseDetails } = useTestCaseView();
 
@@ -103,20 +103,26 @@ const TestCaseBasicData = () => {
           </div>
           <div className="w-full">
             <DetailsSnippet
-                title="Issues"
-                value={
-                  testCaseDetails?.issues && testCaseDetails?.issues.length > 0 ? (
-                      <div className="mt-1 flex flex-wrap gap-1 normal-case">
-                        {testCaseDetails.issues.map((item) => (
-                            <TMButton text={item.jira_id} size="extra-small" colors="white" icon={<SourceOutlinedIcon className="!h-5 !w-5" />}>
-                                {item.jira_id}
-                            </TMButton>
-                        ))}
-                      </div>
-                  ) : (
-                      '--'
-                  )
-                }
+              title="Issues"
+              value={
+                testCaseDetails?.issues &&
+                testCaseDetails?.issues.length > 0 ? (
+                  <div className="mt-1 flex flex-wrap gap-1 normal-case">
+                    {testCaseDetails.issues.map((item) => (
+                      <TMButton
+                        text={item.jira_id}
+                        size="extra-small"
+                        colors="white"
+                        icon={<SourceOutlinedIcon className="!h-5 !w-5" />}
+                      >
+                        {item.jira_id}
+                      </TMButton>
+                    ))}
+                  </div>
+                ) : (
+                  '--'
+                )
+              }
             />
           </div>
         </div>
