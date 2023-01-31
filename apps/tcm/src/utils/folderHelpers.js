@@ -19,13 +19,13 @@ export const findSelectedFolder = (thisArray, findFolderId) => {
 };
 
 export const folderArrayUpdateHelper = (
-  folders,
-  workingFolderId,
-  isOpened,
-  isSelected,
-  newContents,
-  isSelectTriggered,
-  folderId,
+  folders, // all folders
+  workingFolderId, // folder to which the changes is to be applied
+  isOpened, // is the item to be set to opened"bool
+  isSelected, // is the item to be set to selected"bool
+  newContents, // contents value for a folder
+  isSelectTriggered, // if the function is called to set Selected State
+  folderId, // current selected Folder
   onFolderClick,
   level = 0
 ) =>
