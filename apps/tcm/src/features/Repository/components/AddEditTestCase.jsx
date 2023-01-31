@@ -84,7 +84,7 @@ const AddEditTestCase = () => {
         <TMInputField
           id="test-case-name"
           label="Name of Test Case*"
-          placeholder="Test Case 01"
+          placeholder="Enter Test Case"
           value={testCaseFormData.name}
           onChange={(e) =>
             handleTestCaseFieldChange('name', e.currentTarget.value)
