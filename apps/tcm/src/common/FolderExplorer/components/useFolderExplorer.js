@@ -75,7 +75,7 @@ const useFolderExplorer = ({
 
   const initFoldersArray = () => {
     if (allFolders)
-      if (onLoadFolderSelected && folderId) {
+      if (!onLoadFolderSelected && folderId) {
         // should only set allFolders on initial load only
         setFoldersArray(
           folderArrayUpdateHelper(
