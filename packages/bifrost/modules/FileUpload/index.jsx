@@ -15,7 +15,8 @@ const FileUpload = ({
   multiple,
   label,
   onChange,
-  accept
+  accept,
+  wrapperClassName
 }) => {
   const onChangeHandler = (event) => {
     onChange(event);
@@ -25,6 +26,7 @@ const FileUpload = ({
     <div
       className={twClassNames(
         'border-base-300 w-full rounded-md border-2 border-dashed text-center',
+        wrapperClassName,
         {
           'hover:bg-base-50 active:border-brand-500': !isUploading,
           'cursor-not-allowed': isUploading
@@ -76,14 +78,16 @@ FileUpload.propTypes = {
   label: propTypes.string.isRequired,
   onChange: propTypes.func.isRequired,
   multiple: propTypes.bool,
-  accept: propTypes.string.isRequired
+  accept: propTypes.string.isRequired,
+  wrapperClassName: propTypes.string
 };
 FileUpload.defaultProps = {
   linkText: '',
   heading: '',
   subHeading: '',
   isUploading: false,
-  multiple: false
+  multiple: false,
+  wrapperClassName: ''
 };
 
 export default FileUpload;

@@ -61,6 +61,11 @@ const defaultConfig = {
       type: { summary: 'FUNCTION', required: false },
       description: 'Function callback when a file is uploaded',
       control: { type: 'select' }
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Classes to be passed to parent component'
     }
   },
   controls: {}
