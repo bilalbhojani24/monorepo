@@ -1,7 +1,6 @@
 import React from 'react';
 import { SourceOutlinedIcon } from 'assets/icons';
-import Attachments from 'common/Attachments';
-import { TMBadge, TMButton } from 'common/bifrostProxy';
+import { TMAttachments, TMBadge, TMButton } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
@@ -130,7 +129,7 @@ const TestCaseBasicData = () => {
           title="Attachments"
           value={
             testCaseDetails?.attachments.length ? (
-              <Attachments
+              <TMAttachments
                 wrapperClassName="mt-2"
                 attachments={testCaseDetails?.attachments || []}
               />
