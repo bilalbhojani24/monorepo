@@ -4,7 +4,11 @@ import { MegaphoneIcon } from '@heroicons/react/24/outline';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 
-import { BANNER_ALIGN, BANNER_PLACEMENT } from './const/bannerConstants';
+import {
+  BANNER_ALIGN,
+  BANNER_MODIFIER,
+  BANNER_PLACEMENT
+} from './const/bannerConstants';
 import Banner from './index';
 
 const inlineRadio = 'inline-radio';
@@ -49,6 +53,11 @@ const defaultConfig = {
     isDismissButton: {
       option: { type: 'boolean' },
       defaultValue: true
+    },
+    modifier: {
+      options: BANNER_MODIFIER,
+      controls: { type: inlineRadio },
+      defaultValue: BANNER_MODIFIER[0]
     },
     onDismissClick: {
       option: { type: null },

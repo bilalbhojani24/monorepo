@@ -1,6 +1,7 @@
 import Accordion from './modules/Accordion';
 import Alerts from './modules/Alerts/index';
 import Badge from './modules/Badge/index';
+import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
@@ -13,32 +14,6 @@ import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import Hyperlink from './modules/Hyperlink/index';
-import {
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
-  BarsArrowUpIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  CursorArrowRaysIcon,
-  EllipsisVerticalIcon,
-  EnvelopeIcon,
-  EnvelopeOpenIcon,
-  ExclamationCircleIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  InformationCircleIcon,
-  MagnifyingGlassIcon,
-  PaperClipIcon,
-  PlusIcon,
-  UsersIcon,
-  XMarkIcon,
-} from './modules/Icon/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
 import InputWButton from './modules/InputWButton/index';
@@ -98,33 +73,20 @@ export * from './modules/Icon/index';
 export {
   Accordion,
   Alerts,
-  ArrowLongLeftIcon,
-  ArrowLongRightIcon,
   Badge,
-  // Icons
-  BarsArrowUpIcon,
+  Banner,
   Breadcrumb,
   Button,
-  CalendarIcon,
-  ChartBarIcon,
   Checkbox,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
   ColorPicker,
   ComboBox,
   DataVisualization,
   DescriptionList,
   Dropdown,
-  EllipsisVerticalIcon,
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   Hyperlink,
-  InboxIcon,
-  InformationCircleIcon,
   InputAddOnTexts,
   InputField,
   InputWButton,
