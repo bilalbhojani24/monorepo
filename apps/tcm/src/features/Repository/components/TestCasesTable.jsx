@@ -130,8 +130,15 @@ const TestCasesTable = ({
               <TMCheckBox
                 border={false}
                 wrapperClass="pt-0"
-                checked={isAllSelected && !deSelectedTestCaseIDs.length}
-                indeterminate={selectedTestCaseIDs.length}
+                checked={
+                  (isAllSelected && !deSelectedTestCaseIDs.length) ||
+                  selectedTestCaseIDs.length === rows.length
+                }
+                indeterminate={
+                  (isAllSelected && deSelectedTestCaseIDs.length) ||
+                  (selectedTestCaseIDs.length &&
+                    selectedTestCaseIDs.length !== rows.length)
+                }
                 onChange={selectAll}
               />
             </TableCell>
