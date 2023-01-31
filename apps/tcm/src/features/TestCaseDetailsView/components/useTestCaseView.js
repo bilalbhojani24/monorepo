@@ -49,12 +49,13 @@ export default function useTestCasesView() {
 
   const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId
-      })
-    );
+    if (folderId)
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId,
+          folderId
+        })
+      );
   };
 
   const handleTabChange = (value) => {

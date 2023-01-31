@@ -21,7 +21,8 @@ import {
   setAddTestCaseVisibility,
   setAllFolders,
   setFolderModalConf,
-  setSelectedFolder
+  setSelectedFolder,
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
@@ -111,20 +112,29 @@ export default function useFolders() {
     dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
       getFolders({ projectId }).then((data) => {
-        const isParentFolderDefault = data?.folders?.find(
-          (item) => `${item.id}` === folderId
-        );
-        if (folderId && !isParentFolderDefault) {
-          // if the folderId in URL is not a parent level folder
-          fetchFolderSelectedFromParam(data?.folders || []);
-        } else setAllFoldersHelper(data?.folders || []);
+        if (!data?.folders?.length) {
+          // if no folders
+          navigate(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId
+            })
+          );
+        } else {
+          const isParentFolderDefault = data?.folders?.find(
+            (item) => `${item.id}` === folderId
+          );
+          if (folderId && !isParentFolderDefault && data?.folders?.length) {
+            // if the folderId in URL is not a parent level folder
+            fetchFolderSelectedFromParam(data?.folders || []);
+          } else setAllFoldersHelper(data?.folders || []);
 
-        selectFolderPerDefault(data?.folders);
+          selectFolderPerDefault(data?.folders);
+        }
       });
     } else setAllFoldersHelper([]);
   };
 
-  const folderClickHandler = (selectedFolder) => {
+  const updateRouteHelper = (selectedFolder) => {
     navigate(
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,
@@ -167,10 +177,19 @@ export default function useFolders() {
     if (openedFolderModal && openedFolderModal?.folder?.id) {
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
         (item) => {
-          if (item?.data?.folder?.id)
-            setAllFoldersHelper(
-              deleteFolderFromArray(allFolders, item.data.folder.id)
+          if (item?.data?.folder?.id) {
+            const newFoldersArray = deleteFolderFromArray(
+              allFolders,
+              item.data.folder.id
             );
+            setAllFoldersHelper(newFoldersArray);
+            if (newFoldersArray.length) {
+              updateRouteHelper(newFoldersArray[0]);
+            } else {
+              // no folder, remove all test cases
+              dispatch(updateAllTestCases([]));
+            }
+          }
 
           hideFolderModal();
         }
@@ -237,7 +256,7 @@ export default function useFolders() {
     showAddFolderModal,
     updateFolders,
     fetchAllFolders,
-    folderClickHandler,
+    updateRouteHelper,
     folderUpdateHandler,
     folderActionsHandler,
     hideFolderModal,

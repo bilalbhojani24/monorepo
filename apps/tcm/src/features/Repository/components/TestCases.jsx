@@ -19,7 +19,7 @@ export default function TestCases() {
     isAddTestCasePageVisible
   } = useTestCases();
 
-  if (isAddTestCasePageVisible && selectedFolder) return <AddEditTestCase />;
+  if (isAddTestCasePageVisible) return <AddEditTestCase />;
 
   return (
     <div className="flex w-full flex-col items-start">
