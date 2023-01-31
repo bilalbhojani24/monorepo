@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -9,16 +9,14 @@ import './styles.scss';
 const RadioGroup = (props) => {
   const {
     direction,
-    defaultSelectedOption,
+    selectedOption,
     options,
     onChange,
     inlineDescription,
-    rightAligned,
+    rightAligned
   } = props;
-  const [selectedId, setSelectedId] = useState(defaultSelectedOption?.id);
 
   const handleChange = (id) => (e) => {
-    setSelectedId(id);
     onChange(e, id);
   };
 
@@ -26,14 +24,14 @@ const RadioGroup = (props) => {
     <div
       className={classNames('flex', {
         'space-x-5': direction === DIRECTIONS[0],
-        'space-y-5 flex-col': direction === DIRECTIONS[1],
+        'space-y-5 flex-col': direction === DIRECTIONS[1]
       })}
     >
       {options.map((option) => (
         <div key={option.id} className="flex items-start">
           <div
             className={classNames('flex h-5 items-center', {
-              'order-last mx-3': rightAligned,
+              'order-last mx-3': rightAligned
             })}
           >
             <input
@@ -41,7 +39,7 @@ const RadioGroup = (props) => {
               aria-describedby={`${option.id}-description`}
               name="plan"
               type="radio"
-              checked={option.id === selectedId}
+              checked={option.id === selectedOption?.id}
               className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4"
               onChange={handleChange(option.id)}
             />
@@ -49,7 +47,7 @@ const RadioGroup = (props) => {
           <div
             className={classNames(
               { 'flex-col': !inlineDescription, 'flex-1': rightAligned },
-              'flex ml-3 text-sm',
+              'flex ml-3 text-sm'
             )}
           >
             {option.name && (
@@ -62,7 +60,7 @@ const RadioGroup = (props) => {
                 id={`${option.id}-description`}
                 className={classNames(
                   { 'ml-2': inlineDescription },
-                  'text-base-500',
+                  'text-base-500'
                 )}
               >
                 {option.description}
@@ -77,11 +75,11 @@ const RadioGroup = (props) => {
 
 RadioGroup.propTypes = {
   direction: PropTypes.oneOf(DIRECTIONS),
-  defaultSelectedOption: PropTypes.shape({
+  selectedOption: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
     description: PropTypes.string,
-    disabled: PropTypes.bool,
+    disabled: PropTypes.bool
   }),
   inlineDescription: PropTypes.bool,
   options: PropTypes.arrayOf(
@@ -89,19 +87,19 @@ RadioGroup.propTypes = {
       id: PropTypes.string.isRequired,
       name: PropTypes.string,
       description: PropTypes.string,
-      disabled: PropTypes.bool,
-    }),
+      disabled: PropTypes.bool
+    })
   ),
   onChange: PropTypes.func,
-  rightAligned: PropTypes.bool,
+  rightAligned: PropTypes.bool
 };
 RadioGroup.defaultProps = {
   direction: DIRECTIONS[0],
-  defaultSelectedOption: null,
+  selectedOption: null,
   inlineDescription: false,
   options: [],
   onChange: () => {},
-  rightAligned: false,
+  rightAligned: false
 };
 
 export default RadioGroup;
