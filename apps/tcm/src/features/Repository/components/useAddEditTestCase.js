@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
@@ -39,9 +39,9 @@ import useFolders from './useFolders';
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const navigate = useNavigate();
-  const uploadElementRef = useRef();
   const { updateFolders } = useFolders();
   const [inputError, setInputError] = useState(false);
+  const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const dispatch = useDispatch();
@@ -234,6 +234,7 @@ export default function useAddEditTestCase() {
         filesData.append('attachments[]', selectedFiles[idx]);
       }
 
+      setUploadProgress(true);
       uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
         const uploadedFiles = files.filter((thisItem) => thisItem.id);
         for (let idx = 0; idx < selectedFiles.length; idx += 1) {
@@ -244,12 +245,9 @@ export default function useAddEditTestCase() {
         }
         // update with id
         handleTestCaseFieldChange('attachments', uploadedFiles);
+        setUploadProgress(false);
       });
     }
-  };
-
-  const addMoreClickHandler = () => {
-    uploadElementRef?.current?.click();
   };
 
   const fileRemoveHandler = (data) => {
@@ -319,8 +317,8 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    isUploadInProgress,
     isAddIssuesModalShown,
-    uploadElementRef,
     isAddTagModalShown,
     tagsArray,
     issuesArray,
@@ -342,7 +340,6 @@ export default function useAddEditTestCase() {
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
-    addMoreClickHandler,
     fileRemoveHandler,
     initFormValues,
     tagVerifierFunction,

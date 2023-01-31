@@ -9,6 +9,7 @@ import {
   ComboBox,
   Dropdown,
   EmptyState,
+  FileUpload,
   InputField,
   InputWButton,
   ListTree,
@@ -71,6 +72,7 @@ export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
+export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
