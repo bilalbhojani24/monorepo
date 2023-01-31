@@ -52,7 +52,7 @@ const AddProjects = ({ show }) => {
         <div className="mb-4">
           <TMInputField
             label="Project Name"
-            placeholder="Project Name 01"
+            placeholder="Enter Project Name"
             value={formData.name}
             onChange={(e) =>
               setFormData({ ...formData, name: e.currentTarget.value })

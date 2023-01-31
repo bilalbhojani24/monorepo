@@ -66,8 +66,18 @@ const TestCasesTable = ({
     {
       name: 'ID',
       key: 'id',
-
-      cell: (rowData) => `TC${rowData?.id}`
+      cell: (rowData) => (
+          <div
+              role="button"
+              className="hover:text-brand-600 cursor-pointer"
+              tabIndex={0}
+              onClick={handleTestCaseViewClick(rowData)}
+              onKeyDown={handleTestCaseViewClick(rowData)}
+          >
+            {`TC-${rowData?.id}`}
+          </div>
+      )
+      // cell: (rowData) =>
     },
     {
       name: 'TITLE',
