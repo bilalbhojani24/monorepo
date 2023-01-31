@@ -10,7 +10,7 @@ const AppRoute = {
   SETTINGS: '/settings',
   REPORTS: '/reports',
   IMPORT: '/import',
-  IMPORT_CSV: '/import/csv'
+  IMPORT_CSV: '/import-csv'
 };
 
 export default AppRoute;

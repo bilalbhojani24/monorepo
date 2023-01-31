@@ -32,7 +32,7 @@ import {
   TextArea,
   Tooltip,
   TooltipBody,
-  TooltipHeader,
+  TooltipHeader
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
@@ -108,9 +108,9 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
 TMDataTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  containerWrapperClass: PropTypes.string,
+  containerWrapperClass: PropTypes.string
 };
 
 TMDataTable.defaultProps = {
-  containerWrapperClass: '',
+  containerWrapperClass: ''
 };

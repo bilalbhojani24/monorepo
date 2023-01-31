@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
 import projectReducer from 'features/Projects/slices/projectSlice';
 import importReducer from 'features/quickImportFlow/slices/importSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
@@ -13,6 +14,7 @@ export const store = configureStore({
     projects: projectReducer,
     testRuns: testRunsReducer,
     testCaseDetails: testCaseDetailsReducer,
-    import: importReducer
+    import: importReducer,
+    importCSV: importCSVReducer
   }
 });

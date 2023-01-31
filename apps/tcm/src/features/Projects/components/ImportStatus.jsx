@@ -5,7 +5,8 @@ import { Banner, Notifications, notify } from '@browserstack/bifrost';
 import {
   dismissNotificationForImport,
   getLatestQuickImportConfig,
-  getQuickImportStatus
+  getQuickImportStatus,
+  retryImport
 } from 'api/import.api';
 import {
   AccessTimeFilledRoundedIcon,
@@ -20,7 +21,12 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 
-import { setCurrentScreen } from '../../quickImportFlow/slices/importSlice';
+import {
+  setCurrentScreen,
+  setCurrentTestManagementTool,
+  setSelectedRadioIdMap,
+  setTestRailsCred
+} from '../../quickImportFlow/slices/importSlice';
 import {
   COMPLETED,
   FAILURE,
@@ -72,9 +78,30 @@ const ImportStatus = () => {
     [latestImportConfig]
   );
 
-  const retryImport = () => {
-    localStorage.setItem('retryImport', 'true');
-    dispatch(setCurrentScreen('configureData'));
+  const retryImportFn = () => {
+    dispatch(setCurrentScreen('configureTool'));
+
+    // api call for retry
+    const testManagementTool =
+      notification.tool.split('_')[0] === 'testrail'
+        ? `${notification.tool.split('_')[0]}s`
+        : notification.tool.split('_')[0];
+    dispatch(setCurrentTestManagementTool(testManagementTool));
+    dispatch(
+      setSelectedRadioIdMap({
+        key: testManagementTool,
+        value: 'import-from-tool'
+      })
+    );
+    retryImport(
+      latestImportConfig.importId,
+      notification.tool.split('_')[0]
+    ).then((data) => {
+      const keys = Object.keys(data.credentials);
+      keys.forEach((key) =>
+        dispatch(setTestRailsCred({ key, value: data.credentials[key] }))
+      );
+    });
     navigate('/import', {
       state: {
         importId: latestImportConfig.importId,
@@ -97,7 +124,7 @@ const ImportStatus = () => {
   const handleSecondButtonClick = (toastData, buttonData) => () => {
     dismissNotification(toastData);
     setNotification({ show: false, data: {} });
-    if (buttonData === 'Retry Import') retryImport();
+    if (buttonData === 'Retry Import') retryImportFn();
   };
 
   const handleNotificationClose = (toastData) => {
@@ -199,24 +226,26 @@ const ImportStatus = () => {
             <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
               Below is a report of all the completed project imports:
             </div>
-            <div className="border-base-100 text-base-500 mt-7 border-b p-3 text-xs">
-              <span className="inline-flex w-28">Project</span>
-              <span className="ml-4">Status</span>
+            <div className="border-base-100 text-base-500 mt-7 flex place-content-between border-b p-3 text-xs font-medium">
+              <span className="inline-flex flex-1">Project</span>
+              <span className="ml-6 inline-flex flex-1">Status</span>
             </div>
             {notification?.projects &&
               notification?.projects.map((project) => (
-                <div className="border-base-100 text-base-500 border-b p-3 text-xs">
-                  <span className="text-base-900 inline-flex w-28 text-sm">
+                <div className="border-base-100 text-base-500 flex place-content-between border-b p-3 text-xs">
+                  <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
                     {project.name}
                   </span>
-                  {project.status === FAILURE ? (
-                    <>
-                      <ErrorIcon className="text-attention-600 ml-4" />
-                      <span className="ml-2">{project.reason}</span>
-                    </>
-                  ) : (
-                    <CheckCircleRoundedIcon className="text-success-500 ml-4" />
-                  )}
+                  <span className="ml-6 inline-flex flex-1">
+                    {project.status === FAILURE ? (
+                      <>
+                        <ErrorIcon className="text-danger-600" />
+                        <span className="ml-2">{project.reason}</span>
+                      </>
+                    ) : (
+                      <CheckCircleRoundedIcon className="text-success-600" />
+                    )}
+                  </span>
                 </div>
               ))}
           </TMModalBody>
@@ -228,7 +257,7 @@ const ImportStatus = () => {
             >
               Close
             </TMButton>
-            <TMButton variant="primary" colors="brand" onClick={retryImport}>
+            <TMButton variant="primary" colors="brand" onClick={retryImportFn}>
               Retry Import
             </TMButton>
           </TMModalFooter>
