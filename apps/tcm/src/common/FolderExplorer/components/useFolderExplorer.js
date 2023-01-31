@@ -48,7 +48,7 @@ const useFolderExplorer = ({
             foldersArray,
             openedFolder?.id,
             true,
-            false,
+            openedFolder?.isSelected,
             data.folders,
             false,
             folderId,
