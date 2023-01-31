@@ -5,7 +5,8 @@ import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import useTestCaseView from './useTestCaseView';
-
+import {TMButton} from "../../../common/bifrostProxy";
+import { SourceOutlinedIcon } from 'assets/icons';
 const TestCaseBasicData = () => {
   const { testCaseDetails } = useTestCaseView();
 
@@ -20,13 +21,13 @@ const TestCaseBasicData = () => {
               value={
                 typeof testCaseDetails?.steps?.[0] === 'string'
                   ? testCaseDetails?.steps?.[0]
-                  : 'N/A'
+                  : '--'
               }
             />
             <DetailsSnippet
               isPrimary
               title="Expected Result"
-              value={testCaseDetails?.expected_result || 'N/A'}
+              value={testCaseDetails?.expected_result || '--'}
             />
           </>
         ) : (
@@ -34,7 +35,7 @@ const TestCaseBasicData = () => {
             <DetailsSnippet
               isPrimary
               title="Description"
-              value={testCaseDetails?.description || 'N/A'}
+              value={testCaseDetails?.description || '--'}
             />
             <DetailsSnippet
               isPrimary
@@ -61,61 +62,63 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Assigned to"
-              value={testCaseDetails?.owner || 'N/A'}
+              value={testCaseDetails?.owner || '--'}
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Template"
               value={
-                testCaseDetails?.template?.replace('test_case_', '') || 'N/A'
+                testCaseDetails?.template?.replace('test_case_', '') || '--'
               }
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Estimate"
-              value={testCaseDetails?.estimate || 'N/A'}
+              value={testCaseDetails?.estimate || '--'}
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Priority"
-              value={testCaseDetails?.priority || 'N/A'}
+              value={testCaseDetails?.priority || '--'}
             />
           </div>
           <div className="w-full">
             <DetailsSnippet
               title="Tags"
               value={
-                testCaseDetails?.tags ? (
+                testCaseDetails?.tags.length > 0 ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
                     {testCaseDetails.tags.map((item) => (
                       <TMBadge text={item} size="large" isRounded />
                     ))}
                   </div>
                 ) : (
-                  'N/A'
+                  '--'
                 )
               }
             />
           </div>
-          {/* <div className="w-full">
+          <div className="w-full">
             <DetailsSnippet
-              title="Issues"
-              value={
-                testCaseDetails?.issues ? (
-                  <div className="flex flex-wrap gap-1 normal-case">
-                    {testCaseDetails.issues?.map((item) => (
-                      <TMBadge text={item} size="large" isRounded />
-                    ))}
-                  </div>
-                ) : (
-                  'N/A'
-                )
-              }
+                title="Issues"
+                value={
+                  testCaseDetails?.issues && testCaseDetails?.issues.length > 0 ? (
+                      <div className="mt-1 flex flex-wrap gap-1 normal-case">
+                        {testCaseDetails.issues.map((item) => (
+                            <TMButton text={item.jira_id} size="extra-small" colors="white" icon={<SourceOutlinedIcon className="!h-5 !w-5" />}>
+                                {item.jira_id}
+                            </TMButton>
+                        ))}
+                      </div>
+                  ) : (
+                      '--'
+                  )
+                }
             />
-          </div> */}
+          </div>
         </div>
         <DetailsSnippet
           title="Attachments"
@@ -126,13 +129,13 @@ const TestCaseBasicData = () => {
                 attachments={testCaseDetails?.attachments || []}
               />
             ) : (
-              'N/A'
+              '--'
             )
           }
         />
         <DetailsSnippet
           title="Preconditions"
-          value={testCaseDetails?.preconditions || 'N/A'}
+          value={testCaseDetails?.preconditions || '--'}
         />
         <div />
       </div>
