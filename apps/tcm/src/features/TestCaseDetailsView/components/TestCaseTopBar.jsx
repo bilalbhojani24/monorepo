@@ -4,7 +4,10 @@ import {
   // ArrowForwardOutlinedIcon,
   InfoOutlinedIcon
 } from 'assets/icons';
-import { TMDropdown } from 'common/bifrostProxy';
+import { TMDropdown,     TMInputField ,
+    TMTooltip,
+    TMTooltipBody,
+    TMTooltipHeader } from 'common/bifrostProxy';
 import { dropDownOptions } from 'features/Repository/const/testCaseConst';
 
 import useTestCaseView from './useTestCaseView';
@@ -15,7 +18,24 @@ const TestCaseTopBar = () => {
     <div className="mb-4 flex  w-full items-start justify-between">
       <div className="line-clamp-2 relative flex max-h-12 items-end text-base font-medium">
         {testCaseDetails?.name}
-        <InfoOutlinedIcon className="ml-1 h-5 !w-5 cursor-pointer" />
+          <TMTooltip
+              size="sm"
+              placementSide="bottom"
+              theme="dark"
+              content={
+                  <>
+                      <TMTooltipHeader>{testCaseDetails?.name}</TMTooltipHeader>
+                      <TMTooltipBody>
+                          <p className="text-sm">
+                              ID: {testCaseDetails.id}
+                              URL: {testCaseDetails.links.self}
+                          </p>
+                      </TMTooltipBody>
+                  </>
+              }
+          >
+              <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
+          </TMTooltip>
       </div>
       <div className="flex items-center">
         <TMDropdown
