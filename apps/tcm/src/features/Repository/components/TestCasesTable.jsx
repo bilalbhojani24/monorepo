@@ -67,15 +67,15 @@ const TestCasesTable = ({
       name: 'ID',
       key: 'id',
       cell: (rowData) => (
-          <div
-              role="button"
-              className="hover:text-brand-600 cursor-pointer"
-              tabIndex={0}
-              onClick={handleTestCaseViewClick(rowData)}
-              onKeyDown={handleTestCaseViewClick(rowData)}
-          >
-            {`TC-${rowData?.id}`}
-          </div>
+        <div
+          role="button"
+          className="hover:text-brand-600 cursor-pointer"
+          tabIndex={0}
+          onClick={handleTestCaseViewClick(rowData)}
+          onKeyDown={handleTestCaseViewClick(rowData)}
+        >
+          {`TC-${rowData?.id}`}
+        </div>
       )
       // cell: (rowData) =>
     },
@@ -131,7 +131,7 @@ const TestCasesTable = ({
                 border={false}
                 wrapperClass="pt-0"
                 checked={isAllSelected && !deSelectedTestCaseIDs.length}
-                indeterminate
+                indeterminate={selectedTestCaseIDs.length}
                 onChange={selectAll}
               />
             </TableCell>
@@ -157,7 +157,7 @@ const TestCasesTable = ({
                     >
                       Move
                     </TMButton>
-                    <TMButton
+                    {/* <TMButton
                       colors="white"
                       size="extra-small"
                       onClick={initBulkEdit}
@@ -170,7 +170,7 @@ const TestCasesTable = ({
                       onClick={initBulkDelete}
                     >
                       Bulk Delete
-                    </TMButton>
+                    </TMButton> */}
                   </div>
                 ) : (
                   ''
