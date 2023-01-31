@@ -3,8 +3,8 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import className from 'classnames';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
-import Attachments from 'common/Attachments';
 import {
+  TMAttachments,
   TMButton,
   TMComboBox,
   TMInputField,
@@ -360,7 +360,7 @@ const AddEditTestCase = () => {
                 accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
               />
               <div className="mt-2">
-                <Attachments
+                <TMAttachments
                   attachments={testCaseFormData?.attachments || []}
                   onRemoveClick={fileRemoveHandler}
                 />
