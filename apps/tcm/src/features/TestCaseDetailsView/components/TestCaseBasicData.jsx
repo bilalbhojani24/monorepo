@@ -80,6 +80,12 @@ const TestCaseBasicData = () => {
           </div>
           <div className="w-3/6">
             <DetailsSnippet
+              title="State"
+              value={testCaseDetails?.status.split('_')?.[0] || '--'}
+            />
+          </div>
+          <div className="w-3/6">
+            <DetailsSnippet
               title="Priority"
               value={testCaseDetails?.priority || '--'}
             />

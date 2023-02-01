@@ -122,15 +122,21 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const formDataFormatter = (formData) => ({
-    test_case: {
-      ...formData,
-      steps: JSON.stringify(formData.steps),
-      tags: formData?.tags?.map((item) => item.value),
-      issues: formData?.issues?.map((item) => item.value),
-      attachments: formData?.attachments?.map((item) => item.id)
-    }
-  });
+  const formDataFormatter = (formData) => {
+    const testCase = {
+      ...formData
+    };
+
+    if (formData.steps) testCase.steps = JSON.stringify(formData.steps);
+    if (formData.tags)
+      testCase.tags = formData?.tags?.map((item) => item.value);
+    if (formData.issues)
+      testCase.issues = formData?.issues?.map((item) => item.value);
+    if (formData.attachments)
+      testCase.attachments = formData?.attachments?.map((item) => item.id);
+
+    return { test_case: testCase };
+  };
 
   const formDataRetriever = (formData) => ({
     ...formData,
@@ -222,7 +228,7 @@ export default function useAddEditTestCase() {
       projectId,
       folderId,
       bulkSelection,
-      data: testCaseBulkFormData
+      data: formDataFormatter(testCaseBulkFormData).test_case
     }).then((res) => {
       // hideTestCaseAddEditPage()
       dispatch(
