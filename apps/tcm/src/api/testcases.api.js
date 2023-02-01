@@ -75,7 +75,7 @@ export const deleteTestCasesBulkAPI = async ({
 export const editTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  testCaseIds,
+  bulkSelection,
   data
 }) =>
   fetchPost(
@@ -83,7 +83,7 @@ export const editTestCasesBulkAPI = async ({
     {
       test_case: {
         ...data,
-        ids: testCaseIds
+        ...bulkSelection
       }
     }
   );

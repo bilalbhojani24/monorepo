@@ -164,7 +164,7 @@ const TestCasesTable = ({
                     >
                       Move
                     </TMButton>
-                    {/* <TMButton
+                    <TMButton
                       colors="white"
                       size="extra-small"
                       onClick={initBulkEdit}
@@ -177,7 +177,7 @@ const TestCasesTable = ({
                       onClick={initBulkDelete}
                     >
                       Bulk Delete
-                    </TMButton> */}
+                    </TMButton>
                   </div>
                 ) : (
                   ''

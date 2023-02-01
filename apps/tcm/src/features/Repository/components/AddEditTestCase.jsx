@@ -34,7 +34,7 @@ const AddEditTestCase = () => {
     handleTestCaseFieldChange,
     inputError,
     testCaseFormData,
-    hideTestCaseAdditionPage,
+    hideTestCaseAddEditPage,
     saveTestCase,
     editTestCase,
     isTestCaseEditing,
@@ -76,7 +76,7 @@ const AddEditTestCase = () => {
           children: 'Cancel',
           variant: 'primary',
           colors: 'white',
-          onClick: hideTestCaseAdditionPage
+          onClick: hideTestCaseAddEditPage
         }}
       />
       <div className="my-4">

@@ -5,6 +5,7 @@ import { moveTestCasesBulkAPI } from 'api/testcases.api';
 
 import {
   resetBulkSelection,
+  setAddTestCaseVisibility,
   setBulkAllSelected,
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
@@ -32,10 +33,10 @@ const useTestCasesTable = () => {
   };
 
   const selectedTestCaseIDs = useSelector(
-    (state) => state.repository.bulkSelection.selected_ids
+    (state) => state.repository.bulkSelection.ids
   );
   const deSelectedTestCaseIDs = useSelector(
-    (state) => state.repository.bulkSelection.deselected_ids
+    (state) => state.repository.bulkSelection.de_selected_ids
   );
   const isAllSelected = useSelector(
     (state) => state.repository.bulkSelection.select_all
@@ -87,7 +88,10 @@ const useTestCasesTable = () => {
     setshowMoveModal(true);
   };
 
-  const initBulkEdit = () => {};
+  const initBulkEdit = () => {
+    dispatch(setAddTestCaseVisibility(true));
+    setBulkStatus(true);
+  };
 
   const initBulkDelete = () => {
     dispatch(setDeleteTestCaseModalVisibility(true));

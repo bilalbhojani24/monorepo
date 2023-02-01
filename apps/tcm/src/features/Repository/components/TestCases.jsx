@@ -4,6 +4,7 @@ import { TMButton, TMInputField } from 'common/bifrostProxy';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
+import BulkEditTestCase from './BulkEditTestCase';
 import DeleteTestCase from './DeleteTestCase';
 import InlineAddTestCase from './InlineAddTestCase';
 import TestCasesTable from './TestCasesTable';
@@ -16,9 +17,11 @@ export default function TestCases() {
     showDeleteModal,
     selectedFolder,
     allTestCases,
-    isAddTestCasePageVisible
+    isAddTestCasePageVisible,
+    isBulkUpdate
   } = useTestCases();
 
+  if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
   if (isAddTestCasePageVisible) return <AddEditTestCase />;
 
   return (

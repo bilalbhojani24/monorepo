@@ -7,6 +7,7 @@ import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
   editTestCaseAPI,
+  editTestCasesBulkAPI,
   getTagsAPI,
   getTestCaseDetailsAPI,
   verifyTagAPI
@@ -21,15 +22,19 @@ import {
 } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseVisibility,
+  setBulkUpdateProgress,
   setEditTestCasePageVisibility,
   setIssuesArray,
   setLoadedDataProjectId,
   setTagsArray,
   setTestCaseFormData,
   setUsers,
+  updateAllTestCases,
+  updateBulkTestCaseFormData,
   updateTestCase,
   updateTestCaseFormData
 } from '../slices/repositorySlice';
@@ -61,9 +66,17 @@ export default function useAddEditTestCase() {
   const testCaseFormData = useSelector(
     (state) => state.repository.testCaseFormData
   );
+  const testCaseBulkFormData = useSelector(
+    (state) => state.repository.testCaseBulkFormData
+  );
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
   );
+  const isBulkUpdateInit = useSelector(
+    (state) => state.repository.isBulkUpdateInit
+  );
+  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
 
@@ -75,9 +88,10 @@ export default function useAddEditTestCase() {
 
   const usersArray = useSelector((state) => state.repository.usersArray);
 
-  const hideTestCaseAdditionPage = () => {
+  const hideTestCaseAddEditPage = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
+    dispatch(setBulkUpdateProgress(false));
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -91,17 +105,21 @@ export default function useAddEditTestCase() {
   };
 
   const handleTestCaseFieldChange = (key, value) => {
-    if (key === 'name' && value) setInputError(false);
+    if (isBulkUpdateInit) {
+      dispatch(updateBulkTestCaseFormData({ key, value }));
+    } else {
+      if (key === 'name' && value) setInputError(false);
 
-    if (key === 'template') {
-      dispatch(
-        updateTestCaseFormData({
-          key: 'steps',
-          value: value === templateOptions[1].value ? [stepTemplate] : ['']
-        })
-      );
+      if (key === 'template') {
+        dispatch(
+          updateTestCaseFormData({
+            key: 'steps',
+            value: value === templateOptions[1].value ? [stepTemplate] : ['']
+          })
+        );
+      }
+      dispatch(updateTestCaseFormData({ key, value }));
     }
-    dispatch(updateTestCaseFormData({ key, value }));
   };
 
   const formDataFormatter = (formData) => ({
@@ -173,7 +191,7 @@ export default function useAddEditTestCase() {
       payload: formDataFormatter(formData)
     }).then((data) => {
       dispatch(addSingleTestCase(data));
-      dispatch(setAddTestCaseVisibility(false));
+      hideTestCaseAddEditPage();
     });
   };
 
@@ -199,6 +217,26 @@ export default function useAddEditTestCase() {
     } else addTestCaseAPIHelper(formData, folderId);
   };
 
+  const saveBulkEditHelper = () => {
+    editTestCasesBulkAPI({
+      projectId,
+      folderId,
+      bulkSelection,
+      data: testCaseBulkFormData
+    }).then((res) => {
+      // hideTestCaseAddEditPage()
+      dispatch(
+        updateAllTestCases(
+          allTestCases.map(
+            (item) => res.testcases.find((inc) => inc.id === item.id) || item
+          )
+        )
+      );
+      hideTestCaseAddEditPage();
+      dispatch(resetBulkSelection());
+    });
+  };
+
   const editTestCase = (formData) => {
     if (!formData.name) setInputError(true);
     else {
@@ -209,8 +247,9 @@ export default function useAddEditTestCase() {
         payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
-        dispatch(setAddTestCaseVisibility(false));
-        dispatch(setEditTestCasePageVisibility(false));
+
+        dispatch(addSingleTestCase(data));
+        hideTestCaseAddEditPage();
       });
     }
   };
@@ -317,6 +356,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    testCaseBulkFormData,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -328,7 +368,7 @@ export default function useAddEditTestCase() {
     testCaseFormData,
     inputError,
     selectedFolder,
-    hideTestCaseAdditionPage,
+    hideTestCaseAddEditPage,
     saveTestCase,
     editTestCase,
     folderId,
@@ -345,6 +385,7 @@ export default function useAddEditTestCase() {
     tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    saveBulkEditHelper
   };
 }

@@ -51,9 +51,11 @@ export default function useTestCases() {
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
   };
-  const hideTestCaseAdditionPage = () => {
+
+  const hideTestCaseAddEditPage = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
+    dispatch(setBulkUpdateProgress(false));
   };
 
   const fetchAllTestCases = () => {
@@ -121,7 +123,7 @@ export default function useTestCases() {
     onDropDownChange,
     selectedFolder,
     showTestCaseAdditionPage,
-    hideTestCaseAdditionPage,
+    hideTestCaseAddEditPage,
     allTestCases,
     isAddTestCasePageVisible,
     folderId,
