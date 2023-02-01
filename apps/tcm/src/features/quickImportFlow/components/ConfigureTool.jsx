@@ -100,7 +100,7 @@ const ConfigureTool = () => {
             <TMRadioGroup
               direction="horizontal"
               onChange={handleRadioGroupChange(currentTestManagementTool)}
-              defaultSelectedOption={{
+              selectedOption={{
                 id: selectedRadioIdMap[currentTestManagementTool]
               }}
               options={[

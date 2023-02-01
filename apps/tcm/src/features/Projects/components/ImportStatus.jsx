@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Banner, Notifications, notify } from '@browserstack/bifrost';
+import { Notifications, notify } from '@browserstack/bifrost';
 import {
   dismissNotificationForImport,
   getLatestQuickImportConfig,
@@ -14,6 +14,7 @@ import {
   ErrorIcon
 } from 'assets/icons';
 import {
+  TMBanner,
   TMButton,
   TMModal,
   TMModalBody,
@@ -22,8 +23,10 @@ import {
 } from 'common/bifrostProxy';
 
 import {
+  setCurrentImportStatus,
   setCurrentScreen,
   setCurrentTestManagementTool,
+  setImportStarted,
   setSelectedRadioIdMap,
   setTestRailsCred
 } from '../../quickImportFlow/slices/importSlice';
@@ -37,55 +40,30 @@ import {
   WARNING_DATA
 } from '../const/importConst';
 
-const ImportStatus = () => {
+const ImportStatus = ({ importConfig }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [latestImportConfig, setLatestImportConfig] = useState({});
-  const [notification, setNotification] = useState({});
+  const testManagementToolRef = useRef(null);
+  const [latestImportConfig, setLatestImportConfig] = useState(importConfig);
+  const [projectsForModal, setProjectsForModal] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const dismissNotification = (toastData) => {
+  const dismissNotification = (toastData, importType, modalDecider) => {
     notify.remove(toastData.id);
-    if (notification.data.type === ONGOING) return;
+    if (importType === ONGOING) return;
     dismissNotificationForImport(latestImportConfig.importId);
+    if (modalDecider !== 'showModal') dispatch(setImportStarted(false));
     setLatestImportConfig({ ...latestImportConfig, isDismissed: true });
   };
 
-  const checkImportStatusClickHandler = useCallback(
-    (id = null) => {
-      getQuickImportStatus(latestImportConfig?.importId || id).then((data) => {
-        if (data.status === ONGOING) {
-          setNotification({ show: true, data: WARNING_DATA });
-        } else if (data.status === COMPLETED) {
-          if (data.success_count < data.total) {
-            setNotification({
-              show: true,
-              data: FAILURE_DATA,
-              projects: data.projects,
-              tool: data.import_type,
-              totalProjects: data.total,
-              successCount: data.success_count
-            });
-          } else setNotification({ show: true, data: SUCCESS_DATA });
-        }
-        setLatestImportConfig((prevState) => ({
-          status: data.status,
-          importId: prevState.importId,
-          isDismissed: prevState.isDismissed
-        }));
-      });
-    },
-    [latestImportConfig]
-  );
-
-  const retryImportFn = () => {
+  const retryImportFn = useCallback(() => {
     dispatch(setCurrentScreen('configureTool'));
 
     // api call for retry
     const testManagementTool =
-      notification.tool.split('_')[0] === 'testrail'
-        ? `${notification.tool.split('_')[0]}s`
-        : notification.tool.split('_')[0];
+      testManagementToolRef.current.split('_')[0] === 'testrail'
+        ? `${testManagementToolRef.current.split('_')[0]}s`
+        : testManagementToolRef.current.split('_')[0];
     dispatch(setCurrentTestManagementTool(testManagementTool));
     dispatch(
       setSelectedRadioIdMap({
@@ -95,45 +73,125 @@ const ImportStatus = () => {
     );
     retryImport(
       latestImportConfig.importId,
-      notification.tool.split('_')[0]
+      testManagementToolRef.current.split('_')[0]
     ).then((data) => {
       const keys = Object.keys(data.credentials);
       keys.forEach((key) =>
         dispatch(setTestRailsCred({ key, value: data.credentials[key] }))
       );
     });
-    navigate('/import', {
-      state: {
-        importId: latestImportConfig.importId,
-        tool: notification.tool
-      }
-    });
-  };
+    setShowModal(false);
+    dispatch(setImportStarted(false));
+    navigate('/import');
+  }, [dispatch, latestImportConfig.importId, navigate]);
 
-  const handleFirstButtonClick = (toastData) => () => {
-    if (notification.data.type === FAILURE) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleFirstButtonClick = (toastData, importType) => () => {
+    if (importType === FAILURE) {
       setShowModal(true);
-      dismissNotification(toastData);
-      setNotification({ ...notification, show: false });
+      dismissNotification(toastData, importType, 'showModal');
     } else {
-      dismissNotification(toastData);
+      dismissNotification(toastData, importType);
       navigate('/');
     }
   };
 
-  const handleSecondButtonClick = (toastData, buttonData) => () => {
-    dismissNotification(toastData);
-    setNotification({ show: false, data: {} });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSecondButtonClick = (toastData, buttonData, importType) => () => {
+    dismissNotification(toastData, importType);
     if (buttonData === 'Retry Import') retryImportFn();
   };
 
-  const handleNotificationClose = (toastData) => {
-    dismissNotification(toastData);
-    setNotification({ show: false, data: {} });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleNotificationClose = (importType) => (toastData) => {
+    dismissNotification(toastData, importType);
   };
+
+  const showNotification = useCallback(
+    (notificationConfig) => {
+      notify(
+        <Notifications
+          id="import-notification"
+          title={
+            notificationConfig?.totalProjects > notificationConfig?.successCount
+              ? `${notificationConfig?.successCount}/${notificationConfig.totalProjects} ${notificationConfig?.data?.title}`
+              : notificationConfig?.data?.title
+          }
+          description={notificationConfig?.data?.description}
+          headerIcon={notificationConfig?.data?.headerIcon}
+          handleClose={handleNotificationClose(
+            notificationConfig?.importStatus
+          )}
+          actionButtons={(toastData) => (
+            <>
+              <TMButton
+                onClick={handleFirstButtonClick(
+                  toastData,
+                  notificationConfig?.importStatus
+                )}
+                variant="minimal"
+                colors="white"
+              >
+                {notificationConfig?.data?.firstButton}
+              </TMButton>
+              <TMButton
+                variant="minimal"
+                wrapperClassName="text-base-600"
+                onClick={handleSecondButtonClick(
+                  toastData,
+                  notificationConfig?.data?.secondButton,
+                  notificationConfig?.importStatus
+                )}
+              >
+                {notificationConfig?.data?.secondButton}
+              </TMButton>
+            </>
+          )}
+        />,
+        {
+          position: 'top-right',
+          duration: INFINITY
+        }
+      );
+    },
+    [handleFirstButtonClick, handleSecondButtonClick, handleNotificationClose]
+  );
+
+  const checkImportStatusClickHandler = useCallback(
+    (id = null) => {
+      getQuickImportStatus(latestImportConfig?.importId || id).then((data) => {
+        testManagementToolRef.current = data.import_type;
+        dispatch(setCurrentImportStatus(data.status));
+        if (data.status === ONGOING) {
+          showNotification({ data: WARNING_DATA, importStatus: ONGOING });
+        } else if (data.status === COMPLETED) {
+          if (data.success_count < data.total) {
+            showNotification({
+              data: FAILURE_DATA,
+              importStatus: FAILURE,
+              projects: data.projects,
+              tool: data.import_type,
+              totalProjects: data.total,
+              successCount: data.success_count
+            });
+            setProjectsForModal(data?.projects);
+          } else {
+            showNotification({ data: SUCCESS_DATA });
+          }
+        }
+        setLatestImportConfig((prevState) => ({
+          status: data.status,
+          importId: prevState.importId,
+          isDismissed: prevState.isDismissed
+        }));
+      });
+    },
+    [latestImportConfig, showNotification, dispatch]
+  );
 
   const onModalCloseHandler = () => {
     setShowModal(false);
+    dispatch(setImportStarted(false));
   };
 
   useEffect(() => {
@@ -148,16 +206,19 @@ const ImportStatus = () => {
   }, []);
 
   const showRibbonNotification =
-    latestImportConfig?.importId && latestImportConfig?.status === ONGOING;
+    latestImportConfig?.importId &&
+    latestImportConfig?.status === ONGOING &&
+    !latestImportConfig?.isDismissed;
 
   return (
     <>
       {showRibbonNotification && (
-        <Banner
+        <TMBanner
           align="extreme"
           description="We’ve started importing your projects which will take some time. We’ll also notify you over email once it’s completed."
           isDismissButton={false}
-          placement="top"
+          placement="relative"
+          modifier="brand"
           bannerIcon={
             <AccessTimeFilledRoundedIcon className="text-brand-500" />
           }
@@ -172,46 +233,6 @@ const ImportStatus = () => {
           }
         />
       )}
-      {notification.show &&
-        !document.querySelector('.go4109123758') && // a hack will remove this post fix from DS team
-        notify(
-          <Notifications
-            id="import-notification"
-            title={
-              notification?.totalProjects > notification?.successCount
-                ? `${notification?.successCount}/${notification.totalProjects} ${notification?.data?.title}`
-                : notification?.data?.title
-            }
-            description={notification?.data?.description}
-            headerIcon={notification?.data?.headerIcon}
-            handleClose={handleNotificationClose}
-            actionButtons={(toastData) => (
-              <>
-                <TMButton
-                  onClick={handleFirstButtonClick(toastData)}
-                  variant="minimal"
-                  colors="white"
-                >
-                  {notification?.data?.firstButton}
-                </TMButton>
-                <TMButton
-                  variant="minimal"
-                  wrapperClassName="text-base-600"
-                  onClick={handleSecondButtonClick(
-                    toastData,
-                    notification?.data?.secondButton
-                  )}
-                >
-                  {notification?.data?.secondButton}
-                </TMButton>
-              </>
-            )}
-          />,
-          {
-            position: 'top-right',
-            duration: INFINITY
-          }
-        )}
       {showModal && (
         <TMModal
           show={showModal}
@@ -230,8 +251,8 @@ const ImportStatus = () => {
               <span className="inline-flex flex-1">Project</span>
               <span className="ml-6 inline-flex flex-1">Status</span>
             </div>
-            {notification?.projects &&
-              notification?.projects.map((project) => (
+            {projectsForModal &&
+              projectsForModal.map((project) => (
                 <div className="border-base-100 text-base-500 flex place-content-between border-b p-3 text-xs">
                   <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
                     {project.name}

@@ -48,6 +48,7 @@ const ConfigureDataList = (props) => {
         }}
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
+        indeterminate={!allChecked}
       />
       {projects.map((project) => (
         <TMCheckBox

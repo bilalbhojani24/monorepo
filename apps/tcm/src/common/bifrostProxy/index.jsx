@@ -3,11 +3,13 @@ import React from 'react';
 import {
   Alerts,
   Badge,
+  Banner,
   Button,
   Checkbox,
   ComboBox,
   Dropdown,
   EmptyState,
+  FileUpload,
   InputField,
   InputWButton,
   Modal,
@@ -70,6 +72,8 @@ export const TMStackedListWSingleColumn = (props) => (
 export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
+export const TMBanner = (props) => <Banner {...props} />;
+export const TMFileUpload = (props) => <FileUpload {...props} />;
 
 export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
   <Table containerWrapperClass={containerWrapperClass}>

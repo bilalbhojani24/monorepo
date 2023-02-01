@@ -12,6 +12,9 @@ const initialState = {
     jira_key: '',
     host: ''
   },
+  importStarted: false,
+  currentImportStatus: '',
+  // latestImportConfig: {},
   connectionStatusMap: { testrails: '', zephyr: '' },
   selectedRadioIdMap: { testrails: '', zephyr: '' },
   projectsForTestManagementImport: [],
@@ -36,6 +39,15 @@ const importSlice = createSlice({
     setImportSteps: (state, { payload }) => {
       state.importSteps = payload;
     },
+    setImportStarted: (state, { payload }) => {
+      state.importStarted = payload;
+    },
+    setCurrentImportStatus: (state, { payload }) => {
+      state.currentImportStatus = payload;
+    },
+    // setLatestImportConfig: (state, { payload }) => {
+    //   state.latestImportConfig = payload;
+    // },
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
       if (payload.key === 'testrails') {
@@ -67,6 +79,9 @@ export const {
   setZephyrCred,
   setProjectForTestManagementImport,
   setImportSteps,
+  setImportStarted,
+  // setLatestImportConfig,
+  setCurrentImportStatus,
   setConnectionStatusMap,
   setSelectedRadioIdMap
 } = importSlice.actions;

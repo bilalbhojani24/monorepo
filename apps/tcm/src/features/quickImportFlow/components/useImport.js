@@ -11,6 +11,7 @@ import {
   setConnectionStatusMap,
   setCurrentScreen,
   setCurrentTestManagementTool,
+  setImportStarted,
   setImportSteps,
   setProjectForTestManagementImport,
   setSelectedRadioIdMap,
@@ -161,6 +162,7 @@ const useImport = () => {
       });
     }
     navigate('/');
+    dispatch(setImportStarted(true));
   };
 
   const isJiraConfiguredForZephyr = () => {

@@ -21,6 +21,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
@@ -51,6 +52,7 @@ export {
   KeyboardDoubleArrowUpOutlinedIcon,
   PostAddIcon,
   RemoveOutlinedIcon,
+  ReportProblemOutlinedIcon,
   SearchIcon,
   SettingsOutlinedIcon,
   SourceOutlinedIcon,
