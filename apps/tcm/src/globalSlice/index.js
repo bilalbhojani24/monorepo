@@ -4,7 +4,7 @@ const initialState = {
   user: {},
   activeProjects: [],
   selectedProjectId: null,
-  loginUrl: '',
+  loginUrl: ''
 };
 
 export const globalSlice = createSlice({
@@ -15,16 +15,16 @@ export const globalSlice = createSlice({
       state.activeProjects = payload;
     },
     addProject: (state, { payload }) => {
-      state.activeProjects.push(payload);
+      state.activeProjects = [payload, ...state.activeProjects];
     },
     updateProject: (state, { payload }) => {
       state.activeProjects = state.activeProjects.map((item) =>
-        item.id === payload.id ? payload : item,
+        item.id === payload.id ? payload : item
       );
     },
     deleteProject: (state, { payload }) => {
       state.activeProjects = state.activeProjects.filter(
-        (item) => item.id !== payload.id,
+        (item) => item.id !== payload.id
       );
     },
     setUser: (state, { payload }) => {
@@ -35,8 +35,8 @@ export const globalSlice = createSlice({
     },
     setSelectedProject: (state, { payload }) => {
       state.selectedProjectId = payload;
-    },
-  },
+    }
+  }
 });
 
 export const {
@@ -46,7 +46,7 @@ export const {
   setUser,
   setSelectedProject,
   addProject,
-  setLoginURL,
+  setLoginURL
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

@@ -7,7 +7,7 @@ import {
   setAddProjectModalVisibility,
   setDeleteProjectModalVisibility,
   setEditProjectModalVisibility,
-  setSelectedProject,
+  setSelectedProject
 } from '../slices/projectSlice';
 
 const useProjects = () => {
@@ -15,16 +15,16 @@ const useProjects = () => {
   const dispatch = useDispatch();
   const activeProjects = useSelector((state) => state.global.activeProjects);
   const showAddModal = useSelector(
-    (state) => state.projects.showAddProjectModal,
+    (state) => state.projects.showAddProjectModal
   );
   const showEditModal = useSelector(
-    (state) => state.projects.showEditProjectModal,
+    (state) => state.projects.showEditProjectModal
   );
   const showDeleteModal = useSelector(
-    (state) => state.projects.showDeleteProjectModal,
+    (state) => state.projects.showDeleteProjectModal
   );
   const selectedProject = useSelector(
-    (state) => state.projects.selectedProject,
+    (state) => state.projects.selectedProject
   );
 
   const addingProject = () => {
@@ -36,8 +36,8 @@ const useProjects = () => {
 
     navigate(
       routeFormatter(route, {
-        projectId,
-      }),
+        projectId
+      })
     );
   };
 
@@ -58,7 +58,7 @@ const useProjects = () => {
     showEditModal,
     showDeleteModal,
     addingProject,
-    handleClickDynamicLink,
+    handleClickDynamicLink
   };
 };
 

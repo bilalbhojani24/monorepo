@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { CreateNewFolderOutlinedIcon, SourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
@@ -70,7 +71,7 @@ export default function Folders() {
           <CreateNewFolderOutlinedIcon className="text-base-500" />
         </TMButton>
       </div>
-      <div className="flex h-full w-full flex-col items-stretch overflow-y-auto">
+      <div className="flex max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
         {allFolders.length ? (
           <FolderExplorer
             projectId={projectId}
