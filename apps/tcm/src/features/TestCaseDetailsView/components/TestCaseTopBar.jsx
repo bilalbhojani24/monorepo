@@ -15,7 +15,7 @@ const TestCaseTopBar = () => {
     <div className="mb-4 flex  w-full items-start justify-between">
       <div className="line-clamp-2 relative flex max-h-12 items-end text-base font-medium">
         {testCaseDetails?.name}
-        <InfoOutlinedIcon className="ml-1 h-5 !w-5 cursor-pointer" />
+        {/* <InfoOutlinedIcon className="ml-1 h-5 !w-5 cursor-pointer" /> */}
       </div>
       <div className="flex items-center">
         <TMDropdown
