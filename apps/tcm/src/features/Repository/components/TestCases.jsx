@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { InfoOutlinedIcon, SearchIcon } from 'assets/icons';
 import {
@@ -82,7 +83,7 @@ export default function TestCases() {
 
         {allTestCases.length ? (
           <>
-            <div className="flex-1 flex-col items-stretch overflow-y-auto ">
+            <div className="max-h-[calc(100vh-13.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
               <TestCasesTable
                 isCondensed
                 containerWrapperClass="md:rounded-none"

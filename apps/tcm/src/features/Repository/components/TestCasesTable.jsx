@@ -66,6 +66,8 @@ const TestCasesTable = ({
     {
       name: 'ID',
       key: 'id',
+      isSticky: true,
+      stickyPosition: 'left',
       cell: (rowData) => (
         <div
           role="button"
@@ -107,6 +109,8 @@ const TestCasesTable = ({
     {
       name: '',
       key: 'action',
+      isSticky: true,
+      stickyPosition: 'right',
       cell: (data) => (
         <TMDropdown
           options={dropDownOptions}
@@ -119,12 +123,17 @@ const TestCasesTable = ({
 
   return (
     <>
-      <Table containerWrapperClass={containerWrapperClass}>
+      <Table
+        containerWrapperClass={classNames(
+          containerWrapperClass,
+          'max-w-[calc(100vw-40rem)]'
+        )}
+      >
         <TableHead wrapperClass="w-full rounded-xs">
           <TableRow wrapperClass="relative">
             <TableCell
               variant="body"
-              wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
+              wrapperClass="sticky bg-base-50 left-0 border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
               <TMCheckBox
@@ -149,7 +158,10 @@ const TestCasesTable = ({
                 wrapperClass={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                   'flex-1 w-9/12': index === 1,
-                  'min-w-[50%]': index === 2
+                  'min-w-[50%]': index === 2,
+                  'sticky bg-base-50': col.isSticky,
+                  'right-0 ': col.isSticky && col.stickyPosition === 'right',
+                  'left-10 ': col.isSticky && col.stickyPosition === 'left'
                 })}
                 textTransform="uppercase"
               >
@@ -197,7 +209,7 @@ const TestCasesTable = ({
                   <TableCell
                     variant="body"
                     wrapperClass={classNames(
-                      'border-l-2 test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0',
+                      'sticky bg-white left-0  border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
                         ? 'border-l-brand-600'
@@ -221,7 +233,13 @@ const TestCasesTable = ({
                       <TableCell
                         key={column.id}
                         wrapperClass={classNames({
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'sticky bg-white': column.isSticky,
+                          'right-0 ':
+                            column.isSticky &&
+                            column.stickyPosition === 'right',
+                          'left-10 ':
+                            column.isSticky && column.stickyPosition === 'left'
                         })}
                       >
                         {column.cell ? <>{column.cell(row)}</> : value}
