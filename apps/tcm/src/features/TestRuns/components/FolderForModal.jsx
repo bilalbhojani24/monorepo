@@ -9,11 +9,11 @@ const FolderForModal = (props) => {
   const { allFolders } = props;
 
   dispatch(
-    setCurrentFolder({ id: allFolders[0]?.id, name: allFolders[0]?.name }),
+    setCurrentFolder({ id: allFolders[0]?.id, name: allFolders[0]?.name })
   );
   return (
-    <div className="mt-4 mr-4 h-full grow-0 rounded-md border-2 border-solid border-base-200">
-      <div className="border-b-2 border-solid border-base-200 p-4 text-sm font-semibold">
+    <div className="border-base-200 mt-4 mr-4 h-full grow-0 rounded-md border-2 border-solid">
+      <div className="border-base-200 border-b-2 border-solid p-4 text-sm font-semibold">
         Folders
       </div>
       <div className="flex flex-col">
@@ -25,18 +25,18 @@ const FolderForModal = (props) => {
   );
 };
 
-FolderForModal.defaultProps = {
+FolderForModal.propTypes = {
   allFolders: arrayOf(
     shape({
       id: string,
       name: string,
-      ui_position: number,
-    }),
-  ),
+      ui_position: number
+    })
+  )
 };
 
 FolderForModal.defaultProps = {
-  allFolders: [],
+  allFolders: []
 };
 
 const FolderItem = ({ title, id }) => {
@@ -51,7 +51,7 @@ const FolderItem = ({ title, id }) => {
       id={id}
       tabIndex="0"
       role="menuitem"
-      className="w-full cursor-pointer border-b border-base-200 p-2"
+      className="border-base-200 w-full cursor-pointer border-b p-2"
       onClick={itemClickHandler}
       onKeyDown={itemClickHandler}
     >
@@ -62,12 +62,12 @@ const FolderItem = ({ title, id }) => {
 
 FolderItem.propTypes = {
   title: string,
-  id: string,
+  id: string
 };
 
 FolderItem.defaultProps = {
   title: '',
-  id: '',
+  id: ''
 };
 
 export default FolderForModal;

@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   Alerts,
+  Attachments,
   Badge,
   Banner,
   Button,
@@ -12,6 +13,9 @@ import {
   FileUpload,
   InputField,
   InputWButton,
+  ListTree,
+  ListTreeNode,
+  ListTreeNodeContents,
   Modal,
   ModalBody,
   ModalFooter,
@@ -36,6 +40,7 @@ import {
   TooltipBody,
   TooltipHeader
 } from '@browserstack/bifrost';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
@@ -46,6 +51,11 @@ export const TMPageHeadings = (props) => (
   />
 );
 export const TMTabs = (props) => <Tabs {...props} />;
+export const TMListTree = (props) => <ListTree {...props} />;
+export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
+export const TMListTreeNodeContents = (props) => (
+  <ListTreeNodeContents {...props} />
+);
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
@@ -63,6 +73,7 @@ export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
 export const TMBadge = (props) => <Badge {...props} />;
+export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
@@ -73,9 +84,14 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
-export const TMFileUpload = (props) => <FileUpload {...props} />;
 
-export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
+export const TMDataTable = ({
+  columns,
+  rows,
+  containerWrapperClass,
+  isCondensed,
+  isLoading
+}) => (
   <Table containerWrapperClass={containerWrapperClass}>
     <TableHead wrapperClass="w-full rounded-xs">
       <TableRow>
@@ -92,19 +108,30 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      {rows?.map((row, idx) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <TableRow key={idx}>
-          {columns?.map((column) => {
-            const value = row[column.key];
-            return (
-              <TableCell key={column.id}>
-                {column.cell ? <>{column.cell(row)}</> : value}
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      ))}
+      {isLoading ? (
+        'Loading..'
+      ) : (
+        <>
+          {rows?.map((row, idx) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <TableRow key={idx}>
+              {columns?.map((column) => {
+                const value = row[column.key];
+                return (
+                  <TableCell
+                    key={column.id}
+                    wrapperClass={classNames({
+                      'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                    })}
+                  >
+                    {column.cell ? <>{column.cell(row)}</> : value}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </>
+      )}
     </TableBody>
   </Table>
 );
@@ -112,9 +139,45 @@ export const TMDataTable = ({ columns, rows, containerWrapperClass }) => (
 TMDataTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  containerWrapperClass: PropTypes.string
+  containerWrapperClass: PropTypes.string,
+  isCondensed: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 TMDataTable.defaultProps = {
-  containerWrapperClass: ''
+  containerWrapperClass: '',
+  isCondensed: false,
+  isLoading: false
+};
+
+export const TMAttachments = ({
+  attachments,
+  onRemoveClick,
+  wrapperClassName
+}) => {
+  if (!attachments?.length) return '';
+
+  return (
+    <Attachments
+      attachments={attachments.map((item) => ({
+        fileName: item.name,
+        actions: (
+          <TMButton onClick={() => onRemoveClick(item)} variant="minimal">
+            Remove
+          </TMButton>
+        )
+      }))}
+      wrapperClassName={wrapperClassName}
+    />
+  );
+};
+
+TMAttachments.propTypes = {
+  attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
+  wrapperClassName: PropTypes.string
+};
+
+TMAttachments.defaultProps = {
+  wrapperClassName: ''
 };

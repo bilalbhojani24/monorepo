@@ -10,7 +10,7 @@ const TestCaseDetailsView = () => {
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,
-    isTestCaseViewVisible,
+    isTestCaseViewVisible
   } = useTestCaseView();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const TestCaseDetailsView = () => {
       backgroundOverlay={false}
     >
       <TMSlideoverHeader
-        heading={testCaseDetails?.name || ''}
+        heading="Test Case Details"
         isBorder
         handleDismissClick={hideTestCaseViewDrawer}
       />

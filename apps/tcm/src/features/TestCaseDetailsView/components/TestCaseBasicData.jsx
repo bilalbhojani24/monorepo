@@ -1,71 +1,146 @@
 import React from 'react';
-// import { TMButton } from 'common/bifrostProxy';
-import DetailsSnippet from 'common/DetailsSnippet';
+import { SourceOutlinedIcon } from 'assets/icons';
+import { TMAttachments, TMBadge, TMButton } from 'common/bifrostProxy';
+import { DetailsSnippet, StepSnippet } from 'common/DataBox';
+import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseBasicData = () => {
-  const { testCaseDetails, currentFlow } = useTestCaseView();
+  const { testCaseDetails } = useTestCaseView();
 
   return (
     <>
-      <div className="mb-4 flex w-full text-xs">
-        <div className="mr-1 font-semibold">Location:</div>
-        <div className="text-base-700">{currentFlow}</div>
-      </div>
       <div className="flex flex-col">
-        <DetailsSnippet
-          title="Description"
-          value={testCaseDetails?.description || 'N/A'}
-        />
-        <DetailsSnippet
-          title="Expected Result"
-          value={testCaseDetails?.expected_result || 'N/A'}
-        />
+        {testCaseDetails.template === templateOptions?.[0].value ? (
+          <>
+            <DetailsSnippet
+              isPrimary
+              title="Steps"
+              value={
+                typeof testCaseDetails?.steps?.[0] === 'string'
+                  ? testCaseDetails?.steps?.[0]
+                  : '--'
+              }
+            />
+            <DetailsSnippet
+              isPrimary
+              title="Expected Result"
+              value={testCaseDetails?.expected_result || '--'}
+            />
+          </>
+        ) : (
+          <>
+            <DetailsSnippet
+              isPrimary
+              title="Description"
+              value={testCaseDetails?.description || '--'}
+            />
+            <DetailsSnippet
+              isPrimary
+              title="All Steps & Results:"
+              value={
+                <>
+                  {testCaseDetails?.steps?.map((item, index) => (
+                    <StepSnippet
+                      key={item.step}
+                      step={item.step}
+                      result={item.expected_result}
+                      index={index + 1}
+                    />
+                  ))}
+                </>
+              }
+            />
+          </>
+        )}
+
+        <div className="border-base-200 mb-4 w-full border-b" />
 
         <div className="flex w-full flex-wrap">
           <div className="w-3/6">
             <DetailsSnippet
+              title="Assigned to"
+              value={testCaseDetails?.owner || '--'}
+            />
+          </div>
+          <div className="w-3/6">
+            <DetailsSnippet
               title="Template"
               value={
-                testCaseDetails?.template?.replace('test_case_', '') || 'N/A'
+                testCaseDetails?.template?.replace('test_case_', '') || '--'
               }
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Estimate"
-              value={testCaseDetails?.estimate || 'N/A'}
-            />
-          </div>
-          <div className="w-3/6">
-            <DetailsSnippet
-              title="Configurations"
-              value={testCaseDetails?.configurations || 'N/A'}
+              value={testCaseDetails?.estimate || '--'}
             />
           </div>
           <div className="w-3/6">
             <DetailsSnippet
               title="Priority"
-              value={testCaseDetails?.priority || 'N/A'}
+              value={testCaseDetails?.priority || '--'}
             />
           </div>
-          <div className="w-3/6">
+          <div className="w-full">
             <DetailsSnippet
               title="Tags"
-              value={testCaseDetails?.tags || 'N/A'}
+              value={
+                testCaseDetails?.tags.length > 0 ? (
+                  <div className="mt-1 flex flex-wrap gap-1 normal-case">
+                    {testCaseDetails.tags.map((item) => (
+                      <TMBadge text={item} size="large" isRounded />
+                    ))}
+                  </div>
+                ) : (
+                  '--'
+                )
+              }
             />
           </div>
-          <div className="w-3/6">
+          <div className="w-full">
             <DetailsSnippet
               title="Issues"
-              value={testCaseDetails?.issues || 'N/A'}
+              value={
+                testCaseDetails?.issues &&
+                testCaseDetails?.issues.length > 0 ? (
+                  <div className="mt-1 flex flex-wrap gap-1 normal-case">
+                    {testCaseDetails.issues.map((item) => (
+                      <TMButton
+                        text={item.jira_id}
+                        size="extra-small"
+                        colors="white"
+                        icon={<SourceOutlinedIcon className="!h-5 !w-5" />}
+                      >
+                        {item.jira_id}
+                      </TMButton>
+                    ))}
+                  </div>
+                ) : (
+                  '--'
+                )
+              }
             />
           </div>
         </div>
         <DetailsSnippet
           title="Attachments"
-          value={testCaseDetails?.attachments || 'N/A'}
+          value={
+            testCaseDetails?.attachments.length ? (
+              <TMAttachments
+                wrapperClassName="mt-2"
+                attachments={testCaseDetails?.attachments || []}
+              />
+            ) : (
+              '--'
+            )
+          }
+        />
+        <DetailsSnippet
+          title="Preconditions"
+          value={testCaseDetails?.preconditions || '--'}
         />
         <div />
       </div>

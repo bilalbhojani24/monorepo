@@ -2,12 +2,12 @@ export const priorityOptions = [
   { label: 'Critical', value: 'critical' },
   { label: 'High', value: 'high' },
   { label: 'Medium', value: 'medium' },
-  { label: 'Low', value: 'low' },
+  { label: 'Low', value: 'low' }
 ];
 
 export const templateOptions = [
   { label: 'Text', value: 'test_case_text' },
-  { label: 'Steps', value: 'test_case_steps' },
+  { label: 'Steps', value: 'test_case_steps' }
 ];
 
 export const testCaseTypesOptions = [
@@ -22,7 +22,7 @@ export const testCaseTypesOptions = [
   { label: 'Regression', value: 'regression' },
   { label: 'Security', value: 'security' },
   { label: 'Smoke & Sanity', value: 'smoke_sanity' },
-  { label: 'Usability', value: 'usability' },
+  { label: 'Usability', value: 'usability' }
 ];
 
 export const statusOptions = [
@@ -30,7 +30,9 @@ export const statusOptions = [
   { label: 'Draft', value: 'draft_status' },
   { label: 'Under Review', value: 'in_review_status' },
   { label: 'Rejected', value: 'rejected_status' },
-  { label: 'Retired', value: 'outdated_status' },
+  { label: 'Retired', value: 'outdated_status' }
 ];
 
 export const stepTemplate = { step: '', expected_result: '' };
+
+export const emptyFolderName = 'New Folder';

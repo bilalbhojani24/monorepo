@@ -6,32 +6,32 @@ export const getTestCasesAPI = async ({ folderId, projectId }) =>
 export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases`,
-    payload,
+    payload
   );
 
 export const deleteTestCaseAPI = async ({ projectId, folderId, testCaseId }) =>
   fetchPost(
-    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/delete`,
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/delete`
   );
 
 export const editTestCaseAPI = async ({
   projectId,
   folderId,
   testCaseId,
-  payload,
+  payload
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/edit`,
-    payload,
+    payload
   );
 
 export const getTestCaseDetailsAPI = async ({
   folderId,
   projectId,
-  testCaseId,
+  testCaseId
 }) =>
   fetchGet(
-    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`,
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/${testCaseId}/detail`
   );
 
 export const getTagsAPI = async ({ projectId }) =>
@@ -39,5 +39,51 @@ export const getTagsAPI = async ({ projectId }) =>
 
 export const verifyTagAPI = async ({ projectId, tags }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
-    tags,
+    tags
   });
+
+export const moveTestCasesBulkAPI = async ({
+  projectId,
+  folderId,
+  newParentFolderId,
+  testCaseIds
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-move`,
+    {
+      test_case: {
+        ids: testCaseIds,
+        folder_id: newParentFolderId
+      }
+    }
+  );
+
+export const deleteTestCasesBulkAPI = async ({
+  projectId,
+  folderId,
+  testCaseIds
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
+    {
+      test_case: {
+        ids: testCaseIds
+      }
+    }
+  );
+
+export const editTestCasesBulkAPI = async ({
+  projectId,
+  folderId,
+  testCaseIds,
+  data
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-edit`,
+    {
+      test_case: {
+        ...data,
+        ids: testCaseIds
+      }
+    }
+  );

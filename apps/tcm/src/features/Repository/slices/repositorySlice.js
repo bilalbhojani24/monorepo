@@ -4,14 +4,13 @@ import {
   priorityOptions,
   statusOptions,
   templateOptions,
-  testCaseTypesOptions,
+  testCaseTypesOptions
 } from '../const/addTestCaseConst';
 
 const initialState = {
   allFolders: [],
   allTestCases: [],
   selectedFolder: null,
-  showAddFolderModal: false,
   isAddTestCasePageVisible: false,
   testCaseFormData: {
     name: '',
@@ -25,27 +24,33 @@ const initialState = {
     template: templateOptions[0].value,
     steps: [''],
     attachments: [],
+    issues: [],
+    tags: []
   },
   showEditTestCaseForm: false,
   showAddTagModal: false,
+  showAddIssuesModal: false,
   showDeleteTestCaseModal: false,
   selectedTestCase: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
   usersArray: null,
   tagsArray: [],
-  issuesArray: [
-    { label: 'Issue1', value: 'Issue1' },
-    { label: 'Issue2', value: 'Issue2' },
-    { label: 'Issue3', value: 'Issue3' },
-  ],
+  issuesArray: [],
+  openedFolderModal: null,
+  bulkSelection: {
+    selected_ids: [],
+    deselected_ids: [],
+    select_all: false
+  },
+  isBulkUpdateInit: false
 };
 
 export const repositorySlice = createSlice({
   name: 'repository',
   initialState,
   reducers: {
-    updateAllFolders: (state, { payload }) => {
-      state.allFolders = payload;
+    setAllFolders: (state, { payload }) => {
+      state.allFolders = [...payload];
     },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
@@ -58,11 +63,8 @@ export const repositorySlice = createSlice({
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
-        item.id === payload.id ? payload : item,
+        item.id === payload.id ? payload : item
       );
-    },
-    setAddFolderModalVisibility: (state, { payload }) => {
-      state.showAddFolderModal = payload;
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
@@ -74,12 +76,20 @@ export const repositorySlice = createSlice({
     },
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
+
+      state.bulkSelection = initialState.bulkSelection;
     },
     setAddTagModal: (state, { payload }) => {
       state.showAddTagModal = payload;
     },
+    setAddIssuesModal: (state, { payload }) => {
+      state.showAddIssuesModal = payload;
+    },
     setEditTestCasePageVisibility: (state, { payload }) => {
       state.showEditTestCaseForm = payload;
+    },
+    setFolderModalConf: (state, { payload }) => {
+      state.openedFolderModal = payload;
     },
     setDeleteTestCaseModalVisibility: (state, { payload }) => {
       state.showDeleteTestCaseModal = payload;
@@ -91,7 +101,7 @@ export const repositorySlice = createSlice({
     },
     deleteTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.filter(
-        (item) => item.id !== payload.id,
+        (item) => !payload.includes(item.id)
       );
     },
     setTestCaseFormData: (state, { payload }) => {
@@ -105,18 +115,36 @@ export const repositorySlice = createSlice({
     setTagsArray: (state, { payload }) => {
       state.tagsArray = payload;
     },
+    setBulkSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.selected_ids = payload;
+    },
+    setBulkDeSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.deselected_ids = payload;
+    },
+    setBulkAllSelected: (state, { payload }) => {
+      state.bulkSelection.select_all = payload;
+    },
+    resetBulkSelection: (state) => {
+      state.bulkSelection = initialState.bulkSelection;
+    },
+    setIssuesArray: (state, { payload }) => {
+      state.issuesArray = payload;
+    },
+    setBulkUpdateProgress: (state, { payload }) => {
+      state.isBulkUpdateInit = payload;
+    },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
-    },
-  },
+    }
+  }
 });
 
 export const {
+  setFolderModalConf,
   setLoadedDataProjectId,
   setTagsArray,
   addSingleTestCase,
-  updateAllFolders,
-  setAddFolderModalVisibility,
+  setAllFolders,
   setSelectedFolder,
   updateAllTestCases,
   setAddTestCaseVisibility,
@@ -129,6 +157,13 @@ export const {
   updateTestCase,
   setUsers,
   setAddTagModal,
+  setAddIssuesModal,
+  setIssuesArray,
+  setBulkSelectedtestCaseIDs,
+  setBulkDeSelectedtestCaseIDs,
+  setBulkAllSelected,
+  setBulkUpdateProgress,
+  resetBulkSelection
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

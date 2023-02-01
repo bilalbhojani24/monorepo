@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
-import className from 'classnames';
+import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
-import Attachments from 'common/Attachments';
 import {
+  TMAttachments,
   TMButton,
   TMComboBox,
+  TMFileUpload,
   TMInputField,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader,
+  TMTooltipHeader
 } from 'common/bifrostProxy';
 
 import {
   priorityOptions,
   statusOptions,
   templateOptions,
-  testCaseTypesOptions,
+  testCaseTypesOptions
 } from '../const/addTestCaseConst';
 
 import StepComponent from './StepComponent';
@@ -27,7 +28,8 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const AddEditTestCase = () => {
   const {
-    uploadElementRef,
+    isUploadInProgress,
+    isAddIssuesModalShown,
     isAddTagModalShown,
     handleTestCaseFieldChange,
     inputError,
@@ -45,9 +47,11 @@ const AddEditTestCase = () => {
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
-    addMoreClickHandler,
     fileRemoveHandler,
     tagVerifierFunction,
+    showAddIssueModal,
+    hideAddIssueModal,
+    addIssuesSaveHelper
   } = useAddEditTestCase();
 
   useEffect(() => {
@@ -66,20 +70,20 @@ const AddEditTestCase = () => {
           onClick: () => {
             if (isTestCaseEditing) editTestCase(testCaseFormData);
             else saveTestCase(testCaseFormData);
-          },
+          }
         }}
         primaryButtonProps={{
           children: 'Cancel',
           variant: 'primary',
           colors: 'white',
-          onClick: hideTestCaseAdditionPage,
+          onClick: hideTestCaseAdditionPage
         }}
       />
       <div className="my-4">
         <TMInputField
           id="test-case-name"
           label="Name of Test Case*"
-          placeholder="Test Case 01"
+          placeholder="Enter Test Case"
           value={testCaseFormData.name}
           onChange={(e) =>
             handleTestCaseFieldChange('name', e.currentTarget.value)
@@ -95,7 +99,7 @@ const AddEditTestCase = () => {
           value={
             testCaseFormData.template &&
             templateOptions.find(
-              (item) => item.value === testCaseFormData.template,
+              (item) => item.value === testCaseFormData.template
             )
           }
           onChange={(e) => handleTestCaseFieldChange('template', e.value)}
@@ -124,7 +128,7 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange(
                   'expected_result',
-                  e.currentTarget.value,
+                  e.currentTarget.value
                 )
               }
             />
@@ -160,7 +164,7 @@ const AddEditTestCase = () => {
                 value={
                   testCaseFormData.case_type &&
                   testCaseTypesOptions.find(
-                    (item) => item.value === testCaseFormData.case_type,
+                    (item) => item.value === testCaseFormData.case_type
                   )
                 }
               />
@@ -173,7 +177,7 @@ const AddEditTestCase = () => {
                 value={
                   testCaseFormData.priority &&
                   priorityOptions.find(
-                    (item) => item.value === testCaseFormData.priority,
+                    (item) => item.value === testCaseFormData.priority
                   )
                 }
                 onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
@@ -197,7 +201,7 @@ const AddEditTestCase = () => {
                 value={
                   testCaseFormData.status &&
                   statusOptions.find(
-                    (item) => item.value === testCaseFormData.status,
+                    (item) => item.value === testCaseFormData.status
                   )
                 }
                 checkPosition="right"
@@ -211,9 +215,10 @@ const AddEditTestCase = () => {
                 value={
                   testCaseFormData.owner &&
                   usersArrayMapped?.find(
-                    (item) => item.value === testCaseFormData.owner,
+                    (item) => item.value === testCaseFormData.owner
                   )
                 }
+                placeholder="Select owner"
                 checkPosition="right"
                 label="Owner"
                 options={usersArrayMapped}
@@ -230,7 +235,7 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange(
                   'preconditions',
-                  e.currentTarget.value,
+                  e.currentTarget.value
                 )
               }
             />
@@ -300,7 +305,7 @@ const AddEditTestCase = () => {
               </TMButton>
             </div>
           </div>
-          <div className="mt-4 flex hidden gap-4">
+          <div className="mt-4 flex gap-4">
             <div className="flex flex-1 items-end justify-between">
               <div className="mr-4 flex-1">
                 <TMSelectMenu
@@ -309,18 +314,15 @@ const AddEditTestCase = () => {
                   placeholder="Select from options"
                   label="Issues"
                   options={issuesArray}
-                  // value={
-                  //   testCaseFormData.tags &&
-                  //   templateOptions.find(
-                  //     (item) => item.value === testCaseFormData.tags,
-                  //   )
-                  // }
-                  onChange={(e) =>
-                    handleTestCaseFieldChange('jira_tickets', e.value)
-                  }
+                  value={testCaseFormData?.issues}
+                  onChange={(e) => handleTestCaseFieldChange('issues', e)}
                 />
               </div>
-              <TMButton wrapperClassName="" colors="white">
+              <TMButton
+                wrapperClassName=""
+                colors="white"
+                onClick={showAddIssueModal}
+              >
                 Add New Issue
               </TMButton>
             </div>
@@ -332,36 +334,27 @@ const AddEditTestCase = () => {
                 <div className="text-base-700 mb-2 block text-sm font-medium">
                   Attachments
                 </div>
-                {testCaseFormData?.attachments?.length ? (
-                  <TMButton
-                    colors="brand"
-                    variant="minimal"
-                    onClick={addMoreClickHandler}
-                  >
-                    Add More
-                  </TMButton>
-                ) : (
-                  ''
-                )}
               </div>
-              <input
-                ref={uploadElementRef}
-                className={className({
-                  'hidden ': testCaseFormData?.attachments?.length,
-                })}
-                onChange={fileUploaderHelper}
-                type="file"
-                name="attachment"
+              {testCaseFormData?.attachments.length ? (
+                <div className="mb-4">
+                  <TMAttachments
+                    attachments={testCaseFormData?.attachments || []}
+                    onRemoveClick={fileRemoveHandler}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
+              <TMFileUpload
+                isUploading={isUploadInProgress}
                 multiple
-                id="file-attachment"
+                wrapperClassName="w-64 h-36"
+                heading="or drag and drop"
+                linkText="Upload a file"
+                subHeading="PNG, JPG, PDF up to 10MB"
+                onChange={fileUploaderHelper}
                 accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
               />
-              <div className="mt-2">
-                <Attachments
-                  attachments={testCaseFormData?.attachments || []}
-                  onRemoveClick={fileRemoveHandler}
-                />
-              </div>
             </div>
             <div className="flex-1" />
           </div>
@@ -370,9 +363,14 @@ const AddEditTestCase = () => {
 
       <AddTagModal
         isVisible={isAddTagModalShown}
-        hideAddTagsModal={hideAddTagsModal}
-        existingTags={tagsArray.map((item) => item.value) || []}
+        onClose={hideAddTagsModal}
+        existingTags={testCaseFormData?.tags?.map((item) => item.value) || []}
         verifierFunction={tagVerifierFunction}
+      />
+      <AddIssuesModal
+        isVisible={isAddIssuesModalShown}
+        onClose={hideAddIssueModal}
+        onSave={addIssuesSaveHelper}
       />
     </div>
   );

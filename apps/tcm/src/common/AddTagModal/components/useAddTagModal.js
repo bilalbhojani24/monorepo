@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { splitStringToArray } from 'utils/helperFunctions';
 
 const useAddTagModal = ({
   isVisible,
-  hideAddTagsModal,
+  onClose,
   verifierFunction,
   existingTags,
 }) => {
@@ -13,15 +14,18 @@ const useAddTagModal = ({
 
   const addTagHandler = () => {
     setErrorText(null);
-    const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
-
+    const tagsSplitted = splitStringToArray(enteredTag, ',');
     verifierFunction(tagsSplitted).then((data) => {
       if (data) {
-        setNewTags(data?.tags);
-        setAllTags([...allTags, ...data?.tags]);
-        setTagEntered(data?.error_tags.join(', '));
-        setErrorText('A tag with the same name already exists');
+        if (data?.tags) {
+          setNewTags([...newTags, ...data?.tags]);
+          setAllTags([...new Set([...allTags, ...data?.tags])]);
+        }
+        setTagEntered(data?.error_tags?.join(', ') || '');
       }
+
+      if (data?.error_tags?.length)
+        setErrorText('A tag with the same name already exists');
     });
   };
 
@@ -31,20 +35,20 @@ const useAddTagModal = ({
   };
 
   const onCloseHandler = () => {
-    hideAddTagsModal(allTags, newTags);
+    onClose(allTags, newTags);
   };
 
-  useEffect(() => {
-    // check duplicates on change
-    //   const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
-    //   setErrorText(
-    //     allTags.filter((element) => tagsSplitted.includes(element)).length
-    //       ? 'test'
-    //       : null,
-    //   );
-    if (errorText) setErrorText(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enteredTag]);
+  // useEffect(() => {
+  // check duplicates on change
+  //   const tagsSplitted = enteredTag.split(',').map((item) => item.trim());
+  //   setErrorText(
+  //     allTags.filter((element) => tagsSplitted.includes(element)).length
+  //       ? 'test'
+  //       : null,
+  //   );
+  // if (errorText) setErrorText(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [enteredTag]);
 
   useEffect(() => {
     if (isVisible) {

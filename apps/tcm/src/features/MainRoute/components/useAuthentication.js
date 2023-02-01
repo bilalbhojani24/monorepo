@@ -27,23 +27,24 @@ const useAuthentication = () => {
   };
 
   const authInit = () => {
-    if (window.location.host === 'localhost:5173') {
+    const bypassHists = ['localhost:5173', '127.0.0.1:5500'];
+    if (bypassHists.includes(window.location.host)) {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {
         onAuthFailureHandler({
           response: {
             data: {
               data: {
-                login_url: 'https://browserstack.com/',
-              },
-            },
-          },
+                login_url: 'https://browserstack.com/'
+              }
+            }
+          }
         });
       } else {
         onAuthSuccessHandler({
           data: {
-            data: { full_name: 'Faker Name', email: 'fake2@example.com' },
-          },
+            data: { full_name: 'Faker Name', email: 'fake2@example.com' }
+          }
         });
       }
     } else {

@@ -4,7 +4,7 @@ import {
   TMBadge,
   TMDataTable,
   TMEmptyState,
-  TMTabs,
+  TMTabs
 } from 'common/bifrostProxy';
 import { formatTime } from 'utils/helperFunctions';
 
@@ -13,8 +13,13 @@ import { TABS_ARRAY } from '../const/testCaseViewConst';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseMutliData = () => {
-  const { selectedTab, testRunsDetails, testCaseIssues, handleTabChange } =
-    useTestCaseView();
+  const {
+    testRunsCount,
+    selectedTab,
+    testRunsDetails,
+    testCaseIssues,
+    handleTabChange
+  } = useTestCaseView();
 
   const resultsTableColumn = [
     {
@@ -27,7 +32,7 @@ const TestCaseMutliData = () => {
             {formatTime(rowData.created_at, 'time')}
           </div>
         </div>
-      ),
+      )
     },
     {
       name: 'Status',
@@ -41,8 +46,8 @@ const TestCaseMutliData = () => {
             .replace('passed', 'success')
             .replace('failed', 'error')}
         />
-      ),
-    },
+      )
+    }
   ];
 
   const issuesTableColumn = [
@@ -51,25 +56,25 @@ const TestCaseMutliData = () => {
       key: 'jira_id',
       cell: (rowData) => (
         <div className="text-base-900 font-medium">{`${rowData.jira_id}`}</div>
-      ),
+      )
     },
     {
       name: 'Test Run',
       key: 'jira_id',
       cell: (rowData) => (
         <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`TR-${
-            rowData?.test_run_identifier || ''
+          <div className="text-base-900 font-medium">{`${
+            rowData?.jira_id || ''
           }`}</div>
           <div className="text-base-500">{rowData?.test_run_name}</div>
         </div>
-      ),
+      )
     },
     {
       name: 'Created On',
       key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at, 'date'),
-    },
+      cell: (rowData) => formatTime(rowData.created_at, 'date')
+    }
   ];
 
   return (
@@ -79,9 +84,7 @@ const TestCaseMutliData = () => {
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
-            item.name === 'Results'
-              ? testRunsDetails.length
-              : testCaseIssues.length,
+            item.name === 'Results' ? testRunsCount : testCaseIssues?.length
         }))}
         onTabChange={handleTabChange}
       />

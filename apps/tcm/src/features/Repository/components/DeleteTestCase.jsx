@@ -4,14 +4,15 @@ import {
   TMButton,
   TMModal,
   TMModalFooter,
-  TMModalHeader,
+  TMModalHeader
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import useTestCases from './useTestCases';
 
 const DeleteTestCase = ({ show }) => {
-  const { deleteTestCaseHandler, hideDeleteTestCaseModal } = useTestCases();
+  const { deleteTestCaseHandler, hideDeleteTestCaseModal, isBulkUpdate } =
+    useTestCases();
 
   return (
     <TMModal
@@ -20,8 +21,12 @@ const DeleteTestCase = ({ show }) => {
       onOverlayClick={hideDeleteTestCaseModal}
     >
       <TMModalHeader
-        heading="Delete Test Case"
-        subHeading="Are you sure you want to delete this test case? All the data will be permanently deleted. This action cannot be undone."
+        heading={isBulkUpdate ? 'Delete X Test Cases' : 'Delete Test Case'}
+        subHeading={
+          isBulkUpdate
+            ? 'Are you sure you want to delete the selected test cases? All the data within this test case will be lost. This action cannot be undone.'
+            : 'Are you sure you want to delete this test case? All the data will be permanently deleted. This action cannot be undone.'
+        }
         handleDismissClick={hideDeleteTestCaseModal}
         Icon={WarningAmberOutlinedIcon}
       />
@@ -39,7 +44,7 @@ const DeleteTestCase = ({ show }) => {
           wrapperClassName="ml-3"
           onClick={deleteTestCaseHandler}
         >
-          Delete Test Case
+          {isBulkUpdate ? 'Delete' : 'Delete Test Case'}
         </TMButton>
       </TMModalFooter>
     </TMModal>
@@ -47,11 +52,11 @@ const DeleteTestCase = ({ show }) => {
 };
 
 DeleteTestCase.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 DeleteTestCase.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default DeleteTestCase;

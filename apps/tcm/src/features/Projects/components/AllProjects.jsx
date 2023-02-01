@@ -33,8 +33,8 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
-          onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
+          onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           PR-{rowData.id}
         </div>
@@ -48,10 +48,10 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
-          onKeyDown={handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)}
+          onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
-          <div className="text-base-900 hover:text-brand-600 font-medium">
+          <div className="text-base-900 hover:text-brand-600 font-medium ">
             {rowData.name}
           </div>
           <div className="text-base-400">{rowData.description}</div>
