@@ -99,7 +99,6 @@ export default function useTestCases() {
 
   const deleteTestCaseHandler = () => {
     if (isBulkUpdate) {
-      debugger;
       // bulkSelectionValue
       const testCaseIds = [];
       // deleteTestCasesBulkAPI((projectId, folderId, testCaseIds)).then((res) => {

@@ -175,7 +175,6 @@ export default function useFolders() {
   };
 
   const renameFolderHelper = (folderItem) => {
-    debugger;
     setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
   };
 
