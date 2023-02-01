@@ -46,13 +46,13 @@ export const moveTestCasesBulkAPI = async ({
   projectId,
   folderId,
   newParentFolderId,
-  testCaseIds
+  bulkSelection
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-move`,
     {
       test_case: {
-        ids: testCaseIds,
+        ...bulkSelection,
         folder_id: newParentFolderId
       }
     }
@@ -61,14 +61,12 @@ export const moveTestCasesBulkAPI = async ({
 export const deleteTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  testCaseIds
+  bulkSelection
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
     {
-      test_case: {
-        ids: testCaseIds
-      }
+      test_case: bulkSelection
     }
   );
 

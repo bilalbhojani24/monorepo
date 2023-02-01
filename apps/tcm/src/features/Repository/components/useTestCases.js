@@ -11,6 +11,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   deleteTestCase,
+  resetBulkSelection,
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
@@ -28,6 +29,7 @@ export default function useTestCases() {
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
   );
+  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -43,9 +45,6 @@ export default function useTestCases() {
   );
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
-  );
-  const bulkSelectionValue = useSelector(
-    (state) => state.repository.bulkSelection
   );
 
   const showTestCaseAdditionPage = () => {
@@ -99,18 +98,29 @@ export default function useTestCases() {
 
   const deleteTestCaseHandler = () => {
     if (isBulkUpdate) {
-      // bulkSelectionValue
-      const testCaseIds = [];
-      // deleteTestCasesBulkAPI((projectId, folderId, testCaseIds)).then((res) => {
-      //   dispatch(deleteTestCase([selectedTestCase.id]));
-      //   hideDeleteTestCaseModal();
-      // });
+      deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(
+        () => {
+          let updatedTestCases = [];
+          if (bulkSelection.select_all) {
+            updatedTestCases = allTestCases.filter((item) =>
+              bulkSelection.de_selected_ids.includes(item.id)
+            );
+          } else {
+            updatedTestCases = allTestCases.filter(
+              (item) => !bulkSelection.ids.includes(item.id)
+            );
+          }
+          dispatch(resetBulkSelection());
+          dispatch(updateAllTestCases(updatedTestCases));
+          hideDeleteTestCaseModal();
+        }
+      );
     } else if (selectedTestCase)
       deleteTestCaseAPI({
         projectId,
         folderId,
         testCaseId: selectedTestCase.id
-      }).then((res) => {
+      }).then(() => {
         dispatch(deleteTestCase([selectedTestCase.id]));
         hideDeleteTestCaseModal();
       });
