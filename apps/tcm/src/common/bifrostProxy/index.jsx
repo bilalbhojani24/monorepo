@@ -21,6 +21,7 @@ import {
   ModalHeader,
   Notifications,
   PageHeadings,
+  Pagination,
   RadioGroup,
   SectionHeadings,
   SelectMenu,
@@ -51,6 +52,7 @@ export const TMPageHeadings = (props) => (
 );
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
+export const TMPagination = (props) => <Pagination {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
 export const TMListTreeNodeContents = (props) => (
   <ListTreeNodeContents {...props} />
