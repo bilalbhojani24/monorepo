@@ -1,4 +1,1 @@
-export const STACK_LIST_MODES = [
-  'content_links_with_action',
-  'with_truncated_content_preview',
-];
+export const STACK_LIST_MODES = ['content-with-action', 'truncated-preview'];

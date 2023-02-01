@@ -37,7 +37,7 @@ const FileUpload = ({
         {isUploading ? (
           <>
             <Loader wrapperStyle="text-base-300 h-8 w-8 fill-base-600 mx-auto" />
-            <p className="text-base-600 text-sm font-medium leading-5">
+            <p className="text-base-600 mt-2 text-sm font-medium leading-5">
               {heading}
             </p>
           </>

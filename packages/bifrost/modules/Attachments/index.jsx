@@ -16,7 +16,7 @@ const Attachments = ({ wrapperClassName, attachments }) => (
               {attachment.fileName}
             </span>
           </div>
-          <div className="ml-4 shrink-0">{attachment.actions}</div>
+          <div className="ml-4 shrink-0">{attachment?.actions}</div>
         </li>
       ))}
     </ul>

@@ -82,7 +82,8 @@ Uploading.parameters = {
   controls: {}
 };
 Uploading.args = {
-  isUploading: true
+  isUploading: true,
+  heading: 'Uploading...'
 };
 
 export default defaultConfig;
