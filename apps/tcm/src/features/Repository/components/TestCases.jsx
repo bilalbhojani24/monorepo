@@ -1,6 +1,11 @@
 import React from 'react';
-import { SearchIcon } from 'assets/icons';
-import { TMButton, TMInputField } from 'common/bifrostProxy';
+import { SearchIcon, InfoOutlinedIcon } from 'assets/icons';
+import { TMButton,
+    TMInputField ,
+    TMTooltip,
+    TMTooltipBody,
+    TMTooltipHeader
+} from 'common/bifrostProxy';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -45,6 +50,23 @@ export default function TestCases() {
           <div className="border-base-200 w-full border-b p-4">
             <div className="text-base-800 w-full font-medium">
               {selectedFolder?.name}
+                <TMTooltip
+                    size="xs"
+                    placementSide="bottom"
+                    theme="dark"
+                    content={
+                        <>
+                            <TMTooltipHeader>{selectedFolder?.name}</TMTooltipHeader>
+                            <TMTooltipBody>
+                                <p className="text-sm">
+                                    URL: {selectedFolder.links.self}
+                                </p>
+                            </TMTooltipBody>
+                        </>
+                    }
+                >
+                    <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
+                </TMTooltip>
             </div>
             {selectedFolder?.notes && (
               <div className="text-base-500 mt-1 text-xs">
