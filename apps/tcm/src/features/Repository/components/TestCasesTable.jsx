@@ -169,14 +169,14 @@ const TestCasesTable = ({
                       size="extra-small"
                       onClick={initBulkEdit}
                     >
-                      Bulk Edit
+                      Edit
                     </TMButton>
                     <TMButton
                       colors="white"
                       size="extra-small"
                       onClick={initBulkDelete}
                     >
-                      Bulk Delete
+                      Delete
                     </TMButton>
                   </div>
                 ) : (
