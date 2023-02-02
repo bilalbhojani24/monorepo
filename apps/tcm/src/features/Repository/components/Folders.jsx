@@ -66,12 +66,13 @@ export default function Folders() {
               buttonType="half-rounded-button"
               variant="primary"
               colors="white"
-              wrapperClassName="ml-2"
+              wrapperClassName="ml-2 p-1 w-8 h-8"
               size="extra-small"
+              icon={
+                <CreateNewFolderOutlinedIcon className="text-base-500 ml-0.5 !h-5 !w-5" />
+              }
               onClick={showAddFolderModal}
-            >
-              <CreateNewFolderOutlinedIcon className="text-base-500" />
-            </TMButton>
+            />
           </div>
           <div className="flex max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
             <FolderExplorer
