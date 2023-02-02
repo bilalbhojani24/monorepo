@@ -154,7 +154,7 @@ TMDataTable.defaultProps = {
 
 export const TMAttachments = ({
   attachments,
-  onRemoveClick,
+  onActionClick,
   wrapperClassName
 }) => {
   if (!attachments?.length) return '';
@@ -164,8 +164,8 @@ export const TMAttachments = ({
       attachments={attachments.map((item) => ({
         fileName: item.name,
         actions: (
-          <TMButton onClick={() => onRemoveClick(item)} variant="minimal">
-            Remove
+          <TMButton onClick={() => onActionClick(item)} variant="minimal">
+            {item.actionName || 'Remove'}
           </TMButton>
         )
       }))}
@@ -176,7 +176,7 @@ export const TMAttachments = ({
 
 TMAttachments.propTypes = {
   attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
+  onActionClick: PropTypes.func.isRequired,
   wrapperClassName: PropTypes.string
 };
 

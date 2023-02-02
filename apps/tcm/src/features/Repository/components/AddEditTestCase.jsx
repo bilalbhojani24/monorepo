@@ -83,7 +83,7 @@ const AddEditTestCase = () => {
         />
       </div>
       <div className="max-h-[calc(100vh-14.2rem)] overflow-y-auto p-4 pt-0">
-        <div className="flex my-4 gap-4" >
+        <div className="my-4 flex gap-4">
           <div className="w-3/4">
             <TMInputField
               id="test-case-name"
@@ -113,16 +113,13 @@ const AddEditTestCase = () => {
         </div>
         <div className="mt-4">
           <TMTextArea
-              value={testCaseFormData.description}
-              id="test-case-description"
-              label="Description"
-              placeholder="Write in brief about this test case"
-              onChange={(e) =>
-                  handleTestCaseFieldChange(
-                      'description',
-                      e.currentTarget.value
-                  )
-              }
+            value={testCaseFormData.description}
+            id="test-case-description"
+            label="Description"
+            placeholder="Write in brief about this test case"
+            onChange={(e) =>
+              handleTestCaseFieldChange('description', e.currentTarget.value)
+            }
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
@@ -350,8 +347,13 @@ const AddEditTestCase = () => {
                 {testCaseFormData?.attachments.length ? (
                   <div className="mb-4">
                     <TMAttachments
-                      attachments={testCaseFormData?.attachments || []}
-                      onRemoveClick={fileRemoveHandler}
+                      attachments={
+                        testCaseFormData?.attachments.map((item) => ({
+                          ...item,
+                          actionName: 'Remove'
+                        })) || []
+                      }
+                      onActionClick={fileRemoveHandler}
                     />
                   </div>
                 ) : (

@@ -74,7 +74,7 @@ const UploadFile = () => {
       {fileConfig?.fileName && (
         <TMAttachments
           attachments={[{ name: fileConfig?.fileName }]}
-          onRemoveClick={handleFileRemove}
+          onActionClick={handleFileRemove}
         />
       )}
       <div className="text-base-400 mt-4 text-sm">
