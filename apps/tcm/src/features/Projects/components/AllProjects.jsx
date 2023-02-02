@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TMButton,
   TMDataTable,
@@ -24,6 +25,7 @@ const AllProjects = () => {
     handleClickDynamicLink,
     onDropDownChange
   } = useProjects();
+  const navigate = useNavigate();
   const tableColumns = [
     {
       name: 'ID',
@@ -105,6 +107,17 @@ const AllProjects = () => {
         heading="All Projects"
         actions={
           <>
+            <TMButton
+              wrapperClassName="sr-only"
+              onClick={() =>
+                navigate({
+                  pathname: '/import/csv',
+                  search: '?project=1&folder=1'
+                })
+              }
+            >
+              Import CSV
+            </TMButton>
             <TMButton variant="primary" onClick={addingProject}>
               Create Project
             </TMButton>

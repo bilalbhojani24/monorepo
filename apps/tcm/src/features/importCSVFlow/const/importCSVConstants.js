@@ -19,6 +19,21 @@ export const IMPORT_CSV_STEPS = [
   }
 ];
 
+export const CSV_SEPARATOR = [
+  { label: 'Comma (,)', value: ',' },
+  { label: 'Semicolon (;)', value: ';' },
+  { label: 'Colon (:)', value: ':' },
+  { label: 'Pipe (|)', value: '|' },
+  { label: 'Tab (/t)', value: '/t' }
+];
+
+export const ENCODING = [
+  { label: 'UTF-8', value: 'UTF-8' },
+  { label: 'ISO-8859-1', value: 'ISO-8859-1' },
+  { label: 'ISO-8859-15', value: 'ISO-8859-15' },
+  { label: 'Windows-1252', value: 'Windows-1252' }
+];
+
 // export const IMPORT_FROM_TOOL = 'import-from-tool';
 // export const UPLOAD_FILE = 'upload-file';
 // export const TEST_RAILS = 'testrails';
