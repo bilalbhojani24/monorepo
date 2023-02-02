@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Menu, Transition } from '@headlessui/react';
+import React from 'react';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import PropTypes from 'prop-types';
 
 import { DROPDOWN_TYPES } from './const/dropdownConstants';
@@ -16,7 +16,7 @@ const Dropdown = (props) => {
     headerVisible,
     heading,
     subHeading,
-    onClick,
+    onClick
   } = props;
 
   const handleClick = (e) => {
@@ -25,22 +25,17 @@ const Dropdown = (props) => {
   };
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <DropdownMenu.Root>
       <DropdownTrigger
         triggerTitle={triggerTitle}
         triggerVariant={triggerVariant}
       />
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="divide-base-100 absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="end"
+          className="divide-base-100 z-10 mt-2 w-56 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+        >
           {headerVisible && (
             <div className="px-4 py-3">
               <p className="text-sm">{heading}</p>
@@ -59,9 +54,9 @@ const Dropdown = (props) => {
               />
             ))}
           </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };
 
@@ -71,14 +66,14 @@ Dropdown.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       body: PropTypes.node,
-      divider: PropTypes.bool,
-    }),
+      divider: PropTypes.bool
+    })
   ),
   triggerVariant: PropTypes.oneOf(DROPDOWN_TYPES),
   headerVisible: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 Dropdown.defaultProps = {
   triggerTitle: 'Options',
@@ -87,7 +82,7 @@ Dropdown.defaultProps = {
   headerVisible: false,
   heading: '',
   subHeading: '',
-  onClick: () => {},
+  onClick: () => {}
 };
 
 export default Dropdown;
