@@ -106,6 +106,7 @@ const AllProjects = () => {
 
   useEffect(() => {
     fetchProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -122,8 +123,12 @@ const AllProjects = () => {
         }
       />
       <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col items-stretch overflow-y-auto p-4">
-        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
-          <TMDataTable columns={tableColumns} rows={allProjects} />
+        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start overflow-hidden rounded-md border bg-white">
+          <TMDataTable
+            columns={tableColumns}
+            rows={allProjects}
+            containerWrapperClass="md:rounded-none shadow-none border-none"
+          />
           {metaPage?.count > perPageCount && (
             <TMPagination
               pageNumber={metaPage?.page || 0}

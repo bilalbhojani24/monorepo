@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getProjectsAPI } from 'api/projects.api';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -14,6 +14,7 @@ import {
 } from '../slices/projectSlice';
 
 const useProjects = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allProjects = useSelector((state) => state.projects.projects);
@@ -36,7 +37,7 @@ const useProjects = () => {
   };
 
   const fetchProjects = (toBeLoadedPage) => {
-    getProjectsAPI(toBeLoadedPage).then((res) => {
+    getProjectsAPI(toBeLoadedPage || searchParams.get('p')).then((res) => {
       dispatch(setProjects(res.projects));
       dispatch(setMetaPage(res.info));
     });
@@ -62,6 +63,9 @@ const useProjects = () => {
   };
 
   const handlerPaginatedLoad = (toBeLoadedPage) => {
+    if (toBeLoadedPage === 1) setSearchParams({});
+    else setSearchParams({ p: toBeLoadedPage });
+
     fetchProjects(toBeLoadedPage);
   };
 
