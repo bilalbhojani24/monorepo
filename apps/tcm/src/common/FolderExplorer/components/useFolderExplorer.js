@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getFolders, getSubFolders } from 'api/folders.api';
-import { folderArrayUpdateHelper } from 'utils/folderHelpers';
+import {
+  findSelectedFolder,
+  folderArrayUpdateHelper
+} from 'utils/folderHelpers';
 
 const useFolderExplorer = ({
   folderId,
@@ -13,8 +16,8 @@ const useFolderExplorer = ({
   const [selectedNodesId, setSelectedNodesId] = useState([]);
   const [foldersArray, setFoldersArray] = useState([]);
 
-  const fireOnFoldersUpdate = (folders, testCases) => {
-    onFoldersUpdate(folders, selectedNodesId, testCases);
+  const fireOnFoldersUpdate = (folders, thisSelectedNodesId, testCases) => {
+    onFoldersUpdate(folders, thisSelectedNodesId, testCases);
   };
 
   const fetchAllFolders = () => {
@@ -51,6 +54,18 @@ const useFolderExplorer = ({
           setFoldersArray(newMap);
         });
     } else {
+      if (openedFolder?.contents) {
+        // if the current selected folder is in the closing folder
+        const isChildrenIDs = selectedNodesId.filter((item) =>
+          findSelectedFolder(openedFolder.contents, parseInt(item, 10))
+        );
+        if (isChildrenIDs.length) {
+          if (isSingleSelect) setSelectedNodesId([openedFolder.id]);
+        } else {
+          // TODO multi selection
+        }
+      }
+
       const newMap = folderArrayUpdateHelper(
         foldersArray,
         openedFolder?.id,
