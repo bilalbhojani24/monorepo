@@ -27,13 +27,13 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem',
-      defaultValue: 'or drag and drop'
+      defaultValue: ''
     },
     subHeading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem',
-      defaultValue: 'PNG, JPG, GIF up to 10MB'
+      defaultValue: 'PNG, JPG, GIF and more up to 10MB'
     },
     multiple: {
       control: { type: 'boolean' },
