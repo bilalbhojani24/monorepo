@@ -31,7 +31,7 @@ export default function useTestCases() {
     (state) => state.repository.selectedFolder
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
-  const areTestCasesLoading = useSelector((state) => state.repository.areTestCasesLoading);
+  const isTestCasesLoading = useSelector((state) => state.repository.isTestCasesLoading);
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -148,6 +148,6 @@ export default function useTestCases() {
     showDeleteModal,
     selectedTestCase,
     isBulkUpdate,
-    areTestCasesLoading
+    isTestCasesLoading
   };
 }
