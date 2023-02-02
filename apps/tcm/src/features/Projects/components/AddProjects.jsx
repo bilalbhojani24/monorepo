@@ -35,7 +35,7 @@ const AddProjects = ({ show }) => {
   };
 
   const createProjectHandler = () => {
-    if (formData.name.length == 0) {
+    if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: "Name is not specified" });
       return false;
     }
