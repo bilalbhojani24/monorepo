@@ -117,7 +117,7 @@ const AllProjects = () => {
   }, []);
 
   return (
-    <div className="flex flex-1 flex-col items-stretch">
+    <div className="flex flex-1 flex-col">
       {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
@@ -140,8 +140,8 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col items-stretch overflow-y-auto p-4">
-        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start rounded-md border bg-white">
+      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col overflow-y-auto p-4">
+        <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
           <TMDataTable
             columns={tableColumns}
             rows={allProjects}

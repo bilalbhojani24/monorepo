@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -29,7 +30,7 @@ function App() {
   return (
     <BrowserRouter>
       <HeaderDummy />
-      <div className="bg-base-50 flex min-h-screen items-stretch pt-16">
+      <div className="bg-base-50 flex min-h-[calc(100vh-64px)] items-stretch pt-16">
         {(importStarted || importConfig?.isDismissed === false) && (
           <div className="fixed top-16 z-50 w-full">
             <ImportStatus importConfig={importConfig} />
@@ -37,7 +38,7 @@ function App() {
         )}
         <div
           className={twClassNames(
-            'relative flex min-h-screen w-full items-stretch',
+            'relative flex min-h-[calc(100vh-128px)] w-full items-stretch',
             {
               'mt-16': importConfig?.status === 'ongoing'
               // ||
