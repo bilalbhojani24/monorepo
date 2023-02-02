@@ -9,21 +9,21 @@ const Sidebar = (props) => {
     sidebarHeader,
     sidebarPrimaryNavigation,
     sidebarSecondaryNavigation,
-    wrapperClass,
+    wrapperClass
   } = props;
 
   return (
     <div
       className={classNames(
         'flex min-h-0 flex-1 flex-col space-y-2 border-r border-base-200 px-2 pt-5 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col',
-        wrapperClass,
+        wrapperClass
       )}
     >
-      <div className="flex flex-1 flex-col overflow-y-auto pb-2">
+      <div className="flex flex-1 flex-col space-y-5 overflow-y-auto pb-2">
         {sidebarHeader}
 
         {sidebarPrimaryNavigation ? (
-          <div className="mt-5 flex flex-1 flex-col overflow-y-auto">
+          <div className="flex flex-1 flex-col overflow-y-auto">
             {sidebarPrimaryNavigation}
           </div>
         ) : null}
@@ -42,13 +42,13 @@ Sidebar.propTypes = {
   sidebarHeader: PropTypes.node,
   sidebarPrimaryNavigation: PropTypes.node,
   sidebarSecondaryNavigation: PropTypes.node,
-  wrapperClass: PropTypes.string,
+  wrapperClass: PropTypes.string
 };
 Sidebar.defaultProps = {
   sidebarHeader: null,
   sidebarPrimaryNavigation: null,
   sidebarSecondaryNavigation: null,
-  wrapperClass: '',
+  wrapperClass: ''
 };
 
 export default Sidebar;

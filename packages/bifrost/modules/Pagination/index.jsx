@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { ChevronLeftIcon, ChevronRightIcon, ArrowLongLeftIcon, ArrowLongRightIcon } from '../Icon';
+import PropTypes from 'prop-types';
+
+import {
+  ArrowLongLeftIcon,
+  ArrowLongRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from '../Icon';
 
 import './styles.scss';
 
@@ -38,14 +44,14 @@ const Pagination = (props) => {
   const [currentPage, setCurrentPage] = useState(pageNumber);
   const [totalPages, setTotalPages] = useState([]);
 
-  useEffect(() => {
-    setTotalPages(getPageRangeNumbers());
+  const getPageRangeNumbers = React.useCallback(() => {
+    const totalPagesPageNumbers = Math.ceil(count / pageSize);
+    return Array.from(Array(totalPagesPageNumbers).keys(), (item) => item + 1);
   }, [count, pageSize]);
 
-  const getPageRangeNumbers = () => {
-    const totalPages = Math.ceil(count / pageSize);
-    return Array.from(Array(totalPages).keys(), (item) => item + 1);
-  };
+  useEffect(() => {
+    setTotalPages(getPageRangeNumbers());
+  }, [count, pageSize, getPageRangeNumbers]);
 
   const prevClick = (e) => {
     e.preventDefault();
@@ -80,14 +86,14 @@ const Pagination = (props) => {
     >
       <a
         href="/"
-        className="relative inline-flex items-center rounded-md border border-base-300 bg-white px-4 py-2 text-sm font-medium text-base-700 hover:bg-base-50"
+        className="border-base-300 text-base-700 hover:bg-base-50 relative inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
         onClick={prevClick}
       >
         Previous
       </a>
       <a
         href="/"
-        className="relative ml-3 inline-flex items-center rounded-md border border-base-300 bg-white px-4 py-2 text-sm font-medium text-base-700 hover:bg-base-50"
+        className="border-base-300 text-base-700 hover:bg-base-50 relative ml-3 inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
         onClick={nextClick}
       >
         Next
@@ -95,61 +101,61 @@ const Pagination = (props) => {
     </div>
   );
 
-  const renderPageNumber = (inActiveClass, activeClass) => {
-    return (
-      <>
-        {getPageRange(currentPage, totalPages).map((page) => {
-          return (
-            <a
-              key={page}
-              href="/"
-              aria-label={`page ${page} of ${totalPages.length}`}
-              className={classNames(inActiveClass, inActiveLinkClass, {
-                [`${activeClass} ${activeLinkClass}`]: currentPage === page
-              })}
-              onClick={(e) => pageNumberClick(e, page)}
-              aria-current="page"
-            >
-              {page}
-            </a>
-          );
-        })}
-      </>
-    );
-  };
+  const renderPageNumber = (inActiveClass, activeClass) => (
+    <>
+      {getPageRange(currentPage, totalPages).map((page) => (
+        <a
+          key={page}
+          href="/"
+          aria-label={`page ${page} of ${totalPages.length}`}
+          className={classNames(inActiveClass, inActiveLinkClass, {
+            [`${activeClass} ${activeLinkClass}`]: currentPage === page
+          })}
+          onClick={(e) => pageNumberClick(e, page)}
+          aria-current="page"
+        >
+          {page}
+        </a>
+      ))}
+    </>
+  );
 
-  const centeredPagination = () => {
-    return (
-      <nav className="flex items-center justify-between border-t border-base-200 px-4 sm:px-0">
-        <div className="-mt-px flex w-0 flex-1">
-          <a
-            href="/"
-            className="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-base-500 hover:border-base-300 hover:text-base-700"
-            onClick={prevClick}
-          >
-            <ArrowLongLeftIcon className="mr-3 h-5 w-5 text-base-400" aria-hidden="true" />
-            Previous
-          </a>
-        </div>
-        <div className="hidden md:-mt-px md:flex">
-          {renderPageNumber(
-            'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-base-500 hover:border-base-300 hover:text-base-700',
-            'inline-flex items-center border-t-2 border-brand-500 px-4 pt-4 text-sm font-medium text-brand-600'
-          )}
-        </div>
-        <div className="-mt-px flex w-0 flex-1 justify-end">
-          <a
-            href="/"
-            className="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-base-500 hover:border-base-300 hover:text-base-700"
-            onClick={nextClick}
-          >
-            Next
-            <ArrowLongRightIcon className="ml-3 h-5 w-5 text-base-400" aria-hidden="true" />
-          </a>
-        </div>
-      </nav>
-    );
-  };
+  const centeredPagination = () => (
+    <nav className="border-base-200 flex items-center justify-between border-t px-4 sm:px-0">
+      <div className="-mt-px flex w-0 flex-1">
+        <a
+          href="/"
+          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium"
+          onClick={prevClick}
+        >
+          <ArrowLongLeftIcon
+            className="text-base-400 mr-3 h-5 w-5"
+            aria-hidden="true"
+          />
+          Previous
+        </a>
+      </div>
+      <div className="hidden md:-mt-px md:flex">
+        {renderPageNumber(
+          'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-base-500 hover:border-base-300 hover:text-base-700',
+          'inline-flex items-center border-t-2 border-brand-500 px-4 pt-4 text-sm font-medium text-brand-600'
+        )}
+      </div>
+      <div className="-mt-px flex w-0 flex-1 justify-end">
+        <a
+          href="/"
+          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium"
+          onClick={nextClick}
+        >
+          Next
+          <ArrowLongRightIcon
+            className="text-base-400 ml-3 h-5 w-5"
+            aria-hidden="true"
+          />
+        </a>
+      </div>
+    </nav>
+  );
 
   if (isCentered) {
     return centeredPagination();
@@ -157,38 +163,44 @@ const Pagination = (props) => {
 
   return (
     <div
-      className="flex items-center justify-between border-t border-base-200 bg-white px-4 py-3 sm:px-6"
+      className="border-base-200 flex items-center justify-between border-t  px-4 py-3 sm:px-6"
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
         <p className={classNames('text-sm text-base-700')}>
-          Showing <span className="font-medium">{currentPage * pageSize - pageSize + 1}</span> to{' '}
-          <span className="font-medium">{currentPage * pageSize}</span> of <span className="font-medium">{count}</span>{' '}
-          results{' '}
+          Showing{' '}
+          <span className="font-medium">
+            {currentPage * pageSize - pageSize + 1}
+          </span>{' '}
+          to <span className="font-medium">{currentPage * pageSize}</span> of{' '}
+          <span className="font-medium">{count}</span> results{' '}
         </p>
       </div>
       {renderNextPrev()}
       <nav
-        className={classNames('hidden sm:inline-flex isolate  -space-x-px rounded-md shadow-sm', {
-          'sm:hidden': !withNumber
-        })}
+        className={classNames(
+          'hidden sm:inline-flex isolate  -space-x-px rounded-md shadow-sm',
+          {
+            'sm:hidden': !withNumber
+          }
+        )}
         aria-label="Pagination"
       >
         <a
           href="/"
-          className="relative inline-flex items-center rounded-l-md border border-base-300 bg-white px-2 py-2 text-sm font-medium text-base-500 hover:bg-base-50"
+          className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-l-md border  p-2 text-sm font-medium"
           onClick={prevClick}
         >
           <span className="sr-only">Previous</span>
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         </a>
         {renderPageNumber(
-          'inline-flex items-center border border-base-300 bg-white px-4 py-2 text-sm font-medium text-base-500 hover:bg-base-50',
-          'z-10 border-brand-500 bg-brand-50 text-brand-600'
+          'inline-flex items-center border border-base-300  px-4 py-2 text-sm font-medium text-base-500 hover:bg-base-50',
+          'z-10 border-brand-500 text-brand-600'
         )}
         <a
           href="/"
-          className="relative inline-flex items-center rounded-r-md border border-base-300 bg-white px-2 py-2 text-sm font-medium text-base-500 hover:bg-base-50"
+          className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-r-md border  p-2 text-sm font-medium"
           onClick={nextClick}
         >
           <span className="sr-only">Next</span>
