@@ -26,6 +26,7 @@ const useProjects = () => {
   const selectedProject = useSelector(
     (state) => state.projects.selectedProject
   );
+  const totalProjectsCount = 110;
 
   const addingProject = () => {
     dispatch(setAddProjectModalVisibility(true));
@@ -50,7 +51,12 @@ const useProjects = () => {
     dispatch(setSelectedProject(selectedItem));
   };
 
+  const tableNextPageHandler = () => {};
+  const tableThisPageHandler = () => {};
+  const tablePrevPageHandler = () => {};
+
   return {
+    totalProjectsCount,
     selectedProject,
     onDropDownChange,
     activeProjects,
@@ -58,7 +64,10 @@ const useProjects = () => {
     showEditModal,
     showDeleteModal,
     addingProject,
-    handleClickDynamicLink
+    handleClickDynamicLink,
+    tableNextPageHandler,
+    tableThisPageHandler,
+    tablePrevPageHandler
   };
 };
 
