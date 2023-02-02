@@ -85,7 +85,7 @@ export default function TestCases() {
               </div>
             )}
             <>
-              <div className="max-h-[calc(100vh-13.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
+              <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
                 <TestCasesTable
                   isCondensed
                   containerWrapperClass="md:rounded-none"
