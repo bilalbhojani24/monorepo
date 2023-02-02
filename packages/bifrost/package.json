@@ -19,15 +19,19 @@
     "tailwind-preview": "tailwind-config-viewer -o"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.7",
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tooltip": "1.0.2",
+    "classnames": "^2.2.6",
     "mini-css-extract-plugin": "^2.7.2",
     "prettier": "^2.8.2",
-    "classnames": "^2.2.6",
-    "tailwind-merge": "^1.8.1",
-    "react-hot-toast": "2.4.0"
+    "react-hot-toast": "2.4.0",
+    "tailwind-merge": "^1.8.1"
   },
   "peerDependencies": {
     "prop-types": "15.8.1",
