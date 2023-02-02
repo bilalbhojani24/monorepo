@@ -63,7 +63,7 @@ const AddProjects = ({ show }) => {
         <div className="mb-4">
           <TMInputField
             label="Project Name"
-            placeholder="Enter Project Name"
+            placeholder="Project Name"
             value={formData.name}
             errorText={formError.nameError}
             onChange={(e) => {
