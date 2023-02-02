@@ -3,7 +3,7 @@ import { Disclosure } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { ChevronDownIcon, ChevronRightIcon, FolderIcon } from '../Icon';
+import { ChevronDownIcon, ChevronRightIcon, FolderIconMiui } from '../Icon';
 
 import './styles.scss';
 
@@ -47,8 +47,8 @@ const ListTreeNode = ({
         )}
       </Disclosure.Button>
 
-      <div className="text-info-400 mr-2 w-5 select-none">
-        <FolderIcon />
+      <div className="text-info-400 mr-1 w-5 select-none">
+        <FolderIconMiui sx={{ width: 16 }} />
       </div>
 
       <div
