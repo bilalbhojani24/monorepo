@@ -8,4 +8,4 @@ export const projectStatus = [
   { label: 'Closed', value: 'Closed' }
 ];
 
-export const perPageCount = 1000;
+export const perPageCount = 30;

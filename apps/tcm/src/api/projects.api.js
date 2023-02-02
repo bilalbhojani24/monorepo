@@ -1,6 +1,7 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getProjectsAPI = async () => fetchGet('/api/v1/projects');
+export const getProjectsAPI = async (toBeLoadedPage = 1) =>
+  fetchGet('/api/v1/projects', { params: { p: toBeLoadedPage } });
 
 export const addProjectsAPI = async (payload) =>
   fetchPost(`/api/v1/projects`, payload);
