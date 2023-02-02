@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { InsertPhotoOutlinedIcon } from '../Icon';
 
 import FileUpload from './index';
 
@@ -66,6 +67,11 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Classes to be passed to parent component'
+    },
+    icon: {
+      defaultValue: (
+        <InsertPhotoOutlinedIcon className="text-base-500 mx-auto" />
+      )
     }
   },
   controls: {}

@@ -33,6 +33,8 @@ import {
   XMarkIcon
 } from '@heroicons/react/20/solid';
 import FolderIconMiui from '@mui/icons-material/Folder';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+import PhotoIconMiui from '@mui/icons-material/Photo';
 
 export {
   ArrowDownIcon,
@@ -61,9 +63,11 @@ export {
   HomeIcon,
   InboxIcon,
   InformationCircleIcon,
+  InsertPhotoOutlinedIcon,
   MagnifyingGlassIcon,
   PaperClipIcon,
   PhotoIcon,
+  PhotoIconMiui,
   PlusIcon,
   UsersIcon,
   XCircleIcon,
