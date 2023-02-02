@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import importReducer from 'features/ImportFlow/slices/importSlice';
+import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
 import projectReducer from 'features/Projects/slices/projectSlice';
+import importReducer from 'features/quickImportFlow/slices/importSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
 import testCaseDetailsReducer from 'features/TestCaseDetailsView/slices/testCaseDetailsSlice';
 import testRunsReducer from 'features/TestRuns/slices/testRunsSlice';
@@ -14,5 +15,6 @@ export const store = configureStore({
     testRuns: testRunsReducer,
     testCaseDetails: testCaseDetailsReducer,
     import: importReducer,
-  },
+    importCSV: importCSVReducer
+  }
 });

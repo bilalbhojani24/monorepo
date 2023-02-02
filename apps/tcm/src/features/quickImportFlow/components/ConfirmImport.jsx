@@ -21,13 +21,13 @@ const ConfirmImport = (props) => {
           primaryButtonProps={{
             children: 'Import',
             size: 'default',
-            onClick: handleConfirmImport,
+            onClick: handleConfirmImport
           }}
         />
         <div>
           <div className="text-base-800 my-5 text-sm">
             {selectedProjects.length} Projects ready for import. Click on Begin
-            Importing to kickstart the process:
+            Import to kickstart the process
           </div>
           {selectedProjects.map((project) => (
             <>
@@ -47,12 +47,12 @@ ConfirmImport.propTypes = {
   projects: shape({
     id: number,
     name: string,
-    suite_mode: number,
-  }),
+    suite_mode: number
+  })
 };
 
 ConfirmImport.defaultProps = {
-  projects: [],
+  projects: []
 };
 
 export default ConfirmImport;

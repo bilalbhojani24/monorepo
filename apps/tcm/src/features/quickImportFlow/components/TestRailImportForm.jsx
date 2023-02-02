@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import { TMAlerts, TMInputField } from 'common/bifrostProxy';
 
+import { TEST_RAILS } from '../const/importSteps';
 import { setTestRailsCred } from '../slices/importSlice';
 
 import TermsAndConditions from './TermsAndConditions';
@@ -10,10 +11,10 @@ import useImport from './useImport';
 
 const TestRailImportForm = () => {
   const {
-    connectionStatus,
+    connectionStatusMap,
     getUserEmail,
     handleInputFieldChange,
-    testRailsCred,
+    testRailsCred
   } = useImport();
 
   const dispatch = useDispatch();
@@ -73,13 +74,13 @@ const TestRailImportForm = () => {
           placeholder="Enter API Key"
         />
       </div>
-      {connectionStatus && (
+      {connectionStatusMap[TEST_RAILS] && (
         <TMAlerts
           accentBorder={false}
-          show={!!connectionStatus}
-          modifier={connectionStatus}
+          show={!!connectionStatusMap[TEST_RAILS]}
+          modifier={connectionStatusMap[TEST_RAILS]}
           title={
-            connectionStatus === 'success'
+            connectionStatusMap[TEST_RAILS] === 'success'
               ? 'Connection was successful. Proceed to continue.'
               : 'Connection was not successful. Try again.'
           }

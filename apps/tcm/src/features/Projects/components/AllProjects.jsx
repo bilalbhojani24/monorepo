@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TMButton,
   TMDataTable,
@@ -14,10 +15,11 @@ import { dropDownOptions, perPageCount } from '../const/projectsConst';
 import AddProjects from './AddProjects';
 import DeleteProjects from './DeleteProjects';
 import EditProjects from './EditProjects';
-import ImportStatus from './ImportStatus';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
+  const navigate = useNavigate();
+
   const {
     metaPage,
     allProjects,
@@ -30,6 +32,7 @@ const AllProjects = () => {
     handlerPaginatedLoad,
     fetchProjects
   } = useProjects();
+
   const tableColumns = [
     {
       name: 'ID',
@@ -54,7 +57,11 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onClick={
+            rowData.test_cases_count > 0
+              ? handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)
+              : handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)
+          }
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
@@ -111,11 +118,22 @@ const AllProjects = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <ImportStatus />
+      {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
         actions={
           <>
+            <TMButton
+              wrapperClassName="sr-only"
+              onClick={() =>
+                navigate({
+                  pathname: '/import/csv',
+                  search: '?project=1&folder=1'
+                })
+              }
+            >
+              Import CSV
+            </TMButton>
             <TMButton variant="primary" onClick={addingProject}>
               Create Project
             </TMButton>

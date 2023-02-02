@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { TMButton } from 'common/bifrostProxy';
+import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
 
 import { IMPORT_STEPS } from '../const/importSteps';
 import { setImportSteps } from '../slices/importSlice';
@@ -8,7 +8,6 @@ import { setImportSteps } from '../slices/importSlice';
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
 import ConfirmImport from './ConfirmImport';
-import ImportHeader from './ImportHeader';
 import Steps from './ImportSteps';
 import useImport from './useImport';
 
@@ -31,7 +30,7 @@ const Import = () => {
 
   return (
     <>
-      <ImportHeader
+      <TMPageHeadings
         heading="Quick Import"
         actions={
           <>

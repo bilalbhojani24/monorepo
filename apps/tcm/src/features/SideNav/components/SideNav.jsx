@@ -5,11 +5,14 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
 import AppRoute from 'const/routes';
+import PropTypes from 'prop-types';
 
 import useSideNav from './useSideNav';
 
-const SideNav = () => {
+const SideNav = (props) => {
+  const { importStatus } = props;
   const location = useLocation();
   const {
     onLinkChange,
@@ -26,7 +29,9 @@ const SideNav = () => {
 
   return (
     <SidebarNavigation
-      wrapperClass="mt-16 bg-white z-[5]"
+      wrapperClass={twClassNames('mt-16 bg-white', {
+        'mt-32': importStatus === 'ongoing'
+      })}
       sidebarPrimaryNavigation={primaryNavs?.map((item) => (
         <SidebarItem
           key={item.id}
@@ -56,6 +61,14 @@ const SideNav = () => {
       }
     />
   );
+};
+
+SideNav.propTypes = {
+  importStatus: PropTypes.bool
+};
+
+SideNav.defaultProps = {
+  importStatus: false
 };
 
 export default SideNav;
