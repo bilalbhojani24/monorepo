@@ -12,6 +12,7 @@ import {
   TMTextArea
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
+import { addGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -39,18 +40,17 @@ const AddProjects = ({ show }) => {
   const createProjectHandler = () => {
     if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Name is not specified' });
-      return false;
-    }
-
-    addProjectsAPI(formData).then((res) => {
-      dispatch(addProject(res.data.project));
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.data.project.id
-        })
-      );
-      hideAddProjectModal();
-    });
+    } else
+      addProjectsAPI(formData).then((res) => {
+        dispatch(addProject(res.data.project));
+        dispatch(addGlobalProject(res.data.project));
+        navigate(
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId: res.data.project.id
+          })
+        );
+        hideAddProjectModal();
+      });
   };
 
   return (

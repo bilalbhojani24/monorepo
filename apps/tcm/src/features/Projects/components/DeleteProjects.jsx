@@ -8,6 +8,7 @@ import {
   TMModalFooter,
   TMModalHeader
 } from 'common/bifrostProxy';
+import { deleteGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 import {
@@ -29,6 +30,7 @@ const DeleteProjects = ({ show }) => {
     if (selectedProject)
       deleteProjectAPI(selectedProject.id).then((res) => {
         dispatch(deleteProject(res.data.project));
+        dispatch(deleteGlobalProject(res.data.project));
         hideDeleteProjectModal();
       });
   };

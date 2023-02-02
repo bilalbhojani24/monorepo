@@ -11,6 +11,7 @@ import {
   // TMSelectMenu,
   TMTextArea
 } from 'common/bifrostProxy';
+import { updateGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 // import { projectStatus } from '../const/projectsConst';
@@ -38,6 +39,7 @@ const EditProjects = ({ show }) => {
       project: formData
     }).then((res) => {
       dispatch(updateProject(res.data.project));
+      dispatch(updateGlobalProject(res.data.project));
       hideEditProjectModal();
     });
   };

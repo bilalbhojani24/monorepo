@@ -22,11 +22,31 @@ export const globalSlice = createSlice({
     },
     setSelectedProject: (state, { payload }) => {
       state.selectedProjectId = payload;
+    },
+    addGlobalProject: (state, { payload }) => {
+      state.allProjects = [payload, ...state.allProjects];
+    },
+    updateGlobalProject: (state, { payload }) => {
+      state.allProjects = state.allProjects.map((item) =>
+        item.id === payload.id ? payload : item
+      );
+    },
+    deleteGlobalProject: (state, { payload }) => {
+      state.allProjects = state.allProjects.filter(
+        (item) => item.id !== payload.id
+      );
     }
   }
 });
 
-export const { setAllProjects, setUser, setSelectedProject, setLoginURL } =
-  globalSlice.actions;
+export const {
+  setAllProjects,
+  setUser,
+  setSelectedProject,
+  setLoginURL,
+  addGlobalProject,
+  updateGlobalProject,
+  deleteGlobalProject
+} = globalSlice.actions;
 
 export default globalSlice.reducer;
