@@ -66,8 +66,6 @@ const TestCasesTable = ({
     {
       name: 'ID',
       key: 'id',
-      isSticky: true,
-      stickyPosition: 'left',
       cell: (rowData) => (
         <div
           role="button"
@@ -133,7 +131,7 @@ const TestCasesTable = ({
           <TableRow wrapperClass="relative">
             <TableCell
               variant="body"
-              wrapperClass="sticky bg-base-50 left-0 border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
+              wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
               <TMCheckBox
@@ -209,7 +207,7 @@ const TestCasesTable = ({
                   <TableCell
                     variant="body"
                     wrapperClass={classNames(
-                      'sticky bg-white left-0  border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
+                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
                         ? 'border-l-brand-600'
