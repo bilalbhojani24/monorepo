@@ -83,32 +83,35 @@ const AddEditTestCase = () => {
         />
       </div>
       <div className="max-h-[calc(100vh-14.2rem)] overflow-y-auto p-4 pt-0">
-        <div className="my-4">
-          <TMInputField
-            id="test-case-name"
-            label="Name of Test Case*"
-            placeholder="Enter Test Case"
-            value={testCaseFormData.name}
-            onChange={(e) =>
-              handleTestCaseFieldChange('name', e.currentTarget.value)
-            }
-            errorText={inputError ? "This field can't be left empty" : ''}
-          />
+        <div className="flex my-4 gap-4" >
+          <div className="w-3/4">
+            <TMInputField
+              id="test-case-name"
+              label="Name of Test Case *"
+              placeholder="Enter Test Case"
+              value={testCaseFormData.name}
+              onChange={(e) =>
+                handleTestCaseFieldChange('name', e.currentTarget.value)
+              }
+              errorText={inputError ? "This field can't be left empty" : ''}
+            />
+          </div>
+          <div className="w-1/4">
+            <TMSelectMenu
+              checkPosition="right"
+              label="Choose Template"
+              options={templateOptions}
+              value={
+                testCaseFormData.template &&
+                templateOptions.find(
+                  (item) => item.value === testCaseFormData.template
+                )
+              }
+              onChange={(e) => handleTestCaseFieldChange('template', e.value)}
+            />
+          </div>
         </div>
-        <div className="w-60">
-          <TMSelectMenu
-            checkPosition="right"
-            label="Choose Template*"
-            options={templateOptions}
-            value={
-              testCaseFormData.template &&
-              templateOptions.find(
-                (item) => item.value === testCaseFormData.template
-              )
-            }
-            onChange={(e) => handleTestCaseFieldChange('template', e.value)}
-          />
-        </div>
+
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
             <div className="mt-4">
@@ -176,7 +179,7 @@ const AddEditTestCase = () => {
               <div className="flex-1">
                 <TMSelectMenu
                   checkPosition="right"
-                  label="Priority*"
+                  label="Priority"
                   options={priorityOptions}
                   value={
                     testCaseFormData.priority &&
