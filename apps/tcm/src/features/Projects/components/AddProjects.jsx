@@ -9,20 +9,22 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea,
+  TMTextArea
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
-import { addProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { setAddProjectModalVisibility } from '../slices/projectSlice';
+import {
+  addProject,
+  setAddProjectModalVisibility
+} from '../slices/projectSlice';
 
 const AddProjects = ({ show }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
+    description: ''
   });
 
   const dispatch = useDispatch();
@@ -35,8 +37,8 @@ const AddProjects = ({ show }) => {
       dispatch(addProject(res.data.project));
       navigate(
         routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.data.project.id,
-        }),
+          projectId: res.data.project.id
+        })
       );
       hideAddProjectModal();
     });
@@ -89,11 +91,11 @@ const AddProjects = ({ show }) => {
 };
 
 AddProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 AddProjects.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default AddProjects;

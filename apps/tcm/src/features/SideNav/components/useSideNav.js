@@ -7,7 +7,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import {
   basePrimaryNavLinks,
   internalPrimaryNavLinks,
-  secondaryNavLinks,
+  secondaryNavLinks
 } from '../const/navsConst';
 
 export default function useSideNav() {
@@ -19,9 +19,9 @@ export default function useSideNav() {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
-  const allProjects = useSelector((state) => state.global.activeProjects);
+  const allProjects = useSelector((state) => state.global.allProjects);
   const selectedProjectId = useSelector(
-    (state) => state.global.selectedProjectId,
+    (state) => state.global.selectedProjectId
   );
 
   const onLinkChange = (linkItem) => {
@@ -36,16 +36,16 @@ export default function useSideNav() {
     return array.map((item) => ({
       ...item,
       path: routeFormatter(item.path, {
-        projectId: replaceProjectId,
-      }),
+        projectId: replaceProjectId
+      })
     }));
   };
 
   const onProjectChange = (project) => {
     navigate(
       routeFormatter(activeRoute.id, {
-        projectId: project?.id,
-      }),
+        projectId: project?.id
+      })
     );
   };
 
@@ -68,7 +68,7 @@ export default function useSideNav() {
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
     let exactMatchRoute = allNavs.find(
-      (item) => location.pathname === routeFormatter(item.path),
+      (item) => location.pathname === routeFormatter(item.path)
     );
     if (!exactMatchRoute)
       // only if no exact match found then check for partial match
@@ -84,8 +84,8 @@ export default function useSideNav() {
       allProjects.map((item) => ({
         ...item,
         label: item.name,
-        value: item.id,
-      })),
+        value: item.id
+      }))
     );
   }, [allProjects]);
 
@@ -97,6 +97,6 @@ export default function useSideNav() {
     showProjects,
     activeRoute,
     onProjectChange,
-    selectedProjectId,
+    selectedProjectId
   };
 }

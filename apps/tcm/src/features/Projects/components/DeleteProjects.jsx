@@ -6,12 +6,14 @@ import {
   TMButton,
   TMModal,
   TMModalFooter,
-  TMModalHeader,
+  TMModalHeader
 } from 'common/bifrostProxy';
-import { deleteProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 
-import { setDeleteProjectModalVisibility } from '../slices/projectSlice';
+import {
+  deleteProject,
+  setDeleteProjectModalVisibility
+} from '../slices/projectSlice';
 
 import useProjects from './useProjects';
 
@@ -64,10 +66,10 @@ const DeleteProjects = ({ show }) => {
   );
 };
 DeleteProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 DeleteProjects.defaultProps = {
-  show: false,
+  show: false
 };
 export default DeleteProjects;

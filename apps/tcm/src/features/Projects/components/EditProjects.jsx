@@ -9,13 +9,15 @@ import {
   TMModalFooter,
   TMModalHeader,
   // TMSelectMenu,
-  TMTextArea,
+  TMTextArea
 } from 'common/bifrostProxy';
-import { updateProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 // import { projectStatus } from '../const/projectsConst';
-import { setEditProjectModalVisibility } from '../slices/projectSlice';
+import {
+  setEditProjectModalVisibility,
+  updateProject
+} from '../slices/projectSlice';
 
 import useProjects from './useProjects';
 
@@ -23,7 +25,7 @@ const EditProjects = ({ show }) => {
   const { selectedProject } = useProjects();
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
+    description: ''
   });
 
   const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const EditProjects = ({ show }) => {
 
   const editProjectHandler = () => {
     editProjectAPI(selectedProject.id, {
-      project: formData,
+      project: formData
     }).then((res) => {
       dispatch(updateProject(res.data.project));
       hideEditProjectModal();
@@ -45,7 +47,7 @@ const EditProjects = ({ show }) => {
       setFormData({
         name: selectedProject.name,
         description: selectedProject.description,
-        state: selectedProject.state,
+        state: selectedProject.state
       });
   }, [selectedProject]);
 
@@ -109,11 +111,11 @@ const EditProjects = ({ show }) => {
   );
 };
 EditProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 EditProjects.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default EditProjects;

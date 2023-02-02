@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   TMButton,
   TMDataTable,
@@ -19,17 +19,16 @@ import useProjects from './useProjects';
 
 const AllProjects = () => {
   const {
-    totalProjectsCount,
-    activeProjects,
+    metaPage,
+    allProjects,
     addingProject,
     showAddModal,
     showEditModal,
     showDeleteModal,
     handleClickDynamicLink,
     onDropDownChange,
-    tableNextPageHandler,
-    tableThisPageHandler,
-    tablePrevPageHandler
+    handlerPaginatedLoad,
+    fetchProjects
   } = useProjects();
   const tableColumns = [
     {
@@ -105,6 +104,10 @@ const AllProjects = () => {
     }
   ];
 
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   return (
     <div className="flex flex-1 flex-col items-stretch">
       <ImportStatus />
@@ -120,13 +123,15 @@ const AllProjects = () => {
       />
       <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col items-stretch overflow-y-auto p-4">
         <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
-          <TMDataTable columns={tableColumns} rows={activeProjects} />
-          {totalProjectsCount > perPageCount && (
+          <TMDataTable columns={tableColumns} rows={allProjects} />
+          {metaPage?.count > perPageCount && (
             <TMPagination
+              pageNumber={metaPage?.page || 0}
+              count={metaPage?.count || 0}
               pageSize={perPageCount}
-              onNextClick={tableNextPageHandler}
-              onPageNumberClick={tableThisPageHandler}
-              onPreviousClick={tablePrevPageHandler}
+              onNextClick={handlerPaginatedLoad}
+              onPageNumberClick={handlerPaginatedLoad}
+              onPreviousClick={handlerPaginatedLoad}
             />
           )}
         </div>
