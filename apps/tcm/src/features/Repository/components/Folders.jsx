@@ -66,7 +66,7 @@ export default function Folders() {
               buttonType="half-rounded-button"
               variant="primary"
               colors="white"
-              wrapperClassName="ml-2 p-0 w-8 h-8"
+              wrapperClassName="ml-2 p-2"
               size="extra-small"
               onClick={showAddFolderModal}
             >
