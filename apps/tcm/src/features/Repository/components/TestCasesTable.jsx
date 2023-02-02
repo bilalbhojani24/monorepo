@@ -4,8 +4,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-
+  TableRow
 } from '@browserstack/bifrost';
 import {
   ArrowDownwardOutlinedIcon,
@@ -14,7 +13,7 @@ import {
   RemoveOutlinedIcon
 } from 'assets/icons';
 import classNames from 'classnames';
-import { TMButton, TMCheckBox, TMDropdown, TMBadge } from 'common/bifrostProxy';
+import { TMBadge, TMButton, TMCheckBox, TMDropdown } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { dropDownOptions } from '../const/testCaseConst';
@@ -109,25 +108,23 @@ const TestCasesTable = ({
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
-          <span>
-            {rowData.assignee ? rowData.assignee.full_name : '--'}
-        </span>
+        <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
       )
     },
     {
       name: 'Tags',
       key: 'tags',
       cell: (rowData) => (
-          <span>
-            {rowData.tags.length > 0 ? (
-                <div className="mt-1 flex gap-1">
-                  {rowData.tags.map((item) => (
-                      <TMBadge text={item} size="large" isRounded />
-                  ))}
-                </div>
-            ) : (
-                '--'
-            )}
+        <span>
+          {rowData.tags.length > 0 ? (
+            <div className="mt-1 flex gap-1">
+              {rowData.tags.map((item) => (
+                <TMBadge text={item} size="large" isRounded />
+              ))}
+            </div>
+          ) : (
+            '--'
+          )}
         </span>
       )
     },
