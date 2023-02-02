@@ -22,7 +22,6 @@ export const folderArrayUpdateHelper = (
   folders, // all folders
   workingFolderId, // folder to which the changes is to be applied
   isOpened, // is the item to be set to opened"bool
-  isSelected, // is the item to be set to selected"bool
   newContents, // contents value for a folder
   isSelectTriggered, // if the function is called to set Selected State
   folderId, // current selected Folder
@@ -40,15 +39,13 @@ export const folderArrayUpdateHelper = (
           newContents,
           workingFolderId,
           isOpened,
-          false,
           null,
           isSelectTriggered,
           folderId,
           onFolderClick,
           level + 1
         ),
-        isOpened,
-        isSelected: isCurrentFolderAChild ? true : isSelected // if oneof the current selected item is a child of this folder, then set this folder as the next selected folder
+        isOpened
       };
       if (isCurrentFolderAChild) {
         onFolderClick?.(thisFolderItem);
@@ -61,7 +58,6 @@ export const folderArrayUpdateHelper = (
         item.contents,
         workingFolderId,
         isOpened,
-        isSelected,
         newContents,
         isSelectTriggered,
         folderId,
@@ -70,15 +66,11 @@ export const folderArrayUpdateHelper = (
       );
       return {
         ...item,
-        isSelected: isSelectTriggered ? false : item?.isSelected,
         contents: updatedContents
       };
     }
 
-    return {
-      ...item,
-      isSelected: isSelectTriggered || isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
-    };
+    return item;
   });
 
 export const deleteFolderFromArray = (foldersArray, thisFolderID) => {

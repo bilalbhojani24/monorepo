@@ -73,7 +73,7 @@ export default function Folders() {
               <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
             </TMButton>
           </div>
-          <div className="flex max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
+          <div className="flex h-full max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
             <FolderExplorer
               projectId={projectId}
               folderId={folderId}
@@ -83,6 +83,7 @@ export default function Folders() {
               onFoldersUpdate={folderUpdateHandler}
               actionOptions={folderDropOptions}
               actionClickHandler={folderActionsHandler}
+              isSingleSelect
             />
           </div>
         </>

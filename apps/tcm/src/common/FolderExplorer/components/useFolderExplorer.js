@@ -7,9 +7,10 @@ const useFolderExplorer = ({
   projectId,
   onFolderClick,
   allFolders,
-  onFoldersUpdate
+  onFoldersUpdate,
+  isSingleSelect
 }) => {
-  const [onLoadFolderSelected, setOnLoadFolderSelection] = useState(false);
+  const [selectedNodesId, setSelectedNodesId] = useState([]);
   const [foldersArray, setFoldersArray] = useState([]);
 
   const fireOnFoldersUpdate = (folders, testCases) => {
@@ -25,18 +26,11 @@ const useFolderExplorer = ({
   };
 
   const folderClickHandler = (selectedFolder) => {
-    setFoldersArray(
-      folderArrayUpdateHelper(
-        foldersArray,
-        selectedFolder.id,
-        selectedFolder?.isOpened,
-        true,
-        selectedFolder?.contents,
-        true,
-        folderId,
-        onFolderClick
-      )
-    );
+    if (isSingleSelect) {
+      if (selectedFolder?.id) setSelectedNodesId([`${selectedFolder.id}`]);
+    } else {
+      // multi select TODO
+    }
     onFolderClick(selectedFolder);
   };
 
@@ -48,7 +42,6 @@ const useFolderExplorer = ({
             foldersArray,
             openedFolder?.id,
             true,
-            openedFolder?.isSelected,
             data.folders,
             false,
             folderId,
@@ -62,7 +55,6 @@ const useFolderExplorer = ({
         foldersArray,
         openedFolder?.id,
         false,
-        openedFolder?.isSelected,
         null,
         false,
         folderId,
@@ -74,24 +66,9 @@ const useFolderExplorer = ({
   };
 
   const initFoldersArray = () => {
-    if (allFolders)
-      if (!onLoadFolderSelected) {
-        const thisFolderID = folderId || allFolders[0].id;
-        // should only set allFolders on initial load only
-        setFoldersArray(
-          folderArrayUpdateHelper(
-            allFolders,
-            thisFolderID,
-            false,
-            true,
-            null,
-            false,
-            folderId,
-            onFolderClick
-          )
-        );
-        setOnLoadFolderSelection(true);
-      } else setFoldersArray(allFolders);
+    if (allFolders) {
+      setFoldersArray(allFolders);
+    }
   };
 
   useEffect(() => {
@@ -105,7 +82,16 @@ const useFolderExplorer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
+  useEffect(() => {
+    if (isSingleSelect) {
+      const thisFolderID = folderId || allFolders[0].id;
+      setSelectedNodesId([thisFolderID]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folderId]);
+
   return {
+    selectedNodesId,
     foldersArray,
     folderClickHandler,
     subFolderOpenHandler
