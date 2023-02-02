@@ -71,10 +71,6 @@ const defaultConfig = {
         </>
       )
     },
-    contentWrapperClass: {
-      option: { type: 'string' },
-      defaultValue: 'z-50'
-    },
     children: {
       option: { type: null },
       defaultValue: <Button>Hover me</Button>
