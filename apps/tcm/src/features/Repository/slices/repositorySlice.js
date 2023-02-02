@@ -10,7 +10,6 @@ import {
 const initialState = {
   allFolders: [],
   allTestCases: [],
-  areTestCasesLoading: false,
   selectedFolder: null,
   isAddTestCasePageVisible: false,
   testCaseFormData: {
@@ -67,9 +66,6 @@ export const repositorySlice = createSlice({
     },
     updateBulkTestCaseFormData: (state, { payload }) => {
       state.testCaseBulkFormData[payload.key] = payload.value;
-    },
-    updateTestCasesListLoading: (state, { payload }) => {
-      state.areTestCasesLoading = payload;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
@@ -181,8 +177,7 @@ export const {
   setBulkAllSelected,
   setBulkUpdateProgress,
   resetBulkSelection,
-  updateBulkTestCaseFormData,
-  updateTestCasesListLoading
+  updateBulkTestCaseFormData
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

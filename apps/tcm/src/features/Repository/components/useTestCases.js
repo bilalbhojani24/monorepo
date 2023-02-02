@@ -18,8 +18,7 @@ import {
   setEditTestCasePageVisibility,
   setSelectedTestCase,
   setTestCaseFormData,
-  updateAllTestCases,
-  updateTestCasesListLoading
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
@@ -31,7 +30,6 @@ export default function useTestCases() {
     (state) => state.repository.selectedFolder
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
-  const areTestCasesLoading = useSelector((state) => state.repository.areTestCasesLoading);
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -60,13 +58,10 @@ export default function useTestCases() {
   };
 
   const fetchAllTestCases = () => {
-    if (folderId) {
-      dispatch(updateTestCasesListLoading(true));
+    if (folderId)
       getTestCasesAPI({ projectId, folderId }).then((data) => {
         dispatch(updateAllTestCases(data?.testcases || []));
-        dispatch(updateTestCasesListLoading(false));
       });
-    }
     else dispatch(updateAllTestCases([]));
   };
 
@@ -147,7 +142,6 @@ export default function useTestCases() {
     isTestCaseViewVisible,
     showDeleteModal,
     selectedTestCase,
-    isBulkUpdate,
-    areTestCasesLoading
+    isBulkUpdate
   };
 }
