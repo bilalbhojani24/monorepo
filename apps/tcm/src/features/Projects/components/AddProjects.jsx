@@ -22,7 +22,11 @@ const AddProjects = ({ show }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
+    description: ''
+  });
+
+  const [formError, setFormError] = useState({
+    nameError: ''
   });
 
   const dispatch = useDispatch();
@@ -31,6 +35,11 @@ const AddProjects = ({ show }) => {
   };
 
   const createProjectHandler = () => {
+    if (formData.name.length === 0) {
+      setFormError({ ...formError, nameError: "Name is not specified" });
+      return false;
+    }
+
     addProjectsAPI(formData).then((res) => {
       dispatch(addProject(res.data.project));
       navigate(
@@ -54,8 +63,13 @@ const AddProjects = ({ show }) => {
             label="Project Name"
             placeholder="Enter Project Name"
             value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.currentTarget.value })
+            errorText={formError.nameError}
+            onChange={(e) => {
+                if (formError?.nameError && !e.currentTarget.value.length) {
+                  setFormError({ ...formError, nameError: '' });
+                }
+                setFormData({ ...formData, name: e.currentTarget.value })
+              }
             }
           />
         </div>
