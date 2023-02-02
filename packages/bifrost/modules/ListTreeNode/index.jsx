@@ -70,7 +70,8 @@ const ListTreeNode = ({
       <div
         role="presentation"
         className="hidden group-hover:flex"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           onTrailingIconClick?.();
         }}
       >
