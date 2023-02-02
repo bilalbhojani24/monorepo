@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getFolders, getSubFolders } from 'api/folders.api';
-import {
-  findSelectedFolder,
-  folderArrayUpdateHelper
-} from 'utils/folderHelpers';
+import { findFolder, folderArrayUpdateHelper } from 'utils/folderHelpers';
 
 const useFolderExplorer = ({
   folderId,
@@ -57,7 +54,7 @@ const useFolderExplorer = ({
       if (openedFolder?.contents) {
         // if the current selected folder is in the closing folder
         const isChildrenIDs = selectedNodesId.filter((item) =>
-          findSelectedFolder(openedFolder.contents, parseInt(item, 10))
+          findFolder(openedFolder.contents, parseInt(item, 10))
         );
         if (isChildrenIDs.length) {
           if (isSingleSelect) setSelectedNodesId([openedFolder.id]);

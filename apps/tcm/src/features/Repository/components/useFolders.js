@@ -11,7 +11,7 @@ import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
-  findSelectedFolder,
+  findFolder,
   injectFolderToParent,
   replaceFolderHelper
 } from 'utils/folderHelpers';
@@ -204,7 +204,7 @@ export default function useFolders() {
   };
 
   const moveFolderHelper = (thisFolderID, baseFolderID, internalAllFolders) => {
-    const movedFolder = findSelectedFolder(
+    const movedFolder = findFolder(
       internalAllFolders,
       parseInt(thisFolderID, 10)
     );
@@ -242,10 +242,7 @@ export default function useFolders() {
   };
 
   useEffect(() => {
-    const selectedFolder = findSelectedFolder(
-      allFolders,
-      parseInt(folderId, 10)
-    );
+    const selectedFolder = findFolder(allFolders, parseInt(folderId, 10));
     if (selectedFolder) {
       dispatch(setSelectedFolder(selectedFolder));
     } else {

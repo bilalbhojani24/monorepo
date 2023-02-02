@@ -1,4 +1,4 @@
-export const findSelectedFolder = (thisArray, findFolderId) => {
+export const findFolder = (thisArray, findFolderId) => {
   if (!thisArray || !thisArray.length) return false;
   let selectedItem = null;
   thisArray?.every((item) => {
@@ -7,7 +7,7 @@ export const findSelectedFolder = (thisArray, findFolderId) => {
       return false;
     }
     if (item.contents) {
-      const matched = findSelectedFolder(item.contents, findFolderId);
+      const matched = findFolder(item.contents, findFolderId);
       if (matched) {
         selectedItem = matched;
         return false;
@@ -16,6 +16,21 @@ export const findSelectedFolder = (thisArray, findFolderId) => {
     return true;
   });
   return selectedItem;
+};
+
+export const resetFolderProps = (thisArray) => {
+  if (!thisArray || !thisArray.length) return false;
+
+  return thisArray?.map((item) => {
+    if (item.contents) {
+      return {
+        ...item,
+        isOpened: false,
+        contents: resetFolderProps(item.contents)
+      };
+    }
+    return { ...item, isOpened: false };
+  });
 };
 
 export const folderArrayUpdateHelper = (
@@ -31,7 +46,7 @@ export const folderArrayUpdateHelper = (
   folders?.map((item) => {
     if (`${item.id}` === `${workingFolderId}`) {
       const isCurrentFolderAChild = !isOpened
-        ? findSelectedFolder(item.contents, parseInt(folderId, 10))
+        ? findFolder(item.contents, parseInt(folderId, 10))
         : false;
       const thisFolderItem = {
         ...item,
@@ -94,9 +109,10 @@ export const deleteFolderFromArray = (foldersArray, thisFolderID) => {
 export const injectFolderToParent = (array, toBeInjectedFolder, parentID) =>
   array.map((item) => {
     if (item.id === parentID) {
+      const resetedFolder = resetFolderProps([toBeInjectedFolder]);
       if (item?.contents)
-        return { ...item, contents: [...item.contents, toBeInjectedFolder] };
-      return { ...item, contents: [toBeInjectedFolder] };
+        return { ...item, contents: [...item.contents, ...resetedFolder] };
+      return { ...item, contents: resetedFolder };
     }
     if (item?.contents) {
       return {
