@@ -107,6 +107,8 @@ const TestCasesTable = ({
     {
       name: '',
       key: 'action',
+      isSticky: true,
+      stickyPosition: 'right',
       cell: (data) => (
         <TMDropdown
           options={dropDownOptions}
@@ -119,7 +121,12 @@ const TestCasesTable = ({
 
   return (
     <>
-      <Table containerWrapperClass={containerWrapperClass}>
+      <Table
+        containerWrapperClass={classNames(
+          containerWrapperClass,
+          'max-w-[calc(100vw-40rem)]'
+        )}
+      >
         <TableHead wrapperClass="w-full rounded-xs">
           <TableRow wrapperClass="relative">
             <TableCell
@@ -149,7 +156,10 @@ const TestCasesTable = ({
                 wrapperClass={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                   'flex-1 w-9/12': index === 1,
-                  'min-w-[50%]': index === 2
+                  'min-w-[50%]': index === 2,
+                  'sticky bg-base-50': col.isSticky,
+                  'right-0 ': col.isSticky && col.stickyPosition === 'right',
+                  'left-10 ': col.isSticky && col.stickyPosition === 'left'
                 })}
                 textTransform="uppercase"
               >
@@ -164,20 +174,20 @@ const TestCasesTable = ({
                     >
                       Move
                     </TMButton>
-                    {/* <TMButton
+                    <TMButton
                       colors="white"
                       size="extra-small"
                       onClick={initBulkEdit}
                     >
-                      Bulk Edit
+                      Edit
                     </TMButton>
                     <TMButton
                       colors="white"
                       size="extra-small"
                       onClick={initBulkDelete}
                     >
-                      Bulk Delete
-                    </TMButton> */}
+                      Delete
+                    </TMButton>
                   </div>
                 ) : (
                   ''
@@ -197,7 +207,7 @@ const TestCasesTable = ({
                   <TableCell
                     variant="body"
                     wrapperClass={classNames(
-                      'border-l-2 test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0',
+                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
                         ? 'border-l-brand-600'
@@ -221,7 +231,13 @@ const TestCasesTable = ({
                       <TableCell
                         key={column.id}
                         wrapperClass={classNames({
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'sticky bg-white': column.isSticky,
+                          'right-0 ':
+                            column.isSticky &&
+                            column.stickyPosition === 'right',
+                          'left-10 ':
+                            column.isSticky && column.stickyPosition === 'left'
                         })}
                       >
                         {column.cell ? <>{column.cell(row)}</> : value}

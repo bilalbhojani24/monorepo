@@ -1,14 +1,16 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TMButton,
   TMDataTable,
   TMDropdown,
-  TMPageHeadings
+  TMPageHeadings,
+  TMPagination
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
-import { dropDownOptions } from '../const/projectsConst';
+import { dropDownOptions, perPageCount } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
 import DeleteProjects from './DeleteProjects';
@@ -17,13 +19,17 @@ import useProjects from './useProjects';
 
 const AllProjects = () => {
   const {
+    totalProjectsCount,
     activeProjects,
     addingProject,
     showAddModal,
     showEditModal,
     showDeleteModal,
     handleClickDynamicLink,
-    onDropDownChange
+    onDropDownChange,
+    tableNextPageHandler,
+    tableThisPageHandler,
+    tablePrevPageHandler
   } = useProjects();
   const navigate = useNavigate();
   const tableColumns = [
@@ -50,7 +56,7 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onClick={rowData.test_cases_count > 0 ? handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id) : handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
@@ -124,9 +130,17 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex flex-1 flex-col items-stretch p-4">
+      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col items-stretch overflow-y-auto p-4">
         <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
           <TMDataTable columns={tableColumns} rows={activeProjects} />
+          {totalProjectsCount > perPageCount && (
+            <TMPagination
+              pageSize={perPageCount}
+              onNextClick={tableNextPageHandler}
+              onPageNumberClick={tableThisPageHandler}
+              onPreviousClick={tablePrevPageHandler}
+            />
+          )}
         </div>
       </div>
       <AddProjects show={showAddModal} />

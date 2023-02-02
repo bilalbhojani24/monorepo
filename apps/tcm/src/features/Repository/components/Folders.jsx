@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { CreateNewFolderOutlinedIcon, SourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
@@ -57,45 +58,48 @@ export default function Folders() {
         show={openedFolderModal?.modal === folderDropOptions[4].body}
         projectId={projectId}
       />
-      <div className="border-base-300 flex items-center border-b p-3">
-        <span className="text-base">Folders</span>
-        <TMButton
-          buttonType="half-rounded-button"
-          variant="primary"
-          colors="white"
-          wrapperClassName="ml-2"
-          size="extra-small"
-          onClick={showAddFolderModal}
-        >
-          <CreateNewFolderOutlinedIcon className="text-base-500" />
-        </TMButton>
-      </div>
-      <div className="flex h-full w-full flex-col items-stretch overflow-y-auto">
-        {allFolders.length ? (
-          <FolderExplorer
-            projectId={projectId}
-            folderId={folderId}
-            allFolders={allFolders}
-            actionsEnabled
-            onFolderClick={updateRouteHelper}
-            onFoldersUpdate={folderUpdateHandler}
-            actionOptions={folderDropOptions}
-            actionClickHandler={folderActionsHandler}
-          />
-        ) : (
-          <div className="flex h-full w-full flex-col items-stretch justify-center">
-            <TMEmptyState
-              title="Create New Folder"
-              description="You can get started by creating test cases/folders by entering details below."
-              mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
-              buttonProps={{
-                children: 'Create Folder',
-                onClick: showAddFolderModal
-              }}
+      {allFolders.length ? (
+        <>
+          <div className="border-base-300 flex items-center border-b p-3">
+            <span className="text-base">Folders</span>
+            <TMButton
+              buttonType="half-rounded-button"
+              variant="primary"
+              colors="white"
+              wrapperClassName="ml-2 p-2"
+              size="extra-small"
+              onClick={showAddFolderModal}
+            >
+              <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
+            </TMButton>
+          </div>
+          <div className="flex max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
+            <FolderExplorer
+              projectId={projectId}
+              folderId={folderId}
+              allFolders={allFolders}
+              actionsEnabled
+              onFolderClick={updateRouteHelper}
+              onFoldersUpdate={folderUpdateHandler}
+              actionOptions={folderDropOptions}
+              actionClickHandler={folderActionsHandler}
             />
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className="flex h-full w-full flex-col items-stretch justify-center">
+          <TMEmptyState
+            title="Create New Folder"
+            description="You can get started by creating test cases/folders by entering details below."
+            mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
+            buttonProps={{
+              children: 'Create Folder',
+              onClick: showAddFolderModal,
+              colors: 'white'
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

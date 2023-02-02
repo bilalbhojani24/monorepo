@@ -32,6 +32,7 @@ import {
   XCircleIcon,
   XMarkIcon
 } from '@heroicons/react/20/solid';
+import FolderIconMiui from '@mui/icons-material/Folder';
 
 export {
   ArrowDownIcon,
@@ -56,6 +57,7 @@ export {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
   FolderIcon,
+  FolderIconMiui,
   HomeIcon,
   InboxIcon,
   InformationCircleIcon,

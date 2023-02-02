@@ -27,6 +27,14 @@ const initialState = {
     issues: [],
     tags: []
   },
+  testCaseBulkFormData: {
+    case_type: null,
+    priority: priorityOptions[2].value,
+    owner: null,
+    status: statusOptions[0].value,
+    preconditions: '',
+    issues: []
+  },
   showEditTestCaseForm: false,
   showAddTagModal: false,
   showAddIssuesModal: false,
@@ -38,11 +46,12 @@ const initialState = {
   issuesArray: [],
   openedFolderModal: null,
   bulkSelection: {
-    selected_ids: [],
-    deselected_ids: [],
+    ids: [],
+    de_selected_ids: [],
     select_all: false
   },
-  isBulkUpdateInit: false
+  isBulkUpdateInit: false,
+  isBulkEditPageVisible: false
 };
 
 export const repositorySlice = createSlice({
@@ -54,6 +63,9 @@ export const repositorySlice = createSlice({
     },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
+    },
+    updateBulkTestCaseFormData: (state, { payload }) => {
+      state.testCaseBulkFormData[payload.key] = payload.value;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
@@ -75,9 +87,10 @@ export const repositorySlice = createSlice({
       }
     },
     setSelectedFolder: (state, { payload }) => {
-      state.selectedFolder = payload;
+      if (state.selectedFolder?.id !== payload?.id)
+        state.bulkSelection = initialState.bulkSelection; // reset selected rows if folder changes
 
-      state.bulkSelection = initialState.bulkSelection;
+      state.selectedFolder = payload;
     },
     setAddTagModal: (state, { payload }) => {
       state.showAddTagModal = payload;
@@ -116,10 +129,10 @@ export const repositorySlice = createSlice({
       state.tagsArray = payload;
     },
     setBulkSelectedtestCaseIDs: (state, { payload }) => {
-      state.bulkSelection.selected_ids = payload;
+      state.bulkSelection.ids = payload;
     },
     setBulkDeSelectedtestCaseIDs: (state, { payload }) => {
-      state.bulkSelection.deselected_ids = payload;
+      state.bulkSelection.de_selected_ids = payload;
     },
     setBulkAllSelected: (state, { payload }) => {
       state.bulkSelection.select_all = payload;
@@ -163,7 +176,8 @@ export const {
   setBulkDeSelectedtestCaseIDs,
   setBulkAllSelected,
   setBulkUpdateProgress,
-  resetBulkSelection
+  resetBulkSelection,
+  updateBulkTestCaseFormData
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

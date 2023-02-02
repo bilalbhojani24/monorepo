@@ -7,7 +7,7 @@ import {
   setAddProjectModalVisibility,
   setDeleteProjectModalVisibility,
   setEditProjectModalVisibility,
-  setSelectedProject,
+  setSelectedProject
 } from '../slices/projectSlice';
 
 const useProjects = () => {
@@ -15,17 +15,18 @@ const useProjects = () => {
   const dispatch = useDispatch();
   const activeProjects = useSelector((state) => state.global.activeProjects);
   const showAddModal = useSelector(
-    (state) => state.projects.showAddProjectModal,
+    (state) => state.projects.showAddProjectModal
   );
   const showEditModal = useSelector(
-    (state) => state.projects.showEditProjectModal,
+    (state) => state.projects.showEditProjectModal
   );
   const showDeleteModal = useSelector(
-    (state) => state.projects.showDeleteProjectModal,
+    (state) => state.projects.showDeleteProjectModal
   );
   const selectedProject = useSelector(
-    (state) => state.projects.selectedProject,
+    (state) => state.projects.selectedProject
   );
+  const totalProjectsCount = 110;
 
   const addingProject = () => {
     dispatch(setAddProjectModalVisibility(true));
@@ -36,8 +37,8 @@ const useProjects = () => {
 
     navigate(
       routeFormatter(route, {
-        projectId,
-      }),
+        projectId
+      })
     );
   };
 
@@ -50,7 +51,12 @@ const useProjects = () => {
     dispatch(setSelectedProject(selectedItem));
   };
 
+  const tableNextPageHandler = () => {};
+  const tableThisPageHandler = () => {};
+  const tablePrevPageHandler = () => {};
+
   return {
+    totalProjectsCount,
     selectedProject,
     onDropDownChange,
     activeProjects,
@@ -59,6 +65,9 @@ const useProjects = () => {
     showDeleteModal,
     addingProject,
     handleClickDynamicLink,
+    tableNextPageHandler,
+    tableThisPageHandler,
+    tablePrevPageHandler
   };
 };
 

@@ -62,26 +62,23 @@ const TooltipContainer = (props) => {
               onPointerDownOutside={onPointerDownOutside}
               sideOffset={sideOffset}
               sticky={sticky}
+              className={twClassNames('z-50 rounded-md shadow bg-white py-4', {
+                'bg-white': theme === TP_TOOLTIP_THEME[0],
+                'bg-base-800': theme === TP_TOOLTIP_THEME[1],
+                'max-w-xs': TP_SIZE[0] === size,
+                'sm:max-w-sm': TP_SIZE[1] === size,
+                'sm:max-w-md': TP_SIZE[2] === size,
+                'sm:max-w-lg': TP_SIZE[3] === size,
+                'sm:max-w-xl': TP_SIZE[4] === size,
+                'sm:max-w-2xl': TP_SIZE[5] === size,
+                'sm:max-w-3xl': TP_SIZE[6] === size,
+                'sm:max-w-4xl': TP_SIZE[7] === size,
+                'sm:max-w-5xl': TP_SIZE[8] === size,
+                'sm:max-w-6xl': TP_SIZE[9] === size,
+                'sm:max-w-full': TP_SIZE[10] === size
+              })}
             >
-              <div
-                className={twClassNames('rounded-md shadow bg-white py-4', {
-                  'bg-white': theme === TP_TOOLTIP_THEME[0],
-                  'bg-base-800': theme === TP_TOOLTIP_THEME[1],
-                  'max-w-xs': TP_SIZE[0] === size,
-                  'sm:max-w-sm': TP_SIZE[1] === size,
-                  'sm:max-w-md': TP_SIZE[2] === size,
-                  'sm:max-w-lg': TP_SIZE[3] === size,
-                  'sm:max-w-xl': TP_SIZE[4] === size,
-                  'sm:max-w-2xl': TP_SIZE[5] === size,
-                  'sm:max-w-3xl': TP_SIZE[6] === size,
-                  'sm:max-w-4xl': TP_SIZE[7] === size,
-                  'sm:max-w-5xl': TP_SIZE[8] === size,
-                  'sm:max-w-6xl': TP_SIZE[9] === size,
-                  'sm:max-w-full': TP_SIZE[10] === size
-                })}
-              >
-                {content}
-              </div>
+              {content}
               <TooltipPrimitive.Arrow
                 height={arrowHeight}
                 width={arrowWidth}
