@@ -66,7 +66,7 @@ const defaultConfig = {
     wrapperClassName: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Classes to be passed to parent component'
+      description: 'Classes to be passed to base component'
     },
     icon: {
       defaultValue: (
