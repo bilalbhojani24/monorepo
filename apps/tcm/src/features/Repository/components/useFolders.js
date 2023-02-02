@@ -115,6 +115,7 @@ export default function useFolders() {
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
           // if no folders
+          setAllFoldersHelper([]);
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
               projectId

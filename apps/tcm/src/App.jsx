@@ -38,7 +38,7 @@ function App() {
         )}
         <div
           className={twClassNames(
-            'relative flex min-h-[calc(100vh-128px)] w-full items-stretch',
+            'relative flex min-h-[calc(100vh-64px)] w-full items-stretch',
             {
               'mt-16': importConfig?.status === 'ongoing'
               // ||
