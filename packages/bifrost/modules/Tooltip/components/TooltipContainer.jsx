@@ -24,6 +24,7 @@ const TooltipContainer = (props) => {
     avoidCollisions,
     children,
     content,
+    contentWrapperClass,
     delay,
     defaultOpen,
     onEscapeKeyDown,
@@ -62,9 +63,9 @@ const TooltipContainer = (props) => {
               onPointerDownOutside={onPointerDownOutside}
               sideOffset={sideOffset}
               sticky={sticky}
-            >
-              <div
-                className={twClassNames('rounded-md shadow bg-white py-4', {
+              className={twClassNames(
+                'rounded-md shadow bg-white py-4',
+                {
                   'bg-white': theme === TP_TOOLTIP_THEME[0],
                   'bg-base-800': theme === TP_TOOLTIP_THEME[1],
                   'max-w-xs': TP_SIZE[0] === size,
@@ -78,10 +79,11 @@ const TooltipContainer = (props) => {
                   'sm:max-w-5xl': TP_SIZE[8] === size,
                   'sm:max-w-6xl': TP_SIZE[9] === size,
                   'sm:max-w-full': TP_SIZE[10] === size
-                })}
-              >
-                {content}
-              </div>
+                },
+                contentWrapperClass
+              )}
+            >
+              {content}
               <TooltipPrimitive.Arrow
                 height={arrowHeight}
                 width={arrowWidth}
@@ -110,6 +112,7 @@ TooltipContainer.propTypes = {
   alignOffset: PropTypes.number,
   avoidCollisions: PropTypes.bool,
   content: PropTypes.node,
+  contentWrapperClass: PropTypes.string,
   children: PropTypes.node,
   delay: PropTypes.number,
   defaultOpen: PropTypes.bool,
@@ -132,6 +135,7 @@ TooltipContainer.defaultProps = {
   alignOffset: 0,
   avoidCollisions: true,
   content: null,
+  contentWrapperClass: 'z-50',
   children: null,
   delay: 200,
   defaultOpen: undefined,
