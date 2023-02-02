@@ -65,7 +65,7 @@ const AddProjects = ({ show }) => {
             value={formData.name}
             errorText={formError.nameError}
             onChange={(e) => {
-                if (formError?.nameError && e.currentTarget.value.length > 0) {
+                if (formError?.nameError && !e.currentTarget.value.length) {
                   setFormError({ ...formError, nameError: '' });
                 }
                 setFormData({ ...formData, name: e.currentTarget.value })
