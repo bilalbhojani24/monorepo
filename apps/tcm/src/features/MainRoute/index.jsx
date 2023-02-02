@@ -23,7 +23,7 @@ const MainRoute = () => {
 
   return (
     <div
-      className={classNames('flex flex-1 flex-col items-stretch', {
+      className={classNames('flex flex-1 flex-col', {
         'md:pl-64': location.pathname !== AppRoute.LANDING
       })}
     >

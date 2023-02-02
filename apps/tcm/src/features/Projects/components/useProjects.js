@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getProjectsAPI } from 'api/projects.api';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/projectsConst';
@@ -7,13 +8,16 @@ import {
   setAddProjectModalVisibility,
   setDeleteProjectModalVisibility,
   setEditProjectModalVisibility,
+  setMetaPage,
+  setProjects,
   setSelectedProject
 } from '../slices/projectSlice';
 
 const useProjects = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const activeProjects = useSelector((state) => state.global.activeProjects);
+  const allProjects = useSelector((state) => state.projects.projects);
   const showAddModal = useSelector(
     (state) => state.projects.showAddProjectModal
   );
@@ -26,10 +30,17 @@ const useProjects = () => {
   const selectedProject = useSelector(
     (state) => state.projects.selectedProject
   );
-  const totalProjectsCount = 110;
+  const metaPage = useSelector((state) => state.projects.metaPage);
 
   const addingProject = () => {
     dispatch(setAddProjectModalVisibility(true));
+  };
+
+  const fetchProjects = (toBeLoadedPage) => {
+    getProjectsAPI(toBeLoadedPage || searchParams.get('p')).then((res) => {
+      dispatch(setProjects(res.projects));
+      dispatch(setMetaPage(res.info));
+    });
   };
 
   const handleClickDynamicLink = (route, projectId) => (e) => {
@@ -51,23 +62,25 @@ const useProjects = () => {
     dispatch(setSelectedProject(selectedItem));
   };
 
-  const tableNextPageHandler = () => {};
-  const tableThisPageHandler = () => {};
-  const tablePrevPageHandler = () => {};
+  const handlerPaginatedLoad = (toBeLoadedPage) => {
+    if (toBeLoadedPage === 1) setSearchParams({});
+    else setSearchParams({ p: toBeLoadedPage });
+
+    fetchProjects(toBeLoadedPage);
+  };
 
   return {
-    totalProjectsCount,
+    metaPage,
     selectedProject,
     onDropDownChange,
-    activeProjects,
+    allProjects,
     showAddModal,
     showEditModal,
     showDeleteModal,
     addingProject,
     handleClickDynamicLink,
-    tableNextPageHandler,
-    tableThisPageHandler,
-    tablePrevPageHandler
+    handlerPaginatedLoad,
+    fetchProjects
   };
 };
 

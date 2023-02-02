@@ -9,14 +9,17 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea,
+  TMTextArea
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
-import { addProject } from 'globalSlice';
+import { addGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { setAddProjectModalVisibility } from '../slices/projectSlice';
+import {
+  addProject,
+  setAddProjectModalVisibility
+} from '../slices/projectSlice';
 
 const AddProjects = ({ show }) => {
   const navigate = useNavigate();
@@ -36,19 +39,18 @@ const AddProjects = ({ show }) => {
 
   const createProjectHandler = () => {
     if (formData.name.length === 0) {
-      setFormError({ ...formError, nameError: "Name is not specified" });
-      return false;
-    }
-
-    addProjectsAPI(formData).then((res) => {
-      dispatch(addProject(res.data.project));
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.data.project.id,
-        }),
-      );
-      hideAddProjectModal();
-    });
+      setFormError({ ...formError, nameError: 'Name is not specified' });
+    } else
+      addProjectsAPI(formData).then((res) => {
+        dispatch(addProject(res.data.project));
+        dispatch(addGlobalProject(res.data.project));
+        navigate(
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId: res.data.project.id
+          })
+        );
+        hideAddProjectModal();
+      });
   };
 
   return (
@@ -65,12 +67,11 @@ const AddProjects = ({ show }) => {
             value={formData.name}
             errorText={formError.nameError}
             onChange={(e) => {
-                if (formError?.nameError && !e.currentTarget.value.length) {
-                  setFormError({ ...formError, nameError: '' });
-                }
-                setFormData({ ...formData, name: e.currentTarget.value })
+              if (formError?.nameError && !e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
               }
-            }
+              setFormData({ ...formData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <TMTextArea
@@ -103,11 +104,11 @@ const AddProjects = ({ show }) => {
 };
 
 AddProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 AddProjects.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default AddProjects;

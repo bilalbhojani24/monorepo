@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TMButton,
@@ -18,20 +18,21 @@ import EditProjects from './EditProjects';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
+  const navigate = useNavigate();
+
   const {
-    totalProjectsCount,
-    activeProjects,
+    metaPage,
+    allProjects,
     addingProject,
     showAddModal,
     showEditModal,
     showDeleteModal,
     handleClickDynamicLink,
     onDropDownChange,
-    tableNextPageHandler,
-    tableThisPageHandler,
-    tablePrevPageHandler
+    handlerPaginatedLoad,
+    fetchProjects
   } = useProjects();
-  const navigate = useNavigate();
+
   const tableColumns = [
     {
       name: 'ID',
@@ -56,7 +57,11 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={rowData.test_cases_count > 0 ? handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id) : handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onClick={
+            rowData.test_cases_count > 0
+              ? handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)
+              : handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)
+          }
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
@@ -106,8 +111,13 @@ const AllProjects = () => {
     }
   ];
 
+  useEffect(() => {
+    fetchProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className="flex flex-1 flex-col items-stretch">
+    <div className="flex flex-1 flex-col">
       {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
@@ -130,15 +140,21 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col items-stretch overflow-y-auto p-4">
-        <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start">
-          <TMDataTable columns={tableColumns} rows={activeProjects} />
-          {totalProjectsCount > perPageCount && (
+      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col overflow-y-auto p-4">
+        <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
+          <TMDataTable
+            columns={tableColumns}
+            rows={allProjects}
+            containerWrapperClass="shadow-none border-none"
+          />
+          {metaPage?.count > perPageCount && (
             <TMPagination
+              pageNumber={metaPage?.page || 0}
+              count={metaPage?.count || 0}
               pageSize={perPageCount}
-              onNextClick={tableNextPageHandler}
-              onPageNumberClick={tableThisPageHandler}
-              onPreviousClick={tablePrevPageHandler}
+              onNextClick={handlerPaginatedLoad}
+              onPageNumberClick={handlerPaginatedLoad}
+              onPreviousClick={handlerPaginatedLoad}
             />
           )}
         </div>
