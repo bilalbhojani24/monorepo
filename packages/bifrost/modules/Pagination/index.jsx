@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -44,7 +44,7 @@ const Pagination = (props) => {
   const [currentPage, setCurrentPage] = useState(pageNumber);
   const [totalPages, setTotalPages] = useState([]);
 
-  const getPageRangeNumbers = React.useCallback(() => {
+  const getPageRangeNumbers = useCallback(() => {
     const totalPagesPageNumbers = Math.ceil(count / pageSize);
     return Array.from(Array(totalPagesPageNumbers).keys(), (item) => item + 1);
   }, [count, pageSize]);
