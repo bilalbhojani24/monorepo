@@ -14,14 +14,14 @@ const useFolderExplorer = ({
   const [foldersArray, setFoldersArray] = useState([]);
 
   const fireOnFoldersUpdate = (folders, testCases) => {
-    onFoldersUpdate(folders, testCases);
+    onFoldersUpdate(folders, selectedNodesId, testCases);
   };
 
   const fetchAllFolders = () => {
     if (projectId && !allFolders && !folderId)
       getFolders({ projectId }).then((data) => {
         setFoldersArray(data?.folders || []);
-        fireOnFoldersUpdate(data?.folders);
+        fireOnFoldersUpdate(data?.folders, selectedNodesId);
       });
   };
 
@@ -47,7 +47,7 @@ const useFolderExplorer = ({
             folderId,
             onFolderClick
           );
-          fireOnFoldersUpdate(newMap, data?.test_cases || []);
+          fireOnFoldersUpdate(newMap, selectedNodesId, data?.test_cases || []);
           setFoldersArray(newMap);
         });
     } else {
