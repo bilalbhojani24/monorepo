@@ -90,7 +90,8 @@ export default function Folders() {
               description="You can get started by creating test cases/folders by entering details below."
               mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
               buttonProps={{
-                children: 'Create Folder',
+                  colors:"white",
+                  children: 'Create Folder',
                 onClick: showAddFolderModal
               }}
             />
