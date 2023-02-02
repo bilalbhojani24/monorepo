@@ -10,7 +10,7 @@ import {
 const initialState = {
   allFolders: [],
   allTestCases: [],
-  areTestCasesLoading: false,
+  isTestCasesLoading: false,
   selectedFolder: null,
   isAddTestCasePageVisible: false,
   testCaseFormData: {
@@ -69,7 +69,7 @@ export const repositorySlice = createSlice({
       state.testCaseBulkFormData[payload.key] = payload.value;
     },
     updateTestCasesListLoading: (state, { payload }) => {
-      state.areTestCasesLoading = payload;
+      state.isTestCasesLoading = payload;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
