@@ -25,7 +25,8 @@ export default function TestCases() {
     selectedFolder,
     allTestCases,
     isAddTestCasePageVisible,
-    isBulkUpdate
+    isBulkUpdate,
+    areTestCasesLoading
   } = useTestCases();
 
   if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
@@ -90,6 +91,7 @@ export default function TestCases() {
                   isCondensed
                   containerWrapperClass="md:rounded-none"
                   rows={allTestCases}
+                  isLoading={areTestCasesLoading}
                 />
               </div>
               <InlineAddTestCase />
