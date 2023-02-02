@@ -14,7 +14,6 @@ import { dropDownOptions, perPageCount } from '../const/projectsConst';
 import AddProjects from './AddProjects';
 import DeleteProjects from './DeleteProjects';
 import EditProjects from './EditProjects';
-import ImportStatus from './ImportStatus';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
@@ -107,7 +106,7 @@ const AllProjects = () => {
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
-      <ImportStatus />
+      {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
         actions={

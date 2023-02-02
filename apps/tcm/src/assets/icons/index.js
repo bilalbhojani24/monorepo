@@ -1,4 +1,5 @@
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
@@ -24,6 +25,7 @@ import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubl
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
@@ -32,6 +34,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 export {
   AccessTimeFilledIcon,
+  AccessTimeFilledRoundedIcon,
   AddBoxOutlinedIcon,
   ArrowBackOutlinedIcon,
   ArrowDownwardOutlinedIcon,
@@ -57,6 +60,7 @@ export {
   OpenInNewOutlinedIcon,
   PostAddIcon,
   RemoveOutlinedIcon,
+  ReportProblemOutlinedIcon,
   SearchIcon,
   SettingsOutlinedIcon,
   SourceOutlinedIcon,

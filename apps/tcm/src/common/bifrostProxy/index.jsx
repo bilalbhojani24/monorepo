@@ -4,6 +4,7 @@ import {
   Alerts,
   Attachments,
   Badge,
+  Banner,
   Button,
   Checkbox,
   ComboBox,
@@ -84,6 +85,7 @@ export const TMStackedListWSingleColumn = (props) => (
 export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
+export const TMBanner = (props) => <Banner {...props} />;
 
 export const TMDataTable = ({
   columns,

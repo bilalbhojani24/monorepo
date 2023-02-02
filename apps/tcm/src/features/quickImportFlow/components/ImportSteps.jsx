@@ -37,13 +37,13 @@ const ImportSteps = (props) => {
 ImportSteps.propTypes = {
   steps: arrayOf(
     shape({
-      name: string,
-    }),
-  ),
+      name: string
+    })
+  )
 };
 
 ImportSteps.defaultProps = {
-  steps: [],
+  steps: []
 };
 
 export default ImportSteps;
