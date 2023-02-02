@@ -18,7 +18,8 @@ const TestCaseBasicData = () => {
               isPrimary
               title="Steps"
               value={
-                typeof testCaseDetails?.steps?.[0] === 'string'
+                typeof testCaseDetails?.steps?.[0] === 'string' &&
+                testCaseDetails?.steps?.[0]?.length > 0
                   ? testCaseDetails?.steps?.[0]
                   : '--'
               }
@@ -31,11 +32,6 @@ const TestCaseBasicData = () => {
           </>
         ) : (
           <>
-            <DetailsSnippet
-              isPrimary
-              title="Description"
-              value={testCaseDetails?.description || '--'}
-            />
             <DetailsSnippet
               isPrimary
               title="All Steps & Results:"

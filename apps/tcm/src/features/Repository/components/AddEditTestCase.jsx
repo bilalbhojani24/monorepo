@@ -83,11 +83,11 @@ const AddEditTestCase = () => {
         />
       </div>
       <div className="max-h-[calc(100vh-14.2rem)] overflow-y-auto p-4 pt-0">
-        <div className="my-4 flex gap-4">
+        <div className="flex my-4 gap-4" >
           <div className="w-3/4">
             <TMInputField
               id="test-case-name"
-              label="Name of Test Case*"
+              label="Name of Test Case *"
               placeholder="Enter Test Case"
               value={testCaseFormData.name}
               onChange={(e) =>
@@ -99,7 +99,7 @@ const AddEditTestCase = () => {
           <div className="w-1/4">
             <TMSelectMenu
               checkPosition="right"
-              label="Choose Template*"
+              label="Choose Template"
               options={templateOptions}
               value={
                 testCaseFormData.template &&
@@ -179,7 +179,7 @@ const AddEditTestCase = () => {
               <div className="flex-1">
                 <TMSelectMenu
                   checkPosition="right"
-                  label="Priority*"
+                  label="Priority"
                   options={priorityOptions}
                   value={
                     testCaseFormData.priority &&

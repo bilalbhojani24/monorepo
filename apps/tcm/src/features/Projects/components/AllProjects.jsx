@@ -45,7 +45,7 @@ const AllProjects = () => {
           onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
-          PR-{rowData.id}
+          {rowData.identifier}
         </div>
       )
     },
