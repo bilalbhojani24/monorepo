@@ -11,11 +11,15 @@ const TestCaseBasicData = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+        <DetailsSnippet
+            title="Description"
+            value={testCaseDetails?.description || '--'}
+        />
+
+        <div className="flex flex-col">
         {testCaseDetails.template === templateOptions?.[0].value ? (
           <>
             <DetailsSnippet
-              isPrimary
               title="Steps"
               value={
                 typeof testCaseDetails?.steps?.[0] === 'string' &&
@@ -25,7 +29,6 @@ const TestCaseBasicData = () => {
               }
             />
             <DetailsSnippet
-              isPrimary
               title="Expected Result"
               value={testCaseDetails?.expected_result || '--'}
             />
@@ -57,7 +60,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Assigned to"
-              value={testCaseDetails?.owner || '--'}
+              value={testCaseDetails?.assignee ? testCaseDetails?.assignee.full_name : '--'}
             />
           </div>
           <div className="w-3/6">
