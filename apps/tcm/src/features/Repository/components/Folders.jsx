@@ -94,7 +94,8 @@ export default function Folders() {
             mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
             buttonProps={{
               children: 'Create Folder',
-              onClick: showAddFolderModal
+              onClick: showAddFolderModal,
+              colors: 'white'
             }}
           />
         </div>

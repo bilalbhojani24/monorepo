@@ -358,7 +358,7 @@ const AddEditTestCase = () => {
                   isUploading={isUploadInProgress}
                   multiple
                   wrapperClassName="w-64 h-36"
-                  heading="or drag and drop"
+                  heading=""
                   linkText="Upload a file"
                   subHeading="PNG, JPG, PDF up to 10MB"
                   onChange={fileUploaderHelper}
