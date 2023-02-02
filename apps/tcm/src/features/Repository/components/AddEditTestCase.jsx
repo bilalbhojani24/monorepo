@@ -111,7 +111,20 @@ const AddEditTestCase = () => {
             />
           </div>
         </div>
-
+        <div className="mt-4">
+          <TMTextArea
+              value={testCaseFormData.description}
+              id="test-case-description"
+              label="Description"
+              placeholder="Write in brief about this test case"
+              onChange={(e) =>
+                  handleTestCaseFieldChange(
+                      'description',
+                      e.currentTarget.value
+                  )
+              }
+          />
+        </div>
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
             <div className="mt-4">
@@ -193,20 +206,7 @@ const AddEditTestCase = () => {
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <TMTextArea
-                value={testCaseFormData.description}
-                id="test-case-description"
-                label="Description"
-                placeholder="Write in brief about this test case"
-                onChange={(e) =>
-                  handleTestCaseFieldChange(
-                    'description',
-                    e.currentTarget.value
-                  )
-                }
-              />
-            </div>
+
             <div className="mt-4 flex gap-4">
               <div className="flex-1">
                 <TMSelectMenu
