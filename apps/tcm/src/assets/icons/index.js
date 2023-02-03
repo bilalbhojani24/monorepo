@@ -20,6 +20,7 @@ import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import ErrorIcon from '@mui/icons-material/Error';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -57,6 +58,7 @@ export {
   ErrorIcon,
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
+  FilterAltOutlinedIcon,
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
   InfoOutlinedIcon,

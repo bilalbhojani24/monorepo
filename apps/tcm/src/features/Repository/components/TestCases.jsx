@@ -1,6 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { InfoOutlinedIcon, SearchIcon } from 'assets/icons';
+import {
+  FilterAltOutlinedIcon,
+  InfoOutlinedIcon,
+  SearchIcon
+} from 'assets/icons';
 import {
   TMButton,
   TMInputField,
@@ -49,6 +53,7 @@ export default function TestCases() {
               size="default"
               variant="primary"
               colors="white"
+              icon={<FilterAltOutlinedIcon className="!h-5 !w-5" />}
             >
               Filter
             </TMButton>
