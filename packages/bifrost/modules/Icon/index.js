@@ -32,6 +32,7 @@ import {
   XCircleIcon,
   XMarkIcon
 } from '@heroicons/react/20/solid';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FolderIconMiui from '@mui/icons-material/Folder';
 
 export {
@@ -54,6 +55,7 @@ export {
   EllipsisVerticalIcon,
   EnvelopeIcon,
   EnvelopeOpenIcon,
+  ErrorOutlineIcon,
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
   FolderIcon,

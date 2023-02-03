@@ -52,7 +52,7 @@ const ListTreeNode = ({
       </Disclosure.Button>
 
       <div className="text-info-400 mr-1 w-5 select-none">
-        <FolderIconMiui sx={{ width: 16 }} />
+        <FolderIconMiui className="max-h-4" />
       </div>
 
       <div
