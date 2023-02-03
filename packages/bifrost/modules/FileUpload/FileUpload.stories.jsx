@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { InsertPhotoOutlinedIcon } from '../Icon';
 
 import FileUpload from './index';
 
@@ -65,7 +66,12 @@ const defaultConfig = {
     wrapperClassName: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Classes to be passed to parent component'
+      description: 'Classes to be passed to base component'
+    },
+    icon: {
+      defaultValue: (
+        <InsertPhotoOutlinedIcon className="text-base-500 mx-auto" />
+      )
     }
   },
   controls: {}
@@ -82,7 +88,8 @@ Uploading.parameters = {
   controls: {}
 };
 Uploading.args = {
-  isUploading: true
+  isUploading: true,
+  heading: 'Uploading...'
 };
 
 export default defaultConfig;

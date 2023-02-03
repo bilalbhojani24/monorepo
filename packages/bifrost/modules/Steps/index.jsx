@@ -25,7 +25,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           'border-brand-600 md:border-l-0 md:border-t-4 md:pl-0 md:pt-4 md:pb-0':
             step.status === STEPS_STATUS[1],
           'group border-base-200 hover:border-base-300 md:border-l-0 md:border-t-4 md:pl-0 md:pt-4 md:pb-0':
-            step.status === STEPS_STATUS[2],
+            step.status === STEPS_STATUS[2]
         })}
       >
         <span
@@ -34,7 +34,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
               step.status === STEPS_STATUS[0],
             'text-brand-600': step.status === STEPS_STATUS[1],
             'text-base-500 group-hover:text-base-700':
-              step.status === STEPS_STATUS[2],
+              step.status === STEPS_STATUS[2]
           })}
         >
           Step - {stepIdx + 1}
@@ -56,7 +56,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           'relative flex items-center justify-center':
             step.status === STEPS_STATUS[1],
           'block h-2.5 w-2.5 rounded-full bg-base-200 hover:bg-base-400':
-            step.status === STEPS_STATUS[2],
+            step.status === STEPS_STATUS[2]
         })}
         aria-current="step"
       >
@@ -85,7 +85,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         className={twClassNames(
           stepIdx === 0 ? 'border-b-0 rounded-t-md' : '',
           stepIdx === steps.length - 1 ? 'border-t-0 rounded-b-md' : '',
-          'border border-base-200 overflow-hidden lg:border-0',
+          'border border-base-200 overflow-hidden lg:border-0'
         )}
         onClick={(e) => onClickHandler(e, step)}
         onKeyDown={(e) => onClickHandler(e, step)}
@@ -100,7 +100,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             <span
               className={twClassNames(
                 stepIdx !== 0 ? 'lg:pl-9' : '',
-                'py-5 px-6 flex items-start text-sm font-medium',
+                'py-5 px-6 flex items-start text-sm font-medium'
               )}
             >
               <span className="shrink-0">
@@ -129,7 +129,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             <span
               className={twClassNames(
                 stepIdx !== 0 ? 'lg:pl-9' : '',
-                'px-6 py-5 flex items-start text-sm font-medium',
+                'px-6 py-5 flex items-start text-sm font-medium'
               )}
             >
               <span className="shrink-0">
@@ -157,12 +157,12 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             <span
               className={twClassNames(
                 stepIdx !== 0 ? 'lg:pl-9' : '',
-                'px-6 py-5 flex items-start text-sm font-medium',
+                'px-6 py-5 flex items-start text-sm font-medium'
               )}
             >
               <span className="shrink-0">
                 <span className="border-base-300 flex h-10 w-10 items-center justify-center rounded-full border-2">
-                  <span className="text-base-500">{step.id}</span>
+                  <span className="text-base-500">{stepIdx + 1}</span>
                 </span>
               </span>
               <span className="mt-0.5 ml-4 flex min-w-0 flex-col">
@@ -209,7 +209,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
       className={twClassNames(
         stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '',
         'relative',
-        'cursor-pointer',
+        'cursor-pointer'
       )}
     >
       {step.status === 'complete' && (
@@ -350,9 +350,9 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         {
           'lg:border-t lg:border-b lg:border-base-200':
             format === STEPS_FORMAT[2],
-          'py-12 px-4 sm:px-6 lg:px-8': format === STEPS_FORMAT[4],
+          'py-12 px-4 sm:px-6 lg:px-8': format === STEPS_FORMAT[4]
         },
-        wrapperClassName,
+        wrapperClassName
       )}
     >
       <nav
@@ -361,7 +361,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           'flex items-center justify-center': format === STEPS_FORMAT[1],
           'overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-base-200':
             format === STEPS_FORMAT[2],
-          'flex justify-center': format === STEPS_FORMAT[4],
+          'flex justify-center': format === STEPS_FORMAT[4]
         })}
       >
         {format === STEPS_FORMAT[1] && (
@@ -378,7 +378,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             'overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-base-200 w-full':
               format === STEPS_FORMAT[2],
             'flex items-center justify-center': format === STEPS_FORMAT[3],
-            'space-y-6': format === STEPS_FORMAT[4],
+            'space-y-6': format === STEPS_FORMAT[4]
           })}
         >
           {steps.map((step, stepIdx) => {
@@ -411,17 +411,17 @@ Steps.propTypes = {
       id: PropTypes.string,
       name: PropTypes.string,
       description: PropTypes.string,
-      status: PropTypes.oneOf(STEPS_STATUS),
-    }),
+      status: PropTypes.oneOf(STEPS_STATUS)
+    })
   ).isRequired,
   format: PropTypes.string,
-  wrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 Steps.defaultProps = {
   label: '',
   onClick: () => {},
   format: STEPS_FORMAT[0],
-  wrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default Steps;

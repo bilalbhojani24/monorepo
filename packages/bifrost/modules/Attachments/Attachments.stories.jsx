@@ -1,4 +1,5 @@
 import React from 'react';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -26,7 +27,8 @@ const defaultConfig = {
             <Button variant="primary" colors="danger" size="extra-small">
               Delete
             </Button>
-          )
+          ),
+          id: '1'
         },
         {
           fileName: 'lorem.ipsum',
@@ -40,9 +42,18 @@ const defaultConfig = {
                 Delete
               </Button>
             </div>
-          )
+          ),
+          id: '2'
         }
       ]
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Classes to be passed to base accordion component'
+    },
+    icon: {
+      defaultValue: <AttachFileIcon className="text-base-400 font-light" />
     }
   },
   controls: {}
