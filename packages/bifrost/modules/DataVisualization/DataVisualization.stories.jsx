@@ -141,7 +141,16 @@ const defaultConfig = {
               id: '9',
               body: 'Archive',
               divider: true
-            },
+            }
+          ]}
+        />
+      )
+    },
+    otherOptions: {
+      defaultValue: (
+        <Dropdown
+          triggerVariant="menu-button"
+          options={[
             {
               id: '10',
               body: 'Edit'
@@ -159,9 +168,6 @@ const defaultConfig = {
           ]}
         />
       )
-    },
-    otherOptions: {
-      defaultValue: <Dropdown triggerVariant="menu-button" />
     },
     headerInfo: {
       control: { type: 'boolean' },

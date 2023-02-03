@@ -1,4 +1,5 @@
 const tailwindForms = require('@tailwindcss/forms');
+const tailwindLineClamp = require('@tailwindcss/line-clamp');
 
 module.exports = {
   content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
@@ -126,5 +127,5 @@ module.exports = {
   variants: {
     extend: {}
   },
-  plugins: [tailwindForms]
+  plugins: [tailwindForms, tailwindLineClamp]
 };
