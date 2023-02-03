@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { moveTestCasesBulkAPI } from 'api/testcases.api';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { getTestCasesAPI, moveTestCasesBulkAPI } from 'api/testcases.api';
 
 import {
   resetBulkSelection,
@@ -11,10 +11,13 @@ import {
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
-  updateAllTestCases
+  setMetaPage,
+  updateAllTestCases,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
+  const [searchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
@@ -32,6 +35,7 @@ const useTestCasesTable = () => {
     dispatch(setBulkUpdateProgress(data));
   };
 
+  const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.ids
   );
@@ -105,7 +109,23 @@ const useTestCasesTable = () => {
       });
   };
 
+  const fetchAllTestCases = () => {
+    if (folderId) {
+      dispatch(updateTestCasesListLoading(true));
+      const page = searchParams.get('p');
+      getTestCasesAPI({ projectId, folderId, page }).then((res) => {
+        dispatch(updateAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res.info));
+        dispatch(updateTestCasesListLoading(false));
+      });
+    } else dispatch(updateAllTestCases([]));
+  };
+
   return {
+    currentPage: searchParams.get('p'),
+    projectId,
+    folderId,
+    metaPage,
     showMoveModal,
     isAllSelected,
     selectedTestCaseIDs,
@@ -116,7 +136,8 @@ const useTestCasesTable = () => {
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler
+    moveTestCasesHandler,
+    fetchAllTestCases
   };
 };
 export default useTestCasesTable;

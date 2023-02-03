@@ -21,6 +21,7 @@ const AllProjects = () => {
   const navigate = useNavigate();
 
   const {
+    currentPage,
     metaPage,
     allProjects,
     addingProject,
@@ -29,7 +30,6 @@ const AllProjects = () => {
     showDeleteModal,
     handleClickDynamicLink,
     onDropDownChange,
-    handlerPaginatedLoad,
     fetchProjects
   } = useProjects();
 
@@ -114,7 +114,7 @@ const AllProjects = () => {
   useEffect(() => {
     fetchProjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -149,12 +149,9 @@ const AllProjects = () => {
           />
           {metaPage?.count > perPageCount && (
             <TMPagination
-              pageNumber={metaPage?.page || 0}
+              pageNumber={metaPage?.page || 1}
               count={metaPage?.count || 0}
               pageSize={perPageCount}
-              onNextClick={handlerPaginatedLoad}
-              onPageNumberClick={handlerPaginatedLoad}
-              onPreviousClick={handlerPaginatedLoad}
             />
           )}
         </div>

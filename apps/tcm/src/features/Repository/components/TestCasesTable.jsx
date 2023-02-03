@@ -13,10 +13,16 @@ import {
   RemoveOutlinedIcon
 } from 'assets/icons';
 import classNames from 'classnames';
-import { TMBadge, TMButton, TMCheckBox, TMDropdown } from 'common/bifrostProxy';
+import {
+  TMBadge,
+  TMButton,
+  TMCheckBox,
+  TMDropdown,
+  TMPagination
+} from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { dropDownOptions } from '../const/testCaseConst';
+import { dropDownOptions, perPageCount } from '../const/testCaseConst';
 
 import FolderExplorerModal from './FolderExplorerModal';
 import useTestCases from './useTestCases';
@@ -30,6 +36,7 @@ const TestCasesTable = ({
 }) => {
   const { onDropDownChange, handleTestCaseViewClick } = useTestCases();
   const {
+    metaPage,
     showMoveModal,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
@@ -225,7 +232,7 @@ const TestCasesTable = ({
             'Loading..'
           ) : (
             <>
-              {rows?.map((row, idx) => (
+              {rows?.map((row) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TableRow isSelected key={row.id}>
                   <TableCell
@@ -274,6 +281,13 @@ const TestCasesTable = ({
           )}
         </TableBody>
       </Table>
+      {metaPage?.count > perPageCount && (
+        <TMPagination
+          pageNumber={metaPage?.page || 1}
+          count={metaPage?.count || 0}
+          pageSize={perPageCount}
+        />
+      )}
       <FolderExplorerModal
         show={showMoveModal}
         heading="Move Test Cases"

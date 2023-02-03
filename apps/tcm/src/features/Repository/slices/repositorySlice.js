@@ -52,7 +52,13 @@ const initialState = {
     select_all: false
   },
   isBulkUpdateInit: false,
-  isBulkEditPageVisible: false
+  isBulkEditPageVisible: false,
+  metaPage: {
+    page: null,
+    next: null,
+    prev: null,
+    count: null
+  }
 };
 
 export const repositorySlice = createSlice({
@@ -152,6 +158,9 @@ export const repositorySlice = createSlice({
     },
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
+    },
+    setMetaPage: (state, { payload }) => {
+      state.metaPage = payload;
     }
   }
 });
@@ -182,7 +191,8 @@ export const {
   setBulkUpdateProgress,
   resetBulkSelection,
   updateBulkTestCaseFormData,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  setMetaPage
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

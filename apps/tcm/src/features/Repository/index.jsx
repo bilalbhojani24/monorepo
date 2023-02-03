@@ -5,11 +5,12 @@ import Folders from './components/Folders';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
-import useTestCases from './components/useTestCases';
+import useTestCasesTable from './components/useTestCasesTable';
 
 const Repository = () => {
   const { fetchAllFolders } = useFolders();
-  const { fetchAllTestCases, folderId, projectId } = useTestCases();
+  const { folderId, projectId, currentPage, fetchAllTestCases } =
+    useTestCasesTable();
 
   useEffect(() => {
     fetchAllFolders();
@@ -19,7 +20,7 @@ const Repository = () => {
   useEffect(() => {
     fetchAllTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, folderId]);
+  }, [projectId, folderId, currentPage]);
 
   return (
     <div className="flex flex-1 flex-col items-stretch">

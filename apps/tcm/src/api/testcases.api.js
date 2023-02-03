@@ -1,7 +1,9 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getTestCasesAPI = async ({ folderId, projectId }) =>
-  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`);
+export const getTestCasesAPI = async ({ folderId, projectId, page }) =>
+  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`, {
+    params: { p: page }
+  });
 
 export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
   fetchPost(

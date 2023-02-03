@@ -1,10 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  deleteTestCaseAPI,
-  deleteTestCasesBulkAPI,
-  getTestCasesAPI
-} from 'api/testcases.api';
+import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -18,8 +14,7 @@ import {
   setEditTestCasePageVisibility,
   setSelectedTestCase,
   setTestCaseFormData,
-  updateAllTestCases,
-  updateTestCasesListLoading
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
@@ -59,16 +54,6 @@ export default function useTestCases() {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
     dispatch(setBulkUpdateProgress(false));
-  };
-
-  const fetchAllTestCases = () => {
-    if (folderId) {
-      dispatch(updateTestCasesListLoading(true));
-      getTestCasesAPI({ projectId, folderId }).then((data) => {
-        dispatch(updateAllTestCases(data?.test_cases || []));
-        dispatch(updateTestCasesListLoading(false));
-      });
-    } else dispatch(updateAllTestCases([]));
   };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
@@ -143,7 +128,6 @@ export default function useTestCases() {
     isAddTestCasePageVisible,
     folderId,
     projectId,
-    fetchAllTestCases,
     handleTestCaseViewClick,
     isTestCaseViewVisible,
     showDeleteModal,

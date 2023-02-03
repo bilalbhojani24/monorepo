@@ -14,7 +14,7 @@ import {
 } from '../slices/projectSlice';
 
 const useProjects = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allProjects = useSelector((state) => state.projects.projects);
@@ -36,8 +36,8 @@ const useProjects = () => {
     dispatch(setAddProjectModalVisibility(true));
   };
 
-  const fetchProjects = (toBeLoadedPage) => {
-    getProjectsAPI(toBeLoadedPage || searchParams.get('p')).then((res) => {
+  const fetchProjects = () => {
+    getProjectsAPI(searchParams.get('p')).then((res) => {
       dispatch(setProjects(res.projects));
       dispatch(setMetaPage(res.info));
     });
@@ -62,14 +62,8 @@ const useProjects = () => {
     dispatch(setSelectedProject(selectedItem));
   };
 
-  const handlerPaginatedLoad = (toBeLoadedPage) => {
-    if (toBeLoadedPage === 1) setSearchParams({});
-    else setSearchParams({ p: toBeLoadedPage });
-
-    fetchProjects(toBeLoadedPage);
-  };
-
   return {
+    currentPage: searchParams.get('p'),
     metaPage,
     selectedProject,
     onDropDownChange,
@@ -79,7 +73,6 @@ const useProjects = () => {
     showDeleteModal,
     addingProject,
     handleClickDynamicLink,
-    handlerPaginatedLoad,
     fetchProjects
   };
 };
