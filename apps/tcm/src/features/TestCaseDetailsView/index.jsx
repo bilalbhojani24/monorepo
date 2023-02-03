@@ -6,7 +6,6 @@ import useTestCaseView from './components/useTestCaseView';
 
 const TestCaseDetailsView = () => {
   const {
-    testCaseDetails,
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,

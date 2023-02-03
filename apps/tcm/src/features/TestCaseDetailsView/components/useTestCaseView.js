@@ -51,10 +51,10 @@ export default function useTestCasesView() {
     dispatch(setTestCaseViewVisibility(false));
     if (folderId)
       navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
+        `${routeFormatter(AppRoute.TEST_CASES, {
           projectId,
           folderId
-        })
+        })}`
       );
   };
 

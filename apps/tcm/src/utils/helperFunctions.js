@@ -1,6 +1,10 @@
 import moment from 'moment';
 
-export const routeFormatter = (link, replaceConf) => {
+export const routeFormatter = (
+  link,
+  replaceConf,
+  maintainSearchParams = true
+) => {
   let tempLink = link;
   if (replaceConf)
     Object.keys(replaceConf).forEach((keyValue) => {
@@ -8,7 +12,8 @@ export const routeFormatter = (link, replaceConf) => {
     });
 
   tempLink = tempLink.split(':')[0].replace(/[?]/g, '');
-  return tempLink.slice(-1) === '/' ? tempLink.slice(0, -1) : tempLink;
+  tempLink = tempLink.slice(-1) === '/' ? tempLink.slice(0, -1) : tempLink;
+  return maintainSearchParams ? tempLink + window.location.search : tempLink;
 };
 
 export const formatTime = (date, to) => {
