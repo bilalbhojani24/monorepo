@@ -30,33 +30,41 @@ const AddEditFolderModal = ({
     notes: ''
   });
 
+  const [formError, setFormError] = useState({
+    nameError: ''
+  });
+
   const createFolderHandler = () => {
-    if (isSubFolder && folderId) {
-      addSubFolder({
-        projectId,
-        folderId,
-        payload: filledFormData
-      }).then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder, folderId);
-        hideFolderModal();
-      });
-    } else if (isEditFolder && folderId) {
-      renameFolder({
-        projectId,
-        folderId,
-        payload: filledFormData
-      }).then((item) => {
-        if (item.data?.folder) renameFolderHelper(item.data.folder, folderId);
-        hideFolderModal();
-      });
+    if (filledFormData.name.length === 0) {
+      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
     } else {
-      addFolder({
-        projectId,
-        payload: filledFormData
-      }).then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder);
-        hideFolderModal();
-      });
+      if (isSubFolder && folderId) {
+        addSubFolder({
+          projectId,
+          folderId,
+          payload: filledFormData
+        }).then((item) => {
+          if (item.data?.folder) updateFolders(item.data.folder, folderId);
+          hideFolderModal();
+        });
+      } else if (isEditFolder && folderId) {
+        renameFolder({
+          projectId,
+          folderId,
+          payload: filledFormData
+        }).then((item) => {
+          if (item.data?.folder) renameFolderHelper(item.data.folder, folderId);
+          hideFolderModal();
+        });
+      } else {
+        addFolder({
+          projectId,
+          payload: filledFormData
+        }).then((item) => {
+          if (item.data?.folder) updateFolders(item.data.folder);
+          hideFolderModal();
+        });
+      }
     }
   };
 
@@ -90,10 +98,15 @@ const AddEditFolderModal = ({
           <TMInputField
             wrapperClass="mb-2"
             label="Folder name"
-            placeholder="Folder Name"
+            placeholder="Ex. New Folder"
             value={filledFormData.name}
-            onChange={(e) =>
-              setFormData({ ...filledFormData, name: e.currentTarget.value })
+            errorText={formError.nameError}
+            onChange={(e) => {
+                if (formError?.nameError && e.currentTarget.value.length) {
+                  setFormError({ ...formError, nameError: '' });
+                }
+                setFormData({ ...filledFormData, name: e.currentTarget.value })
+              }
             }
           />
         </div>
