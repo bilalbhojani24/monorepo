@@ -8,7 +8,8 @@ export const isSettingsPage = () => /settings/.test(window.location.pathname);
 export const isReportsPage = () => /reports/.test(window.location.pathname);
 
 // screen reader
-export const isScreenReaderPage = () => /screen-reader/.test(window.location.pathname);
+export const isScreenReaderPage = () =>
+  /screen-reader/.test(window.location.pathname);
 
 export const isActivePage = (slug) => {
   const matcher = new RegExp(slug, 'g');

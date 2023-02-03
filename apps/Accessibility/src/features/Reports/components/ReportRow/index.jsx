@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
-// import Checkbox from 'trike/Checkbox';
 import { ASBadge, ASCheckbox } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
-// import { AccessTimeIcon, FiberManualRecordIcon, PersonIcon } from 'trike/Icons';
 import {
   handleClickByEnterOrSpace,
   updateUrlWithQueryParam
@@ -31,7 +29,8 @@ export default function ReportRow({ id }) {
     issues,
     issueSummary,
     isSelected,
-    pageCount
+    pageCount,
+    wcagVersion: { label }
   } = useSelector(getReport(id));
   const activeVersion = useSelector(getActiveVersion);
   const isSelectionMode = useSelector(getIsSelectionMode);
@@ -60,14 +59,12 @@ export default function ReportRow({ id }) {
       history.push(`reports/report?${path}`);
     }
   };
-  const map = {};
   const issueTypes = [
     { modifier: 'error', type: 'critical' },
     { modifier: 'error', type: 'serious' },
     { modifier: 'warn', type: 'moderate' },
     { modifier: 'base', type: 'minor' }
   ];
-  // ['base', 'primary', 'success', 'error', 'warn', 'info']
 
   return (
     <div
@@ -95,13 +92,10 @@ export default function ReportRow({ id }) {
           wrapperClass="border-0 flex items-center mr-6"
           // onClick={(e) => e.stopPropagation()}
         />
-        <div className="report-row__label">
-          <div className="report-row__label-content">
-            <p className="mb-2 text-sm font-medium" title={name}>
-              {name}
-            </p>
-            <div className="report-row__label-scan-type">{scanType}</div>
-          </div>
+        <div className="flex flex-col items-start justify-center">
+          <p className="mb-1 text-sm font-medium" title={name}>
+            {name}
+          </p>
           <div className="text-base-500 flex text-sm">
             <p className="mr-3">by {userName},</p>
             <div className="report-row__circle-divider" />
@@ -109,13 +103,19 @@ export default function ReportRow({ id }) {
           </div>
         </div>
       </div>
-      <div
-        className="report-row__issue-count-wrapper"
-        style={{ width: `${(window.innerWidth - 40) / 5}px` }}
-      >
-        <p className="report-row__issue-count">{issues} issues</p>
-        <p className="report-row__page-count">
-          in {pageCount} pages and {componentCount} components
+      <div className="flex flex-col items-start justify-center">
+        <ASBadge
+          hasDot={false}
+          hasRemoveButton={false}
+          isRounded={false}
+          text="Workflow scan"
+        />
+        <p className="text-base-500 mt-1 text-sm">{label}</p>
+      </div>
+      <div className="flex flex-col items-start justify-center">
+        <p className="text-base-900 text-sm">{issues} issues</p>
+        <p className="text-base-500 text-sm">
+          {pageCount} pages, {componentCount} components
         </p>
       </div>
       <div className="flex items-center">

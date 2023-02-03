@@ -18,25 +18,6 @@ import Reports from 'features/Reports';
 
 // const EmptyPage = lazy(() => import('bsA11y/EmptyPage'));
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: (
-//       <Dashboard>
-//         <Home />
-//       </Dashboard>
-//     )
-//   },
-//   {
-//     path: '/report',
-//     element: (
-//       <Dashboard>
-//         <Reports />
-//       </Dashboard>
-//     )
-//   }
-// ]);
-
 const Layout = () => (
   <Dashboard>
     <Routes>

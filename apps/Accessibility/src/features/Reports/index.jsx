@@ -1,10 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-// import classNames from 'classnames';
-import { versions } from 'constants';
 // import Logo from 'images/bsA11y/accessibility_logo.png';
 // import extensionImage from 'images/bsA11y/dashboard_img1.png';
-// import NotFound from 'images/bsA11y/not_found.svg';
+import NotFound from 'assets/not_found.svg';
+// import classNames from 'classnames';
+import { versions } from 'constants';
 // import { Button } from 'trike/Button';
 // import {
 //   ArrowForwardIcon,
@@ -43,17 +43,17 @@ export default function Reports() {
     onVersionSelect,
     handleClose
   } = useReports();
-  const filteredReportList = reportList.filter(({ wcagVersion: { label } }) =>
-    label.includes(activeVersion)
-  );
+  // const filteredReportList = reportList.filter(({ wcagVersion: { label } }) =>
+  //   label.includes(activeVersion)
+  // );
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(
+    ? reportList.filter(
         ({ name, createdBy: { name: userName } }) =>
           name.toLowerCase().includes(searchInput.toLowerCase()) ||
           userName.toLowerCase().includes(searchInput.toLowerCase())
       )
-    : filteredReportList;
+    : reportList;
 
   return (
     <div className="bg-base-50">
@@ -191,23 +191,20 @@ export default function Reports() {
             </div>
           </div>
         </div>
-        {/* {!isLoading && filteredReportList.length === 0 && (
-          <div className="reports__empty-table">
-            <div>
-              <div><img src={NotFound} alt="No reports found" /></div>
-              <p className="reports__empty-table-text">
+        {!isLoading && reportList.length === 0 && (
+          <div className="flex h-[calc(100vh_-_166px)] flex-col items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center justify-center">
+                <img src={NotFound} alt="No reports found" />
+              </div>
+              <p className="text-base-500 mt-4 flex items-center justify-center text-xl">
                 No saved reports for the selected WCAG version.
               </p>
             </div>
           </div>
-        )} */}
-        {searchFilterList.length > 0 && (
-          <div>
-            {searchFilterList.map(({ id }) => (
-              <ReportRow key={id} id={id} />
-            ))}
-          </div>
         )}
+        {searchFilterList.length > 0 &&
+          searchFilterList.map(({ id }) => <ReportRow key={id} id={id} />)}
       </div>
     </div>
   );

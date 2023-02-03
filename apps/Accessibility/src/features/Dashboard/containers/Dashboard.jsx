@@ -2,7 +2,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 // import Sidebar from 'app/bsA11y/Sidebar';
-import { ASSidebarItem, ASSidebarNavigation } from 'middleware/bifrost';
+import {
+  ASBadge,
+  ASSidebarItem,
+  ASSidebarNavigation
+} from 'middleware/bifrost';
 import { HomeOutlinedIcon } from 'middleware/icons';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 
@@ -13,10 +17,18 @@ export default function Dashboard({ children }) {
   const primaryNavs = [
     {
       id: 'dashboard',
-      label: 'All Projects',
+      label: 'All reports',
       activeIcon: HomeOutlinedIcon,
       inActiveIcon: HomeOutlinedIcon,
       path: '/dashboard'
+    },
+    {
+      id: 'dashboard',
+      label: 'Assistive tech',
+      activeIcon: HomeOutlinedIcon,
+      inActiveIcon: HomeOutlinedIcon,
+      path: '/dashboard',
+      badge: <ASBadge text="New" />
     }
   ];
 

@@ -15,9 +15,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Layout />
       </BrowserRouter>
-      {/* <Suspense fallback={<LayoutLoader />}>
-        
-      </Suspense> */}
     </Provider>
   </React.StrictMode>
 );
