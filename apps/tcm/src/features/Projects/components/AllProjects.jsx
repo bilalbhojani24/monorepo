@@ -10,6 +10,7 @@ import {
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
+import Loader from '../../../common/Loader';
 import { dropDownOptions, perPageCount } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -21,6 +22,7 @@ const AllProjects = () => {
   const navigate = useNavigate();
 
   const {
+    isLoading,
     currentPage,
     metaPage,
     allProjects,
@@ -142,11 +144,15 @@ const AllProjects = () => {
       />
       <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col overflow-y-auto p-4">
         <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
-          <TMDataTable
-            columns={tableColumns}
-            rows={allProjects}
-            containerWrapperClass="shadow-none border-none"
-          />
+          {isLoading ? (
+            <Loader wrapperClass="h-96" />
+          ) : (
+            <TMDataTable
+              columns={tableColumns}
+              rows={allProjects}
+              containerWrapperClass="shadow-none border-none"
+            />
+          )}
           {metaPage?.count > perPageCount && (
             <TMPagination
               pageNumber={metaPage?.page || 1}

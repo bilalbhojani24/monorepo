@@ -11,7 +11,8 @@ const initialState = {
     next: null,
     prev: null,
     count: null
-  }
+  },
+  isLoading: false
 };
 
 const projectSlice = createSlice({
@@ -50,11 +51,15 @@ const projectSlice = createSlice({
     },
     setMetaPage: (state, { payload }) => {
       state.metaPage = payload;
+    },
+    setLoading: (state, { payload }) => {
+      state.isLoading = payload;
     }
   }
 });
 
 export const {
+  setLoading,
   setProjects,
   addProject,
   updateProject,

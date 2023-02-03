@@ -23,6 +23,7 @@ import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
@@ -61,6 +62,7 @@ export {
   FilterAltOutlinedIcon,
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
+  HourglassBottomOutlinedIcon,
   InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   OpenInNewOutlinedIcon,
