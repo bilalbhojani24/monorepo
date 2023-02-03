@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
   deleteTestCaseAPI,
   deleteTestCasesBulkAPI,
   getTestCasesAPI
 } from 'api/testcases.api';
-import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
 
-import { dropDownOptions } from '../const/testCaseConst';
 import {
   deleteTestCase,
   resetBulkSelection,
@@ -18,8 +15,6 @@ import {
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
   setMetaPage,
-  setSelectedTestCase,
-  setTestCaseFormData,
   updateAllTestCases,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
@@ -27,7 +22,6 @@ import {
 export default function useTestCases() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterVisible, setFilter] = useState(false);
-  const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -71,29 +65,6 @@ export default function useTestCases() {
     dispatch(setBulkUpdateProgress(false));
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId,
-        testCaseId: testCaseItem?.id
-      })
-    );
-  };
-
-  const onDropDownChange = (e, selectedItem) => {
-    if (e.currentTarget.textContent === dropDownOptions[0].body) {
-      // edit
-      dispatch(setEditTestCasePageVisibility(true));
-      dispatch(setAddTestCaseVisibility(true));
-      dispatch(setTestCaseFormData(selectedItem));
-    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
-      // delete
-      dispatch(setDeleteTestCaseModalVisibility(true));
-    }
-    dispatch(setSelectedTestCase(selectedItem));
-  };
-
   const hideDeleteTestCaseModal = () => {
     dispatch(setDeleteTestCaseModalVisibility(false));
     setTimeout(() => {
@@ -102,54 +73,61 @@ export default function useTestCases() {
     }, 500);
   };
 
+  const bulkDeleteHandler = () => {
+    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(() => {
+      let updatedTestCases = [];
+      const updatedCount = bulkSelection.select_all
+        ? metaPage.count - bulkSelection.de_selected_ids.length
+        : metaPage.count - bulkSelection.ids.length;
+
+      if (bulkSelection.select_all) {
+        updatedTestCases = allTestCases.filter((item) =>
+          bulkSelection.de_selected_ids.includes(item.id)
+        );
+      } else {
+        updatedTestCases = allTestCases.filter(
+          (item) => !bulkSelection.ids.includes(item.id)
+        );
+      }
+
+      dispatch(
+        setMetaPage({
+          ...metaPage,
+          count: updatedCount
+        })
+      );
+      if (updatedTestCases.length === 0 && updatedCount > 0) {
+        // TC exists but need to fetch, set page to 1
+        setSearchParams({});
+      } else dispatch(updateAllTestCases(updatedTestCases));
+      dispatch(resetBulkSelection());
+      hideDeleteTestCaseModal();
+    });
+  };
+
+  const singleItemDeleteHelper = () => {
+    deleteTestCaseAPI({
+      projectId,
+      folderId,
+      testCaseId: selectedTestCase.id
+    }).then(() => {
+      dispatch(deleteTestCase([selectedTestCase.id]));
+      dispatch(
+        setMetaPage({
+          ...metaPage,
+          count: metaPage.count - 1
+        })
+      );
+      hideDeleteTestCaseModal();
+    });
+  };
+
   const deleteTestCaseHandler = () => {
     if (isBulkUpdate) {
-      deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(
-        () => {
-          let updatedTestCases = [];
-          const updatedCount = bulkSelection.select_all
-            ? metaPage.count - bulkSelection.de_selected_ids.length
-            : metaPage.count - bulkSelection.ids.length;
-
-          if (bulkSelection.select_all) {
-            updatedTestCases = allTestCases.filter((item) =>
-              bulkSelection.de_selected_ids.includes(item.id)
-            );
-          } else {
-            updatedTestCases = allTestCases.filter(
-              (item) => !bulkSelection.ids.includes(item.id)
-            );
-          }
-
-          dispatch(
-            setMetaPage({
-              ...metaPage,
-              count: updatedCount
-            })
-          );
-          if (updatedTestCases.length === 0 && updatedCount > 0) {
-            // TC exists but need to fetch, set page to 1
-            setSearchParams({});
-          } else dispatch(updateAllTestCases(updatedTestCases));
-          dispatch(resetBulkSelection());
-          hideDeleteTestCaseModal();
-        }
-      );
-    } else if (selectedTestCase)
-      deleteTestCaseAPI({
-        projectId,
-        folderId,
-        testCaseId: selectedTestCase.id
-      }).then(() => {
-        dispatch(deleteTestCase([selectedTestCase.id]));
-        dispatch(
-          setMetaPage({
-            ...metaPage,
-            count: metaPage.count - 1
-          })
-        );
-        hideDeleteTestCaseModal();
-      });
+      bulkDeleteHandler();
+    } else if (selectedTestCase) {
+      singleItemDeleteHelper();
+    }
   };
 
   const fetchAllTestCases = () => {
@@ -176,7 +154,6 @@ export default function useTestCases() {
     isFilterVisible,
     hideDeleteTestCaseModal,
     deleteTestCaseHandler,
-    onDropDownChange,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAddEditPage,
@@ -184,7 +161,6 @@ export default function useTestCases() {
     isAddTestCasePageVisible,
     folderId,
     projectId,
-    handleTestCaseViewClick,
     isTestCaseViewVisible,
     showDeleteModal,
     selectedTestCase,

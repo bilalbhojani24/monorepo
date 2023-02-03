@@ -37,34 +37,32 @@ const AddEditFolderModal = ({
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+    } else if (isSubFolder && folderId) {
+      addSubFolder({
+        projectId,
+        folderId,
+        payload: filledFormData
+      }).then((item) => {
+        if (item.data?.folder) updateFolders(item.data.folder, folderId);
+        hideFolderModal();
+      });
+    } else if (isEditFolder && folderId) {
+      renameFolder({
+        projectId,
+        folderId,
+        payload: filledFormData
+      }).then((item) => {
+        if (item.data?.folder) renameFolderHelper(item.data.folder, folderId);
+        hideFolderModal();
+      });
     } else {
-      if (isSubFolder && folderId) {
-        addSubFolder({
-          projectId,
-          folderId,
-          payload: filledFormData
-        }).then((item) => {
-          if (item.data?.folder) updateFolders(item.data.folder, folderId);
-          hideFolderModal();
-        });
-      } else if (isEditFolder && folderId) {
-        renameFolder({
-          projectId,
-          folderId,
-          payload: filledFormData
-        }).then((item) => {
-          if (item.data?.folder) renameFolderHelper(item.data.folder, folderId);
-          hideFolderModal();
-        });
-      } else {
-        addFolder({
-          projectId,
-          payload: filledFormData
-        }).then((item) => {
-          if (item.data?.folder) updateFolders(item.data.folder);
-          hideFolderModal();
-        });
-      }
+      addFolder({
+        projectId,
+        payload: filledFormData
+      }).then((item) => {
+        if (item.data?.folder) updateFolders(item.data.folder);
+        hideFolderModal();
+      });
     }
   };
 
@@ -102,12 +100,11 @@ const AddEditFolderModal = ({
             value={filledFormData.name}
             errorText={formError.nameError}
             onChange={(e) => {
-                if (formError?.nameError && e.currentTarget.value.length) {
-                  setFormError({ ...formError, nameError: '' });
-                }
-                setFormData({ ...filledFormData, name: e.currentTarget.value })
+              if (formError?.nameError && e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
               }
-            }
+              setFormData({ ...filledFormData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <TMTextArea

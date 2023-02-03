@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { moveTestCasesBulkAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
+import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkSelection,
   setAddTestCaseVisibility,
@@ -11,10 +14,14 @@ import {
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
+  setSelectedTestCase,
+  setTestCaseFormData,
   updateAllTestCases
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
+  const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
@@ -106,6 +113,29 @@ const useTestCasesTable = () => {
       });
   };
 
+  const onDropDownChange = (e, selectedItem) => {
+    if (e.currentTarget.textContent === dropDownOptions[0].body) {
+      // edit
+      dispatch(setEditTestCasePageVisibility(true));
+      dispatch(setAddTestCaseVisibility(true));
+      dispatch(setTestCaseFormData(selectedItem));
+    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+      // delete
+      dispatch(setDeleteTestCaseModalVisibility(true));
+    }
+    dispatch(setSelectedTestCase(selectedItem));
+  };
+
+  const handleTestCaseViewClick = (testCaseItem) => () => {
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId,
+        testCaseId: testCaseItem?.id
+      })
+    );
+  };
+
   return {
     projectId,
     folderId,
@@ -120,7 +150,9 @@ const useTestCasesTable = () => {
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler
+    moveTestCasesHandler,
+    onDropDownChange,
+    handleTestCaseViewClick
   };
 };
 export default useTestCasesTable;

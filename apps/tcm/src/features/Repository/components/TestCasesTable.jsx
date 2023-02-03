@@ -25,7 +25,6 @@ import PropTypes from 'prop-types';
 import { dropDownOptions, perPageCount } from '../const/testCaseConst';
 
 import FolderExplorerModal from './FolderExplorerModal';
-import useTestCases from './useTestCases';
 import useTestCasesTable from './useTestCasesTable';
 
 const TestCasesTable = ({
@@ -34,7 +33,6 @@ const TestCasesTable = ({
   isCondensed,
   isLoading
 }) => {
-  const { onDropDownChange, handleTestCaseViewClick } = useTestCases();
   const {
     metaPage,
     showMoveModal,
@@ -47,7 +45,9 @@ const TestCasesTable = ({
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler
+    moveTestCasesHandler,
+    onDropDownChange,
+    handleTestCaseViewClick
   } = useTestCasesTable({
     rows
   });
