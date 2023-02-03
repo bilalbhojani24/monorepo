@@ -13,15 +13,16 @@ const StepComponent = ({ data, onChange }) => {
           ? item
           : {
               ...item,
-              [key]: value,
-            },
-      ),
+              [key]: value
+            }
+      )
     );
   };
 
   const addNewStep = () => {
     onChange([...data, stepTemplate]);
   };
+
   const deleteStep = (index) => {
     if (data.length === 1) return;
     onChange(data.filter((_item, idx) => index !== idx));
@@ -75,7 +76,7 @@ const SingleStepComponent = ({
   data,
   onChange,
   onDelete,
-  isDeleteDisabled,
+  isDeleteDisabled
 }) => (
   <div className="mt-4 w-full">
     <div className="mb-2 flex items-center">
@@ -124,33 +125,33 @@ const SingleStepComponent = ({
 SingleStepComponent.propTypes = {
   data: PropTypes.shape({
     step: PropTypes.string,
-    expected_result: PropTypes.string,
+    expected_result: PropTypes.string
   }),
   onChange: PropTypes.func,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool,
-  index: PropTypes.number,
+  index: PropTypes.number
 };
 SingleStepComponent.defaultProps = {
   data: [],
   onChange: () => {},
   onDelete: () => {},
   isDeleteDisabled: false,
-  index: 0,
+  index: 0
 };
 
 StepComponent.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       step: PropTypes.string,
-      expected_result: PropTypes.string,
-    }),
+      expected_result: PropTypes.string
+    })
   ),
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 };
 StepComponent.defaultProps = {
   data: [],
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default StepComponent;
