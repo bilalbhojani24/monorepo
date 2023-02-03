@@ -8,7 +8,10 @@ const Attachments = ({ wrapperClassName, attachments, icon }) => (
   <div className={wrapperClassName}>
     <ul className="divide-base-200 border-base-200 divide-y rounded-md border sm:col-span-2">
       {attachments.map((attachment) => (
-        <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+        <li
+          className="flex items-center justify-between py-3 pl-3 pr-4 text-sm"
+          key={attachment.id}
+        >
           <div className="flex w-full flex-1 items-center">
             {icon}
             <span className="ml-2 w-0 flex-1 truncate">
@@ -27,7 +30,8 @@ Attachments.propTypes = {
   attachments: PropTypes.arrayOf(
     PropTypes.shape({
       fileName: PropTypes.string,
-      actions: PropTypes.node
+      actions: PropTypes.node,
+      id: PropTypes.string
     })
   ),
   icon: PropTypes.node

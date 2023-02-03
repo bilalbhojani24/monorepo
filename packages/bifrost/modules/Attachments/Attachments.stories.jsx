@@ -27,7 +27,8 @@ const defaultConfig = {
             <Button variant="primary" colors="danger" size="extra-small">
               Delete
             </Button>
-          )
+          ),
+          id: '1'
         },
         {
           fileName: 'lorem.ipsum',
@@ -41,7 +42,8 @@ const defaultConfig = {
                 Delete
               </Button>
             </div>
-          )
+          ),
+          id: '2'
         }
       ]
     },
