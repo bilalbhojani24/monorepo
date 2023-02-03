@@ -59,7 +59,7 @@ export default function useTestCases() {
 
   const selectedBulkTCCount = bulkSelection.select_all
     ? metaPage.count - bulkSelection.de_selected_ids.length
-    : metaPage.count - bulkSelection.ids.length;
+    : bulkSelection.ids.length;
 
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
