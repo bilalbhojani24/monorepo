@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 import { addFolder } from 'api/folders.api';
-import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
-  getTagsAPI,
   getTestCaseDetailsAPI,
   verifyTagAPI
 } from 'api/testcases.api';
@@ -29,10 +27,8 @@ import {
   setBulkUpdateProgress,
   setEditTestCasePageVisibility,
   setIssuesArray,
-  setLoadedDataProjectId,
   setTagsArray,
   setTestCaseFormData,
-  setUsers,
   updateAllTestCases,
   updateBulkTestCaseFormData,
   updateTestCase,
@@ -51,8 +47,12 @@ export default function useAddEditTestCase() {
   const [showMoreFields, setShowMoreFields] = useState(false);
   const dispatch = useDispatch();
 
+  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
+  );
+  const isBulkUpdate = useSelector(
+    (state) => state.repository.isBulkUpdateInit
   );
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm
@@ -75,7 +75,6 @@ export default function useAddEditTestCase() {
   const isBulkUpdateInit = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
-  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
@@ -98,10 +97,6 @@ export default function useAddEditTestCase() {
   };
   const showAddIssueModal = () => {
     dispatch(setAddIssuesModal(true));
-  };
-
-  const updateLoadedDataProjectId = () => {
-    dispatch(setLoadedDataProjectId(projectId));
   };
 
   const handleTestCaseFieldChange = (key, value) => {
@@ -159,35 +154,6 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const fetchUsers = () => {
-    getUsersOfProjectAPI(projectId).then((data) => {
-      dispatch(
-        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users])
-      );
-
-      updateLoadedDataProjectId();
-
-      // if (data?.myself?.id)
-      //   dispatch(
-      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
-      //   );
-    });
-  };
-  const fetchTags = () => {
-    getTagsAPI({ projectId }).then((data) => {
-      const mappedTags = selectMenuValueMapper(data?.tags);
-      dispatch(setTagsArray(mappedTags));
-      // handleTestCaseFieldChange('tags', mappedTags);
-    });
-  };
-
-  const initFormValues = () => {
-    if (loadedDataProjectId !== projectId) {
-      fetchUsers();
-      fetchTags();
-    }
-  };
-
   const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const addTestCaseAPIHelper = (formData, thisFolderID) => {
@@ -234,7 +200,7 @@ export default function useAddEditTestCase() {
       dispatch(
         updateAllTestCases(
           allTestCases.map(
-            (item) => res.testcases.find((inc) => inc.id === item.id) || item
+            (item) => res.test_cases.find((inc) => inc.id === item.id) || item
           )
         )
       );
@@ -362,6 +328,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    isBulkUpdate,
     testCaseBulkFormData,
     isUploadInProgress,
     isAddIssuesModalShown,
@@ -369,7 +336,6 @@ export default function useAddEditTestCase() {
     tagsArray,
     issuesArray,
     usersArrayMapped,
-    fetchUsers,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
@@ -387,7 +353,6 @@ export default function useAddEditTestCase() {
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    initFormValues,
     tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,

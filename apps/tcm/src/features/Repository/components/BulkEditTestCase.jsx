@@ -19,6 +19,7 @@ import {
 } from '../const/addTestCaseConst';
 
 import useAddEditTestCase from './useAddEditTestCase';
+import useTestCases from './useTestCases';
 
 const BulkEditTestCase = () => {
   const {
@@ -31,9 +32,9 @@ const BulkEditTestCase = () => {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    saveBulkEditHelper,
-    initFormValues
+    saveBulkEditHelper
   } = useAddEditTestCase();
+  const { initFormValues } = useTestCases();
 
   useEffect(() => {
     initFormValues();

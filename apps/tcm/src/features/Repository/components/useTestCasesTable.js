@@ -107,7 +107,7 @@ const useTestCasesTable = () => {
         newParentFolderId: selectedFolder.id,
         bulkSelection
       }).then((data) => {
-        dispatch(updateAllTestCases(data?.testcases || []));
+        dispatch(updateAllTestCases(data?.test_cases || []));
         dispatch(resetBulkSelection());
         hideFolderModal();
       });

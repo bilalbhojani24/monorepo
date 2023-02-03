@@ -30,6 +30,7 @@ import {
 
 import StepComponent from './StepComponent';
 import useAddEditTestCase from './useAddEditTestCase';
+import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
@@ -45,7 +46,6 @@ const AddEditTestCase = () => {
     isTestCaseEditing,
     showMoreFields,
     setShowMoreFields,
-    initFormValues,
     usersArrayMapped,
     tagsArray,
     issuesArray,
@@ -58,6 +58,8 @@ const AddEditTestCase = () => {
     hideAddIssueModal,
     addIssuesSaveHelper
   } = useAddEditTestCase();
+
+  const { initFormValues } = useTestCases();
 
   useEffect(() => {
     initFormValues();

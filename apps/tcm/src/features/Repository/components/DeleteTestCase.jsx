@@ -8,7 +8,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import useTestCases from './useTestCases';
+import useDeleteTestCase from './useDeleteTestCase';
 
 const DeleteTestCase = ({ show }) => {
   const {
@@ -16,7 +16,7 @@ const DeleteTestCase = ({ show }) => {
     hideDeleteTestCaseModal,
     isBulkUpdate,
     selectedBulkTCCount
-  } = useTestCases();
+  } = useDeleteTestCase();
 
   return (
     <TMModal

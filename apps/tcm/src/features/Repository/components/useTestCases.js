@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import {
-  deleteTestCaseAPI,
-  deleteTestCasesBulkAPI,
-  getTestCasesAPI
-} from 'api/testcases.api';
+import { getUsersOfProjectAPI } from 'api/projects.api';
+import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
-  deleteTestCase,
-  resetBulkSelection,
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
-  setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
+  setLoadedDataProjectId,
   setMetaPage,
+  setTagsArray,
+  setUsers,
   updateAllTestCases,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
@@ -25,12 +23,16 @@ export default function useTestCases() {
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
+  const isBulkUpdate = useSelector(
+    (state) => state.repository.isBulkUpdateInit
+  );
+  const loadedDataProjectId = useSelector(
+    (state) => state.repository.loadedDataProjectId
+  );
   const usersArray = useSelector((state) => state.repository.usersArray);
-  const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
   );
-  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const isTestCasesLoading = useSelector(
     (state) => state.repository.isTestCasesLoading
   );
@@ -47,14 +49,35 @@ export default function useTestCases() {
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
   );
-  const isBulkUpdate = useSelector(
-    (state) => state.repository.isBulkUpdateInit
-  );
 
-  const selectedBulkTCCount = bulkSelection.select_all
-    ? metaPage.count - bulkSelection.de_selected_ids.length
-    : bulkSelection.ids.length;
+  const fetchUsers = () => {
+    getUsersOfProjectAPI(projectId).then((data) => {
+      dispatch(
+        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users])
+      );
 
+      dispatch(setLoadedDataProjectId(projectId));
+
+      // if (data?.myself?.id)
+      //   dispatch(
+      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
+      //   );
+    });
+  };
+  const fetchTags = () => {
+    getTagsAPI({ projectId }).then((data) => {
+      const mappedTags = selectMenuValueMapper(data?.tags);
+      dispatch(setTagsArray(mappedTags));
+      // handleTestCaseFieldChange('tags', mappedTags);
+    });
+  };
+
+  const initFormValues = () => {
+    if (loadedDataProjectId !== projectId) {
+      fetchUsers();
+      fetchTags();
+    }
+  };
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
   };
@@ -63,71 +86,6 @@ export default function useTestCases() {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
     dispatch(setBulkUpdateProgress(false));
-  };
-
-  const hideDeleteTestCaseModal = () => {
-    dispatch(setDeleteTestCaseModalVisibility(false));
-    setTimeout(() => {
-      // animation wait
-      dispatch(setBulkUpdateProgress(false));
-    }, 500);
-  };
-
-  const bulkDeleteHandler = () => {
-    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(() => {
-      let updatedTestCases = [];
-      const updatedCount = bulkSelection.select_all
-        ? metaPage.count - bulkSelection.de_selected_ids.length
-        : metaPage.count - bulkSelection.ids.length;
-
-      if (bulkSelection.select_all) {
-        updatedTestCases = allTestCases.filter((item) =>
-          bulkSelection.de_selected_ids.includes(item.id)
-        );
-      } else {
-        updatedTestCases = allTestCases.filter(
-          (item) => !bulkSelection.ids.includes(item.id)
-        );
-      }
-
-      dispatch(
-        setMetaPage({
-          ...metaPage,
-          count: updatedCount
-        })
-      );
-      if (updatedTestCases.length === 0 && updatedCount > 0) {
-        // TC exists but need to fetch, set page to 1
-        setSearchParams({});
-      } else dispatch(updateAllTestCases(updatedTestCases));
-      dispatch(resetBulkSelection());
-      hideDeleteTestCaseModal();
-    });
-  };
-
-  const singleItemDeleteHelper = () => {
-    deleteTestCaseAPI({
-      projectId,
-      folderId,
-      testCaseId: selectedTestCase.id
-    }).then(() => {
-      dispatch(deleteTestCase([selectedTestCase.id]));
-      dispatch(
-        setMetaPage({
-          ...metaPage,
-          count: metaPage.count - 1
-        })
-      );
-      hideDeleteTestCaseModal();
-    });
-  };
-
-  const deleteTestCaseHandler = () => {
-    if (isBulkUpdate) {
-      bulkDeleteHandler();
-    } else if (selectedTestCase) {
-      singleItemDeleteHelper();
-    }
   };
 
   const fetchAllTestCases = () => {
@@ -140,7 +98,7 @@ export default function useTestCases() {
           dispatch(setMetaPage(res.info));
           dispatch(updateTestCasesListLoading(false));
         })
-        .catch((err) => {
+        .catch(() => {
           // if page error, reset p=1
           setSearchParams({});
         });
@@ -148,12 +106,10 @@ export default function useTestCases() {
   };
 
   return {
+    isBulkUpdate,
     currentPage: searchParams.get('p'),
-    selectedBulkTCCount,
     usersArray,
     isFilterVisible,
-    hideDeleteTestCaseModal,
-    deleteTestCaseHandler,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAddEditPage,
@@ -164,9 +120,10 @@ export default function useTestCases() {
     isTestCaseViewVisible,
     showDeleteModal,
     selectedTestCase,
-    isBulkUpdate,
     isTestCasesLoading,
     setFilter,
-    fetchAllTestCases
+    fetchAllTestCases,
+    fetchUsers,
+    initFormValues
   };
 }
