@@ -35,17 +35,25 @@ export default function useSideNav() {
         : selectedProjectId;
     return array.map((item) => ({
       ...item,
-      path: routeFormatter(item.path, {
-        projectId: replaceProjectId
-      })
+      path: routeFormatter(
+        item.path,
+        {
+          projectId: replaceProjectId
+        },
+        false
+      )
     }));
   };
 
   const onProjectChange = (project) => {
     navigate(
-      routeFormatter(activeRoute.id, {
-        projectId: project?.id
-      })
+      routeFormatter(
+        activeRoute.id,
+        {
+          projectId: project?.id
+        },
+        false
+      )
     );
   };
 
@@ -68,8 +76,7 @@ export default function useSideNav() {
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
     let exactMatchRoute = allNavs.find(
-      (item) =>
-        location.pathname === routeFormatter(item.path.split('?')[0], {}, false)
+      (item) => location.pathname === routeFormatter(item.path, {}, false)
     );
     if (!exactMatchRoute)
       // only if no exact match found then check for partial match
