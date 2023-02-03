@@ -1,5 +1,5 @@
 import React from 'react';
-import { HourglassBottomOutlinedIcon } from 'assets/icons';
+import LoaderIcon from 'assets/svg/loader.svg';
 import className from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,7 @@ const Loader = ({ isLoading, isOverlayed, wrapperClass }) => {
         }
       )}
     >
-      <HourglassBottomOutlinedIcon className="text-base-400 animate-spin" />
+      <img src={LoaderIcon} alt="" className="text-base-400 animate-spin" />
     </div>
   );
 };
