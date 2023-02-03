@@ -68,7 +68,8 @@ export default function useSideNav() {
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
     let exactMatchRoute = allNavs.find(
-      (item) => location.pathname === routeFormatter(item.path)
+      (item) =>
+        location.pathname === routeFormatter(item.path.split('?')[0], {}, false)
     );
     if (!exactMatchRoute)
       // only if no exact match found then check for partial match
