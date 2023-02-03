@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  deleteTestCaseAPI,
+  deleteTestCasesBulkAPI,
+  getTestCasesAPI
+} from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -16,10 +20,12 @@ import {
   setMetaPage,
   setSelectedTestCase,
   setTestCaseFormData,
-  updateAllTestCases
+  updateAllTestCases,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterVisible, setFilter] = useState(false);
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
@@ -101,6 +107,10 @@ export default function useTestCases() {
       deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(
         () => {
           let updatedTestCases = [];
+          const updatedCount = bulkSelection.select_all
+            ? metaPage.count - bulkSelection.de_selected_ids.length
+            : metaPage.count - bulkSelection.ids.length;
+
           if (bulkSelection.select_all) {
             updatedTestCases = allTestCases.filter((item) =>
               bulkSelection.de_selected_ids.includes(item.id)
@@ -110,15 +120,17 @@ export default function useTestCases() {
               (item) => !bulkSelection.ids.includes(item.id)
             );
           }
+
           dispatch(
             setMetaPage({
               ...metaPage,
-              count: bulkSelection.select_all
-                ? metaPage.count - bulkSelection.de_selected_ids.length
-                : metaPage.count - bulkSelection.ids.length
+              count: updatedCount
             })
           );
-          dispatch(updateAllTestCases(updatedTestCases));
+          if (updatedTestCases.length === 0 && updatedCount > 0) {
+            // TC exists but need to fetch, set page to 1
+            setSearchParams({});
+          } else dispatch(updateAllTestCases(updatedTestCases));
           dispatch(resetBulkSelection());
           hideDeleteTestCaseModal();
         }
@@ -140,7 +152,25 @@ export default function useTestCases() {
       });
   };
 
+  const fetchAllTestCases = () => {
+    if (folderId) {
+      dispatch(updateTestCasesListLoading(true));
+      const page = searchParams.get('p');
+      getTestCasesAPI({ projectId, folderId, page })
+        .then((res) => {
+          dispatch(updateAllTestCases(res?.test_cases || []));
+          dispatch(setMetaPage(res.info));
+          dispatch(updateTestCasesListLoading(false));
+        })
+        .catch((err) => {
+          // if page error, reset p=1
+          setSearchParams({});
+        });
+    } else dispatch(updateAllTestCases([]));
+  };
+
   return {
+    currentPage: searchParams.get('p'),
     selectedBulkTCCount,
     usersArray,
     isFilterVisible,
@@ -160,6 +190,7 @@ export default function useTestCases() {
     selectedTestCase,
     isBulkUpdate,
     isTestCasesLoading,
-    setFilter
+    setFilter,
+    fetchAllTestCases
   };
 }

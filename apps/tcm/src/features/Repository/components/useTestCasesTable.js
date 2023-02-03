@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { getTestCasesAPI, moveTestCasesBulkAPI } from 'api/testcases.api';
+import { useParams } from 'react-router-dom';
+import { moveTestCasesBulkAPI } from 'api/testcases.api';
 
 import {
   resetBulkSelection,
@@ -11,13 +11,10 @@ import {
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
-  setMetaPage,
-  updateAllTestCases,
-  updateTestCasesListLoading
+  updateAllTestCases
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
@@ -109,25 +106,7 @@ const useTestCasesTable = () => {
       });
   };
 
-  const fetchAllTestCases = () => {
-    if (folderId) {
-      dispatch(updateTestCasesListLoading(true));
-      const page = searchParams.get('p');
-      getTestCasesAPI({ projectId, folderId, page })
-        .then((res) => {
-          dispatch(updateAllTestCases(res?.test_cases || []));
-          dispatch(setMetaPage(res.info));
-          dispatch(updateTestCasesListLoading(false));
-        })
-        .catch((err) => {
-          // if page error, reset p=1
-          setSearchParams({});
-        });
-    } else dispatch(updateAllTestCases([]));
-  };
-
   return {
-    currentPage: searchParams.get('p'),
     projectId,
     folderId,
     metaPage,
@@ -141,8 +120,7 @@ const useTestCasesTable = () => {
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler,
-    fetchAllTestCases
+    moveTestCasesHandler
   };
 };
 export default useTestCasesTable;

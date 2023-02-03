@@ -5,12 +5,12 @@ import Folders from './components/Folders';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
-import useTestCasesTable from './components/useTestCasesTable';
+import useTestCases from './components/useTestCases';
 
 const Repository = () => {
   const { fetchAllFolders } = useFolders();
   const { folderId, projectId, currentPage, fetchAllTestCases } =
-    useTestCasesTable();
+    useTestCases();
 
   useEffect(() => {
     fetchAllFolders();

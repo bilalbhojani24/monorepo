@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteProjectAPI } from 'api/projects.api';
 import { WarningAmberOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -8,32 +6,12 @@ import {
   TMModalFooter,
   TMModalHeader
 } from 'common/bifrostProxy';
-import { deleteGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
-
-import {
-  deleteProject,
-  setDeleteProjectModalVisibility
-} from '../slices/projectSlice';
 
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
-  const { selectedProject } = useProjects();
-
-  const dispatch = useDispatch();
-  const hideDeleteProjectModal = () => {
-    dispatch(setDeleteProjectModalVisibility(false));
-  };
-
-  const deleteProjectHandler = () => {
-    if (selectedProject)
-      deleteProjectAPI(selectedProject.id).then((res) => {
-        dispatch(deleteProject(res.data.project));
-        dispatch(deleteGlobalProject(res.data.project));
-        hideDeleteProjectModal();
-      });
-  };
+  const { hideDeleteProjectModal, deleteProjectHandler } = useProjects();
 
   return (
     <TMModal

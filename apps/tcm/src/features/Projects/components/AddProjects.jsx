@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addProjectsAPI } from 'api/projects.api';
+import React from 'react';
 import {
   TMButton,
   TMInputField,
@@ -11,47 +8,19 @@ import {
   TMModalHeader,
   TMTextArea
 } from 'common/bifrostProxy';
-import AppRoute from 'const/routes';
-import { addGlobalProject } from 'globalSlice';
 import PropTypes from 'prop-types';
-import { routeFormatter } from 'utils/helperFunctions';
 
-import {
-  addProject,
-  setAddProjectModalVisibility
-} from '../slices/projectSlice';
+import useProjects from './useProjects';
 
 const AddProjects = ({ show }) => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: ''
-  });
-
-  const [formError, setFormError] = useState({
-    nameError: ''
-  });
-
-  const dispatch = useDispatch();
-  const hideAddProjectModal = () => {
-    dispatch(setAddProjectModalVisibility(false));
-  };
-
-  const createProjectHandler = () => {
-    if (formData.name.length === 0) {
-      setFormError({ ...formError, nameError: 'Name is not specified' });
-    } else
-      addProjectsAPI(formData).then((res) => {
-        dispatch(addProject(res.data.project));
-        dispatch(addGlobalProject(res.data.project));
-        navigate(
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId: res.data.project.id
-          })
-        );
-        hideAddProjectModal();
-      });
-  };
+  const {
+    createProjectHandler,
+    hideAddProjectModal,
+    formData,
+    setFormData,
+    formError,
+    setFormError
+  } = useProjects();
 
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideAddProjectModal}>
