@@ -84,7 +84,9 @@ const TestCaseMutliData = () => {
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
-            item.name === 'Results' ? testRunsCount : testCaseIssues?.length
+            item.name === 'Results'
+              ? `${testRunsCount}`
+              : `${testCaseIssues?.length}`
         }))}
         onTabChange={handleTabChange}
       />

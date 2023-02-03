@@ -27,7 +27,8 @@ const useFolderExplorer = ({
 
   const folderClickHandler = (selectedFolder) => {
     if (isSingleSelect) {
-      if (selectedFolder?.id) setSelectedNodesId([`${selectedFolder.id}`]);
+      if (selectedFolder?.id)
+        setSelectedNodesId([parseInt(selectedFolder.id, 10)]);
     } else {
       // multi select TODO
     }
@@ -54,10 +55,11 @@ const useFolderExplorer = ({
       if (openedFolder?.contents) {
         // if the current selected folder is in the closing folder
         const isChildrenIDs = selectedNodesId.filter((item) =>
-          findFolder(openedFolder.contents, parseInt(item, 10))
+          findFolder(openedFolder.contents, item)
         );
         if (isChildrenIDs.length) {
-          if (isSingleSelect) setSelectedNodesId([openedFolder.id]);
+          if (isSingleSelect)
+            setSelectedNodesId([parseInt(openedFolder.id, 10)]);
         } else {
           // TODO multi selection
         }
@@ -97,7 +99,7 @@ const useFolderExplorer = ({
   useEffect(() => {
     if (isSingleSelect) {
       const thisFolderID = folderId || allFolders[0].id;
-      setSelectedNodesId([thisFolderID]);
+      setSelectedNodesId([parseInt(thisFolderID, 10)]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [folderId]);

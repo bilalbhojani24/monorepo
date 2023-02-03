@@ -126,7 +126,7 @@ const TestCasesTable = ({
           {rowData.tags.length > 0 ? (
             <div className="mt-1 flex gap-1">
               {rowData.tags.map((item) => (
-                <TMBadge text={item} size="large" isRounded />
+                <TMBadge text={item} size="large" key={item} isRounded />
               ))}
             </div>
           ) : (
@@ -173,16 +173,18 @@ const TestCasesTable = ({
                   selectedTestCaseIDs.length === rows.length
                 }
                 indeterminate={
-                  (isAllSelected && deSelectedTestCaseIDs.length) ||
-                  (selectedTestCaseIDs.length &&
-                    selectedTestCaseIDs.length !== rows.length)
+                  !!(
+                    (isAllSelected && deSelectedTestCaseIDs.length) ||
+                    (selectedTestCaseIDs.length &&
+                      selectedTestCaseIDs.length !== rows.length)
+                  )
                 }
                 onChange={selectAll}
               />
             </TableCell>
             {datatableColumns?.map((col, index) => (
               <TableCell
-                key={col.key}
+                key={col.key || index}
                 variant="body"
                 wrapperClass={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
@@ -236,9 +238,9 @@ const TestCasesTable = ({
             'Loading..'
           ) : (
             <>
-              {rows?.map((row) => (
+              {rows?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <TableRow isSelected key={row.id}>
+                <TableRow isSelected key={row.id || index}>
                   <TableCell
                     variant="body"
                     wrapperClass={classNames(

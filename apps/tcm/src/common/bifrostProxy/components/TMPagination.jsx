@@ -25,13 +25,15 @@ const TMPagination = (props) => {
 };
 
 TMPagination.propTypes = {
-  attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onActionClick: PropTypes.func.isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.object),
+  onActionClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 
 TMPagination.defaultProps = {
-  wrapperClassName: ''
+  attachments: [],
+  wrapperClassName: '',
+  onActionClick: () => {}
 };
 
 export default TMPagination;

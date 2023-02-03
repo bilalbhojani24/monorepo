@@ -96,7 +96,7 @@ const TestCaseBasicData = () => {
                 testCaseDetails?.tags.length > 0 ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
                     {testCaseDetails.tags.map((item) => (
-                      <TMBadge text={item} size="large" isRounded />
+                      <TMBadge text={item} size="large" key={item} isRounded />
                     ))}
                   </div>
                 ) : (
@@ -113,6 +113,7 @@ const TestCaseBasicData = () => {
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
                     {testCaseDetails?.issues?.map((item) => (
                       <TMButton
+                        key={item.jira_id}
                         text={item.jira_id}
                         size="extra-small"
                         colors="white"

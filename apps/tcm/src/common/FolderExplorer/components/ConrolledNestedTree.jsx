@@ -37,7 +37,7 @@ const ConrolledNestedTree = ({
           label={item.name}
           description=""
           // nodeLabelClassName="max-w-xs"
-          isNodeSelected={selectedNodesId.includes(`${item?.id}`)}
+          isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
           onNodeClick={() => onFolderClick(item)}
           onNodeOpen={() => onFolderOpen(item)}
           trailingVisualElement={
