@@ -7,7 +7,7 @@ import {
   ArrowUpwardOutlinedIcon,
   InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
-  RemoveOutlinedIcon,
+  RemoveOutlinedIcon
 } from 'assets/icons';
 import { TMDataTable } from 'common/bifrostProxy';
 
@@ -40,12 +40,12 @@ const TableForModal = () => {
       name: 'ID',
       key: 'id',
 
-      cell: (rowData) => `TC-${rowData?.id}`,
+      cell: (rowData) => `TC-${rowData?.id}`
     },
     {
       name: 'TITLE',
       key: 'name',
-      cell: (rowData) => rowData.name,
+      cell: (rowData) => rowData.name
     },
     {
       name: 'PRIORITY',
@@ -55,12 +55,12 @@ const TableForModal = () => {
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
-      ),
-    },
+      )
+    }
   ];
 
   const { id: currentFolderId, name: currentFolderName } = useSelector(
-    (state) => state.testRuns.currentFolder,
+    (state) => state.testRuns.currentFolder
   );
 
   const handleTableRowSelect = (_, selectedItems) => {
@@ -71,7 +71,7 @@ const TableForModal = () => {
   useEffect(() => {
     if (currentFolderId) {
       getTestCasesAPI({ projectId, folderId: currentFolderId }).then((data) => {
-        setTestCases(data.testcases);
+        setTestCases(data.test_cases);
       });
     }
   }, [projectId, currentFolderId]);

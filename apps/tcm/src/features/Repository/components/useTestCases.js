@@ -31,7 +31,9 @@ export default function useTestCases() {
     (state) => state.repository.selectedFolder
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
-  const isTestCasesLoading = useSelector((state) => state.repository.isTestCasesLoading);
+  const isTestCasesLoading = useSelector(
+    (state) => state.repository.isTestCasesLoading
+  );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -63,11 +65,10 @@ export default function useTestCases() {
     if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       getTestCasesAPI({ projectId, folderId }).then((data) => {
-        dispatch(updateAllTestCases(data?.testcases || []));
+        dispatch(updateAllTestCases(data?.test_cases || []));
         dispatch(updateTestCasesListLoading(false));
       });
-    }
-    else dispatch(updateAllTestCases([]));
+    } else dispatch(updateAllTestCases([]));
   };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
