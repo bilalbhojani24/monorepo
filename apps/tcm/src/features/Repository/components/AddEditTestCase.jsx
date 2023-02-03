@@ -1,6 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
+import {
+  ExpandLessOutlinedIcon,
+  ExpandMoreOutlinedIcon,
+  InfoOutlinedIcon
+} from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
 import {
@@ -157,11 +161,20 @@ const AddEditTestCase = () => {
             onChange={(data) => handleTestCaseFieldChange('steps', data)}
           />
         )}
-        <div className="w-full">
+        <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
           <TMButton
             onClick={() => setShowMoreFields(!showMoreFields)}
-            fullWidth
-            wrapperClassName="mt-4"
+            colors="white"
+            variant="rounded"
+            wrapperClassName="w-44 relative pr-2 z-1 bg-white"
+            iconPlacement="end"
+            icon={
+              showMoreFields ? (
+                <ExpandLessOutlinedIcon className="!h-4 !w-4" />
+              ) : (
+                <ExpandMoreOutlinedIcon className="!h-4 !w-4" />
+              )
+            }
           >
             Show {showMoreFields ? 'Less' : 'More'} Fields
           </TMButton>
