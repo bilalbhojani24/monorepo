@@ -1,13 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/javascript">
+    window.ASSETS_PUBLIC_PATH = '';
+    window.ENV = 'dev';
+    window.CDN_KEYS = [''];
+    window.BrowserStackEnterprise = false;
+    window.BrowserStackConfig = {
+      "delighted_key": "P1RAl2dN37WXRw6F",
+      "cookie_domain": ".browserstack.com",
+      "main_cookie_domain": "browserstack.com",
+      "env_name": "production",
+      "subdomains": {
+        "default": "www",
+        "live": "live",
+        "web-performance": "www",
+        "automate": "automate",
+        "app-automate": "app-automate",
+        "app-live": "app-live",
+        "accessibility": "accessibility",
+        "accounts": "accounts",
+        "observability": "observability",
+        "observability-api": "api-observability"
+      },
+      "domain": "browserstack.com",
+      "enterprise_subdomains": {
+        "default": "enterprise",
+        "live": "live-enterprise",
+        "automate": "automate-enterprise",
+        "app-automate": "app-automate-enterprise",
+        "app-live": "app-live-enterprise",
+        "accessibility": "accessibility-enterprise",
+        "accounts": "accounts-enterprise",
+        "observability": "observability-enterprise"
+      },
+      "all_bs_subdomains": [
+        "www",
+        "live",
+        "www",
+        "automate",
+        "app-automate",
+        "app-live",
+        "accessibility",
+        "accounts",
+        "observability",
+        "api-observability",
+        "enterprise",
+        "live-enterprise",
+        "automate-enterprise",
+        "app-automate-enterprise",
+        "app-live-enterprise",
+        "accessibility-enterprise",
+        "accounts-enterprise",
+        "observability-enterprise",
+        "api"
+      ],
+      "cookie_seperator": "___",
+      "sentryURL": "https://js.sentry-cdn.com/d4f5f8819d024da89ba38c52e1259819.min.js",
+      "apiSubdomain": "api",
+      "apiEnterpriseSubdomain": "api-enterprise",
+      "pusher": {
+        "serverAddress": "https://pusher-live.browserstack.com"
+      },
+      "isRailsDevEnv": false
+    };
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
