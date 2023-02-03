@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
@@ -12,16 +13,20 @@ import {
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
+  setMetaPage,
   setSelectedTestCase,
   setTestCaseFormData,
   updateAllTestCases
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const [isFilterVisible, setFilter] = useState(false);
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
+  const usersArray = useSelector((state) => state.repository.usersArray);
+  const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
   );
@@ -45,6 +50,10 @@ export default function useTestCases() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
+
+  const selectedBulkTCCount = bulkSelection.select_all
+    ? metaPage.count - bulkSelection.de_selected_ids.length
+    : metaPage.count - bulkSelection.ids.length;
 
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
@@ -101,8 +110,16 @@ export default function useTestCases() {
               (item) => !bulkSelection.ids.includes(item.id)
             );
           }
-          dispatch(resetBulkSelection());
+          dispatch(
+            setMetaPage({
+              ...metaPage,
+              count: bulkSelection.select_all
+                ? metaPage.count - bulkSelection.de_selected_ids.length
+                : metaPage.count - bulkSelection.ids.length
+            })
+          );
           dispatch(updateAllTestCases(updatedTestCases));
+          dispatch(resetBulkSelection());
           hideDeleteTestCaseModal();
         }
       );
@@ -113,11 +130,20 @@ export default function useTestCases() {
         testCaseId: selectedTestCase.id
       }).then(() => {
         dispatch(deleteTestCase([selectedTestCase.id]));
+        dispatch(
+          setMetaPage({
+            ...metaPage,
+            count: metaPage.count - 1
+          })
+        );
         hideDeleteTestCaseModal();
       });
   };
 
   return {
+    selectedBulkTCCount,
+    usersArray,
+    isFilterVisible,
     hideDeleteTestCaseModal,
     deleteTestCaseHandler,
     onDropDownChange,
@@ -133,6 +159,7 @@ export default function useTestCases() {
     showDeleteModal,
     selectedTestCase,
     isBulkUpdate,
-    isTestCasesLoading
+    isTestCasesLoading,
+    setFilter
   };
 }

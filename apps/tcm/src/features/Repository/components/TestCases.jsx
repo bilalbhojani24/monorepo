@@ -17,6 +17,7 @@ import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
 import BulkEditTestCase from './BulkEditTestCase';
 import DeleteTestCase from './DeleteTestCase';
+import Filter from './Filter';
 import InlineAddTestCase from './InlineAddTestCase';
 import TestCasesTable from './TestCasesTable';
 import useTestCases from './useTestCases';
@@ -25,12 +26,14 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    isFilterVisible,
     showDeleteModal,
     selectedFolder,
     allTestCases,
     isAddTestCasePageVisible,
     isBulkUpdate,
-    isTestCasesLoading
+    isTestCasesLoading,
+    setFilter
   } = useTestCases();
 
   if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
@@ -40,7 +43,7 @@ export default function TestCases() {
     <div className="flex w-full flex-col items-start">
       {allTestCases.length ? (
         <>
-          <div className="border-base-300 flex w-full items-start border-b py-3 pr-3">
+          <div className="border-base-300 relative z-[1] flex w-full items-start border-b py-3 pr-3">
             <div className="w-full">
               <TMInputField
                 placeholder="Search by Test Case name, ID"
@@ -48,6 +51,7 @@ export default function TestCases() {
               />
             </div>
             <TMButton
+              onClick={() => setFilter(!isFilterVisible)}
               buttonType="half-rounded-button"
               wrapperClassName="ml-3"
               size="default"
@@ -55,8 +59,9 @@ export default function TestCases() {
               colors="white"
               icon={<FilterAltOutlinedIcon className="!h-5 !w-5" />}
             >
-              Filter
+              Filter {isFilterVisible}
             </TMButton>
+            {/* {isFilterVisible && <Filter onCancel={() => setFilter(false)} />} */}
           </div>
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
             {selectedFolder && (

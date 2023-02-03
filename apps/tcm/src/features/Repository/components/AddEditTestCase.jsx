@@ -166,7 +166,7 @@ const AddEditTestCase = () => {
             onClick={() => setShowMoreFields(!showMoreFields)}
             colors="white"
             variant="rounded"
-            wrapperClassName="w-44 relative pr-2 z-1 bg-white"
+            wrapperClassName="w-44 relative pr-2 z-[1] bg-white"
             iconPlacement="end"
             icon={
               showMoreFields ? (

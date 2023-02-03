@@ -205,20 +205,24 @@ const TestCasesTable = ({
                     >
                       Move
                     </TMButton>
-                    <TMButton
-                      colors="white"
-                      size="extra-small"
-                      onClick={initBulkEdit}
-                    >
-                      Edit
-                    </TMButton>
-                    <TMButton
-                      colors="white"
-                      size="extra-small"
-                      onClick={initBulkDelete}
-                    >
-                      Delete
-                    </TMButton>
+                    {(selectedTestCaseIDs.length > 1 || isAllSelected) && (
+                      <>
+                        <TMButton
+                          colors="white"
+                          size="extra-small"
+                          onClick={initBulkEdit}
+                        >
+                          Bulk Edit
+                        </TMButton>
+                        <TMButton
+                          colors="white"
+                          size="extra-small"
+                          onClick={initBulkDelete}
+                        >
+                          Bulk Delete
+                        </TMButton>
+                      </>
+                    )}
                   </div>
                 ) : (
                   ''

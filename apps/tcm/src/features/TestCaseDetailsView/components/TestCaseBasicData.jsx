@@ -11,20 +11,20 @@ const TestCaseBasicData = () => {
 
   return (
     <>
-        <DetailsSnippet
-            title="Description"
-            value={testCaseDetails?.description || '--'}
-        />
+      <DetailsSnippet
+        title="Description"
+        value={testCaseDetails?.description || '--'}
+      />
 
-        <div className="flex flex-col">
+      <div className="flex flex-col">
         {testCaseDetails.template === templateOptions?.[0].value ? (
           <>
             <DetailsSnippet
               title="Steps"
               value={
                 typeof testCaseDetails?.steps?.[0] === 'string' &&
-                testCaseDetails?.steps?.[0]?.length > 0
-                  ? testCaseDetails?.steps?.[0]
+                testCaseDetails?.steps?.[0]?.length
+                  ? testCaseDetails?.steps?.[0] // this will be a string
                   : '--'
               }
             />
@@ -60,7 +60,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Assigned to"
-              value={testCaseDetails?.assignee ? testCaseDetails?.assignee.full_name : '--'}
+              value={testCaseDetails?.assignee?.full_name || '--'}
             />
           </div>
           <div className="w-3/6">
@@ -80,7 +80,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="State"
-              value={testCaseDetails?.status.split('_')?.[0] || '--'}
+              value={testCaseDetails?.status?.split('_')?.[0] || '--'}
             />
           </div>
           <div className="w-3/6">
@@ -109,10 +109,9 @@ const TestCaseBasicData = () => {
             <DetailsSnippet
               title="Issues"
               value={
-                testCaseDetails?.issues &&
-                testCaseDetails?.issues.length > 0 ? (
+                testCaseDetails?.issues?.length ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
-                    {testCaseDetails.issues.map((item) => (
+                    {testCaseDetails?.issues?.map((item) => (
                       <TMButton
                         text={item.jira_id}
                         size="extra-small"
@@ -133,7 +132,7 @@ const TestCaseBasicData = () => {
         <DetailsSnippet
           title="Attachments"
           value={
-            testCaseDetails?.attachments.length ? (
+            testCaseDetails?.attachments?.length ? (
               <TMAttachments
                 wrapperClassName="mt-2"
                 attachments={testCaseDetails?.attachments || []}

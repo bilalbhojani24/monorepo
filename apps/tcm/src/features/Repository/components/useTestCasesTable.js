@@ -17,7 +17,7 @@ import {
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
@@ -113,11 +113,16 @@ const useTestCasesTable = () => {
     if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       const page = searchParams.get('p');
-      getTestCasesAPI({ projectId, folderId, page }).then((res) => {
-        dispatch(updateAllTestCases(res?.test_cases || []));
-        dispatch(setMetaPage(res.info));
-        dispatch(updateTestCasesListLoading(false));
-      });
+      getTestCasesAPI({ projectId, folderId, page })
+        .then((res) => {
+          dispatch(updateAllTestCases(res?.test_cases || []));
+          dispatch(setMetaPage(res.info));
+          dispatch(updateTestCasesListLoading(false));
+        })
+        .catch((err) => {
+          // if page error, reset p=1
+          setSearchParams({});
+        });
     } else dispatch(updateAllTestCases([]));
   };
 

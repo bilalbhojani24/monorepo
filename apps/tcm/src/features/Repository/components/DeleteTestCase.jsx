@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useTestCases from './useTestCases';
 
 const DeleteTestCase = ({ show }) => {
-  const { deleteTestCaseHandler, hideDeleteTestCaseModal, isBulkUpdate } =
-    useTestCases();
+  const {
+    deleteTestCaseHandler,
+    hideDeleteTestCaseModal,
+    isBulkUpdate,
+    selectedBulkTCCount
+  } = useTestCases();
 
   return (
     <TMModal
@@ -21,7 +25,11 @@ const DeleteTestCase = ({ show }) => {
       onOverlayClick={hideDeleteTestCaseModal}
     >
       <TMModalHeader
-        heading={isBulkUpdate ? 'Delete Test Cases' : 'Delete Test Case'}
+        heading={
+          isBulkUpdate
+            ? `Delete ${selectedBulkTCCount} Test Cases`
+            : 'Delete Test Case'
+        }
         subHeading={
           isBulkUpdate
             ? 'Are you sure you want to delete the selected test cases? All the data within this test case will be lost. This action cannot be undone.'

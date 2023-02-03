@@ -3,7 +3,7 @@ import moment from 'moment';
 export const routeFormatter = (
   link,
   replaceConf,
-  maintainSearchParams = true
+  maintainSearchParams = false
 ) => {
   let tempLink = link;
   if (replaceConf)
