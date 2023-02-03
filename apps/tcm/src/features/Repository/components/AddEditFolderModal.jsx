@@ -90,7 +90,7 @@ const AddEditFolderModal = ({
           <TMInputField
             wrapperClass="mb-2"
             label="Folder name"
-            placeholder="Enter Folder Name"
+            placeholder="Folder Name"
             value={filledFormData.name}
             onChange={(e) =>
               setFormData({ ...filledFormData, name: e.currentTarget.value })
