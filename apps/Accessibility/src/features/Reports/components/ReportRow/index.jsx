@@ -34,11 +34,15 @@ export default function ReportRow({ id }) {
   } = useSelector(getReport(id));
   const activeVersion = useSelector(getActiveVersion);
   const isSelectionMode = useSelector(getIsSelectionMode);
-  const history = useNavigate();
-  const onReportCheckBoxClick = (isChecked) => {
+  const navigate = useNavigate();
+  const onReportCheckBoxClick = (event) => {
+    const isChecked = event.target.checked;
     dispatch(setIsReportSelected({ id, isSelected: isChecked }));
   };
-  const onReportClick = () => {
+  const onReportClick = (e) => {
+    if (e.target.id === 'checkbox') {
+      return;
+    }
     if (isSelectionMode) {
       dispatch(setIsReportSelected({ id, isSelected: !isSelected }));
     } else {
@@ -56,7 +60,8 @@ export default function ReportRow({ id }) {
         ids: id,
         wcagVersion: activeVersion.split('WCAG ')[1]
       });
-      history.push(`reports/report?${path}`);
+      navigate(`report?${path}`);
+      // history.push(`reports/report?${path}`);
     }
   };
   const issueTypes = [
@@ -71,12 +76,10 @@ export default function ReportRow({ id }) {
       tabIndex={0}
       role="button"
       onKeyDown={(e) => handleClickByEnterOrSpace(e, onReportClick)}
-      // className="report-row"
-      className="border-base-200 flex border-b bg-white py-4 px-6"
+      className="border-base-200 flex border-b bg-white"
       onClick={onReportClick}
     >
       <div
-        // className="report-row__selection"
         className="flex"
         style={{ width: `${(window.innerWidth - 40) / 3}px` }}
       >
@@ -89,7 +92,7 @@ export default function ReportRow({ id }) {
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
-          wrapperClass="border-0 flex items-center mr-6"
+          wrapperClass="border-0 flex items-center w-16 justify-center"
           // onClick={(e) => e.stopPropagation()}
         />
         <div className="flex flex-col items-start justify-center">
@@ -98,29 +101,34 @@ export default function ReportRow({ id }) {
           </p>
           <div className="text-base-500 flex text-sm">
             <p className="mr-3">by {userName},</p>
-            <div className="report-row__circle-divider" />
             <div>{format(new Date(time), 'MMM dd, yyyy, hh:mm aaa')}</div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-start justify-center">
+      <div
+        className="flex flex-col items-start justify-center"
+        style={{ minWidth: '140px' }}
+      >
         <ASBadge
           hasDot={false}
           hasRemoveButton={false}
           isRounded={false}
           text="Workflow scan"
         />
-        <p className="text-base-500 mt-1 text-sm">{label}</p>
+        <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
       </div>
-      <div className="flex flex-col items-start justify-center">
+      <div
+        className="flex flex-col items-start justify-center px-6 pt-4 pb-5"
+        style={{ minWidth: '234px' }}
+      >
         <p className="text-base-900 text-sm">{issues} issues</p>
-        <p className="text-base-500 text-sm">
+        <p className="text-base-500 overflow-hidden text-ellipsis text-sm">
           {pageCount} pages, {componentCount} components
         </p>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center" style={{ minWidth: '427px' }}>
         {issueTypes.map(({ modifier, type }) => (
-          <div className="mr-2">
+          <div className="mr-2" key={type}>
             <ASBadge
               hasDot={false}
               hasRemoveButton={false}
@@ -138,5 +146,5 @@ export default function ReportRow({ id }) {
 }
 
 ReportRow.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.number.isRequired
 };

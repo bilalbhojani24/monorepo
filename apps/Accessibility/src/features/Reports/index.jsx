@@ -141,28 +141,27 @@ export default function Reports() {
                 ]}
               />
             </div>
-            <div>
+            <div className="flex items-center">
+              {selectedReportsLength > 0 && (
+                <ASButton
+                  icon={<CloseIcon />}
+                  variant="secondary"
+                  onClick={resetSelection}
+                  wrapperClassName="mr-2"
+                >
+                  Clear {selectedReportsLength} selected
+                </ASButton>
+              )}
               <ASButton
                 variant="primary"
                 iconPlacement="end"
                 icon={<ArrowForwardIcon />}
                 onClick={onReportConsolidateButtonClick}
-                // disabled={isMergeDisabled}
+                disabled={isMergeDisabled}
               >
                 View consolidated report
               </ASButton>
             </div>
-          </div>
-          <div className="flex" tabIndex={0} role="button">
-            {selectedReportsLength > 0 && (
-              <ASButton
-                icon={<CloseIcon />}
-                modifier="grey"
-                onClick={resetSelection}
-              >
-                Clear {selectedReportsLength} selected
-              </ASButton>
-            )}
           </div>
         </div>
       </div>
