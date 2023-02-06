@@ -99,7 +99,7 @@ const TooltipContainer = (props) => {
   );
 };
 
-TooltipContainer.propTypes = {
+export const TooltipPropTypes = {
   arrowClassName: PropTypes.string,
   arrowWidth: PropTypes.number,
   arrowHeight: PropTypes.number,
@@ -121,6 +121,8 @@ TooltipContainer.propTypes = {
   show: PropTypes.bool,
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME)
 };
+
+TooltipContainer.propTypes = TooltipPropTypes;
 TooltipContainer.defaultProps = {
   arrowClassName: '',
   arrowWidth: 20,
