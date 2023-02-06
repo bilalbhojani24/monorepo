@@ -29,6 +29,14 @@ export default function Dashboard({ children }) {
       inActiveIcon: HomeOutlinedIcon,
       path: '/dashboard',
       badge: <ASBadge text="New" />
+    },
+    {
+      id: 'dashboard',
+      label: 'Website scanner',
+      activeIcon: HomeOutlinedIcon,
+      inActiveIcon: HomeOutlinedIcon,
+      path: '/dashboard',
+      badge: <ASBadge text="New" />
     }
   ];
 

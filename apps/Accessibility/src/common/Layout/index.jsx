@@ -9,8 +9,8 @@ import React, { Suspense } from 'react';
 // import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from 'features/Dashboard';
-import Home from 'features/Home';
 import Reports from 'features/Reports';
+import SiteScanner from 'features/SiteScanner';
 // import { Route, Routes } from 'react-router-dom';
 // import App from 'src/App';
 // import LayoutLoader from 'app/_components/LayoutLoader';
@@ -22,6 +22,7 @@ const Layout = () => (
   <Dashboard>
     <Routes>
       <Route path="reports" element={<Reports />} />
+      <Route path="site-scanner" element={<SiteScanner />} />
       {/* <Route path="/" element={<div>Hello</div>}>
         
       </Route> */}

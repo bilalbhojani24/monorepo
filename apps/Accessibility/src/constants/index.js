@@ -6,7 +6,8 @@ export const ROUTES = {
   home: '/',
   reports: '/reports',
   settings: '/settings',
-  screenReader: '/screen-reader'
+  screenReader: '/screen-reader',
+  siteScanner: '/site-scanner'
 };
 
 // export const SCREEN_READER_LIVE_URL = Config.generate_url(
