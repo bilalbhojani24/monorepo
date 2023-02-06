@@ -31,7 +31,6 @@ const SelectMenu = (props) => {
     value
   } = props;
 
-  console.log('default value', defaultValue, options);
   const renderSingleOptions = (opts) => {
     if (opts)
       return (
