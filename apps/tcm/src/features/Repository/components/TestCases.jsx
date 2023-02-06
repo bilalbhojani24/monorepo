@@ -61,7 +61,7 @@ export default function TestCases() {
             >
               Filter {isFilterVisible}
             </TMButton>
-            {/* {isFilterVisible && <Filter onCancel={() => setFilter(false)} />} */}
+            {isFilterVisible && <Filter onCancel={() => setFilter(false)} />}
           </div>
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
             {selectedFolder && (

@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
@@ -10,8 +10,23 @@ import {
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
+import useFilter from './useFilter';
+import useTestCases from './useTestCases';
+
 const Filter = ({ onCancel }) => {
-  const [filterSelections, setFilterSelections] = useState({});
+  const { initFormValues } = useTestCases();
+  const {
+    ownersFilteredArray,
+    tagsArray,
+    filterSelections,
+    setFilterSelections,
+    applyFilterHandler
+  } = useFilter();
+
+  useEffect(() => {
+    initFormValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const priorityOptions = [
     {
@@ -61,7 +76,7 @@ const Filter = ({ onCancel }) => {
             leadingIcon={<SearchIcon className="text-base-400" />}
           />
           <div className="mt-4 w-full overflow-y-auto">
-            {priorityOptions.map((item) => (
+            {ownersFilteredArray.map((item) => (
               <TMCheckBox
                 border={false}
                 wrapperClass="pt-0 mb-2"
@@ -111,7 +126,7 @@ const Filter = ({ onCancel }) => {
         <TMButton colors="white" onClick={onCancel}>
           Cancel
         </TMButton>
-        <TMButton>Apply Filters</TMButton>
+        <TMButton onClick={applyFilterHandler}>Apply Filters</TMButton>
       </div>
     </div>
   );
