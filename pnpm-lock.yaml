@@ -16,7 +16,7 @@ importers:
       '@browserstack/stylelint-config': link:packages/stylelint-config
       husky: 8.0.3
       lint-staged: 13.1.0
-      turbo: 1.7.2
+      turbo: 1.7.3
 
   apps/Accessibility:
     specifiers:
@@ -43,10 +43,12 @@ importers:
       postcss-preset-env: ^7.8.3
       prop-types: 15.8.1
       react: ^18.2.0
+      react-copy-to-clipboard: ^5.1.0
       react-dom: ^18.2.0
       react-redux: ^8.0.5
       react-router-dom: ^6.6.1
       redux: ^4.2.1
+      reselect: ^4.1.7
       sass: ^1.57.1
       stylelint: ^14.16.0
       stylelint-config-prettier: ^9.0.4
@@ -69,10 +71,12 @@ importers:
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
+      react-copy-to-clipboard: 5.1.0_react@18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-redux: 8.0.5_r7hvvldj6g2s5chfsdsflfq664
       react-router-dom: 6.8.0_biqbaboplfbrettd7655fr4n2y
       redux: 4.2.1
+      reselect: 4.1.7
     devDependencies:
       '@browserstack/stylelint-config': link:../../packages/stylelint-config
       '@browserstack/tailwind-config': link:../../packages/tailwind-config
@@ -9339,7 +9343,6 @@ packages:
     resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
     dependencies:
       toggle-selection: 1.0.6
-    dev: true
 
   /core-js-compat/3.27.2:
     resolution: {integrity: sha512-welaYuF7ZtbYKGrIy7y3eb40d37rG1FvzEOfe7hSLd2iD6duMDqUhRfSvCGyC46HhR6Y8JXXdZ2lnRUMkPBpvg==}
@@ -17645,6 +17648,16 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: true
 
+  /react-copy-to-clipboard/5.1.0_react@18.2.0:
+    resolution: {integrity: sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==}
+    peerDependencies:
+      react: ^15.3.0 || 16 || 17 || 18
+    dependencies:
+      copy-to-clipboard: 3.3.3
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-dev-utils/12.0.1_5nsnk2aswgmt3bqwilhpeaeih4:
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}
     engines: {node: '>=14'}
@@ -20253,7 +20266,6 @@ packages:
 
   /toggle-selection/1.0.6:
     resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
-    dev: true
 
   /toidentifier/1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
@@ -20366,6 +20378,15 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-darwin-64/1.7.3:
+    resolution: {integrity: sha512-7j9+j1CVztmdevnClT3rG/GRhULf3ukwmv+l48l8uwsXNI53zLso+UYMql6RsjZDbD6sESwh0CHeKNwGmOylFA==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo-darwin-arm64/1.7.2:
@@ -20373,6 +20394,15 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-darwin-arm64/1.7.3:
+    resolution: {integrity: sha512-puS9+pqpiy4MrIvWRBTg3qfO2+JPXR7reQcXQ7qUreuyAJnSw9H9/TIHjeK6FFxUfQbmruylPtH6dNpfcML9CA==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo-linux-64/1.7.2:
@@ -20380,6 +20410,15 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-linux-64/1.7.3:
+    resolution: {integrity: sha512-BnbpgcK8Wag6fhnff7tMaecswmFHN/T56VIDnjcwcJnK9H3jdwpjwZlmcDtkoslzjPj3VuqHyqLDMvSb3ejXSg==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo-linux-arm64/1.7.2:
@@ -20387,6 +20426,15 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-linux-arm64/1.7.3:
+    resolution: {integrity: sha512-+epY+0dfjmAJNZHfj7rID2hENRaeM3D0Ijqkhh/M53o46fQMwPNqI5ff9erh+f9r8sWuTpVnRlZeu7TE1P/Okw==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo-windows-64/1.7.2:
@@ -20394,6 +20442,15 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-windows-64/1.7.3:
+    resolution: {integrity: sha512-/2Z8WB4fASlq/diO6nhmHYuDCRPm3dkdUE6yhwQarXPOm936m4zj3xGQA2eSWMpvfst4xjVxxU7P7HOIOyWChA==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo-windows-arm64/1.7.2:
@@ -20401,6 +20458,15 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: false
+    optional: true
+
+  /turbo-windows-arm64/1.7.3:
+    resolution: {integrity: sha512-UD9Uhop42xj1l1ba5LRdwqRq1Of+RgqQuv+QMd1xOAZ2FXn/91uhkfLv+H4Pkiw7XdUohOxpj/FcOvjCiiUxGw==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
     optional: true
 
   /turbo/1.7.2:
@@ -20414,6 +20480,20 @@ packages:
       turbo-linux-arm64: 1.7.2
       turbo-windows-64: 1.7.2
       turbo-windows-arm64: 1.7.2
+    dev: false
+
+  /turbo/1.7.3:
+    resolution: {integrity: sha512-mrqo72vPQO6ykmARThaNP/KXPDuBDSqDXfkUxD8hX1ET3YSFbOWJixlHU32tPtiFIhScIKbEGShEVWBrLeM0wg==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      turbo-darwin-64: 1.7.3
+      turbo-darwin-arm64: 1.7.3
+      turbo-linux-64: 1.7.3
+      turbo-linux-arm64: 1.7.3
+      turbo-windows-64: 1.7.3
+      turbo-windows-arm64: 1.7.3
+    dev: true
 
   /type-check/0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}

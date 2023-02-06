@@ -1,31 +1,23 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-import React, { Suspense } from 'react';
-// import Report from 'bsA11y/Report';
-// import Reports from 'bsA11y/Reports';
-// import ScreenReader from 'bsA11y/ScreenReader';
-// import Settings from 'bsA11y/Settings';
-// import RootPathContainer from './RootPathContainer';
-// import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { BASE_ROUTE, ROUTES } from 'constants';
 import Dashboard from 'features/Dashboard';
+import Report from 'features/Report';
 import Reports from 'features/Reports';
+import ScreenReader from 'features/ScreenReader';
 import SiteScanner from 'features/SiteScanner';
-// import { Route, Routes } from 'react-router-dom';
-// import App from 'src/App';
-// import LayoutLoader from 'app/_components/LayoutLoader';
-// import { BASE_ROUTE, ROUTES } from 'src/constants';
 
 // const EmptyPage = lazy(() => import('bsA11y/EmptyPage'));
 
 const Layout = () => (
   <Dashboard>
     <Routes>
-      <Route path="reports" element={<Reports />} />
-      <Route path="site-scanner" element={<SiteScanner />} />
-      {/* <Route path="/" element={<div>Hello</div>}>
-        
-      </Route> */}
+      <Route path={ROUTES.reports} element={<Reports />} />
+      <Route exact path={ROUTES.screenReader} element={<ScreenReader />} />
+      <Route exact path={ROUTES.report} element={<Report />} />
+      <Route path={ROUTES.siteScanner} element={<SiteScanner />} />
     </Routes>
   </Dashboard>
   // <Routes>

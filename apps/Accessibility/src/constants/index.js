@@ -4,16 +4,20 @@ export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const ROUTES = {
   report: '/reports/report',
   home: '/',
-  reports: '/reports',
+  reports: 'reports',
   settings: '/settings',
-  screenReader: '/screen-reader',
-  siteScanner: '/site-scanner'
+  screenReader: 'screen-reader',
+  siteScanner: 'site-scanner'
 };
 
-// export const SCREEN_READER_LIVE_URL = Config.generate_url(
-//   '/screen-reader/start',
-//   'accessibility'
-// );
+const Config = {
+  generate_url: () => 'hello'
+};
+
+export const SCREEN_READER_LIVE_URL = Config.generate_url(
+  '/screen-reader/start',
+  'accessibility'
+);
 
 export const NEEDS_REVIEW_BANNER_TEXT = {
   ACCEPTED: "This 'Needs Review' instance has been confirmed as an issue",
