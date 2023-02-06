@@ -173,6 +173,7 @@ export default function useFolders() {
         injectFolderToParent(allFolders, folderItem, parentId)
       );
     }
+    updateRouteHelper(folderItem);
   };
 
   const renameFolderHelper = (folderItem) => {
@@ -233,10 +234,10 @@ export default function useFolders() {
             hideFolderModal();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           // TODO: give proper info
           // eslint-dsable no-console
-          console.log(error.response.data.errors[0].title);
+          // console.log(error.response.data.errors[0].title);
         });
     }
   };
