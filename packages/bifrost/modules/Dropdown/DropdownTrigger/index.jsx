@@ -1,5 +1,5 @@
 import React from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Menu } from '@headlessui/react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -9,12 +9,12 @@ import { DROPDOWN_TYPES } from '../const/dropdownConstants';
 const DropdownTrigger = ({ triggerVariant, triggerTitle }) => (
   <div>
     {triggerVariant === DROPDOWN_TYPES[0] ? (
-      <DropdownMenu.Trigger className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+      <Menu.Button className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
         {triggerTitle}
         <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-      </DropdownMenu.Trigger>
+      </Menu.Button>
     ) : (
-      <DropdownMenu.Trigger
+      <Menu.Button
         className={classNames(
           'flex items-center rounded-full bg-base-100 text-base-400 hover:text-base-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-base-100',
           {
@@ -30,7 +30,7 @@ const DropdownTrigger = ({ triggerVariant, triggerTitle }) => (
           })}
           aria-hidden="true"
         />
-      </DropdownMenu.Trigger>
+      </Menu.Button>
     )}
   </div>
 );
