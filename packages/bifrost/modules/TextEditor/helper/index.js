@@ -1,10 +1,15 @@
 /* eslint-disable prefer-promise-reject-errors */
 
+export const TINYMCE_API_KEY =
+  '93wwi5nts6xoefzltfebudmklr0b6iedyvrg115pnula0wkd';
+
+const ASSET_UPLOAD_URL = 'https://api.imgbb.com/1/upload';
+
 export const imageUploadHandler = (blobInfo, progress, assetUploadURL) =>
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
-    xhr.open('POST', assetUploadURL || 'https://api.imgbb.com/1/upload');
+    xhr.open('POST', assetUploadURL || ASSET_UPLOAD_URL);
 
     xhr.upload.onprogress = (e) => {
       progress((e.loaded / e.total) * 100);

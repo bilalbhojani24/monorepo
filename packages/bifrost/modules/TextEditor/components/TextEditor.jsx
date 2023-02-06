@@ -2,7 +2,7 @@
 import React, { forwardRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-import { imageUploadHandler } from '../helper';
+import { imageUploadHandler, TINYMCE_API_KEY } from '../helper';
 
 const TextEditor = forwardRef((props, ref) => {
   const {
@@ -18,7 +18,7 @@ const TextEditor = forwardRef((props, ref) => {
 
   return (
     <Editor
-      apiKey="93wwi5nts6xoefzltfebudmklr0b6iedyvrg115pnula0wkd"
+      apiKey={TINYMCE_API_KEY}
       onInit={(evt, editor) => {
         if (editorRef) editorRef.current = editor;
       }}
@@ -48,11 +48,11 @@ const TextEditor = forwardRef((props, ref) => {
         images_upload_handler: (blobInfo, progress) =>
           imageUploadHandler(blobInfo, progress, assetUploadURL),
         statusbar: false,
-        content_css:
-          'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/content/bifrost-theme/content.min.css',
-        skin_url:
-          'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/ui/bifrost-theme',
         placeholder
+        // content_css:
+        //   'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/content/bifrost-theme/content.min.css',
+        // skin_url:
+        //   'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/ui/bifrost-theme'
       }}
     />
   );
