@@ -1,6 +1,7 @@
 import React from 'react';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PropTypes from 'prop-types';
+
+import { MdOutlineAttachFile } from '../Icon';
 
 import './styles.scss';
 
@@ -39,7 +40,7 @@ Attachments.propTypes = {
 Attachments.defaultProps = {
   wrapperClassName: '',
   attachments: [],
-  icon: <AttachFileIcon className="text-base-400 font-light" />
+  icon: <MdOutlineAttachFile className="text-base-400 font-light" />
 };
 
 export default Attachments;

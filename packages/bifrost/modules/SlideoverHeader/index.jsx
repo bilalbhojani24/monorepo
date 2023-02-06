@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { ErrorOutlineIcon, XMarkIcon } from '../Icon';
+import { MdErrorOutline, XMarkIcon } from '../Icon';
 import Tooltip from '../Tooltip';
 import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
 
@@ -85,7 +85,7 @@ const SlideoverHeader = ({
                       // eslint-disable-next-line react/jsx-props-no-spreading
                       {...headerTooltipProps}
                     >
-                      <ErrorOutlineIcon className="max-h-4" />
+                      <MdErrorOutline className="max-h-4" />
                     </Tooltip>
                   )}
                 </span>

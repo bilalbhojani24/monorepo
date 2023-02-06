@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { ChevronDownIcon, ChevronRightIcon, FolderIconMiui } from '../Icon';
+import { ChevronDownIcon, ChevronRightIcon, MdFolder } from '../Icon';
 
 import './styles.scss';
 
@@ -52,7 +52,7 @@ const ListTreeNode = ({
       </Disclosure.Button>
 
       <div className="text-info-400 mr-1 w-5 select-none">
-        <FolderIconMiui className="max-h-4" />
+        <MdFolder className="max-h-4" />
       </div>
 
       <div
