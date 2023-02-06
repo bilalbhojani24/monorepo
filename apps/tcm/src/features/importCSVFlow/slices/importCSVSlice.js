@@ -1,17 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import { postCSV } from '../../../api/importCSV.api';
+import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 
 const initialState = {
   fileConfig: { file: '', fileName: '' },
   currentCSVScreen: 'uploadFile',
-  importCSVSteps: [],
+  importCSVSteps: IMPORT_CSV_STEPS,
+  fieldsMappingData: {},
   csvFormData: {
     row: 1,
     encodings: '',
     separators: '',
     firstRowIsHeader: true
   },
-  csvUploadError: ''
+  csvUploadError: '',
+  showCSVFields: false
 };
+
+export const uploadFile = createAsyncThunk(
+  'importCSV/uploadFile',
+  async (payload) => {
+    try {
+      return await postCSV(payload);
+    } catch (err) {
+      return err;
+    }
+  }
+);
 
 const importCSVSlice = createSlice({
   name: 'importCSV',
@@ -31,7 +47,24 @@ const importCSVSlice = createSlice({
     },
     setFileConfig: (state, { payload }) => {
       state.fileConfig = payload;
+    },
+    setShowMoreFields: (state, { payload }) => {
+      state.showCSVFields = payload;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(uploadFile.fulfilled, (state, action) => {
+      state.fieldsMappingData = action.payload;
+      state.currentCSVScreen = 'mapFields';
+      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
+        if (idx === 0) return { ...step, status: 'complete' };
+        if (idx === 1) return { ...step, status: 'current' };
+        return step;
+      });
+    });
+    builder.addCase(uploadFile.rejected, (state, action) => {
+      state.csvUploadError = action.payload;
+    });
   }
 });
 
@@ -40,6 +73,7 @@ export const {
   setCSVImportSteps,
   setCSVFormData,
   setCSVUploadError,
-  setFileConfig
+  setFileConfig,
+  setShowMoreFields
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { postCSV } from '../../../api/importCSV.api';
 import {
   setCSVFormData,
-  setCSVUploadError,
-  setFileConfig
+  setFileConfig,
+  setShowMoreFields,
+  uploadFile
 } from '../slices/importCSVSlice';
 
 const useImportCSV = () => {
@@ -18,7 +18,11 @@ const useImportCSV = () => {
   );
   const csvFormData = useSelector((state) => state.importCSV.csvFormData);
   const fileConfig = useSelector((state) => state.importCSV.fileConfig);
-  const csvUploadError = useSelector((state) => state.importCSV.csvUplaodError);
+  const csvUploadError = useSelector((state) => state.importCSV.csvUploadError);
+  const mappingFieldsData = useSelector(
+    (state) => state.importCSV.fieldsMappingData
+  );
+  const showMoreFields = useSelector((state) => state.importCSV.showCSVFields);
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -35,6 +39,9 @@ const useImportCSV = () => {
       })
     );
   };
+
+  const handleShowMoreFields = () =>
+    dispatch(setShowMoreFields(!showMoreFields));
 
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
@@ -58,9 +65,7 @@ const useImportCSV = () => {
     filesData.append('file', fileConfig.file);
 
     // make the api call
-    postCSV(filesData)
-      .then()
-      .catch((err) => dispatch(setCSVUploadError(err)));
+    dispatch(uploadFile(filesData));
   };
 
   return {
@@ -69,10 +74,13 @@ const useImportCSV = () => {
     csvFormData,
     csvUploadError,
     fileConfig,
+    showMoreFields,
     handleFileUpload,
     handleFileRemove,
     handleCSVFieldChange,
-    handleProceedClick
+    handleProceedClick,
+    handleShowMoreFields,
+    mappingFieldsData
   };
 };
 

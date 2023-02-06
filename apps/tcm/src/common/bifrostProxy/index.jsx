@@ -40,6 +40,7 @@ import {
   TooltipBody,
   TooltipHeader
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -99,7 +100,7 @@ export const TMDataTable = ({
           <TableCell
             key={col.key}
             variant="body"
-            wrapperClass="test-base-500"
+            wrapperClass="text-base-500"
             textTransform="uppercase"
           >
             {col.name}

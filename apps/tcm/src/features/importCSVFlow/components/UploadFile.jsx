@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TMAlerts,
   TMAttachments,
@@ -13,34 +13,29 @@ import CSVForm from './CSVForm';
 import useImportCSV from './useImportCSV';
 
 const UploadFile = () => {
-  const [showMoreFields, setShowMoreFields] = useState(false);
   const {
     csvUploadError,
     fileConfig,
+    showMoreFields,
     handleFileUpload,
     handleFileRemove,
-    handleProceedClick
+    handleProceedClick,
+    handleShowMoreFields
   } = useImportCSV();
 
-  const handleShowMoreFields = () => {
-    setShowMoreFields(!showMoreFields);
-  };
-
   const handleDownloadSampleCSV = () => {
-    downloadSampleCSV()
-      // .then((data) => data.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `FileName.pdf`);
+    downloadSampleCSV().then((blob) => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `sample.csv`);
 
-        // Append to html link element page
-        document.body.appendChild(link);
+      // Append to html link element page
+      document.body.appendChild(link);
 
-        // Start download
-        link.click();
-      });
+      // Start download
+      link.click();
+    });
   };
 
   return (
