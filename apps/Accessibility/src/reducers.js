@@ -1,29 +1,26 @@
-// UI
-// import reportApp from 'app/bsA11y/Report/slice/appSlice';
-// Data
-// import reportData from 'app/bsA11y/Report/slice/dataSlice';
-// App
 import dashboard from 'features/dashboard/slices/dashboardUISlice';
+import reportApp from 'features/Report/slice/appSlice';
+import reportData from 'features/Report/slice/dataSlice';
 import reportsApp from 'features/Reports/slices/reportsAppSlice';
 import { combineReducers } from 'redux';
 
 // App Reducers
 const app = combineReducers({
-  reports: reportsApp
-  // report: reportApp
+  reports: reportsApp,
+  report: reportApp
 });
 
-// // Data Reducers
-// const data = combineReducers({
-//   // report: reportData
-// });
+// Data Reducers
+const data = combineReducers({
+  report: reportData
+});
 
 // UI Reducers
 const ui = combineReducers({
   dashboard
 });
 
-const accessibilityReducers = combineReducers({ ui, app });
+const accessibilityReducers = combineReducers({ ui, app, data });
 
 export default combineReducers({
   accessibility: accessibilityReducers

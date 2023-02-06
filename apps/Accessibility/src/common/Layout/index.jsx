@@ -10,9 +10,9 @@ import { Route, Routes } from 'react-router-dom';
 // import LayoutLoader from 'app/_components/LayoutLoader';
 import { BASE_ROUTE, ROUTES } from 'constants';
 import Dashboard from 'features/Dashboard';
+import Report from 'features/Report';
 // import Home from 'features/Home';
 import Reports from 'features/Reports';
-// import Report from 'bsA11y/Report';
 // import Reports from 'bsA11y/Reports';
 import ScreenReader from 'features/ScreenReader';
 
@@ -23,6 +23,7 @@ const Layout = () => (
     <Routes>
       <Route path={ROUTES.reports} element={<Reports />} />
       <Route exact path={ROUTES.screenReader} element={<ScreenReader />} />
+      <Route exact path={ROUTES.report} element={<Report />} />
       {/* <Route path="/" element={<div>Hello</div>}>
         
       </Route> */}

@@ -21,6 +21,8 @@ function ScreenReaderSection({ title, devices }) {
     return MacImage;
   };
 
+  // console.log('REACT_APP_ENV', import.meta.env.VITE_APP_TITLE, import.meta.env);
+
   return (
     <div className="pl-6">
       <div className="mb-4 flex items-center">
@@ -32,7 +34,12 @@ function ScreenReaderSection({ title, devices }) {
       </div>
       <div className="flex">
         {devices.map((item) => (
-          <div className="border-base-300 focus-within:ring-success-500 hover:border-base-400 relative mr-4 mb-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2">
+          <div
+            key={`${item.deviceDisplayName || item.osDisplayName}${
+              item.browserDisplayName
+            }`}
+            className="border-base-300 focus-within:ring-success-500 hover:border-base-400 relative mr-4 mb-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
+          >
             <div className="shrink-0">
               <img
                 className="h-10 w-10"
