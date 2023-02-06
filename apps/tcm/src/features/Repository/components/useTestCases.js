@@ -19,7 +19,6 @@ import {
 
 export default function useTestCases() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isFilterVisible, setFilter] = useState(false);
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
@@ -112,7 +111,6 @@ export default function useTestCases() {
     isBulkUpdate,
     currentPage: searchParams.get('p'),
     usersArray,
-    isFilterVisible,
     selectedFolder,
     showTestCaseAdditionPage,
     hideTestCaseAddEditPage,
@@ -124,7 +122,6 @@ export default function useTestCases() {
     showDeleteModal,
     selectedTestCase,
     isTestCasesLoading,
-    setFilter,
     fetchAllTestCases,
     fetchUsers,
     initFormValues

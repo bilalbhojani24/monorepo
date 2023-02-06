@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 
 import { setFilterSearchMeta } from '../slices/repositorySlice';
 
-const useFilter = ({ onCancel }) => {
+const useFilter = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { projectId, folderId } = useParams();
+  const [isFilterVisible, setFilter] = useState(false);
   const [ownersFilteredArray, setOwnersFilteredArray] = useState([]);
   const [tagsFilteredArray, setTagsFilteredArray] = useState([]);
   const [ownerSearchKey, setOwnerSearchKey] = useState('');
@@ -24,6 +26,18 @@ const useFilter = ({ onCancel }) => {
   };
 
   const applyFilterHandler = () => {
+    const queryParams = {};
+    const searchParamsTemp = {};
+    Object.keys(filterSearchMeta).forEach((key) => {
+      const value = Array.isArray(filterSearchMeta[key])
+        ? filterSearchMeta[key].join(',')
+        : filterSearchMeta[key];
+
+      queryParams[`q[${key}]`] = value;
+      if (value) searchParamsTemp[key] = value;
+    });
+
+    setSearchParams(searchParamsTemp);
     getTestCasesSearchFilterAPI({
       projectId,
       folderId,
@@ -31,7 +45,7 @@ const useFilter = ({ onCancel }) => {
     }).then((res) => {
       debugger;
     });
-    onCancel();
+    setFilter(false);
   };
 
   const filterChangeHandler = (filterType, data) => {
@@ -49,6 +63,13 @@ const useFilter = ({ onCancel }) => {
         [filterType]: [...filterSearchMeta?.[filterType], data.value]
       });
     }
+  };
+
+  const searchChangeHandler = (e) => {
+    updateFilterSearchMeta({
+      ...filterSearchMeta,
+      searchKey: e.currentTarget.value
+    });
   };
 
   useEffect(() => {
@@ -78,10 +99,13 @@ const useFilter = ({ onCancel }) => {
     filterSearchMeta,
     tagSearchKey,
     ownerSearchKey,
+    isFilterVisible,
+    setFilter,
     setOwnerSearchKey,
     setTagSearchKey,
     applyFilterHandler,
-    filterChangeHandler
+    filterChangeHandler,
+    searchChangeHandler
   };
 };
 

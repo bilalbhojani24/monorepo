@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
+  FilterAltOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
   SearchIcon
@@ -13,9 +14,10 @@ import PropTypes from 'prop-types';
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
 
-const Filter = ({ onCancel }) => {
+const Filter = () => {
   const { initFormValues } = useTestCases();
   const {
+    isFilterVisible,
     ownersFilteredArray,
     tagsFilteredArray,
     filterSearchMeta,
@@ -24,8 +26,10 @@ const Filter = ({ onCancel }) => {
     setOwnerSearchKey,
     setTagSearchKey,
     filterChangeHandler,
-    applyFilterHandler
-  } = useFilter({ onCancel });
+    applyFilterHandler,
+    setFilter,
+    searchChangeHandler
+  } = useFilter();
 
   useEffect(() => {
     initFormValues();
@@ -69,90 +73,110 @@ const Filter = ({ onCancel }) => {
   ];
 
   return (
-    <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
-      <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
-        <div className="flex h-full w-5/12 flex-col">
-          <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
-            Filter By Owner
-          </div>
-          <div className="pl-1">
-            <TMInputField
-              placeholder="Search"
-              value={ownerSearchKey}
-              onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
-              leadingIcon={<SearchIcon className="text-base-400" />}
-            />
-          </div>
-          <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
-            {ownersFilteredArray.map((item) => (
-              <TMCheckBox
-                key={item.value}
-                border={false}
-                wrapperClass="pt-0 mb-2"
-                checked={filterSearchMeta?.owners?.includes(item.value)}
-                data={item}
-                onChange={() => filterChangeHandler('owners', item)}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex h-full w-5/12 flex-col">
-          <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
-            Filter By Tags
-          </div>
-          <div className="pl-1">
-            <TMInputField
-              value={tagSearchKey}
-              onChange={(e) => setTagSearchKey(e.currentTarget.value)}
-              placeholder="Search tags by name"
-              leadingIcon={<SearchIcon className="text-base-400" />}
-            />
-          </div>
-          <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
-            {tagsFilteredArray.map((item) => (
-              <TMCheckBox
-                key={item.value}
-                border={false}
-                wrapperClass="pt-0 mb-2"
-                checked={filterSearchMeta?.tags?.includes(item.value)}
-                data={item}
-                onChange={() => filterChangeHandler('tags', item)}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="w-1/5">
-          <div className="text-brand-800 mb-2 text-base font-medium">
-            Filter By Priority
-          </div>
-          {priorityOptions.map((item) => (
-            <TMCheckBox
-              key={item.value}
-              border={false}
-              wrapperClass="pt-0 mb-2"
-              checked={filterSearchMeta?.priority?.includes(item.value)}
-              data={item}
-              onChange={() => filterChangeHandler('priority', item)}
-            />
-          ))}
-        </div>
+    <div className="border-base-300 relative z-[1] flex w-full items-start border-b py-3 pr-3">
+      <div className="w-full">
+        <TMInputField
+          placeholder="Search by Test Case name, ID"
+          value={filterSearchMeta?.searchKey}
+          onChange={searchChangeHandler}
+          leadingIcon={<SearchIcon className="text-base-400" />}
+        />
       </div>
-      <div className="border-base-300 flex w-full justify-end gap-4 border-t p-4">
-        <TMButton colors="white" onClick={onCancel}>
-          Cancel
-        </TMButton>
-        <TMButton onClick={applyFilterHandler}>Apply Filters</TMButton>
-      </div>
+      <TMButton
+        onClick={() => setFilter(!isFilterVisible)}
+        buttonType="half-rounded-button"
+        wrapperClassName="ml-3"
+        size="default"
+        variant="primary"
+        colors="white"
+        icon={<FilterAltOutlinedIcon className="!h-5 !w-5" />}
+      >
+        Filter
+      </TMButton>
+      {isFilterVisible && (
+        <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
+          <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
+            <div className="flex h-full w-5/12 flex-col">
+              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+                Filter By Owner
+              </div>
+              <div className="pl-1">
+                <TMInputField
+                  placeholder="Search"
+                  value={ownerSearchKey}
+                  onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
+                  onBlur={applyFilterHandler}
+                  leadingIcon={<SearchIcon className="text-base-400" />}
+                />
+              </div>
+              <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+                {ownersFilteredArray.map((item) => (
+                  <TMCheckBox
+                    key={item.value}
+                    border={false}
+                    wrapperClass="pt-0 mb-2"
+                    checked={filterSearchMeta?.owners?.includes(item.value)}
+                    data={item}
+                    onChange={() => filterChangeHandler('owners', item)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex h-full w-5/12 flex-col">
+              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+                Filter By Tags
+              </div>
+              <div className="pl-1">
+                <TMInputField
+                  value={tagSearchKey}
+                  onChange={(e) => setTagSearchKey(e.currentTarget.value)}
+                  placeholder="Search tags by name"
+                  leadingIcon={<SearchIcon className="text-base-400" />}
+                />
+              </div>
+              <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+                {tagsFilteredArray.map((item) => (
+                  <TMCheckBox
+                    key={item.value}
+                    border={false}
+                    wrapperClass="pt-0 mb-2"
+                    checked={filterSearchMeta?.tags?.includes(item.value)}
+                    data={item}
+                    onChange={() => filterChangeHandler('tags', item)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="w-1/5">
+              <div className="text-brand-800 mb-2 text-base font-medium">
+                Filter By Priority
+              </div>
+              {priorityOptions.map((item) => (
+                <TMCheckBox
+                  key={item.value}
+                  border={false}
+                  wrapperClass="pt-0 mb-2"
+                  checked={filterSearchMeta?.priority?.includes(item.value)}
+                  data={item}
+                  onChange={() => filterChangeHandler('priority', item)}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="border-base-300 flex w-full justify-end gap-4 border-t p-4">
+            <TMButton colors="white" onClick={() => setFilter(false)}>
+              Cancel
+            </TMButton>
+            <TMButton onClick={applyFilterHandler}>Apply Filters</TMButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-Filter.propTypes = {
-  onCancel: PropTypes.func
-};
+Filter.propTypes = {};
 
-Filter.defaultProps = {
-  onCancel: () => {}
-};
+Filter.defaultProps = {};
 
 export default Filter;
