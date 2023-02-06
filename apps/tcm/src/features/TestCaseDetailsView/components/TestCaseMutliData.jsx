@@ -39,6 +39,7 @@ const TestCaseMutliData = () => {
       key: 'latest_status',
       cell: (rowData) => (
         <TMBadge
+          isRounded
           wrapperClassName="capitalize"
           text={rowData.latest_status}
           modifier={rowData.latest_status

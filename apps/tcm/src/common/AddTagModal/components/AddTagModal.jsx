@@ -66,6 +66,7 @@ const AddTagModal = ({
                 <TMBadge
                   text={item}
                   hasRemoveButton
+                  isRounded
                   onClose={() => onTagRemoveClick(item)}
                 />
               ))}

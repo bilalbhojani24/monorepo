@@ -96,7 +96,7 @@ const TestCaseBasicData = () => {
                 testCaseDetails?.tags.length > 0 ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
                     {testCaseDetails.tags.map((item) => (
-                      <TMBadge text={item} size="large" key={item} isRounded />
+                      <TMBadge text={item} size="large" key={item} />
                     ))}
                   </div>
                 ) : (
