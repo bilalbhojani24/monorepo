@@ -58,6 +58,12 @@ const initialState = {
     next: null,
     prev: null,
     count: null
+  },
+  filterSearchMeta: {
+    owners: [],
+    tags: [],
+    priority: [],
+    searchKey: ''
   }
 };
 
@@ -161,11 +167,15 @@ export const repositorySlice = createSlice({
     },
     setMetaPage: (state, { payload }) => {
       state.metaPage = payload;
+    },
+    setFilterSearchMeta: (state, { payload }) => {
+      state.filterSearchMeta = payload;
     }
   }
 });
 
 export const {
+  setFilterSearchMeta,
   setFolderModalConf,
   setLoadedDataProjectId,
   setTagsArray,

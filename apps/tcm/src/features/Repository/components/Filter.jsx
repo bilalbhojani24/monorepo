@@ -18,7 +18,11 @@ const Filter = ({ onCancel }) => {
   const {
     ownersFilteredArray,
     tagsFilteredArray,
-    filterSelections,
+    filterSearchMeta,
+    tagSearchKey,
+    ownerSearchKey,
+    setOwnerSearchKey,
+    setTagSearchKey,
     filterChangeHandler,
     applyFilterHandler
   } = useFilter({ onCancel });
@@ -74,6 +78,8 @@ const Filter = ({ onCancel }) => {
           <div className="pl-1">
             <TMInputField
               placeholder="Search"
+              value={ownerSearchKey}
+              onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
               leadingIcon={<SearchIcon className="text-base-400" />}
             />
           </div>
@@ -83,7 +89,7 @@ const Filter = ({ onCancel }) => {
                 key={item.value}
                 border={false}
                 wrapperClass="pt-0 mb-2"
-                checked={filterSelections?.owners?.includes(item.value)}
+                checked={filterSearchMeta?.owners?.includes(item.value)}
                 data={item}
                 onChange={() => filterChangeHandler('owners', item)}
               />
@@ -96,6 +102,8 @@ const Filter = ({ onCancel }) => {
           </div>
           <div className="pl-1">
             <TMInputField
+              value={tagSearchKey}
+              onChange={(e) => setTagSearchKey(e.currentTarget.value)}
               placeholder="Search tags by name"
               leadingIcon={<SearchIcon className="text-base-400" />}
             />
@@ -106,7 +114,7 @@ const Filter = ({ onCancel }) => {
                 key={item.value}
                 border={false}
                 wrapperClass="pt-0 mb-2"
-                checked={filterSelections?.tags?.includes(item.value)}
+                checked={filterSearchMeta?.tags?.includes(item.value)}
                 data={item}
                 onChange={() => filterChangeHandler('tags', item)}
               />
@@ -122,7 +130,7 @@ const Filter = ({ onCancel }) => {
               key={item.value}
               border={false}
               wrapperClass="pt-0 mb-2"
-              checked={filterSelections?.priority?.includes(item.value)}
+              checked={filterSearchMeta?.priority?.includes(item.value)}
               data={item}
               onChange={() => filterChangeHandler('priority', item)}
             />

@@ -92,10 +92,17 @@ export const getTestCasesSearchFilterAPI = async ({
   folderId,
   projectId,
   props = {}
-}) =>
-  fetchGet(
+}) => {
+  const queryParams = {};
+  Object.keys(props).forEach((key) => {
+    queryParams[`q[${key}]`] = Array.isArray(props[key])
+      ? props[key].join(',')
+      : props[key];
+  });
+  return fetchGet(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/search`,
     {
-      params: props
+      params: queryParams
     }
   );
+};

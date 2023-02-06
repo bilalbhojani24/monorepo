@@ -52,7 +52,6 @@ export default function useTestCases() {
 
   const fetchUsers = () => {
     getUsersOfProjectAPI(projectId).then((data) => {
-      debugger;
       dispatch(
         setUsers([
           { full_name: 'Myself', id: data.myself.id },
