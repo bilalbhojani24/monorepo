@@ -45,6 +45,7 @@ export default function useAddEditTestCase() {
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
+  const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
 
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
@@ -190,13 +191,13 @@ export default function useAddEditTestCase() {
   };
 
   const saveBulkEditHelper = () => {
+    setBulkEditConfirm(false);
     editTestCasesBulkAPI({
       projectId,
       folderId,
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
     }).then((res) => {
-      // hideTestCaseAddEditPage()
       dispatch(
         updateAllTestCases(
           allTestCases.map(
@@ -328,6 +329,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    showBulkEditConfirmModal,
     isBulkUpdate,
     testCaseBulkFormData,
     isUploadInProgress,
@@ -357,6 +359,7 @@ export default function useAddEditTestCase() {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    saveBulkEditHelper
+    saveBulkEditHelper,
+    setBulkEditConfirm
   };
 }

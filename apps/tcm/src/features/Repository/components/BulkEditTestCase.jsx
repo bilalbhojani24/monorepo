@@ -4,6 +4,9 @@ import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
   TMInputField,
+  TMModal,
+  TMModalFooter,
+  TMModalHeader,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
@@ -23,6 +26,7 @@ import useTestCases from './useTestCases';
 
 const BulkEditTestCase = () => {
   const {
+    showBulkEditConfirmModal,
     isAddIssuesModalShown,
     handleTestCaseFieldChange,
     testCaseBulkFormData,
@@ -32,7 +36,8 @@ const BulkEditTestCase = () => {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    saveBulkEditHelper
+    saveBulkEditHelper,
+    setBulkEditConfirm
   } = useAddEditTestCase();
   const { initFormValues } = useTestCases();
 
@@ -50,7 +55,7 @@ const BulkEditTestCase = () => {
           children: 'Update All',
           wrapperClassName: 'whitespace-nowrap ml-4',
           variant: 'primary',
-          onClick: saveBulkEditHelper
+          onClick: () => setBulkEditConfirm(true)
         }}
         primaryButtonProps={{
           children: 'Cancel',
@@ -205,6 +210,43 @@ const BulkEditTestCase = () => {
           />
         </div>
       </>
+      <TMModal
+        show={showBulkEditConfirmModal}
+        withDismissButton
+        onOverlayClick={() => setBulkEditConfirm(false)}
+      >
+        <TMModalHeader
+          heading="Bulk Edit"
+          subHeading={
+            <>
+              <p>
+                The selected test cases will be updated with the new set of data
+                you entered.
+              </p>
+              <p>This action can&apos;t be undone.</p>
+            </>
+          }
+          handleDismissClick={() => setBulkEditConfirm(false)}
+          Icon={InfoOutlinedIcon}
+        />
+        <TMModalFooter position="right">
+          <TMButton
+            variant="primary"
+            colors="white"
+            onClick={() => setBulkEditConfirm(false)}
+          >
+            Cancel
+          </TMButton>
+          <TMButton
+            variant="primary"
+            colors="brand"
+            wrapperClassName="ml-3"
+            onClick={saveBulkEditHelper}
+          >
+            Update All
+          </TMButton>
+        </TMModalFooter>
+      </TMModal>
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}
         onClose={hideAddIssueModal}
