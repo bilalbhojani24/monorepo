@@ -126,7 +126,7 @@ const TestCasesTable = ({
           {rowData.tags.length > 0 ? (
             <div className="mt-1 flex gap-1">
               {rowData.tags.map((item) => (
-                <TMBadge text={item} size="large" key={item} isRounded />
+                <TMBadge text={item} size="large" key={item} />
               ))}
             </div>
           ) : (

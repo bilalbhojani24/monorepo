@@ -17,11 +17,11 @@ const Filter = ({ onCancel }) => {
   const { initFormValues } = useTestCases();
   const {
     ownersFilteredArray,
-    tagsArray,
+    tagsFilteredArray,
     filterSelections,
-    setFilterSelections,
+    filterChangeHandler,
     applyFilterHandler
-  } = useFilter();
+  } = useFilter({ onCancel });
 
   useEffect(() => {
     initFormValues();
@@ -66,43 +66,49 @@ const Filter = ({ onCancel }) => {
 
   return (
     <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
-      <div className="flex h-96 w-full gap-4 p-4">
-        <div className="w-5/12">
-          <div className="text-brand-800 mb-2 text-base font-medium">
+      <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
+        <div className="flex h-full w-5/12 flex-col">
+          <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
             Filter By Owner
           </div>
-          <TMInputField
-            placeholder="Search"
-            leadingIcon={<SearchIcon className="text-base-400" />}
-          />
-          <div className="mt-4 w-full overflow-y-auto">
+          <div className="pl-1">
+            <TMInputField
+              placeholder="Search"
+              leadingIcon={<SearchIcon className="text-base-400" />}
+            />
+          </div>
+          <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
             {ownersFilteredArray.map((item) => (
               <TMCheckBox
+                key={item.value}
                 border={false}
                 wrapperClass="pt-0 mb-2"
-                checked
+                checked={filterSelections?.owners?.includes(item.value)}
                 data={item}
-                // onChange={selectAll}
+                onChange={() => filterChangeHandler('owners', item)}
               />
             ))}
           </div>
         </div>
-        <div className="w-5/12">
-          <div className="text-brand-800 mb-2 text-base font-medium">
+        <div className="flex h-full w-5/12 flex-col">
+          <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
             Filter By Tags
           </div>
-          <TMInputField
-            placeholder="Search tags by name"
-            leadingIcon={<SearchIcon className="text-base-400" />}
-          />
-          <div className="mt-4 w-full overflow-y-auto">
-            {priorityOptions.map((item) => (
+          <div className="pl-1">
+            <TMInputField
+              placeholder="Search tags by name"
+              leadingIcon={<SearchIcon className="text-base-400" />}
+            />
+          </div>
+          <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+            {tagsFilteredArray.map((item) => (
               <TMCheckBox
+                key={item.value}
                 border={false}
                 wrapperClass="pt-0 mb-2"
-                checked
+                checked={filterSelections?.tags?.includes(item.value)}
                 data={item}
-                // onChange={selectAll}
+                onChange={() => filterChangeHandler('tags', item)}
               />
             ))}
           </div>
@@ -113,11 +119,12 @@ const Filter = ({ onCancel }) => {
           </div>
           {priorityOptions.map((item) => (
             <TMCheckBox
+              key={item.value}
               border={false}
               wrapperClass="pt-0 mb-2"
-              checked
+              checked={filterSelections?.priority?.includes(item.value)}
               data={item}
-              // onChange={selectAll}
+              onChange={() => filterChangeHandler('priority', item)}
             />
           ))}
         </div>
