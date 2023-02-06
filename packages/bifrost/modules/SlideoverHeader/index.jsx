@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -22,12 +22,11 @@ const SlideoverHeader = ({
   headerTooltipProps
 }) => {
   const [truncatedDataTooltip, setTruncatedDataTooltip] = useState(false);
+  const headerNameRef = useRef(null);
   const showHeaderTooltip = () => {
-    const element = [
-      ...document.getElementsByClassName('slideover-header__heading-text')
-    ];
-    if (element.length !== 0) {
-      const result = element[0].offsetHeight < element[0].scrollHeight;
+    const element = headerNameRef.current;
+    if (element !== null) {
+      const result = element.offsetHeight < element.scrollHeight;
       setTruncatedDataTooltip(result);
     } else {
       setTruncatedDataTooltip(false);
@@ -66,12 +65,13 @@ const SlideoverHeader = ({
                 className={twClassNames(
                   'text-base-900 text-lg font-medium leading-6',
                   isEllipsisHeader
-                    ? 'slideover-header__heading-text line-clamp-2 overflow-hidden break-all relative pr-4 mr-8'
+                    ? 'line-clamp-2 overflow-hidden break-all relative pr-4 mr-8'
                     : '',
                   {
                     'text-white': lightText
                   }
                 )}
+                ref={headerNameRef}
               >
                 {heading}
                 <span className="absolute right-0 bottom-0">
