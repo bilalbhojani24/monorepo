@@ -1,26 +1,27 @@
 import React from 'react';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Menu } from '@headlessui/react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../../utils/tailwindUtils';
-
 const DropdownItem = ({ option, index, callback }) => (
-  <DropdownMenu.Item
-    className={twClassNames(
-      'border-base-100 text-base-700 hover:bg-base-100 hover:text-base-900 focus:outline-none',
-      {
-        'border-t border-base-100': option.divider === true && index !== 0
-      }
+  <Menu.Item>
+    {({ active }) => (
+      <button
+        onClick={callback}
+        type="button"
+        className={classNames(
+          {
+            'bg-base-100 text-base-900': active,
+            'text-base-700': !active,
+            'border-t border-base-100': option.divider === true && index !== 0
+          },
+          'block w-full px-4 py-2 text-left text-sm'
+        )}
+      >
+        {option.body}
+      </button>
     )}
-  >
-    <button
-      onClick={callback}
-      type="button"
-      className="block w-full px-4 py-2 text-left text-sm"
-    >
-      {option.body}
-    </button>
-  </DropdownMenu.Item>
+  </Menu.Item>
 );
 
 DropdownItem.propTypes = {
