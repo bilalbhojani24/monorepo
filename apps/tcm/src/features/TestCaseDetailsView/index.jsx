@@ -27,7 +27,7 @@ const TestCaseDetailsView = () => {
       closeButtonOutside={false}
       description=""
       topMarginElementId="whole-header"
-      slideoverWidth="w-96"
+      slideoverWidth="max-w-md w-screen"
       backgroundOverlay={false}
     >
       <TMSlideoverHeader

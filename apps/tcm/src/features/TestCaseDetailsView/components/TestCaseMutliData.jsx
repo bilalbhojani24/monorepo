@@ -85,8 +85,8 @@ const TestCaseMutliData = () => {
           ...item,
           count:
             item.name === 'Results'
-              ? `${testRunsCount}`
-              : `${testCaseIssues?.length}`
+              ? `${testRunsCount || ''}`
+              : `${testCaseIssues?.length || ''}`
         }))}
         onTabChange={handleTabChange}
       />

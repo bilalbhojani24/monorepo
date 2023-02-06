@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from 'common/Loader';
 
 // import { TMButton } from 'common/bifrostProxy';
 import TestCaseBasicData from './TestCaseBasicData';
@@ -12,7 +13,7 @@ const TestCaseView = () => {
   if (!testCaseDetails || testCaseId !== `${testCaseDetails?.id}`)
     return (
       <div className="flex h-full flex-col items-stretch px-6 pt-5">
-        Loading..
+        <Loader />
       </div>
     );
 
