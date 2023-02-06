@@ -60,11 +60,12 @@ const initialState = {
     count: null
   },
   filterSearchMeta: {
-    owners: [],
+    owner: [],
     tags: [],
     priority: [],
     searchKey: ''
-  }
+  },
+  isSearchFilterView: false
 };
 
 export const repositorySlice = createSlice({
@@ -96,7 +97,6 @@ export const repositorySlice = createSlice({
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
-
       if (payload) {
         // reset form data
         state.testCaseFormData = initialState.testCaseFormData;
@@ -170,6 +170,9 @@ export const repositorySlice = createSlice({
     },
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
+    },
+    setFilterSearchView: (state, { payload }) => {
+      state.isSearchFilterView = payload;
     }
   }
 });
@@ -202,7 +205,8 @@ export const {
   resetBulkSelection,
   updateBulkTestCaseFormData,
   updateTestCasesListLoading,
-  setMetaPage
+  setMetaPage,
+  setFilterSearchView
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

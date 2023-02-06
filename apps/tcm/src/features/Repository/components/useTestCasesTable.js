@@ -130,7 +130,7 @@ const useTestCasesTable = () => {
     navigate(
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,
-        folderId,
+        folderId: testCaseItem.test_case_folder_id,
         testCaseId: testCaseItem?.id
       })
     );

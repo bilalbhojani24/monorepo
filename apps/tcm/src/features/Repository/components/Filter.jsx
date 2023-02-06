@@ -1,15 +1,20 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
+  CloseOutlinedIcon,
   FilterAltOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon,
   SearchIcon
 } from 'assets/icons';
+import classNames from 'classnames';
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
-import PropTypes from 'prop-types';
+import AppRoute from 'const/routes';
+// import PropTypes from 'prop-types';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
@@ -17,7 +22,10 @@ import useTestCases from './useTestCases';
 const Filter = () => {
   const { initFormValues } = useTestCases();
   const {
+    appliedFiltersCount,
+    projectId,
     isFilterVisible,
+    isSearchFilterView,
     ownersFilteredArray,
     tagsFilteredArray,
     filterSearchMeta,
@@ -79,20 +87,47 @@ const Filter = () => {
           placeholder="Search by Test Case name, ID"
           value={filterSearchMeta?.searchKey}
           onChange={searchChangeHandler}
+          onBlur={applyFilterHandler}
           leadingIcon={<SearchIcon className="text-base-400" />}
         />
       </div>
-      <TMButton
-        onClick={() => setFilter(!isFilterVisible)}
-        buttonType="half-rounded-button"
-        wrapperClassName="ml-3"
-        size="default"
-        variant="primary"
-        colors="white"
-        icon={<FilterAltOutlinedIcon className="!h-5 !w-5" />}
-      >
-        Filter
-      </TMButton>
+      <div className="isolate inline-flex rounded-md shadow-sm">
+        <TMButton
+          onClick={() => setFilter(!isFilterVisible)}
+          // buttonType="half-rounded-button"
+          wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
+            'rounded-tr-none rounded-br-none': isSearchFilterView,
+            'text-left flex justify-start': appliedFiltersCount
+          })}
+          size="default"
+          variant={appliedFiltersCount ? 'secondary' : 'primary'}
+          colors={appliedFiltersCount ? 'brand' : 'white'}
+          icon={
+            !appliedFiltersCount && (
+              <FilterAltOutlinedIcon className="!h-5 !w-5" />
+            )
+          }
+        >
+          {appliedFiltersCount ? `Filters (${appliedFiltersCount})` : 'Filter'}
+        </TMButton>
+        {isSearchFilterView && (
+          <Link
+            to={routeFormatter(AppRoute.TEST_CASES, {
+              projectId
+            })}
+          >
+            <TMButton
+              buttonType="half-rounded-button"
+              wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none"
+              size="default"
+              variant="primary"
+              colors="white"
+            >
+              <CloseOutlinedIcon className="!h-5 !w-5" />
+            </TMButton>
+          </Link>
+        )}
+      </div>
       {isFilterVisible && (
         <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
@@ -105,7 +140,6 @@ const Filter = () => {
                   placeholder="Search"
                   value={ownerSearchKey}
                   onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
-                  onBlur={applyFilterHandler}
                   leadingIcon={<SearchIcon className="text-base-400" />}
                 />
               </div>
@@ -115,9 +149,9 @@ const Filter = () => {
                     key={item.value}
                     border={false}
                     wrapperClass="pt-0 mb-2"
-                    checked={filterSearchMeta?.owners?.includes(item.value)}
+                    checked={filterSearchMeta?.owner?.includes(`${item.value}`)}
                     data={item}
-                    onChange={() => filterChangeHandler('owners', item)}
+                    onChange={() => filterChangeHandler('owner', item)}
                   />
                 ))}
               </div>

@@ -1,7 +1,12 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
-import { TMTooltip, TMTooltipBody, TMTooltipHeader } from 'common/bifrostProxy';
+import { HideSourceOutlinedIcon, InfoOutlinedIcon } from 'assets/icons';
+import {
+  TMEmptyState,
+  TMTooltip,
+  TMTooltipBody,
+  TMTooltipHeader
+} from 'common/bifrostProxy';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -16,6 +21,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    isSearchFilterView,
     showDeleteModal,
     selectedFolder,
     allTestCases,
@@ -29,7 +35,7 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full flex-col items-start">
-      {allTestCases.length ? (
+      {allTestCases.length || isSearchFilterView ? (
         <>
           <Filter />
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
@@ -65,15 +71,28 @@ export default function TestCases() {
               </div>
             )}
             <>
-              <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
-                <TestCasesTable
-                  isCondensed
-                  containerWrapperClass="md:rounded-none"
-                  rows={allTestCases}
-                  isLoading={isTestCasesLoading}
-                />
-              </div>
-              <InlineAddTestCase />
+              {!allTestCases.length && isSearchFilterView ? (
+                <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+                  <TMEmptyState
+                    title="No Results Found"
+                    description="No matching results found. Try searching with another test case name/ID"
+                    mainIcon={
+                      <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                    }
+                    buttonProps={null}
+                  />
+                </div>
+              ) : (
+                <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
+                  <TestCasesTable
+                    isCondensed
+                    containerWrapperClass="md:rounded-none"
+                    rows={allTestCases}
+                    isLoading={isTestCasesLoading}
+                  />
+                </div>
+              )}
+              {!isSearchFilterView && <InlineAddTestCase />}
             </>
           </div>
         </>

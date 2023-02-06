@@ -88,14 +88,7 @@ export const editTestCasesBulkAPI = async ({
     }
   );
 
-export const getTestCasesSearchFilterAPI = async ({
-  folderId,
-  projectId,
-  props = {}
-}) =>
-  fetchGet(
-    `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/search`,
-    {
-      params: props
-    }
-  );
+export const getTestCasesSearchFilterAPI = async ({ projectId, props = {} }) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-cases/search`, {
+    params: props
+  });

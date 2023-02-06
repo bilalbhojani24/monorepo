@@ -61,6 +61,14 @@ const MainRoute = () => {
           }
         />
         <Route
+          path={AppRoute.TEST_CASES_SEARCH}
+          element={
+            <PrivateComponent>
+              <Repository isSearch />
+            </PrivateComponent>
+          }
+        />
+        <Route
           path={AppRoute.TEST_RUNS}
           element={
             <PrivateComponent>

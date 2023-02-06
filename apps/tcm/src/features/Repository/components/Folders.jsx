@@ -1,6 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { CreateNewFolderOutlinedIcon, SourceOutlinedIcon } from 'assets/icons';
+import {
+  CreateNewFolderOutlinedIcon,
+  FindInPageOutlinedIcon,
+  SourceOutlinedIcon
+} from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
 
@@ -15,6 +19,9 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
+    testCasesCount,
+    isSearchFilterView,
+    filterSearchMeta,
     openedFolderModal,
     projectId,
     folderId,
@@ -58,7 +65,7 @@ export default function Folders() {
         show={openedFolderModal?.modal === folderDropOptions[4].body}
         projectId={projectId}
       />
-      {allFolders.length ? (
+      {allFolders.length || isSearchFilterView ? (
         <>
           <div className="border-base-300 flex items-center border-b p-3">
             <span className="text-base">Folders</span>
@@ -74,17 +81,32 @@ export default function Folders() {
             </TMButton>
           </div>
           <div className="flex h-full max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
-            <FolderExplorer
-              projectId={projectId}
-              folderId={folderId}
-              allFolders={allFolders}
-              actionsEnabled
-              onFolderClick={updateRouteHelper}
-              onFoldersUpdate={folderUpdateHandler}
-              actionOptions={folderDropOptions}
-              actionClickHandler={folderActionsHandler}
-              isSingleSelect
-            />
+            {!isSearchFilterView ? (
+              <FolderExplorer
+                projectId={projectId}
+                folderId={folderId}
+                allFolders={allFolders}
+                actionsEnabled
+                onFolderClick={updateRouteHelper}
+                onFoldersUpdate={folderUpdateHandler}
+                actionOptions={folderDropOptions}
+                actionClickHandler={folderActionsHandler}
+                isSingleSelect
+              />
+            ) : (
+              <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+                <TMEmptyState
+                  // title=""
+                  title={`We found ${testCasesCount} Search Results for '${
+                    filterSearchMeta?.searchKey || ''
+                  }' across all folders`}
+                  mainIcon={
+                    <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                  }
+                  buttonProps={null}
+                />
+              </div>
+            )}
           </div>
         </>
       ) : (

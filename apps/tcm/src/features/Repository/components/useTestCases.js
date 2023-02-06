@@ -1,14 +1,16 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import AppRoute from 'const/routes';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
   setEditTestCasePageVisibility,
+  setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
   setTagsArray,
@@ -18,12 +20,16 @@ import {
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
+  );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
   );
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
@@ -48,6 +54,10 @@ export default function useTestCases() {
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
   );
+
+  const setRepoView = (update) => {
+    dispatch(setFilterSearchView(update));
+  };
 
   const fetchUsers = () => {
     getUsersOfProjectAPI(projectId).then((data) => {
@@ -82,6 +92,13 @@ export default function useTestCases() {
   };
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
+    if (!folderId)
+      // then in search view, go to repository view
+      navigate(
+        `${routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })}`
+      );
   };
 
   const hideTestCaseAddEditPage = () => {
@@ -91,6 +108,7 @@ export default function useTestCases() {
   };
 
   const fetchAllTestCases = () => {
+    dispatch(setAddTestCaseVisibility(false));
     if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       const page = searchParams.get('p');
@@ -109,6 +127,7 @@ export default function useTestCases() {
 
   return {
     isBulkUpdate,
+    isSearchFilterView,
     currentPage: searchParams.get('p'),
     usersArray,
     selectedFolder,
@@ -124,6 +143,7 @@ export default function useTestCases() {
     isTestCasesLoading,
     fetchAllTestCases,
     fetchUsers,
-    initFormValues
+    initFormValues,
+    setRepoView
   };
 }

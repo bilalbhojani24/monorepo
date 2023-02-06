@@ -19,7 +19,6 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 import {
-  setAddTestCaseVisibility,
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
@@ -38,6 +37,14 @@ export default function useFolders() {
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
+  const filterSearchMeta = useSelector(
+    (state) => state.repository.filterSearchMeta
+  );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
+  const testCasesCount =
+    useSelector((state) => state.repository.allTestCases)?.length || 0;
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
@@ -110,7 +117,7 @@ export default function useFolders() {
 
   const fetchAllFolders = () => {
     dispatch(setSelectedProject(projectId));
-    dispatch(setAddTestCaseVisibility(false));
+    // dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
@@ -253,10 +260,13 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    testCasesCount,
+    isSearchFilterView,
     openedFolderModal,
     projectId,
     folderId,
     allFolders,
+    filterSearchMeta,
     showAddFolderModal,
     updateFolders,
     fetchAllFolders,
