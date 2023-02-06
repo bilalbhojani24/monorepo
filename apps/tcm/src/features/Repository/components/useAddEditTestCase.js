@@ -220,8 +220,6 @@ export default function useAddEditTestCase() {
         payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
-
-        dispatch(addSingleTestCase(data));
         hideTestCaseAddEditPage();
       });
     }

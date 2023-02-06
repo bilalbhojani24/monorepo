@@ -71,6 +71,10 @@ export default function useTestCasesView() {
     onDropDownChange(e, testCaseDetails);
   };
 
+  const onAttachmentClick = (item) => {
+    if (item?.url) window.open(item.url, '_blank').focus();
+  };
+
   return {
     testRunsCount,
     selectedTab,
@@ -82,6 +86,7 @@ export default function useTestCasesView() {
     isTestCaseViewVisible,
     fetchTestCaseDetails,
     handleTabChange,
-    actionHandler
+    actionHandler,
+    onAttachmentClick
   };
 }

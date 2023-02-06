@@ -7,7 +7,7 @@ import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseBasicData = () => {
-  const { testCaseDetails } = useTestCaseView();
+  const { testCaseDetails, onAttachmentClick } = useTestCaseView();
 
   return (
     <>
@@ -136,7 +136,13 @@ const TestCaseBasicData = () => {
             testCaseDetails?.attachments?.length ? (
               <TMAttachments
                 wrapperClassName="mt-2"
-                attachments={testCaseDetails?.attachments || []}
+                onActionClick={onAttachmentClick}
+                attachments={
+                  testCaseDetails?.attachments.map((item) => ({
+                    ...item,
+                    actionName: 'View'
+                  })) || []
+                }
               />
             ) : (
               '--'

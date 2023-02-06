@@ -18,11 +18,9 @@ const TestCaseTopBar = () => {
   const { testCaseDetails, actionHandler } = useTestCaseView();
   return (
     <div className="mb-4 flex  w-full items-start justify-between">
-      <div className="relative flex max-h-12 w-full  items-end pr-2 text-base font-medium">
+      <div className="relative flex w-full  items-end pr-2 text-base font-medium">
         {/* <div className="text-ellipsis">{testCaseDetails?.name}</div> */}
-        <div className=" overflow-hidden text-ellipsis">
-          {testCaseDetails?.name}
-        </div>
+        <div className="line-clamp-3 max-h-12 ">{testCaseDetails?.name}</div>
         <TMTooltip
           size="sm"
           placementSide="bottom"
