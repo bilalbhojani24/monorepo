@@ -9,6 +9,7 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from 'features/Report/slice/selector';
+import { ASBadge, ASButton } from 'middleware/bifrost';
 // import { Button } from 'trike/Button';
 // import Checkbox from 'trike/Checkbox';
 // import { ArrowBackIcon, FilterListIcon } from 'trike/Icons';
@@ -182,14 +183,16 @@ export default function Issues() {
         </Modal> */}
         {showHiddenIssues && (
           <div className="issues__filter-wrapper-hidden-issues">
-            <Button
+            {/* <ASButton
               icon={<ArrowBackIcon />}
               modifier="grey"
               onClick={() => onHiddenIssueClick(false)}
               size="small"
-              text="Back"
+              text=""
               type="subtle"
-            />
+            >
+              Back
+            </ASButton> */}
             <p className="issues__filter-wrapper-hidden-issues-title">
               {' '}
               Showing Hidden Issues{' '}
@@ -218,19 +221,19 @@ export default function Issues() {
               ))}
             </div>
             {!showHiddenIssues && (
-              <Button
-                text="Filters"
+              <ASButton
                 type="outline"
-                icon={<FilterListIcon />}
-                iconPlacement="left"
-                size="small"
+                // icon={<FilterListIcon />}
+                // iconPlacement="left"
                 modifier="grey"
                 onClick={onFilterButtonClick}
-              />
+              >
+                Filters
+              </ASButton>
             )}
-            {Object.entries(reportFilters).map(([key, values]) =>
+            {/* {Object.entries(reportFilters).map(([key, values]) =>
               values.length ? (
-                <TagsComponent
+                <ASBadge
                   readonly
                   size="large"
                   text={getKeyName(key, values)}
@@ -239,26 +242,26 @@ export default function Issues() {
                   wrapperClassName="issues__tag"
                 />
               ) : null
-            )}
-            {reportFilters.showNeedsReviewIssues ? (
-              <TagsComponent
-                readonly
-                size="large"
+            )} */}
+            {/* {reportFilters.showNeedsReviewIssues ? (
+              <ASBadge
+                hasDot={false}
+                hasRemoveButton
+                isRounded={false}
                 text="Needs Review"
-                onClick={onFilterButtonClick}
+                size="large"
                 onClose={() => onTagClose('showNeedsReviewIssues')}
-                wrapperClassName="issues__tag"
               />
             ) : null}
             {hasFilters && (
-              <TagsComponent
+              <ASBadge
                 readonly
                 size="large"
                 text="Clear all"
                 onClose={() => onTagClose('all')}
                 wrapperClassName="issues__tag"
               />
-            )}
+            )} */}
           </div>
           {!showHiddenIssues && !hasFilters && (
             <Button

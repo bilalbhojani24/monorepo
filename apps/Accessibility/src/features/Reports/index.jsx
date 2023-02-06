@@ -122,7 +122,7 @@ export default function Reports() {
           consolidate and review reports.
         </h3>
         <div>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <div className="flex">
               <div className="mr-4 w-80">
                 <ASInputField
