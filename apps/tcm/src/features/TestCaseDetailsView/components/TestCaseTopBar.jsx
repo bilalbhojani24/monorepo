@@ -20,7 +20,7 @@ const TestCaseTopBar = () => {
     <div className="mb-4 flex  w-full items-start justify-between">
       <div className="relative flex w-full  items-end pr-2 text-base font-medium">
         {/* <div className="text-ellipsis">{testCaseDetails?.name}</div> */}
-        <div className="line-clamp-3 max-h-12 overflow-hidden">
+        <div className="line-clamp-2 overflow-hidden break-all">
           {testCaseDetails?.name}
         </div>
         <TMTooltip
