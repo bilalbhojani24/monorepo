@@ -1,4 +1,9 @@
-export const STEPS_STATUS = ['complete', 'current', 'upcoming'];
+export const STEPS_STATUS = [
+  'complete',
+  'current',
+  'upcoming',
+  'current_completed'
+];
 
 export const STEPS_FORMAT = [
   'simple',

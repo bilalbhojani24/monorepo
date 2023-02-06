@@ -10,32 +10,32 @@ const steps = [
     id: '1',
     name: 'Create account',
     description: 'Vitae sed mi luctus laoreet.',
-    status: STEPS_STATUS[0],
+    status: STEPS_STATUS[0]
   },
   {
     id: '2',
-    name: 'Profile information',
+    name: 'Profile ( Current Completed )',
     description: 'Cursus semper viverra facilisis et et some more.',
-    status: STEPS_STATUS[1],
+    status: STEPS_STATUS[3]
   },
   {
     id: '3',
     name: 'Business information',
     description: 'Penatibus eu quis ante.',
-    status: STEPS_STATUS[2],
+    status: STEPS_STATUS[1]
   },
   {
     id: '4',
     name: 'Theme',
     description: 'Faucibus nec enim leo et.',
-    status: STEPS_STATUS[2],
+    status: STEPS_STATUS[2]
   },
   {
     id: '5',
     name: 'Preview',
     description: 'Iusto et officia maiores porro ad non quas.',
-    status: STEPS_STATUS[2],
-  },
+    status: STEPS_STATUS[2]
+  }
 ];
 
 const defaultConfig = {
@@ -47,88 +47,88 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Steps from 'bifrost/Steps'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     steps: {
       type: { summary: 'OBJECT', required: false },
       description: 'List of items to be covered in steps',
       control: { type: 'object' },
-      defaultValue: steps,
+      defaultValue: steps
     },
     onClick: {
       type: { summary: 'FUNCTION', required: false },
       description: 'Function callback when a step is clicked',
-      control: { type: 'select' },
+      control: { type: 'select' }
     },
     label: {
       type: { summary: 'STRING', required: false },
       description: 'Provide label to overall Step component for accessibility',
       control: { type: 'text' },
-      defaultValue: 'label',
+      defaultValue: 'label'
     },
     format: {
       options: STEPS_FORMAT,
       control: { type: 'select' },
       description: 'Format of list types',
       type: { summary: 'STRING', required: false },
-      defaultValue: STEPS_FORMAT[0],
+      defaultValue: STEPS_FORMAT[0]
     },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
       description: 'Provide class to overall Step component',
       control: { type: 'text' },
-      defaultValue: '',
-    },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 
 const Bullet = (args) => <Steps {...args} />;
 const BulletList = Bullet.bind({});
 Bullet.parameters = {
-  controls: {},
+  controls: {}
 };
 
 BulletList.args = {
-  format: STEPS_FORMAT[1],
+  format: STEPS_FORMAT[1]
 };
 
 const Panels = (args) => <Steps {...args} />;
 const PanelsList = Panels.bind({});
 Panels.parameters = {
-  controls: {},
+  controls: {}
 };
 
 PanelsList.args = {
-  format: STEPS_FORMAT[2],
+  format: STEPS_FORMAT[2]
 };
 
 const Circle = (args) => <Steps {...args} />;
 const CircleList = Circle.bind({});
 Circle.parameters = {
-  controls: {},
+  controls: {}
 };
 
 CircleList.args = {
-  format: STEPS_FORMAT[3],
+  format: STEPS_FORMAT[3]
 };
 
 const BulletsAndText = (args) => <Steps {...args} />;
 const BulletsAndTextList = BulletsAndText.bind({});
 BulletsAndText.parameters = {
-  controls: {},
+  controls: {}
 };
 
 BulletsAndTextList.args = {
-  format: STEPS_FORMAT[4],
+  format: STEPS_FORMAT[4]
 };
 
 const Simple = (args) => <Steps {...args} />;
 const SimpleList = Simple.bind({});
 Simple.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
