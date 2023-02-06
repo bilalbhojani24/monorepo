@@ -65,6 +65,7 @@ import TableHead from './modules/TableHead/index';
 import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
+import TextEditor from './modules/TextEditor/index';
 import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
@@ -141,6 +142,7 @@ export {
   TableRow,
   Tabs,
   TextArea,
+  TextEditor,
   Tooltip,
   TooltipBody,
   TooltipFooter,
