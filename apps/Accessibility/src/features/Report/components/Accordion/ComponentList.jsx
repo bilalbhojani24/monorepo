@@ -10,6 +10,13 @@ import {
   getActiveComponentId,
   getIsShowingIssue
 } from 'features/Report/slice/selector';
+import {
+  ASTable,
+  ASTableBody,
+  ASTableCell,
+  ASTableHead,
+  ASTableRow
+} from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 import {
   formatComponentIdString,
@@ -53,7 +60,7 @@ export default function ComponentList({ nodes, violationId }) {
     return {
       id: key,
       isActive: key === activeComponentId,
-      componentId: formatComponentIdString(key),
+      componentId: key,
       pagesAffected: `${uniqUrls.length} page${uniqUrls.length > 1 ? 's' : ''}`,
       issueCount: `${componentMap[key].length} issue${
         componentMap[key].length > 1 ? 's' : ''
@@ -64,42 +71,86 @@ export default function ComponentList({ nodes, violationId }) {
 
   tableData = tableData.sort((a, b) => b.count - a.count);
 
+  const columns = [
+    {
+      id: 'componentId',
+      name: 'Component',
+      key: 'componentId'
+    },
+    {
+      id: 'pagesAffected',
+      name: 'Affected pages',
+      key: 'pagesAffected'
+    },
+    {
+      id: 'issueCount',
+      name: 'Issue count',
+      key: 'issueCount'
+    }
+  ];
+
   return (
-    <div
-    // className={classNames('component-list', {
-    //   'component-list--half-view': activeComponentId && isShowingIssue
-    // })}
-    >
-      <div className="component-list__header">
-        <p className="component-list__col-first">Component</p>
-        <p className="component-list__col-second">Affected pages</p>
-        <p className="component-list__col-third">Issue count</p>
-      </div>
-      {tableData.map(
-        ({ id, isActive, componentId, pagesAffected, issueCount }) => (
-          <div
-            // className={classNames('component-list__row', {
-            //   'component-list__row--active': isActive
-            // })}
-            onClick={() => onRowClick(id)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) =>
-              handleClickByEnterOrSpace(
-                e,
-                () => onRowClick(id),
-                'firstPageIcon'
-              )
-            }
-          >
-            <p className="component-list__col-first" title={componentId}>
-              {componentId}
-            </p>
-            <p className="component-list__col-second">{pagesAffected}</p>
-            <p className="component-list__col-third">{issueCount}</p>
-          </div>
-        )
-      )}
+    <div className="bg-white px-6 pt-2 pb-4">
+      <ASTable>
+        <ASTableHead>
+          <ASTableRow>
+            {columns.map((col, index) => (
+              <ASTableCell
+                key={col.key}
+                variant="header"
+                textTransform="uppercase"
+                wrapperClass={`text-xs text-base-500 ${
+                  index === 1 ? 'w-36' : ''
+                } ${index === 2 ? 'w-32' : ''}`}
+              >
+                {col.name} {index === 0 ? `(${tableData.length})` : ''}
+              </ASTableCell>
+            ))}
+          </ASTableRow>
+        </ASTableHead>
+        <ASTableBody>
+          {tableData.map(({ id, isActive, ...rest }) => (
+            <ASTableRow
+              // className={classNames('component-list__row', {
+              //   'component-list__row--active': isActive
+              // })}
+              wrapperClass="cursor-pointer"
+              onRowClick={() => onRowClick(id)}
+              // role="button"
+              // tabIndex={0}
+              // onKeyDown={(e) =>
+              //   handleClickByEnterOrSpace(
+              //     e,
+              //     () => onRowClick(id),
+              //     'firstPageIcon'
+              //   )
+              // }
+            >
+              {columns.map((column, index) => (
+                <ASTableCell
+                  key={column.id}
+                  wrapperClass={`px-6 py-2 ${index === 1 ? 'w-32' : ''}`}
+                >
+                  {index === 0 ? (
+                    <p>
+                      <span className="text-brand-600">
+                        {rest[column.key].split('#')[0].toLowerCase()}
+                      </span>
+                      <span>
+                        {rest[column.key].split('#')[1]
+                          ? `.${rest[column.key].split('#')[1]}`
+                          : ''}
+                      </span>
+                    </p>
+                  ) : (
+                    rest[column.key]
+                  )}
+                </ASTableCell>
+              ))}
+            </ASTableRow>
+          ))}
+        </ASTableBody>
+      </ASTable>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 import { Disclosure } from '@headlessui/react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { ChevronDownIcon, ChevronRightIcon, FolderIcon } from '../Icon';
+import { ChevronDownIcon, ChevronRightIcon, FolderIconMiui } from '../Icon';
 
 import './styles.scss';
 
 const ListTreeNode = ({
+  hideArrowIcon,
   label,
   description,
   nodeLabelClassName,
@@ -35,7 +37,9 @@ const ListTreeNode = ({
       <Disclosure.Button as={Fragment}>
         {({ open }) => (
           <div
-            className="mr-1 w-5 select-none"
+            className={classNames('mr-1 w-5 select-none', {
+              'invisible ': hideArrowIcon
+            })}
             role="presentation"
             onClick={(event) => {
               onNodeOpen?.();
@@ -47,8 +51,8 @@ const ListTreeNode = ({
         )}
       </Disclosure.Button>
 
-      <div className="text-info-400 mr-2 w-5 select-none">
-        <FolderIcon />
+      <div className="text-info-400 mr-1 w-5 select-none">
+        <FolderIconMiui className="max-h-4" />
       </div>
 
       <div
@@ -66,7 +70,8 @@ const ListTreeNode = ({
       <div
         role="presentation"
         className="hidden group-hover:flex"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           onTrailingIconClick?.();
         }}
       >
@@ -88,6 +93,7 @@ const ListTreeNode = ({
 );
 
 ListTreeNode.propTypes = {
+  hideArrowIcon: PropTypes.bool,
   label: PropTypes.string,
   description: PropTypes.string,
   nodeLabelClassName: PropTypes.string,
@@ -99,6 +105,7 @@ ListTreeNode.propTypes = {
 };
 
 ListTreeNode.defaultProps = {
+  hideArrowIcon: false,
   label: 'Folder Name',
   description: '(762)',
   nodeLabelClassName: '',

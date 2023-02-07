@@ -114,7 +114,7 @@ export default function useSummary() {
       enabled: false
     },
     title: {
-      text: `<p class="chart__title-count">${issueCount}</p><p class="chart__title">Issues</p>`,
+      text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${issueCount}</p><p class="text-xs text-base-500">Issues</p></div>`,
       verticalAlign: 'middle',
       y: 5,
       useHTML: true
@@ -133,11 +133,11 @@ export default function useSummary() {
     series: [
       {
         name: 'Issue by impact',
-        colorByPoint: true,
-        borderWidth: 9,
-        borderColor: null,
-        slicedOffset: 0,
-        innerSize: '98%',
+        // colorByPoint: true,
+        borderWidth: 20,
+        // borderColor: null,
+        // slicedOffset: 0,
+        innerSize: '100%',
         ignoreHiddenPoint: false,
         point: {
           events: {
@@ -145,11 +145,11 @@ export default function useSummary() {
               onRowClick('impact', value?.point?.options?.name.toLowerCase());
             },
             mouseOver: (value) => {
-              logEvent('OnADReportView', {
-                actionType: events.INTERACT_WITH_CHART,
-                chartType: 'Issue summary',
-                severity: value?.target?.options?.name
-              });
+              // logEvent('OnADReportView', {
+              //   actionType: events.INTERACT_WITH_CHART,
+              //   chartType: 'Issue summary',
+              //   severity: value?.target?.options?.name
+              // });
             }
           }
         },
@@ -161,42 +161,42 @@ export default function useSummary() {
             color: '#F95D6A',
             selected: true
           },
-          {
-            visible: false,
-            // NOTE: This define the empty space between pie chart,
-            // Increase the ↑1.7 to increase the space and to decrease the space, vice versa
-            y: (issueCount * 1.7) / 100
-          },
+          // {
+          //   visible: false,
+          //   // NOTE: This define the empty space between pie chart,
+          //   // Increase the ↑1.7 to increase the space and to decrease the space, vice versa
+          //   y: (issueCount * 1.7) / 100
+          // },
           {
             name: 'Serious',
             y: serious,
             sliced: true,
             color: '#FF9933'
           },
-          {
-            visible: false,
-            y: (issueCount * 1.7) / 100
-          },
+          // {
+          //   visible: false,
+          //   y: (issueCount * 1.7) / 100
+          // },
           {
             name: 'Moderate',
             y: moderate,
             sliced: true,
             color: '#E3C500'
           },
-          {
-            visible: false,
-            y: (issueCount * 1.7) / 100
-          },
+          // {
+          //   visible: false,
+          //   y: (issueCount * 1.7) / 100
+          // },
           {
             name: 'Minor',
             y: minor,
             sliced: true,
             color: '#C5D1D8'
-          },
-          {
-            visible: false,
-            y: (issueCount * 1.7) / 100
           }
+          // {
+          //   visible: false,
+          //   y: (issueCount * 1.7) / 100
+          // }
         ]
       }
     ]
@@ -221,11 +221,11 @@ export default function useSummary() {
         cloneDeep(categoryList).sort((a, b) => a.count - b.count)
       );
     }
-    logEvent('OnADReportView', {
-      actionType: events.INTERACT_WITH_CHART,
-      chartType: 'Issue category',
-      sortType: value
-    });
+    // logEvent('OnADReportView', {
+    //   actionType: events.INTERACT_WITH_CHART,
+    //   chartType: 'Issue category',
+    //   sortType: value
+    // });
   };
 
   useEffect(() => {

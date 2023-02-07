@@ -9,7 +9,7 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from 'features/Report/slice/selector';
-import { ASBadge, ASButton } from 'middleware/bifrost';
+import { ASBadge, ASButton, ASSelectMenu } from 'middleware/bifrost';
 // import { Button } from 'trike/Button';
 // import Checkbox from 'trike/Checkbox';
 // import { ArrowBackIcon, FilterListIcon } from 'trike/Icons';
@@ -36,6 +36,7 @@ export default function Issues() {
     onApplyFilters,
     onCloseClick,
     onFilterButtonClick,
+    onUpdateImpact,
     onInputBoxChange,
     onTabSelect,
     onTagClose,
@@ -48,6 +49,8 @@ export default function Issues() {
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
   );
+
+  console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -73,6 +76,25 @@ export default function Issues() {
     Object.values(reportFilters).filter((item) => item.length > 0).length > 0;
 
   const isHalfView = activeComponentId && isShowingIssue;
+
+  const severityOptions = [
+    {
+      label: 'Critical',
+      value: 'critical'
+    },
+    {
+      label: 'Serious',
+      value: 'serious'
+    },
+    {
+      label: 'Moderate',
+      value: 'moderate'
+    },
+    {
+      label: 'Minor',
+      value: 'minor'
+    }
+  ];
 
   return (
     <SectionsDataContext.Provider value={{ sectionData, violations }}>
@@ -182,7 +204,7 @@ export default function Issues() {
           </Actions>
         </Modal> */}
         {showHiddenIssues && (
-          <div className="issues__filter-wrapper-hidden-issues">
+          <div>
             {/* <ASButton
               icon={<ArrowBackIcon />}
               modifier="grey"
@@ -193,44 +215,44 @@ export default function Issues() {
             >
               Back
             </ASButton> */}
-            <p className="issues__filter-wrapper-hidden-issues-title">
-              {' '}
-              Showing Hidden Issues{' '}
-            </p>
+            <p> Showing Hidden Issues </p>
           </div>
         )}
-        <div className="issues__filter-wrapper">
-          <div className="issues__filter-wrapper-front-tabs">
-            <div className="issues__version-switch">
-              {issueTabs.map(({ label, value }) => (
-                <div
-                  // className={classNames('issues__version-switch-item', {
-                  //   'issues__version-switch-item--active':
-                  //     activeSwitch === value
-                  // })}
-                  onClick={() => onTabSelect(value)}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={(e) =>
-                    handleClickByEnterOrSpace(e, () => onTabSelect(value))
+        <div>
+          <div>
+            <div className="py-4 px-6">
+              {issueTabs.map(({ label, value }, index) => (
+                <ASButton
+                  wrapperClassName={
+                    index === 0 ? 'rounded-r-none' : 'rounded-l-none border-l-0'
                   }
-                  aria-label={`Select ${label} filter`}
+                  onClick={() => onTabSelect(value)}
+                  colors="white"
                 >
                   {label}
-                </div>
+                </ASButton>
               ))}
             </div>
-            {!showHiddenIssues && (
+            <div>
+              <ASSelectMenu
+                isMultiSelect
+                onChange={onUpdateImpact}
+                options={severityOptions}
+                placeholder="Severity"
+                value={reportFilters.impact}
+              />
+            </div>
+            {/* {!showHiddenIssues && (
               <ASButton
                 type="outline"
                 // icon={<FilterListIcon />}
                 // iconPlacement="left"
-                modifier="grey"
+                // modifier="grey"
                 onClick={onFilterButtonClick}
               >
                 Filters
               </ASButton>
-            )}
+            )} */}
             {/* {Object.entries(reportFilters).map(([key, values]) =>
               values.length ? (
                 <ASBadge
@@ -263,39 +285,28 @@ export default function Issues() {
               />
             )} */}
           </div>
-          {!showHiddenIssues && !hasFilters && (
-            <Button
-              text="View Hidden Issues"
-              type="outline"
-              size="small"
-              modifier="grey"
+          {/* {!showHiddenIssues && !hasFilters && (
+            <ASButton
+              // type="outline"
+              // size="small"
+              // modifier="grey"
               onClick={() => onHiddenIssueClick(true)}
-            />
-          )}
+            >
+              View Hidden Issues
+            </ASButton>
+          )} */}
         </div>
-        <div className="issues__issue-wrapper">
+        <div>
           {showEmptyScreen ? (
-            <div className="issues__issue-wrapper-empty-section">
-              <img
-                className="issues__issue-wrapper-empty-section-image"
-                src={IssuesNotFound}
-                alt="No Issues Found"
-              />
-              <p className="issues__issue-wrapper-empty-section-text">
-                No Issues Found
-              </p>
+            <div>
+              <img src={IssuesNotFound} alt="No Issues Found" />
+              <p>No Issues Found</p>
             </div>
           ) : (
             <>
-              <div
-                className={classNames('issues__violations', {
-                  'issues__violations--full': isHalfView
-                })}
-              >
-                <Accordion />
-              </div>
+              <Accordion />
               {isHalfView && sectionData && (
-                <div className="issues__content-issue">
+                <div>
                   <IssueItem />
                 </div>
               )}

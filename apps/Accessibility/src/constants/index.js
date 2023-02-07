@@ -136,3 +136,10 @@ export const activeInitFilters = {
   category: [],
   showNeedsReviewIssues: false
 };
+
+export const issueTypes = [
+  { modifier: 'error', type: 'critical' },
+  { modifier: 'error', type: 'serious' },
+  { modifier: 'warn', type: 'moderate' },
+  { modifier: 'base', type: 'minor' }
+];

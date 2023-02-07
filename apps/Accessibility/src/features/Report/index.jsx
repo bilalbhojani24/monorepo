@@ -108,10 +108,8 @@ export default function Report() {
                 <div className="flex items-center">
                   {Object.values(reportMetaData?.meta).map(
                     ({ name }, index) => (
-                      <div className="report__header-report-wrapper">
-                        <p className="report__header-report" title={name}>
-                          {name}
-                        </p>
+                      <div>
+                        <p title={name}>{name}</p>
                         {index !==
                         Object.values(reportMetaData?.meta).length - 1
                           ? ','
@@ -124,17 +122,22 @@ export default function Report() {
             </div>
             <div className="flex">
               {isCopied ? (
-                <ASButton colors="white">Copied</ASButton>
+                <ASButton colors="white" size="small">
+                  Copied
+                </ASButton>
               ) : (
                 <CopyToClipboard
                   text={window.location.href}
                   onCopy={onCopyClick}
                 >
                   <ASButton
-                    icon={<ShareIcon />}
+                    icon={
+                      <ShareIcon style={{ height: '16px', width: '16px' }} />
+                    }
                     iconPlacement="end"
                     onClick={() => {}}
                     colors="white"
+                    size="extra-small"
                   >
                     Share link
                   </ASButton>
@@ -144,6 +147,7 @@ export default function Report() {
                 icon={<GetAppIcon />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
+                size="small"
                 onClick={() => downloadCsv(reportData, csvName)}
               >
                 Export
@@ -168,7 +172,7 @@ export default function Report() {
           />
         </div>
       </div>
-      {/* {activeTab === 'summary' && <Summary />} */}
+      {activeTab === 'summary' && <Summary />}
       {activeTab === 'issues' && <Issues />}
     </div>
   ) : (

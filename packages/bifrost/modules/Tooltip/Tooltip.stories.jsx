@@ -6,7 +6,7 @@ import {
   TP_PLACEMENT_SIDE,
   TP_SIZE,
   TP_STICKY_OPTIONS,
-  TP_TOOLTIP_THEME,
+  TP_TOOLTIP_THEME
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
 import Hyperlink from '../Hyperlink';
@@ -27,33 +27,33 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Tooltip from 'bifrost/Tooltip'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     arrowClassName: {
       option: { type: 'string' },
-      defaultValue: '',
+      defaultValue: ''
     },
     arrowWidth: {
       option: { type: 'number' },
-      defaultValue: 20,
+      defaultValue: 20
     },
     arrowHeight: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     arrowPadding: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     alignOffset: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     avoidCollisions: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     content: {
       option: { type: null },
@@ -69,67 +69,67 @@ const defaultConfig = {
             <Button colors="white">Action 2</Button>
           </TooltipFooter>
         </>
-      ),
+      )
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Hover me</Button>,
+      defaultValue: <Button>Hover me</Button>
     },
     delay: {
       option: { type: 'number' },
-      defaultValue: 200,
+      defaultValue: 200
     },
     defaultOpen: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     onOpenChange: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onEscapeKeyDown: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onPointerDownOutside: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     placementAlign: {
       options: TP_PLACEMENT_ALIGN,
       control: { type: inlineRadio },
-      defaultValue: TP_PLACEMENT_ALIGN[0],
+      defaultValue: TP_PLACEMENT_ALIGN[0]
     },
     placementSide: {
       options: TP_PLACEMENT_SIDE,
       control: { type: inlineRadio },
-      defaultValue: TP_PLACEMENT_SIDE[0],
+      defaultValue: TP_PLACEMENT_SIDE[0]
     },
     show: {
       option: { type: 'boolean' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     sideOffset: {
       option: { type: 'number' },
-      defaultValue: 5,
+      defaultValue: 5
     },
     size: {
       options: TP_SIZE,
       control: { type: inlineRadio },
-      defaultValue: TP_SIZE[0],
+      defaultValue: TP_SIZE[0]
     },
     sticky: {
       options: TP_STICKY_OPTIONS,
       control: { type: inlineRadio },
-      defaultValue: TP_STICKY_OPTIONS[0],
+      defaultValue: TP_STICKY_OPTIONS[0]
     },
     theme: {
       options: TP_TOOLTIP_THEME,
       control: { type: inlineRadio },
-      defaultValue: TP_TOOLTIP_THEME[0],
-    },
+      defaultValue: TP_TOOLTIP_THEME[0]
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Tooltip {...args} />;
 const DarkThemeTemplate = (args) => <Tooltip {...args} />;
@@ -144,7 +144,7 @@ const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
 const CustomTooltip = CustomTooltipTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -153,7 +153,7 @@ export {
   DarkTheme,
   DarkThemeHyperlink,
   LightThemeHyperlink,
-  Primary,
+  Primary
 };
 
 // CustomTooltip tooltip start
@@ -164,7 +164,7 @@ CustomTooltip.args = {
       Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
       sodales augue eu viverra tempus.
     </TooltipBody>
-  ),
+  )
 };
 // CustomTooltip tooltip end
 
@@ -188,7 +188,7 @@ DarkTheme.args = {
         </Button>
       </TooltipFooter>
     </>
-  ),
+  )
 };
 // Darktheme tooltip end
 
@@ -224,7 +224,7 @@ LightThemeHyperlink.args = {
         </Hyperlink>
       </TooltipFooter>
     </>
-  ),
+  )
 };
 // LightThemeHyperlink tooltip start
 
@@ -260,6 +260,6 @@ DarkThemeHyperlink.args = {
         </Hyperlink>
       </TooltipFooter>
     </>
-  ),
+  )
 };
 // DarkThemeHyperlink tooltip start

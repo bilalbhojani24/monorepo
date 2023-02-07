@@ -32,12 +32,18 @@ import {
   XCircleIcon,
   XMarkIcon
 } from '@heroicons/react/20/solid';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import FolderIconMiui from '@mui/icons-material/Folder';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+import PhotoIconMiui from '@mui/icons-material/Photo';
 
 export {
   ArrowDownIcon,
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
   ArrowUpIcon,
+  AttachFileIcon,
   Bars3Icon,
   BarsArrowUpIcon,
   CalendarIcon,
@@ -53,15 +59,19 @@ export {
   EllipsisVerticalIcon,
   EnvelopeIcon,
   EnvelopeOpenIcon,
+  ErrorOutlineIcon,
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
   FolderIcon,
+  FolderIconMiui,
   HomeIcon,
   InboxIcon,
   InformationCircleIcon,
+  InsertPhotoOutlinedIcon,
   MagnifyingGlassIcon,
   PaperClipIcon,
   PhotoIcon,
+  PhotoIconMiui,
   PlusIcon,
   UsersIcon,
   XCircleIcon,

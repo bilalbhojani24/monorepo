@@ -2,6 +2,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { issueTypes } from 'constants';
 // import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
 import { ASBadge, ASCheckbox } from 'middleware/bifrost';
@@ -64,12 +65,6 @@ export default function ReportRow({ id }) {
       // history.push(`reports/report?${path}`);
     }
   };
-  const issueTypes = [
-    { modifier: 'error', type: 'critical' },
-    { modifier: 'error', type: 'serious' },
-    { modifier: 'warn', type: 'moderate' },
-    { modifier: 'base', type: 'minor' }
-  ];
 
   return (
     <div
