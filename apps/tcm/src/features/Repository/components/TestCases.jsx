@@ -28,7 +28,8 @@ export default function TestCases() {
     allTestCases,
     isAddTestCasePageVisible,
     isBulkUpdate,
-    isTestCasesLoading
+    isTestCasesLoading,
+    isFoldersLoading
   } = useTestCases();
 
   if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
@@ -40,7 +41,7 @@ export default function TestCases() {
         <>
           <Filter />
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
-            {selectedFolder && !isTestCasesLoading && (
+            {selectedFolder && (
               <div className="border-base-200 w-full border-b p-4">
                 <div className="text-base-800 w-full font-medium">
                   {selectedFolder?.name}
@@ -71,7 +72,7 @@ export default function TestCases() {
                 )}
               </div>
             )}
-            {isTestCasesLoading ? (
+            {isTestCasesLoading && isFoldersLoading ? (
               <Loader wrapperClass="h-full" />
             ) : (
               <>
@@ -92,6 +93,7 @@ export default function TestCases() {
                       isCondensed
                       containerWrapperClass="md:rounded-none"
                       rows={allTestCases}
+                      isLoading={isTestCasesLoading}
                     />
                   </div>
                 )}

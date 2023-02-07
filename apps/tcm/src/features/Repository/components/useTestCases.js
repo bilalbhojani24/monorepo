@@ -39,8 +39,10 @@ export default function useTestCases() {
     (state) => state.repository.selectedFolder
   );
   const isTestCasesLoading = useSelector(
-    (state) =>
-      state.repository.isLoading.testCases || state.repository.isLoading.folder
+    (state) => state.repository.isLoading.testCases
+  );
+  const isFoldersLoading = useSelector(
+    (state) => state.repository.isLoading.folder
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
@@ -142,6 +144,7 @@ export default function useTestCases() {
     showDeleteModal,
     selectedTestCase,
     isTestCasesLoading,
+    isFoldersLoading,
     fetchAllTestCases,
     fetchUsers,
     initFormValues,

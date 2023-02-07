@@ -20,6 +20,7 @@ import {
   TMDropdown,
   TMPagination
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
 import { dropDownOptions, perPageCount } from '../const/testCaseConst';
@@ -27,7 +28,12 @@ import { dropDownOptions, perPageCount } from '../const/testCaseConst';
 import FolderExplorerModal from './FolderExplorerModal';
 import useTestCasesTable from './useTestCasesTable';
 
-const TestCasesTable = ({ rows, containerWrapperClass, isCondensed }) => {
+const TestCasesTable = ({
+  rows,
+  containerWrapperClass,
+  isCondensed,
+  isLoading
+}) => {
   const {
     metaPage,
     showMoveModal,
@@ -160,12 +166,14 @@ const TestCasesTable = ({ rows, containerWrapperClass, isCondensed }) => {
               wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
+              {/* all checkbox */}
               <TMCheckBox
                 border={false}
                 wrapperClass="pt-0"
                 checked={
                   (isAllSelected && !deSelectedTestCaseIDs.length) ||
-                  selectedTestCaseIDs.length === rows.length
+                  (rows.length !== 0 &&
+                    selectedTestCaseIDs.length === rows.length)
                 }
                 indeterminate={
                   !!(
@@ -229,54 +237,60 @@ const TestCasesTable = ({ rows, containerWrapperClass, isCondensed }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <>
-            {rows?.map((row, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <TableRow isSelected key={row.id || index}>
-                <TableCell
-                  variant="body"
-                  wrapperClass={classNames(
-                    'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
-                    !deSelectedTestCaseIDs.includes(row.id) &&
-                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                      ? 'border-l-brand-600'
-                      : 'border-l-white'
-                  )}
-                  textTransform="uppercase"
-                >
-                  <TMCheckBox
-                    border={false}
-                    wrapperClass="pt-0"
-                    checked={
+          {!isLoading ? (
+            <>
+              {rows?.map((row, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <TableRow isSelected key={row.id || index}>
+                  <TableCell
+                    variant="body"
+                    wrapperClass={classNames(
+                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
-                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                    }
-                    onChange={(e) => updateSelection(e, row)}
-                  />
-                </TableCell>
-                {datatableColumns?.map((column) => {
-                  const value = row[column.key];
-                  return (
-                    <TableCell
-                      key={column.id}
-                      wrapperClass={classNames({
-                        'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
-                        'sticky bg-white': column.isSticky,
-                        'right-0 ':
-                          column.isSticky && column.stickyPosition === 'right',
-                        'left-10 ':
-                          column.isSticky && column.stickyPosition === 'left'
-                      })}
-                    >
-                      {column.cell ? <>{column.cell(row)}</> : value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </>
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                        ? 'border-l-brand-600'
+                        : 'border-l-white'
+                    )}
+                    textTransform="uppercase"
+                  >
+                    <TMCheckBox
+                      border={false}
+                      wrapperClass="pt-0"
+                      checked={
+                        !deSelectedTestCaseIDs.includes(row.id) &&
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      }
+                      onChange={(e) => updateSelection(e, row)}
+                    />
+                  </TableCell>
+                  {datatableColumns?.map((column) => {
+                    const value = row[column.key];
+                    return (
+                      <TableCell
+                        key={column.id}
+                        wrapperClass={classNames({
+                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'sticky bg-white': column.isSticky,
+                          'right-0 ':
+                            column.isSticky &&
+                            column.stickyPosition === 'right',
+                          'left-10 ':
+                            column.isSticky && column.stickyPosition === 'left'
+                        })}
+                      >
+                        {column.cell ? <>{column.cell(row)}</> : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </>
+          ) : null}
         </TableBody>
       </Table>
+      <div className="flex w-full flex-col justify-center">
+        <Loader wrapperClass="h-96 w-full" />
+      </div>
       {metaPage?.count > perPageCount && (
         <TMPagination
           pageNumber={metaPage?.page || 1}
@@ -299,12 +313,14 @@ const TestCasesTable = ({ rows, containerWrapperClass, isCondensed }) => {
 TestCasesTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   containerWrapperClass: PropTypes.string,
-  isCondensed: PropTypes.bool
+  isCondensed: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 TestCasesTable.defaultProps = {
   containerWrapperClass: '',
-  isCondensed: false
+  isCondensed: false,
+  isLoading: false
 };
 
 export default TestCasesTable;
