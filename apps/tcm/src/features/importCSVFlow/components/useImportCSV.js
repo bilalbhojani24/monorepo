@@ -23,6 +23,9 @@ const useImportCSV = () => {
     (state) => state.importCSV.fieldsMappingData
   );
   const showMoreFields = useSelector((state) => state.importCSV.showCSVFields);
+  const mapFieldModalConfig = useSelector(
+    (state) => state.importCSV.mapFieldModalConfig
+  );
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -56,7 +59,9 @@ const useImportCSV = () => {
       else if (key === 'firstRowIsHeader')
         filesData.append('first_row_is_header', csvFormData[key]);
       else if (key === 'separators')
-        filesData.append('csv_separator', csvFormData[key]);
+        filesData.append('csv_separator', csvFormData[key].label);
+      else if (key === 'encodings')
+        filesData.append('encoding', csvFormData[key]);
     });
     // add projectId and folderId
     filesData.append('project_id', queryParams.get('project'));
@@ -80,7 +85,8 @@ const useImportCSV = () => {
     handleCSVFieldChange,
     handleProceedClick,
     handleShowMoreFields,
-    mappingFieldsData
+    mappingFieldsData,
+    mapFieldModalConfig
   };
 };
 

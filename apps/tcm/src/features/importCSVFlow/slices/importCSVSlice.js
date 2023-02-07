@@ -15,7 +15,8 @@ const initialState = {
     firstRowIsHeader: true
   },
   csvUploadError: '',
-  showCSVFields: false
+  showCSVFields: false,
+  mapFieldModalConfig: { show: false, field: '' }
 };
 
 export const uploadFile = createAsyncThunk(
@@ -50,6 +51,9 @@ const importCSVSlice = createSlice({
     },
     setShowMoreFields: (state, { payload }) => {
       state.showCSVFields = payload;
+    },
+    setMapFieldModalConfig: (state, { payload }) => {
+      state.mapFieldModalConfig = payload;
     }
   },
   extraReducers: (builder) => {
@@ -74,6 +78,7 @@ export const {
   setCSVFormData,
   setCSVUploadError,
   setFileConfig,
-  setShowMoreFields
+  setShowMoreFields,
+  setMapFieldModalConfig
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

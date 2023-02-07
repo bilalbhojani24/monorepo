@@ -1,84 +1,113 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
+  SelectMenu,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import { TMSectionHeadings } from 'common/bifrostProxy';
-// import classNames from 'classnames';
-// import SelectMenu from '../../../../../../packages/bifrost/modules/SelectMenu/index';
-import { TMSelectMenu } from 'common/bifrostProxy';
+import { TMSectionHeadings, TMSelectMenu } from 'common/bifrostProxy';
+
+import { getFieldMapping } from '../../../api/importCSV.api';
+import { setMapFieldModalConfig } from '../slices/importCSVSlice';
+
+import MapFieldModal from './mapFieldModal';
+import useImportCSV from './useImportCSV';
 
 const MapFields = ({
+  importId,
   importFields,
   defaultFields,
   customFields,
   fieldMappings
 }) => {
-  console.log(
-    'props',
-    importFields,
-    defaultFields,
-    customFields,
-    fieldMappings
-  );
-  const defaultOptions = defaultFields.map((value) => ({
-    label: value,
-    value
+  const defaultOptions = defaultFields.map((field) => ({
+    label: field.display_name,
+    value: field.display_name
   }));
 
-  const customOptions = customFields.map((value) => ({
-    label: value,
-    value
+  const customOptions = customFields.map((field) => ({
+    label: field.display_name,
+    value: field.display_name
   }));
+
+  const defaultNameToDisplayMapper = defaultFields.reduce(
+    (mapObject, field) => {
+      const key = field.name;
+      const value = field.display_name;
+      return { ...mapObject, [key]: value };
+    },
+    {}
+  );
+
+  const customNameToDisplayMapper = customFields.reduce((mapObject, field) => {
+    const key = field.name;
+    const value = field.display_name;
+    return { ...mapObject, [key]: value };
+  }, {});
+
+  const defaultDisplayToNameMapper = defaultFields.reduce(
+    (mapObject, field) => {
+      const key = field.display_name;
+      const value = field.name;
+      return { ...mapObject, [key]: value };
+    },
+    {}
+  );
+
+  const customDisplayToNameMapper = customFields.reduce((mapObject, field) => {
+    const key = field.display_name;
+    const value = field.name;
+    return { ...mapObject, [key]: value };
+  }, {});
+
+  const mapNameToDisplay = {
+    ...defaultNameToDisplayMapper,
+    ...customNameToDisplayMapper
+  }; // maps field name to display name
+
+  const mapDisplayToName = {
+    ...defaultDisplayToNameMapper,
+    ...customDisplayToNameMapper
+  };
+
+  const defaultTypeMapper = defaultFields.reduce((mapObject, field) => {
+    const key = field.name;
+    const value = field.type;
+    return { ...mapObject, [key]: value };
+  }, {});
+
+  const customTypeMapper = customFields.reduce((mapObject, field) => {
+    const key = field.name;
+    const value = field.type;
+    return { ...mapObject, [key]: value };
+  }, {});
+
+  const typeMapper = { ...defaultTypeMapper, ...customTypeMapper };
+  const [myFieldMappings, setMyFieldMappings] = useState(fieldMappings);
+  const { mapFieldModalConfig } = useImportCSV();
+  const dispatch = useDispatch();
 
   const rows = importFields.map((item) => {
-    const options = [...defaultOptions, ...customOptions];
+    const options = [
+      ...defaultOptions,
+      ...customOptions,
+      { label: 'Ignore Column', value: 'Ignore Column' }
+    ];
     return {
       field: item,
       mappedField: {
         options,
-        defaultValue: { label: fieldMappings[item], value: fieldMappings[item] }
+        defaultValue: {
+          label: mapNameToDisplay[myFieldMappings[item]],
+          value: mapNameToDisplay[myFieldMappings[item]]
+        }
       },
-      mappedValue: null
+      mappedValue: myFieldMappings[item]
     };
   });
-
-  //   const options = [...defaultOptions, ...customOptions];
-
-  //   const tableColumn = [
-  //     {
-  //       name: 'CSV Column Header',
-  //       key: 'field'
-  //     },
-  //     {
-  //       name: 'Test Management Fields',
-  //       key: 'mappedField',
-  //       cell: () => (
-  //         <div className="flex">
-  //           <TMSelectMenu options={options} />
-  //         </div>
-  //       )
-  //     },
-  //     {
-  //       name: 'Value Mapping',
-  //       key: 'mappedValue',
-  //       cell: (rowData) => {
-  //         console.log(rowData);
-  //         <>hello</>;
-  //         // <TMBadge
-  //         //   wrapperClassName="capitalize"
-  //         //   text={rowData.latest_status}
-  //         //   modifier={rowData.latest_status
-  //         //     .replace('untested', 'base')
-  //         //     .replace('passed', 'success')
-  //         //     .replace('failed', 'error')}
-  //         // />
-  //       }
-  //     }
-  //   ];
 
   const columns = [
     {
@@ -95,6 +124,55 @@ const MapFields = ({
     }
   ];
 
+  const handleSelectMenuChange = (field) => (d) => {
+    setMyFieldMappings({
+      ...myFieldMappings,
+      [field]: mapDisplayToName[d.label]
+    });
+  };
+
+  const handleUpdateClick = (value) => () => {
+    dispatch(setMapFieldModalConfig({ show: true, field: value })); // isme value from api add karna hai
+    getFieldMapping({
+      importId,
+      field: mapNameToDisplay[value],
+      mapped_field: value
+    }).then((data) => console.log('data', data));
+  };
+
+  const getMappingForLastCol = (value, mappingType) => {
+    switch (mappingType) {
+      case 'field_text':
+        return (
+          <SelectMenu
+            checkPosition="right"
+            options={[
+              { label: 'Text', value: 'Text' },
+              { label: 'HTML', value: 'HTML' }
+            ]}
+          />
+        );
+
+      case 'field_dropdown':
+        return (
+          <span>
+            Value Mapped{' '}
+            <button
+              type="button"
+              className="text-brand-400"
+              onClick={handleUpdateClick(value)}
+              onKeyDown={handleUpdateClick(value)}
+            >
+              (Update)
+            </button>
+          </span>
+        );
+
+      default:
+        return <>No Mapping Needed</>;
+    }
+  };
+
   return (
     <div className="border-base-200 m-4 flex w-4/5 flex-col self-center rounded-md border-2 border-solid bg-white p-6">
       <TMSectionHeadings
@@ -109,7 +187,6 @@ const MapFields = ({
         Fields and values are mapped by default. You can update the mapping if
         needed:
       </div>
-      {/* <TMDataTable isCondensed columns={tableColumn} rows={row} /> */}
       <Table>
         <TableHead wrapperClass="w-full rounded-xs">
           <TableRow wrapperClass="relative">
@@ -123,23 +200,36 @@ const MapFields = ({
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.field}>
-              <TableCell variant="body" wrapperClass="py-1">
-                {row.field}
-              </TableCell>
-              <TableCell variant="body" wrapperClass="py-1 flex">
+              <TableCell wrapperClass="py-1">{row.field}</TableCell>
+              <TableCell wrapperClass="py-2 mr-4">
                 <TMSelectMenu
                   checkPosition="right"
                   options={row.mappedField.options}
-                  defaultValue={row.mappedField.defaultValue}
+                  {...(row.mappedField.defaultValue.label && {
+                    defaultValue: row.mappedField.defaultValue
+                  })}
+                  {...(!row.mappedField.defaultValue.label && {
+                    defaultValue: {
+                      label: 'Ignore Column',
+                      value: 'Ignore Column'
+                    }
+                  })}
+                  onChange={handleSelectMenuChange(row.field)}
                 />
               </TableCell>
-              <TableCell variant="body" wrapperClass="py-1">
-                No Mapping Needed
+              <TableCell wrapperClass="py-1">
+                {getMappingForLastCol(
+                  row.mappedValue,
+                  typeMapper[row.mappedValue]
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {mapFieldModalConfig.show && (
+        <MapFieldModal modalConfig={mapFieldModalConfig} />
+      )}
     </div>
   );
 };

@@ -17,6 +17,7 @@ const ImportCSV = () => {
     if (currentCSVScreen === 'mapFields') {
       return (
         <MapFields
+          importId={mappingFieldsData?.import_id}
           importFields={mappingFieldsData.import_fields ?? []}
           defaultFields={mappingFieldsData?.fields_available?.default ?? []}
           customFields={mappingFieldsData?.fields_available?.custom ?? []}

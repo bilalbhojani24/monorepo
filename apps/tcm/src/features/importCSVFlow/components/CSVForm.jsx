@@ -24,7 +24,14 @@ const CSVForm = () => {
       });
       Object.keys(csvFormData).forEach((key) => {
         if (key === 'row') dispatch(setCSVFormData({ key, value: 1 }));
-        else {
+        else if (key === 'encodings') {
+          dispatch(
+            setCSVFormData({
+              key,
+              value: { label: data[key][2], value: data[key][2] }
+            })
+          );
+        } else if (key === 'separators') {
           dispatch(
             setCSVFormData({
               key,
