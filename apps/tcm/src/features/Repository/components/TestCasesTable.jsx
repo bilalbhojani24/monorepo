@@ -156,7 +156,8 @@ const TestCasesTable = ({
       <Table
         containerWrapperClass={classNames(
           containerWrapperClass,
-          'max-w-[calc(100vw-40rem)]'
+          // 'max-w-[calc(100vw-40rem)]'
+          'overflow-y-auto'
         )}
       >
         <TableHead wrapperClass="w-full rounded-xs">
