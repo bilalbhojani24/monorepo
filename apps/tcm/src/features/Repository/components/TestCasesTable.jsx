@@ -35,6 +35,7 @@ const TestCasesTable = ({
   isLoading
 }) => {
   const {
+    isSearchFilterView,
     metaPage,
     showMoveModal,
     selectedTestCaseIDs,
@@ -98,7 +99,18 @@ const TestCasesTable = ({
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          {rowData.name}
+          {isSearchFilterView ? (
+            <>
+              <div className="text-base-900 hover:text-brand-600 font-medium ">
+                {rowData.name}
+              </div>
+              <div className="text-base-400 font-normal">
+                {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
+              </div>
+            </>
+          ) : (
+            rowData.name
+          )}
         </div>
       )
     },
