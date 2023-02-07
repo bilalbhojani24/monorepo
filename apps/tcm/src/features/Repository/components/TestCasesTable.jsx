@@ -288,9 +288,11 @@ const TestCasesTable = ({
           ) : null}
         </TableBody>
       </Table>
-      <div className="flex w-full flex-col justify-center">
-        <Loader wrapperClass="h-96 w-full" />
-      </div>
+      {isLoading ? (
+        <div className="flex w-full flex-col justify-center">
+          <Loader wrapperClass="h-96 w-full" />
+        </div>
+      ) : null}
       {metaPage?.count > perPageCount && (
         <TMPagination
           pageNumber={metaPage?.page || 1}
