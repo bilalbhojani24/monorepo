@@ -125,7 +125,10 @@ export default function useTestCases() {
           // if page error, reset p=1
           setSearchParams({});
         });
-    } else dispatch(updateAllTestCases([]));
+    } else {
+      dispatch(updateAllTestCases([]));
+      dispatch(updateTestCasesListLoading(false));
+    }
   };
 
   return {

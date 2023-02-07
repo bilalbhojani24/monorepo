@@ -37,7 +37,10 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full flex-col items-start">
-      {allTestCases.length || isSearchFilterView || isTestCasesLoading ? (
+      {allTestCases.length ||
+      isSearchFilterView ||
+      isTestCasesLoading ||
+      isFoldersLoading ? (
         <>
           <Filter />
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
@@ -72,7 +75,7 @@ export default function TestCases() {
                 )}
               </div>
             )}
-            {isTestCasesLoading && isFoldersLoading ? (
+            {isTestCasesLoading || isFoldersLoading ? (
               <Loader wrapperClass="h-full" />
             ) : (
               <>

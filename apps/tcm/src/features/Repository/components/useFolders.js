@@ -16,7 +16,8 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
-  updateFoldersLoading
+  updateFoldersLoading,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
@@ -104,13 +105,15 @@ export default function useFolders() {
     ) {
       // select first folder by default, only if the test cases page is still open
       const firstFolderId = foldersArray[0]?.id;
-      if (firstFolderId)
+      if (firstFolderId) {
+        dispatch(updateTestCasesListLoading(true)); // was buggy
         navigate(
           routeFormatter(AppRoute.TEST_CASES, {
             projectId,
             folderId: firstFolderId
           })
         );
+      }
     }
   };
 

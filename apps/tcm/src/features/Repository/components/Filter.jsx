@@ -39,9 +39,9 @@ const Filter = () => {
   } = useFilter();
 
   useEffect(() => {
-    initFormValues();
+    if (isFilterVisible) initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isFilterVisible]);
 
   const priorityOptions = [
     {

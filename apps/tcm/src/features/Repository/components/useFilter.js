@@ -53,12 +53,13 @@ const useFilter = () => {
       }
     });
 
-    getTestCasesSearchFilterAPI({
-      projectId,
-      props: queryParams
-    }).then((res) => {
-      dispatch(updateAllTestCases(res));
-    });
+    if (Object.keys(queryParams).length)
+      getTestCasesSearchFilterAPI({
+        projectId,
+        props: queryParams
+      }).then((res) => {
+        dispatch(updateAllTestCases(res));
+      });
   };
 
   const applyFilterHandler = () => {
