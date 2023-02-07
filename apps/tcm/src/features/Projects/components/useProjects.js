@@ -66,8 +66,8 @@ const useProjects = () => {
   const fetchProjects = () => {
     dispatch(setLoading(true));
     getProjectsAPI(searchParams.get('p')).then((res) => {
-      // dispatch(setProjects(res.projects));
-      // dispatch(setMetaPage(res.info));
+      dispatch(setProjects(res.projects));
+      dispatch(setMetaPage(res.info));
       dispatch(setLoading(false));
     });
   };
