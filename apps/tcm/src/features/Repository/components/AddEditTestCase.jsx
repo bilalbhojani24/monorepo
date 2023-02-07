@@ -67,8 +67,8 @@ const AddEditTestCase = () => {
   }, []);
 
   return (
-    <div className="border-base-200 w-full border-l">
-      <div className="p-4 pb-0">
+    <div className="border-base-200 flex w-full  shrink-0 grow flex-col items-start overflow-hidden border-l">
+      <div className="w-full p-4 pb-0">
         <TMSectionHeadings
           title={isTestCaseEditing ? 'Edit Test Case' : 'Create Test Case'}
           variant="buttons"
@@ -88,7 +88,7 @@ const AddEditTestCase = () => {
           }}
         />
       </div>
-      <div className="max-h-[calc(100vh-14.2rem)] overflow-y-auto p-4 pt-0">
+      <div className="w-full shrink grow overflow-y-auto p-4 pt-0">
         <div className="my-4 flex gap-4">
           <div className="w-3/4">
             <TMInputField
