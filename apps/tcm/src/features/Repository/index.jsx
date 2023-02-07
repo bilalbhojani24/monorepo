@@ -39,7 +39,7 @@ const Repository = ({ isSearch }) => {
             </section>
 
             <aside className="lg:order-first lg:block lg:shrink-0">
-              <div className="relative flex h-full w-96 flex-col overflow-y-auto">
+              <div className="relative flex h-full w-96 flex-col overflow-hidden">
                 <Folders />
               </div>
             </aside>
