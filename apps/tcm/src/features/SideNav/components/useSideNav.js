@@ -11,6 +11,7 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
+  const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
   const location = useLocation();
   const [primaryNavs, setPrimaryNavs] = useState([]);
@@ -42,11 +43,14 @@ export default function useSideNav() {
   };
 
   const onProjectChange = (project) => {
-    navigate(
-      routeFormatter(activeRoute.id, {
-        projectId: project?.id
-      })
-    );
+    if (project.id === allProjectOptionValue) {
+      navigate(AppRoute.ROOT);
+    } else
+      navigate(
+        routeFormatter(activeRoute.id, {
+          projectId: project?.id
+        })
+      );
   };
 
   useEffect(() => {
@@ -80,13 +84,19 @@ export default function useSideNav() {
   }, [location.pathname, primaryNavs, secondaryNavs]);
 
   useEffect(() => {
-    setAllProjectsDrop(
-      allProjects.map((item) => ({
+    setAllProjectsDrop([
+      ...allProjects.map((item) => ({
         ...item,
         label: item.name,
         value: item.id
-      }))
-    );
+      })),
+      {
+        label: 'All Projects',
+        value: allProjectOptionValue,
+        id: allProjectOptionValue,
+        divider: true
+      }
+    ]);
   }, [allProjects]);
 
   return {
