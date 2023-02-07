@@ -10,9 +10,9 @@ import {
   TMPageHeadings,
   TMPagination
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 
-import Loader from '../../../common/Loader';
 import { dropDownOptions, perPageCount } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';

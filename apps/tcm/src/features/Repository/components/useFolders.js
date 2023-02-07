@@ -70,7 +70,7 @@ export default function useFolders() {
             )
           : newContentObject;
       }
-      // newItem.sub_folders_count = newItem?.contents?.length;
+      newItem.sub_folders_count = newItem?.contents?.length;
       newContentObject = newItem;
     });
     return newContentObject;

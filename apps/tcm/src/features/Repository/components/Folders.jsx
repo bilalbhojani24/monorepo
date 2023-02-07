@@ -7,6 +7,7 @@ import {
 } from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
+import Loader from 'common/Loader';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 
@@ -66,7 +67,7 @@ export default function Folders() {
         show={openedFolderModal?.modal === folderDropOptions[4].body}
         projectId={projectId}
       />
-      {allFolders.length || isSearchFilterView ? (
+      {allFolders.length || isSearchFilterView || isFoldersLoading ? (
         <>
           <div className="border-base-300 flex items-center border-b p-3">
             <span className="text-base">Folders</span>
@@ -81,32 +82,39 @@ export default function Folders() {
               <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
             </TMButton>
           </div>
+
           <div className="flex h-full max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
-            {!isSearchFilterView ? (
-              <FolderExplorer
-                projectId={projectId}
-                folderId={folderId}
-                allFolders={allFolders}
-                actionsEnabled
-                onFolderClick={updateRouteHelper}
-                onFoldersUpdate={folderUpdateHandler}
-                actionOptions={folderDropOptions}
-                actionClickHandler={folderActionsHandler}
-                isSingleSelect
-              />
+            {isFoldersLoading ? (
+              <Loader wrapperClass="h-full" />
             ) : (
-              <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
-                <TMEmptyState
-                  // title=""
-                  title={`We found ${testCasesCount} Search Results for '${
-                    filterSearchMeta?.searchKey || ''
-                  }' across all folders`}
-                  mainIcon={
-                    <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
-                  }
-                  buttonProps={null}
-                />
-              </div>
+              <>
+                {!isSearchFilterView ? (
+                  <FolderExplorer
+                    projectId={projectId}
+                    folderId={folderId}
+                    allFolders={allFolders}
+                    actionsEnabled
+                    onFolderClick={updateRouteHelper}
+                    onFoldersUpdate={folderUpdateHandler}
+                    actionOptions={folderDropOptions}
+                    actionClickHandler={folderActionsHandler}
+                    isSingleSelect
+                  />
+                ) : (
+                  <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+                    <TMEmptyState
+                      // title=""
+                      title={`We found ${testCasesCount} Search Results for '${
+                        filterSearchMeta?.searchKey || ''
+                      }' across all folders`}
+                      mainIcon={
+                        <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                      }
+                      buttonProps={null}
+                    />
+                  </div>
+                )}
+              </>
             )}
           </div>
         </>
