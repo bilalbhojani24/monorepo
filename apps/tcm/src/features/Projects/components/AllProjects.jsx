@@ -79,26 +79,26 @@ const AllProjects = () => {
       name: 'QUICK LINKS',
       key: 'quickLinks',
       cell: (rowData) => (
-        <>
-          <span
+        <div className="flex">
+          <div
             onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
             onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
             role="button"
             tabIndex={0}
-            className="hover:text-brand-600 cursor-pointer"
+            className="hover:text-brand-600 w-28 cursor-pointer"
           >
             {rowData.test_cases_count} Test Cases
-          </span>
-          <span
+          </div>
+          <div
             tabIndex={0}
             role="button"
-            className="hover:text-brand-600 ml-6 cursor-pointer"
+            className="hover:text-brand-600 ml-6  w-1 cursor-pointer"
             onClick={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
             onKeyDown={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
           >
             {rowData.test_runs_count} Test Runs
-          </span>
-        </>
+          </div>
+        </div>
       )
     },
     {
@@ -151,11 +151,21 @@ const AllProjects = () => {
           ) : (
             <>
               {allProjects?.length ? (
-                <TMDataTable
-                  columns={tableColumns}
-                  rows={allProjects}
-                  containerWrapperClass="shadow-none border-none"
-                />
+                <>
+                  <TMDataTable
+                    columns={tableColumns}
+                    rows={allProjects}
+                    containerWrapperClass="shadow-none border-none"
+                  />
+
+                  {metaPage?.count > perPageCount && (
+                    <TMPagination
+                      pageNumber={metaPage?.page || 1}
+                      count={metaPage?.count || 0}
+                      pageSize={perPageCount}
+                    />
+                  )}
+                </>
               ) : (
                 <div className="flex h-96 flex-col justify-center">
                   <TMEmptyState
@@ -173,13 +183,6 @@ const AllProjects = () => {
                 </div>
               )}
             </>
-          )}
-          {metaPage?.count > perPageCount && (
-            <TMPagination
-              pageNumber={metaPage?.page || 1}
-              count={metaPage?.count || 0}
-              pageSize={perPageCount}
-            />
           )}
         </div>
       </div>
