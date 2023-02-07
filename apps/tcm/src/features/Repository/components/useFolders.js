@@ -22,7 +22,8 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
-  updateAllTestCases
+  updateAllTestCases,
+  updateFoldersLoading
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
@@ -42,6 +43,9 @@ export default function useFolders() {
   );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
+  );
+  const isFoldersLoading = useSelector(
+    (state) => state.repository.isLoading.folder
   );
   const testCasesCount =
     useSelector((state) => state.repository.allTestCases)?.length || 0;
@@ -119,6 +123,7 @@ export default function useFolders() {
     dispatch(setSelectedProject(projectId));
     // dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
+      dispatch(updateFoldersLoading(true));
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
           // if no folders
@@ -139,6 +144,7 @@ export default function useFolders() {
 
           selectFolderPerDefault(data?.folders);
         }
+        dispatch(updateFoldersLoading(false));
       });
     } else setAllFoldersHelper([]);
   };
@@ -260,6 +266,7 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
     openedFolderModal,

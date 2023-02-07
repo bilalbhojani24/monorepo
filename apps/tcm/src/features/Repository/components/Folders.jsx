@@ -19,6 +19,7 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
+    isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
     filterSearchMeta,

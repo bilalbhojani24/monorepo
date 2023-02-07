@@ -10,7 +10,6 @@ import {
 const initialState = {
   allFolders: [],
   allTestCases: [],
-  isTestCasesLoading: false,
   selectedFolder: null,
   isAddTestCasePageVisible: false,
   testCaseFormData: {
@@ -65,7 +64,11 @@ const initialState = {
     priority: [],
     searchKey: ''
   },
-  isSearchFilterView: false
+  isSearchFilterView: false,
+  isLoading: {
+    folder: true,
+    testCases: true
+  }
 };
 
 export const repositorySlice = createSlice({
@@ -82,7 +85,10 @@ export const repositorySlice = createSlice({
       state.testCaseBulkFormData[payload.key] = payload.value;
     },
     updateTestCasesListLoading: (state, { payload }) => {
-      state.isTestCasesLoading = payload;
+      state.isLoading.testCases = payload;
+    },
+    updateFoldersLoading: (state, { payload }) => {
+      state.isLoading.folder = payload;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
@@ -205,8 +211,10 @@ export const {
   resetBulkSelection,
   updateBulkTestCaseFormData,
   updateTestCasesListLoading,
+  updateFoldersLoading,
   setMetaPage,
-  setFilterSearchView
+  setFilterSearchView,
+  updateLoader
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

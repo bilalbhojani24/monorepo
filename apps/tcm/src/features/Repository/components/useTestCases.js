@@ -39,7 +39,7 @@ export default function useTestCases() {
     (state) => state.repository.selectedFolder
   );
   const isTestCasesLoading = useSelector(
-    (state) => state.repository.isTestCasesLoading
+    (state) => state.repository.isLoading.testCases
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
