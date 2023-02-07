@@ -116,7 +116,7 @@ export default function useSummary() {
     title: {
       text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${issueCount}</p><p class="text-xs text-base-500">Issues</p></div>`,
       verticalAlign: 'middle',
-      y: 5,
+      // y: 5,
       useHTML: true
     },
     plotOptions: {
@@ -126,19 +126,19 @@ export default function useSummary() {
         dataLabels: {
           enabled: false
         },
-        center: ['50%', '50%'],
+        // center: ['50%', '50%'],
         size: '100%'
       }
     },
     series: [
       {
         name: 'Issue by impact',
-        // colorByPoint: true,
+        colorByPoint: true,
         borderWidth: 20,
-        // borderColor: null,
-        // slicedOffset: 0,
-        innerSize: '100%',
-        ignoreHiddenPoint: false,
+        borderColor: null,
+        slicedOffset: 0,
+        innerSize: '90%',
+        // ignoreHiddenPoint: false,
         point: {
           events: {
             click: (value) => {
@@ -157,7 +157,7 @@ export default function useSummary() {
           {
             name: 'Critical',
             y: critical,
-            sliced: true,
+            // sliced: true,
             color: '#F95D6A',
             selected: true
           },
@@ -170,7 +170,7 @@ export default function useSummary() {
           {
             name: 'Serious',
             y: serious,
-            sliced: true,
+            // sliced: true,
             color: '#FF9933'
           },
           // {
@@ -180,7 +180,7 @@ export default function useSummary() {
           {
             name: 'Moderate',
             y: moderate,
-            sliced: true,
+            // sliced: true,
             color: '#E3C500'
           },
           // {
@@ -190,7 +190,7 @@ export default function useSummary() {
           {
             name: 'Minor',
             y: minor,
-            sliced: true,
+            // sliced: true,
             color: '#C5D1D8'
           }
           // {

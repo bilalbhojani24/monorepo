@@ -1,8 +1,8 @@
 import React from 'react';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
+import { MdOutlineAttachFile } from '../Icon';
 
 import Attachments from './index';
 
@@ -53,7 +53,7 @@ const defaultConfig = {
       description: 'Classes to be passed to base accordion component'
     },
     icon: {
-      defaultValue: <AttachFileIcon className="text-base-400 font-light" />
+      defaultValue: <MdOutlineAttachFile className="text-base-400 font-light" />
     }
   },
   controls: {}
