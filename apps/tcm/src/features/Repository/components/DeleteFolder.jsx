@@ -8,10 +8,10 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import useFolders from './useFolders';
+import useAddEditFolderModal from './useAddEditFolderModal';
 
 const DeleteFolder = ({ show }) => {
-  const { hideFolderModal, deleteFolderHandler } = useFolders();
+  const { hideFolderModal, deleteFolderHandler } = useAddEditFolderModal();
 
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>

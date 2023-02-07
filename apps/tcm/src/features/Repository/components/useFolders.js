@@ -1,19 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  deleteFolder,
-  getFolders,
-  getSubFolders,
-  moveFolder
-} from 'api/folders.api';
+import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
-  injectFolderToParent,
-  replaceFolderHelper
+  injectFolderToParent
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
 
@@ -22,7 +16,6 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
-  updateAllTestCases,
   updateFoldersLoading
 } from '../slices/repositorySlice';
 
@@ -59,24 +52,26 @@ export default function useFolders() {
   const mapFolderAncestorHelper = (ancestorsArray) => {
     let newContentObject = null;
     ancestorsArray?.forEach((item, iDx) => {
+      const newItem = item;
+      newItem.isOpened = true;
       if (iDx === 0) {
-        newContentObject = item;
-        newContentObject.isOpened = true;
-        newContentObject.contents = newContentObject.contents.map((thisItem) =>
+        // root folder
+        newItem.contents = newItem.contents.map((thisItem) =>
           thisItem.id === parseInt(folderId, 10)
             ? { ...thisItem, isSelected: true }
             : thisItem
         );
       } else {
-        const newItem = item;
         newItem.contents = item.contents
-          ? item.contents.map((intItem) =>
-              intItem.id === newContentObject?.id ? newContentObject : intItem
+          ? item.contents.map((internalItem) =>
+              internalItem.id === newContentObject?.id
+                ? newContentObject
+                : internalItem
             )
           : newContentObject;
-        newItem.isOpened = true;
-        newContentObject = newItem;
       }
+      // newItem.sub_folders_count = newItem?.contents?.length;
+      newContentObject = newItem;
     });
     return newContentObject;
   };
@@ -179,44 +174,6 @@ export default function useFolders() {
     setAllFoldersHelper(newFolders);
   };
 
-  const updateFolders = (folderItem, parentId) => {
-    if (!parentId) setAllFoldersHelper([...allFolders, folderItem]);
-    else {
-      setAllFoldersHelper(
-        injectFolderToParent(allFolders, folderItem, parentId)
-      );
-    }
-    updateRouteHelper(folderItem);
-  };
-
-  const renameFolderHelper = (folderItem) => {
-    setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
-  };
-
-  const deleteFolderHandler = () => {
-    if (openedFolderModal && openedFolderModal?.folder?.id) {
-      deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
-        (item) => {
-          if (item?.data?.folder?.id) {
-            const newFoldersArray = deleteFolderFromArray(
-              allFolders,
-              item.data.folder.id
-            );
-            setAllFoldersHelper(newFoldersArray);
-            if (newFoldersArray.length) {
-              updateRouteHelper(newFoldersArray[0]);
-            } else {
-              // no folder, remove all test cases
-              dispatch(updateAllTestCases([]));
-            }
-          }
-
-          hideFolderModal();
-        }
-      );
-    }
-  };
-
   const moveFolderHelper = (thisFolderID, baseFolderID, internalAllFolders) => {
     const movedFolder = findFolder(
       internalAllFolders,
@@ -275,15 +232,11 @@ export default function useFolders() {
     allFolders,
     filterSearchMeta,
     showAddFolderModal,
-    updateFolders,
     fetchAllFolders,
     updateRouteHelper,
     folderUpdateHandler,
     folderActionsHandler,
-    hideFolderModal,
-    deleteFolderHandler,
     moveFolderHelper,
-    moveFolderOnOkHandler,
-    renameFolderHelper
+    moveFolderOnOkHandler
   };
 }

@@ -13,7 +13,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import useFolders from './useFolders';
+import useAddEditFolderModal from './useAddEditFolderModal';
 
 const AddEditFolderModal = ({
   projectId,
@@ -24,7 +24,8 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Add';
-  const { hideFolderModal, updateFolders, renameFolderHelper } = useFolders();
+  const { hideFolderModal, updateFolders, renameFolderHelper } =
+    useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: ''

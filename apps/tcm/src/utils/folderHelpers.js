@@ -95,11 +95,15 @@ export const deleteFolderFromArray = (foldersArray, thisFolderID) => {
   if (removedArray.length < foldersArray.length) return removedArray;
 
   removedArray = foldersArray.map((item) => {
-    if (item?.contents)
+    if (item?.contents) {
+      const contents = deleteFolderFromArray(item.contents, thisFolderID);
+
       return {
         ...item,
-        contents: deleteFolderFromArray(item.contents, thisFolderID)
+        contents,
+        sub_folders_count: contents.length || 0
       };
+    }
     return item;
   });
 
@@ -110,9 +114,11 @@ export const injectFolderToParent = (array, toBeInjectedFolder, parentID) =>
   array.map((item) => {
     if (item.id === parentID) {
       const resetedFolder = resetFolderProps([toBeInjectedFolder]);
-      if (item?.contents)
-        return { ...item, contents: [...item.contents, ...resetedFolder] };
-      return { ...item, contents: resetedFolder };
+      const contents = item?.contents
+        ? [...item.contents, ...resetedFolder]
+        : resetedFolder;
+
+      return { ...item, contents, sub_folders_count: contents.length || 0 };
     }
     if (item?.contents) {
       return {
