@@ -121,7 +121,7 @@ const AllProjects = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
@@ -144,7 +144,7 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
         <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
           {isLoading ? (
             <Loader wrapperClass="h-96" />

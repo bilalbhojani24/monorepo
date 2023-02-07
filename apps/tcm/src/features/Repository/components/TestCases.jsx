@@ -36,14 +36,14 @@ export default function TestCases() {
   if (isAddTestCasePageVisible) return <AddEditTestCase />;
 
   return (
-    <div className="flex w-full flex-col items-start">
+    <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden">
       {allTestCases.length ||
       isSearchFilterView ||
       isTestCasesLoading ||
       isFoldersLoading ? (
         <>
           <Filter />
-          <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
+          <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
             {selectedFolder && (
               <div className="border-base-200 w-full border-b p-4">
                 <div className="text-base-800 w-full font-medium">
@@ -91,7 +91,7 @@ export default function TestCases() {
                     />
                   </div>
                 ) : (
-                  <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
+                  <div className=" flex-1 flex-col items-stretch  overflow-y-auto">
                     <TestCasesTable
                       isCondensed
                       containerWrapperClass="md:rounded-none"

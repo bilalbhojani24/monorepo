@@ -29,11 +29,11 @@ const Repository = ({ isSearch }) => {
   }, [isSearch]);
 
   return (
-    <div className="flex flex-1 flex-col items-stretch">
+    <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TopSection />
-      <div className="flex flex-1 flex-col items-stretch">
-        <div className="flex flex-1 items-stretch justify-center  bg-white">
-          <main className="w-full min-w-0 lg:flex">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
+        <div className="flex flex-1 shrink-0 grow  items-stretch justify-center  overflow-hidden bg-white">
+          <main className="w-full min-w-0 shrink-0 grow overflow-hidden lg:flex">
             <section className="flex h-full w-full  min-w-0 lg:order-last">
               <TestCases />
             </section>

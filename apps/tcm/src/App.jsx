@@ -30,21 +30,18 @@ function App() {
   return (
     <BrowserRouter>
       <HeaderDummy />
-      <div className="bg-base-50 flex min-h-[calc(100vh-64px)] items-stretch pt-16">
+      <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {(importStarted || importConfig?.isDismissed === false) && (
           <div className="fixed top-16 z-50 w-full">
             <ImportStatus importConfig={importConfig} />
           </div>
         )}
         <div
-          className={twClassNames(
-            'relative flex min-h-[calc(100vh-64px)] w-full items-stretch',
-            {
-              'mt-16': importConfig?.status === 'ongoing'
-              // ||
-              // currentImportStatus === 'ongoing'
-            }
-          )}
+          className={twClassNames('relative flex w-full items-stretch', {
+            'mt-16': importConfig?.status === 'ongoing'
+            // ||
+            // currentImportStatus === 'ongoing'
+          })}
         >
           <SideNav importStatus={importConfig?.status} />
           <MainRoute />
