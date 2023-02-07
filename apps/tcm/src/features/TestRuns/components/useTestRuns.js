@@ -4,59 +4,48 @@ import { getTestRuns } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 
 import {
-  setAddTestRun,
-  setAddTestRunFormData,
-  updateAllTestRuns,
+  setAllTestRuns,
+  setCurrentTab,
+  setLoader
 } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
-  const { projectId } = useParams();
   const dispatch = useDispatch();
-  const allTestRunsArray = useSelector(
-    (state) => state.testRuns.allTestRunsArray,
-  );
-  const showAddTestRunsForm = useSelector(
-    (state) => state.testRuns.showAddTestRunsForm,
-  );
-  const testRunFormData = useSelector(
-    (state) => state.testRuns.testRunFormData,
-  );
-  const showAddTestCaseModal = useSelector(
-    (state) => state.testRuns.showAddTestCaseModal,
+  const { projectId } = useParams();
+
+  const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
+  const currentTab = useSelector((state) => state.testRuns.currentTab);
+
+  const isAddTestRunsFormVisible = useSelector(
+    (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const showTestRunAddFormHandler = () => {
-    dispatch(setAddTestRun(true));
+  const setTestRunsLoader = (isLoading) => {
+    dispatch(setLoader('testRuns', isLoading));
   };
 
   const fetchAllTestRuns = () => {
     if (projectId) {
+      setTestRunsLoader(true);
       dispatch(setSelectedProject(projectId));
       getTestRuns({ projectId }).then((data) => {
-        dispatch(updateAllTestRuns(data?.testruns || []));
+        dispatch(setAllTestRuns(data?.testruns || []));
+        setTestRunsLoader(false);
       });
-    } else dispatch(updateAllTestRuns([]));
+    } else dispatch(setAllTestRuns([]));
   };
 
-  const handleTestRunInputFieldChange = (key1, key2) => (e) => {
-    dispatch(setAddTestRunFormData({ key1, key2, value: e.target.value }));
-  };
-
-  const handleSelectMenuChange = (key1, key2) => (value) => {
-    console.log('gone in select menu');
-    dispatch(setAddTestRunFormData({ key1, key2, value }));
+  const handleTabChange = (tabName) => {
+    dispatch(setCurrentTab(tabName.name));
   };
 
   return {
-    allTestRunsArray,
-    fetchAllTestRuns,
-    handleTestRunInputFieldChange,
-    handleSelectMenuChange,
+    currentTab,
+    allTestRuns,
     projectId,
-    testRunFormData,
-    showTestRunAddFormHandler,
-    showAddTestRunsForm,
-    showAddTestCaseModal,
+    isAddTestRunsFormVisible,
+    fetchAllTestRuns,
+    handleTabChange
   };
 };
 

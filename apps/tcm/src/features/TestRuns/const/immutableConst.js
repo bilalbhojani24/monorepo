@@ -1,19 +1,9 @@
-export const TABS_ARRAY = [
-  { name: 'Active Test Runs' },
-  { name: 'Closed Test Runs' },
-];
+export const TABS_ARRAY = [{ name: 'Active Runs' }, { name: 'Closed Runs' }];
 
 export const STATE_OPTIONS = [
   { label: 'New', value: 'new' },
   { label: 'In progress', value: 'inProgress' },
   { label: 'Under Review', value: 'underReview' },
   { label: 'Rejected', value: 'rejected' },
-  { label: 'Done', value: 'done' },
-];
-
-export const ASSIGN_TO_OPTIONS = [
-  { label: 'Myself', value: 'myself' },
-  { label: 'Arsalan Khan', value: 'arsalanKhan' },
-  { label: 'Ribin Roy', value: 'ribinRoy' },
-  { label: 'Bipul Jain', value: 'bipulJain' },
+  { label: 'Done', value: 'done' }
 ];

@@ -1,63 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { TABS_ARRAY } from '../const/immutableConst';
+
 const initialState = {
-  showAddTestRunsForm: false,
-  allTestRunsArray: [],
-  currentFolderId: null,
+  isVisible: {
+    addTestRunsForm: false,
+    addTestCaseModal: false
+  },
+  isLoading: {},
+  currentTab: TABS_ARRAY[0].name,
+  allTestRuns: [],
   testRunFormData: {
     test_run: {
       name: '',
       description: '',
       state: '',
-      assignTo: [],
+      assignTo: []
     },
-    test_case_ids: [],
-  },
-  showAddTestCaseModal: false,
+    test_case_ids: []
+  }
 };
 
 const testRunslice = createSlice({
   name: 'testRuns',
   initialState,
   reducers: {
-    setAddTestRun: (state, { payload }) => {
-      state.showAddTestRunsForm = payload;
+    setAddTestRunForm: (state, { payload }) => {
+      state.isVisible.addTestRunsForm = payload;
       if (payload) {
         // reset form data
         state.testRunFormData = initialState.testRunFormData;
       }
     },
-    addSingleTestRun: (state, { payload }) => {
-      state.allTestRunsArray.push(payload);
-    },
-    updateAllTestRuns: (state, { payload }) => {
-      state.allTestRunsArray = payload;
-    },
-    setCurrentFolder: (state, { payload }) => {
-      state.currentFolder = payload;
-    },
-    setAddTestRunFormData: (state, { payload }) => {
-      if (payload.key1 === 'test_run') {
-        if (payload.key2 === 'assignTo')
-          state.testRunFormData[payload.key1][payload.key2].push(payload.value);
-
-        state.testRunFormData[payload.key1][payload.key2] = payload.value;
-      } else {
-        state.testRunFormData[payload.key1] = payload.value;
-      }
-    },
     setAddTestCaseModal: (state, { payload }) => {
-      state.showAddTestCaseModal = payload;
+      state.isVisible.addTestCaseModal = payload;
     },
-  },
+    setLoader: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
+    },
+    addSingleTestRun: (state, { payload }) => {
+      state.allTestRuns.push(payload);
+    },
+    setAllTestRuns: (state, { payload }) => {
+      state.allTestRuns = payload;
+    },
+    setCurrentTab: (state, { payload }) => {
+      state.currentTab = payload;
+    }
+  }
 });
 
 export const {
+  setLoader,
   addSingleTestRun,
-  updateAllTestRuns,
-  setAddTestRun,
-  setCurrentFolder,
+  setAllTestRuns,
+  setAddTestRunForm,
   setAddTestCaseModal,
-  setAddTestRunFormData,
+  setCurrentTab
 } = testRunslice.actions;
 export default testRunslice.reducer;

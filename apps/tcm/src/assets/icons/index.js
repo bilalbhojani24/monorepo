@@ -34,6 +34,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
@@ -76,6 +77,7 @@ export {
   RemoveOutlinedIcon,
   ReportProblemOutlinedIcon,
   SearchIcon,
+  SearchOffOutlinedIcon,
   SettingsOutlinedIcon,
   SourceOutlinedIcon,
   WarningAmberOutlinedIcon,
