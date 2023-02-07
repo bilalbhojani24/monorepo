@@ -25,7 +25,6 @@ const Filter = () => {
     appliedFiltersCount,
     projectId,
     isFilterVisible,
-    isSearchFilterView,
     ownersFilteredArray,
     tagsFilteredArray,
     filterSearchMeta,
@@ -96,7 +95,7 @@ const Filter = () => {
           onClick={() => setFilter(!isFilterVisible)}
           // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
-            'rounded-tr-none rounded-br-none': isSearchFilterView,
+            'rounded-tr-none rounded-br-none': appliedFiltersCount,
             'text-left flex justify-start': appliedFiltersCount
           })}
           size="default"
@@ -110,7 +109,7 @@ const Filter = () => {
         >
           {appliedFiltersCount ? `Filters (${appliedFiltersCount})` : 'Filter'}
         </TMButton>
-        {isSearchFilterView && (
+        {appliedFiltersCount ? (
           <Link
             to={routeFormatter(AppRoute.TEST_CASES, {
               projectId
@@ -126,7 +125,7 @@ const Filter = () => {
               <CloseOutlinedIcon className="!h-5 !w-5" />
             </TMButton>
           </Link>
-        )}
+        ) : null}
       </div>
       {isFilterVisible && (
         <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
