@@ -269,7 +269,7 @@ export default function useAddEditTestCase() {
 
   const hideAddTagsModal = (allTags, newTags) => {
     const mappedNewTags = selectMenuValueMapper(newTags);
-    const updatedAllTags = [...tagsArray, ...mappedNewTags];
+    const updatedAllTags = [...mappedNewTags, ...tagsArray];
     const currentSelectedTags = testCaseFormData?.tags
       ? [...testCaseFormData?.tags.map((item) => item.value), ...newTags]
       : newTags;

@@ -359,7 +359,7 @@ const AddEditTestCase = () => {
                     Attachments
                   </div>
                 </div>
-                {testCaseFormData?.attachments.length ? (
+                {testCaseFormData?.attachments?.length ? (
                   <div className="mb-4">
                     <TMAttachments
                       attachments={
