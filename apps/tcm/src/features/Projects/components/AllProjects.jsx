@@ -1,10 +1,12 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMDataTable,
   TMDropdown,
+  TMEmptyState,
   TMPageHeadings,
   TMPagination
 } from 'common/bifrostProxy';
@@ -26,13 +28,13 @@ const AllProjects = () => {
     currentPage,
     metaPage,
     allProjects,
-    addingProject,
     showAddModal,
     showEditModal,
     showDeleteModal,
     handleClickDynamicLink,
     onDropDownChange,
-    fetchProjects
+    fetchProjects,
+    showAddProjectModal
   } = useProjects();
 
   const tableColumns = [
@@ -136,7 +138,7 @@ const AllProjects = () => {
             >
               Import CSV
             </TMButton>
-            <TMButton variant="primary" onClick={addingProject}>
+            <TMButton variant="primary" onClick={showAddProjectModal}>
               Create Project
             </TMButton>
           </>
@@ -147,11 +149,30 @@ const AllProjects = () => {
           {isLoading ? (
             <Loader wrapperClass="h-96" />
           ) : (
-            <TMDataTable
-              columns={tableColumns}
-              rows={allProjects}
-              containerWrapperClass="shadow-none border-none"
-            />
+            <>
+              {allProjects?.length ? (
+                <TMDataTable
+                  columns={tableColumns}
+                  rows={allProjects}
+                  containerWrapperClass="shadow-none border-none"
+                />
+              ) : (
+                <div className="flex h-96 flex-col justify-center">
+                  <TMEmptyState
+                    title="No Projects"
+                    description="No project data available. Create a project to get started."
+                    mainIcon={
+                      <InfoOutlinedIcon className="text-base-500 !h-12 !w-12" />
+                    }
+                    buttonProps={{
+                      children: 'Create Project',
+                      onClick: showAddProjectModal,
+                      colors: 'white'
+                    }}
+                  />
+                </div>
+              )}
+            </>
           )}
           {metaPage?.count > perPageCount && (
             <TMPagination

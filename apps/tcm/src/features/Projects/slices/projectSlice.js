@@ -12,7 +12,7 @@ const initialState = {
     prev: null,
     count: null
   },
-  isLoading: false
+  isLoading: true
 };
 
 const projectSlice = createSlice({

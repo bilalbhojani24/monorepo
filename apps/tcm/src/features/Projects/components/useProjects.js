@@ -59,15 +59,15 @@ const useProjects = () => {
   const metaPage = useSelector((state) => state.projects.metaPage);
   const isLoading = useSelector((state) => state.projects.isLoading);
 
-  const addingProject = () => {
+  const showAddProjectModal = () => {
     dispatch(setAddProjectModalVisibility(true));
   };
 
   const fetchProjects = () => {
     dispatch(setLoading(true));
     getProjectsAPI(searchParams.get('p')).then((res) => {
-      dispatch(setProjects(res.projects));
-      dispatch(setMetaPage(res.info));
+      // dispatch(setProjects(res.projects));
+      // dispatch(setMetaPage(res.info));
       dispatch(setLoading(false));
     });
   };
@@ -154,7 +154,7 @@ const useProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
-    addingProject,
+    showAddProjectModal,
     handleClickDynamicLink,
     fetchProjects,
     hideDeleteProjectModal,
