@@ -38,13 +38,13 @@ const defaultConfig = {
     },
     title: {
       control: { type: 'text' },
-      type: { summary: 'TEXT', required: true },
+      type: { summary: 'TEXT' },
       description: 'Title of data visualization card',
       defaultValue: 'lorem'
     },
     desc: {
       control: { type: 'text' },
-      type: { summary: 'TEXT', required: true },
+      type: { summary: 'TEXT' },
       description: 'Description of data visualization card',
       defaultValue:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies justo in est imperdiet efficitur. Vestibulum pharetra pulvinar est, eget'
@@ -52,8 +52,7 @@ const defaultConfig = {
     descPosition: {
       control: { type: 'inline-radio' },
       type: {
-        summary: DATA_VISUALIZATION_DESC_POSITION.join(', '),
-        required: true
+        summary: DATA_VISUALIZATION_DESC_POSITION.join(', ')
       },
       options: DATA_VISUALIZATION_DESC_POSITION,
       description:
@@ -61,12 +60,12 @@ const defaultConfig = {
       defaultValue: DATA_VISUALIZATION_DESC_POSITION[0]
     },
     analytics: {
-      type: { summary: 'NODE', required: false },
+      type: { summary: 'NODE' },
       description: 'Chart Node to be injected',
       defaultValue: null
     },
     footerProps: {
-      type: { summary: 'OBJECT', required: false },
+      type: { summary: 'OBJECT' },
       description: 'Object of props belonging to the Alerts component',
       control: { type: 'object' },
       defaultValue: {
@@ -172,7 +171,7 @@ const defaultConfig = {
     headerInfo: {
       control: { type: 'boolean' },
       description: 'Enable/disable info icon besides the title section',
-      type: { summary: 'BOOLEAN', required: false },
+      type: { summary: 'BOOLEAN' },
       defaultValue: true
     },
     headerInfoTooltipProps: {

@@ -17,7 +17,8 @@ const Dropdown = (props) => {
     headerVisible,
     heading,
     subHeading,
-    onClick
+    onClick,
+    wrapperClassName
   } = props;
 
   const handleClick = (e) => {
@@ -26,7 +27,7 @@ const Dropdown = (props) => {
 
   return (
     <DropdownMenu.Root>
-      <div>
+      <div className={wrapperClassName}>
         {triggerVariant === DROPDOWN_TYPES[0] ? (
           <DropdownMenu.Trigger className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
             {triggerTitle}
@@ -110,7 +111,8 @@ Dropdown.propTypes = {
   headerVisible: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 Dropdown.defaultProps = {
   triggerTitle: 'Options',
@@ -119,7 +121,8 @@ Dropdown.defaultProps = {
   headerVisible: false,
   heading: '',
   subHeading: '',
-  onClick: () => {}
+  onClick: () => {},
+  wrapperClassName: ''
 };
 
 export default Dropdown;

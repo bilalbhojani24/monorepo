@@ -64,6 +64,12 @@ const defaultConfig = {
           divider: true
         }
       ]
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'wrapper styles for the dropdown component',
+      defaultValue: ''
     }
   },
   controls: {}
