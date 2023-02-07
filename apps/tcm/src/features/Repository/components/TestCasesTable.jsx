@@ -27,12 +27,7 @@ import { dropDownOptions, perPageCount } from '../const/testCaseConst';
 import FolderExplorerModal from './FolderExplorerModal';
 import useTestCasesTable from './useTestCasesTable';
 
-const TestCasesTable = ({
-  rows,
-  containerWrapperClass,
-  isCondensed,
-  isLoading
-}) => {
+const TestCasesTable = ({ rows, containerWrapperClass, isCondensed }) => {
   const {
     metaPage,
     showMoveModal,
@@ -234,57 +229,52 @@ const TestCasesTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {isLoading ? (
-            'Loading..'
-          ) : (
-            <>
-              {rows?.map((row, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <TableRow isSelected key={row.id || index}>
-                  <TableCell
-                    variant="body"
-                    wrapperClass={classNames(
-                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
+          <>
+            {rows?.map((row, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <TableRow isSelected key={row.id || index}>
+                <TableCell
+                  variant="body"
+                  wrapperClass={classNames(
+                    'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
+                    !deSelectedTestCaseIDs.includes(row.id) &&
+                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      ? 'border-l-brand-600'
+                      : 'border-l-white'
+                  )}
+                  textTransform="uppercase"
+                >
+                  <TMCheckBox
+                    border={false}
+                    wrapperClass="pt-0"
+                    checked={
                       !deSelectedTestCaseIDs.includes(row.id) &&
-                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                        ? 'border-l-brand-600'
-                        : 'border-l-white'
-                    )}
-                    textTransform="uppercase"
-                  >
-                    <TMCheckBox
-                      border={false}
-                      wrapperClass="pt-0"
-                      checked={
-                        !deSelectedTestCaseIDs.includes(row.id) &&
-                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                      }
-                      onChange={(e) => updateSelection(e, row)}
-                    />
-                  </TableCell>
-                  {datatableColumns?.map((column) => {
-                    const value = row[column.key];
-                    return (
-                      <TableCell
-                        key={column.id}
-                        wrapperClass={classNames({
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
-                          'sticky bg-white': column.isSticky,
-                          'right-0 ':
-                            column.isSticky &&
-                            column.stickyPosition === 'right',
-                          'left-10 ':
-                            column.isSticky && column.stickyPosition === 'left'
-                        })}
-                      >
-                        {column.cell ? <>{column.cell(row)}</> : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </>
-          )}
+                      (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                    }
+                    onChange={(e) => updateSelection(e, row)}
+                  />
+                </TableCell>
+                {datatableColumns?.map((column) => {
+                  const value = row[column.key];
+                  return (
+                    <TableCell
+                      key={column.id}
+                      wrapperClass={classNames({
+                        'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                        'sticky bg-white': column.isSticky,
+                        'right-0 ':
+                          column.isSticky && column.stickyPosition === 'right',
+                        'left-10 ':
+                          column.isSticky && column.stickyPosition === 'left'
+                      })}
+                    >
+                      {column.cell ? <>{column.cell(row)}</> : value}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </>
         </TableBody>
       </Table>
       {metaPage?.count > perPageCount && (
@@ -309,14 +299,12 @@ const TestCasesTable = ({
 TestCasesTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   containerWrapperClass: PropTypes.string,
-  isCondensed: PropTypes.bool,
-  isLoading: PropTypes.bool
+  isCondensed: PropTypes.bool
 };
 
 TestCasesTable.defaultProps = {
   containerWrapperClass: '',
-  isCondensed: false,
-  isLoading: false
+  isCondensed: false
 };
 
 export default TestCasesTable;

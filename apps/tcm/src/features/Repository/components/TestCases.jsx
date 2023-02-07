@@ -7,6 +7,7 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -35,11 +36,11 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full flex-col items-start">
-      {allTestCases.length || isSearchFilterView ? (
+      {allTestCases.length || isSearchFilterView || isTestCasesLoading ? (
         <>
           <Filter />
           <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
-            {selectedFolder && (
+            {selectedFolder && !isTestCasesLoading && (
               <div className="border-base-200 w-full border-b p-4">
                 <div className="text-base-800 w-full font-medium">
                   {selectedFolder?.name}
@@ -70,30 +71,33 @@ export default function TestCases() {
                 )}
               </div>
             )}
-            <>
-              {!allTestCases.length && isSearchFilterView ? (
-                <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
-                  <TMEmptyState
-                    title="No Results Found"
-                    description="No matching results found. Try searching with another test case name/ID"
-                    mainIcon={
-                      <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
-                    }
-                    buttonProps={null}
-                  />
-                </div>
-              ) : (
-                <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
-                  <TestCasesTable
-                    isCondensed
-                    containerWrapperClass="md:rounded-none"
-                    rows={allTestCases}
-                    isLoading={isTestCasesLoading}
-                  />
-                </div>
-              )}
-              {!isSearchFilterView && <InlineAddTestCase />}
-            </>
+            {isTestCasesLoading ? (
+              <Loader wrapperClass="h-full" />
+            ) : (
+              <>
+                {!allTestCases.length && isSearchFilterView ? (
+                  <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+                    <TMEmptyState
+                      title="No Results Found"
+                      description="No matching results found. Try searching with another test case name/ID"
+                      mainIcon={
+                        <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                      }
+                      buttonProps={null}
+                    />
+                  </div>
+                ) : (
+                  <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
+                    <TestCasesTable
+                      isCondensed
+                      containerWrapperClass="md:rounded-none"
+                      rows={allTestCases}
+                    />
+                  </div>
+                )}
+                {!isSearchFilterView && <InlineAddTestCase />}
+              </>
+            )}
           </div>
         </>
       ) : (
