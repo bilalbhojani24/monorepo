@@ -12,7 +12,9 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   setFilterSearchMeta,
-  updateAllTestCases
+  updateAllTestCases,
+  updateFoldersLoading,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = () => {
@@ -53,13 +55,21 @@ const useFilter = () => {
       }
     });
 
-    if (Object.keys(queryParams).length)
+    if (Object.keys(queryParams).length) {
+      dispatch(updateTestCasesListLoading(true));
       getTestCasesSearchFilterAPI({
         projectId,
         props: queryParams
       }).then((res) => {
-        dispatch(updateAllTestCases(res));
+        const testCases = res.test_cases.map((item) => ({
+          ...item,
+          folders: res?.folders?.[item.id] || null
+        }));
+        dispatch(updateAllTestCases(testCases));
+        dispatch(updateTestCasesListLoading(false));
+        dispatch(updateFoldersLoading(false));
       });
+    }
   };
 
   const applyFilterHandler = () => {

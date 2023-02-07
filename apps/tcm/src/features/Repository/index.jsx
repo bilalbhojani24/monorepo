@@ -25,6 +25,7 @@ const Repository = ({ isSearch }) => {
 
   useEffect(() => {
     setRepoView(isSearch);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSearch]);
 

@@ -1,6 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { HideSourceOutlinedIcon, InfoOutlinedIcon } from 'assets/icons';
+import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
 import {
   TMEmptyState,
   TMTooltip,
@@ -85,7 +85,7 @@ export default function TestCases() {
                       title="No Results Found"
                       description="No matching results found. Try searching with another test case name/ID"
                       mainIcon={
-                        <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                        <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }
                       buttonProps={null}
                     />

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
@@ -118,7 +117,6 @@ export default function useFolders() {
   };
 
   const fetchAllFolders = () => {
-    dispatch(setSelectedProject(projectId));
     // dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
       dispatch(updateFoldersLoading(true));

@@ -1,9 +1,11 @@
 // import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { setSelectedProject } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -130,6 +132,11 @@ export default function useTestCases() {
       dispatch(updateTestCasesListLoading(false));
     }
   };
+
+  useEffect(() => {
+    dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return {
     isBulkUpdate,
