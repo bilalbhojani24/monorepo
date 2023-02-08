@@ -48,10 +48,8 @@ const SectionHeadings = ({
     </div>
     {tabsProps && (
       <div className={tabsWrapperClassName}>
-        {
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <Tabs {...tabsProps} />
-        }
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Tabs {...tabsProps} />
       </div>
     )}
   </div>

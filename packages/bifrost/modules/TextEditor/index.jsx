@@ -53,11 +53,11 @@ TextEditor.propTypes = {
 
 TextEditor.defaultProps = {
   assetUploadURL: null,
-  initialValue: '',
-  onChange: null,
+  initialValue: undefined,
+  onChange: undefined,
   height: 500,
   placeholder: 'Type something...',
-  value: '',
+  value: undefined,
   width: '100%',
   wrapperClass: '',
   editorRef: null
