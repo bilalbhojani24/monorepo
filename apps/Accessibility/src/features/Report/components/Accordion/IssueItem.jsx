@@ -274,7 +274,7 @@ export default function IssueItem() {
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onCloseClick)}
               aria-label="Close Button"
             >
-              <CloseIcon onClick={onCloseClick} />
+              {/* <CloseIcon onClick={onCloseClick} /> */}
             </div>
           </div>
         </div>

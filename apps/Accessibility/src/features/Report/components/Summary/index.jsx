@@ -130,9 +130,9 @@ export default function Summary() {
           title="Issue Summary"
           headerInfo={null}
           analytics={
-            <div>
+            <div className="flex">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="w-72">
                   <Chart options={chartOption} />
                 </div>
                 <div>
@@ -215,7 +215,7 @@ export default function Summary() {
           }
         />
       </div>
-      <div>
+      <div className="flex">
         <ASDataVisualization
           title="Issues by category"
           headerInfo={null}

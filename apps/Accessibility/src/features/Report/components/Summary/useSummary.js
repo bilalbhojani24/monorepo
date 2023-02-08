@@ -116,29 +116,21 @@ export default function useSummary() {
     title: {
       text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${issueCount}</p><p class="text-xs text-base-500">Issues</p></div>`,
       verticalAlign: 'middle',
-      // y: 5,
       useHTML: true
     },
     plotOptions: {
       pie: {
+        innerSize: '60%',
         allowPointSelect: true,
         cursor: 'pointer',
         dataLabels: {
           enabled: false
-        },
-        // center: ['50%', '50%'],
-        size: '100%'
+        }
       }
     },
     series: [
       {
         name: 'Issue by impact',
-        colorByPoint: true,
-        borderWidth: 20,
-        borderColor: null,
-        slicedOffset: 0,
-        innerSize: '90%',
-        // ignoreHiddenPoint: false,
         point: {
           events: {
             click: (value) => {
@@ -157,46 +149,24 @@ export default function useSummary() {
           {
             name: 'Critical',
             y: critical,
-            // sliced: true,
             color: '#F95D6A',
             selected: true
           },
-          // {
-          //   visible: false,
-          //   // NOTE: This define the empty space between pie chart,
-          //   // Increase the ↑1.7 to increase the space and to decrease the space, vice versa
-          //   y: (issueCount * 1.7) / 100
-          // },
           {
             name: 'Serious',
             y: serious,
-            // sliced: true,
             color: '#FF9933'
           },
-          // {
-          //   visible: false,
-          //   y: (issueCount * 1.7) / 100
-          // },
           {
             name: 'Moderate',
             y: moderate,
-            // sliced: true,
             color: '#E3C500'
           },
-          // {
-          //   visible: false,
-          //   y: (issueCount * 1.7) / 100
-          // },
           {
             name: 'Minor',
             y: minor,
-            // sliced: true,
             color: '#C5D1D8'
           }
-          // {
-          //   visible: false,
-          //   y: (issueCount * 1.7) / 100
-          // }
         ]
       }
     ]

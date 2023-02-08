@@ -9,6 +9,10 @@ import {
   DataVisualization,
   Dropdown,
   InputField,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   SelectMenu,
   SidebarItem,
   SidebarNavigation,
@@ -39,3 +43,7 @@ export const ASTable = (props) => <Table {...props} />;
 export const ASSelectMenu = (props) => <SelectMenu {...props} />;
 export const ASDataVisualization = (props) => <DataVisualization {...props} />;
 export const ASStats = (props) => <Stats {...props} />;
+export const ASModal = (props) => <Modal {...props} />;
+export const ASModalBody = (props) => <ModalBody {...props} />;
+export const ASModalFooter = (props) => <ModalFooter {...props} />;
+export const ASModalHeader = (props) => <ModalHeader {...props} />;
