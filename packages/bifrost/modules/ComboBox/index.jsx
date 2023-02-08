@@ -9,7 +9,7 @@ import {
   number,
   oneOfType,
   shape,
-  string,
+  string
 } from '../../shared/proptypesConstants';
 import Checkbox from '../Checkbox';
 import { CheckIcon, ChevronUpDownIcon } from '../Icon';
@@ -27,7 +27,7 @@ const ComboBox = (props) => {
     options,
     isMulti,
     placeholder,
-    value,
+    value
   } = props;
   const [query, setQuery] = useState('');
 
@@ -35,17 +35,17 @@ const ComboBox = (props) => {
     query === ''
       ? options
       : options.filter((opt) =>
-          opt.label.toLowerCase().includes(query.toLowerCase()),
+          opt.label.toLowerCase().includes(query.toLowerCase())
         );
 
   const renderSingleOptions = (opts) => {
     if (opts) return opts?.label;
-    return placeholder;
+    return null;
   };
 
   const renderMultiOptions = (opts) => {
     if (opts.length) return opts?.map((p) => p.label).join(', ');
-    return placeholder;
+    return null;
   };
 
   return (
@@ -63,6 +63,7 @@ const ComboBox = (props) => {
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
+          placeholder={placeholder}
           className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-10 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(dv) =>
@@ -102,8 +103,8 @@ const ComboBox = (props) => {
                         checkPosition === CHECK_POSITION[1] && !isMulti,
                       'py-2 pl-8 pr-4':
                         checkPosition === CHECK_POSITION[0] && !isMulti,
-                      'hover:bg-base-50 pb-4 pl-2 cursor-pointer': isMulti,
-                    },
+                      'hover:bg-base-50 pb-4 pl-2 cursor-pointer': isMulti
+                    }
                   )
                 }
               >
@@ -122,7 +123,7 @@ const ComboBox = (props) => {
                           <span
                             className={classNames(
                               'block truncate',
-                              selected && 'font-semibold',
+                              selected && 'font-semibold'
                             )}
                           >
                             {option.label}
@@ -138,8 +139,8 @@ const ComboBox = (props) => {
                                   checkPosition === CHECK_POSITION[1] ||
                                   option?.image,
                                 'left-0 pl-1.5':
-                                  checkPosition === CHECK_POSITION[0],
-                              },
+                                  checkPosition === CHECK_POSITION[0]
+                              }
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -150,7 +151,7 @@ const ComboBox = (props) => {
                       <Checkbox
                         data={{
                           label: option.label,
-                          value: option.value,
+                          value: option.value
                         }}
                         border={false}
                         wrapperClass="py-0"
@@ -175,14 +176,14 @@ ComboBox.propTypes = {
       shape({
         value: oneOfType([string, number]).isRequired,
         label: string.isRequired,
-        image: string,
-      }),
+        image: string
+      })
     ),
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
+      image: string
+    })
   ]),
   isMulti: bool,
   label: string,
@@ -191,8 +192,8 @@ ComboBox.propTypes = {
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
+      image: string
+    })
   ).isRequired,
   placeholder: string,
   value: oneOfType([
@@ -200,15 +201,15 @@ ComboBox.propTypes = {
       shape({
         value: oneOfType([string, number]).isRequired,
         label: string.isRequired,
-        image: string,
-      }),
+        image: string
+      })
     ),
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
-  ]),
+      image: string
+    })
+  ])
 };
 ComboBox.defaultProps = {
   checkPosition: CHECK_POSITION[0],
@@ -217,7 +218,7 @@ ComboBox.defaultProps = {
   label: '',
   onChange: () => {},
   placeholder: 'Placeholder...',
-  value: null,
+  value: null
 };
 
 export default ComboBox;

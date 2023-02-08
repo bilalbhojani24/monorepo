@@ -11,20 +11,26 @@ const ModalHeader = ({
   handleDismissClick,
   heading,
   isBorder,
-  Icon,
-  subHeading,
+  icon,
+  iconWrapperClassname,
+  subHeading
 }) => (
   <div
     className={twClassNames(
       'w-full rounded-t-lg bg-white px-6 py-4 sm:flex sm:items-start',
       {
-        'border-b border-base-300': isBorder,
-      },
+        'border-b border-base-300': isBorder
+      }
     )}
   >
-    {Icon ? (
-      <div className="bg-danger-100 mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10">
-        <Icon className="text-danger-600 h-6 w-6" aria-hidden="true" />
+    {icon ? (
+      <div
+        className={twClassNames(
+          'bg-danger-100 mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10',
+          iconWrapperClassname
+        )}
+      >
+        {icon}
       </div>
     ) : null}
 
@@ -33,7 +39,7 @@ const ModalHeader = ({
         <div
           className={twClassNames('flex w-full', {
             'justify-between': heading,
-            'justify-end': !heading,
+            'justify-end': !heading
           })}
         >
           {heading ? (
@@ -71,16 +77,18 @@ ModalHeader.propTypes = {
   handleDismissClick: PropTypes.func,
   heading: PropTypes.string,
   isBorder: PropTypes.bool,
-  Icon: PropTypes.node,
-  subHeading: PropTypes.string,
+  icon: PropTypes.node,
+  iconWrapperClassname: PropTypes.string,
+  subHeading: PropTypes.string
 };
 ModalHeader.defaultProps = {
   dismissButton: true,
   handleDismissClick: () => {},
   heading: '',
   isBorder: false,
-  Icon: null,
-  subHeading: '',
+  icon: null,
+  iconWrapperClassname: '',
+  subHeading: ''
 };
 
 export default ModalHeader;
