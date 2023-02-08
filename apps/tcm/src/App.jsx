@@ -37,11 +37,14 @@ function App() {
           </div>
         )}
         <div
-          className={twClassNames('relative flex w-full items-stretch', {
-            'mt-16': importConfig?.status === 'ongoing'
-            // ||
-            // currentImportStatus === 'ongoing'
-          })}
+          className={twClassNames(
+            'relative flex w-full items-stretch overflow-hidden',
+            {
+              'mt-16': importConfig?.status === 'ongoing'
+              // ||
+              // currentImportStatus === 'ongoing'
+            }
+          )}
         >
           <SideNav importStatus={importConfig?.status} />
           <MainRoute />
