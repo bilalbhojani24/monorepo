@@ -1,13 +1,13 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { MdOutlineHome } from '@browserstack/bifrost';
 // import Sidebar from 'app/bsA11y/Sidebar';
 import {
   ASBadge,
   ASSidebarItem,
   ASSidebarNavigation
 } from 'middleware/bifrost';
-import { HomeOutlinedIcon } from 'middleware/icons';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 
 import { getSidebarCollapsedStatus } from '../slices/selectors';
@@ -18,15 +18,15 @@ export default function Dashboard({ children }) {
     {
       id: 'dashboard',
       label: 'All reports',
-      activeIcon: HomeOutlinedIcon,
-      inActiveIcon: HomeOutlinedIcon,
+      activeIcon: MdOutlineHome,
+      inActiveIcon: MdOutlineHome,
       path: '/dashboard'
     },
     {
       id: 'dashboard',
       label: 'Assistive tech',
-      activeIcon: HomeOutlinedIcon,
-      inActiveIcon: HomeOutlinedIcon,
+      activeIcon: MdOutlineHome,
+      inActiveIcon: MdOutlineHome,
       path: '/dashboard',
       badge: <ASBadge text="New" />
     },

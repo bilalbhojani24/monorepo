@@ -2,6 +2,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { issueTypes } from 'constants';
 // import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
 import { ASBadge, ASCheckbox } from 'middleware/bifrost';
@@ -64,19 +65,13 @@ export default function ReportRow({ id }) {
       // history.push(`reports/report?${path}`);
     }
   };
-  const issueTypes = [
-    { modifier: 'error', type: 'critical' },
-    { modifier: 'error', type: 'serious' },
-    { modifier: 'warn', type: 'moderate' },
-    { modifier: 'base', type: 'minor' }
-  ];
 
   return (
     <div
       tabIndex={0}
       role="button"
       onKeyDown={(e) => handleClickByEnterOrSpace(e, onReportClick)}
-      className="border-base-200 flex border-b bg-white"
+      className="border-base-200 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
       <div
@@ -105,41 +100,43 @@ export default function ReportRow({ id }) {
           </div>
         </div>
       </div>
-      <div
-        className="flex flex-col items-start justify-center"
-        style={{ minWidth: '140px' }}
-      >
-        <ASBadge
-          hasDot={false}
-          hasRemoveButton={false}
-          isRounded={false}
-          text="Workflow scan"
-        />
-        <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
-      </div>
-      <div
-        className="flex flex-col items-start justify-center px-6 pt-4 pb-5"
-        style={{ minWidth: '234px' }}
-      >
-        <p className="text-base-900 text-sm">{issues} issues</p>
-        <p className="text-base-500 overflow-hidden text-ellipsis text-sm">
-          {pageCount} pages, {componentCount} components
-        </p>
-      </div>
-      <div className="flex items-center" style={{ minWidth: '427px' }}>
-        {issueTypes.map(({ modifier, type }) => (
-          <div className="mr-2" key={type}>
-            <ASBadge
-              hasDot={false}
-              hasRemoveButton={false}
-              isRounded={false}
-              modifier={modifier}
-              text={`${issueSummary[type]} ${type
-                .charAt(0)
-                .toUpperCase()}${type.slice(1, type.length)}`}
-            />
-          </div>
-        ))}
+      <div className="flex">
+        <div
+          className="flex flex-col items-start justify-center"
+          style={{ minWidth: '140px' }}
+        >
+          <ASBadge
+            hasDot={false}
+            hasRemoveButton={false}
+            isRounded={false}
+            text="Workflow scan"
+          />
+          <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
+        </div>
+        <div
+          className="flex flex-col items-start justify-center px-6 pt-4 pb-5"
+          style={{ minWidth: '234px' }}
+        >
+          <p className="text-base-900 text-sm">{issues} issues</p>
+          <p className="text-base-500 overflow-hidden text-ellipsis text-sm">
+            {pageCount} pages, {componentCount} components
+          </p>
+        </div>
+        <div className="flex items-center" style={{ minWidth: '427px' }}>
+          {issueTypes.map(({ modifier, type }) => (
+            <div className="mr-2" key={type}>
+              <ASBadge
+                hasDot={false}
+                hasRemoveButton={false}
+                isRounded={false}
+                modifier={modifier}
+                text={`${issueSummary[type]} ${type
+                  .charAt(0)
+                  .toUpperCase()}${type.slice(1, type.length)}`}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

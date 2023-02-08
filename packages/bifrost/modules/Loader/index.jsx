@@ -1,16 +1,17 @@
 import React from 'react';
-import classNames from 'classnames';
 import propTypes from 'prop-types';
+
+import { twClassNames } from '../../utils/tailwindUtils';
 
 const Loader = ({ height, width, wrapperStyle }) => (
   <div role="status">
     <svg
       aria-hidden="true"
-      className={classNames([
+      className={twClassNames([
         'animate-spin fill-white text-transparent',
         height || 'h-5',
         width || 'w-5',
-        wrapperStyle,
+        wrapperStyle
       ])}
       viewBox="0 0 100 101"
       fill="red"
@@ -32,12 +33,12 @@ const Loader = ({ height, width, wrapperStyle }) => (
 Loader.propTypes = {
   height: propTypes.string,
   width: propTypes.string,
-  wrapperStyle: propTypes.string,
+  wrapperStyle: propTypes.string
 };
 Loader.defaultProps = {
   height: 'h-5',
   width: 'w-5',
-  wrapperStyle: '',
+  wrapperStyle: ''
 };
 
 export default Loader;

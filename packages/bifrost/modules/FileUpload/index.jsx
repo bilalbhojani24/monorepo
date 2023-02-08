@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { PhotoIcon } from '../Icon';
+import { MdOutlineInsertPhoto } from '../Icon';
 import Loader from '../Loader/index';
 
 import './styles.scss';
@@ -16,7 +16,8 @@ const FileUpload = ({
   label,
   onChange,
   accept,
-  wrapperClassName
+  wrapperClassName,
+  icon
 }) => {
   const onChangeHandler = (event) => {
     onChange(event);
@@ -25,7 +26,7 @@ const FileUpload = ({
   return (
     <div
       className={twClassNames(
-        'border-base-300 w-full rounded-md border-2 border-dashed text-center',
+        'border-base-300 w-full rounded-md border-2 border-dashed text-center flex items-center justify-center',
         wrapperClassName,
         {
           'hover:bg-base-50 active:border-brand-500': !isUploading,
@@ -37,14 +38,14 @@ const FileUpload = ({
         {isUploading ? (
           <>
             <Loader wrapperStyle="text-base-300 h-8 w-8 fill-base-600 mx-auto" />
-            <p className="text-base-600 text-sm font-medium leading-5">
+            <p className="text-base-600 mt-2 text-sm font-medium leading-5">
               {heading}
             </p>
           </>
         ) : (
           <label htmlFor={label}>
-            <PhotoIcon className="mx-auto h-5 w-5" />
-            <div className="focus-within:bg-brand-200 flex items-center justify-center gap-1">
+            {icon}
+            <div className="focus-within:bg-brand-200 mt-1 flex items-center justify-center gap-1">
               <p className="text-brand-600 cursor-pointer text-xs font-medium leading-4">
                 {linkText}
               </p>
@@ -79,7 +80,8 @@ FileUpload.propTypes = {
   onChange: propTypes.func.isRequired,
   multiple: propTypes.bool,
   accept: propTypes.string.isRequired,
-  wrapperClassName: propTypes.string
+  wrapperClassName: propTypes.string,
+  icon: propTypes.node
 };
 FileUpload.defaultProps = {
   linkText: '',
@@ -87,7 +89,8 @@ FileUpload.defaultProps = {
   subHeading: '',
   isUploading: false,
   multiple: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  icon: <MdOutlineInsertPhoto className="text-base-500 mx-auto h-6 w-6" />
 };
 
 export default FileUpload;

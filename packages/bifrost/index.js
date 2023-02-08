@@ -1,5 +1,6 @@
 import Accordion from './modules/Accordion';
 import Alerts from './modules/Alerts/index';
+import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
 import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
@@ -14,6 +15,10 @@ import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import FileUpload from './modules/FileUpload/index';
+import Header from './modules/Header/index';
+import HeaderBrand from './modules/HeaderBrand/index';
+import HeaderElements from './modules/HeaderElements/index';
+import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
@@ -64,6 +69,7 @@ import TableHead from './modules/TableHead/index';
 import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
+import TextEditor from './modules/TextEditor/index';
 import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
@@ -74,6 +80,7 @@ export * from './modules/Icon/index';
 export {
   Accordion,
   Alerts,
+  Attachments,
   Badge,
   Banner,
   Breadcrumb,
@@ -88,6 +95,10 @@ export {
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   FileUpload,
+  Header,
+  HeaderBrand,
+  HeaderElements,
+  HeaderProducts,
   Hyperlink,
   InputAddOnTexts,
   InputField,
@@ -139,6 +150,7 @@ export {
   TableRow,
   Tabs,
   TextArea,
+  TextEditor,
   Tooltip,
   TooltipBody,
   TooltipFooter,

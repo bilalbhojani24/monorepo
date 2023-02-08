@@ -13,14 +13,14 @@ const SidebarHeader = ({
   onDropdownValueChange,
   dropdownOptions,
   dropdownValue,
-  dropdownDefaultValue,
+  dropdownDefaultValue
 }) => (
   <>
     {brandImage?.length ? (
       <div
         className={classNames(
           'flex flex-shrink-0 items-center px-2',
-          brandImageContainerClass,
+          brandImageContainerClass
         )}
       >
         <img
@@ -50,22 +50,22 @@ SidebarHeader.propTypes = {
   brandImageContainerClass: PropTypes.string,
   dropdownOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number,
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       label: PropTypes.string,
-      image: PropTypes.string,
-    }),
+      image: PropTypes.string
+    })
   ),
   dropdownValue: PropTypes.shape({
     value: PropTypes.number,
     label: PropTypes.string,
-    image: PropTypes.string,
+    image: PropTypes.string
   }),
   dropdownDefaultValue: PropTypes.shape({
     value: PropTypes.number,
     label: PropTypes.string,
-    image: PropTypes.string,
+    image: PropTypes.string
   }),
-  onDropdownValueChange: PropTypes.func,
+  onDropdownValueChange: PropTypes.func
 };
 
 SidebarHeader.defaultProps = {
@@ -75,7 +75,7 @@ SidebarHeader.defaultProps = {
   dropdownValue: null,
   dropdownDefaultValue: null,
   dropdownOptions: [],
-  onDropdownValueChange: () => {},
+  onDropdownValueChange: () => {}
 };
 
 export default SidebarHeader;

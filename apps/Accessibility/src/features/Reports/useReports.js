@@ -135,8 +135,8 @@ export default function useReports() {
     history.push(`reports/report?${path}`);
   };
 
-  const onInputValueChange = debounce((value) => {
-    setSearchInput(value);
+  const onInputValueChange = debounce((e) => {
+    setSearchInput(e.target.value);
   }, 250);
 
   return {

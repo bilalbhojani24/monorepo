@@ -33,6 +33,8 @@ import {
   XMarkIcon
 } from '@heroicons/react/20/solid';
 
+export * from 'react-icons/md';
+
 export {
   ArrowDownIcon,
   ArrowLongLeftIcon,

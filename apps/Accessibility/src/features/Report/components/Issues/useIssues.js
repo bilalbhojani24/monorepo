@@ -58,6 +58,10 @@ export default function useIssues() {
     dispatch(resetIntermediateFiltersToActiveFilters());
   };
 
+  // const onFilterUpdate = () => {
+  //   dispatch(setReportFilters(intermediateFilters));
+  // };
+
   const onApplyFilters = () => {
     dispatch(setReportFilters(intermediateFilters));
     dispatch(resetIssueItem());
@@ -71,7 +75,7 @@ export default function useIssues() {
 
     // update query params with applied filters
     const updatedPath = updateUrlWithQueryParam(intermediateFilters);
-    history.push({ search: `?${updatedPath}` });
+    // history.push({ search: `?${updatedPath}` });
     setIsOpen(false);
   };
 
@@ -106,7 +110,7 @@ export default function useIssues() {
   const onInputBoxChange = (key, value, shouldShowNeedsReviewIssues) => {
     if (shouldShowNeedsReviewIssues) {
       dispatch(
-        setIntermediateReportFiltersKey({
+        setReportFilters({
           key: 'showNeedsReviewIssues',
           values: value
         })
@@ -114,16 +118,25 @@ export default function useIssues() {
       return;
     }
 
-    let updatedValues = [...intermediateFilters.impact];
+    let updatedValues = [...activeReportFilters.impact];
     if (value) {
       updatedValues.push(key);
     } else {
       updatedValues = updatedValues.filter((impact) => impact !== key);
     }
     dispatch(
-      setIntermediateReportFiltersKey({
+      setReportFilters({
         key: 'impact',
         values: updatedValues
+      })
+    );
+  };
+
+  const onUpdateImpact = (values) => {
+    dispatch(
+      setReportFilters({
+        key: 'impact',
+        values
       })
     );
   };
@@ -152,7 +165,7 @@ export default function useIssues() {
           nodes: filteredNodes
         };
       });
-      console.log({ filteredViolations });
+      // console.log({ filteredViolations });
     }
     if (activeReportFilters.showNeedsReviewIssues) {
       filteredViolations = reportData.map((violation) => ({
@@ -268,10 +281,10 @@ export default function useIssues() {
   const onTabSelect = (tabValue) => {
     dispatch(setActiveSwitch(tabValue));
     dispatch(setOpenAccordionId(''));
-    logEvent('OnADReportView', {
-      actionType: events.allIssuesTab,
-      tab: tabValue
-    });
+    // logEvent('OnADReportView', {
+    //   actionType: events.allIssuesTab,
+    //   tab: tabValue
+    // });
     const path = updateUrlWithQueryParam({
       activeSwitch: tabValue,
       activeViolationId: '',
@@ -283,9 +296,9 @@ export default function useIssues() {
   };
 
   const onHiddenIssueClick = (val) => {
-    history.push({
-      search: `?${updateUrlWithQueryParam({ hideIssues: val })}`
-    });
+    // history.push({
+    //   search: `?${updateUrlWithQueryParam({ hideIssues: val })}`
+    // });
     dispatch(resetIssueItem());
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };
@@ -300,6 +313,7 @@ export default function useIssues() {
     onHiddenIssueClick,
     onApplyFilters,
     onFilterButtonClick,
+    onUpdateImpact,
     onInputBoxChange,
     onCloseClick,
     onTabSelect,

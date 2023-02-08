@@ -25,6 +25,7 @@ const Button = ({
   fullWidth,
   icon,
   iconPlacement,
+  isIconOnlyButton,
   colors
 }) => {
   const buttonRef = useRef();
@@ -47,7 +48,8 @@ const Button = ({
           'grid-cols-[16px,2fr]':
             iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon !== null,
           'grid-cols-[2fr,16px]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null
+            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null,
+          'gap-0': isIconOnlyButton
         })}
       >
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon}
@@ -122,7 +124,8 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
   iconPlacement: PropTypes.string,
-  colors: PropTypes.oneOf(BUTTON_COLORS)
+  colors: PropTypes.oneOf(BUTTON_COLORS),
+  isIconOnlyButton: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -136,7 +139,8 @@ Button.defaultProps = {
   fullWidth: false,
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
-  colors: BUTTON_COLORS[0]
+  colors: BUTTON_COLORS[0],
+  isIconOnlyButton: true
 };
 
 export default Button;

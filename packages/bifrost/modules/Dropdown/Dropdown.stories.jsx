@@ -14,59 +14,59 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Dropdown from 'bifrost/Dropdown'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     triggerTitle: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
+      description: 'Lorem ipsum dolor'
     },
     triggerVariant: {
       control: { type: 'inline-radio' },
       type: { summary: DROPDOWN_TYPES.join(', '), required: false },
       options: DROPDOWN_TYPES,
-      description: 'Lorem Ipsum',
+      description: 'Lorem siet'
     },
     headerVisible: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: false,
+      description: 'Lorem amit',
+      defaultValue: false
     },
     heading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem Ipsum',
-      defaultValue: 'Lorem',
+      defaultValue: 'Lorem'
     },
     subHeading: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem Ipsum',
-      defaultValue: 'Ipsum',
+      defaultValue: 'Ipsum'
     },
     options: {
       defaultValue: [
         {
           id: '1',
-          body: 'Edit',
+          body: 'Edit'
         },
         {
           id: '2',
           body: 'Duplicate',
-          divider: false,
+          divider: false
         },
         {
           id: '3',
           body: 'Archive',
-          divider: true,
-        },
-      ],
-    },
+          divider: true
+        }
+      ]
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => (
   <div className="flex justify-center">
@@ -75,7 +75,7 @@ const Template = (args) => (
 );
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

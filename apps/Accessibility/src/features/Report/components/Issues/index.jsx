@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
@@ -9,14 +10,21 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from 'features/Report/slice/selector';
-// import { Button } from 'trike/Button';
-// import Checkbox from 'trike/Checkbox';
-// import { ArrowBackIcon, FilterListIcon } from 'trike/Icons';
+import {
+  ASBadge,
+  ASButton,
+  ASCheckbox,
+  ASModal,
+  ASModalBody,
+  ASModalFooter,
+  ASModalHeader,
+  ASSelectMenu
+} from 'middleware/bifrost';
+
 // import { Actions, Content, Header, Modal } from 'trike/Modal';
 // import SelectBox from 'trike/SelectBox/container/SelectBox';
 // import TagsComponent from 'trike/TagsComponent/components/TagsComponent';
-import { handleClickByEnterOrSpace } from 'utils/helper';
-
+// import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
 
@@ -35,6 +43,7 @@ export default function Issues() {
     onApplyFilters,
     onCloseClick,
     onFilterButtonClick,
+    onUpdateImpact,
     onInputBoxChange,
     onTabSelect,
     onTagClose,
@@ -47,6 +56,8 @@ export default function Issues() {
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
   );
+
+  console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -73,6 +84,29 @@ export default function Issues() {
 
   const isHalfView = activeComponentId && isShowingIssue;
 
+  const severityOptions = [
+    {
+      label: 'Critical',
+      value: 'critical'
+    },
+    {
+      label: 'Serious',
+      value: 'serious'
+    },
+    {
+      label: 'Moderate',
+      value: 'moderate'
+    },
+    {
+      label: 'Minor',
+      value: 'minor'
+    }
+  ];
+
+  const intermediateFiltersImpactValues = intermediateFilters.impact.map(
+    ({ value }) => value
+  );
+
   return (
     <SectionsDataContext.Provider value={{ sectionData, violations }}>
       <div
@@ -80,50 +114,49 @@ export default function Issues() {
       //   'issues__content-wrapper--half': isHalfView
       // })}
       >
-        {/* <Modal
-          id="filter-modal"
-          isOpen={isOpen}
-          wrapperClassName="issues__filter-modal"
-          size="md"
-          position="center"
+        <ASModal
+          show={isOpen}
+          size="lg"
           onClose={onCloseClick}
+          onOverlayClick={onCloseClick}
         >
-          <Header>Filters</Header>
-          <Content>
-            <div>
-              <p className="issues__checkbox-group-title">Severity</p>
-              <div className="issues__checkbox-group">
-                <Checkbox
-                  id="critical"
-                  labelText="Critical"
-                  className="issues__checkbox"
-                  checked={intermediateFilters.impact.includes('critical')}
-                  onChange={(value) => onInputBoxChange('critical', value)}
+          <ASModalHeader heading="Filters" />
+          <ASModalBody>
+            <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
+              Severity
+            </p>
+            <div className="flex justify-between">
+              {severityOptions.map(({ label, value }) => (
+                <ASCheckbox
+                  data={{ label, value }}
+                  border={false}
+                  wrapperClass="pt-0"
+                  checked={intermediateFiltersImpactValues.includes('critical')}
+                  onChange={(val) => onInputBoxChange('critical', val)}
                 />
-                <Checkbox
-                  id="serious"
-                  labelText="Serious"
-                  className="issues__checkbox"
-                  checked={intermediateFilters.impact.includes('serious')}
-                  onChange={(value) => onInputBoxChange('serious', value)}
-                />
-                <Checkbox
-                  id="moderate"
-                  labelText="Moderate"
-                  className="issues__checkbox"
-                  checked={intermediateFilters.impact.includes('moderate')}
-                  onChange={(value) => onInputBoxChange('moderate', value)}
-                />
-                <Checkbox
-                  id="minor"
-                  labelText="Minor"
-                  className="issues__checkbox"
-                  checked={intermediateFilters.impact.includes('minor')}
-                  onChange={(value) => onInputBoxChange('minor', value)}
-                />
-              </div>
+              ))}
+              {/* <ASCheckbox
+                labelText="Critical"
+                checked={intermediateFiltersImpactValues.includes('critical')}
+                onChange={(value) => onInputBoxChange('critical', value)}
+              />
+              <ASCheckbox
+                labelText="Serious"
+                checked={intermediateFiltersImpactValues.includes('serious')}
+                onChange={(value) => onInputBoxChange('serious', value)}
+              />
+              <ASCheckbox
+                labelText="Moderate"
+                checked={intermediateFiltersImpactValues.includes('moderate')}
+                onChange={(value) => onInputBoxChange('moderate', value)}
+              />
+              <ASCheckbox
+                labelText="Minor"
+                checked={intermediateFiltersImpactValues.includes('minor')}
+                onChange={(value) => onInputBoxChange('minor', value)}
+              /> */}
             </div>
-            <SelectBox
+            {/* <SelectBox
               isMulti
               isSearch
               label="Pages"
@@ -161,76 +194,84 @@ export default function Issues() {
               }))}
               placeholder="Select"
               onChange={(_, values) => onUpdateFilters('category', values)}
-            />
-            <Checkbox
-              id="needsReview"
-              labelText="Show only 'Needs Review' Issues"
-              className="issues__checkbox"
+            /> */}
+            <ASCheckbox
+              border={false}
+              data={{
+                label: "Show only 'Needs Review' Issues",
+                value: 'needsReview'
+              }}
               checked={intermediateFilters.showNeedsReviewIssues}
               onChange={(value) => onInputBoxChange('', value, true)}
             />
-          </Content>
-          <Actions position="end">
-            <Button
-              text="Cancel"
-              type="outline"
-              modifier="grey"
-              onClick={onCloseClick}
-            />
-            <Button text="Apply" onClick={onApplyFilters} />
-          </Actions>
-        </Modal> */}
+          </ASModalBody>
+          <ASModalFooter position="right ">
+            <ASButton onClick={onCloseClick} colors="white">
+              Cancel
+            </ASButton>
+            <ASButton onClick={onApplyFilters}>OK</ASButton>
+          </ASModalFooter>
+        </ASModal>
         {showHiddenIssues && (
-          <div className="issues__filter-wrapper-hidden-issues">
-            <Button
+          <div>
+            {/* <ASButton
               icon={<ArrowBackIcon />}
               modifier="grey"
               onClick={() => onHiddenIssueClick(false)}
               size="small"
-              text="Back"
+              text=""
               type="subtle"
-            />
-            <p className="issues__filter-wrapper-hidden-issues-title">
-              {' '}
-              Showing Hidden Issues{' '}
-            </p>
+            >
+              Back
+            </ASButton> */}
+            <p> Showing Hidden Issues </p>
           </div>
         )}
-        <div className="issues__filter-wrapper">
-          <div className="issues__filter-wrapper-front-tabs">
-            <div className="issues__version-switch">
-              {issueTabs.map(({ label, value }) => (
-                <div
-                  // className={classNames('issues__version-switch-item', {
-                  //   'issues__version-switch-item--active':
-                  //     activeSwitch === value
-                  // })}
-                  onClick={() => onTabSelect(value)}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={(e) =>
-                    handleClickByEnterOrSpace(e, () => onTabSelect(value))
+        <div>
+          <div className="flex items-center justify-between py-4 px-6">
+            <div>
+              {issueTabs.map(({ label, value }, index) => (
+                <ASButton
+                  wrapperClassName={
+                    index === 0 ? 'rounded-r-none' : 'rounded-l-none border-l-0'
                   }
-                  aria-label={`Select ${label} filter`}
+                  onClick={() => onTabSelect(value)}
+                  colors="white"
                 >
                   {label}
-                </div>
+                </ASButton>
               ))}
             </div>
-            {!showHiddenIssues && (
-              <Button
-                text="Filters"
-                type="outline"
-                icon={<FilterListIcon />}
-                iconPlacement="left"
-                size="small"
-                modifier="grey"
-                onClick={onFilterButtonClick}
+            <div className="flex">
+              <ASSelectMenu
+                isMultiSelect
+                onChange={onUpdateImpact}
+                options={severityOptions}
+                placeholder="Severity"
+                value={reportFilters.impact}
               />
-            )}
-            {Object.entries(reportFilters).map(([key, values]) =>
+              {!showHiddenIssues && (
+                <ASButton
+                  icon={<MdFilterAlt />}
+                  colors="white"
+                  size="small"
+                  wrapperClassName="ml-2"
+                  onClick={onFilterButtonClick}
+                />
+              )}
+              {!showHiddenIssues && !hasFilters && (
+                <ASButton
+                  size="small"
+                  colors="white"
+                  wrapperClassName="ml-2"
+                  onClick={() => onHiddenIssueClick(true)}
+                  icon={<MdHideSource />}
+                />
+              )}
+            </div>
+            {/* {Object.entries(reportFilters).map(([key, values]) =>
               values.length ? (
-                <TagsComponent
+                <ASBadge
                   readonly
                   size="large"
                   text={getKeyName(key, values)}
@@ -239,60 +280,44 @@ export default function Issues() {
                   wrapperClassName="issues__tag"
                 />
               ) : null
-            )}
-            {reportFilters.showNeedsReviewIssues ? (
-              <TagsComponent
-                readonly
-                size="large"
+            )} */}
+            {/* {reportFilters.showNeedsReviewIssues ? (
+              <ASBadge
+                hasDot={false}
+                hasRemoveButton
+                isRounded={false}
                 text="Needs Review"
-                onClick={onFilterButtonClick}
+                size="large"
                 onClose={() => onTagClose('showNeedsReviewIssues')}
-                wrapperClassName="issues__tag"
               />
             ) : null}
             {hasFilters && (
-              <TagsComponent
+              <ASBadge
                 readonly
                 size="large"
                 text="Clear all"
                 onClose={() => onTagClose('all')}
                 wrapperClassName="issues__tag"
               />
-            )}
+            )} */}
           </div>
-          {!showHiddenIssues && !hasFilters && (
-            <Button
-              text="View Hidden Issues"
-              type="outline"
-              size="small"
-              modifier="grey"
-              onClick={() => onHiddenIssueClick(true)}
-            />
-          )}
+          <div className="bg-base-100 px-6 py-3">
+            <p className="text-base-500 border-base-300 border-r pr-4 text-sm">
+              Filters
+            </p>
+          </div>
         </div>
-        <div className="issues__issue-wrapper">
+        <div>
           {showEmptyScreen ? (
-            <div className="issues__issue-wrapper-empty-section">
-              <img
-                className="issues__issue-wrapper-empty-section-image"
-                src={IssuesNotFound}
-                alt="No Issues Found"
-              />
-              <p className="issues__issue-wrapper-empty-section-text">
-                No Issues Found
-              </p>
+            <div>
+              <img src={IssuesNotFound} alt="No Issues Found" />
+              <p>No Issues Found</p>
             </div>
           ) : (
             <>
-              <div
-                className={classNames('issues__violations', {
-                  'issues__violations--full': isHalfView
-                })}
-              >
-                <Accordion />
-              </div>
+              <Accordion />
               {isHalfView && sectionData && (
-                <div className="issues__content-issue">
+                <div>
                   <IssueItem />
                 </div>
               )}

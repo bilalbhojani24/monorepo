@@ -1,26 +1,17 @@
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
+import {
+  MdDownload,
+  MdOutlineCalendarToday,
+  MdPerson,
+  MdShare
+} from '@browserstack/bifrost';
 import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
 import { ASBreadcrumb, ASButton, ASTabs } from 'middleware/bifrost';
-import {
-  CalendarTodaySharpIcon,
-  GetAppIcon,
-  PersonIcon,
-  ShareIcon
-} from 'middleware/icons';
-// import { Button } from 'trike/Button';
-// import {
-//   ArrowBackIcon,
-//   GetAppIcon,
-//   PersonIcon,
-//   ScheduleIcon,
-//   ShareIcon
-// } from 'trike/Icons';
-// import Tabs from 'trike/Tabs';
 import { downloadCsv } from 'utils/helper';
 
 import Issues from './components/Issues';
@@ -60,15 +51,7 @@ export default function Report() {
 
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-screen">
-      <div className="report__header">
-        {/* <Button
-          icon={<ArrowBackIcon />}
-          modifier="grey"
-          onClick={onBackClick}
-          size="small"
-          text="Back"
-          type="subtle"
-        /> */}
+      <div>
         <div className="px-6 pt-6">
           <ASBreadcrumb
             data={[
@@ -85,15 +68,13 @@ export default function Report() {
               {isSingleReport ? (
                 <div className="flex items-center">
                   <div className="text-base-500 mr-6 flex text-sm">
-                    <PersonIcon style={{ height: '20px', width: '20px' }} />
+                    <MdPerson className="text-xl" />
                     <p className="ml-1.5">
                       {Object.values(reportMetaData.meta)[0].createdBy.name}
                     </p>
                   </div>
                   <div className="text-base-500 flex text-sm">
-                    <CalendarTodaySharpIcon
-                      style={{ height: '20px', width: '20px' }}
-                    />
+                    <MdOutlineCalendarToday className="text-xl" />
                     <p className="ml-1.5">
                       {format(
                         new Date(
@@ -108,10 +89,8 @@ export default function Report() {
                 <div className="flex items-center">
                   {Object.values(reportMetaData?.meta).map(
                     ({ name }, index) => (
-                      <div className="report__header-report-wrapper">
-                        <p className="report__header-report" title={name}>
-                          {name}
-                        </p>
+                      <div>
+                        <p title={name}>{name}</p>
                         {index !==
                         Object.values(reportMetaData?.meta).length - 1
                           ? ','
@@ -124,26 +103,30 @@ export default function Report() {
             </div>
             <div className="flex">
               {isCopied ? (
-                <ASButton colors="white">Copied</ASButton>
+                <ASButton colors="white" size="small">
+                  Copied
+                </ASButton>
               ) : (
                 <CopyToClipboard
                   text={window.location.href}
                   onCopy={onCopyClick}
                 >
                   <ASButton
-                    icon={<ShareIcon />}
+                    icon={<MdShare />}
                     iconPlacement="end"
                     onClick={() => {}}
                     colors="white"
+                    size="extra-small"
                   >
                     Share link
                   </ASButton>
                 </CopyToClipboard>
               )}
               <ASButton
-                icon={<GetAppIcon />}
+                icon={<MdDownload />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
+                size="small"
                 onClick={() => downloadCsv(reportData, csvName)}
               >
                 Export
@@ -168,7 +151,7 @@ export default function Report() {
           />
         </div>
       </div>
-      {/* {activeTab === 'summary' && <Summary />} */}
+      {activeTab === 'summary' && <Summary />}
       {activeTab === 'issues' && <Issues />}
     </div>
   ) : (

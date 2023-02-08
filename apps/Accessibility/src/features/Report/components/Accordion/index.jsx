@@ -12,7 +12,7 @@ export default function Accordion() {
   const isIssueTab = activeSwitch === ISSUE_TYPE;
   const finalData = isIssueTab ? violations : sectionData;
   return (
-    <div className="issue-accordion">
+    <div>
       {finalData &&
         finalData.map(({ violation }) =>
           violation.nodes.length ? <Violation violation={violation} /> : null

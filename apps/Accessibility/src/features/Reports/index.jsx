@@ -1,25 +1,16 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import {
+  MdClose,
+  MdOutlineArrowForward,
+  MdSearch
+} from '@browserstack/bifrost';
 // import Logo from 'images/bsA11y/accessibility_logo.png';
 // import extensionImage from 'images/bsA11y/dashboard_img1.png';
 import NotFound from 'assets/not_found.svg';
-// import classNames from 'classnames';
 import { versions } from 'constants';
-// import { Button } from 'trike/Button';
-// import {
-//   ArrowForwardIcon,
-//   CloseIcon,
-//   OpenInNewIcon,
-//   SearchIcon
-// } from 'trike/Icons';
-// import InputField from 'trike/InputField';
 // import { Actions, CarouselModal } from 'trike/Modal';
 import { ASButton, ASDropdown, ASInputField } from 'middleware/bifrost';
-import {
-  ArrowForwardIcon,
-  CloseIcon,
-  SearchOutlinedIcon
-} from 'middleware/icons';
 import { handleClickByEnterOrSpace } from 'utils/helper';
 
 import ReportRow from './components/ReportRow';
@@ -122,12 +113,12 @@ export default function Reports() {
           consolidate and review reports.
         </h3>
         <div>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <div className="flex">
               <div className="mr-4 w-80">
                 <ASInputField
                   id="search-report"
-                  leadingIcon={<SearchOutlinedIcon />}
+                  leadingIcon={<MdSearch />}
                   placeholder="Search for name or error..."
                   onChange={onInputValueChange}
                 />
@@ -144,7 +135,7 @@ export default function Reports() {
             <div className="flex items-center">
               {selectedReportsLength > 0 && (
                 <ASButton
-                  icon={<CloseIcon />}
+                  icon={<MdClose className="text-xl" />}
                   variant="secondary"
                   onClick={resetSelection}
                   wrapperClassName="mr-2"
@@ -155,7 +146,7 @@ export default function Reports() {
               <ASButton
                 variant="primary"
                 iconPlacement="end"
-                icon={<ArrowForwardIcon />}
+                icon={<MdOutlineArrowForward className="text-xl" />}
                 onClick={onReportConsolidateButtonClick}
                 disabled={isMergeDisabled}
               >

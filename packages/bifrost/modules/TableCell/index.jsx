@@ -52,8 +52,13 @@ const TableCell = ({
       )}
       colSpan={colspan}
     >
-      <div className="inline-flex">
+      <div
+        className={twClassNames({
+          'inline-flex': sortable
+        })}
+      >
         {children}
+
         {sortable ? (
           <button
             type="button"

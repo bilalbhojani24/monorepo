@@ -2,6 +2,7 @@ import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
+import { MdOutlineAttachFile } from '../Icon';
 
 import Attachments from './index';
 
@@ -26,7 +27,8 @@ const defaultConfig = {
             <Button variant="primary" colors="danger" size="extra-small">
               Delete
             </Button>
-          )
+          ),
+          id: '1'
         },
         {
           fileName: 'lorem.ipsum',
@@ -40,9 +42,20 @@ const defaultConfig = {
                 Delete
               </Button>
             </div>
-          )
+          ),
+          id: '2'
         }
       ]
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Classes to be passed to base accordion component'
+    },
+    icon: {
+      defaultValue: (
+        <MdOutlineAttachFile className="text-base-400 h-5 w-5 font-light" />
+      )
     }
   },
   controls: {}
