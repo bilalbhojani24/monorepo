@@ -14,6 +14,7 @@ import {
   ASBadge,
   ASButton,
   ASCheckbox,
+  ASComboBox,
   ASModal,
   ASModalBody,
   ASModalFooter,
@@ -114,13 +115,8 @@ export default function Issues() {
       //   'issues__content-wrapper--half': isHalfView
       // })}
       >
-        <ASModal
-          show={isOpen}
-          size="lg"
-          onClose={onCloseClick}
-          onOverlayClick={onCloseClick}
-        >
-          <ASModalHeader heading="Filters" />
+        <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+          <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ASModalBody>
             <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
               Severity
@@ -131,31 +127,32 @@ export default function Issues() {
                   data={{ label, value }}
                   border={false}
                   wrapperClass="pt-0"
-                  checked={intermediateFiltersImpactValues.includes('critical')}
-                  onChange={(val) => onInputBoxChange('critical', val)}
+                  checked={intermediateFiltersImpactValues.includes(value)}
+                  onChange={(val) => onInputBoxChange(value, val)}
                 />
               ))}
-              {/* <ASCheckbox
-                labelText="Critical"
-                checked={intermediateFiltersImpactValues.includes('critical')}
-                onChange={(value) => onInputBoxChange('critical', value)}
-              />
-              <ASCheckbox
-                labelText="Serious"
-                checked={intermediateFiltersImpactValues.includes('serious')}
-                onChange={(value) => onInputBoxChange('serious', value)}
-              />
-              <ASCheckbox
-                labelText="Moderate"
-                checked={intermediateFiltersImpactValues.includes('moderate')}
-                onChange={(value) => onInputBoxChange('moderate', value)}
-              />
-              <ASCheckbox
-                labelText="Minor"
-                checked={intermediateFiltersImpactValues.includes('minor')}
-                onChange={(value) => onInputBoxChange('minor', value)}
-              /> */}
             </div>
+            <ASComboBox
+              isMulti
+              onChange={(values) => onUpdateFilters('page', values)}
+              options={urls}
+              value={reportFilters.impact}
+              // placeholder="Select..."
+            />
+            <ASComboBox
+              isMultiSelect
+              onChange={(values) => onUpdateFilters('component', values)}
+              options={componentIds}
+              // value={reportFilters.impact}
+              // placeholder="Select..."
+            />
+            <ASComboBox
+              isMultiSelect
+              onChange={(values) => onUpdateFilters('category', values)}
+              options={categories}
+              // value={reportFilters.impact}
+              // placeholder="Select..."
+            />
             {/* <SelectBox
               isMulti
               isSearch
@@ -252,11 +249,12 @@ export default function Issues() {
               />
               {!showHiddenIssues && (
                 <ASButton
-                  icon={<MdFilterAlt />}
+                  icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
                   size="small"
                   wrapperClassName="ml-2"
                   onClick={onFilterButtonClick}
+                  isIconOnlyButton
                 />
               )}
               {!showHiddenIssues && !hasFilters && (
@@ -266,6 +264,7 @@ export default function Issues() {
                   wrapperClassName="ml-2"
                   onClick={() => onHiddenIssueClick(true)}
                   icon={<MdHideSource />}
+                  isIconOnlyButton
                 />
               )}
             </div>

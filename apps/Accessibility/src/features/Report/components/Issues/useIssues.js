@@ -39,6 +39,8 @@ export default function useIssues() {
   const [sectionData, setSectionData] = useState(null);
   const [filteredReportData, setFilteredReportData] = useState(reportData);
 
+  console.log('customData: ', customData);
+
   const generateData = () =>
     filteredReportData.map((violation) => {
       const totalCount = violation.nodes.length;
@@ -71,7 +73,7 @@ export default function useIssues() {
       'activeIssueIndex',
       'isShowingIssue'
     ]);
-    history.push({ search: `?${path}` });
+    // history.push({ search: `?${path}` });
 
     // update query params with applied filters
     const updatedPath = updateUrlWithQueryParam(intermediateFilters);
@@ -96,13 +98,13 @@ export default function useIssues() {
       history.push({ search: `?${path}` });
     } else if (key === 'showNeedsReviewIssues') {
       const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-      history.push({ search: `?${path}` });
+      // history.push({ search: `?${path}` });
       dispatch(resetIntermediateResetFilterKey({ key, value: false }));
       dispatch(setResetFilterKey({ key, value: false }));
     } else {
       dispatch(resetIntermediateResetFilterKey({ key, value: [] }));
       const path = deleteUrlQueryParam([key]);
-      history.push({ search: `?${path}` });
+      // history.push({ search: `?${path}` });
       dispatch(setResetFilterKey({ key, value: [] }));
     }
   };
@@ -292,7 +294,7 @@ export default function useIssues() {
       activeIssueIndex: 0,
       isShowingIssue: false
     });
-    history.push({ search: `?${path}` });
+    // history.push({ search: `?${path}` });
   };
 
   const onHiddenIssueClick = (val) => {

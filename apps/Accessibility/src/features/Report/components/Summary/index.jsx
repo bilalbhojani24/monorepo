@@ -125,275 +125,229 @@ export default function Summary() {
 
   return (
     <div>
-      <div className="flex">
-        <ASDataVisualization
-          title="Issue Summary"
-          headerInfo={null}
-          analytics={
-            <div className="flex">
-              <div className="flex items-center justify-between">
-                <div className="w-72">
-                  <Chart options={chartOption} />
-                </div>
-                <div>
-                  {impactList.map((impact) => (
-                    <div
-                      className="flex items-center justify-between"
-                      onClick={() => onRowClick('impact', impact)}
-                      role="presentation"
-                    >
-                      <div className="text-base-800 flex items-center text-sm">
-                        <div
-                          className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
-                        />
-                        {impact.charAt(0).toUpperCase()}
-                        {impact.slice(1, impact.length)}
+      <div className="mt-4 flex items-start">
+        <div className="w-6/12 bg-white px-4">
+          <ASDataVisualization
+            title="Issue Summary"
+            headerInfo={null}
+            size="fit-content"
+            analytics={
+              <div className="flex">
+                <div className="flex items-center justify-between">
+                  <div className="w-72">
+                    <Chart options={chartOption} />
+                  </div>
+                  <div>
+                    {impactList.map((impact) => (
+                      <div
+                        className="mb-4 flex h-6 w-40 items-center justify-between"
+                        onClick={() => onRowClick('impact', impact)}
+                        role="presentation"
+                      >
+                        <div className="text-base-800 flex items-center text-sm">
+                          <div
+                            className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
+                          />
+                          {impact.charAt(0).toUpperCase()}
+                          {impact.slice(1, impact.length)}
+                        </div>
+                        <p className="text-base-800 flex">
+                          {issueSummary[impact]}
+                        </p>
                       </div>
-                      <p className="text-base-800 flex">
-                        {issueSummary[impact]}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          }
-        />
-        <ASDataVisualization
-          title="Affected Components"
-          headerInfo={null}
-          analytics={
-            <div>
-              <p className="text-base-500 mr-1 text-sm">Total</p>
-              <p className="text-base-900 mb-4 text-3xl font-semibold">
-                {componentList.length}
-              </p>
-              <ASTable>
-                <ASTableHead>
-                  <ASTableRow>
-                    {componentColumns.map((col, index) => (
-                      <ASTableCell
-                        key={col.key}
-                        variant="header"
-                        textTransform="uppercase"
-                        wrapperClass={`text-xs text-base-500 ${
-                          index === 0 ? 'w-14' : ''
-                        } ${index === 2 ? 'w-32' : ''}`}
-                      >
-                        {col.name}
-                      </ASTableCell>
-                    ))}
-                  </ASTableRow>
-                </ASTableHead>
-                <ASTableBody>
-                  {componentList
-                    .slice(0, 6)
-                    .map(({ componentId, count }, index) => (
-                      <ASTableRow
-                        wrapperClass="cursor-pointer"
-                        onRowClick={() => onRowClick('component', componentId)}
-                      >
-                        {componentColumns.map((column, colIndex) => (
-                          <ASTableCell
-                            key={column.id}
-                            wrapperClass={`px-3 py-2 ${
-                              colIndex === 0 ? 'w-14' : ''
-                            }`}
-                          >
-                            {colIndex === 0 ? index + 1 : ''}
-                            {colIndex === 1
-                              ? formatComponentIdString(componentId)
-                              : ''}
-                            {colIndex === 2 ? count : ''}
-                          </ASTableCell>
-                        ))}
-                      </ASTableRow>
-                    ))}
-                </ASTableBody>
-              </ASTable>
-            </div>
-          }
-        />
+            }
+          />
+        </div>
+        <div className="w-6/12 bg-white pr-4">
+          <ASDataVisualization
+            title="Affected Components"
+            headerInfo={null}
+            size="fit-content"
+            analytics={
+              <div>
+                <p className="text-base-500 mr-1 text-sm">Total</p>
+                <p className="text-base-900 mb-4 text-3xl font-semibold">
+                  {componentList.length}
+                </p>
+                <ASTable>
+                  <ASTableHead>
+                    <ASTableRow>
+                      {componentColumns.map((col, index) => (
+                        <ASTableCell
+                          key={col.key}
+                          variant="header"
+                          textTransform="uppercase"
+                          wrapperClass={`text-xs text-base-500 ${
+                            index === 0 ? 'w-14' : ''
+                          } ${index === 2 ? 'w-32' : ''}`}
+                        >
+                          {col.name}
+                        </ASTableCell>
+                      ))}
+                    </ASTableRow>
+                  </ASTableHead>
+                  <ASTableBody>
+                    {componentList
+                      .slice(0, 6)
+                      .map(({ componentId, count }, index) => (
+                        <ASTableRow
+                          wrapperClass="cursor-pointer"
+                          onRowClick={() =>
+                            onRowClick('component', componentId)
+                          }
+                        >
+                          {componentColumns.map((column, colIndex) => (
+                            <ASTableCell
+                              key={column.id}
+                              wrapperClass={`px-3 py-2 ${
+                                colIndex === 0 ? 'w-14' : ''
+                              }`}
+                            >
+                              {colIndex === 0 ? index + 1 : ''}
+                              {colIndex === 1
+                                ? formatComponentIdString(componentId)
+                                : ''}
+                              {colIndex === 2 ? count : ''}
+                            </ASTableCell>
+                          ))}
+                        </ASTableRow>
+                      ))}
+                  </ASTableBody>
+                </ASTable>
+              </div>
+            }
+          />
+        </div>
       </div>
-      <div className="flex">
-        <ASDataVisualization
-          title="Issues by category"
-          headerInfo={null}
-          analytics={
-            <div>
-              <p className="text-base-500 mr-1 text-sm">Total</p>
-              <p className="text-base-900 mb-4 text-3xl font-semibold">
-                {componentList.length}
-              </p>
-              <ASTable>
-                <ASTableHead>
-                  <ASTableRow>
-                    {categoryColumns.map((col, index) => (
-                      <ASTableCell
-                        key={col.key}
-                        variant="header"
-                        textTransform="uppercase"
-                        wrapperClass={`text-xs text-base-500 ${
-                          index === 0 ? 'w-16' : ''
-                        } ${index === 1 ? 'w-40' : ''}`}
-                      >
-                        {col.name}
-                      </ASTableCell>
-                    ))}
-                  </ASTableRow>
-                </ASTableHead>
-                <ASTableBody>
-                  {categoryList.map(({ category, count }, index) => (
-                    <ASTableRow wrapperClass="cursor-pointer">
-                      {categoryColumns.map((column, colIndex) => {
-                        const cellUI = () => {
-                          if (colIndex === 0) return index + 1;
-                          if (colIndex === 1)
-                            return map[category.split('cat.')[1]];
-                          if (count === 0) {
+      <div className="mt-4 flex items-start">
+        <div className="w-6/12 bg-white px-4">
+          <ASDataVisualization
+            title="Issues by category"
+            headerInfo={null}
+            size="fit-content"
+            analytics={
+              <div>
+                <p className="text-base-500 mr-1 text-sm">Total</p>
+                <p className="text-base-900 mb-4 text-3xl font-semibold">
+                  {componentList.length}
+                </p>
+                <ASTable>
+                  <ASTableHead>
+                    <ASTableRow>
+                      {categoryColumns.map((col, index) => (
+                        <ASTableCell
+                          key={col.key}
+                          variant="header"
+                          textTransform="uppercase"
+                          wrapperClass={`text-xs text-base-500 ${
+                            index === 0 ? 'w-16' : ''
+                          } ${index === 1 ? 'w-40' : ''}`}
+                        >
+                          {col.name}
+                        </ASTableCell>
+                      ))}
+                    </ASTableRow>
+                  </ASTableHead>
+                  <ASTableBody>
+                    {categoryList.map(({ category, count }, index) => (
+                      <ASTableRow wrapperClass="cursor-pointer">
+                        {categoryColumns.map((column, colIndex) => {
+                          const cellUI = () => {
+                            if (colIndex === 0) return index + 1;
+                            if (colIndex === 1)
+                              return map[category.split('cat.')[1]];
+                            if (count === 0) {
+                              return (
+                                <div className="flex items-center">
+                                  <div
+                                    className="mr-2 h-3 rounded-r-full"
+                                    style={{
+                                      width: '1px',
+                                      backgroundColor:
+                                        'rgba(134, 92, 193, 0.3)',
+                                      borderRadius: 0
+                                    }}
+                                  />
+                                  <p>0</p>
+                                </div>
+                              );
+                            }
                             return (
                               <div className="flex items-center">
                                 <div
                                   className="mr-2 h-3 rounded-r-full"
                                   style={{
-                                    width: '1px',
-                                    backgroundColor: 'rgba(134, 92, 193, 0.3)',
-                                    borderRadius: 0
+                                    width: `${
+                                      (count / maxCategoryIssue) * 100
+                                    }%`,
+                                    backgroundColor: '#865CC1'
                                   }}
                                 />
-                                <p>0</p>
+                                <p>{count}</p>
                               </div>
                             );
-                          }
+                          };
                           return (
-                            <div className="flex items-center">
-                              <div
-                                className="mr-2 h-3 rounded-r-full"
-                                style={{
-                                  width: `${(count / maxCategoryIssue) * 100}%`,
-                                  backgroundColor: '#865CC1'
-                                }}
-                              />
-                              <p>{count}</p>
-                            </div>
+                            <ASTableCell
+                              key={column.id}
+                              wrapperClass={`px-3 py-2 ${
+                                colIndex === 0 ? 'w-16' : ''
+                              } ${colIndex === 1 ? 'w-40' : ''}`}
+                            >
+                              {cellUI()}
+                            </ASTableCell>
                           );
-                        };
-                        return (
-                          <ASTableCell
-                            key={column.id}
-                            wrapperClass={`px-3 py-2 ${
-                              colIndex === 0 ? 'w-16' : ''
-                            } ${colIndex === 1 ? 'w-40' : ''}`}
-                          >
-                            {cellUI()}
-                          </ASTableCell>
-                        );
-                      })}
-                    </ASTableRow>
-                  ))}
-                </ASTableBody>
-              </ASTable>
-            </div>
-          }
-        />
-        {/* <Card height={5} width={3} className="m-20">
-          <div className="summary-chart-card__header">
-            <p className="summary-chart-card__title">Issues by category</p>
-            <div className="summary-chart-card__header-sort">
-              <Dropdown
-                icon={<SortIcon />}
-                triggerAriaLabel="Sort Issue category by options"
-                menuOptions={[
-                  {
-                    label: 'A to Z',
-                    value: 'char-sort',
-                    icon: <SortByAlphaIcon />
-                  },
-                  {
-                    label: 'Descending',
-                    value: 'desc',
-                    icon: <ArrowDownwardIcon />
-                  },
-                  {
-                    label: 'Ascending',
-                    value: 'asc',
-                    icon: <ArrowUpwardIcon />
-                  }
-                ]}
-                style={{
-                  maxMenuHeight: 200,
-                  menuAlignment: 'auto',
-                  menuPlacement: 'auto',
-                  minMenuHeight: 50,
-                  minWidth: 100
-                }}
-                title="Action"
-                variant="icon-button"
-                type="outline-button"
-                chevronRequired={false}
-                onChange={onMenuChange}
-              />
-            </div>
-          </div>
-          <div className="summary-card__category-card">
-            <div className="summary-card__category-table-header">
-              <p className="summary-card__category-table-header-number">#</p>
-              <p className="summary-card__category-table-header-name">
-                Category
-              </p>
-              <p className="summary-card__category-table-header-count">
-                Issues
-              </p>
-            </div>
-            <div className="summary-card__table-wrapper">
-              <div className="summary-card__category-table">
-                {categoryList.map(({ category, count }, index) => (
-                  <div
-                    className={classNames('summary-card__category-table-row', {
-                      'summary-card__category-table-row--zero': count === 0
-                    })}
-                    onClick={() =>
-                      onRowClick('category', category.split('cat.')[1])
-                    }
-                    role="presentation"
-                  >
-                    <div className="summary-card__category-table-row-index">
-                      {index + 1}
-                    </div>
-                    <div className="summary-card__category-table-row-name">
-                      {map[category.split('cat.')[1]]}
-                    </div>
-                    {count === 0 ? (
-                      <div
-                        className="summary-card__category-table-row-chart"
-                        style={{
-                          width: '5px',
-                          backgroundColor: 'rgba(134, 92, 193, 0.3)',
-                          borderRadius: 0
-                        }}
-                      />
-                    ) : (
-                      <div
-                        className="summary-card__category-table-row-chart"
-                        style={{
-                          width: `${(count / maxCategoryIssue) * 100}%`,
-                          backgroundColor: '#865CC1'
-                        }}
-                      />
-                    )}
-                    <div className="summary-card__category-table-row-count">
-                      {count}
-                    </div>
-                  </div>
-                ))}
+                        })}
+                      </ASTableRow>
+                    ))}
+                  </ASTableBody>
+                </ASTable>
               </div>
-            </div>
-          </div>
-        </Card> */}
-        <div>
+            }
+          />
+        </div>
+        {/* <Dropdown
+          icon={<SortIcon />}
+          triggerAriaLabel="Sort Issue category by options"
+          menuOptions={[
+            {
+              label: 'A to Z',
+              value: 'char-sort',
+              icon: <SortByAlphaIcon />
+            },
+            {
+              label: 'Descending',
+              value: 'desc',
+              icon: <ArrowDownwardIcon />
+            },
+            {
+              label: 'Ascending',
+              value: 'asc',
+              icon: <ArrowUpwardIcon />
+            }
+          ]}
+          style={{
+            maxMenuHeight: 200,
+            menuAlignment: 'auto',
+            menuPlacement: 'auto',
+            minMenuHeight: 50,
+            minWidth: 100
+          }}
+          title="Action"
+          variant="icon-button"
+          type="outline-button"
+          chevronRequired={false}
+          onChange={onMenuChange}
+        /> */}
+        <div className="w-6/12 bg-white pr-4">
           <ASDataVisualization
             title="Affected Pages"
             headerInfo={null}
+            size="fit-content"
             analytics={
               <div>
                 <p className="text-base-500 mr-1 text-sm">Total</p>

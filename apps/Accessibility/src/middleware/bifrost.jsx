@@ -6,6 +6,7 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  ComboBox,
   DataVisualization,
   Dropdown,
   InputField,
@@ -47,3 +48,4 @@ export const ASModal = (props) => <Modal {...props} />;
 export const ASModalBody = (props) => <ModalBody {...props} />;
 export const ASModalFooter = (props) => <ModalFooter {...props} />;
 export const ASModalHeader = (props) => <ModalHeader {...props} />;
+export const ASComboBox = (props) => <ComboBox {...props} />;

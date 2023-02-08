@@ -6,9 +6,6 @@ import { getOpenAccordionId } from 'features/Report/slice/selector';
 import { ASAccordion, ASBadge } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 
-// import { ArrowDropDownIcon, ArrowDropUpIcon } from 'trike/Icons';
-// import Lozenge from 'trike/Lozenge';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import ComponentList from './ComponentList';
 
 export default function Violation({ violation }) {
@@ -17,7 +14,6 @@ export default function Violation({ violation }) {
   const isOpen = openAccordionId === violation.id;
 
   const totalCount = violation.nodes.length;
-  const { modifier } = issueTypes.find(({ type }) => type === violation.impact);
   const impact =
     violation.impact.charAt(0).toUpperCase() +
     violation.impact.slice(1, violation.impact.length);
@@ -50,7 +46,10 @@ export default function Violation({ violation }) {
               hasRemoveButton={false}
               isRounded={false}
               text={impact}
-              modifier={modifier}
+              modifier={
+                issueTypes.find(({ type }) => type === violation.impact)
+                  .modifier
+              }
             />
           )}
         </div>
