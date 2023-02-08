@@ -90,7 +90,7 @@ FileUpload.defaultProps = {
   isUploading: false,
   multiple: false,
   wrapperClassName: '',
-  icon: <MdOutlineInsertPhoto className="text-base-500 mx-auto" />
+  icon: <MdOutlineInsertPhoto className="text-base-500 mx-auto h-6 w-6" />
 };
 
 export default FileUpload;
