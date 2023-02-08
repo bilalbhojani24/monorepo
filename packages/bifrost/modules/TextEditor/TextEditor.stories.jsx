@@ -84,11 +84,11 @@ export const UncontrolledTextEditor = () => {
 };
 
 export const ControlledTextEditor = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('<p>Text 1</p>');
+
   return (
     <>
       <TextEditor
-        initialValue="<h1>This is controlled component example of text editor</h1>"
         value={value}
         height={600}
         onChange={(val) => setValue(val)}
