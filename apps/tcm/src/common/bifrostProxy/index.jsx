@@ -7,7 +7,6 @@ import {
   Button,
   Checkbox,
   ComboBox,
-  Dropdown,
   EmptyState,
   FileUpload,
   InputField,
@@ -22,6 +21,7 @@ import {
   Notifications,
   PageHeadings,
   RadioGroup,
+  RichTextEditor,
   SectionHeadings,
   SelectMenu,
   Slideover,
@@ -37,8 +37,8 @@ import {
 
 import TMAttachments from './components/TMAttachments';
 import TMDataTable from './components/TMDataTable';
+import TMDropdown from './components/TMDropdown';
 import TMPagination from './components/TMPagination';
-import TMTextEditor from './components/TMTextEditor';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
@@ -56,7 +56,6 @@ export const TMListTreeNodeContents = (props) => (
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
-export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
@@ -81,5 +80,6 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
+export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
 
-export { TMAttachments, TMDataTable, TMPagination, TMTextEditor };
+export { TMAttachments, TMDataTable, TMDropdown, TMPagination };

@@ -13,10 +13,10 @@ import {
   TMComboBox,
   TMFileUpload,
   TMInputField,
+  TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
-  TMTextEditor,
   TMTooltip,
   TMTooltipBody,
   TMTooltipHeader
@@ -128,13 +128,13 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
-          <TMTextEditor
+          <TMRichTextEditor
             label="Description"
             value={testCaseFormData?.description}
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
-            assetUploadURL={`${BASE_API_URL}/api/v1/projects/${projectId}/generic/attachments`}
+            // assetUploadURL={`${BASE_API_URL}/api/v1/projects/${projectId}/generic/attachments`}
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
