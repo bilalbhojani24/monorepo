@@ -38,6 +38,7 @@ import {
 import TMAttachments from './components/TMAttachments';
 import TMDataTable from './components/TMDataTable';
 import TMPagination from './components/TMPagination';
+import TMTextEditor from './components/TMTextEditor';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
@@ -81,4 +82,4 @@ export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 
-export { TMAttachments, TMDataTable, TMPagination };
+export { TMAttachments, TMDataTable, TMPagination, TMTextEditor };

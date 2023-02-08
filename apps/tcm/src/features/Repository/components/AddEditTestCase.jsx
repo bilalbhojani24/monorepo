@@ -16,6 +16,7 @@ import {
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
+  TMTextEditor,
   TMTooltip,
   TMTooltipBody,
   TMTooltipHeader
@@ -125,6 +126,16 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
+          {/* <TMTextEditor
+            // initialValue="<p>Test</p>"
+            initialValue={testCaseFormData?.description}
+            value={testCaseFormData?.description}
+            // id="test-case-description"
+            // label="Description"
+            height={200}
+            placeholder="Write in brief about this test case"
+            onChange={(val) => handleTestCaseFieldChange('description', val)}
+          /> */}
           <TMTextArea
             value={testCaseFormData.description}
             id="test-case-description"
