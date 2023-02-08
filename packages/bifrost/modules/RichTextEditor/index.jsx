@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 
 import {
   func,
@@ -8,7 +9,6 @@ import {
   shape,
   string
 } from '../../shared/proptypesConstants';
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import Editor from './components/TextEditor';
 

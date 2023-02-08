@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
 
 import {
   arrayOf,
@@ -11,7 +11,7 @@ import {
   oneOf,
   oneOfType,
   shape,
-  string,
+  string
 } from '../../shared/proptypesConstants';
 import Checkbox from '../Checkbox';
 
@@ -28,7 +28,7 @@ const SelectMenu = (props) => {
     defaultValue,
     checkPosition,
     placeholder,
-    value,
+    value
   } = props;
 
   const renderSingleOptions = (opts) => {
@@ -102,7 +102,7 @@ const SelectMenu = (props) => {
                   <Listbox.Option
                     key={option.value}
                     className={({ active }) =>
-                      classNames(
+                      twClassNames(
                         {
                           'bg-brand-600 text-white': active && !isMultiSelect,
                           'text-base-900': !active,
@@ -112,9 +112,9 @@ const SelectMenu = (props) => {
                           'py-2 pl-8 pr-4':
                             checkPosition === CHECK_POSITION[0] &&
                             !isMultiSelect,
-                          'pb-4 pl-3 hover:bg-base-50': isMultiSelect,
+                          'pb-4 pl-3 hover:bg-base-50': isMultiSelect
                         },
-                        'relative cursor-pointer select-none',
+                        'relative cursor-pointer select-none'
                       )
                     }
                     value={option}
@@ -132,28 +132,28 @@ const SelectMenu = (props) => {
                             )}
 
                             <span
-                              className={classNames(
+                              className={twClassNames(
                                 {
                                   'font-semibold': selected,
-                                  'font-normal': !selected,
+                                  'font-normal': !selected
                                 },
-                                'block truncate',
+                                'block truncate'
                               )}
                             >
                               {option.label}
                             </span>
                             {selected && (
                               <span
-                                className={classNames(
+                                className={twClassNames(
                                   {
                                     'text-white': active,
                                     'text-brand-600': !active,
                                     'right-0 pr-4':
                                       checkPosition === CHECK_POSITION[1],
                                     'left-0 pl-1.5':
-                                      checkPosition === CHECK_POSITION[0],
+                                      checkPosition === CHECK_POSITION[0]
                                   },
-                                  'absolute inset-y-0 flex items-center',
+                                  'absolute inset-y-0 flex items-center'
                                 )}
                               >
                                 <CheckIcon
@@ -167,7 +167,7 @@ const SelectMenu = (props) => {
                           <Checkbox
                             data={{
                               label: option.label,
-                              value: option.value,
+                              value: option.value
                             }}
                             border={false}
                             wrapperClass="py-0"
@@ -193,15 +193,15 @@ SelectMenu.propTypes = {
     shape({
       value: oneOfType([number, string]),
       label: string,
-      image: string,
+      image: string
     }),
     arrayOf(
       shape({
         label: number,
         value: oneOfType([number, string]),
-        image: string,
-      }),
-    ),
+        image: string
+      })
+    )
   ]),
   isMultiSelect: bool,
   label: string,
@@ -209,8 +209,8 @@ SelectMenu.propTypes = {
     shape({
       value: oneOfType([number, string]),
       label: string,
-      image: string,
-    }),
+      image: string
+    })
   ).isRequired,
   placeholder: string,
   onChange: func,
@@ -218,16 +218,16 @@ SelectMenu.propTypes = {
     shape({
       value: oneOfType([number, string]),
       label: string,
-      image: string,
+      image: string
     }),
     arrayOf(
       shape({
         value: oneOfType([number, string]),
         null: string,
-        image: string,
-      }),
-    ),
-  ]),
+        image: string
+      })
+    )
+  ])
 };
 
 SelectMenu.defaultProps = {
@@ -237,7 +237,7 @@ SelectMenu.defaultProps = {
   label: '',
   placeholder: 'Placeholder...',
   onChange: () => {},
-  value: null,
+  value: null
 };
 
 export default SelectMenu;

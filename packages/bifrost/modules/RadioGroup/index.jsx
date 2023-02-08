@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { DIRECTIONS } from './const/radioGroupConstants';
@@ -22,7 +22,7 @@ const RadioGroup = (props) => {
 
   return (
     <div
-      className={classNames('flex', {
+      className={twClassNames('flex', {
         'space-x-5': direction === DIRECTIONS[0],
         'space-y-5 flex-col': direction === DIRECTIONS[1]
       })}
@@ -30,12 +30,12 @@ const RadioGroup = (props) => {
       {options.map((option) => (
         <div
           key={option.id}
-          className={classNames('flex items-start', {
+          className={twClassNames('flex items-start', {
             'cursor-not-allowed': option.disabled
           })}
         >
           <div
-            className={classNames('flex h-5 items-center', {
+            className={twClassNames('flex h-5 items-center', {
               'order-last mx-3': rightAligned,
               'cursor-not-allowed': option.disabled
             })}
@@ -52,7 +52,7 @@ const RadioGroup = (props) => {
             />
           </div>
           <div
-            className={classNames(
+            className={twClassNames(
               { 'flex-col': !inlineDescription, 'flex-1': rightAligned },
               'flex ml-3 text-sm'
             )}
@@ -60,7 +60,7 @@ const RadioGroup = (props) => {
             {option.name && (
               <label
                 htmlFor={option.id}
-                className={classNames('text-base-700 font-medium', {
+                className={twClassNames('text-base-700 font-medium', {
                   'text-base-400': option.disabled,
                   'cursor-not-allowed': option.disabled
                 })}
@@ -71,7 +71,7 @@ const RadioGroup = (props) => {
             {option.description && (
               <div
                 id={`${option.id}-description`}
-                className={classNames(
+                className={twClassNames(
                   { 'ml-2': inlineDescription },
                   'text-base-500',
                   {

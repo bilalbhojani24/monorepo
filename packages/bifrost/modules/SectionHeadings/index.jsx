@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Tabs from '../Tabs';
@@ -15,7 +15,9 @@ const SectionHeadings = ({
   title
 }) => (
   <div
-    className={classNames('', { 'border-b border-base-200 pb-5': !tabsProps })}
+    className={twClassNames('', {
+      'border-b border-base-200 pb-5': !tabsProps
+    })}
   >
     <div className="border-base-200 sm:flex sm:items-baseline sm:justify-between">
       <div className="w-full" role="contentinfo">
@@ -36,7 +38,7 @@ const SectionHeadings = ({
 
         {description && (
           <p
-            className={classNames('mt-2 max-w-4xl text-sm text-base-500', {
+            className={twClassNames('mt-2 max-w-4xl text-sm text-base-500', {
               'mb-2': !!tabsProps
             })}
           >
@@ -48,10 +50,7 @@ const SectionHeadings = ({
     </div>
     {tabsProps && (
       <div className={tabsWrapperClassName}>
-        {
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <Tabs {...tabsProps} />
-        }
+        <Tabs {...tabsProps} />
       </div>
     )}
   </div>

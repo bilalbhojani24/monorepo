@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
-import classNames from 'classnames';
 
 import {
   arrayOf,
@@ -93,7 +93,7 @@ const ComboBox = (props) => {
                 key={option.value}
                 value={option}
                 className={({ active }) =>
-                  classNames(
+                  twClassNames(
                     'relative cursor-pointer select-none py-2 pl-3 pr-9',
                     active && !isMulti
                       ? 'bg-brand-600 text-white'
@@ -121,7 +121,7 @@ const ComboBox = (props) => {
                             />
                           )}
                           <span
-                            className={classNames(
+                            className={twClassNames(
                               'block truncate',
                               selected && 'font-semibold'
                             )}
@@ -131,7 +131,7 @@ const ComboBox = (props) => {
                         </div>
                         {selected && (
                           <span
-                            className={classNames(
+                            className={twClassNames(
                               'absolute inset-y-0 right-0 flex items-center pr-4',
                               active ? 'text-white' : 'text-brand-600',
                               {

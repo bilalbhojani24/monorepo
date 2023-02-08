@@ -1,8 +1,8 @@
 import React from 'react';
-// import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
+// import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronUpIcon } from '../Icon';
 
 import {

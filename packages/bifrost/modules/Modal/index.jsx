@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import { MODAL_SIZE } from './const/modalConstants';
 

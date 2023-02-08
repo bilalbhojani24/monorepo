@@ -2,7 +2,7 @@ import React from 'react';
 import { Disclosure } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 
 import './styles.scss';
 

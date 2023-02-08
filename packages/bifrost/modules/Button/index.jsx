@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import Loader from '../Loader/index';
 
 import {

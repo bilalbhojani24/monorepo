@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Disclosure } from '@headlessui/react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronRightIcon, MdFolder } from '../Icon';
 import Tooltip from '../Tooltip';
 import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
@@ -56,7 +55,7 @@ const ListTreeNode = ({
         <Disclosure.Button as={Fragment}>
           {({ open }) => (
             <div
-              className={classNames('mr-1 w-5 select-none', {
+              className={twClassNames('mr-1 w-5 select-none', {
                 'invisible ': hideArrowIcon
               })}
               role="presentation"

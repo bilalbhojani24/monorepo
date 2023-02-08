@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 import { MdOutlineInsertPhoto } from '../Icon';
 import Loader from '../Loader/index';
 
