@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 
 import { InformationCircleIcon } from '../Icon';
 import ToolTip from '../Tooltip';
+import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
 
 import Kpi from './components/Kpi';
 import {
   DATA_VISUALIZATION_DESC_POSITION,
-  DATA_VISUALIZATION_SIZES,
+  DATA_VISUALIZATION_SIZES
 } from './const/dataVisualizationConstants';
 
 import './styles.scss';
@@ -25,13 +26,15 @@ const DataVisualization = ({
   filterDropdown,
   headerInfo,
   headerInfoTooltipProps,
+  wrapperClassName
 }) => (
   <div
-    className={classNames('rounded-lg border shadow', {
+    className={classNames('rounded-lg shadow', {
       'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
       'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
       'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
       'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3],
+      wrapperClassName
     })}
   >
     <div className="p-6">
@@ -39,11 +42,37 @@ const DataVisualization = ({
         <div className="flex items-center">
           <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
           {headerInfo && (
-            <ToolTip {...headerInfoTooltipProps}>
-              <InformationCircleIcon
-                className="h-5 w-5 shrink-0 cursor-pointer"
-                aria-hidden="true"
-              />
+            <ToolTip
+              arrowClassName={headerInfoTooltipProps?.arrowClassName}
+              arrowWidth={headerInfoTooltipProps?.arrowWidth}
+              arrowHeight={headerInfoTooltipProps?.arrowHeight}
+              arrowPadding={headerInfoTooltipProps?.arrowPadding}
+              alignOffset={headerInfoTooltipProps?.alignOffset}
+              avoidCollisions={headerInfoTooltipProps?.avoidCollisions}
+              content={headerInfoTooltipProps?.content}
+              delay={headerInfoTooltipProps?.delay}
+              defaultOpen={headerInfoTooltipProps?.defaultOpen}
+              onEscapeKeyDown={headerInfoTooltipProps?.onEscapeKeyDown}
+              onPointerDownOutside={
+                headerInfoTooltipProps?.onPointerDownOutside
+              }
+              onOpenChange={headerInfoTooltipProps?.onOpenChange}
+              sideOffset={headerInfoTooltipProps?.sideOffset}
+              sticky={headerInfoTooltipProps?.sticky}
+              show={headerInfoTooltipProps?.show}
+              theme={headerInfoTooltipProps?.theme}
+              placementAlign={headerInfoTooltipProps?.placementAlign}
+              placementSide={headerInfoTooltipProps?.placementSide}
+              size={headerInfoTooltipProps?.size}
+            >
+              {headerInfoTooltipProps?.children ? (
+                headerInfoTooltipProps?.children
+              ) : (
+                <InformationCircleIcon
+                  className="h-5 w-5 shrink-0 cursor-pointer"
+                  aria-hidden="true"
+                />
+              )}
             </ToolTip>
           )}
         </div>
@@ -54,7 +83,7 @@ const DataVisualization = ({
         </div>
       </div>
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[0] && (
-        <p className="mt-4 font-normal leading-6 text-base-600">{desc}</p>
+        <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
       )}
       {KpiProps?.length > 0 && (
         <div
@@ -65,15 +94,23 @@ const DataVisualization = ({
               size === DATA_VISUALIZATION_SIZES[2] ||
               size === DATA_VISUALIZATION_SIZES[3],
             'align-items-center flex justify-between':
-              size === DATA_VISUALIZATION_SIZES[4],
+              size === DATA_VISUALIZATION_SIZES[4]
           })}
         >
           {KpiProps.map((propsObject) => (
-            <Kpi {...propsObject} />
+            <Kpi
+              key={propsObject.id}
+              difference={propsObject?.difference}
+              changeType={propsObject?.changeType}
+              description={propsObject?.description}
+              percentage={propsObject?.percentage}
+              direction={propsObject?.direction}
+              title={propsObject?.title}
+            />
           ))}
         </div>
       )}
-      <div className="my-2 py-4">{analytics}</div>
+      <div>{analytics}</div>
 
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[1] && (
         <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
@@ -114,19 +151,20 @@ DataVisualization.propTypes = {
   footerProps: PropTypes.shape({
     linkTo: PropTypes.string,
     linkText: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   }),
   KpiProps: PropTypes.arrayOf({
     title: PropTypes.string,
     changeType: PropTypes.string,
     difference: PropTypes.string,
     description: PropTypes.string,
-    percentage: PropTypes.string,
+    percentage: PropTypes.string
   }),
   otherOptions: PropTypes.node,
   filterDropdown: PropTypes.node,
   headerInfo: PropTypes.bool,
-  headerInfoTooltipProps: PropTypes.shape({}),
+  headerInfoTooltipProps: PropTypes.shape(TooltipPropTypes),
+  wrapperClassName: PropTypes.string
 };
 DataVisualization.defaultProps = {
   size: DATA_VISUALIZATION_SIZES[1],
@@ -140,6 +178,7 @@ DataVisualization.defaultProps = {
   filterDropdown: null,
   headerInfo: true,
   headerInfoTooltipProps: {},
+  wrapperClassName: ''
 };
 
 export default DataVisualization;

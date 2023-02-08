@@ -1,40 +1,51 @@
 import React from 'react';
-import Stats from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { STATS_SPACING } from './const/statsConstants';
 import { CursorArrowRaysIcon, EnvelopeOpenIcon, UsersIcon } from '../Icon';
+
+import { STATS_SPACING, STATS_VARIANTS } from './const/statsConstants';
+import Stats from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Stats',
   component: Stats,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Stats from 'bifrost/Stats'"} />;
-      },
-    },
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Stats from 'bifrost/Stats'"}
+        />
+      )
+    }
   },
   argTypes: {
     spacing: {
       options: STATS_SPACING,
       control: { type: 'select' },
-      description: 'Keep the stats cards spaced between or clubbed together with border',
+      description:
+        'Keep the stats cards spaced between or clubbed together with border',
       type: { summary: 'BOOLEAN', required: false },
-      defaultValue: STATS_SPACING[0],
+      defaultValue: STATS_SPACING[0]
     },
     textColor: {
       type: { summary: 'STRING', required: false },
       control: { type: 'text' },
-      defaultValue: 'text-brand-600',
+      defaultValue: 'text-brand-600'
     },
     heading: {
-        type: { summary: 'STRING', required: false },
-        control: { type: 'text' },
-        defaultValue: 'Last 30 days',
+      type: { summary: 'STRING', required: false },
+      control: { type: 'text' },
+      defaultValue: 'Last 30 days'
     },
-    badge: {
-        type: { summary: 'BOOLEAN', required: false },
-        defaultValue: false,
+    variant: {
+      control: { type: 'inline-radio', required: true },
+      type: {
+        summary: Object.values(STATS_VARIANTS).join(', '),
+        required: true
+      },
+      options: STATS_VARIANTS,
+      description: 'Different variants',
+      defaultValue: STATS_VARIANTS.WITHOUT_ICON
     },
     options: {
       defaultValue: [
@@ -46,7 +57,7 @@ const defaultConfig = {
           change: '12%',
           previousStat: '28.62%',
           changeType: 'increase',
-          link: 'google.com',
+          link: 'google.com'
         },
         {
           id: 2,
@@ -56,7 +67,7 @@ const defaultConfig = {
           change: '5.4%',
           previousStat: '50.62%',
           changeType: 'increase',
-          link: 'google.com',
+          link: 'data.com'
         },
         {
           id: 3,
@@ -66,17 +77,17 @@ const defaultConfig = {
           change: '3.2%',
           previousStat: '28.62%',
           changeType: 'decrease',
-          link: 'google.com',
-        },
-      ],
-    },
+          link: 'wikipedia.com'
+        }
+      ]
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Stats {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

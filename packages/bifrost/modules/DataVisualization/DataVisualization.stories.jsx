@@ -79,6 +79,7 @@ const defaultConfig = {
       description: 'Array of objects containing Kpi info',
       defaultValue: [
         {
+          id: 1,
           title: 'lorem',
           changeType: 'increase',
           difference: '65',
@@ -87,6 +88,7 @@ const defaultConfig = {
           direction: 'vertical'
         },
         {
+          id: 2,
           title: 'ipsum',
           changeType: 'descrease',
           difference: '35',
