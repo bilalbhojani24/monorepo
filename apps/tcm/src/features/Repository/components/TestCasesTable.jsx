@@ -74,7 +74,7 @@ const TestCasesTable = ({
   const datatableColumns = [
     {
       name: 'ID',
-      key: 'id',
+      key: 'identifier',
       cell: (rowData) => (
         <div
           role="button"
