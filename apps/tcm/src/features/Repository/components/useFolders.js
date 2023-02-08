@@ -240,6 +240,7 @@ export default function useFolders() {
     folderUpdateHandler,
     folderActionsHandler,
     moveFolderHelper,
-    moveFolderOnOkHandler
+    moveFolderOnOkHandler,
+    hideFolderModal
   };
 }

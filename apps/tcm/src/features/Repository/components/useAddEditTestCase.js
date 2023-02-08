@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { uploadFilesAPI } from 'api/attachments.api';
+import { imageUploadRTEHandlerAPI, uploadFilesAPI } from 'api/attachments.api';
 import { addFolder } from 'api/folders.api';
 import {
   addTestCaseAPI,
@@ -309,6 +309,10 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
+  const imageUploadRTEHelper = (blobInfo, progress) => {
+    imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
+  };
+
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -358,6 +362,7 @@ export default function useAddEditTestCase() {
     hideAddIssueModal,
     addIssuesSaveHelper,
     saveBulkEditHelper,
-    setBulkEditConfirm
+    setBulkEditConfirm,
+    imageUploadRTEHelper
   };
 }

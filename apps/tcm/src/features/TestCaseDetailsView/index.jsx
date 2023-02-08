@@ -33,6 +33,7 @@ const TestCaseDetailsView = () => {
       <TMSlideoverHeader
         heading="Test Case Details"
         isBorder
+        backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
       <TestCaseView />

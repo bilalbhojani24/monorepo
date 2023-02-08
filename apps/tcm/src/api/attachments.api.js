@@ -6,10 +6,11 @@ export const uploadFilesAPI = async ({ projectId, payload }) =>
 export const imageUploadRTEHandlerAPI = async ({ projectId, blobInfo }) => {
   const formData = new FormData();
   const files = blobInfo.blob();
-  formData.append('attachments[]', files);
+  formData.append('image', files);
 
-  return fetchPost(
+  const res = await fetchPost(
     `/api/v1/projects/${projectId}/generic/rte_upload`,
     formData
   );
+  return res.data.url;
 };
