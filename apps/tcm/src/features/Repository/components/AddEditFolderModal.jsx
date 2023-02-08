@@ -108,14 +108,16 @@ const AddEditFolderModal = ({
             }}
           />
         </div>
-        <TMTextArea
-          label="Description"
-          placeholder="Enter folder description/notes"
-          value={filledFormData.notes}
-          onChange={(e) =>
-            setFormData({ ...filledFormData, notes: e.currentTarget.value })
-          }
-        />
+        <div className="pb-1">
+          <TMTextArea
+            label="Description"
+            placeholder="Enter folder description/notes"
+            value={filledFormData.notes}
+            onChange={(e) =>
+              setFormData({ ...filledFormData, notes: e.currentTarget.value })
+            }
+          />
+        </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton colors="white" onClick={hideFolderModal} variant="primary">
