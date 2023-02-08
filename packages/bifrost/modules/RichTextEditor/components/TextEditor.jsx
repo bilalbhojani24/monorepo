@@ -2,11 +2,11 @@
 import React, { forwardRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-import { imageUploadHandler, TINYMCE_API_KEY } from '../helper';
+import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
 
 const TextEditor = forwardRef((props, ref) => {
   const {
-    assetUploadURL,
+    onAssetUpload,
     height,
     placeholder,
     onChange,
@@ -46,7 +46,7 @@ const TextEditor = forwardRef((props, ref) => {
         file_picker_types: 'image',
         automatic_uploads: true,
         images_upload_handler: (blobInfo, progress) =>
-          imageUploadHandler(blobInfo, progress, assetUploadURL),
+          onAssetUpload(blobInfo, progress),
         statusbar: false,
         placeholder
         // content_css:

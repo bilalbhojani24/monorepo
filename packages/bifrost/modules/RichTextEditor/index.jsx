@@ -15,7 +15,7 @@ import Editor from './components/TextEditor';
 import './styles.scss';
 
 const RichTextEditor = ({
-  assetUploadURL,
+  onAssetUpload,
   height,
   width,
   wrapperClass,
@@ -27,7 +27,7 @@ const RichTextEditor = ({
 }) => (
   <div className={twClassNames(wrapperClass)}>
     <Editor
-      assetUploadURL={assetUploadURL}
+      onAssetUpload={onAssetUpload}
       height={height}
       width={width}
       onChange={onChange}
@@ -40,7 +40,7 @@ const RichTextEditor = ({
 );
 
 RichTextEditor.propTypes = {
-  assetUploadURL: string.isRequired,
+  onAssetUpload: func.isRequired,
   initialValue: string,
   onChange: func,
   height: oneOfType([number, string]),
