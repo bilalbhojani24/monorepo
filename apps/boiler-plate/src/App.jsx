@@ -1,30 +1,31 @@
 import React from 'react';
-import reactLogo from './assets/react.svg';
-import Counter from './features/Counter';
+import { useAuthRoutes } from '@browserstack/hooks';
+import axios from 'axios';
 
-import './App.scss';
+import { APP_ROUTES } from './constants/routesConstants';
 
-function App() {
-  return (
-    <div className="App">
-      <div className="flex justify-center">
-        <a className="p-8" href="https://vitejs.dev">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a className="p-8" href="https://reactjs.org">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="p-4">Vite + React</h1>
-      <div className="card">
-        <Counter />
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+const initAPI = async () => {
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(false);
+    }, 2000);
+  });
+
+  // returns status code - 200 (uncomment and test)
+  return axios.get(
+    'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
   );
-}
+
+  // returns status code - 401 (uncomment and test)
+  // return axios.get(
+  //   'https://run.mocky.io/v3/a1656866-98fe-49cd-9b97-1163c2866b48'
+  // );
+};
+
+const App = () => {
+  const Routes = useAuthRoutes(APP_ROUTES, initAPI, '/login');
+
+  return <>{Routes}</>;
+};
 
 export default App;

@@ -1,7 +1,7 @@
 import useGetFocusElementsAndTrap from './src/use-get-focus-elements-and-trap/GetFocusElementsAndTrap';
 import useLockBodyScroll from './src/use-lock-body-scroll/LockBodyScroll';
+import useAuthRoutes from './src/useAuthRoutes';
 import useBodyClass from './src/useBodyClass';
-import useBrowserNotification from './src/useBrowserNotification';
 import useFocusTrap from './src/useFocusTrap';
 import useHandleFocusForSpotlights from './src/useHandleFocusForSpotlights';
 import useImageFromWorker from './src/useImageFromWorker';
@@ -16,7 +16,6 @@ import useMountEffect from './src/useMountEffect';
 import useOnClickOutside from './src/useOnClickOutside';
 import usePagination from './src/usePagination';
 import usePrevious from './src/usePrevious';
-import useProduct from './src/useProduct';
 import useQuery from './src/useQuery';
 import useResizeObserver from './src/useResizeObserver';
 import useSafariWebInspectorFromWorker from './src/useSafariWebInspectorFromWorker';
@@ -25,11 +24,10 @@ import useWindowDimensionChange from './src/useWindowDimensionChange';
 import useWindowSize from './src/useWindowSize';
 
 export {
-  useGetFocusElementsAndTrap,
-  useLockBodyScroll,
+  useAuthRoutes,
   useBodyClass,
-  useBrowserNotification,
   useFocusTrap,
+  useGetFocusElementsAndTrap,
   useHandleFocusForSpotlights,
   useImageFromWorker,
   useInactivity,
@@ -39,11 +37,11 @@ export {
   useIsTablet,
   useIsUnmounted,
   useLatestRef,
+  useLockBodyScroll,
   useMountEffect,
   useOnClickOutside,
   usePagination,
   usePrevious,
-  useProduct,
   useQuery,
   useResizeObserver,
   useSafariWebInspectorFromWorker,
