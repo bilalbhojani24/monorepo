@@ -13,6 +13,7 @@ const TestCaseBasicData = () => {
     <>
       <DetailsSnippet
         title="Description"
+        parseContent
         value={testCaseDetails?.description || '--'}
       />
 
@@ -30,6 +31,7 @@ const TestCaseBasicData = () => {
             />
             <DetailsSnippet
               title="Expected Result"
+              parseContent
               value={testCaseDetails?.expected_result || '--'}
             />
           </>

@@ -126,24 +126,12 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
-          {/* <TMTextEditor
-            // initialValue="<p>Test</p>"
-            initialValue={testCaseFormData?.description}
+          <TMTextEditor
+            label="Description"
             value={testCaseFormData?.description}
-            // id="test-case-description"
-            // label="Description"
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
-          /> */}
-          <TMTextArea
-            value={testCaseFormData.description}
-            id="test-case-description"
-            label="Description"
-            placeholder="Write in brief about this test case"
-            onChange={(e) =>
-              handleTestCaseFieldChange('description', e.currentTarget.value)
-            }
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
