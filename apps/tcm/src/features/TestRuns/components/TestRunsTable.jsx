@@ -23,6 +23,10 @@ const TestRunsTable = () => {
       key: 'name'
     },
     {
+      name: 'NO. OF TESTS',
+      key: 'test_cases_count'
+    },
+    {
       name: 'CREATED DATE',
       key: 'created_at',
       cell: (rowData) => formatTime(rowData.created_at)
@@ -54,7 +58,7 @@ const TestRunsTable = () => {
   ];
 
   return (
-    <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start overflow-hidden border bg-white sm:rounded-lg">
+    <div className="border-base-200 flex  flex-1 flex-col items-stretch justify-start border bg-white sm:rounded-lg">
       <TMDataTable
         containerWrapperClass="md:rounded-none"
         columns={tableColumns}

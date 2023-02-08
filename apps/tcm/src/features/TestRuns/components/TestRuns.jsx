@@ -24,7 +24,7 @@ const TestRuns = () => {
   if (isAddTestRunsFormVisible) return <AddEditTestRun />;
 
   return (
-    <div className="flex flex-1 flex-col items-stretch">
+    <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <div className="border-base-300 border-b">
         <TMPageHeadings
           wrapperClassName="px-4 pt-6 bg-transparent"
@@ -46,7 +46,7 @@ const TestRuns = () => {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-stretch p-4">
+      <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
         <TestRunsTable />
       </div>
     </div>

@@ -134,7 +134,7 @@ const AddEditTestCase = () => {
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
-            // assetUploadURL={`${BASE_API_URL}/api/v1/projects/${projectId}/generic/attachments`}
+            assetUploadURL={`${BASE_API_URL}/api/v1/projects/${projectId}/generic/attachments`}
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
