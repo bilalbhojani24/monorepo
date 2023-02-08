@@ -7,7 +7,9 @@ export const ROUTES = {
   reports: 'reports',
   settings: '/settings',
   screenReader: 'screen-reader',
-  siteScanner: 'site-scanner'
+  siteScanner: 'site-scanner',
+  scanDetails: 'site-scanner/scan-details',
+  scanReports: 'site-scanner/scan-report'
 };
 
 const Config = {

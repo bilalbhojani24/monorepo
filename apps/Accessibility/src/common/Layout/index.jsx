@@ -8,6 +8,8 @@ import Report from 'features/Report';
 import Reports from 'features/Reports';
 import ScreenReader from 'features/ScreenReader';
 import SiteScanner from 'features/SiteScanner';
+import ScanDetails from 'features/SiteScanner/ScanDetails';
+import ScanReport from 'features/SiteScanner/ScanReport';
 
 // const EmptyPage = lazy(() => import('bsA11y/EmptyPage'));
 
@@ -17,7 +19,17 @@ const Layout = () => (
       <Route path={ROUTES.reports} element={<Reports />} />
       <Route exact path={ROUTES.screenReader} element={<ScreenReader />} />
       <Route exact path={ROUTES.report} element={<Report />} />
-      <Route path={ROUTES.siteScanner} element={<SiteScanner />} />
+      <Route exact path={ROUTES.siteScanner} element={<SiteScanner />} />
+      <Route
+        exact
+        path={`${ROUTES.scanDetails}/:id`}
+        element={<ScanDetails />}
+      />
+      <Route
+        exact
+        path={`${ROUTES.scanReports}/:id`}
+        element={<ScanReport />}
+      />
     </Routes>
   </Dashboard>
   // <Routes>

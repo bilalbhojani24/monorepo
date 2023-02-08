@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Badge,
+  Button,
+  MdDownload,
+  MdOutlineCalendarToday,
+  MdPerson,
+  MdShare,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+
+import NewScan from './NewScan';
 
 const GRTColumns = [
   {
@@ -29,13 +36,18 @@ const GRTRows = [
     people: [
       {
         scanSummary: (
-          <div className="flex-col font-normal">
+          <div className="cursor-pointer flex-col font-normal">
             <div>
               <span className="mr-2">Main Flow</span>
               <Badge text="WCAG 2.0" />
             </div>
-            <div className="mt-0.5 font-light">
-              <span className="mr-2">You</span>
+            <div className="mt-0.5 flex items-center font-light">
+              <span className="mr-2 flex items-center">
+                <span>
+                  <MdPerson className="mr-0.5" color="#9CA3AF" />
+                </span>{' '}
+                You
+              </span>
               <span className="mr-2">25 pages</span>
               <Badge
                 text="Active Scan"
@@ -62,13 +74,18 @@ const GRTRows = [
       },
       {
         scanSummary: (
-          <div className="flex-col font-normal">
+          <div className="cursor-pointer flex-col font-normal">
             <div>
               <span className="mr-2">Main Flow</span>
               <Badge text="WCAG 2.0" />
             </div>
-            <div className="mt-0.5 font-light">
-              <span className="mr-2">You</span>
+            <div className="mt-0.5 flex items-center font-light">
+              <span className="mr-2 flex items-center">
+                <span>
+                  <MdPerson className="mr-0.5" color="#9CA3AF" />
+                </span>{' '}
+                You
+              </span>
               <span className="mr-2">25 pages</span>
               <Badge
                 text="Active Scan"
@@ -105,8 +122,13 @@ const GRTRows = [
               <span className="mr-2">Main Flow</span>
               <Badge text="WCAG 2.0" />
             </div>
-            <div className="mt-0.5 font-light">
-              <span className="mr-2">You</span>
+            <div className="mt-0.5 flex items-center font-light">
+              <span className="mr-2 flex items-center">
+                <span>
+                  <MdPerson className="mr-0.5" color="#9CA3AF" />
+                </span>{' '}
+                You
+              </span>
               <span className="mr-2">25 pages</span>
               <Badge
                 text="Active Scan"
@@ -136,9 +158,18 @@ const GRTRows = [
 ];
 
 export default function SiteScanner() {
+  const [showNewScan, setShowNewScan] = useState(false);
+
+  /*
+    Close Slideover
+  */
+  const closeSlideover = () => {
+    setShowNewScan(false);
+  };
+
   return (
     <div className="bg-base-50">
-      <div className="p-6">
+      <div className="flex justify-between p-6">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website Scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
@@ -146,6 +177,17 @@ export default function SiteScanner() {
             consolidate and review reports.
           </h3>
         </div>
+        <Button
+          modifier="primary"
+          onClick={() => {
+            setShowNewScan(true);
+          }}
+          size="small"
+          type="subtle"
+          wrapperClassName="h-10"
+        >
+          New website scan
+        </Button>
       </div>
       <Table containerWrapperClass="site-scanner__list">
         <>
@@ -176,7 +218,7 @@ export default function SiteScanner() {
                 </TableRow>
                 {row.people.map((per, perIdx) => (
                   /* eslint-disable-next-line react/no-array-index-key */
-                  <TableRow key={idx + perIdx}>
+                  <TableRow key={idx + perIdx} onRowClick={() => {}}>
                     {GRTColumns.map((column, colIdx) => {
                       const value = per[column.key];
                       return (
@@ -199,6 +241,7 @@ export default function SiteScanner() {
           </TableBody>
         </>
       </Table>
+      <NewScan show={showNewScan} closeSlideover={closeSlideover} />
     </div>
   );
 }
