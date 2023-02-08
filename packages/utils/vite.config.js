@@ -1,10 +1,9 @@
 import { resolve } from 'path';
-
 import { defineConfig } from 'vite';
 
 const { packageViteConfig } = require('@browserstack/vite-config');
 
-export default defineConfig((configEnv) => ({
+export default defineConfig(() => ({
   ...packageViteConfig,
   build: {
     lib: {
@@ -16,13 +15,11 @@ export default defineConfig((configEnv) => ({
     rollupOptions: {
       external: [
         ...packageViteConfig.build.rollupOptions.external,
-        '@reduxjs/toolkit',
         'redux-mock-store',
-        'react-redux',
         'enzyme',
         'uuid',
         'dexie',
-        'react/jsx-runtime'
+        'axios'
       ]
     }
   }
