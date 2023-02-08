@@ -51,8 +51,7 @@ const useFilter = () => {
 
       if (value) {
         if (key === 'q') {
-          queryParams[`q[name]`] = value;
-          queryParams[`q[identifier]`] = value;
+          queryParams[`q[query]`] = value;
         } else queryParams[`q[${key}]`] = value;
       }
     });
