@@ -12,6 +12,7 @@ import {
   TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useAddEditFolderModal from './useAddEditFolderModal';
 
@@ -100,6 +101,7 @@ const AddEditFolderModal = ({
             placeholder="Ex. New Folder"
             value={filledFormData.name}
             errorText={formError.nameError}
+            onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
                 setFormError({ ...formError, nameError: '' });

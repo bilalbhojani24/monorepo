@@ -1,12 +1,5 @@
 import React from 'react';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
-import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
@@ -18,7 +11,12 @@ import {
   TMButton,
   TMCheckBox,
   TMDropdown,
-  TMPagination
+  TMPagination,
+  TMTable,
+  TMTableBody,
+  TMTableCell,
+  TMTableHead,
+  TMTableRow
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
@@ -165,16 +163,16 @@ const TestCasesTable = ({
 
   return (
     <>
-      <Table
+      <TMTable
         containerWrapperClass={classNames(
           containerWrapperClass,
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto'
         )}
       >
-        <TableHead wrapperClass="w-full rounded-xs">
-          <TableRow wrapperClass="relative">
-            <TableCell
+        <TMTableHead wrapperClass="w-full rounded-xs">
+          <TMTableRow wrapperClass="relative">
+            <TMTableCell
               variant="body"
               wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
@@ -197,9 +195,9 @@ const TestCasesTable = ({
                 }
                 onChange={selectAll}
               />
-            </TableCell>
+            </TMTableCell>
             {datatableColumns?.map((col, index) => (
-              <TableCell
+              <TMTableCell
                 key={col.key || index}
                 variant="body"
                 wrapperClass={classNames('test-base-500', {
@@ -245,17 +243,17 @@ const TestCasesTable = ({
                 ) : (
                   ''
                 )}
-              </TableCell>
+              </TMTableCell>
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
+          </TMTableRow>
+        </TMTableHead>
+        <TMTableBody>
           {!isLoading ? (
             <>
               {rows?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <TableRow isSelected key={row.id || index}>
-                  <TableCell
+                <TMTableRow isSelected key={row.id || index}>
+                  <TMTableCell
                     variant="body"
                     wrapperClass={classNames(
                       'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
@@ -275,11 +273,11 @@ const TestCasesTable = ({
                       }
                       onChange={(e) => updateSelection(e, row)}
                     />
-                  </TableCell>
+                  </TMTableCell>
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
-                      <TableCell
+                      <TMTableCell
                         key={column.id}
                         wrapperClass={classNames({
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
@@ -292,15 +290,15 @@ const TestCasesTable = ({
                         })}
                       >
                         {column.cell ? <>{column.cell(row)}</> : value}
-                      </TableCell>
+                      </TMTableCell>
                     );
                   })}
-                </TableRow>
+                </TMTableRow>
               ))}
             </>
           ) : null}
-        </TableBody>
-      </Table>
+        </TMTableBody>
+      </TMTable>
       {isLoading ? (
         <div className="flex w-full flex-col justify-center">
           <Loader wrapperClass="h-96 w-full" />

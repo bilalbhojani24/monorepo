@@ -28,6 +28,11 @@ import {
   SlideoverHeader,
   StackedListWSingleColumn,
   Steps,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Tabs,
   TextArea,
   Tooltip,
@@ -68,6 +73,13 @@ export const TMModal = (props) => <Modal {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
+
+export const TMTable = (props) => <Table {...props} />;
+export const TMTableBody = (props) => <TableBody {...props} />;
+export const TMTableCell = (props) => <TableCell {...props} />;
+export const TMTableHead = (props) => <TableHead {...props} />;
+export const TMTableRow = (props) => <TableRow {...props} />;
+
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;

@@ -7,9 +7,17 @@ const initialState = {
     addTestRunsForm: false,
     addTestCaseModal: false
   },
-  isLoading: {},
+  isLoading: {
+    testRuns: true
+  },
   currentTab: TABS_ARRAY[0].name,
   allTestRuns: [],
+  metaPage: {
+    page: null,
+    next: null,
+    prev: null,
+    count: null
+  },
   testRunFormData: {
     test_run: {
       name: '',
@@ -46,6 +54,9 @@ const testRunslice = createSlice({
     },
     setCurrentTab: (state, { payload }) => {
       state.currentTab = payload;
+    },
+    setMetaPage: (state, { payload }) => {
+      state.metaPage = payload;
     }
   }
 });
@@ -56,6 +67,7 @@ export const {
   setAllTestRuns,
   setAddTestRunForm,
   setAddTestCaseModal,
-  setCurrentTab
+  setCurrentTab,
+  setMetaPage
 } = testRunslice.actions;
 export default testRunslice.reducer;

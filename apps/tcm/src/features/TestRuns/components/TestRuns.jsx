@@ -9,17 +9,10 @@ import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
   const {
-    projectId,
     showTestRunAddFormHandler,
     isAddTestRunsFormVisible,
-    fetchAllTestRuns,
     handleTabChange
   } = useTestRuns();
-
-  useEffect(() => {
-    fetchAllTestRuns();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
 
   if (isAddTestRunsFormVisible) return <AddEditTestRun />;
 
@@ -47,7 +40,9 @@ const TestRuns = () => {
       </div>
 
       <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
-        <TestRunsTable />
+        <div className="border-base-200 flex shrink-0 grow flex-col  justify-start  rounded-md border bg-white">
+          <TestRunsTable />
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import {
   TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useProjects from './useProjects';
 
@@ -35,6 +36,7 @@ const AddProjects = ({ show }) => {
             placeholder="Project Name"
             value={formData.name}
             errorText={formError.nameError}
+            onKeyDown={(e) => onSubmitKeyHandler(e, createProjectHandler)}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
                 setFormError({ ...formError, nameError: '' });

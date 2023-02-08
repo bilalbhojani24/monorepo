@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getTestRuns } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 
+import { TABS_ARRAY } from '../const/immutableConst';
 import {
   setAllTestRuns,
   setCurrentTab,
@@ -15,20 +17,24 @@ const useTestRuns = () => {
 
   const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
   const currentTab = useSelector((state) => state.testRuns.currentTab);
+  const isTestRunsLoading = useSelector(
+    (state) => state.testRuns.isLoading.testRuns
+  );
 
   const isAddTestRunsFormVisible = useSelector(
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const setTestRunsLoader = (isLoading) => {
-    dispatch(setLoader('testRuns', isLoading));
+  const setTestRunsLoader = (value) => {
+    dispatch(setLoader({ key: 'testRuns', value }));
   };
 
   const fetchAllTestRuns = () => {
     if (projectId) {
-      setTestRunsLoader(true);
       dispatch(setSelectedProject(projectId));
-      getTestRuns({ projectId }).then((data) => {
+      setTestRunsLoader(true);
+      const isClosed = currentTab === TABS_ARRAY[1]?.name;
+      getTestRuns({ projectId, isClosed }).then((data) => {
         dispatch(setAllTestRuns(data?.testruns || []));
         setTestRunsLoader(false);
       });
@@ -39,7 +45,13 @@ const useTestRuns = () => {
     dispatch(setCurrentTab(tabName.name));
   };
 
+  useEffect(() => {
+    fetchAllTestRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, currentTab]);
+
   return {
+    isTestRunsLoading,
     currentTab,
     allTestRuns,
     projectId,
