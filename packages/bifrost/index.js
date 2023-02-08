@@ -48,6 +48,7 @@ import RadioGroup from './modules/RadioGroup/index';
 import RadioSmallCards from './modules/RadioSmallCards/index';
 import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
+import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
 import SidebarHeader from './modules/SidebarHeader/index';
@@ -70,7 +71,6 @@ import TableHead from './modules/TableHead/index';
 import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
-import TextEditor from './modules/TextEditor/index';
 import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
@@ -130,6 +130,7 @@ export {
   RadioSmallCards,
   RadioStackedCard,
   RadioTable,
+  RichTextEditor,
   SectionHeadings,
   SelectMenu,
   SidebarHeader,
@@ -152,7 +153,6 @@ export {
   TableRow,
   Tabs,
   TextArea,
-  TextEditor,
   Tooltip,
   TooltipBody,
   TooltipFooter,
