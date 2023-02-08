@@ -1,7 +1,6 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import './styles.scss';
 
@@ -13,11 +12,11 @@ const ModalBody = ({ children, className }) => (
 
 ModalBody.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 ModalBody.defaultProps = {
-  className: '',
+  className: ''
 };
 
 export default ModalBody;

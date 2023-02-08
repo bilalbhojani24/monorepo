@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { InformationCircleIcon } from '../Icon';
@@ -29,7 +29,7 @@ const DataVisualization = ({
   wrapperClassName
 }) => (
   <div
-    className={classNames('rounded-lg shadow', {
+    className={twClassNames('rounded-lg shadow', {
       'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
       'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
       'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
@@ -87,7 +87,7 @@ const DataVisualization = ({
       )}
       {KpiProps?.length > 0 && (
         <div
-          className={classNames('mt-4', {
+          className={twClassNames('mt-4', {
             'grid grid-cols-1 gap-2': size === DATA_VISUALIZATION_SIZES[0],
             'grid grid-cols-3 gap-2': size === DATA_VISUALIZATION_SIZES[1],
             'grid grid-cols-5 gap-2':

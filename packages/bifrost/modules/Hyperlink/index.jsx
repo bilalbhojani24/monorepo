@@ -1,19 +1,37 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
 import './styles.scss';
 
 const Hyperlink = (props) => {
-  const { children, color, disabled, fontSize, fontWeight, href, rel, underlined, wrapperClassName } = props;
+  const {
+    children,
+    color,
+    disabled,
+    fontSize,
+    fontWeight,
+    href,
+    rel,
+    underlined,
+    wrapperClassName
+  } = props;
 
   return (
     <a
       href={href || '#'}
       rel={rel}
-      className={classNames('flex items-center', wrapperClassName, color, fontSize, fontWeight, {
-        underline: underlined,
-        'cursor-not-allowed': disabled
-      })}
+      className={twClassNames(
+        'flex items-center',
+        wrapperClassName,
+        color,
+        fontSize,
+        fontWeight,
+        {
+          underline: underlined,
+          'cursor-not-allowed': disabled
+        }
+      )}
     >
       {children}
     </a>

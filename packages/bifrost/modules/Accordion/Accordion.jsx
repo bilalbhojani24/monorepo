@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Disclosure, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronRightIcon } from '../Icon';
 
 const Accordion = ({

@@ -1,8 +1,8 @@
 import React, { Fragment, useCallback, useEffect } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import Button from '../Button';
 import { XMarkIcon } from '../Icon';
 

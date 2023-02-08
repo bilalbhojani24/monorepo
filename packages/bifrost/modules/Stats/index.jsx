@@ -1,6 +1,6 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
 import PropTypes, { oneOf } from 'prop-types';
 
 import { STATS_SPACING, STATS_VARIANTS } from './const/statsConstants';
@@ -18,7 +18,7 @@ const Stats = (props) => {
         </h3>
       )}
       <dl
-        className={classNames(' grid grid-cols-1', {
+        className={twClassNames(' grid grid-cols-1', {
           'gap-5 sm:grid-cols-2 lg:grid-cols-3': spacing === STATS_SPACING[0],
           'md:divide-x': spacing === STATS_SPACING[1] && options?.length < 4,
           'divide-base-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3':
@@ -28,7 +28,7 @@ const Stats = (props) => {
         {options.map((item, index) => (
           <div
             key={item.id}
-            className={classNames(
+            className={twClassNames(
               {
                 'py-5 sm:py-6':
                   variant === STATS_VARIANTS.WITHOUT_ICON ||
@@ -56,7 +56,7 @@ const Stats = (props) => {
                 </div>
               )}
               <p
-                className={classNames({
+                className={twClassNames({
                   'truncate ml-16 font-medium text-sm text-base-500':
                     variant === STATS_VARIANTS.WITH_ICON,
                   'font-normal text-base text-base-900':
@@ -74,7 +74,7 @@ const Stats = (props) => {
                   {item.stat}
                 </p>
                 <p
-                  className={classNames(
+                  className={twClassNames(
                     item.changeType === 'increase'
                       ? 'text-success-600'
                       : 'text-danger-600',
@@ -125,7 +125,7 @@ const Stats = (props) => {
                 </div>
 
                 <div
-                  className={classNames(
+                  className={twClassNames(
                     item.changeType === 'increase'
                       ? 'bg-success-100 text-success-800'
                       : 'bg-danger-100 text-danger-800',
