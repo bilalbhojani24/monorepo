@@ -197,6 +197,7 @@ const ImportStatus = ({ importConfig }) => {
   useEffect(() => {
     getLatestQuickImportConfig().then(
       ({ status, is_dismissed: isDismissed, import_id: importId }) => {
+        dispatch(setCurrentImportStatus(status));
         setLatestImportConfig({ status, isDismissed, importId });
         if (!isDismissed && status !== ONGOING)
           checkImportStatusClickHandler(importId);

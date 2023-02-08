@@ -14,7 +14,8 @@ const TestRailImportForm = () => {
     connectionStatusMap,
     getUserEmail,
     handleInputFieldChange,
-    testRailsCred
+    testRailsCred,
+    testRailsCredTouched
   } = useImport();
 
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ const TestRailImportForm = () => {
                 </span>
               </>
             }
+            errorText={
+              !testRailsCred.email && testRailsCredTouched.email
+                ? 'This field is required'
+                : ''
+            }
           />
         </div>
         <div className="w-full">
@@ -54,6 +60,11 @@ const TestRailImportForm = () => {
               </>
             }
             placeholder="Enter Host Name"
+            errorText={
+              !testRailsCred.host && testRailsCredTouched.host
+                ? 'This field is required'
+                : ''
+            }
           />
         </div>
       </div>
@@ -72,6 +83,11 @@ const TestRailImportForm = () => {
             </>
           }
           placeholder="Enter API Key"
+          errorText={
+            !testRailsCred.key && testRailsCredTouched.key
+              ? 'This field is required'
+              : ''
+          }
         />
       </div>
       {connectionStatusMap[TEST_RAILS] && (

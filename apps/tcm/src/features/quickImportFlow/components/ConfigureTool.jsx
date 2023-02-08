@@ -15,7 +15,7 @@ import ZephyrImportForm from './ZephyrImportForm';
 
 const ConfigureTool = () => {
   const {
-    jiraConfigured,
+    jiraConfiguredForZephyr,
     isJiraConfiguredForZephyr,
     setTestManagementTool,
     currentTestManagementTool,
@@ -33,7 +33,7 @@ const ConfigureTool = () => {
       return currentTestManagementTool === TEST_RAILS ? (
         <TestRailImportForm />
       ) : (
-        <ZephyrImportForm jiraConfigured={jiraConfigured} />
+        <ZephyrImportForm jiraConfigured={jiraConfiguredForZephyr} />
       );
     }
     if (selectedRadioIdMap[currentTestManagementTool] === UPLOAD_FILE) {
@@ -43,7 +43,7 @@ const ConfigureTool = () => {
   };
 
   return (
-    <div className="border-base-200 m-4 flex flex-1 flex-col items-stretch rounded-md border-2 border-solid p-6">
+    <div className="border-base-200 m-4 flex flex-col items-stretch rounded-md border-2 border-solid p-6">
       <div className="text-lg">Choose your existing tool</div>
       <div className="mt-2 flex">
         <div className="mr-3">
@@ -121,7 +121,8 @@ const ConfigureTool = () => {
                 {
                   id: 'upload-file',
                   name: 'Upload file',
-                  description: `Upload ${currentTestManagementTool} XML file with test case data`
+                  description: `Upload ${currentTestManagementTool} XML file with test case data`,
+                  disabled: true
                 }
               ]}
             />

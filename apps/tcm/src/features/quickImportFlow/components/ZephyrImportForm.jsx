@@ -10,8 +10,12 @@ import useImport from './useImport';
 
 const ZephyrImportForm = (props) => {
   const { jiraConfigured } = props;
-  const { connectionStatusMap, handleInputFieldChange, zephyrCred } =
-    useImport();
+  const {
+    connectionStatusMap,
+    handleInputFieldChange,
+    zephyrCred,
+    zephyrCredTouched
+  } = useImport();
 
   return (
     <div className="mt-12">
@@ -32,6 +36,11 @@ const ZephyrImportForm = (props) => {
                   </>
                 }
                 placeholder="https://abcd.atlassian.net"
+                errorText={
+                  !zephyrCred.host && zephyrCredTouched.host
+                    ? 'This field is required'
+                    : ''
+                }
               />
             </div>
             <div className="w-full">
@@ -48,6 +57,11 @@ const ZephyrImportForm = (props) => {
                   </>
                 }
                 placeholder="Enter JIRA API Token"
+                errorText={
+                  !zephyrCred.jira_key && zephyrCredTouched.jira_key
+                    ? 'This field is required'
+                    : ''
+                }
               />
             </div>
           </div>
@@ -66,6 +80,11 @@ const ZephyrImportForm = (props) => {
                   </>
                 }
                 placeholder="Enter JIRA Email Address"
+                errorText={
+                  !zephyrCred.email && zephyrCredTouched.email
+                    ? 'This field is required'
+                    : ''
+                }
               />
             </div>
             <div className="w-full">
@@ -82,12 +101,17 @@ const ZephyrImportForm = (props) => {
                   </>
                 }
                 placeholder="Enter Zephyr API Token"
+                errorText={
+                  !zephyrCred.zephyr_key && zephyrCredTouched.zephyr_key
+                    ? 'This field is required'
+                    : ''
+                }
               />
             </div>
           </div>
         </>
       )}
-      {jiraConfigured && <>Jira Is Configured</>}
+      {jiraConfigured && <>Jira is configured</>}
       {connectionStatusMap[ZEPHYR] && (
         <TMAlerts
           accentBorder={false}

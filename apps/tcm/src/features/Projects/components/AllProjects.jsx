@@ -111,6 +111,14 @@ const AllProjects = () => {
               wrapperClassName="sr-only"
               onClick={() =>
                 navigate({
+                  pathname: '/import'
+                })
+              }
+            />
+            <TMButton
+              wrapperClassName="sr-only"
+              onClick={() =>
+                navigate({
                   pathname: '/import/csv',
                   search: '?project=1&folder=1'
                 })
