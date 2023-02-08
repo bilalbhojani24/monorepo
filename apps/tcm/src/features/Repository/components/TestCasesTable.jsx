@@ -13,13 +13,19 @@ import {
   RemoveOutlinedIcon
 } from 'assets/icons';
 import classNames from 'classnames';
-import { TMButton, TMCheckBox, TMDropdown } from 'common/bifrostProxy';
+import {
+  TMBadge,
+  TMButton,
+  TMCheckBox,
+  TMDropdown,
+  TMPagination
+} from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
-import { dropDownOptions } from '../const/testCaseConst';
+import { dropDownOptions, perPageCount } from '../const/testCaseConst';
 
 import FolderExplorerModal from './FolderExplorerModal';
-import useTestCases from './useTestCases';
 import useTestCasesTable from './useTestCasesTable';
 
 const TestCasesTable = ({
@@ -28,8 +34,8 @@ const TestCasesTable = ({
   isCondensed,
   isLoading
 }) => {
-  const { onDropDownChange, handleTestCaseViewClick } = useTestCases();
   const {
+    metaPage,
     showMoveModal,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
@@ -40,7 +46,9 @@ const TestCasesTable = ({
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler
+    moveTestCasesHandler,
+    onDropDownChange,
+    handleTestCaseViewClick
   } = useTestCasesTable({
     rows
   });
@@ -74,7 +82,7 @@ const TestCasesTable = ({
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          {`TC-${rowData?.id}`}
+          {`${rowData?.identifier}`}
         </div>
       )
       // cell: (rowData) =>
@@ -105,8 +113,34 @@ const TestCasesTable = ({
       )
     },
     {
+      name: 'OWNER',
+      key: 'owner',
+      cell: (rowData) => (
+        <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
+      )
+    },
+    {
+      name: 'Tags',
+      key: 'tags',
+      cell: (rowData) => (
+        <span>
+          {rowData.tags.length > 0 ? (
+            <div className="mt-1 flex gap-1">
+              {rowData.tags.map((item) => (
+                <TMBadge text={item} size="large" key={item} />
+              ))}
+            </div>
+          ) : (
+            '--'
+          )}
+        </span>
+      )
+    },
+    {
       name: '',
       key: 'action',
+      isSticky: true,
+      stickyPosition: 'right',
       cell: (data) => (
         <TMDropdown
           options={dropDownOptions}
@@ -119,7 +153,12 @@ const TestCasesTable = ({
 
   return (
     <>
-      <Table containerWrapperClass={containerWrapperClass}>
+      <Table
+        containerWrapperClass={classNames(
+          containerWrapperClass,
+          'max-w-[calc(100vw-40rem)]'
+        )}
+      >
         <TableHead wrapperClass="w-full rounded-xs">
           <TableRow wrapperClass="relative">
             <TableCell
@@ -127,29 +166,36 @@ const TestCasesTable = ({
               wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
+              {/* all checkbox */}
               <TMCheckBox
                 border={false}
                 wrapperClass="pt-0"
                 checked={
                   (isAllSelected && !deSelectedTestCaseIDs.length) ||
-                  selectedTestCaseIDs.length === rows.length
+                  (rows.length !== 0 &&
+                    selectedTestCaseIDs.length === rows.length)
                 }
                 indeterminate={
-                  (isAllSelected && deSelectedTestCaseIDs.length) ||
-                  (selectedTestCaseIDs.length &&
-                    selectedTestCaseIDs.length !== rows.length)
+                  !!(
+                    (isAllSelected && deSelectedTestCaseIDs.length) ||
+                    (selectedTestCaseIDs.length &&
+                      selectedTestCaseIDs.length !== rows.length)
+                  )
                 }
                 onChange={selectAll}
               />
             </TableCell>
             {datatableColumns?.map((col, index) => (
               <TableCell
-                key={col.key}
+                key={col.key || index}
                 variant="body"
                 wrapperClass={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                   'flex-1 w-9/12': index === 1,
-                  'min-w-[50%]': index === 2
+                  'min-w-[50%]': index === 2,
+                  'sticky bg-base-50': col.isSticky,
+                  'right-0 ': col.isSticky && col.stickyPosition === 'right',
+                  'left-10 ': col.isSticky && col.stickyPosition === 'left'
                 })}
                 textTransform="uppercase"
               >
@@ -164,20 +210,24 @@ const TestCasesTable = ({
                     >
                       Move
                     </TMButton>
-                    {/* <TMButton
-                      colors="white"
-                      size="extra-small"
-                      onClick={initBulkEdit}
-                    >
-                      Bulk Edit
-                    </TMButton>
-                    <TMButton
-                      colors="white"
-                      size="extra-small"
-                      onClick={initBulkDelete}
-                    >
-                      Bulk Delete
-                    </TMButton> */}
+                    {(selectedTestCaseIDs.length > 1 || isAllSelected) && (
+                      <>
+                        <TMButton
+                          colors="white"
+                          size="extra-small"
+                          onClick={initBulkEdit}
+                        >
+                          Bulk Edit
+                        </TMButton>
+                        <TMButton
+                          colors="white"
+                          size="extra-small"
+                          onClick={initBulkDelete}
+                        >
+                          Bulk Delete
+                        </TMButton>
+                      </>
+                    )}
                   </div>
                 ) : (
                   ''
@@ -187,17 +237,15 @@ const TestCasesTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {isLoading ? (
-            'Loading..'
-          ) : (
+          {!isLoading ? (
             <>
-              {rows?.map((row, idx) => (
+              {rows?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <TableRow isSelected key={row.id}>
+                <TableRow isSelected key={row.id || index}>
                   <TableCell
                     variant="body"
                     wrapperClass={classNames(
-                      'border-l-2 test-base-500 flex items-center w-1 px-0 py-2.5 sm:first:pl-0',
+                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
                         ? 'border-l-brand-600'
@@ -221,7 +269,13 @@ const TestCasesTable = ({
                       <TableCell
                         key={column.id}
                         wrapperClass={classNames({
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'sticky bg-white': column.isSticky,
+                          'right-0 ':
+                            column.isSticky &&
+                            column.stickyPosition === 'right',
+                          'left-10 ':
+                            column.isSticky && column.stickyPosition === 'left'
                         })}
                       >
                         {column.cell ? <>{column.cell(row)}</> : value}
@@ -231,9 +285,21 @@ const TestCasesTable = ({
                 </TableRow>
               ))}
             </>
-          )}
+          ) : null}
         </TableBody>
       </Table>
+      {isLoading ? (
+        <div className="flex w-full flex-col justify-center">
+          <Loader wrapperClass="h-96 w-full" />
+        </div>
+      ) : null}
+      {metaPage?.count > perPageCount && (
+        <TMPagination
+          pageNumber={metaPage?.page || 1}
+          count={metaPage?.count || 0}
+          pageSize={perPageCount}
+        />
+      )}
       <FolderExplorerModal
         show={showMoveModal}
         heading="Move Test Cases"

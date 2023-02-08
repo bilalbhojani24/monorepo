@@ -1,42 +1,37 @@
 import { useEffect, useState } from 'react';
 import { getFolders, getSubFolders } from 'api/folders.api';
-import { folderArrayUpdateHelper } from 'utils/folderHelpers';
+import { findFolder, folderArrayUpdateHelper } from 'utils/folderHelpers';
 
 const useFolderExplorer = ({
   folderId,
   projectId,
   onFolderClick,
   allFolders,
-  onFoldersUpdate
+  onFoldersUpdate,
+  isSingleSelect
 }) => {
-  const [onLoadFolderSelected, setOnLoadFolderSelection] = useState(false);
+  const [selectedNodesId, setSelectedNodesId] = useState([]);
   const [foldersArray, setFoldersArray] = useState([]);
 
-  const fireOnFoldersUpdate = (folders, testCases) => {
-    onFoldersUpdate(folders, testCases);
+  const fireOnFoldersUpdate = (folders, thisSelectedNodesId, testCases) => {
+    onFoldersUpdate(folders, thisSelectedNodesId, testCases);
   };
 
   const fetchAllFolders = () => {
     if (projectId && !allFolders && !folderId)
       getFolders({ projectId }).then((data) => {
         setFoldersArray(data?.folders || []);
-        fireOnFoldersUpdate(data?.folders);
+        fireOnFoldersUpdate(data?.folders, selectedNodesId);
       });
   };
 
   const folderClickHandler = (selectedFolder) => {
-    setFoldersArray(
-      folderArrayUpdateHelper(
-        foldersArray,
-        selectedFolder.id,
-        selectedFolder?.isOpened,
-        true,
-        selectedFolder?.contents,
-        true,
-        folderId,
-        onFolderClick
-      )
-    );
+    if (isSingleSelect) {
+      if (selectedFolder?.id)
+        setSelectedNodesId([parseInt(selectedFolder.id, 10)]);
+    } else {
+      // multi select TODO
+    }
     onFolderClick(selectedFolder);
   };
 
@@ -48,21 +43,32 @@ const useFolderExplorer = ({
             foldersArray,
             openedFolder?.id,
             true,
-            openedFolder?.isSelected,
             data.folders,
             false,
             folderId,
             onFolderClick
           );
-          fireOnFoldersUpdate(newMap, data?.test_cases || []);
+          fireOnFoldersUpdate(newMap, selectedNodesId, data?.test_cases || []);
           setFoldersArray(newMap);
         });
     } else {
+      if (openedFolder?.contents) {
+        // if the current selected folder is in the closing folder
+        const isChildrenIDs = selectedNodesId.filter((item) =>
+          findFolder(openedFolder.contents, item)
+        );
+        if (isChildrenIDs.length) {
+          if (isSingleSelect)
+            setSelectedNodesId([parseInt(openedFolder.id, 10)]);
+        } else {
+          // TODO multi selection
+        }
+      }
+
       const newMap = folderArrayUpdateHelper(
         foldersArray,
         openedFolder?.id,
         false,
-        openedFolder?.isSelected,
         null,
         false,
         folderId,
@@ -74,24 +80,9 @@ const useFolderExplorer = ({
   };
 
   const initFoldersArray = () => {
-    if (allFolders)
-      if (!onLoadFolderSelected) {
-        const thisFolderID = folderId || allFolders[0].id;
-        // should only set allFolders on initial load only
-        setFoldersArray(
-          folderArrayUpdateHelper(
-            allFolders,
-            thisFolderID,
-            false,
-            true,
-            null,
-            false,
-            folderId,
-            onFolderClick
-          )
-        );
-        setOnLoadFolderSelection(true);
-      } else setFoldersArray(allFolders);
+    if (allFolders) {
+      setFoldersArray(allFolders);
+    }
   };
 
   useEffect(() => {
@@ -105,7 +96,16 @@ const useFolderExplorer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
+  useEffect(() => {
+    if (isSingleSelect) {
+      const thisFolderID = folderId || allFolders[0]?.id;
+      setSelectedNodesId([parseInt(thisFolderID, 10)]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folderId]);
+
   return {
+    selectedNodesId,
     foldersArray,
     folderClickHandler,
     subFolderOpenHandler

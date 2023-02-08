@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { InsertPhotoOutlinedIcon } from '../Icon';
+import { MdOutlineInsertPhoto } from '../Icon';
 
 import FileUpload from './index';
 
@@ -69,9 +69,7 @@ const defaultConfig = {
       description: 'Classes to be passed to base component'
     },
     icon: {
-      defaultValue: (
-        <InsertPhotoOutlinedIcon className="text-base-500 mx-auto" />
-      )
+      defaultValue: <MdOutlineInsertPhoto className="text-base-500 mx-auto" />
     }
   },
   controls: {}

@@ -2,30 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: {},
-  activeProjects: [],
+  allProjects: [],
   selectedProjectId: null,
-  loginUrl: '',
+  loginUrl: ''
 };
 
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setProjects: (state, { payload }) => {
-      state.activeProjects = payload;
-    },
-    addProject: (state, { payload }) => {
-      state.activeProjects.push(payload);
-    },
-    updateProject: (state, { payload }) => {
-      state.activeProjects = state.activeProjects.map((item) =>
-        item.id === payload.id ? payload : item,
-      );
-    },
-    deleteProject: (state, { payload }) => {
-      state.activeProjects = state.activeProjects.filter(
-        (item) => item.id !== payload.id,
-      );
+    setAllProjects: (state, { payload }) => {
+      state.allProjects = payload;
     },
     setUser: (state, { payload }) => {
       state.user = payload;
@@ -36,17 +23,30 @@ export const globalSlice = createSlice({
     setSelectedProject: (state, { payload }) => {
       state.selectedProjectId = payload;
     },
-  },
+    addGlobalProject: (state, { payload }) => {
+      state.allProjects = [payload, ...state.allProjects];
+    },
+    updateGlobalProject: (state, { payload }) => {
+      state.allProjects = state.allProjects.map((item) =>
+        item.id === payload.id ? payload : item
+      );
+    },
+    deleteGlobalProject: (state, { payload }) => {
+      state.allProjects = state.allProjects.filter(
+        (item) => item.id !== payload.id
+      );
+    }
+  }
 });
 
 export const {
-  updateProject,
-  deleteProject,
-  setProjects,
+  setAllProjects,
   setUser,
   setSelectedProject,
-  addProject,
   setLoginURL,
+  addGlobalProject,
+  updateGlobalProject,
+  deleteGlobalProject
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   Alerts,
-  Attachments,
   Badge,
   Banner,
   Button,
@@ -29,20 +28,16 @@ import {
   SlideoverHeader,
   StackedListWSingleColumn,
   Steps,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Tabs,
   TextArea,
   Tooltip,
   TooltipBody,
   TooltipHeader
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
+
+import TMAttachments from './components/TMAttachments';
+import TMDataTable from './components/TMDataTable';
+import TMPagination from './components/TMPagination';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
@@ -86,99 +81,4 @@ export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 
-export const TMDataTable = ({
-  columns,
-  rows,
-  containerWrapperClass,
-  isCondensed,
-  isLoading
-}) => (
-  <Table containerWrapperClass={containerWrapperClass}>
-    <TableHead wrapperClass="w-full rounded-xs">
-      <TableRow>
-        {columns?.map((col) => (
-          <TableCell
-            key={col.key}
-            variant="body"
-            wrapperClass="text-base-500"
-            textTransform="uppercase"
-          >
-            {col.name}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {isLoading ? (
-        'Loading..'
-      ) : (
-        <>
-          {rows?.map((row, idx) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <TableRow key={idx}>
-              {columns?.map((column) => {
-                const value = row[column.key];
-                return (
-                  <TableCell
-                    key={column.id}
-                    wrapperClass={classNames({
-                      'first:pr-3 last:pl-3 px-2 py-2': isCondensed
-                    })}
-                  >
-                    {column.cell ? <>{column.cell(row)}</> : value}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
-        </>
-      )}
-    </TableBody>
-  </Table>
-);
-
-TMDataTable.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  containerWrapperClass: PropTypes.string,
-  isCondensed: PropTypes.bool,
-  isLoading: PropTypes.bool
-};
-
-TMDataTable.defaultProps = {
-  containerWrapperClass: '',
-  isCondensed: false,
-  isLoading: false
-};
-
-export const TMAttachments = ({
-  attachments,
-  onRemoveClick,
-  wrapperClassName
-}) => {
-  if (!attachments?.length) return '';
-
-  return (
-    <Attachments
-      attachments={attachments.map((item) => ({
-        fileName: item.name,
-        actions: (
-          <TMButton onClick={() => onRemoveClick(item)} variant="minimal">
-            Remove
-          </TMButton>
-        )
-      }))}
-      wrapperClassName={wrapperClassName}
-    />
-  );
-};
-
-TMAttachments.propTypes = {
-  attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
-  wrapperClassName: PropTypes.string
-};
-
-TMAttachments.defaultProps = {
-  wrapperClassName: ''
-};
+export { TMAttachments, TMDataTable, TMPagination };

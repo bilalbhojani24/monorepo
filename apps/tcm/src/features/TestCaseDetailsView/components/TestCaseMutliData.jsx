@@ -39,6 +39,7 @@ const TestCaseMutliData = () => {
       key: 'latest_status',
       cell: (rowData) => (
         <TMBadge
+          isRounded
           wrapperClassName="capitalize"
           text={rowData.latest_status}
           modifier={rowData.latest_status
@@ -84,7 +85,9 @@ const TestCaseMutliData = () => {
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
-            item.name === 'Results' ? testRunsCount : testCaseIssues?.length
+            item.name === 'Results'
+              ? `${testRunsCount || ''}`
+              : `${testCaseIssues?.length || ''}`
         }))}
         onTabChange={handleTabChange}
       />

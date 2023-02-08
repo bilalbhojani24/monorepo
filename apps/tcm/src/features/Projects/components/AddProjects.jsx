@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addProjectsAPI } from 'api/projects.api';
+import React from 'react';
 import {
   TMButton,
   TMInputField,
@@ -9,38 +6,21 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea,
+  TMTextArea
 } from 'common/bifrostProxy';
-import AppRoute from 'const/routes';
-import { addProject } from 'globalSlice';
 import PropTypes from 'prop-types';
-import { routeFormatter } from 'utils/helperFunctions';
 
-import { setAddProjectModalVisibility } from '../slices/projectSlice';
+import useProjects from './useProjects';
 
 const AddProjects = ({ show }) => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-  });
-
-  const dispatch = useDispatch();
-  const hideAddProjectModal = () => {
-    dispatch(setAddProjectModalVisibility(false));
-  };
-
-  const createProjectHandler = () => {
-    addProjectsAPI(formData).then((res) => {
-      dispatch(addProject(res.data.project));
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.data.project.id,
-        }),
-      );
-      hideAddProjectModal();
-    });
-  };
+  const {
+    createProjectHandler,
+    hideAddProjectModal,
+    formData,
+    setFormData,
+    formError,
+    setFormError
+  } = useProjects();
 
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideAddProjectModal}>
@@ -52,11 +32,15 @@ const AddProjects = ({ show }) => {
         <div className="mb-4">
           <TMInputField
             label="Project Name"
-            placeholder="Enter Project Name"
+            placeholder="Project Name"
             value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.currentTarget.value })
-            }
+            errorText={formError.nameError}
+            onChange={(e) => {
+              if (formError?.nameError && e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
+              }
+              setFormData({ ...formData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <TMTextArea
@@ -89,11 +73,11 @@ const AddProjects = ({ show }) => {
 };
 
 AddProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 AddProjects.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default AddProjects;

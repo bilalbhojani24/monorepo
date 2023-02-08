@@ -12,14 +12,21 @@ import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import ErrorIcon from '@mui/icons-material/Error';
+import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
+import HideSourceOutlinedIcon from '@mui/icons-material/HideSourceOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
@@ -47,14 +54,21 @@ export {
   BugReportOutlinedIcon,
   CancelRoundedIcon,
   CheckCircleRoundedIcon,
+  CloseOutlinedIcon,
   CodeOutlinedIcon,
   CreateNewFolderOutlinedIcon,
   DeleteOutlineOutlinedIcon,
   DescriptionOutlinedIcon,
   DonutLargeOutlinedIcon,
   ErrorIcon,
+  ExpandLessOutlinedIcon,
+  ExpandMoreOutlinedIcon,
+  FilterAltOutlinedIcon,
+  FindInPageOutlinedIcon,
   FolderOpenOutlinedIcon,
+  HideSourceOutlinedIcon,
   HomeOutlinedIcon,
+  HourglassBottomOutlinedIcon,
   InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   OpenInNewOutlinedIcon,

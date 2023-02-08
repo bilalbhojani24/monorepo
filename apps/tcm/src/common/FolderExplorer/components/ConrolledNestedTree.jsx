@@ -14,7 +14,8 @@ const ConrolledNestedTree = ({
   onFolderClick,
   actionsEnabled,
   actionOptions,
-  onActionClick
+  onActionClick,
+  selectedNodesId
 }) => (
   /**
    * use a map for keeping your treenodes under parent control,
@@ -35,8 +36,9 @@ const ConrolledNestedTree = ({
         <TMListTreeNode
           label={item.name}
           description=""
+          hideArrowIcon={!item?.sub_folders_count || false}
           // nodeLabelClassName="max-w-xs"
-          isNodeSelected={item.isSelected}
+          isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
           onNodeClick={() => onFolderClick(item)}
           onNodeOpen={() => onFolderOpen(item)}
           trailingVisualElement={
@@ -61,6 +63,7 @@ const ConrolledNestedTree = ({
               onFolderClick={onFolderClick}
               onActionClick={onActionClick}
               actionOptions={actionOptions}
+              selectedNodesId={selectedNodesId}
             />
           </TMListTreeNodeContents>
         )}
@@ -68,6 +71,7 @@ const ConrolledNestedTree = ({
     ))}
   </>
 );
+
 ConrolledNestedTree.propTypes = {
   foldersArray: PropTypes.arrayOf(PropTypes.object),
   indent: PropTypes.number,
@@ -75,7 +79,8 @@ ConrolledNestedTree.propTypes = {
   onFolderOpen: PropTypes.func,
   onActionClick: PropTypes.func,
   onFolderClick: PropTypes.func,
-  actionOptions: PropTypes.arrayOf(PropTypes.object)
+  actionOptions: PropTypes.arrayOf(PropTypes.object),
+  selectedNodesId: PropTypes.arrayOf(PropTypes.number)
 };
 
 ConrolledNestedTree.defaultProps = {
@@ -85,7 +90,8 @@ ConrolledNestedTree.defaultProps = {
   onFolderOpen: () => {},
   onActionClick: () => {},
   onFolderClick: () => {},
-  actionOptions: []
+  actionOptions: [],
+  selectedNodesId: []
 };
 
 export default ConrolledNestedTree;

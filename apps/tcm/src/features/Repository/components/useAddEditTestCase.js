@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 import { addFolder } from 'api/folders.api';
-import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addTestCaseAPI,
   editTestCaseAPI,
-  getTagsAPI,
+  editTestCasesBulkAPI,
   getTestCaseDetailsAPI,
   verifyTagAPI
 } from 'api/testcases.api';
@@ -21,15 +20,17 @@ import {
 } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseVisibility,
+  setBulkUpdateProgress,
   setEditTestCasePageVisibility,
   setIssuesArray,
-  setLoadedDataProjectId,
   setTagsArray,
   setTestCaseFormData,
-  setUsers,
+  updateAllTestCases,
+  updateBulkTestCaseFormData,
   updateTestCase,
   updateTestCaseFormData
 } from '../slices/repositorySlice';
@@ -44,10 +45,15 @@ export default function useAddEditTestCase() {
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
+  const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
 
+  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
+  );
+  const isBulkUpdate = useSelector(
+    (state) => state.repository.isBulkUpdateInit
   );
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm
@@ -61,9 +67,16 @@ export default function useAddEditTestCase() {
   const testCaseFormData = useSelector(
     (state) => state.repository.testCaseFormData
   );
+  const testCaseBulkFormData = useSelector(
+    (state) => state.repository.testCaseBulkFormData
+  );
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
   );
+  const isBulkUpdateInit = useSelector(
+    (state) => state.repository.isBulkUpdateInit
+  );
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
 
@@ -75,9 +88,10 @@ export default function useAddEditTestCase() {
 
   const usersArray = useSelector((state) => state.repository.usersArray);
 
-  const hideTestCaseAdditionPage = () => {
+  const hideTestCaseAddEditPage = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
+    dispatch(setBulkUpdateProgress(false));
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -86,33 +100,39 @@ export default function useAddEditTestCase() {
     dispatch(setAddIssuesModal(true));
   };
 
-  const updateLoadedDataProjectId = () => {
-    dispatch(setLoadedDataProjectId(projectId));
-  };
-
   const handleTestCaseFieldChange = (key, value) => {
-    if (key === 'name' && value) setInputError(false);
+    if (isBulkUpdateInit) {
+      dispatch(updateBulkTestCaseFormData({ key, value }));
+    } else {
+      if (key === 'name' && value) setInputError(false);
 
-    if (key === 'template') {
-      dispatch(
-        updateTestCaseFormData({
-          key: 'steps',
-          value: value === templateOptions[1].value ? [stepTemplate] : ['']
-        })
-      );
+      if (key === 'template') {
+        dispatch(
+          updateTestCaseFormData({
+            key: 'steps',
+            value: value === templateOptions[1].value ? [stepTemplate] : ['']
+          })
+        );
+      }
+      dispatch(updateTestCaseFormData({ key, value }));
     }
-    dispatch(updateTestCaseFormData({ key, value }));
   };
 
-  const formDataFormatter = (formData) => ({
-    test_case: {
-      ...formData,
-      steps: JSON.stringify(formData.steps),
-      tags: formData?.tags?.map((item) => item.value),
-      issues: formData?.issues?.map((item) => item.value),
-      attachments: formData?.attachments?.map((item) => item.id)
-    }
-  });
+  const formDataFormatter = (formData) => {
+    const testCase = {
+      ...formData
+    };
+
+    if (formData.steps) testCase.steps = JSON.stringify(formData.steps);
+    if (formData.tags)
+      testCase.tags = formData?.tags?.map((item) => item.value);
+    if (formData.issues)
+      testCase.issues = formData?.issues?.map((item) => item.value);
+    if (formData.attachments)
+      testCase.attachments = formData?.attachments?.map((item) => item.id);
+
+    return { test_case: testCase };
+  };
 
   const formDataRetriever = (formData) => ({
     ...formData,
@@ -135,35 +155,6 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const fetchUsers = () => {
-    getUsersOfProjectAPI(projectId).then((data) => {
-      dispatch(
-        setUsers([{ full_name: 'Myself', id: data.myself.id }, ...data.users])
-      );
-
-      updateLoadedDataProjectId();
-
-      // if (data?.myself?.id)
-      //   dispatch(
-      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
-      //   );
-    });
-  };
-  const fetchTags = () => {
-    getTagsAPI({ projectId }).then((data) => {
-      const mappedTags = selectMenuValueMapper(data?.tags);
-      dispatch(setTagsArray(mappedTags));
-      // handleTestCaseFieldChange('tags', mappedTags);
-    });
-  };
-
-  const initFormValues = () => {
-    if (loadedDataProjectId !== projectId) {
-      fetchUsers();
-      fetchTags();
-    }
-  };
-
   const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const addTestCaseAPIHelper = (formData, thisFolderID) => {
@@ -173,7 +164,7 @@ export default function useAddEditTestCase() {
       payload: formDataFormatter(formData)
     }).then((data) => {
       dispatch(addSingleTestCase(data));
-      dispatch(setAddTestCaseVisibility(false));
+      hideTestCaseAddEditPage();
     });
   };
 
@@ -199,6 +190,26 @@ export default function useAddEditTestCase() {
     } else addTestCaseAPIHelper(formData, folderId);
   };
 
+  const saveBulkEditHelper = () => {
+    setBulkEditConfirm(false);
+    editTestCasesBulkAPI({
+      projectId,
+      folderId,
+      bulkSelection,
+      data: formDataFormatter(testCaseBulkFormData).test_case
+    }).then((res) => {
+      dispatch(
+        updateAllTestCases(
+          allTestCases.map(
+            (item) => res.test_cases.find((inc) => inc.id === item.id) || item
+          )
+        )
+      );
+      hideTestCaseAddEditPage();
+      dispatch(resetBulkSelection());
+    });
+  };
+
   const editTestCase = (formData) => {
     if (!formData.name) setInputError(true);
     else {
@@ -209,8 +220,7 @@ export default function useAddEditTestCase() {
         payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
-        dispatch(setAddTestCaseVisibility(false));
-        dispatch(setEditTestCasePageVisibility(false));
+        hideTestCaseAddEditPage();
       });
     }
   };
@@ -259,7 +269,7 @@ export default function useAddEditTestCase() {
 
   const hideAddTagsModal = (allTags, newTags) => {
     const mappedNewTags = selectMenuValueMapper(newTags);
-    const updatedAllTags = [...tagsArray, ...mappedNewTags];
+    const updatedAllTags = [...mappedNewTags, ...tagsArray];
     const currentSelectedTags = testCaseFormData?.tags
       ? [...testCaseFormData?.tags.map((item) => item.value), ...newTags]
       : newTags;
@@ -317,18 +327,20 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    showBulkEditConfirmModal,
+    isBulkUpdate,
+    testCaseBulkFormData,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
     tagsArray,
     issuesArray,
     usersArrayMapped,
-    fetchUsers,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
     selectedFolder,
-    hideTestCaseAdditionPage,
+    hideTestCaseAddEditPage,
     saveTestCase,
     editTestCase,
     folderId,
@@ -341,10 +353,11 @@ export default function useAddEditTestCase() {
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    initFormValues,
     tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    saveBulkEditHelper,
+    setBulkEditConfirm
   };
 }

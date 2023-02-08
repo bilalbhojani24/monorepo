@@ -1,32 +1,48 @@
+// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import {
-  deleteTestCaseAPI,
-  deleteTestCasesBulkAPI,
-  getTestCasesAPI
-} from 'api/testcases.api';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { getUsersOfProjectAPI } from 'api/projects.api';
+import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
-import { dropDownOptions } from '../const/testCaseConst';
 import {
-  deleteTestCase,
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
-  setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
-  setSelectedTestCase,
-  setTestCaseFormData,
-  updateAllTestCases
+  setFilterSearchView,
+  setLoadedDataProjectId,
+  setMetaPage,
+  setTagsArray,
+  setUsers,
+  updateAllTestCases,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
+  const isBulkUpdate = useSelector(
+    (state) => state.repository.isBulkUpdateInit
+  );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
+  const loadedDataProjectId = useSelector(
+    (state) => state.repository.loadedDataProjectId
+  );
+  const usersArray = useSelector((state) => state.repository.usersArray);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
+  );
+  const isTestCasesLoading = useSelector(
+    (state) => state.repository.isLoading.testCases
+  );
+  const isFoldersLoading = useSelector(
+    (state) => state.repository.isLoading.folder
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
   const isAddTestCasePageVisible = useSelector(
@@ -41,96 +57,97 @@ export default function useTestCases() {
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
   );
-  const isBulkUpdate = useSelector(
-    (state) => state.repository.isBulkUpdateInit
-  );
-  const bulkSelectionValue = useSelector(
-    (state) => state.repository.bulkSelection
-  );
 
+  const setRepoView = (update) => {
+    dispatch(setFilterSearchView(update));
+  };
+
+  const fetchUsers = () => {
+    getUsersOfProjectAPI(projectId).then((data) => {
+      dispatch(
+        setUsers([
+          { full_name: 'Myself', id: data.myself.id },
+          ...data.users.filter((item) => item.id !== data.myself.id)
+        ])
+      );
+
+      dispatch(setLoadedDataProjectId(projectId));
+
+      // if (data?.myself?.id)
+      //   dispatch(
+      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
+      //   );
+    });
+  };
+  const fetchTags = () => {
+    getTagsAPI({ projectId }).then((data) => {
+      const mappedTags = selectMenuValueMapper(data?.tags);
+      dispatch(setTagsArray(mappedTags));
+      // handleTestCaseFieldChange('tags', mappedTags);
+    });
+  };
+
+  const initFormValues = () => {
+    if (loadedDataProjectId !== projectId) {
+      fetchUsers();
+      fetchTags();
+    }
+  };
   const showTestCaseAdditionPage = () => {
     dispatch(setAddTestCaseVisibility(true));
+    if (!folderId)
+      // then in search view, go to repository view
+      navigate(
+        `${routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })}`
+      );
   };
-  const hideTestCaseAdditionPage = () => {
+
+  const hideTestCaseAddEditPage = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
+    dispatch(setBulkUpdateProgress(false));
   };
 
   const fetchAllTestCases = () => {
-    if (folderId)
-      getTestCasesAPI({ projectId, folderId }).then((data) => {
-        dispatch(updateAllTestCases(data?.testcases || []));
-      });
-    else dispatch(updateAllTestCases([]));
-  };
-
-  const handleTestCaseViewClick = (testCaseItem) => () => {
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId,
-        testCaseId: testCaseItem?.id
-      })
-    );
-  };
-
-  const onDropDownChange = (e, selectedItem) => {
-    if (e.currentTarget.textContent === dropDownOptions[0].body) {
-      // edit
-      dispatch(setEditTestCasePageVisibility(true));
-      dispatch(setAddTestCaseVisibility(true));
-      dispatch(setTestCaseFormData(selectedItem));
-    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
-      // delete
-      dispatch(setDeleteTestCaseModalVisibility(true));
-    }
-    dispatch(setSelectedTestCase(selectedItem));
-  };
-
-  const hideDeleteTestCaseModal = () => {
-    dispatch(setDeleteTestCaseModalVisibility(false));
-    setTimeout(() => {
-      // animation wait
-      dispatch(setBulkUpdateProgress(false));
-    }, 500);
-  };
-
-  const deleteTestCaseHandler = () => {
-    if (isBulkUpdate) {
-      debugger;
-      // bulkSelectionValue
-      const testCaseIds = [];
-      // deleteTestCasesBulkAPI((projectId, folderId, testCaseIds)).then((res) => {
-      //   dispatch(deleteTestCase([selectedTestCase.id]));
-      //   hideDeleteTestCaseModal();
-      // });
-    } else if (selectedTestCase)
-      deleteTestCaseAPI({
-        projectId,
-        folderId,
-        testCaseId: selectedTestCase.id
-      }).then((res) => {
-        dispatch(deleteTestCase([selectedTestCase.id]));
-        hideDeleteTestCaseModal();
-      });
+    dispatch(setAddTestCaseVisibility(false));
+    if (folderId) {
+      dispatch(updateTestCasesListLoading(true));
+      const page = searchParams.get('p');
+      getTestCasesAPI({ projectId, folderId, page })
+        .then((res) => {
+          dispatch(updateAllTestCases(res?.test_cases || []));
+          dispatch(setMetaPage(res.info));
+          dispatch(updateTestCasesListLoading(false));
+        })
+        .catch(() => {
+          // if page error, reset p=1
+          setSearchParams({});
+        });
+    } else dispatch(updateAllTestCases([]));
   };
 
   return {
-    hideDeleteTestCaseModal,
-    deleteTestCaseHandler,
-    onDropDownChange,
+    isBulkUpdate,
+    isSearchFilterView,
+    currentPage: searchParams.get('p'),
+    usersArray,
     selectedFolder,
     showTestCaseAdditionPage,
-    hideTestCaseAdditionPage,
+    hideTestCaseAddEditPage,
     allTestCases,
     isAddTestCasePageVisible,
     folderId,
     projectId,
-    fetchAllTestCases,
-    handleTestCaseViewClick,
     isTestCaseViewVisible,
     showDeleteModal,
     selectedTestCase,
-    isBulkUpdate
+    isTestCasesLoading,
+    isFoldersLoading,
+    fetchAllTestCases,
+    fetchUsers,
+    initFormValues,
+    setRepoView
   };
 }

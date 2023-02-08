@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import TestCaseDetailsView from 'features/TestCaseDetailsView';
+import PropTypes from 'prop-types';
 
 import Folders from './components/Folders';
 import TestCases from './components/TestCases';
@@ -7,19 +8,25 @@ import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
 import useTestCases from './components/useTestCases';
 
-const Repository = () => {
+const Repository = ({ isSearch }) => {
   const { fetchAllFolders } = useFolders();
-  const { fetchAllTestCases, folderId, projectId } = useTestCases();
+  const { folderId, projectId, currentPage, fetchAllTestCases, setRepoView } =
+    useTestCases();
 
   useEffect(() => {
-    fetchAllFolders();
+    if (!isSearch) fetchAllFolders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
+  }, [projectId, isSearch]);
 
   useEffect(() => {
-    fetchAllTestCases();
+    if (!isSearch) fetchAllTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, folderId]);
+  }, [projectId, folderId, currentPage, isSearch]);
+
+  useEffect(() => {
+    setRepoView(isSearch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSearch]);
 
   return (
     <div className="flex flex-1 flex-col items-stretch">
@@ -42,6 +49,14 @@ const Repository = () => {
       <TestCaseDetailsView />
     </div>
   );
+};
+
+Repository.propTypes = {
+  isSearch: PropTypes.bool
+};
+
+Repository.defaultProps = {
+  isSearch: false
 };
 
 export default Repository;

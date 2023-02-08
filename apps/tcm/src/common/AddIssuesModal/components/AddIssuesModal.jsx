@@ -7,7 +7,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMSelectMenu,
+  TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -19,11 +19,11 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
     enterdIssueIDs,
     onCloseHandler,
     onLinkIssueClick,
-    setIssueIds,
+    setIssueIds
   } = useAddIssuesModal({
     isVisible,
     onClose,
-    onSave,
+    onSave
   });
 
   return (
@@ -72,7 +72,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
             iconPlacement="end"
             // onClick={showAddTagsModal}
           >
-            Add New Issue
+            Create New Issue
           </TMButton>
         </div>
       </TMModalBody>
@@ -91,13 +91,13 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
 AddIssuesModal.propTypes = {
   onClose: PropTypes.func,
   onSave: PropTypes.func,
-  isVisible: PropTypes.bool,
+  isVisible: PropTypes.bool
 };
 
 AddIssuesModal.defaultProps = {
   onClose: () => {},
   onSave: () => {},
-  isVisible: false,
+  isVisible: false
 };
 
 export default AddIssuesModal;

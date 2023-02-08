@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { editProjectAPI } from 'api/projects.api';
+import React, { useEffect } from 'react';
 import {
   TMButton,
   TMInputField,
@@ -9,47 +7,31 @@ import {
   TMModalFooter,
   TMModalHeader,
   // TMSelectMenu,
-  TMTextArea,
+  TMTextArea
 } from 'common/bifrostProxy';
-import { updateProject } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 // import { projectStatus } from '../const/projectsConst';
-import { setEditProjectModalVisibility } from '../slices/projectSlice';
-
 import useProjects from './useProjects';
 
 const EditProjects = ({ show }) => {
-  const { selectedProject } = useProjects();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-  });
-
-  const dispatch = useDispatch();
-  const hideEditProjectModal = () => {
-    dispatch(setEditProjectModalVisibility(false));
-  };
-
-  const editProjectHandler = () => {
-    editProjectAPI(selectedProject.id, {
-      project: formData,
-    }).then((res) => {
-      dispatch(updateProject(res.data.project));
-      hideEditProjectModal();
-    });
-  };
+  const {
+    selectedProject,
+    editProjectHandler,
+    formData,
+    setFormData,
+    hideEditProjectModal
+  } = useProjects();
 
   useEffect(() => {
     if (selectedProject)
       setFormData({
         name: selectedProject.name,
         description: selectedProject.description,
-        state: selectedProject.state,
+        state: selectedProject.state
       });
-  }, [selectedProject]);
+  }, [selectedProject, setFormData]);
 
-  // debugger;
   return (
     <TMModal
       show={show}
@@ -109,11 +91,11 @@ const EditProjects = ({ show }) => {
   );
 };
 EditProjects.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
 
 EditProjects.defaultProps = {
-  show: false,
+  show: false
 };
 
 export default EditProjects;

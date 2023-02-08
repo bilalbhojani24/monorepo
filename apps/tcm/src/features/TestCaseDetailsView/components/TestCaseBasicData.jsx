@@ -7,35 +7,34 @@ import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseBasicData = () => {
-  const { testCaseDetails } = useTestCaseView();
+  const { testCaseDetails, onAttachmentClick } = useTestCaseView();
 
   return (
     <>
+      <DetailsSnippet
+        title="Description"
+        value={testCaseDetails?.description || '--'}
+      />
+
       <div className="flex flex-col">
         {testCaseDetails.template === templateOptions?.[0].value ? (
           <>
             <DetailsSnippet
-              isPrimary
               title="Steps"
               value={
-                typeof testCaseDetails?.steps?.[0] === 'string'
-                  ? testCaseDetails?.steps?.[0]
+                typeof testCaseDetails?.steps?.[0] === 'string' &&
+                testCaseDetails?.steps?.[0]?.length
+                  ? testCaseDetails?.steps?.[0] // this will be a string
                   : '--'
               }
             />
             <DetailsSnippet
-              isPrimary
               title="Expected Result"
               value={testCaseDetails?.expected_result || '--'}
             />
           </>
         ) : (
           <>
-            <DetailsSnippet
-              isPrimary
-              title="Description"
-              value={testCaseDetails?.description || '--'}
-            />
             <DetailsSnippet
               isPrimary
               title="All Steps & Results:"
@@ -61,7 +60,7 @@ const TestCaseBasicData = () => {
           <div className="w-3/6">
             <DetailsSnippet
               title="Assigned to"
-              value={testCaseDetails?.owner || '--'}
+              value={testCaseDetails?.assignee?.full_name || '--'}
             />
           </div>
           <div className="w-3/6">
@@ -80,6 +79,12 @@ const TestCaseBasicData = () => {
           </div>
           <div className="w-3/6">
             <DetailsSnippet
+              title="State"
+              value={testCaseDetails?.status?.split('_')?.[0] || '--'}
+            />
+          </div>
+          <div className="w-3/6">
+            <DetailsSnippet
               title="Priority"
               value={testCaseDetails?.priority || '--'}
             />
@@ -91,7 +96,7 @@ const TestCaseBasicData = () => {
                 testCaseDetails?.tags.length > 0 ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
                     {testCaseDetails.tags.map((item) => (
-                      <TMBadge text={item} size="large" isRounded />
+                      <TMBadge text={item} size="large" key={item} />
                     ))}
                   </div>
                 ) : (
@@ -104,11 +109,11 @@ const TestCaseBasicData = () => {
             <DetailsSnippet
               title="Issues"
               value={
-                testCaseDetails?.issues &&
-                testCaseDetails?.issues.length > 0 ? (
+                testCaseDetails?.issues?.length ? (
                   <div className="mt-1 flex flex-wrap gap-1 normal-case">
-                    {testCaseDetails.issues.map((item) => (
+                    {testCaseDetails?.issues?.map((item) => (
                       <TMButton
+                        key={item.jira_id}
                         text={item.jira_id}
                         size="extra-small"
                         colors="white"
@@ -128,10 +133,16 @@ const TestCaseBasicData = () => {
         <DetailsSnippet
           title="Attachments"
           value={
-            testCaseDetails?.attachments.length ? (
+            testCaseDetails?.attachments?.length ? (
               <TMAttachments
                 wrapperClassName="mt-2"
-                attachments={testCaseDetails?.attachments || []}
+                onActionClick={onAttachmentClick}
+                attachments={
+                  testCaseDetails?.attachments.map((item) => ({
+                    ...item,
+                    actionName: 'View'
+                  })) || []
+                }
               />
             ) : (
               '--'

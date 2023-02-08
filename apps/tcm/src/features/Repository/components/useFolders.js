@@ -1,35 +1,28 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  deleteFolder,
-  getFolders,
-  getSubFolders,
-  moveFolder
-} from 'api/folders.api';
+import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
-  findSelectedFolder,
-  injectFolderToParent,
-  replaceFolderHelper
+  findFolder,
+  injectFolderToParent
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 import {
-  setAddTestCaseVisibility,
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
-  updateAllTestCases
+  updateFoldersLoading
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
 
 export default function useFolders() {
-  const { showTestCaseAdditionPage, hideTestCaseAdditionPage } = useTestCases();
+  const { showTestCaseAdditionPage, hideTestCaseAddEditPage } = useTestCases();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -38,6 +31,17 @@ export default function useFolders() {
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
+  const filterSearchMeta = useSelector(
+    (state) => state.repository.filterSearchMeta
+  );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
+  const isFoldersLoading = useSelector(
+    (state) => state.repository.isLoading.folder
+  );
+  const testCasesCount =
+    useSelector((state) => state.repository.allTestCases)?.length || 0;
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
@@ -48,24 +52,26 @@ export default function useFolders() {
   const mapFolderAncestorHelper = (ancestorsArray) => {
     let newContentObject = null;
     ancestorsArray?.forEach((item, iDx) => {
+      const newItem = item;
+      newItem.isOpened = true;
       if (iDx === 0) {
-        newContentObject = item;
-        newContentObject.isOpened = true;
-        newContentObject.contents = newContentObject.contents.map((thisItem) =>
+        // root folder
+        newItem.contents = newItem.contents.map((thisItem) =>
           thisItem.id === parseInt(folderId, 10)
             ? { ...thisItem, isSelected: true }
             : thisItem
         );
       } else {
-        const newItem = item;
         newItem.contents = item.contents
-          ? item.contents.map((intItem) =>
-              intItem.id === newContentObject?.id ? newContentObject : intItem
+          ? item.contents.map((internalItem) =>
+              internalItem.id === newContentObject?.id
+                ? newContentObject
+                : internalItem
             )
           : newContentObject;
-        newItem.isOpened = true;
-        newContentObject = newItem;
       }
+      newItem.sub_folders_count = newItem?.contents?.length;
+      newContentObject = newItem;
     });
     return newContentObject;
   };
@@ -110,11 +116,13 @@ export default function useFolders() {
 
   const fetchAllFolders = () => {
     dispatch(setSelectedProject(projectId));
-    dispatch(setAddTestCaseVisibility(false));
+    // dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
+      dispatch(updateFoldersLoading(true));
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
           // if no folders
+          setAllFoldersHelper([]);
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
               projectId
@@ -131,6 +139,7 @@ export default function useFolders() {
 
           selectFolderPerDefault(data?.folders);
         }
+        dispatch(updateFoldersLoading(false));
       });
     } else setAllFoldersHelper([]);
   };
@@ -153,7 +162,7 @@ export default function useFolders() {
       if (e.currentTarget.textContent === folderDropOptions[0].body) {
         // create test case
         showTestCaseAdditionPage();
-      } else hideTestCaseAdditionPage();
+      } else hideTestCaseAddEditPage();
     }
   };
 
@@ -165,46 +174,8 @@ export default function useFolders() {
     setAllFoldersHelper(newFolders);
   };
 
-  const updateFolders = (folderItem, parentId) => {
-    if (!parentId) setAllFoldersHelper([...allFolders, folderItem]);
-    else {
-      setAllFoldersHelper(
-        injectFolderToParent(allFolders, folderItem, parentId)
-      );
-    }
-  };
-
-  const renameFolderHelper = (folderItem) => {
-    debugger;
-    setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
-  };
-
-  const deleteFolderHandler = () => {
-    if (openedFolderModal && openedFolderModal?.folder?.id) {
-      deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
-        (item) => {
-          if (item?.data?.folder?.id) {
-            const newFoldersArray = deleteFolderFromArray(
-              allFolders,
-              item.data.folder.id
-            );
-            setAllFoldersHelper(newFoldersArray);
-            if (newFoldersArray.length) {
-              updateRouteHelper(newFoldersArray[0]);
-            } else {
-              // no folder, remove all test cases
-              dispatch(updateAllTestCases([]));
-            }
-          }
-
-          hideFolderModal();
-        }
-      );
-    }
-  };
-
   const moveFolderHelper = (thisFolderID, baseFolderID, internalAllFolders) => {
-    const movedFolder = findSelectedFolder(
+    const movedFolder = findFolder(
       internalAllFolders,
       parseInt(thisFolderID, 10)
     );
@@ -233,19 +204,16 @@ export default function useFolders() {
             hideFolderModal();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           // TODO: give proper info
           // eslint-dsable no-console
-          console.log(error.response.data.errors[0].title);
+          // console.log(error.response.data.errors[0].title);
         });
     }
   };
 
   useEffect(() => {
-    const selectedFolder = findSelectedFolder(
-      allFolders,
-      parseInt(folderId, 10)
-    );
+    const selectedFolder = findFolder(allFolders, parseInt(folderId, 10));
     if (selectedFolder) {
       dispatch(setSelectedFolder(selectedFolder));
     } else {
@@ -255,20 +223,20 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    isFoldersLoading,
+    testCasesCount,
+    isSearchFilterView,
     openedFolderModal,
     projectId,
     folderId,
     allFolders,
+    filterSearchMeta,
     showAddFolderModal,
-    updateFolders,
     fetchAllFolders,
     updateRouteHelper,
     folderUpdateHandler,
     folderActionsHandler,
-    hideFolderModal,
-    deleteFolderHandler,
     moveFolderHelper,
-    moveFolderOnOkHandler,
-    renameFolderHelper
+    moveFolderOnOkHandler
   };
 }

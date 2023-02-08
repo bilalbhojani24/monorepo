@@ -1,19 +1,27 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { moveTestCasesBulkAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
+import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkSelection,
+  setAddTestCaseVisibility,
   setBulkAllSelected,
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
+  setEditTestCasePageVisibility,
+  setSelectedTestCase,
+  setTestCaseFormData,
   updateAllTestCases
 } from '../slices/repositorySlice';
 
 const useTestCasesTable = () => {
+  const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const dispatch = useDispatch();
@@ -31,16 +39,17 @@ const useTestCasesTable = () => {
     dispatch(setBulkUpdateProgress(data));
   };
 
+  const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedTestCaseIDs = useSelector(
-    (state) => state.repository.bulkSelection.selected_ids
+    (state) => state.repository.bulkSelection.ids
   );
   const deSelectedTestCaseIDs = useSelector(
-    (state) => state.repository.bulkSelection.deselected_ids
+    (state) => state.repository.bulkSelection.de_selected_ids
   );
   const isAllSelected = useSelector(
     (state) => state.repository.bulkSelection.select_all
   );
-  const allTestCases = useSelector((state) => state.repository.allTestCases);
+  const bulkSelection = useSelector((state) => state.repository.bulkSelection);
 
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
@@ -72,22 +81,14 @@ const useTestCasesTable = () => {
     }
   };
 
-  const getSelectedBulkIDs = () => {
-    if (isAllSelected) {
-      const allIDs = allTestCases.map((item) => item.id);
-      if (deSelectedTestCaseIDs.length) {
-        return allIDs.filter((item) => !deSelectedTestCaseIDs.includes(item));
-      }
-      return allIDs;
-    }
-    return selectedTestCaseIDs;
-  };
-
   const initBulkMove = () => {
     setshowMoveModal(true);
   };
 
-  const initBulkEdit = () => {};
+  const initBulkEdit = () => {
+    dispatch(setAddTestCaseVisibility(true));
+    setBulkStatus(true);
+  };
 
   const initBulkDelete = () => {
     dispatch(setDeleteTestCaseModalVisibility(true));
@@ -104,15 +105,41 @@ const useTestCasesTable = () => {
         projectId,
         folderId,
         newParentFolderId: selectedFolder.id,
-        testCaseIds: getSelectedBulkIDs()
+        bulkSelection
       }).then((data) => {
-        dispatch(updateAllTestCases(data?.testcases || []));
+        dispatch(updateAllTestCases(data?.test_cases || []));
         dispatch(resetBulkSelection());
         hideFolderModal();
       });
   };
 
+  const onDropDownChange = (e, selectedItem) => {
+    if (e.currentTarget.textContent === dropDownOptions[0].body) {
+      // edit
+      dispatch(setEditTestCasePageVisibility(true));
+      dispatch(setAddTestCaseVisibility(true));
+      dispatch(setTestCaseFormData(selectedItem));
+    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+      // delete
+      dispatch(setDeleteTestCaseModalVisibility(true));
+    }
+    dispatch(setSelectedTestCase(selectedItem));
+  };
+
+  const handleTestCaseViewClick = (testCaseItem) => () => {
+    navigate(
+      routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId: testCaseItem.test_case_folder_id,
+        testCaseId: testCaseItem?.id
+      })
+    );
+  };
+
   return {
+    projectId,
+    folderId,
+    metaPage,
     showMoveModal,
     isAllSelected,
     selectedTestCaseIDs,
@@ -123,7 +150,9 @@ const useTestCasesTable = () => {
     initBulkEdit,
     initBulkDelete,
     hideFolderModal,
-    moveTestCasesHandler
+    moveTestCasesHandler,
+    onDropDownChange,
+    handleTestCaseViewClick
   };
 };
 export default useTestCasesTable;

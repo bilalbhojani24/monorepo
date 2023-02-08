@@ -28,7 +28,8 @@ const AddTagModal = ({
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
-    onCloseHandler
+    onCloseHandler,
+    setErrorText
   } = useAddTagModal({
     isVisible,
     onClose,
@@ -54,7 +55,10 @@ const AddTagModal = ({
           label="Tag Name"
           errorText={errorText}
           placeholder="Enter Tag name separated by comma"
-          onChange={(e) => setTagEntered(e.currentTarget.value)}
+          onChange={(e) => {
+            setTagEntered(e.currentTarget.value);
+            if (errorText) setErrorText('');
+          }}
         />
         <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
           Existing Tags in this test case:
@@ -66,6 +70,7 @@ const AddTagModal = ({
                 <TMBadge
                   text={item}
                   hasRemoveButton
+                  isRounded
                   onClose={() => onTagRemoveClick(item)}
                 />
               ))}

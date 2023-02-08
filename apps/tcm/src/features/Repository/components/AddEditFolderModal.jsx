@@ -13,7 +13,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import useFolders from './useFolders';
+import useAddEditFolderModal from './useAddEditFolderModal';
 
 const AddEditFolderModal = ({
   projectId,
@@ -24,14 +24,21 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Add';
-  const { hideFolderModal, updateFolders, renameFolderHelper } = useFolders();
+  const { hideFolderModal, updateFolders, renameFolderHelper } =
+    useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: ''
   });
 
+  const [formError, setFormError] = useState({
+    nameError: ''
+  });
+
   const createFolderHandler = () => {
-    if (isSubFolder && folderId) {
+    if (filledFormData.name.length === 0) {
+      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+    } else if (isSubFolder && folderId) {
       addSubFolder({
         projectId,
         folderId,
@@ -90,11 +97,15 @@ const AddEditFolderModal = ({
           <TMInputField
             wrapperClass="mb-2"
             label="Folder name"
-            placeholder="Enter Folder Name"
+            placeholder="Ex. New Folder"
             value={filledFormData.name}
-            onChange={(e) =>
-              setFormData({ ...filledFormData, name: e.currentTarget.value })
-            }
+            errorText={formError.nameError}
+            onChange={(e) => {
+              if (formError?.nameError && e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
+              }
+              setFormData({ ...filledFormData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <TMTextArea

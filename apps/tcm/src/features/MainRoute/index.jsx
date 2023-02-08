@@ -23,7 +23,7 @@ const MainRoute = () => {
 
   return (
     <div
-      className={classNames('flex flex-1 flex-col items-stretch', {
+      className={classNames('flex flex-1 flex-col', {
         'md:pl-64': location.pathname !== AppRoute.LANDING
       })}
     >
@@ -57,6 +57,14 @@ const MainRoute = () => {
           element={
             <PrivateComponent>
               <Repository />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.TEST_CASES_SEARCH}
+          element={
+            <PrivateComponent>
+              <Repository isSearch />
             </PrivateComponent>
           }
         />

@@ -110,6 +110,7 @@ const ConfigureTool = () => {
                     <>
                       <span className="mr-1">Import data from tool</span>
                       <TMBadge
+                        isRounded
                         text="Recommended"
                         modifier="warn"
                         size="large"

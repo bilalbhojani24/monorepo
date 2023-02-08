@@ -6,7 +6,6 @@ import useTestCaseView from './components/useTestCaseView';
 
 const TestCaseDetailsView = () => {
   const {
-    testCaseDetails,
     testCaseId,
     fetchTestCaseDetails,
     hideTestCaseViewDrawer,
@@ -28,7 +27,7 @@ const TestCaseDetailsView = () => {
       closeButtonOutside={false}
       description=""
       topMarginElementId="whole-header"
-      slideoverWidth="w-[488px]"
+      slideoverWidth="max-w-md w-screen"
       backgroundOverlay={false}
     >
       <TMSlideoverHeader

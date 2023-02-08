@@ -1,4 +1,4 @@
-export const findSelectedFolder = (thisArray, findFolderId) => {
+export const findFolder = (thisArray, findFolderId) => {
   if (!thisArray || !thisArray.length) return false;
   let selectedItem = null;
   thisArray?.every((item) => {
@@ -7,7 +7,7 @@ export const findSelectedFolder = (thisArray, findFolderId) => {
       return false;
     }
     if (item.contents) {
-      const matched = findSelectedFolder(item.contents, findFolderId);
+      const matched = findFolder(item.contents, findFolderId);
       if (matched) {
         selectedItem = matched;
         return false;
@@ -18,11 +18,25 @@ export const findSelectedFolder = (thisArray, findFolderId) => {
   return selectedItem;
 };
 
+export const resetFolderProps = (thisArray) => {
+  if (!thisArray || !thisArray.length) return false;
+
+  return thisArray?.map((item) => {
+    if (item.contents) {
+      return {
+        ...item,
+        isOpened: false,
+        contents: resetFolderProps(item.contents)
+      };
+    }
+    return { ...item, isOpened: false };
+  });
+};
+
 export const folderArrayUpdateHelper = (
   folders, // all folders
   workingFolderId, // folder to which the changes is to be applied
   isOpened, // is the item to be set to opened"bool
-  isSelected, // is the item to be set to selected"bool
   newContents, // contents value for a folder
   isSelectTriggered, // if the function is called to set Selected State
   folderId, // current selected Folder
@@ -32,7 +46,7 @@ export const folderArrayUpdateHelper = (
   folders?.map((item) => {
     if (`${item.id}` === `${workingFolderId}`) {
       const isCurrentFolderAChild = !isOpened
-        ? findSelectedFolder(item.contents, parseInt(folderId, 10))
+        ? findFolder(item.contents, parseInt(folderId, 10))
         : false;
       const thisFolderItem = {
         ...item,
@@ -40,15 +54,13 @@ export const folderArrayUpdateHelper = (
           newContents,
           workingFolderId,
           isOpened,
-          false,
           null,
           isSelectTriggered,
           folderId,
           onFolderClick,
           level + 1
         ),
-        isOpened,
-        isSelected: isCurrentFolderAChild ? true : isSelected // if oneof the current selected item is a child of this folder, then set this folder as the next selected folder
+        isOpened
       };
       if (isCurrentFolderAChild) {
         onFolderClick?.(thisFolderItem);
@@ -61,7 +73,6 @@ export const folderArrayUpdateHelper = (
         item.contents,
         workingFolderId,
         isOpened,
-        isSelected,
         newContents,
         isSelectTriggered,
         folderId,
@@ -70,15 +81,11 @@ export const folderArrayUpdateHelper = (
       );
       return {
         ...item,
-        isSelected: isSelectTriggered ? false : item?.isSelected,
         contents: updatedContents
       };
     }
 
-    return {
-      ...item,
-      isSelected: isSelectTriggered || isSelected ? false : item?.isSelected // if a not selected folder is closed, then do not clear the isSelected status of other folders
-    };
+    return item;
   });
 
 export const deleteFolderFromArray = (foldersArray, thisFolderID) => {
@@ -88,11 +95,15 @@ export const deleteFolderFromArray = (foldersArray, thisFolderID) => {
   if (removedArray.length < foldersArray.length) return removedArray;
 
   removedArray = foldersArray.map((item) => {
-    if (item?.contents)
+    if (item?.contents) {
+      const contents = deleteFolderFromArray(item.contents, thisFolderID);
+
       return {
         ...item,
-        contents: deleteFolderFromArray(item.contents, thisFolderID)
+        contents,
+        sub_folders_count: contents.length || 0
       };
+    }
     return item;
   });
 
@@ -102,9 +113,12 @@ export const deleteFolderFromArray = (foldersArray, thisFolderID) => {
 export const injectFolderToParent = (array, toBeInjectedFolder, parentID) =>
   array.map((item) => {
     if (item.id === parentID) {
-      if (item?.contents)
-        return { ...item, contents: [...item.contents, toBeInjectedFolder] };
-      return { ...item, contents: [toBeInjectedFolder] };
+      const resetedFolder = resetFolderProps([toBeInjectedFolder]);
+      const contents = item?.contents
+        ? [...item.contents, ...resetedFolder]
+        : resetedFolder;
+
+      return { ...item, contents, sub_folders_count: contents.length || 0 };
     }
     if (item?.contents) {
       return {

@@ -14,16 +14,22 @@ const FolderExplorer = ({
   onFolderClick,
   onFoldersUpdate,
   actionOptions,
-  actionClickHandler
+  actionClickHandler,
+  isSingleSelect
 }) => {
-  const { folderClickHandler, foldersArray, subFolderOpenHandler } =
-    useFolderExplorer({
-      allFolders,
-      projectId,
-      folderId,
-      onFolderClick,
-      onFoldersUpdate
-    });
+  const {
+    selectedNodesId,
+    folderClickHandler,
+    foldersArray,
+    subFolderOpenHandler
+  } = useFolderExplorer({
+    allFolders,
+    projectId,
+    folderId,
+    onFolderClick,
+    onFoldersUpdate,
+    isSingleSelect
+  });
 
   return (
     <>
@@ -34,6 +40,7 @@ const FolderExplorer = ({
         onFolderClick={folderClickHandler}
         onFolderOpen={subFolderOpenHandler}
         onActionClick={actionClickHandler}
+        selectedNodesId={selectedNodesId}
       />
     </>
   );
@@ -47,6 +54,7 @@ FolderExplorer.propTypes = {
   projectId: PropTypes.string,
   folderId: PropTypes.string,
   actionsEnabled: PropTypes.bool,
+  isSingleSelect: PropTypes.bool,
   actionOptions: PropTypes.arrayOf(PropTypes.object)
 };
 
@@ -58,6 +66,7 @@ FolderExplorer.defaultProps = {
   onFoldersUpdate: () => {},
   actionClickHandler: () => {},
   actionsEnabled: false,
+  isSingleSelect: true,
   actionOptions: []
 };
 

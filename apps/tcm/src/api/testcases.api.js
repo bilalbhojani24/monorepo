@@ -1,7 +1,9 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getTestCasesAPI = async ({ folderId, projectId }) =>
-  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`);
+export const getTestCasesAPI = async ({ folderId, projectId, page }) =>
+  fetchGet(`/api/v1/projects/${projectId}/folder/${folderId}/test-cases`, {
+    params: { p: page }
+  });
 
 export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
   fetchPost(
@@ -46,13 +48,13 @@ export const moveTestCasesBulkAPI = async ({
   projectId,
   folderId,
   newParentFolderId,
-  testCaseIds
+  bulkSelection
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-move`,
     {
       test_case: {
-        ids: testCaseIds,
+        ...bulkSelection,
         folder_id: newParentFolderId
       }
     }
@@ -61,21 +63,19 @@ export const moveTestCasesBulkAPI = async ({
 export const deleteTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  testCaseIds
+  bulkSelection
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
     {
-      test_case: {
-        ids: testCaseIds
-      }
+      test_case: bulkSelection
     }
   );
 
 export const editTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  testCaseIds,
+  bulkSelection,
   data
 }) =>
   fetchPost(
@@ -83,7 +83,12 @@ export const editTestCasesBulkAPI = async ({
     {
       test_case: {
         ...data,
-        ids: testCaseIds
+        ...bulkSelection
       }
     }
   );
+
+export const getTestCasesSearchFilterAPI = async ({ projectId, props = {} }) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-cases/search`, {
+    params: props
+  });

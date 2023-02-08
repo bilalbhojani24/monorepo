@@ -3,6 +3,7 @@ const AppRoute = {
   LANDING: '/landing',
   TEST_CASES:
     '/projects/:projectId?/folder?/:folderId?/test-cases?/:testCaseId?',
+  TEST_CASES_SEARCH: '/projects/:projectId?/folder?/search',
   DASHBOARD: '/projects/:projectId?',
   TEST_RUNS: '/projects/:projectId?/test-runs',
   ONBOARDING: '/onboarding',
