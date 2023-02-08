@@ -14,4 +14,6 @@ const AppRoute = {
   IMPORT_CSV: '/import/csv'
 };
 
+export const BASE_API_URL = 'https://teststack.bsstag.com';
+
 export default AppRoute;

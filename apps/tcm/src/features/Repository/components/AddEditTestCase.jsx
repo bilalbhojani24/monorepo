@@ -21,6 +21,7 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
+import { BASE_API_URL } from 'const/routes';
 
 import {
   priorityOptions,
@@ -35,6 +36,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -132,6 +134,7 @@ const AddEditTestCase = () => {
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
+            assetUploadURL={`${BASE_API_URL}/api/v1/projects/${projectId}/generic/attachments`}
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
