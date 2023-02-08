@@ -8,7 +8,7 @@ import ToolTip from '../Tooltip';
 import Kpi from './components/Kpi';
 import {
   DATA_VISUALIZATION_DESC_POSITION,
-  DATA_VISUALIZATION_SIZES,
+  DATA_VISUALIZATION_SIZES
 } from './const/dataVisualizationConstants';
 
 import './styles.scss';
@@ -25,13 +25,15 @@ const DataVisualization = ({
   filterDropdown,
   headerInfo,
   headerInfoTooltipProps,
+  hideBoxShadow
 }) => (
   <div
-    className={classNames('rounded-lg border shadow', {
+    className={classNames('rounded-lg', {
+      'shadow ': !hideBoxShadow,
       'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
       'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
       'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
-      'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3],
+      'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3]
     })}
   >
     <div className="p-6">
@@ -39,6 +41,7 @@ const DataVisualization = ({
         <div className="flex items-center">
           <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
           {headerInfo && (
+            // eslint-disable-next-line react/jsx-props-no-spreading
             <ToolTip {...headerInfoTooltipProps}>
               <InformationCircleIcon
                 className="h-5 w-5 shrink-0 cursor-pointer"
@@ -54,7 +57,7 @@ const DataVisualization = ({
         </div>
       </div>
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[0] && (
-        <p className="mt-4 font-normal leading-6 text-base-600">{desc}</p>
+        <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
       )}
       {KpiProps?.length > 0 && (
         <div
@@ -65,15 +68,16 @@ const DataVisualization = ({
               size === DATA_VISUALIZATION_SIZES[2] ||
               size === DATA_VISUALIZATION_SIZES[3],
             'align-items-center flex justify-between':
-              size === DATA_VISUALIZATION_SIZES[4],
+              size === DATA_VISUALIZATION_SIZES[4]
           })}
         >
           {KpiProps.map((propsObject) => (
+            // eslint-disable-next-line react/jsx-props-no-spreading
             <Kpi {...propsObject} />
           ))}
         </div>
       )}
-      <div className="my-2 py-4">{analytics}</div>
+      <div>{analytics}</div>
 
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[1] && (
         <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
@@ -114,19 +118,20 @@ DataVisualization.propTypes = {
   footerProps: PropTypes.shape({
     linkTo: PropTypes.string,
     linkText: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   }),
   KpiProps: PropTypes.arrayOf({
     title: PropTypes.string,
     changeType: PropTypes.string,
     difference: PropTypes.string,
     description: PropTypes.string,
-    percentage: PropTypes.string,
+    percentage: PropTypes.string
   }),
   otherOptions: PropTypes.node,
   filterDropdown: PropTypes.node,
   headerInfo: PropTypes.bool,
   headerInfoTooltipProps: PropTypes.shape({}),
+  hideBoxShadow: PropTypes.bool
 };
 DataVisualization.defaultProps = {
   size: DATA_VISUALIZATION_SIZES[1],
@@ -140,6 +145,7 @@ DataVisualization.defaultProps = {
   filterDropdown: null,
   headerInfo: true,
   headerInfoTooltipProps: {},
+  hideBoxShadow: false
 };
 
 export default DataVisualization;
