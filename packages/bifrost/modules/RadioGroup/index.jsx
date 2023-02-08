@@ -28,10 +28,16 @@ const RadioGroup = (props) => {
       })}
     >
       {options.map((option) => (
-        <div key={option.id} className="flex items-start">
+        <div
+          key={option.id}
+          className={classNames('flex items-start', {
+            'cursor-not-allowed': option.disabled
+          })}
+        >
           <div
             className={classNames('flex h-5 items-center', {
-              'order-last mx-3': rightAligned
+              'order-last mx-3': rightAligned,
+              'cursor-not-allowed': option.disabled
             })}
           >
             <input
@@ -39,9 +45,10 @@ const RadioGroup = (props) => {
               aria-describedby={`${option.id}-description`}
               name="plan"
               type="radio"
+              disabled={option.disabled}
               checked={option.id === selectedOption?.id}
               className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4"
-              onChange={handleChange(option.id)}
+              onChange={() => handleChange(option.id)}
             />
           </div>
           <div
@@ -51,7 +58,13 @@ const RadioGroup = (props) => {
             )}
           >
             {option.name && (
-              <label htmlFor={option.id} className="text-base-700 font-medium">
+              <label
+                htmlFor={option.id}
+                className={classNames('text-base-700 font-medium', {
+                  'text-base-400': option.disabled,
+                  'cursor-not-allowed': option.disabled
+                })}
+              >
                 {option.name}
               </label>
             )}
@@ -60,7 +73,10 @@ const RadioGroup = (props) => {
                 id={`${option.id}-description`}
                 className={classNames(
                   { 'ml-2': inlineDescription },
-                  'text-base-500'
+                  'text-base-500',
+                  {
+                    'text-base-300': option.disabled
+                  }
                 )}
               >
                 {option.description}

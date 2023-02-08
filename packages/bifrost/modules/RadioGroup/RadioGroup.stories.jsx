@@ -59,7 +59,7 @@ const defaultConfig = {
           id: 'radio-3',
           name: 'Radio 3 and it can grow longer',
           description: 'It is the description of Radio 3',
-          disabled: false
+          disabled: true
         }
       ]
     }
