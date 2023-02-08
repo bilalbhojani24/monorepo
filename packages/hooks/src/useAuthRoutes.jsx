@@ -1,23 +1,28 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useRoutes } from 'react-router-dom';
 import { responseInterceptor } from '@browserstack/utils';
 
-const RedirectComponent = () => {
-  useEffect(() => {
-    window.location.href = '/login';
+import useMountEffect from './useMountEffect';
+
+const RedirectToLoginComponent = ({ url }) => {
+  useMountEffect(() => {
+    window.location.href = url;
   }, []);
+
   return null;
 };
 
 responseInterceptor();
 
-const useAuthRoutes = (routes, initAPI) => {
+const useAuthRoutes = (routes, initAPI, fallbackUrl = '/') => {
   const [loggedIn, setLoggedIn] = useState(null);
+
+  const initAPIcb = useCallback(() => initAPI(), [initAPI]);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await initAPI();
+        const response = await initAPIcb();
         if (response) {
           setLoggedIn(true);
           document.getElementById('root-loader').style.display = 'none';
@@ -29,13 +34,13 @@ const useAuthRoutes = (routes, initAPI) => {
         setLoggedIn(false);
       }
     })();
-  }, [initAPI]);
+  }, [initAPIcb]);
 
   const routeElement = useMemo(() => {
     const getComponent = (r) => {
       if (loggedIn === null) return null;
       if (!r.isProtected || (r.isProtected && loggedIn)) return r.component;
-      return <RedirectComponent />;
+      return <RedirectToLoginComponent url={fallbackUrl} />;
     };
 
     return routes.map((r) => ({
@@ -48,7 +53,7 @@ const useAuthRoutes = (routes, initAPI) => {
         }))
       })
     }));
-  }, [loggedIn, routes]);
+  }, [loggedIn, routes, fallbackUrl]);
 
   return useRoutes(routeElement);
 };

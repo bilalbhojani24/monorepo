@@ -11,7 +11,7 @@ const initAPI = () =>
   });
 
 const App = () => {
-  const Routes = useAuthRoutes(APP_ROUTES, initAPI);
+  const Routes = useAuthRoutes(APP_ROUTES, initAPI, '/login');
 
   return <>{Routes}</>;
 };
