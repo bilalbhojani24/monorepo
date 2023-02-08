@@ -29,6 +29,7 @@ import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
+import Metadata from './modules/Metadata';
 import Modal from './modules/Modal';
 import ModalBody from './modules/ModalBody';
 import ModalFooter from './modules/ModalFooter';
@@ -109,6 +110,7 @@ export {
   ListTreeNode,
   ListTreeNodeContents,
   Loader,
+  Metadata,
   Modal,
   ModalBody,
   ModalFooter,
