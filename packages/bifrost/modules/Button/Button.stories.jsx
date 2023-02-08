@@ -61,11 +61,23 @@ const defaultConfig = {
       options: BUTTON_COLORS,
       control: { type: 'inline-radio' },
       defaultValue: BUTTON_COLORS[0]
+    },
+    isIconOnlyButton: {
+      options: [true, false],
+      control: { type: 'inline-radio' },
+      defaultValue: false
     }
   },
   controls: {}
 };
-const Template = (args) => <Button {...args}>Button</Button>;
+const Template = (args) => {
+  const { isIconOnlyButton } = args;
+  return isIconOnlyButton ? (
+    <Button {...args} />
+  ) : (
+    <Button {...args}>Button</Button>
+  );
+};
 const Default = Template.bind({});
 Default.parameters = {
   size: 'primary'

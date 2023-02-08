@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
@@ -14,15 +14,32 @@ const Slideover = (props) => {
   const {
     children,
     onCloseWithOutsideButton,
+    onEscPress,
     onOverlayClick,
     show,
     backgroundOverlay,
     slideoverWidth,
     closeButtonOutside,
-    topMarginElementId,
+    topMarginElementId
   } = props;
 
   const { marginTopAdjustment } = useSlideover(topMarginElementId);
+
+  const handleIfEscapeClicked = useCallback(
+    (event) => {
+      if (event.key === 'Escape' && onEscPress) {
+        onEscPress?.();
+      }
+    },
+    [onEscPress]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleIfEscapeClicked);
+    return () => {
+      window.removeEventListener('keydown', handleIfEscapeClicked);
+    };
+  }, [handleIfEscapeClicked]);
 
   return (
     <Transition show={show} unmount={false}>
@@ -42,7 +59,7 @@ const Slideover = (props) => {
             style={{ marginTop: marginTopAdjustment }}
             className={twClassNames(`bg-base-500 fixed inset-0 z-10`, {
               'opacity-75': backgroundOverlay,
-              'opacity-0': !backgroundOverlay,
+              'opacity-0': !backgroundOverlay
             })}
             onClick={() => {
               onOverlayClick?.();
@@ -87,7 +104,7 @@ const Slideover = (props) => {
           <div
             className={twClassNames(
               `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
-              slideoverWidth,
+              slideoverWidth
             )}
           >
             {children}
@@ -102,22 +119,24 @@ Slideover.propTypes = {
   children: PropTypes.node,
   onOverlayClick: PropTypes.func,
   onCloseWithOutsideButton: PropTypes.func,
+  onEscPress: PropTypes.func,
   show: PropTypes.bool,
   backgroundOverlay: PropTypes.bool,
   slideoverWidth: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
-  topMarginElementId: PropTypes.string,
+  topMarginElementId: PropTypes.string
 };
 
 Slideover.defaultProps = {
   children: null,
   onOverlayClick: null,
   onCloseWithOutsideButton: null,
+  onEscPress: null,
   show: false,
   backgroundOverlay: true,
   slideoverWidth: 'w-96',
   closeButtonOutside: false,
-  topMarginElementId: '',
+  topMarginElementId: ''
 };
 
 export default Slideover;

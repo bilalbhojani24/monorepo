@@ -40,7 +40,7 @@ Attachments.propTypes = {
 Attachments.defaultProps = {
   wrapperClassName: '',
   attachments: [],
-  icon: <MdOutlineAttachFile className="text-base-400 font-light" />
+  icon: <MdOutlineAttachFile className="text-base-400 h-5 w-5 font-light" />
 };
 
 export default Attachments;

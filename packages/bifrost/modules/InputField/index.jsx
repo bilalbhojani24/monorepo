@@ -24,6 +24,7 @@ const InputField = forwardRef(
       leadingIcon,
       onBlur,
       onChange,
+      onKeyDown,
       onFocus,
       placeholder,
       readonly,
@@ -60,6 +61,7 @@ const InputField = forwardRef(
           value={value}
           disabled={disabled}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           type={type}
           ref={ref || inputRef}
           name={label}
@@ -120,6 +122,7 @@ InputField.propTypes = {
   leadingIcon: PropTypes.node,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
   readonly: PropTypes.bool,
@@ -140,6 +143,7 @@ InputField.defaultProps = {
   leadingIcon: null,
   onBlur: () => {},
   onChange: () => {},
+  onKeyDown: () => {},
   onFocus: () => {},
   placeholder: '',
   readonly: false,
