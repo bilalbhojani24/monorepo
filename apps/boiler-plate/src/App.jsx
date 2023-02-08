@@ -23,7 +23,11 @@ const initAPI = async () => {
 };
 
 const App = () => {
-  const Routes = useAuthRoutes(APP_ROUTES, initAPI, '/login');
+  const Routes = useAuthRoutes(
+    APP_ROUTES,
+    initAPI,
+    'https://www.browserstack.com/users/sign_in'
+  );
 
   return <>{Routes}</>;
 };
