@@ -20,7 +20,8 @@ module.exports = {
         'react-dom',
         'react-router-dom',
         '@reduxjs/toolkit',
-        'react-redux'
+        'react-redux',
+        'axios'
       ]
     }
   }

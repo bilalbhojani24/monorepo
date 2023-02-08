@@ -8,13 +8,13 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@juggle/resize-observer": "3.3.1"
+    "@juggle/resize-observer": "3.3.1",
+    "@browserstack/utils": "workspace:*"
   },
   "devDependencies": {
     "vite": "^4.0.0",
     "@vitejs/plugin-react": "^3.0.0",
-    "@browserstack/vite-config": "workspace:*",
-    "@browserstack/utils": "workspace:*"
+    "@browserstack/vite-config": "workspace:*"
   },
   "peerDependencies": {
     "react": "16.13.1",

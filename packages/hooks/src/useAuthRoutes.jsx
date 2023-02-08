@@ -4,11 +4,11 @@ import { responseInterceptor } from '@browserstack/utils';
 
 import useMountEffect from './useMountEffect';
 
-const useAuthRoutes = (routes, initAPI, fallback) => {
+const useAuthRoutes = (routes, initAPI, fallbackUrl) => {
   const [loggedIn, setLoggedIn] = useState(null);
 
   useMountEffect(() => {
-    responseInterceptor(fallback);
+    responseInterceptor(fallbackUrl);
   });
 
   useMountEffect(() => {
