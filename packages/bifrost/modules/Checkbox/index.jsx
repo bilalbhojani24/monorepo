@@ -75,7 +75,7 @@ const Checkbox = (props) => {
             })}
           >
             <label
-              htmlFor={`${name}-${data.value}`}
+              htmlFor={`${name}${data.value}`}
               className="text-base-700 select-none font-medium"
             >
               {data.label}

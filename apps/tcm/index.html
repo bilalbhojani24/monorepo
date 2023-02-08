@@ -10,7 +10,21 @@
     <title>BrowserStack | Test Management</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" style="display: none"></div>
+    <div
+      id="root-loader"
+      style="
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: aquamarine;
+      "
+    >
+      Loading
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

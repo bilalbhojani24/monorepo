@@ -15,6 +15,10 @@ import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import FileUpload from './modules/FileUpload/index';
+import Header from './modules/Header/index';
+import HeaderBrand from './modules/HeaderBrand/index';
+import HeaderElements from './modules/HeaderElements/index';
+import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
@@ -91,6 +95,10 @@ export {
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   FileUpload,
+  Header,
+  HeaderBrand,
+  HeaderElements,
+  HeaderProducts,
   Hyperlink,
   InputAddOnTexts,
   InputField,
