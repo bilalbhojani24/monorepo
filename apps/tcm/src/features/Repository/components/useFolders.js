@@ -38,6 +38,9 @@ export default function useFolders() {
   const isFoldersLoading = useSelector(
     (state) => state.repository.isLoading.folder
   );
+  const isTestCasesLoading = useSelector(
+    (state) => state.repository.isLoading.testCases
+  );
   const testCasesCount =
     useSelector((state) => state.repository.allTestCases)?.length || 0;
   const setAllFoldersHelper = (data) => {
@@ -222,6 +225,7 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    isTestCasesLoading,
     searchKey: searchParams.get('q'),
     isFoldersLoading,
     testCasesCount,

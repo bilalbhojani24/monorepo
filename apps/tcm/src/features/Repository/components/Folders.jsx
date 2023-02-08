@@ -24,6 +24,7 @@ export default function Folders() {
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
+    isTestCasesLoading,
     openedFolderModal,
     projectId,
     folderId,
@@ -102,16 +103,20 @@ export default function Folders() {
                   />
                 ) : (
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
-                    <TMEmptyState
-                      // title=""
-                      title={`We found ${testCasesCount} Search Results for '${
-                        searchKey || ''
-                      }' across all folders`}
-                      mainIcon={
-                        <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
-                      }
-                      buttonProps={null}
-                    />
+                    {isTestCasesLoading ? (
+                      <Loader wrapperClass="h-full" />
+                    ) : (
+                      <TMEmptyState
+                        // title=""
+                        title={`We found ${testCasesCount} Search Results for '${
+                          searchKey || ''
+                        }' across all folders`}
+                        mainIcon={
+                          <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                        }
+                        buttonProps={null}
+                      />
+                    )}
                   </div>
                 )}
               </>
