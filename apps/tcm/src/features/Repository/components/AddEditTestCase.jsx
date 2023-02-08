@@ -72,20 +72,27 @@ const AddEditTestCase = () => {
         <TMSectionHeadings
           title={isTestCaseEditing ? 'Edit Test Case' : 'Create Test Case'}
           variant="buttons"
-          secondaryButtonProps={{
-            children: isTestCaseEditing ? 'Update' : 'Save',
-            variant: 'primary',
-            onClick: () => {
-              if (isTestCaseEditing) editTestCase(testCaseFormData);
-              else saveTestCase(testCaseFormData);
-            }
-          }}
-          primaryButtonProps={{
-            children: 'Cancel',
-            variant: 'primary',
-            colors: 'white',
-            onClick: hideTestCaseAddEditPage
-          }}
+          trailingHeadNode={
+            <>
+              <TMButton
+                colors="white"
+                variant="primary"
+                onClick={hideTestCaseAddEditPage}
+              >
+                Cancel
+              </TMButton>
+              <TMButton
+                wrapperClassName="ml-4"
+                variant="primary"
+                onClick={() => {
+                  if (isTestCaseEditing) editTestCase(testCaseFormData);
+                  else saveTestCase(testCaseFormData);
+                }}
+              >
+                {isTestCaseEditing ? 'Update' : 'Save'}
+              </TMButton>
+            </>
+          }
         />
       </div>
       <div className="w-full shrink grow overflow-y-auto p-4 pt-0">

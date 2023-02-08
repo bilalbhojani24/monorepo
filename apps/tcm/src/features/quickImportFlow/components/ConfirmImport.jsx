@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMSectionHeadings } from 'common/bifrostProxy';
+import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
 import useImport from './useImport';
@@ -18,11 +18,17 @@ const ConfirmImport = (props) => {
         <TMSectionHeadings
           title="Preview & Confirm"
           variant="buttons"
-          primaryButtonProps={{
-            children: 'Import',
-            size: 'default',
-            onClick: handleConfirmImport
-          }}
+          trailingHeadNode={
+            <>
+              <TMButton
+                size="default"
+                colors="white"
+                onClick={handleConfirmImport}
+              >
+                Import
+              </TMButton>
+            </>
+          }
         />
         <div>
           <div className="text-base-800 my-5 text-sm">
