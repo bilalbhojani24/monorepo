@@ -53,7 +53,9 @@ const defaultConfig = {
       description: 'Classes to be passed to base accordion component'
     },
     icon: {
-      defaultValue: <MdOutlineAttachFile className="text-base-400 font-light" />
+      defaultValue: (
+        <MdOutlineAttachFile className="text-base-400 h-5 w-5 font-light" />
+      )
     }
   },
   controls: {}

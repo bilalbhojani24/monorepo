@@ -69,7 +69,9 @@ const defaultConfig = {
       description: 'Classes to be passed to base component'
     },
     icon: {
-      defaultValue: <MdOutlineInsertPhoto className="text-base-500 mx-auto" />
+      defaultValue: (
+        <MdOutlineInsertPhoto className="text-base-500 mx-auto h-6 w-6" />
+      )
     }
   },
   controls: {}
