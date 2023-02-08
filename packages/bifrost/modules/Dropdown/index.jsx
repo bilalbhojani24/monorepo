@@ -3,17 +3,13 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
-import { ChevronDownIcon, EllipsisVerticalIcon } from '../Icon';
-
-import { DROPDOWN_TYPES } from './const/dropdownConstants';
 
 import './styles.scss';
 
 const Dropdown = (props) => {
   const {
     options,
-    triggerTitle,
-    triggerVariant,
+    trigger,
     headerVisible,
     heading,
     subHeading,
@@ -28,33 +24,7 @@ const Dropdown = (props) => {
   return (
     <DropdownMenu.Root>
       <div className={wrapperClassName}>
-        {triggerVariant === DROPDOWN_TYPES[0] ? (
-          <DropdownMenu.Trigger className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-            {triggerTitle}
-            <ChevronDownIcon
-              className="-mr-1 ml-2 h-5 w-5"
-              aria-hidden="true"
-            />
-          </DropdownMenu.Trigger>
-        ) : (
-          <DropdownMenu.Trigger
-            className={twClassNames(
-              'flex items-center rounded-full bg-base-100 text-base-400 hover:text-base-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-base-100',
-              {
-                'border-gray rounded-lg border border-2 bg-white p-2':
-                  triggerVariant === DROPDOWN_TYPES[2]
-              }
-            )}
-          >
-            <span className="sr-only">Open options</span>
-            <EllipsisVerticalIcon
-              className={twClassNames('h-5 w-5', {
-                'text-base-700': triggerVariant === DROPDOWN_TYPES[2]
-              })}
-              aria-hidden="true"
-            />
-          </DropdownMenu.Trigger>
-        )}
+        <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
       </div>
 
       <DropdownMenu.Portal>
@@ -99,7 +69,7 @@ const Dropdown = (props) => {
 };
 
 Dropdown.propTypes = {
-  triggerTitle: PropTypes.string,
+  trigger: PropTypes.node,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -107,7 +77,6 @@ Dropdown.propTypes = {
       divider: PropTypes.bool
     })
   ),
-  triggerVariant: PropTypes.oneOf(DROPDOWN_TYPES),
   headerVisible: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
@@ -115,9 +84,8 @@ Dropdown.propTypes = {
   wrapperClassName: PropTypes.string
 };
 Dropdown.defaultProps = {
-  triggerTitle: 'Options',
+  trigger: 'Dropdown',
   options: [],
-  triggerVariant: DROPDOWN_TYPES[0],
   headerVisible: false,
   heading: '',
   subHeading: '',

@@ -3,6 +3,7 @@ import React from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
+import { ChevronDownIcon } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
@@ -98,6 +99,15 @@ const defaultConfig = {
     filterDropdown: {
       defaultValue: (
         <Dropdown
+          trigger={
+            <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+              Options
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </div>
+          }
           options={[
             {
               id: '1',
@@ -148,7 +158,15 @@ const defaultConfig = {
     otherOptions: {
       defaultValue: (
         <Dropdown
-          triggerVariant="menu-button"
+          trigger={
+            <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+              Options
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </div>
+          }
           options={[
             {
               id: '10',
