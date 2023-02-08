@@ -48,7 +48,7 @@ const RadioGroup = (props) => {
               disabled={option.disabled}
               checked={option.id === selectedOption?.id}
               className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4"
-              onChange={() => handleChange(option.id)}
+              onChange={handleChange(option.id)}
             />
           </div>
           <div

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { InformationCircleIcon } from '../Icon';
 import ToolTip from '../Tooltip';
+import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
 
 import Kpi from './components/Kpi';
 import {
@@ -25,15 +26,15 @@ const DataVisualization = ({
   filterDropdown,
   headerInfo,
   headerInfoTooltipProps,
-  hideBoxShadow
+  wrapperClassName
 }) => (
   <div
-    className={classNames('rounded-lg', {
-      'shadow ': !hideBoxShadow,
+    className={classNames('rounded-lg shadow', {
       'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
       'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
       'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
-      'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3]
+      'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3],
+      wrapperClassName
     })}
   >
     <div className="p-6">
@@ -41,12 +42,37 @@ const DataVisualization = ({
         <div className="flex items-center">
           <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
           {headerInfo && (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <ToolTip {...headerInfoTooltipProps}>
-              <InformationCircleIcon
-                className="h-5 w-5 shrink-0 cursor-pointer"
-                aria-hidden="true"
-              />
+            <ToolTip
+              arrowClassName={headerInfoTooltipProps?.arrowClassName}
+              arrowWidth={headerInfoTooltipProps?.arrowWidth}
+              arrowHeight={headerInfoTooltipProps?.arrowHeight}
+              arrowPadding={headerInfoTooltipProps?.arrowPadding}
+              alignOffset={headerInfoTooltipProps?.alignOffset}
+              avoidCollisions={headerInfoTooltipProps?.avoidCollisions}
+              content={headerInfoTooltipProps?.content}
+              delay={headerInfoTooltipProps?.delay}
+              defaultOpen={headerInfoTooltipProps?.defaultOpen}
+              onEscapeKeyDown={headerInfoTooltipProps?.onEscapeKeyDown}
+              onPointerDownOutside={
+                headerInfoTooltipProps?.onPointerDownOutside
+              }
+              onOpenChange={headerInfoTooltipProps?.onOpenChange}
+              sideOffset={headerInfoTooltipProps?.sideOffset}
+              sticky={headerInfoTooltipProps?.sticky}
+              show={headerInfoTooltipProps?.show}
+              theme={headerInfoTooltipProps?.theme}
+              placementAlign={headerInfoTooltipProps?.placementAlign}
+              placementSide={headerInfoTooltipProps?.placementSide}
+              size={headerInfoTooltipProps?.size}
+            >
+              {headerInfoTooltipProps?.children ? (
+                headerInfoTooltipProps?.children
+              ) : (
+                <InformationCircleIcon
+                  className="h-5 w-5 shrink-0 cursor-pointer"
+                  aria-hidden="true"
+                />
+              )}
             </ToolTip>
           )}
         </div>
@@ -72,8 +98,15 @@ const DataVisualization = ({
           })}
         >
           {KpiProps.map((propsObject) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <Kpi {...propsObject} />
+            <Kpi
+              key={propsObject.id}
+              difference={propsObject?.difference}
+              changeType={propsObject?.changeType}
+              description={propsObject?.description}
+              percentage={propsObject?.percentage}
+              direction={propsObject?.direction}
+              title={propsObject?.title}
+            />
           ))}
         </div>
       )}
@@ -130,8 +163,8 @@ DataVisualization.propTypes = {
   otherOptions: PropTypes.node,
   filterDropdown: PropTypes.node,
   headerInfo: PropTypes.bool,
-  headerInfoTooltipProps: PropTypes.shape({}),
-  hideBoxShadow: PropTypes.bool
+  headerInfoTooltipProps: PropTypes.shape(TooltipPropTypes),
+  wrapperClassName: PropTypes.string
 };
 DataVisualization.defaultProps = {
   size: DATA_VISUALIZATION_SIZES[1],
@@ -145,7 +178,7 @@ DataVisualization.defaultProps = {
   filterDropdown: null,
   headerInfo: true,
   headerInfoTooltipProps: {},
-  hideBoxShadow: false
+  wrapperClassName: ''
 };
 
 export default DataVisualization;
