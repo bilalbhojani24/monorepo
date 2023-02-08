@@ -62,7 +62,7 @@ const initialState = {
     owner: [],
     tags: [],
     priority: [],
-    searchKey: ''
+    q: ''
   },
   isSearchFilterView: false,
   isLoading: {

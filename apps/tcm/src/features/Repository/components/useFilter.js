@@ -50,7 +50,7 @@ const useFilter = () => {
         : filterOptions[key];
 
       if (value) {
-        if (key === 'searchKey') queryParams[`q[name]`] = value;
+        if (key === 'q') queryParams[`q[name]`] = value;
         else queryParams[`q[${key}]`] = value;
       }
     });
@@ -117,7 +117,7 @@ const useFilter = () => {
   const searchChangeHandler = (e) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
-      searchKey: e.currentTarget.value
+      q: e.currentTarget.value
     });
   };
 
@@ -125,12 +125,12 @@ const useFilter = () => {
     const tags = searchParams.get('tags');
     const owner = searchParams.get('owner');
     const priority = searchParams.get('priority');
-    const searchKey = searchParams.get('searchKey');
+    const q = searchParams.get('q');
     const filterOptions = {
       tags: tags?.split(',') || [],
       owner: owner?.split(',') || [],
       priority: priority?.split(',') || [],
-      searchKey: searchKey || ''
+      q: q || ''
     };
     const count = [tags, owner, priority];
     setAppliedFiltersCount(count.filter((item) => item).length);

@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 // import PropTypes from 'prop-types';
-import { routeFormatter } from 'utils/helperFunctions';
+import { onSubmitKeyHandler, routeFormatter } from 'utils/helperFunctions';
 
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
@@ -84,9 +84,9 @@ const Filter = () => {
       <div className="w-full">
         <TMInputField
           placeholder="Search by Test Case name, ID"
-          value={filterSearchMeta?.searchKey}
+          value={filterSearchMeta?.q}
           onChange={searchChangeHandler}
-          onBlur={applyFilterHandler}
+          onKeyDown={(e) => onSubmitKeyHandler(e, applyFilterHandler)}
           leadingIcon={<SearchIcon className="text-base-400" />}
         />
       </div>

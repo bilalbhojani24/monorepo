@@ -20,10 +20,10 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
+    searchKey,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
-    filterSearchMeta,
     openedFolderModal,
     projectId,
     folderId,
@@ -105,7 +105,7 @@ export default function Folders() {
                     <TMEmptyState
                       // title=""
                       title={`We found ${testCasesCount} Search Results for '${
-                        filterSearchMeta?.searchKey || ''
+                        searchKey || ''
                       }' across all folders`}
                       mainIcon={
                         <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />

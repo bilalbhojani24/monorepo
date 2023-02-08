@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
 import {
@@ -22,6 +22,7 @@ import {
 import useTestCases from './useTestCases';
 
 export default function useFolders() {
+  const [searchParams] = useSearchParams();
   const { showTestCaseAdditionPage, hideTestCaseAddEditPage } = useTestCases();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
@@ -30,9 +31,6 @@ export default function useFolders() {
   const allFolders = useSelector((state) => state.repository?.allFolders);
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
-  );
-  const filterSearchMeta = useSelector(
-    (state) => state.repository.filterSearchMeta
   );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
@@ -224,6 +222,7 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    searchKey: searchParams.get('q'),
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -231,7 +230,6 @@ export default function useFolders() {
     projectId,
     folderId,
     allFolders,
-    filterSearchMeta,
     showAddFolderModal,
     fetchAllFolders,
     updateRouteHelper,

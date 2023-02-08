@@ -31,7 +31,7 @@ export const formatTime = (date, to) => {
   }
 };
 
-export const onSubmitKeyHandler = (e) => (doAfter) => {
+export const onSubmitKeyHandler = (e, doAfter) => {
   if (e?.key === 'Enter') doAfter();
 };
 
