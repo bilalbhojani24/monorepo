@@ -25,7 +25,7 @@ const TextEditor = forwardRef((props, ref) => {
       initialValue={initialValue}
       height={height}
       value={value}
-      onEditorChange={(newValue) => onChange?.(newValue)}
+      onEditorChange={onChange}
       init={{
         height,
         width,
