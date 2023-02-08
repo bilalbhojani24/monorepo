@@ -40,7 +40,7 @@ const TestRuns = () => {
       </div>
 
       <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
-        <div className="border-base-200 flex shrink-0 grow flex-col  justify-start  rounded-md border bg-white">
+        <div className="border-base-200 flex flex-col  justify-start  rounded-md border bg-white">
           <TestRunsTable />
         </div>
       </div>

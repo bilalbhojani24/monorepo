@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
 import classNames from 'classnames';
 import {
-  TMDataTable,
   TMDropdown,
   TMEmptyState,
   TMPagination,
@@ -50,7 +49,7 @@ const TestRunsTable = () => {
     {
       name: 'OVERALL PROGRESS',
       key: '',
-      cell: () => <div className="WIP">WIP</div>
+      cell: () => <div>WIP</div>
     },
     {
       name: '',
@@ -69,7 +68,7 @@ const TestRunsTable = () => {
   ];
 
   return (
-    <div className="flex flex-1 shrink-0 grow flex-col  justify-start">
+    <div className="flex flex-1 flex-col  justify-start">
       <TMTable
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
@@ -143,7 +142,7 @@ const TestRunsTable = () => {
       )}
 
       {!allTestRuns?.length && !isTestRunsLoading ? (
-        <div className="flex shrink-0 grow flex-col justify-center ">
+        <div className="flex h-96 w-full shrink-0 grow flex-col justify-center">
           <TMEmptyState
             title={`No ${currentTab}`}
             description="You can get started by creating test run by clicking on Create Test Run button."
