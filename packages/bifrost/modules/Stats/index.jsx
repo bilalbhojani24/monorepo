@@ -37,9 +37,9 @@ const Stats = (props) => {
           cardWrapperClassname
         )}
         role="button"
-        onClick={() => option.onClick?.()}
+        onClick={(e) => option.onClick?.(e)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') option.onClick?.();
+          if (e.key === 'Enter') option.onClick?.(e);
         }}
         tabIndex={0}
       >
