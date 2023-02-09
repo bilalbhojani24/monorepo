@@ -2,8 +2,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { getTagsAPI } from 'api/common.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
-import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
+import { getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
