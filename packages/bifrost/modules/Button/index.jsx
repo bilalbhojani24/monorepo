@@ -140,7 +140,7 @@ Button.defaultProps = {
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
   colors: BUTTON_COLORS[0],
-  isIconOnlyButton: true
+  isIconOnlyButton: false
 };
 
 export default Button;
