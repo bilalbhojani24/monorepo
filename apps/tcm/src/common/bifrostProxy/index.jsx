@@ -9,6 +9,7 @@ import {
   ComboBox,
   EmptyState,
   FileUpload,
+  Hyperlink,
   InputField,
   InputWButton,
   ListTree,
@@ -93,5 +94,6 @@ export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
+export const TMHyperlink = (props) => <Hyperlink {...props} />;
 
 export { TMAttachments, TMDataTable, TMDropdown, TMPagination };
