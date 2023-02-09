@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
@@ -29,7 +29,7 @@ const InputWButton = forwardRef(
       type,
       ...rest
     },
-    ref,
+    ref
   ) => (
     <div className="bifrost-input-field">
       {(label || cornerHintText) && (
@@ -37,16 +37,16 @@ const InputWButton = forwardRef(
           <label
             htmlFor={id}
             id={`${id}label-wrap`}
-            className="mb-1 block text-sm font-medium text-base-700"
+            className="text-base-700 mb-1 block text-sm font-medium"
           >
             {label}
           </label>
           {cornerHintText && (
-            <span className="text-sm text-base-500">{cornerHintText}</span>
+            <span className="text-base-500 text-sm">{cornerHintText}</span>
           )}
         </div>
       )}
-      <div className={classNames('flex rounded-md shadow-sm', {})}>
+      <div className={twClassNames('flex rounded-md shadow-sm', {})}>
         <div className="relative flex grow items-stretch focus-within:z-10">
           {icon && (
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -63,15 +63,15 @@ const InputWButton = forwardRef(
             type={type}
             ref={ref || inputRef}
             id={id}
-            className={classNames(
+            className={twClassNames(
               'block w-full rounded-none rounded-l-md border-base-300 focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
               {
                 'text-danger-900 focus:border-danger-500 focus:ring-danger-500':
                   errorText,
                 'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':
                   disabled,
-                'pl-10': !!icon,
-              },
+                'pl-10': !!icon
+              }
             )}
             placeholder={placeholder}
             onFocus={onFocus}
@@ -83,21 +83,21 @@ const InputWButton = forwardRef(
         <button
           onClick={onButtonClick}
           type="button"
-          className="relative -ml-px inline-flex items-center space-x-2 rounded-r-md border border-base-300 bg-base-50 px-4 py-2 text-sm font-medium text-base-700 hover:bg-base-100 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="border-base-300 bg-base-50 text-base-700 hover:bg-base-100 focus:border-brand-500 focus:ring-brand-500 relative -ml-px inline-flex items-center space-x-2 rounded-r-md border px-4 py-2 text-sm font-medium focus:outline-none focus:ring-1"
         >
           {buttonElement}
         </button>
       </div>
       {description && (
-        <p className="mt-2 text-sm text-base-500">{description}</p>
+        <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
       {errorText && (
-        <p className="mt-2 text-sm text-danger-600" id={`${id}error-wrap`}>
+        <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
           {errorText}
         </p>
       )}
     </div>
-  ),
+  )
 );
 
 InputWButton.propTypes = {
@@ -113,7 +113,7 @@ InputWButton.propTypes = {
   icon: PropTypes.node,
   inputRef: PropTypes.oneOfType([
     PropTypes.shape({ current: PropTypes.any }),
-    PropTypes.func,
+    PropTypes.func
   ]),
   label: PropTypes.string,
   addOnText: PropTypes.string,
@@ -122,7 +122,7 @@ InputWButton.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.string
 };
 
 InputWButton.defaultProps = {
@@ -143,7 +143,7 @@ InputWButton.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   placeholder: '',
-  type: 'text',
+  type: 'text'
 };
 
 export default InputWButton;

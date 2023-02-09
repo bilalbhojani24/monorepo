@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import {
@@ -79,7 +79,7 @@ const Pagination = (props) => {
 
   const renderNextPrev = () => (
     <div
-      className={classNames('flex flex-1 justify-between sm:justify-end', {
+      className={twClassNames('flex flex-1 justify-between sm:justify-end', {
         'sm:hidden': withNumber,
         block: !withNumber
       })}
@@ -108,7 +108,7 @@ const Pagination = (props) => {
           key={page}
           href="/"
           aria-label={`page ${page} of ${totalPages.length}`}
-          className={classNames(inActiveClass, inActiveLinkClass, {
+          className={twClassNames(inActiveClass, inActiveLinkClass, {
             [`${activeClass} ${activeLinkClass}`]: currentPage === page
           })}
           onClick={(e) => pageNumberClick(e, page)}
@@ -167,7 +167,7 @@ const Pagination = (props) => {
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
-        <p className={classNames('text-sm text-base-700')}>
+        <p className={twClassNames('text-sm text-base-700')}>
           Showing{' '}
           <span className="font-medium">
             {currentPage * pageSize - pageSize + 1}
@@ -178,7 +178,7 @@ const Pagination = (props) => {
       </div>
       {renderNextPrev()}
       <nav
-        className={classNames(
+        className={twClassNames(
           'hidden sm:inline-flex isolate  -space-x-px rounded-md shadow-sm',
           {
             'sm:hidden': !withNumber

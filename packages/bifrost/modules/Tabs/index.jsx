@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Tab from './components/Tab';
@@ -60,7 +60,7 @@ const Tabs = ({
           <div className="hidden sm:block">
             <div className="border-base-200 border-b">
               <nav
-                className={classNames('-mb-px flex', {
+                className={twClassNames('-mb-px flex', {
                   'space-x-8': !isFullWidth,
                   'border-b': isFullWidth,
                   'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':

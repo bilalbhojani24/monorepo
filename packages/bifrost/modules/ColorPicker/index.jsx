@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
+
 import './styles.scss';
 
-function classNames(...classes) {
+function twClassNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
@@ -13,18 +14,22 @@ const ColorPicker = (props) => {
 
   const handleChange = (e) => {
     setSelectedColor(e);
-    onChange(e);
+    onChange?.(e);
   };
   return (
     <RadioGroup value={selectedColor} onChange={handleChange}>
-      {label && <RadioGroup.Label className="block text-sm font-medium text-base-700">{label}</RadioGroup.Label>}
+      {label && (
+        <RadioGroup.Label className="text-base-700 block text-sm font-medium">
+          {label}
+        </RadioGroup.Label>
+      )}
       <div className="mt-4 flex items-center space-x-3">
         {options.map((option) => (
           <RadioGroup.Option
             key={option.name}
             value={option}
             className={({ active, checked }) =>
-              classNames(
+              twClassNames(
                 option.selectedColor,
                 active && checked ? 'ring ring-offset-1' : '',
                 !active && checked ? 'ring-2' : '',
@@ -37,7 +42,10 @@ const ColorPicker = (props) => {
             </RadioGroup.Label>
             <span
               aria-hidden="true"
-              className={classNames(option.bgColor, 'h-8 w-8 border border-black border-opacity-10 rounded-full')}
+              className={twClassNames(
+                option.bgColor,
+                'h-8 w-8 border border-black border-opacity-10 rounded-full'
+              )}
             />
           </RadioGroup.Option>
         ))}
@@ -54,18 +62,13 @@ ColorPicker.propTypes = {
       selectColor: PropTypes.string
     })
   ).isRequired,
-  label: PropTypes.string
+  label: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 ColorPicker.defaultProps = {
-  options: [
-    { name: 'Pink', bgColor: 'bg-pink-500', selectedColor: 'ring-pink-500' },
-    { name: 'Purple', bgColor: 'bg-purple-500', selectedColor: 'ring-purple-500' },
-    { name: 'Blue', bgColor: 'bg-brand-500', selectedColor: 'ring-brand-500' },
-    { name: 'Green', bgColor: 'bg-success-500', selectedColor: 'ring-success-500' },
-    { name: 'Yellow', bgColor: 'bg-attention-500', selectedColor: 'ring-attention-500' }
-  ],
-  label: 'Pick a color'
+  label: 'Pick a color',
+  onChange: null
 };
 
 export default ColorPicker;

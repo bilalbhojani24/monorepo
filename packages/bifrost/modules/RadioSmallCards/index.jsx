@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
+
 import './styles.scss';
 
-function classNames(...classes) {
+function twClassNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
@@ -18,22 +19,28 @@ const RadioSmallCards = (props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        {heading && <h2 className="text-sm font-medium text-base-900">{heading}</h2>}
+        {heading && (
+          <h2 className="text-base-900 text-sm font-medium">{heading}</h2>
+        )}
         {/* <a href="#" className="text-sm font-medium text-brand-600 hover:text-brand-500">
           See performance specs
         </a> */}
       </div>
 
       <RadioGroup value={mem} onChange={handleChange} className="mt-2">
-        {label && <RadioGroup.Label className="sr-only"> {label} </RadioGroup.Label>}
+        {label && (
+          <RadioGroup.Label className="sr-only"> {label} </RadioGroup.Label>
+        )}
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
           {options.map((option) => (
             <RadioGroup.Option
               key={option.name}
               value={option}
               className={({ active, checked }) =>
-                classNames(
-                  option.disabled ? 'opacity-25 cursor-not-allowed' : 'cursor-pointer focus:outline-none',
+                twClassNames(
+                  option.disabled
+                    ? 'opacity-25 cursor-not-allowed'
+                    : 'cursor-pointer focus:outline-none',
                   active ? 'ring-2 ring-offset-2 ring-brand-500' : '',
                   checked
                     ? 'bg-brand-600 border-transparent text-white hover:bg-brand-700'

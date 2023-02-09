@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 
 import {
   CHECKBOX_DESCRIPTION_VARIANT,

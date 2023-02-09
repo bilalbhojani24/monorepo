@@ -1,11 +1,21 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+
 import Badge from '../../Badge';
 import { BADGE_MODIFIER } from '../../Badge/const/badgeConstants';
 import { TAB_SHAPE } from '../const/tabsConstants';
 
-const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, totalTabs, tabIdx }) => {
+const Tab = ({
+  tab,
+  isCurrent,
+  isContained,
+  isFullWidth,
+  onTabClick,
+  shape,
+  totalTabs,
+  tabIdx
+}) => {
   console.log(isContained);
   console.log(isFullWidth);
   console.log(totalTabs);
@@ -14,9 +24,11 @@ const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, tota
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
       value={tab.name}
-      className={classNames(
+      className={twClassNames(
         // contained
-        isContained && isCurrent ? 'text-base-900' : 'text-base-500 hover:text-base-700',
+        isContained && isCurrent
+          ? 'text-base-900'
+          : 'text-base-500 hover:text-base-700',
         isContained && tabIdx === 0 ? 'rounded-l-lg' : '',
         isContained && tabIdx === totalTabs - 1 ? 'rounded-r-lg' : '',
         isContained
@@ -28,9 +40,11 @@ const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, tota
           'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
             shape === TAB_SHAPE[1] && !isContained,
 
-          'border-brand-500 text-brand-600': shape === TAB_SHAPE[0] && isCurrent && !isContained,
+          'border-brand-500 text-brand-600':
+            shape === TAB_SHAPE[0] && isCurrent && !isContained,
 
-          'bg-base-100 text-base-700': shape === TAB_SHAPE[1] && isCurrent && !isContained,
+          'bg-base-100 text-base-700':
+            shape === TAB_SHAPE[1] && isCurrent && !isContained,
 
           [`w-1/${totalTabs} flex justify-center`]: isFullWidth && !isContained
         }
@@ -39,7 +53,10 @@ const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, tota
     >
       {tab.icon && shape === TAB_SHAPE[0] && !isContained && (
         <tab.icon
-          className={classNames(isCurrent ? '' : 'group-hover:text-base-500', '-ml-0.5 mr-2 h-5 w-5')}
+          className={twClassNames(
+            isCurrent ? '' : 'group-hover:text-base-500',
+            '-ml-0.5 mr-2 h-5 w-5'
+          )}
           aria-hidden="true"
         />
       )}
@@ -48,13 +65,16 @@ const Tab = ({ tab, isCurrent, isContained, isFullWidth, onTabClick, shape, tota
         {isContained && (
           <span
             aria-hidden="true"
-            className={classNames(isCurrent ? 'bg-brand-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5')}
+            className={twClassNames(
+              isCurrent ? 'bg-brand-500' : 'bg-transparent',
+              'absolute inset-x-0 bottom-0 h-0.5'
+            )}
           />
         )}
         {tab.count && shape === TAB_SHAPE[0] && !isContained ? (
           <Badge
             text={tab.count}
-            wrapperClassName={'ml-3'}
+            wrapperClassName="ml-3"
             modifier={isCurrent ? BADGE_MODIFIER[1] : BADGE_MODIFIER[0]}
           />
         ) : null}

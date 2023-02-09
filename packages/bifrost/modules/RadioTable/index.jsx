@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+
 import './styles.scss';
 
 const RadioTable = (props) => {
@@ -22,10 +23,11 @@ const RadioTable = (props) => {
             key={option.name}
             value={option}
             className={({ checked }) =>
-              classNames(
+              twClassNames(
                 {
                   'rounded-tl-md rounded-tr-md': optionIdx === 0,
-                  'rounded-bl-md rounded-br-md': optionIdx === options.length - 1,
+                  'rounded-bl-md rounded-br-md':
+                    optionIdx === options.length - 1,
                   'bg-brand-50 border-brand-200 z-10': checked,
                   'border-base-200': !checked
                 },
@@ -37,7 +39,7 @@ const RadioTable = (props) => {
               <>
                 <span className="flex items-center text-sm">
                   <span
-                    className={classNames(
+                    className={twClassNames(
                       {
                         'bg-brand-600 border-transparent': checked,
                         'bg-white border-base-300': !checked,
@@ -47,12 +49,12 @@ const RadioTable = (props) => {
                     )}
                     aria-hidden="true"
                   >
-                    <span className="rounded-full bg-white w-1.5 h-1.5" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
                   </span>
 
                   <RadioGroup.Label
                     as="span"
-                    className={classNames(
+                    className={twClassNames(
                       {
                         'text-brand-900': checked,
                         'text-base-900': !checked
@@ -64,16 +66,22 @@ const RadioTable = (props) => {
                   </RadioGroup.Label>
                   <RadioGroup.Description
                     as="span"
-                    className={classNames(checked ? 'text-brand-700' : 'text-base-500', 'block text-sm ml-2')}
+                    className={twClassNames(
+                      checked ? 'text-brand-700' : 'text-base-500',
+                      'block text-sm ml-2'
+                    )}
                   >
                     {option.description}
                   </RadioGroup.Description>
                 </span>
                 {!withDescription && (
                   <>
-                    <RadioGroup.Description as="span" className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
+                    <RadioGroup.Description
+                      as="span"
+                      className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center"
+                    >
                       <span
-                        className={classNames(
+                        className={twClassNames(
                           {
                             'text-brand-900': checked,
                             'text-base-900': !checked
@@ -86,7 +94,7 @@ const RadioTable = (props) => {
                     </RadioGroup.Description>
                     <RadioGroup.Description
                       as="span"
-                      className={classNames(
+                      className={twClassNames(
                         {
                           'text-brand-700': checked,
                           'text-base-500': !checked

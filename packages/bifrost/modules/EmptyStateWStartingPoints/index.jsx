@@ -1,9 +1,13 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { ESSP_DATA, LAYOUT_TYPES } from './const/emptyStateStaringPointConstants';
-import TwoColumnLayout from './component/TwoColumnLayout';
+
 import SignleColumnLayout from './component/SignleColumnLayout';
+import TwoColumnLayout from './component/TwoColumnLayout';
+import {
+  ESSP_DATA,
+  LAYOUT_TYPES
+} from './const/emptyStateStaringPointConstants';
 
 import './styles.scss';
 
@@ -17,14 +21,15 @@ const EmptyStateWStartingPoints = (props) => {
 
   return (
     <div>
-      <h2 className="text-lg font-medium text-base-900">{heading}</h2>
-      <p className="mt-1 text-sm text-base-500">{subHeading}</p>
+      <h2 className="text-base-900 text-lg font-medium">{heading}</h2>
+      <p className="text-base-500 mt-1 text-sm">{subHeading}</p>
       <ul
         role="list"
-        className={classNames('', {
+        className={twClassNames('', {
           'mt-6 grid grid-cols-1 gap-6 border-t border-b border-base-200 py-6 sm:grid-cols-2':
             layout === LAYOUT_TYPES[0],
-          'mt-6 divide-y divide-base-200 border-t border-b border-base-200': layout === LAYOUT_TYPES[1]
+          'mt-6 divide-y divide-base-200 border-t border-b border-base-200':
+            layout === LAYOUT_TYPES[1]
         })}
       >
         {data.map((item, itemIdx) => (
@@ -40,7 +45,7 @@ const EmptyStateWStartingPoints = (props) => {
       <div className="mt-4 flex">
         <a
           href="/"
-          className="text-sm font-medium text-brand-600 hover:text-brand-500"
+          className="text-brand-600 hover:text-brand-500 text-sm font-medium"
           onClick={(e) => {
             handleClick(e, handleCTAClick);
           }}
