@@ -25,7 +25,6 @@ const TestCaseTopBar = () => {
           {testCaseDetails?.name}
         </div>
         <TMTooltip
-          show
           size="sm"
           placementSide="bottom"
           theme="dark"
