@@ -26,7 +26,7 @@ const TestCaseDetailsView = () => {
       onOverlayClick={hideTestCaseViewDrawer}
       closeButtonOutside={false}
       description=""
-      topMarginElementId="whole-header"
+      topMarginElementId="bstack-header"
       slideoverWidth="max-w-md w-screen"
       backgroundOverlay={false}
     >

@@ -10,15 +10,17 @@ import {
 import AppRoute from 'const/routes';
 
 const TMHeader = () => (
-  <Header wrapperClassName="fixed w-full">
-    <Link to={AppRoute.ROOT}>
-      <HeaderBrand productName="Test Management" />
-    </Link>
-    <HeaderProducts wrapperClassName="max-[1360px]:hidden" />
-    <div className="float-right ml-auto">
-      <HeaderElements />
-    </div>
-  </Header>
+  <div id="bstack-header">
+    <Header wrapperClassName="fixed w-full">
+      <Link to={AppRoute.ROOT}>
+        <HeaderBrand productName="Test Management" />
+      </Link>
+      <HeaderProducts wrapperClassName="max-[1360px]:hidden" />
+      <div className="float-right ml-auto">
+        <HeaderElements />
+      </div>
+    </Header>
+  </div>
 );
 
 export default TMHeader;
