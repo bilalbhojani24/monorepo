@@ -14,45 +14,45 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import ModalHeader from 'bifrost/ModalHeader'"}
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
     dismissButton: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     handleDismissClick: {
       option: { type: null },
       defaultValue: () => {
         console.log('Dismiss button clicked');
-      },
+      }
     },
     heading: {
       option: { type: 'string' },
-      defaultValue: 'Deactivate account',
+      defaultValue: 'Deactivate account'
     },
     isBorder: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     subHeading: {
       option: { type: 'string' },
       defaultValue:
-        'Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.',
+        'Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.'
     },
     Icon: {
       option: { type: null },
-      defaultValue: ExclamationTriangleIcon,
-    },
+      defaultValue: ExclamationTriangleIcon
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <ModalHeader {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

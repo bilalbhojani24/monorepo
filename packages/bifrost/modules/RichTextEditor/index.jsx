@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 
 import {
   func,
@@ -8,15 +9,15 @@ import {
   shape,
   string
 } from '../../shared/proptypesConstants';
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import Editor from './components/TextEditor';
 
 import './styles.scss';
 
 const RichTextEditor = ({
-  assetUploadURL,
+  onAssetUpload,
   height,
+  label,
   width,
   wrapperClass,
   onChange,
@@ -26,8 +27,16 @@ const RichTextEditor = ({
   placeholder
 }) => (
   <div className={twClassNames(wrapperClass)}>
+    {label ? (
+      <label
+        htmlFor={`rich-text-editor-${label}`}
+        className="text-base-700 mb-1 block text-sm font-medium"
+      >
+        {label}
+      </label>
+    ) : null}
     <Editor
-      assetUploadURL={assetUploadURL}
+      onAssetUpload={onAssetUpload}
       height={height}
       width={width}
       onChange={onChange}
@@ -35,15 +44,17 @@ const RichTextEditor = ({
       initialValue={initialValue}
       placeholder={placeholder}
       ref={editorRef}
+      label={label}
     />
   </div>
 );
 
 RichTextEditor.propTypes = {
-  assetUploadURL: string.isRequired,
+  onAssetUpload: func.isRequired,
   initialValue: string,
   onChange: func,
   height: oneOfType([number, string]),
+  label: string,
   placeholder: string,
   value: string,
   width: oneOfType([number, string]),
@@ -55,6 +66,7 @@ RichTextEditor.defaultProps = {
   initialValue: undefined,
   onChange: undefined,
   height: 500,
+  label: null,
   placeholder: 'Type something...',
   value: undefined,
   width: '100%',

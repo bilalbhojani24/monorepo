@@ -1,7 +1,7 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { CheckCircleIcon, CheckIcon } from '../Icon';
 
 import { STEPS_FORMAT, STEPS_STATUS } from './const/stepsConstants';

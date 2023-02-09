@@ -1,7 +1,7 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import BrandLogo from '../Icon/BrandLogo';
 import BrandLogoWithName from '../Icon/BrandLogoWithName';
 

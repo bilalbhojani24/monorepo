@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { NotificationsContextData } from '../../shared/notificationsContext';
@@ -25,7 +25,7 @@ const Notifications = (props) => {
         {!isCondensed && headerIcon && headerIcon}
       </div>
       <div
-        className={classNames('w-0 flex-1 pt-0.5', {
+        className={twClassNames('w-0 flex-1 pt-0.5', {
           'ml-3': !isCondensed
         })}
       >
@@ -34,7 +34,7 @@ const Notifications = (props) => {
           <p className="text-base-500 mt-1 text-sm">{description}</p>
         )}
         {!isCondensed && (
-          <div className={classNames('mt-3 flex space-x-4')}>
+          <div className={twClassNames('mt-3 flex space-x-4')}>
             {actionButtons?.(toastCtx?.toast || null)}
           </div>
         )}

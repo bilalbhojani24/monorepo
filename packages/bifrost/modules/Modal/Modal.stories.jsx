@@ -20,8 +20,8 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Modal from 'bifrost/Modal'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     children: {
@@ -44,31 +44,31 @@ const defaultConfig = {
             <Button colors="brand">Deactivate</Button>
           </ModalFooter>
         </>
-      ),
+      )
     },
     onOverlayClick: {
       option: { type: null },
       defaultValue: () => {
         console.log('Overlay clicked');
-      },
+      }
     },
     onClose: {
       option: { type: null },
       defaultValue: () => {
         console.log('onClose called');
-      },
+      }
     },
     show: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     size: {
       options: MODAL_SIZE,
       control: { type: 'inline-radio' },
-      defaultValue: MODAL_SIZE[0],
-    },
+      defaultValue: MODAL_SIZE[0]
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Modal {...args} />;
 const CustomBodyTemplate = (args) => <Modal {...args} />;
@@ -81,7 +81,7 @@ const HeaderWithIcon = HeaderWithIconTemplate.bind({});
 const ScrollableModal = ScrollableModalTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -120,7 +120,7 @@ CustomBody.args = {
         </Button>
       </ModalFooter>
     </>
-  ),
+  )
 };
 
 /** ------------------
@@ -132,14 +132,20 @@ HeaderWithIcon.args = {
       <ModalHeader
         heading="Deactive account"
         subHeading="Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
-        Icon={ExclamationTriangleIcon}
+        icon={
+          <ExclamationTriangleIcon
+            className="text-danger-600 h-6 w-6"
+            aria-hidden="true"
+          />
+        }
+        iconWrapperClassname="bg-danger-100"
       />
       <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
         <Button colors="white">Cancel</Button>
         <Button colors="danger">Deactivate</Button>
       </ModalFooter>
     </>
-  ),
+  )
 };
 
 /** ------------------
@@ -189,5 +195,5 @@ ScrollableModal.args = {
         <Button colors="danger">Deactivate</Button>
       </ModalFooter>
     </>
-  ),
+  )
 };

@@ -1,8 +1,7 @@
 import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ExclamationCircleIcon } from '../Icon';
 
 import './styles.scss';
@@ -87,7 +86,7 @@ const InputField = forwardRef(
           autoComplete={autoComplete}
         />
         <div
-          className={classNames(
+          className={twClassNames(
             'absolute inset-y-0 right-0 flex items-center pr-3 ',
             {
               'pointer-events-none': !isTrailingNodeClickable

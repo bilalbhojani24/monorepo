@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import SelectMenu from '../SelectMenu';
@@ -18,13 +18,13 @@ const SidebarHeader = ({
   <>
     {brandImage?.length ? (
       <div
-        className={classNames(
+        className={twClassNames(
           'flex flex-shrink-0 items-center px-2',
           brandImageContainerClass
         )}
       >
         <img
-          className={classNames('h-8 w-auto', brandImageClass)}
+          className={twClassNames('h-8 w-auto', brandImageClass)}
           src={brandImage}
           alt="sidebar-nav-icon"
         />
