@@ -26,8 +26,6 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tooltip": "1.0.2",
     "@tinymce/tinymce-react": "^4.3.0",
-    "mini-css-extract-plugin": "^2.7.2",
-    "prettier": "^2.8.2",
     "react-hot-toast": "2.4.0",
     "react-icons": "^4.7.1"
   },
@@ -37,6 +35,8 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "prettier": "^2.8.2",
+    "mini-css-extract-plugin": "^2.7.2",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/vite-config": "workspace:*",
