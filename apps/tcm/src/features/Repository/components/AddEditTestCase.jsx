@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import {
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
+  // FolderOpenOutlinedIcon,
   InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
@@ -112,6 +113,9 @@ const AddEditTestCase = () => {
               }
               errorText={inputError ? "This field can't be left empty" : ''}
             />
+            {/* <div className="mt-2.5 flex w-full">
+              <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
+            </div> */}
           </div>
           <div className="w-1/4">
             <TMSelectMenu
