@@ -1,8 +1,7 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '@browserstack/utils';
 
 import './styles.scss';
 
@@ -14,6 +13,7 @@ const Dropdown = (props) => {
     heading,
     subHeading,
     onClick,
+    onOpenChange,
     wrapperClassName
   } = props;
 
@@ -22,7 +22,7 @@ const Dropdown = (props) => {
   };
 
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root onOpenChange={(open) => onOpenChange?.(open)}>
       <div className={wrapperClassName}>
         <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
       </div>
@@ -81,6 +81,7 @@ Dropdown.propTypes = {
   heading: PropTypes.string,
   subHeading: PropTypes.string,
   onClick: PropTypes.func,
+  onOpenChange: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 Dropdown.defaultProps = {
@@ -90,6 +91,7 @@ Dropdown.defaultProps = {
   heading: '',
   subHeading: '',
   onClick: () => {},
+  onOpenChange: null,
   wrapperClassName: ''
 };
 

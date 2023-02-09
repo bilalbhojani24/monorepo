@@ -12,12 +12,14 @@ const TextEditor = forwardRef((props, ref) => {
     onChange,
     value,
     width,
-    initialValue
+    initialValue,
+    label
   } = props;
   const editorRef = ref;
 
   return (
     <Editor
+      id={`rich-text-editor-${label}`}
       apiKey={TINYMCE_API_KEY}
       onInit={(evt, editor) => {
         if (editorRef) editorRef.current = editor;
