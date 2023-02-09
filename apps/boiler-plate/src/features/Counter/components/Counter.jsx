@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@browserstack/bifrost';
 
 import useCounter from './useCounter';
 
@@ -8,26 +9,16 @@ export default function Counter() {
   const { count, incrementCount, decrementCount } = useCounter();
 
   return (
-    <div className="my-4">
-      <div>
-        <button
-          className="button counter-button button-increment"
-          aria-label="Increment value"
-          onClick={incrementCount}
-        >
-          Increment
-        </button>
+    <div className="bg-base-200 flex h-screen items-center justify-center">
+      <Button aria-label="Increment value" onClick={incrementCount}>
+        Increment
+      </Button>
 
-        <span className="mx-4">{count}</span>
+      <span className="mx-4">{count}</span>
 
-        <button
-          className="button counter-button button-decrement"
-          aria-label="Decrement value"
-          onClick={decrementCount}
-        >
-          Decrement
-        </button>
-      </div>
+      <Button aria-label="Decrement value" onClick={decrementCount}>
+        Decrement
+      </Button>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
+import { ChevronDownIcon } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
@@ -38,13 +39,13 @@ const defaultConfig = {
     },
     title: {
       control: { type: 'text' },
-      type: { summary: 'TEXT', required: true },
+      type: { summary: 'TEXT' },
       description: 'Title of data visualization card',
       defaultValue: 'lorem'
     },
     desc: {
       control: { type: 'text' },
-      type: { summary: 'TEXT', required: true },
+      type: { summary: 'TEXT' },
       description: 'Description of data visualization card',
       defaultValue:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies justo in est imperdiet efficitur. Vestibulum pharetra pulvinar est, eget'
@@ -52,8 +53,7 @@ const defaultConfig = {
     descPosition: {
       control: { type: 'inline-radio' },
       type: {
-        summary: DATA_VISUALIZATION_DESC_POSITION.join(', '),
-        required: true
+        summary: DATA_VISUALIZATION_DESC_POSITION.join(', ')
       },
       options: DATA_VISUALIZATION_DESC_POSITION,
       description:
@@ -61,12 +61,12 @@ const defaultConfig = {
       defaultValue: DATA_VISUALIZATION_DESC_POSITION[0]
     },
     analytics: {
-      type: { summary: 'NODE', required: false },
+      type: { summary: 'NODE' },
       description: 'Chart Node to be injected',
       defaultValue: null
     },
     footerProps: {
-      type: { summary: 'OBJECT', required: false },
+      type: { summary: 'OBJECT' },
       description: 'Object of props belonging to the Alerts component',
       control: { type: 'object' },
       defaultValue: {
@@ -79,6 +79,7 @@ const defaultConfig = {
       description: 'Array of objects containing Kpi info',
       defaultValue: [
         {
+          id: 1,
           title: 'lorem',
           changeType: 'increase',
           difference: '65',
@@ -87,6 +88,7 @@ const defaultConfig = {
           direction: 'vertical'
         },
         {
+          id: 2,
           title: 'ipsum',
           changeType: 'descrease',
           difference: '35',
@@ -99,6 +101,15 @@ const defaultConfig = {
     filterDropdown: {
       defaultValue: (
         <Dropdown
+          trigger={
+            <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+              Options
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </div>
+          }
           options={[
             {
               id: '1',
@@ -149,7 +160,15 @@ const defaultConfig = {
     otherOptions: {
       defaultValue: (
         <Dropdown
-          triggerVariant="menu-button"
+          trigger={
+            <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+              Options
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </div>
+          }
           options={[
             {
               id: '10',
@@ -172,7 +191,7 @@ const defaultConfig = {
     headerInfo: {
       control: { type: 'boolean' },
       description: 'Enable/disable info icon besides the title section',
-      type: { summary: 'BOOLEAN', required: false },
+      type: { summary: 'BOOLEAN' },
       defaultValue: true
     },
     headerInfoTooltipProps: {

@@ -14,7 +14,7 @@ import Editor from './components/TextEditor';
 
 import './styles.scss';
 
-const TextEditor = ({
+const RichTextEditor = ({
   assetUploadURL,
   height,
   width,
@@ -39,8 +39,8 @@ const TextEditor = ({
   </div>
 );
 
-TextEditor.propTypes = {
-  assetUploadURL: string,
+RichTextEditor.propTypes = {
+  assetUploadURL: string.isRequired,
   initialValue: string,
   onChange: func,
   height: oneOfType([number, string]),
@@ -51,16 +51,15 @@ TextEditor.propTypes = {
   editorRef: shape({ current: instanceOf(Element) })
 };
 
-TextEditor.defaultProps = {
-  assetUploadURL: null,
-  initialValue: '',
-  onChange: null,
+RichTextEditor.defaultProps = {
+  initialValue: undefined,
+  onChange: undefined,
   height: 500,
   placeholder: 'Type something...',
-  value: '',
+  value: undefined,
   width: '100%',
   wrapperClass: '',
   editorRef: null
 };
 
-export default TextEditor;
+export default RichTextEditor;

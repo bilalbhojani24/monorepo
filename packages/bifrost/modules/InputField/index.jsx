@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../utils/tailwindUtils';
@@ -31,7 +32,8 @@ const InputField = forwardRef(
       // trailingAddOnText,
       trailingIcon,
       type,
-      value
+      value,
+      isTrailingNodeClickable
     },
     ref
   ) => (
@@ -84,7 +86,14 @@ const InputField = forwardRef(
           onBlur={onBlur}
           autoComplete={autoComplete}
         />
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+        <div
+          className={classNames(
+            'absolute inset-y-0 right-0 flex items-center pr-3 ',
+            {
+              'pointer-events-none': !isTrailingNodeClickable
+            }
+          )}
+        >
           {trailingIcon}
           {errorText && (
             <ExclamationCircleIcon
@@ -128,7 +137,8 @@ InputField.propTypes = {
   readonly: PropTypes.bool,
   trailingIcon: PropTypes.node,
   type: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  isTrailingNodeClickable: PropTypes.bool
 };
 
 InputField.defaultProps = {
@@ -149,7 +159,8 @@ InputField.defaultProps = {
   readonly: false,
   trailingIcon: null,
   type: 'text',
-  value: undefined
+  value: undefined,
+  isTrailingNodeClickable: false
 };
 
 export default InputField;

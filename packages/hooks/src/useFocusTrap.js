@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 /**
  * This hook is used to handle and manage focus on the given elements refs in a cyclic order.
@@ -20,7 +20,9 @@ const useFocusTrap = (parentRef, firstEle, lastEle, lastEleSubstituteEle) => {
   );
   const handleForwardTab = useCallback(
     (e) => {
-      const currentLastActiveElement = lastEle.current.disabled ? lastEleSubstituteEle.current : lastEle.current;
+      const currentLastActiveElement = lastEle.current.disabled
+        ? lastEleSubstituteEle.current
+        : lastEle.current;
       if (document.activeElement === currentLastActiveElement) {
         e.preventDefault();
         firstEle.current.focus();
@@ -33,6 +35,7 @@ const useFocusTrap = (parentRef, firstEle, lastEle, lastEleSubstituteEle) => {
     (e) => {
       const KEY_TAB = 9;
 
+      // eslint-disable-next-line sonarjs/no-small-switch
       switch (e.keyCode) {
         case KEY_TAB:
           // Retain the focus on the currently focussed element only

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { ChevronDownIcon } from '../Icon';
 
-import { DROPDOWN_TYPES } from './const/dropdownConstants';
 import Dropdown from './index';
 
 const defaultConfig = {
@@ -18,16 +18,14 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    triggerTitle: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Lorem ipsum dolor'
-    },
-    triggerVariant: {
-      control: { type: 'inline-radio' },
-      type: { summary: DROPDOWN_TYPES.join(', '), required: false },
-      options: DROPDOWN_TYPES,
-      description: 'Lorem siet'
+    trigger: {
+      description: 'Trigger to open/close dropdown',
+      defaultValue: (
+        <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+          Options
+          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+        </div>
+      )
     },
     headerVisible: {
       control: { type: 'boolean' },
@@ -64,6 +62,12 @@ const defaultConfig = {
           divider: true
         }
       ]
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'wrapper styles for the dropdown component',
+      defaultValue: ''
     }
   },
   controls: {}

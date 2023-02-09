@@ -11,6 +11,7 @@ import {
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
+import { EllipsisVerticalIcon } from '../Icon';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import PageHeadings from './index';
@@ -162,10 +163,14 @@ ActionsWithButtons.args = {
 
 ActionsWithDropdowns.args = {
   actions: (
-    // <div className="flex items-center">
     <>
       <div className="mr-2">
         <Dropdown
+          trigger={
+            <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+              Options
+            </div>
+          }
           options={[
             {
               id: '1',
@@ -185,7 +190,15 @@ ActionsWithDropdowns.args = {
         />
       </div>
       <Dropdown
-        triggerVariant="menu-button"
+        trigger={
+          <div className="bg-base-100 text-base-400 hover:text-base-600 focus:ring-brand-500 focus:ring-offset-base-100 flex items-center rounded-full border bg-white p-2 focus:outline-none focus:ring-2 focus:ring-offset-2">
+            <span className="sr-only">Open options</span>
+            <EllipsisVerticalIcon
+              className="text-base-700 h-5 w-5"
+              aria-hidden="true"
+            />
+          </div>
+        }
         options={[
           {
             id: '1',

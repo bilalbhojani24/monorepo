@@ -3,21 +3,27 @@ import React, { useRef, useState } from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 
-import TextEditor from './index';
+import RichTextEditor from './index';
 
 const defaultConfig = {
-  title: 'Application/Components/TextEditor',
-  component: TextEditor,
+  title: 'Application/Components/RichTextEditor',
+  component: RichTextEditor,
   parameters: {
     docs: {
       page: () => (
         <DocPageTemplate
-          importStatement={"import TextEditor from 'bifrost/TextEditor'"}
+          importStatement={
+            "import RichTextEditor from 'bifrost/RichTextEditor'"
+          }
         />
       )
     }
   },
   argTypes: {
+    assetUploadURL: {
+      option: { type: 'string' },
+      defaultValue: 'https://api.imgbb.com/1/upload'
+    },
     getEditorContent: {
       option: { type: null },
       defaultValue: () => {}
@@ -52,7 +58,7 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <TextEditor {...args} />;
+const Template = (args) => <RichTextEditor {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}
@@ -74,24 +80,26 @@ export const UncontrolledTextEditor = () => {
       >
         Get Data
       </Button>
-      <TextEditor
+      <RichTextEditor
         editorRef={ref}
         initialValue="<p>Hello world!</p>"
         height={600}
+        assetUploadURL="https://api.imgbb.com/1/upload"
       />
     </>
   );
 };
 
 export const ControlledTextEditor = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('<p>Text 1</p>');
+
   return (
     <>
-      <TextEditor
-        initialValue="<h1>This is controlled component example of text editor</h1>"
+      <RichTextEditor
         value={value}
         height={600}
         onChange={(val) => setValue(val)}
+        assetUploadURL="https://api.imgbb.com/1/upload"
       />
     </>
   );
