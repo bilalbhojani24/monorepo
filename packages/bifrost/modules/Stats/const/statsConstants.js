@@ -3,3 +3,4 @@ export const STATS_VARIANTS = {
   WITHOUT_ICON: 'withoutIcon',
   SIMPLE: 'simple'
 };
+export const STATS_INC = 'increase';

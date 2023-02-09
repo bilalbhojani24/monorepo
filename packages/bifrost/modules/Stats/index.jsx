@@ -3,7 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
 
-import { STATS_VARIANTS } from './const/statsConstants';
+import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
 import './styles.scss';
 
@@ -74,13 +74,13 @@ const Stats = (props) => {
             </p>
             <p
               className={twClassNames(
-                option.changeType === 'increase'
+                option.changeType === STATS_INC
                   ? 'text-success-600'
                   : 'text-danger-600',
                 'ml-2 flex items-baseline text-sm font-semibold'
               )}
             >
-              {option.changeType === 'increase' ? (
+              {option.changeType === STATS_INC ? (
                 <ArrowUpIcon
                   className="text-success-500 h-5 w-5 shrink-0 self-center"
                   aria-hidden="true"
@@ -93,7 +93,7 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === 'increase' ? 'Increased' : 'Decreased'}
+                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
                 by
               </span>
               {option.change}
@@ -114,13 +114,13 @@ const Stats = (props) => {
 
             <div
               className={twClassNames(
-                option.changeType === 'increase'
+                option.changeType === STATS_INC
                   ? 'bg-success-100 text-success-800'
                   : 'bg-danger-100 text-danger-800',
                 'inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0'
               )}
             >
-              {option.changeType === 'increase' ? (
+              {option.changeType === STATS_INC ? (
                 <ArrowUpIcon
                   className="text-success-500 -ml-1 mr-0.5 h-5 w-5 shrink-0 self-center"
                   aria-hidden="true"
@@ -133,7 +133,7 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === 'increase' ? 'Increased' : 'Decreased'}
+                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
                 by
               </span>
               {option.change}
@@ -162,7 +162,7 @@ Stats.propTypes = {
     change: PropTypes.string,
     previousStat: PropTypes.string,
     link: PropTypes.node,
-    changeType: oneOf(['increase', 'decrease']),
+    changeType: oneOf([STATS_INC, 'decrease']),
     onClick: PropTypes.func
   }).isRequired,
   variant: PropTypes.string,
