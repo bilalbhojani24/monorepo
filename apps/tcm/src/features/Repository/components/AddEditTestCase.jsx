@@ -158,7 +158,7 @@ const AddEditTestCase = () => {
               <TMRichTextEditor
                 label="Expected Results"
                 placeholder="Write in brief about this test case"
-                value={testCaseFormData?.steps?.[0]}
+                value={testCaseFormData?.expected_result}
                 height={200}
                 onChange={(val) =>
                   handleTestCaseFieldChange('expected_result', val)
@@ -276,7 +276,7 @@ const AddEditTestCase = () => {
               <div className="flex-1">
                 <TMInputField
                   id="test-case-estimate"
-                  value={testCaseFormData.estimate}
+                  value={testCaseFormData?.estimate}
                   label={
                     <div className="flex items-center">
                       Estimate
