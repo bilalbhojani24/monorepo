@@ -22,6 +22,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    allFolders,
     isSearchFilterView,
     showDeleteModal,
     selectedFolder,
@@ -37,38 +38,44 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
-      {selectedFolder && (
+      {allFolders.length ? (
         <>
           <Filter />
-          <div className="border-base-200 w-full border-b border-l p-4">
-            <div className="text-base-800 w-full font-medium">
-              {selectedFolder?.name}
-              <TMTooltip
-                size="xs"
-                placementSide="bottom"
-                theme="dark"
-                content={
-                  <>
-                    <TMTooltipHeader>{selectedFolder?.name}</TMTooltipHeader>
-                    <TMTooltipBody>
-                      <p className="text-sm">
-                        URL: {selectedFolder?.links?.self || ''}
-                      </p>
-                    </TMTooltipBody>
-                  </>
-                }
-              >
-                <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
-              </TMTooltip>
-            </div>
-            {selectedFolder?.notes && (
-              <div className="text-base-500 mt-1 text-xs">
-                {selectedFolder?.notes}
+          {selectedFolder && (
+            <div className="border-base-300 w-full border-l">
+              <div className="border-base-200 w-full border-b p-4">
+                <div className="text-base-800 w-full font-medium">
+                  {selectedFolder?.name}
+                  <TMTooltip
+                    size="xs"
+                    placementSide="bottom"
+                    theme="dark"
+                    content={
+                      <>
+                        <TMTooltipHeader>
+                          {selectedFolder?.name}
+                        </TMTooltipHeader>
+                        <TMTooltipBody>
+                          <p className="text-sm">
+                            URL: {selectedFolder?.links?.self || ''}
+                          </p>
+                        </TMTooltipBody>
+                      </>
+                    }
+                  >
+                    <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
+                  </TMTooltip>
+                </div>
+                {selectedFolder?.notes && (
+                  <div className="text-base-500 mt-1 text-xs">
+                    {selectedFolder?.notes}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </>
-      )}
+      ) : null}
       {allTestCases.length ||
       isSearchFilterView ||
       isTestCasesLoading ||

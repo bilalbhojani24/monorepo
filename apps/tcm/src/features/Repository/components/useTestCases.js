@@ -48,6 +48,7 @@ export default function useTestCases() {
     (state) => state.repository.isLoading.folder
   );
   const allTestCases = useSelector((state) => state.repository.allTestCases);
+  const allFolders = useSelector((state) => state.repository.allFolders);
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
   );
@@ -140,6 +141,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    allFolders,
     isBulkUpdate,
     isSearchFilterView,
     currentPage: searchParams.get('p'),
