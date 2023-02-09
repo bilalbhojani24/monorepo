@@ -85,9 +85,22 @@ const Filter = () => {
         <TMInputField
           placeholder="Search by Test Case name, ID"
           value={filterSearchMeta?.q}
-          onChange={searchChangeHandler}
+          onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, applyFilterHandler)}
           leadingIcon={<SearchIcon className="text-base-400" />}
+          isTrailingNodeClickable
+          trailingIcon={
+            <>
+              {filterSearchMeta?.q ? (
+                <CloseOutlinedIcon
+                  onClick={() => {
+                    searchChangeHandler('');
+                  }}
+                  className="text-base-800 cursor-pointer"
+                />
+              ) : null}
+            </>
+          }
         />
       </div>
       <div className="isolate inline-flex rounded-md shadow-sm">

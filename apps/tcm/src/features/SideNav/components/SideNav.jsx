@@ -5,7 +5,7 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
 

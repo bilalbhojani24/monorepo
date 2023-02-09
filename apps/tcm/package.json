@@ -16,6 +16,7 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
+    "@browserstack/utils": "workspace:*",
     "@browserstack/bifrost": "workspace:*",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

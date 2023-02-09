@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 import HeaderDummy from 'features/HeaderDummy';
 import MainRoute from 'features/MainRoute';
 import SideNav from 'features/SideNav';

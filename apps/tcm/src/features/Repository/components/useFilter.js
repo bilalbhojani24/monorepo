@@ -115,10 +115,10 @@ const useFilter = () => {
     }
   };
 
-  const searchChangeHandler = (e) => {
+  const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
-      q: e.currentTarget.value
+      q: value
     });
   };
 
