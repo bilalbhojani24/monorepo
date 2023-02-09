@@ -115,9 +115,9 @@ const Filter = () => {
           variant={appliedFiltersCount ? 'secondary' : 'primary'}
           colors={appliedFiltersCount ? 'brand' : 'white'}
           icon={
-            !appliedFiltersCount && (
+            !appliedFiltersCount ? (
               <FilterAltOutlinedIcon className="!h-5 !w-5" />
-            )
+            ) : null
           }
         >
           {appliedFiltersCount ? `Filters (${appliedFiltersCount})` : 'Filter'}
