@@ -108,8 +108,7 @@ const Filter = () => {
           onClick={() => setFilter(!isFilterVisible)}
           // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
-            'rounded-tr-none rounded-br-none': appliedFiltersCount,
-            'text-left flex justify-start': appliedFiltersCount
+            'rounded-tr-none rounded-br-none': appliedFiltersCount
           })}
           size="default"
           variant={appliedFiltersCount ? 'secondary' : 'primary'}
