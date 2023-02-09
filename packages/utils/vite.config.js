@@ -18,6 +18,7 @@ export default defineConfig(() => ({
         'redux-mock-store',
         'enzyme',
         'uuid',
+        'axios',
         'dexie'
       ]
     }
