@@ -47,7 +47,7 @@ const TestRunsTable = () => {
     {
       name: 'OVERALL PROGRESS',
       key: '',
-      cell: () => <div>WIP</div>
+      cell: () => <div />
     },
     {
       name: '',
