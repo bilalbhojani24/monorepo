@@ -32,7 +32,8 @@ const InputField = forwardRef(
       trailingIcon,
       type,
       value,
-      isTrailingNodeClickable
+      isTrailingNodeClickable,
+      wrapperClassName
     },
     ref
   ) => (
@@ -51,7 +52,12 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className="relative rounded-md shadow-sm">
+      <div
+        className={twClassNames(
+          'relative rounded-md shadow-sm',
+          wrapperClassName
+        )}
+      >
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           {leadingIcon}
         </div>
@@ -137,7 +143,8 @@ InputField.propTypes = {
   trailingIcon: PropTypes.node,
   type: PropTypes.string,
   value: PropTypes.string,
-  isTrailingNodeClickable: PropTypes.bool
+  isTrailingNodeClickable: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
@@ -159,7 +166,8 @@ InputField.defaultProps = {
   trailingIcon: null,
   type: 'text',
   value: undefined,
-  isTrailingNodeClickable: false
+  isTrailingNodeClickable: false,
+  wrapperClassName: ''
 };
 
 export default InputField;
