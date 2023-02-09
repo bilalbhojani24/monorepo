@@ -9,7 +9,7 @@ const Loader = ({ isLoading, isOverlayed, wrapperClass }) => {
   return (
     <div
       className={className(
-        'flex justify-center items-center h-full w-full min-h-min',
+        'flex justify-center items-center  w-full min-h-min',
         wrapperClass,
         {
           'absolute left-0 top-0': isOverlayed

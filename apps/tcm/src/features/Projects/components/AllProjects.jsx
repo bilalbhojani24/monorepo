@@ -57,7 +57,7 @@ const AllProjects = () => {
     {
       name: 'PROJECT TITLE',
       key: 'name',
-      className: 'w-4/6',
+      className: 'w-3/6',
       cell: (rowData) => (
         <div
           role="button"
