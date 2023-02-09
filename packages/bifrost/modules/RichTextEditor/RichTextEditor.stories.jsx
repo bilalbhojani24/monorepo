@@ -55,6 +55,10 @@ const defaultConfig = {
       defaultValue: 500,
       control: { type: 'string' }
     },
+    label: {
+      option: { type: 'string' },
+      defaultValue: 'Text Editor'
+    },
     value: {
       control: { type: 'string' },
       defaultValue:

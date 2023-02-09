@@ -17,6 +17,7 @@ import './styles.scss';
 const RichTextEditor = ({
   onAssetUpload,
   height,
+  label,
   width,
   wrapperClass,
   onChange,
@@ -26,6 +27,14 @@ const RichTextEditor = ({
   placeholder
 }) => (
   <div className={twClassNames(wrapperClass)}>
+    {label ? (
+      <label
+        htmlFor={`rich-text-editor-${label}`}
+        className="text-base-700 mb-1 block text-sm font-medium"
+      >
+        {label}
+      </label>
+    ) : null}
     <Editor
       onAssetUpload={onAssetUpload}
       height={height}
@@ -35,6 +44,7 @@ const RichTextEditor = ({
       initialValue={initialValue}
       placeholder={placeholder}
       ref={editorRef}
+      label={label}
     />
   </div>
 );
@@ -44,6 +54,7 @@ RichTextEditor.propTypes = {
   initialValue: string,
   onChange: func,
   height: oneOfType([number, string]),
+  label: string,
   placeholder: string,
   value: string,
   width: oneOfType([number, string]),
@@ -55,6 +66,7 @@ RichTextEditor.defaultProps = {
   initialValue: undefined,
   onChange: undefined,
   height: 500,
+  label: null,
   placeholder: 'Type something...',
   value: undefined,
   width: '100%',
