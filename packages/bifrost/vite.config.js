@@ -13,8 +13,7 @@ export default defineConfig(() => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: [...packageViteConfig.build.rollupOptions.external],
-      preserveModules: true
+      external: [...packageViteConfig.build.rollupOptions.external]
     }
   }
 }));
