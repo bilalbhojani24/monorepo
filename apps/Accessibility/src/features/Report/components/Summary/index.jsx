@@ -126,50 +126,48 @@ export default function Summary() {
   return (
     <div>
       <div className="mt-4 flex items-start">
-        <div className="w-6/12 bg-white px-4">
+        <div className="mx-4 w-6/12 bg-white">
           <ASDataVisualization
             title="Issue Summary"
             headerInfo={null}
             size="fit-content"
             analytics={
-              <div className="flex">
-                <div className="flex items-center justify-between">
-                  <div className="w-72">
-                    <Chart options={chartOption} />
-                  </div>
-                  <div>
-                    {impactList.map((impact) => (
-                      <div
-                        className="mb-4 flex h-6 w-40 items-center justify-between"
-                        onClick={() => onRowClick('impact', impact)}
-                        role="presentation"
-                      >
-                        <div className="text-base-800 flex items-center text-sm">
-                          <div
-                            className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
-                          />
-                          {impact.charAt(0).toUpperCase()}
-                          {impact.slice(1, impact.length)}
-                        </div>
-                        <p className="text-base-800 flex">
-                          {issueSummary[impact]}
-                        </p>
+              <div className="flex items-center justify-between">
+                <div className="w-80">
+                  <Chart options={chartOption} />
+                </div>
+                <div>
+                  {impactList.map((impact) => (
+                    <div
+                      className="mb-4 flex h-6 w-40 items-center justify-between"
+                      onClick={() => onRowClick('impact', impact)}
+                      role="presentation"
+                    >
+                      <div className="text-base-800 flex items-center text-sm">
+                        <div
+                          className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
+                        />
+                        {impact.charAt(0).toUpperCase()}
+                        {impact.slice(1, impact.length)}
                       </div>
-                    ))}
-                  </div>
+                      <p className="text-base-800 flex">
+                        {issueSummary[impact]}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             }
           />
         </div>
-        <div className="w-6/12 bg-white pr-4">
+        <div className="mr-4 w-6/12 bg-white">
           <ASDataVisualization
             title="Affected Components"
             headerInfo={null}
             size="fit-content"
             analytics={
               <div>
-                <p className="text-base-500 mr-1 text-sm">Total</p>
+                <p className="text-base-500 mr-1 mb-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
@@ -224,7 +222,7 @@ export default function Summary() {
         </div>
       </div>
       <div className="mt-4 flex items-start">
-        <div className="w-6/12 bg-white px-4">
+        <div className="mx-4 w-6/12 bg-white">
           <ASDataVisualization
             title="Issues by category"
             headerInfo={null}
@@ -343,59 +341,61 @@ export default function Summary() {
           chevronRequired={false}
           onChange={onMenuChange}
         /> */}
-        <div className="w-6/12 bg-white pr-4">
-          <ASDataVisualization
-            title="Affected Pages"
-            headerInfo={null}
-            size="fit-content"
-            analytics={
-              <div>
-                <p className="text-base-500 mr-1 text-sm">Total</p>
-                <p className="text-base-900 mb-4 text-3xl font-semibold">
-                  {urlList.length}
-                </p>
-                <ASTable>
-                  <ASTableHead>
-                    <ASTableRow>
-                      {urlColumns.map((col, index) => (
-                        <ASTableCell
-                          key={col.key}
-                          variant="header"
-                          textTransform="uppercase"
-                          wrapperClass={`text-xs text-base-500 ${
-                            index === 0 ? 'w-14' : ''
-                          } ${index === 2 ? 'w-32' : ''}`}
-                        >
-                          {col.name}
-                        </ASTableCell>
-                      ))}
-                    </ASTableRow>
-                  </ASTableHead>
-                  <ASTableBody>
-                    {urlList.slice(0, 6).map(({ url, count }, index) => (
-                      <ASTableRow
-                        wrapperClass="cursor-pointer"
-                        onRowClick={() => onRowClick('component', url)}
-                      >
-                        {urlColumns.map((column, colIndex) => (
+        <div className="mr-4 w-6/12 ">
+          <div className="bg-white">
+            <ASDataVisualization
+              title="Affected Pages"
+              headerInfo={null}
+              size="fit-content"
+              analytics={
+                <div>
+                  <p className="text-base-500 mr-1 text-sm">Total</p>
+                  <p className="text-base-900 mb-4 text-3xl font-semibold">
+                    {urlList.length}
+                  </p>
+                  <ASTable>
+                    <ASTableHead>
+                      <ASTableRow>
+                        {urlColumns.map((col, index) => (
                           <ASTableCell
-                            key={column.id}
-                            wrapperClass={`px-3 py-2 text-ellipsis overflow-hidden ${
-                              colIndex === 0 ? 'w-14' : ''
-                            }`}
+                            key={col.key}
+                            variant="header"
+                            textTransform="uppercase"
+                            wrapperClass={`text-xs text-base-500 ${
+                              index === 0 ? 'w-14' : ''
+                            } ${index === 2 ? 'w-36' : ''}`}
                           >
-                            {colIndex === 0 ? index + 1 : ''}
-                            {colIndex === 1 ? url : ''}
-                            {colIndex === 2 ? count : ''}
+                            {col.name}
                           </ASTableCell>
                         ))}
                       </ASTableRow>
-                    ))}
-                  </ASTableBody>
-                </ASTable>
-              </div>
-            }
-          />
+                    </ASTableHead>
+                    <ASTableBody>
+                      {urlList.slice(0, 6).map(({ url, count }, index) => (
+                        <ASTableRow
+                          wrapperClass="cursor-pointer"
+                          onRowClick={() => onRowClick('component', url)}
+                        >
+                          {urlColumns.map((column, colIndex) => (
+                            <ASTableCell
+                              key={column.id}
+                              wrapperClass={`px-3 py-2 text-ellipsis overflow-hidden ${
+                                colIndex === 0 ? 'w-14' : ''
+                              } ${colIndex === 2 ? 'w-36' : ''}`}
+                            >
+                              {colIndex === 0 ? index + 1 : ''}
+                              {colIndex === 1 ? url : ''}
+                              {colIndex === 2 ? count : ''}
+                            </ASTableCell>
+                          ))}
+                        </ASTableRow>
+                      ))}
+                    </ASTableBody>
+                  </ASTable>
+                </div>
+              }
+            />
+          </div>
           {/* <Card height={3} width={3}>
             <p className="summary-card__title">Affected Pages</p>
             <p className="summary-card__count">{urlList.length}</p>
@@ -424,7 +424,7 @@ export default function Summary() {
               </div>
             </div>
           </Card> */}
-          <div className="summary__row">
+          <div className="mt-4">
             <ASStats options={options} />
             {/* <Card height={1} width={1} className="m-20">
               <div

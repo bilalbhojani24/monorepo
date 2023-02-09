@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
@@ -11,7 +12,6 @@ import {
   getUniqFilterValues
 } from 'features/Report/slice/selector';
 import {
-  ASBadge,
   ASButton,
   ASCheckbox,
   ASComboBox,
@@ -22,9 +22,6 @@ import {
   ASSelectMenu
 } from 'middleware/bifrost';
 
-// import { Actions, Content, Header, Modal } from 'trike/Modal';
-// import SelectBox from 'trike/SelectBox/container/SelectBox';
-// import TagsComponent from 'trike/TagsComponent/components/TagsComponent';
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
@@ -118,41 +115,52 @@ export default function Issues() {
         <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
           <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ASModalBody>
-            <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
-              Severity
-            </p>
-            <div className="flex justify-between">
-              {severityOptions.map(({ label, value }) => (
-                <ASCheckbox
-                  data={{ label, value }}
-                  border={false}
-                  wrapperClass="pt-0"
-                  checked={intermediateFiltersImpactValues.includes(value)}
-                  onChange={(val) => onInputBoxChange(value, val)}
-                />
-              ))}
+            <div className="mb-6">
+              <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
+                Severity
+              </p>
+              <div className="flex">
+                {severityOptions.map(({ label, value }) => (
+                  <ASCheckbox
+                    data={{ label, value }}
+                    border={false}
+                    wrapperClass="pt-0 w-24 mr-5"
+                    checked={intermediateFiltersImpactValues.includes(value)}
+                    onChange={(val) => onInputBoxChange(value, val)}
+                  />
+                ))}
+              </div>
             </div>
-            <ASComboBox
-              isMulti
-              onChange={(values) => onUpdateFilters('page', values)}
-              options={urls}
-              value={reportFilters.impact}
-              // placeholder="Select..."
-            />
-            <ASComboBox
-              isMultiSelect
-              onChange={(values) => onUpdateFilters('component', values)}
-              options={componentIds}
-              // value={reportFilters.impact}
-              // placeholder="Select..."
-            />
-            <ASComboBox
-              isMultiSelect
-              onChange={(values) => onUpdateFilters('category', values)}
-              options={categories}
-              // value={reportFilters.impact}
-              // placeholder="Select..."
-            />
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Pages</p>
+              <ASComboBox
+                isMulti
+                onChange={(values) => onUpdateFilters('page', values)}
+                options={urls}
+                value={reportFilters.impact}
+                // placeholder="Select..."
+              />
+            </div>
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Components</p>
+              <ASComboBox
+                isMultiSelect
+                onChange={(values) => onUpdateFilters('component', values)}
+                options={componentIds}
+                // value={reportFilters.impact}
+                // placeholder="Select..."
+              />
+            </div>
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Category</p>
+              <ASComboBox
+                isMultiSelect
+                onChange={(values) => onUpdateFilters('category', values)}
+                options={categories}
+                // value={reportFilters.impact}
+                // placeholder="Select..."
+              />
+            </div>
             {/* <SelectBox
               isMulti
               isSearch
@@ -194,6 +202,7 @@ export default function Issues() {
             /> */}
             <ASCheckbox
               border={false}
+              wrapperClass="pt-0"
               data={{
                 label: "Show only 'Needs Review' Issues",
                 value: 'needsReview'
@@ -301,20 +310,26 @@ export default function Issues() {
             )} */}
           </div>
           <div className="bg-base-100 px-6 py-3">
-            <p className="text-base-500 border-base-300 border-r pr-4 text-sm">
+            <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
               Filters
             </p>
           </div>
         </div>
         <div>
           {showEmptyScreen ? (
-            <div>
-              <img src={IssuesNotFound} alt="No Issues Found" />
-              <p>No Issues Found</p>
+            <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
+              <img
+                src={IssuesNotFound}
+                alt="No Issues Found"
+                className="w-80"
+              />
+              <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
             <>
-              <Accordion />
+              <div className="">
+                <Accordion />
+              </div>
               {isHalfView && sectionData && (
                 <div>
                   <IssueItem />

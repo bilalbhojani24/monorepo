@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import classnames from 'classnames';
 import { useSelector } from 'react-redux';
 import { GUIDELINES, HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
@@ -176,7 +175,7 @@ export default function IssueItem() {
             {title}
           </p>
           <div className="issue-item__pagination">
-            <Tooltip
+            {/* <Tooltip
               description={isCopied ? 'Link copied' : null}
               type="dark"
               direction="bottom"
@@ -202,7 +201,7 @@ export default function IssueItem() {
                   onClick={() => {}}
                 />
               </CopyToClipboard>
-            </Tooltip>
+            </Tooltip> */}
             <div
               className="issue-item__icon-wrapper"
               tabIndex={0}
@@ -211,13 +210,13 @@ export default function IssueItem() {
               aria-disabled={isPreviousDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onFirstPageClick)}
             >
-              <FirstPageIcon
+              {/* <FirstPageIcon
                 id="firstPageIcon"
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isPreviousDisabled
                 })}
                 onClick={onFirstPageClick}
-              />
+              /> */}
             </div>
             <div
               className="issue-item__icon-wrapper"
@@ -227,12 +226,12 @@ export default function IssueItem() {
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onPreviousClick)}
               aria-label="Go to Previous Page"
             >
-              <ChevronLeftIcon
+              {/* <ChevronLeftIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isPreviousDisabled
                 })}
                 onClick={onPreviousClick}
-              />
+              /> */}
             </div>
             <div className="issue-item__icon-wrapper issue-item__icon-wrapper--number">
               {activeIssueIndex + 1} of {activeComponentNodes.length}
@@ -245,12 +244,12 @@ export default function IssueItem() {
               aria-disabled={isNextDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onNextClick)}
             >
-              <ChevronRightIcon
+              {/* <ChevronRightIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isNextDisabled
                 })}
                 onClick={onNextClick}
-              />
+              /> */}
             </div>
             <div
               className="issue-item__icon-wrapper"
@@ -260,15 +259,15 @@ export default function IssueItem() {
               aria-disabled={isNextDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onLastPageClick)}
             >
-              <LastPageIcon
+              {/* <LastPageIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isNextDisabled
                 })}
                 onClick={onLastPageClick}
-              />
+              /> */}
             </div>
             <div
-              className="issue-item__icon-wrapper"
+              // className="issue-item__icon-wrapper"
               tabIndex={0}
               role="button"
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onCloseClick)}
@@ -279,20 +278,20 @@ export default function IssueItem() {
           </div>
         </div>
       </div>
-      {needsReview && (
+      {/* {needsReview && (
         <NeedsReviewBanner
           message={message}
           isConfirmedInAllReports={confirmed}
           showHiddenIssues={showHiddenIssues}
           nodeNeedsReviewStatus={needsReviewStatusinReports}
         />
-      )}
-      <div className={classnames('issue-item__content-wrapper')}>
-        <div className={classnames('issue-item__description')}>
+      )} */}
+      <div>
+        <div>
           <p className="issue-item__description-header">{headerData.help}</p>
           <p className="issue-item__description-text">
             {headerData.description}
-            <Hyperlink
+            {/* <Hyperlink
               href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
               target="_blank"
               label="Learn more.Link will open in a new tab."
@@ -324,7 +323,7 @@ export default function IssueItem() {
               }
             >
               Learn more
-            </Hyperlink>
+            </Hyperlink> */}
           </p>
           {tagList.length > 0 && (
             <div className="issue-item__tags">
@@ -360,7 +359,7 @@ export default function IssueItem() {
         </div>
       </div>
       <div className="issue-item__tabs">
-        <Tabs
+        {/* <Tabs
           className="issue-item__tab"
           tabs={[
             {
@@ -375,29 +374,29 @@ export default function IssueItem() {
           size="small"
           type="tight"
           onTabChange={({ value }) => onTabChange(value)}
-        />
+        /> */}
         {activeTab === ISSUE_DETAILS_TAB && (
           <div className="issue-item__content">
             <div className="issue-item__content-col">
               <div className="issue-item__content-item-wrapper">
                 <p className="issue-item__content-item-header">CSS Selector</p>
               </div>
-              <CopyCode
+              {/* <CopyCode
                 text={target}
                 language="css"
                 ariaLabel="Copy CSS Selector"
-              />
+              /> */}
             </div>
             <div className="issue-item__content-col">
               <div className="issue-item__content-item-wrapper">
                 <p className="issue-item__content-item-header">HTML Snippet</p>
               </div>
               <div className="issue-item__code-wrapper">
-                <CopyCode
+                {/* <CopyCode
                   text={html}
                   language="html"
                   ariaLabel="Copy html Selector"
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -437,13 +436,14 @@ export default function IssueItem() {
                               const targetNode = item.target
                                 ? item.target.join(' ')
                                 : item.html;
-                              return (
-                                <CopyCode
-                                  text={targetNode}
-                                  language="css"
-                                  ariaLabel="Copy Related-CSS Selector"
-                                />
-                              );
+                              return null;
+                              // return (
+                              //   <CopyCode
+                              //     text={targetNode}
+                              //     language="css"
+                              //     ariaLabel="Copy Related-CSS Selector"
+                              //   />
+                              // );
                             })
                           )}
                         </div>

@@ -50,7 +50,7 @@ export default function Report() {
     : `Consolidated report across ${reportsLength} reports`;
 
   return reportData && !isLoading ? (
-    <div className="bg-base-50 h-screen">
+    <div className="bg-base-50">
       <div>
         <div className="px-6 pt-6">
           <ASBreadcrumb
