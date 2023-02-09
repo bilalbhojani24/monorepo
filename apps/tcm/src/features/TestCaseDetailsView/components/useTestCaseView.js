@@ -58,7 +58,10 @@ export default function useTestCasesView() {
             folderId
           },
           true
-        )}`
+        )}`,
+        {
+          replace: true
+        }
       );
   };
 

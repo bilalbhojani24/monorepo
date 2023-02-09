@@ -136,7 +136,10 @@ const useTestCasesTable = () => {
         projectId,
         folderId: testCaseItem.test_case_folder_id,
         testCaseId: testCaseItem?.id
-      })
+      }),
+      {
+        replace: true
+      }
     );
   };
 

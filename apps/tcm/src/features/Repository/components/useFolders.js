@@ -106,12 +106,16 @@ export default function useFolders() {
       // select first folder by default, only if the test cases page is still open
       const firstFolderId = foldersArray[0]?.id;
       if (firstFolderId) {
-        dispatch(updateTestCasesListLoading(true)); // was buggy
+        dispatch(updateTestCasesListLoading(true));
+
         navigate(
           routeFormatter(AppRoute.TEST_CASES, {
             projectId,
             folderId: firstFolderId
-          })
+          }),
+          {
+            replace: true
+          }
         );
       }
     }
