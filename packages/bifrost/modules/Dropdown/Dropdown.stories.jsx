@@ -68,6 +68,10 @@ const defaultConfig = {
       type: { summary: 'TEXT', required: false },
       description: 'wrapper styles for the dropdown component',
       defaultValue: ''
+    },
+    onOpenChange: {
+      control: { type: null },
+      defaultValue: (open) => console.log(open)
     }
   },
   controls: {}

@@ -1,56 +1,58 @@
 import React from 'react';
-import Hyperlink from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { EnvelopeIcon } from '../Icon';
+
+import Hyperlink from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Hyperlink',
   component: Hyperlink,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Hyperlink from 'bifrost/Hyperlink'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Hyperlink from 'bifrost/Hyperlink'"}
+        />
+      )
     }
   },
   argTypes: {
-    color: {
-      control: { type: 'text' },
+    children: {
+      control: { type: null },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: 'text-pink-600'
+      description: 'Children props',
+      defaultValue: (
+        <>
+          <span aria-hidden="true"> &rarr;</span>
+          View
+        </>
+      )
     },
-    disabled: {
-      control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum'
-    },
-    fontSize: {
-      control: { type: 'text' },
+    onClick: {
+      control: { type: null },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: 'text-base'
-    },
-    fontWeight: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: 'font-bold'
+      description: 'On anchore click',
+      defaultValue: (e) => {
+        e.preventDefault();
+        console.log(e);
+      }
     },
     href: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum'
+      description: 'relation',
+      defaultValue: 'https://www.browserstack.com'
     },
-    underlined: {
-      control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum'
+    rel: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Redirection link',
+      defaultValue: ''
     },
     wrapperClassName: {
       control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum'
+      type: { summary: 'TEXT', required: false }
     }
   },
   controls: {}
@@ -59,7 +61,7 @@ const Template = (args) => <Hyperlink {...args}>View</Hyperlink>;
 
 const LeadingIconTemplate = (args) => (
   <Hyperlink {...args}>
-    <EnvelopeIcon className="h-4 w-4 mr-1" />
+    <EnvelopeIcon className="mr-1 h-4 w-4" />
     View
   </Hyperlink>
 );
@@ -67,7 +69,7 @@ const LeadingIconTemplate = (args) => (
 const TrailingIconTemplate = (args) => (
   <Hyperlink {...args}>
     View
-    <EnvelopeIcon className="h-4 w-4 ml-1" />
+    <EnvelopeIcon className="ml-1 h-4 w-4" />
   </Hyperlink>
 );
 
@@ -79,5 +81,9 @@ Primary.parameters = {
   controls: {}
 };
 
+LeadingIcon.args = {
+  onClick: null
+};
+
 export default defaultConfig;
-export { Primary, LeadingIcon, TrailingIcon };
+export { LeadingIcon, Primary, TrailingIcon };
