@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Dropdown from '../Dropdown';
-import { EllipsisVerticalIcon } from '../Icon';
+import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 
@@ -147,15 +147,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
             trailingVisualElement={
               <Dropdown
                 wrapperClassName="flex"
-                trigger={
-                  <div className="bg-base-100 text-base-400 hover:text-base-600 focus:ring-brand-500 focus:ring-offset-base-100 flex items-baseline rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2">
-                    <span className="sr-only">Open options</span>
-                    <EllipsisVerticalIcon
-                      className="h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </div>
-                }
+                trigger={<DropdownTriggerWIcon />}
                 options={[
                   {
                     id: '1',
@@ -208,15 +200,7 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
             trailingVisualElement={
               <Dropdown
                 wrapperClassName="flex"
-                trigger={
-                  <div className="bg-base-100 text-base-400 hover:text-base-600 focus:ring-brand-500 focus:ring-offset-base-100 flex items-baseline rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2">
-                    <span className="sr-only">Open options</span>
-                    <EllipsisVerticalIcon
-                      className="h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </div>
-                }
+                trigger={<DropdownTriggerWIcon />}
                 options={[
                   {
                     id: '1',

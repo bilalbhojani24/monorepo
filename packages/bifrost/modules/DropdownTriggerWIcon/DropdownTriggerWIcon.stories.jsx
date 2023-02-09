@@ -10,13 +10,13 @@ const defaultConfig = {
   component: DropdownTriggerWIcon,
   parameters: {
     docs: {
-      page: () => {
+      page: () => (
         <DocPageTemplate
           importStatement={
             "import DropdownTriggerWIcon from 'bifrost/DropdownTriggerWIcon'"
           }
-        />;
-      }
+        />
+      )
     }
   },
   argTypes: {
@@ -30,6 +30,9 @@ const defaultConfig = {
       type: { summary: DROPDOWN_TRIGGER_TYPES.join(', '), required: false },
       options: DROPDOWN_TRIGGER_TYPES,
       description: 'Lorem'
+    },
+    icon: {
+      defaultValue: null
     }
   },
   controls: {}
