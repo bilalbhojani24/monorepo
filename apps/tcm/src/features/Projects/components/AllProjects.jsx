@@ -41,6 +41,7 @@ const AllProjects = () => {
     {
       name: 'ID',
       key: 'id',
+      className: 'w-10',
       cell: (rowData) => (
         <div
           role="button"
@@ -56,6 +57,7 @@ const AllProjects = () => {
     {
       name: 'PROJECT TITLE',
       key: 'name',
+      className: 'w-4/6',
       cell: (rowData) => (
         <div
           role="button"
@@ -78,6 +80,7 @@ const AllProjects = () => {
     {
       name: 'QUICK LINKS',
       key: 'quickLinks',
+      // className: 'w-1/6',
       cell: (rowData) => (
         <div className="flex">
           <div
@@ -104,6 +107,7 @@ const AllProjects = () => {
     {
       name: '',
       key: 'action',
+      className: 'w-10',
       cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"

@@ -14,7 +14,7 @@ import {
   TMComboBox,
   TMFileUpload,
   TMInputField,
-  TMRichTextEditor,
+  // TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
@@ -133,13 +133,22 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
-          <TMRichTextEditor
+          {/* <TMRichTextEditor
             label="Description"
             value={testCaseFormData?.description}
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
             onAssetUpload={imageUploadRTEHelper}
+          /> */}
+          <TMTextArea
+            value={testCaseFormData?.description}
+            id="test-case-description"
+            label="Description"
+            placeholder="Write in brief about this test case"
+            onChange={(e) =>
+              handleTestCaseFieldChange('description', e.currentTarget.value)
+            }
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
