@@ -7,5 +7,3 @@ export const STATE_OPTIONS = [
   { label: 'Rejected', value: 'rejected' },
   { label: 'Done', value: 'done' }
 ];
-
-export const perPageCount = 30;

@@ -14,8 +14,6 @@ import {
 import Loader from 'common/Loader';
 import { formatTime } from 'utils/helperFunctions';
 
-import { perPageCount } from '../const/immutableConst';
-
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
@@ -133,11 +131,11 @@ const TestRunsTable = () => {
         </div>
       ) : null}
 
-      {metaPage?.count > perPageCount && (
+      {metaPage?.count > metaPage?.page_size && (
         <TMPagination
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
-          pageSize={perPageCount}
+          pageSize={metaPage?.page_size}
         />
       )}
 

@@ -13,7 +13,7 @@ import {
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 
-import { dropDownOptions, perPageCount } from '../const/projectsConst';
+import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
 import DeleteProjects from './DeleteProjects';
@@ -158,11 +158,11 @@ const AllProjects = () => {
                     containerWrapperClass="shadow-none border-none"
                   />
 
-                  {metaPage?.count > perPageCount && (
+                  {metaPage?.count > metaPage?.page_size && (
                     <TMPagination
                       pageNumber={metaPage?.page || 1}
                       count={metaPage?.count || 0}
-                      pageSize={perPageCount}
+                      pageSize={metaPage?.page_size}
                     />
                   )}
                 </>

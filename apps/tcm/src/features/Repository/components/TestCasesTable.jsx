@@ -21,7 +21,7 @@ import {
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
-import { dropDownOptions, perPageCount } from '../const/testCaseConst';
+import { dropDownOptions } from '../const/testCaseConst';
 
 import FolderExplorerModal from './FolderExplorerModal';
 import useTestCasesTable from './useTestCasesTable';
@@ -304,11 +304,11 @@ const TestCasesTable = ({
           <Loader wrapperClass="h-96 w-full" />
         </div>
       ) : null}
-      {metaPage?.count > perPageCount && (
+      {metaPage?.count > metaPage?.page_size && (
         <TMPagination
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
-          pageSize={perPageCount}
+          pageSize={metaPage?.page_size}
         />
       )}
       <FolderExplorerModal

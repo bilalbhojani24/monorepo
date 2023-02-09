@@ -16,7 +16,8 @@ const initialState = {
     page: null,
     next: null,
     prev: null,
-    count: null
+    count: null,
+    page_size: null
   },
   testRunFormData: {
     test_run: {
