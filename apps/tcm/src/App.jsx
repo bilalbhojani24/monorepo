@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import HeaderDummy from 'features/HeaderDummy';
+import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
 import SideNav from 'features/SideNav';
 
@@ -29,7 +29,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HeaderDummy />
+      <TMHeader />
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {(importStarted || importConfig?.isDismissed === false) && (
           <div className="fixed top-16 z-50 w-full">
