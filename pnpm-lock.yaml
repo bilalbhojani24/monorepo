@@ -96,6 +96,7 @@ importers:
       '@vitejs/plugin-react': 2.2.0
       axios: ^1.2.2
       classnames: ^2.2.6
+      highcharts-react-official: ^3.1.0
       moment: ^2.29.4
       postcss: 8.4.20
       postcss-preset-env: ^7.8.3
@@ -125,6 +126,7 @@ importers:
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
       classnames: 2.3.2
+      highcharts-react-official: 3.1.0_kwza2hs7i6v4p3ij2mdqdwgj4q
       moment: 2.29.4
       prop-types: 15.8.1
       react: 18.2.0
@@ -12922,6 +12924,20 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
+
+  /highcharts-react-official/3.1.0_kwza2hs7i6v4p3ij2mdqdwgj4q:
+    resolution: {integrity: sha512-CkWJHrVMOc6CT8KFu1dR+a0w5OxCVKKgZUNWtEi5TmR0xqBDIDe+RyM652MAN/jBYppxMo6TCUVlRObCyWAn0Q==}
+    peerDependencies:
+      highcharts: '>=6.0.0'
+      react: '>=16.8.0'
+    dependencies:
+      highcharts: 10.3.3
+      react: 18.2.0
+    dev: false
+
+  /highcharts/10.3.3:
+    resolution: {integrity: sha512-r7wgUPQI9tr3jFDn3XT36qsNwEIZYcfgz4mkKEA6E4nn5p86y+u1EZjazIG4TRkl5/gmGRtkBUiZW81g029RIw==}
+    dev: false
 
   /highlight.js/10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
