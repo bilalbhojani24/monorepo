@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import AppRoute from 'const/routes';
 import {
   TMDropdown,
   TMEmptyState,
@@ -13,22 +15,32 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import { formatTime } from 'utils/helperFunctions';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
-  const { allTestRuns, currentTab, isTestRunsLoading, metaPage } =
+  const { projectId, allTestRuns, currentTab, isTestRunsLoading, metaPage } =
     useTestRunsTable();
 
   const tableColumns = [
     {
       name: 'ID',
-      key: 'id',
-      cell: (rowData) => <div>TR-{rowData.id}</div>
+      key: 'identifier'
     },
     {
       name: 'TITLE',
-      key: 'name'
+      key: 'name',
+      cell: (rowData) => (
+        <Link
+          to={routeFormatter(AppRoute.TEST_RUNS_DETAILS, {
+            projectId,
+            testRunId: rowData?.id
+          })}
+        >
+          {rowData.name}
+        </Link>
+      )
     },
     {
       name: 'NO. OF TESTS',
