@@ -38,7 +38,7 @@ export default function TestCases() {
 
   return (
     <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
-      {allFolders.length ? (
+      {allFolders.length || isSearchFilterView ? (
         <>
           <Filter />
           {selectedFolder && (
