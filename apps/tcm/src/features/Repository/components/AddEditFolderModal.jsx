@@ -96,7 +96,7 @@ const AddEditFolderModal = ({
       <TMModalBody>
         <div className="mb-4">
           <TMInputField
-            wrapperClass="mb-2"
+            wrapperClassName="mb-2"
             label="Folder name"
             placeholder="Ex. New Folder"
             value={filledFormData.name}

@@ -170,17 +170,17 @@ const TestCasesTable = ({
           'overflow-y-auto'
         )}
       >
-        <TMTableHead wrapperClass="w-full rounded-xs">
-          <TMTableRow wrapperClass="relative">
+        <TMTableHead wrapperClassName="w-full rounded-xs">
+          <TMTableRow wrapperClassName="relative">
             <TMTableCell
               variant="body"
-              wrapperClass="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
+              wrapperClassName="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
               {/* all checkbox */}
               <TMCheckBox
                 border={false}
-                wrapperClass="pt-0"
+                wrapperClassName="pt-0"
                 checked={
                   (isAllSelected && !deSelectedTestCaseIDs.length) ||
                   (rows.length !== 0 &&
@@ -200,7 +200,7 @@ const TestCasesTable = ({
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClass={classNames('test-base-500', {
+                wrapperClassName={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                   'flex-1 w-9/12': index === 1,
                   'min-w-[50%]': index === 2,
@@ -255,7 +255,7 @@ const TestCasesTable = ({
                 <TMTableRow isSelected key={row.id || index}>
                   <TMTableCell
                     variant="body"
-                    wrapperClass={classNames(
+                    wrapperClassName={classNames(
                       'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
@@ -266,7 +266,7 @@ const TestCasesTable = ({
                   >
                     <TMCheckBox
                       border={false}
-                      wrapperClass="pt-0"
+                      wrapperClassName="pt-0"
                       checked={
                         !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
@@ -279,7 +279,7 @@ const TestCasesTable = ({
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClass={classNames({
+                        wrapperClassName={classNames({
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
@@ -301,7 +301,7 @@ const TestCasesTable = ({
       </TMTable>
       {isLoading ? (
         <div className="flex w-full flex-col justify-center">
-          <Loader wrapperClass="h-96 w-full" />
+          <Loader wrapperClassName="h-96 w-full" />
         </div>
       ) : null}
       {metaPage?.count > metaPage?.page_size && (

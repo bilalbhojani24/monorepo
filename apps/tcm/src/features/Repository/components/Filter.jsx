@@ -158,7 +158,7 @@ const Filter = () => {
                   <TMCheckBox
                     key={item.value}
                     border={false}
-                    wrapperClass="pt-0 mb-2"
+                    wrapperClassName="pt-0 mb-2"
                     checked={filterSearchMeta?.owner?.includes(`${item.value}`)}
                     data={item}
                     onChange={() => filterChangeHandler('owner', item)}
@@ -183,7 +183,7 @@ const Filter = () => {
                   <TMCheckBox
                     key={item.value}
                     border={false}
-                    wrapperClass="pt-0 mb-2"
+                    wrapperClassName="pt-0 mb-2"
                     checked={filterSearchMeta?.tags?.includes(item.value)}
                     data={item}
                     onChange={() => filterChangeHandler('tags', item)}
@@ -199,7 +199,7 @@ const Filter = () => {
                 <TMCheckBox
                   key={item.value}
                   border={false}
-                  wrapperClass="pt-0 mb-2"
+                  wrapperClassName="pt-0 mb-2"
                   checked={filterSearchMeta?.priority?.includes(item.value)}
                   data={item}
                   onChange={() => filterChangeHandler('priority', item)}

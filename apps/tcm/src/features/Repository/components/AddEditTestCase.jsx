@@ -69,6 +69,10 @@ const AddEditTestCase = () => {
   useEffect(() => {
     initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => {
+      hideTestCaseAddEditPage(null, true);
+    };
   }, []);
 
   return (

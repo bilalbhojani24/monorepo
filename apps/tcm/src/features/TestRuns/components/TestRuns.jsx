@@ -53,7 +53,7 @@ const TestRuns = () => {
         <div className="border-base-200 flex flex-col grow justify-start  rounded-md border bg-white">
           {isTestRunsLoading ? (
             <div className="flex w-full shrink-0 grow flex-col  justify-center ">
-              <Loader wrapperClass="h-96 w-full" />
+              <Loader wrapperClassName="h-96 w-full" />
             </div>
           ) : (
             <>

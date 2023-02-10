@@ -83,7 +83,7 @@ export default function TestCases() {
         <>
           <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
             {isTestCasesLoading || isFoldersLoading ? (
-              <Loader wrapperClass="h-full" />
+              <Loader wrapperClassName="h-full" />
             ) : (
               <>
                 {!allTestCases.length && isSearchFilterView ? (

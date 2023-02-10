@@ -3,14 +3,14 @@ import LoaderIcon from 'assets/svg/loader.svg';
 import className from 'classnames';
 import PropTypes from 'prop-types';
 
-const Loader = ({ isLoading, isOverlayed, wrapperClass }) => {
+const Loader = ({ isLoading, isOverlayed, wrapperClassName }) => {
   if (!isLoading) return '';
 
   return (
     <div
       className={className(
         'flex justify-center items-center  w-full min-h-min',
-        wrapperClass,
+        wrapperClassName,
         {
           'absolute left-0 top-0': isOverlayed
         }
@@ -22,13 +22,13 @@ const Loader = ({ isLoading, isOverlayed, wrapperClass }) => {
 };
 
 Loader.propTypes = {
-  wrapperClass: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   isLoading: PropTypes.bool,
   isOverlayed: PropTypes.bool
 };
 
 Loader.defaultProps = {
-  wrapperClass: '',
+  wrapperClassName: '',
   isLoading: true,
   isOverlayed: false
 };

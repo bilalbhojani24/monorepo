@@ -78,13 +78,13 @@ const TestRunsTable = () => {
           'overflow-y-auto shadow-none border-none'
         )}
       >
-        <TMTableHead wrapperClass="w-full rounded-xs">
-          <TMTableRow wrapperClass="relative">
+        <TMTableHead wrapperClassName="w-full rounded-xs">
+          <TMTableRow wrapperClassName="relative">
             {tableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClass={classNames('test-base-500', {
+                wrapperClassName={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
                   'flex-1 w-9/12': index === 1,
                   'min-w-[50%]': index === 2,
@@ -110,7 +110,7 @@ const TestRunsTable = () => {
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClass={classNames({
+                        wrapperClassName={classNames({
                           'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':

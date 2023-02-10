@@ -18,13 +18,13 @@ const TMDataTable = ({
   isLoading
 }) => (
   <Table containerWrapperClass={containerWrapperClass}>
-    <TableHead wrapperClass="w-full rounded-xs">
+    <TableHead wrapperClassName="w-full rounded-xs">
       <TableRow>
         {columns?.map((col) => (
           <TableCell
             key={col.key}
             variant="body"
-            wrapperClass={classNames('test-base-500', col?.className)}
+            wrapperClassName={classNames('test-base-500', col?.className)}
             textTransform="uppercase"
           >
             {col.name}
@@ -45,7 +45,7 @@ const TMDataTable = ({
                 return (
                   <TableCell
                     key={column.id}
-                    wrapperClass={classNames(column?.className, {
+                    wrapperClassName={classNames(column?.className, {
                       'first:pr-3 last:pl-3 px-2 py-2': isCondensed
                     })}
                   >

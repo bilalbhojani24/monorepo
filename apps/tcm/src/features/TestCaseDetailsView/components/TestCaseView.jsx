@@ -18,13 +18,14 @@ const TestCaseView = () => {
     );
 
   return (
-    <div className="flex h-full flex-col items-stretch px-6 pt-5">
-      <div className="pb-4">
-        <TestCaseTopBar />
-        <TestCaseBasicData />
-        <TestCaseMutliData />
-      </div>
-      {/* <div className="flex w-full justify-between">
+    <div class="overflow-scroll flex-1">
+      <div className="flex h-full flex-col items-stretch px-6 pt-5">
+        <div className="pb-4">
+          <TestCaseTopBar />
+          <TestCaseBasicData />
+          <TestCaseMutliData />
+        </div>
+        {/* <div className="flex w-full justify-between">
         <TMButton variant="minimal" colors="white">
           Previous
         </TMButton>
@@ -32,6 +33,7 @@ const TestCaseView = () => {
           Next
         </TMButton>
       </div> */}
+      </div>
     </div>
   );
 };
