@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { InfoOutlinedIcon } from 'assets/icons';
 import classNames from 'classnames';
-import AppRoute from 'const/routes';
 import {
   TMDropdown,
   TMEmptyState,
@@ -14,8 +13,8 @@ import {
   TMTableRow
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
-import { formatTime } from 'utils/helperFunctions';
-import { routeFormatter } from 'utils/helperFunctions';
+import AppRoute from 'const/routes';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import useTestRunsTable from './useTestRunsTable';
 
@@ -68,10 +67,7 @@ const TestRunsTable = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={[
-            { id: '1', name: 'Edit Test Run' },
-            { id: '2', name: 'Delete' }
-          ]}
+          options={[]}
         />
       )
     }
