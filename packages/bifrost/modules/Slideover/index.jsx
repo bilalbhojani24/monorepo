@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import { XMarkIcon } from '../Icon';
 
+import { MODAL_SIZE } from './const/modalConstants';
 import useSlideover from './useSlideover';
 
 import './styles.scss';
@@ -104,7 +105,18 @@ const Slideover = (props) => {
           <div
             className={twClassNames(
               `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
-              slideoverWidth
+              {
+                'sm:max-w-sm': MODAL_SIZE[0] === slideoverWidth,
+                'sm:max-w-md': MODAL_SIZE[1] === slideoverWidth,
+                'sm:max-w-lg': MODAL_SIZE[2] === slideoverWidth,
+                'sm:max-w-xl': MODAL_SIZE[3] === slideoverWidth,
+                'sm:max-w-2xl': MODAL_SIZE[4] === slideoverWidth,
+                'sm:max-w-3xl': MODAL_SIZE[5] === slideoverWidth,
+                'sm:max-w-4xl': MODAL_SIZE[6] === slideoverWidth,
+                'sm:max-w-5xl': MODAL_SIZE[7] === slideoverWidth,
+                'sm:max-w-6xl': MODAL_SIZE[8] === slideoverWidth,
+                'sm:max-w-full': MODAL_SIZE[9] === slideoverWidth
+              }
             )}
           >
             {children}
@@ -134,7 +146,7 @@ Slideover.defaultProps = {
   onEscPress: null,
   show: false,
   backgroundOverlay: true,
-  slideoverWidth: 'w-96',
+  slideoverWidth: MODAL_SIZE[2],
   closeButtonOutside: false,
   topMarginElementId: ''
 };

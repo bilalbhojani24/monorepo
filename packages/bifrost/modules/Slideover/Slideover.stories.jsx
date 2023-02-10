@@ -8,6 +8,7 @@ import SlideoverBody from '../SlideoverBody';
 import SlideoverFooter from '../SlideoverFooter';
 import SlideoverHeader from '../SlideoverHeader';
 
+import { MODAL_SIZE } from './const/modalConstants';
 import Slideover from './index';
 
 const SlideoverBodyDummyData = () => (
@@ -61,7 +62,8 @@ const defaultConfig = {
     },
     slideoverWidth: {
       option: { type: 'string' },
-      defaultValue: 'w-96'
+      control: { type: 'select', options: MODAL_SIZE },
+      defaultValue: MODAL_SIZE[2]
     },
     backgroundOverlay: {
       option: { type: 'boolean' },
