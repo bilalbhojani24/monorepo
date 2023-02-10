@@ -12,9 +12,8 @@ export const checkTestManagementConnection = async (
 export const importProjects = async (testManagementTool, payload) =>
   fetchPost(`/api/v1/import/${testManagementTool}/quick/insert`, payload);
 
-export const getJiraConfigStatus = async () => {
+export const getJiraConfigStatus = async () =>
   fetchGet('/api/v1/integration/jira/configuration');
-};
 
 export const getLatestQuickImportConfig = async () =>
   fetchGet('/api/v1/import/latest');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
+import { TMAlerts, TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
 import ConfigureDataList from './ConfigureDataList';
@@ -7,29 +7,40 @@ import useImport from './useImport';
 
 const ConfigureData = (props) => {
   const { projects } = props;
-  const { handleConfigureDataProceed } = useImport();
+  const { testManagementProjects, handleConfigureDataProceed } = useImport();
+  let showError = false;
+  if (testManagementProjects.length) {
+    showError = testManagementProjects
+      .map((project) => project.checked)
+      .every((checked) => checked === false);
+  }
 
   return (
-    <div className="flex justify-center">
-      <div className="border-base-100 shadow-base-200 mt-4 w-3/4 rounded-md border-2 p-6">
-        <TMSectionHeadings
-          title="Select projects you would like to import"
-          variant="buttons"
-          trailingHeadNode={
-            <>
-              <TMButton
-                colors="white"
-                variant="primary"
-                onClick={handleConfigureDataProceed}
-              >
-                Proceed
-              </TMButton>
-            </>
-          }
-        />
-        <ConfigureDataList projects={projects} />
+    <>
+      {showError && (
+        <div className="mt-2 flex justify-center">
+          <div className="w-3/4">
+            <TMAlerts
+              modifier="error"
+              title="Select at least 1 project"
+              linkText={null}
+            />
+          </div>
+        </div>
+      )}
+      <div className="flex justify-center">
+        <div className="border-base-100 shadow-base-200 mt-4 w-3/4 rounded-md border-2 p-6">
+          <TMSectionHeadings
+            title="Select projects you would like to import"
+            variant="buttons"
+            trailingHeadNode={
+              <TMButton onClick={handleConfigureDataProceed}>Proceed</TMButton>
+            }
+          />
+          <ConfigureDataList projects={projects} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

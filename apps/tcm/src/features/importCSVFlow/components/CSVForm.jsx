@@ -1,41 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { TMCheckBox, TMInputField, TMSelectMenu } from 'common/bifrostProxy';
-
-import { getCSVConfigurations } from '../../../api/importCSV.api';
-import { setCSVFormData } from '../slices/importCSVSlice';
 
 import useImportCSV from './useImportCSV';
 
 const CSVForm = () => {
-  const dispatch = useDispatch();
-  const [configurations, setConfigurations] = useState();
-
-  const { csvFormData, handleCSVFieldChange } = useImportCSV();
-
-  useEffect(() => {
-    getCSVConfigurations().then((data) => {
-      setConfigurations({
-        encodings: data.encodings.map((item) => ({ label: item, value: item })),
-        separators: data.separators.map((item) => ({
-          label: item,
-          value: item
-        }))
-      });
-      Object.keys(csvFormData).forEach((key) => {
-        if (key === 'row') dispatch(setCSVFormData({ key, value: 1 }));
-        else {
-          dispatch(
-            setCSVFormData({
-              key,
-              value: { label: data[key][0], value: data[key][0] }
-            })
-          );
-        }
-      });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  const { allEncodings, allSeparators, csvFormData, handleCSVFieldChange } =
+    useImportCSV();
 
   return (
     <>
@@ -46,7 +16,7 @@ const CSVForm = () => {
             label="CSV Separator"
             value={csvFormData.separators}
             placeholder={null}
-            options={configurations?.separators || []}
+            options={allSeparators}
             onChange={handleCSVFieldChange('separators')}
           />
         </div>
@@ -65,7 +35,7 @@ const CSVForm = () => {
             label="File Encoding"
             placeholder={null}
             value={csvFormData.encodings}
-            options={configurations?.encodings || []}
+            options={allEncodings}
             onChange={handleCSVFieldChange('encodings')}
           />
         </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   TMAlerts,
   TMAttachments,
@@ -8,49 +9,52 @@ import {
 } from 'common/bifrostProxy';
 
 import { downloadSampleCSV } from '../../../api/importCSV.api';
+import { setCSVUploadError } from '../slices/importCSVSlice';
 
 import CSVForm from './CSVForm';
 import useImportCSV from './useImportCSV';
 
 const UploadFile = () => {
-  const [showMoreFields, setShowMoreFields] = useState(false);
   const {
     csvUploadError,
     fileConfig,
+    showMoreFields,
     handleFileUpload,
     handleFileRemove,
-    handleProceedClick
+    handleProceedClick,
+    handleShowMoreFields
   } = useImportCSV();
 
-  const handleShowMoreFields = () => {
-    setShowMoreFields(!showMoreFields);
-  };
-
+  const dispatch = useDispatch();
   const handleDownloadSampleCSV = () => {
-    downloadSampleCSV()
-      // .then((data) => data.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `FileName.pdf`);
+    downloadSampleCSV().then((blob) => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `sample.csv`);
 
-        // Append to html link element page
-        document.body.appendChild(link);
+      // Append to html link element page
+      document.body.appendChild(link);
 
-        // Start download
-        link.click();
-      });
+      // Start download
+      link.click();
+    });
   };
 
   return (
     <div className="border-base-200 m-4 flex w-4/5 flex-col self-center rounded-md border-2 border-solid bg-white p-6">
       {csvUploadError && (
-        <TMAlerts
-          accentBorder={false}
-          show={!!csvUploadError}
-          dismissButton={false}
-        />
+        <div className="mb-3">
+          <TMAlerts
+            accentBorder={false}
+            show={!!csvUploadError}
+            dismissButton
+            modifier="error"
+            title={csvUploadError}
+            linkText={null}
+            dismissButtonFn={() => dispatch(setCSVUploadError(''))}
+          />
+        </div>
       )}
       <TMSectionHeadings
         title="Upload CSV/XLS"

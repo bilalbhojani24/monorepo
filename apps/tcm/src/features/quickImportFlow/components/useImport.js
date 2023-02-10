@@ -1,28 +1,27 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  checkTestManagementConnection,
-  getJiraConfigStatus,
-  importProjects
-} from 'api/import.api';
+import { checkTestManagementConnection, importProjects } from 'api/import.api';
 
 import {
+  importCleanUp,
+  setCheckImportStatusClicked,
   setConnectionStatusMap,
   setCurrentScreen,
   setCurrentTestManagementTool,
   setImportStarted,
   setImportSteps,
+  setJiraConfigurationStatus,
   setProjectForTestManagementImport,
   setSelectedRadioIdMap,
   setTestRailsCred,
-  setZephyrCred
+  setTestRailsCredTouched,
+  setZephyrCred,
+  setZephyrCredTouched
 } from '../slices/importSlice';
 
 const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [jiraConfigured, setJiraConfigured] = useState(false);
 
   const getUserEmail = useSelector((state) => {
     if (!state.global.user.email) return 'procurement@browserstack.com';
@@ -42,15 +41,26 @@ const useImport = () => {
   const currentTestManagementTool = useSelector(
     (state) => state.import.currentTestManagementTool
   );
+  const importStatus = useSelector((state) => state.import.importStatus);
   const selectedRadioIdMap = useSelector(
     (state) => state.import.selectedRadioIdMap
+  );
+  const testRailsCredTouched = useSelector(
+    (state) => state.import.testRailsCredTouched
+  );
+  const zephyrCredTouched = useSelector(
+    (state) => state.import.zephyrCredTouched
+  );
+  const jiraConfiguredForZephyr = useSelector(
+    (state) => state.import.isJiraConfiguredForZephyr
   );
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
-    if (currentTestManagementTool === 'testrails')
+    if (currentTestManagementTool === 'testrails') {
       dispatch(setTestRailsCred({ key, value }));
-    else if (currentTestManagementTool === 'zephyr')
+      dispatch(setTestRailsCredTouched({ key, value: true }));
+    } else if (currentTestManagementTool === 'zephyr')
       dispatch(setZephyrCred({ key, value }));
   };
 
@@ -125,7 +135,7 @@ const useImport = () => {
       return step;
     });
 
-  const handleProceed = () => {
+  const commonProceedFlow = () => {
     handleTestConnection('proceed');
 
     dispatch(
@@ -134,11 +144,38 @@ const useImport = () => {
     dispatch(setCurrentScreen('configureData'));
   };
 
+  const handleProceed = () => {
+    if (currentTestManagementTool === 'testrails') {
+      if (testRailsCred.key && testRailsCred.host && testRailsCred.email)
+        commonProceedFlow();
+      else
+        Object.keys(testRailsCredTouched).forEach((key) => {
+          dispatch(setTestRailsCredTouched({ key, value: true }));
+        });
+    } else if (currentTestManagementTool === 'zephyr') {
+      if (
+        (zephyrCred.jira_key && zephyrCred.host && zephyrCred.email,
+        zephyrCred.zephyr_key)
+      )
+        commonProceedFlow();
+      else
+        Object.keys(zephyrCredTouched).forEach((key) => {
+          dispatch(setZephyrCredTouched({ key, value: true }));
+        });
+    }
+  };
+
   const handleConfigureDataProceed = () => {
-    dispatch(
-      setImportSteps(handleStepChange('configure data', 'confirm import'))
-    );
-    dispatch(setCurrentScreen('confirmImport'));
+    const noProjectSelected = testManagementProjects
+      .map((project) => project.checked)
+      .every((checked) => checked === false);
+
+    if (!noProjectSelected) {
+      dispatch(
+        setImportSteps(handleStepChange('configure data', 'confirm import'))
+      );
+      dispatch(setCurrentScreen('confirmImport'));
+    }
   };
 
   const handleConfirmImport = () => {
@@ -150,6 +187,8 @@ const useImport = () => {
           .filter((project) => project !== null)
       }).then(() => {
         // console.log('done successfully');
+        // set first screen as configure tool
+        // clean up all the states
       });
     } else if (currentTestManagementTool === 'zephyr') {
       importProjects('zephyr', {
@@ -161,16 +200,14 @@ const useImport = () => {
         // console.log('done successfully');
       });
     }
-    navigate('/');
+    dispatch(importCleanUp());
     dispatch(setImportStarted(true));
+    dispatch(setCheckImportStatusClicked(false));
+    navigate('/');
   };
 
   const isJiraConfiguredForZephyr = () => {
-    getJiraConfigStatus()
-      .then(() => {
-        setJiraConfigured(true);
-      })
-      .catch(() => setJiraConfigured(false));
+    dispatch(setJiraConfigurationStatus());
   };
 
   const setTestManagementTool = (tool) => {
@@ -183,12 +220,14 @@ const useImport = () => {
 
   return {
     allImportSteps,
+    importStatus,
     currentTestManagementTool,
     getUserEmail,
     isJiraConfiguredForZephyr,
-    jiraConfigured,
+    jiraConfiguredForZephyr,
     testManagementProjects,
     testRailsCred,
+    testRailsCredTouched,
     connectionStatusMap,
     handleInputFieldChange,
     handleTestConnection,
@@ -199,7 +238,8 @@ const useImport = () => {
     handleConfigureDataProceed,
     handleConfirmImport,
     handleRadioGroupChange,
-    zephyrCred
+    zephyrCred,
+    zephyrCredTouched
   };
 };
 

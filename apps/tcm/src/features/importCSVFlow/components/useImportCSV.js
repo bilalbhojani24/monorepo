@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { postCSV } from '../../../api/importCSV.api';
 import {
   setCSVFormData,
   setCSVUploadError,
-  setFileConfig
+  setFileConfig,
+  setShowMoreFields,
+  uploadFile
 } from '../slices/importCSVSlice';
 
 const useImportCSV = () => {
@@ -18,7 +19,16 @@ const useImportCSV = () => {
   );
   const csvFormData = useSelector((state) => state.importCSV.csvFormData);
   const fileConfig = useSelector((state) => state.importCSV.fileConfig);
-  const csvUploadError = useSelector((state) => state.importCSV.csvUplaodError);
+  const csvUploadError = useSelector((state) => state.importCSV.csvUploadError);
+  const mappingFieldsData = useSelector(
+    (state) => state.importCSV.fieldsMappingData
+  );
+  const showMoreFields = useSelector((state) => state.importCSV.showCSVFields);
+  const mapFieldModalConfig = useSelector(
+    (state) => state.importCSV.mapFieldModalConfig
+  );
+  const allEncodings = useSelector((state) => state.importCSV.allEncodings);
+  const allSeparators = useSelector((state) => state.importCSV.allSeparators);
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -36,12 +46,20 @@ const useImportCSV = () => {
     );
   };
 
+  const handleShowMoreFields = () =>
+    dispatch(setShowMoreFields(!showMoreFields));
+
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
+    dispatch(setCSVUploadError('Please select a CSV file.'));
   };
 
   const handleProceedClick = () => {
     // now create the payload and make the api call
+    if (!fileConfig.file) {
+      dispatch(setCSVUploadError('Please select a CSV file.'));
+      return;
+    }
     const filesData = new FormData();
     // add formData
     Object.keys(csvFormData).forEach((key) => {
@@ -49,7 +67,9 @@ const useImportCSV = () => {
       else if (key === 'firstRowIsHeader')
         filesData.append('first_row_is_header', csvFormData[key]);
       else if (key === 'separators')
-        filesData.append('csv_separator', csvFormData[key]);
+        filesData.append('csv_separator', csvFormData[key].label);
+      else if (key === 'encodings')
+        filesData.append('encoding', csvFormData[key].label);
     });
     // add projectId and folderId
     filesData.append('project_id', queryParams.get('project'));
@@ -58,21 +78,25 @@ const useImportCSV = () => {
     filesData.append('file', fileConfig.file);
 
     // make the api call
-    postCSV(filesData)
-      .then()
-      .catch((err) => dispatch(setCSVUploadError(err)));
+    dispatch(uploadFile(filesData));
   };
 
   return {
+    allEncodings,
+    allSeparators,
     currentCSVScreen,
     importCSVSteps,
     csvFormData,
     csvUploadError,
     fileConfig,
+    showMoreFields,
     handleFileUpload,
     handleFileRemove,
     handleCSVFieldChange,
-    handleProceedClick
+    handleProceedClick,
+    handleShowMoreFields,
+    mappingFieldsData,
+    mapFieldModalConfig
   };
 };
 

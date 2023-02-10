@@ -6,6 +6,7 @@ import {
 } from 'assets/icons';
 
 export const WARNING_DATA = {
+  id: 'import-project-warning',
   title:
     'Import activity still in progress. We will notify you once it completes',
   isCondensed: true,
@@ -15,6 +16,7 @@ export const WARNING_DATA = {
 };
 
 export const SUCCESS_DATA = {
+  id: 'import-project-success',
   title: 'Project Imported Successfully',
   description:
     'Congratulations, all your selected projects have been successfully imported.',
@@ -26,6 +28,7 @@ export const SUCCESS_DATA = {
 };
 
 export const FAILURE_DATA = {
+  id: 'import-project-failure',
   title: 'Project Imported',
   description:
     'Unfortunately, due to some issues we couldn’t import your projects',
