@@ -81,9 +81,7 @@ const useFilter = () => {
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
       });
-    } else {
-      resetFilterAndSearch();
-    }
+    } else if (isSearchFilterView) resetFilterAndSearch();
   };
 
   const applyFilterHandler = () => {
