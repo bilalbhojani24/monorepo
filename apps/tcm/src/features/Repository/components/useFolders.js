@@ -11,6 +11,7 @@ import {
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
+import { requestedSteps } from '../const/unsavedConst';
 import {
   setAllFolders,
   setFolderModalConf,
@@ -20,8 +21,10 @@ import {
 } from '../slices/repositorySlice';
 
 import useAddEditTestCase from './useAddEditTestCase';
+import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useFolders() {
+  const { isOkToExitForm } = useUnsavedChanges();
   const [searchParams] = useSearchParams();
   const { showTestCaseAdditionPage, hideTestCaseAddEditPage } =
     useAddEditTestCase();
@@ -153,6 +156,17 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
+    if (
+      !isOkToExitForm(false, {
+        key: requestedSteps.ROUTE,
+        value: routeFormatter(AppRoute.TEST_CASES, {
+          projectId,
+          folderId: selectedFolder.id
+        })
+      })
+    )
+      return;
+
     navigate(
       routeFormatter(AppRoute.TEST_CASES, {
         projectId,

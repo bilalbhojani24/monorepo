@@ -11,15 +11,14 @@ import {
   getTestCaseDetailsAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { requestedSteps } from '../const/unsavedConst';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
-import useUnsavedChanges from './useUnsavedChanges';
 
 import {
   emptyFolderName,
   stepTemplate,
   templateOptions
 } from '../const/addTestCaseConst';
+import { requestedSteps } from '../const/unsavedConst';
 import {
   addSingleTestCase,
   resetBulkSelection,
@@ -28,17 +27,17 @@ import {
   setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
   setAllFolders,
-  setBulkUpdateProgress,
-  setEditTestCasePageVisibility,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
+  setUnsavedDataExists,
   updateAllTestCases,
   updateBulkTestCaseFormData,
   updateTestCase,
-  updateTestCaseFormData,
-  setUnsavedDataExists
+  updateTestCaseFormData
 } from '../slices/repositorySlice';
+
+import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
@@ -82,9 +81,6 @@ export default function useAddEditTestCase() {
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
   );
-  const isAddTestCasePageVisible = useSelector(
-    (state) => state.repository.isAddTestCasePageVisible
-  );
   const isBulkUpdateInit = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
@@ -101,7 +97,7 @@ export default function useAddEditTestCase() {
   const usersArray = useSelector((state) => state.repository.usersArray);
 
   const hideTestCaseAddEditPage = (e, isForced) => {
-    if (isOkToExitForm(isForced)) return false;
+    isOkToExitForm(isForced);
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -324,7 +320,8 @@ export default function useAddEditTestCase() {
     imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
 
   const showTestCaseAdditionPage = () => {
-    if (!isOkToExitForm(false, requestedSteps.CREATE_TEST_CASE)) return;
+    if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
+      return;
     dispatch(setAddTestCaseVisibility(true));
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)

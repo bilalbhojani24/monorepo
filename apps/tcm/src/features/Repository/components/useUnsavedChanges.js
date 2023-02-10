@@ -1,18 +1,20 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { requestedSteps } from '../const/unsavedConst';
 import {
-  setUnsavedDataModal,
-  setUnsavedDataExists,
-  setAddTestCaseVisibility,
-  setEditTestCasePageVisibility,
-  setBulkUpdateProgress,
   setAddTestCaseFromSearch,
+  setAddTestCaseVisibility,
+  setBulkUpdateProgress,
+  setEditTestCasePageVisibility,
+  setRecentRquestedAfterUnsaved,
   setTestCaseFormData,
-  setRecentRquestedAfterUnsaved
+  setUnsavedDataExists,
+  setUnsavedDataModal
 } from '../slices/repositorySlice';
 
 const useUnsavedChanges = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isUnsavedDataExists = useSelector(
     (state) => state.repository.isUnsavedDataExists
@@ -46,31 +48,32 @@ const useUnsavedChanges = () => {
   };
 
   const clearUnsavedChangesHandler = () => {
-    debugger;
-    switch (recentRequestedStep) {
-      case requestedSteps.CREATE_TEST_CASE: //clear and reopen, nothing additional
+    switch (recentRequestedStep?.key) {
+      case requestedSteps.CREATE_TEST_CASE: // clear and reopen, nothing additional
         clearForm();
+        break;
+      case requestedSteps.ROUTE: // clear and reroute
+        navigate(recentRequestedStep?.value);
+        exitAndClearForm();
         break;
       default:
         exitAndClearForm();
         break;
     }
-    setRecentRequestedStep();
+    setRecentRequestedStep('');
     hideUnsavedModal();
   };
 
   const isOkToExitForm = (isForcedExit, requestedStep) => {
-    debugger;
     if (isForcedExit) {
       exitAndClearForm();
       return true;
-    } else {
-      if (isUnsavedDataExists) {
-        if (!isUnsavedDataModalVisible) dispatch(setUnsavedDataModal(true));
-        setRecentRequestedStep(isUnsavedDataExists ? requestedStep : '');
-      } else if (!requestedStep) {
-        exitAndClearForm();
-      }
+    }
+    if (isUnsavedDataExists) {
+      if (!isUnsavedDataModalVisible) dispatch(setUnsavedDataModal(true));
+      setRecentRequestedStep(isUnsavedDataExists ? requestedStep : '');
+    } else if (!requestedStep) {
+      exitAndClearForm();
     }
 
     return !isUnsavedDataExists;
