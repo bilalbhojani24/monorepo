@@ -35,7 +35,8 @@ const Filter = () => {
     filterChangeHandler,
     applyFilterHandler,
     setFilter,
-    searchChangeHandler
+    searchChangeHandler,
+    resetFilterAndSearch
   } = useFilter();
 
   useEffect(() => {
@@ -93,9 +94,7 @@ const Filter = () => {
             <>
               {filterSearchMeta?.q ? (
                 <CloseOutlinedIcon
-                  onClick={() => {
-                    searchChangeHandler('');
-                  }}
+                  onClick={resetFilterAndSearch}
                   className="text-base-800 cursor-pointer"
                 />
               ) : null}

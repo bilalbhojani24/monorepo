@@ -12,6 +12,7 @@ const initialState = {
   allTestCases: [],
   selectedFolder: null,
   isAddTestCasePageVisible: false,
+  isAddTestCaseFromSearch: false,
   testCaseFormData: {
     name: '',
     description: '',
@@ -96,6 +97,9 @@ export const repositorySlice = createSlice({
     addSingleTestCase: (state, { payload }) => {
       state.allTestCases = [payload, ...state.allTestCases];
     },
+    setAddTestCaseFromSearch: (state, { payload }) => {
+      state.isAddTestCaseFromSearch = payload;
+    },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
         item.id === payload.id ? payload : item
@@ -177,6 +181,9 @@ export const repositorySlice = createSlice({
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
     },
+    resetFilterSearchMeta: (state) => {
+      state.filterSearchMeta = initialState.filterSearchMeta;
+    },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
     }
@@ -184,6 +191,7 @@ export const repositorySlice = createSlice({
 });
 
 export const {
+  resetFilterSearchMeta,
   setFilterSearchMeta,
   setFolderModalConf,
   setLoadedDataProjectId,
@@ -214,7 +222,8 @@ export const {
   updateFoldersLoading,
   setMetaPage,
   setFilterSearchView,
-  updateLoader
+  updateLoader,
+  setAddTestCaseFromSearch
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

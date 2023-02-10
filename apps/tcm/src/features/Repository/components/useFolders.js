@@ -19,11 +19,12 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
-import useTestCases from './useTestCases';
+import useAddEditTestCase from './useAddEditTestCase';
 
 export default function useFolders() {
   const [searchParams] = useSearchParams();
-  const { showTestCaseAdditionPage, hideTestCaseAddEditPage } = useTestCases();
+  const { showTestCaseAdditionPage, hideTestCaseAddEditPage } =
+    useAddEditTestCase();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ export default function useFolders() {
   );
   const testCasesCount =
     useSelector((state) => state.repository.allTestCases)?.length || 0;
+
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
