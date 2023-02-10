@@ -115,7 +115,7 @@ const SelectMenu = (props) => {
                           'py-2 pl-8 pr-4':
                             checkPosition === CHECK_POSITION[0] &&
                             !isMultiSelect,
-                          'py-3 pl-3 hover:bg-base-50': isMultiSelect
+                          'py-2 pl-3 hover:bg-base-50': isMultiSelect
                         },
                         'relative cursor-pointer select-none'
                       )

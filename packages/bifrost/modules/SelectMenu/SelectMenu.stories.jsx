@@ -49,8 +49,6 @@ const defaultConfig = {
       }
     },
     options: {
-      options: SELECT_OPTIONS,
-      description: 'options for the selectMenu, array of objects',
       defaultValue: SELECT_OPTIONS
     },
     placeholder: {
