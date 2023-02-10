@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TMDropdown,
   TMListTree,
@@ -16,7 +16,8 @@ const ConrolledNestedTree = ({
   actionOptions,
   onActionClick,
   selectedNodesId
-}) => (
+}) => {
+  const [focused, setFocused] = useState();
   /**
    * use a map for keeping your treenodes under parent control,
    * Remember: for controlled treenodes or pre-opened treenodes,
@@ -26,51 +27,57 @@ const ConrolledNestedTree = ({
    * ListTreeContents => isTreeOpen
    */
 
-  <>
-    {foldersArray.map((item) => (
-      <TMListTree
-        key={item.id}
-        indentationLevel={indent}
-        isTreeOpen={item.isOpened}
-      >
-        <TMListTreeNode
-          label={item.name}
-          description=""
-          hideArrowIcon={!item?.sub_folders_count || false}
-          // nodeLabelClassName="max-w-xs"
-          isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
-          onNodeClick={() => onFolderClick(item)}
-          onNodeOpen={() => onFolderOpen(item)}
-          trailingVisualElement={
-            <>
-              {actionsEnabled && actionOptions.length && (
-                <TMDropdown
-                  onClick={(e) => onActionClick({ e, folder: item })}
-                  triggerVariant="meatball-button"
-                  options={actionOptions}
-                />
-              )}
-            </>
-          }
-        />
-        {!!item?.contents && (
-          <TMListTreeNodeContents isTreeOpen={item.isOpened}>
-            <ConrolledNestedTree
-              foldersArray={item.contents}
-              indent={1 + indent}
-              actionsEnabled={actionsEnabled}
-              onFolderOpen={onFolderOpen}
-              onFolderClick={onFolderClick}
-              onActionClick={onActionClick}
-              actionOptions={actionOptions}
-              selectedNodesId={selectedNodesId}
-            />
-          </TMListTreeNodeContents>
-        )}
-      </TMListTree>
-    ))}
-  </>
-);
+  return (
+    <>
+      {foldersArray.map((item) => (
+        <TMListTree
+          key={item.id}
+          indentationLevel={indent}
+          isTreeOpen={item.isOpened}
+        >
+          <TMListTreeNode
+            isFocused={focused === item.name}
+            label={item.name}
+            description=""
+            hideArrowIcon={!item?.sub_folders_count || false}
+            // nodeLabelClassName="max-w-xs"
+            isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
+            onNodeClick={() => onFolderClick(item)}
+            onNodeOpen={() => onFolderOpen(item)}
+            trailingVisualElement={
+              <>
+                {actionsEnabled && actionOptions.length && (
+                  <TMDropdown
+                    onClick={(e) => onActionClick({ e, folder: item })}
+                    triggerVariant="meatball-button"
+                    options={actionOptions}
+                    onOpenChange={(isOpen) =>
+                      setFocused(isOpen ? item.name : undefined)
+                    }
+                  />
+                )}
+              </>
+            }
+          />
+          {!!item?.contents && (
+            <TMListTreeNodeContents isTreeOpen={item.isOpened}>
+              <ConrolledNestedTree
+                foldersArray={item.contents}
+                indent={1 + indent}
+                actionsEnabled={actionsEnabled}
+                onFolderOpen={onFolderOpen}
+                onFolderClick={onFolderClick}
+                onActionClick={onActionClick}
+                actionOptions={actionOptions}
+                selectedNodesId={selectedNodesId}
+              />
+            </TMListTreeNodeContents>
+          )}
+        </TMListTree>
+      ))}
+    </>
+  );
+};
 
 ConrolledNestedTree.propTypes = {
   foldersArray: PropTypes.arrayOf(PropTypes.object),
