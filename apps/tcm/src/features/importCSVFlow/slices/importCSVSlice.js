@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { postCSV } from '../../../api/importCSV.api';
+import { getCSVConfigurations, postCSV } from '../../../api/importCSV.api';
 import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 
 const initialState = {
@@ -8,6 +8,8 @@ const initialState = {
   currentCSVScreen: 'uploadFile',
   importCSVSteps: IMPORT_CSV_STEPS,
   fieldsMappingData: {},
+  allEncodings: [],
+  allSeparators: [],
   csvFormData: {
     row: 1,
     encodings: '',
@@ -18,6 +20,17 @@ const initialState = {
   showCSVFields: false,
   mapFieldModalConfig: { show: false, field: '' }
 };
+
+export const setCSVConfigurations = createAsyncThunk(
+  'importCSV/setCSVConfigurations',
+  async () => {
+    try {
+      return await getCSVConfigurations();
+    } catch (err) {
+      return err;
+    }
+  }
+);
 
 export const uploadFile = createAsyncThunk(
   'importCSV/uploadFile',
@@ -66,8 +79,28 @@ const importCSVSlice = createSlice({
         return step;
       });
     });
-    builder.addCase(uploadFile.rejected, (state, action) => {
-      state.csvUploadError = action.payload;
+    builder.addCase(uploadFile.rejected, (state, { payload }) => {
+      state.csvUploadError = payload;
+    });
+    builder.addCase(setCSVConfigurations.fulfilled, (state, { payload }) => {
+      // eslint-disable-next-line prefer-destructuring
+      state.csvFormData.encodings = {
+        label: payload.encodings[2],
+        value: payload.encodings[2]
+      };
+      // eslint-disable-next-line prefer-destructuring
+      state.csvFormData.separators = {
+        label: payload.separators[0],
+        value: payload.separators[0]
+      };
+      state.allEncodings = payload.encodings.map((encoding) => ({
+        label: encoding,
+        value: encoding
+      }));
+      state.allSeparators = payload.separators.map((separator) => ({
+        label: separator,
+        value: separator
+      }));
     });
   }
 });

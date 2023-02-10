@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  TMButton,
-  TMModal,
-  TMModalBody,
-  TMModalFooter,
-  TMModalHeader,
-  TMPageHeadings
-} from 'common/bifrostProxy';
+import { HideSourceOutlinedIcon } from 'assets/icons';
+import { TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 
 import { IMPORT_STEPS } from '../const/importSteps';
-import { setImportSteps } from '../slices/importSlice';
+import { setImportSteps, setNotificationData } from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -23,8 +17,8 @@ const Import = () => {
   const {
     currentScreen,
     testManagementProjects,
-    allImportSteps
-    // currentImportStatus
+    allImportSteps,
+    importStatus
   } = useImport();
 
   const getCurrentScreen = () => {
@@ -38,9 +32,22 @@ const Import = () => {
 
   useEffect(() => {
     dispatch(setImportSteps(IMPORT_STEPS));
+    dispatch(setNotificationData(null));
   }, [dispatch]);
 
-  // if (currentImportStatus === 'ongoing') return <>In progress</>;
+  if (!importStatus || importStatus === 'ongoing')
+    return (
+      <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+        <TMEmptyState
+          title="Import In Progress"
+          description="Please wait for the current import to finish to start next import."
+          mainIcon={
+            <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+          }
+          buttonProps={null}
+        />
+      </div>
+    );
   return (
     <>
       <TMPageHeadings

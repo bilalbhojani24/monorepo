@@ -4,6 +4,7 @@ import { checkTestManagementConnection, importProjects } from 'api/import.api';
 
 import {
   importCleanUp,
+  setCheckImportStatusClicked,
   setConnectionStatusMap,
   setCurrentScreen,
   setCurrentTestManagementTool,
@@ -40,9 +41,7 @@ const useImport = () => {
   const currentTestManagementTool = useSelector(
     (state) => state.import.currentTestManagementTool
   );
-  const currentImportStatus = useSelector(
-    (state) => state.import.currentImportStatus
-  );
+  const importStatus = useSelector((state) => state.import.importStatus);
   const selectedRadioIdMap = useSelector(
     (state) => state.import.selectedRadioIdMap
   );
@@ -203,6 +202,7 @@ const useImport = () => {
     }
     dispatch(importCleanUp());
     dispatch(setImportStarted(true));
+    dispatch(setCheckImportStatusClicked(false));
     navigate('/');
   };
 
@@ -220,7 +220,7 @@ const useImport = () => {
 
   return {
     allImportSteps,
-    currentImportStatus,
+    importStatus,
     currentTestManagementTool,
     getUserEmail,
     isJiraConfiguredForZephyr,

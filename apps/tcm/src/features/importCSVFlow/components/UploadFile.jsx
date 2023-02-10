@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   TMAlerts,
   TMAttachments,
@@ -8,6 +9,7 @@ import {
 } from 'common/bifrostProxy';
 
 import { downloadSampleCSV } from '../../../api/importCSV.api';
+import { setCSVUploadError } from '../slices/importCSVSlice';
 
 import CSVForm from './CSVForm';
 import useImportCSV from './useImportCSV';
@@ -23,6 +25,7 @@ const UploadFile = () => {
     handleShowMoreFields
   } = useImportCSV();
 
+  const dispatch = useDispatch();
   const handleDownloadSampleCSV = () => {
     downloadSampleCSV().then((blob) => {
       const url = window.URL.createObjectURL(new Blob([blob]));
@@ -41,11 +44,17 @@ const UploadFile = () => {
   return (
     <div className="border-base-200 m-4 flex w-4/5 flex-col self-center rounded-md border-2 border-solid bg-white p-6">
       {csvUploadError && (
-        <TMAlerts
-          accentBorder={false}
-          show={!!csvUploadError}
-          dismissButton={false}
-        />
+        <div className="mb-3">
+          <TMAlerts
+            accentBorder={false}
+            show={!!csvUploadError}
+            dismissButton
+            modifier="error"
+            title={csvUploadError}
+            linkText={null}
+            dismissButtonFn={() => dispatch(setCSVUploadError(''))}
+          />
+        </div>
       )}
       <TMSectionHeadings
         title="Upload CSV/XLS"

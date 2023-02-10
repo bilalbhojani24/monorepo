@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getJiraConfigStatus } from '../../../api/import.api';
+import {
+  dismissNotificationForImport,
+  getJiraConfigStatus,
+  getLatestQuickImportConfig,
+  getQuickImportStatus,
+  retryImport
+} from '../../../api/import.api';
+import {
+  COMPLETED,
+  FAILURE_DATA,
+  ONGOING,
+  SUCCESS_DATA,
+  WARNING_DATA
+} from '../const/importConst';
 
 const initialState = {
   testRailsCred: {
@@ -15,7 +28,6 @@ const initialState = {
     host: ''
   },
   importStarted: false,
-  currentImportStatus: '',
   connectionStatusMap: { testrails: '', zephyr: '' },
   selectedRadioIdMap: {
     testrails: 'import-from-tool',
@@ -32,7 +44,14 @@ const initialState = {
     jira_key: false,
     host: false
   },
-  isJiraConfiguredForZephyr: false
+  isJiraConfiguredForZephyr: false,
+  importId: null,
+  importStatus: COMPLETED,
+  isDismissed: true,
+  notificationData: null,
+  notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
+  showNotificationModal: false,
+  checkImportStatusClicked: false
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -40,6 +59,49 @@ export const setJiraConfigurationStatus = createAsyncThunk(
   async (payload) => {
     try {
       return await getJiraConfigStatus(payload);
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const setImportConfigurations = createAsyncThunk(
+  'import/setImportConfigurations',
+  async () => {
+    try {
+      return await getLatestQuickImportConfig();
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const setQuickImportStatus = createAsyncThunk(
+  'import/getQuickImportStatus',
+  async (id) => {
+    try {
+      return await getQuickImportStatus(id);
+    } catch (err) {
+      return err;
+    }
+  }
+);
+export const setRetryImport = createAsyncThunk(
+  'import/retryImport',
+  async ({ id, testTool }) => {
+    try {
+      return await retryImport(id, testTool);
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const setNotificationDismissed = createAsyncThunk(
+  'import/setNotificationDismissed',
+  async (id) => {
+    try {
+      return await dismissNotificationForImport(id);
     } catch (err) {
       return err;
     }
@@ -68,12 +130,6 @@ const importSlice = createSlice({
     setImportStarted: (state, { payload }) => {
       state.importStarted = payload;
     },
-    setCurrentImportStatus: (state, { payload }) => {
-      state.currentImportStatus = payload;
-    },
-    // setLatestImportConfig: (state, { payload }) => {
-    //   state.latestImportConfig = payload;
-    // },
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
       if (payload.key === 'testrails') {
@@ -85,6 +141,12 @@ const importSlice = createSlice({
         state.connectionStatusMap.testrails = '';
         state.selectedRadioIdMap.testrails = '';
       }
+    },
+    setImportStatus: (state, { payload }) => {
+      state.importStatus = payload;
+    },
+    setNotificationData: (state, { payload }) => {
+      state.notificationData = payload;
     },
     setSelectedRadioIdMap: (state, { payload }) => {
       state.selectedRadioIdMap[payload.key] = payload.value;
@@ -110,6 +172,17 @@ const importSlice = createSlice({
       state.currentTestManagementTool = initialState.currentTestManagementTool;
       state.testRailsCredTouched = initialState.testRailsCredTouched;
       state.zephyrCredTouched = initialState.zephyrCredTouched;
+    },
+    setCheckImportStatusClicked: (state, { payload }) => {
+      state.checkImportStatusClicked = payload;
+    },
+    setNotificationProjectConfig: (state, { payload }) => {
+      Object.keys(payload).forEach((key) => {
+        state.notificationProjectConfig[key] = payload[key];
+      });
+    },
+    setShowNotificationModal: (state, { payload }) => {
+      state.showNotificationModal = payload;
     }
   },
   extraReducers: (builder) => {
@@ -118,11 +191,53 @@ const importSlice = createSlice({
         state.isJiraConfiguredForZephyr = false;
       else {
         state.isJiraConfiguredForZephyr = true;
-        // state.zephyrCred
+        state.zephyrCred.email = action.payload.email;
+        state.zephyrCred.host = action.payload.host;
+        state.zephyrCred.jira_key = action.payload.key;
       }
     });
     builder.addCase(setJiraConfigurationStatus.rejected, (state) => {
       state.isJiraConfiguredForZephyr = false;
+    });
+    builder.addCase(setImportConfigurations.fulfilled, (state, { payload }) => {
+      state.importId = payload.import_id;
+      state.importStatus = payload.status;
+      state.isDismissed = payload.is_dismissed;
+    });
+    builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
+      if (payload.status === ONGOING) {
+        state.importStatus = ONGOING;
+        state.notificationData = WARNING_DATA;
+      } else if (payload.status === COMPLETED) {
+        if (payload.success_count < payload.total) {
+          state.notificationData = FAILURE_DATA;
+        } else {
+          state.notificationData = SUCCESS_DATA;
+        }
+        state.notificationProjectConfig.projects = payload.projects;
+        state.notificationProjectConfig.totalCount = payload.total;
+        state.notificationProjectConfig.successCount = payload.success_count;
+        state.importStatus = COMPLETED;
+        state.currentTestManagementTool =
+          payload.import_type.split('_')[0] === 'testrail'
+            ? `${payload.import_type.split('_')[0]}s`
+            : payload.import_type.split('_')[0];
+      }
+    });
+    builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
+      if (state.currentTestManagementTool === 'testrails') {
+        state.testRailsCred.email = payload.credentials.email;
+        state.testRailsCred.host = payload.credentials.host;
+        state.testRailsCred.key = payload.credentials.key;
+      } else if (state.currentTestManagementTool === 'zephyr') {
+        state.zephyrCred.email = payload.credentials.email;
+        state.zephyrCred.host = payload.credentials.host;
+        state.zephyrCred.jira_key = payload.credentials.jira_key;
+        state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
+      }
+    });
+    builder.addCase(setNotificationDismissed.fulfilled, (state) => {
+      state.isDismissed = true;
     });
   }
 });
@@ -137,10 +252,15 @@ export const {
   setProjectForTestManagementImport,
   setImportSteps,
   setImportStarted,
-  // setLatestImportConfig,
-  setCurrentImportStatus,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
-  importCleanUp
+  importCleanUp,
+  setImportConfig,
+  setImportStatus,
+  setNotificationData,
+  setCheckImportStatusClicked,
+  setImportedProjects,
+  setNotificationProjectConfig,
+  setShowNotificationModal
 } = importSlice.actions;
 export default importSlice.reducer;

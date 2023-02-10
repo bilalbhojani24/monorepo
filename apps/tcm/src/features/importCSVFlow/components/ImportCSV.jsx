@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
 import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
+import { setCSVConfigurations } from '../slices/importCSVSlice';
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
@@ -9,6 +11,7 @@ import UploadFile from './UploadFile';
 import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
+  const dispatch = useDispatch();
   const { currentCSVScreen, importCSVSteps, mappingFieldsData } =
     useImportCSV();
 
@@ -30,6 +33,10 @@ const ImportCSV = () => {
     //   return <ConfirmCSVUpload projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
+
+  useEffect(() => {
+    dispatch(setCSVConfigurations());
+  }, [dispatch]);
 
   return (
     <>

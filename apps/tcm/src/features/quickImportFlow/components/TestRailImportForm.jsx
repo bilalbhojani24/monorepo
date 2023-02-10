@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMAlerts, TMInputField } from 'common/bifrostProxy';
+import {
+  TMAlerts,
+  TMInputField,
+  TMTooltip,
+  TMTooltipBody,
+  TMTooltipHeader
+} from 'common/bifrostProxy';
 
 import { TEST_RAILS } from '../const/importSteps';
 import { setTestRailsCred } from '../slices/importSlice';
@@ -34,9 +40,9 @@ const TestRailImportForm = () => {
             label={
               <>
                 TestRail Email Address
-                <span className="ml-1">
+                {/* <span className="ml-1">
                   <InfoOutlinedIcon fontSize="inherit" />
-                </span>
+                </span> */}
               </>
             }
             errorText={
@@ -54,9 +60,24 @@ const TestRailImportForm = () => {
             label={
               <>
                 TestRail Host Name
-                <span className="ml-1">
-                  <InfoOutlinedIcon fontSize="inherit" />
-                </span>
+                <TMTooltip
+                  size="xs"
+                  placementSide="right"
+                  theme="dark"
+                  content={
+                    <>
+                      <TMTooltipBody>
+                        <p className="text-sm">
+                          Host Name is your TestRail’s
+                          <div>web address.</div>
+                          <div>Eg: https://abcd.testrail.io</div>
+                        </p>
+                      </TMTooltipBody>
+                    </>
+                  }
+                >
+                  <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                </TMTooltip>
               </>
             }
             placeholder="Enter Host Name"
@@ -77,9 +98,25 @@ const TestRailImportForm = () => {
           label={
             <>
               TestRail API Key
-              <span className="ml-1">
-                <InfoOutlinedIcon fontSize="inherit" />
-              </span>
+              <TMTooltip
+                size="xs"
+                placementSide="right"
+                theme="dark"
+                content={
+                  <>
+                    <TMTooltipBody>
+                      <p className="text-sm">
+                        API Key is located at My Settings &gt; API Keys
+                        <div className="mt-3 cursor-pointer font-medium text-white underline">
+                          Click here to get Token ID
+                        </div>
+                      </p>
+                    </TMTooltipBody>
+                  </>
+                }
+              >
+                <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+              </TMTooltip>
             </>
           }
           placeholder="Enter API Key"

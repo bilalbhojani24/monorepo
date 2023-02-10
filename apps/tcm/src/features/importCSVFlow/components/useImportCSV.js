@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import {
   setCSVFormData,
+  setCSVUploadError,
   setFileConfig,
   setShowMoreFields,
   uploadFile
@@ -26,6 +27,8 @@ const useImportCSV = () => {
   const mapFieldModalConfig = useSelector(
     (state) => state.importCSV.mapFieldModalConfig
   );
+  const allEncodings = useSelector((state) => state.importCSV.allEncodings);
+  const allSeparators = useSelector((state) => state.importCSV.allSeparators);
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -48,10 +51,15 @@ const useImportCSV = () => {
 
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
+    dispatch(setCSVUploadError('Please select a CSV file.'));
   };
 
   const handleProceedClick = () => {
     // now create the payload and make the api call
+    if (!fileConfig.file) {
+      dispatch(setCSVUploadError('Please select a CSV file.'));
+      return;
+    }
     const filesData = new FormData();
     // add formData
     Object.keys(csvFormData).forEach((key) => {
@@ -61,7 +69,7 @@ const useImportCSV = () => {
       else if (key === 'separators')
         filesData.append('csv_separator', csvFormData[key].label);
       else if (key === 'encodings')
-        filesData.append('encoding', csvFormData[key]);
+        filesData.append('encoding', csvFormData[key].label);
     });
     // add projectId and folderId
     filesData.append('project_id', queryParams.get('project'));
@@ -74,6 +82,8 @@ const useImportCSV = () => {
   };
 
   return {
+    allEncodings,
+    allSeparators,
     currentCSVScreen,
     importCSVSteps,
     csvFormData,
