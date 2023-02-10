@@ -11,8 +11,14 @@ import './styles.scss';
 const isElement = (element) => React.isValidElement(element);
 
 const Breadcrumb = (props) => {
-  const { ChevronIcon, ChevronIconClass, data, onClick, size, wrapperClass } =
-    props;
+  const {
+    ChevronIcon,
+    ChevronIconClass,
+    data,
+    onClick,
+    size,
+    wrapperClassName
+  } = props;
 
   const handleClick = (e, clickedItem) => {
     e.preventDefault();
@@ -27,7 +33,7 @@ const Breadcrumb = (props) => {
           'border-b border-base-200 bg-slate-50':
             size === BREADCRUMB_SIZE.fullWidth
         },
-        wrapperClass
+        wrapperClassName
       )}
       aria-label="Breadcrumb"
     >
@@ -64,13 +70,10 @@ const Breadcrumb = (props) => {
                 aria-current={page.current ? 'page' : undefined}
                 onClick={(e) => handleClick(e, page)}
               >
-                {page.icon ? (
-                  isElement(page.icon) ? (
-                    page.icon
-                  ) : (
-                    <img src={page.icon} alt={`icon-${page.label}`} />
-                  )
-                ) : null}
+                {page.icon && isElement(page.icon) && page.icon}
+                {page.icon && !isElement(page.icon) && (
+                  <img src={page.icon} alt={`icon-${page.label}`} />
+                )}
                 <span>{page.name}</span>
               </a>
             </div>
@@ -82,7 +85,7 @@ const Breadcrumb = (props) => {
 };
 
 Breadcrumb.propTypes = {
-  ChevronIcon: PropTypes.any,
+  ChevronIcon: PropTypes.node,
   ChevronIconClass: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -94,7 +97,7 @@ Breadcrumb.propTypes = {
   ),
   onClick: PropTypes.func,
   size: PropTypes.oneOf(Object.values(BREADCRUMB_SIZE)),
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 Breadcrumb.defaultProps = {
@@ -103,7 +106,7 @@ Breadcrumb.defaultProps = {
   data: [],
   onClick: () => {},
   size: 'full-width',
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default Breadcrumb;
