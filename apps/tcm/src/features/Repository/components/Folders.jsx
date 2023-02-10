@@ -20,10 +20,11 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
+    searchKey,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
-    filterSearchMeta,
+    isTestCasesLoading,
     openedFolderModal,
     projectId,
     folderId,
@@ -37,7 +38,7 @@ export default function Folders() {
   } = useFolders();
 
   return (
-    <div className="flex h-full flex-col items-stretch">
+    <div className="flex h-full w-full shrink-0 grow flex-col items-start overflow-hidden">
       <AddEditFolderModal
         show={openedFolderModal?.modal === addFolderModalKey}
         projectId={projectId}
@@ -69,7 +70,7 @@ export default function Folders() {
       />
       {allFolders.length || isSearchFilterView || isFoldersLoading ? (
         <>
-          <div className="border-base-300 flex items-center border-b p-3">
+          <div className="border-base-300 flex w-full items-center border-b p-3">
             <span className="text-base">Folders</span>
             <TMButton
               buttonType="half-rounded-button"
@@ -83,7 +84,7 @@ export default function Folders() {
             </TMButton>
           </div>
 
-          <div className="flex h-full max-h-[calc(100vh-13.5rem)] w-full flex-col items-stretch overflow-y-auto">
+          <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
             {isFoldersLoading ? (
               <Loader wrapperClass="h-full" />
             ) : (
@@ -102,16 +103,20 @@ export default function Folders() {
                   />
                 ) : (
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
-                    <TMEmptyState
-                      // title=""
-                      title={`We found ${testCasesCount} Search Results for '${
-                        filterSearchMeta?.searchKey || ''
-                      }' across all folders`}
-                      mainIcon={
-                        <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
-                      }
-                      buttonProps={null}
-                    />
+                    {isTestCasesLoading ? (
+                      <Loader wrapperClass="h-full" />
+                    ) : (
+                      <TMEmptyState
+                        // title=""
+                        title={`We found ${testCasesCount} Search Results for '${
+                          searchKey || ''
+                        }' across all folders`}
+                        mainIcon={
+                          <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                        }
+                        buttonProps={null}
+                      />
+                    )}
                   </div>
                 )}
               </>

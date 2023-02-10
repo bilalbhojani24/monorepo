@@ -27,7 +27,11 @@ const useAuthentication = () => {
   };
 
   const authInit = () => {
-    const bypassHists = ['localhost:5173', '127.0.0.1:5500'];
+    const bypassHists = [
+      'localhost:5173',
+      '127.0.0.1:5500',
+      '42a5-2406-8800-9014-1012-48e2-fed5-4345-3d30.in.ngrok.io'
+    ];
     if (bypassHists.includes(window.location.host)) {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {

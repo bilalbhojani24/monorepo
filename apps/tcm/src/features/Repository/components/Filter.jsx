@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 // import PropTypes from 'prop-types';
-import { routeFormatter } from 'utils/helperFunctions';
+import { onSubmitKeyHandler, routeFormatter } from 'utils/helperFunctions';
 
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
@@ -39,9 +39,9 @@ const Filter = () => {
   } = useFilter();
 
   useEffect(() => {
-    initFormValues();
+    if (isFilterVisible) initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isFilterVisible]);
 
   const priorityOptions = [
     {
@@ -84,10 +84,23 @@ const Filter = () => {
       <div className="w-full">
         <TMInputField
           placeholder="Search by Test Case name, ID"
-          value={filterSearchMeta?.searchKey}
-          onChange={searchChangeHandler}
-          onBlur={applyFilterHandler}
+          value={filterSearchMeta?.q}
+          onChange={(e) => searchChangeHandler(e.currentTarget.value)}
+          onKeyDown={(e) => onSubmitKeyHandler(e, applyFilterHandler)}
           leadingIcon={<SearchIcon className="text-base-400" />}
+          isTrailingNodeClickable
+          trailingIcon={
+            <>
+              {filterSearchMeta?.q ? (
+                <CloseOutlinedIcon
+                  onClick={() => {
+                    searchChangeHandler('');
+                  }}
+                  className="text-base-800 cursor-pointer"
+                />
+              ) : null}
+            </>
+          }
         />
       </div>
       <div className="isolate inline-flex rounded-md shadow-sm">
@@ -95,16 +108,15 @@ const Filter = () => {
           onClick={() => setFilter(!isFilterVisible)}
           // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
-            'rounded-tr-none rounded-br-none': appliedFiltersCount,
-            'text-left flex justify-start': appliedFiltersCount
+            'rounded-tr-none rounded-br-none': appliedFiltersCount
           })}
           size="default"
           variant={appliedFiltersCount ? 'secondary' : 'primary'}
           colors={appliedFiltersCount ? 'brand' : 'white'}
           icon={
-            !appliedFiltersCount && (
+            !appliedFiltersCount ? (
               <FilterAltOutlinedIcon className="!h-5 !w-5" />
-            )
+            ) : null
           }
         >
           {appliedFiltersCount ? `Filters (${appliedFiltersCount})` : 'Filter'}
@@ -128,7 +140,7 @@ const Filter = () => {
         ) : null}
       </div>
       {isFilterVisible && (
-        <div className="absolute top-full right-0 w-full rounded-md bg-white drop-shadow-lg">
+        <div className="absolute top-full right-0 w-full max-w-[calc(100%-2px)] rounded-md bg-white drop-shadow-lg">
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
             <div className="flex h-full w-5/12 flex-col">
               <div className="text-brand-800 mb-2 pl-1 text-base font-medium">

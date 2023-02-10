@@ -39,6 +39,10 @@ const useTestCasesTable = () => {
     dispatch(setBulkUpdateProgress(data));
   };
 
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
+
   const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.ids
@@ -128,15 +132,23 @@ const useTestCasesTable = () => {
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
     navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId: testCaseItem.test_case_folder_id,
-        testCaseId: testCaseItem?.id
-      })
+      routeFormatter(
+        AppRoute.TEST_CASES,
+        {
+          projectId,
+          folderId: testCaseItem.test_case_folder_id,
+          testCaseId: testCaseItem?.id
+        },
+        true
+      ),
+      {
+        replace: true
+      }
     );
   };
 
   return {
+    isSearchFilterView,
     projectId,
     folderId,
     metaPage,

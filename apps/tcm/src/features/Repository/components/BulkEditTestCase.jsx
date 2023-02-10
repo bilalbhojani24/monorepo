@@ -51,18 +51,24 @@ const BulkEditTestCase = () => {
       <TMSectionHeadings
         title="Bulk Edit Test Cases"
         variant="buttons"
-        secondaryButtonProps={{
-          children: 'Update All',
-          wrapperClassName: 'whitespace-nowrap ml-4',
-          variant: 'primary',
-          onClick: () => setBulkEditConfirm(true)
-        }}
-        primaryButtonProps={{
-          children: 'Cancel',
-          variant: 'primary',
-          colors: 'white',
-          onClick: hideTestCaseAddEditPage
-        }}
+        trailingHeadNode={
+          <>
+            <TMButton
+              colors="white"
+              variant="primary"
+              onClick={hideTestCaseAddEditPage}
+            >
+              Cancel
+            </TMButton>
+            <TMButton
+              wrapperClassName="whitespace-nowrap ml-4"
+              variant="primary"
+              onClick={() => setBulkEditConfirm(true)}
+            >
+              Update All
+            </TMButton>
+          </>
+        }
       />
       <p className="text-base-800 my-3 font-normal">
         Update the fields below which you want to update for all the selected

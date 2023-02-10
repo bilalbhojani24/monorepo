@@ -11,10 +11,16 @@ import ComboBox from './modules/ComboBox/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
 import Dropdown from './modules/Dropdown/index';
+import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
+import DropdownTriggerWText from './modules/DropdownTriggerWText';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import FileUpload from './modules/FileUpload/index';
+import Header from './modules/Header/index';
+import HeaderBrand from './modules/HeaderBrand/index';
+import HeaderElements from './modules/HeaderElements/index';
+import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
@@ -25,6 +31,7 @@ import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
+import Metadata from './modules/Metadata';
 import Modal from './modules/Modal';
 import ModalBody from './modules/ModalBody';
 import ModalFooter from './modules/ModalFooter';
@@ -43,6 +50,7 @@ import RadioGroup from './modules/RadioGroup/index';
 import RadioSmallCards from './modules/RadioSmallCards/index';
 import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
+import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
 import SidebarHeader from './modules/SidebarHeader/index';
@@ -65,7 +73,6 @@ import TableHead from './modules/TableHead/index';
 import TableRow from './modules/TableRow/index';
 import Tabs from './modules/Tabs/index';
 import TextArea from './modules/TextArea/index';
-import TextEditor from './modules/TextEditor/index';
 import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
@@ -87,10 +94,16 @@ export {
   DataVisualization,
   DescriptionList,
   Dropdown,
+  DropdownTriggerWIcon,
+  DropdownTriggerWText,
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   FileUpload,
+  Header,
+  HeaderBrand,
+  HeaderElements,
+  HeaderProducts,
   Hyperlink,
   InputAddOnTexts,
   InputField,
@@ -101,6 +114,7 @@ export {
   ListTreeNode,
   ListTreeNodeContents,
   Loader,
+  Metadata,
   Modal,
   ModalBody,
   ModalFooter,
@@ -120,6 +134,7 @@ export {
   RadioSmallCards,
   RadioStackedCard,
   RadioTable,
+  RichTextEditor,
   SectionHeadings,
   SelectMenu,
   SidebarHeader,
@@ -142,7 +157,6 @@ export {
   TableRow,
   Tabs,
   TextArea,
-  TextEditor,
   Tooltip,
   TooltipBody,
   TooltipFooter,

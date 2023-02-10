@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import Loader from '../Loader/index';
 
 import {
@@ -25,6 +25,7 @@ const Button = ({
   fullWidth,
   icon,
   iconPlacement,
+  isIconOnlyButton,
   colors
 }) => {
   const buttonRef = useRef();
@@ -47,7 +48,16 @@ const Button = ({
           'grid-cols-[16px,2fr]':
             iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon !== null,
           'grid-cols-[2fr,16px]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null
+            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null,
+          'gap-0 grid-cols-auto': isIconOnlyButton,
+          'h-5 w-5':
+            (size === BUTTON_SIZES[0] ||
+              size === BUTTON_SIZES[1] ||
+              size === BUTTON_SIZES[2]) &&
+            isIconOnlyButton,
+          'h-6 w-6':
+            (size === BUTTON_SIZES[3] || size === BUTTON_SIZES[4]) &&
+            isIconOnlyButton
         })}
       >
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon}
@@ -55,6 +65,32 @@ const Button = ({
         {iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon}
       </span>
     );
+
+  const getIconOnlyBtnStyle = () => {
+    let result = '';
+    if (isIconOnlyButton) {
+      switch (size) {
+        case BUTTON_SIZES[0]:
+          result = 'p-[5px]';
+          break;
+        case BUTTON_SIZES[1]:
+          result = 'p-[7px]';
+          break;
+        case BUTTON_SIZES[2]:
+          result = 'p-[9px]';
+          break;
+        case BUTTON_SIZES[3]:
+          result = 'p-[9px]';
+          break;
+        case BUTTON_SIZES[4]:
+          result = 'p-[13px]';
+          break;
+        default:
+          break;
+      }
+    }
+    return result;
+  };
 
   const handleClick = (e) => {
     if (disabled) return;
@@ -102,6 +138,7 @@ const Button = ({
         {
           'w-full': fullWidth === true
         },
+        getIconOnlyBtnStyle(),
         wrapperClassName
       )}
       onClick={handleClick}
@@ -122,7 +159,8 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
   iconPlacement: PropTypes.string,
-  colors: PropTypes.oneOf(BUTTON_COLORS)
+  colors: PropTypes.oneOf(BUTTON_COLORS),
+  isIconOnlyButton: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -136,7 +174,8 @@ Button.defaultProps = {
   fullWidth: false,
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
-  colors: BUTTON_COLORS[0]
+  colors: BUTTON_COLORS[0],
+  isIconOnlyButton: false
 };
 
 export default Button;

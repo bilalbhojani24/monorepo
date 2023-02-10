@@ -12,7 +12,9 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   setFilterSearchMeta,
-  updateAllTestCases
+  updateAllTestCases,
+  updateFoldersLoading,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = () => {
@@ -48,17 +50,27 @@ const useFilter = () => {
         : filterOptions[key];
 
       if (value) {
-        if (key === 'searchKey') queryParams[`q[name]`] = value;
-        else queryParams[`q[${key}]`] = value;
+        if (key === 'q') {
+          queryParams[`q[query]`] = value;
+        } else queryParams[`q[${key}]`] = value;
       }
     });
 
-    getTestCasesSearchFilterAPI({
-      projectId,
-      props: queryParams
-    }).then((res) => {
-      dispatch(updateAllTestCases(res));
-    });
+    if (Object.keys(queryParams).length) {
+      dispatch(updateTestCasesListLoading(true));
+      getTestCasesSearchFilterAPI({
+        projectId,
+        props: queryParams
+      }).then((res) => {
+        const testCases = res.test_cases.map((item) => ({
+          ...item,
+          folders: res?.folders?.[item.id] || null
+        }));
+        dispatch(updateAllTestCases(testCases));
+        dispatch(updateTestCasesListLoading(false));
+        dispatch(updateFoldersLoading(false));
+      });
+    }
   };
 
   const applyFilterHandler = () => {
@@ -103,10 +115,10 @@ const useFilter = () => {
     }
   };
 
-  const searchChangeHandler = (e) => {
+  const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
-      searchKey: e.currentTarget.value
+      q: value
     });
   };
 
@@ -114,12 +126,12 @@ const useFilter = () => {
     const tags = searchParams.get('tags');
     const owner = searchParams.get('owner');
     const priority = searchParams.get('priority');
-    const searchKey = searchParams.get('searchKey');
+    const q = searchParams.get('q');
     const filterOptions = {
       tags: tags?.split(',') || [],
       owner: owner?.split(',') || [],
       priority: priority?.split(',') || [],
-      searchKey: searchKey || ''
+      q: q || ''
     };
     const count = [tags, owner, priority];
     setAppliedFiltersCount(count.filter((item) => item).length);

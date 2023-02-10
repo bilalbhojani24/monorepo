@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/bifrost/utils/tailwindUtils';
-import HeaderDummy from 'features/HeaderDummy';
+import { twClassNames } from '@browserstack/utils';
+import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
 import ImportStatus from 'features/quickImportFlow/components/ImportStatus';
 import SideNav from 'features/SideNav';
@@ -38,8 +38,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HeaderDummy />
-      <div className="bg-base-50 flex min-h-[calc(100vh-64px)] items-stretch pt-16">
+      <TMHeader />
+      <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {(importStarted ||
           isNotificationDismissed === false ||
           showNotificationModal) && (
@@ -49,7 +49,7 @@ function App() {
         )}
         <div
           className={twClassNames(
-            'relative flex min-h-[calc(100vh-64px)] w-full items-stretch',
+            'relative flex w-full items-stretch overflow-hidden',
             {
               'mt-16': importStatus === 'ongoing'
             }

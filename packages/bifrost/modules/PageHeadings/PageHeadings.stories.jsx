@@ -11,6 +11,8 @@ import {
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
+import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
+import DropdownTriggerWText from '../DropdownTriggerWText';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import PageHeadings from './index';
@@ -162,10 +164,10 @@ ActionsWithButtons.args = {
 
 ActionsWithDropdowns.args = {
   actions: (
-    // <div className="flex items-center">
     <>
       <div className="mr-2">
         <Dropdown
+          trigger={<DropdownTriggerWText>Options</DropdownTriggerWText>}
           options={[
             {
               id: '1',
@@ -185,7 +187,7 @@ ActionsWithDropdowns.args = {
         />
       </div>
       <Dropdown
-        triggerVariant="menu-button"
+        trigger={<DropdownTriggerWIcon variant="menu-button" />}
         options={[
           {
             id: '1',

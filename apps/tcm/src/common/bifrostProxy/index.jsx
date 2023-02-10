@@ -7,9 +7,9 @@ import {
   Button,
   Checkbox,
   ComboBox,
-  Dropdown,
   EmptyState,
   FileUpload,
+  Hyperlink,
   InputField,
   InputWButton,
   ListTree,
@@ -22,12 +22,18 @@ import {
   Notifications,
   PageHeadings,
   RadioGroup,
+  RichTextEditor,
   SectionHeadings,
   SelectMenu,
   Slideover,
   SlideoverHeader,
   StackedListWSingleColumn,
   Steps,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Tabs,
   TextArea,
   Tooltip,
@@ -37,6 +43,8 @@ import {
 
 import TMAttachments from './components/TMAttachments';
 import TMDataTable from './components/TMDataTable';
+import TMDropdown from './components/TMDropdown';
+import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
@@ -55,7 +63,6 @@ export const TMListTreeNodeContents = (props) => (
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
-export const TMDropdown = (props) => <Dropdown {...props} />;
 export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
@@ -68,6 +75,13 @@ export const TMModal = (props) => <Modal {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
+
+export const TMTable = (props) => <Table {...props} />;
+export const TMTableBody = (props) => <TableBody {...props} />;
+export const TMTableCell = (props) => <TableCell {...props} />;
+export const TMTableHead = (props) => <TableHead {...props} />;
+export const TMTableRow = (props) => <TableRow {...props} />;
+
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
@@ -80,5 +94,7 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
+export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
+export const TMHyperlink = (props) => <Hyperlink {...props} />;
 
-export { TMAttachments, TMDataTable, TMPagination };
+export { TMAttachments, TMDataTable, TMDropdown, TMHeader, TMPagination };

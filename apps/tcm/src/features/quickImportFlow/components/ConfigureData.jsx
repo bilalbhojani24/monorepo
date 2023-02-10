@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMAlerts, TMSectionHeadings } from 'common/bifrostProxy';
+import { TMAlerts, TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 import { number, shape, string } from 'prop-types';
 
 import ConfigureDataList from './ConfigureDataList';
@@ -33,11 +33,9 @@ const ConfigureData = (props) => {
           <TMSectionHeadings
             title="Select projects you would like to import"
             variant="buttons"
-            primaryButtonProps={{
-              children: 'Proceed',
-              size: 'default',
-              onClick: handleConfigureDataProceed
-            }}
+            trailingHeadNode={
+              <TMButton onClick={handleConfigureDataProceed}>Proceed</TMButton>
+            }
           />
           <ConfigureDataList projects={projects} />
         </div>

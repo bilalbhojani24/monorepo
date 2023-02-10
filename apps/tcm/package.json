@@ -16,6 +16,8 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
+    "@browserstack/bifrost": "workspace:*",
+    "@browserstack/utils": "workspace:*",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
@@ -23,14 +25,15 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.2",
     "classnames": "^2.2.6",
+    "highcharts-react-official": "^3.1.0",
     "moment": "^2.29.4",
     "prop-types": "15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-html-parser": "^2.0.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.1",
-    "utils": "link:@mui/material/utils",
-    "@browserstack/bifrost": "workspace:*"
+    "utils": "link:@mui/material/utils"
   },
   "devDependencies": {
     "@browserstack/stylelint-config": "workspace:*",

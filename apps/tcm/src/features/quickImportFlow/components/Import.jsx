@@ -64,7 +64,9 @@ const Import = () => {
         // }
       />
       <Steps steps={allImportSteps} />
-      {getCurrentScreen()}
+      <div id="current-screen-wrapper" className="overflow-auto">
+        {getCurrentScreen()}
+      </div>
     </>
   );
 };

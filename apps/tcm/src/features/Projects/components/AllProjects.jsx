@@ -13,7 +13,7 @@ import {
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 
-import { dropDownOptions, perPageCount } from '../const/projectsConst';
+import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
 import DeleteProjects from './DeleteProjects';
@@ -41,6 +41,7 @@ const AllProjects = () => {
     {
       name: 'ID',
       key: 'id',
+      className: 'w-10',
       cell: (rowData) => (
         <div
           role="button"
@@ -56,6 +57,7 @@ const AllProjects = () => {
     {
       name: 'PROJECT TITLE',
       key: 'name',
+      className: 'w-3/6',
       cell: (rowData) => (
         <div
           role="button"
@@ -78,6 +80,7 @@ const AllProjects = () => {
     {
       name: 'QUICK LINKS',
       key: 'quickLinks',
+      // className: 'w-1/6',
       cell: (rowData) => (
         <div className="flex">
           <div
@@ -104,6 +107,7 @@ const AllProjects = () => {
     {
       name: '',
       key: 'action',
+      className: 'w-10',
       cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"
@@ -121,7 +125,7 @@ const AllProjects = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
@@ -152,7 +156,7 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex max-h-[calc(100vh-9.5rem)] flex-1 flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
         <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
           {isLoading ? (
             <Loader wrapperClass="h-96" />
@@ -166,11 +170,11 @@ const AllProjects = () => {
                     containerWrapperClass="shadow-none border-none"
                   />
 
-                  {metaPage?.count > perPageCount && (
+                  {metaPage?.count > metaPage?.page_size && (
                     <TMPagination
                       pageNumber={metaPage?.page || 1}
                       count={metaPage?.count || 0}
-                      pageSize={perPageCount}
+                      pageSize={metaPage?.page_size}
                     />
                   )}
                 </>

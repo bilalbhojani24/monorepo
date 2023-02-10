@@ -1,6 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { HideSourceOutlinedIcon, InfoOutlinedIcon } from 'assets/icons';
+import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
 import {
   TMEmptyState,
   TMTooltip,
@@ -22,6 +22,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    allFolders,
     isSearchFilterView,
     showDeleteModal,
     selectedFolder,
@@ -36,12 +37,12 @@ export default function TestCases() {
   if (isAddTestCasePageVisible) return <AddEditTestCase />;
 
   return (
-    <div className="flex w-full flex-col items-start">
-      {allTestCases.length || isSearchFilterView || isTestCasesLoading ? (
+    <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
+      {allFolders.length || isSearchFilterView ? (
         <>
           <Filter />
-          <div className="border-base-300 flex w-full flex-1 flex-col items-stretch border-l">
-            {selectedFolder && (
+          {selectedFolder && (
+            <div className="border-base-300 w-full border-l">
               <div className="border-base-200 w-full border-b p-4">
                 <div className="text-base-800 w-full font-medium">
                   {selectedFolder?.name}
@@ -71,8 +72,17 @@ export default function TestCases() {
                   </div>
                 )}
               </div>
-            )}
-            {isTestCasesLoading && isFoldersLoading ? (
+            </div>
+          )}
+        </>
+      ) : null}
+      {allTestCases.length ||
+      isSearchFilterView ||
+      isTestCasesLoading ||
+      isFoldersLoading ? (
+        <>
+          <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
+            {isTestCasesLoading || isFoldersLoading ? (
               <Loader wrapperClass="h-full" />
             ) : (
               <>
@@ -82,13 +92,13 @@ export default function TestCases() {
                       title="No Results Found"
                       description="No matching results found. Try searching with another test case name/ID"
                       mainIcon={
-                        <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                        <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }
                       buttonProps={null}
                     />
                   </div>
                 ) : (
-                  <div className="max-h-[calc(100vh-20.5rem)] flex-1 flex-col items-stretch  overflow-y-auto">
+                  <div className=" flex-1 flex-col items-stretch  overflow-y-auto">
                     <TestCasesTable
                       isCondensed
                       containerWrapperClass="md:rounded-none"

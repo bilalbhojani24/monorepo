@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
 import Tab from './components/Tab';
 import { TAB_SHAPE } from './const/tabsConstants';
-import classNames from 'classnames';
 
 import './styles.scss';
 
-const Tabs = ({ defaultIndex, id, isContained, isFullWidth, label, onTabChange, shape, tabsArray }) => {
-  const [selectedTab, setSelectedTab] = useState(tabsArray ? tabsArray[0] : null);
+const Tabs = ({
+  defaultIndex,
+  id,
+  isContained,
+  isFullWidth,
+  label,
+  onTabChange,
+  shape,
+  tabsArray
+}) => {
+  const [selectedTab, setSelectedTab] = useState(
+    tabsArray ? tabsArray[0] : null
+  );
 
   const onTabClickHandler = (event, clickedTab) => {
-    const thisTab = clickedTab ? clickedTab : tabsArray.find((tab) => tab.name === event.currentTarget.value);
+    const thisTab =
+      clickedTab ||
+      tabsArray.find((tab) => tab.name === event.currentTarget.value);
     setSelectedTab(thisTab);
     onTabChange(thisTab, event);
   };
 
   useEffect(() => {
-    if (defaultIndex && tabsArray?.length && tabsArray[defaultIndex]) setSelectedTab(tabsArray[defaultIndex]);
+    if (defaultIndex && tabsArray?.length && tabsArray[defaultIndex])
+      setSelectedTab(tabsArray[defaultIndex]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultIndex]);
 
@@ -34,7 +49,7 @@ const Tabs = ({ defaultIndex, id, isContained, isFullWidth, label, onTabChange, 
               id={id}
               name={id}
               onChange={onTabClickHandler}
-              className="block w-full rounded-md border-base-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm"
+              className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md py-2 pl-3 pr-10 text-base focus:outline-none sm:text-sm"
               defaultValue={selectedTab?.name}
             >
               {tabsArray?.map((tab) => (
@@ -43,12 +58,13 @@ const Tabs = ({ defaultIndex, id, isContained, isFullWidth, label, onTabChange, 
             </select>
           </div>
           <div className="hidden sm:block">
-            <div className="border-base-200">
+            <div className="border-base-200 border-b">
               <nav
-                className={classNames('-mb-px flex', {
+                className={twClassNames('-mb-px flex', {
                   'space-x-8': !isFullWidth,
                   'border-b': isFullWidth,
-                  'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0': isContained
+                  'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
+                    isContained
                 })}
                 aria-label="Tabs"
               >
@@ -98,8 +114,7 @@ Tabs.defaultProps = {
   isFullWidth: false,
   label: '',
   onTabChange: () => {},
-  shape: TAB_SHAPE[0],
-  tabsArray: []
+  shape: TAB_SHAPE[0]
 };
 
 export default Tabs;

@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { ArrowDownIcon, ArrowUpIcon, InformationCircleIcon } from '../../Icon';
@@ -10,17 +10,15 @@ const Kpi = ({
   difference,
   percentage,
   description,
-  direction,
+  direction
 }) => (
   <div>
     <p className="text-base-900 text-base font-normal leading-6">{title}</p>
 
     <div
-      className={classNames(
+      className={twClassNames(
         'flex',
-        direction === 'vertical'
-          ? 'flex-col items-start gap-1'
-          : 'items-center',
+        direction === 'vertical' ? 'flex-col items-start gap-1' : 'items-center'
       )}
     >
       <p className="text-base-900 mr-2.5 text-3xl font-semibold leading-9">
@@ -30,17 +28,17 @@ const Kpi = ({
       {description.length > 0 && (
         <>
           <div
-            className={classNames('flex items-center', {
-              'flex-row-reverse': direction === 'vertical',
+            className={twClassNames('flex items-center', {
+              'flex-row-reverse': direction === 'vertical'
             })}
           >
             <p
-              className={classNames(
+              className={twClassNames(
                 'text-sm font-medium leading-5 text-base-500',
                 {
                   'ml-1.5': direction === 'vertical',
-                  'mr-1.5': direction === 'horizontal',
-                },
+                  'mr-1.5': direction === 'horizontal'
+                }
               )}
             >
               {description}
@@ -52,22 +50,22 @@ const Kpi = ({
           </div>
 
           <div
-            className={classNames(
+            className={twClassNames(
               changeType === 'increase'
                 ? 'bg-success-100 text-success-800'
                 : 'bg-danger-100 text-danger-800',
               direction === 'vertical' ? 'mt-2.5' : 'ml-2.5',
-              'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium',
+              'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium'
             )}
           >
             {changeType === 'increase' ? (
               <ArrowUpIcon
-                className="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-success-500"
+                className="text-success-500 -ml-1 mr-0.5 h-5 w-5 shrink-0 self-center"
                 aria-hidden="true"
               />
             ) : (
               <ArrowDownIcon
-                className="-ml-1 mr-0.5 h-5 w-5 shrink-0 self-center text-danger-500"
+                className="text-danger-500 -ml-1 mr-0.5 h-5 w-5 shrink-0 self-center"
                 aria-hidden="true"
               />
             )}
@@ -89,7 +87,7 @@ Kpi.propTypes = {
   difference: PropTypes.string,
   description: PropTypes.string,
   percentage: PropTypes.string,
-  direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  direction: PropTypes.oneOf(['horizontal', 'vertical'])
 };
 
 Kpi.defaultProps = {
@@ -98,7 +96,7 @@ Kpi.defaultProps = {
   changeType: '',
   description: '',
   percentage: '',
-  direction: 'horizontal',
+  direction: 'horizontal'
 };
 
 export default Kpi;

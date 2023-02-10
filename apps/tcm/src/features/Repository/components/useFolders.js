@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { setSelectedProject } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
@@ -16,12 +15,14 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
-  updateFoldersLoading
+  updateFoldersLoading,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 import useTestCases from './useTestCases';
 
 export default function useFolders() {
+  const [searchParams] = useSearchParams();
   const { showTestCaseAdditionPage, hideTestCaseAddEditPage } = useTestCases();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
@@ -31,14 +32,14 @@ export default function useFolders() {
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
-  const filterSearchMeta = useSelector(
-    (state) => state.repository.filterSearchMeta
-  );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
   const isFoldersLoading = useSelector(
     (state) => state.repository.isLoading.folder
+  );
+  const isTestCasesLoading = useSelector(
+    (state) => state.repository.isLoading.testCases
   );
   const testCasesCount =
     useSelector((state) => state.repository.allTestCases)?.length || 0;
@@ -104,18 +105,23 @@ export default function useFolders() {
     ) {
       // select first folder by default, only if the test cases page is still open
       const firstFolderId = foldersArray[0]?.id;
-      if (firstFolderId)
+      if (firstFolderId) {
+        dispatch(updateTestCasesListLoading(true));
+
         navigate(
           routeFormatter(AppRoute.TEST_CASES, {
             projectId,
             folderId: firstFolderId
-          })
+          }),
+          {
+            replace: true
+          }
         );
+      }
     }
   };
 
   const fetchAllFolders = () => {
-    dispatch(setSelectedProject(projectId));
     // dispatch(setAddTestCaseVisibility(false));
     if (projectId) {
       dispatch(updateFoldersLoading(true));
@@ -223,6 +229,8 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    isTestCasesLoading,
+    searchKey: searchParams.get('q'),
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -230,13 +238,13 @@ export default function useFolders() {
     projectId,
     folderId,
     allFolders,
-    filterSearchMeta,
     showAddFolderModal,
     fetchAllFolders,
     updateRouteHelper,
     folderUpdateHandler,
     folderActionsHandler,
     moveFolderHelper,
-    moveFolderOnOkHandler
+    moveFolderOnOkHandler,
+    hideFolderModal
   };
 }

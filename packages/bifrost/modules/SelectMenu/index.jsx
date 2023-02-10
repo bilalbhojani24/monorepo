@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import classNames from 'classnames';
 
 import {
   arrayOf,
@@ -102,7 +102,7 @@ const SelectMenu = (props) => {
                   <Listbox.Option
                     key={option.value}
                     className={({ active }) =>
-                      classNames(
+                      twClassNames(
                         {
                           'bg-brand-600 text-white': active && !isMultiSelect,
                           'text-base-900': !active,
@@ -132,7 +132,7 @@ const SelectMenu = (props) => {
                             )}
 
                             <span
-                              className={classNames(
+                              className={twClassNames(
                                 {
                                   'font-semibold': selected,
                                   'font-normal': !selected
@@ -144,7 +144,7 @@ const SelectMenu = (props) => {
                             </span>
                             {selected && (
                               <span
-                                className={classNames(
+                                className={twClassNames(
                                   {
                                     'text-white': active,
                                     'text-brand-600': !active,

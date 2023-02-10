@@ -7,5 +7,3 @@ export const projectStatus = [
   { label: 'Active', value: 'Active' },
   { label: 'Closed', value: 'Closed' }
 ];
-
-export const perPageCount = 30;

@@ -23,7 +23,7 @@ const MainRoute = () => {
 
   return (
     <div
-      className={classNames('flex flex-1 flex-col', {
+      className={classNames('flex flex-1 flex-col overflow-hidden', {
         'md:pl-64': location.pathname !== AppRoute.LANDING
       })}
     >
@@ -70,6 +70,14 @@ const MainRoute = () => {
         />
         <Route
           path={AppRoute.TEST_RUNS}
+          element={
+            <PrivateComponent>
+              <TestRuns />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.TEST_RUNS_DETAILS}
           element={
             <PrivateComponent>
               <TestRuns />

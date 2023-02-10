@@ -10,6 +10,7 @@ import {
   TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 // import { projectStatus } from '../const/projectsConst';
 import useProjects from './useProjects';
@@ -47,6 +48,7 @@ const EditProjects = ({ show }) => {
           <TMInputField
             label="Project Name"
             placeholder="Project Name 01"
+            onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
             onChange={(e) =>
               setFormData({ ...formData, name: e.currentTarget.value })

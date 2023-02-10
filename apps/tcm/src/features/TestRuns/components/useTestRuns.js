@@ -1,62 +1,66 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getTestRuns } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 
+import { TABS_ARRAY } from '../const/immutableConst';
 import {
-  setAddTestRun,
-  setAddTestRunFormData,
-  updateAllTestRuns,
+  setAllTestRuns,
+  setCurrentTab,
+  setLoader,
+  setMetaPage
 } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
-  const { projectId } = useParams();
   const dispatch = useDispatch();
-  const allTestRunsArray = useSelector(
-    (state) => state.testRuns.allTestRunsArray,
-  );
-  const showAddTestRunsForm = useSelector(
-    (state) => state.testRuns.showAddTestRunsForm,
-  );
-  const testRunFormData = useSelector(
-    (state) => state.testRuns.testRunFormData,
-  );
-  const showAddTestCaseModal = useSelector(
-    (state) => state.testRuns.showAddTestCaseModal,
+  const [searchParams] = useSearchParams();
+  const { projectId } = useParams();
+  const currentPage = searchParams.get('p');
+
+  const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
+  const currentTab = useSelector((state) => state.testRuns.currentTab);
+  const isTestRunsLoading = useSelector(
+    (state) => state.testRuns.isLoading.testRuns
   );
 
-  const showTestRunAddFormHandler = () => {
-    dispatch(setAddTestRun(true));
+  const isAddTestRunsFormVisible = useSelector(
+    (state) => state.testRuns.isVisible.addTestRunsForm
+  );
+
+  const setTestRunsLoader = (value) => {
+    dispatch(setLoader({ key: 'testRuns', value }));
   };
 
   const fetchAllTestRuns = () => {
     if (projectId) {
       dispatch(setSelectedProject(projectId));
-      getTestRuns({ projectId }).then((data) => {
-        dispatch(updateAllTestRuns(data?.testruns || []));
+      setTestRunsLoader(true);
+      const isClosed = currentTab === TABS_ARRAY[1]?.name;
+      getTestRuns({ projectId, isClosed, page: currentPage }).then((data) => {
+        dispatch(setAllTestRuns(data?.test_runs || []));
+        dispatch(setMetaPage(data?.info));
+        setTestRunsLoader(false);
       });
-    } else dispatch(updateAllTestRuns([]));
+    } else dispatch(setAllTestRuns([]));
   };
 
-  const handleTestRunInputFieldChange = (key1, key2) => (e) => {
-    dispatch(setAddTestRunFormData({ key1, key2, value: e.target.value }));
+  const handleTabChange = (tabName) => {
+    dispatch(setCurrentTab(tabName.name));
   };
 
-  const handleSelectMenuChange = (key1, key2) => (value) => {
-    console.log('gone in select menu');
-    dispatch(setAddTestRunFormData({ key1, key2, value }));
-  };
+  useEffect(() => {
+    fetchAllTestRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, currentTab, currentPage]);
 
   return {
-    allTestRunsArray,
-    fetchAllTestRuns,
-    handleTestRunInputFieldChange,
-    handleSelectMenuChange,
+    isTestRunsLoading,
+    currentTab,
+    allTestRuns,
     projectId,
-    testRunFormData,
-    showTestRunAddFormHandler,
-    showAddTestRunsForm,
-    showAddTestCaseModal,
+    isAddTestRunsFormVisible,
+    handleTabChange
   };
 };
 

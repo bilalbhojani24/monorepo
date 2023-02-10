@@ -59,11 +59,17 @@ const UploadFile = () => {
       <TMSectionHeadings
         title="Upload CSV/XLS"
         variant="buttons"
-        secondaryButtonProps={{
-          children: 'Proceed',
-          variant: 'primary',
-          onClick: handleProceedClick
-        }}
+        trailingHeadNode={
+          <>
+            <TMButton
+              variant="primary"
+              colors="white"
+              onClick={handleProceedClick}
+            >
+              Proceed
+            </TMButton>
+          </>
+        }
       />
       <div className="mt-5 mb-2">Upload File:</div>
       {!fileConfig?.fileName && (

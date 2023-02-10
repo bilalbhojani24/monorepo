@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { TP_TOOLTIP_THEME } from '../../shared/tooltipPopoverConstants';
 import { ThemeContextData } from '../../shared/tooltipPopoverThemeContext';
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import './styles.scss';
 

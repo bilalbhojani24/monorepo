@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Breadcrumbs from '../Breadcrumb';
@@ -22,7 +22,7 @@ const PageHeadings = (props) => {
 
           {/* title */}
           <h2
-            className={classNames(
+            className={twClassNames(
               'text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight',
               {
                 'text-base-900': theme === PAGE_HEADINGS_THEME[0],
@@ -39,7 +39,7 @@ const PageHeadings = (props) => {
             {metaData.map((data) => (
               <div
                 key={data.id}
-                className={classNames('mt-2 flex items-center text-sm', {
+                className={twClassNames('mt-2 flex items-center text-sm', {
                   'text-base-500': theme === PAGE_HEADINGS_THEME[0],
                   'text-base-300': theme === PAGE_HEADINGS_THEME[1],
                   'mt-1': heading.length > 0

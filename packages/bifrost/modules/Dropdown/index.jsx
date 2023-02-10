@@ -1,46 +1,37 @@
-import React, { Fragment } from 'react';
-import { Menu, Transition } from '@headlessui/react';
+import React from 'react';
+import { twClassNames } from '@browserstack/utils';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import PropTypes from 'prop-types';
-
-import { DROPDOWN_TYPES } from './const/dropdownConstants';
-import DropdownItem from './DropdownItem';
-import DropdownTrigger from './DropdownTrigger';
 
 import './styles.scss';
 
 const Dropdown = (props) => {
   const {
     options,
-    triggerTitle,
-    triggerVariant,
+    trigger,
     headerVisible,
     heading,
     subHeading,
-    onClick
+    onClick,
+    onOpenChange,
+    wrapperClassName
   } = props;
 
   const handleClick = (e) => {
-    e.preventDefault();
     onClick(e);
   };
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <DropdownTrigger
-        triggerTitle={triggerTitle}
-        triggerVariant={triggerVariant}
-      />
+    <DropdownMenu.Root onOpenChange={(open) => onOpenChange?.(open)}>
+      <div className={wrapperClassName}>
+        <DropdownMenu.Trigger>{trigger}</DropdownMenu.Trigger>
+      </div>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="divide-base-100 absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="end"
+          className="divide-base-100 z-10 mt-2 w-56 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+        >
           {headerVisible && (
             <div className="px-4 py-3">
               <p className="text-sm">{heading}</p>
@@ -51,22 +42,34 @@ const Dropdown = (props) => {
           )}
           <div className="py-1">
             {options.map((option, optionIdx) => (
-              <DropdownItem
+              <DropdownMenu.Item
                 key={`${option.body}-${option.id}`}
-                index={optionIdx}
-                option={option}
-                callback={handleClick}
-              />
+                className={twClassNames(
+                  'border-base-100 text-base-700 hover:bg-base-100 hover:text-base-900 focus:outline-none',
+                  {
+                    'border-t border-base-100':
+                      option.divider === true && optionIdx !== 0
+                  }
+                )}
+              >
+                <button
+                  onClick={handleClick}
+                  type="button"
+                  className="block w-full px-4 py-2 text-left text-sm"
+                >
+                  {option.body}
+                </button>
+              </DropdownMenu.Item>
             ))}
           </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };
 
 Dropdown.propTypes = {
-  triggerTitle: PropTypes.string,
+  trigger: PropTypes.node,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -74,20 +77,22 @@ Dropdown.propTypes = {
       divider: PropTypes.bool
     })
   ),
-  triggerVariant: PropTypes.oneOf(DROPDOWN_TYPES),
   headerVisible: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onOpenChange: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 Dropdown.defaultProps = {
-  triggerTitle: 'Options',
+  trigger: 'Dropdown',
   options: [],
-  triggerVariant: DROPDOWN_TYPES[0],
   headerVisible: false,
   heading: '',
   subHeading: '',
-  onClick: () => {}
+  onClick: () => {},
+  onOpenChange: null,
+  wrapperClassName: ''
 };
 
 export default Dropdown;

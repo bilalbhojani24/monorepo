@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import {
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
+  // FolderOpenOutlinedIcon,
   InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
@@ -13,6 +14,7 @@ import {
   TMComboBox,
   TMFileUpload,
   TMInputField,
+  // TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
@@ -20,6 +22,7 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
+import { BASE_API_URL } from 'const/routes';
 
 import {
   priorityOptions,
@@ -34,6 +37,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -56,7 +60,8 @@ const AddEditTestCase = () => {
     tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    imageUploadRTEHelper
   } = useAddEditTestCase();
 
   const { initFormValues } = useTestCases();
@@ -67,28 +72,35 @@ const AddEditTestCase = () => {
   }, []);
 
   return (
-    <div className="border-base-200 w-full border-l">
-      <div className="p-4 pb-0">
+    <div className="border-base-200 flex w-full  shrink-0 grow flex-col items-start overflow-hidden border-l">
+      <div className="w-full p-4 pb-0">
         <TMSectionHeadings
           title={isTestCaseEditing ? 'Edit Test Case' : 'Create Test Case'}
           variant="buttons"
-          secondaryButtonProps={{
-            children: isTestCaseEditing ? 'Update' : 'Save',
-            variant: 'primary',
-            onClick: () => {
-              if (isTestCaseEditing) editTestCase(testCaseFormData);
-              else saveTestCase(testCaseFormData);
-            }
-          }}
-          primaryButtonProps={{
-            children: 'Cancel',
-            variant: 'primary',
-            colors: 'white',
-            onClick: hideTestCaseAddEditPage
-          }}
+          trailingHeadNode={
+            <>
+              <TMButton
+                colors="white"
+                variant="primary"
+                onClick={hideTestCaseAddEditPage}
+              >
+                Cancel
+              </TMButton>
+              <TMButton
+                wrapperClassName="ml-4"
+                variant="primary"
+                onClick={() => {
+                  if (isTestCaseEditing) editTestCase(testCaseFormData);
+                  else saveTestCase(testCaseFormData);
+                }}
+              >
+                {isTestCaseEditing ? 'Update' : 'Save'}
+              </TMButton>
+            </>
+          }
         />
       </div>
-      <div className="max-h-[calc(100vh-14.2rem)] overflow-y-auto p-4 pt-0">
+      <div className="w-full shrink grow overflow-y-auto p-4 pt-0">
         <div className="my-4 flex gap-4">
           <div className="w-3/4">
             <TMInputField
@@ -101,6 +113,9 @@ const AddEditTestCase = () => {
               }
               errorText={inputError ? "This field can't be left empty" : ''}
             />
+            {/* <div className="mt-2.5 flex w-full">
+              <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
+            </div> */}
           </div>
           <div className="w-1/4">
             <TMSelectMenu
@@ -118,8 +133,16 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
+          {/* <TMRichTextEditor
+            label="Description"
+            value={testCaseFormData?.description}
+            height={200}
+            placeholder="Write in brief about this test case"
+            onChange={(val) => handleTestCaseFieldChange('description', val)}
+            onAssetUpload={imageUploadRTEHelper}
+          /> */}
           <TMTextArea
-            value={testCaseFormData.description}
+            value={testCaseFormData?.description}
             id="test-case-description"
             label="Description"
             placeholder="Write in brief about this test case"

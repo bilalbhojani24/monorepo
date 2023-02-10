@@ -1,29 +1,26 @@
-import React, { useEffect } from 'react';
-import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
+import React, { useEffect, useState } from 'react';
+import { TMButton, TMPageHeadings, TMTabs } from 'common/bifrostProxy';
 
-import AddTestRun from './AddTestRun';
+import { TABS_ARRAY } from '../const/immutableConst';
+
+import AddEditTestRun from './AddEditTestRun';
 import TestRunsTable from './TestRunsTable';
 import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
   const {
     showTestRunAddFormHandler,
-    showAddTestRunsForm,
-    fetchAllTestRuns,
-    projectId,
+    isAddTestRunsFormVisible,
+    handleTabChange
   } = useTestRuns();
 
-  useEffect(() => {
-    fetchAllTestRuns();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
-
-  if (showAddTestRunsForm) return <AddTestRun />;
+  if (isAddTestRunsFormVisible) return <AddEditTestRun />;
 
   return (
-    <div className="flex flex-1 flex-col items-stretch">
+    <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <div className="border-base-300 border-b">
         <TMPageHeadings
+          wrapperClassName="px-4 pt-6 bg-transparent"
           heading="Test Runs"
           actions={
             <>
@@ -33,10 +30,19 @@ const TestRuns = () => {
             </>
           }
         />
+        <div className="mb-0 w-full px-4">
+          <TMTabs
+            id="project-tabs"
+            tabsArray={TABS_ARRAY}
+            onTabChange={handleTabChange}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-stretch p-4">
-        <TestRunsTable />
+      <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
+        <div className="border-base-200 flex flex-col  justify-start  rounded-md border bg-white">
+          <TestRunsTable />
+        </div>
       </div>
     </div>
   );

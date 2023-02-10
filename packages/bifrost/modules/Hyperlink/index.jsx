@@ -1,19 +1,23 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
 import './styles.scss';
 
 const Hyperlink = (props) => {
-  const { children, color, disabled, fontSize, fontWeight, href, rel, underlined, wrapperClassName } = props;
+  const { children, href, onClick, rel, wrapperClassName } = props;
 
   return (
     <a
       href={href || '#'}
       rel={rel}
-      className={classNames('flex items-center', wrapperClassName, color, fontSize, fontWeight, {
-        underline: underlined,
-        'cursor-not-allowed': disabled
-      })}
+      className={twClassNames(
+        'flex items-center text-brand-600 text-base font-black',
+        wrapperClassName
+      )}
+      onClick={(e) => {
+        onClick?.(e);
+      }}
     >
       {children}
     </a>
@@ -22,29 +26,16 @@ const Hyperlink = (props) => {
 
 Hyperlink.propTypes = {
   children: PropTypes.node,
-  color: PropTypes.string,
-  disabled: PropTypes.bool,
-  fontSize: PropTypes.string,
-  fontWeight: PropTypes.string,
   href: PropTypes.string,
+  onClick: PropTypes.func,
   rel: PropTypes.string,
-  underlined: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 Hyperlink.defaultProps = {
-  children: (
-    <>
-      <span aria-hidden="true"> &rarr;</span>
-      View
-    </>
-  ),
-  color: 'text-brand-600',
-  disabled: false,
-  fontSize: 'text-base',
-  fontWeight: 'font-black',
-  href: 'www.google.com',
+  children: null,
+  onClick: null,
+  href: '#',
   rel: '',
-  underlined: false,
   wrapperClassName: ''
 };
 

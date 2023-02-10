@@ -26,13 +26,14 @@ const TestCaseDetailsView = () => {
       onOverlayClick={hideTestCaseViewDrawer}
       closeButtonOutside={false}
       description=""
-      topMarginElementId="whole-header"
+      topMarginElementId="bstack-header"
       slideoverWidth="max-w-md w-screen"
       backgroundOverlay={false}
     >
       <TMSlideoverHeader
         heading="Test Case Details"
         isBorder
+        backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
       <TestCaseView />
