@@ -309,9 +309,8 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const imageUploadRTEHelper = (blobInfo, progress) => {
+  const imageUploadRTEHelper = (blobInfo, progress) =>
     imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
-  };
 
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
