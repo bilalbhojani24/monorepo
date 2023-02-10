@@ -28,7 +28,8 @@ const SelectMenu = (props) => {
     defaultValue,
     checkPosition,
     placeholder,
-    value
+    value,
+    wrapperClassName
   } = props;
 
   const renderSingleOptions = (opts) => {
@@ -63,11 +64,13 @@ const SelectMenu = (props) => {
       multiple={isMultiSelect}
     >
       {({ open }) => (
-        <>
-          <Listbox.Label className="text-base-700 block text-sm font-medium">
-            {label}
-          </Listbox.Label>
-          <div className="relative mt-1">
+        <div className={wrapperClassName}>
+          {label && (
+            <Listbox.Label className="text-base-700 mb-1 block text-sm font-medium">
+              {label}
+            </Listbox.Label>
+          )}
+          <div className="relative">
             <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:ring-1 sm:text-sm">
               {({ value: buttonValue }) => (
                 <>
@@ -112,7 +115,7 @@ const SelectMenu = (props) => {
                           'py-2 pl-8 pr-4':
                             checkPosition === CHECK_POSITION[0] &&
                             !isMultiSelect,
-                          'pb-4 pl-3 hover:bg-base-50': isMultiSelect
+                          'py-3 pl-3 hover:bg-base-50': isMultiSelect
                         },
                         'relative cursor-pointer select-none'
                       )
@@ -181,7 +184,7 @@ const SelectMenu = (props) => {
               </Listbox.Options>
             </Transition>
           </div>
-        </>
+        </div>
       )}
     </Listbox>
   );
@@ -227,7 +230,8 @@ SelectMenu.propTypes = {
         image: string
       })
     )
-  ])
+  ]),
+  wrapperClassName: string
 };
 
 SelectMenu.defaultProps = {
@@ -237,7 +241,8 @@ SelectMenu.defaultProps = {
   label: '',
   placeholder: 'Placeholder...',
   onChange: () => {},
-  value: null
+  value: null,
+  wrapperClassName: ''
 };
 
 export default SelectMenu;
