@@ -8,6 +8,7 @@ import {
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
+import UnsavedChanges from './UnsavedChanges';
 import {
   TMAttachments,
   TMButton,
@@ -22,7 +23,6 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
-import { BASE_API_URL } from 'const/routes';
 
 import {
   priorityOptions,
@@ -410,6 +410,7 @@ const AddEditTestCase = () => {
         onClose={hideAddIssueModal}
         onSave={addIssuesSaveHelper}
       />
+      <UnsavedChanges />
     </div>
   );
 };

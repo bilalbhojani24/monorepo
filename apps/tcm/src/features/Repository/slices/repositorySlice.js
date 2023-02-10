@@ -69,7 +69,10 @@ const initialState = {
   isLoading: {
     folder: true,
     testCases: true
-  }
+  },
+  isUnsavedDataExists: false,
+  isUnsavedDataModalVisible: false,
+  recentRquestedAfterUnsaved: ''
 };
 
 export const repositorySlice = createSlice({
@@ -186,11 +189,23 @@ export const repositorySlice = createSlice({
     },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
+    },
+    setUnsavedDataExists: (state, { payload }) => {
+      state.isUnsavedDataExists = payload;
+    },
+    setUnsavedDataModal: (state, { payload }) => {
+      state.isUnsavedDataModalVisible = payload;
+    },
+    setRecentRquestedAfterUnsaved: (state, { payload }) => {
+      state.recentRquestedAfterUnsaved = payload;
     }
   }
 });
 
 export const {
+  setRecentRquestedAfterUnsaved,
+  setUnsavedDataModal,
+  setUnsavedDataExists,
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setFolderModalConf,

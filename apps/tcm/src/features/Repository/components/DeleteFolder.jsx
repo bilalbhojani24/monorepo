@@ -19,7 +19,8 @@ const DeleteFolder = ({ show }) => {
         heading="Delete Folder"
         subHeading="Are you sure you want to delete this folder? All the data within this folder will be lost. This action cannot be undone."
         handleDismissClick={hideFolderModal}
-        Icon={WarningAmberOutlinedIcon}
+        iconWrapperClassname="bg-danger-100"
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
         <TMButton variant="primary" colors="white" onClick={hideFolderModal}>
