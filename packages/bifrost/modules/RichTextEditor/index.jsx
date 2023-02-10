@@ -19,14 +19,14 @@ const RichTextEditor = ({
   height,
   label,
   width,
-  wrapperClass,
+  wrapperClassName,
   onChange,
   value,
   initialValue,
   editorRef,
   placeholder
 }) => (
-  <div className={twClassNames(wrapperClass)}>
+  <div className={twClassNames(wrapperClassName)}>
     {label ? (
       <label
         htmlFor={`rich-text-editor-${label}`}
@@ -58,7 +58,7 @@ RichTextEditor.propTypes = {
   placeholder: string,
   value: string,
   width: oneOfType([number, string]),
-  wrapperClass: string,
+  wrapperClassName: string,
   editorRef: shape({ current: instanceOf(Element) })
 };
 
@@ -70,7 +70,7 @@ RichTextEditor.defaultProps = {
   placeholder: 'Type something...',
   value: undefined,
   width: '100%',
-  wrapperClass: '',
+  wrapperClassName: '',
   editorRef: null
 };
 

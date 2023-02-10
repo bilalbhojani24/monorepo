@@ -8,7 +8,7 @@ import {
   FolderIcon,
   HomeIcon,
   InboxIcon,
-  UsersIcon,
+  UsersIcon
 } from '../Icon';
 import SidebarHeader from '../SidebarHeader';
 import SidebarItem from '../SidebarItem';
@@ -18,7 +18,7 @@ import SidebarNavigation from './index';
 const selectOptions = [
   { label: 'Project 1', value: 'p1' },
   { label: 'Project 2', value: 'p2' },
-  { label: 'Project 3', value: 'p3' },
+  { label: 'Project 3', value: 'p3' }
 ];
 const primaryNavs = [
   {
@@ -27,14 +27,14 @@ const primaryNavs = [
     activeIcon: HomeIcon,
     inActiveIcon: HomeIcon,
     path: '/',
-    badge: <Badge text="Active" />,
+    badge: <Badge text="Active" />
   },
   {
     id: 'team',
     label: 'Team',
     activeIcon: UsersIcon,
     inActiveIcon: UsersIcon,
-    path: '/team',
+    path: '/team'
   },
   {
     id: 'project',
@@ -42,14 +42,14 @@ const primaryNavs = [
     activeIcon: FolderIcon,
     inActiveIcon: FolderIcon,
     path: '/projects',
-    badge: <Badge text="Active" modifier="success" />,
+    badge: <Badge text="Active" modifier="success" />
   },
   {
     id: 'calendar',
     label: 'Calendar',
     activeIcon: CalendarIcon,
     inActiveIcon: CalendarIcon,
-    path: '/calendar',
+    path: '/calendar'
   },
   {
     id: 'document',
@@ -59,8 +59,8 @@ const primaryNavs = [
     path: '/documents',
     childrens: [
       { id: 'document__adhar', label: 'Adhar', path: '/adhar' },
-      { id: 'document__pancard', label: 'Pancard', path: '/pancard' },
-    ],
+      { id: 'document__pancard', label: 'Pancard', path: '/pancard' }
+    ]
   },
   {
     id: 'report',
@@ -70,9 +70,9 @@ const primaryNavs = [
     path: '/reports',
     childrens: [
       { id: 'report__finance', label: 'Finance', path: '/finance' },
-      { id: 'report__team', label: 'Team', path: '/team' },
-    ],
-  },
+      { id: 'report__team', label: 'Team', path: '/team' }
+    ]
+  }
 ];
 
 const secondaryNavs = [
@@ -81,22 +81,22 @@ const secondaryNavs = [
     label: 'Settings',
     activeIcon: HomeIcon,
     inActiveIcon: HomeIcon,
-    path: '/',
+    path: '/'
   },
   {
     id: 'integration',
     label: 'Integration',
     activeIcon: UsersIcon,
     inActiveIcon: UsersIcon,
-    path: '/team',
+    path: '/team'
   },
   {
     id: 'documentation',
     label: 'Documentation',
     activeIcon: FolderIcon,
     inActiveIcon: FolderIcon,
-    path: '/projects',
-  },
+    path: '/projects'
+  }
 ];
 
 const defaultConfig = {
@@ -110,28 +110,28 @@ const defaultConfig = {
             "import SidebarNavigation from 'bifrost/SidebarNavigation'"
           }
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     sidebarHeader: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     sidebarPrimaryNavigation: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     sidebarSecondaryNavigation: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
-    wrapperClass: {
+    wrapperClassName: {
       options: { type: 'string' },
-      defaultValue: '',
-    },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 
 const Template = (args) => <SidebarNavigation {...args} />;
@@ -147,7 +147,7 @@ const SidebarwithSelect = SidebarwithSelectTemplate.bind({});
 const SidebarwithSecondary = SidebarwithSecondaryNavigation.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -155,7 +155,7 @@ export {
   Primary,
   SidebarwithBrandImage,
   SidebarwithSecondary,
-  SidebarwithSelect,
+  SidebarwithSelect
 };
 
 /* ----------------------------
@@ -177,7 +177,7 @@ const SWBSidebarPri = (
 
 SidebarwithBrandImage.args = {
   sidebarHeader: SWBHeader,
-  sidebarPrimaryNavigation: SWBSidebarPri,
+  sidebarPrimaryNavigation: SWBSidebarPri
 };
 
 /* ----------------------------
@@ -197,7 +197,7 @@ const SWSSidebarPri = (
 
 SidebarwithSelect.args = {
   sidebarHeader: SWSHeader,
-  sidebarPrimaryNavigation: SWSSidebarPri,
+  sidebarPrimaryNavigation: SWSSidebarPri
 };
 
 /* ----------------------------
@@ -228,5 +228,5 @@ const SSSidebarSec = (
 SidebarwithSecondary.args = {
   sidebarHeader: SSHeader,
   sidebarPrimaryNavigation: SSSidebarPri,
-  sidebarSecondaryNavigation: SSSidebarSec,
+  sidebarSecondaryNavigation: SSSidebarSec
 };

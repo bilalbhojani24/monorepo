@@ -173,7 +173,7 @@ const SelectMenu = (props) => {
                               value: option.value
                             }}
                             border={false}
-                            wrapperClass="py-0"
+                            wrapperClassName="py-0"
                             checked={selected}
                           />
                         )}

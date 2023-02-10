@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-
 import { twClassNames } from '@browserstack/utils';
+import PropTypes from 'prop-types';
 
 import {
   CHECKBOX_DESCRIPTION_VARIANT,
@@ -24,7 +23,7 @@ const Checkbox = (props) => {
     name,
     onChange,
     position,
-    wrapperClass
+    wrapperClassName
   } = props;
   const ref = useRef();
 
@@ -45,7 +44,7 @@ const Checkbox = (props) => {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
             border && !isCard
         },
-        wrapperClass
+        wrapperClassName
       )}
     >
       <div
@@ -130,7 +129,7 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -146,7 +145,7 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default Checkbox;
