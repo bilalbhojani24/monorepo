@@ -98,7 +98,7 @@ export default function TestCases() {
                     />
                   </div>
                 ) : (
-                  <div className=" flex-1 flex-col items-stretch  overflow-y-auto">
+                  <div className=" flex-col   overflow-y-auto">
                     <TestCasesTable
                       isCondensed
                       containerWrapperClass="md:rounded-none"
