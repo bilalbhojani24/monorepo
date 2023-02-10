@@ -23,7 +23,9 @@ import {
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
+  setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
+  setAllFolders,
   setBulkUpdateProgress,
   setEditTestCasePageVisibility,
   setIssuesArray,
@@ -32,8 +34,7 @@ import {
   updateAllTestCases,
   updateBulkTestCaseFormData,
   updateTestCase,
-  updateTestCaseFormData,
-  setAllFolders
+  updateTestCaseFormData
 } from '../slices/repositorySlice';
 
 export default function useAddEditTestCase() {
@@ -46,6 +47,9 @@ export default function useAddEditTestCase() {
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
 
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
@@ -90,6 +94,7 @@ export default function useAddEditTestCase() {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
     dispatch(setBulkUpdateProgress(false));
+    dispatch(setAddTestCaseFromSearch(false));
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -310,6 +315,18 @@ export default function useAddEditTestCase() {
   const imageUploadRTEHelper = (blobInfo, progress) =>
     imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
 
+  const showTestCaseAdditionPage = () => {
+    dispatch(setAddTestCaseVisibility(true));
+    if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
+    if (!folderId)
+      // then in search view, go to repository view
+      navigate(
+        `${routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })}`
+      );
+  };
+
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -360,6 +377,7 @@ export default function useAddEditTestCase() {
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    imageUploadRTEHelper
+    imageUploadRTEHelper,
+    showTestCaseAdditionPage
   };
 }

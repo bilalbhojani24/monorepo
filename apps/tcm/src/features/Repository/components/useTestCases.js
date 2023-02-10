@@ -1,18 +1,15 @@
 // import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getTagsAPI } from 'api/common.api';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTestCasesAPI } from 'api/testcases.api';
-import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
-import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   setAddTestCaseVisibility,
-  setBulkUpdateProgress,
-  setEditTestCasePageVisibility,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
@@ -23,7 +20,6 @@ import {
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -33,6 +29,9 @@ export default function useTestCases() {
   );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
+  );
+  const isAddTestCaseFromSearch = useSelector(
+    (state) => state.repository.isAddTestCaseFromSearch
   );
   const loadedDataProjectId = useSelector(
     (state) => state.repository.loadedDataProjectId
@@ -97,25 +96,9 @@ export default function useTestCases() {
       fetchTags();
     }
   };
-  const showTestCaseAdditionPage = () => {
-    dispatch(setAddTestCaseVisibility(true));
-    if (!folderId)
-      // then in search view, go to repository view
-      navigate(
-        `${routeFormatter(AppRoute.TEST_CASES, {
-          projectId
-        })}`
-      );
-  };
-
-  const hideTestCaseAddEditPage = () => {
-    dispatch(setAddTestCaseVisibility(false));
-    dispatch(setEditTestCasePageVisibility(false));
-    dispatch(setBulkUpdateProgress(false));
-  };
 
   const fetchAllTestCases = () => {
-    dispatch(setAddTestCaseVisibility(false));
+    if (!isAddTestCaseFromSearch) dispatch(setAddTestCaseVisibility(false)); // if routed from search view and the user clicked Create Test Case CTA, do not reset
     if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       const page = searchParams.get('p');
@@ -147,8 +130,6 @@ export default function useTestCases() {
     currentPage: searchParams.get('p'),
     usersArray,
     selectedFolder,
-    showTestCaseAdditionPage,
-    hideTestCaseAddEditPage,
     allTestCases,
     isAddTestCasePageVisible,
     folderId,
