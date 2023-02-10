@@ -61,15 +61,23 @@ const TestRuns = () => {
                 <div className="flex h-96 w-full shrink-0 grow flex-col justify-center">
                   <TMEmptyState
                     title={`No ${currentTab}`}
-                    description="You can get started by creating test run by clicking on Create Test Run button."
+                    description={
+                      currentTab === TABS_ARRAY[0].name
+                        ? 'You can get started by creating test run by clicking on Create Test Run button.'
+                        : 'When you change status of any test run to closed, they will appear here'
+                    }
                     mainIcon={
                       <InfoOutlinedIcon className="text-base-500 !h-12 !w-12" />
                     }
-                    buttonProps={{
-                      children: 'Create Test Run',
-                      // onClick: showAddProjectModal,
-                      colors: 'white'
-                    }}
+                    buttonProps={
+                      currentTab === TABS_ARRAY[0].name
+                        ? {
+                            children: 'Create Test Run',
+                            // onClick: showAddProjectModal,
+                            colors: 'white'
+                          }
+                        : null
+                    }
                   />
                 </div>
               ) : (
