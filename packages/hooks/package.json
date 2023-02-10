@@ -17,6 +17,7 @@
     "@browserstack/vite-config": "workspace:*"
   },
   "peerDependencies": {
+    "axios": "1.2.2",
     "react": "16.13.1",
     "lodash": "4.17.21",
     "react-dom": "16.13.1",

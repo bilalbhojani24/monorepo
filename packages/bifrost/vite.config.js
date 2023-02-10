@@ -10,14 +10,10 @@ export default defineConfig(() => ({
       entry: resolve('./index.js'),
       name: 'BiFrOsT',
       formats: ['es'],
-      fileName: () => `index.js`,
+      fileName: () => `index.js`
     },
     rollupOptions: {
-      external: [
-        ...packageViteConfig.build.rollupOptions.external,
-        'prop-types',
-      ],
-      preserveModules: true,
-    },
-  },
+      external: [...packageViteConfig.build.rollupOptions.external]
+    }
+  }
 }));

@@ -21,7 +21,7 @@ module.exports = {
         'react-router-dom',
         '@reduxjs/toolkit',
         'react-redux',
-        'axios'
+        'prop-types'
       ]
     }
   }

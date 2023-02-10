@@ -29,8 +29,8 @@ const Badge = ({
         'bg-danger-100 text-danger-800': modifier === BADGE_MODIFIER[3],
         'bg-attention-100 text-attention-800': modifier === BADGE_MODIFIER[4],
         'bg-info-100 text-info-800': modifier === BADGE_MODIFIER[5],
-        'rounded-full': !isRounded,
-        'rounded ': isRounded,
+        'rounded-full': isRounded,
+        'rounded ': !isRounded,
         'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
         'pr-1': hasRemoveButton && size === BADGE_SIZE[1]
       }
@@ -103,7 +103,7 @@ Badge.propTypes = {
 Badge.defaultProps = {
   hasDot: false,
   hasRemoveButton: false,
-  isRounded: false,
+  isRounded: true,
   modifier: BADGE_MODIFIER[0],
   onClose: () => {},
   size: BADGE_SIZE[0],
