@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import { setOpenAccordionId } from 'features/Report/slice/appSlice';
 import { getOpenAccordionId } from 'features/Report/slice/selector';
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
 
-export default function Violation({ violation }) {
+export default function Violation({ violation, index, isFullWidth }) {
   const dispatch = useDispatch();
   const openAccordionId = useSelector(getOpenAccordionId);
   const isOpen = openAccordionId === violation.id;
@@ -28,7 +29,12 @@ export default function Violation({ violation }) {
 
   return (
     <ASAccordion
-      triggerClassName="flex w-full bg-white py-3 px-6 border-t"
+      triggerClassName={twClassNames(
+        'flex w-full bg-white py-3 px-6 border-t',
+        {
+          'border-0': index === 0
+        }
+      )}
       triggerContentNode={
         <div className="flex w-full cursor-pointer items-center justify-between bg-white">
           <div className="ml-2 flex">
@@ -55,7 +61,11 @@ export default function Violation({ violation }) {
         </div>
       }
       panelContentNode={
-        <ComponentList nodes={violation.nodes} violationId={violation.id} />
+        <ComponentList
+          nodes={violation.nodes}
+          violationId={violation.id}
+          isFullWidth={isFullWidth}
+        />
       }
       onTriggerClick={updateOpenViolation}
       onChevronClick={updateOpenViolation}
@@ -97,7 +107,8 @@ export default function Violation({ violation }) {
 }
 
 Violation.propTypes = {
-  violation: PropTypes.objectOf(PropTypes.any)
+  violation: PropTypes.objectOf(PropTypes.any),
+  index: PropTypes.number.isRequired
 };
 
 Violation.defaultProps = {

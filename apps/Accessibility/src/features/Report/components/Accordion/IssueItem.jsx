@@ -1,6 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
+import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import {
+  InputField,
+  MdClose,
+  MdContentCopy,
+  MdLink
+} from '@browserstack/bifrost';
+import CopyButton from 'common/CopyButton';
 import { GUIDELINES, HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
@@ -15,6 +24,14 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
+import {
+  ASBadge,
+  ASButton,
+  ASHyperlink,
+  ASTabs,
+  ASTooltip,
+  ASTooltipBody
+} from 'middleware/bifrost';
 // import { Button } from 'trike/Button';
 // import Hyperlink from 'trike/Hyperlink';
 // import {
@@ -36,7 +53,7 @@ import {
 // import CopyCode from '../../../CopyCode';
 import useIssueItem from '../../useIssueItem';
 
-import NeedsReviewBanner from './NeedsReviewBanner';
+// import NeedsReviewBanner from './NeedsReviewBanner';
 
 export default function IssueItem() {
   const { sectionData } = useContext(SectionsDataContext);
@@ -168,13 +185,39 @@ export default function IssueItem() {
   }${activeComponentId.split('#')[1]}`;
 
   return (
-    <div className="issue-item">
-      <div className="issue-item__fix-header">
-        <div className="issue-item__header-container">
-          <p className="issue-item__header" title={title}>
-            {title}
-          </p>
-          <div className="issue-item__pagination">
+    <div className="border-base-200 border-l bg-white">
+      <div>
+        <div className="border-base-200 flex justify-between border-b py-4 pr-4 pl-6">
+          <div className="">
+            <div className="flex">
+              <p
+                className="text-base-900 mb-1 mr-2 max-w-md overflow-hidden truncate text-lg font-medium"
+                title={title}
+              >
+                {title}
+              </p>
+              <ASTooltip
+                show={isCopied}
+                theme="dark"
+                content={
+                  <ASTooltipBody>
+                    {isCopied ? 'Link copied' : null}
+                  </ASTooltipBody>
+                }
+              >
+                <CopyToClipboard
+                  onCopy={() => {
+                    setIsCopied(true);
+                    setTimeout(() => {
+                      setIsCopied(false);
+                    }, 2500);
+                  }}
+                  text={window.location.href}
+                >
+                  <MdLink className="text-xl" />
+                </CopyToClipboard>
+              </ASTooltip>
+            </div>
             {/* <Tooltip
               description={isCopied ? 'Link copied' : null}
               type="dark"
@@ -202,23 +245,22 @@ export default function IssueItem() {
                 />
               </CopyToClipboard>
             </Tooltip> */}
-            <div
-              className="issue-item__icon-wrapper"
+            {/* <div
               tabIndex={0}
               role="button"
               aria-label="Go to First Page"
               aria-disabled={isPreviousDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onFirstPageClick)}
             >
-              {/* <FirstPageIcon
+              <FirstPageIcon
                 id="firstPageIcon"
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isPreviousDisabled
                 })}
                 onClick={onFirstPageClick}
-              /> */}
-            </div>
-            <div
+              />
+            </div> */}
+            {/* <div
               className="issue-item__icon-wrapper"
               tabIndex={0}
               role="button"
@@ -226,17 +268,17 @@ export default function IssueItem() {
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onPreviousClick)}
               aria-label="Go to Previous Page"
             >
-              {/* <ChevronLeftIcon
+              <ChevronLeftIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isPreviousDisabled
                 })}
                 onClick={onPreviousClick}
-              /> */}
-            </div>
-            <div className="issue-item__icon-wrapper issue-item__icon-wrapper--number">
+              />
+            </div> */}
+            {/* <div className="issue-item__icon-wrapper issue-item__icon-wrapper--number">
               {activeIssueIndex + 1} of {activeComponentNodes.length}
-            </div>
-            <div
+            </div> */}
+            {/* <div
               className="issue-item__icon-wrapper"
               tabIndex={0}
               role="button"
@@ -244,38 +286,44 @@ export default function IssueItem() {
               aria-disabled={isNextDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onNextClick)}
             >
-              {/* <ChevronRightIcon
+              <ChevronRightIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isNextDisabled
                 })}
                 onClick={onNextClick}
-              /> */}
-            </div>
-            <div
-              className="issue-item__icon-wrapper"
+              />
+            </div> */}
+            {/* <div
               tabIndex={0}
               role="button"
               aria-label="Go to Last Page"
               aria-disabled={isNextDisabled}
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onLastPageClick)}
             >
-              {/* <LastPageIcon
+              <LastPageIcon
                 className={classnames('issue-item__icon-button', {
                   'issue-item__icon-button--disabled': isNextDisabled
                 })}
                 onClick={onLastPageClick}
-              /> */}
-            </div>
-            <div
-              // className="issue-item__icon-wrapper"
+              />
+            </div> */}
+            {/* <div
               tabIndex={0}
               role="button"
               onKeyDown={(e) => handleClickByEnterOrSpace(e, onCloseClick)}
               aria-label="Close Button"
             >
-              {/* <CloseIcon onClick={onCloseClick} /> */}
-            </div>
+              <CloseIcon onClick={onCloseClick} />
+            </div> */}
+            <p className="text-base-500">
+              Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}{' '}
+              issues
+            </p>
           </div>
+          <MdClose
+            className="text-base-400 cursor-pointer text-2xl"
+            onClick={onCloseClick}
+          />
         </div>
       </div>
       {/* {needsReview && (
@@ -286,31 +334,16 @@ export default function IssueItem() {
           nodeNeedsReviewStatus={needsReviewStatusinReports}
         />
       )} */}
-      <div>
+      <div className="py-4 px-6">
         <div>
-          <p className="issue-item__description-header">{headerData.help}</p>
-          <p className="issue-item__description-text">
+          <p className="text-base-900 mb-2 text-base font-medium">
+            {headerData.help}
+          </p>
+          <p className="text-base-500 mb-2 text-sm">
             {headerData.description}
-            {/* <Hyperlink
+            <ASHyperlink
               href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
               target="_blank"
-              label="Learn more.Link will open in a new tab."
-              onKeyDown={(e) =>
-                handleClickByEnterOrSpace(
-                  e,
-                  isGuidelineMode
-                    ? () => {
-                        e.preventDefault();
-                        if (tagList[0].value) {
-                          onTagClick(tagList[0].value);
-                        }
-                      }
-                    : () => {}
-                )
-              }
-              modifier="primary"
-              linkWeight="regular"
-              className="issue-item__description-link"
               onClick={
                 isGuidelineMode
                   ? (e) => {
@@ -321,65 +354,76 @@ export default function IssueItem() {
                     }
                   : () => {}
               }
+              wrapperClassName="font-semibold inline-flex ml-1"
             >
               Learn more
-            </Hyperlink> */}
+            </ASHyperlink>
           </p>
           {tagList.length > 0 && (
-            <div className="issue-item__tags">
+            <div>
               {tagList.map(({ label, value }) => (
                 <div
-                  className="issue-item__tag"
                   key={label}
-                  onClick={value ? () => onTagClick(value) : () => {}}
                   tabIndex={0}
+                  onClick={value ? () => onTagClick(value) : () => {}}
                   role="button"
+                  aria-label={`Go to ${label}.Link will open in a new tab.`}
                   onKeyDown={(e) =>
                     handleClickByEnterOrSpace(e, () => onTagClick(value))
                   }
-                  aria-label={`Go to ${label}.Link will open in a new tab.`}
                 >
-                  {label.toUpperCase()}
+                  <ASBadge
+                    hasDot={false}
+                    hasRemoveButton={false}
+                    isRounded
+                    size="large"
+                    text={label.toUpperCase()}
+                    modifier="primary"
+                  />
                 </div>
               ))}
             </div>
           )}
           {reportList.length > 0 && (
-            <div className="issue-item__reports">
-              <p className="issue-item__reports-title">Source report(s):</p>
-              <p className="issue-item__reports-value">
-                {reportList.join(', ')}
+            <div className="mt-4 flex text-sm font-medium">
+              <p className="text-base-500 text-sm font-medium">
+                Source report(s):
               </p>
+              <p className="text-base-900 ml-1 flex">{reportList.join(', ')}</p>
             </div>
           )}
-          <div className="issue-item__content-item">
-            <p className="issue-item__content-item-header">Affected page: </p>
-            <p className="issue-item__content-url">{url}</p>
+          <div className="mt-4">
+            <p className="text-base-700 mb-1 text-sm">Affected page: </p>
+            <div className="flex">
+              <div className="mr-2 w-full">
+                <InputField id={url} value={url} readonly />
+              </div>
+              <CopyButton text={window.location.href} />
+            </div>
           </div>
         </div>
       </div>
-      <div className="issue-item__tabs">
-        {/* <Tabs
-          className="issue-item__tab"
-          tabs={[
+      <div className="px-6">
+        <ASTabs
+          tabsArray={[
             {
-              label: 'Issue details',
+              name: 'Issue details',
               value: ISSUE_DETAILS_TAB
             },
             {
-              label: 'How to fix',
+              name: 'How to fix',
               value: HOW_TO_FIX_TAB
             }
           ]}
-          size="small"
-          type="tight"
           onTabChange={({ value }) => onTabChange(value)}
-        /> */}
+        />
         {activeTab === ISSUE_DETAILS_TAB && (
-          <div className="issue-item__content">
-            <div className="issue-item__content-col">
-              <div className="issue-item__content-item-wrapper">
-                <p className="issue-item__content-item-header">CSS Selector</p>
+          <div>
+            <div>
+              <div>
+                <p className="text-base-700 text-sm font-medium">
+                  CSS Selector
+                </p>
               </div>
               {/* <CopyCode
                 text={target}
@@ -387,11 +431,19 @@ export default function IssueItem() {
                 ariaLabel="Copy CSS Selector"
               /> */}
             </div>
-            <div className="issue-item__content-col">
-              <div className="issue-item__content-item-wrapper">
-                <p className="issue-item__content-item-header">HTML Snippet</p>
+            <div>
+              <div>
+                <p>HTML Snippet</p>
               </div>
-              <div className="issue-item__code-wrapper">
+              <div>
+                <SyntaxHighlighter
+                  language={language}
+                  style={a11yLight}
+                  wrapLongLines
+                  customStyle={{ padding: '6px' }}
+                >
+                  {sanitizeValue(text)}
+                </SyntaxHighlighter>
                 {/* <CopyCode
                   text={html}
                   language="html"

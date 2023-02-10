@@ -106,7 +106,9 @@ export default function Issues() {
   );
 
   return (
-    <SectionsDataContext.Provider value={{ sectionData, violations }}>
+    <SectionsDataContext.Provider
+      value={{ sectionData, violations, isHalfView }}
+    >
       <div
       // className={classNames('issues__content-wrapper', {
       //   'issues__content-wrapper--half': isHalfView
@@ -326,16 +328,20 @@ export default function Issues() {
               <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <>
-              <div className="">
+            <div className="border-base-200 flex border-t">
+              <div
+                className={twClassNames('w-full', {
+                  'w-2/4': isHalfView && sectionData
+                })}
+              >
                 <Accordion />
               </div>
               {isHalfView && sectionData && (
-                <div>
+                <div className="w-2/4">
                   <IssueItem />
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

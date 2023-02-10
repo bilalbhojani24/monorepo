@@ -9,6 +9,7 @@ import {
   ComboBox,
   DataVisualization,
   Dropdown,
+  Hyperlink,
   InputField,
   Modal,
   ModalBody,
@@ -23,7 +24,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Tabs
+  Tabs,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 
 export const ASButton = (props) => <Button {...props} />;
@@ -49,3 +52,6 @@ export const ASModalBody = (props) => <ModalBody {...props} />;
 export const ASModalFooter = (props) => <ModalFooter {...props} />;
 export const ASModalHeader = (props) => <ModalHeader {...props} />;
 export const ASComboBox = (props) => <ComboBox {...props} />;
+export const ASTooltip = (props) => <Tooltip {...props} />;
+export const ASTooltipBody = (props) => <TooltipBody {...props} />;
+export const ASHyperlink = (props) => <Hyperlink {...props} />;

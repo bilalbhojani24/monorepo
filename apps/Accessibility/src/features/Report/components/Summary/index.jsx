@@ -361,11 +361,14 @@ export default function Summary() {
                             key={col.key}
                             variant="header"
                             textTransform="uppercase"
-                            wrapperClass={`text-xs text-base-500 ${
-                              index === 0 ? 'w-14' : ''
-                            } ${index === 2 ? 'w-36' : ''}`}
                           >
-                            {col.name}
+                            <div
+                              className={`text-base-500 text-xs ${
+                                index === 1 ? 'w-64' : ''
+                              } ${index === 2 ? 'w-36' : ''}`}
+                            >
+                              {col.name}
+                            </div>
                           </ASTableCell>
                         ))}
                       </ASTableRow>
@@ -384,7 +387,11 @@ export default function Summary() {
                               } ${colIndex === 2 ? 'w-36' : ''}`}
                             >
                               {colIndex === 0 ? index + 1 : ''}
-                              {colIndex === 1 ? url : ''}
+                              {colIndex === 1 && (
+                                <div className="w-64 overflow-hidden truncate">
+                                  {url || ''}
+                                </div>
+                              )}
                               {colIndex === 2 ? count : ''}
                             </ASTableCell>
                           ))}
