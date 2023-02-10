@@ -22,6 +22,7 @@ import useTestCases from './useTestCases';
 const Filter = () => {
   const { initFormValues } = useTestCases();
   const {
+    filterBoxRef,
     appliedFiltersCount,
     projectId,
     isFilterVisible,
@@ -139,7 +140,10 @@ const Filter = () => {
         ) : null}
       </div>
       {isFilterVisible && (
-        <div className="absolute top-full right-0 w-full max-w-[calc(100%-2px)] rounded-md bg-white drop-shadow-lg">
+        <div
+          className="absolute top-full right-0 w-full max-w-[calc(100%-2px)] rounded-md bg-white drop-shadow-lg"
+          ref={filterBoxRef}
+        >
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
             <div className="flex h-full w-5/12 flex-col">
               <div className="text-brand-800 mb-2 pl-1 text-base font-medium">

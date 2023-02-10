@@ -80,6 +80,7 @@ importers:
   apps/tcm:
     specifiers:
       '@browserstack/bifrost': workspace:*
+      '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
@@ -118,6 +119,7 @@ importers:
       vite: 3.2.5
     dependencies:
       '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
       '@emotion/styled': 11.10.5_4erqsq3n444jecyuvaxwc5b3vi

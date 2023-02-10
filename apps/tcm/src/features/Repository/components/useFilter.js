@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createSearchParams,
@@ -6,6 +6,7 @@ import {
   useParams,
   useSearchParams
 } from 'react-router-dom';
+import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -20,6 +21,7 @@ import {
 
 const useFilter = () => {
   const navigate = useNavigate();
+  const filterBoxRef = useRef();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { projectId } = useParams();
@@ -171,7 +173,12 @@ const useFilter = () => {
     } else setTagsFilteredArray([]);
   }, [tagsArray, tagSearchKey]);
 
+  useOnClickOutside(filterBoxRef, () => {
+    if (isFilterVisible) setFilter(false);
+  });
+
   return {
+    filterBoxRef,
     appliedFiltersCount,
     projectId,
     isSearchFilterView,
