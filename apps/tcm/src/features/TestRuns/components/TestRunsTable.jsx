@@ -62,14 +62,14 @@ const TestRunsTable = () => {
     },
     {
       name: '',
-      key: '',
-      cell: () => (
-        <TMDropdown
-          triggerVariant="meatball-button"
-          dividerRequired
-          options={[]}
-        />
-      )
+      key: ''
+      // cell: () => (
+      //   <TMDropdown
+      //     triggerVariant="meatball-button"
+      //     dividerRequired
+      //     options={[]}
+      //   />
+      // )
     }
   ];
 

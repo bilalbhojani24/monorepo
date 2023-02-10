@@ -32,15 +32,13 @@ import {
   updateAllTestCases,
   updateBulkTestCaseFormData,
   updateTestCase,
-  updateTestCaseFormData
+  updateTestCaseFormData,
+  setAllFolders
 } from '../slices/repositorySlice';
-
-import useFolders from './useFolders';
 
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const navigate = useNavigate();
-  const { updateFolders } = useFolders();
   const [inputError, setInputError] = useState(false);
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
@@ -177,7 +175,7 @@ export default function useAddEditTestCase() {
         payload: { name: emptyFolderName }
       }).then((item) => {
         if (item.data?.folder) {
-          updateFolders(item.data.folder);
+          dispatch(setAllFolders([item.data.folder]));
           addTestCaseAPIHelper(formData, item.data.folder.id);
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
