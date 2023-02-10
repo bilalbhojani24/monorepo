@@ -9,7 +9,7 @@ import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import './styles.scss';
 
 const PageHeadings = (props) => {
-  const { breadcrumbs, metaData, heading, theme, actions, wrapperClassName } =
+  const { breadcrumbs, subSection, heading, theme, actions, wrapperClassName } =
     props;
   return (
     <div className={wrapperClassName}>
@@ -34,21 +34,7 @@ const PageHeadings = (props) => {
             {heading}
           </h2>
 
-          {/* metadata */}
-          <div className="flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-            {metaData.map((data) => (
-              <div
-                key={data.id}
-                className={twClassNames('mt-2 flex items-center text-sm', {
-                  'text-base-500': theme === PAGE_HEADINGS_THEME[0],
-                  'text-base-300': theme === PAGE_HEADINGS_THEME[1],
-                  'mt-1': heading.length > 0
-                })}
-              >
-                {data.metaNode}
-              </div>
-            ))}
-          </div>
+          {subSection}
         </div>
         <div className="mt-5 flex lg:mt-0 lg:ml-4">{actions}</div>
       </div>
@@ -64,12 +50,7 @@ PageHeadings.propTypes = {
       current: PropTypes.bool
     })
   ),
-  metaData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      metaNode: PropTypes.node
-    })
-  ),
+  subSection: PropTypes.node,
   wrapperClassName: PropTypes.string,
   actions: PropTypes.node,
   heading: PropTypes.string,
@@ -77,7 +58,7 @@ PageHeadings.propTypes = {
 };
 PageHeadings.defaultProps = {
   breadcrumbs: [],
-  metaData: [],
+  subSection: null,
   actions: [],
   heading: 'Frontend Engineers',
   theme: PAGE_HEADINGS_THEME[0],
