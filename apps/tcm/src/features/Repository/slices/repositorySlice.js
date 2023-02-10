@@ -177,6 +177,9 @@ export const repositorySlice = createSlice({
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
     },
+    resetFilterSearchMeta: (state) => {
+      state.filterSearchMeta = initialState.filterSearchMeta;
+    },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
     }
@@ -184,6 +187,7 @@ export const repositorySlice = createSlice({
 });
 
 export const {
+  resetFilterSearchMeta,
   setFilterSearchMeta,
   setFolderModalConf,
   setLoadedDataProjectId,

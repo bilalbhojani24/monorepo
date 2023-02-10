@@ -11,6 +11,7 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
+  resetFilterSearchMeta,
   setFilterSearchMeta,
   updateAllTestCases,
   updateFoldersLoading,
@@ -42,6 +43,16 @@ const useFilter = () => {
     dispatch(setFilterSearchMeta(data));
   };
 
+  const resetFilterAndSearch = () => {
+    // if no filter/search
+    navigate({
+      pathname: routeFormatter(AppRoute.TEST_CASES, {
+        projectId
+      })
+    });
+    dispatch(resetFilterSearchMeta());
+  };
+
   const fetchFilteredCases = (filterOptions) => {
     const queryParams = {};
     Object.keys(filterOptions).forEach((key) => {
@@ -70,6 +81,8 @@ const useFilter = () => {
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
       });
+    } else {
+      resetFilterAndSearch();
     }
   };
 
@@ -176,7 +189,8 @@ const useFilter = () => {
     setTagSearchKey,
     applyFilterHandler,
     filterChangeHandler,
-    searchChangeHandler
+    searchChangeHandler,
+    resetFilterAndSearch
   };
 };
 
