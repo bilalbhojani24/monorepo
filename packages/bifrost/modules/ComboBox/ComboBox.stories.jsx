@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -72,6 +72,18 @@ const Placeholder = PlaceholderTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
+};
+
+export const ControlledCombobox = () => {
+  const [selected, setSelected] = useState([]);
+  return (
+    <ComboBox
+      options={COMBOBOX_OPTIONS}
+      onChange={(val) => setSelected(val)}
+      value={selected}
+      isMulti
+    />
+  );
 };
 
 export default defaultConfig;

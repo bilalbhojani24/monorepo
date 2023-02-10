@@ -77,7 +77,7 @@ Primary.parameters = {
   controls: {}
 };
 
-export const Controlled = () => {
+export const ControlledSelectMenu = () => {
   const [selected, setSelected] = useState([]);
   return (
     <SelectMenu
