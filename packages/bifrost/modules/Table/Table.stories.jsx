@@ -104,7 +104,7 @@ const defaultConfig = {
                   return (
                     <TableCell
                       key={column.id}
-                      wrapperClass={
+                      wrapperClassName={
                         colIdx === 0
                           ? 'text-base-900 font-medium'
                           : 'text-base-500'
@@ -186,7 +186,7 @@ CondensedTable.args = {
             <TableCell
               key={col.key}
               variant="header"
-              wrapperClass="first:pr-3 last:pl-3 px-2"
+              wrapperClassName="first:pr-3 last:pl-3 px-2"
             >
               {col.name}
             </TableCell>
@@ -206,7 +206,7 @@ CondensedTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={`
+                  wrapperClassName={`
                     ${colIdx === 0 ? 'font-medium text-base-900' : ''}
                    first:pr-3 last:pl-3 px-2 py-2`}
                 >
@@ -244,7 +244,9 @@ FullWidthTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={colIdx === 0 ? 'font-medium text-base-900' : ''}
+                  wrapperClassName={
+                    colIdx === 0 ? 'font-medium text-base-900' : ''
+                  }
                 >
                   {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
@@ -325,7 +327,7 @@ const GRTRows = [
 GroupedRowsTable.args = {
   children: (
     <>
-      <TableHead wrapperClass="bg-white">
+      <TableHead wrapperClassName="bg-white">
         <TableRow>
           {GRTColumns.map((col) => (
             <TableCell key={col.key} variant="header">
@@ -341,7 +343,7 @@ GroupedRowsTable.args = {
               <TableCell
                 variant="header"
                 colspan={GRTColumns.length}
-                wrapperClass="bg-base-50"
+                wrapperClassName="bg-base-50"
               >
                 {row.name}
               </TableCell>
@@ -353,7 +355,7 @@ GroupedRowsTable.args = {
                   return (
                     <TableCell
                       key={column.id}
-                      wrapperClass={
+                      wrapperClassName={
                         colIdx === 0
                           ? 'text-base-900 font-medium'
                           : 'text-base-500'
@@ -529,10 +531,10 @@ SelectableTable.args = {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    wrapperClass="flex items-center !pl-6"
+                    wrapperClassName="flex items-center !pl-6"
                   >
                     <Checkbox
-                      wrapperClass="pt-0 mr-6 h-4 w-4"
+                      wrapperClassName="pt-0 mr-6 h-4 w-4"
                       border={false}
                       name={col.key}
                     />
@@ -558,11 +560,11 @@ SelectableTable.args = {
                   {colIdx === 0 ? (
                     <TableCell
                       key={column.id}
-                      wrapperClass="flex items-center text-base-900 font-medium !pl-6"
+                      wrapperClassName="flex items-center text-base-900 font-medium !pl-6"
                     >
                       <Checkbox
                         border={false}
-                        wrapperClass="pt-0 mr-6 h-4 w-4"
+                        wrapperClassName="pt-0 mr-6 h-4 w-4"
                       />
                       {column.cell ? <>{column.cell}</> : value}
                     </TableCell>
@@ -611,7 +613,7 @@ SortableTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={
+                  wrapperClassName={
                     colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
                   }
                 >
@@ -640,7 +642,7 @@ StripedTable.args = {
           ))}
         </TableRow>
       </TableHead>
-      <TableBody wrapperClass="divide-y-0">
+      <TableBody wrapperClassName="divide-y-0">
         {rows.map((row, idx) => (
           <TableRow key={idx} selected={idx % 2 !== 0}>
             {columns.map((column, colIdx) => {
@@ -648,7 +650,7 @@ StripedTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={
+                  wrapperClassName={
                     colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
                   }
                 >
@@ -675,7 +677,7 @@ UppercaseHeadingTable.args = {
               key={col.key}
               variant="header"
               textTransform="uppercase"
-              wrapperClass="text-base-500 font-medium"
+              wrapperClassName="text-base-500 font-medium"
             >
               {col.name}
             </TableCell>
@@ -690,7 +692,7 @@ UppercaseHeadingTable.args = {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClass={
+                  wrapperClassName={
                     colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
                   }
                 >
@@ -711,7 +713,7 @@ WhiteBackgroundTable.args = {
   containerWrapperClass: 'bg-white ring-0 shadow-none',
   children: (
     <>
-      <TableHead wrapperClass="bg-white">
+      <TableHead wrapperClassName="bg-white">
         <TableRow>
           {columns.map((col) => (
             <TableCell key={col.key} variant="header" textTransform="uppercase">

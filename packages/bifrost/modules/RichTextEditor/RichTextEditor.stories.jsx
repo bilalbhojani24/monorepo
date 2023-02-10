@@ -72,7 +72,7 @@ const defaultConfig = {
       control: { type: 'string' },
       defaultValue: '100%'
     },
-    wrapperClass: {
+    wrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
     }

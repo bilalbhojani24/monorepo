@@ -71,19 +71,19 @@ const Button = ({
     if (isIconOnlyButton) {
       switch (size) {
         case BUTTON_SIZES[0]:
-          result = 'p-[5px]';
+          result = 'p-[4px]';
           break;
         case BUTTON_SIZES[1]:
-          result = 'p-[7px]';
+          result = 'p-[6px]';
           break;
         case BUTTON_SIZES[2]:
-          result = 'p-[9px]';
+          result = 'p-[8px]';
           break;
         case BUTTON_SIZES[3]:
-          result = 'p-[9px]';
+          result = 'p-[8px]';
           break;
         case BUTTON_SIZES[4]:
-          result = 'p-[13px]';
+          result = 'p-[12px]';
           break;
         default:
           break;

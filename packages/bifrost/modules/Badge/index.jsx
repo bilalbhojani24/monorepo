@@ -19,7 +19,6 @@ const Badge = ({
   <span
     className={twClassNames(
       'inline-flex items-center font-medium',
-      wrapperClassName,
       {
         'px-2.5 py-0.5 text-xs': size === BADGE_SIZE[0],
         'px-3 py-0.5 text-sm': size === BADGE_SIZE[1],
@@ -33,7 +32,8 @@ const Badge = ({
         'rounded ': !isRounded,
         'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
         'pr-1': hasRemoveButton && size === BADGE_SIZE[1]
-      }
+      },
+      wrapperClassName
     )}
   >
     {hasDot && (
