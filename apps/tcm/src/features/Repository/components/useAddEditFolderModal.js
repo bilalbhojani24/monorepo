@@ -9,14 +9,18 @@ import {
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { requestedSteps } from '../const/unsavedConst';
 import {
   setAllFolders,
   setFolderModalConf,
   updateAllTestCases
 } from '../slices/repositorySlice';
 
+import useUnsavedChanges from './useUnsavedChanges';
+
 export default function useAddEditFolderModal() {
   const navigate = useNavigate();
+  const { isOkToExitForm } = useUnsavedChanges();
   const { projectId } = useParams();
   const dispatch = useDispatch();
 
@@ -30,12 +34,19 @@ export default function useAddEditFolderModal() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId: selectedFolder.id
+    const route = routeFormatter(AppRoute.TEST_CASES, {
+      projectId,
+      folderId: selectedFolder.id
+    });
+    if (
+      !isOkToExitForm(false, {
+        key: requestedSteps.ROUTE,
+        value: route
       })
-    );
+    )
+      return;
+
+    navigate(route);
   };
 
   const hideFolderModal = () => {

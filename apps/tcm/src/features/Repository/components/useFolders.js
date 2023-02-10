@@ -156,32 +156,30 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
+    const route = routeFormatter(AppRoute.TEST_CASES, {
+      projectId,
+      folderId: selectedFolder.id
+    });
     if (
       !isOkToExitForm(false, {
         key: requestedSteps.ROUTE,
-        value: routeFormatter(AppRoute.TEST_CASES, {
-          projectId,
-          folderId: selectedFolder.id
-        })
+        value: route
       })
     )
       return;
 
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId: selectedFolder.id
-      })
-    );
+    navigate(route);
   };
 
   const folderActionsHandler = ({ e, folder }) => {
     if (e?.currentTarget?.textContent) {
+      const isCreateTestCase =
+        e.currentTarget.textContent === folderDropOptions[0].body;
       dispatch(
         setFolderModalConf({ modal: e.currentTarget.textContent, folder })
       );
 
-      if (e.currentTarget.textContent === folderDropOptions[0].body) {
+      if (isCreateTestCase) {
         // create test case
         showTestCaseAdditionPage();
       } else hideTestCaseAddEditPage();
