@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { TP_TOOLTIP_THEME } from '../../shared/tooltipPopoverConstants';
 import { ThemeContextData } from '../../shared/tooltipPopoverThemeContext';
-import { twClassNames } from '@browserstack/utils';
 
 import './styles.scss';
 
-const TooltipBody = ({ children, wrapperClass }) => {
+const TooltipBody = ({ children, wrapperClassName }) => {
   const tooltipTheme = useContext(ThemeContextData);
 
   return (
@@ -18,7 +18,7 @@ const TooltipBody = ({ children, wrapperClass }) => {
           'text-base-500': tooltipTheme?.theme === TP_TOOLTIP_THEME[0],
           'text-base-300': tooltipTheme?.theme === TP_TOOLTIP_THEME[1]
         },
-        wrapperClass
+        wrapperClassName
       )}
     >
       {children}
@@ -28,11 +28,11 @@ const TooltipBody = ({ children, wrapperClass }) => {
 
 TooltipBody.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 TooltipBody.defaultProps = {
   children: null,
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default TooltipBody;

@@ -1,12 +1,12 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { TP_ACTION_ITEM_POSITION } from '../../shared/tooltipPopoverConstants';
-import { twClassNames } from '@browserstack/utils';
 
 import './styles.scss';
 
-const TooltipFooter = ({ children, position, wrapperClass }) => (
+const TooltipFooter = ({ children, position, wrapperClassName }) => (
   <div
     className={twClassNames(
       'flex space-x-2 px-4',
@@ -14,7 +14,7 @@ const TooltipFooter = ({ children, position, wrapperClass }) => (
         'justify-end': position === TP_ACTION_ITEM_POSITION[2],
         'justify-center': position === TP_ACTION_ITEM_POSITION[1]
       },
-      wrapperClass
+      wrapperClassName
     )}
   >
     {children}
@@ -24,13 +24,13 @@ const TooltipFooter = ({ children, position, wrapperClass }) => (
 TooltipFooter.propTypes = {
   children: PropTypes.node,
   position: PropTypes.oneOf(TP_ACTION_ITEM_POSITION),
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 TooltipFooter.defaultProps = {
   children: null,
   position: TP_ACTION_ITEM_POSITION[0],
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default TooltipFooter;
