@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { InfoOutlinedIcon } from 'assets/icons';
 import classNames from 'classnames';
 import {
   TMDropdown,
-  TMEmptyState,
   TMPagination,
   TMTable,
   TMTableBody,
@@ -12,7 +10,6 @@ import {
   TMTableHead,
   TMTableRow
 } from 'common/bifrostProxy';
-import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
@@ -62,14 +59,14 @@ const TestRunsTable = () => {
     },
     {
       name: '',
-      key: ''
-      // cell: () => (
-      //   <TMDropdown
-      //     triggerVariant="meatball-button"
-      //     dividerRequired
-      //     options={[]}
-      //   />
-      // )
+      key: '',
+      cell: () => (
+        <TMDropdown
+          triggerVariant="meatball-button"
+          dividerRequired
+          options={[]}
+        />
+      )
     }
   ];
 
@@ -133,11 +130,6 @@ const TestRunsTable = () => {
           ) : null}
         </TMTableBody>
       </TMTable>
-      {isTestRunsLoading ? (
-        <div className="flex w-full shrink-0 grow flex-col  justify-center ">
-          <Loader wrapperClass="h-96 w-full" />
-        </div>
-      ) : null}
 
       {metaPage?.count > metaPage?.page_size && (
         <TMPagination
@@ -146,23 +138,6 @@ const TestRunsTable = () => {
           pageSize={metaPage?.page_size}
         />
       )}
-
-      {!allTestRuns?.length && !isTestRunsLoading ? (
-        <div className="flex h-96 w-full shrink-0 grow flex-col justify-center">
-          <TMEmptyState
-            title={`No ${currentTab}`}
-            description="You can get started by creating test run by clicking on Create Test Run button."
-            mainIcon={
-              <InfoOutlinedIcon className="text-base-500 !h-12 !w-12" />
-            }
-            buttonProps={{
-              children: 'Create Test Run',
-              // onClick: showAddProjectModal,
-              colors: 'white'
-            }}
-          />
-        </div>
-      ) : null}
     </div>
   );
 };
