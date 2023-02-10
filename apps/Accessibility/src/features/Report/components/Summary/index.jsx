@@ -53,12 +53,14 @@ export default function Summary() {
     {
       id: 1,
       name: 'Needs review issues',
-      stat: '100'
+      stat: needsReviewIssues,
+      onClick: () => onRowClick('showNeedsReviewIssues', true, true)
     },
     {
       id: 2,
       name: 'Hidden issues',
-      stat: '20'
+      stat: hiddenIssues,
+      onClick: onHiddenIssueClick
     }
   ];
 
@@ -431,8 +433,12 @@ export default function Summary() {
               </div>
             </div>
           </Card> */}
-          <div className="mt-4">
-            <ASStats options={options} />
+          <div className="mt-4 flex">
+            {options.map(({ name, id, stat }) => (
+              <div className="mr-4 w-2/4">
+                <ASStats option={{ name, id, stat }} />
+              </div>
+            ))}
             {/* <Card height={1} width={1} className="m-20">
               <div
                 tabIndex={0}

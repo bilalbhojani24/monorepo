@@ -37,20 +37,22 @@ export default function Violation({ violation, index, isFullWidth }) {
       )}
       triggerContentNode={
         <div className="flex w-full cursor-pointer items-center justify-between bg-white">
-          <div className="ml-2 flex">
+          <div className="ml-2 flex items-center">
             <p className="text-base-900 mr-2 text-sm">{violation.help}</p>
-            <ASBadge
-              hasDot={false}
-              hasRemoveButton={false}
-              isRounded={false}
-              text={totalCount}
-            />
+            <div>
+              <ASBadge
+                hasDot={false}
+                hasRemoveButton={false}
+                isRounded
+                text={totalCount}
+              />
+            </div>
           </div>
           {impact && (
             <ASBadge
               hasDot={false}
               hasRemoveButton={false}
-              isRounded={false}
+              isRounded
               text={impact}
               modifier={
                 issueTypes.find(({ type }) => type === violation.impact)

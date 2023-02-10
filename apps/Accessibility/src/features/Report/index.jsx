@@ -112,7 +112,7 @@ export default function Report() {
                   onCopy={onCopyClick}
                 >
                   <ASButton
-                    icon={<MdShare />}
+                    icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
                     onClick={() => {}}
                     colors="white"
@@ -123,7 +123,7 @@ export default function Report() {
                 </CopyToClipboard>
               )}
               <ASButton
-                icon={<MdDownload />}
+                icon={<MdDownload className="text-xl" />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
                 size="small"

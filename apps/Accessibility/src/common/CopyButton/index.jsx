@@ -13,7 +13,7 @@ export default function CopyButton({ className, text }) {
           setIsCopied(false);
         }, 2500);
       }}
-      text={window.location.href}
+      text={text}
     >
       <Button
         icon={

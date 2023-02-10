@@ -53,6 +53,8 @@ import {
 // import CopyCode from '../../../CopyCode';
 import useIssueItem from '../../useIssueItem';
 
+import './customStyle.scss';
+
 // import NeedsReviewBanner from './NeedsReviewBanner';
 
 export default function IssueItem() {
@@ -70,6 +72,13 @@ export default function IssueItem() {
   const activeComponentId = useSelector(getActiveComponentId);
   const activeReportFilters = useSelector(getReportFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
+
+  const sanitizeValue = (val) => {
+    if (typeof val !== 'string' && Array.isArray(val)) {
+      return val.join(',');
+    }
+    return val;
+  };
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
   if (isGuidelineMode) {
@@ -418,44 +427,42 @@ export default function IssueItem() {
           onTabChange={({ value }) => onTabChange(value)}
         />
         {activeTab === ISSUE_DETAILS_TAB && (
-          <div>
-            <div>
-              <div>
-                <p className="text-base-700 text-sm font-medium">
-                  CSS Selector
-                </p>
+          <div className="mt-4">
+            <div className="mb-4">
+              <p className="text-base-700 text-sm font-medium">CSS Selector</p>
+              <div className="flex items-start">
+                <div className="mr-2 w-full">
+                  <SyntaxHighlighter
+                    language="css"
+                    style={a11yLight}
+                    wrapLongLines
+                  >
+                    {sanitizeValue(target)}
+                  </SyntaxHighlighter>
+                </div>
+                <CopyButton className="ml-2" text={sanitizeValue(target)} />
               </div>
-              {/* <CopyCode
-                text={target}
-                language="css"
-                ariaLabel="Copy CSS Selector"
-              /> */}
             </div>
             <div>
-              <div>
-                <p>HTML Snippet</p>
-              </div>
-              <div>
-                <SyntaxHighlighter
-                  language={language}
-                  style={a11yLight}
-                  wrapLongLines
-                  customStyle={{ padding: '6px' }}
-                >
-                  {sanitizeValue(text)}
-                </SyntaxHighlighter>
-                {/* <CopyCode
-                  text={html}
-                  language="html"
-                  ariaLabel="Copy html Selector"
-                /> */}
+              <p>HTML Snippet</p>
+              <div className="flex items-start">
+                <div className="mr-2 w-full">
+                  <SyntaxHighlighter
+                    language="html"
+                    style={a11yLight}
+                    wrapLongLines
+                  >
+                    {sanitizeValue(html)}
+                  </SyntaxHighlighter>
+                </div>
+                <CopyButton className="ml-2" text={sanitizeValue(html)} />
               </div>
             </div>
           </div>
         )}
         {activeTab === HOW_TO_FIX_TAB && (
-          <div className="issue-item__content">
-            <div className="issue-item__content-col">
+          <div>
+            <div>
               {data
                 .filter(({ nodeList }) => nodeList.length > 0)
                 .map(({ type, nodeList }, index) => {
@@ -467,35 +474,43 @@ export default function IssueItem() {
                   });
                   return (
                     <div key={type}>
-                      {index !== 0 && <p className="issue-item__and">and</p>}
-                      <p className="issue-item__fix-item">
+                      {index !== 0 && <p>and</p>}
+                      <p className="text-base-700 mb-2 text-sm font-medium">
                         Fix {type === 'any' ? 'any' : 'all'} of the following
                       </p>
-                      <ol className="issue-item__fix">
+                      <ul className="text-base-500 mb-4 ml-6 list-disc text-sm">
                         {nodeList.map(({ message: nodeMessage }) => (
                           <li key={nodeMessage}>{nodeMessage}</li>
                         ))}
-                      </ol>
+                      </ul>
                       {hasRelatedNodes && (
                         <div>
-                          <div className="issue-item__fix-item-header">
-                            <p className="issue-item__fix-item issue-item__fix-item--css-selector">
-                              Related CSS Selector(s)
-                            </p>
-                          </div>
+                          <p className="text-base-700 mb-1 text-sm font-medium">
+                            Related CSS Selector(s)
+                          </p>
                           {nodeList.map(({ relatedNodes }) =>
                             relatedNodes.map((item) => {
                               const targetNode = item.target
                                 ? item.target.join(' ')
                                 : item.html;
-                              return null;
-                              // return (
-                              //   <CopyCode
-                              //     text={targetNode}
-                              //     language="css"
-                              //     ariaLabel="Copy Related-CSS Selector"
-                              //   />
-                              // );
+                              return (
+                                <div className="flex">
+                                  <div className="mr-2 w-full">
+                                    <SyntaxHighlighter
+                                      language="css"
+                                      style={a11yLight}
+                                      wrapLongLines
+                                      customStyle={{ padding: '6px' }}
+                                    >
+                                      {targetNode}
+                                    </SyntaxHighlighter>
+                                  </div>
+                                  <CopyButton
+                                    className="ml-2"
+                                    text={sanitizeValue(html)}
+                                  />
+                                </div>
+                              );
                             })
                           )}
                         </div>

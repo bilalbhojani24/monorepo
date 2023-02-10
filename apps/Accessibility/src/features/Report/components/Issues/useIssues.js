@@ -29,6 +29,7 @@ import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 export default function useIssues() {
   const dispatch = useDispatch();
   const history = useNavigate();
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -38,8 +39,6 @@ export default function useIssues() {
   const [isOpen, setIsOpen] = useState(false);
   const [sectionData, setSectionData] = useState(null);
   const [filteredReportData, setFilteredReportData] = useState(reportData);
-
-  console.log('customData: ', customData);
 
   const generateData = () =>
     filteredReportData.map((violation) => {
@@ -135,12 +134,14 @@ export default function useIssues() {
   };
 
   const onUpdateImpact = (values) => {
-    dispatch(
-      setReportFilters({
-        key: 'impact',
-        values
-      })
-    );
+    console.log('onUpdateImpact: ', values);
+    setSelectedOptions(values);
+    // dispatch(
+    //   setReportFilters({
+    //     key: 'impact',
+    //     values
+    //   })
+    // );
   };
 
   useEffect(() => {
@@ -311,6 +312,7 @@ export default function useIssues() {
     isOpen,
     intermediateFilters,
     sectionData,
+    selectedOptions,
     showHiddenIssues,
     onHiddenIssueClick,
     onApplyFilters,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import { MdArrowBack, MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs } from 'constants';
@@ -12,6 +12,7 @@ import {
   getUniqFilterValues
 } from 'features/Report/slice/selector';
 import {
+  ASBadge,
   ASButton,
   ASCheckbox,
   ASComboBox,
@@ -37,6 +38,7 @@ export default function Issues() {
     activeSwitch,
     isOpen,
     intermediateFilters,
+    selectedOptions,
     sectionData,
     onApplyFilters,
     onCloseClick,
@@ -55,7 +57,7 @@ export default function Issues() {
     ({ violation }) => violation.nodes.length === 0
   );
 
-  console.log('reportFilters.impact: ', reportFilters.impact);
+  // console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -109,11 +111,7 @@ export default function Issues() {
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
     >
-      <div
-      // className={classNames('issues__content-wrapper', {
-      //   'issues__content-wrapper--half': isHalfView
-      // })}
-      >
+      <div>
         <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
           <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ASModalBody>
@@ -220,9 +218,9 @@ export default function Issues() {
             <ASButton onClick={onApplyFilters}>OK</ASButton>
           </ASModalFooter>
         </ASModal>
-        {showHiddenIssues && (
+        {/* {showHiddenIssues && (
           <div>
-            {/* <ASButton
+            <ASButton
               icon={<ArrowBackIcon />}
               modifier="grey"
               onClick={() => onHiddenIssueClick(false)}
@@ -231,10 +229,10 @@ export default function Issues() {
               type="subtle"
             >
               Back
-            </ASButton> */}
+            </ASButton>
             <p> Showing Hidden Issues </p>
           </div>
-        )}
+        )} */}
         <div>
           <div className="flex items-center justify-between py-4 px-6">
             <div>
@@ -245,35 +243,38 @@ export default function Issues() {
                   }
                   onClick={() => onTabSelect(value)}
                   colors="white"
+                  size="small"
                 >
                   {label}
                 </ASButton>
               ))}
             </div>
+            <ASSelectMenu
+              isMultiSelect
+              onChange={(a) => {
+                console.log('a');
+                onUpdateImpact(a);
+              }}
+              options={severityOptions}
+              // placeholder="Severity"
+              value={selectedOptions}
+            />
             <div className="flex">
-              <ASSelectMenu
-                isMultiSelect
-                onChange={onUpdateImpact}
-                options={severityOptions}
-                placeholder="Severity"
-                value={reportFilters.impact}
-              />
               {!showHiddenIssues && (
                 <ASButton
                   icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
-                  size="small"
-                  wrapperClassName="ml-2"
+                  // size="small"
+                  // wrapperClassName="ml-2"
                   onClick={onFilterButtonClick}
                   isIconOnlyButton
                 />
               )}
               {!showHiddenIssues && !hasFilters && (
                 <ASButton
-                  size="small"
                   colors="white"
-                  wrapperClassName="ml-2"
                   onClick={() => onHiddenIssueClick(true)}
+                  // wrapperClassName="ml-2"
                   icon={<MdHideSource />}
                   isIconOnlyButton
                 />
@@ -311,11 +312,25 @@ export default function Issues() {
               />
             )} */}
           </div>
-          <div className="bg-base-100 px-6 py-3">
-            <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
-              Filters
-            </p>
-          </div>
+          {!showHiddenIssues || hasFilters ? (
+            <div className="bg-base-100 px-6 py-3">
+              {!showHiddenIssues ? (
+                <ASBadge
+                  hasDot={false}
+                  hasRemoveButton
+                  isRounded
+                  wrapperClassName="bg-white"
+                  text="Hidden issues"
+                />
+              ) : (
+                <div>
+                  <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
+                    Filters
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : null}
         </div>
         <div>
           {showEmptyScreen ? (
