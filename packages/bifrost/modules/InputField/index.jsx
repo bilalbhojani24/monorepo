@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ExclamationCircleIcon } from '../Icon';
 
 import './styles.scss';
@@ -31,7 +31,9 @@ const InputField = forwardRef(
       // trailingAddOnText,
       trailingIcon,
       type,
-      value
+      value,
+      isTrailingNodeClickable,
+      wrapperClassName
     },
     ref
   ) => (
@@ -50,7 +52,12 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className="relative rounded-md shadow-sm">
+      <div
+        className={twClassNames(
+          'relative rounded-md shadow-sm',
+          wrapperClassName
+        )}
+      >
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           {leadingIcon}
         </div>
@@ -84,7 +91,14 @@ const InputField = forwardRef(
           onBlur={onBlur}
           autoComplete={autoComplete}
         />
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+        <div
+          className={twClassNames(
+            'absolute inset-y-0 right-0 flex items-center pr-3 ',
+            {
+              'pointer-events-none': !isTrailingNodeClickable
+            }
+          )}
+        >
           {trailingIcon}
           {errorText && (
             <ExclamationCircleIcon
@@ -128,7 +142,9 @@ InputField.propTypes = {
   readonly: PropTypes.bool,
   trailingIcon: PropTypes.node,
   type: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  isTrailingNodeClickable: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
@@ -149,7 +165,9 @@ InputField.defaultProps = {
   readonly: false,
   trailingIcon: null,
   type: 'text',
-  value: undefined
+  value: undefined,
+  isTrailingNodeClickable: false,
+  wrapperClassName: ''
 };
 
 export default InputField;

@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 
 import {
   CHECKBOX_DESCRIPTION_VARIANT,
@@ -18,6 +18,7 @@ const Checkbox = (props) => {
     defaultChecked,
     disabled,
     description,
+    icon,
     indeterminate,
     isCard,
     name,
@@ -76,8 +77,11 @@ const Checkbox = (props) => {
           >
             <label
               htmlFor={`${name}${data.value}`}
-              className="text-base-700 select-none font-medium"
+              className={twClassNames('text-base-700 select-none font-medium', {
+                'flex flex-row items-center gap-1.5': icon
+              })}
             >
+              {icon}
               {data.label}
             </label>
             <p
@@ -120,6 +124,7 @@ Checkbox.propTypes = {
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
   description: PropTypes.oneOf(Object.values(CHECKBOX_DESCRIPTION_VARIANT)),
+  icon: PropTypes.node,
   indeterminate: PropTypes.bool,
   isCard: PropTypes.bool,
   name: PropTypes.string,
@@ -135,6 +140,7 @@ Checkbox.defaultProps = {
   defaultChecked: undefined,
   disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,
+  icon: null,
   indeterminate: false,
   isCard: false,
   name: 'checkbox',

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import { MODAL_SIZE } from './const/modalConstants';
 
@@ -56,8 +55,8 @@ const Modal = (props) => {
                     'sm:max-w-4xl': MODAL_SIZE[6] === size,
                     'sm:max-w-5xl': MODAL_SIZE[7] === size,
                     'sm:max-w-6xl': MODAL_SIZE[8] === size,
-                    'sm:max-w-full': MODAL_SIZE[9] === size,
-                  },
+                    'sm:max-w-full': MODAL_SIZE[9] === size
+                  }
                 )}
               >
                 {children}
@@ -75,14 +74,14 @@ Modal.propTypes = {
   onOverlayClick: PropTypes.func,
   onClose: PropTypes.func,
   show: PropTypes.bool,
-  size: PropTypes.string,
+  size: PropTypes.string
 };
 Modal.defaultProps = {
   children: null,
   onOverlayClick: null,
   onClose: null,
   show: false,
-  size: MODAL_SIZE[2],
+  size: MODAL_SIZE[2]
 };
 
 export default Modal;

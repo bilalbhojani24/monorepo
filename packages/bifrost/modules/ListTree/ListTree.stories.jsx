@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Dropdown from '../Dropdown';
+import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 
@@ -145,7 +146,8 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
             }}
             trailingVisualElement={
               <Dropdown
-                triggerVariant="meatball-button"
+                wrapperClassName="flex"
+                trigger={<DropdownTriggerWIcon />}
                 options={[
                   {
                     id: '1',
@@ -197,7 +199,8 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
             }}
             trailingVisualElement={
               <Dropdown
-                triggerVariant="meatball-button"
+                wrapperClassName="flex"
+                trigger={<DropdownTriggerWIcon />}
                 options={[
                   {
                     id: '1',
@@ -228,6 +231,82 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
   );
 };
 
+const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
+  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const [focused, setFocused] = useState();
+
+  const [openNodeMap, setOpenNodeMap] = useState({
+    'file 2': true,
+    'file 2b': true,
+    'file A': true
+  });
+
+  return (
+    <>
+      {data.map((item) => (
+        <ListTree
+          key={item.name}
+          indentationLevel={indent}
+          isTreeOpen={openNodeMap[item.name]}
+        >
+          <ListTreeNode
+            isFocused={focused === item.name}
+            label={item.name}
+            description={`(level=${indent})`}
+            isNodeSelected={selectedNodeMap[item.name]}
+            onNodeClick={() => {
+              if (selectedNodeMap[item.name] !== undefined) {
+                selectedNodeMap[item.name] = !selectedNodeMap[item.name];
+              } else {
+                selectedNodeMap[item.name] = true;
+              }
+              setSelectedNodeMap({ ...selectedNodeMap });
+            }}
+            onNodeOpen={() => {
+              if (openNodeMap[item.name] !== undefined) {
+                openNodeMap[item.name] = !openNodeMap[item.name];
+              } else {
+                openNodeMap[item.name] = true;
+              }
+              setOpenNodeMap({ ...openNodeMap });
+            }}
+            trailingVisualElement={
+              <Dropdown
+                wrapperClassName="flex"
+                trigger={<DropdownTriggerWIcon />}
+                options={[
+                  {
+                    id: '1',
+                    body: 'Edit'
+                  },
+                  {
+                    id: '2',
+                    body: 'Duplicate',
+                    divider: false
+                  },
+                  {
+                    id: '3',
+                    body: 'Archive',
+                    divider: true
+                  }
+                ]}
+                onOpenChange={(isOpen) =>
+                  setFocused(isOpen ? item.name : undefined)
+                }
+              />
+            }
+          />
+          {!!item?.contents && (
+            <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
+              <FocusedNodeNestedTree data={item.contents} indent={1 + indent} />
+            </ListTreeNodeContents>
+          )}
+        </ListTree>
+      ))}
+    </>
+  );
+};
+
 const ControlledTreeTemplate = () => (
   <ConrolledNestedTree data={listTreeDemoDataSet} />
 );
@@ -236,9 +315,15 @@ const UncontrolledTreeTemplate = () => (
   <UnconrolledNestedTree data={listTreeDemoDataSet} />
 );
 
+const FocusedNodeNestedTreeTemplate = () => (
+  <FocusedNodeNestedTree data={listTreeDemoDataSet} />
+);
+
 const ControlledTree = ControlledTreeTemplate.bind({});
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
 
+const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
+
 export default defaultConfig;
-export { ControlledTree, UncontrolledTree };
+export { ControlledTree, FocusedNodeTree, UncontrolledTree };

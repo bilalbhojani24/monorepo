@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import { MdArrowBack, MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
@@ -14,6 +15,7 @@ import {
   ASBadge,
   ASButton,
   ASCheckbox,
+  ASComboBox,
   ASModal,
   ASModalBody,
   ASModalFooter,
@@ -21,9 +23,6 @@ import {
   ASSelectMenu
 } from 'middleware/bifrost';
 
-// import { Actions, Content, Header, Modal } from 'trike/Modal';
-// import SelectBox from 'trike/SelectBox/container/SelectBox';
-// import TagsComponent from 'trike/TagsComponent/components/TagsComponent';
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
@@ -39,6 +38,7 @@ export default function Issues() {
     activeSwitch,
     isOpen,
     intermediateFilters,
+    selectedOptions,
     sectionData,
     onApplyFilters,
     onCloseClick,
@@ -57,7 +57,7 @@ export default function Issues() {
     ({ violation }) => violation.nodes.length === 0
   );
 
-  console.log('reportFilters.impact: ', reportFilters.impact);
+  // console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -108,53 +108,58 @@ export default function Issues() {
   );
 
   return (
-    <SectionsDataContext.Provider value={{ sectionData, violations }}>
-      <div
-      // className={classNames('issues__content-wrapper', {
-      //   'issues__content-wrapper--half': isHalfView
-      // })}
-      >
-        <ASModal
-          show={isOpen}
-          size="lg"
-          onClose={onCloseClick}
-          onOverlayClick={onCloseClick}
-        >
-          <ASModalHeader heading="Filters" />
+    <SectionsDataContext.Provider
+      value={{ sectionData, violations, isHalfView }}
+    >
+      <div>
+        <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+          <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ASModalBody>
-            <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
-              Severity
-            </p>
-            <div className="flex justify-between">
-              {severityOptions.map(({ label, value }) => (
-                <ASCheckbox
-                  data={{ label, value }}
-                  border={false}
-                  wrapperClass="pt-0"
-                  checked={intermediateFiltersImpactValues.includes('critical')}
-                  onChange={(val) => onInputBoxChange('critical', val)}
-                />
-              ))}
-              {/* <ASCheckbox
-                labelText="Critical"
-                checked={intermediateFiltersImpactValues.includes('critical')}
-                onChange={(value) => onInputBoxChange('critical', value)}
+            <div className="mb-6">
+              <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
+                Severity
+              </p>
+              <div className="flex">
+                {severityOptions.map(({ label, value }) => (
+                  <ASCheckbox
+                    data={{ label, value }}
+                    border={false}
+                    wrapperClass="pt-0 w-24 mr-5"
+                    checked={intermediateFiltersImpactValues.includes(value)}
+                    onChange={(val) => onInputBoxChange(value, val)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Pages</p>
+              <ASComboBox
+                isMulti
+                onChange={(values) => onUpdateFilters('page', values)}
+                options={urls}
+                value={reportFilters.impact}
+                // placeholder="Select..."
               />
-              <ASCheckbox
-                labelText="Serious"
-                checked={intermediateFiltersImpactValues.includes('serious')}
-                onChange={(value) => onInputBoxChange('serious', value)}
+            </div>
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Components</p>
+              <ASComboBox
+                isMultiSelect
+                onChange={(values) => onUpdateFilters('component', values)}
+                options={componentIds}
+                // value={reportFilters.impact}
+                // placeholder="Select..."
               />
-              <ASCheckbox
-                labelText="Moderate"
-                checked={intermediateFiltersImpactValues.includes('moderate')}
-                onChange={(value) => onInputBoxChange('moderate', value)}
+            </div>
+            <div className="mb-6">
+              <p className="text-base-700 mb-1 text-sm">Category</p>
+              <ASComboBox
+                isMultiSelect
+                onChange={(values) => onUpdateFilters('category', values)}
+                options={categories}
+                // value={reportFilters.impact}
+                // placeholder="Select..."
               />
-              <ASCheckbox
-                labelText="Minor"
-                checked={intermediateFiltersImpactValues.includes('minor')}
-                onChange={(value) => onInputBoxChange('minor', value)}
-              /> */}
             </div>
             {/* <SelectBox
               isMulti
@@ -197,6 +202,7 @@ export default function Issues() {
             /> */}
             <ASCheckbox
               border={false}
+              wrapperClass="pt-0"
               data={{
                 label: "Show only 'Needs Review' Issues",
                 value: 'needsReview'
@@ -212,9 +218,9 @@ export default function Issues() {
             <ASButton onClick={onApplyFilters}>OK</ASButton>
           </ASModalFooter>
         </ASModal>
-        {showHiddenIssues && (
+        {/* {showHiddenIssues && (
           <div>
-            {/* <ASButton
+            <ASButton
               icon={<ArrowBackIcon />}
               modifier="grey"
               onClick={() => onHiddenIssueClick(false)}
@@ -223,10 +229,10 @@ export default function Issues() {
               type="subtle"
             >
               Back
-            </ASButton> */}
+            </ASButton>
             <p> Showing Hidden Issues </p>
           </div>
-        )}
+        )} */}
         <div>
           <div className="flex items-center justify-between py-4 px-6">
             <div>
@@ -237,35 +243,40 @@ export default function Issues() {
                   }
                   onClick={() => onTabSelect(value)}
                   colors="white"
+                  size="small"
                 >
                   {label}
                 </ASButton>
               ))}
             </div>
+            <ASSelectMenu
+              isMultiSelect
+              onChange={(a) => {
+                console.log('a');
+                onUpdateImpact(a);
+              }}
+              options={severityOptions}
+              // placeholder="Severity"
+              value={selectedOptions}
+            />
             <div className="flex">
-              <ASSelectMenu
-                isMultiSelect
-                onChange={onUpdateImpact}
-                options={severityOptions}
-                placeholder="Severity"
-                value={reportFilters.impact}
-              />
               {!showHiddenIssues && (
                 <ASButton
-                  icon={<MdFilterAlt />}
+                  icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
-                  size="small"
-                  wrapperClassName="ml-2"
+                  // size="small"
+                  // wrapperClassName="ml-2"
                   onClick={onFilterButtonClick}
+                  isIconOnlyButton
                 />
               )}
               {!showHiddenIssues && !hasFilters && (
                 <ASButton
-                  size="small"
                   colors="white"
-                  wrapperClassName="ml-2"
                   onClick={() => onHiddenIssueClick(true)}
+                  // wrapperClassName="ml-2"
                   icon={<MdHideSource />}
+                  isIconOnlyButton
                 />
               )}
             </div>
@@ -301,27 +312,51 @@ export default function Issues() {
               />
             )} */}
           </div>
-          <div className="bg-base-100 px-6 py-3">
-            <p className="text-base-500 border-base-300 border-r pr-4 text-sm">
-              Filters
-            </p>
-          </div>
+          {!showHiddenIssues || hasFilters ? (
+            <div className="bg-base-100 px-6 py-3">
+              {!showHiddenIssues ? (
+                <ASBadge
+                  hasDot={false}
+                  hasRemoveButton
+                  isRounded
+                  wrapperClassName="bg-white"
+                  text="Hidden issues"
+                />
+              ) : (
+                <div>
+                  <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
+                    Filters
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : null}
         </div>
         <div>
           {showEmptyScreen ? (
-            <div>
-              <img src={IssuesNotFound} alt="No Issues Found" />
-              <p>No Issues Found</p>
+            <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
+              <img
+                src={IssuesNotFound}
+                alt="No Issues Found"
+                className="w-80"
+              />
+              <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <>
-              <Accordion />
+            <div className="border-base-200 flex border-t">
+              <div
+                className={twClassNames('w-full', {
+                  'w-2/4': isHalfView && sectionData
+                })}
+              >
+                <Accordion />
+              </div>
               {isHalfView && sectionData && (
-                <div>
+                <div className="w-2/4">
                   <IssueItem />
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -14,8 +14,10 @@ export default function Accordion() {
   return (
     <div>
       {finalData &&
-        finalData.map(({ violation }) =>
-          violation.nodes.length ? <Violation violation={violation} /> : null
+        finalData.map(({ violation }, index) =>
+          violation.nodes.length ? (
+            <Violation index={index} violation={violation} />
+          ) : null
         )}
     </div>
   );

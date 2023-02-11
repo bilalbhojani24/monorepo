@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { DIRECTIONS } from './const/radioGroupConstants';
@@ -22,16 +22,22 @@ const RadioGroup = (props) => {
 
   return (
     <div
-      className={classNames('flex', {
+      className={twClassNames('flex', {
         'space-x-5': direction === DIRECTIONS[0],
         'space-y-5 flex-col': direction === DIRECTIONS[1]
       })}
     >
       {options.map((option) => (
-        <div key={option.id} className="flex items-start">
+        <div
+          key={option.id}
+          className={twClassNames('flex items-start', {
+            'cursor-not-allowed': option.disabled
+          })}
+        >
           <div
-            className={classNames('flex h-5 items-center', {
-              'order-last mx-3': rightAligned
+            className={twClassNames('flex h-5 items-center', {
+              'order-last mx-3': rightAligned,
+              'cursor-not-allowed': option.disabled
             })}
           >
             <input
@@ -39,28 +45,38 @@ const RadioGroup = (props) => {
               aria-describedby={`${option.id}-description`}
               name="plan"
               type="radio"
+              disabled={option.disabled}
               checked={option.id === selectedOption?.id}
               className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4"
               onChange={handleChange(option.id)}
             />
           </div>
           <div
-            className={classNames(
+            className={twClassNames(
               { 'flex-col': !inlineDescription, 'flex-1': rightAligned },
               'flex ml-3 text-sm'
             )}
           >
             {option.name && (
-              <label htmlFor={option.id} className="text-base-700 font-medium">
+              <label
+                htmlFor={option.id}
+                className={twClassNames('text-base-700 font-medium', {
+                  'text-base-400': option.disabled,
+                  'cursor-not-allowed': option.disabled
+                })}
+              >
                 {option.name}
               </label>
             )}
             {option.description && (
               <div
                 id={`${option.id}-description`}
-                className={classNames(
+                className={twClassNames(
                   { 'ml-2': inlineDescription },
-                  'text-base-500'
+                  'text-base-500',
+                  {
+                    'text-base-300': option.disabled
+                  }
                 )}
               >
                 {option.description}

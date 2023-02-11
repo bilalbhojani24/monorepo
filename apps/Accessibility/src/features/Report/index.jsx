@@ -50,7 +50,7 @@ export default function Report() {
     : `Consolidated report across ${reportsLength} reports`;
 
   return reportData && !isLoading ? (
-    <div className="bg-base-50 h-screen">
+    <div className="bg-base-50">
       <div>
         <div className="px-6 pt-6">
           <ASBreadcrumb
@@ -112,7 +112,7 @@ export default function Report() {
                   onCopy={onCopyClick}
                 >
                   <ASButton
-                    icon={<MdShare />}
+                    icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
                     onClick={() => {}}
                     colors="white"
@@ -123,7 +123,7 @@ export default function Report() {
                 </CopyToClipboard>
               )}
               <ASButton
-                icon={<MdDownload />}
+                icon={<MdDownload className="text-xl" />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
                 size="small"

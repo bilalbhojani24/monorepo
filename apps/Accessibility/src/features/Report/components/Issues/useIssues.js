@@ -29,6 +29,7 @@ import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 export default function useIssues() {
   const dispatch = useDispatch();
   const history = useNavigate();
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -71,7 +72,7 @@ export default function useIssues() {
       'activeIssueIndex',
       'isShowingIssue'
     ]);
-    history.push({ search: `?${path}` });
+    // history.push({ search: `?${path}` });
 
     // update query params with applied filters
     const updatedPath = updateUrlWithQueryParam(intermediateFilters);
@@ -96,13 +97,13 @@ export default function useIssues() {
       history.push({ search: `?${path}` });
     } else if (key === 'showNeedsReviewIssues') {
       const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-      history.push({ search: `?${path}` });
+      // history.push({ search: `?${path}` });
       dispatch(resetIntermediateResetFilterKey({ key, value: false }));
       dispatch(setResetFilterKey({ key, value: false }));
     } else {
       dispatch(resetIntermediateResetFilterKey({ key, value: [] }));
       const path = deleteUrlQueryParam([key]);
-      history.push({ search: `?${path}` });
+      // history.push({ search: `?${path}` });
       dispatch(setResetFilterKey({ key, value: [] }));
     }
   };
@@ -133,12 +134,14 @@ export default function useIssues() {
   };
 
   const onUpdateImpact = (values) => {
-    dispatch(
-      setReportFilters({
-        key: 'impact',
-        values
-      })
-    );
+    console.log('onUpdateImpact: ', values);
+    setSelectedOptions(values);
+    // dispatch(
+    //   setReportFilters({
+    //     key: 'impact',
+    //     values
+    //   })
+    // );
   };
 
   useEffect(() => {
@@ -292,7 +295,7 @@ export default function useIssues() {
       activeIssueIndex: 0,
       isShowingIssue: false
     });
-    history.push({ search: `?${path}` });
+    // history.push({ search: `?${path}` });
   };
 
   const onHiddenIssueClick = (val) => {
@@ -309,6 +312,7 @@ export default function useIssues() {
     isOpen,
     intermediateFilters,
     sectionData,
+    selectedOptions,
     showHiddenIssues,
     onHiddenIssueClick,
     onApplyFilters,

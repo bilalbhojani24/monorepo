@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,7 +8,7 @@ import {
   ExclamationTriangleIcon,
   InformationCircleIcon,
   XCircleIcon,
-  XMarkIcon,
+  XMarkIcon
 } from '../Icon';
 
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from './const/alertConstants';
@@ -20,13 +20,13 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  linkText,
+  linkText
 ) => {
   if (linkText?.length > 0)
     return (
       <a
         href="/"
-        className={classNames('h-fit', {
+        className={twClassNames('h-fit', {
           'ml-1 underline': alertLinkPosition === ALERT_LINK_POSITION[0],
           'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
           'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
@@ -36,7 +36,7 @@ const link = (
             modifier === ALERT_MODIFIER[3],
           'text-attention-700 hover:text-attention-600':
             modifier === ALERT_MODIFIER[4],
-          'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5],
+          'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5]
         })}
         onClick={(event) => {
           event.preventDefault();
@@ -68,16 +68,16 @@ const Alerts = (props) => {
     alphaActionTitle,
     betaActionTitle,
     dismissButton,
-    dismissButtonFn,
+    dismissButtonFn
   } = props;
 
-  const iconClassTypes = classNames('h-5 w-5 ', {
+  const iconClassTypes = twClassNames('h-5 w-5 ', {
     'text-base-400': modifier === ALERT_MODIFIER[0],
     'text-brand-400': modifier === ALERT_MODIFIER[1],
     'text-success-400': modifier === ALERT_MODIFIER[2],
     'text-danger-400': modifier === ALERT_MODIFIER[3],
     'text-attention-400': modifier === ALERT_MODIFIER[4],
-    'text-info-700': modifier === ALERT_MODIFIER[5],
+    'text-info-700': modifier === ALERT_MODIFIER[5]
   });
 
   const renderAlertIcon = (mod) => {
@@ -118,7 +118,7 @@ const Alerts = (props) => {
         leaveTo="opacity-0"
       >
         <div
-          className={classNames(`p-4`, {
+          className={twClassNames(`p-4`, {
             'rounded-md ': !accentBorder,
 
             'border-l-4 border-base-400':
@@ -139,7 +139,7 @@ const Alerts = (props) => {
             'bg-success-50': modifier === ALERT_MODIFIER[2],
             'bg-danger-50': modifier === ALERT_MODIFIER[3],
             'bg-attention-50': modifier === ALERT_MODIFIER[4],
-            'bg-info-50': modifier === ALERT_MODIFIER[5],
+            'bg-info-50': modifier === ALERT_MODIFIER[5]
           })}
         >
           <div className="flex">
@@ -150,20 +150,20 @@ const Alerts = (props) => {
 
                 {title?.length > 0 && (
                   <h3
-                    className={classNames('text-sm font-medium', {
+                    className={twClassNames('text-sm font-medium', {
                       'text-base-800': modifier === ALERT_MODIFIER[0],
                       'text-brand-800': modifier === ALERT_MODIFIER[1],
                       'text-success-800': modifier === ALERT_MODIFIER[2],
                       'text-danger-800': modifier === ALERT_MODIFIER[3],
                       'text-attention-800': modifier === ALERT_MODIFIER[4],
-                      'text-info-800': modifier === ALERT_MODIFIER[5],
+                      'text-info-800': modifier === ALERT_MODIFIER[5]
                     })}
                   >
                     {title}
                   </h3>
                 )}
                 <span
-                  className={classNames(
+                  className={twClassNames(
                     `flex items-end text-sm ${textColorClass}`,
                     {
                       'text-base-700': modifier === ALERT_MODIFIER[0],
@@ -171,8 +171,8 @@ const Alerts = (props) => {
                       'text-success-700': modifier === ALERT_MODIFIER[2],
                       'text-danger-700': modifier === ALERT_MODIFIER[3],
                       'text-attention-700': modifier === ALERT_MODIFIER[4],
-                      'text-info-700': modifier === ALERT_MODIFIER[5],
-                    },
+                      'text-info-700': modifier === ALERT_MODIFIER[5]
+                    }
                   )}
                 >
                   <div>
@@ -202,7 +202,7 @@ const Alerts = (props) => {
                               if (alphaActionFn) alphaActionFn();
                             }}
                             type="button"
-                            className={classNames(
+                            className={twClassNames(
                               'rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
                               {
                                 'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
@@ -216,8 +216,8 @@ const Alerts = (props) => {
                                 'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                                   modifier === ALERT_MODIFIER[4],
                                 'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
-                                  modifier === ALERT_MODIFIER[5],
-                              },
+                                  modifier === ALERT_MODIFIER[5]
+                              }
                             )}
                           >
                             {alphaActionTitle}
@@ -228,7 +228,7 @@ const Alerts = (props) => {
                               event.preventDefault();
                               if (betaActionFn) betaActionFn();
                             }}
-                            className={classNames(
+                            className={twClassNames(
                               'ml-3 rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
                               {
                                 'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
@@ -242,8 +242,8 @@ const Alerts = (props) => {
                                 'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                                   modifier === ALERT_MODIFIER[4],
                                 'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
-                                  modifier === ALERT_MODIFIER[5],
-                              },
+                                  modifier === ALERT_MODIFIER[5]
+                              }
                             )}
                           >
                             {betaActionTitle}
@@ -259,7 +259,7 @@ const Alerts = (props) => {
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      linkText,
+                      linkText
                     )}
                 </span>
               </div>
@@ -270,7 +270,7 @@ const Alerts = (props) => {
                     modifier,
                     handleLinkClick,
                     linkUrl,
-                    linkText,
+                    linkText
                   )}
               </p>
             </div>
@@ -285,7 +285,7 @@ const Alerts = (props) => {
                       if (dismissButtonFn) dismissButtonFn();
                     }}
                     type="button"
-                    className={classNames(
+                    className={twClassNames(
                       'inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2',
                       {
                         'bg-base-50 text-base-500 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
@@ -299,8 +299,8 @@ const Alerts = (props) => {
                         'bg-attention-50 text-attention-500 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
                           modifier === ALERT_MODIFIER[4],
                         'bg-info-50 text-info-500 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
-                          modifier === ALERT_MODIFIER[5],
-                      },
+                          modifier === ALERT_MODIFIER[5]
+                      }
                     )}
                   >
                     <span className="sr-only">Dismiss</span>
@@ -333,7 +333,7 @@ Alerts.propTypes = {
   description: (props, propName) => {
     if (typeof props.propName !== 'string' && props.title === '') {
       return new Error(
-        `'${propName}' can only be of type 'String' if no value is assigned to 'title' prop.`,
+        `'${propName}' can only be of type 'String' if no value is assigned to 'title' prop.`
       );
     }
     return null;
@@ -342,13 +342,13 @@ Alerts.propTypes = {
     const { title, dismissButton } = props;
     if (title && dismissButton) {
       return new Error(
-        `'${propName}' prop and 'dismissButton' prop should not be passed together.`,
+        `'${propName}' prop and 'dismissButton' prop should not be passed together.`
       );
     }
     return null;
   },
   dismissButtonFn: PropTypes.func,
-  textColorClass: PropTypes.string,
+  textColorClass: PropTypes.string
 };
 
 Alerts.defaultProps = {
@@ -368,7 +368,7 @@ Alerts.defaultProps = {
   betaActionTitle: '',
   dismissButton: false,
   dismissButtonFn: () => {},
-  textColorClass: '',
+  textColorClass: ''
 };
 
 export default Alerts;

@@ -4,7 +4,7 @@ import { data } from './guidelines';
 
 export default async function fetchCustomData() {
   return new Promise((resolve) => {
-    resolve(data.data);
+    resolve(data);
   });
   // const response = await axios.get(
   //   'https://accessibility-service.bsstag.com/guidelines'

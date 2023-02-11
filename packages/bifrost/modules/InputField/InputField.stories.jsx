@@ -100,6 +100,12 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
       defaultValue: 'text'
+    },
+    isTrailingNodeClickable: {
+      control: { type: 'boolean' },
+      type: { summary: 'BOOLEAN', required: false },
+      description: 'Pass true if trailing icon should be clickable',
+      defaultValue: false
     }
   },
   controls: {}

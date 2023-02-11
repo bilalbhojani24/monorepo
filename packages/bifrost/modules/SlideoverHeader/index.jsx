@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { MdErrorOutline, XMarkIcon } from '../Icon';
 import Tooltip from '../Tooltip';
 import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
@@ -55,7 +54,7 @@ const SlideoverHeader = ({
       <div className="mt-3 w-full text-center sm:mt-0 sm:text-left">
         {heading || dismissButton ? (
           <div
-            className={`flex w-full  ${classNames({
+            className={`flex w-full  ${twClassNames({
               'justify-between': heading,
               'justify-end': !heading
             })}`}

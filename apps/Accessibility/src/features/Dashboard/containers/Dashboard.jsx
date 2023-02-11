@@ -52,8 +52,14 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <ASSidebarNavigation sidebarPrimaryNavigation={SWBSidebarPri} />
-      <main className={`${isSidebarCollapsed ? 'pl-0' : 'pl-64'}`}>
+      <div className="bg-white">
+        <ASSidebarNavigation sidebarPrimaryNavigation={SWBSidebarPri} />
+      </div>
+      <main
+        className={`${
+          isSidebarCollapsed ? 'pl-0' : 'pl-64'
+        } bg-base-50 h-screen`}
+      >
         {children}
       </main>
     </div>

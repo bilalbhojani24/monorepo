@@ -1,23 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import { setOpenAccordionId } from 'features/Report/slice/appSlice';
 import { getOpenAccordionId } from 'features/Report/slice/selector';
 import { ASAccordion, ASBadge } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 
-// import { ArrowDropDownIcon, ArrowDropUpIcon } from 'trike/Icons';
-// import Lozenge from 'trike/Lozenge';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import ComponentList from './ComponentList';
 
-export default function Violation({ violation }) {
+export default function Violation({ violation, index, isFullWidth }) {
   const dispatch = useDispatch();
   const openAccordionId = useSelector(getOpenAccordionId);
   const isOpen = openAccordionId === violation.id;
 
   const totalCount = violation.nodes.length;
-  const { modifier } = issueTypes.find(({ type }) => type === violation.impact);
   const impact =
     violation.impact.charAt(0).toUpperCase() +
     violation.impact.slice(1, violation.impact.length);
@@ -32,31 +29,45 @@ export default function Violation({ violation }) {
 
   return (
     <ASAccordion
-      triggerClassName="flex w-full bg-white py-3 px-6 border-t"
+      triggerClassName={twClassNames(
+        'flex w-full bg-white py-3 px-6 border-t',
+        {
+          'border-0': index === 0
+        }
+      )}
       triggerContentNode={
         <div className="flex w-full cursor-pointer items-center justify-between bg-white">
-          <div className="ml-2 flex">
+          <div className="ml-2 flex items-center">
             <p className="text-base-900 mr-2 text-sm">{violation.help}</p>
-            <ASBadge
-              hasDot={false}
-              hasRemoveButton={false}
-              isRounded={false}
-              text={totalCount}
-            />
+            <div>
+              <ASBadge
+                hasDot={false}
+                hasRemoveButton={false}
+                isRounded
+                text={totalCount}
+              />
+            </div>
           </div>
           {impact && (
             <ASBadge
               hasDot={false}
               hasRemoveButton={false}
-              isRounded={false}
+              isRounded
               text={impact}
-              modifier={modifier}
+              modifier={
+                issueTypes.find(({ type }) => type === violation.impact)
+                  .modifier
+              }
             />
           )}
         </div>
       }
       panelContentNode={
-        <ComponentList nodes={violation.nodes} violationId={violation.id} />
+        <ComponentList
+          nodes={violation.nodes}
+          violationId={violation.id}
+          isFullWidth={isFullWidth}
+        />
       }
       onTriggerClick={updateOpenViolation}
       onChevronClick={updateOpenViolation}
@@ -98,7 +109,8 @@ export default function Violation({ violation }) {
 }
 
 Violation.propTypes = {
-  violation: PropTypes.objectOf(PropTypes.any)
+  violation: PropTypes.objectOf(PropTypes.any),
+  index: PropTypes.number.isRequired
 };
 
 Violation.defaultProps = {

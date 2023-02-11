@@ -151,7 +151,7 @@ const { actions, reducer } = createSlice({
     },
     resetIntermediateFiltersToActiveFilters: (state) => {
       Object.entries(state.activeFilters).forEach(([key, value]) => {
-        state.intermediateFilters[key] = [...value];
+        state.intermediateFilters[key] = value;
       });
     },
     resetReportAppInfo: (state) => {

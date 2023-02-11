@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { twClassNames } from '@browserstack/utils';
+import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
   setActiveComponentId,
   setActiveViolationId,
@@ -27,6 +29,7 @@ import {
 export default function ComponentList({ nodes, violationId }) {
   const dispatch = useDispatch();
   const history = useNavigate();
+  const { isHalfView } = useContext(SectionsDataContext);
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const onRowClick = (key) => {
@@ -39,7 +42,7 @@ export default function ComponentList({ nodes, violationId }) {
       isShowingIssue: true,
       activeIssueIndex: 0
     });
-    history.push({ search: `?${path}` });
+    // history.push({ search: `?${path}` });
   };
 
   const componentMap = {};
@@ -99,11 +102,14 @@ export default function ComponentList({ nodes, violationId }) {
                 key={col.key}
                 variant="header"
                 textTransform="uppercase"
-                wrapperClass={`text-xs text-base-500 ${
-                  index === 1 ? 'w-36' : ''
-                } ${index === 2 ? 'w-32' : ''}`}
               >
-                {col.name} {index === 0 ? `(${tableData.length})` : ''}
+                <div
+                  className={`text-base-500 text-xs ${
+                    index === 1 ? 'w-28' : ''
+                  } ${index === 2 ? 'w-24' : ''}`}
+                >
+                  {col.name} {index === 0 ? `(${tableData.length})` : ''}
+                </div>
               </ASTableCell>
             ))}
           </ASTableRow>
@@ -129,10 +135,16 @@ export default function ComponentList({ nodes, violationId }) {
               {columns.map((column, index) => (
                 <ASTableCell
                   key={column.id}
-                  wrapperClass={`px-6 py-2 ${index === 1 ? 'w-32' : ''}`}
+                  wrapperClass={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
+                    index === 2 ? 'w-24' : ''
+                  }`}
                 >
                   {index === 0 ? (
-                    <p>
+                    <p
+                      className={twClassNames('overflow-hidden truncate', {
+                        'w-56': isHalfView
+                      })}
+                    >
                       <span className="text-brand-600">
                         {rest[column.key].split('#')[0].toLowerCase()}
                       </span>
@@ -143,7 +155,7 @@ export default function ComponentList({ nodes, violationId }) {
                       </span>
                     </p>
                   ) : (
-                    rest[column.key]
+                    <div>{rest[column.key]}</div>
                   )}
                 </ASTableCell>
               ))}
