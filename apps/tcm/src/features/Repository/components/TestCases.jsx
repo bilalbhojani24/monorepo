@@ -5,9 +5,10 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
+import CopyButton from 'common/CopyButton';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -56,9 +57,16 @@ export default function TestCases() {
                           {selectedFolder?.name}
                         </TMTooltipHeader>
                         <TMTooltipBody>
-                          <p className="text-sm">
-                            URL: {selectedFolder?.links?.self || ''}
-                          </p>
+                          <div className={"text-sm"}>
+                            <p>
+                              URL: {selectedFolder?.links?.self.slice(7,) || ''}
+                            </p>
+                            <div className="mt-3 flex w-full gap-4">
+                              <CopyButton copyValue={"https://teststack.bsstag.com" + selectedFolder?.links?.self.slice(7,)}>
+                                Copy URL
+                              </CopyButton>
+                            </div>
+                          </div>
                         </TMTooltipBody>
                       </>
                     }

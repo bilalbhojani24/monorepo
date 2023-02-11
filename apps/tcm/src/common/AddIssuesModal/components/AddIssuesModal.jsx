@@ -10,6 +10,8 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
+
 
 import useAddIssuesModal from './useAddIssuesModal';
 
@@ -59,6 +61,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
               placeholder="Enter JIRA IDs (separated by comma)"
               label="Issue IDs"
               errorText={errorText}
+              onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
               value={enterdIssueIDs}
               onChange={(e) => {
                 setIssueIds(e.currentTarget.value);
