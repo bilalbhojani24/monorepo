@@ -1,40 +1,213 @@
 import React from 'react';
-import { Dropdown, InputField, Slideover } from '@browserstack/bifrost';
+import {
+  Accordion,
+  Button,
+  Checkbox,
+  Dropdown,
+  InputField,
+  MdDelete,
+  Switch
+} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { wcagVersions } from './constants';
+import {
+  ASSlideover,
+  ASSlideoverFooter,
+  ASSlideoverHeader
+} from '../../../middleware/bifrost';
 
-const NewScan = ({ show, closeSlideover }) => (
-  <div>
-    <Slideover
-      show={show}
-      slideoverWidth="max-w-screen-md w-screen"
-      onOverlayClick={closeSlideover}
-      backgroundOverlay
-      onClose={closeSlideover}
-    >
-      <div className="flex w-1/2 justify-between p-6">
-        <div>
-          <h1 className="mb-2 text-lg font-bold">New website scan</h1>
-          <h3 className="text-base-500 mb-4 text-sm font-medium">
-            Setup your new website scan
-          </h3>
+import { days, wcagVersions } from './constants';
+import useNewScan from './useNewScan';
+
+const NewScan = ({ show, closeSlideover }) => {
+  const { recurringStatus, formData, handleFormData, validationError } =
+    useNewScan();
+
+  const getAccordionBody = () => (
+    <div className="px-2 pt-2">
+      <Switch
+        leftLabel="Include Needs Review issues"
+        leftDescription="Issues marked as Needs Review needs manual inspection to confirm it’s validity."
+        onChange={(e) => handleFormData(e, 'needsReview')}
+      />
+      <Switch
+        leftLabel="Include Best Practices issues"
+        leftDescription="Issues marked as Best practices aren't Accessibility guideline violations, but resolving them will improve the overall user experience."
+        onChange={(e) => handleFormData(e, 'bestPractices')}
+      />
+    </div>
+  );
+  console.log(validationError);
+  return (
+    <div>
+      <ASSlideover
+        show={show}
+        slideoverWidth="max-w-screen-md w-screen overflow-y"
+        onOverlayClick={closeSlideover}
+        backgroundOverlay
+        onClose={closeSlideover}
+      >
+        <ASSlideoverHeader
+          dismissButton
+          handleDismissClick={closeSlideover}
+          heading="New website scan"
+          subHeading="Setup your new website scan"
+          backgroundColorClass="bg-base-50"
+        />
+        <div className="border-base-200 flex-col border-b pb-4">
+          <div className="flex items-center">
+            <div
+              className={`m-5 w-64 flex-auto ${
+                validationError.scanName ? 'mt-12' : ''
+              }`}
+            >
+              <InputField
+                label="Scan Name"
+                onChange={(e) => handleFormData(e, 'scanName')}
+                id="scan-name"
+                placeholder="Scan Name"
+                defaultValue={formData.name}
+                errorText={validationError.scanName}
+              />
+            </div>
+            <div className="mr-5 flex-col">
+              <label
+                className="text-base-700 mb-1 block text-sm font-medium"
+                htmlFor="wcagVersion"
+              >
+                WCAG Version
+              </label>
+              <Dropdown
+                triggerTitle={
+                  formData?.scanData?.wcagVersion || 'Select a WCAG Version'
+                }
+                options={wcagVersions}
+                heading="WCAG Version"
+                onClick={(e) => handleFormData(e, 'wcagVersion')}
+                id="wcagVersion"
+              />
+            </div>
+          </div>
+          <div className="mx-5">
+            <Checkbox
+              name="recurring"
+              onChange={(e) => handleFormData(e, 'recurring')}
+              border={false}
+              data={{
+                label: 'Make Recurring',
+                description:
+                  'You can schedule periodic scans for the added pages'
+              }}
+            />
+            {recurringStatus ? (
+              <div className="flex items-center pt-5">
+                <span className="mr-2">On the </span>
+                <Dropdown
+                  triggerTitle={formData.day || 'Day'}
+                  options={days}
+                  onClick={(e) => handleFormData(e, 'day')}
+                  id="recurring-days"
+                />
+                <span className="mx-2">of every week, at</span>
+                <InputField
+                  onChange={(e) => handleFormData(e, 'time')}
+                  id="time"
+                  placeholder="Time"
+                  type="time"
+                  className="text-base-500"
+                  value={formData.time}
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            <div className="pt-2">
+              <Accordion
+                openByDefault
+                onTriggerClick={() => {}}
+                onChevronClick={() => {}}
+                panelContentNode={getAccordionBody()}
+                triggerContentNode={<div>Additional settings</div>}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="flex">
-          <InputField label="Scan Name" onChange={() => {}} id="scan-name" />
-          <Dropdown
-            triggerTitle="Select a WCAG Version"
-            options={wcagVersions}
-            heading="WCAG Version"
-            onClick={() => {}}
-          />
+        <div className="flex-col">
+          <div
+            className={`m-5 flex ${
+              validationError.url ? 'items-center' : 'items-end'
+            }`}
+          >
+            <div className="w-9/12">
+              <InputField
+                label="Add pages"
+                onChange={(e) => handleFormData(e, 'url')}
+                id="scan-url"
+                placeholder="Sampleurl.com/home"
+                value={formData.url}
+                errorText={validationError.url}
+              />
+            </div>
+            <Button
+              onClick={(e) => handleFormData(e, 'addUrl')}
+              size="small"
+              type="subtle"
+              wrapperClassName="ml-4"
+            >
+              Add
+            </Button>
+            <Button
+              colors="white"
+              onClick={() => {}}
+              size="small"
+              type="subtle"
+              wrapperClassName="ml-4 w-36"
+            >
+              Upload CSV
+            </Button>
+          </div>
+          <div>
+            <div className="bg-base-50 text-base-500 py-3 px-6 text-xs">
+              ADDED PAGES ({formData?.scanData?.urlSet?.length || 0})
+            </div>
+            {formData?.scanData?.urlSet?.length
+              ? formData.scanData.urlSet.map((url) => (
+                  <div className="border-base-200 flex justify-between border-y px-6 py-4">
+                    <span className="text-base-900 w-6/12 truncate text-sm">
+                      {url}
+                    </span>
+                    <MdDelete />
+                  </div>
+                ))
+              : null}
+          </div>
         </div>
-      </div>
-    </Slideover>
-  </div>
-);
+        <ASSlideoverFooter position="right" isBorder>
+          <div className="flex w-full justify-end bg-white">
+            <Button
+              onClick={closeSlideover}
+              size="small"
+              type="subtle"
+              wrapperClassName="ml-4"
+              colors="white"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={(e) => handleFormData(e, 'submit')}
+              size="small"
+              type="subtle"
+              wrapperClassName="ml-4"
+              disabled={Object.keys(validationError).length}
+            >
+              Create
+            </Button>
+          </div>
+        </ASSlideoverFooter>
+      </ASSlideover>
+    </div>
+  );
+};
 
 NewScan.defaultProps = {
   show: false,

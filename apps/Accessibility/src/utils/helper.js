@@ -151,3 +151,13 @@ export const formatComponentIdString = (componentId) =>
   `${componentId.split('#')[0].toLowerCase()}${
     componentId.split('#')[1] ? `.${componentId.split('#')[1]}` : ''
   }`;
+
+export const isValidHttpUrl = (string) => {
+  let url;
+  try {
+    url = new URL(string);
+    return url;
+  } catch (_) {
+    return false;
+  }
+};

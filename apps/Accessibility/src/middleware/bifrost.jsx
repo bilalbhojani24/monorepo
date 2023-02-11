@@ -16,6 +16,9 @@ import {
   SelectMenu,
   SidebarItem,
   SidebarNavigation,
+  Slideover,
+  SlideoverFooter,
+  SlideoverHeader,
   Stats,
   Table,
   TableBody,
@@ -47,3 +50,6 @@ export const ASModal = (props) => <Modal {...props} />;
 export const ASModalBody = (props) => <ModalBody {...props} />;
 export const ASModalFooter = (props) => <ModalFooter {...props} />;
 export const ASModalHeader = (props) => <ModalHeader {...props} />;
+export const ASSlideover = (props) => <Slideover {...props} />;
+export const ASSlideoverHeader = (props) => <SlideoverHeader {...props} />;
+export const ASSlideoverFooter = (props) => <SlideoverFooter {...props} />;

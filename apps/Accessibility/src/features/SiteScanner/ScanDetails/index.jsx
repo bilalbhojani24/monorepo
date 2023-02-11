@@ -1,11 +1,18 @@
 import React from 'react';
-import { BsCalendar } from 'react-icons/bs';
-import { MdOutlineTableChart } from 'react-icons/md';
-import { RiBarChartLine, RiUser3Fill } from 'react-icons/ri';
-import { Badge, Button, Dropdown, Tabs } from '@browserstack/bifrost';
+import {
+  Badge,
+  Button,
+  Dropdown,
+  MdBarChart,
+  MdCalendarToday,
+  MdOutlineTableChart,
+  MdPerson,
+  Tabs
+} from '@browserstack/bifrost';
 
 import ScanRuns from '../ScanRuns';
 
+import Overview from './Overview';
 import useScanDetails from './useScanDetails';
 
 const ScanDetails = () => {
@@ -27,13 +34,13 @@ const ScanDetails = () => {
             <div className="flex">
               <span className="mr-2 flex items-center text-sm">
                 <span className="mr-0.5">
-                  <RiUser3Fill color="#9CA3AF" />
+                  <MdPerson color="#9CA3AF" />
                 </span>{' '}
                 <span className="text-base-500">Kaustubh Saxena</span>
               </span>
               <span className="text-base-500 ml-7 flex items-center text-sm">
                 <span className="mr-0.5">
-                  <BsCalendar color="#9CA3AF" className="mr-0.5" />
+                  <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
                 </span>{' '}
                 25 pages
               </span>
@@ -74,8 +81,8 @@ const ScanDetails = () => {
             onTabChange={tabChangeHandler}
             tabsArray={[
               {
-                name: 'Summary',
-                icon: () => <RiBarChartLine className="mt-0.5 mr-2" />
+                name: 'Overview',
+                icon: () => <MdBarChart className="mt-0.5 mr-2" />
               },
               {
                 name: 'Scan runs',
@@ -85,7 +92,7 @@ const ScanDetails = () => {
           />
         </div>
       </div>
-      <div>{activeTab === 'Overview' ? 'Overview' : <ScanRuns />}</div>
+      <div>{activeTab === 'Overview' ? <Overview /> : <ScanRuns />}</div>
     </>
   );
 };

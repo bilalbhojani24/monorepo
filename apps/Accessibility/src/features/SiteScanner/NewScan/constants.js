@@ -24,3 +24,30 @@ export const wcagVersions = [
     body: 'WCAG 2.0 A'
   }
 ];
+
+export const days = [
+  {
+    id: 'monday',
+    body: 'Monday'
+  },
+  {
+    id: 'tuesday',
+    body: 'Tuesday'
+  },
+  {
+    id: 'wednesday',
+    body: 'Wednesday'
+  },
+  {
+    id: 'thursday',
+    body: 'Thursday'
+  },
+  {
+    id: 'friday',
+    body: 'Friday'
+  },
+  {
+    id: 'saturday',
+    body: 'Saturday'
+  }
+];

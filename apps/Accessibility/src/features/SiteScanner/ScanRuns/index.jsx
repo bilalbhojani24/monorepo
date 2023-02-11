@@ -1,9 +1,11 @@
 import React from 'react';
-import { IoMdCloseCircle } from 'react-icons/io';
-import { MdCheckCircle, MdSchedule } from 'react-icons/md';
-import { RxUpdate } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 import {
   Badge,
+  MdCancel,
+  MdCheckCircle,
+  MdOutlineSync,
+  MdSchedule,
   Table,
   TableBody,
   TableCell,
@@ -70,11 +72,15 @@ const rows = [
           40
         </span>
         <span className="mr-2 flex items-center">
-          <IoMdCloseCircle color="#EF4444" className="mr-0.5" />
+          <MdCancel color="#EF4444" className="mr-0.5" />
           23
         </span>
         <span className="mr-2 flex items-center">
-          <RxUpdate color="#EAB308" className="mr-0.5" />2
+          <MdOutlineSync
+            color="#FFF"
+            className="bg-attention-500 mr-0.5 rounded-full"
+          />
+          2
         </span>
       </div>
     )
@@ -116,60 +122,67 @@ const rows = [
           40
         </span>
         <span className="mr-2 flex items-center">
-          <IoMdCloseCircle color="#EF4444" className="mr-0.5" />
+          <MdCancel color="#EF4444" className="mr-0.5" />
           23
         </span>
         <span className="mr-2 flex items-center">
-          <RxUpdate color="#EAB308" className="mr-0.5" />2
+          <MdOutlineSync
+            color="#FFF"
+            className="bg-attention-500 mr-0.5 rounded-full"
+          />
+          2
         </span>
       </div>
     )
   }
 ];
 
-const ScanRuns = () => (
-  <div>
-    <Table>
-      <TableHead>
-        <TableRow>
-          {columns.map((col) => (
-            <TableCell
-              key={col.key}
-              variant="header"
-              wrapperClass="first:pr-3 last:pl-3 px-2"
+const ScanRuns = () => {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((col) => (
+              <TableCell
+                key={col.key}
+                variant="header"
+                wrapperClass="first:pr-3 last:pl-3 px-2"
+              >
+                {col.name}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, idx) => (
+            <TableRow
+              key={idx}
+              onRowClick={() => {
+                navigate('/site-scanner/scan-report/12');
+              }}
+              tabIndex="0"
             >
-              {col.name}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows.map((row, idx) => (
-          <TableRow
-            key={idx}
-            onRowClick={() => {
-              console.log('Row clicked');
-            }}
-            tabIndex="0"
-          >
-            {columns.map((column, colIdx) => {
-              const value = row[column.key];
-              return (
-                <TableCell
-                  key={column.id}
-                  wrapperClass={`
+              {columns.map((column, colIdx) => {
+                const value = row[column.key];
+                return (
+                  <TableCell
+                    key={column.id}
+                    wrapperClass={`
                     ${colIdx === 0 ? 'font-medium text-base-900' : ''}
                    first:pr-3 last:pl-3 p-5`}
-                >
-                  {column.cell ? <>{column.cell()}</> : value}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </div>
-);
+                  >
+                    {column.cell ? <>{column.cell()}</> : value}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
 
 export default ScanRuns;
