@@ -13,7 +13,7 @@ import {
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { formatTime, routeFormatter } from 'utils/helperFunctions';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import useTestRunsTable from './useTestRunsTable';
 
@@ -44,11 +44,11 @@ const TestRunsTable = () => {
       name: 'NO. OF TESTS',
       key: 'test_cases_count'
     },
-    {
-      name: 'CREATED DATE',
-      key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at)
-    },
+    // {
+    //   name: 'CREATED DATE',
+    //   key: 'created_at',
+    //   cell: (rowData) => formatTime(rowData.created_at)
+    // },
     {
       name: 'ASSIGNED TO',
       key: 'owner',
