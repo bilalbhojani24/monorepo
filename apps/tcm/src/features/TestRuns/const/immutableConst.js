@@ -11,13 +11,14 @@ export const STATE_OPTIONS = [
 export const CHART_OPTIONS = {
   chart: {
     type: 'bar',
-    height: 40,
+    height: 50,
     spacingTop: 0,
     spacingRight: 0,
     spacingBottom: 0,
     spacingLeft: 0,
     plotBorderWidth: 0,
-    margin: [0, 0, 0, 0]
+    margin: [0, 0, 0, 0],
+    width: 197
   },
   title: {
     text: ''
@@ -47,6 +48,7 @@ export const CHART_OPTIONS = {
   },
   plotOptions: {
     series: {
+      // animation: false,
       stacking: 'normal',
       dataLabels: {
         enabled: false
@@ -57,5 +59,14 @@ export const CHART_OPTIONS = {
   series: [],
   credits: {
     enabled: false
+  },
+  tooltip: {
+    outside: true,
+    enabled: true,
+    backgroundColor: '#00335D',
+    borderColor: '#00335D',
+    style: {
+      color: '#fff'
+    }
   }
 };

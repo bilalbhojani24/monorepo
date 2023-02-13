@@ -70,7 +70,9 @@ const TestRunsTable = () => {
               highcharts={Highcharts}
               options={getOptions(rowData)}
             />
-            <span className="text-base-500 ml-1">{untestedPerc}%</span>
+            <span className="text-base-500 ml-0.5">
+              {untestedPerc.toFixed(0)}%
+            </span>
           </div>
         );
       }
@@ -128,7 +130,7 @@ const TestRunsTable = () => {
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClassName={classNames({
+                        wrapperClassName={classNames('py-1', {
                           'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
