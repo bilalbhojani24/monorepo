@@ -16,6 +16,7 @@ const ListTreeNode = ({
   description,
   nodeLabelClassName,
   onTrailingIconClick,
+  leadingIcon,
   onNodeClick,
   onNodeOpen,
   isNodeSelected,
@@ -75,8 +76,8 @@ const ListTreeNode = ({
           )}
         </Disclosure.Button>
 
-        <div className="text-info-400 mr-1 w-5 select-none">
-          <MdFolder className="max-h-4" />
+        <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
+          {leadingIcon || <MdFolder className="h-full w-full" />}
         </div>
 
         <div
@@ -144,7 +145,8 @@ ListTreeNode.propTypes = {
   onNodeOpen: PropTypes.func,
   isNodeSelected: PropTypes.bool,
   trailingVisualElement: PropTypes.node,
-  headerTooltipProps: PropTypes.shape(TooltipPropTypes)
+  headerTooltipProps: PropTypes.shape(TooltipPropTypes),
+  leadingIcon: PropTypes.node
 };
 
 ListTreeNode.defaultProps = {
@@ -158,7 +160,8 @@ ListTreeNode.defaultProps = {
   onNodeOpen: () => {},
   isNodeSelected: false,
   trailingVisualElement: null,
-  headerTooltipProps: {}
+  headerTooltipProps: {},
+  leadingIcon: null
 };
 
 export default ListTreeNode;
