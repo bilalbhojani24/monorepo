@@ -3,7 +3,10 @@ import { useDispatch } from 'react-redux';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
 import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
-import { setCSVConfigurations } from '../slices/importCSVSlice';
+import {
+  setCSVConfigurations,
+  setFieldsMapping
+} from '../slices/importCSVSlice';
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
@@ -18,13 +21,25 @@ const ImportCSV = () => {
   const getCurrentScreen = () => {
     if (currentCSVScreen === 'uploadFile') return <UploadFile />;
     if (currentCSVScreen === 'mapFields') {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(
+        mappingFieldsData?.field_mappings
+      )) {
+        dispatch(setFieldsMapping({ key, value }));
+      }
+      // eslint-disable-next-line no-restricted-syntax
+      // for (const [key, value] of Object.entries(
+      //   mappingFieldsData?.value_mappings
+      // )) {
+      //   dispatch(setValueMapping({ key, value }));
+      // }
       return (
         <MapFields
           importId={mappingFieldsData?.import_id}
           importFields={mappingFieldsData.import_fields ?? []}
           defaultFields={mappingFieldsData?.fields_available?.default ?? []}
           customFields={mappingFieldsData?.fields_available?.custom ?? []}
-          fieldMappings={mappingFieldsData?.field_mappings}
+          // fieldMappings={mappingFieldsData?.field_mappings}
           isCondensed
         />
       );
@@ -45,7 +60,12 @@ const ImportCSV = () => {
         heading="Import via CSV/XLS"
       />
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
-      {getCurrentScreen()}
+      <div
+        id="current-import-csv-screen"
+        className="mt-4 flex justify-center overflow-auto"
+      >
+        {getCurrentScreen()}
+      </div>
     </>
   );
 };

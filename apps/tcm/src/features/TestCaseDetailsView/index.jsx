@@ -20,13 +20,13 @@ const TestCaseDetailsView = () => {
 
   return (
     <TMSlideover
+      onEscPress={hideTestCaseViewDrawer}
       key={testCaseId}
       show={isTestCaseViewVisible}
       onClose={hideTestCaseViewDrawer}
       onOverlayClick={hideTestCaseViewDrawer}
       closeButtonOutside={false}
       description=""
-      topMarginElementId="bstack-header"
       slideoverWidth="max-w-md w-screen"
       backgroundOverlay={false}
     >

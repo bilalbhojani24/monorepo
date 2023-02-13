@@ -1,50 +1,44 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+// import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
   TMInputField,
   TMTooltip,
-  TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipBody
 } from 'common/bifrostProxy';
 
 import { TEST_RAILS } from '../const/importSteps';
-import { setTestRailsCred } from '../slices/importSlice';
 
+// import { setTestRailsCred } from '../slices/importSlice';
 import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
 
 const TestRailImportForm = () => {
   const {
     connectionStatusMap,
-    getUserEmail,
+    // getUserEmail,
     handleInputFieldChange,
     testRailsCred,
     testRailsCredTouched
   } = useImport();
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
-  }, [dispatch, getUserEmail]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (getUserEmail)
+  //     dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
+  // }, [dispatch, getUserEmail]);
 
   return (
     <div className="mt-12">
       <div className="flex justify-around">
         <div className="mr-6 w-full">
           <TMInputField
-            defaultValue={getUserEmail}
+            placeholder="Enter Email Address"
+            value={testRailsCred.email}
             id="email"
             onChange={handleInputFieldChange('email')}
-            label={
-              <>
-                TestRail Email Address
-                {/* <span className="ml-1">
-                  <InfoOutlinedIcon fontSize="inherit" />
-                </span> */}
-              </>
-            }
+            label="TestRail Email Address"
             errorText={
               !testRailsCred.email && testRailsCredTouched.email
                 ? 'This field is required'
@@ -107,9 +101,12 @@ const TestRailImportForm = () => {
                     <TMTooltipBody>
                       <p className="text-sm">
                         API Key is located at My Settings &gt; API Keys
-                        <div className="mt-3 cursor-pointer font-medium text-white underline">
+                        <a
+                          href={`${testRailsCred.host}index.php?/mysettings`}
+                          className="mt-3 block cursor-pointer font-medium text-white underline"
+                        >
                           Click here to get Token ID
-                        </div>
+                        </a>
                       </p>
                     </TMTooltipBody>
                   </>

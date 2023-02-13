@@ -211,7 +211,7 @@ const ImportStatus = () => {
                     {project.status === FAILURE ? (
                       <>
                         <ErrorIcon className="text-danger-600" />
-                        <span className="ml-2">{project.reason}</span>
+                        <span className="ml-2">{project.error}</span>
                       </>
                     ) : (
                       <CheckCircleRoundedIcon className="text-success-600" />

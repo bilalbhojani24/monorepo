@@ -1,4 +1,5 @@
 import React from 'react';
+import { Loader } from '@browserstack/bifrost';
 import { OpenInNewOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -6,8 +7,8 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader,
-  TMSelectMenu
+  TMModalHeader
+  // TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -17,11 +18,15 @@ import useAddIssuesModal from './useAddIssuesModal';
 
 const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const {
+    isLoading,
+    jiraConfig,
     errorText,
     enterdIssueIDs,
     onCloseHandler,
     onLinkIssueClick,
-    setIssueIds
+    setIssueIds,
+    createNewIssueModalHandler,
+    configureJIRAInit
   } = useAddIssuesModal({
     isVisible,
     onClose,
@@ -38,54 +43,78 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
       <TMModalHeader
         heading="Add Link"
         handleDismissClick={onCloseHandler}
-        subHeading="Add your Issue ID from your projects or create a new one:"
+        subHeading={
+          !isLoading && jiraConfig
+            ? 'Add your Issue ID from your projects or create a new one:'
+            : null
+        }
       />
       <TMModalBody>
-        <TMInputField
-          id="jira-account"
-          label="JIRA Account"
-          disabled
-          value="BrowserStack"
-        />
-        <div className="mt-4">
-          <TMSelectMenu
-            checkPosition="right"
-            label="Select Project"
-            placeholder="Select Project"
-            options={[]}
-          />
-        </div>
-        <div className="mt-4 mb-2 flex flex-1 items-start justify-between">
-          <div className="mr-4 flex-1">
-            <TMInputField
-              placeholder="Enter JIRA IDs (separated by comma)"
-              label="Issue IDs"
-              errorText={errorText}
-              onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
-              value={enterdIssueIDs}
-              onChange={(e) => {
-                setIssueIds(e.currentTarget.value);
-              }}
-            />
-          </div>
-          <TMButton
-            wrapperClassName="mt-6"
-            colors="white"
-            icon={<OpenInNewOutlinedIcon className="!h-4 !w-4" />}
-            iconPlacement="end"
-            // onClick={showAddTagsModal}
-          >
-            Create New Issue
-          </TMButton>
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {jiraConfig ? (
+              <div className="w-full">
+                <TMInputField
+                  id="jira-account"
+                  label="JIRA Account"
+                  disabled
+                  value={jiraConfig?.email || ''}
+                />
+                {/* <div className="mt-4">
+                      <TMSelectMenu
+                        checkPosition="right"
+                        label="Select Project"
+                        placeholder="Select Project"
+                        options={[]}
+                      />
+                    </div> */}
+                <div className="mt-4 mb-2 flex flex-1 items-start justify-between">
+                  <div className="mr-4 flex-1">
+                    <TMInputField
+                      placeholder="Enter JIRA IDs (separated by comma)"
+                      label="Issue IDs"
+                      errorText={errorText}
+                      value={enterdIssueIDs}
+                      onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
+                      onChange={(e) => {
+                        setIssueIds(e.currentTarget.value);
+                      }}
+                    />
+                  </div>
+                  <TMButton
+                    wrapperClassName="mt-6"
+                    colors="white"
+                    icon={<OpenInNewOutlinedIcon className="!h-4 !w-4" />}
+                    iconPlacement="end"
+                    onClick={createNewIssueModalHandler}
+                  >
+                    Create New Issue
+                  </TMButton>
+                </div>
+              </div>
+            ) : (
+              <div className="flex w-full justify-center">
+                <TMButton onClick={configureJIRAInit}>
+                  Configure your JIRA first
+                </TMButton>
+              </div>
+            )}
+          </>
+        )}
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
-          Cancel
-        </TMButton>
-        <TMButton variant="primary" onClick={onLinkIssueClick}>
-          Link Issue
-        </TMButton>
+        {!isLoading && jiraConfig && (
+          <>
+            <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
+              Cancel
+            </TMButton>
+            <TMButton variant="primary" onClick={onLinkIssueClick}>
+              Link Issue
+            </TMButton>
+          </>
+        )}
       </TMModalFooter>
     </TMModal>
   );

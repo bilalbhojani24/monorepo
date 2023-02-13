@@ -22,7 +22,7 @@ const ConfigureData = (props) => {
           <div className="w-3/4">
             <TMAlerts
               modifier="error"
-              title="Select at least 1 project"
+              title="Select at least 1 project to proceed."
               linkText={null}
             />
           </div>

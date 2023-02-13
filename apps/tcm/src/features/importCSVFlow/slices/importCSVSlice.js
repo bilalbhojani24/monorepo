@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getCSVConfigurations, postCSV } from '../../../api/importCSV.api';
+import {
+  getCSVConfigurations,
+  getFieldMapping,
+  postCSV
+} from '../../../api/importCSV.api';
 import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 
 const initialState = {
@@ -18,6 +22,8 @@ const initialState = {
   },
   csvUploadError: '',
   showCSVFields: false,
+  fieldsMapping: {},
+  valueMappings: {},
   mapFieldModalConfig: { show: false, field: '' }
 };
 
@@ -37,6 +43,18 @@ export const uploadFile = createAsyncThunk(
   async (payload) => {
     try {
       return await postCSV(payload);
+    } catch (err) {
+      return err;
+    }
+  }
+);
+
+export const setValueMappings = createAsyncThunk(
+  'importCSV/setValueMappings',
+  async ({ importId, field, mapped_field }) => {
+    try {
+      const response = await getFieldMapping({ importId, field, mapped_field });
+      return { field, ...response };
     } catch (err) {
       return err;
     }
@@ -67,7 +85,13 @@ const importCSVSlice = createSlice({
     },
     setMapFieldModalConfig: (state, { payload }) => {
       state.mapFieldModalConfig = payload;
+    },
+    setFieldsMapping: (state, { payload }) => {
+      state.fieldsMapping[payload.key] = payload.value;
     }
+    // setValueMappings: (state, { payload }) => {
+    //   state.valueMapping[payload.key] = payload.value;
+    // }
   },
   extraReducers: (builder) => {
     builder.addCase(uploadFile.fulfilled, (state, action) => {
@@ -102,6 +126,10 @@ const importCSVSlice = createSlice({
         value: separator
       }));
     });
+    builder.addCase(setValueMappings.fulfilled, (state, { payload }) => {
+      const { field, value_mappings: valueMappings } = payload;
+      state.valueMappings[field] = valueMappings;
+    });
   }
 });
 
@@ -112,6 +140,7 @@ export const {
   setCSVUploadError,
   setFileConfig,
   setShowMoreFields,
-  setMapFieldModalConfig
+  setMapFieldModalConfig,
+  setFieldsMapping
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

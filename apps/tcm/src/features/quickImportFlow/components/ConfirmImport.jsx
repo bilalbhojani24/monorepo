@@ -21,7 +21,7 @@ const ConfirmImport = (props) => {
           trailingHeadNode={
             <>
               <TMButton size="default" onClick={handleConfirmImport}>
-                Begin Import
+                Import
               </TMButton>
             </>
           }
