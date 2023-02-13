@@ -5,21 +5,19 @@ import Button from '../Button';
 
 import RichTextEditor from './index';
 
-const onAssetUpload = async (blobInfo, progress) => {
+const onAssetUpload = async (files) => {
   const formData = new FormData();
-  const files = blobInfo.blob();
-  formData.append('attachments[]', files);
+  const file = files[0];
+  formData.append('image', file);
+  formData.append('key', '95939cf0c027f2645e60ec39295b6530');
 
-  // image upload logic
+  const res = await fetch('https://api.imgbb.com/1/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const result = await res.json();
 
-  // const res = await axios.post(
-  //   'https://teststack.bsstag.com/api/v1/projects/846/generic/attachments',
-  //   formData
-  // );
-
-  progress(50);
-
-  return 'https://thumbs.dreamstime.com/b/gateway-india-mumbai-gateway-india-arch-monument-built-th-century-mumbai-india-monument-was-138091856.jpg';
+  return result.data.url;
 };
 
 const defaultConfig = {
