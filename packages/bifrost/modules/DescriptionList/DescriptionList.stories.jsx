@@ -1,66 +1,65 @@
 import React from 'react';
-import DescriptionList from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
 import {
-  descriptionsList,
   DESCRIPTION_LIST_ALIGNMENT,
-  descriptionsListForActions,
+  descriptionsList
 } from './const/descriptionListConstants';
+import DescriptionList from './index';
 
 const defaultConfig = {
   title: 'Application/Components/DescriptionList',
   component: DescriptionList,
   parameters: {
     docs: {
-      page: () => {
-        return (
-          <DocPageTemplate
-            importStatement={
-              "import DescriptionList from 'bifrost/DescriptionList'"
-            }
-          />
-        );
-      },
-    },
+      page: () => (
+        <DocPageTemplate
+          importStatement={
+            "import DescriptionList from 'bifrost/DescriptionList'"
+          }
+        />
+      )
+    }
   },
   argTypes: {
     alignment: {
       options: DESCRIPTION_LIST_ALIGNMENT,
       defaultValue: DESCRIPTION_LIST_ALIGNMENT[0],
       controls: { type: 'inline-radio' },
-      description: 'The grid alignment of the description list',
+      description: 'The grid alignment of the description list'
     },
     descriptions: {
       option: { type: null },
       defaultValue: descriptionsList,
-      description: 'List of all description items, attay of objects',
+      description: 'List of all description items, attay of objects'
     },
     heading: {
       option: { type: 'string' },
       defaultValue: 'Application Infomration',
-      description: 'Heading of description list',
+      description: 'Heading of description list'
     },
     isStriped: {
       option: { type: 'boolean' },
       defaultValue: false,
-      description: 'Striped rows',
+      description: 'Striped rows'
     },
     isCard: {
       option: { type: 'boolean' },
       defaultValue: true,
-      description: 'Shape of container in card form',
+      description: 'Shape of container in card form'
     },
     subHeading: {
       option: { type: 'string' },
       defaultValue: 'Personal details and application',
-      description: 'Subheading of description list',
+      description: 'Subheading of description list'
     },
-    wrapperClass: {
+    wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: '',
-    },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <DescriptionList {...args} />;
 const LeftAlignedInCardStripedTemplate = (args) => (
@@ -77,38 +76,37 @@ const LeftAlignedWithActions = LeftAlignedWithActionsTemplate.bind({});
 const TwoColumnLayout = TwoColumnLayoutTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
 export {
-  Primary,
   LeftAlignedInCardStriped,
-  LeftAlignedWithoutCard,
   LeftAlignedWithActions,
-  TwoColumnLayout,
+  LeftAlignedWithoutCard,
+  Primary,
+  TwoColumnLayout
 };
 
 LeftAlignedInCardStriped.args = {
   alignment: DESCRIPTION_LIST_ALIGNMENT[0],
   isCard: true,
-  isStriped: true,
+  isStriped: true
 };
 
 LeftAlignedWithoutCard.args = {
   alignment: DESCRIPTION_LIST_ALIGNMENT[0],
   isCard: false,
-  isStriped: false,
+  isStriped: false
 };
 
 LeftAlignedWithActions.args = {
   alignment: DESCRIPTION_LIST_ALIGNMENT[0],
   isCard: true,
-  isStriped: true,
-  descriptions: descriptionsListForActions,
+  isStriped: true
 };
 
 TwoColumnLayout.args = {
   alignment: DESCRIPTION_LIST_ALIGNMENT[1],
-  isCard: true,
+  isCard: true
 };

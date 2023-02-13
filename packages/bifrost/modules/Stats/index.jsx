@@ -14,11 +14,11 @@ const Stats = (props) => {
     option,
     variant,
     textColor,
-    wrapperClassname
+    wrapperClassName
   } = props;
 
   return (
-    <div className={wrapperClassname}>
+    <div className={wrapperClassName}>
       {heading?.length > 0 && (
         <h3 className="text-base-900 mb-5 text-lg font-medium leading-6">
           {heading}
@@ -167,14 +167,14 @@ Stats.propTypes = {
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,
-  wrapperClassname: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 Stats.defaultProps = {
   cardWrapperClassname: '',
   heading: '',
   variant: STATS_VARIANTS.SIMPLE,
   textColor: 'text-base-900',
-  wrapperClassname: ''
+  wrapperClassName: ''
 };
 
 export default Stats;
