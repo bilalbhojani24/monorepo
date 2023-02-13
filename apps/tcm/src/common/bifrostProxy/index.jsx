@@ -65,7 +65,6 @@ export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
-export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
@@ -96,5 +95,11 @@ export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
+
+export const TMSlideoverHeader = (props) => {
+  const topMarginElementId = 'bstack-header';
+
+  return <SlideoverHeader {...props} topMarginElementId={topMarginElementId} />;
+};
 
 export { TMAttachments, TMDataTable, TMDropdown, TMHeader, TMPagination };
