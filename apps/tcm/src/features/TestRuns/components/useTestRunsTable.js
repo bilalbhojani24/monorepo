@@ -61,8 +61,6 @@ const useTestRuns = () => {
     };
   };
 
-  // ${Highcharts.numberFormat(this.y, 0)}
-
   return {
     metaPage,
     isTestRunsLoading,

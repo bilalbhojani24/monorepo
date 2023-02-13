@@ -11,14 +11,14 @@ export const STATE_OPTIONS = [
 export const CHART_OPTIONS = {
   chart: {
     type: 'bar',
-    height: 50,
+    height: 40,
     spacingTop: 0,
     spacingRight: 0,
     spacingBottom: 0,
     spacingLeft: 0,
     plotBorderWidth: 0,
     margin: [0, 0, 0, 0],
-    width: 197
+    width: 125
   },
   title: {
     text: ''
@@ -54,6 +54,10 @@ export const CHART_OPTIONS = {
         enabled: false
       }
     }
+    // bar: {
+    //   grouping: true,
+    //   borderRadius: 6
+    // }
   },
   colors: ['#10B981', '#F87171', '#6366F1', '#F59E0B', '#6B7280', '#E5E7EB'],
   series: [],

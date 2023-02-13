@@ -65,7 +65,7 @@ const TestRunsTable = () => {
         const untestedPerc =
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
-          <div className="flex w-48 items-center">
+          <div className="flex items-center">
             <HighchartsReact
               highcharts={Highcharts}
               options={getOptions(rowData)}
