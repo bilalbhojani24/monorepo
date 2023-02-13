@@ -1,0 +1,62 @@
+{
+  "name": "mcspt",
+  "productName": "mcspt",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": ".webpack/main",
+  "scripts": {
+    "dev": "electron-forge start -- IS_DEV",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "Ashu",
+    "email": "ashutosh.d@browserstack.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-react": "^7.18.6",
+    "@electron-forge/cli": "^6.0.4",
+    "@electron-forge/maker-deb": "^6.0.4",
+    "@electron-forge/maker-rpm": "^6.0.4",
+    "@electron-forge/maker-squirrel": "^6.0.4",
+    "@electron-forge/maker-zip": "^6.0.4",
+    "@electron-forge/plugin-webpack": "^6.0.4",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.0.0",
+    "electron": "22.2.0",
+    "node-loader": "^2.0.0",
+    "postcss-loader": "7.0.2",
+    "style-loader": "^3.0.0",
+    "stylelint": "^14.16.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "latest",
+    "stylelint-prettier": "^2.0.0",
+    "stylelint-scss": "^4.3.0",
+    "tailwindcss": "^3.1.4"
+  },
+  "dependencies": {
+    "@browserstack/bifrost": "workspace:*",
+    "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/tailwind-config": "workspace:*",
+    "@reduxjs/toolkit": "^1.9.1",
+    "classnames": "^2.3.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.1",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "tailwind-merge": "^1.8.1"
+  }
+}

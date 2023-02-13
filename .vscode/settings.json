@@ -2,7 +2,7 @@
   "eslint.validate": ["javascript", "javascriptreact"],
   "[javascriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": false
     }
   },
   // Code Action kinds to be run on save.
