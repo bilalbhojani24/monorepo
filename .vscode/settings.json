@@ -2,12 +2,12 @@
   "eslint.validate": ["javascript", "javascriptreact"],
   "[javascriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": false
     }
   },
   // Code Action kinds to be run on save.
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": false
   },
   "eslint.enable": true, // Controls whether eslint is enabled or not.
   "eslint.alwaysShowStatus": true, // Always show the ESlint status bar item.
