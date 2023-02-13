@@ -6,8 +6,8 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader,
-  TMSelectMenu
+  TMModalHeader
+  // TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -15,11 +15,13 @@ import useAddIssuesModal from './useAddIssuesModal';
 
 const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const {
+    jiraConfig,
     errorText,
     enterdIssueIDs,
     onCloseHandler,
     onLinkIssueClick,
-    setIssueIds
+    setIssueIds,
+    createNewIssueModalHandler
   } = useAddIssuesModal({
     isVisible,
     onClose,
@@ -43,16 +45,16 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
           id="jira-account"
           label="JIRA Account"
           disabled
-          value="BrowserStack"
+          value={jiraConfig?.email || ''}
         />
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <TMSelectMenu
             checkPosition="right"
             label="Select Project"
             placeholder="Select Project"
             options={[]}
           />
-        </div>
+        </div> */}
         <div className="mt-4 mb-2 flex flex-1 items-start justify-between">
           <div className="mr-4 flex-1">
             <TMInputField
@@ -70,7 +72,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
             colors="white"
             icon={<OpenInNewOutlinedIcon className="!h-4 !w-4" />}
             iconPlacement="end"
-            // onClick={showAddTagsModal}
+            onClick={createNewIssueModalHandler}
           >
             Create New Issue
           </TMButton>
