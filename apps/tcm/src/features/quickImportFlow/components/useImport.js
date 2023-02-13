@@ -23,10 +23,8 @@ const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getUserEmail = useSelector((state) => {
-    if (!state.global.user.email) return 'procurement@browserstack.com';
-    return state.global.user?.email;
-  });
+  // global selector
+  const getUserEmail = useSelector((state) => state.global.user?.email);
 
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
   const zephyrCred = useSelector((state) => state.import.zephyrCred);
