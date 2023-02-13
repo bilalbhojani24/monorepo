@@ -19,7 +19,7 @@ const TestRuns = () => {
     currentTab,
     allTestRuns,
     isTestRunsLoading,
-    showTestRunAddFormHandlers,
+    showTestRunAddFormHandler,
     isAddTestRunsFormVisible,
     handleTabChange
   } = useTestRuns();
@@ -34,7 +34,7 @@ const TestRuns = () => {
           heading="Test Runs"
           actions={
             <>
-              <TMButton variant="primary" onClick={showTestRunAddFormHandlers}>
+              <TMButton variant="primary" onClick={showTestRunAddFormHandler}>
                 Create Test Run
               </TMButton>
             </>

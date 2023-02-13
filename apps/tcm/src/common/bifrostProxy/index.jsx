@@ -4,6 +4,7 @@ import {
   Alerts,
   Badge,
   Banner,
+  Breadcrumb,
   Button,
   Checkbox,
   ComboBox,
@@ -95,6 +96,7 @@ export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
+export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 
 export const TMSlideoverHeader = (props) => {
   const topMarginElementId = 'bstack-header';

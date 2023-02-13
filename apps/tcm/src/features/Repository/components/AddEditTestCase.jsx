@@ -8,7 +8,6 @@ import {
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
-import UnsavedChanges from './UnsavedChanges';
 import {
   TMAttachments,
   TMButton,
@@ -32,6 +31,7 @@ import {
 } from '../const/addTestCaseConst';
 
 import StepComponent from './StepComponent';
+import UnsavedChanges from './UnsavedChanges';
 import useAddEditTestCase from './useAddEditTestCase';
 import useTestCases from './useTestCases';
 
