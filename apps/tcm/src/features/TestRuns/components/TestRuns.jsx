@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
+  TMEmptyState,
   TMPageHeadings,
-  TMTabs,
-  TMEmptyState
+  TMTabs
 } from 'common/bifrostProxy';
-import { InfoOutlinedIcon } from 'assets/icons';
 import Loader from 'common/Loader';
 
 import { TABS_ARRAY } from '../const/immutableConst';
@@ -50,7 +50,7 @@ const TestRuns = () => {
       </div>
 
       <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
-        <div className="border-base-200 flex flex-col grow justify-start  rounded-md border bg-white">
+        <div className="border-base-200 flex grow flex-col justify-start  rounded-md border bg-white">
           {isTestRunsLoading ? (
             <div className="flex w-full shrink-0 grow flex-col  justify-center ">
               <Loader wrapperClassName="h-96 w-full" />

@@ -74,3 +74,24 @@ export const CHART_OPTIONS = {
     }
   }
 };
+
+export const TR_DROP_OPTIONS = [
+  {
+    id: 'edit_details',
+    body: 'Edit Details'
+  },
+  {
+    id: 'assign',
+    body: 'Assign',
+    divider: false
+  },
+  {
+    id: 'close_run',
+    body: 'Close Run'
+  },
+  {
+    id: 'delete',
+    body: 'Delete',
+    divider: true
+  }
+];

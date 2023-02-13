@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Highcharts from 'highcharts';
 
-import { CHART_OPTIONS } from '../const/immutableConst';
-import { setAllTestRuns, setMetaPage } from '../slices/testRunsSlice';
+import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
+import { setMetaPage } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
   const dispatch = useDispatch();
@@ -57,6 +57,14 @@ const useTestRuns = () => {
     };
   };
 
+  const onDropDownChange = (e, selectedItem) => {
+    if (e.currentTarget.textContent === TR_DROP_OPTIONS[0].body) {
+      // edit
+    } else if (e.currentTarget.textContent === TR_DROP_OPTIONS[1].body) {
+      // delete
+    }
+  };
+
   return {
     metaPage,
     isTestRunsLoading,
@@ -64,7 +72,8 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
-    getOptions
+    getOptions,
+    onDropDownChange
   };
 };
 

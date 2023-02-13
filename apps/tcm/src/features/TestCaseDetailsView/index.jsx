@@ -20,6 +20,7 @@ const TestCaseDetailsView = () => {
 
   return (
     <TMSlideover
+      onEscPress={hideTestCaseViewDrawer}
       key={testCaseId}
       show={isTestCaseViewVisible}
       onClose={hideTestCaseViewDrawer}

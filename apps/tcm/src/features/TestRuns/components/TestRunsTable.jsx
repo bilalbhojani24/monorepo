@@ -15,11 +15,19 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { TR_DROP_OPTIONS } from '../const/immutableConst';
+
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
-  const { projectId, allTestRuns, isTestRunsLoading, metaPage, getOptions } =
-    useTestRunsTable();
+  const {
+    projectId,
+    allTestRuns,
+    isTestRunsLoading,
+    metaPage,
+    getOptions,
+    onDropDownChange
+  } = useTestRunsTable();
 
   const tableColumns = [
     {
@@ -86,7 +94,8 @@ const TestRunsTable = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={[]}
+          options={TR_DROP_OPTIONS}
+          onClick={(e) => onDropDownChange(e, data)}
         />
       )
     }
