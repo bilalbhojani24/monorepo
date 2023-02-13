@@ -59,7 +59,7 @@ export const CHART_OPTIONS = {
     //   borderRadius: 6
     // }
   },
-  colors: ['#10B981', '#F87171', '#6366F1', '#F59E0B', '#6B7280', '#E5E7EB'],
+  colors: ['#E5E7EB', '#F87171', '#10B981'],
   series: [],
   credits: {
     enabled: false
