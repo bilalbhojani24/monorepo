@@ -45,6 +45,11 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
       window.open(`${jiraConfig?.host}${CREATE_ISSUE_URL}`, 'popup');
   };
 
+  const configureJIRAInit = () => {
+    window.open(`https://www.browserstack.com/accounts/profile/integrations`);
+    onCloseHandler();
+  };
+
   useEffect(() => {
     if (isVisible && !jiraConfig) {
       setIssueIds('');
@@ -66,7 +71,8 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
     onCloseHandler,
     onLinkIssueClick,
     setIssueIds,
-    createNewIssueModalHandler
+    createNewIssueModalHandler,
+    configureJIRAInit
   };
 };
 export default useAddIssuesModal;

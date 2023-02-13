@@ -23,7 +23,8 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
     onCloseHandler,
     onLinkIssueClick,
     setIssueIds,
-    createNewIssueModalHandler
+    createNewIssueModalHandler,
+    configureJIRAInit
   } = useAddIssuesModal({
     isVisible,
     onClose,
@@ -91,18 +92,26 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                 </div>
               </div>
             ) : (
-              <div>Not authenticated</div>
+              <div className="flex w-full justify-center">
+                <TMButton onClick={configureJIRAInit}>
+                  Configure your JIRA first
+                </TMButton>
+              </div>
             )}
           </>
         )}
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
-          Cancel
-        </TMButton>
-        <TMButton variant="primary" onClick={onLinkIssueClick}>
-          Link Issue
-        </TMButton>
+        {!isLoading && jiraConfig && (
+          <>
+            <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
+              Cancel
+            </TMButton>
+            <TMButton variant="primary" onClick={onLinkIssueClick}>
+              Link Issue
+            </TMButton>
+          </>
+        )}
       </TMModalFooter>
     </TMModal>
   );
