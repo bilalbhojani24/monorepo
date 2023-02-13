@@ -2,10 +2,8 @@
 import React, { forwardRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-import {
-  dialogConfig,
-  TINYMCE_API_KEY
-} from '../const/richTextEditorConstants';
+import { imageDialogConfig } from '../config/index';
+import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
 
 const TextEditor = forwardRef((props, ref) => {
   const {
@@ -55,7 +53,9 @@ const TextEditor = forwardRef((props, ref) => {
             editor.ui.registry.addButton('custom-image', {
               icon: 'image',
               onAction: () =>
-                editor.windowManager.open(dialogConfig(editor, onAssetUpload))
+                editor.windowManager.open(
+                  imageDialogConfig(editor, onAssetUpload)
+                )
             });
           },
           statusbar: false,

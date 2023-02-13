@@ -8,15 +8,16 @@ import RichTextEditor from './index';
 const onAssetUpload = async (files) => {
   const formData = new FormData();
   const file = files[0];
-  formData.append('attachments[]', file);
+  formData.append('image', file);
+  formData.append('key', '95939cf0c027f2645e60ec39295b6530');
 
-  const res = await fetch(
-    'https://teststack.bsstag.com/api/v1/projects/846/generic/attachment',
-    { method: 'POST', body: formData }
-  );
+  const res = await fetch('https://api.imgbb.com/1/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const result = await res.json();
 
-  return 'https://thumbs.dreamstime.com/b/gateway-india-mumbai-gateway-india-arch-monument-built-th-century-mumbai-india-monument-was-138091856.jpg';
-  // return res;
+  return result.data.url;
 };
 
 const defaultConfig = {
