@@ -13,7 +13,6 @@ import {
   shape,
   string
 } from '../../shared/proptypesConstants';
-import Checkbox from '../Checkbox';
 
 import { CHECK_POSITION } from './const/selectMenuConstants';
 
@@ -28,7 +27,8 @@ const SelectMenu = (props) => {
     defaultValue,
     checkPosition,
     placeholder,
-    value
+    value,
+    wrapperClassName
   } = props;
 
   const renderSingleOptions = (opts) => {
@@ -61,14 +61,17 @@ const SelectMenu = (props) => {
         if (onChange) onChange(val);
       }}
       multiple={isMultiSelect}
+      by={(o, n) => o.value === n.value}
     >
       {({ open }) => (
-        <>
-          <Listbox.Label className="text-base-700 block text-sm font-medium">
-            {label}
-          </Listbox.Label>
-          <div className="relative mt-1">
-            <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:ring-1 sm:text-sm">
+        <div className={wrapperClassName}>
+          {label && (
+            <Listbox.Label className="text-base-700 mb-1 block text-sm font-medium">
+              {label}
+            </Listbox.Label>
+          )}
+          <div className="relative">
+            <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm">
               {({ value: buttonValue }) => (
                 <>
                   <span className="flex items-center truncate">
@@ -112,7 +115,7 @@ const SelectMenu = (props) => {
                           'py-2 pl-8 pr-4':
                             checkPosition === CHECK_POSITION[0] &&
                             !isMultiSelect,
-                          'pb-4 pl-3 hover:bg-base-50': isMultiSelect
+                          'py-2 pl-3 hover:bg-base-50': isMultiSelect
                         },
                         'relative cursor-pointer select-none'
                       )
@@ -164,15 +167,21 @@ const SelectMenu = (props) => {
                             )}
                           </div>
                         ) : (
-                          <Checkbox
-                            data={{
-                              label: option.label,
-                              value: option.value
-                            }}
-                            border={false}
-                            wrapperClass="py-0"
-                            checked={selected}
-                          />
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              id={option.name}
+                              className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                              readOnly
+                            />
+                            <label
+                              htmlFor={option.name}
+                              className="cursor-pointer"
+                            >
+                              {option.label}
+                            </label>
+                          </div>
                         )}
                       </>
                     )}
@@ -181,7 +190,7 @@ const SelectMenu = (props) => {
               </Listbox.Options>
             </Transition>
           </div>
-        </>
+        </div>
       )}
     </Listbox>
   );
@@ -227,7 +236,8 @@ SelectMenu.propTypes = {
         image: string
       })
     )
-  ])
+  ]),
+  wrapperClassName: string
 };
 
 SelectMenu.defaultProps = {
@@ -237,7 +247,8 @@ SelectMenu.defaultProps = {
   label: '',
   placeholder: 'Placeholder...',
   onChange: () => {},
-  value: null
+  value: null,
+  wrapperClassName: ''
 };
 
 export default SelectMenu;

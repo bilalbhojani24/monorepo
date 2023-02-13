@@ -89,6 +89,13 @@ const useMapFields = ({
 
   const typeMapper = { ...defaultTypeMapper, ...customTypeMapper };
 
+  const allowedValueMapper = defaultFields.reduce((mapObject, field) => {
+    const { name } = field;
+    const { type } = field;
+    const allowedValue = field.allowed_types;
+    return { ...mapObject, ...{ key: { name, type }, value: allowedValue } };
+  }, {});
+
   if (myFieldMappings && Object.keys(myFieldMappings).length) {
     rowRef.current = importFields.map((item) => ({
       field: item,

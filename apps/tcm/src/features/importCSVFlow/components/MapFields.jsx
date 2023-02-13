@@ -31,10 +31,7 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
         return (
           <TMSelectMenu
             checkPosition="right"
-            options={[
-              { label: 'Text', value: 'Text' },
-              { label: 'HTML', value: 'HTML' }
-            ]}
+            // options={}
           />
         );
 
@@ -57,6 +54,7 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
     }
   };
 
+  console.log('rows', rows);
   return (
     <div className="border-base-200 m-4 flex h-max w-4/5 flex-col rounded-md border-2 border-solid bg-white p-6">
       <TMSectionHeadings

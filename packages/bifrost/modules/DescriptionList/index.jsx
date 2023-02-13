@@ -18,7 +18,7 @@ const DescriptionList = (props) => {
     isStriped,
     isCard,
     subHeading,
-    wrapperClass
+    wrapperClassName
   } = props;
 
   return (
@@ -28,7 +28,7 @@ const DescriptionList = (props) => {
         {
           shadow: isCard
         },
-        wrapperClass
+        wrapperClassName
       )}
     >
       <div
@@ -126,17 +126,16 @@ DescriptionList.propTypes = {
   isStriped: PropTypes.bool,
   isCard: PropTypes.bool,
   subHeading: PropTypes.string,
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 DescriptionList.defaultProps = {
   alignment: DESCRIPTION_LIST_ALIGNMENT[0],
   descriptions: descriptionsList,
-  gridContainerClass: '',
   heading: 'Application Infomration',
   isStriped: false,
   isCard: true,
   subHeading: 'Personal details and application',
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default DescriptionList;

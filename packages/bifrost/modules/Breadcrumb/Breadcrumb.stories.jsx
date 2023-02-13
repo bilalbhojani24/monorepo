@@ -1,17 +1,21 @@
 import React from 'react';
-import Breadcrumb from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { breadcrumbData, BREADCRUMB_SIZE } from './const/breadcrumbConstants';
 import { ChevronRightIcon } from '../Icon';
+
+import { BREADCRUMB_SIZE, breadcrumbData } from './const/breadcrumbConstants';
+import Breadcrumb from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Breadcrumb',
   component: Breadcrumb,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Breadcrumb from 'bifrost/Breadcrumb'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Breadcrumb from 'bifrost/Breadcrumb'"}
+        />
+      )
     }
   },
   argTypes: {
@@ -39,7 +43,7 @@ const defaultConfig = {
       control: { type: 'inline-radio' },
       defaultValue: BREADCRUMB_SIZE.default
     },
-    wrapperClass: {
+    wrapperClassName: {
       options: { type: 'string' },
       defaultValue: ''
     }
