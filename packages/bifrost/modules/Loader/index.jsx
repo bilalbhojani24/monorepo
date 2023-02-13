@@ -1,7 +1,6 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import propTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 const Loader = ({ height, width, wrapperStyle }) => (
   <div role="status">

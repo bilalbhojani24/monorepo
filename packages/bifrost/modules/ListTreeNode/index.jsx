@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Disclosure } from '@headlessui/react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronRightIcon, MdFolder } from '../Icon';
 import Tooltip from '../Tooltip';
 import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
@@ -11,6 +10,7 @@ import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
 import './styles.scss';
 
 const ListTreeNode = ({
+  isFocused,
   hideArrowIcon,
   label,
   description,
@@ -40,9 +40,10 @@ const ListTreeNode = ({
   return (
     <div
       className={twClassNames(
-        'hover:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
+        'hover:bg-base-100 focus:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
         {
-          'bg-info-50': isNodeSelected
+          'bg-info-50': isNodeSelected,
+          'bg-base-100': isFocused
         }
       )}
       tabIndex="0"
@@ -56,7 +57,7 @@ const ListTreeNode = ({
         <Disclosure.Button as={Fragment}>
           {({ open }) => (
             <div
-              className={classNames('mr-1 w-5 select-none', {
+              className={twClassNames('mr-1 w-5 select-none', {
                 'invisible ': hideArrowIcon
               })}
               role="presentation"
@@ -106,7 +107,9 @@ const ListTreeNode = ({
 
         <div
           role="presentation"
-          className="hidden group-hover:flex"
+          className={twClassNames('hidden group-hover:flex group-focus:flex', {
+            flex: isFocused
+          })}
           onClick={(e) => {
             e.stopPropagation();
             onTrailingIconClick?.();
@@ -131,6 +134,7 @@ const ListTreeNode = ({
 };
 
 ListTreeNode.propTypes = {
+  isFocused: PropTypes.bool,
   hideArrowIcon: PropTypes.bool,
   label: PropTypes.string,
   description: PropTypes.string,
@@ -144,6 +148,7 @@ ListTreeNode.propTypes = {
 };
 
 ListTreeNode.defaultProps = {
+  isFocused: false,
   hideArrowIcon: false,
   label: 'Folder Name',
   description: '(762)',

@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 import { MdOutlineInsertPhoto } from '../Icon';
 import Loader from '../Loader/index';
 
@@ -90,7 +90,7 @@ FileUpload.defaultProps = {
   isUploading: false,
   multiple: false,
   wrapperClassName: '',
-  icon: <MdOutlineInsertPhoto className="text-base-500 mx-auto" />
+  icon: <MdOutlineInsertPhoto className="text-base-500 mx-auto h-6 w-6" />
 };
 
 export default FileUpload;

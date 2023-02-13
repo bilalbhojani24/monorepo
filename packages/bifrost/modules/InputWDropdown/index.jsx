@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { ExclamationCircleIcon } from '../Icon';
@@ -34,15 +34,15 @@ const InputWDropdown = forwardRef(
       type,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const isAddOnInline = true;
 
     const MultiElement = () => (
       <div
-        className={classNames('absolute inset-y-0 flex items-center', {
+        className={twClassNames('absolute inset-y-0 flex items-center', {
           'left-0 ': multiPosition === INPUT_MULTI_POSITION[0],
-          'right-0 ': multiPosition === INPUT_MULTI_POSITION[1],
+          'right-0 ': multiPosition === INPUT_MULTI_POSITION[1]
         })}
       >
         <label htmlFor="currency" className="sr-only">
@@ -52,7 +52,7 @@ const InputWDropdown = forwardRef(
           aria-label={`${label} select`}
           onChange={onDropdownChange}
           id={dropdownName}
-          className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-base-500 focus:border-brand-500 focus:ring-brand-500 sm:text-sm"
+          className="text-base-500 focus:border-brand-500 focus:ring-brand-500 h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 sm:text-sm"
         >
           {dropdownList?.length ? (
             dropdownList.map((item) => <option>{item}</option>)
@@ -67,22 +67,22 @@ const InputWDropdown = forwardRef(
 
     const InsetElement = () => (
       <span
-        className={classNames(
+        className={twClassNames(
           isAddOnInline
             ? [
                 'pointer-events-none absolute inset-y-0 flex items-center',
                 multiPosition === INPUT_MULTI_POSITION[0]
                   ? 'right-0 pr-3'
-                  : 'left-0 pl-3',
+                  : 'left-0 pl-3'
               ]
             : [
-                'inline-flex items-center rounded-l-md border border-r-0 border-base-300 bg-base-50 px-3 text-base-500 sm:text-sm',
-              ],
+                'inline-flex items-center rounded-l-md border border-r-0 border-base-300 bg-base-50 px-3 text-base-500 sm:text-sm'
+              ]
         )}
       >
         <span
-          className={classNames('', {
-            'text-base-500 sm:text-sm': isAddOnInline,
+          className={twClassNames('', {
+            'text-base-500 sm:text-sm': isAddOnInline
           })}
         >
           {addOnText}
@@ -113,19 +113,19 @@ const InputWDropdown = forwardRef(
             <label
               htmlFor={id}
               id={`${id}label-wrap`}
-              className="block text-sm font-medium text-base-700"
+              className="text-base-700 block text-sm font-medium"
             >
               {label}
             </label>
             {cornerHintText && (
-              <span className="text-sm text-base-500">{cornerHintText}</span>
+              <span className="text-base-500 text-sm">{cornerHintText}</span>
             )}
           </div>
         )}
         <div
-          className={classNames('rounded-md shadow-sm', {
+          className={twClassNames('rounded-md shadow-sm', {
             'relative ': isAddOnInline,
-            'flex ': !isAddOnInline,
+            'flex ': !isAddOnInline
           })}
         >
           <LeftElement />
@@ -138,7 +138,7 @@ const InputWDropdown = forwardRef(
             type={type}
             ref={ref || inputRef}
             id={id}
-            className={classNames(
+            className={twClassNames(
               'block w-full border-base-300 focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
               addOnText && !isAddOnInline
                 ? ['min-w-0 flex-1']
@@ -148,20 +148,20 @@ const InputWDropdown = forwardRef(
                     'rounded-md py-2',
                     {
                       'rounded-r-md pl-20': hasLeftPadding,
-                      'pr-16': hasRightPadding,
-                    },
+                      'pr-16': hasRightPadding
+                    }
                   ]
                 : [
                     {
-                      'rounded-l-md px-3': !addOnText,
-                    },
+                      'rounded-l-md px-3': !addOnText
+                    }
                   ],
               {
                 'text-danger-900 focus:border-danger-500 focus:ring-danger-500':
                   errorText,
                 'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':
-                  disabled,
-              },
+                  disabled
+              }
             )}
             placeholder={placeholder}
             onFocus={onFocus}
@@ -173,23 +173,23 @@ const InputWDropdown = forwardRef(
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             {errorText && (
               <ExclamationCircleIcon
-                className="h-5 w-5 text-danger-500"
+                className="text-danger-500 h-5 w-5"
                 aria-hidden="true"
               />
             )}
           </div>
         </div>
         {description && (
-          <p className="mt-2 text-sm text-base-500">{description}</p>
+          <p className="text-base-500 mt-2 text-sm">{description}</p>
         )}
         {errorText && (
-          <p className="mt-2 text-sm text-danger-600" id={`${id}error-wrap`}>
+          <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
             {errorText}
           </p>
         )}
       </div>
     );
-  },
+  }
 );
 
 InputWDropdown.propTypes = {
@@ -205,7 +205,7 @@ InputWDropdown.propTypes = {
   id: PropTypes.string.isRequired,
   inputRef: PropTypes.oneOfType([
     PropTypes.shape({ current: PropTypes.any }),
-    PropTypes.func,
+    PropTypes.func
   ]),
   label: PropTypes.string,
   addOnText: PropTypes.string,
@@ -215,7 +215,7 @@ InputWDropdown.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.string
 };
 
 InputWDropdown.defaultProps = {
@@ -237,7 +237,7 @@ InputWDropdown.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   placeholder: '',
-  type: 'text',
+  type: 'text'
 };
 
 export default InputWDropdown;

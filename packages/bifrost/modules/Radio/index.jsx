@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
@@ -15,8 +15,8 @@ const Radio = (props) => {
 
   return (
     <div
-      className={classNames('inline-flex item-center mr-3', {
-        'cursor-not-allowed': disabled,
+      className={twClassNames('inline-flex item-center mr-3', {
+        'cursor-not-allowed': disabled
       })}
     >
       <input
@@ -27,11 +27,11 @@ const Radio = (props) => {
         disabled={disabled}
         checked={checked}
         defaultChecked={defaultChecked}
-        className={classNames(
+        className={twClassNames(
           'h-4 w-4 border-base-300 text-brand-600 focus:ring-brand-500 mt-0.5',
           {
-            'border-base-200 text-base-200': disabled,
-          },
+            'border-base-200 text-base-200': disabled
+          }
         )}
         onChange={handleChange}
       />
@@ -40,8 +40,8 @@ const Radio = (props) => {
         {name && (
           <label
             htmlFor={id}
-            className={classNames('font-medium text-base-700', {
-              'text-base-400': disabled,
+            className={twClassNames('font-medium text-base-700', {
+              'text-base-400': disabled
             })}
           >
             {name}
@@ -50,8 +50,8 @@ const Radio = (props) => {
         {description && (
           <p
             id={`${id}-description`}
-            className={classNames('text-base-500', {
-              'text-base-300': disabled,
+            className={twClassNames('text-base-500', {
+              'text-base-300': disabled
             })}
           >
             {description}
@@ -69,7 +69,7 @@ Radio.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 };
 Radio.defaultProps = {
   checked: undefined,
@@ -77,7 +77,7 @@ Radio.defaultProps = {
   description: 'It is the description',
   disabled: false,
   name: 'Name',
-  onChange: null,
+  onChange: null
 };
 
 export default Radio;

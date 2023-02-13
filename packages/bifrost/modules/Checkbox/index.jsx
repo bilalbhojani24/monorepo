@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import {
   CHECKBOX_DESCRIPTION_VARIANT,
@@ -18,12 +17,13 @@ const Checkbox = (props) => {
     defaultChecked,
     disabled,
     description,
+    icon,
     indeterminate,
     isCard,
     name,
     onChange,
     position,
-    wrapperClass
+    wrapperClassName
   } = props;
   const ref = useRef();
 
@@ -44,7 +44,7 @@ const Checkbox = (props) => {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
             border && !isCard
         },
-        wrapperClass
+        wrapperClassName
       )}
     >
       <div
@@ -75,9 +75,12 @@ const Checkbox = (props) => {
             })}
           >
             <label
-              htmlFor={`${name}-${data.value}`}
-              className="text-base-700 select-none font-medium"
+              htmlFor={`${name}${data.value}`}
+              className={twClassNames('text-base-700 select-none font-medium', {
+                'flex flex-row items-center gap-1.5': icon
+              })}
             >
+              {icon}
               {data.label}
             </label>
             <p
@@ -120,12 +123,13 @@ Checkbox.propTypes = {
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
   description: PropTypes.oneOf(Object.values(CHECKBOX_DESCRIPTION_VARIANT)),
+  icon: PropTypes.node,
   indeterminate: PropTypes.bool,
   isCard: PropTypes.bool,
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClass: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -135,12 +139,13 @@ Checkbox.defaultProps = {
   defaultChecked: undefined,
   disabled: false,
   description: CHECKBOX_DESCRIPTION_VARIANT.none,
+  icon: null,
   indeterminate: false,
   isCard: false,
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default Checkbox;

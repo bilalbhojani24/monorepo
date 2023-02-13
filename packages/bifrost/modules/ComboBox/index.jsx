@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
-import classNames from 'classnames';
 
 import {
   arrayOf,
@@ -9,9 +9,8 @@ import {
   number,
   oneOfType,
   shape,
-  string,
+  string
 } from '../../shared/proptypesConstants';
-import Checkbox from '../Checkbox';
 import { CheckIcon, ChevronUpDownIcon } from '../Icon';
 
 import { CHECK_POSITION } from './const/comboBoxConstants';
@@ -27,7 +26,7 @@ const ComboBox = (props) => {
     options,
     isMulti,
     placeholder,
-    value,
+    value
   } = props;
   const [query, setQuery] = useState('');
 
@@ -35,17 +34,17 @@ const ComboBox = (props) => {
     query === ''
       ? options
       : options.filter((opt) =>
-          opt.label.toLowerCase().includes(query.toLowerCase()),
+          opt.label.toLowerCase().includes(query.toLowerCase())
         );
 
   const renderSingleOptions = (opts) => {
     if (opts) return opts?.label;
-    return placeholder;
+    return null;
   };
 
   const renderMultiOptions = (opts) => {
     if (opts.length) return opts?.map((p) => p.label).join(', ');
-    return placeholder;
+    return null;
   };
 
   return (
@@ -57,13 +56,15 @@ const ComboBox = (props) => {
         if (onChange) onChange(val);
       }}
       multiple={isMulti}
+      by={(o, n) => o.value === n.value}
     >
       <Combobox.Label className="text-base-700 block text-sm font-medium">
         {label}
       </Combobox.Label>
       <div className="relative mt-1">
         <Combobox.Input
-          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-10 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
+          placeholder={placeholder}
+          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(dv) =>
             isMulti && Array.isArray(dv)
@@ -92,7 +93,7 @@ const ComboBox = (props) => {
                 key={option.value}
                 value={option}
                 className={({ active }) =>
-                  classNames(
+                  twClassNames(
                     'relative cursor-pointer select-none py-2 pl-3 pr-9',
                     active && !isMulti
                       ? 'bg-brand-600 text-white'
@@ -102,8 +103,8 @@ const ComboBox = (props) => {
                         checkPosition === CHECK_POSITION[1] && !isMulti,
                       'py-2 pl-8 pr-4':
                         checkPosition === CHECK_POSITION[0] && !isMulti,
-                      'hover:bg-base-50 pb-4 pl-2 cursor-pointer': isMulti,
-                    },
+                      'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti
+                    }
                   )
                 }
               >
@@ -120,9 +121,9 @@ const ComboBox = (props) => {
                             />
                           )}
                           <span
-                            className={classNames(
+                            className={twClassNames(
                               'block truncate',
-                              selected && 'font-semibold',
+                              selected && 'font-semibold'
                             )}
                           >
                             {option.label}
@@ -130,7 +131,7 @@ const ComboBox = (props) => {
                         </div>
                         {selected && (
                           <span
-                            className={classNames(
+                            className={twClassNames(
                               'absolute inset-y-0 right-0 flex items-center pr-4',
                               active ? 'text-white' : 'text-brand-600',
                               {
@@ -138,8 +139,8 @@ const ComboBox = (props) => {
                                   checkPosition === CHECK_POSITION[1] ||
                                   option?.image,
                                 'left-0 pl-1.5':
-                                  checkPosition === CHECK_POSITION[0],
-                              },
+                                  checkPosition === CHECK_POSITION[0]
+                              }
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -147,15 +148,18 @@ const ComboBox = (props) => {
                         )}
                       </>
                     ) : (
-                      <Checkbox
-                        data={{
-                          label: option.label,
-                          value: option.value,
-                        }}
-                        border={false}
-                        wrapperClass="py-0"
-                        checked={selected}
-                      />
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          id={option.name}
+                          className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                          readOnly
+                        />
+                        <label htmlFor={option.name} className="cursor-pointer">
+                          {option.label}
+                        </label>
+                      </div>
                     )}
                   </>
                 )}
@@ -175,14 +179,14 @@ ComboBox.propTypes = {
       shape({
         value: oneOfType([string, number]).isRequired,
         label: string.isRequired,
-        image: string,
-      }),
+        image: string
+      })
     ),
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
+      image: string
+    })
   ]),
   isMulti: bool,
   label: string,
@@ -191,8 +195,8 @@ ComboBox.propTypes = {
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
+      image: string
+    })
   ).isRequired,
   placeholder: string,
   value: oneOfType([
@@ -200,15 +204,15 @@ ComboBox.propTypes = {
       shape({
         value: oneOfType([string, number]).isRequired,
         label: string.isRequired,
-        image: string,
-      }),
+        image: string
+      })
     ),
     shape({
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
-      image: string,
-    }),
-  ]),
+      image: string
+    })
+  ])
 };
 ComboBox.defaultProps = {
   checkPosition: CHECK_POSITION[0],
@@ -217,7 +221,7 @@ ComboBox.defaultProps = {
   label: '',
   onChange: () => {},
   placeholder: 'Placeholder...',
-  value: null,
+  value: null
 };
 
 export default ComboBox;

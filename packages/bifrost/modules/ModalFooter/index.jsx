@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
+import { twClassNames } from '@browserstack/utils';
 
 import { POSITION } from './const/modalFooterConstants';
 
@@ -11,7 +11,7 @@ const ModalFooter = ({
   backgroundColorClass,
   children,
   isBorder,
-  position,
+  position
 }) => (
   <div
     className={twClassNames(
@@ -20,8 +20,8 @@ const ModalFooter = ({
       {
         'sm:justify-end': position === POSITION[1],
         'sm:justify-center': position === POSITION[2],
-        'border-t border-base-300': isBorder,
-      },
+        'border-t border-base-300': isBorder
+      }
     )}
   >
     {children}
@@ -32,13 +32,13 @@ ModalFooter.propTypes = {
   backgroundColorClass: PropTypes.string,
   children: PropTypes.node,
   isBorder: PropTypes.bool,
-  position: PropTypes.oneOf(POSITION),
+  position: PropTypes.oneOf(POSITION)
 };
 ModalFooter.defaultProps = {
   backgroundColorClass: '',
   children: null,
   isBorder: false,
-  position: POSITION[0],
+  position: POSITION[0]
 };
 
 export default ModalFooter;

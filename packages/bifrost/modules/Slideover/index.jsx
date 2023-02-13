@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import Button from '../Button';
 import { XMarkIcon } from '../Icon';
 
+import { MODAL_SIZE } from './const/modalConstants';
 import useSlideover from './useSlideover';
 
 import './styles.scss';
@@ -14,15 +15,32 @@ const Slideover = (props) => {
   const {
     children,
     onCloseWithOutsideButton,
+    onEscPress,
     onOverlayClick,
     show,
     backgroundOverlay,
-    slideoverWidth,
+    size,
     closeButtonOutside,
-    topMarginElementId,
+    topMarginElementId
   } = props;
 
   const { marginTopAdjustment } = useSlideover(topMarginElementId);
+
+  const handleIfEscapeClicked = useCallback(
+    (event) => {
+      if (event.key === 'Escape' && onEscPress) {
+        onEscPress?.();
+      }
+    },
+    [onEscPress]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleIfEscapeClicked);
+    return () => {
+      window.removeEventListener('keydown', handleIfEscapeClicked);
+    };
+  }, [handleIfEscapeClicked]);
 
   return (
     <Transition show={show} unmount={false}>
@@ -42,7 +60,7 @@ const Slideover = (props) => {
             style={{ marginTop: marginTopAdjustment }}
             className={twClassNames(`bg-base-500 fixed inset-0 z-10`, {
               'opacity-75': backgroundOverlay,
-              'opacity-0': !backgroundOverlay,
+              'opacity-0': !backgroundOverlay
             })}
             onClick={() => {
               onOverlayClick?.();
@@ -87,7 +105,18 @@ const Slideover = (props) => {
           <div
             className={twClassNames(
               `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
-              slideoverWidth,
+              {
+                'sm:max-w-sm': MODAL_SIZE[0] === size,
+                'sm:max-w-md': MODAL_SIZE[1] === size,
+                'sm:max-w-lg': MODAL_SIZE[2] === size,
+                'sm:max-w-xl': MODAL_SIZE[3] === size,
+                'sm:max-w-2xl': MODAL_SIZE[4] === size,
+                'sm:max-w-3xl': MODAL_SIZE[5] === size,
+                'sm:max-w-4xl': MODAL_SIZE[6] === size,
+                'sm:max-w-5xl': MODAL_SIZE[7] === size,
+                'sm:max-w-6xl': MODAL_SIZE[8] === size,
+                'sm:max-w-full': MODAL_SIZE[9] === size
+              }
             )}
           >
             {children}
@@ -102,22 +131,24 @@ Slideover.propTypes = {
   children: PropTypes.node,
   onOverlayClick: PropTypes.func,
   onCloseWithOutsideButton: PropTypes.func,
+  onEscPress: PropTypes.func,
   show: PropTypes.bool,
   backgroundOverlay: PropTypes.bool,
-  slideoverWidth: PropTypes.string,
+  size: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
-  topMarginElementId: PropTypes.string,
+  topMarginElementId: PropTypes.string
 };
 
 Slideover.defaultProps = {
   children: null,
   onOverlayClick: null,
   onCloseWithOutsideButton: null,
+  onEscPress: null,
   show: false,
   backgroundOverlay: true,
-  slideoverWidth: 'w-96',
+  size: MODAL_SIZE[2],
   closeButtonOutside: false,
-  topMarginElementId: '',
+  topMarginElementId: ''
 };
 
 export default Slideover;

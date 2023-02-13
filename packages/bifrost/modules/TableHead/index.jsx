@@ -1,21 +1,22 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../utils/tailwindUtils';
 
 import './styles.scss';
 
-const TableHead = ({ children, wrapperClass }) => (
-  <thead className={twClassNames('bg-base-50', wrapperClass)}>{children}</thead>
+const TableHead = ({ children, wrapperClassName }) => (
+  <thead className={twClassNames('bg-base-50', wrapperClassName)}>
+    {children}
+  </thead>
 );
 
 TableHead.propTypes = {
   children: PropTypes.node,
-  wrapperClass: PropTypes.node
+  wrapperClassName: PropTypes.node
 };
 TableHead.defaultProps = {
   children: null,
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default TableHead;

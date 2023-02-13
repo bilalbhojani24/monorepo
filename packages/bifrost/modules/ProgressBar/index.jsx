@@ -1,46 +1,48 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import './styles.scss';
-import classNames from 'classnames';
 
-const ProgressBar = ({ title, label, percentage, steps, currentStep }) => {
-  return (
-    <div>
-      <h4 className="sr-only">{label}</h4>
-      <p className="text-sm font-medium text-base-900">{title}</p>
-      <div className="mt-6" aria-hidden="true">
-        <div className="overflow-hidden rounded-full bg-base-200">
-          <div className="h-2 rounded-full bg-brand-600" style={{ width: `${percentage}%` }} />
-        </div>
-        <div className={`mt-6 hidden grid-flow-col text-sm font-medium text-base-600 sm:grid`}>
-          {steps.map((step, stepIndex) => {
-            if (stepIndex === 0) return <div className="text-brand-600">{step}</div>;
-            else if (stepIndex === steps?.length - 1)
-              return (
-                <div
-                  className={classNames('text-right', {
-                    'text-brand-600': stepIndex < currentStep
-                  })}
-                >
-                  {step}
-                </div>
-              );
-            else
-              return (
-                <div
-                  className={classNames('text-center', {
-                    'text-brand-600': stepIndex < currentStep
-                  })}
-                >
-                  {step}
-                </div>
-              );
-          })}
-        </div>
+import './styles.scss';
+
+const ProgressBar = ({ title, label, percentage, steps, currentStep }) => (
+  <div>
+    <h4 className="sr-only">{label}</h4>
+    <p className="text-base-900 text-sm font-medium">{title}</p>
+    <div className="mt-6" aria-hidden="true">
+      <div className="bg-base-200 overflow-hidden rounded-full">
+        <div
+          className="bg-brand-600 h-2 rounded-full"
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      <div className="text-base-600 mt-6 hidden grid-flow-col text-sm font-medium sm:grid">
+        {steps.map((step, stepIndex) => {
+          if (stepIndex === 0)
+            return <div className="text-brand-600">{step}</div>;
+          if (stepIndex === steps?.length - 1)
+            return (
+              <div
+                className={twClassNames('text-right', {
+                  'text-brand-600': stepIndex < currentStep
+                })}
+              >
+                {step}
+              </div>
+            );
+          return (
+            <div
+              className={twClassNames('text-center', {
+                'text-brand-600': stepIndex < currentStep
+              })}
+            >
+              {step}
+            </div>
+          );
+        })}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 ProgressBar.propTypes = {
   label: PropTypes.string,

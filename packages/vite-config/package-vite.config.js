@@ -15,7 +15,14 @@ module.exports = {
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: ['react', 'react-dom']
+      external: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        '@reduxjs/toolkit',
+        'react-redux',
+        'prop-types'
+      ]
     }
   }
 };

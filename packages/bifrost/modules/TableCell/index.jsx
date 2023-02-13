@@ -1,8 +1,8 @@
 import React from 'react';
-// import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
+// import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../utils/tailwindUtils';
 import { ChevronDownIcon, ChevronUpIcon } from '../Icon';
 
 import {
@@ -24,7 +24,7 @@ const TableCell = ({
   sortDirection,
   textTransform,
   variant,
-  wrapperClass
+  wrapperClassName
 }) => {
   const handleSort = () => {
     if (onSort) {
@@ -47,7 +47,7 @@ const TableCell = ({
           [textTransform]: textTransform,
           'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky
         },
-        wrapperClass,
+        wrapperClassName,
         'first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6'
       )}
       colSpan={colspan}
@@ -93,7 +93,7 @@ TableCell.propTypes = {
   sortable: PropTypes.bool,
   textTransform: PropTypes.oneOf(CELL_TEXT_TRANSFORM),
   variant: PropTypes.oneOf(CELL_VARIANT),
-  wrapperClass: PropTypes.node
+  wrapperClassName: PropTypes.node
 };
 
 TableCell.defaultProps = {
@@ -106,7 +106,7 @@ TableCell.defaultProps = {
   sortDirection: CELL_DIRECTION[0],
   textTransform: CELL_TEXT_TRANSFORM[0],
   variant: CELL_VARIANT[0],
-  wrapperClass: ''
+  wrapperClassName: ''
 };
 
 export default TableCell;
