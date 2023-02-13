@@ -1,5 +1,6 @@
 import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { shape } from 'prop-types';
 
 import { NotificationsContextData } from '../../shared/notificationsContext';
 
@@ -26,13 +27,21 @@ export const notify = (Layout, options) =>
 notify.remove = toast.remove;
 notify.dismiss = toast.dismiss;
 
-export const NotificationsContainer = () => (
+export const NotificationsContainer = ({ containerStyle }) => (
   <Toaster
     position="top-right"
     reverseOrder={false}
     gutter={8}
     containerClassName=""
-    containerStyle={{}}
+    containerStyle={containerStyle}
     toastOptions={{}}
   />
 );
+
+NotificationsContainer.propTypes = {
+  containerStyle: shape({})
+};
+
+NotificationsContainer.defaultProps = {
+  containerStyle: {}
+};
