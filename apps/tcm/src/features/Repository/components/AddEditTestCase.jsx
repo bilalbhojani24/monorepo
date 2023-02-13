@@ -91,14 +91,14 @@ const AddEditTestCase = () => {
                 Cancel
               </TMButton>
               <TMButton
-                wrapperClassName="ml-4"
+                wrapperClassName="ml-4 whitespace-nowrap"
                 variant="primary"
                 onClick={() => {
                   if (isTestCaseEditing) editTestCase(testCaseFormData);
                   else saveTestCase(testCaseFormData);
                 }}
               >
-                {isTestCaseEditing ? 'Update' : 'Save'}
+                {isTestCaseEditing ? 'Update Case' : 'Create'}
               </TMButton>
             </>
           }
@@ -110,7 +110,7 @@ const AddEditTestCase = () => {
             <TMInputField
               id="test-case-name"
               label="Name of Test Case *"
-              placeholder="Enter Test Case"
+              placeholder="Enter test case name"
               value={testCaseFormData.name}
               onChange={(e) =>
                 handleTestCaseFieldChange('name', e.currentTarget.value)
@@ -151,7 +151,7 @@ const AddEditTestCase = () => {
             <div className="mt-4">
               <TMRichTextEditor
                 label="Steps"
-                placeholder="Steps of the test"
+                placeholder="Steps for the test"
                 value={testCaseFormData?.steps?.[0]}
                 height={200}
                 onChange={(val) => handleTestCaseFieldChange('steps', [val])}
@@ -161,7 +161,7 @@ const AddEditTestCase = () => {
             <div className="mt-4">
               <TMRichTextEditor
                 label="Expected Results"
-                placeholder="Write in brief about this test case"
+                placeholder="Expected result(s) from above steps"
                 value={testCaseFormData?.expected_result}
                 height={200}
                 onChange={(val) =>
@@ -266,7 +266,7 @@ const AddEditTestCase = () => {
             </div>
             <div className="mt-4">
               <TMRichTextEditor
-                placeholder="Mention preconditions if any needed before executing this test"
+                placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}
                 height={200}
@@ -337,7 +337,7 @@ const AddEditTestCase = () => {
                   colors="white"
                   onClick={showAddTagsModal}
                 >
-                  Add New Tag
+                  Add / Modify Tag
                 </TMButton>
               </div>
             </div>
@@ -359,7 +359,7 @@ const AddEditTestCase = () => {
                   colors="white"
                   onClick={showAddIssueModal}
                 >
-                  Add New Issue
+                  Add / Modify Issue
                 </TMButton>
               </div>
               <div className="flex-1" />

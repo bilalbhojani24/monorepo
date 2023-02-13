@@ -30,9 +30,9 @@ const useAddTagModal = ({
         }
 
         if (data?.error_tags?.length)
-          setErrorText('A tag with the same name already exists');
+          setErrorText('A tag with the same name already exists. Search & select this tag from tags drop down.');
       });
-    } else setErrorText('A tag with the same name already exists');
+    } else setErrorText('A tag with the same name already exists. Search & select this tag from tags drop down.');
   };
 
   const onTagRemoveClick = (tag) => {

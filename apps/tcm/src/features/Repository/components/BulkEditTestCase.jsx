@@ -65,7 +65,7 @@ const BulkEditTestCase = () => {
               variant="primary"
               onClick={() => setBulkEditConfirm(true)}
             >
-              Update All
+              Update {issuesArray?.length} Cases
             </TMButton>
           </>
         }
