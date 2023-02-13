@@ -90,11 +90,11 @@ const TestRunsTable = () => {
     {
       name: '',
       key: '',
-      cell: () => (
+      cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={TR_DROP_OPTIONS}
+          // options={TR_DROP_OPTIONS}
           onClick={(e) => onDropDownChange(e, data)}
         />
       )

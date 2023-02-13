@@ -3,7 +3,7 @@ import React from 'react';
 import useAddEditTestRun from './useAddEditTestRun';
 
 const AddEditTestRun = () => {
-  const { a } = useAddEditTestRun();
+  const { createTestRunHandler, cancelCreation } = useAddEditTestRun();
 
   return 'WIP';
   // return (
@@ -17,7 +17,7 @@ const AddEditTestRun = () => {
   //               <TMButton
   //                 variant="primary"
   //                 colors="white"
-  //                 onClick={cancelTestRunHandler}
+  //                 onClick={cancelCreation}
   //               >
   //                 Cancel
   //               </TMButton>
