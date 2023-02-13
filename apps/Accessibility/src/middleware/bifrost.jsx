@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Accordion,
   Badge,
+  Banner,
   Breadcrumb,
   Button,
   Checkbox,
@@ -55,3 +56,4 @@ export const ASComboBox = (props) => <ComboBox {...props} />;
 export const ASTooltip = (props) => <Tooltip {...props} />;
 export const ASTooltipBody = (props) => <TooltipBody {...props} />;
 export const ASHyperlink = (props) => <Hyperlink {...props} />;
+export const ASBanner = (props) => <Banner {...props} />;

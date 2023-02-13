@@ -12,3 +12,5 @@ export const getIsSelectionMode = (state) =>
   state.accessibility.app.reports.reportList.filter(
     (report) => !!report.isSelected
   ).length > 0;
+export const getLastIndex = (state) =>
+  state.accessibility.app.reports.lastIndex;

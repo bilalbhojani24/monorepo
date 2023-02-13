@@ -143,3 +143,14 @@ export const issueTypes = [
   { modifier: 'warn', type: 'moderate' },
   { modifier: 'base', type: 'minor' }
 ];
+
+export const reportType = [
+  {
+    label: 'Workflow scan',
+    value: 'Workflow scan'
+  },
+  {
+    label: 'Assisted test',
+    value: 'Assisted test'
+  }
+];

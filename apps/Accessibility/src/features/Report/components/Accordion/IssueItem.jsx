@@ -117,12 +117,14 @@ export default function IssueItem() {
   // NOTE: Node filter logic for the right panel
   if (activeReportFilters.page.length) {
     activeComponentNodes = activeComponentNodes.filter((node) =>
-      activeReportFilters.page.includes(node.page.url)
+      activeReportFilters.page.map(({ value }) => value).includes(node.page.url)
     );
   }
   if (activeReportFilters.component.length) {
     activeComponentNodes = activeComponentNodes.filter((node) =>
-      activeReportFilters.component.includes(node.componentId)
+      activeReportFilters.component
+        .map(({ value }) => value)
+        .includes(node.componentId)
     );
   }
 
@@ -440,7 +442,7 @@ export default function IssueItem() {
                     {sanitizeValue(target)}
                   </SyntaxHighlighter>
                 </div>
-                <CopyButton className="ml-2" text={sanitizeValue(target)} />
+                <CopyButton text={sanitizeValue(target)} />
               </div>
             </div>
             <div>
@@ -455,7 +457,7 @@ export default function IssueItem() {
                     {sanitizeValue(html)}
                   </SyntaxHighlighter>
                 </div>
-                <CopyButton className="ml-2" text={sanitizeValue(html)} />
+                <CopyButton text={sanitizeValue(html)} />
               </div>
             </div>
           </div>
@@ -505,10 +507,7 @@ export default function IssueItem() {
                                       {targetNode}
                                     </SyntaxHighlighter>
                                   </div>
-                                  <CopyButton
-                                    className="ml-2"
-                                    text={sanitizeValue(html)}
-                                  />
+                                  <CopyButton text={sanitizeValue(html)} />
                                 </div>
                               );
                             })

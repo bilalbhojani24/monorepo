@@ -38,8 +38,8 @@ export default function Issues() {
     activeSwitch,
     isOpen,
     intermediateFilters,
-    selectedOptions,
     sectionData,
+    showHiddenIssues,
     onApplyFilters,
     onCloseClick,
     onFilterButtonClick,
@@ -48,7 +48,7 @@ export default function Issues() {
     onTabSelect,
     onTagClose,
     generateData,
-    showHiddenIssues,
+    onNeedsReviewChecked,
     onHiddenIssueClick,
     onUpdateFilters
   } = useIssues();
@@ -56,8 +56,6 @@ export default function Issues() {
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
   );
-
-  // console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -77,6 +75,7 @@ export default function Issues() {
     text = `${values.length} ${text}`;
     return text;
   };
+
   // check if needs review is true OR check if any other filters is applied. Filters are combined as array, hence length check.
   const hasFilters =
     reportFilters.showNeedsReviewIssues ||
@@ -120,13 +119,15 @@ export default function Issues() {
                 Severity
               </p>
               <div className="flex">
-                {severityOptions.map(({ label, value }) => (
+                {severityOptions.map((option) => (
                   <ASCheckbox
-                    data={{ label, value }}
+                    data={option}
                     border={false}
-                    wrapperClass="pt-0 w-24 mr-5"
-                    checked={intermediateFiltersImpactValues.includes(value)}
-                    onChange={(val) => onInputBoxChange(value, val)}
+                    wrapperClassName="pt-0 w-24 mr-5"
+                    checked={intermediateFiltersImpactValues.includes(
+                      option.value
+                    )}
+                    onChange={(e) => onInputBoxChange(option, e)}
                   />
                 ))}
               </div>
@@ -137,78 +138,39 @@ export default function Issues() {
                 isMulti
                 onChange={(values) => onUpdateFilters('page', values)}
                 options={urls}
-                value={reportFilters.impact}
+                value={intermediateFilters.page}
                 // placeholder="Select..."
               />
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Components</p>
               <ASComboBox
-                isMultiSelect
+                isMulti
                 onChange={(values) => onUpdateFilters('component', values)}
                 options={componentIds}
-                // value={reportFilters.impact}
+                value={intermediateFilters.component}
                 // placeholder="Select..."
               />
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Category</p>
               <ASComboBox
-                isMultiSelect
+                isMulti
                 onChange={(values) => onUpdateFilters('category', values)}
                 options={categories}
-                // value={reportFilters.impact}
+                value={intermediateFilters.category}
                 // placeholder="Select..."
               />
             </div>
-            {/* <SelectBox
-              isMulti
-              isSearch
-              label="Pages"
-              wrapperClassName="issues__select"
-              menuOptions={urls}
-              defaultSelected={intermediateFilters.page.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('page', values)}
-            />
-            <SelectBox
-              isMulti
-              isSearch
-              label="Components"
-              wrapperClassName="issues__select"
-              menuOptions={componentIds}
-              defaultSelected={intermediateFilters.component.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('component', values)}
-            />
-            <SelectBox
-              isMulti
-              isSearch
-              label="Category"
-              wrapperClassName="issues__select"
-              menuOptions={categories}
-              defaultSelected={intermediateFilters.category.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('category', values)}
-            /> */}
             <ASCheckbox
               border={false}
-              wrapperClass="pt-0"
+              wrapperClassName="pt-0"
               data={{
                 label: "Show only 'Needs Review' Issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}
-              onChange={(value) => onInputBoxChange('', value, true)}
+              onChange={onNeedsReviewChecked}
             />
           </ASModalBody>
           <ASModalFooter position="right ">
@@ -218,24 +180,19 @@ export default function Issues() {
             <ASButton onClick={onApplyFilters}>OK</ASButton>
           </ASModalFooter>
         </ASModal>
-        {/* {showHiddenIssues && (
-          <div>
-            <ASButton
-              icon={<ArrowBackIcon />}
-              modifier="grey"
-              onClick={() => onHiddenIssueClick(false)}
-              size="small"
-              text=""
-              type="subtle"
-            >
-              Back
-            </ASButton>
-            <p> Showing Hidden Issues </p>
-          </div>
-        )} */}
         <div>
           <div className="flex items-center justify-between py-4 px-6">
-            <div>
+            <div className="flex items-center">
+              {showHiddenIssues && (
+                <ASButton
+                  colors="white"
+                  onClick={() => onHiddenIssueClick(false)}
+                  size="small"
+                  icon={<MdArrowBack className="text-xl" />}
+                  wrapperClassName="mr-4"
+                  isIconOnlyButton
+                />
+              )}
               {issueTabs.map(({ label, value }, index) => (
                 <ASButton
                   wrapperClassName={
@@ -251,21 +208,18 @@ export default function Issues() {
             </div>
             <ASSelectMenu
               isMultiSelect
-              onChange={(a) => {
-                console.log('a');
-                onUpdateImpact(a);
-              }}
+              onChange={onUpdateImpact}
               options={severityOptions}
-              // placeholder="Severity"
-              value={selectedOptions}
+              placeholder="Severity"
+              value={reportFilters.impact}
             />
             <div className="flex">
               {!showHiddenIssues && (
                 <ASButton
                   icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
-                  // size="small"
-                  // wrapperClassName="ml-2"
+                  size="small"
+                  wrapperClassName="mr-4"
                   onClick={onFilterButtonClick}
                   isIconOnlyButton
                 />
@@ -274,59 +228,63 @@ export default function Issues() {
                 <ASButton
                   colors="white"
                   onClick={() => onHiddenIssueClick(true)}
-                  // wrapperClassName="ml-2"
-                  icon={<MdHideSource />}
+                  size="small"
+                  icon={<MdHideSource className="text-xl" />}
                   isIconOnlyButton
                 />
               )}
             </div>
-            {/* {Object.entries(reportFilters).map(([key, values]) =>
-              values.length ? (
-                <ASBadge
-                  readonly
-                  size="large"
-                  text={getKeyName(key, values)}
-                  onClick={onFilterButtonClick}
-                  onClose={() => onTagClose(key)}
-                  wrapperClassName="issues__tag"
-                />
-              ) : null
-            )} */}
-            {/* {reportFilters.showNeedsReviewIssues ? (
-              <ASBadge
-                hasDot={false}
-                hasRemoveButton
-                isRounded={false}
-                text="Needs Review"
-                size="large"
-                onClose={() => onTagClose('showNeedsReviewIssues')}
-              />
-            ) : null}
-            {hasFilters && (
-              <ASBadge
-                readonly
-                size="large"
-                text="Clear all"
-                onClose={() => onTagClose('all')}
-                wrapperClassName="issues__tag"
-              />
-            )} */}
           </div>
-          {!showHiddenIssues || hasFilters ? (
+          {showHiddenIssues || hasFilters ? (
             <div className="bg-base-100 px-6 py-3">
-              {!showHiddenIssues ? (
+              {showHiddenIssues ? (
                 <ASBadge
                   hasDot={false}
                   hasRemoveButton
                   isRounded
+                  size="large"
                   wrapperClassName="bg-white"
+                  onClose={() => onHiddenIssueClick(false)}
                   text="Hidden issues"
                 />
               ) : (
-                <div>
+                <div className="flex">
                   <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
                     Filters
                   </p>
+                  {Object.entries(reportFilters).map(([key, values]) =>
+                    values.length ? (
+                      <ASBadge
+                        readonly
+                        size="large"
+                        hasRemoveButton
+                        text={getKeyName(key, values)}
+                        onClick={onFilterButtonClick}
+                        onClose={() => onTagClose(key)}
+                        wrapperClassName="bg-white ml-4"
+                      />
+                    ) : null
+                  )}
+                  {reportFilters.showNeedsReviewIssues ? (
+                    <ASBadge
+                      hasDot={false}
+                      hasRemoveButton
+                      isRounded
+                      text="Needs Review"
+                      size="large"
+                      wrapperClassName="bg-white ml-4"
+                      onClose={() => onTagClose('showNeedsReviewIssues')}
+                    />
+                  ) : null}
+                  <ASButton
+                    onClick={() => onTagClose('all')}
+                    size="small"
+                    colors="white"
+                    wrapperClassName="ml-4"
+                    variant="minimal"
+                  >
+                    Clear all
+                  </ASButton>
                 </div>
               )}
             </div>

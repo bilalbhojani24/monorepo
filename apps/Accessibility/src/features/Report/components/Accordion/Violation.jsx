@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
 
-export default function Violation({ violation, index, isFullWidth }) {
+export default function Violation({ violation, index }) {
   const dispatch = useDispatch();
   const openAccordionId = useSelector(getOpenAccordionId);
   const isOpen = openAccordionId === violation.id;
@@ -63,49 +63,12 @@ export default function Violation({ violation, index, isFullWidth }) {
         </div>
       }
       panelContentNode={
-        <ComponentList
-          nodes={violation.nodes}
-          violationId={violation.id}
-          isFullWidth={isFullWidth}
-        />
+        <ComponentList nodes={violation.nodes} violationId={violation.id} />
       }
       onTriggerClick={updateOpenViolation}
       onChevronClick={updateOpenViolation}
     />
   );
-
-  // return (
-  //   <div
-  //     key={violation.id}
-  //     // className={classNames('violations', {
-  //     //   'violations--active': isOpen
-  //     // })}
-  //   >
-  //     <div
-  //       className="violation__header"
-  //       tabIndex={0}
-  //       role="button"
-  //       onKeyDown={(e) =>
-  //         handleClickByEnterOrSpace(e, () => updateOpenViolation())
-  //       }
-  //       onClick={() => updateOpenViolation()}
-  //       aria-label={violation.help}
-  //     >
-  //       <p className="violation__title">
-  //         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-  //         {violation.help} (<span>{totalCount}</span>)
-  //       </p>
-  //       {impact && (
-  //         <div className="violation__icon">
-  //           <Lozenge text={impact} modifier={modifier} type="subtle" />
-  //         </div>
-  //       )}
-  //     </div>
-  //     {isOpen && (
-  //       <ComponentList nodes={violation.nodes} violationId={violation.id} />
-  //     )}
-  //   </div>
-  // );
 }
 
 Violation.propTypes = {

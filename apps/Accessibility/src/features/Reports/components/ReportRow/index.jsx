@@ -74,10 +74,7 @@ export default function ReportRow({ id }) {
       className="border-base-200 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
-      <div
-        className="flex"
-        style={{ width: `${(window.innerWidth - 40) / 3}px` }}
-      >
+      <div className="flex" style={{ width: `calc(100% - 801px)` }}>
         <ASCheckbox
           // ariaLabelText={`${name} selection checkbox`}
           id={id.toString()}
@@ -87,11 +84,18 @@ export default function ReportRow({ id }) {
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
-          wrapperClass="border-0 flex items-center w-16 justify-center"
+          wrapperClassName="border-0 flex items-center w-16 justify-center"
           // onClick={(e) => e.stopPropagation()}
         />
-        <div className="flex flex-col items-start justify-center">
-          <p className="mb-1 text-sm font-medium" title={name}>
+        <div
+          className="flex flex-col items-start justify-center"
+          style={{ width: `calc(100% - 64px)` }}
+        >
+          <p
+            className="mb-1 overflow-hidden truncate text-sm font-medium"
+            title={name}
+            style={{ width: `calc(100% - 64px)` }}
+          >
             {name}
           </p>
           <div className="text-base-500 flex text-sm">
@@ -108,7 +112,7 @@ export default function ReportRow({ id }) {
           <ASBadge
             hasDot={false}
             hasRemoveButton={false}
-            isRounded={false}
+            isRounded
             text="Workflow scan"
           />
           <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
@@ -128,7 +132,7 @@ export default function ReportRow({ id }) {
               <ASBadge
                 hasDot={false}
                 hasRemoveButton={false}
-                isRounded={false}
+                isRounded
                 modifier={modifier}
                 text={`${issueSummary[type]} ${type
                   .charAt(0)

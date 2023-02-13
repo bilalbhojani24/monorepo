@@ -5,14 +5,20 @@ import {
   MdOutlineArrowForward,
   MdSearch
 } from '@browserstack/bifrost';
-// import Logo from 'images/bsA11y/accessibility_logo.png';
-// import extensionImage from 'images/bsA11y/dashboard_img1.png';
+import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
-import { versions } from 'constants';
-// import { Actions, CarouselModal } from 'trike/Modal';
-import { ASButton, ASDropdown, ASInputField } from 'middleware/bifrost';
-import { handleClickByEnterOrSpace } from 'utils/helper';
+import { reportType } from 'constants';
+import {
+  ASBanner,
+  ASButton,
+  ASInputField,
+  ASModal,
+  ASModalBody,
+  ASModalFooter,
+  ASSelectMenu
+} from 'middleware/bifrost';
 
+// import { handleClickByEnterOrSpace } from 'utils/helper';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
 
@@ -21,22 +27,19 @@ export default function Reports() {
     isOpen,
     isLoading,
     isShowingBanner,
-    activeVersion,
     isMergeDisabled,
     reportList,
+    lastIndex,
     selectedReportsLength,
     searchInput,
     resetSelection,
     onCloseClick,
     onDownloadExtensionClick,
     onInputValueChange,
+    updateLastIndex,
     onReportConsolidateButtonClick,
-    onVersionSelect,
     handleClose
   } = useReports();
-  // const filteredReportList = reportList.filter(({ wcagVersion: { label } }) =>
-  //   label.includes(activeVersion)
-  // );
 
   const searchFilterList = searchInput
     ? reportList.filter(
@@ -46,27 +49,35 @@ export default function Reports() {
       )
     : reportList;
 
+  const isFirstPage = lastIndex === 20;
+  const isLastPage =
+    Math.ceil(searchFilterList.length / 20) === Math.ceil(lastIndex / 20);
+
   return (
     <div className="bg-base-50">
-      {/* <CarouselModal
-        id="landing"
-        isOpen={isOpen}
-        variant="CAROUSEL"
-        title="Welcome to BrowserStack Accessibility!"
-        subtitle="To get started with Accessibility testing, download our browser extension to scan your workflows and automatically find issues across different pages."
-        images={[{ url: extensionImage, alt: 'test', key: 'extension-image' }]}
-        position="center"
-        size="md"
-        onClose={() => handleClose({ action: 'cross-click' })}
-      >
-        <Actions position="center">
-          <Button
-            text="I’ll do it later"
-            type="outline"
+      <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+        <ASModalBody>
+          <div className="mb-5 mt-6 flex w-full items-center justify-center">
+            <img src={Logo} alt="extension-images" className="h-12 w-12" />
+          </div>
+          <p className="text-base-900 mb-2 text-center text-lg font-medium">
+            Welcome to Accessibility
+          </p>
+          <p className="text-base-500 mb-2 text-center text-sm">
+            To get started with Accessibility testing, download our browser
+            extension to scan your workflows and automatically find issues
+            across different pages.
+          </p>
+        </ASModalBody>
+        <ASModalFooter position="center">
+          <ASButton
             onClick={() => handleClose({ action: 'do-later' })}
-          />
-          <Button
-            text="Download Chrome Extension"
+            colors="white"
+            fullWidth
+          >
+            I’ll do it later
+          </ASButton>
+          <ASButton
             onClick={() => {
               window.open(
                 window.accessibilityExtensionChromeStoreURL,
@@ -74,39 +85,32 @@ export default function Reports() {
               );
               handleClose({ action: 'download-extension' });
             }}
-            icon={<OpenInNewIcon />}
-            iconPlacement="right"
-          />
-        </Actions>
-      </CarouselModal> */}
-      <div
-        // className={classNames('reports__header', {
-        //   'reports__header--banner': isShowingBanner
-        // })}
-        className="p-6"
-      >
-        {/* {isShowingBanner ? (
-          <div className="reports__banner">
-            <div className="report__banner-text">
-              <img src={Logo} alt="Accessibility logo" />
-              Download the Accessibility Toolkit extension from Chrome Web Store
-              to scan your workflows for accessibility issues.
-            </div>
-            <div className="reports__banner-actions">
-              <ACButton onClick={onDownloadExtensionClick} size="small">
-                Download now
-              </ACButton>
-              <div
-                tabIndex={0}
-                role="button"
-                aria-label="Close extension banner"
-                onKeyDown={(e) => handleClickByEnterOrSpace(e, onCloseClick)}
-              >
-                <CloseIcon onClick={onCloseClick} />
-              </div>
-            </div>
+            fullWidth
+          >
+            Download extension
+          </ASButton>
+        </ASModalFooter>
+      </ASModal>
+      <div className="p-6">
+        {isShowingBanner ? (
+          <div className="fixed inset-x-0 top-0 z-10">
+            <ASBanner
+              description="Download the Accessibility Toolkit extension from Chrome Web Store
+          to scan your workflows for accessibility issues."
+              isDismissButton
+              ctaButton={
+                <ASButton
+                  onClick={onDownloadExtensionClick}
+                  size="small"
+                  colors="white"
+                >
+                  Download now
+                </ASButton>
+              }
+              onDismissClick={onCloseClick}
+            />
           </div>
-        ) : null} */}
+        ) : null}
         <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
         <h3 className="text-base-500 mb-4 text-sm font-medium">
           Select reports to view them. You can select more than one report to
@@ -123,13 +127,12 @@ export default function Reports() {
                   onChange={onInputValueChange}
                 />
               </div>
-              <ASDropdown
-                options={[
-                  {
-                    id: '1',
-                    body: 'Edit'
-                  }
-                ]}
+              <ASSelectMenu
+                isMultiSelect
+                // onChange={onUpdateImpact}
+                options={reportType}
+                placeholder="Type"
+                // value={reportFilters.impact}
               />
             </div>
             <div className="flex items-center">
@@ -157,30 +160,6 @@ export default function Reports() {
         </div>
       </div>
       <div className="">
-        <div className="">
-          <div className="">
-            <div className="">
-              {/* {versions.map(({ label, value }) => (
-                <div
-                  className={classNames('reports__version-switch-item', {
-                    'reports__version-switch-item--active':
-                      activeVersion === value
-                  })}
-                  onClick={() => onVersionSelect(value)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) =>
-                    handleClickByEnterOrSpace(e, () => onVersionSelect(value))
-                  }
-                  aria-label={`Select ${label} filter`}
-                  key={value}
-                >
-                  {label}
-                </div>
-              ))} */}
-            </div>
-          </div>
-        </div>
         {!isLoading && reportList.length === 0 && (
           <div className="flex h-[calc(100vh_-_166px)] flex-col items-center justify-center">
             <div className="flex flex-col">
@@ -193,8 +172,38 @@ export default function Reports() {
             </div>
           </div>
         )}
-        {searchFilterList.length > 0 &&
-          searchFilterList.map(({ id }) => <ReportRow key={id} id={id} />)}
+        <div className="mb-4">
+          {searchFilterList.length > 0 &&
+            searchFilterList
+              .slice(lastIndex - 20, lastIndex)
+              .map(({ id }) => <ReportRow key={id} id={id} />)}
+        </div>
+        <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
+          <p className="text-base-700 text-sm font-medium">
+            Showing {lastIndex - 20 + 1} to{' '}
+            {isLastPage ? searchFilterList.length : lastIndex} of{' '}
+            {searchFilterList.length} results
+          </p>
+          <div className="flex">
+            <ASButton
+              disabled={isFirstPage}
+              onClick={() => updateLastIndex(lastIndex - 20)}
+              colors="white"
+              size="small"
+              wrapperClassName="mr-3"
+            >
+              Previous
+            </ASButton>
+            <ASButton
+              disabled={isLastPage}
+              onClick={() => updateLastIndex(lastIndex + 20)}
+              colors="white"
+              size="small"
+            >
+              Next
+            </ASButton>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -181,7 +181,7 @@ export default function Summary() {
                           key={col.key}
                           variant="header"
                           textTransform="uppercase"
-                          wrapperClass={`text-xs text-base-500 ${
+                          wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
                           } ${index === 2 ? 'w-32' : ''}`}
                         >
@@ -195,7 +195,7 @@ export default function Summary() {
                       .slice(0, 6)
                       .map(({ componentId, count }, index) => (
                         <ASTableRow
-                          wrapperClass="cursor-pointer"
+                          wrapperClassName="cursor-pointer"
                           onRowClick={() =>
                             onRowClick('component', componentId)
                           }
@@ -203,7 +203,7 @@ export default function Summary() {
                           {componentColumns.map((column, colIndex) => (
                             <ASTableCell
                               key={column.id}
-                              wrapperClass={`px-3 py-2 ${
+                              wrapperClassName={`px-3 py-2 ${
                                 colIndex === 0 ? 'w-14' : ''
                               }`}
                             >
@@ -243,7 +243,7 @@ export default function Summary() {
                           key={col.key}
                           variant="header"
                           textTransform="uppercase"
-                          wrapperClass={`text-xs text-base-500 ${
+                          wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-16' : ''
                           } ${index === 1 ? 'w-40' : ''}`}
                         >
@@ -254,7 +254,7 @@ export default function Summary() {
                   </ASTableHead>
                   <ASTableBody>
                     {categoryList.map(({ category, count }, index) => (
-                      <ASTableRow wrapperClass="cursor-pointer">
+                      <ASTableRow wrapperClassName="cursor-pointer">
                         {categoryColumns.map((column, colIndex) => {
                           const cellUI = () => {
                             if (colIndex === 0) return index + 1;
@@ -294,7 +294,7 @@ export default function Summary() {
                           return (
                             <ASTableCell
                               key={column.id}
-                              wrapperClass={`px-3 py-2 ${
+                              wrapperClassName={`px-3 py-2 ${
                                 colIndex === 0 ? 'w-16' : ''
                               } ${colIndex === 1 ? 'w-40' : ''}`}
                             >
@@ -378,13 +378,13 @@ export default function Summary() {
                     <ASTableBody>
                       {urlList.slice(0, 6).map(({ url, count }, index) => (
                         <ASTableRow
-                          wrapperClass="cursor-pointer"
+                          wrapperClassName="cursor-pointer"
                           onRowClick={() => onRowClick('component', url)}
                         >
                           {urlColumns.map((column, colIndex) => (
                             <ASTableCell
                               key={column.id}
-                              wrapperClass={`px-3 py-2 text-ellipsis overflow-hidden ${
+                              wrapperClassName={`px-3 py-2 text-ellipsis overflow-hidden ${
                                 colIndex === 0 ? 'w-14' : ''
                               } ${colIndex === 2 ? 'w-36' : ''}`}
                             >

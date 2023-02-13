@@ -21,8 +21,8 @@ import {
 } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 import {
-  formatComponentIdString,
-  handleClickByEnterOrSpace,
+  // formatComponentIdString,
+  // handleClickByEnterOrSpace,
   updateUrlWithQueryParam
 } from 'utils/helper';
 
@@ -120,7 +120,7 @@ export default function ComponentList({ nodes, violationId }) {
               // className={classNames('component-list__row', {
               //   'component-list__row--active': isActive
               // })}
-              wrapperClass="cursor-pointer"
+              wrapperClassName="cursor-pointer"
               onRowClick={() => onRowClick(id)}
               // role="button"
               // tabIndex={0}
@@ -135,7 +135,7 @@ export default function ComponentList({ nodes, violationId }) {
               {columns.map((column, index) => (
                 <ASTableCell
                   key={column.id}
-                  wrapperClass={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
+                  wrapperClassName={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
                     index === 2 ? 'w-24' : ''
                   }`}
                 >
