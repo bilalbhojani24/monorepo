@@ -59,10 +59,10 @@ export default function TestCases() {
                         <TMTooltipBody>
                           <div className={"text-sm"}>
                             <p>
-                              URL: {selectedFolder?.links?.self.slice(7,) || ''}
+                              URL: {selectedFolder?.links?.self?.slice(7,) || ''}
                             </p>
                             <div className="mt-3 flex w-full gap-4">
-                              <CopyButton copyValue={"https://teststack.bsstag.com" + selectedFolder?.links?.self.slice(7,)}>
+                              <CopyButton copyValue={"https://teststack.bsstag.com" + selectedFolder?.links?.self?.slice(7,)}>
                                 Copy URL
                               </CopyButton>
                             </div>

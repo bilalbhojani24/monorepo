@@ -34,12 +34,12 @@ const TestCaseTopBar = () => {
               <TMTooltipBody>
                 <div className="text-sm">
                   <p>ID: {testCaseDetails?.identifier}</p>
-                  <p>URL: {testCaseDetails?.links?.self.slice(7,)}</p>
+                  <p>URL: {testCaseDetails?.links?.self?.slice(7,)}</p>
                   <div className="mt-3 flex w-full gap-4">
                     <CopyButton copyValue={testCaseDetails?.identifier}>
                       Copy ID
                     </CopyButton>
-                    <CopyButton copyValue={"https://teststack.bsstag.com" + testCaseDetails?.links?.self.slice(7,)}>
+                    <CopyButton copyValue={"https://teststack.bsstag.com" + testCaseDetails?.links?.self?.slice(7,)}>
                       Copy URL
                     </CopyButton>
                   </div>
