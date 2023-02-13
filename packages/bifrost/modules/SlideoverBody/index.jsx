@@ -4,16 +4,9 @@ import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-const SlideoverBody = ({
-  disableDefaultPadding,
-  disableFullHeight,
-  children
-}) => (
+const SlideoverBody = ({ children, wrapperClassName }) => (
   <div
-    className={twClassNames(`overflow-scroll`, {
-      'py-4': !disableDefaultPadding,
-      'flex-1': !disableFullHeight
-    })}
+    className={twClassNames(`overflow-scroll py-4 flex-1`, wrapperClassName)}
   >
     {children}
   </div>
@@ -21,13 +14,11 @@ const SlideoverBody = ({
 
 SlideoverBody.propTypes = {
   children: PropTypes.node,
-  disableDefaultPadding: PropTypes.bool,
-  disableFullHeight: PropTypes.bool
+  wrapperClassName: PropTypes.string
 };
 SlideoverBody.defaultProps = {
   children: null,
-  disableDefaultPadding: false,
-  disableFullHeight: false
+  wrapperClassName: ''
 };
 
 export default SlideoverBody;

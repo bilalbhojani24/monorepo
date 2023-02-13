@@ -152,7 +152,7 @@ const Button = (
   );
 };
 
-Button.propTypes = {
+const buttonProps = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -167,7 +167,7 @@ Button.propTypes = {
   isIconOnlyButton: PropTypes.bool
 };
 
-Button.defaultProps = {
+const defaultProps = {
   disabled: false,
   loading: false,
   onClick: () => {},
@@ -182,4 +182,12 @@ Button.defaultProps = {
   isIconOnlyButton: false
 };
 
-export default forwardRef(Button);
+const WrappedButton = forwardRef(Button);
+
+Button.propTypes = buttonProps;
+WrappedButton.propTypes = buttonProps;
+
+Button.defaultProps = defaultProps;
+WrappedButton.defaultProps = defaultProps;
+
+export default WrappedButton;

@@ -60,7 +60,7 @@ const defaultConfig = {
       option: { type: 'boolean' },
       defaultValue: true
     },
-    slideoverWidth: {
+    size: {
       option: { type: 'string' },
       control: { type: 'select', options: MODAL_SIZE },
       defaultValue: MODAL_SIZE[2]
