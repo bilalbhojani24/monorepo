@@ -11,7 +11,7 @@ export const STATE_OPTIONS = [
 export const CHART_OPTIONS = {
   chart: {
     type: 'bar',
-    height: 40,
+    height: 20,
     spacingTop: 0,
     spacingRight: 0,
     spacingBottom: 0,

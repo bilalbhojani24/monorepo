@@ -66,10 +66,12 @@ const TestRunsTable = () => {
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
           <div className="flex items-center">
+            {/* <div className="overflow-hidden rounded-md"> */}
             <HighchartsReact
               highcharts={Highcharts}
               options={getOptions(rowData)}
             />
+            {/* </div> */}
             <span className="text-base-500 ml-0.5">
               {untestedPerc.toFixed(0)}%
             </span>
@@ -130,7 +132,7 @@ const TestRunsTable = () => {
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClassName={classNames('py-1', {
+                        wrapperClassName={classNames('py-4', {
                           'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':

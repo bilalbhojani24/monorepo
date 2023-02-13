@@ -21,12 +21,6 @@ const useTestRuns = () => {
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const chartToolTipFormatter = (obj) => {
-    debugger;
-    console.log(this);
-    return `in year`;
-  };
-
   const getOptions = (data) => {
     if (!data?.overall_progress) return CHART_OPTIONS;
 
@@ -36,6 +30,8 @@ const useTestRuns = () => {
     );
 
     const series = Object.keys(data.overall_progress).map((key) => ({
+      groupPadding: 0,
+      pointPadding: 0,
       name: key,
       data: [data.overall_progress?.[key] || 0]
     }));
@@ -45,17 +41,17 @@ const useTestRuns = () => {
       series,
       yAxis: {
         ...CHART_OPTIONS.yAxis,
-        max: totalValue - 1
+        max: totalValue
       },
       tooltip: {
         ...CHART_OPTIONS.tooltip,
         formatter() {
-          // If you want to see what is available in the formatter, you can
-          // examine the `this` variable.
           return `<b>${this.x}</b>
-                  <span style="color:${this.point.color}">\u25CF</span> ${
+                  <span style="color:${
+                    this.point.color
+                  }">\u25CF</span> <span class="whitespace-nowrap">${
             this.series.name
-          } ${this.y}(${((this.y / totalValue) * 100).toFixed(0)}%)`;
+          } ${this.y}(${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
         }
       }
     };
