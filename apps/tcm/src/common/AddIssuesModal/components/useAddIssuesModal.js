@@ -7,6 +7,7 @@ import { splitStringToArray } from 'utils/helperFunctions';
 import { CREATE_ISSUE_URL } from '../const/addIssueConst';
 
 const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const JIRA_REGEX = /^[A-Z]+-\d+?$/;
   const dispatch = useDispatch();
   const [enterdIssueIDs, setIssueIds] = useState('');
@@ -49,12 +50,16 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
       setIssueIds('');
       getJIRAConfigAPI().then((e) => {
         setJiraConfig(e);
+        setIsLoading(false);
       });
     }
+
+    if (jiraConfig) setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
 
   return {
+    isLoading,
     errorText,
     enterdIssueIDs,
     jiraConfig,
