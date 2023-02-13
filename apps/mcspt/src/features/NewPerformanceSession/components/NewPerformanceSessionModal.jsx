@@ -35,10 +35,10 @@ const renderCurrentStep = (step, setShowNewSessionModal) => {
   }
 };
 
-export default function NewPerformanceSessionModal({
+const NewPerformanceSessionModal = ({
   showNewSessionModal,
   setShowNewSessionModal
-}) {
+}) => {
   const { currentSetupStep } = useNewPerformanceSessionModal();
 
   return (
@@ -52,4 +52,6 @@ export default function NewPerformanceSessionModal({
       </div>
     </Modal>
   );
-}
+};
+
+export default NewPerformanceSessionModal;

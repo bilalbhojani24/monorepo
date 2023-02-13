@@ -78,69 +78,67 @@ const rows = [
   }
 ];
 
-export default function NewUserHome({ newTestClicked }) {
-  return (
-    <div className="flex flex-col items-center p-16">
-      <div className="mb-2 text-lg font-semibold uppercase leading-6 tracking-wider">
-        WELCOME TO
-      </div>
-      <div className="mb-4 text-3xl font-bold leading-9 ">
-        BrowserStack Mobile Performance Testing
-      </div>
-      <div className="mb-4 text-xl leading-7">
-        Start your first mobile performance test
-      </div>
-      <Button
-        wrapperClassName="mb-16"
-        icon={
-          <div className="mr-3">
-            <MdAddCircle />
-          </div>
-        }
-        iconPlacement="start"
-        size="default"
-        colors="brand"
-        variant="primary"
-        onClick={newTestClicked}
-      >
-        New Test
-      </Button>
-      <div className="my-2 text-xl font-normal leading-7">
-        Or explore from our sample reports
-      </div>
-
-      <Table containerWrapperClass="w-full">
-        <TableHead>
-          <TableRow>
-            {columns.map((col) => (
-              <TableCell key={col.key} variant="header">
-                {col.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.testSessionName}>
-              {columns.map((column, colIdx) => {
-                const value = row[column.key];
-                return (
-                  <TableCell
-                    key={column.key}
-                    wrapperClass={
-                      colIdx === 0
-                        ? 'text-base-900 font-medium'
-                        : 'text-base-500'
-                    }
-                  >
-                    {column.cell ? <>{column.cell(row)}</> : value}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+const NewUserHome = ({ newTestClicked }) => (
+  <div className="flex flex-col items-center p-16">
+    <div className="mb-2 text-lg font-semibold uppercase leading-6 tracking-wider">
+      WELCOME TO
     </div>
-  );
-}
+    <div className="mb-4 text-3xl font-bold leading-9 ">
+      BrowserStack Mobile Performance Testing
+    </div>
+    <div className="mb-4 text-xl leading-7">
+      Start your first mobile performance test
+    </div>
+    <Button
+      wrapperClassName="mb-16"
+      icon={
+        <div className="mr-3">
+          <MdAddCircle />
+        </div>
+      }
+      iconPlacement="start"
+      size="default"
+      colors="brand"
+      variant="primary"
+      onClick={newTestClicked}
+    >
+      New Test
+    </Button>
+    <div className="my-2 text-xl font-normal leading-7">
+      Or explore from our sample reports
+    </div>
+
+    <Table containerWrapperClass="w-full">
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell key={col.key} variant="header">
+              {col.name}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row.testSessionName}>
+            {columns.map((column, colIdx) => {
+              const value = row[column.key];
+              return (
+                <TableCell
+                  key={column.key}
+                  wrapperClass={
+                    colIdx === 0 ? 'text-base-900 font-medium' : 'text-base-500'
+                  }
+                >
+                  {column.cell ? <>{column.cell(row)}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </div>
+);
+
+export default NewUserHome;

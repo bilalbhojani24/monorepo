@@ -56,10 +56,7 @@ const columns = [
   }
 ];
 
-export default function ExistingUserHome({
-  newTestClicked,
-  previousUserSessions
-}) {
+const ExistingUserHome = ({ newTestClicked, previousUserSessions }) => {
   const { searchTerm, tableRows, performSearch, sortRows } =
     useExistingUserHome(previousUserSessions);
 
@@ -138,4 +135,6 @@ export default function ExistingUserHome({
       </Table>
     </div>
   );
-}
+};
+
+export default ExistingUserHome;

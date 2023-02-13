@@ -28,7 +28,7 @@ const listOfDevices = [
   }
 ];
 
-export default function useSelectDeviceStep() {
+const useSelectDeviceStep = () => {
   const [areDevicesStillLoading, setAreDevicesStillLoading] = useState(true);
 
   const selectedDevice = useSelector(getSelectedDevice);
@@ -56,4 +56,6 @@ export default function useSelectDeviceStep() {
     deviceSelected,
     navigateToNext
   };
-}
+};
+
+export default useSelectDeviceStep;

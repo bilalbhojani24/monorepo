@@ -12,7 +12,7 @@ import { twClassNames } from '../../../utils/tailwindUtils';
 
 import useSelectApplicationStep from './useSelectApplicationStep';
 
-export default function SelectApplicationStep({ setShowNewSessionModal }) {
+const SelectApplicationStep = ({ setShowNewSessionModal }) => {
   const {
     areApplicationsStillLoading,
     searchTerm,
@@ -75,40 +75,42 @@ export default function SelectApplicationStep({ setShowNewSessionModal }) {
           </div>
 
           <div className="flex max-h-[342px] flex-1 flex-col overflow-y-auto">
-            {searchResults.map((x) => (
+            {searchResults.map((result) => (
               <div
                 className={twClassNames(
                   'flex items-center justify-between rounded-0 border-b p-4',
                   {
                     'border-base-200':
-                      x.packageName !== selectedApplication?.packageName,
+                      result.packageName !== selectedApplication?.packageName,
                     'border-brand-200 bg-brand-50':
-                      x.packageName === selectedApplication?.packageName
+                      result.packageName === selectedApplication?.packageName
                   }
                 )}
-                key={x.packageName}
+                key={result.packageName}
                 role="presentation"
                 onClick={() => {
-                  applicationSelected(x);
+                  applicationSelected(result);
                 }}
               >
                 <Radio
-                  id={`radio-${x.packageName}`}
-                  name={x.name}
+                  id={`radio-${result.packageName}`}
+                  name={result.name}
                   description={null}
-                  checked={x.packageName === selectedApplication?.packageName}
+                  checked={
+                    result.packageName === selectedApplication?.packageName
+                  }
                 />
 
                 <div
                   className={twClassNames('flex items-center', {
                     'text-base-500':
-                      x.packageName !== selectedApplication?.packageName,
+                      result.packageName !== selectedApplication?.packageName,
                     'text-brand-600':
-                      x.packageName === selectedApplication?.packageName
+                      result.packageName === selectedApplication?.packageName
                   })}
                 >
                   <div className="text-sm font-normal leading-5">
-                    {x.packageName}
+                    {result.packageName}
                   </div>
                 </div>
               </div>
@@ -143,4 +145,6 @@ export default function SelectApplicationStep({ setShowNewSessionModal }) {
       )}
     </div>
   );
-}
+};
+
+export default SelectApplicationStep;

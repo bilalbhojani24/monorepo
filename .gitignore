@@ -37,6 +37,4 @@ yarn-error.log*
 .turbo
 
 #vscode change
-/.vscode
-
-
+.vscode/

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function useCounter() {
+const useReportLoading = () => {
   const [sessionState, setSessionState] = useState('CONNECTING');
 
   const navigateToPath = useNavigate();
@@ -21,4 +21,6 @@ export default function useCounter() {
   }, []);
 
   return { sessionState, onCancelClicked };
-}
+};
+
+export default useReportLoading;

@@ -6,7 +6,7 @@ import ExistingUserHome from './ExistingUserHome';
 import NewUserHome from './NewUserHome';
 import useHome from './useHome';
 
-export default function Home() {
+const Home = () => {
   const {
     newTestClicked,
     showNewSessionModal,
@@ -33,4 +33,6 @@ export default function Home() {
       />
     </div>
   );
-}
+};
+
+export default Home;

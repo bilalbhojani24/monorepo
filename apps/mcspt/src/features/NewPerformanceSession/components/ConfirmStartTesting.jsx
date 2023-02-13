@@ -10,7 +10,7 @@ import {
 
 import useConfirmStartTesting from './useConfirmStartTesting';
 
-export default function ConfirmStartTesting({ setShowNewSessionModal }) {
+const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
   const { selectedDevice, selectedApp, navigateToStep, startTestSession } =
     useConfirmStartTesting();
 
@@ -107,4 +107,6 @@ export default function ConfirmStartTesting({ setShowNewSessionModal }) {
       </div>
     </div>
   );
-}
+};
+
+export default ConfirmStartTesting;

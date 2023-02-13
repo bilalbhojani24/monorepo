@@ -25,7 +25,7 @@ const sessionStateMap = {
   }
 };
 
-export default function ReportLoading() {
+const ReportLoading = () => {
   const { sessionState, onCancelClicked } = useReportLoading();
 
   return (
@@ -129,4 +129,6 @@ export default function ReportLoading() {
       </div>
     </div>
   );
-}
+};
+
+export default ReportLoading;

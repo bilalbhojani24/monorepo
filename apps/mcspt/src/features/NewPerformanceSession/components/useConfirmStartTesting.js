@@ -7,7 +7,7 @@ import {
   setCurrentSetupStep
 } from '../slices/newPerformanceSessionSlice';
 
-export default function useConfirmStartTesting() {
+const useConfirmStartTesting = () => {
   const selectedDevice = useSelector(getSelectedDevice);
   const selectedApp = useSelector(getSelectedApplication);
 
@@ -24,4 +24,6 @@ export default function useConfirmStartTesting() {
   };
 
   return { selectedDevice, selectedApp, navigateToStep, startTestSession };
-}
+};
+
+export default useConfirmStartTesting;

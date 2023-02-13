@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { getPreviousUserSessions } from '../slices/homeSlice';
 
-export default function useHome() {
+const useHome = () => {
   const [showNewSessionModal, setShowNewSessionModal] = useState(false);
 
   const previousUserSessions = useSelector(getPreviousUserSessions);
@@ -18,4 +18,6 @@ export default function useHome() {
     setShowNewSessionModal,
     previousUserSessions
   };
-}
+};
+
+export default useHome;

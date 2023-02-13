@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useHome(previousUserSessions) {
+const useExistingUserHome = (previousUserSessions) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tableRows, setTableRows] = useState(previousUserSessions);
 
@@ -39,4 +39,6 @@ export default function useHome(previousUserSessions) {
     performSearch,
     sortRows
   };
-}
+};
+
+export default useExistingUserHome;

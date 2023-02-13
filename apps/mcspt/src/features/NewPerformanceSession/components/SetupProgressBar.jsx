@@ -25,63 +25,63 @@ const stepsDetails = [
   }
 ];
 
-export default function SetupProgressBar({ currentStep }) {
-  return (
-    <div className="flex flex-col px-4 py-6">
-      {stepsDetails.map((x) => (
-        <div
-          className={twClassNames('flex', {
-            '-mt-1': x.stepNumber > 1
-          })}
-          key={x.stepNumber}
-        >
-          <div className="mr-4 flex flex-col items-center">
-            <div
-              className={twClassNames('  text-3xl', {
-                '-mb-1': x.stepNumber < 3,
-                'text-brand-600': x.stepNumber <= currentStep,
-                'text-base-300': x.stepNumber > currentStep
-              })}
-            >
-              {(() => {
-                if (x.stepNumber < currentStep) {
-                  return <MdCheckCircle />;
-                }
+const SetupProgressBar = ({ currentStep }) => (
+  <div className="flex flex-col px-4 py-6">
+    {stepsDetails.map((step) => (
+      <div
+        className={twClassNames('flex', {
+          '-mt-1': step.stepNumber > 1
+        })}
+        key={step.stepNumber}
+      >
+        <div className="mr-4 flex flex-col items-center">
+          <div
+            className={twClassNames('  text-3xl', {
+              '-mb-1': step.stepNumber < 3,
+              'text-brand-600': step.stepNumber <= currentStep,
+              'text-base-300': step.stepNumber > currentStep
+            })}
+          >
+            {(() => {
+              if (step.stepNumber < currentStep) {
+                return <MdCheckCircle />;
+              }
 
-                if (x.stepNumber === currentStep) {
-                  return <MdRadioButtonChecked />;
-                }
+              if (step.stepNumber === currentStep) {
+                return <MdRadioButtonChecked />;
+              }
 
-                return <MdOutlineCircle />;
-              })()}
-            </div>
-            <div
-              className={twClassNames('flex h-28 w-px', {
-                hidden: x.stepNumber === 3,
-                'bg-brand-600': x.stepNumber < currentStep,
-                'bg-base-300': x.stepNumber >= currentStep
-              })}
-            />
+              return <MdOutlineCircle />;
+            })()}
           </div>
+          <div
+            className={twClassNames('flex h-28 w-px', {
+              hidden: step.stepNumber === 3,
+              'bg-brand-600': step.stepNumber < currentStep,
+              'bg-base-300': step.stepNumber >= currentStep
+            })}
+          />
+        </div>
 
-          <div>
-            <div
-              className={twClassNames(
-                'text-xs font-semibold uppercase leading-4 tracking-wide ',
-                {
-                  'text-brand-600': x.stepNumber === currentStep,
-                  'text-base-500': x.stepNumber > currentStep
-                }
-              )}
-            >
-              {x.stepTitle}
-            </div>
-            <div className="text-base-500 text-sm font-normal leading-5">
-              {x.stepDesc}
-            </div>
+        <div>
+          <div
+            className={twClassNames(
+              'text-xs font-semibold uppercase leading-4 tracking-wide ',
+              {
+                'text-brand-600': step.stepNumber === currentStep,
+                'text-base-500': step.stepNumber > currentStep
+              }
+            )}
+          >
+            {step.stepTitle}
+          </div>
+          <div className="text-base-500 text-sm font-normal leading-5">
+            {step.stepDesc}
           </div>
         </div>
-      ))}
-    </div>
-  );
-}
+      </div>
+    ))}
+  </div>
+);
+
+export default SetupProgressBar;

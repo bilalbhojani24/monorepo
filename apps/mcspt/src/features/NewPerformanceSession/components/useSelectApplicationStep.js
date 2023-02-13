@@ -45,7 +45,7 @@ const lisOfApplications = [
   }
 ];
 
-export default function useSelectApplicationStep() {
+const useSelectApplicationStep = () => {
   const [areApplicationsStillLoading, setareApplicationsStillLoading] =
     useState(true);
 
@@ -90,4 +90,6 @@ export default function useSelectApplicationStep() {
     applicationSelected,
     navigateToStep
   };
-}
+};
+
+export default useSelectApplicationStep;

@@ -11,7 +11,7 @@ import { twClassNames } from '../../../utils/tailwindUtils';
 
 import useSelectDeviceStep from './useSelectDeviceStep';
 
-export default function NewPerformanceSessionModal({ setShowNewSessionModal }) {
+const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
   const {
     areDevicesStillLoading,
     listOfDevices,
@@ -55,40 +55,45 @@ export default function NewPerformanceSessionModal({ setShowNewSessionModal }) {
       {!areDevicesStillLoading && (
         <div className="relative flex flex-1 flex-col">
           <div className="flex flex-1 flex-col p-4">
-            {listOfDevices.map((x) => (
+            {listOfDevices.map((device) => (
               <div
                 className={twClassNames(
                   ' mb-2.5 flex items-center justify-between rounded border p-4',
                   {
-                    'border-base-200': x.deviceId !== selectedDevice?.deviceId,
+                    'border-base-200':
+                      device.deviceId !== selectedDevice?.deviceId,
                     'border-brand-200 bg-brand-50':
-                      x.deviceId === selectedDevice?.deviceId
+                      device.deviceId === selectedDevice?.deviceId
                   }
                 )}
-                key={x.deviceId}
+                key={device.deviceId}
                 role="presentation"
                 onClick={() => {
-                  deviceSelected(x);
+                  deviceSelected(device);
                 }}
               >
                 <Radio
-                  id={`radio-${x.deviceId}`}
-                  name={x.model}
+                  id={`radio-${device.deviceId}`}
+                  name={device.model}
                   description={null}
-                  checked={x.deviceId === selectedDevice?.deviceId}
+                  checked={device.deviceId === selectedDevice?.deviceId}
                 />
 
                 <div
                   className={twClassNames('flex items-center', {
-                    'text-base-500': x.deviceId !== selectedDevice?.deviceId,
-                    'text-brand-600': x.deviceId === selectedDevice?.deviceId
+                    'text-base-500':
+                      device.deviceId !== selectedDevice?.deviceId,
+                    'text-brand-600':
+                      device.deviceId === selectedDevice?.deviceId
                   })}
                 >
                   <div className="mr-2 text-lg">
                     <MdAndroid />
                   </div>
 
-                  <div className="text-sm font-normal leading-5">{x.os}</div>
+                  <div className="text-sm font-normal leading-5">
+                    {device.os}
+                  </div>
                 </div>
               </div>
             ))}
@@ -110,4 +115,6 @@ export default function NewPerformanceSessionModal({ setShowNewSessionModal }) {
       )}
     </div>
   );
-}
+};
+
+export default NewPerformanceSessionModal;

@@ -5,11 +5,11 @@ import useDashboard from './useDashboard';
 
 import '../styles/Dashboard.scss';
 
-export default function Dashboard({ children }) {
+const Dashboard = ({ children }) => {
   useDashboard();
 
   return <>{children}</>;
-}
+};
 
 Dashboard.propTypes = {
   children: PropTypes.node
@@ -18,3 +18,5 @@ Dashboard.propTypes = {
 Dashboard.defaultProps = {
   children: null
 };
+
+export default Dashboard;
