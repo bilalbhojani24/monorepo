@@ -36,8 +36,9 @@ const defaultConfig = {
       defaultValue: false
     },
     label: {
-      option: { type: 'string' },
+      control: { type: 'text' },
       defaultValue: 'Assigned to',
+      type: { summary: 'TEXT', required: false },
       description: 'Description for selectMenu'
     },
     onChange: {
@@ -61,6 +62,11 @@ const defaultConfig = {
       description:
         'Default selected values for the selectMenu, and the value state will be controlled externally',
       defaultValue: undefined
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Classes to be passed to base SelectMenu component'
     }
   },
   controls: {}
