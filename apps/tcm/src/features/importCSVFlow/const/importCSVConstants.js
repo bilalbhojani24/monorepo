@@ -34,6 +34,42 @@ export const ENCODING = [
   { label: 'Windows-1252', value: 'Windows-1252' }
 ];
 
+export const MAP_FIELD_COLUMNS = [
+  {
+    name: 'CSV Column Header',
+    key: 'field'
+  },
+  {
+    name: 'Test Management Fields',
+    key: 'mappedField'
+  },
+  {
+    name: 'Value Mapping',
+    key: 'mappedValue'
+  }
+];
+
+export const MAP_MODAL_COLUMNS = [
+  {
+    name: 'CSV Values',
+    key: 'csvValue'
+  },
+  {
+    name: 'System Values',
+    key: 'systemValue'
+  }
+];
+
+export const VALUE_MAPPING_OPTIONS = {
+  PRIORITY: [
+    { label: 'High', value: 'High' },
+    { label: 'Medium', value: 'Medium' },
+    { label: 'Low', value: 'Low' },
+    { label: 'Ignore', value: 'Ignore' },
+    { label: 'Create new one', value: 'Create new one' }
+  ]
+};
+
 // export const IMPORT_FROM_TOOL = 'import-from-tool';
 // export const UPLOAD_FILE = 'upload-file';
 // export const TEST_RAILS = 'testrails';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { ExpandLessOutlinedIcon, ExpandMoreOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
   TMAttachments,
@@ -42,7 +43,7 @@ const UploadFile = () => {
   };
 
   return (
-    <div className="border-base-200 m-4 flex w-4/5 flex-col self-center rounded-md border-2 border-solid bg-white p-6">
+    <div className="border-base-200 m-4 w-4/5 rounded-md border-2 border-solid bg-white p-6">
       {csvUploadError && (
         <div className="mb-3">
           <TMAlerts
@@ -61,11 +62,7 @@ const UploadFile = () => {
         variant="buttons"
         trailingHeadNode={
           <>
-            <TMButton
-              variant="primary"
-              colors="white"
-              onClick={handleProceedClick}
-            >
+            <TMButton variant="primary" onClick={handleProceedClick}>
               Proceed
             </TMButton>
           </>
@@ -100,9 +97,24 @@ const UploadFile = () => {
         </span>{' '}
         with instructions.
       </div>
-      <TMButton wrapperClassName="mt-8" onClick={handleShowMoreFields}>
-        Show more fields
-      </TMButton>
+      <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
+        <TMButton
+          onClick={handleShowMoreFields}
+          colors="white"
+          variant="rounded"
+          wrapperClassName="w-44 relative pr-2 z-[1] bg-white"
+          iconPlacement="end"
+          icon={
+            showMoreFields ? (
+              <ExpandLessOutlinedIcon className="!h-4 !w-4" />
+            ) : (
+              <ExpandMoreOutlinedIcon className="!h-4 !w-4" />
+            )
+          }
+        >
+          Show {showMoreFields ? 'Less' : 'More'} Fields
+        </TMButton>
+      </div>
       {showMoreFields && <CSVForm />}
     </div>
   );
