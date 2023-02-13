@@ -44,7 +44,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <header className="h-16" />
+      <header className="absolute h-16">BrowserStack Header</header>
       <ASSidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         wrapperClassName="bg-white pt-16"
@@ -52,7 +52,7 @@ export default function Dashboard({ children }) {
       <main
         className={`${
           isSidebarCollapsed ? 'pl-0' : 'pl-64'
-        } bg-base-50 h-screen`}
+        } bg-base-50 mt-16 h-screen`}
       >
         {children}
       </main>

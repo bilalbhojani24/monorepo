@@ -36,10 +36,12 @@ export default function ReportRow({ id }) {
   const activeVersion = useSelector(getActiveVersion);
   const isSelectionMode = useSelector(getIsSelectionMode);
   const navigate = useNavigate();
+
   const onReportCheckBoxClick = (event) => {
     const isChecked = event.target.checked;
     dispatch(setIsReportSelected({ id, isSelected: isChecked }));
   };
+
   const onReportClick = (e) => {
     if (e.target.id === 'checkbox') {
       return;
@@ -126,7 +128,10 @@ export default function ReportRow({ id }) {
             {pageCount} pages, {componentCount} components
           </p>
         </div>
-        <div className="flex items-center" style={{ minWidth: '427px' }}>
+        <div
+          className="hidden items-center xl:flex"
+          style={{ minWidth: '427px' }}
+        >
           {issueTypes.map(({ modifier, type }) => (
             <div className="mr-2" key={type}>
               <ASBadge

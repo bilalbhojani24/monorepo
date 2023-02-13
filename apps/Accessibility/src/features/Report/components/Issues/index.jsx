@@ -206,14 +206,14 @@ export default function Issues() {
                 </ASButton>
               ))}
             </div>
-            <ASSelectMenu
-              isMultiSelect
-              onChange={onUpdateImpact}
-              options={severityOptions}
-              placeholder="Severity"
-              value={reportFilters.impact}
-            />
             <div className="flex">
+              <ASSelectMenu
+                isMultiSelect
+                onChange={onUpdateImpact}
+                options={severityOptions}
+                placeholder="Severity"
+                value={reportFilters.impact}
+              />
               {!showHiddenIssues && (
                 <ASButton
                   icon={<MdFilterAlt className="text-xl" />}

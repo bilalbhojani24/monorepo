@@ -98,6 +98,14 @@ export default function Reports() {
               description="Download the Accessibility Toolkit extension from Chrome Web Store
           to scan your workflows for accessibility issues."
               isDismissButton
+              bannerIcon={
+                <img
+                  src={Logo}
+                  alt="accessibility logo"
+                  height={24}
+                  width={24}
+                />
+              }
               ctaButton={
                 <ASButton
                   onClick={onDownloadExtensionClick}
