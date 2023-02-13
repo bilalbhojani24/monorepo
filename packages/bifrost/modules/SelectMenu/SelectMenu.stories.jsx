@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -36,10 +36,9 @@ const defaultConfig = {
       defaultValue: false
     },
     label: {
-      type: { summary: 'STRING', required: false },
-      description: 'Label for select menu',
-      control: { type: 'text' },
-      defaultValue: 'Assigned To'
+      option: { type: 'string' },
+      defaultValue: 'Assigned to',
+      description: 'Description for selectMenu'
     },
     onChange: {
       option: { type: null },
@@ -49,6 +48,8 @@ const defaultConfig = {
       }
     },
     options: {
+      options: SELECT_OPTIONS,
+      description: 'options for the selectMenu, array of objects',
       defaultValue: SELECT_OPTIONS
     },
     placeholder: {
@@ -60,11 +61,6 @@ const defaultConfig = {
       description:
         'Default selected values for the selectMenu, and the value state will be controlled externally',
       defaultValue: undefined
-    },
-    wrapperClassName: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Classes to be passed to base SelectMenu component'
     }
   },
   controls: {}
@@ -79,6 +75,18 @@ const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
+};
+
+export const ControlledSelectMenu = () => {
+  const [selected, setSelected] = useState([]);
+  return (
+    <SelectMenu
+      options={SELECT_OPTIONS}
+      onChange={(val) => setSelected(val)}
+      value={selected}
+      isMultiSelect
+    />
+  );
 };
 
 export default defaultConfig;
