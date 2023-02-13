@@ -11,12 +11,14 @@ import {
   TMTableRow
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
-  const { projectId, allTestRuns, currentTab, isTestRunsLoading, metaPage } =
+  const { projectId, allTestRuns, isTestRunsLoading, metaPage, getOptions } =
     useTestRunsTable();
 
   const tableColumns = [
@@ -55,7 +57,23 @@ const TestRunsTable = () => {
     {
       name: 'OVERALL PROGRESS',
       key: '',
-      cell: () => <div />
+      cell: (rowData) => {
+        const totalValue = Object.values(rowData.overall_progress).reduce(
+          (total, num) => total + num,
+          0
+        );
+        const untestedPerc =
+          100 - (rowData.overall_progress.untested / totalValue) * 100;
+        return (
+          <div className="flex w-48 items-center">
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={getOptions(rowData)}
+            />
+            <span className="text-base-500 ml-1">{untestedPerc}%</span>
+          </div>
+        );
+      }
     },
     {
       name: '',
