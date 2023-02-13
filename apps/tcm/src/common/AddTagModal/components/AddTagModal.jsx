@@ -49,7 +49,7 @@ const AddTagModal = ({
         <TMInputWButton
           id="tag-name"
           value={enteredTag}
-          onKeyDown={onSubmitKeyHandler(addTagHandler)}
+          onKeyDown={(e) => onSubmitKeyHandler(e, addTagHandler)}
           onButtonClick={addTagHandler}
           buttonElement="Add Tag"
           label="Tag Name"

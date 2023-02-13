@@ -11,6 +11,8 @@ import {
   // TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
+
 
 import useAddIssuesModal from './useAddIssuesModal';
 
@@ -75,6 +77,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                       label="Issue IDs"
                       errorText={errorText}
                       value={enterdIssueIDs}
+                      onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
                       onChange={(e) => {
                         setIssueIds(e.currentTarget.value);
                       }}
