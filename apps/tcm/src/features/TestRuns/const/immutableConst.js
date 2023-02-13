@@ -49,6 +49,7 @@ export const CHART_OPTIONS = {
   plotOptions: {
     series: {
       // animation: false,
+      borderWidth: 0,
       stacking: 'normal',
       dataLabels: {
         enabled: false
@@ -65,6 +66,7 @@ export const CHART_OPTIONS = {
     enabled: false
   },
   tooltip: {
+    useHTML: true,
     outside: true,
     enabled: true,
     backgroundColor: '#00335D',

@@ -4,7 +4,7 @@ import { getJIRAConfigAPI } from 'api/common.api';
 import { setUserConfig } from 'globalSlice';
 import { splitStringToArray } from 'utils/helperFunctions';
 
-import { CREATE_ISSUE_URL } from '../const/addIssueConst';
+import { CONFIGURE_JIRA_URL, CREATE_ISSUE_URL } from '../const/addIssueConst';
 
 const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +46,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   const configureJIRAInit = () => {
-    window.open(`https://www.browserstack.com/accounts/profile/integrations`);
+    window.open(CONFIGURE_JIRA_URL);
     onCloseHandler();
   };
 

@@ -46,12 +46,12 @@ const useTestRuns = () => {
       tooltip: {
         ...CHART_OPTIONS.tooltip,
         formatter() {
-          return `<b>${this.x}</b>
+          return `<div><b>${this.x}</b></div>
                   <span style="color:${
                     this.point.color
                   }">\u25CF</span> <span class="whitespace-nowrap">${
             this.series.name
-          } ${this.y}(${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
+          } ${this.y} (${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
         }
       }
     };
