@@ -10,7 +10,6 @@ module.exports = {
       }
     ],
     'tailwindcss/no-arbitrary-value': 0,
-    'react/prop-types': 0,
     'global-require': 0
   }
 };

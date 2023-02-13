@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import useDashboard from './useDashboard';
 
-import '../styles/Dashboard.scss';
-
 const Dashboard = ({ children }) => {
   useDashboard();
 

@@ -8,7 +8,7 @@ import useHome from './useHome';
 
 const Home = () => {
   const {
-    newTestClicked,
+    newTestClickHandler,
     showNewSessionModal,
     setShowNewSessionModal,
     previousUserSessions
@@ -18,13 +18,13 @@ const Home = () => {
     <div id="home-container" className="">
       {previousUserSessions?.length > 0 && (
         <ExistingUserHome
-          newTestClicked={newTestClicked}
+          newTestClickHandler={newTestClickHandler}
           previousUserSessions={previousUserSessions}
         />
       )}
 
       {previousUserSessions?.length === 0 && (
-        <NewUserHome newTestClicked={newTestClicked} />
+        <NewUserHome newTestClickHandler={newTestClickHandler} />
       )}
 
       <NewPerformanceSessionModal

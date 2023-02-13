@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import useExistingUserHome from './useExistingUserHome';
 
@@ -56,7 +57,7 @@ const columns = [
   }
 ];
 
-const ExistingUserHome = ({ newTestClicked, previousUserSessions }) => {
+const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
   const { searchTerm, tableRows, performSearch, sortRows } =
     useExistingUserHome(previousUserSessions);
 
@@ -74,7 +75,7 @@ const ExistingUserHome = ({ newTestClicked, previousUserSessions }) => {
             size="large"
             colors="brand"
             variant="primary"
-            onClick={newTestClicked}
+            onClick={newTestClickHandler}
           >
             New Test
           </Button>
@@ -135,6 +136,16 @@ const ExistingUserHome = ({ newTestClicked, previousUserSessions }) => {
       </Table>
     </div>
   );
+};
+
+ExistingUserHome.propTypes = {
+  newTestClickHandler: PropTypes.func,
+  previousUserSessions: PropTypes.arrayOf({})
+};
+
+ExistingUserHome.defaultProps = {
+  newTestClickHandler: () => {},
+  previousUserSessions: []
 };
 
 export default ExistingUserHome;

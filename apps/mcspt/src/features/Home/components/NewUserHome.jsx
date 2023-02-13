@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 const columns = [
   {
@@ -78,7 +79,7 @@ const rows = [
   }
 ];
 
-const NewUserHome = ({ newTestClicked }) => (
+const NewUserHome = ({ newTestClickHandler }) => (
   <div className="flex flex-col items-center p-16">
     <div className="mb-2 text-lg font-semibold uppercase leading-6 tracking-wider">
       WELCOME TO
@@ -100,7 +101,7 @@ const NewUserHome = ({ newTestClicked }) => (
       size="default"
       colors="brand"
       variant="primary"
-      onClick={newTestClicked}
+      onClick={newTestClickHandler}
     >
       New Test
     </Button>
@@ -140,5 +141,13 @@ const NewUserHome = ({ newTestClicked }) => (
     </Table>
   </div>
 );
+
+NewUserHome.propTypes = {
+  newTestClickHandler: PropTypes.func
+};
+
+NewUserHome.defaultProps = {
+  newTestClickHandler: () => {}
+};
 
 export default NewUserHome;

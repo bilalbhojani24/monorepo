@@ -7,6 +7,7 @@ import {
   MdClose,
   MdPhoneAndroid
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import useConfirmStartTesting from './useConfirmStartTesting';
 
@@ -21,9 +22,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           <div className="text-xl font-bold">Start Testing</div>
           <div className="text-base-600 text-2xl">
             <MdClose
-              onClick={() => {
-                setShowNewSessionModal((value) => !value);
-              }}
+              onClick={() => setShowNewSessionModal((value) => !value)}
             />
           </div>
         </div>
@@ -55,9 +54,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
                 <div className="text-base font-medium leading-6">Change</div>
               </div>
             }
-            onButtonClick={() => {
-              navigateToStep(1);
-            }}
+            onButtonClick={() => navigateToStep(1)}
             value={selectedDevice?.model}
             readOnly
           />
@@ -75,9 +72,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
                 <div className="text-base font-medium leading-6">Change</div>
               </div>
             }
-            onButtonClick={() => {
-              navigateToStep(2);
-            }}
+            onButtonClick={() => navigateToStep(2)}
             value={`${selectedApp?.name}-v${selectedApp?.version}`}
             readOnly
           />
@@ -89,9 +84,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           size="large"
           colors="white"
           variant="primary"
-          onClick={() => {
-            navigateToStep(2);
-          }}
+          onClick={() => navigateToStep(2)}
         >
           Back
         </Button>
@@ -107,6 +100,14 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
       </div>
     </div>
   );
+};
+
+ConfirmStartTesting.propTypes = {
+  setShowNewSessionModal: PropTypes.func
+};
+
+ConfirmStartTesting.defaultProps = {
+  setShowNewSessionModal: () => {}
 };
 
 export default ConfirmStartTesting;

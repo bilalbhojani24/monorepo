@@ -15,8 +15,8 @@ const useConfirmStartTesting = () => {
 
   const navigateToPath = useNavigate();
 
-  const navigateToStep = (x) => {
-    dispatch(setCurrentSetupStep(x));
+  const navigateToStep = (stepNumber) => {
+    dispatch(setCurrentSetupStep(stepNumber));
   };
 
   const startTestSession = () => {

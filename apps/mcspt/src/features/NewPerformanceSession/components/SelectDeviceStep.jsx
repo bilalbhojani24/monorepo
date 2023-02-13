@@ -6,6 +6,7 @@ import {
   MdHourglassEmpty,
   Radio
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../../utils/tailwindUtils';
 
@@ -27,9 +28,7 @@ const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
           <div className="text-xl font-bold">Select a device</div>
           <div className="text-base-600 text-2xl">
             <MdClose
-              onClick={() => {
-                setShowNewSessionModal((value) => !value);
-              }}
+              onClick={() => setShowNewSessionModal((value) => !value)}
             />
           </div>
         </div>
@@ -115,6 +114,14 @@ const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
       )}
     </div>
   );
+};
+
+NewPerformanceSessionModal.propTypes = {
+  setShowNewSessionModal: PropTypes.func
+};
+
+NewPerformanceSessionModal.defaultProps = {
+  setShowNewSessionModal: () => {}
 };
 
 export default NewPerformanceSessionModal;

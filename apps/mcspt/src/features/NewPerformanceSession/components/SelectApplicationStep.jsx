@@ -7,6 +7,7 @@ import {
   MdSearch,
   Radio
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import { twClassNames } from '../../../utils/tailwindUtils';
 
@@ -30,9 +31,7 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
           <div className="text-xl font-bold">Select Application</div>
           <div className="text-base-600 text-2xl">
             <MdClose
-              onClick={() => {
-                setShowNewSessionModal((value) => !value);
-              }}
+              onClick={() => setShowNewSessionModal((value) => !value)}
             />
           </div>
         </div>
@@ -122,9 +121,7 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
               size="large"
               colors="white"
               variant="primary"
-              onClick={() => {
-                navigateToStep(1);
-              }}
+              onClick={() => navigateToStep(1)}
             >
               Back
             </Button>
@@ -133,9 +130,7 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
               size="large"
               colors="brand"
               variant="primary"
-              onClick={() => {
-                navigateToStep(3);
-              }}
+              onClick={() => navigateToStep(3)}
               disabled={!selectedApplication}
             >
               Test with selected application
@@ -145,6 +140,14 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
       )}
     </div>
   );
+};
+
+SelectApplicationStep.propTypes = {
+  setShowNewSessionModal: PropTypes.func
+};
+
+SelectApplicationStep.defaultProps = {
+  setShowNewSessionModal: () => {}
 };
 
 export default SelectApplicationStep;

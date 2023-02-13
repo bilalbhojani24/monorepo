@@ -8,12 +8,12 @@ const useHome = () => {
 
   const previousUserSessions = useSelector(getPreviousUserSessions);
 
-  const newTestClicked = () => {
+  const newTestClickHandler = () => {
     setShowNewSessionModal(true);
   };
 
   return {
-    newTestClicked,
+    newTestClickHandler,
     showNewSessionModal,
     setShowNewSessionModal,
     previousUserSessions
