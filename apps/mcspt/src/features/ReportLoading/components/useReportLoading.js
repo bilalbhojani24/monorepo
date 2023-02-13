@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+
 const useReportLoading = () => {
-  const [sessionState, setSessionState] = useState('CONNECTING');
+  const [sessionState, setSessionState] = useState(
+    REPORT_LOADING_STATES.CONNECTING
+  );
 
   const navigateToPath = useNavigate();
 
@@ -12,11 +16,11 @@ const useReportLoading = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setSessionState('LAUNCHING');
+      setSessionState(REPORT_LOADING_STATES.LAUNCHING);
     }, 3000);
 
     setTimeout(() => {
-      setSessionState('RECORDING');
+      setSessionState(REPORT_LOADING_STATES.RECORDING);
     }, 6000);
   }, []);
 
