@@ -91,9 +91,14 @@ const useMapFields = ({
 
   const allowedValueMapper = defaultFields.reduce((mapObject, field) => {
     const { name } = field;
-    const { type } = field;
-    const allowedValue = field.allowed_types;
-    return { ...mapObject, ...{ key: { name, type }, value: allowedValue } };
+    const allowedValueDisplayOptions = field.allowed_types?.map((item) => ({
+      label: item.display_name,
+      value: item.display_name
+    }));
+    return {
+      ...mapObject,
+      [name]: { allowedValueDisplayOptions, allowedValue: field.allowed_types }
+    };
   }, {});
 
   if (myFieldMappings && Object.keys(myFieldMappings).length) {
@@ -111,9 +116,13 @@ const useMapFields = ({
   }
 
   const handleSelectMenuChange = (field) => (d) => {
-    dispatch(
-      setFieldsMapping({ key: field, value: mapDisplayToName[d.label] })
-    );
+    if (d.label === 'Add')
+      dispatch(setFieldsMapping({ key: field, value: { action: 'add' } }));
+    else
+      dispatch(
+        setFieldsMapping({ key: field, value: mapDisplayToName[d.label] })
+      );
+    // dispatch value mappings
   };
 
   const handleUpdateClick = (value) => () => {
@@ -127,7 +136,12 @@ const useMapFields = ({
     );
   };
 
+  const handleMappingProceedClick = () => {
+    dispatch(submitMappingData({ importId }));
+  };
+
   return {
+    allowedValueMapper,
     displayOptions,
     mapNameToDisplay,
     mapDisplayToName,
@@ -136,7 +150,8 @@ const useMapFields = ({
     rowRef,
     valueMappings,
     handleSelectMenuChange,
-    handleUpdateClick
+    handleUpdateClick,
+    handleMappingProceedClick
   };
 };
 

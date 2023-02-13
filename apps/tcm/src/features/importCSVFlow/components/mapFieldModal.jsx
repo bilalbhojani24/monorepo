@@ -32,7 +32,8 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
   if (value && Object.keys(value)?.length > 0) {
     rowRef.current = Object.keys(value)?.map((field) => ({
       displayOptions: VALUE_MAPPING_OPTIONS[key.toUpperCase()],
-      csvValue: field
+      csvValue: field,
+      defaultSelected: { [field]: { label: field, value: field } }
     }));
   }
 
@@ -73,6 +74,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                   <TMSelectMenu
                     checkPosition="right"
                     options={row?.displayOptions}
+                    defaultValue={row?.defaultSelected[row.csvValue]}
                     /* eslint-disable react/jsx-props-no-spreading */
                     // {...(row.mappedField.defaultValue.label && {
                     //   defaultValue: row.mappedField.defaultValue
