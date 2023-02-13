@@ -35,8 +35,6 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "prettier": "^2.8.2",
-    "mini-css-extract-plugin": "^2.7.2",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/vite-config": "workspace:*",
@@ -53,11 +51,14 @@
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@vitejs/plugin-react": "^3.0.0",
+    "chromatic": "^6.17.0",
     "component-file-generator": "0.5.2",
     "css-loader": "6.7.2",
+    "mini-css-extract-plugin": "^2.7.2",
     "postcss": "8.4.20",
     "postcss-loader": "7.0.2",
     "postcss-preset-env": "^7.8.3",
+    "prettier": "^2.8.2",
     "sass": "^1.57.1",
     "storybook-addon-sass-postcss": "^0.1.3",
     "style-loader": "^3.3.1",
