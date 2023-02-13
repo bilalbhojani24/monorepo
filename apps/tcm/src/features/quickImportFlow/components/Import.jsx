@@ -4,7 +4,11 @@ import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 
 import { IMPORT_STEPS } from '../const/importSteps';
-import { setImportSteps, setNotificationData } from '../slices/importSlice';
+import {
+  setImportSteps,
+  setNotificationData,
+  setTestRailsCred
+} from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -18,6 +22,7 @@ const Import = () => {
     currentScreen,
     testManagementProjects,
     allImportSteps,
+    getUserEmail,
     importStatus
   } = useImport();
 
@@ -33,7 +38,8 @@ const Import = () => {
   useEffect(() => {
     dispatch(setImportSteps(IMPORT_STEPS));
     dispatch(setNotificationData(null));
-  }, [dispatch]);
+    dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
+  }, [dispatch, getUserEmail]);
 
   if (!importStatus || importStatus === 'ongoing')
     return (

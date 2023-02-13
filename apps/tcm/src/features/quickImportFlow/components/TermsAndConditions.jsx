@@ -5,15 +5,21 @@ const TermsAndConditions = () => (
   <div className="text-base-500 mt-6 text-xs">
     <div>
       By continuing, you agree to our{' '}
-      <span className="text-base-700">Terms and Conditions</span> &
-      <span className="text-base-700"> Privacy Policy</span>
+      <a className="text-base-700" href="https://www.browserstack.com/terms">
+        Terms and Conditions
+      </a>{' '}
+      &
+      <a className="text-base-700" href="https://www.browserstack.com/privacy">
+        {' '}
+        Privacy Policy
+      </a>
     </div>
     <div>
       Learn more about importing your data{' '}
-      <span className="text-base-700">
+      <a className="text-base-700" href="https://www.browserstack.com/docs/">
         Read Documentation
         <ArrowForwardIcon fontSize="inherit" />
-      </span>
+      </a>
     </div>
   </div>
 );

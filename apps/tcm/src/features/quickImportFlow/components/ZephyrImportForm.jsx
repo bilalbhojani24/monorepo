@@ -72,6 +72,7 @@ const ZephyrImportForm = (props) => {
           <div className="w-full">
             <TMInputField
               id="jira-api-token"
+              type="password"
               onChange={handleInputFieldChange('jira_key')}
               value={zephyrCred.jira_key}
               label={
@@ -125,6 +126,7 @@ const ZephyrImportForm = (props) => {
           <div className="w-full">
             <TMInputField
               id="zephyr-api-token"
+              type="password"
               onChange={handleInputFieldChange('zephyr_key')}
               value={zephyrCred.zephyr_key}
               label={
