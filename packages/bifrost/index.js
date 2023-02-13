@@ -10,6 +10,7 @@ import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import Draggble from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
 import DropdownTriggerWText from './modules/DropdownTriggerWText';
@@ -93,6 +94,7 @@ export {
   ComboBox,
   DataVisualization,
   DescriptionList,
+  Draggble,
   Dropdown,
   DropdownTriggerWIcon,
   DropdownTriggerWText,
