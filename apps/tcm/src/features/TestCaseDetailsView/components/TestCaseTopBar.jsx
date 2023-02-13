@@ -39,7 +39,7 @@ const TestCaseTopBar = () => {
                     <CopyButton copyValue={testCaseDetails?.identifier}>
                       Copy ID
                     </CopyButton>
-                    <CopyButton copyValue={"https://teststack.bsstag.com" + testCaseDetails?.links?.self?.slice(7,)}>
+                    <CopyButton copyValue={window.location.href + testCaseDetails?.links?.self?.slice(7,)}>
                       Copy URL
                     </CopyButton>
                   </div>
