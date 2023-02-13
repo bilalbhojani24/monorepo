@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@browserstack/bifrost": "workspace:*",
-    "@browserstack/utils": "workspace:*",
     "@browserstack/hooks": "workspace:*",
+    "@browserstack/utils": "workspace:*",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
@@ -26,6 +26,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.2",
     "classnames": "^2.2.6",
+    "highcharts": "^10.3.3",
     "highcharts-react-official": "^3.1.0",
     "moment": "^2.29.4",
     "prop-types": "15.8.1",
