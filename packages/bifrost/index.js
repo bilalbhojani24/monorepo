@@ -10,6 +10,7 @@ import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import Draggble from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
@@ -90,6 +91,7 @@ export {
   ComboBox,
   DataVisualization,
   DescriptionList,
+  Draggble,
   Dropdown,
   EmptyState,
   EmptyStateWRecommendation,

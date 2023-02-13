@@ -28,6 +28,7 @@
     "classnames": "^2.2.6",
     "mini-css-extract-plugin": "^2.7.2",
     "prettier": "^2.8.2",
+    "react-draggable": "^4.4.5",
     "react-hot-toast": "2.4.0",
     "react-icons": "^4.7.1",
     "tailwind-merge": "^1.8.1"
