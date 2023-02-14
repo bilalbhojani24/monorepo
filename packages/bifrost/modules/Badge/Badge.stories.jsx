@@ -1,45 +1,54 @@
 import React from 'react';
-import Badge from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { BADGE_SIZE, BADGE_MODIFIER } from './const/badgeConstants';
+
+import { BADGE_MODIFIER, BADGE_SIZE } from './const/badgeConstants';
+import Badge from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Badge',
   component: Badge,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Badge from 'bifrost/Badge'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Badge from 'bifrost/Badge'"}
+        />
+      )
     }
   },
   argTypes: {
     hasDot: {
       control: { type: 'boolean' },
-      description: 'Lorem Ipsum',
+      description: 'Shows dot on left hand side',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: { summary: 'false' }
     },
     hasRemoveButton: {
       control: { type: 'boolean' },
-      description: 'Lorem Ipsum',
+      description: 'Cross icon on right hand side',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: { summary: 'false' }
     },
     isRounded: {
       control: { type: 'boolean' },
-      description: 'Lorem Ipsum',
+      description: 'Lorem',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: { summary: 'false' }
     },
     modifier: {
       options: BADGE_MODIFIER,
       control: { type: 'select' },
-      description: 'Lorem Ipsum',
+      description: 'Ipsum',
       type: { summary: 'STRING', required: false },
       defaultValue: BADGE_MODIFIER[0]
     },
     onClose: {
+      control: { type: null },
+      description: 'Lorem',
+      type: { summary: 'FUNCTION', required: false }
+    },
+    onClick: {
       control: { type: null },
       description: 'Lorem Ipsum',
       type: { summary: 'FUNCTION', required: false }

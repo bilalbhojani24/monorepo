@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Dropdown from '../Dropdown';
 import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
+import { MdFolderSpecial } from '../Icon';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 
@@ -118,7 +119,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
 
   return (
     <>
-      {data.map((item) => (
+      {data.map((item, index) => (
         <ListTree
           key={item.name}
           indentationLevel={indent}
@@ -144,6 +145,9 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
               }
               setOpenNodeMap({ ...openNodeMap });
             }}
+            leadingIcon={
+              index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />
+            }
             trailingVisualElement={
               <Dropdown
                 wrapperClassName="flex"

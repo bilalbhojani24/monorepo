@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext, useEffect } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import { XMarkIcon } from '../Icon';
 
 import './styles.scss';
 
-const Notifications = (props) => {
+const Notifications = forwardRef((props, ref) => {
   const {
     actionButtons,
     description,
@@ -18,6 +18,10 @@ const Notifications = (props) => {
   } = props;
 
   const toastCtx = useContext(NotificationsContextData);
+
+  useEffect(() => {
+    if (ref && ref.current !== null) ref.current.focus();
+  }, [ref]);
 
   return (
     <div className="pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5">
@@ -54,7 +58,7 @@ const Notifications = (props) => {
       </div>
     </div>
   );
-};
+});
 
 Notifications.propTypes = {
   actionButtons: PropTypes.func,

@@ -13,7 +13,6 @@ import {
   shape,
   string
 } from '../../shared/proptypesConstants';
-import Checkbox from '../Checkbox';
 
 import { CHECK_POSITION } from './const/selectMenuConstants';
 
@@ -62,6 +61,7 @@ const SelectMenu = (props) => {
         if (onChange) onChange(val);
       }}
       multiple={isMultiSelect}
+      by={(o, n) => o.value === n.value}
     >
       {({ open }) => (
         <div className={wrapperClassName}>
@@ -71,7 +71,7 @@ const SelectMenu = (props) => {
             </Listbox.Label>
           )}
           <div className="relative">
-            <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:ring-1 sm:text-sm">
+            <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm">
               {({ value: buttonValue }) => (
                 <>
                   <span className="flex items-center truncate">
@@ -167,15 +167,21 @@ const SelectMenu = (props) => {
                             )}
                           </div>
                         ) : (
-                          <Checkbox
-                            data={{
-                              label: option.label,
-                              value: option.value
-                            }}
-                            border={false}
-                            wrapperClassName="py-0"
-                            checked={selected}
-                          />
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              id={option.name}
+                              className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                              readOnly
+                            />
+                            <label
+                              htmlFor={option.name}
+                              className="cursor-pointer"
+                            >
+                              {option.label}
+                            </label>
+                          </div>
                         )}
                       </>
                     )}
