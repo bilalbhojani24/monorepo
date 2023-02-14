@@ -5,6 +5,7 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 
 import {
   number,
+  oneOf,
   oneOfType,
   shape,
   string
@@ -14,8 +15,8 @@ import { CHECK_POSITION } from '../SelectMenu/const/selectMenuConstants';
 
 import './styles.scss';
 
-const SelectMenuOption = ({ option, wrapperClassName }) => {
-  const { isMulti, checkPosition } = useContext(SelectMenuContextData);
+const SelectMenuOption = ({ checkPosition, option, wrapperClassName }) => {
+  const selectMenuCtx = useContext(SelectMenuContextData);
 
   return (
     <Listbox.Option
@@ -23,11 +24,13 @@ const SelectMenuOption = ({ option, wrapperClassName }) => {
       className={({ active }) =>
         twClassNames(
           {
-            'bg-brand-600 text-white': active && !isMulti,
+            'bg-brand-600 text-white': active && !selectMenuCtx.isMulti,
             'text-base-900': !active,
-            'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,
-            'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMulti,
-            'py-2 pl-3 hover:bg-base-50': isMulti
+            'py-2 pl-3 pr-9':
+              checkPosition === CHECK_POSITION[1] && !selectMenuCtx.isMulti,
+            'py-2 pl-8 pr-4':
+              checkPosition === CHECK_POSITION[0] && !selectMenuCtx.isMulti,
+            'py-2 pl-3 hover:bg-base-50': selectMenuCtx.isMulti
           },
           'relative cursor-pointer select-none',
           wrapperClassName
@@ -37,7 +40,7 @@ const SelectMenuOption = ({ option, wrapperClassName }) => {
     >
       {({ active, selected }) => (
         <>
-          {!isMulti ? (
+          {!selectMenuCtx.isMulti ? (
             <div className="flex items-center">
               {option.image && (
                 <img
@@ -95,6 +98,7 @@ const SelectMenuOption = ({ option, wrapperClassName }) => {
 };
 
 SelectMenuOption.propTypes = {
+  checkPosition: oneOf(CHECK_POSITION),
   option: shape({
     value: oneOfType([number, string]),
     label: string,
@@ -103,6 +107,7 @@ SelectMenuOption.propTypes = {
   wrapperClassName: string
 };
 SelectMenuOption.defaultProps = {
+  checkPosition: CHECK_POSITION[0],
   wrapperClassName: ''
 };
 

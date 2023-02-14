@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import SelectMenuLabel from '../SelectMenuLabel';
 import SelectMenuOption from '../SelectMenuOption';
+import SelectMenuOptionsBox from '../SelectMenuOptionsBox';
+import SelectMenuTrigger from '../SelectMenuTrigger';
 
 import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
@@ -90,20 +93,17 @@ Primary.parameters = {
 };
 
 export const ControlledSelectMenu = () => {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState();
   return (
-    <SelectMenu
-      onChange={(val) => setSelected(val)}
-      value={selected}
-      isMulti
-      renderOptions={
-        <>
-          {SELECT_OPTIONS.map((item) => (
-            <SelectMenuOption option={item} />
-          ))}
-        </>
-      }
-    />
+    <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuOptionsBox>
+        {React.Children.toArray(
+          SELECT_OPTIONS.map((item) => <SelectMenuOption option={item} />)
+        )}
+      </SelectMenuOptionsBox>
+    </SelectMenu>
   );
 };
 
