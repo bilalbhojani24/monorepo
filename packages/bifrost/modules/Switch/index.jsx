@@ -14,9 +14,10 @@ const Switch = ({
   rightDescription,
   rightLabel,
   rightSubLabel,
-  wrapperClassName
+  wrapperClassName,
+  defaultValue
 }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(defaultValue);
 
   const onChangeHandler = (updateState) => {
     setEnabled(updateState);
@@ -133,7 +134,8 @@ Switch.propTypes = {
   rightDescription: PropTypes.string,
   rightLabel: PropTypes.string,
   rightSubLabel: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  defaultValue: PropTypes.bool
 };
 Switch.defaultProps = {
   isShortToggle: false,
@@ -144,7 +146,8 @@ Switch.defaultProps = {
   rightDescription: '',
   rightLabel: '',
   rightSubLabel: '',
-  wrapperClassName: ''
+  wrapperClassName: '',
+  defaultValue: false
 };
 
 export default Switch;
