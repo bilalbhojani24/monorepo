@@ -42,7 +42,10 @@ const FolderExplorerModal = ({
   };
 
   useEffect(() => {
-    if (show) setInternalAllFolders(allFolders);
+    if (show) {
+      setInternalAllFolders(allFolders);
+      setPrimaryMoveLocation(moveFolderOptions[0].id);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
