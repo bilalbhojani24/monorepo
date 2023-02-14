@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
-import { verifyTagAPI } from 'api/testruns.api';
+import { addTestRun, verifyTagAPI } from 'api/testruns.api';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -16,6 +16,7 @@ import {
 const useAddEditTestRun = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const [inputError, setInputError] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
 
   const isAddIssuesModalShown = useSelector(
@@ -53,7 +54,7 @@ const useAddEditTestRun = () => {
   const handleTestRunInputFieldChange = (key, value) => {
     if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
 
-    debugger;
+    if (key === 'name' && value) setInputError(false);
     if (key === 'test_case_ids')
       dispatch(updateTestRunFormData({ key, value }));
     else
@@ -88,6 +89,15 @@ const useAddEditTestRun = () => {
 
   const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
+  const createTestRunHandler = () => {
+    if (!testRunFormData.test_run.name) {
+      setInputError(true);
+    } else
+      addTestRun({ payload: testRunFormData, projectId }).then((data) => {
+        debugger;
+      });
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -101,6 +111,7 @@ const useAddEditTestRun = () => {
   }, [projectId, usersArray]);
 
   return {
+    inputError,
     isAddTagModalShown,
     isAddIssuesModalShown,
     usersArrayMapped,
@@ -114,7 +125,8 @@ const useAddEditTestRun = () => {
     hideAddIssuesModal,
     hideAddTagsModal,
     tagVerifierFunction,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    createTestRunHandler
   };
 };
 

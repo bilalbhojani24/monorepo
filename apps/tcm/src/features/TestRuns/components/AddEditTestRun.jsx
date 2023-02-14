@@ -18,6 +18,7 @@ import useTestRuns from './useTestRuns';
 
 const AddEditTestRun = () => {
   const {
+    inputError,
     isAddTagModalShown,
     isAddIssuesModalShown,
     usersArrayMapped,
@@ -81,6 +82,7 @@ const AddEditTestRun = () => {
                 <TMInputField
                   value={testRunFormData?.test_run?.name}
                   id="test-run-name"
+                  errorText={inputError ? "This field can't be left empty" : ''}
                   label="Test Run Name*"
                   onChange={(e) =>
                     handleTestRunInputFieldChange('name', e.currentTarget.value)
