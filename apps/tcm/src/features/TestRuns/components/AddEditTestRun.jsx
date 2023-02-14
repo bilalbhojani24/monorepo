@@ -82,10 +82,7 @@ const AddEditTestRun = () => {
                   id="test-run-name"
                   label="Test Run Name*"
                   onChange={(e) =>
-                    handleTestRunInputFieldChange(
-                      'test_run',
-                      e.currentTarget.value
-                    )
+                    handleTestRunInputFieldChange('name', e.currentTarget.value)
                   }
                 />
               </div>
@@ -185,7 +182,7 @@ const AddEditTestRun = () => {
                   label="State"
                   options={STATE_OPTIONS}
                   onChange={(e) =>
-                    handleTestRunInputFieldChange('test_run', e.value)
+                    handleTestRunInputFieldChange('run_state', e.value)
                   }
                 />
               </div>

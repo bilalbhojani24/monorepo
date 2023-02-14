@@ -4,7 +4,12 @@ import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
 import { verifyTagAPI } from 'api/testruns.api';
 
-import { setAddTestRunForm, setIsVisibleProps } from '../slices/testRunsSlice';
+import {
+  setAddTestRunForm,
+  setIsVisibleProps,
+  setUnsavedDataExists,
+  updateTestRunFormData
+} from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
   const { projectId } = useParams();
@@ -16,6 +21,9 @@ const useAddEditTestRun = () => {
   );
   const isAddTagModalShown = useSelector(
     (state) => state.testRuns.isVisible.addTagsModal
+  );
+  const isUnsavedDataExists = useSelector(
+    (state) => state.testRuns.isUnsavedDataExists
   );
   const tagsArray = useSelector((state) => state.testRuns.tagsArray);
   const usersArray = useSelector((state) => state.testRuns.usersArray);
@@ -44,7 +52,18 @@ const useAddEditTestRun = () => {
     imageUploadRTEHandlerAPI({ files, projectId });
 
   const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
-  const handleTestRunInputFieldChange = () => {};
+
+  const handleTestRunInputFieldChange = (key, value) => {
+    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
+
+    debugger;
+    if (key === 'test_case_ids')
+      dispatch(updateTestRunFormData({ key, value }));
+    else
+      dispatch(
+        updateTestRunFormData({ key: 'test_run', innerKey: key, value })
+      );
+  };
 
   useEffect(() => {
     if (projectId === loadedDataProjectId) {

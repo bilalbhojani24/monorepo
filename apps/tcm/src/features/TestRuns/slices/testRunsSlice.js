@@ -35,7 +35,8 @@ const initialState = {
       issues: []
     },
     test_case_ids: []
-  }
+  },
+  isUnsavedDataExists: false
 };
 
 const testRunslice = createSlice({
@@ -51,6 +52,12 @@ const testRunslice = createSlice({
     },
     setAddTestCaseModal: (state, { payload }) => {
       state.isVisible.addTestCaseModal = payload;
+    },
+    updateTestRunFormData: (state, { payload }) => {
+      if (payload.innerKey) {
+        // goes inside test_run object
+        state.testRunFormData[payload.key][payload.innerKey] = payload.value;
+      } else state.testRunFormData[payload.key] = payload.value;
     },
     setIsVisibleProps: (state, { payload }) => {
       state.isVisible[payload.key] = payload.value;
@@ -82,11 +89,16 @@ const testRunslice = createSlice({
     setUsers: (state, { payload }) => {
       // prefill for edit
       state.usersArray = payload || initialState.usersArray;
+    },
+    setUnsavedDataExists: (state, { payload }) => {
+      state.isUnsavedDataExists = payload;
     }
   }
 });
 
 export const {
+  updateTestRunFormData,
+  setUnsavedDataExists,
   setIsVisibleProps,
   setLoadedDataProjectId,
   setUsers,
