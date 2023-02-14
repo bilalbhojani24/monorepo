@@ -17,7 +17,6 @@ import {
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTextArea,
   TMTooltip,
   TMTooltipBody,
   TMTooltipHeader
@@ -37,7 +36,6 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
-    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -68,11 +66,11 @@ const AddEditTestCase = () => {
 
   useEffect(() => {
     initFormValues();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     return () => {
       hideTestCaseAddEditPage(null, true);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -249,13 +247,16 @@ const AddEditTestCase = () => {
                 />
               </div>
               <div className="flex-1">
-                <TMSelectMenu
+                <TMComboBox
                   value={
-                    testCaseFormData.owner &&
-                    usersArrayMapped?.find(
-                      (item) => item.value === testCaseFormData.owner
-                    )
+                    testCaseFormData.owner
+                      ? usersArrayMapped?.find(
+                          (item) => item.value === testCaseFormData.owner
+                        )
+                      : { label: '', value: '' } // to be updated to null
                   }
+                  default
+                  isMulti={false}
                   placeholder="Select owner"
                   checkPosition="right"
                   label="Owner"
