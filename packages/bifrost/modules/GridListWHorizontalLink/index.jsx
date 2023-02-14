@@ -30,8 +30,12 @@ const GridListWHorizontalLink = ({
           aria-hidden="true"
           onClick={(e) => handleClick(e)}
         />
-        <p className="text-base-900 text-left text-sm font-medium">{title}</p>
-        <p className="text-base-500 truncate text-left text-sm">{subTitle}</p>
+        {title ? (
+          <p className="text-base-900 text-left text-sm font-medium">{title}</p>
+        ) : null}
+        {subTitle ? (
+          <p className="text-base-500 truncate text-left text-sm">{subTitle}</p>
+        ) : null}
       </div>
     </div>
   );

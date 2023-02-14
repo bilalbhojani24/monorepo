@@ -25,14 +25,16 @@ const GridListWImage = ({
         <span className="sr-only">{label}</span>
       </button>
     </div>
-    {label?.length > 0 && (
+    {label ? (
       <p className="text-base-900 pointer-events-none block truncate text-sm font-medium">
         {label}
       </p>
-    )}
-    <p className="text-base-500 pointer-events-none block text-sm font-medium">
-      {subText}
-    </p>
+    ) : null}
+    {subText ? (
+      <p className="text-base-500 pointer-events-none block text-sm font-medium">
+        {subText}
+      </p>
+    ) : null}
   </div>
 );
 
