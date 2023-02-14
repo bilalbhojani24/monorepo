@@ -40,7 +40,8 @@ const Pagination = (props) => {
     withNumber,
     isCentered,
     activeLinkClass,
-    inActiveLinkClass
+    inActiveLinkClass,
+    hideDetailsString
   } = props;
   const [currentPage, setCurrentPage] = useState(pageNumber);
   const [totalPages, setTotalPages] = useState([]);
@@ -85,10 +86,15 @@ const Pagination = (props) => {
         block: !withNumber
       })}
     >
-      <Button onClick={prevClick} colors="white">
+      <Button onClick={prevClick} colors="white" disabled={currentPage === 1}>
         Previous
       </Button>
-      <Button wrapperClassName="ml-3" onClick={nextClick} colors="white">
+      <Button
+        wrapperClassName="ml-3"
+        onClick={nextClick}
+        colors="white"
+        disabled={currentPage === totalPages[totalPages.length - 1]}
+      >
         Next
       </Button>
     </div>
@@ -160,7 +166,11 @@ const Pagination = (props) => {
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
-        <p className={twClassNames('text-sm text-base-700')}>
+        <p
+          className={twClassNames('text-sm text-base-700', {
+            hidden: hideDetailsString
+          })}
+        >
           Showing{' '}
           <span className="font-medium">
             {currentPage * pageSize - pageSize + 1}
@@ -214,7 +224,8 @@ Pagination.propTypes = {
   onPreviousClick: PropTypes.func,
   pageNumber: PropTypes.number,
   pageSize: PropTypes.number,
-  withNumber: PropTypes.bool
+  withNumber: PropTypes.bool,
+  hideDetailsString: PropTypes.bool
 };
 
 Pagination.defaultProps = {
@@ -227,7 +238,8 @@ Pagination.defaultProps = {
   onPreviousClick: () => {},
   pageNumber: 1,
   pageSize: 25,
-  withNumber: true
+  withNumber: true,
+  hideDetailsString: false
 };
 
 export default Pagination;
