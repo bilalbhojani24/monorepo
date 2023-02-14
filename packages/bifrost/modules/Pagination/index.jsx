@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import Button from '../Button';
 import {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
@@ -79,25 +80,17 @@ const Pagination = (props) => {
 
   const renderNextPrev = () => (
     <div
-      className={twClassNames('flex flex-1 justify-between sm:justify-end', {
+      className={twClassNames('justify-between sm:justify-end', {
         'sm:hidden': withNumber,
         block: !withNumber
       })}
     >
-      <a
-        href="/"
-        className="border-base-300 text-base-700 hover:bg-base-50 relative inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
-        onClick={prevClick}
-      >
+      <Button onClick={prevClick} colors="white">
         Previous
-      </a>
-      <a
-        href="/"
-        className="border-base-300 text-base-700 hover:bg-base-50 relative ml-3 inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
-        onClick={nextClick}
-      >
+      </Button>
+      <Button wrapperClassName="ml-3" onClick={nextClick} colors="white">
         Next
-      </a>
+      </Button>
     </div>
   );
 
