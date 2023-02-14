@@ -14,7 +14,11 @@ import PropTypes from 'prop-types';
 import TestCasesTable from './TestCasesTable';
 import useMiniatureRepository from './useMiniatureRepository';
 
-const MiniatureRepository = ({ projectId }) => {
+const MiniatureRepository = ({
+  projectId,
+  onItemSelectionCb,
+  selectedTestCases
+}) => {
   const {
     metaPage,
     selectedFolder,
@@ -108,7 +112,7 @@ const MiniatureRepository = ({ projectId }) => {
                             />
                           </div>
                         ) : (
-                          <div className=" flex-col   overflow-y-auto">
+                          <div className=" border-base-300   flex-col overflow-y-auto border-b">
                             <TestCasesTable
                               isCondensed
                               containerWrapperClass="md:rounded-none"
@@ -117,7 +121,9 @@ const MiniatureRepository = ({ projectId }) => {
                               metaPage={metaPage}
                               isSearchFilterView={isSearchFilterView}
                               onPaginationClick={onPaginationClick}
+                              onItemSelectionCb={onItemSelectionCb}
                               isMini
+                              selectedTestCases={selectedTestCases}
                             />
                           </div>
                         )}
@@ -140,6 +146,7 @@ const MiniatureRepository = ({ projectId }) => {
               </div>
 
               <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
+                {isFoldersLoading ? <Loader wrapperClassName="h-full" /> : null}
                 <FolderExplorer
                   projectId={projectId}
                   folderId={selectedFolder?.id || null}
@@ -158,11 +165,15 @@ const MiniatureRepository = ({ projectId }) => {
 };
 
 MiniatureRepository.propTypes = {
-  projectId: PropTypes.number
+  projectId: PropTypes.number,
+  onItemSelectionCb: PropTypes.func,
+  selectedTestCases: PropTypes.arrayOf(PropTypes.number)
 };
 
 MiniatureRepository.defaultProps = {
-  projectId: null
+  onItemSelectionCb: () => {},
+  projectId: null,
+  selectedTestCases: []
 };
 
 export default MiniatureRepository;

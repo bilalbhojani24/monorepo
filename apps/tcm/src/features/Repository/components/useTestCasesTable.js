@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { moveTestCasesBulkAPI } from 'api/testcases.api';
@@ -20,7 +20,7 @@ import {
   updateAllTestCases
 } from '../slices/repositorySlice';
 
-const useTestCasesTable = () => {
+const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
@@ -140,6 +140,18 @@ const useTestCasesTable = () => {
       }
     );
   };
+
+  useEffect(() => {
+    prop?.onItemSelectionCb?.(selectedTestCaseIDs);
+  }, [prop, selectedTestCaseIDs]);
+
+  useEffect(() => {
+    debugger;
+    if (prop?.selectedTestCases) {
+      setSelectedTestCaseIDs(prop?.selectedTestCases);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     projectId,

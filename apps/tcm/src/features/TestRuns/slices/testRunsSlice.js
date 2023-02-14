@@ -35,7 +35,7 @@ const initialState = {
       tags: [],
       issues: []
     },
-    test_case_ids: [37369]
+    test_case_ids: []
   },
   isUnsavedDataExists: false
 };

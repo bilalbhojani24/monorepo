@@ -19,6 +19,7 @@ const useAddEditTestRun = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const [inputError, setInputError] = useState(false);
+  const [selectedTCIDs, setSelectedTCIDs] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
 
   const isAddIssuesModalShown = useSelector(
@@ -129,6 +130,15 @@ const useAddEditTestRun = () => {
       });
   };
 
+  const selectTestCasesConfirm = () => {
+    handleTestRunInputFieldChange('test_case_ids', selectedTCIDs);
+    hideTestCasesModal();
+  };
+
+  const onItemSelectionHandler = (selectedItems) => {
+    setSelectedTCIDs(selectedItems);
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -141,7 +151,12 @@ const useAddEditTestRun = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, usersArray]);
 
+  useEffect(() => {
+    setSelectedTCIDs(testRunFormData?.test_case_ids || []);
+  }, [testRunFormData?.test_case_ids]);
+
   return {
+    selectedTCIDs,
     projectId,
     isAddTestCaseModalShown,
     inputError,
@@ -161,7 +176,9 @@ const useAddEditTestRun = () => {
     tagVerifierFunction,
     addIssuesSaveHelper,
     createTestRunHandler,
-    hideTestCasesModal
+    hideTestCasesModal,
+    onItemSelectionHandler,
+    selectTestCasesConfirm
   };
 };
 

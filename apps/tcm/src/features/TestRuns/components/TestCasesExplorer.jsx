@@ -12,8 +12,14 @@ import PropTypes from 'prop-types';
 import useAddEditTestRun from './useAddEditTestRun';
 
 const TestCasesExplorer = () => {
-  const { isAddTestCaseModalShown, hideTestCasesModal, projectId } =
-    useAddEditTestRun();
+  const {
+    selectedTCIDs,
+    isAddTestCaseModalShown,
+    projectId,
+    hideTestCasesModal,
+    onItemSelectionHandler,
+    selectTestCasesConfirm
+  } = useAddEditTestRun();
 
   return (
     <TMModal
@@ -29,7 +35,11 @@ const TestCasesExplorer = () => {
       />
       <TMModalBody className="">
         <div className="border-base-300 mb-4 h-96 shrink-0 grow overflow-hidden rounded-md border">
-          <MiniatureRepository projectId={projectId} />
+          <MiniatureRepository
+            projectId={projectId}
+            onItemSelectionCb={onItemSelectionHandler}
+            selectedTestCases={selectedTCIDs}
+          />
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
@@ -40,7 +50,7 @@ const TestCasesExplorer = () => {
           variant="primary"
           colors="brand"
           wrapperClassName="ml-3"
-          // onClick={deleteFolderHandler}
+          onClick={selectTestCasesConfirm}
         >
           Select Test Cases
         </TMButton>

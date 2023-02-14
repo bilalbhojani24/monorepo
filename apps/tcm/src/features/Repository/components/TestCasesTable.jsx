@@ -34,7 +34,9 @@ const TestCasesTable = ({
   isLoading,
   isSearchFilterView,
   metaPage,
-  isMini
+  isMini,
+  onItemSelectionCb,
+  selectedTestCases
 }) => {
   const {
     showMoveModal,
@@ -51,7 +53,9 @@ const TestCasesTable = ({
     onDropDownChange,
     handleTestCaseViewClick
   } = useTestCasesTable({
-    rows
+    rows,
+    onItemSelectionCb,
+    selectedTestCases
   });
 
   const formatPriority = (priority) => {
@@ -336,6 +340,7 @@ TestCasesTable.propTypes = {
   containerWrapperClass: PropTypes.string,
   isCondensed: PropTypes.bool,
   onPaginationClick: PropTypes.func,
+  onItemSelectionCb: PropTypes.func,
   isLoading: PropTypes.bool,
   isMini: PropTypes.bool,
   isSearchFilterView: PropTypes.bool,
@@ -344,7 +349,8 @@ TestCasesTable.propTypes = {
     next: PropTypes.number,
     prev: PropTypes.number,
     count: PropTypes.number
-  })
+  }),
+  selectedTestCases: PropTypes.arrayOf(PropTypes.number)
 };
 
 TestCasesTable.defaultProps = {
@@ -354,7 +360,9 @@ TestCasesTable.defaultProps = {
   isMini: false,
   isLoading: false,
   onPaginationClick: null,
-  metaPage: {}
+  onItemSelectionCb: () => {},
+  metaPage: {},
+  selectedTestCases: []
 };
 
 export default TestCasesTable;
