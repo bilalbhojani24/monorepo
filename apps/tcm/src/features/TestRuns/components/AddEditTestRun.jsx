@@ -36,7 +36,8 @@ const AddEditTestRun = () => {
     hideAddTagsModal,
     imageUploadRTEHelper,
     tagVerifierFunction,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    hideAddTestRunForm
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -61,7 +62,7 @@ const AddEditTestRun = () => {
               <TMButton
                 variant="primary"
                 colors="white"
-                onClick={cancelCreation}
+                onClick={hideAddTestRunForm}
               >
                 Cancel
               </TMButton>

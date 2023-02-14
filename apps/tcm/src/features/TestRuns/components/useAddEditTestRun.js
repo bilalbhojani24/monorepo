@@ -178,7 +178,8 @@ const useAddEditTestRun = () => {
     createTestRunHandler,
     hideTestCasesModal,
     onItemSelectionHandler,
-    selectTestCasesConfirm
+    selectTestCasesConfirm,
+    hideAddTestRunForm
   };
 };
 
