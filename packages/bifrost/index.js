@@ -78,6 +78,7 @@ import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
 import TooltipHeader from './modules/TooltipHeader/index';
+import TruncateText from './modules/TruncateText/index';
 
 export * from './modules/Icon/index';
 
@@ -162,5 +163,6 @@ export {
   Tooltip,
   TooltipBody,
   TooltipFooter,
-  TooltipHeader
+  TooltipHeader,
+  TruncateText
 };
