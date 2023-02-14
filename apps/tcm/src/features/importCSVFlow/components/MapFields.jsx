@@ -63,12 +63,12 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
         title="Map Fields"
         variant="buttons"
         trailingHeadNode={
-          <>
+          <div className="flex items-center justify-end">
             <TMButton variant="primary" colors="white" wrapperClassName="mr-3">
               Back
             </TMButton>
             <TMButton variant="primary">Proceed</TMButton>
-          </>
+          </div>
         }
       />
       <div className="text-base-800 my-4 text-sm">

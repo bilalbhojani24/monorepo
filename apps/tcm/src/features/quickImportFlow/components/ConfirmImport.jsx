@@ -19,11 +19,11 @@ const ConfirmImport = (props) => {
           title="Preview & Confirm"
           variant="buttons"
           trailingHeadNode={
-            <>
+            <div className="flex items-center justify-end">
               <TMButton size="default" onClick={handleConfirmImport}>
                 Import
               </TMButton>
-            </>
+            </div>
           }
         />
         <div>

@@ -34,7 +34,11 @@ const ConfigureData = (props) => {
             title="Select projects you would like to import"
             variant="buttons"
             trailingHeadNode={
-              <TMButton onClick={handleConfigureDataProceed}>Proceed</TMButton>
+              <div className="flex items-center justify-end">
+                <TMButton onClick={handleConfigureDataProceed}>
+                  Proceed
+                </TMButton>
+              </div>
             }
           />
           <ConfigureDataList projects={projects} />
