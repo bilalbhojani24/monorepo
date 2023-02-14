@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import Highcharts from 'highcharts';
+import { capitalizeString } from 'utils/helperFunctions';
 
 import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
 import { setMetaPage } from '../slices/testRunsSlice';
@@ -49,9 +49,9 @@ const useTestRuns = () => {
           return `<div><b>${this.x}</b></div>
                   <span style="color:${
                     this.point.color
-                  }">\u25CF</span> <span class="whitespace-nowrap">${
+                  }">\u25CF</span> <span class="whitespace-nowrap">${capitalizeString(
             this.series.name
-          } ${this.y} (${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
+          )} ${this.y} (${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
         }
       }
     };
