@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
-import { addTestRun, verifyTagAPI } from 'api/testruns.api';
+import { addTestRunAPI, verifyTagAPI } from 'api/testruns.api';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
+  addTestRun,
   setAddTestRunForm,
   setIssuesArray,
   setIsVisibleProps,
+  setTagsArray,
   setUnsavedDataExists,
   updateTestRunFormData
 } from '../slices/testRunsSlice';
@@ -25,6 +27,9 @@ const useAddEditTestRun = () => {
   const isAddTagModalShown = useSelector(
     (state) => state.testRuns.isVisible.addTagsModal
   );
+  const isAddTestCaseModalShown = useSelector(
+    (state) => state.testRuns.isVisible.addTestCaseModal
+  );
   const isUnsavedDataExists = useSelector(
     (state) => state.testRuns.isUnsavedDataExists
   );
@@ -38,11 +43,23 @@ const useAddEditTestRun = () => {
     (state) => state.testRuns.testRunFormData
   );
 
+  const handleTestRunInputFieldChange = (key, value) => {
+    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
+
+    if (key === 'name' && value) setInputError(false);
+    if (key === 'test_case_ids')
+      dispatch(updateTestRunFormData({ key, value }));
+    else
+      dispatch(
+        updateTestRunFormData({ key: 'test_run', innerKey: key, value })
+      );
+  };
+
+  const hideAddTestRunForm = () => {
+    dispatch(setAddTestRunForm(false));
+  };
   const hideAddIssuesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssuesModal', value: false }));
-  };
-  const hideAddTagsModal = () => {
-    dispatch(setIsVisibleProps({ key: 'addTagsModal', value: false }));
   };
   const hideTestCasesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTestCaseModal', value: false }));
@@ -56,17 +73,24 @@ const useAddEditTestRun = () => {
   const showAddTagsModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: true }));
   };
+  const hideAddTagsModal = (allTags, newTags) => {
+    const mappedNewTags = selectMenuValueMapper(newTags);
+    const updatedAllTags = [...mappedNewTags, ...tagsArray];
+    const currentSelectedTags = testRunFormData?.test_run?.tags
+      ? [
+          ...testRunFormData?.test_run?.tags.map((item) => item.value),
+          ...newTags
+        ]
+      : newTags;
 
-  const handleTestRunInputFieldChange = (key, value) => {
-    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
-
-    if (key === 'name' && value) setInputError(false);
-    if (key === 'test_case_ids')
-      dispatch(updateTestRunFormData({ key, value }));
-    else
-      dispatch(
-        updateTestRunFormData({ key: 'test_run', innerKey: key, value })
-      );
+    dispatch(setTagsArray(updatedAllTags));
+    handleTestRunInputFieldChange(
+      'tags',
+      updatedAllTags.filter((element) =>
+        currentSelectedTags.includes(element.value)
+      )
+    );
+    dispatch(setIsVisibleProps({ key: 'addTagsModal', value: false }));
   };
 
   const addIssuesSaveHelper = (newIssuesArray) => {
@@ -99,8 +123,9 @@ const useAddEditTestRun = () => {
     if (!testRunFormData.test_run.name) {
       setInputError(true);
     } else
-      addTestRun({ payload: testRunFormData, projectId }).then((data) => {
-        debugger;
+      addTestRunAPI({ payload: testRunFormData, projectId }).then((data) => {
+        dispatch(addTestRun(data.data.testrun || []));
+        hideAddTestRunForm();
       });
   };
 
@@ -117,6 +142,8 @@ const useAddEditTestRun = () => {
   }, [projectId, usersArray]);
 
   return {
+    projectId,
+    isAddTestCaseModalShown,
     inputError,
     isAddTagModalShown,
     isAddIssuesModalShown,

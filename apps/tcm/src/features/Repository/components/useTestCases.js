@@ -23,6 +23,7 @@ export default function useTestCases() {
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
 
+  const metaPage = useSelector((state) => state.repository.metaPage);
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
@@ -123,6 +124,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    metaPage,
     allFolders,
     isBulkUpdate,
     isSearchFilterView,

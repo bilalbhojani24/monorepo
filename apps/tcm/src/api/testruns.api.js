@@ -8,7 +8,7 @@ export const getTestRuns = async ({ projectId, isClosed, page }) =>
     }
   );
 
-export const addTestRun = async ({ projectId, payload }) =>
+export const addTestRunAPI = async ({ projectId, payload }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-runs/`, payload);
 
 export const getTagsAPI = async ({ projectId }) =>

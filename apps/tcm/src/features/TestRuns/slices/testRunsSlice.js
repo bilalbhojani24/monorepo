@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { STATE_OPTIONS } from '../const/addEditConst';
 import { TABS_ARRAY } from '../const/immutableConst';
 
 const initialState = {
@@ -29,12 +30,12 @@ const initialState = {
     test_run: {
       name: '',
       description: '',
-      run_state: '',
+      run_state: STATE_OPTIONS[0].value,
       owner: null,
       tags: [],
       issues: []
     },
-    test_case_ids: []
+    test_case_ids: [37369]
   },
   isUnsavedDataExists: false
 };
@@ -45,7 +46,7 @@ const testRunslice = createSlice({
   reducers: {
     setAddTestRunForm: (state, { payload }) => {
       state.isVisible.addTestRunsForm = payload;
-      if (payload) {
+      if (!payload) {
         // reset form data
         state.testRunFormData = initialState.testRunFormData;
       }
@@ -62,8 +63,8 @@ const testRunslice = createSlice({
     setLoader: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
     },
-    addSingleTestRun: (state, { payload }) => {
-      state.allTestRuns.push(payload);
+    addTestRun: (state, { payload }) => {
+      state.allTestRuns = [payload, ...state.allTestRuns];
     },
     setAllTestRuns: (state, { payload }) => {
       state.allTestRuns = payload;
@@ -102,7 +103,7 @@ export const {
   setIssuesArray,
   setTagsArray,
   setLoader,
-  addSingleTestRun,
+  addTestRun,
   setAllTestRuns,
   setAddTestRunForm,
   setCurrentTab,

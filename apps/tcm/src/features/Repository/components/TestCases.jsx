@@ -5,10 +5,10 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader,
+  TMTooltipHeader
 } from 'common/bifrostProxy';
-import Loader from 'common/Loader';
 import CopyButton from 'common/CopyButton';
+import Loader from 'common/Loader';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -23,6 +23,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    metaPage,
     allFolders,
     isSearchFilterView,
     showDeleteModal,
@@ -57,12 +58,17 @@ export default function TestCases() {
                           {selectedFolder?.name}
                         </TMTooltipHeader>
                         <TMTooltipBody>
-                          <div className={"text-sm"}>
+                          <div className="text-sm">
                             <p>
-                              URL: {selectedFolder?.links?.self?.slice(7,) || ''}
+                              URL: {selectedFolder?.links?.self?.slice(7) || ''}
                             </p>
                             <div className="mt-3 flex w-full gap-4">
-                              <CopyButton copyValue={window.location.origin + selectedFolder?.links?.self?.slice(7,)}>
+                              <CopyButton
+                                copyValue={
+                                  window.location.origin +
+                                  selectedFolder?.links?.self?.slice(7)
+                                }
+                              >
                                 Copy URL
                               </CopyButton>
                             </div>
@@ -112,6 +118,8 @@ export default function TestCases() {
                       containerWrapperClass="md:rounded-none"
                       rows={allTestCases}
                       isLoading={isTestCasesLoading}
+                      isSearchFilterView={isSearchFilterView}
+                      metaPage={metaPage}
                     />
                   </div>
                 )}

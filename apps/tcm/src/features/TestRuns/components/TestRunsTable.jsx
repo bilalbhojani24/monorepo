@@ -59,8 +59,8 @@ const TestRunsTable = () => {
     // },
     {
       name: 'ASSIGNED TO',
-      key: 'assignee',
-      cell: (rowData) => rowData?.assignee || 'Unassigned'
+      key: 'owner',
+      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned'
     },
     {
       name: 'OVERALL PROGRESS',
@@ -94,7 +94,7 @@ const TestRunsTable = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          // options={TR_DROP_OPTIONS}
+          options={TR_DROP_OPTIONS}
           onClick={(e) => onDropDownChange(e, data)}
         />
       )

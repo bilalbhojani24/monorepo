@@ -13,6 +13,7 @@ import {
 
 import { STATE_OPTIONS } from '../const/addEditConst';
 
+import TestCasesExplorer from './TestCasesExplorer';
 import useAddEditTestRun from './useAddEditTestRun';
 import useTestRuns from './useTestRuns';
 
@@ -125,6 +126,7 @@ const AddEditTestRun = () => {
                 <TMComboBox
                   checkPosition="right"
                   label="Assign To"
+                  placeholder="Select from options"
                   value={
                     testRunFormData?.test_run?.owner
                       ? usersArrayMapped.find(
@@ -148,14 +150,7 @@ const AddEditTestRun = () => {
                       placeholder="Select from options"
                       label="Tags"
                       options={tagsArray}
-                      value={
-                        testRunFormData?.test_run?.tags
-                          ? tagsArray.find(
-                              (item) =>
-                                item.value === testRunFormData?.test_run?.tags
-                            )
-                          : { label: '', value: '' } // to be updated to null
-                      }
+                      value={testRunFormData?.test_run?.tags}
                       onChange={(e) => {
                         handleTestRunInputFieldChange('tags', e);
                       }}
@@ -230,6 +225,7 @@ const AddEditTestRun = () => {
         onClose={hideAddIssuesModal}
         onSave={addIssuesSaveHelper}
       />
+      <TestCasesExplorer />
     </>
   );
 };

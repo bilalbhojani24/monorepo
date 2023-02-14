@@ -38,12 +38,6 @@ const useTestCasesTable = () => {
   const setBulkStatus = (data) => {
     dispatch(setBulkUpdateProgress(data));
   };
-
-  const isSearchFilterView = useSelector(
-    (state) => state.repository.isSearchFilterView
-  );
-
-  const metaPage = useSelector((state) => state.repository.metaPage);
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.ids
   );
@@ -148,10 +142,8 @@ const useTestCasesTable = () => {
   };
 
   return {
-    isSearchFilterView,
     projectId,
     folderId,
-    metaPage,
     showMoveModal,
     isAllSelected,
     selectedTestCaseIDs,
