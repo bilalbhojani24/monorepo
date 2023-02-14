@@ -26,6 +26,7 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tooltip": "1.0.2",
     "@tinymce/tinymce-react": "^4.3.0",
+    "react-draggable": "^4.4.5",
     "react-hot-toast": "2.4.0",
     "react-icons": "^4.7.1"
   },
