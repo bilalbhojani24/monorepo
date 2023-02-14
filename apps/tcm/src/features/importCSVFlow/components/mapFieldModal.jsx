@@ -23,14 +23,15 @@ import {
 } from '../const/importCSVConstants';
 import { setMapFieldModalConfig } from '../slices/importCSVSlice';
 
-const MapFieldModal = ({ modalConfig, valueMappings }) => {
+const MapFieldModal = ({ modalConfig, defaultValueMappings }) => {
   const dispatch = useDispatch();
-  const rowRef = useRef(null);
-  const key = Object.keys(valueMappings)?.[0];
-  const value = valueMappings?.[key];
+  const modalRowRef = useRef(null);
+  const key = modalConfig?.displayName;
+  const value = defaultValueMappings?.[key];
 
+  // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
-    rowRef.current = Object.keys(value)?.map((field) => ({
+    modalRowRef.current = Object.keys(value)?.map((field) => ({
       displayOptions: VALUE_MAPPING_OPTIONS[key.toUpperCase()],
       csvValue: field,
       defaultSelected: { [field]: { label: field, value: field } }
@@ -56,7 +57,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           Values for {modalConfig?.field} are mapped by default. You can update
           the mapping if needed:
         </div>
-        <Table wrapperClass="mb-4">
+        <Table containerWrapperClass="mb-4 mt-4">
           <TableHead wrapperClass="w-full rounded-xs">
             <TableRow wrapperClass="relative">
               {MAP_MODAL_COLUMNS.map((col) => (
@@ -67,7 +68,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowRef?.current?.map((row) => (
+            {modalRowRef?.current?.map((row) => (
               <TableRow key={row.field}>
                 <TableCell wrapperClass="py-1">{row.csvValue}</TableCell>
                 <TableCell wrapperClass="py-2 mr-4">

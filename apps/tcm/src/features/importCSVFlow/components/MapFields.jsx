@@ -28,16 +28,17 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
     allowedValueMapper,
     typeMapper,
     rowRef,
-    valueMappings,
+    defaultValueMappings,
     handleSelectMenuChange,
     handleUpdateClick,
-    handleMappingProceedClick
+    handleMappingProceedClick,
+    handleValueMappingMenuChange
   } = useMapFields({ importId, defaultFields, customFields, importFields });
 
   const rows = rowRef.current;
-  const getMappingForLastCol = (value, mappingType) => {
+  const getMappingForLastCol = (actualName, value, mappingType) => {
     switch (mappingType) {
-      case 'field_text':
+      case 'field_multi':
         return (
           <TMSelectMenu
             checkPosition="right"
@@ -45,17 +46,10 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
               allowedValueMapper[value]?.allowedValueDisplayOptions[0]
             }
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
+            onChange={handleValueMappingMenuChange(actualName, value)}
             // onChange={handleChange //yaha pe dispatch karna hai valueMapping ke liye}
           />
         );
-
-      // case 'field_multi':
-      //   return (
-      //     <TMSelectMenu
-      //       checkPosition="right"
-      //       options={allowedValueMapper[value]}
-      //     />
-      //   );
 
       case 'field_dropdown':
         return (
@@ -73,6 +67,9 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
 
       case 'field_int':
         return 'No Mapping Needed';
+
+      case 'field_string':
+        return 'No Mapping Needed (String)';
 
       case 'field_date':
         return 'No Mapping Needed (Date)';
@@ -164,6 +161,7 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
               </TableCell>
               <TableCell wrapperClass="py-1">
                 {getMappingForLastCol(
+                  row.field,
                   row.mappedValue,
                   typeMapper[row.mappedValue]
                 )}
@@ -175,7 +173,7 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
       {mapFieldModalConfig.show && (
         <MapFieldModal
           modalConfig={mapFieldModalConfig}
-          valueMappings={valueMappings}
+          valueMappings={defaultValueMappings}
         />
       )}
     </div>

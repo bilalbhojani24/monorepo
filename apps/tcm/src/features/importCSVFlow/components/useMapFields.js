@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+// import { useLocation } from 'react-router-dom';
 import {
   setFieldsMapping,
   setMapFieldModalConfig,
-  setValueMappings
+  setValueMappings,
+  setValueMappingsThunk
 } from '../slices/importCSVSlice';
 
 const useMapFields = ({
@@ -14,9 +16,13 @@ const useMapFields = ({
   importFields
 }) => {
   const dispatch = useDispatch();
+  // const { search } = useLocation();
+  // const queryParams = new URLSearchParams(search);
   const rowRef = useRef([]);
   const myFieldMappings = useSelector((state) => state.importCSV.fieldsMapping);
-  const valueMappings = useSelector((state) => state.importCSV.valueMappings);
+  const defaultValueMappings = useSelector(
+    (state) => state.importCSV.valueMappings
+  );
 
   const defaultOptions = defaultFields.map((field) => ({
     label: field.display_name,
@@ -95,9 +101,19 @@ const useMapFields = ({
       label: item.display_name,
       value: item.display_name
     }));
+    const allowedValueDisplayToNameMapper = field.allowed_types?.reduce(
+      (obj, item) => ({
+        ...obj,
+        [item.display_name]: item.name
+      }),
+      {}
+    );
     return {
       ...mapObject,
-      [name]: { allowedValueDisplayOptions, allowedValue: field.allowed_types }
+      [name]: {
+        allowedValueDisplayOptions,
+        allowedValueDisplayToNameMapper
+      }
     };
   }, {});
 
@@ -126,9 +142,15 @@ const useMapFields = ({
   };
 
   const handleUpdateClick = (value) => () => {
-    dispatch(setMapFieldModalConfig({ show: true, field: value })); // isme value from api add karna hai
     dispatch(
-      setValueMappings({
+      setMapFieldModalConfig({
+        show: true,
+        field: value,
+        displayName: mapNameToDisplay[value]
+      })
+    ); // isme value from api add karna hai
+    dispatch(
+      setValueMappingsThunk({
         importId,
         field: mapNameToDisplay[value],
         mapped_field: value
@@ -136,8 +158,19 @@ const useMapFields = ({
     );
   };
 
+  const handleValueMappingMenuChange = (actualName, value) => (d) => {
+    dispatch(
+      setValueMappings({
+        key: actualName,
+        value:
+          allowedValueMapper[value].allowedValueDisplayToNameMapper[d.label] // ye Plain Text select karne par plain dega and HTML par html
+      })
+    );
+  };
+
   const handleMappingProceedClick = () => {
-    dispatch(submitMappingData({ importId }));
+    // console.log('query params', queryParams);
+    // dispatch(submitMappingData({ importId }));
   };
 
   return {
@@ -148,7 +181,8 @@ const useMapFields = ({
     typeMapper,
     myFieldMappings,
     rowRef,
-    valueMappings,
+    defaultValueMappings,
+    handleValueMappingMenuChange,
     handleSelectMenuChange,
     handleUpdateClick,
     handleMappingProceedClick

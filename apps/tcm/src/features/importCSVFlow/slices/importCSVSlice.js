@@ -49,7 +49,7 @@ export const uploadFile = createAsyncThunk(
   }
 );
 
-export const setValueMappings = createAsyncThunk(
+export const setValueMappingsThunk = createAsyncThunk(
   'importCSV/setValueMappings',
   async ({ importId, field, mapped_field }) => {
     try {
@@ -88,10 +88,10 @@ const importCSVSlice = createSlice({
     },
     setFieldsMapping: (state, { payload }) => {
       state.fieldsMapping[payload.key] = payload.value;
+    },
+    setValueMappings: (state, { payload }) => {
+      state.valueMappings[payload.key] = payload.value;
     }
-    // setValueMappings: (state, { payload }) => {
-    //   state.valueMapping[payload.key] = payload.value;
-    // }
   },
   extraReducers: (builder) => {
     builder.addCase(uploadFile.fulfilled, (state, action) => {
@@ -126,7 +126,7 @@ const importCSVSlice = createSlice({
         value: separator
       }));
     });
-    builder.addCase(setValueMappings.fulfilled, (state, { payload }) => {
+    builder.addCase(setValueMappingsThunk.fulfilled, (state, { payload }) => {
       const { field, value_mappings: valueMappings } = payload;
       state.valueMappings[field] = valueMappings;
     });
@@ -141,6 +141,7 @@ export const {
   setFileConfig,
   setShowMoreFields,
   setMapFieldModalConfig,
-  setFieldsMapping
+  setFieldsMapping,
+  setValueMappings
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

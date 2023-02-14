@@ -5,7 +5,8 @@ import { TMPageHeadings } from 'common/bifrostProxy';
 import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 import {
   setCSVConfigurations,
-  setFieldsMapping
+  setFieldsMapping,
+  setValueMappings
 } from '../slices/importCSVSlice';
 
 import ImportCSVSteps from './ImportCSVSteps';
@@ -28,11 +29,11 @@ const ImportCSV = () => {
         dispatch(setFieldsMapping({ key, value }));
       }
       // eslint-disable-next-line no-restricted-syntax
-      // for (const [key, value] of Object.entries(
-      //   mappingFieldsData?.value_mappings
-      // )) {
-      //   dispatch(setValueMapping({ key, value }));
-      // }
+      for (const [key, value] of Object.entries(
+        mappingFieldsData?.value_mappings
+      )) {
+        dispatch(setValueMappings({ key, value }));
+      }
       return (
         <MapFields
           importId={mappingFieldsData?.import_id}
