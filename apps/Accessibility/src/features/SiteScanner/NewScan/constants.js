@@ -49,5 +49,9 @@ export const days = [
   {
     id: 'saturday',
     body: 'Saturday'
+  },
+  {
+    id: 'sunday',
+    body: 'Sunday'
   }
 ];

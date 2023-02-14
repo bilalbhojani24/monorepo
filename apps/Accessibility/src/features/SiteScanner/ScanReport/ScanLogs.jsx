@@ -6,6 +6,7 @@ import {
   MdOutlineSync,
   MdSchedule
 } from '@browserstack/bifrost';
+import dateFormat from 'dateformat';
 import {
   ASSelectMenu,
   ASTable,
@@ -14,6 +15,7 @@ import {
   ASTableHead,
   ASTableRow
 } from 'middleware/bifrost';
+import PropTypes from 'prop-types';
 
 import { pageStatus } from './constants';
 
@@ -42,63 +44,20 @@ const columns = [
   }
 ];
 
-const rows = [
-  {
-    date: (
-      <div className="text-base-500 flex items-center font-normal">
-        <MdSchedule />
-        <span className="ml-0.5">Nov 02 2022, 12:00 PM</span>
-      </div>
-    ),
-    page: 'www.browserstack.com/',
-    scannerStatus: <MdCheckCircle color="#10B981" className="mr-0.5" />,
-    pageStatus: (
-      <MdOutlineSync
-        color="#FFF"
-        className="bg-attention-500 mr-0.5 rounded-full"
-      />
-    ),
-    description: (
-      <div className="w-64 truncate whitespace-pre-wrap">
-        Scan complete, 255 issues{' '}
-      </div>
-    )
-  },
-  {
-    date: (
-      <div className="text-base-500 flex items-center font-normal">
-        <MdSchedule />
-        <span className="ml-0.5">Nov 02 2022, 12:00 PM</span>
-      </div>
-    ),
-    page: 'www.browserstack.com/',
-    scannerStatus: <MdCheckCircle color="#10B981" className="mr-0.5" />,
-    pageStatus: (
-      <MdOutlineSync
-        color="#FFF"
-        className="bg-attention-500 mr-0.5 rounded-full"
-      />
-    ),
-    description: (
-      <div className="w-64 truncate whitespace-pre-wrap">
-        [HTTP 503] Sample error long data exceeding more than 1 line{' '}
-      </div>
-    )
-  }
-];
-
-const ScanLogs = () => {
+const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
   const navigate = useNavigate();
+  if (isLoading) {
+    return 'Loading';
+  }
   return (
     <div>
       <div className="flex justify-between">
-        <div className="px-6 py-4">
+        <div className="w-64 px-6 py-4">
           <ASSelectMenu
             isMultiSelect
-            onChange={() => {}}
+            onChange={onFilterApplied}
             options={pageStatus}
             placeholder="Page Status"
-            // value={pageStatus.impact}
           />
         </div>
         <div className="flex text-sm">
@@ -134,7 +93,7 @@ const ScanLogs = () => {
           </ASTableRow>
         </ASTableHead>
         <ASTableBody>
-          {rows.map((row, idx) => (
+          {logs?.logs.map((row, idx) => (
             <ASTableRow
               key={idx}
               onRowClick={() => {
@@ -142,23 +101,37 @@ const ScanLogs = () => {
               }}
               tabIndex="0"
             >
-              {columns.map((column, colIdx) => {
-                const value = row[column.key];
-                return (
-                  <ASTableCell
-                    key={column.id}
-                    wrapperClass={`
-                    ${
-                      colIdx === 0
-                        ? 'font-medium text-base-900 border-l-4 border-success-500'
-                        : ''
-                    }
-                   first:pr-3 last:pl-3 p-5`}
-                  >
-                    {column.cell ? <>{column.cell()}</> : value}
-                  </ASTableCell>
-                );
-              })}
+              <ASTableCell wrapperClass="font-medium text-base-900 border-l-4 border-success-500 first:pr-3 last:pl-3 p-5">
+                <div className="text-base-500 flex items-center font-normal">
+                  <MdSchedule />
+                  <span className="ml-0.5">
+                    {dateFormat(new Date(row.time), 'mmmm dS, h:MM:ss TT')}
+                  </span>
+                </div>
+              </ASTableCell>
+              <ASTableCell>
+                <span className="ml-0.5">{row.pageUrl}</span>
+              </ASTableCell>
+              <ASTableCell>
+                {row.scannerStatus ? (
+                  <MdCheckCircle color="#10B981" />
+                ) : (
+                  <MdCancel color="#EF4444" />
+                )}
+              </ASTableCell>
+              <ASTableCell>
+                {row.pageStatus === 'success' && (
+                  <MdCheckCircle color="#10B981" />
+                )}
+                {row.pageStatus === 'redirected' && (
+                  <MdOutlineSync
+                    color="#FFF"
+                    className="bg-attention-500 mr-0.5 rounded-full"
+                  />
+                )}
+                {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
+              </ASTableCell>
+              <ASTableCell>{row.description}</ASTableCell>
             </ASTableRow>
           ))}
         </ASTableBody>
@@ -167,4 +140,15 @@ const ScanLogs = () => {
   );
 };
 
+ScanLogs.defaultProps = {
+  isLoading: false,
+  logs: {},
+  onFilterApplied: () => {}
+};
+
+ScanLogs.propTypes = {
+  isLoading: PropTypes.bool,
+  logs: PropTypes.instanceOf(Object),
+  onFilterApplied: PropTypes.func
+};
 export default ScanLogs;

@@ -1,14 +1,14 @@
 export const pageStatus = [
   {
-    label: 'Passed',
-    value: 'passed'
+    label: 'Success',
+    value: 'success'
   },
   {
-    label: 'Failed',
-    value: 'failed'
+    label: 'Error',
+    value: 'error'
   },
   {
     label: 'Redirects',
-    value: 'redirects'
+    value: 'redirected'
   }
 ];

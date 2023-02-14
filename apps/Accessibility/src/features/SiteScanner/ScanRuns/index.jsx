@@ -12,7 +12,9 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
+// https://run.mocky.io/v3/85ea0a0f-6b1c-4cb6-993e-7b9252837532
 const columns = [
   {
     name: 'Date',
@@ -34,111 +36,11 @@ const columns = [
   }
 ];
 
-const rows = [
-  {
-    date: (
-      <div className="text-base-500 flex items-center font-normal">
-        <MdSchedule />
-        <span className="ml-0.5">Nov 02 2022, 12:00 PM</span>
-      </div>
-    ),
-    issueSummary: (
-      <div className="text-base-500 font-normal">
-        <span>10745 issues</span>
-        <br />
-        <span>in 200 components</span>
-      </div>
-    ),
-    severity: (
-      <div>
-        <span className="mr-0.5">
-          <Badge text="1500 Critical" modifier="error" />
-        </span>
-        <span className="mr-0.5">
-          <Badge text="174 Serious" />
-        </span>
-        <span className="mr-0.5">
-          <Badge text="9500 Moderate" modifier="warn" />
-        </span>
-        <span>
-          <Badge text="150 Minor" />
-        </span>
-      </div>
-    ),
-    pageSummary: (
-      <div className="flex">
-        <span className="mr-2 flex items-center">
-          <MdCheckCircle color="#10B981" className="mr-0.5" />
-          40
-        </span>
-        <span className="mr-2 flex items-center">
-          <MdCancel color="#EF4444" className="mr-0.5" />
-          23
-        </span>
-        <span className="mr-2 flex items-center">
-          <MdOutlineSync
-            color="#FFF"
-            className="bg-attention-500 mr-0.5 rounded-full"
-          />
-          2
-        </span>
-      </div>
-    )
-  },
-  {
-    date: (
-      <div className="text-base-500 flex items-center font-normal">
-        <MdSchedule />
-        <span className="ml-0.5">Nov 02 2022, 12:00 PM</span>
-      </div>
-    ),
-    issueSummary: (
-      <div className="text-base-500 font-normal">
-        <span>10745 issues</span>
-        <br />
-        <span>in 200 components</span>
-      </div>
-    ),
-    severity: (
-      <div>
-        <span className="mr-0.5">
-          <Badge text="1500 Critical" modifier="error" />
-        </span>
-        <span className="mr-0.5">
-          <Badge text="174 Serious" />
-        </span>
-        <span className="mr-0.5">
-          <Badge text="9500 Moderate" modifier="warn" />
-        </span>
-        <span>
-          <Badge text="150 Minor" />
-        </span>
-      </div>
-    ),
-    pageSummary: (
-      <div className="flex">
-        <span className="mr-2 flex items-center">
-          <MdCheckCircle color="#10B981" className="mr-0.5" />
-          40
-        </span>
-        <span className="mr-2 flex items-center">
-          <MdCancel color="#EF4444" className="mr-0.5" />
-          23
-        </span>
-        <span className="mr-2 flex items-center">
-          <MdOutlineSync
-            color="#FFF"
-            className="bg-attention-500 mr-0.5 rounded-full"
-          />
-          2
-        </span>
-      </div>
-    )
-  }
-];
-
-const ScanRuns = () => {
+const ScanRuns = ({ isLoading, scanRunData }) => {
   const navigate = useNavigate();
+  if (isLoading) {
+    return 'Loading';
+  }
   return (
     <div>
       <Table>
@@ -156,33 +58,100 @@ const ScanRuns = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, idx) => (
+          {scanRunData?.data?.reports.map((row, idx) => (
             <TableRow
-              key={idx}
+              key={row.id}
               onRowClick={() => {
-                navigate('/site-scanner/scan-report/12');
+                navigate(`/site-scanner/scan-report/${row.id}`);
               }}
               tabIndex="0"
             >
-              {columns.map((column, colIdx) => {
-                const value = row[column.key];
-                return (
-                  <TableCell
-                    key={column.id}
-                    wrapperClass={`
-                    ${colIdx === 0 ? 'font-medium text-base-900' : ''}
+              <TableCell
+                wrapperClass={`font-medium text-base-900
                    first:pr-3 last:pl-3 p-5`}
-                  >
-                    {column.cell ? <>{column.cell()}</> : value}
-                  </TableCell>
-                );
-              })}
+              >
+                <div className="text-base-500 flex items-center font-normal">
+                  <MdSchedule />
+                  <span className="ml-0.5">
+                    {new Date(row.scanDate).toLocaleString()}
+                  </span>
+                </div>
+              </TableCell>
+              <TableCell
+                wrapperClass={`font-medium text-base-900
+                   first:pr-3 last:pl-3 p-5`}
+              >
+                <div className="text-base-500 font-normal">
+                  <span>{row.issues} issues</span>
+                  <br />
+                  <span>in {row.components} components</span>
+                </div>
+              </TableCell>
+              <TableCell
+                wrapperClass={`font-medium text-base-900
+                   first:pr-3 last:pl-3 p-5`}
+              >
+                <div>
+                  <span className="mr-0.5">
+                    <Badge
+                      text={`${row?.issueSummary?.critical || 0} Critical`}
+                      modifier="error"
+                    />
+                  </span>
+                  <span className="mr-0.5">
+                    <Badge
+                      text={`${row?.issueSummary?.serious || 0} Serious`}
+                    />
+                  </span>
+                  <span className="mr-0.5">
+                    <Badge
+                      text={`${row?.issueSummary?.moderate || 0} Moderate`}
+                      modifier="warn"
+                    />
+                  </span>
+                  <span>
+                    <Badge text={`${row?.issueSummary?.minor || 0} Minor`} />
+                  </span>
+                </div>
+              </TableCell>
+              <TableCell
+                wrapperClass={`font-medium text-base-900
+                   first:pr-3 last:pl-3 p-5`}
+              >
+                <div className="flex">
+                  <span className="mr-2 flex items-center">
+                    <MdCheckCircle color="#10B981" className="mr-0.5" />
+                    {row?.reportSummary?.success || 0}
+                  </span>
+                  <span className="mr-2 flex items-center">
+                    <MdCancel color="#EF4444" className="mr-0.5" />
+                    {row?.reportSummary?.failure || 0}
+                  </span>
+                  <span className="mr-2 flex items-center">
+                    <MdOutlineSync
+                      color="#FFF"
+                      className="bg-attention-500 mr-0.5 rounded-full"
+                    />
+                    {row?.reportSummary?.redirect || 0}
+                  </span>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
   );
+};
+
+ScanRuns.defaultProps = {
+  scanRunData: {},
+  isLoading: false
+};
+
+ScanRuns.propTypes = {
+  scanRunData: PropTypes.instanceOf(Object),
+  isLoading: PropTypes.bool
 };
 
 export default ScanRuns;

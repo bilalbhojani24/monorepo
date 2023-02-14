@@ -20,8 +20,16 @@ import { days, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
 
 const NewScan = ({ show, closeSlideover }) => {
-  const { recurringStatus, formData, handleFormData, validationError } =
-    useNewScan();
+  const {
+    recurringStatus,
+    formData,
+    handleFormData,
+    validationError,
+    handlerCloseOver,
+    timeRef,
+    scanNameRef,
+    scanUrlRef
+  } = useNewScan(closeSlideover);
 
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
@@ -37,19 +45,18 @@ const NewScan = ({ show, closeSlideover }) => {
       />
     </div>
   );
-  console.log(validationError);
   return (
     <div>
       <ASSlideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"
-        onOverlayClick={closeSlideover}
+        onOverlayClick={handlerCloseOver}
         backgroundOverlay
-        onClose={closeSlideover}
+        onClose={handlerCloseOver}
       >
         <ASSlideoverHeader
           dismissButton
-          handleDismissClick={closeSlideover}
+          handleDismissClick={handlerCloseOver}
           heading="New website scan"
           subHeading="Setup your new website scan"
           backgroundColorClass="bg-base-50"
@@ -68,6 +75,7 @@ const NewScan = ({ show, closeSlideover }) => {
                 placeholder="Scan Name"
                 defaultValue={formData.name}
                 errorText={validationError.scanName}
+                ref={scanNameRef}
               />
             </div>
             <div className="mr-5 flex-col">
@@ -78,9 +86,7 @@ const NewScan = ({ show, closeSlideover }) => {
                 WCAG Version
               </label>
               <Dropdown
-                triggerTitle={
-                  formData?.scanData?.wcagVersion || 'Select a WCAG Version'
-                }
+                triggerTitle={formData?.scanData?.wcagVersion.body}
                 options={wcagVersions}
                 heading="WCAG Version"
                 onClick={(e) => handleFormData(e, 'wcagVersion')}
@@ -98,6 +104,7 @@ const NewScan = ({ show, closeSlideover }) => {
                 description:
                   'You can schedule periodic scans for the added pages'
               }}
+              id="recurringRef"
             />
             {recurringStatus ? (
               <div className="flex items-center pt-5">
@@ -116,6 +123,7 @@ const NewScan = ({ show, closeSlideover }) => {
                   type="time"
                   className="text-base-500"
                   value={formData.time}
+                  ref={timeRef}
                 />
               </div>
             ) : (
@@ -123,7 +131,6 @@ const NewScan = ({ show, closeSlideover }) => {
             )}
             <div className="pt-2">
               <Accordion
-                openByDefault
                 onTriggerClick={() => {}}
                 onChevronClick={() => {}}
                 panelContentNode={getAccordionBody()}
@@ -146,6 +153,7 @@ const NewScan = ({ show, closeSlideover }) => {
                 placeholder="Sampleurl.com/home"
                 value={formData.url}
                 errorText={validationError.url}
+                ref={scanUrlRef}
               />
             </div>
             <Button
@@ -185,7 +193,7 @@ const NewScan = ({ show, closeSlideover }) => {
         <ASSlideoverFooter position="right" isBorder>
           <div className="flex w-full justify-end bg-white">
             <Button
-              onClick={closeSlideover}
+              onClick={handlerCloseOver}
               size="small"
               type="subtle"
               wrapperClassName="ml-4"

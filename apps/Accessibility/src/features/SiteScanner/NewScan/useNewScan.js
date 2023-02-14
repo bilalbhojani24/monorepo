@@ -1,41 +1,50 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import cronTime from 'cron-time-generator';
+import cronstrue from 'cronstrue';
 
 import { isValidHttpUrl } from '../../../utils/helper';
 
-export default function useNewScan() {
+import { days, wcagVersions } from './constants';
+
+export default function useNewScan(closeSlideover) {
   const [recurringStatus, setRecurringStatus] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    scanData: {
+      wcagVersion: wcagVersions[0],
+      needsReview: true,
+      bestPractices: true
+    },
+    day: days[0].body,
+    time: '12:00'
+  });
   const [validationError, setValidationError] = useState({});
+
+  const scanNameRef = useRef();
+  const timeRef = useRef();
+  const scanUrlRef = useRef();
+  const recurringRef = useRef();
 
   const onRecurringStatus = () => {
     setRecurringStatus(!recurringStatus);
   };
 
-  //   {
-  //   name : "Site Scanner First Test",
-  //   schedule_pattern : string (cron_exp)
-  //   scanGenre : "scheduled" ( one_time or scheduled ), // recurring
-  //   day: Monday,
-  //   time: 124324523952349,
-  //   scanData : {
-  // 	"wcagVersion: "WCAG 2.1 AAA",
-  // 	"needsReview" : true,
-  // 	"bestPractices" : true,
-  // 	"urlSet" : ["url1", "url2"]
-  // 	}
-  // }
-
   const checkForValidation = () => {
     if (
-      !formData.wcagVersion ||
-      !formData.scanName ||
+      !formData?.scanData?.wcagVersion ||
+      !formData.name ||
       !formData?.scanData?.urlSet?.length ||
-      (recurringStatus && !formData.data && !formData.time)
+      (recurringStatus && (!formData.day || !formData.time))
     ) {
       validationError.errors = true;
       setValidationError(true);
+      return false;
     }
+
+    return true;
   };
+
+  const getWcagVersionFromBody = (val) =>
+    wcagVersions.filter((version) => version.body === val)[0];
 
   const handleFormData = (e, name) => {
     const formDataObj = { ...formData };
@@ -53,10 +62,13 @@ export default function useNewScan() {
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
-        formDataObj.scanData.wcagVersion = e.target.textContent;
+
+        formDataObj.scanData.wcagVersion = getWcagVersionFromBody(
+          e.target.textContent
+        );
         break;
       case 'recurring':
-        formDataObj.scanGenre = e.target.checked ? 'scheduled' : 'one_time';
+        formDataObj.recurring = e.target.checked;
         setRecurringStatus(!recurringStatus);
         break;
       case 'needsReview':
@@ -66,10 +78,10 @@ export default function useNewScan() {
         formDataObj.bestPractices = e;
         break;
       case 'url':
-        if (!isValidHttpUrl(formDataObj.url)) {
+        if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
           validationErrorCpy.url = 'Please enter a valid URL';
         }
-        if (!e.target.value || isValidHttpUrl(formDataObj.url)) {
+        if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
           delete validationErrorCpy.url;
         }
         formDataObj.url = e.target.value;
@@ -92,7 +104,30 @@ export default function useNewScan() {
         }
         break;
       case 'submit':
-        checkForValidation();
+        if (checkForValidation()) {
+          const payload = { ...formData };
+          const time = formData.time.split(':');
+          if (formData.recurring) {
+            payload.schedulePattern = cronTime.onSpecificDaysAt(
+              [formData.day.toLowerCase()],
+              time[0],
+              time[1]
+            );
+          }
+          delete payload.day;
+          delete payload.time;
+          delete payload.url;
+          const selectedWcagVersion = getWcagVersionFromBody(
+            formData.wcagVersion
+          );
+          payload.scanData.wcagVersion = {
+            label: selectedWcagVersion.body,
+            value: selectedWcagVersion.id
+          };
+          console.log(payload);
+        } else {
+          console.log(validationError, formData);
+        }
         break;
       default:
         break;
@@ -101,12 +136,36 @@ export default function useNewScan() {
     setValidationError({ ...validationErrorCpy });
   };
 
+  const handlerCloseOver = () => {
+    setFormData({
+      scanData: {
+        wcagVersion: wcagVersions[0],
+        needsReview: true,
+        bestPractices: true
+      },
+      day: days[0].body,
+      time: '12:00'
+    });
+    scanNameRef.current.value = '';
+    if (timeRef.current) {
+      timeRef.current.value = '';
+    }
+    scanUrlRef.current.value = '';
+    setRecurringStatus(false);
+    document.querySelector('#recurring').checked = false;
+    closeSlideover();
+  };
+
   return {
     recurringStatus,
     setRecurringStatus,
     onRecurringStatus,
     formData,
     handleFormData,
-    validationError
+    validationError,
+    handlerCloseOver,
+    scanNameRef,
+    timeRef,
+    scanUrlRef
   };
 }

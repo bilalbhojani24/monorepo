@@ -16,7 +16,7 @@ export default function useSiteScanner() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (scanConfigsData.data) {
+    if (scanConfigsData?.data) {
       setIsLoading(false);
       setScanConfigStateData(scanConfigsData);
     }

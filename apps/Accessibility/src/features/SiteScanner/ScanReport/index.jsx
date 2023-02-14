@@ -12,8 +12,16 @@ import ScanLogs from './ScanLogs';
 import useScanReport from './useScanReport';
 
 export default function ScanReport() {
-  const { activeTab, onTabChange, activeTabIndex, tabsOptions } =
-    useScanReport();
+  const {
+    activeTab,
+    onTabChange,
+    activeTabIndex,
+    tabsOptions,
+    reportCommonData,
+    isLoading,
+    scanLogsStateData,
+    onFilterApplied
+  } = useScanReport();
 
   const getTabContent = () => {
     switch (activeTab) {
@@ -22,7 +30,13 @@ export default function ScanReport() {
       case tabsOptions.ALLISSUES.id:
         return 'all issues';
       case tabsOptions.SCANLOGS.id:
-        return <ScanLogs />;
+        return (
+          <ScanLogs
+            logs={scanLogsStateData}
+            isLoading={isLoading}
+            onFilterApplied={onFilterApplied}
+          />
+        );
       default:
         return 'Summary';
     }
