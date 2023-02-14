@@ -1,26 +1,26 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import {
+  Banner,
+  Button,
+  InputField,
   MdClose,
   MdOutlineArrowForward,
-  MdSearch
+  MdSearch,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  SelectMenu
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
-import { reportType } from 'constants';
-import {
-  ASBanner,
-  ASButton,
-  ASInputField,
-  ASModal,
-  ASModalBody,
-  ASModalFooter,
-  ASSelectMenu
-} from 'middleware/bifrost';
+import { reportPerPage, reportType } from 'constants';
 
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
+
+import './style.scss';
 
 export default function Reports() {
   const {
@@ -32,9 +32,12 @@ export default function Reports() {
     lastIndex,
     selectedReportsLength,
     searchInput,
+    selectedReportType,
+    isSidebarCollapsed,
     resetSelection,
     onCloseClick,
     onDownloadExtensionClick,
+    onUpdateSelectedReportType,
     onInputValueChange,
     updateLastIndex,
     onReportConsolidateButtonClick,
@@ -55,8 +58,8 @@ export default function Reports() {
 
   return (
     <div className="bg-base-50">
-      <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
-        <ASModalBody>
+      <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+        <ModalBody>
           <div className="mb-5 mt-6 flex w-full items-center justify-center">
             <img src={Logo} alt="extension-images" className="h-12 w-12" />
           </div>
@@ -68,16 +71,16 @@ export default function Reports() {
             extension to scan your workflows and automatically find issues
             across different pages.
           </p>
-        </ASModalBody>
-        <ASModalFooter position="center">
-          <ASButton
+        </ModalBody>
+        <ModalFooter position="center">
+          <Button
             onClick={() => handleClose({ action: 'do-later' })}
             colors="white"
             fullWidth
           >
             I’ll do it later
-          </ASButton>
-          <ASButton
+          </Button>
+          <Button
             onClick={() => {
               window.open(
                 window.accessibilityExtensionChromeStoreURL,
@@ -88,13 +91,13 @@ export default function Reports() {
             fullWidth
           >
             Download extension
-          </ASButton>
-        </ASModalFooter>
-      </ASModal>
-      <div className="p-6">
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <div className="border-base-200 fixed top-16 z-10 w-full border-b p-6">
         {isShowingBanner ? (
           <div className="fixed inset-x-0 top-0 z-10">
-            <ASBanner
+            <Banner
               description="Download the Accessibility Toolkit extension from Chrome Web Store
           to scan your workflows for accessibility issues."
               isDismissButton
@@ -107,13 +110,13 @@ export default function Reports() {
                 />
               }
               ctaButton={
-                <ASButton
+                <Button
                   onClick={onDownloadExtensionClick}
                   size="small"
                   colors="white"
                 >
                   Download now
-                </ASButton>
+                </Button>
               }
               onDismissClick={onCloseClick}
             />
@@ -128,33 +131,34 @@ export default function Reports() {
           <div className="flex items-center justify-between">
             <div className="flex">
               <div className="mr-4 w-80">
-                <ASInputField
+                <InputField
                   id="search-report"
                   leadingIcon={<MdSearch />}
                   placeholder="Search for name or error..."
                   onChange={onInputValueChange}
                 />
               </div>
-              <ASSelectMenu
+              <SelectMenu
                 isMultiSelect
-                // onChange={onUpdateImpact}
+                onChange={onUpdateSelectedReportType}
                 options={reportType}
                 placeholder="Type"
-                // value={reportFilters.impact}
+                wrapperClassName="w-36"
+                value={selectedReportType}
               />
             </div>
             <div className="flex items-center">
               {selectedReportsLength > 0 && (
-                <ASButton
+                <Button
                   icon={<MdClose className="text-xl" />}
                   variant="secondary"
                   onClick={resetSelection}
                   wrapperClassName="mr-2"
                 >
                   Clear {selectedReportsLength} selected
-                </ASButton>
+                </Button>
               )}
-              <ASButton
+              <Button
                 variant="primary"
                 iconPlacement="end"
                 icon={<MdOutlineArrowForward className="text-xl" />}
@@ -162,12 +166,19 @@ export default function Reports() {
                 disabled={isMergeDisabled}
               >
                 View consolidated report
-              </ASButton>
+              </Button>
             </div>
           </div>
         </div>
       </div>
-      <div className="">
+      <div
+        className="fixed overflow-auto "
+        style={{
+          height: 'calc(100vh - 227px)',
+          top: '227px',
+          width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
+        }}
+      >
         {!isLoading && reportList.length === 0 && (
           <div className="flex h-[calc(100vh_-_166px)] flex-col items-center justify-center">
             <div className="flex flex-col">
@@ -180,38 +191,40 @@ export default function Reports() {
             </div>
           </div>
         )}
-        <div className="mb-4">
+        <div className="mb-4 shadow-sm">
           {searchFilterList.length > 0 &&
             searchFilterList
-              .slice(lastIndex - 20, lastIndex)
+              .slice(lastIndex - reportPerPage, lastIndex)
               .map(({ id }) => <ReportRow key={id} id={id} />)}
         </div>
-        <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
-          <p className="text-base-700 text-sm font-medium">
-            Showing {lastIndex - 20 + 1} to{' '}
-            {isLastPage ? searchFilterList.length : lastIndex} of{' '}
-            {searchFilterList.length} results
-          </p>
-          <div className="flex">
-            <ASButton
-              disabled={isFirstPage}
-              onClick={() => updateLastIndex(lastIndex - 20)}
-              colors="white"
-              size="small"
-              wrapperClassName="mr-3"
-            >
-              Previous
-            </ASButton>
-            <ASButton
-              disabled={isLastPage}
-              onClick={() => updateLastIndex(lastIndex + 20)}
-              colors="white"
-              size="small"
-            >
-              Next
-            </ASButton>
+        {!isLoading && (
+          <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
+            <p className="text-base-700 text-sm font-medium">
+              Showing {lastIndex - reportPerPage + 1} to{' '}
+              {isLastPage ? searchFilterList.length : lastIndex} of{' '}
+              {searchFilterList.length} results
+            </p>
+            <div className="flex">
+              <Button
+                disabled={isFirstPage}
+                onClick={() => updateLastIndex(lastIndex - reportPerPage)}
+                colors="white"
+                size="small"
+                wrapperClassName="mr-3"
+              >
+                Previous
+              </Button>
+              <Button
+                disabled={isLastPage}
+                onClick={() => updateLastIndex(lastIndex + reportPerPage)}
+                colors="white"
+                size="small"
+              >
+                Next
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

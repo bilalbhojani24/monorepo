@@ -154,3 +154,24 @@ export const reportType = [
     value: 'Assisted test'
   }
 ];
+
+export const reportPerPage = 15;
+
+export const severityOptions = [
+  {
+    label: 'Critical',
+    value: 'critical'
+  },
+  {
+    label: 'Serious',
+    value: 'serious'
+  },
+  {
+    label: 'Moderate',
+    value: 'moderate'
+  },
+  {
+    label: 'Minor',
+    value: 'minor'
+  }
+];

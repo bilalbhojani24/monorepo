@@ -1,30 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import Card from 'app/bsA11y/widgets/Card';
+import {
+  DataVisualization,
+  Stats,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@browserstack/bifrost';
 import Chart from 'common/Chart';
+import { severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  ASDataVisualization,
-  ASStats,
-  ASTable,
-  ASTableBody,
-  ASTableCell,
-  ASTableHead,
-  ASTableRow
-} from 'middleware/bifrost';
-// eslint-disable-next-line import/no-unresolved
-// import Dropdown from 'trike/Dropdown';
 import { formatComponentIdString } from 'utils/helper';
 
-// import {
-//   ArrowDownwardIcon,
-//   ArrowUpwardIcon,
-//   ErrorIcon,
-//   HideSource,
-//   SortByAlphaIcon,
-//   SortIcon
-// } from 'trike/Icons';
 import useSummary from './useSummary';
 
 export default function Summary() {
@@ -129,7 +119,7 @@ export default function Summary() {
     <div>
       <div className="mt-4 flex items-start">
         <div className="mx-4 w-6/12 bg-white">
-          <ASDataVisualization
+          <DataVisualization
             title="Issue Summary"
             headerInfo={null}
             size="fit-content"
@@ -142,7 +132,12 @@ export default function Summary() {
                   {impactList.map((impact) => (
                     <div
                       className="mb-4 flex h-6 w-40 items-center justify-between"
-                      onClick={() => onRowClick('impact', impact)}
+                      onClick={() =>
+                        onRowClick(
+                          'impact',
+                          severityOptions.find(({ value }) => value === impact)
+                        )
+                      }
                       role="presentation"
                     >
                       <div className="text-base-800 flex items-center text-sm">
@@ -163,7 +158,7 @@ export default function Summary() {
           />
         </div>
         <div className="mr-4 w-6/12 bg-white">
-          <ASDataVisualization
+          <DataVisualization
             title="Affected Components"
             headerInfo={null}
             size="fit-content"
@@ -173,11 +168,11 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <ASTable>
-                  <ASTableHead>
-                    <ASTableRow>
+                <Table>
+                  <TableHead>
+                    <TableRow>
                       {componentColumns.map((col, index) => (
-                        <ASTableCell
+                        <TableCell
                           key={col.key}
                           variant="header"
                           textTransform="uppercase"
@@ -186,22 +181,25 @@ export default function Summary() {
                           } ${index === 2 ? 'w-32' : ''}`}
                         >
                           {col.name}
-                        </ASTableCell>
+                        </TableCell>
                       ))}
-                    </ASTableRow>
-                  </ASTableHead>
-                  <ASTableBody>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
                     {componentList
                       .slice(0, 6)
                       .map(({ componentId, count }, index) => (
-                        <ASTableRow
+                        <TableRow
                           wrapperClassName="cursor-pointer"
                           onRowClick={() =>
-                            onRowClick('component', componentId)
+                            onRowClick('component', {
+                              label: formatComponentIdString(componentId),
+                              value: componentId
+                            })
                           }
                         >
                           {componentColumns.map((column, colIndex) => (
-                            <ASTableCell
+                            <TableCell
                               key={column.id}
                               wrapperClassName={`px-3 py-2 ${
                                 colIndex === 0 ? 'w-14' : ''
@@ -212,12 +210,12 @@ export default function Summary() {
                                 ? formatComponentIdString(componentId)
                                 : ''}
                               {colIndex === 2 ? count : ''}
-                            </ASTableCell>
+                            </TableCell>
                           ))}
-                        </ASTableRow>
+                        </TableRow>
                       ))}
-                  </ASTableBody>
-                </ASTable>
+                  </TableBody>
+                </Table>
               </div>
             }
           />
@@ -225,7 +223,7 @@ export default function Summary() {
       </div>
       <div className="mt-4 flex items-start">
         <div className="mx-4 w-6/12 bg-white">
-          <ASDataVisualization
+          <DataVisualization
             title="Issues by category"
             headerInfo={null}
             size="fit-content"
@@ -235,11 +233,11 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <ASTable>
-                  <ASTableHead>
-                    <ASTableRow>
+                <Table>
+                  <TableHead>
+                    <TableRow>
                       {categoryColumns.map((col, index) => (
-                        <ASTableCell
+                        <TableCell
                           key={col.key}
                           variant="header"
                           textTransform="uppercase"
@@ -248,13 +246,21 @@ export default function Summary() {
                           } ${index === 1 ? 'w-40' : ''}`}
                         >
                           {col.name}
-                        </ASTableCell>
+                        </TableCell>
                       ))}
-                    </ASTableRow>
-                  </ASTableHead>
-                  <ASTableBody>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
                     {categoryList.map(({ category, count }, index) => (
-                      <ASTableRow wrapperClassName="cursor-pointer">
+                      <TableRow
+                        wrapperClassName="cursor-pointer"
+                        onRowClick={() =>
+                          onRowClick('category', {
+                            label: category.split('cat.')[1],
+                            value: category.split('cat.')[1]
+                          })
+                        }
+                      >
                         {categoryColumns.map((column, colIndex) => {
                           const cellUI = () => {
                             if (colIndex === 0) return index + 1;
@@ -292,20 +298,20 @@ export default function Summary() {
                             );
                           };
                           return (
-                            <ASTableCell
+                            <TableCell
                               key={column.id}
                               wrapperClassName={`px-3 py-2 ${
                                 colIndex === 0 ? 'w-16' : ''
                               } ${colIndex === 1 ? 'w-40' : ''}`}
                             >
                               {cellUI()}
-                            </ASTableCell>
+                            </TableCell>
                           );
                         })}
-                      </ASTableRow>
+                      </TableRow>
                     ))}
-                  </ASTableBody>
-                </ASTable>
+                  </TableBody>
+                </Table>
               </div>
             }
           />
@@ -345,7 +351,7 @@ export default function Summary() {
         /> */}
         <div className="mr-4 w-6/12 ">
           <div className="bg-white">
-            <ASDataVisualization
+            <DataVisualization
               title="Affected Pages"
               headerInfo={null}
               size="fit-content"
@@ -355,11 +361,11 @@ export default function Summary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <ASTable>
-                    <ASTableHead>
-                      <ASTableRow>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
                         {urlColumns.map((col, index) => (
-                          <ASTableCell
+                          <TableCell
                             key={col.key}
                             variant="header"
                             textTransform="uppercase"
@@ -371,18 +377,23 @@ export default function Summary() {
                             >
                               {col.name}
                             </div>
-                          </ASTableCell>
+                          </TableCell>
                         ))}
-                      </ASTableRow>
-                    </ASTableHead>
-                    <ASTableBody>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
                       {urlList.slice(0, 6).map(({ url, count }, index) => (
-                        <ASTableRow
+                        <TableRow
                           wrapperClassName="cursor-pointer"
-                          onRowClick={() => onRowClick('component', url)}
+                          onRowClick={() =>
+                            onRowClick('page', {
+                              label: url,
+                              value: url
+                            })
+                          }
                         >
                           {urlColumns.map((column, colIndex) => (
-                            <ASTableCell
+                            <TableCell
                               key={column.id}
                               wrapperClassName={`px-3 py-2 text-ellipsis overflow-hidden ${
                                 colIndex === 0 ? 'w-14' : ''
@@ -395,12 +406,12 @@ export default function Summary() {
                                 </div>
                               )}
                               {colIndex === 2 ? count : ''}
-                            </ASTableCell>
+                            </TableCell>
                           ))}
-                        </ASTableRow>
+                        </TableRow>
                       ))}
-                    </ASTableBody>
-                  </ASTable>
+                    </TableBody>
+                  </Table>
                 </div>
               }
             />
@@ -436,7 +447,7 @@ export default function Summary() {
           <div className="mt-4 flex">
             {options.map(({ name, id, stat }) => (
               <div className="mr-4 w-2/4">
-                <ASStats option={{ name, id, stat }} />
+                <Stats option={{ name, id, stat }} />
               </div>
             ))}
             {/* <Card height={1} width={1} className="m-20">

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Accordion, Badge } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import { setOpenAccordionId } from 'features/Report/slice/appSlice';
 import { getOpenAccordionId } from 'features/Report/slice/selector';
-import { ASAccordion, ASBadge } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
@@ -28,7 +28,7 @@ export default function Violation({ violation, index }) {
   };
 
   return (
-    <ASAccordion
+    <Accordion
       triggerClassName={twClassNames(
         'flex w-full bg-white py-3 px-6 border-t',
         {
@@ -40,7 +40,7 @@ export default function Violation({ violation, index }) {
           <div className="ml-2 flex items-center">
             <p className="text-base-900 mr-2 text-sm">{violation.help}</p>
             <div>
-              <ASBadge
+              <Badge
                 hasDot={false}
                 hasRemoveButton={false}
                 isRounded
@@ -49,7 +49,7 @@ export default function Violation({ violation, index }) {
             </div>
           </div>
           {impact && (
-            <ASBadge
+            <Badge
               hasDot={false}
               hasRemoveButton={false}
               isRounded

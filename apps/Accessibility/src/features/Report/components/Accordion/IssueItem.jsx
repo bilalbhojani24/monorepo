@@ -4,10 +4,14 @@ import { useSelector } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
+  Badge,
+  Hyperlink,
   InputField,
   MdClose,
-  MdContentCopy,
-  MdLink
+  MdLink,
+  Tabs,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton';
 import { GUIDELINES, HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB } from 'constants';
@@ -24,14 +28,6 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
-import {
-  ASBadge,
-  ASButton,
-  ASHyperlink,
-  ASTabs,
-  ASTooltip,
-  ASTooltipBody
-} from 'middleware/bifrost';
 // import { Button } from 'trike/Button';
 // import Hyperlink from 'trike/Hyperlink';
 // import {
@@ -53,9 +49,9 @@ import {
 // import CopyCode from '../../../CopyCode';
 import useIssueItem from '../../useIssueItem';
 
-import './customStyle.scss';
+import NeedsReviewBanner from './NeedsReviewBanner';
 
-// import NeedsReviewBanner from './NeedsReviewBanner';
+import './customStyle.scss';
 
 export default function IssueItem() {
   const { sectionData } = useContext(SectionsDataContext);
@@ -207,13 +203,11 @@ export default function IssueItem() {
               >
                 {title}
               </p>
-              <ASTooltip
+              <Tooltip
                 show={isCopied}
                 theme="dark"
                 content={
-                  <ASTooltipBody>
-                    {isCopied ? 'Link copied' : null}
-                  </ASTooltipBody>
+                  <TooltipBody>{isCopied ? 'Link copied' : null}</TooltipBody>
                 }
               >
                 <CopyToClipboard
@@ -227,7 +221,7 @@ export default function IssueItem() {
                 >
                   <MdLink className="text-xl" />
                 </CopyToClipboard>
-              </ASTooltip>
+              </Tooltip>
             </div>
             {/* <Tooltip
               description={isCopied ? 'Link copied' : null}
@@ -337,14 +331,14 @@ export default function IssueItem() {
           />
         </div>
       </div>
-      {/* {needsReview && (
+      {needsReview && (
         <NeedsReviewBanner
           message={message}
           isConfirmedInAllReports={confirmed}
           showHiddenIssues={showHiddenIssues}
           nodeNeedsReviewStatus={needsReviewStatusinReports}
         />
-      )} */}
+      )}
       <div className="py-4 px-6">
         <div>
           <p className="text-base-900 mb-2 text-base font-medium">
@@ -352,7 +346,7 @@ export default function IssueItem() {
           </p>
           <p className="text-base-500 mb-2 text-sm">
             {headerData.description}
-            <ASHyperlink
+            <Hyperlink
               href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
               target="_blank"
               onClick={
@@ -368,7 +362,7 @@ export default function IssueItem() {
               wrapperClassName="font-semibold inline-flex ml-1"
             >
               Learn more
-            </ASHyperlink>
+            </Hyperlink>
           </p>
           {tagList.length > 0 && (
             <div>
@@ -383,10 +377,10 @@ export default function IssueItem() {
                     handleClickByEnterOrSpace(e, () => onTagClick(value))
                   }
                 >
-                  <ASBadge
+                  <Badge
                     hasDot={false}
                     hasRemoveButton={false}
-                    isRounded
+                    isRounded={false}
                     size="large"
                     text={label.toUpperCase()}
                     modifier="primary"
@@ -415,7 +409,7 @@ export default function IssueItem() {
         </div>
       </div>
       <div className="px-6">
-        <ASTabs
+        <Tabs
           tabsArray={[
             {
               name: 'Issue details',
@@ -431,7 +425,9 @@ export default function IssueItem() {
         {activeTab === ISSUE_DETAILS_TAB && (
           <div className="mt-4">
             <div className="mb-4">
-              <p className="text-base-700 text-sm font-medium">CSS Selector</p>
+              <p className="text-base-700 mb-1 text-sm font-medium">
+                CSS Selector
+              </p>
               <div className="flex items-start">
                 <div className="mr-2 w-full">
                   <SyntaxHighlighter
@@ -446,7 +442,9 @@ export default function IssueItem() {
               </div>
             </div>
             <div>
-              <p>HTML Snippet</p>
+              <p className="text-base-700 mb-1 text-sm font-medium">
+                HTML Snippet
+              </p>
               <div className="flex items-start">
                 <div className="mr-2 w-full">
                   <SyntaxHighlighter
@@ -477,7 +475,7 @@ export default function IssueItem() {
                   return (
                     <div key={type}>
                       {index !== 0 && <p>and</p>}
-                      <p className="text-base-700 mb-2 text-sm font-medium">
+                      <p className="text-base-700 mb-2 mt-4 text-sm font-medium">
                         Fix {type === 'any' ? 'any' : 'all'} of the following
                       </p>
                       <ul className="text-base-500 mb-4 ml-6 list-disc text-sm">

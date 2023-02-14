@@ -29,7 +29,7 @@ import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useIssues() {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -68,11 +68,11 @@ export default function useIssues() {
       'activeIssueIndex',
       'isShowingIssue'
     ]);
-    // history.push({ search: `?${path}` });
+    navigate(`?${path}`);
 
     // update query params with applied filters
     const updatedPath = updateUrlWithQueryParam(intermediateFilters);
-    // history.push({ search: `?${updatedPath}` });
+    navigate(`?${updatedPath}`);
     setIsOpen(false);
   };
 
@@ -90,26 +90,28 @@ export default function useIssues() {
       dispatch(resetFilters());
       dispatch(resetIntermediateFilters());
       const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
-      history.push({ search: `?${path}` });
+      navigate(`?${path}`);
     } else if (key === 'showNeedsReviewIssues') {
       const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-      // history.push({ search: `?${path}` });
+      navigate(`?${path}`);
       dispatch(resetIntermediateResetFilterKey({ key, value: false }));
       dispatch(setResetFilterKey({ key, value: false }));
     } else {
       dispatch(resetIntermediateResetFilterKey({ key, value: [] }));
       const path = deleteUrlQueryParam([key]);
-      // history.push({ search: `?${path}` });
+      navigate(`?${path}`);
       dispatch(setResetFilterKey({ key, value: [] }));
     }
   };
 
   const onNeedsReviewChecked = (event) => {
     const { checked } = event.target;
-    setIntermediateReportFiltersKey({
-      key: 'showNeedsReviewIssues',
-      values: checked
-    });
+    dispatch(
+      setIntermediateReportFiltersKey({
+        key: 'showNeedsReviewIssues',
+        values: checked
+      })
+    );
   };
 
   const onInputBoxChange = (option, event) => {
@@ -125,7 +127,6 @@ export default function useIssues() {
         )
       ];
     }
-    console.log();
     dispatch(
       setIntermediateReportFiltersKey({
         key: 'impact',
@@ -300,13 +301,12 @@ export default function useIssues() {
       activeIssueIndex: 0,
       isShowingIssue: false
     });
-    // history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const onHiddenIssueClick = (val) => {
-    // history.push({
-    //   search: `?${updateUrlWithQueryParam({ hideIssues: val })}`
-    // });
+    const path = updateUrlWithQueryParam({ hideIssues: val });
+    navigate(`?${path}`);
     dispatch(resetIssueItem());
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };

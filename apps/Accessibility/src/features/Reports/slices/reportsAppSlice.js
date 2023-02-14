@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { versions } from 'constants';
+import { reportPerPage, reportType, versions } from 'constants';
 
 const { actions, reducer } = createSlice({
   name: 'reportListing',
   initialState: {
     reportList: [],
     activeVersion: versions[0].value,
-    lastIndex: 20
+    selectedReportType: [reportType[0]],
+    lastIndex: reportPerPage
   },
   reducers: {
     setReportList: (state, { payload }) => {
@@ -37,6 +38,9 @@ const { actions, reducer } = createSlice({
     },
     setLastIndex: (state, { payload }) => {
       state.lastIndex = payload;
+    },
+    setSelectedReportType: (state, { payload }) => {
+      state.selectedReportType = payload;
     }
   }
 });
@@ -47,7 +51,8 @@ export const {
   setActiveVersion,
   resetReportSelection,
   resetReportApp,
-  setLastIndex
+  setLastIndex,
+  setSelectedReportType
 } = actions;
 
 export default reducer;

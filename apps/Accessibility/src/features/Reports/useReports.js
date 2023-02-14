@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
+import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 // import { events } from 'constants';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -11,20 +12,24 @@ import {
   resetReportSelection,
   setActiveVersion,
   setLastIndex,
-  setReportList
+  setReportList,
+  setSelectedReportType
 } from './slices/reportsAppSlice';
 import {
   getActiveVersion,
   getLastIndex,
-  getReportList
+  getReportList,
+  getSelectedReportType
 } from './slices/selector';
 
 export default function useReports() {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const reportList = useSelector(getReportList);
   const activeVersion = useSelector(getActiveVersion);
   const lastIndex = useSelector(getLastIndex);
+  const selectedReportType = useSelector(getSelectedReportType);
+  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const selectedReportsLength = reportList.filter(
     (report) => report.isSelected
   ).length;
@@ -137,7 +142,7 @@ export default function useReports() {
     //   actionType: 'View consolidated report',
     //   reportCount: selectedReportsLength
     // });
-    history.push(`reports/report?${path}`);
+    navigate(`reports/report?${path}`);
   };
 
   const onInputValueChange = debounce((e) => {
@@ -148,19 +153,26 @@ export default function useReports() {
     dispatch(setLastIndex(index));
   };
 
+  const onUpdateSelectedReportType = (value) => {
+    dispatch(setSelectedReportType(value));
+  };
+
   return {
     isOpen,
     isLoading,
     isShowingBanner,
     activeVersion,
+    isSidebarCollapsed,
     lastIndex,
     isMergeDisabled,
     reportList,
     selectedReportsLength,
     searchInput,
+    selectedReportType,
     resetSelection,
     onCloseClick,
     onDownloadExtensionClick,
+    onUpdateSelectedReportType,
     onInputValueChange,
     updateLastIndex,
     onReportConsolidateButtonClick,

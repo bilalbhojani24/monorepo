@@ -1,53 +1,62 @@
 // NOTE: Don't remove sidebar logic, will add once it required
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { MdOutlineHome } from '@browserstack/bifrost';
 // import Sidebar from 'app/bsA11y/Sidebar';
+import { useNavigate } from 'react-router-dom';
 import {
-  ASBadge,
-  ASSidebarItem,
-  ASSidebarNavigation
-} from 'middleware/bifrost';
+  Badge,
+  MdOutlineHome,
+  SidebarItem,
+  SidebarNavigation
+} from '@browserstack/bifrost';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 
 import { getSidebarCollapsedStatus } from '../slices/selectors';
 
 export default function Dashboard({ children }) {
   const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
+  const [currentPath, setCurrentPath] = useState();
+  const navigate = useNavigate();
   const primaryNavs = [
     {
-      id: 'dashboard',
+      id: 'report-listing',
       label: 'All reports',
       activeIcon: MdOutlineHome,
       inActiveIcon: MdOutlineHome,
-      path: '/dashboard'
+      path: '/reports'
     },
     {
-      id: 'dashboard',
+      id: 'screen-reader',
       label: 'Assistive tech',
       activeIcon: MdOutlineHome,
       inActiveIcon: MdOutlineHome,
-      path: '/dashboard',
-      badge: <ASBadge text="New" />
+      path: '/screen-reader',
+      badge: <Badge text="New" />
     }
   ];
 
-  const SWBSidebarPri = (
-    <>
-      {primaryNavs.map((item, idx) => (
-        <React.Fragment key={Math.random()}>
-          <ASSidebarItem nav={item} current={idx === 3} />
-        </React.Fragment>
-      ))}
-    </>
-  );
+  const handleNavigationClick = (nav) => {
+    navigate(nav.path);
+    setCurrentPath(nav.id);
+  };
+
+  const SWBSidebarPri = primaryNavs.map((item) => (
+    <SidebarItem
+      key={item.id}
+      nav={item}
+      current={item.id === currentPath}
+      handleNavigationClick={handleNavigationClick}
+    />
+  ));
 
   return (
     <div>
-      <header className="absolute h-16">BrowserStack Header</header>
-      <ASSidebarNavigation
+      <header className="absolute top-5 z-10 h-16 w-full text-center">
+        BrowserStack Header
+      </header>
+      <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
-        wrapperClassName="bg-white pt-16"
+        wrapperClassName="bg-white pt-16 mt-5"
       />
       <main
         className={`${

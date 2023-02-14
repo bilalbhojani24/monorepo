@@ -17,7 +17,7 @@ import { updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useIssueItem(activeComponentNodes) {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(ISSUE_DETAILS_TAB);
   const [isCopied, setIsCopied] = useState(false);
   const customData = useSelector(getCustomData);
@@ -34,7 +34,7 @@ export default function useIssueItem(activeComponentNodes) {
       const newIndex = activeIssueIndex + 1;
       dispatch(setActiveIssueIndex(newIndex));
       const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-      history.push({ search: `?${path}` });
+      navigate(`?${path}`);
     }
   };
 
@@ -43,21 +43,21 @@ export default function useIssueItem(activeComponentNodes) {
       const newIndex = activeIssueIndex - 1;
       dispatch(setActiveIssueIndex(newIndex));
       const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-      history.push({ search: `?${path}` });
+      navigate(`?${path}`);
     }
   };
 
   const onFirstPageClick = () => {
     dispatch(setActiveIssueIndex(0));
     const path = updateUrlWithQueryParam({ activeIssueIndex: 0 });
-    history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const onLastPageClick = () => {
     const newIndex = activeComponentNodes.length - 1;
     dispatch(setActiveIssueIndex(newIndex));
     const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-    history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const onCloseClick = () => {
@@ -66,7 +66,7 @@ export default function useIssueItem(activeComponentNodes) {
       activeIssueIndex: 0,
       isShowingIssue: false
     });
-    history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const onTabChange = (tab) => {

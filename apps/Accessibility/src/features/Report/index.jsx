@@ -2,21 +2,25 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
 import {
+  Breadcrumb,
+  Button,
   MdDownload,
   MdOutlineCalendarToday,
   MdPerson,
-  MdShare
+  MdShare,
+  Tabs
 } from '@browserstack/bifrost';
 import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
-import { ASBreadcrumb, ASButton, ASTabs } from 'middleware/bifrost';
 import { downloadCsv } from 'utils/helper';
 
 import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
+
+import './style.scss';
 
 export default function Report() {
   const {
@@ -25,7 +29,6 @@ export default function Report() {
     isCopied,
     isLoading,
     reportMetaData,
-    onBackClick,
     onCopyClick,
     onTabChange
   } = useReport();
@@ -53,9 +56,9 @@ export default function Report() {
     <div className="bg-base-50">
       <div>
         <div className="px-6 pt-6">
-          <ASBreadcrumb
+          <Breadcrumb
             data={[
-              { name: 'All reports', url: '', current: '' },
+              { name: 'All reports', url: '/reports', current: '' },
               { name: 'Consolidated report', url: '', current: '' }
             ]}
             size="default"
@@ -103,15 +106,15 @@ export default function Report() {
             </div>
             <div className="flex">
               {isCopied ? (
-                <ASButton colors="white" size="small">
+                <Button colors="white" size="small">
                   Copied
-                </ASButton>
+                </Button>
               ) : (
                 <CopyToClipboard
                   text={window.location.href}
                   onCopy={onCopyClick}
                 >
-                  <ASButton
+                  <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
                     onClick={() => {}}
@@ -119,10 +122,10 @@ export default function Report() {
                     size="extra-small"
                   >
                     Share link
-                  </ASButton>
+                  </Button>
                 </CopyToClipboard>
               )}
-              <ASButton
+              <Button
                 icon={<MdDownload className="text-xl" />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
@@ -130,12 +133,12 @@ export default function Report() {
                 onClick={() => downloadCsv(reportData, csvName)}
               >
                 Export
-              </ASButton>
+              </Button>
             </div>
           </div>
         </div>
         <div className="text-base-200 border-b pl-6">
-          <ASTabs
+          <Tabs
             tabsArray={[
               {
                 name: 'Summary',

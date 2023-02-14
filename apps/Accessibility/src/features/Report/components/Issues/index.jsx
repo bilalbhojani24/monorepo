@@ -1,9 +1,22 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { MdArrowBack, MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import {
+  Badge,
+  Button,
+  Checkbox,
+  ComboBox,
+  MdArrowBack,
+  MdFilterAlt,
+  MdHideSource,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  SelectMenu
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
-import { FILTER_KEYS, issueTabs } from 'constants';
+import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -11,17 +24,6 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from 'features/Report/slice/selector';
-import {
-  ASBadge,
-  ASButton,
-  ASCheckbox,
-  ASComboBox,
-  ASModal,
-  ASModalBody,
-  ASModalFooter,
-  ASModalHeader,
-  ASSelectMenu
-} from 'middleware/bifrost';
 
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
@@ -82,26 +84,6 @@ export default function Issues() {
     Object.values(reportFilters).filter((item) => item.length > 0).length > 0;
 
   const isHalfView = activeComponentId && isShowingIssue;
-
-  const severityOptions = [
-    {
-      label: 'Critical',
-      value: 'critical'
-    },
-    {
-      label: 'Serious',
-      value: 'serious'
-    },
-    {
-      label: 'Moderate',
-      value: 'moderate'
-    },
-    {
-      label: 'Minor',
-      value: 'minor'
-    }
-  ];
-
   const intermediateFiltersImpactValues = intermediateFilters.impact.map(
     ({ value }) => value
   );
@@ -111,16 +93,16 @@ export default function Issues() {
       value={{ sectionData, violations, isHalfView }}
     >
       <div>
-        <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
-          <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
-          <ASModalBody>
+        <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+          <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
+          <ModalBody>
             <div className="mb-6">
               <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
                 Severity
               </p>
               <div className="flex">
                 {severityOptions.map((option) => (
-                  <ASCheckbox
+                  <Checkbox
                     data={option}
                     border={false}
                     wrapperClassName="pt-0 w-24 mr-5"
@@ -134,7 +116,7 @@ export default function Issues() {
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Pages</p>
-              <ASComboBox
+              <ComboBox
                 isMulti
                 onChange={(values) => onUpdateFilters('page', values)}
                 options={urls}
@@ -144,7 +126,7 @@ export default function Issues() {
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Components</p>
-              <ASComboBox
+              <ComboBox
                 isMulti
                 onChange={(values) => onUpdateFilters('component', values)}
                 options={componentIds}
@@ -154,7 +136,7 @@ export default function Issues() {
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Category</p>
-              <ASComboBox
+              <ComboBox
                 isMulti
                 onChange={(values) => onUpdateFilters('category', values)}
                 options={categories}
@@ -162,7 +144,7 @@ export default function Issues() {
                 // placeholder="Select..."
               />
             </div>
-            <ASCheckbox
+            <Checkbox
               border={false}
               wrapperClassName="pt-0"
               data={{
@@ -172,19 +154,19 @@ export default function Issues() {
               checked={intermediateFilters.showNeedsReviewIssues}
               onChange={onNeedsReviewChecked}
             />
-          </ASModalBody>
-          <ASModalFooter position="right ">
-            <ASButton onClick={onCloseClick} colors="white">
+          </ModalBody>
+          <ModalFooter position="right ">
+            <Button onClick={onCloseClick} colors="white">
               Cancel
-            </ASButton>
-            <ASButton onClick={onApplyFilters}>OK</ASButton>
-          </ASModalFooter>
-        </ASModal>
+            </Button>
+            <Button onClick={onApplyFilters}>OK</Button>
+          </ModalFooter>
+        </Modal>
         <div>
           <div className="flex items-center justify-between py-4 px-6">
             <div className="flex items-center">
               {showHiddenIssues && (
-                <ASButton
+                <Button
                   colors="white"
                   onClick={() => onHiddenIssueClick(false)}
                   size="small"
@@ -194,7 +176,7 @@ export default function Issues() {
                 />
               )}
               {issueTabs.map(({ label, value }, index) => (
-                <ASButton
+                <Button
                   wrapperClassName={
                     index === 0 ? 'rounded-r-none' : 'rounded-l-none border-l-0'
                   }
@@ -203,19 +185,20 @@ export default function Issues() {
                   size="small"
                 >
                   {label}
-                </ASButton>
+                </Button>
               ))}
             </div>
             <div className="flex">
-              <ASSelectMenu
+              <SelectMenu
                 isMultiSelect
                 onChange={onUpdateImpact}
                 options={severityOptions}
                 placeholder="Severity"
                 value={reportFilters.impact}
+                wrapperClassName="mr-4 w-36"
               />
               {!showHiddenIssues && (
-                <ASButton
+                <Button
                   icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
                   size="small"
@@ -225,7 +208,7 @@ export default function Issues() {
                 />
               )}
               {!showHiddenIssues && !hasFilters && (
-                <ASButton
+                <Button
                   colors="white"
                   onClick={() => onHiddenIssueClick(true)}
                   size="small"
@@ -238,7 +221,7 @@ export default function Issues() {
           {showHiddenIssues || hasFilters ? (
             <div className="bg-base-100 px-6 py-3">
               {showHiddenIssues ? (
-                <ASBadge
+                <Badge
                   hasDot={false}
                   hasRemoveButton
                   isRounded
@@ -254,7 +237,7 @@ export default function Issues() {
                   </p>
                   {Object.entries(reportFilters).map(([key, values]) =>
                     values.length ? (
-                      <ASBadge
+                      <Badge
                         readonly
                         size="large"
                         hasRemoveButton
@@ -266,7 +249,7 @@ export default function Issues() {
                     ) : null
                   )}
                   {reportFilters.showNeedsReviewIssues ? (
-                    <ASBadge
+                    <Badge
                       hasDot={false}
                       hasRemoveButton
                       isRounded
@@ -276,7 +259,7 @@ export default function Issues() {
                       onClose={() => onTagClose('showNeedsReviewIssues')}
                     />
                   ) : null}
-                  <ASButton
+                  <Button
                     onClick={() => onTagClose('all')}
                     size="small"
                     colors="white"
@@ -284,7 +267,7 @@ export default function Issues() {
                     variant="minimal"
                   >
                     Clear all
-                  </ASButton>
+                  </Button>
                 </div>
               )}
             </div>

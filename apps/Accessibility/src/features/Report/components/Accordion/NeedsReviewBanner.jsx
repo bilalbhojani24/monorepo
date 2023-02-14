@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
+import {
+  Accordion,
+  Badge,
+  Button,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  Tooltip,
+  TooltipBody
+} from '@browserstack/bifrost';
 // import classnames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import { NEEDS_REVIEW_BANNER_TEXT } from 'constants';
 import PropTypes from 'prop-types';
 // import Lozenge from 'trike/Lozenge';
@@ -13,7 +23,7 @@ import PropTypes from 'prop-types';
 //   ChevronRightIcon,
 //   InfoIcon
 // } from 'app/_modules/Icons';
-import { handleClickByEnterOrSpace } from 'utils/helper';
+// import { handleClickByEnterOrSpace } from 'utils/helper';
 
 function NodeIssueNavigator({
   nodeNeedsReviewStatus,
@@ -60,57 +70,61 @@ function NodeIssueNavigator({
           nodeNeedsReviewStatus[currentItemIndex].reportName.length > 20;
 
         return (
-          <div className="node-issue-navigator__title">
-            <p className="node-issue-navigator__title-review-text">{`Review status (${
+          <div>
+            <p className="text-base-700 text-sm">{`Review status (${
               currentItemIndex + 1
             } of ${totalItems}):`}</p>
             &nbsp;
             <Tooltip
-              description={
-                showToolTip
-                  ? nodeNeedsReviewStatus[currentItemIndex].reportName
-                  : ''
+              show
+              theme="dark"
+              content={
+                <TooltipBody>
+                  {showToolTip
+                    ? nodeNeedsReviewStatus[currentItemIndex].reportName
+                    : ''}
+                </TooltipBody>
               }
-              align="right"
-              direction="bottom"
-              secondaryAlign="right"
-              secondaryDirection="top"
             >
-              <p className="node-issue-navigator__title-report-name">
-                {nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;
-              </p>
+              <p>{nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;</p>
             </Tooltip>
-            <Lozenge
-              wrapperClassName="node-issue-navigator__title-review-lozenge"
+            <Badge
               text={text}
               modifier={modifier}
-              type="subtle"
+              hasDot={false}
+              hasRemoveButton={false}
+              isRounded={false}
+              size="small"
             />
           </div>
         );
       }
 
       return (
-        <div className="node-issue-navigator__title">
-          <p className="node-issue-navigator__title-review-text">
-            Reports can be reviewed on the extension by the report author
-          </p>
+        <div>
+          <p>Reports can be reviewed on the extension by the report author</p>
         </div>
       );
     }
     if (isConfirmedInAllReports) {
       return (
-        <div className="node-issue-navigator__title">
-          <p className="node-issue-navigator__title-review-text">
-            Review status:
-          </p>
-          <Lozenge
+        <div>
+          <p>Review status:</p>
+          {/* <Lozenge
             wrapperClassName="node-issue-navigator__title-review-lozenge"
             text="Confirmed as issue"
             modifier="success"
+          /> */}
+          <Badge
+            text="Confirmed as issue"
+            modifier="success"
+            hasDot={false}
+            hasRemoveButton={false}
+            isRounded={false}
+            size="small"
           />
           &nbsp;
-          <p className="node-issue-navigator__title-report-name">
+          <p>
             {showPagination
               ? 'as issue in all source reports'
               : 'in source report'}
@@ -119,30 +133,26 @@ function NodeIssueNavigator({
       );
     }
     return (
-      <div className="node-issue-navigator__title">
-        <p className="node-issue-navigator__title-review-text">
-          Review status:
-        </p>
+      <div>
+        <p>Review status:</p>
         &nbsp;
-        <Lozenge
+        {/* <Lozenge
           wrapperClassName="node-issue-navigator__title-review-lozenge"
           text="Dismissed issue"
           modifier="error"
-        />
+        /> */}
         &nbsp;
-        <p className="node-issue-navigator__title-report-name">
-          {showPagination ? 'in all source reports' : 'in source report'}
-        </p>
+        <p>{showPagination ? 'in all source reports' : 'in source report'}</p>
       </div>
     );
   };
 
   return (
-    <div className="node-issue-navigator">
+    <div>
       {getReviewStatusInfo()}
       {showPagination ? (
-        <div className="node-issue-navigator__pagination">
-          <div
+        <div className="flex">
+          {/* <div
             className={classnames('node-issue-navigator__pagination-icon', {
               'node-issue-navigator__pagination-icon--disabled':
                 isPreviousDisabled
@@ -158,12 +168,30 @@ function NodeIssueNavigator({
           >
             <ChevronLeftIcon />
             &nbsp;
-            <span className="node-issue-navigator__pagination-previous-text">
-              Previous
-            </span>
-          </div>
-          &nbsp;
-          <div
+            <span>Previous</span>
+          </div> */}
+          <Button
+            icon={<MdKeyboardArrowLeft className="text-xl" />}
+            iconPlacement="end"
+            onClick={handlePreviousClick}
+            colors="white"
+            disabled={isPreviousDisabled}
+            variant="minimal"
+            wrapperClassName="mr-3"
+          >
+            Previous
+          </Button>
+          <Button
+            icon={<MdKeyboardArrowRight className="text-xl" />}
+            iconPlacement="end"
+            onClick={handleNextClick}
+            colors="white"
+            disabled={isNextDisabled}
+            variant="minimal"
+          >
+            Next
+          </Button>
+          {/* <div
             className={classnames('node-issue-navigator__pagination-icon', {
               'node-issue-navigator__pagination-icon--disabled': isNextDisabled
             })}
@@ -176,11 +204,9 @@ function NodeIssueNavigator({
             }
             aria-label="Go to next review status"
           >
-            <span className="node-issue-navigator__pagination-next-text">
-              Next
-            </span>
+            <span>Next</span>
             <ChevronRightIcon />
-          </div>
+          </div> */}
         </div>
       ) : null}
     </div>
@@ -202,62 +228,112 @@ function NeedsReviewBanner({
     return NEEDS_REVIEW_BANNER_TEXT.REJECTED;
   };
 
-  const getLeadingIcon = () => {
-    if (isConfirmedInAllReports === null && !showHiddenIssues)
-      return <InfoIcon fontSize="small" htmlColor="#917210" />;
-    if (isConfirmedInAllReports)
-      return <CheckCircleIcon fontSize="small" htmlColor="#0E8A09" />;
-    return <CancelIcon fontSize="small" htmlColor="#AE2727" />;
-  };
+  // const getLeadingIcon = () => {
+  //   if (isConfirmedInAllReports === null && !showHiddenIssues)
+  //     return <InfoIcon fontSize="small" htmlColor="#917210" />;
+  //   if (isConfirmedInAllReports)
+  //     return <CheckCircleIcon fontSize="small" htmlColor="#0E8A09" />;
+  //   return <CancelIcon fontSize="small" htmlColor="#AE2727" />;
+  // };
 
   return (
-    <div
-      className={classnames('issue-item__banner-alert', {
-        'issue-item__banner-alert-accepted': isConfirmedInAllReports,
-        'issue-item__banner-alert-rejected':
-          showHiddenIssues ||
-          (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
-      })}
-    >
-      <div className="issue-item__alert-content-wrapper">
-        <div>
-          <p className="issue-item__review-message">
-            <div className="issue-item__review-title">
-              <div className="issue-item__review-title-contents">
-                {getLeadingIcon()}
-                <span className="issue-item__review-title-text">
-                  {getNeedsReviewBannerText()}
-                </span>
-              </div>
-              <div
-                className="issue-item__review-title-contents"
-                tabIndex={0}
-                role="button"
-                onClick={() => setShowDetails(!showDetails)}
-              >
-                <span className="issue-item__review-title-text">
-                  {showDetails ? 'Hide Details' : 'View Details'}
-                </span>
-                {showDetails ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-              </div>
-            </div>
-            {showDetails && (
-              <div className="issue-item__review-message-body">
-                <span className="issue-item__review-message-body-text">
-                  {message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}
-                </span>
-                <NodeIssueNavigator
-                  nodeNeedsReviewStatus={nodeNeedsReviewStatus}
-                  isConfirmedInAllReports={isConfirmedInAllReports}
-                  showHiddenIssues={showHiddenIssues}
-                />
-              </div>
-            )}
-          </p>
+    <Accordion
+      triggerClassName={twClassNames(
+        'flex w-full bg-white py-3 px-6 bg-attention-50',
+        {
+          'bg-success-50': isConfirmedInAllReports,
+          'base-error-50':
+            showHiddenIssues ||
+            (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+        }
+      )}
+      triggerContentNode={
+        <div className="flex w-full cursor-pointer items-center justify-between">
+          <div className="ml-2 flex items-center">
+            <p className="text-base-900 mr-2 text-sm">
+              {getNeedsReviewBannerText()}
+            </p>
+            {/* <div>
+              <Badge
+                hasDot={false}
+                hasRemoveButton={false}
+                isRounded
+                text={totalCount}
+              />
+            </div> */}
+          </div>
         </div>
-      </div>
-    </div>
+      }
+      panelContentNode={
+        <div
+          className={twClassNames('px-6 py-2 bg-attention-50', {
+            'bg-success-50': isConfirmedInAllReports,
+            'base-error-50':
+              showHiddenIssues ||
+              (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+          })}
+        >
+          <span>{message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}</span>
+          <NodeIssueNavigator
+            nodeNeedsReviewStatus={nodeNeedsReviewStatus}
+            isConfirmedInAllReports={isConfirmedInAllReports}
+            showHiddenIssues={showHiddenIssues}
+          />
+        </div>
+      }
+      onTriggerClick={() => setShowDetails(!showDetails)}
+      onChevronClick={() => setShowDetails(!showDetails)}
+    />
   );
+
+  // return (
+  //   <div
+  // className={classnames('issue-item__banner-alert', {
+  //   'issue-item__banner-alert-accepted': isConfirmedInAllReports,
+  //   'issue-item__banner-alert-rejected':
+  //     showHiddenIssues ||
+  //     (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+  // })}
+  //   >
+  //     <div className="issue-item__alert-content-wrapper">
+  //       <div>
+  //         <p className="issue-item__review-message">
+  //           <div className="issue-item__review-title">
+  //             <div className="issue-item__review-title-contents">
+  //               {/* {getLeadingIcon()} */}
+  //               <span className="issue-item__review-title-text">
+  //                 {/* {getNeedsReviewBannerText()} */}
+  //               </span>
+  //             </div>
+  //             <div
+  //               className="issue-item__review-title-contents"
+  //               tabIndex={0}
+  //               role="button"
+  //               onClick={() => setShowDetails(!showDetails)}
+  //             >
+  //               <span className="issue-item__review-title-text">
+  //                 {showDetails ? 'Hide Details' : 'View Details'}
+  //               </span>
+  //               {showDetails ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+  //             </div>
+  //           </div>
+  //           {showDetails && (
+  //             <div className="issue-item__review-message-body">
+  //               <span className="issue-item__review-message-body-text">
+  //                 {message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}
+  //               </span>
+  //               <NodeIssueNavigator
+  //                 nodeNeedsReviewStatus={nodeNeedsReviewStatus}
+  //                 isConfirmedInAllReports={isConfirmedInAllReports}
+  //                 showHiddenIssues={showHiddenIssues}
+  //               />
+  //             </div>
+  //           )}
+  //         </p>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 }
 
 NodeIssueNavigator.propTypes = {
