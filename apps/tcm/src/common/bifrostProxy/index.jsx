@@ -68,7 +68,7 @@ export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMSelectMenu = (props) => <SelectMenu {...props} />;
-export const TMSlideover = (props) => <Slideover {...props} />;
+export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
 export const TMModalBody = (props) => <ModalBody {...props} />;
@@ -96,10 +96,10 @@ export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 
-export const TMSlideoverHeader = (props) => {
+export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
 
-  return <SlideoverHeader {...props} topMarginElementId={topMarginElementId} />;
+  return <Slideover {...props} topMarginElementId={topMarginElementId} />;
 };
 
 export { TMAttachments, TMDataTable, TMDropdown, TMHeader, TMPagination };
