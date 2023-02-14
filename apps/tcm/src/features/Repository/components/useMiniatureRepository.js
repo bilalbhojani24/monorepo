@@ -20,11 +20,11 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const onFolderClick = (data) => {
+    setCurrentPage(1);
     setSelectedFolder(data);
   };
 
   const fetchAllTestCases = () => {
-    debugger;
     if (selectedFolder?.id) {
       setIsTestCasesLoading(true);
       getTestCasesAPI({
