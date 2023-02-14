@@ -21,7 +21,8 @@ const Banner = ({
   isDismissButton,
   modifier,
   onDismissClick,
-  placement
+  placement,
+  headerID
 }) => {
   const renderDismissButton = () => (
     <button
@@ -80,6 +81,7 @@ const Banner = ({
         },
         classes[modifier].containerColor
       )}
+      id={headerID || null}
     >
       <div className="mx-auto max-w-7xl p-3 sm:px-6 lg:px-8">
         {BANNER_ALIGN[1] === align ? (
@@ -127,7 +129,8 @@ Banner.propTypes = {
   isDismissButton: PropTypes.bool,
   modifier: PropTypes.oneOf(BANNER_MODIFIER),
   onDismissClick: PropTypes.func,
-  placement: PropTypes.oneOf(BANNER_PLACEMENT)
+  placement: PropTypes.oneOf(BANNER_PLACEMENT),
+  headerID: PropTypes.string
 };
 Banner.defaultProps = {
   align: BANNER_ALIGN[0],
@@ -137,7 +140,8 @@ Banner.defaultProps = {
   isDismissButton: true,
   modifier: BANNER_MODIFIER[0],
   onDismissClick: null,
-  placement: BANNER_PLACEMENT[0]
+  placement: BANNER_PLACEMENT[0],
+  headerID: ''
 };
 
 export default Banner;

@@ -11,7 +11,6 @@ import {
   shape,
   string
 } from '../../shared/proptypesConstants';
-import Checkbox from '../Checkbox';
 import { CheckIcon, ChevronUpDownIcon } from '../Icon';
 
 import { CHECK_POSITION } from './const/comboBoxConstants';
@@ -57,6 +56,7 @@ const ComboBox = (props) => {
         if (onChange) onChange(val);
       }}
       multiple={isMulti}
+      by={(o, n) => o.value === n.value}
     >
       <Combobox.Label className="text-base-700 block text-sm font-medium">
         {label}
@@ -64,7 +64,7 @@ const ComboBox = (props) => {
       <div className="relative mt-1">
         <Combobox.Input
           placeholder={placeholder}
-          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-10 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
+          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(dv) =>
             isMulti && Array.isArray(dv)
@@ -103,7 +103,7 @@ const ComboBox = (props) => {
                         checkPosition === CHECK_POSITION[1] && !isMulti,
                       'py-2 pl-8 pr-4':
                         checkPosition === CHECK_POSITION[0] && !isMulti,
-                      'hover:bg-base-50 pb-4 pl-2 cursor-pointer': isMulti
+                      'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti
                     }
                   )
                 }
@@ -148,15 +148,18 @@ const ComboBox = (props) => {
                         )}
                       </>
                     ) : (
-                      <Checkbox
-                        data={{
-                          label: option.label,
-                          value: option.value
-                        }}
-                        border={false}
-                        wrapperClassName="py-0"
-                        checked={selected}
-                      />
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          id={option.name}
+                          className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                          readOnly
+                        />
+                        <label htmlFor={option.name} className="cursor-pointer">
+                          {option.label}
+                        </label>
+                      </div>
                     )}
                   </>
                 )}
