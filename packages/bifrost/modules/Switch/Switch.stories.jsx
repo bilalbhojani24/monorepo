@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -64,21 +64,33 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
       defaultValue: ''
-    },
-    defaultValue: {
-      control: { type: 'boolean' },
-      description: 'Default value of select',
-      type: { summary: 'BOOLEAN', required: false },
-      defaultValue: false
     }
   },
   controls: {}
 };
-const Template = (args) => <Switch {...args} />;
-const Primary = Template.bind({});
-Primary.parameters = {
+
+const ControlledComponent = (args) => {
+  const [data, setData] = useState(false);
+  return (
+    <Switch
+      {...args}
+      checked={data}
+      onChange={(newValue) => setData(newValue)}
+    />
+  );
+};
+
+const UncontrolledTemplate = (args) => <Switch {...args} defaultValue />;
+const Uncontrolled = UncontrolledTemplate.bind({});
+Uncontrolled.parameters = {
+  controls: {}
+};
+
+const ControlledTemplate = (args) => <ControlledComponent {...args} />;
+const Controlled = ControlledTemplate.bind({});
+Uncontrolled.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+export { Controlled, Uncontrolled };
