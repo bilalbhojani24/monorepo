@@ -29,6 +29,7 @@ export default function Folders() {
     projectId,
     folderId,
     allFolders,
+    isMoveToRootAvailable,
     showAddFolderModal,
     updateRouteHelper,
     folderUpdateHandler,
@@ -56,6 +57,8 @@ export default function Folders() {
         alertText="The selected folder will be moved from the current location to the above selected folder."
         onOK={moveFolderOnOkHandler}
         onClose={hideFolderModal}
+        isRootAvailable={isMoveToRootAvailable}
+        confirmButtonText="Move Folder"
       />
       <AddEditFolderModal
         isEditFolder
