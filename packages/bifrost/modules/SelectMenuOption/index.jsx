@@ -4,6 +4,7 @@ import { Listbox } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 
 import {
+  bool,
   number,
   oneOf,
   oneOfType,
@@ -15,7 +16,12 @@ import { CHECK_POSITION } from '../SelectMenu/const/selectMenuConstants';
 
 import './styles.scss';
 
-const SelectMenuOption = ({ checkPosition, option, wrapperClassName }) => {
+const SelectMenuOption = ({
+  checkPosition,
+  disabled,
+  option,
+  wrapperClassName
+}) => {
   const selectMenuCtx = useContext(SelectMenuContextData);
 
   return (
@@ -30,13 +36,15 @@ const SelectMenuOption = ({ checkPosition, option, wrapperClassName }) => {
               checkPosition === CHECK_POSITION[1] && !selectMenuCtx.isMulti,
             'py-2 pl-8 pr-4':
               checkPosition === CHECK_POSITION[0] && !selectMenuCtx.isMulti,
-            'py-2 pl-3 hover:bg-base-50': selectMenuCtx.isMulti
+            'py-2 pl-3 hover:bg-base-50': selectMenuCtx.isMulti,
+            'bg-base-100': disabled
           },
           'relative cursor-pointer select-none',
           wrapperClassName
         )
       }
       value={option}
+      disabled={disabled}
     >
       {({ active, selected }) => (
         <>
@@ -99,6 +107,7 @@ const SelectMenuOption = ({ checkPosition, option, wrapperClassName }) => {
 
 SelectMenuOption.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
+  disabled: bool,
   option: shape({
     value: oneOfType([number, string]),
     label: string,
@@ -108,7 +117,8 @@ SelectMenuOption.propTypes = {
 };
 SelectMenuOption.defaultProps = {
   checkPosition: CHECK_POSITION[0],
-  wrapperClassName: ''
+  wrapperClassName: '',
+  disabled: false
 };
 
 export default SelectMenuOption;

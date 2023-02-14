@@ -93,14 +93,16 @@ Primary.parameters = {
 };
 
 export const ControlledSelectMenu = () => {
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(undefined);
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." />
       <SelectMenuOptionsBox>
         {React.Children.toArray(
-          SELECT_OPTIONS.map((item) => <SelectMenuOption option={item} />)
+          SELECT_OPTIONS.map((item, index) => (
+            <SelectMenuOption option={item} disabled={index % 2 !== 0} />
+          ))
         )}
       </SelectMenuOptionsBox>
     </SelectMenu>
