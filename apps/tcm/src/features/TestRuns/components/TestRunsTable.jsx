@@ -59,8 +59,8 @@ const TestRunsTable = () => {
     // },
     {
       name: 'ASSIGNED TO',
-      key: 'owner',
-      cell: (rowData) => rowData.owner || 'Unassigned'
+      key: 'assignee',
+      cell: (rowData) => rowData?.assignee || 'Unassigned'
     },
     {
       name: 'OVERALL PROGRESS',
