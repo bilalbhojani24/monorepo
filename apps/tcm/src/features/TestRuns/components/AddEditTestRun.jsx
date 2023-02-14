@@ -33,7 +33,8 @@ const AddEditTestRun = () => {
     hideAddIssuesModal,
     hideAddTagsModal,
     imageUploadRTEHelper,
-    tagVerifierFunction
+    tagVerifierFunction,
+    addIssuesSaveHelper
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -189,20 +190,13 @@ const AddEditTestRun = () => {
               <div className="w-2/4">
                 <div className="flex flex-1 items-end justify-between">
                   <div className="mr-4 flex-1">
-                    <TMComboBox
+                    <TMSelectMenu
                       checkPosition="right"
-                      isMulti
+                      isMultiSelect
                       placeholder="Select from options"
                       label="Issues"
                       options={issuesArray}
-                      value={
-                        testRunFormData?.test_run?.issues
-                          ? issuesArray.find(
-                              (item) =>
-                                item.value === testRunFormData?.test_run?.issues
-                            )
-                          : { label: '', value: '' } // to be updated to null
-                      }
+                      value={testRunFormData?.test_run?.issues}
                       onChange={(e) =>
                         handleTestRunInputFieldChange('issues', e)
                       }
@@ -224,13 +218,15 @@ const AddEditTestRun = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         onClose={hideAddTagsModal}
-        // existingTags={testCaseFormData?.tags?.map((item) => item.value) || []}
+        existingTags={
+          testRunFormData?.test_run?.tags?.map((item) => item.value) || []
+        }
         verifierFunction={tagVerifierFunction}
       />
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}
         onClose={hideAddIssuesModal}
-        // onSave={addIssuesSaveHelper}
+        onSave={addIssuesSaveHelper}
       />
     </>
   );

@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
 import { verifyTagAPI } from 'api/testruns.api';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   setAddTestRunForm,
+  setIssuesArray,
   setIsVisibleProps,
   setUnsavedDataExists,
   updateTestRunFormData
@@ -48,11 +50,6 @@ const useAddEditTestRun = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: true }));
   };
 
-  const imageUploadRTEHelper = (files) =>
-    imageUploadRTEHandlerAPI({ files, projectId });
-
-  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
-
   const handleTestRunInputFieldChange = (key, value) => {
     if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
 
@@ -64,6 +61,32 @@ const useAddEditTestRun = () => {
         updateTestRunFormData({ key: 'test_run', innerKey: key, value })
       );
   };
+
+  const addIssuesSaveHelper = (newIssuesArray) => {
+    hideAddIssuesModal();
+    const updatedAllIssues = selectMenuValueMapper([
+      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray])
+    ]);
+    const selectedIssues = testRunFormData?.test_run?.issues
+      ? [
+          ...new Set([
+            ...newIssuesArray,
+            ...testRunFormData?.test_run?.issues?.map((item) => item.value)
+          ])
+        ]
+      : newIssuesArray;
+    const combinedIssues = updatedAllIssues.filter((item) =>
+      selectedIssues.includes(item.value)
+    );
+
+    dispatch(setIssuesArray(updatedAllIssues));
+    handleTestRunInputFieldChange('issues', combinedIssues);
+  };
+
+  const imageUploadRTEHelper = (files) =>
+    imageUploadRTEHandlerAPI({ files, projectId });
+
+  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
@@ -90,7 +113,8 @@ const useAddEditTestRun = () => {
     showAddIssuesModal,
     hideAddIssuesModal,
     hideAddTagsModal,
-    tagVerifierFunction
+    tagVerifierFunction,
+    addIssuesSaveHelper
   };
 };
 
