@@ -1,16 +1,21 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { getTestRuns } from 'api/testruns.api';
+import { getUsersOfProjectAPI } from 'api/projects.api';
+import { getTagsAPI, getTestRuns } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 import {
   setAddTestRunForm,
   setAllTestRuns,
   setCurrentTab,
+  setLoadedDataProjectId,
   setLoader,
-  setMetaPage
+  setMetaPage,
+  setTagsArray,
+  setUsers
 } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
@@ -19,6 +24,9 @@ const useTestRuns = () => {
   const { projectId } = useParams();
   const currentPage = searchParams.get('p');
 
+  const loadedDataProjectId = useSelector(
+    (state) => state.testRuns.loadedDataProjectId
+  );
   const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
   const currentTab = useSelector((state) => state.testRuns.currentTab);
   const isTestRunsLoading = useSelector(
@@ -54,6 +62,38 @@ const useTestRuns = () => {
     dispatch(setAddTestRunForm(true));
   };
 
+  const fetchTags = () => {
+    getTagsAPI({ projectId }).then((data) => {
+      const mappedTags = selectMenuValueMapper(data?.tags || []);
+      dispatch(setTagsArray(mappedTags));
+    });
+  };
+
+  const fetchUsers = () => {
+    getUsersOfProjectAPI(projectId).then((data) => {
+      dispatch(
+        setUsers([
+          { full_name: 'Myself', id: data.myself.id },
+          ...data.users.filter((item) => item.id !== data.myself.id)
+        ])
+      );
+
+      dispatch(setLoadedDataProjectId(projectId));
+
+      // if (data?.myself?.id)
+      //   dispatch(
+      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
+      //   );
+    });
+  };
+
+  const initFormValues = () => {
+    if (loadedDataProjectId !== projectId) {
+      fetchUsers();
+      fetchTags();
+    }
+  };
+
   useEffect(() => {
     fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,7 +106,8 @@ const useTestRuns = () => {
     projectId,
     isAddTestRunsFormVisible,
     handleTabChange,
-    showTestRunAddFormHandler
+    showTestRunAddFormHandler,
+    initFormValues
   };
 };
 

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AddIssuesModal from 'common/AddIssuesModal';
+import AddTagModal from 'common/AddTagModal';
 import {
   TMAttachments,
   TMButton,
@@ -9,12 +11,16 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 
-import { ASSIGN_TO_OPTIONS, STATE_OPTIONS } from '../const/addEditConst';
+import { STATE_OPTIONS } from '../const/addEditConst';
 
 import useAddEditTestRun from './useAddEditTestRun';
+import useTestRuns from './useTestRuns';
 
 const AddEditTestRun = () => {
   const {
+    isAddTagModalShown,
+    isAddIssuesModalShown,
+    usersArrayMapped,
     tagsArray,
     issuesArray,
     testRunFormData,
@@ -22,10 +28,24 @@ const AddEditTestRun = () => {
     cancelCreation,
     handleTestRunInputFieldChange,
     showAddTagsModal,
-    showAddIssueModal,
+    showAddIssuesModal,
     openTestCasesModal,
-    imageUploadRTEHelper
+    hideAddIssuesModal,
+    hideAddTagsModal,
+    imageUploadRTEHelper,
+    tagVerifierFunction
   } = useAddEditTestRun();
+
+  const { initFormValues } = useTestRuns();
+
+  useEffect(() => {
+    initFormValues();
+
+    // return () => {
+    //   hideTestCaseAddEditPage(null, true);
+    // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -107,13 +127,13 @@ const AddEditTestRun = () => {
                   label="Assign To"
                   value={
                     testRunFormData?.test_run?.owner
-                      ? ASSIGN_TO_OPTIONS.find(
+                      ? usersArrayMapped.find(
                           (item) =>
                             item.value === testRunFormData?.test_run?.owner
                         )
                       : { label: '', value: '' } // to be updated to null
                   }
-                  options={ASSIGN_TO_OPTIONS}
+                  options={usersArrayMapped}
                   onChange={(e) =>
                     handleTestRunInputFieldChange('owner', e.value)
                   }
@@ -194,7 +214,7 @@ const AddEditTestRun = () => {
                   <TMButton
                     wrapperClassName=""
                     colors="white"
-                    onClick={showAddIssueModal}
+                    onClick={showAddIssuesModal}
                   >
                     Add New Issue
                   </TMButton>
@@ -204,6 +224,17 @@ const AddEditTestRun = () => {
           </div>
         </div>
       </div>
+      <AddTagModal
+        isVisible={isAddTagModalShown}
+        onClose={hideAddTagsModal}
+        // existingTags={testCaseFormData?.tags?.map((item) => item.value) || []}
+        verifierFunction={tagVerifierFunction}
+      />
+      <AddIssuesModal
+        isVisible={isAddIssuesModalShown}
+        onClose={hideAddIssuesModal}
+        // onSave={addIssuesSaveHelper}
+      />
     </>
   );
 };

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI, uploadFilesAPI } from 'api/attachments.api';
-import { verifyTagAPI } from 'api/common.api';
 import { addFolder } from 'api/folders.api';
 import {
   addTestCaseAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
-  getTestCaseDetailsAPI
+  getTestCaseDetailsAPI,
+  verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
