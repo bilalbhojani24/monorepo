@@ -30,7 +30,7 @@ const AddEditTestRun = () => {
     handleTestRunInputFieldChange,
     showAddTagsModal,
     showAddIssuesModal,
-    openTestCasesModal,
+    showTestCasesModal,
     hideAddIssuesModal,
     hideAddTagsModal,
     imageUploadRTEHelper,
@@ -104,7 +104,7 @@ const AddEditTestRun = () => {
                       actionName: 'Select Test Cases'
                     }
                   ]}
-                  onActionClick={openTestCasesModal}
+                  onActionClick={showTestCasesModal}
                 />
               </div>
             </div>

@@ -44,8 +44,14 @@ const useAddEditTestRun = () => {
   const hideAddTagsModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: false }));
   };
+  const hideTestCasesModal = () => {
+    dispatch(setIsVisibleProps({ key: 'addTestCaseModal', value: false }));
+  };
   const showAddIssuesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssuesModal', value: true }));
+  };
+  const showTestCasesModal = () => {
+    dispatch(setIsVisibleProps({ key: 'addTestCaseModal', value: true }));
   };
   const showAddTagsModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: true }));
@@ -118,6 +124,7 @@ const useAddEditTestRun = () => {
     testRunFormData,
     tagsArray,
     issuesArray,
+    showTestCasesModal,
     handleTestRunInputFieldChange,
     imageUploadRTEHelper,
     showAddTagsModal,
@@ -126,7 +133,8 @@ const useAddEditTestRun = () => {
     hideAddTagsModal,
     tagVerifierFunction,
     addIssuesSaveHelper,
-    createTestRunHandler
+    createTestRunHandler,
+    hideTestCasesModal
   };
 };
 

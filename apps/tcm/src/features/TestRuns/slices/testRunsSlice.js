@@ -50,9 +50,6 @@ const testRunslice = createSlice({
         state.testRunFormData = initialState.testRunFormData;
       }
     },
-    setAddTestCaseModal: (state, { payload }) => {
-      state.isVisible.addTestCaseModal = payload;
-    },
     updateTestRunFormData: (state, { payload }) => {
       if (payload.innerKey) {
         // goes inside test_run object
@@ -108,7 +105,6 @@ export const {
   addSingleTestRun,
   setAllTestRuns,
   setAddTestRunForm,
-  setAddTestCaseModal,
   setCurrentTab,
   setMetaPage
 } = testRunslice.actions;
