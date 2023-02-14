@@ -59,7 +59,7 @@ const TruncateText = ({
     >
       <Component
         className={twClassNames(
-          `line-clamp-${truncateByLine}`,
+          `line-clamp-${truncateByLine} break-all`,
           wrapperClassName
         )}
         ref={headerNameRef}
