@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import SelectMenuOption from '../SelectMenuOption';
 
 import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
@@ -30,7 +31,7 @@ const defaultConfig = {
         'Default selected values for the selectMenu, and the value state will be controlled internally, means values doesnt get updated on re-render',
       defaultValue: SELECT_OPTIONS[0]
     },
-    isMultiSelect: {
+    isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
       defaultValue: false
@@ -48,10 +49,15 @@ const defaultConfig = {
         console.log(selectedOptions);
       }
     },
-    options: {
-      options: SELECT_OPTIONS,
+    renderOptions: {
       description: 'options for the selectMenu, array of objects',
-      defaultValue: SELECT_OPTIONS
+      defaultValue: (
+        <>
+          {SELECT_OPTIONS.map((item) => (
+            <SelectMenuOption option={item} />
+          ))}
+        </>
+      )
     },
     placeholder: {
       option: { type: 'string' },
@@ -87,10 +93,16 @@ export const ControlledSelectMenu = () => {
   const [selected, setSelected] = useState([]);
   return (
     <SelectMenu
-      options={SELECT_OPTIONS}
       onChange={(val) => setSelected(val)}
       value={selected}
-      isMultiSelect
+      isMulti
+      renderOptions={
+        <>
+          {SELECT_OPTIONS.map((item) => (
+            <SelectMenuOption option={item} />
+          ))}
+        </>
+      }
     />
   );
 };
@@ -100,7 +112,7 @@ export { MultiSelect, Primary, SelectWithPlaceholder };
 
 MultiSelect.args = {
   defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
-  isMultiSelect: true,
+  isMulti: true,
   value: undefined
 };
 

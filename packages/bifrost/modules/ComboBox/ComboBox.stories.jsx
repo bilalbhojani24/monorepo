@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import ComboboxOptions from '../ComboboxOptions';
 
 import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
@@ -53,6 +54,16 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: 'placeholder text...'
     },
+    renderOptions: {
+      option: { type: 'string' },
+      defaultValue: (
+        <>
+          {COMBOBOX_OPTIONS.map((item) => (
+            <ComboboxOptions option={item} />
+          ))}
+        </>
+      )
+    },
     value: {
       option: { type: null },
       description:
@@ -78,10 +89,16 @@ export const ControlledCombobox = () => {
   const [selected, setSelected] = useState([]);
   return (
     <ComboBox
-      options={COMBOBOX_OPTIONS}
       onChange={(val) => setSelected(val)}
       value={selected}
       isMulti
+      renderOptions={
+        <>
+          {COMBOBOX_OPTIONS.map((item) => (
+            <ComboboxOptions option={item} />
+          ))}
+        </>
+      }
     />
   );
 };

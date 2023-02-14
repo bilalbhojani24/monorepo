@@ -1,203 +1,130 @@
-import React, { Fragment } from 'react';
-import { twClassNames } from '@browserstack/utils';
+import React, { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import * as Popover from '@radix-ui/react-popover';
 
 import {
   arrayOf,
   bool,
   func,
+  node,
   number,
-  oneOf,
   oneOfType,
   shape,
   string
 } from '../../shared/proptypesConstants';
+import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
 import { CHECK_POSITION } from './const/selectMenuConstants';
+import { renderMultiOptions, renderSingleOptions } from './helper';
 
 import './styles.scss';
 
 const SelectMenu = (props) => {
+  const buttonRef = useRef();
+  const [width, setWidth] = useState(0);
   const {
-    label,
-    options,
-    onChange,
-    isMultiSelect,
-    defaultValue,
     checkPosition,
+    label,
+    onChange,
+    isMulti,
+    defaultValue,
     placeholder,
     value,
-    wrapperClassName
+    wrapperClassName,
+    renderOptions
   } = props;
 
-  const renderSingleOptions = (opts) => {
-    if (opts)
-      return (
-        <div className="flex items-center truncate">
-          {opts?.image && (
-            <img
-              className="mr-2 h-6 w-6 shrink-0 rounded-full"
-              src={opts.image}
-              alt={opts.label}
-            />
-          )}
-          {opts?.label}
-        </div>
-      );
-    return placeholder;
-  };
-
-  const renderMultiOptions = (opts) => {
-    if (opts.length) return opts?.map((val) => val.label).join(', ');
-    return placeholder;
-  };
+  useLayoutEffect(() => {
+    setWidth(buttonRef.current.offsetWidth);
+  }, []);
 
   return (
-    <Listbox
-      value={value ?? undefined}
-      defaultValue={defaultValue ?? undefined}
-      onChange={(val) => {
-        if (onChange) onChange(val);
+    <SelectMenuContextData.Provider
+      value={{
+        isMulti,
+        checkPosition
       }}
-      multiple={isMultiSelect}
-      by={(o, n) => o.value === n.value}
     >
-      {({ open }) => (
-        <div className={wrapperClassName}>
-          {label && (
-            <Listbox.Label className="text-base-700 mb-1 block text-sm font-medium">
-              {label}
-            </Listbox.Label>
-          )}
-          <div className="relative">
-            <Listbox.Button className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm">
-              {({ value: buttonValue }) => (
-                <>
-                  <span className="flex items-center truncate">
-                    {isMultiSelect && Array.isArray(buttonValue)
-                      ? renderMultiOptions(buttonValue)
-                      : renderSingleOptions(buttonValue)}
-                  </span>
-
-                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    {isMultiSelect && buttonValue?.length ? (
-                      <span className="mr-1 font-bold">{`(${buttonValue.length})`}</span>
-                    ) : null}
-                    <ChevronUpDownIcon
-                      className="text-base-400 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </>
+      <Popover.Root>
+        <Listbox
+          value={value ?? undefined}
+          defaultValue={defaultValue ?? undefined}
+          onChange={(val) => {
+            if (onChange) onChange(val);
+          }}
+          multiple={isMulti}
+          by={(o, n) => {
+            if (o && n) return o.value === n.value;
+            return null;
+          }}
+        >
+          {({ open }) => (
+            <div className={wrapperClassName}>
+              {label && (
+                <Listbox.Label className="text-base-700 mb-1 block text-sm font-medium">
+                  {label}
+                </Listbox.Label>
               )}
-            </Listbox.Button>
+              <Popover.Trigger asChild>
+                <Listbox.Button
+                  ref={buttonRef}
+                  className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm"
+                >
+                  {({ value: btnValue }) => (
+                    <>
+                      <span className="flex items-center truncate">
+                        {isMulti && Array.isArray(btnValue)
+                          ? renderMultiOptions(btnValue, placeholder)
+                          : renderSingleOptions(btnValue, placeholder)}
+                      </span>
 
-            <Transition
-              show={open}
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5  focus:outline-none sm:text-sm">
-                {options.map((option) => (
-                  <Listbox.Option
-                    key={option.value}
-                    className={({ active }) =>
-                      twClassNames(
-                        {
-                          'bg-brand-600 text-white': active && !isMultiSelect,
-                          'text-base-900': !active,
-                          'py-2 pl-3 pr-9':
-                            checkPosition === CHECK_POSITION[1] &&
-                            !isMultiSelect,
-                          'py-2 pl-8 pr-4':
-                            checkPosition === CHECK_POSITION[0] &&
-                            !isMultiSelect,
-                          'py-2 pl-3 hover:bg-base-50': isMultiSelect
-                        },
-                        'relative cursor-pointer select-none'
-                      )
-                    }
-                    value={option}
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        {isMulti && btnValue?.length ? (
+                          <span className="mr-1 font-bold">{`(${btnValue.length})`}</span>
+                        ) : null}
+                        <ChevronUpDownIcon
+                          className="text-base-400 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </>
+                  )}
+                </Listbox.Button>
+              </Popover.Trigger>
+              <Popover.Portal forceMount>
+                <Popover.Content
+                  asChild
+                  style={{
+                    width: `${width}px`
+                  }}
+                >
+                  <Transition
+                    show={open}
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
                   >
-                    {({ active, selected }) => (
-                      <>
-                        {!isMultiSelect ? (
-                          <div className="flex items-center">
-                            {option.image && (
-                              <img
-                                src={option.image}
-                                alt=""
-                                className="mr-2 h-6 w-6 shrink-0 rounded-full"
-                              />
-                            )}
-
-                            <span
-                              className={twClassNames(
-                                {
-                                  'font-semibold': selected,
-                                  'font-normal': !selected
-                                },
-                                'block truncate'
-                              )}
-                            >
-                              {option.label}
-                            </span>
-                            {selected && (
-                              <span
-                                className={twClassNames(
-                                  {
-                                    'text-white': active,
-                                    'text-brand-600': !active,
-                                    'right-0 pr-4':
-                                      checkPosition === CHECK_POSITION[1],
-                                    'left-0 pl-1.5':
-                                      checkPosition === CHECK_POSITION[0]
-                                  },
-                                  'absolute inset-y-0 flex items-center'
-                                )}
-                              >
-                                <CheckIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              </span>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              checked={selected}
-                              id={option.name}
-                              className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
-                              readOnly
-                            />
-                            <label
-                              htmlFor={option.name}
-                              className="cursor-pointer"
-                            >
-                              {option.label}
-                            </label>
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </div>
-      )}
-    </Listbox>
+                    <Listbox.Options
+                      static
+                      className="divide-base-100 border-base-200 z-50 my-1 max-h-60 w-full divide-y overflow-scroll rounded-md border bg-white shadow-lg outline-none"
+                    >
+                      {renderOptions}
+                    </Listbox.Options>
+                  </Transition>
+                </Popover.Content>
+              </Popover.Portal>
+            </div>
+          )}
+        </Listbox>
+      </Popover.Root>
+    </SelectMenuContextData.Provider>
   );
 };
 
 SelectMenu.propTypes = {
-  checkPosition: oneOf(CHECK_POSITION),
+  checkPosition: oneOfType(CHECK_POSITION),
   defaultValue: oneOfType([
     shape({
       value: oneOfType([number, string]),
@@ -212,17 +139,11 @@ SelectMenu.propTypes = {
       })
     )
   ]),
-  isMultiSelect: bool,
+  isMulti: bool,
   label: string,
-  options: arrayOf(
-    shape({
-      value: oneOfType([number, string]),
-      label: string,
-      image: string
-    })
-  ).isRequired,
-  placeholder: string,
   onChange: func,
+  placeholder: string,
+  renderOptions: node.isRequired,
   value: oneOfType([
     shape({
       value: oneOfType([number, string]),
@@ -243,7 +164,7 @@ SelectMenu.propTypes = {
 SelectMenu.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   defaultValue: null,
-  isMultiSelect: false,
+  isMulti: false,
   label: '',
   placeholder: 'Placeholder...',
   onChange: () => {},
