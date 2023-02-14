@@ -12,6 +12,7 @@ const initialState = {
   allTestCases: [],
   selectedFolder: null,
   isAddTestCasePageVisible: false,
+  isAddTestCaseFromSearch: false,
   testCaseFormData: {
     name: '',
     description: '',
@@ -68,7 +69,10 @@ const initialState = {
   isLoading: {
     folder: true,
     testCases: true
-  }
+  },
+  isUnsavedDataExists: false,
+  isUnsavedDataModalVisible: false,
+  recentRquestedAfterUnsaved: ''
 };
 
 export const repositorySlice = createSlice({
@@ -95,6 +99,9 @@ export const repositorySlice = createSlice({
     },
     addSingleTestCase: (state, { payload }) => {
       state.allTestCases = [payload, ...state.allTestCases];
+    },
+    setAddTestCaseFromSearch: (state, { payload }) => {
+      state.isAddTestCaseFromSearch = payload;
     },
     updateTestCase: (state, { payload }) => {
       state.allTestCases = state.allTestCases.map((item) =>
@@ -177,13 +184,29 @@ export const repositorySlice = createSlice({
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
     },
+    resetFilterSearchMeta: (state) => {
+      state.filterSearchMeta = initialState.filterSearchMeta;
+    },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
+    },
+    setUnsavedDataExists: (state, { payload }) => {
+      state.isUnsavedDataExists = payload;
+    },
+    setUnsavedDataModal: (state, { payload }) => {
+      state.isUnsavedDataModalVisible = payload;
+    },
+    setRecentRquestedAfterUnsaved: (state, { payload }) => {
+      state.recentRquestedAfterUnsaved = payload;
     }
   }
 });
 
 export const {
+  setRecentRquestedAfterUnsaved,
+  setUnsavedDataModal,
+  setUnsavedDataExists,
+  resetFilterSearchMeta,
   setFilterSearchMeta,
   setFolderModalConf,
   setLoadedDataProjectId,
@@ -214,7 +237,8 @@ export const {
   updateFoldersLoading,
   setMetaPage,
   setFilterSearchView,
-  updateLoader
+  updateLoader,
+  setAddTestCaseFromSearch
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

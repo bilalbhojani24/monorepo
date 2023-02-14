@@ -86,7 +86,7 @@ export default function Folders() {
 
           <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
             {isFoldersLoading ? (
-              <Loader wrapperClass="h-full" />
+              <Loader wrapperClassName="h-full" />
             ) : (
               <>
                 {!isSearchFilterView ? (
@@ -104,7 +104,7 @@ export default function Folders() {
                 ) : (
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     {isTestCasesLoading ? (
-                      <Loader wrapperClass="h-full" />
+                      <Loader wrapperClassName="h-full" />
                     ) : (
                       <TMEmptyState
                         // title=""

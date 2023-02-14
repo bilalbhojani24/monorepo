@@ -141,8 +141,8 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.field}>
-              <TableCell wrapperClass="py-1">{row.field}</TableCell>
-              <TableCell wrapperClass="py-2 mr-4">
+              <TableCell wrapperClassName="py-1">{row.field}</TableCell>
+              <TableCell wrapperClassName="py-2 mr-4">
                 <TMSelectMenu
                   checkPosition="right"
                   options={row.mappedField.displayOptions}
@@ -159,7 +159,7 @@ const MapFields = ({ importId, importFields, defaultFields, customFields }) => {
                   onChange={handleSelectMenuChange(row.field)}
                 />
               </TableCell>
-              <TableCell wrapperClass="py-1">
+              <TableCell wrapperClassName="py-1">
                 {getMappingForLastCol(
                   row.field,
                   row.mappedValue,

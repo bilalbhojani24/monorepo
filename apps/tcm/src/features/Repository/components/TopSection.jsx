@@ -1,10 +1,10 @@
 import React from 'react';
 import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
 
-import useTestCases from './useTestCases';
+import useAddEditTestCase from './useAddEditTestCase';
 
 const TopSection = () => {
-  const { showTestCaseAdditionPage } = useTestCases();
+  const { showTestCaseAdditionPage } = useAddEditTestCase();
 
   return (
     <div className="w-full">

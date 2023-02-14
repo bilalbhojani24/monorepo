@@ -11,6 +11,7 @@ import {
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
+import { requestedSteps } from '../const/unsavedConst';
 import {
   setAllFolders,
   setFolderModalConf,
@@ -19,11 +20,14 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
-import useTestCases from './useTestCases';
+import useAddEditTestCase from './useAddEditTestCase';
+import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useFolders() {
+  const { isOkToExitForm } = useUnsavedChanges();
   const [searchParams] = useSearchParams();
-  const { showTestCaseAdditionPage, hideTestCaseAddEditPage } = useTestCases();
+  const { showTestCaseAdditionPage, hideTestCaseAddEditPage } =
+    useAddEditTestCase();
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -43,6 +47,7 @@ export default function useFolders() {
   );
   const testCasesCount =
     useSelector((state) => state.repository.allTestCases)?.length || 0;
+
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
@@ -151,21 +156,30 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
-    navigate(
-      routeFormatter(AppRoute.TEST_CASES, {
-        projectId,
-        folderId: selectedFolder.id
+    const route = routeFormatter(AppRoute.TEST_CASES, {
+      projectId,
+      folderId: selectedFolder.id
+    });
+    if (
+      !isOkToExitForm(false, {
+        key: requestedSteps.ROUTE,
+        value: route
       })
-    );
+    )
+      return;
+
+    navigate(route);
   };
 
   const folderActionsHandler = ({ e, folder }) => {
     if (e?.currentTarget?.textContent) {
+      const isCreateTestCase =
+        e.currentTarget.textContent === folderDropOptions[0].body;
       dispatch(
         setFolderModalConf({ modal: e.currentTarget.textContent, folder })
       );
 
-      if (e.currentTarget.textContent === folderDropOptions[0].body) {
+      if (isCreateTestCase) {
         // create test case
         showTestCaseAdditionPage();
       } else hideTestCaseAddEditPage();

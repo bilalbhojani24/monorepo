@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { InputWButton } from '@browserstack/bifrost';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useAddEditTestCase from './useAddEditTestCase';
 
-const InlineAddTestCase = () => {
+const InlineAddTestCase = ({ noBorder }) => {
   const [testCase, setTestCase] = useState('');
 
   const { saveTestCase } = useAddEditTestCase();
@@ -15,7 +17,11 @@ const InlineAddTestCase = () => {
   };
 
   return (
-    <div className="relative w-full p-2">
+    <div
+      className={classNames('relative w-full p-2 ', {
+        'border-base-200 border-t': !noBorder
+      })}
+    >
       <InputWButton
         value={testCase}
         onKeyDown={(e) => onSubmitKeyHandler(e, handleInlineInputButtonClick)}
@@ -27,6 +33,13 @@ const InlineAddTestCase = () => {
       />
     </div>
   );
+};
+InlineAddTestCase.propTypes = {
+  noBorder: PropTypes.bool
+};
+
+InlineAddTestCase.defaultProps = {
+  noBorder: false
 };
 
 export default InlineAddTestCase;

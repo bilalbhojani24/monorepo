@@ -12,5 +12,6 @@ export const imageUploadRTEHandlerAPI = async ({ projectId, blobInfo }) => {
     `/api/v1/projects/${projectId}/generic/rte_upload`,
     formData
   );
+
   return res.data.url;
 };

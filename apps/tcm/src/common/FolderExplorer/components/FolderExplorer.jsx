@@ -1,4 +1,5 @@
 // if folderId and allFolders are null, allFolders will be fetched by the component itself using th projectId
+// if folderId provided then the selected folder will be based on that param
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -40,7 +41,7 @@ const FolderExplorer = ({
         onFolderClick={folderClickHandler}
         onFolderOpen={subFolderOpenHandler}
         onActionClick={actionClickHandler}
-        selectedNodesId={selectedNodesId}
+        selectedNodesId={folderId ? [parseInt(folderId, 10)] : selectedNodesId}
       />
     </>
   );

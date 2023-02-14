@@ -4,7 +4,10 @@ const initialState = {
   user: {},
   allProjects: [],
   selectedProjectId: null,
-  loginUrl: ''
+  loginUrl: '',
+  userConfig: {
+    jira: null
+  }
 };
 
 export const globalSlice = createSlice({
@@ -31,6 +34,9 @@ export const globalSlice = createSlice({
         item.id === payload.id ? payload : item
       );
     },
+    setUserConfig: (state, { payload }) => {
+      state.userConfig[payload.key] = payload.value;
+    },
     deleteGlobalProject: (state, { payload }) => {
       state.allProjects = state.allProjects.filter(
         (item) => item.id !== payload.id
@@ -40,6 +46,7 @@ export const globalSlice = createSlice({
 });
 
 export const {
+  setUserConfig,
   setAllProjects,
   setUser,
   setSelectedProject,

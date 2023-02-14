@@ -8,13 +8,14 @@ import {
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
+import UnsavedChanges from './UnsavedChanges';
 import {
   TMAttachments,
   TMButton,
   TMComboBox,
   TMFileUpload,
   TMInputField,
-  // TMRichTextEditor,
+  TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
   TMTextArea,
@@ -22,7 +23,6 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
-import { BASE_API_URL } from 'const/routes';
 
 import {
   priorityOptions,
@@ -69,6 +69,10 @@ const AddEditTestCase = () => {
   useEffect(() => {
     initFormValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => {
+      hideTestCaseAddEditPage(null, true);
+    };
   }, []);
 
   return (
@@ -133,50 +137,37 @@ const AddEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4">
-          {/* <TMRichTextEditor
+          <TMRichTextEditor
             label="Description"
             value={testCaseFormData?.description}
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
             onAssetUpload={imageUploadRTEHelper}
-          /> */}
-          <TMTextArea
-            value={testCaseFormData?.description}
-            id="test-case-description"
-            label="Description"
-            placeholder="Write in brief about this test case"
-            onChange={(e) =>
-              handleTestCaseFieldChange('description', e.currentTarget.value)
-            }
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
             <div className="mt-4">
-              <TMTextArea
-                value={testCaseFormData?.steps?.[0]}
-                id="test-case-steps"
+              <TMRichTextEditor
                 label="Steps"
                 placeholder="Steps of the test"
-                onChange={(e) =>
-                  // BE expects string in an array
-                  handleTestCaseFieldChange('steps', [e.currentTarget.value])
-                }
+                value={testCaseFormData?.steps?.[0]}
+                height={200}
+                onChange={(val) => handleTestCaseFieldChange('steps', [val])}
+                onAssetUpload={imageUploadRTEHelper}
               />
             </div>
             <div className="mt-4">
-              <TMTextArea
-                value={testCaseFormData.expected_result}
-                id="test-case-expected-results"
+              <TMRichTextEditor
                 label="Expected Results"
                 placeholder="Write in brief about this test case"
-                onChange={(e) =>
-                  handleTestCaseFieldChange(
-                    'expected_result',
-                    e.currentTarget.value
-                  )
+                value={testCaseFormData?.expected_result}
+                height={200}
+                onChange={(val) =>
+                  handleTestCaseFieldChange('expected_result', val)
                 }
+                onAssetUpload={imageUploadRTEHelper}
               />
             </div>
           </>
@@ -274,24 +265,22 @@ const AddEditTestCase = () => {
               </div>
             </div>
             <div className="mt-4">
-              <TMTextArea
-                value={testCaseFormData.preconditions}
+              <TMRichTextEditor
                 placeholder="Mention preconditions if any needed before executing this test"
-                id="test-case-preconditions"
                 label="Preconditions"
-                onChange={(e) =>
-                  handleTestCaseFieldChange(
-                    'preconditions',
-                    e.currentTarget.value
-                  )
+                value={testCaseFormData?.preconditions}
+                height={200}
+                onChange={(val) =>
+                  handleTestCaseFieldChange('preconditions', val)
                 }
+                onAssetUpload={imageUploadRTEHelper}
               />
             </div>
             <div className="mt-4 flex gap-4">
               <div className="flex-1">
                 <TMInputField
                   id="test-case-estimate"
-                  value={testCaseFormData.estimate}
+                  value={testCaseFormData?.estimate}
                   label={
                     <div className="flex items-center">
                       Estimate
@@ -425,6 +414,7 @@ const AddEditTestCase = () => {
         onClose={hideAddIssueModal}
         onSave={addIssuesSaveHelper}
       />
+      <UnsavedChanges />
     </div>
   );
 };

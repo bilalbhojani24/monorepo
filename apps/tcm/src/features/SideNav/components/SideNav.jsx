@@ -29,7 +29,7 @@ const SideNav = (props) => {
 
   return (
     <SidebarNavigation
-      wrapperClass={twClassNames('mt-16 bg-white', {
+      wrapperClassName={twClassNames('mt-16 bg-white', {
         'mt-32': importStatus === 'ongoing'
       })}
       sidebarPrimaryNavigation={primaryNavs?.map((item) => (

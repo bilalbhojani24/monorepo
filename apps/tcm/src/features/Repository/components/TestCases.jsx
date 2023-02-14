@@ -5,9 +5,10 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
+import CopyButton from 'common/CopyButton';
 
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
@@ -56,9 +57,16 @@ export default function TestCases() {
                           {selectedFolder?.name}
                         </TMTooltipHeader>
                         <TMTooltipBody>
-                          <p className="text-sm">
-                            URL: {selectedFolder?.links?.self || ''}
-                          </p>
+                          <div className={"text-sm"}>
+                            <p>
+                              URL: {selectedFolder?.links?.self?.slice(7,) || ''}
+                            </p>
+                            <div className="mt-3 flex w-full gap-4">
+                              <CopyButton copyValue={window.location.origin + selectedFolder?.links?.self?.slice(7,)}>
+                                Copy URL
+                              </CopyButton>
+                            </div>
+                          </div>
                         </TMTooltipBody>
                       </>
                     }
@@ -83,7 +91,7 @@ export default function TestCases() {
         <>
           <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
             {isTestCasesLoading || isFoldersLoading ? (
-              <Loader wrapperClass="h-full" />
+              <Loader wrapperClassName="h-full" />
             ) : (
               <>
                 {!allTestCases.length && isSearchFilterView ? (
@@ -98,7 +106,7 @@ export default function TestCases() {
                     />
                   </div>
                 ) : (
-                  <div className=" flex-1 flex-col items-stretch  overflow-y-auto">
+                  <div className=" flex-col   overflow-y-auto">
                     <TestCasesTable
                       isCondensed
                       containerWrapperClass="md:rounded-none"

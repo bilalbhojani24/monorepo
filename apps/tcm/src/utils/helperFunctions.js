@@ -36,7 +36,7 @@ export const onSubmitKeyHandler = (e, doAfter) => {
 };
 
 export const selectMenuValueMapper = (data) =>
-  data.map((item) => ({
+  data?.map((item) => ({
     label: item,
     value: item
   }));

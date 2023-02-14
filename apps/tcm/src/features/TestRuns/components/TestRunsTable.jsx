@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { InfoOutlinedIcon } from 'assets/icons';
 import classNames from 'classnames';
 import {
   TMDropdown,
-  TMEmptyState,
   TMPagination,
   TMTable,
   TMTableBody,
@@ -12,15 +10,24 @@ import {
   TMTableHead,
   TMTableRow
 } from 'common/bifrostProxy';
-import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
-import { formatTime, routeFormatter } from 'utils/helperFunctions';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { routeFormatter } from 'utils/helperFunctions';
+
+import { TR_DROP_OPTIONS } from '../const/immutableConst';
 
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
-  const { projectId, allTestRuns, currentTab, isTestRunsLoading, metaPage } =
-    useTestRunsTable();
+  const {
+    projectId,
+    allTestRuns,
+    isTestRunsLoading,
+    metaPage,
+    getOptions,
+    onDropDownChange
+  } = useTestRunsTable();
 
   const tableColumns = [
     {
@@ -45,11 +52,11 @@ const TestRunsTable = () => {
       name: 'NO. OF TESTS',
       key: 'test_cases_count'
     },
-    {
-      name: 'CREATED DATE',
-      key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at)
-    },
+    // {
+    //   name: 'CREATED DATE',
+    //   key: 'created_at',
+    //   cell: (rowData) => formatTime(rowData.created_at)
+    // },
     {
       name: 'ASSIGNED TO',
       key: 'owner',
@@ -58,16 +65,37 @@ const TestRunsTable = () => {
     {
       name: 'OVERALL PROGRESS',
       key: '',
-      cell: () => <div />
+      cell: (rowData) => {
+        const totalValue = Object.values(rowData.overall_progress).reduce(
+          (total, num) => total + num,
+          0
+        );
+        const untestedPerc =
+          100 - (rowData.overall_progress.untested / totalValue) * 100;
+        return (
+          <div className="flex items-center">
+            {/* <div className="overflow-hidden rounded-md"> */}
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={getOptions(rowData)}
+            />
+            {/* </div> */}
+            <span className="text-base-500 ml-0.5">
+              {untestedPerc.toFixed(0)}%
+            </span>
+          </div>
+        );
+      }
     },
     {
       name: '',
       key: '',
-      cell: () => (
+      cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={[]}
+          // options={TR_DROP_OPTIONS}
+          onClick={(e) => onDropDownChange(e, data)}
         />
       )
     }
@@ -81,13 +109,13 @@ const TestRunsTable = () => {
           'overflow-y-auto shadow-none border-none'
         )}
       >
-        <TMTableHead wrapperClass="w-full rounded-xs">
-          <TMTableRow wrapperClass="relative">
+        <TMTableHead wrapperClassName="w-full rounded-xs">
+          <TMTableRow wrapperClassName="relative">
             {tableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClass={classNames('test-base-500', {
+                wrapperClassName={classNames('test-base-500', {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
                   'flex-1 w-9/12': index === 1,
                   'min-w-[50%]': index === 2,
@@ -113,7 +141,7 @@ const TestRunsTable = () => {
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClass={classNames({
+                        wrapperClassName={classNames('py-4', {
                           'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
@@ -133,11 +161,6 @@ const TestRunsTable = () => {
           ) : null}
         </TMTableBody>
       </TMTable>
-      {isTestRunsLoading ? (
-        <div className="flex w-full shrink-0 grow flex-col  justify-center ">
-          <Loader wrapperClass="h-96 w-full" />
-        </div>
-      ) : null}
 
       {metaPage?.count > metaPage?.page_size && (
         <TMPagination
@@ -146,23 +169,6 @@ const TestRunsTable = () => {
           pageSize={metaPage?.page_size}
         />
       )}
-
-      {!allTestRuns?.length && !isTestRunsLoading ? (
-        <div className="flex h-96 w-full shrink-0 grow flex-col justify-center">
-          <TMEmptyState
-            title={`No ${currentTab}`}
-            description="You can get started by creating test run by clicking on Create Test Run button."
-            mainIcon={
-              <InfoOutlinedIcon className="text-base-500 !h-12 !w-12" />
-            }
-            buttonProps={{
-              children: 'Create Test Run',
-              // onClick: showAddProjectModal,
-              colors: 'white'
-            }}
-          />
-        </div>
-      ) : null}
     </div>
   );
 };

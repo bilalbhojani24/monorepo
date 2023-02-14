@@ -14,7 +14,7 @@ export default function BlankPage() {
         buttonProps={null}
       />
       <div className="w-9/12 p-5">
-        <InlineAddTestCase />
+        <InlineAddTestCase noBorder />
       </div>
     </div>
   );

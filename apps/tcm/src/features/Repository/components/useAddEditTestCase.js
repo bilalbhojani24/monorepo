@@ -18,29 +18,31 @@ import {
   stepTemplate,
   templateOptions
 } from '../const/addTestCaseConst';
+import { requestedSteps } from '../const/unsavedConst';
 import {
   addSingleTestCase,
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
+  setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
-  setBulkUpdateProgress,
-  setEditTestCasePageVisibility,
+  setAllFolders,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
+  setUnsavedDataExists,
   updateAllTestCases,
   updateBulkTestCaseFormData,
   updateTestCase,
   updateTestCaseFormData
 } from '../slices/repositorySlice';
 
-import useFolders from './useFolders';
+import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const navigate = useNavigate();
-  const { updateFolders } = useFolders();
+  const { isOkToExitForm } = useUnsavedChanges();
   const [inputError, setInputError] = useState(false);
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
@@ -48,6 +50,9 @@ export default function useAddEditTestCase() {
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
 
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
@@ -57,6 +62,9 @@ export default function useAddEditTestCase() {
   );
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm
+  );
+  const isUnsavedDataExists = useSelector(
+    (state) => state.repository.isUnsavedDataExists
   );
   const isAddTagModalShown = useSelector(
     (state) => state.repository.showAddTagModal
@@ -88,10 +96,8 @@ export default function useAddEditTestCase() {
 
   const usersArray = useSelector((state) => state.repository.usersArray);
 
-  const hideTestCaseAddEditPage = () => {
-    dispatch(setAddTestCaseVisibility(false));
-    dispatch(setEditTestCasePageVisibility(false));
-    dispatch(setBulkUpdateProgress(false));
+  const hideTestCaseAddEditPage = (e, isForced) => {
+    isOkToExitForm(isForced);
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -101,6 +107,7 @@ export default function useAddEditTestCase() {
   };
 
   const handleTestCaseFieldChange = (key, value) => {
+    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -164,7 +171,7 @@ export default function useAddEditTestCase() {
       payload: formDataFormatter(formData)
     }).then((data) => {
       dispatch(addSingleTestCase(data));
-      hideTestCaseAddEditPage();
+      hideTestCaseAddEditPage(null, true);
     });
   };
 
@@ -177,7 +184,7 @@ export default function useAddEditTestCase() {
         payload: { name: emptyFolderName }
       }).then((item) => {
         if (item.data?.folder) {
-          updateFolders(item.data.folder);
+          dispatch(setAllFolders([item.data.folder]));
           addTestCaseAPIHelper(formData, item.data.folder.id);
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
@@ -205,7 +212,7 @@ export default function useAddEditTestCase() {
           )
         )
       );
-      hideTestCaseAddEditPage();
+      hideTestCaseAddEditPage(null, true);
       dispatch(resetBulkSelection());
     });
   };
@@ -220,7 +227,7 @@ export default function useAddEditTestCase() {
         payload: formDataFormatter(formData)
       }).then((data) => {
         dispatch(updateTestCase(data));
-        hideTestCaseAddEditPage();
+        hideTestCaseAddEditPage(null, true);
       });
     }
   };
@@ -309,8 +316,21 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const imageUploadRTEHelper = (blobInfo, progress) => {
+  const imageUploadRTEHelper = (blobInfo, progress) =>
     imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
+
+  const showTestCaseAdditionPage = () => {
+    if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
+      return;
+    dispatch(setAddTestCaseVisibility(true));
+    if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
+    if (!folderId)
+      // then in search view, go to repository view
+      navigate(
+        `${routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })}`
+      );
   };
 
   useEffect(() => {
@@ -363,6 +383,7 @@ export default function useAddEditTestCase() {
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    imageUploadRTEHelper
+    imageUploadRTEHelper,
+    showTestCaseAdditionPage
   };
 }

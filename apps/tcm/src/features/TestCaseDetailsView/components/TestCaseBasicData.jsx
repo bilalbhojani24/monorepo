@@ -22,6 +22,7 @@ const TestCaseBasicData = () => {
           <>
             <DetailsSnippet
               title="Steps"
+              parseContent
               value={
                 typeof testCaseDetails?.steps?.[0] === 'string' &&
                 testCaseDetails?.steps?.[0]?.length

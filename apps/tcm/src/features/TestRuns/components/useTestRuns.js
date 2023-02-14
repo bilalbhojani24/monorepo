@@ -6,6 +6,7 @@ import { setSelectedProject } from 'globalSlice';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 import {
+  setAddTestRunForm,
   setAllTestRuns,
   setCurrentTab,
   setLoader,
@@ -49,6 +50,10 @@ const useTestRuns = () => {
     dispatch(setCurrentTab(tabName.name));
   };
 
+  const showTestRunAddFormHandler = (tabName) => {
+    dispatch(setAddTestRunForm(true));
+  };
+
   useEffect(() => {
     fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,7 +65,8 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
-    handleTabChange
+    handleTabChange,
+    showTestRunAddFormHandler
   };
 };
 

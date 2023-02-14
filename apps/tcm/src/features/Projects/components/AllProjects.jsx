@@ -157,9 +157,9 @@ const AllProjects = () => {
         }
       />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
-        <div className="border-base-200 flex flex-col justify-start rounded-md border bg-white">
+        <div className="border-base-200 flex grow flex-col justify-start rounded-md border bg-white">
           {isLoading ? (
-            <Loader wrapperClass="h-96" />
+            <Loader wrapperClassName="grow" />
           ) : (
             <>
               {allProjects?.length ? (
@@ -179,7 +179,7 @@ const AllProjects = () => {
                   )}
                 </>
               ) : (
-                <div className="flex h-96 flex-col justify-center">
+                <div className="flex h-full grow flex-col justify-center">
                   <TMEmptyState
                     title="No Projects"
                     description="No project data available. Create a project to get started."
