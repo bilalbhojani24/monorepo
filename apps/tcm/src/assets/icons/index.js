@@ -29,6 +29,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
+import LayersIcon from '@mui/icons-material/Layers';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -73,6 +74,7 @@ export {
   HourglassBottomOutlinedIcon,
   InfoOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
+  LayersIcon,
   MoreVertOutlinedIcon,
   OpenInNewOutlinedIcon,
   PostAddIcon,
