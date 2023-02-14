@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import SelectMenuLabel from '../SelectMenuLabel';
-import SelectMenuOption from '../SelectMenuOption';
-import SelectMenuOptionsBox from '../SelectMenuOptionsBox';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
 import SelectMenuTrigger from '../SelectMenuTrigger';
 
 import { SELECT_OPTIONS } from './const/selectMenuConstants';
@@ -28,11 +28,13 @@ const defaultConfig = {
         <>
           <SelectMenuLabel>Assigned to</SelectMenuLabel>
           <SelectMenuTrigger placeholder="Select.." />
-          <SelectMenuOptionsBox>
+          <SelectMenuOptionGroup>
             {React.Children.toArray(
-              SELECT_OPTIONS.map((item) => <SelectMenuOption option={item} />)
+              SELECT_OPTIONS.map((item) => (
+                <SelectMenuOptionItem option={item} />
+              ))
             )}
-          </SelectMenuOptionsBox>
+          </SelectMenuOptionGroup>
         </>
       )
     },
@@ -81,11 +83,11 @@ export const ControlledSelectMenu = () => {
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." />
-      <SelectMenuOptionsBox>
+      <SelectMenuOptionGroup>
         {React.Children.toArray(
-          SELECT_OPTIONS.map((item) => <SelectMenuOption option={item} />)
+          SELECT_OPTIONS.map((item) => <SelectMenuOptionItem option={item} />)
         )}
-      </SelectMenuOptionsBox>
+      </SelectMenuOptionGroup>
     </SelectMenu>
   );
 };

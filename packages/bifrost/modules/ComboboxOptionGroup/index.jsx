@@ -6,7 +6,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { node, string } from '../../shared/proptypesConstants';
 
-const ComboboxOptionsBox = ({ children, wrapperClassName }) => {
+const ComboboxOptionGroup = ({ children, wrapperClassName }) => {
   const { width } = useContext(ComboboxContextData);
   return (
     <Popover.Portal forceMount>
@@ -37,12 +37,13 @@ const ComboboxOptionsBox = ({ children, wrapperClassName }) => {
   );
 };
 
-ComboboxOptionsBox.propTypes = {
+ComboboxOptionGroup.propTypes = {
   children: node.isRequired,
   wrapperClassName: string
 };
-ComboboxOptionsBox.defaultProps = {
+
+ComboboxOptionGroup.defaultProps = {
   wrapperClassName: ''
 };
 
-export default ComboboxOptionsBox;
+export default ComboboxOptionGroup;

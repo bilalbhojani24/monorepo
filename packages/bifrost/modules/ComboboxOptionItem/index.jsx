@@ -14,7 +14,7 @@ import {
 import { CHECK_POSITION } from '../ComboBox/const/comboBoxConstants';
 import { CheckIcon } from '../Icon';
 
-const ComboboxOptions = forwardRef(
+const ComboboxOptionItem = forwardRef(
   ({ disabled, option, checkPosition, wrapperClassName }, ref) => {
     const { isMulti } = useContext(ComboboxContextData);
 
@@ -96,7 +96,7 @@ const ComboboxOptions = forwardRef(
   }
 );
 
-ComboboxOptions.propTypes = {
+ComboboxOptionItem.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
   disabled: bool,
   option: shape({
@@ -106,10 +106,11 @@ ComboboxOptions.propTypes = {
   }).isRequired,
   wrapperClassName: string
 };
-ComboboxOptions.defaultProps = {
+
+ComboboxOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   disabled: false,
   wrapperClassName: ''
 };
 
-export default ComboboxOptions;
+export default ComboboxOptionItem;

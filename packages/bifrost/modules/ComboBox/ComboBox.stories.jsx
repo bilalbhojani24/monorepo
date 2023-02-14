@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import ComboboxLabel from '../ComboboxLabel';
-import ComboboxOptions from '../ComboboxOptions';
-import ComboboxOptionsBox from '../ComboboxOptionsBox';
+import ComboboxOptionsBox from '../ComboboxOptionGroup';
+import ComboboxOptions from '../ComboboxOptionItem';
 import ComboboxTrigger from '../ComboboxTrigger';
 
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';

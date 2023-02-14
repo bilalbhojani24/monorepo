@@ -6,7 +6,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { node, string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-const SelectMenuOptionsBox = ({ children, wrapperClassName }) => {
+const SelectMenuOptionGroup = ({ children, wrapperClassName }) => {
   const { width } = useContext(SelectMenuContextData);
 
   return (
@@ -38,12 +38,13 @@ const SelectMenuOptionsBox = ({ children, wrapperClassName }) => {
   );
 };
 
-SelectMenuOptionsBox.propTypes = {
+SelectMenuOptionGroup.propTypes = {
   children: node.isRequired,
   wrapperClassName: string
 };
-SelectMenuOptionsBox.defaultProps = {
+
+SelectMenuOptionGroup.defaultProps = {
   wrapperClassName: ''
 };
 
-export default SelectMenuOptionsBox;
+export default SelectMenuOptionGroup;

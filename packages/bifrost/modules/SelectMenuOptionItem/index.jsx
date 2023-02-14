@@ -14,7 +14,7 @@ import {
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { CHECK_POSITION } from '../SelectMenu/const/selectMenuConstants';
 
-const SelectMenuOption = forwardRef(
+const SelectMenuOptionItem = forwardRef(
   ({ checkPosition, disabled, option, wrapperClassName }, ref) => {
     const selectMenuCtx = useContext(SelectMenuContextData);
     return (
@@ -100,7 +100,7 @@ const SelectMenuOption = forwardRef(
   }
 );
 
-SelectMenuOption.propTypes = {
+SelectMenuOptionItem.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
   disabled: bool,
   option: shape({
@@ -110,10 +110,11 @@ SelectMenuOption.propTypes = {
   }).isRequired,
   wrapperClassName: string
 };
-SelectMenuOption.defaultProps = {
+
+SelectMenuOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   wrapperClassName: '',
   disabled: false
 };
 
-export default SelectMenuOption;
+export default SelectMenuOptionItem;

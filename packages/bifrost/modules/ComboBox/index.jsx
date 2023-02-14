@@ -82,6 +82,7 @@ ComboBox.propTypes = {
     })
   ])
 };
+
 ComboBox.defaultProps = {
   defaultValue: null,
   isMulti: false,
