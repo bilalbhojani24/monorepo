@@ -6,8 +6,6 @@ import * as Popover from '@radix-ui/react-popover';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { node, string } from '../../shared/proptypesConstants';
 
-import './styles.scss';
-
 const ComboboxOptionsBox = ({ children, wrapperClassName }) => {
   const { width } = useContext(ComboboxContextData);
   return (

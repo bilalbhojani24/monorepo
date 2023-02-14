@@ -93,7 +93,7 @@ Primary.parameters = {
 };
 
 export const ControlledSelectMenu = () => {
-  const [selected, setSelected] = useState(undefined);
+  const [selected, setSelected] = useState(SELECT_OPTIONS[0]);
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>

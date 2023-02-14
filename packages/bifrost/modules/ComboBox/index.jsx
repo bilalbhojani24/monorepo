@@ -14,8 +14,6 @@ import {
   string
 } from '../../shared/proptypesConstants';
 
-import './styles.scss';
-
 const ComboBox = (props) => {
   const [width, setWidth] = useState(0);
 

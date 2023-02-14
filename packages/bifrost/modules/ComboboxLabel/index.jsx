@@ -4,8 +4,6 @@ import { Combobox } from '@headlessui/react';
 
 import { node, string } from '../../shared/proptypesConstants';
 
-import './styles.scss';
-
 const ComboboxLabel = ({ children, wrapperClassName }) => (
   <>
     {children ? (

@@ -8,8 +8,6 @@ import { ChevronUpDownIcon } from '../Icon';
 
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
-import './styles.scss';
-
 const SelectMenuTrigger = ({ placeholder }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth } = useContext(SelectMenuContextData);
@@ -28,17 +26,17 @@ const SelectMenuTrigger = ({ placeholder }) => {
         ref={buttonRef}
         className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm"
       >
-        {({ value: btnValue }) => (
+        {({ value }) => (
           <>
             <span className="flex items-center truncate">
-              {isMulti && Array.isArray(btnValue)
-                ? renderMultiOptions(btnValue, placeholder)
-                : renderSingleOptions(btnValue, placeholder)}
+              {isMulti && Array.isArray(value)
+                ? renderMultiOptions(value, placeholder)
+                : renderSingleOptions(value, placeholder)}
             </span>
 
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              {isMulti && btnValue?.length ? (
-                <span className="mr-1 font-bold">{`(${btnValue.length})`}</span>
+              {isMulti && value?.length ? (
+                <span className="mr-1 font-bold">{`(${value.length})`}</span>
               ) : null}
               <ChevronUpDownIcon
                 className="text-base-400 h-5 w-5"

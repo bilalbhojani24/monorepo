@@ -5,6 +5,7 @@ import { oneOf } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import {
+  bool,
   number,
   oneOfType,
   shape,
@@ -13,10 +14,8 @@ import {
 import { CHECK_POSITION } from '../ComboBox/const/comboBoxConstants';
 import { CheckIcon } from '../Icon';
 
-import './styles.scss';
-
 const ComboboxOptions = forwardRef(
-  ({ option, checkPosition, wrapperClassName }, ref) => {
+  ({ disabled, option, checkPosition, wrapperClassName }, ref) => {
     const { isMulti } = useContext(ComboboxContextData);
 
     return (
@@ -31,11 +30,13 @@ const ComboboxOptions = forwardRef(
             {
               'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,
               'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMulti,
-              'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti
+              'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti,
+              'bg-base-50 text-base-500': disabled
             },
             wrapperClassName
           )
         }
+        disabled={disabled}
       >
         {({ active, selected }) => (
           <>
@@ -97,6 +98,7 @@ const ComboboxOptions = forwardRef(
 
 ComboboxOptions.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
+  disabled: bool,
   option: shape({
     value: oneOfType([string, number]).isRequired,
     label: string.isRequired,
@@ -106,6 +108,7 @@ ComboboxOptions.propTypes = {
 };
 ComboboxOptions.defaultProps = {
   checkPosition: CHECK_POSITION[0],
+  disabled: false,
   wrapperClassName: ''
 };
 

@@ -6,8 +6,6 @@ import * as Popover from '@radix-ui/react-popover';
 import { node, string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-import './styles.scss';
-
 const SelectMenuOptionsBox = ({ children, wrapperClassName }) => {
   const { width } = useContext(SelectMenuContextData);
 

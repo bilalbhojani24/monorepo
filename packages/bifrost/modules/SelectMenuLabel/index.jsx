@@ -4,8 +4,6 @@ import { Listbox } from '@headlessui/react';
 
 import { node, string } from '../../shared/proptypesConstants';
 
-import './styles.scss';
-
 const SelectMenuLabel = ({ children, wrapperClassName }) => (
   <>
     {children ? (

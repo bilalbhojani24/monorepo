@@ -8,8 +8,6 @@ import { ChevronUpDownIcon } from '../Icon';
 
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
-import './styles.scss';
-
 const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth } = useContext(ComboboxContextData);
