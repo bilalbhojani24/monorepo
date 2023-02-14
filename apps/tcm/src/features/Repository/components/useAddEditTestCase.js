@@ -316,8 +316,8 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const imageUploadRTEHelper = (blobInfo, progress) =>
-    imageUploadRTEHandlerAPI({ blobInfo, progress, projectId });
+  const imageUploadRTEHelper = (files) =>
+    imageUploadRTEHandlerAPI({ files, projectId });
 
   const showTestCaseAdditionPage = () => {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))

@@ -20,10 +20,14 @@ const initialState = {
     page_size: null
   },
   testRunFormData: {
-    name: '',
-    description: '',
-    state: '',
-    assignTo: [],
+    test_run: {
+      name: '',
+      description: '',
+      run_state: '',
+      owner: null,
+      tags: [],
+      issues: []
+    },
     test_case_ids: []
   }
 };

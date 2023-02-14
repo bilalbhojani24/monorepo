@@ -23,7 +23,8 @@ const AddEditTestRun = () => {
     handleTestRunInputFieldChange,
     showAddTagsModal,
     showAddIssueModal,
-    openTestCasesModal
+    openTestCasesModal,
+    imageUploadRTEHelper
   } = useAddEditTestRun();
 
   return (
@@ -57,10 +58,15 @@ const AddEditTestRun = () => {
             <div className="w-2/4">
               <div className="mt-4">
                 <TMInputField
-                  value={testRunFormData?.name}
+                  value={testRunFormData?.test_run?.name}
                   id="test-run-name"
                   label="Test Run Name*"
-                  onChange={handleTestRunInputFieldChange('test_run', 'name')}
+                  onChange={(e) =>
+                    handleTestRunInputFieldChange(
+                      'test_run',
+                      e.currentTarget.value
+                    )
+                  }
                 />
               </div>
               <div className="mt-4">
@@ -72,7 +78,9 @@ const AddEditTestRun = () => {
                 <TMAttachments
                   attachments={[
                     {
-                      name: '0 Test Cases',
+                      name: `${
+                        testRunFormData?.test_case_ids?.length || 0
+                      } Test Cases`,
                       actionName: 'Select Test Cases'
                     }
                   ]}
@@ -83,27 +91,32 @@ const AddEditTestRun = () => {
             <div className="mt-4">
               <TMRichTextEditor
                 label="Description"
-                value={testRunFormData?.description}
+                value={testRunFormData?.test_run?.description}
                 height={200}
                 placeholder="Explaining in brief about the test run description"
                 onChange={(val) =>
                   handleTestRunInputFieldChange('description', val)
                 }
-                // onAssetUpload={imageUploadRTEHelper}
+                onAssetUpload={imageUploadRTEHelper}
               />
             </div>
             <div className="mt-4 flex gap-4">
               <div className="w-2/4">
-                <TMSelectMenu
-                  defaultValue={ASSIGN_TO_OPTIONS[0]}
+                <TMComboBox
                   checkPosition="right"
                   label="Assign To"
-                  isMultiSelect
+                  value={
+                    testRunFormData?.test_run?.owner
+                      ? ASSIGN_TO_OPTIONS.find(
+                          (item) =>
+                            item.value === testRunFormData?.test_run?.owner
+                        )
+                      : { label: '', value: '' } // to be updated to null
+                  }
                   options={ASSIGN_TO_OPTIONS}
-                  onChange={handleTestRunInputFieldChange(
-                    'test_run',
-                    'assignTo'
-                  )}
+                  onChange={(e) =>
+                    handleTestRunInputFieldChange('owner', e.value)
+                  }
                 />
               </div>
               <div className="w-2/4">
@@ -115,7 +128,14 @@ const AddEditTestRun = () => {
                       placeholder="Select from options"
                       label="Tags"
                       options={tagsArray}
-                      value={testRunFormData?.tags}
+                      value={
+                        testRunFormData?.test_run?.tags
+                          ? tagsArray.find(
+                              (item) =>
+                                item.value === testRunFormData?.test_run?.tags
+                            )
+                          : { label: '', value: '' } // to be updated to null
+                      }
                       onChange={(e) => {
                         handleTestRunInputFieldChange('tags', e);
                       }}
@@ -134,23 +154,38 @@ const AddEditTestRun = () => {
             <div className="mt-4 flex gap-4">
               <div className="w-2/4">
                 <TMSelectMenu
-                  defaultValue={STATE_OPTIONS[0]}
+                  value={
+                    testRunFormData?.test_run?.run_state &&
+                    STATE_OPTIONS.find(
+                      (item) =>
+                        item.value === testRunFormData?.test_run?.run_state
+                    )
+                  }
                   checkPosition="right"
                   label="State"
                   options={STATE_OPTIONS}
-                  onChange={handleTestRunInputFieldChange('test_run', 'state')}
+                  onChange={(e) =>
+                    handleTestRunInputFieldChange('test_run', e.value)
+                  }
                 />
               </div>
               <div className="w-2/4">
                 <div className="flex flex-1 items-end justify-between">
                   <div className="mr-4 flex-1">
-                    <TMSelectMenu
+                    <TMComboBox
                       checkPosition="right"
-                      isMultiSelect
+                      isMulti
                       placeholder="Select from options"
                       label="Issues"
                       options={issuesArray}
-                      value={testRunFormData?.issues}
+                      value={
+                        testRunFormData?.test_run?.issues
+                          ? issuesArray.find(
+                              (item) =>
+                                item.value === testRunFormData?.test_run?.issues
+                            )
+                          : { label: '', value: '' } // to be updated to null
+                      }
                       onChange={(e) =>
                         handleTestRunInputFieldChange('issues', e)
                       }
