@@ -26,7 +26,7 @@ const SelectMenuOptionsBox = ({ children, wrapperClassName }) => {
           <Listbox.Options
             static
             className={twClassNames(
-              'divide-base-100 border-base-200 z-50 my-1 max-h-60 w-full divide-y overflow-scroll rounded-md border bg-white shadow-lg outline-none',
+              'border-base-200 z-50 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none',
               wrapperClassName
             )}
           >

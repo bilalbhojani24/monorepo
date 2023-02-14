@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -14,9 +14,7 @@ import {
 } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-import './styles.scss';
-
-const SelectMenu = (props) => {
+const SelectMenu = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
   const { children, onChange, isMulti, defaultValue, value } = props;
 
@@ -30,6 +28,7 @@ const SelectMenu = (props) => {
     >
       <Popover.Root>
         <Listbox
+          ref={ref}
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
@@ -46,39 +45,39 @@ const SelectMenu = (props) => {
       </Popover.Root>
     </SelectMenuContextData.Provider>
   );
-};
+});
 
 SelectMenu.propTypes = {
   children: node.isRequired,
   defaultValue: oneOfType([
-    shape({
-      value: oneOfType([number, string]),
-      label: string,
-      image: string
-    }),
     arrayOf(
       shape({
-        label: number,
-        value: oneOfType([number, string]),
+        value: oneOfType([string, number]).isRequired,
+        label: string.isRequired,
         image: string
       })
-    )
+    ),
+    shape({
+      value: oneOfType([string, number]).isRequired,
+      label: string.isRequired,
+      image: string
+    })
   ]),
   isMulti: bool,
   onChange: func,
   value: oneOfType([
-    shape({
-      value: oneOfType([number, string]),
-      label: string,
-      image: string
-    }),
     arrayOf(
       shape({
-        value: oneOfType([number, string]),
-        null: string,
+        value: oneOfType([string, number]).isRequired,
+        label: string.isRequired,
         image: string
       })
-    )
+    ),
+    shape({
+      value: oneOfType([string, number]).isRequired,
+      label: string.isRequired,
+      image: string
+    })
   ])
 };
 

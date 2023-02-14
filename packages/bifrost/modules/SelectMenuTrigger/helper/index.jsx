@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const renderSingleOptions = (opts, placeholder) => {
-  if (opts)
+  if (opts?.value && opts?.label)
     return (
       <div className="flex items-center truncate">
         {opts?.image && (

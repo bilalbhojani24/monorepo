@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -14,7 +14,7 @@ import {
   string
 } from '../../shared/proptypesConstants';
 
-const ComboBox = (props) => {
+const ComboBox = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
 
   const { children, defaultValue, onChange, isMulti, value } = props;
@@ -29,6 +29,7 @@ const ComboBox = (props) => {
     >
       <Popover.Root>
         <Combobox
+          ref={ref}
           as="div"
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
@@ -46,7 +47,7 @@ const ComboBox = (props) => {
       </Popover.Root>
     </ComboboxContextData.Provider>
   );
-};
+});
 
 ComboBox.propTypes = {
   children: node.isRequired,
