@@ -18,7 +18,9 @@ const SlideoverHeader = ({
   backgroundColorClass,
   lightText,
   isEllipsisHeader,
-  headerTooltipProps
+  headerTooltipProps,
+  headingWrapperClassName,
+  subheadingWrapperClassName
 }) => {
   const [truncatedDataTooltip, setTruncatedDataTooltip] = useState(false);
   const headerNameRef = useRef(null);
@@ -68,7 +70,8 @@ const SlideoverHeader = ({
                     : '',
                   {
                     'text-white': lightText
-                  }
+                  },
+                  headingWrapperClassName
                 )}
                 ref={headerNameRef}
               >
@@ -118,10 +121,14 @@ const SlideoverHeader = ({
         {subHeading ? (
           <div className="mt-2">
             <p
-              className={twClassNames(' text-sm text-left', {
-                'text-white': lightText,
-                'text-base-500': !lightText
-              })}
+              className={twClassNames(
+                ' text-sm text-left',
+                {
+                  'text-white': lightText,
+                  'text-base-500': !lightText
+                },
+                subheadingWrapperClassName
+              )}
             >
               {subHeading}
             </p>
@@ -142,7 +149,9 @@ SlideoverHeader.propTypes = {
   backgroundColorClass: PropTypes.string,
   lightText: PropTypes.bool,
   isEllipsisHeader: PropTypes.bool,
-  headerTooltipProps: PropTypes.shape(TooltipPropTypes)
+  headerTooltipProps: PropTypes.shape(TooltipPropTypes),
+  headingWrapperClassName: PropTypes.string,
+  subheadingWrapperClassName: PropTypes.string
 };
 SlideoverHeader.defaultProps = {
   dismissButton: true,
@@ -154,7 +163,9 @@ SlideoverHeader.defaultProps = {
   backgroundColorClass: '',
   lightText: false,
   isEllipsisHeader: true,
-  headerTooltipProps: {}
+  headerTooltipProps: {},
+  headingWrapperClassName: '',
+  subheadingWrapperClassName: ''
 };
 
 export default SlideoverHeader;
