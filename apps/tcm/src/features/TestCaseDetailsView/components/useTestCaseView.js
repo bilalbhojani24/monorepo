@@ -77,8 +77,10 @@ export default function useTestCasesView() {
 
   const onAttachmentClick = (item) => {
     if (item?.url) {
-      setImageLink(item?.url);
-      setImagePreviewVisibility(true);
+      if (item.content_type.includes('image/')) {
+        setImageLink(item.url);
+        setImagePreviewVisibility(true);
+      } else window.open(item.url);
     }
   };
 
