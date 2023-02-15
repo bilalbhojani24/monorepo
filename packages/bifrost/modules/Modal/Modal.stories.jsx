@@ -225,6 +225,11 @@ ScrollableModal.args = {
         <h1>I am Modal Body</h1>
         <h1>I am Modal Body</h1>
         <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
+        <h1>I am Modal Body</h1>
         <h1>Last am Modal Body</h1>
       </ModalBody>
       <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
