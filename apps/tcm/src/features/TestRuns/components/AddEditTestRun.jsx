@@ -216,10 +216,10 @@ const AddEditTestRun = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         onClose={hideAddTagsModal}
-        existingTags={
+        selectedTags={
           testRunFormData?.test_run?.tags?.map((item) => item.value) || []
         }
-        verifierFunction={tagVerifierFunction}
+        existingTags={tagsArray}
       />
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}

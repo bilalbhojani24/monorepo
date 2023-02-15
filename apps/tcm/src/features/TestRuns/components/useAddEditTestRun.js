@@ -74,15 +74,11 @@ const useAddEditTestRun = () => {
   const showAddTagsModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: true }));
   };
-  const hideAddTagsModal = (allTags, newTags) => {
-    const mappedNewTags = selectMenuValueMapper(newTags);
-    const updatedAllTags = [...mappedNewTags, ...tagsArray];
-    const currentSelectedTags = testRunFormData?.test_run?.tags
-      ? [
-          ...testRunFormData?.test_run?.tags.map((item) => item.value),
-          ...newTags
-        ]
-      : newTags;
+  const hideAddTagsModal = (newTags, selectedTags) => {
+    const updatedAllTags = selectMenuValueMapper([
+      ...new Set([...newTags, ...tagsArray.map((item) => item.value)])
+    ]);
+    const currentSelectedTags = selectedTags;
 
     dispatch(setTagsArray(updatedAllTags));
     handleTestRunInputFieldChange(
