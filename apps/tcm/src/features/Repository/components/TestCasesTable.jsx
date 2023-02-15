@@ -28,13 +28,17 @@ import useTestCasesTable from './useTestCasesTable';
 
 const TestCasesTable = ({
   rows,
+  onPaginationClick,
   containerWrapperClass,
   isCondensed,
-  isLoading
+  isLoading,
+  isSearchFilterView,
+  metaPage,
+  isMini,
+  onItemSelectionCb,
+  selectedTestCases
 }) => {
   const {
-    isSearchFilterView,
-    metaPage,
     showMoveModal,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
@@ -49,7 +53,10 @@ const TestCasesTable = ({
     onDropDownChange,
     handleTestCaseViewClick
   } = useTestCasesTable({
-    rows
+    rows,
+    onItemSelectionCb,
+    selectedTestCases,
+    isMini
   });
 
   const formatPriority = (priority) => {
@@ -69,7 +76,7 @@ const TestCasesTable = ({
     }
   };
 
-  const datatableColumns = [
+  const datatableColumnsFull = [
     {
       name: 'ID',
       key: 'identifier',
@@ -167,6 +174,10 @@ const TestCasesTable = ({
     }
   ];
 
+  const datatableColumns = isMini
+    ? datatableColumnsFull.filter((item, index) => index < 3)
+    : datatableColumnsFull;
+
   return (
     <>
       <TMTable
@@ -219,7 +230,8 @@ const TestCasesTable = ({
               >
                 {col.name}
                 {index === 0 &&
-                (selectedTestCaseIDs.length || isAllSelected) ? (
+                (selectedTestCaseIDs.length || isAllSelected) &&
+                !isMini ? (
                   <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
                     <TMButton
                       colors="white"
@@ -316,6 +328,7 @@ const TestCasesTable = ({
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
+          onActionClick={onPaginationClick}
         />
       )}
       <FolderExplorerModal
@@ -334,13 +347,30 @@ TestCasesTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   containerWrapperClass: PropTypes.string,
   isCondensed: PropTypes.bool,
-  isLoading: PropTypes.bool
+  onPaginationClick: PropTypes.func,
+  onItemSelectionCb: PropTypes.func,
+  isLoading: PropTypes.bool,
+  isMini: PropTypes.bool,
+  isSearchFilterView: PropTypes.bool,
+  metaPage: PropTypes.objectOf({
+    page: PropTypes.number,
+    next: PropTypes.number,
+    prev: PropTypes.number,
+    count: PropTypes.number
+  }),
+  selectedTestCases: PropTypes.arrayOf(PropTypes.number)
 };
 
 TestCasesTable.defaultProps = {
   containerWrapperClass: '',
   isCondensed: false,
-  isLoading: false
+  isSearchFilterView: false,
+  isMini: false,
+  isLoading: false,
+  onPaginationClick: null,
+  onItemSelectionCb: () => {},
+  metaPage: {},
+  selectedTestCases: []
 };
 
 export default TestCasesTable;

@@ -24,6 +24,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    metaPage,
     allFolders,
     isSearchFilterView,
     showDeleteModal,
@@ -118,6 +119,8 @@ export default function TestCases() {
                       containerWrapperClass="md:rounded-none"
                       rows={allTestCases}
                       isLoading={isTestCasesLoading}
+                      isSearchFilterView={isSearchFilterView}
+                      metaPage={metaPage}
                     />
                   </div>
                 )}

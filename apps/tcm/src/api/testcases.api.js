@@ -84,3 +84,11 @@ export const getTestCasesSearchFilterAPI = async ({ projectId, props = {} }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-cases/search`, {
     params: props
   });
+
+export const getTagsAPI = async ({ projectId }) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
+
+export const verifyTagAPI = async ({ projectId, tags }) =>
+  fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
+    tags
+  });

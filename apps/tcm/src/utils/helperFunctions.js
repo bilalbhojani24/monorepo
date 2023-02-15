@@ -49,3 +49,10 @@ export const splitStringToArray = (string, splitKey) => [
       .filter((item) => item !== '')
   )
 ];
+
+export const capitalizeString = (phrase) =>
+  phrase
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');

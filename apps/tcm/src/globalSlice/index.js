@@ -24,7 +24,8 @@ export const globalSlice = createSlice({
       state.loginUrl = payload;
     },
     setSelectedProject: (state, { payload }) => {
-      state.selectedProjectId = payload;
+      if (payload !== state.selectedProjectId)
+        state.selectedProjectId = payload;
     },
     addGlobalProject: (state, { payload }) => {
       state.allProjects = [payload, ...state.allProjects];
