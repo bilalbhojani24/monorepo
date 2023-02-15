@@ -12,6 +12,7 @@ import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
@@ -57,6 +58,7 @@ export {
   BugReportOutlinedIcon,
   CancelRoundedIcon,
   CheckCircleRoundedIcon,
+  CheckOutlinedIcon,
   CloseOutlinedIcon,
   CodeOutlinedIcon,
   CreateNewFolderOutlinedIcon,

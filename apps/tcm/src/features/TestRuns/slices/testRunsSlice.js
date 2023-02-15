@@ -9,7 +9,10 @@ const initialState = {
     editTestRunsForm: false,
     addTestCaseModal: false,
     addTagsModal: false,
-    addIssuesModal: false
+    addIssuesModal: false,
+    deleteTestRunModal: false,
+    assignTestRunModal: false,
+    closeRunTestRunModal: false
   },
   isLoading: {
     testRuns: true
@@ -55,6 +58,10 @@ const testRunslice = createSlice({
         state.selectedTestRun = null;
       }
     },
+    closeAllVisibleForms: (state) => {
+      state.isVisible = initialState.isVisible;
+      state.selectedTestRun = null;
+    },
     setEditTestRunForm: (state, { payload }) => {
       state.isVisible.editTestRunsForm = payload;
     },
@@ -82,6 +89,11 @@ const testRunslice = createSlice({
     updateTestRun: (state, { payload }) => {
       state.allTestRuns = state.allTestRuns.map((item) =>
         item.id === payload.id ? payload : item
+      );
+    },
+    deleteTestRun: (state, { payload }) => {
+      state.allTestRuns = state.allTestRuns.filter(
+        (item) => item.id !== payload.id
       );
     },
     setAllTestRuns: (state, { payload }) => {
@@ -113,6 +125,7 @@ const testRunslice = createSlice({
 });
 
 export const {
+  closeAllVisibleForms,
   setTestRunFormData,
   setSelectedTestRun,
   setEditTestRunForm,
@@ -129,6 +142,7 @@ export const {
   setAllTestRuns,
   setAddTestRunForm,
   setCurrentTab,
-  setMetaPage
+  setMetaPage,
+  deleteTestRun
 } = testRunslice.actions;
 export default testRunslice.reducer;

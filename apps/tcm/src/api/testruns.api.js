@@ -33,3 +33,9 @@ export const editTestRunAPI = async ({ projectId, payload, testRunId }) =>
     `/api/v1/projects/${projectId}/test-runs/${testRunId}/edit`,
     payload
   );
+
+export const deleteTestRunAPI = async ({ projectId, testRunId }) =>
+  fetchPost(`/api/v1/projects/${projectId}/test-runs/${testRunId}/delete`);
+
+export const closeTestRunAPI = async ({ projectId, testRunId }) =>
+  fetchPost(`/api/v1/projects/${projectId}/test-runs/${testRunId}/close`);

@@ -15,12 +15,15 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { TR_DROP_OPTIONS } from '../const/immutableConst';
+import { TABS_ARRAY, TR_DROP_OPTIONS } from '../const/immutableConst';
 
+import CloseTestRun from './CloseTestRun';
+import DeleteTestRun from './DeleteTestRun';
 import useTestRunsTable from './useTestRunsTable';
 
 const TestRunsTable = () => {
   const {
+    currentTab,
     projectId,
     allTestRuns,
     isTestRunsLoading,
@@ -94,7 +97,11 @@ const TestRunsTable = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          options={TR_DROP_OPTIONS}
+          options={
+            currentTab === TABS_ARRAY[0].name
+              ? TR_DROP_OPTIONS
+              : [TR_DROP_OPTIONS[3]] // only delete
+          }
           onClick={(e) => onDropDownChange(e, data)}
         />
       )
@@ -169,6 +176,9 @@ const TestRunsTable = () => {
           pageSize={metaPage?.page_size}
         />
       )}
+
+      <DeleteTestRun />
+      <CloseTestRun />
     </div>
   );
 };
