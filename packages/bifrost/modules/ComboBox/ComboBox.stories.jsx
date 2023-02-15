@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import ComboboxLabel from '../ComboboxLabel';
-import ComboboxOptionsBox from '../ComboboxOptionGroup';
-import ComboboxOptions from '../ComboboxOptionItem';
+import ComboboxOptionGroup from '../ComboboxOptionGroup';
+import ComboboxOptionItem from '../ComboboxOptionItem';
 import ComboboxTrigger from '../ComboboxTrigger';
 
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
@@ -28,11 +28,11 @@ const defaultConfig = {
         <>
           <ComboboxLabel>Assigned to</ComboboxLabel>
           <ComboboxTrigger placeholder="Placeholder" />
-          <ComboboxOptionsBox>
-            {React.Children.toArray(
-              COMBOBOX_OPTIONS.map((item) => <ComboboxOptions option={item} />)
-            )}
-          </ComboboxOptionsBox>
+          <ComboboxOptionGroup>
+            {COMBOBOX_OPTIONS.map((item) => (
+              <ComboboxOptionItem key={item.value} option={item} />
+            ))}
+          </ComboboxOptionGroup>
         </>
       )
     },
@@ -79,13 +79,15 @@ export const ControlledCombobox = () => {
     <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
       <ComboboxLabel>Assigned to</ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
-      <ComboboxOptionsBox>
-        {React.Children.toArray(
-          COMBOBOX_OPTIONS.map((item) => (
-            <ComboboxOptions option={item} wrapperClassName="text-base-500" />
-          ))
-        )}
-      </ComboboxOptionsBox>
+      <ComboboxOptionGroup>
+        {COMBOBOX_OPTIONS.map((item) => (
+          <ComboboxOptionItem
+            key={item.value}
+            option={item}
+            wrapperClassName="text-base-500"
+          />
+        ))}
+      </ComboboxOptionGroup>
     </ComboBox>
   );
 };
