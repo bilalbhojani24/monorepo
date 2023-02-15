@@ -1,5 +1,6 @@
 const tailwindForms = require('@tailwindcss/forms');
 const tailwindLineClamp = require('@tailwindcss/line-clamp');
+const tailwindAspectRatio = require('@tailwindcss/aspect-ratio');
 
 module.exports = {
   content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
@@ -122,10 +123,31 @@ module.exports = {
         'Segoe UI Symbol',
         'Noto Color Emoji'
       ]
+    },
+    aspectRatio: {
+      auto: 'auto',
+      square: '1 / 1',
+      video: '16 / 9',
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      8: '8',
+      9: '9',
+      10: '10',
+      11: '11',
+      12: '12',
+      13: '13',
+      14: '14',
+      15: '15',
+      16: '16'
     }
   },
   variants: {
     extend: {}
   },
-  plugins: [tailwindForms, tailwindLineClamp]
+  plugins: [tailwindForms, tailwindLineClamp, tailwindAspectRatio]
 };

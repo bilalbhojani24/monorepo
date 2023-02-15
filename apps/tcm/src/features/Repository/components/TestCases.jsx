@@ -5,7 +5,8 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
@@ -81,9 +82,9 @@ export default function TestCases() {
                   </TMTooltip>
                 </div>
                 {selectedFolder?.notes && (
-                  <div className="text-base-500 mt-1 text-xs">
+                  <TMTruncateText wrapperClassName="text-base-500 mt-1 text-sm">
                     {selectedFolder?.notes}
-                  </div>
+                  </TMTruncateText>
                 )}
               </div>
             </div>

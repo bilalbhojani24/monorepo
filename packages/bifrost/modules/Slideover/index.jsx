@@ -104,7 +104,7 @@ const Slideover = (props) => {
 
           <div
             className={twClassNames(
-              `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
+              `relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0`,
               {
                 'sm:max-w-sm': MODAL_SIZE[0] === size,
                 'sm:max-w-md': MODAL_SIZE[1] === size,

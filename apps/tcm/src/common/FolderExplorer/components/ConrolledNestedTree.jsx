@@ -3,7 +3,8 @@ import {
   TMDropdown,
   TMListTree,
   TMListTreeNode,
-  TMListTreeNodeContents
+  TMListTreeNodeContents,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -37,7 +38,11 @@ const ConrolledNestedTree = ({
         >
           <TMListTreeNode
             isFocused={focused === item.name}
-            label={item.name}
+            label={
+              <TMTruncateText hidetooltipTriggerIcon>
+                {item.name}
+              </TMTruncateText>
+            }
             description=""
             hideArrowIcon={!item?.sub_folders_count || false}
             // nodeLabelClassName="max-w-xs"

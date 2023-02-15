@@ -27,7 +27,7 @@ const Accordion = ({
           }}
         >
           <div
-            className="w-5"
+            className="my-auto h-5 w-5"
             role="presentation"
             onClick={(event) => {
               onChevronClick?.(event);

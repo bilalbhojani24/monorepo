@@ -1,4 +1,5 @@
 const generator = require('component-file-generator');
+
 generator.exec({
   component: {
     root: './modules',
@@ -10,7 +11,6 @@ generator.exec({
           name: 'index.jsx',
           content: `import React from 'react';
 import PropTypes from 'prop-types';
-import './styles.scss';
 
 const [name] = ()=> {
   return <div>[name]</div>;
@@ -49,11 +49,6 @@ Primary.parameters = {
 
 export default defaultConfig;
 export { Primary };`
-        },
-        {
-          type: 'file',
-          name: 'styles.scss',
-          content: ''
         }
       ]
     }

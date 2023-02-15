@@ -55,7 +55,7 @@ const AddEditTestCase = () => {
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    tagVerifierFunction,
+    // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
@@ -255,7 +255,6 @@ const AddEditTestCase = () => {
                         )
                       : { label: '', value: '' } // to be updated to null
                   }
-                  default
                   isMulti={false}
                   placeholder="Select owner"
                   checkPosition="right"
@@ -407,8 +406,9 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         onClose={hideAddTagsModal}
-        existingTags={testCaseFormData?.tags?.map((item) => item.value) || []}
-        verifierFunction={tagVerifierFunction}
+        existingTags={tagsArray}
+        selectedTags={testCaseFormData?.tags?.map((item) => item.value) || []}
+        // verifierFunction={tagVerifierFunction}
       />
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}
