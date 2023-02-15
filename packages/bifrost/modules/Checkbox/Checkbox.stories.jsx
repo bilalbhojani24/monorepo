@@ -77,7 +77,7 @@ const defaultConfig = {
       control: { type: 'inline-radio' },
       defaultValue: CHECKBOX_POSITION_VARIANT.left
     },
-    wrapperClass: {
+    wrapperClassName: {
       options: { type: 'string' },
       defaultValue: ''
     }

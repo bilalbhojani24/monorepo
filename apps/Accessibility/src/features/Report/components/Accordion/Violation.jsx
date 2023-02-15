@@ -1,18 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Accordion, Badge } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
+import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { setOpenAccordionId } from 'features/Report/slice/appSlice';
-import { getOpenAccordionId } from 'features/Report/slice/selector';
-import { ASAccordion, ASBadge } from 'middleware/bifrost';
+import {
+  getActiveComponentId,
+  getIsShowingIssue,
+  getOpenAccordionId
+} from 'features/Report/slice/selector';
 import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
 
-export default function Violation({ violation, index, isFullWidth }) {
+export default function Violation({ violation, index }) {
   const dispatch = useDispatch();
+  const activeComponentId = useSelector(getActiveComponentId);
+  const isShowingIssue = useSelector(getIsShowingIssue);
+  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const openAccordionId = useSelector(getOpenAccordionId);
   const isOpen = openAccordionId === violation.id;
+
+  const isHalfView = activeComponentId && isShowingIssue;
 
   const totalCount = violation.nodes.length;
   const impact =
@@ -27,8 +37,12 @@ export default function Violation({ violation, index, isFullWidth }) {
     }
   };
 
+  const maxWidthForFullView = isSidebarCollapsed
+    ? 'calc((100vw - 200px) / 2)'
+    : 'calc(((100vw - 256px) / 2) - 190px)';
+
   return (
-    <ASAccordion
+    <Accordion
       triggerClassName={twClassNames(
         'flex w-full bg-white py-3 px-6 border-t',
         {
@@ -38,9 +52,16 @@ export default function Violation({ violation, index, isFullWidth }) {
       triggerContentNode={
         <div className="flex w-full cursor-pointer items-center justify-between bg-white">
           <div className="ml-2 flex items-center">
-            <p className="text-base-900 mr-2 text-sm">{violation.help}</p>
+            <p
+              className="text-base-900 mr-2 truncate text-sm"
+              style={{
+                maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
+              }}
+            >
+              {violation.help}
+            </p>
             <div>
-              <ASBadge
+              <Badge
                 hasDot={false}
                 hasRemoveButton={false}
                 isRounded
@@ -49,7 +70,7 @@ export default function Violation({ violation, index, isFullWidth }) {
             </div>
           </div>
           {impact && (
-            <ASBadge
+            <Badge
               hasDot={false}
               hasRemoveButton={false}
               isRounded
@@ -63,49 +84,12 @@ export default function Violation({ violation, index, isFullWidth }) {
         </div>
       }
       panelContentNode={
-        <ComponentList
-          nodes={violation.nodes}
-          violationId={violation.id}
-          isFullWidth={isFullWidth}
-        />
+        <ComponentList nodes={violation.nodes} violationId={violation.id} />
       }
       onTriggerClick={updateOpenViolation}
       onChevronClick={updateOpenViolation}
     />
   );
-
-  // return (
-  //   <div
-  //     key={violation.id}
-  //     // className={classNames('violations', {
-  //     //   'violations--active': isOpen
-  //     // })}
-  //   >
-  //     <div
-  //       className="violation__header"
-  //       tabIndex={0}
-  //       role="button"
-  //       onKeyDown={(e) =>
-  //         handleClickByEnterOrSpace(e, () => updateOpenViolation())
-  //       }
-  //       onClick={() => updateOpenViolation()}
-  //       aria-label={violation.help}
-  //     >
-  //       <p className="violation__title">
-  //         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-  //         {violation.help} (<span>{totalCount}</span>)
-  //       </p>
-  //       {impact && (
-  //         <div className="violation__icon">
-  //           <Lozenge text={impact} modifier={modifier} type="subtle" />
-  //         </div>
-  //       )}
-  //     </div>
-  //     {isOpen && (
-  //       <ComponentList nodes={violation.nodes} violationId={violation.id} />
-  //     )}
-  //   </div>
-  // );
 }
 
 Violation.propTypes = {

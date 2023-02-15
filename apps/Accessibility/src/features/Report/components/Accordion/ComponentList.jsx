@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
@@ -12,23 +19,16 @@ import {
   getActiveComponentId,
   getIsShowingIssue
 } from 'features/Report/slice/selector';
-import {
-  ASTable,
-  ASTableBody,
-  ASTableCell,
-  ASTableHead,
-  ASTableRow
-} from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 import {
-  formatComponentIdString,
-  handleClickByEnterOrSpace,
+  // formatComponentIdString,
+  // handleClickByEnterOrSpace,
   updateUrlWithQueryParam
 } from 'utils/helper';
 
 export default function ComponentList({ nodes, violationId }) {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { isHalfView } = useContext(SectionsDataContext);
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
@@ -42,7 +42,7 @@ export default function ComponentList({ nodes, violationId }) {
       isShowingIssue: true,
       activeIssueIndex: 0
     });
-    // history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const componentMap = {};
@@ -94,11 +94,11 @@ export default function ComponentList({ nodes, violationId }) {
 
   return (
     <div className="bg-white px-6 pt-2 pb-4">
-      <ASTable>
-        <ASTableHead>
-          <ASTableRow>
+      <Table>
+        <TableHead>
+          <TableRow>
             {columns.map((col, index) => (
-              <ASTableCell
+              <TableCell
                 key={col.key}
                 variant="header"
                 textTransform="uppercase"
@@ -110,17 +110,17 @@ export default function ComponentList({ nodes, violationId }) {
                 >
                   {col.name} {index === 0 ? `(${tableData.length})` : ''}
                 </div>
-              </ASTableCell>
+              </TableCell>
             ))}
-          </ASTableRow>
-        </ASTableHead>
-        <ASTableBody>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {tableData.map(({ id, isActive, ...rest }) => (
-            <ASTableRow
+            <TableRow
               // className={classNames('component-list__row', {
               //   'component-list__row--active': isActive
               // })}
-              wrapperClass="cursor-pointer"
+              wrapperClassName="cursor-pointer"
               onRowClick={() => onRowClick(id)}
               // role="button"
               // tabIndex={0}
@@ -133,9 +133,9 @@ export default function ComponentList({ nodes, violationId }) {
               // }
             >
               {columns.map((column, index) => (
-                <ASTableCell
+                <TableCell
                   key={column.id}
-                  wrapperClass={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
+                  wrapperClassName={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
                     index === 2 ? 'w-24' : ''
                   }`}
                 >
@@ -157,12 +157,12 @@ export default function ComponentList({ nodes, violationId }) {
                   ) : (
                     <div>{rest[column.key]}</div>
                   )}
-                </ASTableCell>
+                </TableCell>
               ))}
-            </ASTableRow>
+            </TableRow>
           ))}
-        </ASTableBody>
-      </ASTable>
+        </TableBody>
+      </Table>
     </div>
   );
 }

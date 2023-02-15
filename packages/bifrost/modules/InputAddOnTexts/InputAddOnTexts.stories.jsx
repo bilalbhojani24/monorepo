@@ -1,15 +1,21 @@
 import React from 'react';
-import InputAddOnTexts from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import InputAddOnTexts from './index';
 
 const defaultConfig = {
   title: 'Application/Components/InputAddOnTexts',
   component: InputAddOnTexts,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import InputAddOnTexts from 'bifrost/InputAddOnTexts'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={
+            "import InputAddOnTexts from 'bifrost/InputAddOnTexts'"
+          }
+        />
+      )
     }
   },
   argTypes: {

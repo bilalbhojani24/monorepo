@@ -2,16 +2,18 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
 import {
+  Breadcrumb,
+  Button,
   MdDownload,
   MdOutlineCalendarToday,
   MdPerson,
-  MdShare
+  MdShare,
+  Tabs
 } from '@browserstack/bifrost';
 import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
-import { ASBreadcrumb, ASButton, ASTabs } from 'middleware/bifrost';
 import { downloadCsv } from 'utils/helper';
 
 import Issues from './components/Issues';
@@ -25,11 +27,21 @@ export default function Report() {
     isCopied,
     isLoading,
     reportMetaData,
-    onBackClick,
     onCopyClick,
     onTabChange
   } = useReport();
   const reportData = useSelector(getReportData);
+
+  const {
+    location: { search, origin, pathname }
+  } = window;
+  const params = new URLSearchParams(search);
+  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
+    'ids'
+  )}&wcagVersion=${params.get('wcagVersion')}`;
+  // Object.entries(params).forEach(([key, value]) => {
+  //   console.log('params: ', key, value);
+  // });
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
@@ -50,12 +62,12 @@ export default function Report() {
     : `Consolidated report across ${reportsLength} reports`;
 
   return reportData && !isLoading ? (
-    <div className="bg-base-50">
-      <div>
+    <div className="bg-base-50 h-full">
+      <div className="bg-base-50 fixed top-16 z-10 w-full">
         <div className="px-6 pt-6">
-          <ASBreadcrumb
+          <Breadcrumb
             data={[
-              { name: 'All reports', url: '', current: '' },
+              { name: 'All reports', url: '/reports', current: '' },
               { name: 'Consolidated report', url: '', current: '' }
             ]}
             size="default"
@@ -103,26 +115,22 @@ export default function Report() {
             </div>
             <div className="flex">
               {isCopied ? (
-                <ASButton colors="white" size="small">
+                <Button colors="white" size="small">
                   Copied
-                </ASButton>
+                </Button>
               ) : (
-                <CopyToClipboard
-                  text={window.location.href}
-                  onCopy={onCopyClick}
-                >
-                  <ASButton
+                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
+                  <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
-                    onClick={() => {}}
                     colors="white"
                     size="extra-small"
                   >
                     Share link
-                  </ASButton>
+                  </Button>
                 </CopyToClipboard>
               )}
-              <ASButton
+              <Button
                 icon={<MdDownload className="text-xl" />}
                 wrapperClassName="ml-3"
                 iconPlacement="end"
@@ -130,12 +138,10 @@ export default function Report() {
                 onClick={() => downloadCsv(reportData, csvName)}
               >
                 Export
-              </ASButton>
+              </Button>
             </div>
           </div>
-        </div>
-        <div className="text-base-200 border-b pl-6">
-          <ASTabs
+          <Tabs
             tabsArray={[
               {
                 name: 'Summary',

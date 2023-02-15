@@ -297,27 +297,3 @@ export default function SiteScanner() {
     </div>
   );
 }
-
-// rows.map((row, idx) => (
-//                 <ASTableRow
-//                   key={idx}
-//                   onRowClick={() => {
-//                     navigate('/site-scanner/scan-details/12');
-//                   }}
-//                   tabIndex="0"
-//                 >
-//                   {columns.map((column, colIdx) => {
-//                     const value = row[column.key];
-//                     return (
-//                       <ASTableCell
-//                         key={column.id}
-//                         wrapperClass={`
-//                     ${colIdx === 0 ? 'font-medium text-base-900' : ''}
-//                    first:pr-3 last:pl-3 p-5`}
-//                       >
-//                         {column.cell ? <>{column.cell()}</> : value}
-//                       </ASTableCell>
-//                     );
-//                   })}
-//                 </ASTableRow>
-//               ))

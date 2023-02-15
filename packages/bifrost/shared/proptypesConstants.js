@@ -9,5 +9,6 @@ export const {
   arrayOf,
   bool,
   func,
-  instanceOf
+  instanceOf,
+  node
 } = PropTypes;

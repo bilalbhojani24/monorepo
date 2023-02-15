@@ -2,17 +2,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Badge, Checkbox } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
 // import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
-import { ASBadge, ASCheckbox } from 'middleware/bifrost';
 import PropTypes from 'prop-types';
 import {
   handleClickByEnterOrSpace,
   updateUrlWithQueryParam
 } from 'utils/helper';
 
-import { setIsReportSelected } from '../../slices/reportsAppSlice';
+import { setIsReportSelected } from '../../slices/appSlice';
 import {
   getActiveVersion,
   getIsSelectionMode,
@@ -36,10 +36,12 @@ export default function ReportRow({ id }) {
   const activeVersion = useSelector(getActiveVersion);
   const isSelectionMode = useSelector(getIsSelectionMode);
   const navigate = useNavigate();
+
   const onReportCheckBoxClick = (event) => {
     const isChecked = event.target.checked;
     dispatch(setIsReportSelected({ id, isSelected: isChecked }));
   };
+
   const onReportClick = (e) => {
     if (e.target.id === 'checkbox') {
       return;
@@ -62,7 +64,6 @@ export default function ReportRow({ id }) {
         wcagVersion: activeVersion.split('WCAG ')[1]
       });
       navigate(`report?${path}`);
-      // history.push(`reports/report?${path}`);
     }
   };
 
@@ -71,14 +72,11 @@ export default function ReportRow({ id }) {
       tabIndex={0}
       role="button"
       onKeyDown={(e) => handleClickByEnterOrSpace(e, onReportClick)}
-      className="border-base-200 flex justify-between border-b bg-white"
+      className="border-base-200 hover:bg-base-50 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
-      <div
-        className="flex"
-        style={{ width: `${(window.innerWidth - 40) / 3}px` }}
-      >
-        <ASCheckbox
+      <div className="flex" style={{ width: `calc(100% - 801px)` }}>
+        <Checkbox
           // ariaLabelText={`${name} selection checkbox`}
           id={id.toString()}
           title={name}
@@ -87,16 +85,23 @@ export default function ReportRow({ id }) {
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
-          wrapperClass="border-0 flex items-center w-16 justify-center"
+          wrapperClassName="border-0 flex items-center w-16 justify-center"
           // onClick={(e) => e.stopPropagation()}
         />
-        <div className="flex flex-col items-start justify-center">
-          <p className="mb-1 text-sm font-medium" title={name}>
+        <div
+          className="flex flex-col items-start justify-center"
+          style={{ width: `calc(100% - 64px)` }}
+        >
+          <p
+            className="mb-1 overflow-hidden truncate text-sm font-medium"
+            title={name}
+            style={{ width: `calc(100% - 64px)` }}
+          >
             {name}
           </p>
           <div className="text-base-500 flex text-sm">
             <p className="mr-3">by {userName},</p>
-            <div>{format(new Date(time), 'MMM dd, yyyy, hh:mm aaa')}</div>
+            <p>{format(new Date(time), 'MMM dd, yyyy, hh:mm aaa')}</p>
           </div>
         </div>
       </div>
@@ -105,10 +110,10 @@ export default function ReportRow({ id }) {
           className="flex flex-col items-start justify-center"
           style={{ minWidth: '140px' }}
         >
-          <ASBadge
+          <Badge
             hasDot={false}
             hasRemoveButton={false}
-            isRounded={false}
+            isRounded
             text="Workflow scan"
           />
           <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
@@ -122,13 +127,16 @@ export default function ReportRow({ id }) {
             {pageCount} pages, {componentCount} components
           </p>
         </div>
-        <div className="flex items-center" style={{ minWidth: '427px' }}>
+        <div
+          className="hidden items-center xl:flex"
+          style={{ minWidth: '427px' }}
+        >
           {issueTypes.map(({ modifier, type }) => (
             <div className="mr-2" key={type}>
-              <ASBadge
+              <Badge
                 hasDot={false}
                 hasRemoveButton={false}
-                isRounded={false}
+                isRounded
                 modifier={modifier}
                 text={`${issueSummary[type]} ${type
                   .charAt(0)

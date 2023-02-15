@@ -3,24 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import fetchReport from 'api/fetchReport';
-import { events, ISSUE_TYPE, ROUTES } from 'constants';
+import { events, ISSUE_TYPE } from 'constants';
 import {
   resetReportAppInfo,
   setActiveSwitch,
   setActiveTab,
   setOpenAccordionId
 } from 'features/Report/slice/appSlice';
-import {
-  resetReportData,
-  setCustomData,
-  setReportData
-} from 'features/Report/slice/dataSlice';
+import { setCustomData, setReportData } from 'features/Report/slice/dataSlice';
 import {
   getActiveTab,
   getDefaultIndex,
   getReportMetaData
 } from 'features/Report/slice/selector';
-import { resetReportApp } from 'features/Reports/slices/reportsAppSlice';
 import { updateUrlWithQueryParam } from 'utils/helper';
 // import { logEvent } from 'utils/logEvent';
 
@@ -28,14 +23,13 @@ export default function useReport() {
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const defaultIndex = useSelector(getDefaultIndex);
   const reportMetaData = useSelector(getReportMetaData);
   const activeTab = useSelector(getActiveTab);
   const params = new URLSearchParams(window.location.search);
 
   const onTabChange = (tab) => {
-    console.log('tab:', tab);
     dispatch(setActiveTab(tab.value));
     dispatch(setActiveSwitch(ISSUE_TYPE));
     dispatch(setOpenAccordionId(''));
@@ -44,24 +38,7 @@ export default function useReport() {
     //   tab: tab.value
     // });
     const path = updateUrlWithQueryParam({ activeTab: tab.value });
-    // history.push({ search: `?${path}` });
-  };
-
-  const onBackClick = () => {
-    // logEvent('OnADReportView', {
-    //   actionType: events.PRESS_BACK_BUTTON
-    // });
-    dispatch(resetReportData());
-    dispatch(resetReportApp());
-    dispatch(resetReportAppInfo());
-    if (window.dashboardUserID) {
-      const path = updateUrlWithQueryParam({
-        dashboardUserID: window.dashboardUserID
-      });
-      history.push({ path: ROUTES.reports, search: `?${path}` });
-    } else {
-      history.push(ROUTES.reports);
-    }
+    navigate(`?${path}`);
   };
 
   const onCopyClick = () => {
@@ -93,6 +70,9 @@ export default function useReport() {
       // logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
+    return () => {
+      dispatch(resetReportAppInfo());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
@@ -102,7 +82,6 @@ export default function useReport() {
     isCopied,
     isLoading,
     reportMetaData,
-    onBackClick,
     onCopyClick,
     onTabChange
   };

@@ -15,8 +15,8 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import TooltipFooter from 'bifrost/TooltipFooter'"}
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
@@ -27,24 +27,24 @@ const defaultConfig = {
           <Button>Action 1</Button>
           <Button colors="white">Action 2</Button>
         </>
-      ),
+      )
     },
     position: {
       options: TP_ACTION_ITEM_POSITION,
       controls: { type: 'inline-radio' },
-      defaultValue: TP_ACTION_ITEM_POSITION[0],
+      defaultValue: TP_ACTION_ITEM_POSITION[0]
     },
-    wrapperClass: {
+    wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: '',
-    },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <TooltipFooter {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;

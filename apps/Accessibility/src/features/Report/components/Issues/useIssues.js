@@ -12,6 +12,7 @@ import {
   setIntermediateReportFiltersKey,
   setOpenAccordionId,
   setReportFilters,
+  setReportFiltersKey,
   setResetFilterKey,
   setShowHiddenIssues
 } from 'features/Report/slice/appSlice';
@@ -28,8 +29,7 @@ import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useIssues() {
   const dispatch = useDispatch();
-  const history = useNavigate();
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const navigate = useNavigate();
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -59,10 +59,6 @@ export default function useIssues() {
     dispatch(resetIntermediateFiltersToActiveFilters());
   };
 
-  // const onFilterUpdate = () => {
-  //   dispatch(setReportFilters(intermediateFilters));
-  // };
-
   const onApplyFilters = () => {
     dispatch(setReportFilters(intermediateFilters));
     dispatch(resetIssueItem());
@@ -72,11 +68,11 @@ export default function useIssues() {
       'activeIssueIndex',
       'isShowingIssue'
     ]);
-    // history.push({ search: `?${path}` });
+    navigate(`?${path}`);
 
     // update query params with applied filters
     const updatedPath = updateUrlWithQueryParam(intermediateFilters);
-    // history.push({ search: `?${updatedPath}` });
+    navigate(`?${updatedPath}`);
     setIsOpen(false);
   };
 
@@ -84,7 +80,7 @@ export default function useIssues() {
     dispatch(
       setIntermediateReportFiltersKey({
         key,
-        values: values.map(({ value }) => value)
+        values
       })
     );
   };
@@ -94,54 +90,58 @@ export default function useIssues() {
       dispatch(resetFilters());
       dispatch(resetIntermediateFilters());
       const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
-      history.push({ search: `?${path}` });
+      navigate(`?${path}`);
     } else if (key === 'showNeedsReviewIssues') {
       const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-      // history.push({ search: `?${path}` });
+      navigate(`?${path}`);
       dispatch(resetIntermediateResetFilterKey({ key, value: false }));
       dispatch(setResetFilterKey({ key, value: false }));
     } else {
       dispatch(resetIntermediateResetFilterKey({ key, value: [] }));
       const path = deleteUrlQueryParam([key]);
-      // history.push({ search: `?${path}` });
+      navigate(`?${path}`);
       dispatch(setResetFilterKey({ key, value: [] }));
     }
   };
 
-  const onInputBoxChange = (key, value, shouldShowNeedsReviewIssues) => {
-    if (shouldShowNeedsReviewIssues) {
-      dispatch(
-        setReportFilters({
-          key: 'showNeedsReviewIssues',
-          values: value
-        })
-      );
-      return;
-    }
+  const onNeedsReviewChecked = (event) => {
+    const { checked } = event.target;
+    dispatch(
+      setIntermediateReportFiltersKey({
+        key: 'showNeedsReviewIssues',
+        values: checked
+      })
+    );
+  };
 
-    let updatedValues = [...activeReportFilters.impact];
-    if (value) {
-      updatedValues.push(key);
+  const onInputBoxChange = (option, event) => {
+    const { checked } = event.target;
+
+    let finalList;
+    if (checked) {
+      finalList = [...intermediateFilters.impact, option];
     } else {
-      updatedValues = updatedValues.filter((impact) => impact !== key);
+      finalList = [
+        ...intermediateFilters.impact.filter(
+          ({ value }) => value !== option.value
+        )
+      ];
     }
     dispatch(
-      setReportFilters({
+      setIntermediateReportFiltersKey({
         key: 'impact',
-        values: updatedValues
+        values: finalList
       })
     );
   };
 
   const onUpdateImpact = (values) => {
-    console.log('onUpdateImpact: ', values);
-    setSelectedOptions(values);
-    // dispatch(
-    //   setReportFilters({
-    //     key: 'impact',
-    //     values
-    //   })
-    // );
+    dispatch(
+      setReportFiltersKey({
+        key: 'impact',
+        values
+      })
+    );
   };
 
   useEffect(() => {
@@ -178,7 +178,9 @@ export default function useIssues() {
     }
     if (activeReportFilters.impact.length) {
       filteredViolations = reportData.filter((violation) =>
-        activeReportFilters.impact.includes(violation.impact)
+        activeReportFilters.impact
+          .map(({ value }) => value)
+          .includes(violation.impact)
       );
     }
     if (activeReportFilters.category.length) {
@@ -186,14 +188,16 @@ export default function useIssues() {
         const category = tags
           .find((tag) => tag.includes('cat.'))
           ?.split('cat.')[1];
-        return activeReportFilters.category.includes(category);
+        return activeReportFilters.category
+          .map(({ value }) => value)
+          .includes(category);
       });
     }
     if (activeReportFilters.page.length) {
       filteredViolations = filteredViolations.map((violation) => ({
         ...violation,
         nodes: violation.nodes.filter(({ page }) =>
-          activeReportFilters.page.includes(page.url)
+          activeReportFilters.page.map(({ value }) => value).includes(page.url)
         )
       }));
     }
@@ -201,7 +205,9 @@ export default function useIssues() {
       filteredViolations = filteredViolations.map((violation) => ({
         ...violation,
         nodes: violation.nodes.filter(({ componentId }) =>
-          activeReportFilters.component.includes(componentId)
+          activeReportFilters.component
+            .map(({ value }) => value)
+            .includes(componentId)
         )
       }));
     }
@@ -295,16 +301,19 @@ export default function useIssues() {
       activeIssueIndex: 0,
       isShowingIssue: false
     });
-    // history.push({ search: `?${path}` });
+    navigate(`?${path}`);
   };
 
   const onHiddenIssueClick = (val) => {
-    // history.push({
-    //   search: `?${updateUrlWithQueryParam({ hideIssues: val })}`
-    // });
+    const path = updateUrlWithQueryParam({ hideIssues: val });
+    navigate(`?${path}`);
     dispatch(resetIssueItem());
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };
+
+  useEffect(() => {
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+  }, []);
 
   return {
     activeSwitch,
@@ -312,8 +321,8 @@ export default function useIssues() {
     isOpen,
     intermediateFilters,
     sectionData,
-    selectedOptions,
     showHiddenIssues,
+    onNeedsReviewChecked,
     onHiddenIssueClick,
     onApplyFilters,
     onFilterButtonClick,

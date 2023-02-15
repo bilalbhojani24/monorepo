@@ -21,7 +21,7 @@ import { updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useSummary() {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const reportMetaData = useSelector(getReportMetaData);
   const reportData = useSelector(getReportData);
   const {
@@ -75,6 +75,7 @@ export default function useSummary() {
 
   const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
     const values = shouldShowNeedsReviewIssues || [value];
+    // console.log('Hii');
     dispatch(resetFilters());
     dispatch(setShowHiddenIssues({ hideIssues: false }));
     dispatch(resetIntermediateFilters());
@@ -82,10 +83,9 @@ export default function useSummary() {
     dispatch(setIntermediateReportFiltersKey({ key: filter, values }));
 
     // append filter to url as query param
-    history.push({
-      search: `?${updateUrlWithQueryParam({ [filter]: value })}`
-    });
-    document.getElementById('base-tabs-tab-1').click();
+    const path = updateUrlWithQueryParam({ [filter]: value });
+    navigate(`?${path}`);
+    document.querySelector('button[value="All issues"]').click();
   };
 
   const onHiddenIssueClick = () => {
@@ -93,10 +93,9 @@ export default function useSummary() {
     dispatch(resetFilters());
     dispatch(resetIntermediateFilters());
     dispatch(resetIssueItem());
-    history.push({
-      search: `?${updateUrlWithQueryParam({ hideIssues: true })}`
-    });
-    document.getElementById('base-tabs-tab-1').click();
+    const path = updateUrlWithQueryParam({ hideIssues: true });
+    navigate(`?${path}`);
+    document.querySelector('button[value="All issues"]').click();
   };
 
   const chartOption = {
@@ -172,7 +171,8 @@ export default function useSummary() {
     ]
   };
 
-  const onMenuChange = (item) => {
+  const onMenuChange = (item, b) => {
+    console.log(item, b);
     const { value } = item;
     if (value === 'char-sort') {
       setCategoryList(
@@ -203,6 +203,10 @@ export default function useSummary() {
       cloneDeep(issueCountByCategory).sort((a, b) => b.count - a.count)
     );
   }, [issueCountByCategory]);
+
+  useEffect(() => {
+    document.getElementsByTagName('body')[0].style.overflow = 'auto';
+  }, []);
 
   return {
     reportMetaData,

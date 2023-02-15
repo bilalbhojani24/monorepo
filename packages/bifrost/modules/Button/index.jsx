@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -14,20 +14,23 @@ import {
 
 import './styles.scss';
 
-const Button = ({
-  children,
-  disabled,
-  size,
-  loading,
-  onClick,
-  variant,
-  wrapperClassName,
-  fullWidth,
-  icon,
-  iconPlacement,
-  isIconOnlyButton,
-  colors
-}) => {
+const Button = (
+  {
+    children,
+    disabled,
+    size,
+    loading,
+    onClick,
+    variant,
+    wrapperClassName,
+    fullWidth,
+    icon,
+    iconPlacement,
+    isIconOnlyButton,
+    colors
+  },
+  ref
+) => {
   const buttonRef = useRef();
 
   const effectiveChildren =
@@ -71,19 +74,19 @@ const Button = ({
     if (isIconOnlyButton) {
       switch (size) {
         case BUTTON_SIZES[0]:
-          result = 'p-[5px]';
+          result = 'p-[4px]';
           break;
         case BUTTON_SIZES[1]:
-          result = 'p-[7px]';
+          result = 'p-[6px]';
           break;
         case BUTTON_SIZES[2]:
-          result = 'p-[9px]';
+          result = 'p-[8px]';
           break;
         case BUTTON_SIZES[3]:
-          result = 'p-[9px]';
+          result = 'p-[8px]';
           break;
         case BUTTON_SIZES[4]:
-          result = 'p-[13px]';
+          result = 'p-[12px]';
           break;
         default:
           break;
@@ -99,14 +102,15 @@ const Button = ({
 
   const buttonDimensions = useMemo(() => {
     if (loading) {
+      const target = ref || buttonRef;
       return {
-        width: buttonRef?.current?.getBoundingClientRect()?.width,
-        height: buttonRef?.current?.getBoundingClientRect()?.height
+        width: target?.current?.getBoundingClientRect()?.width,
+        height: target?.current?.getBoundingClientRect()?.height
       };
     }
 
     return null;
-  }, [loading]);
+  }, [loading, ref]);
 
   const stylePicker = () => {
     if (disabled) {
@@ -130,7 +134,7 @@ const Button = ({
         }
       })}
       type="button"
-      ref={buttonRef}
+      ref={ref || buttonRef}
       aria-disabled={disabled}
       className={twClassNames(
         'border border-transparent font-medium',
@@ -148,7 +152,7 @@ const Button = ({
   );
 };
 
-Button.propTypes = {
+const buttonProps = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -163,7 +167,7 @@ Button.propTypes = {
   isIconOnlyButton: PropTypes.bool
 };
 
-Button.defaultProps = {
+const defaultProps = {
   disabled: false,
   loading: false,
   onClick: () => {},
@@ -178,4 +182,12 @@ Button.defaultProps = {
   isIconOnlyButton: false
 };
 
-export default Button;
+const WrappedButton = forwardRef(Button);
+
+Button.propTypes = buttonProps;
+WrappedButton.propTypes = buttonProps;
+
+Button.defaultProps = defaultProps;
+WrappedButton.defaultProps = defaultProps;
+
+export default WrappedButton;

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import SelectMenuLabel from '../SelectMenuLabel';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
+import SelectMenuTrigger from '../SelectMenuTrigger';
 
-import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+import { SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
 
 const defaultConfig = {
@@ -14,56 +18,50 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import SelectMenu from 'bifrost/SelectMenu'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
-    checkPosition: {
-      options: CHECK_POSITION,
-      control: { type: 'inline-radio' },
-      description: 'Position of check icon',
-      defaultValue: CHECK_POSITION[0],
+    children: {
+      option: { type: null },
+      defaultValue: (
+        <>
+          <SelectMenuLabel>Assigned to</SelectMenuLabel>
+          <SelectMenuTrigger placeholder="Select.." />
+          <SelectMenuOptionGroup>
+            {SELECT_OPTIONS.map((item) => (
+              <SelectMenuOptionItem key={item.value} option={item} />
+            ))}
+          </SelectMenuOptionGroup>
+        </>
+      )
     },
     defaultValue: {
       option: { type: null },
       description:
         'Default selected values for the selectMenu, and the value state will be controlled internally, means values doesnt get updated on re-render',
-      defaultValue: SELECT_OPTIONS[0],
+      defaultValue: SELECT_OPTIONS[0]
     },
-    isMultiSelect: {
+    isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
-      defaultValue: false,
-    },
-    label: {
-      option: { type: 'string' },
-      defaultValue: 'Assigned to',
-      description: 'Description for selectMenu',
+      defaultValue: false
     },
     onChange: {
       option: { type: null },
       description: 'Callback function when selectMenu value is changed',
       defaultValue: (selectedOptions) => {
         console.log(selectedOptions);
-      },
-    },
-    options: {
-      options: SELECT_OPTIONS,
-      description: 'options for the selectMenu, array of objects',
-      defaultValue: SELECT_OPTIONS,
-    },
-    placeholder: {
-      option: { type: 'string' },
-      description: 'Select menu...',
+      }
     },
     value: {
       option: { type: null },
       description:
         'Default selected values for the selectMenu, and the value state will be controlled externally',
-      defaultValue: undefined,
-    },
+      defaultValue: undefined
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <SelectMenu {...args} />;
 const MultiSelectTemplate = (args) => <SelectMenu {...args} />;
@@ -74,7 +72,22 @@ const MultiSelect = MultiSelectTemplate.bind({});
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
+};
+
+export const ControlledSelectMenu = () => {
+  const [selected, setSelected] = useState(null);
+  return (
+    <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuOptionGroup>
+        {SELECT_OPTIONS.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
+  );
 };
 
 export default defaultConfig;
@@ -82,12 +95,12 @@ export { MultiSelect, Primary, SelectWithPlaceholder };
 
 MultiSelect.args = {
   defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
-  isMultiSelect: true,
-  value: undefined,
+  isMulti: true,
+  value: undefined
 };
 
 SelectWithPlaceholder.args = {
   placeholder: 'Placeholder text...',
   value: null,
-  defaultValue: null,
+  defaultValue: null
 };

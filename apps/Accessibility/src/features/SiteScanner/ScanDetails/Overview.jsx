@@ -43,15 +43,6 @@ const chartOptionStacked = {
     title: {
       text: ''
     }
-    // stackLabels: {
-    //   enabled: false,
-    //   verticalAlign: 'top',
-    //   style: {
-    //     fontWeight: 'bold',
-    //     color: 'gray',
-    //     textOutline: 'none'
-    //   }
-    // }
   },
   plotOptions: {
     column: {
@@ -122,23 +113,28 @@ const chartOptionsSpline = {
     },
     categories: ['Jan 3', 'Jan 10', 'Jan 17', 'Jan 24', 'Jan 31', 'Feb 7'],
     maxPadding: 0.05,
-    showLastLabel: true
+    showLastLabel: false
   },
   yAxis: {
     title: {
       text: ''
     },
     labels: {
-      format: '{value}°'
+      format: '{value}'
     },
     lineWidth: 2
   },
   legend: {
-    enabled: true
+    enabled: true,
+    layout: 'horizontal',
+    align: 'left',
+    verticalAlign: 'top',
+    itemMarginTop: 10,
+    itemMarginBottom: 10
   },
   tooltip: {
     headerFormat: '<b>{series.name}</b><br/>',
-    pointFormat: '{point.x} km: {point.y}°C'
+    pointFormat: '{point.x} km:8o {point.y}°C'
   },
   navigation: {
     buttonOptions: {
@@ -150,52 +146,27 @@ const chartOptionsSpline = {
       marker: {
         enable: false
       }
+    },
+    series: {
+      marker: {
+        enabled: false
+      }
     }
   },
   series: [
     {
       name: 'Success',
-      data: [
-        [0, 15],
-        [10, -50],
-        [20, -56.5],
-        [30, -46.5],
-        [40, -22.1],
-        [50, -2.5],
-        [60, -27.7],
-        [70, -55.7],
-        [80, -76.5]
-      ],
+      data: [10, 45, 35, 33, 40, 14, 53],
       color: '#22C55E'
     },
     {
       name: 'Failure',
-      data: [
-        [0, 15],
-        [0, -50],
-        [20, 56.5],
-        [30, -46.5],
-        [40, -22.1],
-        [50, -2.5],
-        [60, -27.7],
-        [70, -55.7],
-        [80, -76.5]
-      ],
+      data: [5, 43, 45, 57, 53, 50, 24],
       color: '#F59E0B'
     },
     {
       name: 'Redirects',
-      data: [
-        [0, 15],
-        [15, 50],
-        [20, 56.5],
-        [30, 46.5],
-        [40, -22.1],
-        [50, -2.5],
-        [60, 27.7],
-        [70, -55.7],
-        [80, -76.5]
-      ],
+      data: [0, 4, 21, 30, 34, 25, 13],
       color: '#EF4444'
     }
   ]

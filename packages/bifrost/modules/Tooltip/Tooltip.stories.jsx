@@ -160,7 +160,7 @@ export {
 CustomTooltip.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
-    <TooltipBody wrapperClass="mb-0">
+    <TooltipBody wrapperClassName="mb-0">
       Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
       sodales augue eu viverra tempus.
     </TooltipBody>

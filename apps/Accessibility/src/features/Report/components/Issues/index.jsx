@@ -1,9 +1,30 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { MdArrowBack, MdFilterAlt, MdHideSource } from '@browserstack/bifrost';
+import {
+  Badge,
+  Button,
+  Checkbox,
+  ComboBox,
+  ComboboxLabel,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
+  ComboboxTrigger,
+  MdArrowBack,
+  MdFilterAlt,
+  MdHideSource,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  SelectMenu,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
-import { FILTER_KEYS, issueTabs } from 'constants';
+import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
+import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -11,17 +32,6 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from 'features/Report/slice/selector';
-import {
-  ASBadge,
-  ASButton,
-  ASCheckbox,
-  ASComboBox,
-  ASModal,
-  ASModalBody,
-  ASModalFooter,
-  ASModalHeader,
-  ASSelectMenu
-} from 'middleware/bifrost';
 
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
@@ -33,13 +43,14 @@ export default function Issues() {
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const reportFilters = useSelector(getReportFilters);
+  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const { urls, componentIds, categories } = useSelector(getUniqFilterValues);
   const {
     activeSwitch,
     isOpen,
     intermediateFilters,
-    selectedOptions,
     sectionData,
+    showHiddenIssues,
     onApplyFilters,
     onCloseClick,
     onFilterButtonClick,
@@ -48,7 +59,7 @@ export default function Issues() {
     onTabSelect,
     onTagClose,
     generateData,
-    showHiddenIssues,
+    onNeedsReviewChecked,
     onHiddenIssueClick,
     onUpdateFilters
   } = useIssues();
@@ -56,8 +67,6 @@ export default function Issues() {
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
   );
-
-  // console.log('reportFilters.impact: ', reportFilters.impact);
 
   const getKeyName = (key, values) => {
     const hasMultipleValues = values.length > 1;
@@ -77,262 +86,252 @@ export default function Issues() {
     text = `${values.length} ${text}`;
     return text;
   };
+
   // check if needs review is true OR check if any other filters is applied. Filters are combined as array, hence length check.
   const hasFilters =
     reportFilters.showNeedsReviewIssues ||
     Object.values(reportFilters).filter((item) => item.length > 0).length > 0;
 
   const isHalfView = activeComponentId && isShowingIssue;
-
-  const severityOptions = [
-    {
-      label: 'Critical',
-      value: 'critical'
-    },
-    {
-      label: 'Serious',
-      value: 'serious'
-    },
-    {
-      label: 'Moderate',
-      value: 'moderate'
-    },
-    {
-      label: 'Minor',
-      value: 'minor'
-    }
-  ];
-
   const intermediateFiltersImpactValues = intermediateFilters.impact.map(
     ({ value }) => value
   );
+
+  const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
     >
       <div>
-        <ASModal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
-          <ASModalHeader handleDismissClick={onCloseClick} heading="Filters" />
-          <ASModalBody>
+        <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+          <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
+          <ModalBody>
             <div className="mb-6">
               <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
                 Severity
               </p>
               <div className="flex">
-                {severityOptions.map(({ label, value }) => (
-                  <ASCheckbox
-                    data={{ label, value }}
+                {severityOptions.map((option) => (
+                  <Checkbox
+                    data={option}
                     border={false}
-                    wrapperClass="pt-0 w-24 mr-5"
-                    checked={intermediateFiltersImpactValues.includes(value)}
-                    onChange={(val) => onInputBoxChange(value, val)}
+                    wrapperClassName="pt-0 w-24 mr-5"
+                    checked={intermediateFiltersImpactValues.includes(
+                      option.value
+                    )}
+                    onChange={(e) => onInputBoxChange(option, e)}
                   />
                 ))}
               </div>
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Pages</p>
-              <ASComboBox
-                isMulti
+              <ComboBox
                 onChange={(values) => onUpdateFilters('page', values)}
-                options={urls}
-                value={reportFilters.impact}
-                // placeholder="Select..."
-              />
+                value={intermediateFilters.page}
+                isMulti
+              >
+                <ComboboxLabel>Pages</ComboboxLabel>
+                <ComboboxTrigger placeholder="Select" />
+                <ComboboxOptionGroup>
+                  {urls.map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+                </ComboboxOptionGroup>
+              </ComboBox>
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Components</p>
-              <ASComboBox
-                isMultiSelect
+              <ComboBox
                 onChange={(values) => onUpdateFilters('component', values)}
-                options={componentIds}
-                // value={reportFilters.impact}
-                // placeholder="Select..."
-              />
+                value={intermediateFilters.component}
+                isMulti
+              >
+                <ComboboxLabel>Components</ComboboxLabel>
+                <ComboboxTrigger placeholder="Select" />
+                <ComboboxOptionGroup>
+                  {componentIds.map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+                </ComboboxOptionGroup>
+              </ComboBox>
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Category</p>
-              <ASComboBox
-                isMultiSelect
+              <ComboBox
                 onChange={(values) => onUpdateFilters('category', values)}
-                options={categories}
-                // value={reportFilters.impact}
-                // placeholder="Select..."
-              />
+                value={intermediateFilters.category}
+                isMulti
+              >
+                <ComboboxLabel>Category</ComboboxLabel>
+                <ComboboxTrigger placeholder="Select..." />
+                <ComboboxOptionGroup>
+                  {categories.map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+                </ComboboxOptionGroup>
+              </ComboBox>
             </div>
-            {/* <SelectBox
-              isMulti
-              isSearch
-              label="Pages"
-              wrapperClassName="issues__select"
-              menuOptions={urls}
-              defaultSelected={intermediateFilters.page.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('page', values)}
-            />
-            <SelectBox
-              isMulti
-              isSearch
-              label="Components"
-              wrapperClassName="issues__select"
-              menuOptions={componentIds}
-              defaultSelected={intermediateFilters.component.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('component', values)}
-            />
-            <SelectBox
-              isMulti
-              isSearch
-              label="Category"
-              wrapperClassName="issues__select"
-              menuOptions={categories}
-              defaultSelected={intermediateFilters.category.map((value) => ({
-                label: value,
-                value
-              }))}
-              placeholder="Select"
-              onChange={(_, values) => onUpdateFilters('category', values)}
-            /> */}
-            <ASCheckbox
+            <Checkbox
               border={false}
-              wrapperClass="pt-0"
+              wrapperClassName="pt-0"
               data={{
                 label: "Show only 'Needs Review' Issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}
-              onChange={(value) => onInputBoxChange('', value, true)}
+              onChange={onNeedsReviewChecked}
             />
-          </ASModalBody>
-          <ASModalFooter position="right ">
-            <ASButton onClick={onCloseClick} colors="white">
+          </ModalBody>
+          <ModalFooter position="right ">
+            <Button onClick={onCloseClick} colors="white">
               Cancel
-            </ASButton>
-            <ASButton onClick={onApplyFilters}>OK</ASButton>
-          </ASModalFooter>
-        </ASModal>
-        {/* {showHiddenIssues && (
-          <div>
-            <ASButton
-              icon={<ArrowBackIcon />}
-              modifier="grey"
-              onClick={() => onHiddenIssueClick(false)}
-              size="small"
-              text=""
-              type="subtle"
-            >
-              Back
-            </ASButton>
-            <p> Showing Hidden Issues </p>
-          </div>
-        )} */}
-        <div>
-          <div className="flex items-center justify-between py-4 px-6">
-            <div>
+            </Button>
+            <Button onClick={onApplyFilters}>OK</Button>
+          </ModalFooter>
+        </Modal>
+        <div
+          className="bg-base-50 border-base-200 fixed z-10 border-b"
+          style={{ width: 'calc(100% - 256px)', top: '230px' }}
+        >
+          <div className="flex w-full items-center justify-between py-4 px-6">
+            <div className="flex items-center">
+              {showHiddenIssues && (
+                <Button
+                  colors="white"
+                  onClick={() => onHiddenIssueClick(false)}
+                  size="small"
+                  icon={<MdArrowBack className="text-xl" />}
+                  wrapperClassName="mr-4"
+                  isIconOnlyButton
+                />
+              )}
               {issueTabs.map(({ label, value }, index) => (
-                <ASButton
-                  wrapperClassName={
-                    index === 0 ? 'rounded-r-none' : 'rounded-l-none border-l-0'
-                  }
+                <Button
+                  wrapperClassName={twClassNames({
+                    'border-brand-500': activeSwitch === value,
+                    'rounded-r-none': index === 0,
+                    'rounded-l-none border-l-0':
+                      index !== 0 && activeSwitch === value
+                  })}
                   onClick={() => onTabSelect(value)}
                   colors="white"
                   size="small"
                 >
                   {label}
-                </ASButton>
+                </Button>
               ))}
             </div>
-            <ASSelectMenu
-              isMultiSelect
-              onChange={(a) => {
-                console.log('a');
-                onUpdateImpact(a);
-              }}
-              options={severityOptions}
-              // placeholder="Severity"
-              value={selectedOptions}
-            />
             <div className="flex">
+              <div className="mr-4 w-36">
+                <SelectMenu
+                  onChange={onUpdateImpact}
+                  value={reportFilters.impact}
+                  isMulti
+                >
+                  <SelectMenuTrigger placeholder="Severity" />
+                  <SelectMenuOptionGroup>
+                    {severityOptions.map((item) => (
+                      <SelectMenuOptionItem
+                        key={item.value}
+                        option={item}
+                        wrapperClassName="text-sm font-semibold text-base-900"
+                      />
+                    ))}
+                  </SelectMenuOptionGroup>
+                </SelectMenu>
+              </div>
               {!showHiddenIssues && (
-                <ASButton
+                <Button
                   icon={<MdFilterAlt className="text-xl" />}
                   colors="white"
-                  // size="small"
-                  // wrapperClassName="ml-2"
+                  size="small"
+                  wrapperClassName="mr-4"
                   onClick={onFilterButtonClick}
                   isIconOnlyButton
                 />
               )}
               {!showHiddenIssues && !hasFilters && (
-                <ASButton
+                <Button
                   colors="white"
                   onClick={() => onHiddenIssueClick(true)}
-                  // wrapperClassName="ml-2"
-                  icon={<MdHideSource />}
+                  size="small"
+                  icon={<MdHideSource className="text-xl" />}
                   isIconOnlyButton
                 />
               )}
             </div>
-            {/* {Object.entries(reportFilters).map(([key, values]) =>
-              values.length ? (
-                <ASBadge
-                  readonly
-                  size="large"
-                  text={getKeyName(key, values)}
-                  onClick={onFilterButtonClick}
-                  onClose={() => onTagClose(key)}
-                  wrapperClassName="issues__tag"
-                />
-              ) : null
-            )} */}
-            {/* {reportFilters.showNeedsReviewIssues ? (
-              <ASBadge
-                hasDot={false}
-                hasRemoveButton
-                isRounded={false}
-                text="Needs Review"
-                size="large"
-                onClose={() => onTagClose('showNeedsReviewIssues')}
-              />
-            ) : null}
-            {hasFilters && (
-              <ASBadge
-                readonly
-                size="large"
-                text="Clear all"
-                onClose={() => onTagClose('all')}
-                wrapperClassName="issues__tag"
-              />
-            )} */}
           </div>
-          {!showHiddenIssues || hasFilters ? (
+          {hasFilterOrHiddenView ? (
             <div className="bg-base-100 px-6 py-3">
-              {!showHiddenIssues ? (
-                <ASBadge
+              {showHiddenIssues ? (
+                <Badge
                   hasDot={false}
                   hasRemoveButton
                   isRounded
+                  size="large"
                   wrapperClassName="bg-white"
+                  onClose={() => onHiddenIssueClick(false)}
                   text="Hidden issues"
                 />
               ) : (
-                <div>
+                <div className="flex">
                   <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
                     Filters
                   </p>
+                  {Object.entries(reportFilters).map(([key, values]) =>
+                    values.length ? (
+                      <Badge
+                        readonly
+                        size="large"
+                        hasRemoveButton
+                        text={getKeyName(key, values)}
+                        onClick={onFilterButtonClick}
+                        onClose={() => onTagClose(key)}
+                        wrapperClassName="bg-white ml-4"
+                      />
+                    ) : null
+                  )}
+                  {reportFilters.showNeedsReviewIssues ? (
+                    <Badge
+                      hasDot={false}
+                      hasRemoveButton
+                      isRounded
+                      text="Needs Review"
+                      size="large"
+                      wrapperClassName="bg-white ml-4"
+                      onClose={() => onTagClose('showNeedsReviewIssues')}
+                    />
+                  ) : null}
+                  <Button
+                    onClick={() => onTagClose('all')}
+                    size="small"
+                    colors="white"
+                    wrapperClassName="ml-4"
+                    variant="minimal"
+                  >
+                    Clear all
+                  </Button>
                 </div>
               )}
             </div>
           ) : null}
         </div>
-        <div>
+        <div
+          className="fixed overflow-auto"
+          style={{
+            top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
+            height: 'calc(100vh - 228px)',
+            width: 'calc(100vw - 256px)'
+          }}
+        >
           {showEmptyScreen ? (
             <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
               <img
@@ -343,16 +342,27 @@ export default function Issues() {
               <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <div className="border-base-200 flex border-t">
+            <div className="flex">
               <div
-                className={twClassNames('w-full', {
+                className={twClassNames('w-full border-r border-base-200', {
                   'w-2/4': isHalfView && sectionData
                 })}
+                style={{ height: 'calc(100vh - 228px)' }}
               >
                 <Accordion />
               </div>
               {isHalfView && sectionData && (
-                <div className="w-2/4">
+                <div
+                  className="fixed right-0 overflow-auto bg-white"
+                  style={{
+                    height: 'calc(100vh - 228px)',
+                    width: `${
+                      isSidebarCollapsed
+                        ? 'calc((100vw - 20px) / 2)'
+                        : 'calc((100vw - 256px) / 2)'
+                    }`
+                  }}
+                >
                   <IssueItem />
                 </div>
               )}

@@ -128,8 +128,7 @@ const { actions, reducer } = createSlice({
       state.openAccordionId = payload;
     },
     setReportFilters: (state, { payload }) => {
-      // state.activeFilters = payload;
-      state.activeFilters[payload.key] = payload.values;
+      state.activeFilters = payload;
     },
     setReportFiltersKey: (state, { payload }) => {
       state.activeFilters[payload.key] = payload.values;

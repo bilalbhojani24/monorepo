@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
@@ -7,7 +7,7 @@ import { MODAL_SIZE } from './const/modalConstants';
 
 import './styles.scss';
 
-const Modal = (props) => {
+const Modal = forwardRef((props, ref) => {
   const { children, onClose, onOverlayClick, show, size } = props;
 
   return (
@@ -19,6 +19,7 @@ const Modal = (props) => {
           if (onClose) onClose();
           if (onOverlayClick) onOverlayClick();
         }}
+        initialFocus={ref}
       >
         <Transition.Child
           enter="ease-out duration-300"
@@ -67,7 +68,7 @@ const Modal = (props) => {
       </Dialog>
     </Transition.Root>
   );
-};
+});
 
 Modal.propTypes = {
   children: PropTypes.node,
