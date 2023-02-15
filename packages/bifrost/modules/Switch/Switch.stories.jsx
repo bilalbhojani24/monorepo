@@ -1,15 +1,19 @@
-import React from 'react';
-import Switch from './index';
+import React, { useState } from 'react';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import Switch from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Switch',
   component: Switch,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Switch from 'bifrost/Switch'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Switch from 'bifrost/Switch'"}
+        />
+      )
     }
   },
   argTypes: {
@@ -64,11 +68,29 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <Switch {...args} />;
-const Primary = Template.bind({});
-Primary.parameters = {
+
+const ControlledComponent = (args) => {
+  const [data, setData] = useState(false);
+  return (
+    <Switch
+      {...args}
+      checked={data}
+      onChange={(newValue) => setData(newValue)}
+    />
+  );
+};
+
+const UncontrolledTemplate = (args) => <Switch {...args} defaultValue />;
+const Uncontrolled = UncontrolledTemplate.bind({});
+Uncontrolled.parameters = {
+  controls: {}
+};
+
+const ControlledTemplate = (args) => <ControlledComponent {...args} />;
+const Controlled = ControlledTemplate.bind({});
+Uncontrolled.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+export { Controlled, Uncontrolled };
