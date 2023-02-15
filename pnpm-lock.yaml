@@ -99,7 +99,7 @@ importers:
       sass: 1.57.1
       stylelint: 14.16.1
       stylelint-config-prettier: 9.0.4_stylelint@14.16.1
-      stylelint-config-standard-scss: 7.0.0_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
       stylelint-prettier: 2.0.0_a2vzj7g2yjl2irgc2yp4zt277e
       stylelint-scss: 4.3.0_stylelint@14.16.1
       tailwindcss: 3.2.4
@@ -158,7 +158,7 @@ importers:
       sass: 1.57.1
       stylelint: 14.16.1
       stylelint-config-prettier: 9.0.4_stylelint@14.16.1
-      stylelint-config-standard-scss: 7.0.0_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
       stylelint-prettier: 2.0.0_a2vzj7g2yjl2irgc2yp4zt277e
       stylelint-scss: 4.3.0_stylelint@14.16.1
       tailwindcss: 3.2.4
@@ -200,6 +200,7 @@ importers:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
+      react-draggable: ^4.4.5
       react-hot-toast: 2.4.0
       react-icons: ^4.7.1
       sass: ^1.57.1
@@ -224,6 +225,7 @@ importers:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
       react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
       react-icons: 4.7.1_react@18.2.0
     devDependencies:
@@ -256,7 +258,7 @@ importers:
       style-loader: 3.3.1_webpack@5.75.0
       stylelint: 14.16.1
       stylelint-config-prettier: 9.0.4_stylelint@14.16.1
-      stylelint-config-standard-scss: 7.0.0_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
       stylelint-prettier: 2.0.0_a2vzj7g2yjl2irgc2yp4zt277e
       stylelint-scss: 4.3.0_stylelint@14.16.1
       tailwind-config-viewer: 1.7.2_tailwindcss@3.2.4
@@ -361,12 +363,13 @@ importers:
     devDependencies:
       stylelint: 14.16.1
       stylelint-config-prettier: 9.0.4_stylelint@14.16.1
-      stylelint-config-standard-scss: 7.0.0_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
       stylelint-prettier: 2.0.0_a2vzj7g2yjl2irgc2yp4zt277e
       stylelint-scss: 4.3.0_stylelint@14.16.1
 
   packages/tailwind-config:
     specifiers:
+      '@tailwindcss/aspect-ratio': 0.4.2
       '@tailwindcss/forms': 0.5.3
       '@tailwindcss/line-clamp': 0.4.2
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
@@ -375,6 +378,7 @@ importers:
       postcss-preset-env: ^7.8.3
       tailwindcss: ^3.1.4
     dependencies:
+      '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.2.4
       '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
     devDependencies:
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
@@ -6789,6 +6793,14 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tailwindcss/aspect-ratio/0.4.2_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.2.4
+    dev: false
 
   /@tailwindcss/forms/0.5.3_tailwindcss@3.2.4:
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
@@ -18059,7 +18071,6 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-    dev: true
 
   /react-element-to-jsx-string/14.3.4_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-t4ZwvV6vwNxzujDQ+37bspnLwA4JlgUPWhLjBJWsNIDceAf6ZKUTCjdm08cN6WeZ5pTMKiCJkmAYnpmR4Bm+dg==}
@@ -20079,8 +20090,8 @@ packages:
       stylelint: 14.16.1
     dev: true
 
-  /stylelint-config-standard-scss/7.0.0_vitr26fcqo6sphdfxyxll4n2gy:
-    resolution: {integrity: sha512-rHgydRJxN4Q9lDcwrLFoiFA3S8CRqsUcyBBCLwEMjIwzJViluFfsOKFPSomx6hScVQgQ4//Fx0hRKiSHyO0ihw==}
+  /stylelint-config-standard-scss/7.0.1_vitr26fcqo6sphdfxyxll4n2gy:
+    resolution: {integrity: sha512-m5sRdtsB1F5fnC1Ozla7ryftU47wVpO+HWd+JQTqeoG0g/oPh5EfbWfcVHbNCEtuoHfALIySiUWS20pz2hX6jA==}
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.0.0

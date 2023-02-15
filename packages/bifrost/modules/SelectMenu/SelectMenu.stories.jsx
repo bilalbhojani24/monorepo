@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import SelectMenuLabel from '../SelectMenuLabel';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
+import SelectMenuTrigger from '../SelectMenuTrigger';
 
-import { CHECK_POSITION, SELECT_OPTIONS } from './const/selectMenuConstants';
+import { SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
 
 const defaultConfig = {
@@ -18,11 +22,21 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    checkPosition: {
-      options: CHECK_POSITION,
-      control: { type: 'inline-radio' },
-      description: 'Position of check icon',
-      defaultValue: CHECK_POSITION[0]
+    children: {
+      option: { type: null },
+      defaultValue: (
+        <>
+          <SelectMenuLabel>Assigned to</SelectMenuLabel>
+          <SelectMenuTrigger placeholder="Select.." />
+          <SelectMenuOptionGroup>
+            {React.Children.toArray(
+              SELECT_OPTIONS.map((item) => (
+                <SelectMenuOptionItem option={item} />
+              ))
+            )}
+          </SelectMenuOptionGroup>
+        </>
+      )
     },
     defaultValue: {
       option: { type: null },
@@ -30,16 +44,10 @@ const defaultConfig = {
         'Default selected values for the selectMenu, and the value state will be controlled internally, means values doesnt get updated on re-render',
       defaultValue: SELECT_OPTIONS[0]
     },
-    isMultiSelect: {
+    isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
       defaultValue: false
-    },
-    label: {
-      control: { type: 'text' },
-      defaultValue: 'Assigned to',
-      type: { summary: 'TEXT', required: false },
-      description: 'Description for selectMenu'
     },
     onChange: {
       option: { type: null },
@@ -48,25 +56,11 @@ const defaultConfig = {
         console.log(selectedOptions);
       }
     },
-    options: {
-      options: SELECT_OPTIONS,
-      description: 'options for the selectMenu, array of objects',
-      defaultValue: SELECT_OPTIONS
-    },
-    placeholder: {
-      option: { type: 'string' },
-      description: 'Select menu...'
-    },
     value: {
       option: { type: null },
       description:
         'Default selected values for the selectMenu, and the value state will be controlled externally',
       defaultValue: undefined
-    },
-    wrapperClassName: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Classes to be passed to base SelectMenu component'
     }
   },
   controls: {}
@@ -84,14 +78,17 @@ Primary.parameters = {
 };
 
 export const ControlledSelectMenu = () => {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(null);
   return (
-    <SelectMenu
-      options={SELECT_OPTIONS}
-      onChange={(val) => setSelected(val)}
-      value={selected}
-      isMultiSelect
-    />
+    <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuOptionGroup>
+        {React.Children.toArray(
+          SELECT_OPTIONS.map((item) => <SelectMenuOptionItem option={item} />)
+        )}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
   );
 };
 
@@ -100,7 +97,7 @@ export { MultiSelect, Primary, SelectWithPlaceholder };
 
 MultiSelect.args = {
   defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
-  isMultiSelect: true,
+  isMulti: true,
   value: undefined
 };
 
