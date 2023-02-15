@@ -36,7 +36,8 @@ const AddEditTestRun = () => {
     hideAddTagsModal,
     imageUploadRTEHelper,
     addIssuesSaveHelper,
-    hideAddTestRunForm
+    hideAddTestRunForm,
+    onBreadcrumbClick
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -54,8 +55,10 @@ const AddEditTestRun = () => {
     <>
       <div className="border-base-200 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
         <TMPageHeadings
+          breadcrumbWrapperClassName="ribin"
+          onBreadcrumbClick={onBreadcrumbClick}
           breadcrumbs={[
-            { name: 'Test Runs' },
+            { name: 'Test Runs', isHome: true, url: '#' },
             { name: isEditing ? 'Edit' : 'Create' }
           ]}
           heading={isEditing ? 'Edit Test Run' : 'Create New Test Runs'}

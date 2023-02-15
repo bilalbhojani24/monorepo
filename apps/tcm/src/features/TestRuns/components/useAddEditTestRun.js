@@ -209,6 +209,12 @@ const useAddEditTestRun = () => {
     setSelectedTCIDs(selectedItems);
   };
 
+  const onBreadcrumbClick = (a, clickedLink) => {
+    if (clickedLink?.isHome) {
+      hideAddTestRunForm();
+    }
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -272,7 +278,8 @@ const useAddEditTestRun = () => {
     hideTestCasesModal,
     onItemSelectionHandler,
     selectTestCasesConfirm,
-    hideAddTestRunForm
+    hideAddTestRunForm,
+    onBreadcrumbClick
   };
 };
 
