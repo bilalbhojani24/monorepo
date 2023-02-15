@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
-import { getTagsAPI, getTestRuns } from 'api/testruns.api';
+import { getTagsAPI, getTestRunsAPI } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
@@ -49,11 +49,13 @@ const useTestRuns = () => {
       dispatch(setSelectedProject(projectId));
       setTestRunsLoader(true);
       const isClosed = currentTab === TABS_ARRAY[1]?.name;
-      getTestRuns({ projectId, isClosed, page: currentPage }).then((data) => {
-        dispatch(setAllTestRuns(data?.test_runs || []));
-        dispatch(setMetaPage(data?.info));
-        setTestRunsLoader(false);
-      });
+      getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
+        (data) => {
+          dispatch(setAllTestRuns(data?.test_runs || []));
+          dispatch(setMetaPage(data?.info));
+          setTestRunsLoader(false);
+        }
+      );
     } else dispatch(setAllTestRuns([]));
   };
 

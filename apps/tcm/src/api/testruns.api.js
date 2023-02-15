@@ -1,6 +1,6 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const getTestRuns = async ({ projectId, isClosed, page }) =>
+export const getTestRunsAPI = async ({ projectId, isClosed, page }) =>
   fetchGet(
     `/api/v1/projects/${projectId}/test-runs${isClosed ? '/closed' : ''}`,
     {
@@ -17,4 +17,13 @@ export const getTagsAPI = async ({ projectId }) =>
 export const verifyTagAPI = async ({ projectId, tags }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-run/tags/verify_tag`, {
     tags
+  });
+
+export const getTestRunDetailsAPI = async ({
+  projectId,
+  testRunId,
+  isFullDetails = false
+}) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/detail`, {
+    params: { case_details: isFullDetails }
   });

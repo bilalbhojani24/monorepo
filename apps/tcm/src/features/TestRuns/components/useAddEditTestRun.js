@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
-import { addTestRunAPI } from 'api/testruns.api';
+import { addTestRunAPI, getTestRunDetailsAPI } from 'api/testruns.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -100,7 +100,11 @@ const useAddEditTestRun = () => {
   const addIssuesSaveHelper = (newIssuesArray) => {
     hideAddIssuesModal();
     const updatedAllIssues = selectMenuValueMapper([
-      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray])
+      ...new Set([
+        ...testRunFormData?.test_run?.issues.map((item) => item.value),
+        ...issuesArray.map((item) => item.value),
+        ...newIssuesArray
+      ])
     ]);
     const selectedIssues = testRunFormData?.test_run?.issues
       ? [
@@ -144,13 +148,27 @@ const useAddEditTestRun = () => {
     testRun.tags = tagsArray.filter((item) =>
       testRun.tags.includes(item.value)
     );
+    testRun.owner = parseInt(testRun.owner, 10);
     testRun.issues = selectMenuValueMapper(
       testRun?.issues?.map((item) => item.jira_id)
     );
 
+    // update the issues array with data from this one as well
+    if (testRun?.issues)
+      dispatch(
+        setIssuesArray([
+          ...new Set([
+            ...testRun.issues,
+            ...issuesArray.map((item) => item.value)
+          ])
+        ])
+      );
+
     return {
       test_run: testRun,
-      test_case_ids: formData.test_case_ids
+      test_case_ids: testRun?.test_cases
+        ? testRun.test_cases
+        : formData.test_case_ids
     };
   };
 
@@ -193,7 +211,7 @@ const useAddEditTestRun = () => {
   }, [testRunFormData?.test_case_ids]);
 
   useEffect(() => {
-    if (isEditing && selectedTestRun) {
+    if (isEditing && selectedTestRun?.id) {
       // fetch test run details
       dispatch(
         setTestRunFormData(
@@ -203,9 +221,16 @@ const useAddEditTestRun = () => {
           })
         )
       );
+
+      getTestRunDetailsAPI({ projectId, testRunId: selectedTestRun.id }).then(
+        (data) => {
+          dispatch(setTestRunFormData(formDataRetriever(data.data)));
+        }
+      );
       // WIP
     }
-  }, [isEditing, selectedTestRun]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTestRun]);
 
   return {
     isEditing,
