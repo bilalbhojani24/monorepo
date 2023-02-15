@@ -29,11 +29,9 @@ const defaultConfig = {
           <SelectMenuLabel>Assigned to</SelectMenuLabel>
           <SelectMenuTrigger placeholder="Select.." />
           <SelectMenuOptionGroup>
-            {React.Children.toArray(
-              SELECT_OPTIONS.map((item) => (
-                <SelectMenuOptionItem option={item} />
-              ))
-            )}
+            {SELECT_OPTIONS.map((item) => (
+              <SelectMenuOptionItem key={item.value} option={item} />
+            ))}
           </SelectMenuOptionGroup>
         </>
       )
@@ -84,9 +82,9 @@ export const ControlledSelectMenu = () => {
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." />
       <SelectMenuOptionGroup>
-        {React.Children.toArray(
-          SELECT_OPTIONS.map((item) => <SelectMenuOptionItem option={item} />)
-        )}
+        {SELECT_OPTIONS.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
   );
