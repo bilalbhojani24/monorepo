@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -10,14 +9,12 @@ import {
 
 import { TEST_RAILS } from '../const/importSteps';
 
-// import { setTestRailsCred } from '../slices/importSlice';
 import TermsAndConditions from './TermsAndConditions';
 import useImport from './useImport';
 
 const TestRailImportForm = () => {
   const {
     connectionStatusMap,
-    // getUserEmail,
     handleInputFieldChange,
     testRailsCred,
     testRailsCredTouched

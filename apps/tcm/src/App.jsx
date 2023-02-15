@@ -43,7 +43,7 @@ function App() {
         {(importStarted ||
           isNotificationDismissed === false ||
           showNotificationModal) && (
-          <div className="fixed top-16 z-10 w-full">
+          <div className="fixed top-16 z-10 w-full" id="import-status">
             <ImportStatus />
           </div>
         )}

@@ -43,12 +43,13 @@ const ConfigureDataList = (props) => {
       <TMCheckBox
         position="left"
         data={{
-          label: `All Projects (${projects.length})`,
+          description: `All Projects (${projects.length})`,
           value: 'allProjects'
         }}
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
         indeterminate={!allChecked}
+        description="block"
       />
       {projects.map((project) => (
         <TMCheckBox

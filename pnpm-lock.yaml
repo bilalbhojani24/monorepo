@@ -9208,7 +9208,7 @@ packages:
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
       '@types/webpack-env': 1.18.0
-      snyk-nodejs-lockfile-parser: 1.47.1
+      snyk-nodejs-lockfile-parser: 1.46.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9822,13 +9822,13 @@ packages:
     peerDependencies:
       webpack: ^4.27.0 || ^5.0.0
     dependencies:
-      icss-utils: 5.1.0_postcss@8.4.21
+      icss-utils: 5.1.0_postcss@8.4.20
       loader-utils: 2.0.4
-      postcss: 8.4.21
-      postcss-modules-extract-imports: 3.0.0_postcss@8.4.21
-      postcss-modules-local-by-default: 4.0.0_postcss@8.4.21
-      postcss-modules-scope: 3.0.0_postcss@8.4.21
-      postcss-modules-values: 4.0.0_postcss@8.4.21
+      postcss: 8.4.20
+      postcss-modules-extract-imports: 3.0.0_postcss@8.4.20
+      postcss-modules-local-by-default: 4.0.0_postcss@8.4.20
+      postcss-modules-scope: 3.0.0_postcss@8.4.20
+      postcss-modules-values: 4.0.0_postcss@8.4.20
       postcss-value-parser: 4.2.0
       schema-utils: 3.1.1
       semver: 7.3.8
@@ -19782,8 +19782,8 @@ packages:
       - supports-color
     dev: true
 
-  /snyk-nodejs-lockfile-parser/1.47.1:
-    resolution: {integrity: sha512-rpnW74Sp/z5RAQvLj7vkj5pacKJsC9yeET8lG+40v8nR1IwQ/xGRqqSkw75wCmp6TX0KvihwTkMQTYhSJJfV4A==}
+  /snyk-nodejs-lockfile-parser/1.46.0:
+    resolution: {integrity: sha512-6DzkLYb26qzowTwhUOnJMswPQ3g0CTZ/YkcCPSZLVLv/leErIHrqIG5CHQMdM0xbGYCnqTM+YNTf36Hb1cw5fg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
