@@ -18,7 +18,7 @@ const Dropdown = (props) => {
   } = props;
 
   const handleClick = (e) => {
-    onClick(e);
+    onClick(e, JSON.parse(e.target.dataset.optiondata));
   };
 
   return (
@@ -55,6 +55,7 @@ const Dropdown = (props) => {
                 <button
                   onClick={handleClick}
                   type="button"
+                  data-optiondata={JSON.stringify(option)}
                   className="block w-full px-4 py-2 text-left text-sm"
                 >
                   {option.body}
