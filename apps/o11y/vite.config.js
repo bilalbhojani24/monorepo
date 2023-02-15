@@ -11,6 +11,7 @@ export default defineConfig({
       key: fs.readFileSync('./certs/bsstag.com.key'),
       cert: fs.readFileSync('./certs/bsstag.com.crt')
     },
-    port: 9000
+    port: 9000,
+    host: '127.0.0.1'
   }
 });
