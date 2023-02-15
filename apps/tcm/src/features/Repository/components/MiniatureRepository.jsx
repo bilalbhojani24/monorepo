@@ -189,7 +189,7 @@ const MiniatureRepository = ({
 };
 
 MiniatureRepository.propTypes = {
-  projectId: PropTypes.number,
+  projectId: PropTypes.string,
   onItemSelectionCb: PropTypes.func,
   selectedTestCases: PropTypes.arrayOf(PropTypes.number)
 };

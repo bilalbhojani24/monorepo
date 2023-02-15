@@ -43,7 +43,7 @@ const AssignTestRun = () => {
         handleDismissClick={closeAll}
       />
       <TMModalBody>
-        <div className="mb-4">
+        <div className="mb-4 w-full">
           <TMComboBox
             checkPosition="right"
             label="Assign To"
@@ -53,7 +53,7 @@ const AssignTestRun = () => {
                 ? usersArrayMapped?.find(
                     (item) => item.value === selectedAssignee.value
                   )
-                : { label: '', value: '' } // to be updated to null
+                : null
             }
             options={usersArrayMapped}
             onChange={(data) => setAssignee(data)}
