@@ -131,7 +131,6 @@ const { actions, reducer } = createSlice({
       state.activeFilters = payload;
     },
     setReportFiltersKey: (state, { payload }) => {
-      console.log('payload: ', payload.values);
       state.activeFilters[payload.key] = payload.values;
     },
     setResetFilterKey: (state, { payload }) => {

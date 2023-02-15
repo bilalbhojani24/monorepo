@@ -5,6 +5,7 @@ import fetchCustomData from 'api/fetchCustomData';
 import fetchReport from 'api/fetchReport';
 import { events, ISSUE_TYPE } from 'constants';
 import {
+  resetReportAppInfo,
   setActiveSwitch,
   setActiveTab,
   setOpenAccordionId
@@ -69,6 +70,9 @@ export default function useReport() {
       // logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
+    return () => {
+      dispatch(resetReportAppInfo());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 

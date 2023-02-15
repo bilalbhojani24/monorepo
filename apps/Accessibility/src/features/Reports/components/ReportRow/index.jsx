@@ -12,7 +12,7 @@ import {
   updateUrlWithQueryParam
 } from 'utils/helper';
 
-import { setIsReportSelected } from '../../slices/reportsAppSlice';
+import { setIsReportSelected } from '../../slices/appSlice';
 import {
   getActiveVersion,
   getIsSelectionMode,

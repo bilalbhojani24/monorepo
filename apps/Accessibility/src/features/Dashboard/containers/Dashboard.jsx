@@ -61,7 +61,7 @@ export default function Dashboard({ children }) {
       <main
         className={`${
           isSidebarCollapsed ? 'pl-0' : 'pl-64'
-        } bg-base-50 mt-16 h-screen`}
+        } bg-base-50 mt-16 h-full`}
       >
         {children}
       </main>

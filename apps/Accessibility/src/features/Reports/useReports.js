@@ -14,7 +14,7 @@ import {
   setLastIndex,
   setReportList,
   setSelectedReportType
-} from './slices/reportsAppSlice';
+} from './slices/appSlice';
 import {
   getActiveVersion,
   getLastIndex,

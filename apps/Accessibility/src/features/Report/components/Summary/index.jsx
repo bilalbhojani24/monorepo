@@ -121,7 +121,7 @@ export default function Summary() {
   ];
 
   return (
-    <div className="relative" style={{ top: '182px' }}>
+    <div className="bg-base-50 relative" style={{ top: '182px' }}>
       <div className="flex items-start">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization

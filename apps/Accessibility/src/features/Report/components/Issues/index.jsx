@@ -6,8 +6,8 @@ import {
   Checkbox,
   ComboBox,
   ComboboxLabel,
-  ComboboxOptions,
-  ComboboxOptionsBox,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
   ComboboxTrigger,
   MdArrowBack,
   MdFilterAlt,
@@ -16,7 +16,10 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  SelectMenu
+  SelectMenu,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
@@ -123,50 +126,58 @@ export default function Issues() {
               </div>
             </div>
             <div className="mb-6">
-              {/* <p className="text-base-700 mb-1 text-sm">Pages</p> */}
               <ComboBox
                 onChange={(values) => onUpdateFilters('page', values)}
                 value={intermediateFilters.page}
                 isMulti
               >
                 <ComboboxLabel>Pages</ComboboxLabel>
-                <ComboboxTrigger placeholder="Placeholder" />
-                <ComboboxOptionsBox>
+                <ComboboxTrigger placeholder="Select" />
+                <ComboboxOptionGroup>
                   {urls.map((item) => (
-                    <ComboboxOptions
+                    <ComboboxOptionItem
                       option={item}
-                      wrapperClassName="text-base-500"
+                      wrapperClassName="text-base-500 text-sm"
                     />
                   ))}
-                </ComboboxOptionsBox>
+                </ComboboxOptionGroup>
               </ComboBox>
-              {/* <ComboBox
-                isMulti
-                onChange={(values) => onUpdateFilters('page', values)}
-                options={urls}
-                value={intermediateFilters.page}
-                placeholder="Select..."
-              /> */}
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Components</p>
               <ComboBox
-                isMulti
                 onChange={(values) => onUpdateFilters('component', values)}
-                options={componentIds}
                 value={intermediateFilters.component}
-                // placeholder="Select..."
-              />
+                isMulti
+              >
+                <ComboboxLabel>Components</ComboboxLabel>
+                <ComboboxTrigger placeholder="Select" />
+                <ComboboxOptionGroup>
+                  {componentIds.map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+                </ComboboxOptionGroup>
+              </ComboBox>
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Category</p>
               <ComboBox
-                isMulti
                 onChange={(values) => onUpdateFilters('category', values)}
-                options={categories}
                 value={intermediateFilters.category}
-                // placeholder="Select..."
-              />
+                isMulti
+              >
+                <ComboboxLabel>Category</ComboboxLabel>
+                <ComboboxTrigger placeholder="Select..." />
+                <ComboboxOptionGroup>
+                  {categories.map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+                </ComboboxOptionGroup>
+              </ComboBox>
             </div>
             <Checkbox
               border={false}
@@ -204,9 +215,12 @@ export default function Issues() {
               )}
               {issueTabs.map(({ label, value }, index) => (
                 <Button
-                  wrapperClassName={
-                    index === 0 ? 'rounded-r-none' : 'rounded-l-none border-l-0'
-                  }
+                  wrapperClassName={twClassNames({
+                    'border-brand-500': activeSwitch === value,
+                    'rounded-r-none': index === 0,
+                    'rounded-l-none border-l-0':
+                      index !== 0 && activeSwitch === value
+                  })}
                   onClick={() => onTabSelect(value)}
                   colors="white"
                   size="small"
@@ -216,14 +230,24 @@ export default function Issues() {
               ))}
             </div>
             <div className="flex">
-              <SelectMenu
-                isMultiSelect
-                onChange={onUpdateImpact}
-                options={severityOptions}
-                placeholder="Severity"
-                value={reportFilters.impact}
-                wrapperClassName="mr-4 w-36"
-              />
+              <div className="mr-4 w-36">
+                <SelectMenu
+                  onChange={onUpdateImpact}
+                  value={reportFilters.impact}
+                  isMulti
+                >
+                  <SelectMenuTrigger placeholder="Severity" />
+                  <SelectMenuOptionGroup>
+                    {severityOptions.map((item) => (
+                      <SelectMenuOptionItem
+                        key={item.value}
+                        option={item}
+                        wrapperClassName="text-sm font-semibold text-base-900"
+                      />
+                    ))}
+                  </SelectMenuOptionGroup>
+                </SelectMenu>
+              </div>
               {!showHiddenIssues && (
                 <Button
                   icon={<MdFilterAlt className="text-xl" />}

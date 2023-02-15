@@ -10,7 +10,10 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  SelectMenu
+  SelectMenu,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
@@ -138,14 +141,32 @@ export default function Reports() {
                   onChange={onInputValueChange}
                 />
               </div>
-              <SelectMenu
+              <div className="w-32">
+                <SelectMenu
+                  onChange={onUpdateSelectedReportType}
+                  value={selectedReportType}
+                  isMulti
+                >
+                  <SelectMenuTrigger placeholder="Type" />
+                  <SelectMenuOptionGroup>
+                    {reportType.map((item) => (
+                      <SelectMenuOptionItem
+                        key={item.value}
+                        option={item}
+                        wrapperClassName="text-sm font-semibold text-base-900"
+                      />
+                    ))}
+                  </SelectMenuOptionGroup>
+                </SelectMenu>
+              </div>
+              {/* <SelectMenu
                 isMultiSelect
                 onChange={onUpdateSelectedReportType}
                 options={reportType}
                 placeholder="Type"
                 wrapperClassName="w-36"
                 value={selectedReportType}
-              />
+              /> */}
             </div>
             <div className="flex items-center">
               {selectedReportsLength > 0 && (

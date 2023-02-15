@@ -1,7 +1,7 @@
 import dashboard from 'features/dashboard/slices/dashboardUISlice';
 import reportApp from 'features/Report/slice/appSlice';
 import reportData from 'features/Report/slice/dataSlice';
-import reportsApp from 'features/Reports/slices/reportsAppSlice';
+import reportsApp from 'features/Reports/slices/appSlice';
 import { combineReducers } from 'redux';
 
 // App Reducers
