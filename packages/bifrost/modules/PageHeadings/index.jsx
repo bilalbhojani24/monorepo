@@ -9,15 +9,28 @@ import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import './styles.scss';
 
 const PageHeadings = (props) => {
-  const { breadcrumbs, subSection, heading, theme, actions, wrapperClassName } =
-    props;
+  const {
+    breadcrumbs,
+    subSection,
+    heading,
+    theme,
+    actions,
+    wrapperClassName,
+    breadcrumbWrapperClassName,
+    onBreadcrumbClick
+  } = props;
   return (
     <div className={wrapperClassName}>
       <div className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           {/* breadcrumbs */}
           {breadcrumbs?.length > 0 && (
-            <Breadcrumbs data={breadcrumbs} size="default" />
+            <Breadcrumbs
+              size="default"
+              data={breadcrumbs}
+              onClick={onBreadcrumbClick}
+              wrapperClassName={breadcrumbWrapperClassName}
+            />
           )}
 
           {/* title */}
@@ -54,7 +67,9 @@ PageHeadings.propTypes = {
   wrapperClassName: PropTypes.string,
   actions: PropTypes.node,
   heading: PropTypes.string,
-  theme: PropTypes.string
+  theme: PropTypes.string,
+  breadcrumbWrapperClassName: PropTypes.string,
+  onBreadcrumbClick: PropTypes.func
 };
 PageHeadings.defaultProps = {
   breadcrumbs: [],
@@ -62,7 +77,9 @@ PageHeadings.defaultProps = {
   actions: [],
   heading: 'Frontend Engineers',
   theme: PAGE_HEADINGS_THEME[0],
-  wrapperClassName: ''
+  wrapperClassName: '',
+  breadcrumbWrapperClassName: '',
+  onBreadcrumbClick: null
 };
 
 export default PageHeadings;
