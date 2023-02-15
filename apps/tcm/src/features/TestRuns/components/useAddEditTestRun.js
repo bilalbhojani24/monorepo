@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
-import { addTestRunAPI, getTestRunDetailsAPI } from 'api/testruns.api';
+import {
+  addTestRunAPI,
+  editTestRunAPI,
+  getTestRunDetailsAPI
+} from 'api/testruns.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -13,6 +17,7 @@ import {
   setTagsArray,
   setTestRunFormData,
   setUnsavedDataExists,
+  updateTestRun,
   updateTestRunFormData
 } from '../slices/testRunsSlice';
 
@@ -175,7 +180,16 @@ const useAddEditTestRun = () => {
   const createTestRunHandler = () => {
     if (!testRunFormData.test_run.name) {
       setInputError(true);
-    } else
+    } else if (isEditing) {
+      editTestRunAPI({
+        payload: formDataFormatter(testRunFormData),
+        projectId,
+        testRunId: selectedTestRun?.id
+      }).then((data) => {
+        dispatch(updateTestRun(data.data.testrun || []));
+        hideAddTestRunForm();
+      });
+    } else {
       addTestRunAPI({
         payload: formDataFormatter(testRunFormData),
         projectId
@@ -183,6 +197,7 @@ const useAddEditTestRun = () => {
         dispatch(addTestRun(data.data.testrun || []));
         hideAddTestRunForm();
       });
+    }
   };
 
   const selectTestCasesConfirm = () => {

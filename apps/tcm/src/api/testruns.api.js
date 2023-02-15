@@ -27,3 +27,9 @@ export const getTestRunDetailsAPI = async ({
   fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/detail`, {
     params: { case_details: isFullDetails }
   });
+
+export const editTestRunAPI = async ({ projectId, payload, testRunId }) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/edit`,
+    payload
+  );

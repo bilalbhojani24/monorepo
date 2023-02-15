@@ -79,6 +79,11 @@ const testRunslice = createSlice({
     addTestRun: (state, { payload }) => {
       state.allTestRuns = [payload, ...state.allTestRuns];
     },
+    updateTestRun: (state, { payload }) => {
+      state.allTestRuns = state.allTestRuns.map((item) =>
+        item.id === payload.id ? payload : item
+      );
+    },
     setAllTestRuns: (state, { payload }) => {
       state.allTestRuns = payload;
     },
@@ -120,6 +125,7 @@ export const {
   setTagsArray,
   setLoader,
   addTestRun,
+  updateTestRun,
   setAllTestRuns,
   setAddTestRunForm,
   setCurrentTab,
