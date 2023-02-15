@@ -58,7 +58,7 @@ const columns = [
 ];
 
 const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
-  const { searchTerm, tableRows, performSearch, sortRows } =
+  const { searchTerm, tableRows, performSearch, sortRows, currentSortDir } =
     useExistingUserHome(previousUserSessions);
 
   return (
@@ -105,7 +105,7 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
                 variant="header"
                 sortable={col.isSortable}
                 onSort={sortRows}
-                sortDirection="desc"
+                sortDirection={currentSortDir}
               >
                 {col.name}
               </TableCell>

@@ -1,6 +1,6 @@
 import {
-  getApplicationsFromDevice,
-  getConnectedDevices,
+  getDeviceApplications,
+  getDevices,
   startSession
 } from '../../../api/newPerformanceSession';
 
@@ -18,11 +18,11 @@ export const fetchConnectedDevices = () => async (dispatch) => {
   try {
     dispatch(setAreDevicesStillLoading(true));
 
-    const responseAndroid = await getConnectedDevices('android');
+    const responseAndroid = await getDevices('android');
 
     resultSet = resultSet.concat(responseAndroid);
 
-    const responseIos = await getConnectedDevices('ios');
+    const responseIos = await getDevices('ios');
 
     resultSet = resultSet.concat(responseIos);
   } catch (error) {
@@ -42,7 +42,7 @@ export const fetchApplicationsFromSelectedDevice =
 
       dispatch(setAreApplicationsStillLoading(true));
 
-      const response = await getApplicationsFromDevice(
+      const response = await getDeviceApplications(
         selectedDevice?.os,
         selectedDevice?.deviceId
       );

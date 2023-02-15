@@ -3,6 +3,7 @@ import { useState } from 'react';
 const useExistingUserHome = (previousUserSessions) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tableRows, setTableRows] = useState(previousUserSessions);
+  const [currentSortDir, setCurrentSortDir] = useState('asc');
 
   const performSearch = (event) => {
     const newValue = event.target.value;
@@ -10,7 +11,8 @@ const useExistingUserHome = (previousUserSessions) => {
 
     setTableRows(() =>
       previousUserSessions.filter(
-        (x) => x.application.toLowerCase().indexOf(newValue) !== -1
+        (x) =>
+          x.application.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
       )
     );
   };
@@ -21,23 +23,26 @@ const useExistingUserHome = (previousUserSessions) => {
     setTableRows(
       rowsToBeSorted.sort((a, b) => {
         if (a.testSessionName > b.testSessionName) {
-          return -1;
+          return currentSortDir === 'asc' ? -1 : 1;
         }
 
         if (b.testSessionName > a.testSessionName) {
-          return 1;
+          return currentSortDir === 'asc' ? 1 : -1;
         }
 
         return 0;
       })
     );
+
+    setCurrentSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
   return {
     searchTerm,
     tableRows,
     performSearch,
-    sortRows
+    sortRows,
+    currentSortDir
   };
 };
 

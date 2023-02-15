@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +13,18 @@ const useConfirmStartTesting = () => {
   const selectedDevice = useSelector(getSelectedDevice);
   const selectedApp = useSelector(getSelectedApplication);
 
+  const getDefaultAutoGenerateName = () =>
+    `${selectedApp?.name}-v${selectedApp?.version}-${
+      selectedDevice?.manufacturer
+    }-${selectedDevice?.model}-${new Date().toISOString()}`;
+
+  const [sessionName, setSessionName] = useState(getDefaultAutoGenerateName());
+
+  const sessionNameChanged = (event) => {
+    const newValue = event.target.value;
+    setSessionName(newValue);
+  };
+
   const dispatch = useDispatch();
 
   const navigateToPath = useNavigate();
@@ -21,10 +34,17 @@ const useConfirmStartTesting = () => {
   };
 
   const startTestSession = () => {
-    dispatch(triggerSession(navigateToPath));
+    dispatch(triggerSession(navigateToPath, sessionName));
   };
 
-  return { selectedDevice, selectedApp, navigateToStep, startTestSession };
+  return {
+    selectedDevice,
+    selectedApp,
+    navigateToStep,
+    startTestSession,
+    sessionName,
+    sessionNameChanged
+  };
 };
 
 export default useConfirmStartTesting;

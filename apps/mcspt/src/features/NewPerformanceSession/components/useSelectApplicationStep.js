@@ -36,7 +36,7 @@ const useSelectApplicationStep = () => {
 
     setSearchResults(() =>
       lisOfApplications.filter(
-        (x) => x.name.toLowerCase().indexOf(newValue) !== -1
+        (x) => x.name.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
       )
     );
   };

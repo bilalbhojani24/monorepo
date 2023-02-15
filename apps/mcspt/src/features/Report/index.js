@@ -1,3 +1,6 @@
-import Dashboard from './components/Report';
+import Report from './components/Report';
+import reportReducer, { updateSessionMetrics } from './slices/reportSlice';
 
-export default Dashboard;
+export { reportReducer, updateSessionMetrics };
+
+export default Report;

@@ -28,7 +28,13 @@ const sessionStateMap = {
 };
 
 const ReportLoading = () => {
-  const { sessionState, onCancelClicked } = useReportLoading();
+  const {
+    sessionState,
+    onCancelClicked,
+    stopSessionClicked,
+    secondsElapsed,
+    convertIntoMinutes
+  } = useReportLoading();
 
   return (
     <div className="flex flex-col">
@@ -62,7 +68,7 @@ const ReportLoading = () => {
         {sessionState === REPORT_LOADING_STATES.RECORDING && (
           <div className="bg-danger-50 flex items-center rounded-md p-2">
             <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
-              13:26
+              {convertIntoMinutes(secondsElapsed)}
             </div>
 
             <Button
@@ -75,7 +81,7 @@ const ReportLoading = () => {
               size="large"
               colors="danger"
               variant="primary"
-              onClick={() => {}}
+              onClick={stopSessionClicked}
             >
               Stop Test
             </Button>

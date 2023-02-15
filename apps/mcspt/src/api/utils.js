@@ -1,1 +1,1 @@
-export const getMcpBeUrl = () => (IS_DEV ? 'http://localhost:3000/api/v1' : '');
+export const getBaseUrl = () => (IS_DEV ? 'http://localhost:3000/api/v1' : '');

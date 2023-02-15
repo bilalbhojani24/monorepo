@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getMcpBeUrl } from './utils';
+import { getBaseUrl } from './utils';
 
 const commonHeaders = {
   'Content-Type': 'application/json'
@@ -8,7 +8,7 @@ const commonHeaders = {
 
 export const fetchSessionStatus = async (sessionId) => {
   const response = await axios.get(
-    `${getMcpBeUrl()}/session/${sessionId}/state`,
+    `${getBaseUrl()}/session/${sessionId}/state`,
     {
       headers: commonHeaders
     }
@@ -17,9 +17,9 @@ export const fetchSessionStatus = async (sessionId) => {
   return response.data;
 };
 
-export const stopCurrentSession = async (sessionId) => {
+export const stopSession = async (sessionId) => {
   const response = await axios.get(
-    `${getMcpBeUrl()}/session/${sessionId}/stop`,
+    `${getBaseUrl()}/session/${sessionId}/stop`,
     {
       headers: commonHeaders
     }
@@ -29,7 +29,7 @@ export const stopCurrentSession = async (sessionId) => {
 };
 
 export const fetchSessionMetrics = async (sessionId) => {
-  const response = await axios.get(`${getMcpBeUrl()}/session/${sessionId}`, {
+  const response = await axios.get(`${getBaseUrl()}/session/${sessionId}`, {
     headers: commonHeaders
   });
 

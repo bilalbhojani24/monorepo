@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import ConfirmStartTesting from './ConfirmStartTesting';
 import SelectApplicationStep from './SelectApplicationStep';
@@ -39,19 +40,32 @@ const NewPerformanceSessionModal = ({
   showNewSessionModal,
   setShowNewSessionModal
 }) => {
-  const { currentSetupStep } = useNewPerformanceSessionModal();
+  const { currentSetupStep, stepsDetails } = useNewPerformanceSessionModal();
 
   return (
     <Modal show={showNewSessionModal} size="3xl">
       <div className="flex min-h-[35rem]">
         <div className="border-base-300 w-[212px] border-r">
-          <SetupProgressBar currentStep={currentSetupStep} />
+          <SetupProgressBar
+            currentStep={currentSetupStep}
+            stepsDetails={stepsDetails}
+          />
         </div>
 
         {renderCurrentStep(currentSetupStep, setShowNewSessionModal)}
       </div>
     </Modal>
   );
+};
+
+NewPerformanceSessionModal.propTypes = {
+  showNewSessionModal: PropTypes.bool,
+  setShowNewSessionModal: PropTypes.func
+};
+
+NewPerformanceSessionModal.defaultProps = {
+  showNewSessionModal: false,
+  setShowNewSessionModal: () => {}
 };
 
 export default NewPerformanceSessionModal;

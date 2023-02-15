@@ -12,8 +12,14 @@ import PropTypes from 'prop-types';
 import useConfirmStartTesting from './useConfirmStartTesting';
 
 const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
-  const { selectedDevice, selectedApp, navigateToStep, startTestSession } =
-    useConfirmStartTesting();
+  const {
+    selectedDevice,
+    selectedApp,
+    navigateToStep,
+    startTestSession,
+    sessionName,
+    sessionNameChanged
+  } = useConfirmStartTesting();
 
   return (
     <div className="flex flex-1 flex-col">
@@ -38,7 +44,8 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
             id="testName"
             label="Test Name"
             placeholder="Enter Test Name"
-            value={`${selectedApp?.name}-v${selectedApp?.version}-${selectedDevice?.manufacturer}-${selectedDevice?.model}`}
+            value={sessionName}
+            onChange={sessionNameChanged}
           />
         </div>
 
