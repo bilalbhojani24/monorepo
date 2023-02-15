@@ -11,6 +11,7 @@ import FolderExplorer from 'common/FolderExplorer';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
+import Filter from './Filter';
 import TestCasesTable from './TestCasesTable';
 import useMiniatureRepository from './useMiniatureRepository';
 
@@ -29,7 +30,8 @@ const MiniatureRepository = ({
     allFolders,
     onFoldersUpdate,
     onFolderClick,
-    onPaginationClick
+    onPaginationClick,
+    onFilterChange
   } = useMiniatureRepository({ projectId });
 
   return (
@@ -40,7 +42,7 @@ const MiniatureRepository = ({
             <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
               {allFolders?.length || isSearchFilterView ? (
                 <>
-                  {/* <Filter /> */}
+                  <Filter onFilterChange={onFilterChange} />
                   {selectedFolder && (
                     <div className="border-base-300 w-full border-l">
                       <div className="border-base-200 w-full border-b p-4">
@@ -141,7 +143,7 @@ const MiniatureRepository = ({
 
           <aside className="lg:order-first lg:block lg:shrink-0">
             <div className="relative flex h-full w-96 flex-col overflow-hidden">
-              <div className="border-base-300 flex w-full items-center border-b p-3">
+              <div className="border-base-300 flex w-full items-center border-b px-3 py-4">
                 <span className="text-base">Folders</span>
               </div>
 

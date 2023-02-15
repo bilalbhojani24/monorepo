@@ -8,6 +8,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const [isFoldersLoading, setIsFoldersLoading] = useState(true);
   const [isTestCasesLoading, setIsTestCasesLoading] = useState(true);
   const [isSearchFilterView, setIsSearchFilterView] = useState(null);
+  const [filterOptions, setFilterOptions] = useState({});
   const [allTestCases, setAllTestCases] = useState(null);
   const [allFolders, setAllFolders] = useState(null);
 
@@ -50,6 +51,9 @@ const useMiniatureRepository = ({ projectId }) => {
   const onPaginationClick = ({ p }) => {
     setCurrentPage(p || 1);
   };
+  const onFilterChange = (params) => {
+    setFilterOptions(params);
+  };
 
   useEffect(() => {
     fetchAllTestCases();
@@ -65,7 +69,8 @@ const useMiniatureRepository = ({ projectId }) => {
     selectedFolder,
     onFoldersUpdate,
     onFolderClick,
-    onPaginationClick
+    onPaginationClick,
+    onFilterChange
   };
 };
 

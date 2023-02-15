@@ -55,7 +55,8 @@ const TestCasesTable = ({
   } = useTestCasesTable({
     rows,
     onItemSelectionCb,
-    selectedTestCases
+    selectedTestCases,
+    isMini
   });
 
   const formatPriority = (priority) => {

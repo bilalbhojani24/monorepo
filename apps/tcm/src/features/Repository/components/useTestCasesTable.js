@@ -125,6 +125,8 @@ const useTestCasesTable = (prop) => {
   };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
+    if (prop?.isMini) return false;
+
     navigate(
       routeFormatter(
         AppRoute.TEST_CASES,
@@ -146,7 +148,6 @@ const useTestCasesTable = (prop) => {
   }, [prop, selectedTestCaseIDs]);
 
   useEffect(() => {
-    debugger;
     if (prop?.selectedTestCases) {
       setSelectedTestCaseIDs(prop?.selectedTestCases);
     }

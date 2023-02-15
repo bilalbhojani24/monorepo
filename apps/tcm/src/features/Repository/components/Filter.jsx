@@ -13,13 +13,14 @@ import {
 import classNames from 'classnames';
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
+import PropTypes from 'prop-types';
 // import PropTypes from 'prop-types';
 import { onSubmitKeyHandler, routeFormatter } from 'utils/helperFunctions';
 
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
 
-const Filter = () => {
+const Filter = ({ isMini, onFilterChange }) => {
   const { initFormValues } = useTestCases();
   const {
     filterBoxRef,
@@ -38,7 +39,7 @@ const Filter = () => {
     setFilter,
     searchChangeHandler,
     resetFilterAndSearch
-  } = useFilter();
+  } = useFilter({ onFilterChange });
 
   useEffect(() => {
     if (isFilterVisible) initFormValues();
@@ -82,7 +83,7 @@ const Filter = () => {
   ];
 
   return (
-    <div className="border-base-300 relative z-[1] flex w-full items-start border-b py-3 pr-3">
+    <div className="border-base-300 relative z-10 flex w-full items-start border-b py-3 pr-3">
       <div className="w-full">
         <TMInputField
           placeholder="Search by Test Case name, ID"
@@ -223,8 +224,14 @@ const Filter = () => {
   );
 };
 
-Filter.propTypes = {};
+Filter.propTypes = {
+  isMini: PropTypes.bool,
+  onFilterChange: PropTypes.func
+};
 
-Filter.defaultProps = {};
+Filter.defaultProps = {
+  isMini: false,
+  onFilterChange: null
+};
 
 export default Filter;

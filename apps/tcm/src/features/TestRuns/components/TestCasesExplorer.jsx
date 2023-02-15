@@ -26,7 +26,7 @@ const TestCasesExplorer = () => {
       show={isAddTestCaseModalShown}
       withDismissButton
       onOverlayClick={hideTestCasesModal}
-      size="5xl"
+      size="6xl"
     >
       <TMModalHeader
         heading="Select Test Cases"
@@ -34,7 +34,7 @@ const TestCasesExplorer = () => {
         handleDismissClick={hideTestCasesModal}
       />
       <TMModalBody className="">
-        <div className="border-base-300 mb-4 h-96 shrink-0 grow overflow-hidden rounded-md border">
+        <div className="border-base-300 mb-4 h-[55rem] shrink-0 grow overflow-hidden rounded-md border">
           <MiniatureRepository
             projectId={projectId}
             onItemSelectionCb={onItemSelectionHandler}
