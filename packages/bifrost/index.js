@@ -8,6 +8,10 @@ import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
 import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
+import ComboboxLabel from './modules/ComboboxLabel/index';
+import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
+import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
+import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
 import Draggble from './modules/Draggable/index';
@@ -54,6 +58,10 @@ import RadioTable from './modules/RadioTable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
+import SelectMenuLabel from './modules/SelectMenuLabel/index';
+import SelectMenuOptionGroup from './modules/SelectMenuOptionGroup/index';
+import SelectMenuOptionItem from './modules/SelectMenuOptionItem/index';
+import SelectMenuTrigger from './modules/SelectMenuTrigger/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
@@ -92,6 +100,10 @@ export {
   Checkbox,
   ColorPicker,
   ComboBox,
+  ComboboxLabel,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
+  ComboboxTrigger,
   DataVisualization,
   DescriptionList,
   Draggble,
@@ -139,6 +151,10 @@ export {
   RichTextEditor,
   SectionHeadings,
   SelectMenu,
+  SelectMenuLabel,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger,
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
