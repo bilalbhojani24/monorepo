@@ -90,7 +90,8 @@ const TestCasesTable = ({
         >
           {`${rowData?.identifier}`}
         </div>
-      )
+      ),
+      maxWidth: 'max-w-[10%]'
       // cell: (rowData) =>
     },
     {
@@ -117,7 +118,8 @@ const TestCasesTable = ({
             rowData.name
           )}
         </div>
-      )
+      ),
+      maxWidth: 'max-w-[40%]'
     },
     {
       name: 'PRIORITY',
@@ -127,14 +129,16 @@ const TestCasesTable = ({
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
-      )
+      ),
+      maxWidth: 'max-w-[10%]'
     },
     {
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
         <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
-      )
+      ),
+      maxWidth: 'max-w-[10%]'
     },
     {
       name: 'Tags',
@@ -151,7 +155,8 @@ const TestCasesTable = ({
             '--'
           )}
         </span>
-      )
+      ),
+      maxWidth: 'max-w-[10%]'
     },
     {
       name: '',
@@ -164,7 +169,8 @@ const TestCasesTable = ({
           triggerVariant="meatball-button"
           onClick={(e) => onDropDownChange(e, data)}
         />
-      )
+      ),
+      maxWidth: 'max-w-[10%]'
     }
   ];
 
@@ -175,6 +181,7 @@ const TestCasesTable = ({
   return (
     <>
       <TMTable
+        tableWrapperClass="table-fixe w-full"
         containerWrapperClass={classNames(
           containerWrapperClass,
           // 'max-w-[calc(100vw-40rem)]'
@@ -185,7 +192,7 @@ const TestCasesTable = ({
           <TMTableRow wrapperClassName="relative">
             <TMTableCell
               variant="body"
-              wrapperClassName="border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
+              wrapperClassName=" border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
               textTransform="uppercase"
             >
               {/* all checkbox */}
@@ -211,7 +218,7 @@ const TestCasesTable = ({
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClassName={classNames('test-base-500', {
+                wrapperClassName={classNames(`test-base-500`, col?.maxWidth, {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                   'flex-1 w-9/12': index === 1,
                   'min-w-[50%]': index === 2,
@@ -291,7 +298,7 @@ const TestCasesTable = ({
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClassName={classNames({
+                        wrapperClassName={classNames(column?.maxWidth, {
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
