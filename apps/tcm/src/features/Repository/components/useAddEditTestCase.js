@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI, uploadFilesAPI } from 'api/attachments.api';
-import { verifyTagAPI } from 'api/common.api';
+// import { verifyTagAPI } from 'api/common.api';
 import { addFolder } from 'api/folders.api';
 import {
   addTestCaseAPI,
@@ -162,7 +162,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
+  // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const addTestCaseAPIHelper = (formData, thisFolderID) => {
     addTestCaseAPI({
@@ -274,12 +274,11 @@ export default function useAddEditTestCase() {
     );
   };
 
-  const hideAddTagsModal = (allTags, newTags) => {
-    const mappedNewTags = selectMenuValueMapper(newTags);
-    const updatedAllTags = [...mappedNewTags, ...tagsArray];
-    const currentSelectedTags = testCaseFormData?.tags
-      ? [...testCaseFormData?.tags.map((item) => item.value), ...newTags]
-      : newTags;
+  const hideAddTagsModal = (newTags, selectedTags) => {
+    const updatedAllTags = selectMenuValueMapper([
+      ...new Set([...newTags, ...tagsArray.map((item) => item.value)])
+    ]);
+    const currentSelectedTags = selectedTags;
 
     dispatch(setTagsArray(updatedAllTags));
     handleTestCaseFieldChange(
@@ -377,7 +376,7 @@ export default function useAddEditTestCase() {
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    tagVerifierFunction,
+    // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
