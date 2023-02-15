@@ -6,7 +6,6 @@ import {
   Banner,
   Button,
   Checkbox,
-  ComboBox,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -24,7 +23,6 @@ import {
   RadioGroup,
   RichTextEditor,
   SectionHeadings,
-  SelectMenu,
   Slideover,
   SlideoverHeader,
   StackedListWSingleColumn,
@@ -42,10 +40,12 @@ import {
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
+import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
+import TMSelectMenu from './components/TMSelectMenu';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
@@ -63,11 +63,9 @@ export const TMListTreeNodeContents = (props) => (
 export const TMButton = (props) => <Button {...props} />;
 export const TMInputField = (props) => <InputField {...props} />;
 export const TMInputWButton = (props) => <InputWButton {...props} />;
-export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
-export const TMSelectMenu = (props) => <SelectMenu {...props} />;
 export const TMSlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModal = (props) => <Modal {...props} />;
@@ -102,4 +100,12 @@ export const TMSlideover = (props) => {
   return <Slideover {...props} topMarginElementId={topMarginElementId} />;
 };
 
-export { TMAttachments, TMDataTable, TMDropdown, TMHeader, TMPagination };
+export {
+  TMAttachments,
+  TMComboBox,
+  TMDataTable,
+  TMDropdown,
+  TMHeader,
+  TMPagination,
+  TMSelectMenu
+};

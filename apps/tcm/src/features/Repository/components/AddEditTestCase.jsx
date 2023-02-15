@@ -255,7 +255,6 @@ const AddEditTestCase = () => {
                         )
                       : { label: '', value: '' } // to be updated to null
                   }
-                  default
                   isMulti={false}
                   placeholder="Select owner"
                   checkPosition="right"

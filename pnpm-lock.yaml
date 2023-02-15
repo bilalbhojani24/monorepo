@@ -77,6 +77,89 @@ importers:
       tailwindcss: 3.2.6_postcss@8.4.20
       vite: 3.2.5_sass@1.58.0
 
+  apps/tcm:
+    specifiers:
+      '@browserstack/bifrost': workspace:*
+      '@browserstack/hooks': workspace:*
+      '@browserstack/stylelint-config': workspace:*
+      '@browserstack/tailwind-config': workspace:*
+      '@browserstack/utils': workspace:*
+      '@browserstack/vite-config': workspace:*
+      '@emotion/react': ^11.10.5
+      '@emotion/styled': ^11.10.5
+      '@mui/icons-material': ^5.11.0
+      '@mui/material': ^5.11.3
+      '@reduxjs/toolkit': ^1.9.1
+      '@tailwindcss/forms': 0.5.3
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
+      '@types/react': ^18.0.26
+      '@types/react-dom': ^18.0.9
+      '@vitejs/plugin-react': 2.2.0
+      axios: ^1.2.2
+      classnames: ^2.2.6
+      highcharts: ^10.3.3
+      highcharts-react-official: ^3.1.0
+      moment: ^2.29.4
+      postcss: 8.4.20
+      postcss-preset-env: ^7.8.3
+      prettier-plugin-tailwindcss: ^0.2.1
+      prop-types: 15.8.1
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      react-html-parser: ^2.0.2
+      react-redux: ^8.0.5
+      react-router-dom: ^6.6.1
+      sass: ^1.57.1
+      stylelint: ^14.16.0
+      stylelint-config-prettier: ^9.0.4
+      stylelint-config-standard-scss: latest
+      stylelint-prettier: ^2.0.0
+      stylelint-scss: ^4.3.0
+      tailwindcss: ^3.1.4
+      utils: link:@mui/material/utils
+      vite: 3.2.5
+    dependencies:
+      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/hooks': link:../../packages/hooks
+      '@browserstack/utils': link:../../packages/utils
+      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
+      '@emotion/styled': 11.10.5_4erqsq3n444jecyuvaxwc5b3vi
+      '@mui/icons-material': 5.11.0_3psqo62dtzuc5tpd3awdluze4i
+      '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
+      '@reduxjs/toolkit': 1.9.2_k4ae6lp43ej6mezo3ztvx6pykq
+      axios: 1.2.2
+      classnames: 2.3.2
+      highcharts: 10.3.3
+      highcharts-react-official: 3.1.0_kwza2hs7i6v4p3ij2mdqdwgj4q
+      moment: 2.29.4
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-html-parser: 2.0.2_react@18.2.0
+      react-redux: 8.0.5_r7hvvldj6g2s5chfsdsflfq664
+      react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
+      utils: link:@mui/material/utils
+    devDependencies:
+      '@browserstack/stylelint-config': link:../../packages/stylelint-config
+      '@browserstack/tailwind-config': link:../../packages/tailwind-config
+      '@browserstack/vite-config': link:../../packages/vite-config
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.6
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
+      '@types/react': 18.0.27
+      '@types/react-dom': 18.0.10
+      '@vitejs/plugin-react': 2.2.0_vite@3.2.5
+      postcss: 8.4.20
+      postcss-preset-env: 7.8.3_postcss@8.4.20
+      prettier-plugin-tailwindcss: 0.2.2_prettier@2.8.4
+      sass: 1.58.0
+      stylelint: 14.16.1
+      stylelint-config-prettier: 9.0.4_stylelint@14.16.1
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-prettier: 2.0.0_dolz6rwlo5u24hf4fhkbpcxlqi
+      stylelint-scss: 4.4.0_stylelint@14.16.1
+      tailwindcss: 3.2.6_postcss@8.4.20
+      vite: 3.2.5_sass@1.58.0
+
   packages/bifrost:
     specifiers:
       '@browserstack/stylelint-config': workspace:*
@@ -9758,12 +9841,12 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      icss-utils: 5.1.0_postcss@8.4.20
-      postcss: 8.4.20
-      postcss-modules-extract-imports: 3.0.0_postcss@8.4.20
-      postcss-modules-local-by-default: 4.0.0_postcss@8.4.20
-      postcss-modules-scope: 3.0.0_postcss@8.4.20
-      postcss-modules-values: 4.0.0_postcss@8.4.20
+      icss-utils: 5.1.0_postcss@8.4.21
+      postcss: 8.4.21
+      postcss-modules-extract-imports: 3.0.0_postcss@8.4.21
+      postcss-modules-local-by-default: 4.0.0_postcss@8.4.21
+      postcss-modules-scope: 3.0.0_postcss@8.4.21
+      postcss-modules-values: 4.0.0_postcss@8.4.21
       postcss-value-parser: 4.2.0
       semver: 7.3.8
       webpack: 5.75.0
@@ -13274,15 +13357,6 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: 7.0.39
-    dev: true
-
-  /icss-utils/5.1.0_postcss@8.4.20:
-    resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.20
     dev: true
 
   /icss-utils/5.1.0_postcss@8.4.21:
@@ -17176,15 +17250,6 @@ packages:
       postcss: 7.0.39
     dev: true
 
-  /postcss-modules-extract-imports/3.0.0_postcss@8.4.20:
-    resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.20
-    dev: true
-
   /postcss-modules-extract-imports/3.0.0_postcss@8.4.21:
     resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==}
     engines: {node: ^10 || ^12 || >= 14}
@@ -17200,18 +17265,6 @@ packages:
     dependencies:
       icss-utils: 4.1.1
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.11
-      postcss-value-parser: 4.2.0
-    dev: true
-
-  /postcss-modules-local-by-default/4.0.0_postcss@8.4.20:
-    resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      icss-utils: 5.1.0_postcss@8.4.20
-      postcss: 8.4.20
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
     dev: true
@@ -17236,16 +17289,6 @@ packages:
       postcss-selector-parser: 6.0.11
     dev: true
 
-  /postcss-modules-scope/3.0.0_postcss@8.4.20:
-    resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      postcss: 8.4.20
-      postcss-selector-parser: 6.0.11
-    dev: true
-
   /postcss-modules-scope/3.0.0_postcss@8.4.21:
     resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==}
     engines: {node: ^10 || ^12 || >= 14}
@@ -17261,16 +17304,6 @@ packages:
     dependencies:
       icss-utils: 4.1.1
       postcss: 7.0.39
-    dev: true
-
-  /postcss-modules-values/4.0.0_postcss@8.4.20:
-    resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==}
-    engines: {node: ^10 || ^12 || >= 14}
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      icss-utils: 5.1.0_postcss@8.4.20
-      postcss: 8.4.20
     dev: true
 
   /postcss-modules-values/4.0.0_postcss@8.4.21:
@@ -18323,7 +18356,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 16.13.1
       scheduler: 0.19.1
     dev: false
@@ -18479,7 +18512,7 @@ packages:
       '@babel/runtime': 7.20.13
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
-      prop-types: 15.7.2
+      prop-types: 15.8.1
       react: 16.13.1
       react-dom: 16.13.1_react@16.13.1
       react-is: 16.13.1
@@ -18780,7 +18813,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.7.2
+      prop-types: 15.8.1
     dev: false
 
   /react/18.2.0:
