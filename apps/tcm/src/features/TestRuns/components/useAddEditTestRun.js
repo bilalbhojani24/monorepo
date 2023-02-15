@@ -11,6 +11,7 @@ import {
   setIssuesArray,
   setIsVisibleProps,
   setTagsArray,
+  setTestRunFormData,
   setUnsavedDataExists,
   updateTestRunFormData
 } from '../slices/testRunsSlice';
@@ -22,6 +23,9 @@ const useAddEditTestRun = () => {
   const [selectedTCIDs, setSelectedTCIDs] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
 
+  const isEditing = useSelector(
+    (state) => state.testRuns.isVisible.editTestRunsForm
+  );
   const isAddIssuesModalShown = useSelector(
     (state) => state.testRuns.isVisible.addIssuesModal
   );
@@ -33,6 +37,9 @@ const useAddEditTestRun = () => {
   );
   const isUnsavedDataExists = useSelector(
     (state) => state.testRuns.isUnsavedDataExists
+  );
+  const selectedTestRun = useSelector(
+    (state) => state.testRuns.selectedTestRun
   );
   const tagsArray = useSelector((state) => state.testRuns.tagsArray);
   const usersArray = useSelector((state) => state.testRuns.usersArray);
@@ -116,11 +123,45 @@ const useAddEditTestRun = () => {
 
   // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
+  const formDataFormatter = (formData) => {
+    const testRun = {
+      ...formData.test_run
+    };
+
+    if (formData.test_run.tags)
+      testRun.tags = formData.test_run.tags?.map((item) => item.value);
+    if (formData.test_run.issues)
+      testRun.issues = formData?.test_run.issues?.map((item) => item.value);
+
+    return {
+      test_run: testRun,
+      test_case_ids: formData.test_case_ids
+    };
+  };
+
+  const formDataRetriever = (formData) => {
+    const testRun = { ...formData.test_run };
+    testRun.tags = tagsArray.filter((item) =>
+      testRun.tags.includes(item.value)
+    );
+    testRun.issues = selectMenuValueMapper(
+      testRun?.issues?.map((item) => item.jira_id)
+    );
+
+    return {
+      test_run: testRun,
+      test_case_ids: formData.test_case_ids
+    };
+  };
+
   const createTestRunHandler = () => {
     if (!testRunFormData.test_run.name) {
       setInputError(true);
     } else
-      addTestRunAPI({ payload: testRunFormData, projectId }).then((data) => {
+      addTestRunAPI({
+        payload: formDataFormatter(testRunFormData),
+        projectId
+      }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
         hideAddTestRunForm();
       });
@@ -151,7 +192,23 @@ const useAddEditTestRun = () => {
     setSelectedTCIDs(testRunFormData?.test_case_ids || []);
   }, [testRunFormData?.test_case_ids]);
 
+  useEffect(() => {
+    if (isEditing && selectedTestRun) {
+      // fetch test run details
+      dispatch(
+        setTestRunFormData(
+          formDataRetriever({
+            test_run: selectedTestRun,
+            test_case_ids: []
+          })
+        )
+      );
+      // WIP
+    }
+  }, [isEditing, selectedTestRun]);
+
   return {
+    isEditing,
     selectedTCIDs,
     projectId,
     isAddTestCaseModalShown,

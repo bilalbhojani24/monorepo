@@ -36,6 +36,9 @@ const useTestRuns = () => {
   const isAddTestRunsFormVisible = useSelector(
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
+  const isEditTestRunsFormVisible = useSelector(
+    (state) => state.testRuns.isVisible.editTestRunsForm
+  );
 
   const setTestRunsLoader = (value) => {
     dispatch(setLoader({ key: 'testRuns', value }));
@@ -58,7 +61,7 @@ const useTestRuns = () => {
     dispatch(setCurrentTab(tabName.name));
   };
 
-  const showTestRunAddFormHandler = (tabName) => {
+  const showTestRunAddFormHandler = () => {
     dispatch(setAddTestRunForm(true));
   };
 
@@ -100,6 +103,7 @@ const useTestRuns = () => {
   }, [projectId, currentTab, currentPage]);
 
   return {
+    isEditTestRunsFormVisible,
     isTestRunsLoading,
     currentTab,
     allTestRuns,

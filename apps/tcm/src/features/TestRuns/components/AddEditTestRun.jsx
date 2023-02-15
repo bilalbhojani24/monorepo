@@ -20,6 +20,7 @@ import useTestRuns from './useTestRuns';
 const AddEditTestRun = () => {
   const {
     inputError,
+    isEditing,
     isAddTagModalShown,
     isAddIssuesModalShown,
     usersArrayMapped,
@@ -53,8 +54,11 @@ const AddEditTestRun = () => {
     <>
       <div className="border-base-200 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
         <TMPageHeadings
-          breadcrumbs={[{ name: 'Test Runs' }, { name: 'Create' }]}
-          heading="Create New Test Runs"
+          breadcrumbs={[
+            { name: 'Test Runs' },
+            { name: isEditing ? 'Edit' : 'Create' }
+          ]}
+          heading={isEditing ? 'Edit Test Run' : 'Create New Test Runs'}
           actions={
             <>
               <TMButton
@@ -70,7 +74,7 @@ const AddEditTestRun = () => {
                 colors="brand"
                 onClick={createTestRunHandler}
               >
-                Create Run
+                {isEditing ? 'Update Run' : 'Create Run'}
               </TMButton>
             </>
           }
@@ -178,6 +182,7 @@ const AddEditTestRun = () => {
                   }
                   checkPosition="right"
                   label="State"
+                  placeholder="Select from options"
                   options={STATE_OPTIONS}
                   onChange={(e) =>
                     handleTestRunInputFieldChange('run_state', e.value)
@@ -189,7 +194,7 @@ const AddEditTestRun = () => {
                   <div className="mr-4 flex-1">
                     <TMSelectMenu
                       checkPosition="right"
-                      isMultiSelect
+                      isMulti
                       placeholder="Select from options"
                       label="Issues"
                       options={issuesArray}

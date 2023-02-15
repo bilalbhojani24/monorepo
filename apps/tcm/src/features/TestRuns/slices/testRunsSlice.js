@@ -6,6 +6,7 @@ import { TABS_ARRAY } from '../const/immutableConst';
 const initialState = {
   isVisible: {
     addTestRunsForm: false,
+    editTestRunsForm: false,
     addTestCaseModal: false,
     addTagsModal: false,
     addIssuesModal: false
@@ -13,6 +14,7 @@ const initialState = {
   isLoading: {
     testRuns: true
   },
+  selectedTestRun: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
   currentTab: TABS_ARRAY[0].name,
   allTestRuns: [],
@@ -49,13 +51,24 @@ const testRunslice = createSlice({
       if (!payload) {
         // reset form data
         state.testRunFormData = initialState.testRunFormData;
+        state.isVisible.editTestRunsForm = false;
+        state.selectedTestRun = null;
       }
+    },
+    setEditTestRunForm: (state, { payload }) => {
+      state.isVisible.editTestRunsForm = payload;
+    },
+    setSelectedTestRun: (state, { payload }) => {
+      state.selectedTestRun = payload;
     },
     updateTestRunFormData: (state, { payload }) => {
       if (payload.innerKey) {
         // goes inside test_run object
         state.testRunFormData[payload.key][payload.innerKey] = payload.value;
       } else state.testRunFormData[payload.key] = payload.value;
+    },
+    setTestRunFormData: (state, { payload }) => {
+      state.testRunFormData = payload;
     },
     setIsVisibleProps: (state, { payload }) => {
       state.isVisible[payload.key] = payload.value;
@@ -95,6 +108,9 @@ const testRunslice = createSlice({
 });
 
 export const {
+  setTestRunFormData,
+  setSelectedTestRun,
+  setEditTestRunForm,
   updateTestRunFormData,
   setUnsavedDataExists,
   setIsVisibleProps,

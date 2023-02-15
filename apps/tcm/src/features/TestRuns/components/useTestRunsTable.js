@@ -4,7 +4,10 @@ import { useParams } from 'react-router-dom';
 import { capitalizeString } from 'utils/helperFunctions';
 
 import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
-import { setMetaPage } from '../slices/testRunsSlice';
+import {
+  setEditTestRunForm,
+  setSelectedTestRun
+} from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
   const dispatch = useDispatch();
@@ -60,6 +63,8 @@ const useTestRuns = () => {
   const onDropDownChange = (e, selectedItem) => {
     if (e.currentTarget.textContent === TR_DROP_OPTIONS[0].body) {
       // edit
+      dispatch(setEditTestRunForm(true));
+      dispatch(setSelectedTestRun(selectedItem));
     } else if (e.currentTarget.textContent === TR_DROP_OPTIONS[1].body) {
       // delete
     }

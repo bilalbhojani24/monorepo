@@ -16,15 +16,17 @@ import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
   const {
+    isEditTestRunsFormVisible,
+    isAddTestRunsFormVisible,
     currentTab,
     allTestRuns,
     isTestRunsLoading,
     showTestRunAddFormHandler,
-    isAddTestRunsFormVisible,
     handleTabChange
   } = useTestRuns();
 
-  if (isAddTestRunsFormVisible) return <AddEditTestRun />;
+  if (isAddTestRunsFormVisible || isEditTestRunsFormVisible)
+    return <AddEditTestRun />;
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">

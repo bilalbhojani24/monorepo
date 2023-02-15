@@ -346,7 +346,7 @@ const AddEditTestCase = () => {
                 <div className="mr-4 flex-1">
                   <TMSelectMenu
                     checkPosition="right"
-                    isMultiSelect
+                    isMulti
                     placeholder="Select from options"
                     label="Issues"
                     options={issuesArray}
