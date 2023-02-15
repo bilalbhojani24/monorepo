@@ -5,6 +5,10 @@ import {
   Button,
   Checkbox,
   ComboBox,
+  ComboboxLabel,
+  ComboboxOptions,
+  ComboboxOptionsBox,
+  ComboboxTrigger,
   MdArrowBack,
   MdFilterAlt,
   MdHideSource,
@@ -119,14 +123,30 @@ export default function Issues() {
               </div>
             </div>
             <div className="mb-6">
-              <p className="text-base-700 mb-1 text-sm">Pages</p>
+              {/* <p className="text-base-700 mb-1 text-sm">Pages</p> */}
               <ComboBox
+                onChange={(values) => onUpdateFilters('page', values)}
+                value={intermediateFilters.page}
+                isMulti
+              >
+                <ComboboxLabel>Pages</ComboboxLabel>
+                <ComboboxTrigger placeholder="Placeholder" />
+                <ComboboxOptionsBox>
+                  {urls.map((item) => (
+                    <ComboboxOptions
+                      option={item}
+                      wrapperClassName="text-base-500"
+                    />
+                  ))}
+                </ComboboxOptionsBox>
+              </ComboBox>
+              {/* <ComboBox
                 isMulti
                 onChange={(values) => onUpdateFilters('page', values)}
                 options={urls}
                 value={intermediateFilters.page}
-                // placeholder="Select..."
-              />
+                placeholder="Select..."
+              /> */}
             </div>
             <div className="mb-6">
               <p className="text-base-700 mb-1 text-sm">Components</p>

@@ -172,7 +172,6 @@ export default function useSummary() {
   };
 
   const onMenuChange = (item, b) => {
-    console.log('item: ', item, b);
     const { value } = item;
     if (value === 'char-sort') {
       setCategoryList(
