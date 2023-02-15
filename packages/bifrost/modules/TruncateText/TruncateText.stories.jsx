@@ -41,6 +41,14 @@ const defaultConfig = {
       option: { type: 'object' },
       defaultValue: { theme: 'dark' }
     },
+    tooltipContent: {
+      option: { type: 'null' },
+      defaultValue: (isTooltipVisible, children) => (
+        <p className="text-base-300 mb-0 px-4">
+          Customized tooltip content {children}
+        </p>
+      )
+    },
     tooltipTriggerIcon: {
       option: { type: null },
       defaultValue: <MdErrorOutline className="max-h-4" />

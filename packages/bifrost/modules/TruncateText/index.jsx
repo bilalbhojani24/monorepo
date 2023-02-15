@@ -25,7 +25,8 @@ const TruncateText = ({
   tooltipTriggerIcon,
   hidetooltipTriggerIcon,
   containerClassName,
-  variant
+  variant,
+  tooltipContent
 }) => {
   const Component = variantsMapping[variant];
   const [truncatedDataTooltip, setTruncatedDataTooltip] = useState(false);
@@ -78,7 +79,11 @@ const TruncateText = ({
           <Tooltip
             theme="dark"
             placementSide="left"
-            content={<p className="text-base-300 mb-0 px-4">{children}</p>}
+            content={
+              typeof tooltipContent === 'function'
+                ? tooltipContent(truncatedDataTooltip, children)
+                : tooltipContent
+            }
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...headerTooltipProps}
           >
@@ -97,6 +102,7 @@ const TruncateText = ({
 TruncateText.propTypes = {
   children: PropTypes.node,
   wrapperClassName: PropTypes.string,
+  tooltipContent: PropTypes.func || PropTypes.node,
   headerTooltipProps: PropTypes.shape(TooltipPropTypes),
   tooltipTriggerIcon: PropTypes.node,
   hidetooltipTriggerIcon: PropTypes.bool,
@@ -106,6 +112,9 @@ TruncateText.propTypes = {
 TruncateText.defaultProps = {
   children: null,
   wrapperClassName: '',
+  tooltipContent: (isTooltipVisible, children) => (
+    <p className="text-base-300 mb-0 px-4">{children}</p>
+  ),
   headerTooltipProps: {},
   tooltipTriggerIcon: <MdErrorOutline className="max-h-4" />,
   hidetooltipTriggerIcon: false,
