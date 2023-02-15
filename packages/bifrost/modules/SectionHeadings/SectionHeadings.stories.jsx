@@ -57,8 +57,12 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       defaultValue: (
         <div className="min-w-fit">
-          <p className="mb-3">Trailing Node Example</p>
-          <Button aria-label="Increment value">Really long button name</Button>
+          <Button aria-label="Increment value" wrapperClassName="mr-3">
+            Really long
+          </Button>
+          <Button aria-label="Increment value" wrapperClassName="ml-3 mr-3">
+            Button name
+          </Button>
         </div>
       )
     },
