@@ -1,7 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
+  ChevronDownIcon,
   DataVisualization,
+  Dropdown,
+  MdArrowDownward,
+  MdArrowUpward,
+  MdSortByAlpha,
   Stats,
   Table,
   TableBody,
@@ -116,8 +121,8 @@ export default function Summary() {
   ];
 
   return (
-    <div>
-      <div className="mt-4 flex items-start">
+    <div className="relative" style={{ top: '182px' }}>
+      <div className="flex items-start">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization
             title="Issue Summary"
@@ -221,7 +226,7 @@ export default function Summary() {
           />
         </div>
       </div>
-      <div className="mt-4 flex items-start">
+      <div className="mt-4 flex items-start pb-5">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization
             title="Issues by category"
@@ -313,6 +318,50 @@ export default function Summary() {
                   </TableBody>
                 </Table>
               </div>
+            }
+            otherOptions={
+              <Dropdown
+                trigger={
+                  <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+                    Sort
+                    <ChevronDownIcon
+                      className="-mr-1 ml-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </div>
+                }
+                onClick={onMenuChange}
+                options={[
+                  {
+                    id: 'char-sort',
+                    value: 'char-sort',
+                    body: (
+                      <div className="flex items-center">
+                        <MdSortByAlpha className="mr-2 text-xl" />{' '}
+                        <p className="text-sm">A to Z</p>
+                      </div>
+                    )
+                  },
+                  {
+                    id: 'desc',
+                    body: (
+                      <div className="flex items-center">
+                        <MdArrowDownward className="mr-2 text-xl" />{' '}
+                        <p className="text-sm">Descending</p>
+                      </div>
+                    )
+                  },
+                  {
+                    id: 'asc',
+                    body: (
+                      <div className="flex items-center">
+                        <MdArrowUpward className="mr-2 text-xl" />{' '}
+                        <p className="text-sm">Ascending</p>
+                      </div>
+                    )
+                  }
+                ]}
+              />
             }
           />
         </div>

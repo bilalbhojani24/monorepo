@@ -3,16 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Badge } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
+import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { setOpenAccordionId } from 'features/Report/slice/appSlice';
-import { getOpenAccordionId } from 'features/Report/slice/selector';
+import {
+  getActiveComponentId,
+  getIsShowingIssue,
+  getOpenAccordionId
+} from 'features/Report/slice/selector';
 import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
 
 export default function Violation({ violation, index }) {
   const dispatch = useDispatch();
+  const activeComponentId = useSelector(getActiveComponentId);
+  const isShowingIssue = useSelector(getIsShowingIssue);
+  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const openAccordionId = useSelector(getOpenAccordionId);
   const isOpen = openAccordionId === violation.id;
+
+  const isHalfView = activeComponentId && isShowingIssue;
 
   const totalCount = violation.nodes.length;
   const impact =
@@ -27,6 +37,10 @@ export default function Violation({ violation, index }) {
     }
   };
 
+  const maxWidthForFullView = isSidebarCollapsed
+    ? 'calc((100vw - 200px) / 2)'
+    : 'calc(((100vw - 256px) / 2) - 190px)';
+
   return (
     <Accordion
       triggerClassName={twClassNames(
@@ -38,7 +52,14 @@ export default function Violation({ violation, index }) {
       triggerContentNode={
         <div className="flex w-full cursor-pointer items-center justify-between bg-white">
           <div className="ml-2 flex items-center">
-            <p className="text-base-900 mr-2 text-sm">{violation.help}</p>
+            <p
+              className="text-base-900 mr-2 truncate text-sm"
+              style={{
+                maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
+              }}
+            >
+              {violation.help}
+            </p>
             <div>
               <Badge
                 hasDot={false}

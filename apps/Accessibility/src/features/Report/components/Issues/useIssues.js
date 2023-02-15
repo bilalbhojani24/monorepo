@@ -311,6 +311,10 @@ export default function useIssues() {
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };
 
+  useEffect(() => {
+    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+  }, []);
+
   return {
     activeSwitch,
     customData,

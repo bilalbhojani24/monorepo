@@ -171,7 +171,8 @@ export default function useSummary() {
     ]
   };
 
-  const onMenuChange = (item) => {
+  const onMenuChange = (item, b) => {
+    console.log('item: ', item, b);
     const { value } = item;
     if (value === 'char-sort') {
       setCategoryList(
@@ -202,6 +203,10 @@ export default function useSummary() {
       cloneDeep(issueCountByCategory).sort((a, b) => b.count - a.count)
     );
   }, [issueCountByCategory]);
+
+  useEffect(() => {
+    document.getElementsByTagName('body')[0].style.overflow = 'auto';
+  }, []);
 
   return {
     reportMetaData,

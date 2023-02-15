@@ -17,6 +17,7 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
+import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -35,6 +36,7 @@ export default function Issues() {
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const reportFilters = useSelector(getReportFilters);
+  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const { urls, componentIds, categories } = useSelector(getUniqFilterValues);
   const {
     activeSwitch,
@@ -87,6 +89,8 @@ export default function Issues() {
   const intermediateFiltersImpactValues = intermediateFilters.impact.map(
     ({ value }) => value
   );
+
+  const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 
   return (
     <SectionsDataContext.Provider
@@ -162,8 +166,11 @@ export default function Issues() {
             <Button onClick={onApplyFilters}>OK</Button>
           </ModalFooter>
         </Modal>
-        <div>
-          <div className="flex items-center justify-between py-4 px-6">
+        <div
+          className="bg-base-50 border-base-200 fixed z-10 border-b"
+          style={{ width: 'calc(100% - 256px)', top: '230px' }}
+        >
+          <div className="flex w-full items-center justify-between py-4 px-6">
             <div className="flex items-center">
               {showHiddenIssues && (
                 <Button
@@ -218,7 +225,7 @@ export default function Issues() {
               )}
             </div>
           </div>
-          {showHiddenIssues || hasFilters ? (
+          {hasFilterOrHiddenView ? (
             <div className="bg-base-100 px-6 py-3">
               {showHiddenIssues ? (
                 <Badge
@@ -273,7 +280,14 @@ export default function Issues() {
             </div>
           ) : null}
         </div>
-        <div>
+        <div
+          className="fixed overflow-auto"
+          style={{
+            top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
+            height: 'calc(100vh - 228px)',
+            width: 'calc(100vw - 256px)'
+          }}
+        >
           {showEmptyScreen ? (
             <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
               <img
@@ -284,16 +298,27 @@ export default function Issues() {
               <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <div className="border-base-200 flex border-t">
+            <div className="flex">
               <div
-                className={twClassNames('w-full', {
+                className={twClassNames('w-full border-r border-base-200', {
                   'w-2/4': isHalfView && sectionData
                 })}
+                style={{ height: 'calc(100vh - 228px)' }}
               >
                 <Accordion />
               </div>
               {isHalfView && sectionData && (
-                <div className="w-2/4">
+                <div
+                  className="fixed right-0 overflow-auto bg-white"
+                  style={{
+                    height: 'calc(100vh - 228px)',
+                    width: `${
+                      isSidebarCollapsed
+                        ? 'calc((100vw - 20px) / 2)'
+                        : 'calc((100vw - 256px) / 2)'
+                    }`
+                  }}
+                >
                   <IssueItem />
                 </div>
               )}

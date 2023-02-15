@@ -51,7 +51,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <header className="absolute top-5 z-10 h-16 w-full text-center">
+      <header className="fixed top-0 z-10 h-16 w-full bg-white pt-4 text-center">
         BrowserStack Header
       </header>
       <SidebarNavigation

@@ -20,8 +20,6 @@ import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
 
-import './style.scss';
-
 export default function Report() {
   const {
     activeTab,
@@ -33,6 +31,17 @@ export default function Report() {
     onTabChange
   } = useReport();
   const reportData = useSelector(getReportData);
+
+  const {
+    location: { search, origin, pathname }
+  } = window;
+  const params = new URLSearchParams(search);
+  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
+    'ids'
+  )}&wcagVersion=${params.get('wcagVersion')}`;
+  // Object.entries(params).forEach(([key, value]) => {
+  //   console.log('params: ', key, value);
+  // });
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
@@ -53,8 +62,8 @@ export default function Report() {
     : `Consolidated report across ${reportsLength} reports`;
 
   return reportData && !isLoading ? (
-    <div className="bg-base-50">
-      <div>
+    <div className="bg-base-50 h-full">
+      <div className="bg-base-50 fixed top-16 z-10 w-full">
         <div className="px-6 pt-6">
           <Breadcrumb
             data={[
@@ -110,14 +119,10 @@ export default function Report() {
                   Copied
                 </Button>
               ) : (
-                <CopyToClipboard
-                  text={window.location.href}
-                  onCopy={onCopyClick}
-                >
+                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
                   <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
-                    onClick={() => {}}
                     colors="white"
                     size="extra-small"
                   >
@@ -136,8 +141,6 @@ export default function Report() {
               </Button>
             </div>
           </div>
-        </div>
-        <div className="text-base-200 border-b pl-6">
           <Tabs
             tabsArray={[
               {
