@@ -59,11 +59,13 @@ const TextEditor = forwardRef((props, ref) => {
             });
           },
           statusbar: false,
-          placeholder
-          // content_css:
-          //   'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/content/bifrost-theme/content.min.css',
-          // skin_url:
-          //   'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/ui/bifrost-theme'
+          branding: false,
+          resize: 'both',
+          placeholder,
+          content_css:
+            'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/content/TW-RTE/content.min.css',
+          skin_url:
+            'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/ui/TW-RTE'
         }}
       />
     </>
