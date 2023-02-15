@@ -100,7 +100,7 @@ const SingleStepComponent = ({
           rows={1}
           value={data?.step}
           label=""
-          placeholder="Write steps to start testing"
+          placeholder="Write step"
           onChange={(e) => onChange(index, 'step', e.currentTarget.value)}
         />
       </div>
@@ -112,7 +112,7 @@ const SingleStepComponent = ({
           rows={1}
           value={data?.expected_result}
           label=""
-          placeholder="Expected result of the above test"
+          placeholder="Expected result"
           onChange={(e) =>
             onChange(index, 'expected_result', e.currentTarget.value)
           }

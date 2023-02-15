@@ -9,7 +9,7 @@ export default function BlankPage() {
     <div className="flex w-full flex-wrap justify-center">
       <TMEmptyState
         title="Add Test Cases"
-        description="You can get started by creating/importing test cases by entering details below"
+        description="You can create test cases by entering details below"
         mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
         buttonProps={null}
       />
