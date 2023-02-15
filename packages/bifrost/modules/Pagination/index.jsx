@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import Button from '../Button';
 import {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
@@ -39,7 +40,8 @@ const Pagination = (props) => {
     withNumber,
     isCentered,
     activeLinkClass,
-    inActiveLinkClass
+    inActiveLinkClass,
+    hideDetailsString
   } = props;
   const [currentPage, setCurrentPage] = useState(pageNumber);
   const [totalPages, setTotalPages] = useState([]);
@@ -79,25 +81,22 @@ const Pagination = (props) => {
 
   const renderNextPrev = () => (
     <div
-      className={twClassNames('flex flex-1 justify-between sm:justify-end', {
+      className={twClassNames('justify-between sm:justify-end', {
         'sm:hidden': withNumber,
         block: !withNumber
       })}
     >
-      <a
-        href="/"
-        className="border-base-300 text-base-700 hover:bg-base-50 relative inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
-        onClick={prevClick}
-      >
+      <Button onClick={prevClick} colors="white" disabled={currentPage === 1}>
         Previous
-      </a>
-      <a
-        href="/"
-        className="border-base-300 text-base-700 hover:bg-base-50 relative ml-3 inline-flex items-center rounded-md border  px-4 py-2 text-sm font-medium"
+      </Button>
+      <Button
+        wrapperClassName="ml-3"
         onClick={nextClick}
+        colors="white"
+        disabled={currentPage === totalPages[totalPages.length - 1]}
       >
         Next
-      </a>
+      </Button>
     </div>
   );
 
@@ -167,7 +166,11 @@ const Pagination = (props) => {
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
-        <p className={twClassNames('text-sm text-base-700')}>
+        <p
+          className={twClassNames('text-sm text-base-700', {
+            hidden: hideDetailsString
+          })}
+        >
           Showing{' '}
           <span className="font-medium">
             {currentPage * pageSize - pageSize + 1}
@@ -221,7 +224,8 @@ Pagination.propTypes = {
   onPreviousClick: PropTypes.func,
   pageNumber: PropTypes.number,
   pageSize: PropTypes.number,
-  withNumber: PropTypes.bool
+  withNumber: PropTypes.bool,
+  hideDetailsString: PropTypes.bool
 };
 
 Pagination.defaultProps = {
@@ -234,7 +238,8 @@ Pagination.defaultProps = {
   onPreviousClick: () => {},
   pageNumber: 1,
   pageSize: 25,
-  withNumber: true
+  withNumber: true,
+  hideDetailsString: false
 };
 
 export default Pagination;
