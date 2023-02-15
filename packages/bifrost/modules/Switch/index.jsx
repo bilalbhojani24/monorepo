@@ -10,7 +10,8 @@ const Switch = ({
   onChange,
   defaultValue,
   checked,
-  wrapperClassName
+  wrapperClassName,
+  toggleIcons
 }) => {
   const onChangeHandler = (updateState) => {
     onChange?.(updateState);
@@ -62,7 +63,9 @@ const Switch = ({
                 ? 'absolute left-0 border border-base-200 transition-transform'
                 : 'transition'
             )}
-          />
+          >
+            {toggleIcons?.(checked)}
+          </span>
         </>
       )}
     </HeadlessSwitch>
@@ -72,6 +75,7 @@ const Switch = ({
 Switch.propTypes = {
   checked: PropTypes.bool,
   isShortToggle: PropTypes.bool,
+  toggleIcons: PropTypes.func,
   onChange: PropTypes.func,
   wrapperClassName: PropTypes.string,
   defaultValue: PropTypes.bool
@@ -79,6 +83,7 @@ Switch.propTypes = {
 Switch.defaultProps = {
   checked: undefined,
   isShortToggle: false,
+  toggleIcons: null,
   onChange: null,
   wrapperClassName: '',
   defaultValue: undefined
