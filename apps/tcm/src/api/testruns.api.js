@@ -39,3 +39,8 @@ export const deleteTestRunAPI = async ({ projectId, testRunId }) =>
 
 export const closeTestRunAPI = async ({ projectId, testRunId }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-runs/${testRunId}/close`);
+
+export const assignTestRunAPI = async ({ projectId, ownerId, testRunId }) =>
+  fetchPost(`/api/v1/projects/${projectId}/test-runs/${testRunId}/assign`, {
+    test_run: { owner: ownerId }
+  });

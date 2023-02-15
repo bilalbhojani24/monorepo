@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -16,14 +16,22 @@ import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
   const {
+    projectId,
+    currentPage,
     isEditTestRunsFormVisible,
     isAddTestRunsFormVisible,
     currentTab,
     allTestRuns,
     isTestRunsLoading,
     showTestRunAddFormHandler,
-    handleTabChange
+    handleTabChange,
+    fetchAllTestRuns
   } = useTestRuns();
+
+  useEffect(() => {
+    fetchAllTestRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, currentTab, currentPage]);
 
   if (isAddTestRunsFormVisible || isEditTestRunsFormVisible)
     return <AddEditTestRun />;

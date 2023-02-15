@@ -17,6 +17,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import { TABS_ARRAY, TR_DROP_OPTIONS } from '../const/immutableConst';
 
+import AssignTestRun from './AssignTestRun';
 import CloseTestRun from './CloseTestRun';
 import DeleteTestRun from './DeleteTestRun';
 import useTestRunsTable from './useTestRunsTable';
@@ -42,6 +43,7 @@ const TestRunsTable = () => {
       key: 'name',
       cell: (rowData) => (
         <Link
+          className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           to={routeFormatter(AppRoute.TEST_RUNS_DETAILS, {
             projectId,
             testRunId: rowData?.id
@@ -143,11 +145,11 @@ const TestRunsTable = () => {
               {allTestRuns?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  {tableColumns?.map((column) => {
+                  {tableColumns?.map((column, colIdx) => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.id || colIdx}
                         wrapperClassName={classNames('py-4', {
                           'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
                           'sticky bg-white': column.isSticky,
@@ -179,6 +181,7 @@ const TestRunsTable = () => {
 
       <DeleteTestRun />
       <CloseTestRun />
+      <AssignTestRun />
     </div>
   );
 };

@@ -1,11 +1,21 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { closeTestRunAPI, deleteTestRunAPI } from 'api/testruns.api';
+import {
+  assignTestRunAPI,
+  closeTestRunAPI,
+  deleteTestRunAPI
+} from 'api/testruns.api';
 
-import { closeAllVisibleForms, deleteTestRun } from '../slices/testRunsSlice';
+import {
+  closeAllVisibleForms,
+  deleteTestRun,
+  updateTestRun
+} from '../slices/testRunsSlice';
 
 const useMiscConnections = () => {
   const dispatch = useDispatch();
+  const [selectedAssignee, setAssignee] = useState(null);
   const { projectId } = useParams();
 
   const selectedTestRun = useSelector(
@@ -16,6 +26,9 @@ const useMiscConnections = () => {
   );
   const isCloseTVisible = useSelector(
     (state) => state.testRuns.isVisible.closeRunTestRunModal
+  );
+  const isAssignTestVisible = useSelector(
+    (state) => state.testRuns.isVisible.assignTestRunModal
   );
 
   const closeAll = () => {
@@ -42,12 +55,36 @@ const useMiscConnections = () => {
     }
   };
 
+  const assignTestRunHandler = () => {
+    if (selectedTestRun?.id && selectedAssignee?.value) {
+      assignTestRunAPI({
+        projectId,
+        testRunId: selectedTestRun.id,
+        ownerId: selectedAssignee.value
+      }).then(() => {
+        dispatch(
+          updateTestRun({
+            ...selectedTestRun,
+            assignee: { ...selectedAssignee, full_name: selectedAssignee.label }
+          })
+        );
+        setAssignee(null);
+        closeAll();
+      });
+    }
+  };
+
   return {
+    selectedTestRun,
+    isAssignTestVisible,
     isCloseTVisible,
     isDeleteModalVisible,
+    selectedAssignee,
+    setAssignee,
     closeAll,
     deleteTestRunHandler,
-    closeTestRunHandler
+    closeTestRunHandler,
+    assignTestRunHandler
   };
 };
 

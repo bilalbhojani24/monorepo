@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
@@ -99,12 +98,8 @@ const useTestRuns = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAllTestRuns();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, currentTab, currentPage]);
-
   return {
+    currentPage,
     isEditTestRunsFormVisible,
     isTestRunsLoading,
     currentTab,
@@ -113,7 +108,8 @@ const useTestRuns = () => {
     isAddTestRunsFormVisible,
     handleTabChange,
     showTestRunAddFormHandler,
-    initFormValues
+    initFormValues,
+    fetchAllTestRuns
   };
 };
 
