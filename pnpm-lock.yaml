@@ -77,89 +77,6 @@ importers:
       tailwindcss: 3.2.6_postcss@8.4.20
       vite: 3.2.5_sass@1.58.0
 
-  apps/tcm:
-    specifiers:
-      '@browserstack/bifrost': workspace:*
-      '@browserstack/hooks': workspace:*
-      '@browserstack/stylelint-config': workspace:*
-      '@browserstack/tailwind-config': workspace:*
-      '@browserstack/utils': workspace:*
-      '@browserstack/vite-config': workspace:*
-      '@emotion/react': ^11.10.5
-      '@emotion/styled': ^11.10.5
-      '@mui/icons-material': ^5.11.0
-      '@mui/material': ^5.11.3
-      '@reduxjs/toolkit': ^1.9.1
-      '@tailwindcss/forms': 0.5.3
-      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
-      '@types/react': ^18.0.26
-      '@types/react-dom': ^18.0.9
-      '@vitejs/plugin-react': 2.2.0
-      axios: ^1.2.2
-      classnames: ^2.2.6
-      highcharts: ^10.3.3
-      highcharts-react-official: ^3.1.0
-      moment: ^2.29.4
-      postcss: 8.4.20
-      postcss-preset-env: ^7.8.3
-      prettier-plugin-tailwindcss: ^0.2.1
-      prop-types: 15.8.1
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      react-html-parser: ^2.0.2
-      react-redux: ^8.0.5
-      react-router-dom: ^6.6.1
-      sass: ^1.57.1
-      stylelint: ^14.16.0
-      stylelint-config-prettier: ^9.0.4
-      stylelint-config-standard-scss: latest
-      stylelint-prettier: ^2.0.0
-      stylelint-scss: ^4.3.0
-      tailwindcss: ^3.1.4
-      utils: link:@mui/material/utils
-      vite: 3.2.5
-    dependencies:
-      '@browserstack/bifrost': link:../../packages/bifrost
-      '@browserstack/hooks': link:../../packages/hooks
-      '@browserstack/utils': link:../../packages/utils
-      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
-      '@emotion/styled': 11.10.5_4erqsq3n444jecyuvaxwc5b3vi
-      '@mui/icons-material': 5.11.0_3psqo62dtzuc5tpd3awdluze4i
-      '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
-      '@reduxjs/toolkit': 1.9.2_k4ae6lp43ej6mezo3ztvx6pykq
-      axios: 1.2.2
-      classnames: 2.3.2
-      highcharts: 10.3.3
-      highcharts-react-official: 3.1.0_kwza2hs7i6v4p3ij2mdqdwgj4q
-      moment: 2.29.4
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-html-parser: 2.0.2_react@18.2.0
-      react-redux: 8.0.5_r7hvvldj6g2s5chfsdsflfq664
-      react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
-      utils: link:@mui/material/utils
-    devDependencies:
-      '@browserstack/stylelint-config': link:../../packages/stylelint-config
-      '@browserstack/tailwind-config': link:../../packages/tailwind-config
-      '@browserstack/vite-config': link:../../packages/vite-config
-      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.6
-      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
-      '@types/react': 18.0.27
-      '@types/react-dom': 18.0.10
-      '@vitejs/plugin-react': 2.2.0_vite@3.2.5
-      postcss: 8.4.20
-      postcss-preset-env: 7.8.3_postcss@8.4.20
-      prettier-plugin-tailwindcss: 0.2.2_prettier@2.8.4
-      sass: 1.58.0
-      stylelint: 14.16.1
-      stylelint-config-prettier: 9.0.4_stylelint@14.16.1
-      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
-      stylelint-prettier: 2.0.0_dolz6rwlo5u24hf4fhkbpcxlqi
-      stylelint-scss: 4.3.0_stylelint@14.16.1
-      tailwindcss: 3.2.6_postcss@8.4.20
-      vite: 3.2.5_sass@1.58.0
-
   packages/bifrost:
     specifiers:
       '@browserstack/stylelint-config': workspace:*
@@ -364,6 +281,7 @@ importers:
 
   packages/tailwind-config:
     specifiers:
+      '@tailwindcss/aspect-ratio': 0.4.2
       '@tailwindcss/forms': 0.5.3
       '@tailwindcss/line-clamp': 0.4.2
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
@@ -372,6 +290,7 @@ importers:
       postcss-preset-env: ^7.8.3
       tailwindcss: ^3.1.4
     dependencies:
+      '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.2.6
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.6
       '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.6
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
@@ -6716,6 +6635,14 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tailwindcss/aspect-ratio/0.4.2_tailwindcss@3.2.6:
+    resolution: {integrity: sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.2.6_postcss@8.4.20
+    dev: false
 
   /@tailwindcss/forms/0.5.3_tailwindcss@3.2.6:
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
