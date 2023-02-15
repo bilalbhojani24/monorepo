@@ -70,6 +70,37 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const ControlledModal = (args) => {
+  const [show, setShow] = React.useState(true);
+  return (
+    <div>
+      <Modal {...args} show={show} onClose={() => {}}>
+        <ModalHeader
+          dismissButton={false}
+          heading="This Modal Cannot Close"
+          subHeading="Overlay and Escape Close is Disabled"
+        />
+        <p className="px-5 pb-5">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius id
+          excepturi quisquam at, repudiandae officiis beatae consequuntur
+          doloribus? Accusamus libero aliquam fugiat dolorem deserunt recusandae
+          quaerat explicabo non ipsa culpa.
+        </p>
+        <ModalFooter
+          position="right"
+          backgroundColorClass="bg-base-100"
+          isBorder
+        >
+          <Button colors="white" onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
+};
+
 const Template = (args) => <Modal {...args} />;
 const CustomBodyTemplate = (args) => <Modal {...args} />;
 const HeaderWithIconTemplate = (args) => <Modal {...args} />;
@@ -85,7 +116,13 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { CustomBody, HeaderWithIcon, Primary, ScrollableModal };
+export {
+  ControlledModal,
+  CustomBody,
+  HeaderWithIcon,
+  Primary,
+  ScrollableModal
+};
 
 /** ------------------
  * CustomBody
