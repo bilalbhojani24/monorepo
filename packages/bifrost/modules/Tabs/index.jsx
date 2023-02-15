@@ -15,7 +15,8 @@ const Tabs = ({
   label,
   onTabChange,
   shape,
-  tabsArray
+  tabsArray,
+  disableFullWidthBorder
 }) => {
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
@@ -58,11 +59,15 @@ const Tabs = ({
             </select>
           </div>
           <div className="hidden sm:block">
-            <div className="border-base-200 border-b">
+            <div
+              className={twClassNames({
+                'border-base-200 border-b': !disableFullWidthBorder
+              })}
+            >
               <nav
                 className={twClassNames('-mb-px flex', {
                   'space-x-8': !isFullWidth,
-                  'border-b': isFullWidth,
+                  'border-0': isFullWidth,
                   'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
                     isContained
                 })}
@@ -104,7 +109,8 @@ Tabs.propTypes = {
       icon: PropTypes.oneOfType([PropTypes.object, PropTypes.node]),
       count: PropTypes.string
     })
-  ).isRequired
+  ).isRequired,
+  disableFullWidthBorder: PropTypes.bool
 };
 
 Tabs.defaultProps = {
@@ -114,7 +120,8 @@ Tabs.defaultProps = {
   isFullWidth: false,
   label: '',
   onTabChange: () => {},
-  shape: TAB_SHAPE[0]
+  shape: TAB_SHAPE[0],
+  disableFullWidthBorder: false
 };
 
 export default Tabs;

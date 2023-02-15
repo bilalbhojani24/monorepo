@@ -1,13 +1,27 @@
 import React from 'react';
 import { SourceOutlinedIcon } from 'assets/icons';
-import { TMAttachments, TMBadge, TMButton } from 'common/bifrostProxy';
+import {
+  TMAttachments,
+  TMBadge,
+  TMButton,
+  TMModal,
+  TMModalBody,
+  TMModalFooter,
+  TMModalHeader
+} from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import useTestCaseView from './useTestCaseView';
 
 const TestCaseBasicData = () => {
-  const { testCaseDetails, onAttachmentClick } = useTestCaseView();
+  const {
+    showImagePreview,
+    imageLink,
+    testCaseDetails,
+    onAttachmentClick,
+    closePreview
+  } = useTestCaseView();
 
   return (
     <>
@@ -158,6 +172,26 @@ const TestCaseBasicData = () => {
         />
         <div />
       </div>
+
+      <TMModal
+        show={showImagePreview}
+        withDismissButton
+        onOverlayClick={closePreview}
+        size="4xl"
+      >
+        <TMModalHeader
+          heading="Image Preview"
+          handleDismissClick={closePreview}
+        />
+        <TMModalBody className="block">
+          <img
+            src={imageLink}
+            alt={imageLink}
+            className="h-full max-h-full w-full object-contain"
+          />
+        </TMModalBody>
+        <TMModalFooter position="right" />
+      </TMModal>
     </>
   );
 };

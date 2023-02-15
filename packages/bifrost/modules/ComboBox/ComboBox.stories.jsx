@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import ComboboxLabel from '../ComboboxLabel';
+import ComboboxOptionGroup from '../ComboboxOptionGroup';
+import ComboboxOptionItem from '../ComboboxOptionItem';
+import ComboboxTrigger from '../ComboboxTrigger';
 
-import { CHECK_POSITION, COMBOBOX_OPTIONS } from './const/comboBoxConstants';
+import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
 
 const defaultConfig = {
@@ -18,10 +22,19 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    checkPosition: {
-      options: CHECK_POSITION,
-      control: { type: 'inline-radio' },
-      description: 'Position of check icon'
+    children: {
+      option: { type: 'string' },
+      defaultValue: (
+        <>
+          <ComboboxLabel>Assigned to</ComboboxLabel>
+          <ComboboxTrigger placeholder="Placeholder" />
+          <ComboboxOptionGroup>
+            {COMBOBOX_OPTIONS.map((item) => (
+              <ComboboxOptionItem key={item.value} option={item} />
+            ))}
+          </ComboboxOptionGroup>
+        </>
+      )
     },
     defaultValue: {
       option: { type: null },
@@ -34,24 +47,10 @@ const defaultConfig = {
       description: 'Multiple select enable or not',
       defaultValue: false
     },
-    label: {
-      option: { type: 'string' },
-      defaultValue: 'Assigned to',
-      description: 'Description for combobox'
-    },
     onChange: {
       option: { type: null },
       description: 'Callback function when combobox value is changed',
       defaultValue: () => {}
-    },
-    options: {
-      option: { type: null },
-      description: 'options for the combobox, array of objects',
-      defaultValue: COMBOBOX_OPTIONS
-    },
-    placeholder: {
-      option: { type: 'string' },
-      defaultValue: 'placeholder text...'
     },
     value: {
       option: { type: null },
@@ -72,6 +71,25 @@ const Placeholder = PlaceholderTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
+};
+
+export const ControlledCombobox = () => {
+  const [selected, setSelected] = useState([]);
+  return (
+    <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
+      <ComboboxLabel>Assigned to</ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {COMBOBOX_OPTIONS.map((item) => (
+          <ComboboxOptionItem
+            key={item.value}
+            option={item}
+            wrapperClassName="text-base-500"
+          />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
 };
 
 export default defaultConfig;

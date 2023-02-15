@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
@@ -13,7 +14,8 @@ const TextArea = (props) => {
     onChange,
     placeholder,
     rows,
-    value
+    value,
+    isResizable
   } = props;
 
   return (
@@ -27,7 +29,12 @@ const TextArea = (props) => {
           name={name}
           id={id}
           defaultValue={defaultValue}
-          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm"
+          className={twClassNames(
+            'border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
+            {
+              'resize-none': !isResizable
+            }
+          )}
           disabled={disabled}
           onChange={onChange}
           value={value}
@@ -47,7 +54,8 @@ TextArea.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
-  value: PropTypes.string
+  value: PropTypes.string,
+  isResizable: PropTypes.bool
 };
 TextArea.defaultProps = {
   id: '',
@@ -58,7 +66,8 @@ TextArea.defaultProps = {
   onChange: null,
   placeholder: '',
   rows: 3,
-  value: undefined
+  value: undefined,
+  isResizable: false
 };
 
 export default TextArea;

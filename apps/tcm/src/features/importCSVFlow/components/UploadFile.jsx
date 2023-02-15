@@ -61,11 +61,11 @@ const UploadFile = () => {
         title="Upload CSV/XLS"
         variant="buttons"
         trailingHeadNode={
-          <>
+          <div className="flex items-center justify-end">
             <TMButton variant="primary" onClick={handleProceedClick}>
               Proceed
             </TMButton>
-          </>
+          </div>
         }
       />
       <div className="mt-5 mb-2">Upload File:</div>

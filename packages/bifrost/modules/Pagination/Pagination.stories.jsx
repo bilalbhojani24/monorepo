@@ -1,15 +1,19 @@
 import React from 'react';
-import Pagination from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+
+import Pagination from './index';
 
 const defaultConfig = {
   title: 'Application/Components/Pagination',
   component: Pagination,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import Pagination from 'bifrost/Pagination'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import Pagination from 'bifrost/Pagination'"}
+        />
+      )
     }
   },
   argTypes: {
@@ -57,7 +61,14 @@ const defaultConfig = {
     withNumber: {
       option: { type: 'boolean' },
       defaultValue: true,
-      description: 'The pagination with numbers or with next/previous buttons only'
+      description:
+        'The pagination with numbers or with next/previous buttons only'
+    },
+    hideDetailsString: {
+      control: { type: 'boolean' },
+      description: 'Hide string with pagination details',
+      type: { summary: 'BOOLEAN', required: false },
+      defaultValue: false
     }
   },
   controls: {}

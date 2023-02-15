@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import { XMarkIcon } from '../Icon';
 
+import { MODAL_SIZE } from './const/modalConstants';
 import useSlideover from './useSlideover';
 
 import './styles.scss';
@@ -18,7 +19,7 @@ const Slideover = (props) => {
     onOverlayClick,
     show,
     backgroundOverlay,
-    slideoverWidth,
+    size,
     closeButtonOutside,
     topMarginElementId
   } = props;
@@ -103,8 +104,19 @@ const Slideover = (props) => {
 
           <div
             className={twClassNames(
-              `relative flex h-full flex-col overflow-auto bg-white shadow-xl  inset-0`,
-              slideoverWidth
+              `relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0`,
+              {
+                'sm:max-w-sm': MODAL_SIZE[0] === size,
+                'sm:max-w-md': MODAL_SIZE[1] === size,
+                'sm:max-w-lg': MODAL_SIZE[2] === size,
+                'sm:max-w-xl': MODAL_SIZE[3] === size,
+                'sm:max-w-2xl': MODAL_SIZE[4] === size,
+                'sm:max-w-3xl': MODAL_SIZE[5] === size,
+                'sm:max-w-4xl': MODAL_SIZE[6] === size,
+                'sm:max-w-5xl': MODAL_SIZE[7] === size,
+                'sm:max-w-6xl': MODAL_SIZE[8] === size,
+                'sm:max-w-full': MODAL_SIZE[9] === size
+              }
             )}
           >
             {children}
@@ -122,7 +134,7 @@ Slideover.propTypes = {
   onEscPress: PropTypes.func,
   show: PropTypes.bool,
   backgroundOverlay: PropTypes.bool,
-  slideoverWidth: PropTypes.string,
+  size: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
   topMarginElementId: PropTypes.string
 };
@@ -134,7 +146,7 @@ Slideover.defaultProps = {
   onEscPress: null,
   show: false,
   backgroundOverlay: true,
-  slideoverWidth: 'w-96',
+  size: MODAL_SIZE[2],
   closeButtonOutside: false,
   topMarginElementId: ''
 };

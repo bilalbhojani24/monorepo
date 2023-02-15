@@ -267,3 +267,66 @@ export const StackedNotification = () => (
     <NotificationsContainer />
   </>
 );
+
+export const MarginTop = () => (
+  <>
+    <div className="flex h-screen items-center justify-center space-x-3">
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Successfully saved!"
+              description="Anyone with a link can now view this file."
+              actionButtons={null}
+              headerIcon={
+                <CheckCircleIcon className="text-success-400 h-6 w-6" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-left',
+              duration: 4000,
+              autoClose: true,
+              id: 'one'
+            }
+          )
+        }
+      >
+        Top Left
+      </Button>
+      <Button
+        onClick={() =>
+          notify(
+            <Notifications
+              title="Movement"
+              isCondensed
+              actionButtons={(toastData) => (
+                <Button
+                  variant="minimal"
+                  colors="brand"
+                  onClick={() => {
+                    console.log(toastData);
+                  }}
+                >
+                  Undo
+                </Button>
+              )}
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 4000
+            }
+          )
+        }
+      >
+        Top Right
+      </Button>
+    </div>
+    <NotificationsContainer containerStyle={{ top: '100px' }} />
+  </>
+);

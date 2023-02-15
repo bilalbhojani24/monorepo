@@ -8,7 +8,6 @@ import {
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
-import UnsavedChanges from './UnsavedChanges';
 import {
   TMAttachments,
   TMButton,
@@ -18,7 +17,6 @@ import {
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTextArea,
   TMTooltip,
   TMTooltipBody,
   TMTooltipHeader
@@ -32,12 +30,12 @@ import {
 } from '../const/addTestCaseConst';
 
 import StepComponent from './StepComponent';
+import UnsavedChanges from './UnsavedChanges';
 import useAddEditTestCase from './useAddEditTestCase';
 import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
-    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -57,7 +55,7 @@ const AddEditTestCase = () => {
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    tagVerifierFunction,
+    // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
@@ -68,11 +66,11 @@ const AddEditTestCase = () => {
 
   useEffect(() => {
     initFormValues();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     return () => {
       hideTestCaseAddEditPage(null, true);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -82,7 +80,7 @@ const AddEditTestCase = () => {
           title={isTestCaseEditing ? 'Edit Test Case' : 'Create Test Case'}
           variant="buttons"
           trailingHeadNode={
-            <>
+            <div className="flex items-center justify-end">
               <TMButton
                 colors="white"
                 variant="primary"
@@ -100,7 +98,7 @@ const AddEditTestCase = () => {
               >
                 {isTestCaseEditing ? 'Update Case' : 'Create'}
               </TMButton>
-            </>
+            </div>
           }
         />
       </div>
@@ -249,13 +247,15 @@ const AddEditTestCase = () => {
                 />
               </div>
               <div className="flex-1">
-                <TMSelectMenu
+                <TMComboBox
                   value={
-                    testCaseFormData.owner &&
-                    usersArrayMapped?.find(
-                      (item) => item.value === testCaseFormData.owner
-                    )
+                    testCaseFormData.owner
+                      ? usersArrayMapped?.find(
+                          (item) => item.value === testCaseFormData.owner
+                        )
+                      : { label: '', value: '' } // to be updated to null
                   }
+                  isMulti={false}
                   placeholder="Select owner"
                   checkPosition="right"
                   label="Owner"
@@ -406,8 +406,9 @@ const AddEditTestCase = () => {
       <AddTagModal
         isVisible={isAddTagModalShown}
         onClose={hideAddTagsModal}
-        existingTags={testCaseFormData?.tags?.map((item) => item.value) || []}
-        verifierFunction={tagVerifierFunction}
+        existingTags={tagsArray}
+        selectedTags={testCaseFormData?.tags?.map((item) => item.value) || []}
+        // verifierFunction={tagVerifierFunction}
       />
       <AddIssuesModal
         isVisible={isAddIssuesModalShown}
