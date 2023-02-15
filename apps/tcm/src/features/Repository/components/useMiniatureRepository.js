@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getTestCasesAPI } from 'api/testcases.api';
+import {
+  getTestCasesAPI,
+  getTestCasesSearchFilterAPI
+} from 'api/testcases.api';
 
 const useMiniatureRepository = ({ projectId }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
@@ -7,7 +10,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFoldersLoading, setIsFoldersLoading] = useState(true);
   const [isTestCasesLoading, setIsTestCasesLoading] = useState(true);
-  const [isSearchFilterView, setIsSearchFilterView] = useState(null);
+  const [isSearchFilterView, setIsSearchFilterView] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
   const [allTestCases, setAllTestCases] = useState(null);
   const [allFolders, setAllFolders] = useState(null);
@@ -26,7 +29,24 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const fetchAllTestCases = () => {
-    if (selectedFolder?.id) {
+    if (Object.keys(filterOptions).length > 0) {
+      // search - filter
+      setIsTestCasesLoading(true);
+      setIsSearchFilterView(true);
+      getTestCasesSearchFilterAPI({
+        projectId,
+        props: filterOptions
+      }).then((res) => {
+        const testCases = res.test_cases.map((item) => ({
+          ...item,
+          folders: res?.folders?.[item.id] || null
+        }));
+        setAllTestCases(testCases);
+        // (updateTestCasesListLoading(false));
+        setIsTestCasesLoading(false);
+      });
+    } else if (selectedFolder?.id) {
+      setIsSearchFilterView(false);
       setIsTestCasesLoading(true);
       getTestCasesAPI({
         projectId,
@@ -43,6 +63,7 @@ const useMiniatureRepository = ({ projectId }) => {
           // setSearchParams({});
         });
     } else {
+      setIsSearchFilterView(false);
       setAllTestCases([]);
       setIsTestCasesLoading(false);
     }
@@ -53,13 +74,16 @@ const useMiniatureRepository = ({ projectId }) => {
   };
   const onFilterChange = (params) => {
     setFilterOptions(params);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
     fetchAllTestCases();
-  }, [selectedFolder, currentPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFolder, currentPage, filterOptions]);
 
   return {
+    filterOptions,
     metaPage,
     isSearchFilterView,
     allTestCases,

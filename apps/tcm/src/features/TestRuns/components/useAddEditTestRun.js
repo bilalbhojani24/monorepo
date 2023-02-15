@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
-import { addTestRunAPI, verifyTagAPI } from 'api/testruns.api';
-import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { addTestRunAPI } from 'api/testruns.api';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   addTestRun,
@@ -114,7 +114,7 @@ const useAddEditTestRun = () => {
   const imageUploadRTEHelper = (files) =>
     imageUploadRTEHandlerAPI({ files, projectId });
 
-  const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
+  // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const createTestRunHandler = () => {
     if (!testRunFormData.test_run.name) {
@@ -169,7 +169,7 @@ const useAddEditTestRun = () => {
     showAddIssuesModal,
     hideAddIssuesModal,
     hideAddTagsModal,
-    tagVerifierFunction,
+    // tagVerifierFunction,
     addIssuesSaveHelper,
     createTestRunHandler,
     hideTestCasesModal,

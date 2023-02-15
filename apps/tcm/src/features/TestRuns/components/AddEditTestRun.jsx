@@ -27,7 +27,6 @@ const AddEditTestRun = () => {
     issuesArray,
     testRunFormData,
     createTestRunHandler,
-    cancelCreation,
     handleTestRunInputFieldChange,
     showAddTagsModal,
     showAddIssuesModal,
@@ -35,7 +34,6 @@ const AddEditTestRun = () => {
     hideAddIssuesModal,
     hideAddTagsModal,
     imageUploadRTEHelper,
-    tagVerifierFunction,
     addIssuesSaveHelper,
     hideAddTestRunForm
   } = useAddEditTestRun();
@@ -86,6 +84,7 @@ const AddEditTestRun = () => {
                   id="test-run-name"
                   errorText={inputError ? "This field can't be left empty" : ''}
                   label="Test Run Name*"
+                  placeholder="Enter test run name"
                   onChange={(e) =>
                     handleTestRunInputFieldChange('name', e.currentTarget.value)
                   }

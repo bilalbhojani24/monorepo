@@ -7,8 +7,8 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 import { MiniatureRepository } from 'features/Repository';
-import PropTypes from 'prop-types';
 
+// import PropTypes from 'prop-types';
 import useAddEditTestRun from './useAddEditTestRun';
 
 const TestCasesExplorer = () => {
@@ -34,7 +34,7 @@ const TestCasesExplorer = () => {
         handleDismissClick={hideTestCasesModal}
       />
       <TMModalBody className="">
-        <div className="border-base-300 mb-4 h-[55rem] shrink-0 grow overflow-hidden rounded-md border">
+        <div className="border-base-300 mb-4 h-full shrink-0 grow overflow-hidden rounded-md border">
           <MiniatureRepository
             projectId={projectId}
             onItemSelectionCb={onItemSelectionHandler}
@@ -52,7 +52,7 @@ const TestCasesExplorer = () => {
           wrapperClassName="ml-3"
           onClick={selectTestCasesConfirm}
         >
-          Select Test Cases
+          {`Select ${selectedTCIDs?.length || ''} Test Cases`}
         </TMButton>
       </TMModalFooter>
     </TMModal>

@@ -1,5 +1,9 @@
 import React from 'react';
-import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
+import {
+  FindInPageOutlinedIcon,
+  InfoOutlinedIcon,
+  SearchOffOutlinedIcon
+} from 'assets/icons';
 import {
   TMEmptyState,
   TMTooltip,
@@ -21,6 +25,7 @@ const MiniatureRepository = ({
   selectedTestCases
 }) => {
   const {
+    filterOptions,
     metaPage,
     selectedFolder,
     allTestCases,
@@ -42,7 +47,7 @@ const MiniatureRepository = ({
             <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
               {allFolders?.length || isSearchFilterView ? (
                 <>
-                  <Filter onFilterChange={onFilterChange} />
+                  <Filter onFilterChange={onFilterChange} isMini />
                   {selectedFolder && (
                     <div className="border-base-300 w-full border-l">
                       <div className="border-base-200 w-full border-b p-4">
@@ -143,20 +148,37 @@ const MiniatureRepository = ({
 
           <aside className="lg:order-first lg:block lg:shrink-0">
             <div className="relative flex h-full w-96 flex-col overflow-hidden">
-              <div className="border-base-300 flex w-full items-center border-b px-3 py-4">
+              <div className="border-base-300  flex h-12 w-full  items-center border-b py-0.5 px-3">
                 <span className="text-base">Folders</span>
               </div>
 
               <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
                 {isFoldersLoading ? <Loader wrapperClassName="h-full" /> : null}
-                <FolderExplorer
-                  projectId={projectId}
-                  folderId={selectedFolder?.id || null}
-                  allFolders={null}
-                  isSingleSelect
-                  onFolderClick={onFolderClick}
-                  onFoldersUpdate={onFoldersUpdate}
-                />
+                {isSearchFilterView ? (
+                  <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+                    <TMEmptyState
+                      // title=""
+                      title={`We found ${
+                        allTestCases?.length
+                      } Search Results for '${
+                        filterOptions?.q || ''
+                      }' across all folders`}
+                      mainIcon={
+                        <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                      }
+                      buttonProps={null}
+                    />
+                  </div>
+                ) : (
+                  <FolderExplorer
+                    projectId={projectId}
+                    folderId={selectedFolder?.id || null}
+                    allFolders={allFolders}
+                    isSingleSelect
+                    onFolderClick={onFolderClick}
+                    onFoldersUpdate={onFoldersUpdate}
+                  />
+                )}
               </div>
             </div>
           </aside>
