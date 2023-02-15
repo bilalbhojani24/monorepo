@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+import { getLatestSessionStatus } from '../slices/reportLoadingSlice';
+import { checkSessionStatus } from '../slices/reportLoadingThunks';
 
 const useReportLoading = () => {
-  const [sessionState, setSessionState] = useState(
-    REPORT_LOADING_STATES.CONNECTING
-  );
+  const sessionState = useSelector(getLatestSessionStatus);
+
+  const dispatch = useDispatch();
 
   const navigateToPath = useNavigate();
 
@@ -15,14 +17,8 @@ const useReportLoading = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setSessionState(REPORT_LOADING_STATES.LAUNCHING);
-    }, 3000);
-
-    setTimeout(() => {
-      setSessionState(REPORT_LOADING_STATES.RECORDING);
-    }, 6000);
-  }, []);
+    dispatch(checkSessionStatus());
+  }, [dispatch]);
 
   return { sessionState, onCancelClicked };
 };

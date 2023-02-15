@@ -38,7 +38,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
             id="testName"
             label="Test Name"
             placeholder="Enter Test Name"
-            value="Wikipedia-v2.0.3-Google-Pixel-7-Pro-13_01_2022-15_42_21"
+            value={`${selectedApp?.name}-v${selectedApp?.version}-${selectedDevice?.manufacturer}-${selectedDevice?.model}`}
           />
         </div>
 

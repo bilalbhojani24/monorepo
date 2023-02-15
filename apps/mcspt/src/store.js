@@ -1,16 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import counterReducer from './features/Counter/slices/counterSlice';
 import { homeReducer } from './features/Home';
-import { newPerformnceSessionReducer } from './features/NewPerformanceSession';
+import { newPerformanceSessionReducer } from './features/NewPerformanceSession';
+import { reportLoadingReducer } from './features/ReportLoading';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    newPerformnceSession: newPerformnceSessionReducer,
-    home: homeReducer
+    newPerformanceSession: newPerformanceSessionReducer,
+    home: homeReducer,
+    reportLoading: reportLoadingReducer
   }
 });
 
 // only enable in dev mode
-window.store = store;
+if (IS_DEV) {
+  window.mcpDevRefs = {
+    store,
+    redirectToMain: () => {
+      window.location.href = 'http://localhost:2099/main_window';
+    }
+  };
+}

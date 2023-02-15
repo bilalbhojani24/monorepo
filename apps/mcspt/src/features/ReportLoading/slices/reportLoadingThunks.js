@@ -1,0 +1,41 @@
+import { fetchSessionStatus } from '../../../api/reportLoading';
+import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+
+import { updateSessionStatus } from './reportLoadingSlice';
+
+export const checkSessionStatus = () => async (dispatch, getState) => {
+  try {
+    const currentSessionId =
+      getState()?.newPerformanceSession?.sessionDetails?.sessionID;
+
+    const response = await fetchSessionStatus(currentSessionId);
+
+    if (response?.state === REPORT_LOADING_STATES.FAILED) {
+      throw response;
+    }
+
+    if (response?.state !== REPORT_LOADING_STATES.COMPLETE) {
+      const sessionStatusPollingTimeoutId = setTimeout(() => {
+        dispatch(checkSessionStatus());
+      }, 5000);
+
+      dispatch(
+        updateSessionStatus({
+          status: response.state,
+          latestPollingTimeoutId: sessionStatusPollingTimeoutId
+        })
+      );
+    }
+
+    if (response?.state === REPORT_LOADING_STATES.COMPLETE) {
+      const latestSessionPollingTimeoutId =
+        getState()?.reportLoading?.latestPollingTimeoutId;
+
+      clearTimeout(latestSessionPollingTimeoutId);
+    }
+  } catch (error) {
+    if (error?.response?.status !== 463) {
+      throw error;
+    }
+  }
+};

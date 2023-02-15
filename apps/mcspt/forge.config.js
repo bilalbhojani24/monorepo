@@ -36,7 +36,10 @@ module.exports = {
               }
             }
           ]
-        }
+        },
+        devContentSecurityPolicy:
+          "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*; img-src https: http: data: blob: about:;",
+        port: 2099
       }
     }
   ]

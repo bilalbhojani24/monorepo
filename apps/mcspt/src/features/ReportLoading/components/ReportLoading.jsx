@@ -8,18 +8,20 @@ import {
   MdRadioButtonChecked
 } from '@browserstack/bifrost';
 
+import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+
 import useReportLoading from './useReportLoading';
 
 const sessionStateMap = {
-  CONNECTING: {
+  [REPORT_LOADING_STATES.CONNECTING]: {
     icon: <MdPhoneAndroid />,
     statusHeading: 'Connecting to the Google Pixel 7 Pro...'
   },
-  LAUNCHING: {
+  [REPORT_LOADING_STATES.LAUNCHING]: {
     icon: <MdApps />,
     statusHeading: 'Launching the Wikipedia app...'
   },
-  RECORDING: {
+  [REPORT_LOADING_STATES.RECORDING]: {
     icon: <MdRadioButtonChecked className="text-danger-600" />,
     statusHeading: 'Performance Data is being Recorded from your device'
   }
@@ -40,7 +42,7 @@ const ReportLoading = () => {
           </div>
         </div>
 
-        {sessionState !== 'RECORDING' && (
+        {sessionState !== REPORT_LOADING_STATES.RECORDING && (
           <Button
             icon={
               <div className="mr-3">
@@ -57,7 +59,7 @@ const ReportLoading = () => {
           </Button>
         )}
 
-        {sessionState === 'RECORDING' && (
+        {sessionState === REPORT_LOADING_STATES.RECORDING && (
           <div className="bg-danger-50 flex items-center rounded-md p-2">
             <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
               13:26

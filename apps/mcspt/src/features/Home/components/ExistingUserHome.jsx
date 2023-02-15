@@ -140,7 +140,7 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
 
 ExistingUserHome.propTypes = {
   newTestClickHandler: PropTypes.func,
-  previousUserSessions: PropTypes.arrayOf({})
+  previousUserSessions: PropTypes.arrayOf(PropTypes.object)
 };
 
 ExistingUserHome.defaultProps = {

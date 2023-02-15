@@ -6,6 +6,7 @@ import {
   getSelectedDevice,
   setCurrentSetupStep
 } from '../slices/newPerformanceSessionSlice';
+import { triggerSession } from '../slices/newPerformanceSessionThunks';
 
 const useConfirmStartTesting = () => {
   const selectedDevice = useSelector(getSelectedDevice);
@@ -20,7 +21,7 @@ const useConfirmStartTesting = () => {
   };
 
   const startTestSession = () => {
-    navigateToPath('/generate');
+    dispatch(triggerSession(navigateToPath));
   };
 
   return { selectedDevice, selectedApp, navigateToStep, startTestSession };
