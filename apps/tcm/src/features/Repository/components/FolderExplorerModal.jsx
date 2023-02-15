@@ -62,7 +62,7 @@ const FolderExplorerModal = ({
           wrapperClassName="ml-3"
           onClick={moveFolderOnOkHandler}
         >
-          Move Folder
+          OK
         </TMButton>
       </TMModalFooter>
     </TMModal>

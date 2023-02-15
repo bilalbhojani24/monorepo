@@ -24,7 +24,7 @@ const AddEditFolderModal = ({
   isEditFolder,
   currentData
 }) => {
-  const functionName = isEditFolder ? 'Edit' : 'Add';
+  const functionName = isEditFolder ? 'Edit' : 'Create';
   const { hideFolderModal, updateFolders, renameFolderHelper } =
     useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
@@ -131,8 +131,8 @@ const AddEditFolderModal = ({
           onClick={createFolderHandler}
         >
           {isSubFolder
-            ? `Create Sub Folder`
-            : `Create Folder`}
+            ? `${functionName} Sub Folder`
+            : `${functionName} Folder`}
         </TMButton>
       </TMModalFooter>
     </TMModal>
