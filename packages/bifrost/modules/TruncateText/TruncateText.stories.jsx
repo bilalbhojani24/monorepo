@@ -21,16 +21,21 @@ const defaultConfig = {
   argTypes: {
     children: {
       option: { type: null },
-      defaultValue:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt, officia sed vero perspiciatis neque labore aspernatur numquam temporibus suscipit deserunt nulla recusandae voluptates quos iure excepturi exercitationem, nisi a?'
+      defaultValue: (
+        <span>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
+          incidunt, officia sed vero perspiciatis neque labore aspernatur
+          numquam temporibus suscipit deserunt nulla recusandae voluptates quos
+          iure excepturi exercitationem, nisi a? Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Unde labore quod temporibus cumque,
+          eaque aperiam maxime praesentium. Earum quidem ipsum quia a similique
+          est, maxime vero quos odit beatae officia.
+        </span>
+      )
     },
     wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: ''
-    },
-    truncateByLine: {
-      option: { type: 'number' },
-      defaultValue: 2
+      defaultValue: 'line-clamp-1'
     },
     headerTooltipProps: {
       option: { type: 'object' },

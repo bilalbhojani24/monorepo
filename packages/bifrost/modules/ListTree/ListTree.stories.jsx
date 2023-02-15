@@ -7,6 +7,7 @@ import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
 import { MdFolderSpecial } from '../Icon';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
+import TruncateText from '../TruncateText';
 
 import ListTree from './index';
 
@@ -46,7 +47,17 @@ const listTreeDemoDataSet = [
     name: 'file A',
     contents: [
       {
-        name: 'file A-1 Really long file name case. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+        name: (
+          <TruncateText wrapperClassName="line-clamp-1">
+            file A-1 Really long file name case. Lorem Ipsum is simply dummy
+            text of the printing and typesetting industry. Lorem Ipsum has been
+            the industrys standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to make a
+            type specimen book. It has survived not only five centuries, but
+            also the leap into electronic typesetting, remaining essentially
+            unchanged.
+          </TruncateText>
+        ),
         contents: null
       },
       {

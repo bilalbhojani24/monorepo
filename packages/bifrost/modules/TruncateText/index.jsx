@@ -21,7 +21,6 @@ const variantsMapping = {
 const TruncateText = ({
   children,
   wrapperClassName,
-  truncateByLine,
   headerTooltipProps,
   tooltipTriggerIcon,
   hidetooltipTriggerIcon,
@@ -45,7 +44,7 @@ const TruncateText = ({
 
   useEffect(() => {
     showHeaderTooltip();
-  }, [children]);
+  }, [children, wrapperClassName]);
 
   return (
     <div
@@ -59,7 +58,10 @@ const TruncateText = ({
     >
       <Component
         className={twClassNames(
-          `line-clamp-${truncateByLine} break-all`,
+          `break-all`,
+          {
+            'line-clamp-1': !wrapperClassName.includes('line-clamp-')
+          },
           wrapperClassName
         )}
         ref={headerNameRef}
@@ -95,7 +97,6 @@ const TruncateText = ({
 TruncateText.propTypes = {
   children: PropTypes.node,
   wrapperClassName: PropTypes.string,
-  truncateByLine: PropTypes.number,
   headerTooltipProps: PropTypes.shape(TooltipPropTypes),
   tooltipTriggerIcon: PropTypes.node,
   hidetooltipTriggerIcon: PropTypes.bool,
@@ -105,7 +106,6 @@ TruncateText.propTypes = {
 TruncateText.defaultProps = {
   children: null,
   wrapperClassName: '',
-  truncateByLine: 2,
   headerTooltipProps: {},
   tooltipTriggerIcon: <MdErrorOutline className="max-h-4" />,
   hidetooltipTriggerIcon: false,
