@@ -13,3 +13,9 @@ export const getFieldMapping = async ({ importId, field, mapped_field }) =>
   await fetchGet(
     `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}`
   );
+
+export const getUsers = async (id) =>
+  await fetchGet(`/api/v1/projects/${id}/users`);
+
+export const postMappingData = async ({ importId, payload }) =>
+  await fetchPost(`/api/v1/import/custom/csv/${importId}/preview`, payload);

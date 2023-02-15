@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
-import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
+import {
+  IMPORT_CSV_STEPS,
+  MAP_FIELDS,
+  PREVIEW_AND_CONFIRM_IMPORT,
+  UPLOAD_FILE
+} from '../const/importCSVConstants';
 import {
   setCSVConfigurations,
-  setFieldsMapping,
-  setValueMappings
+  setFieldsMapping
 } from '../slices/importCSVSlice';
 
 import ImportCSVSteps from './ImportCSVSteps';
@@ -20,38 +24,27 @@ const ImportCSV = () => {
     useImportCSV();
 
   const getCurrentScreen = () => {
-    if (currentCSVScreen === 'uploadFile') return <UploadFile />;
-    if (currentCSVScreen === 'mapFields') {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(
-        mappingFieldsData?.field_mappings
-      )) {
-        dispatch(setFieldsMapping({ key, value }));
+    if (currentCSVScreen === UPLOAD_FILE) return <UploadFile />;
+    if (currentCSVScreen === MAP_FIELDS) {
+      if (mappingFieldsData.field_mappings) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const [key, value] of Object.entries(
+          mappingFieldsData?.field_mappings
+        )) {
+          dispatch(setFieldsMapping({ key, value }));
+        }
       }
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(
-        mappingFieldsData?.value_mappings
-      )) {
-        dispatch(setValueMappings({ key, value }));
-      }
-      return (
-        <MapFields
-          importId={mappingFieldsData?.import_id}
-          importFields={mappingFieldsData.import_fields ?? []}
-          defaultFields={mappingFieldsData?.fields_available?.default ?? []}
-          customFields={mappingFieldsData?.fields_available?.custom ?? []}
-          // fieldMappings={mappingFieldsData?.field_mappings}
-          isCondensed
-        />
-      );
+      return <MapFields />;
     }
-    // if (currentCSVScreen === 'reviewAndConfirmImport')
+    if (currentCSVScreen === PREVIEW_AND_CONFIRM_IMPORT)
+      return <>Last Screen</>;
     //   return <ConfirmCSVUpload projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
 
   useEffect(() => {
     dispatch(setCSVConfigurations());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
