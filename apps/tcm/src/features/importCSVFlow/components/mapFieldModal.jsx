@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Table,
   TableBody,
@@ -17,28 +16,39 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 
-import {
-  MAP_MODAL_COLUMNS,
-  VALUE_MAPPING_OPTIONS
-} from '../const/importCSVConstants';
-import { setMapFieldModalConfig } from '../slices/importCSVSlice';
+import { MAP_MODAL_COLUMNS } from '../const/importCSVConstants';
+
+import useMapFields from './useMapFields';
 
 const MapFieldModal = ({ modalConfig, valueMappings }) => {
-  const dispatch = useDispatch();
-  const rowRef = useRef(null);
-  const key = Object.keys(valueMappings)?.[0];
+  const modalRowRef = useRef(null);
+  const key = modalConfig?.field;
   const value = valueMappings?.[key];
+  const {
+    handleSaveClick,
+    onModalCloseHandler,
+    handleModalSelectMenuChange,
+    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
+  } = useMapFields();
 
+  // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
-    rowRef.current = Object.keys(value)?.map((field) => ({
-      displayOptions: VALUE_MAPPING_OPTIONS[key.toUpperCase()],
-      csvValue: field
-    }));
+    modalRowRef.current = Object.keys(value)?.map((field) => {
+      const displayOptions =
+        VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
+          key.split(' ').join('').toUpperCase()
+        ];
+      let defaultSelected = displayOptions[0];
+      displayOptions.forEach((item) => {
+        if (item.label.toLowerCase() === value[field]) defaultSelected = item;
+      });
+      return {
+        displayOptions,
+        csvValue: field,
+        defaultSelected
+      };
+    });
   }
-
-  const onModalCloseHandler = () => {
-    dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
-  };
 
   return (
     <TMModal
@@ -55,7 +65,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           Values for {modalConfig?.field} are mapped by default. You can update
           the mapping if needed:
         </div>
-        <Table wrapperClass="mb-4">
+        <Table containerWrapperClass="mb-4 mt-4">
           <TableHead wrapperClass="w-full rounded-xs">
             <TableRow wrapperClass="relative">
               {MAP_MODAL_COLUMNS.map((col) => (
@@ -66,24 +76,15 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowRef?.current?.map((row) => (
-              <TableRow key={row.field}>
+            {modalRowRef?.current?.map((row) => (
+              <TableRow key={key}>
                 <TableCell wrapperClass="py-1">{row.csvValue}</TableCell>
                 <TableCell wrapperClass="py-2 mr-4">
                   <TMSelectMenu
                     checkPosition="right"
-                    options={row?.displayOptions}
-                    /* eslint-disable react/jsx-props-no-spreading */
-                    // {...(row.mappedField.defaultValue.label && {
-                    //   defaultValue: row.mappedField.defaultValue
-                    // })}
-                    // {...(!row.mappedField.defaultValue.label && {
-                    //   defaultValue: {
-                    //     label: 'Ignore Column',
-                    //     value: 'Ignore Column'
-                    //   }
-                    // })}
-                    // onChange={handleSelectMenuChange(row.field)}
+                    options={row?.displayOptions || []}
+                    defaultValue={row?.defaultSelected}
+                    onChange={handleModalSelectMenuChange(key, row.csvValue)}
                   />
                 </TableCell>
               </TableRow>
@@ -98,10 +99,14 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         />
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white">
+        <TMButton
+          variant="primary"
+          colors="white"
+          onClick={onModalCloseHandler}
+        >
           Cancel
         </TMButton>
-        <TMButton variant="primary" colors="brand">
+        <TMButton variant="primary" colors="brand" onClick={handleSaveClick}>
           Save
         </TMButton>
       </TMModalFooter>
