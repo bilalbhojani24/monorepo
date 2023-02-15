@@ -198,38 +198,29 @@ ScrollableModal.args = {
       />
       <ModalBody className="py-2">
         <h1>First am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo,
+          eveniet? Iusto necessitatibus repellendus minima corrupti, facilis
+          quibusdam blanditiis enim esse ab nihil eveniet, vitae ea minus
+          perspiciatis modi nemo cum! Similique autem saepe blanditiis beatae
+          quidem iusto quis aspernatur incidunt rem aut est corporis vero,
+          cumque in, commodi, facilis minus a. Numquam impedit excepturi autem
+          nam harum ut corrupti est! Harum ex optio ut beatae eveniet est, ipsam
+          molestias architecto cupiditate exercitationem. Impedit veniam quidem
+          totam harum necessitatibus dolor quis neque sint quod! Ipsa hic nam
+          iusto minima, officiis nihil. Cum, ad eligendi! Voluptatum dolorum
+          sapiente non doloribus, ipsam soluta eius corrupti ratione commodi
+          corporis expedita dolore nisi aliquam possimus in deleniti nihil
+          minima natus maxime aut est! Ipsum, deleniti! In, architecto porro.
+          Libero ad voluptas delectus! Ullam quia magnam quae atque dicta vel
+          nobis suscipit tenetur aliquid commodi. Dicta error sapiente, commodi
+          necessitatibus id amet. Impedit, aliquam? Natus, a. Magni sint
+          necessitatibus nam nesciunt, non nisi laborum maiores quod fugit
+          dolorem provident minus ipsum in explicabo soluta asperiores eum porro
+          voluptatem, fuga exercitationem commodi et delectus vitae expedita!
+          Neque.
+        </p>
+
         <h1>Last am Modal Body</h1>
       </ModalBody>
       <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>
