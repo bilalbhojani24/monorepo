@@ -88,7 +88,7 @@ const TestCases = () => {
         isFoldersLoading ? (
           <>
             <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
-              {isTestCasesLoading || isFoldersLoading ? (
+              {isTestCasesLoading ? (
                 <Loader wrapperClassName="h-full" />
               ) : (
                 <>
