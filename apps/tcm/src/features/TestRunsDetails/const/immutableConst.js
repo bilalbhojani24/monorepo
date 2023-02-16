@@ -13,3 +13,30 @@ export const TR_DROP_OPTIONS = [
     divider: true
   }
 ];
+
+export const STATUS_OPTIONS = [
+  {
+    label: 'Untested',
+    value: 'untested'
+  },
+  {
+    label: 'Passed',
+    value: 'passed'
+  },
+  {
+    label: 'Failed',
+    value: 'failed'
+  },
+  {
+    label: 'Retest',
+    value: 'restest'
+  },
+  {
+    label: 'Blocked',
+    value: 'blocked'
+  },
+  {
+    label: 'Skipped',
+    value: 'skipped'
+  }
+];

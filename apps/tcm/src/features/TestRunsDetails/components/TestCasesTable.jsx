@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {
   TMPagination,
+  TMSelectMenu,
   TMTable,
   TMTableBody,
   TMTableCell,
@@ -10,6 +11,8 @@ import {
   TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
+
+import { STATUS_OPTIONS } from '../const/immutableConst';
 
 import useTRTCFolders from './useTRTCFolders';
 
@@ -59,9 +62,15 @@ const TestCasesTable = () => {
     },
     {
       name: 'STATUS',
-      class: 'w-[5%]',
-      key: 'priority',
-      cell: (rowData) => <span className="capitalize">{rowData.priority}</span>,
+      class: 'w-[6%]',
+      key: 'status',
+      cell: (rowData) => (
+        <TMSelectMenu
+          options={STATUS_OPTIONS}
+          // onClick={onDropDownChange}
+        />
+      ),
+      // <span className="capitalize">{rowData.status}</span>,
       maxWidth: 'max-w-[10%]'
     }
   ];

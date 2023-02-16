@@ -13,7 +13,8 @@ import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
-  const { showIssuesHandler, testRunDetails } = useTestRunDetails();
+  const { showIssuesHandler, testRunDetails, onDropDownChange } =
+    useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
@@ -33,6 +34,7 @@ const TopSection = () => {
             <TMDropdown
               triggerVariant="menu-button"
               options={TR_DROP_OPTIONS}
+              onClick={onDropDownChange}
             />
           </>
         }
