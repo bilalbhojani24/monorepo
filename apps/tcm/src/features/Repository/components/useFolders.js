@@ -172,13 +172,10 @@ export default function useFolders() {
     navigate(route);
   };
 
-  const folderActionsHandler = ({ e, folder }) => {
+  const folderActionsHandler = ({ e, folder, selectedOption }) => {
     if (e?.currentTarget?.textContent) {
-      const isCreateTestCase =
-        e.currentTarget.textContent === folderDropOptions[0].body;
-      dispatch(
-        setFolderModalConf({ modal: e.currentTarget.textContent, folder })
-      );
+      const isCreateTestCase = selectedOption?.id === folderDropOptions[0].id;
+      dispatch(setFolderModalConf({ modal: selectedOption?.id, folder }));
 
       if (isCreateTestCase) {
         // create test case

@@ -58,10 +58,10 @@ const useTestRuns = () => {
     };
   };
 
-  const onDropDownChange = (e, selectedItem) => {
+  const onDropDownChange = (e, selectedOption, selectedItem) => {
     dispatch(setSelectedTestRun(selectedItem));
-    switch (e.currentTarget.textContent) {
-      case TR_DROP_OPTIONS[0].body: // edit
+    switch (selectedOption?.id) {
+      case TR_DROP_OPTIONS[0].id: // edit
         navigate(
           routeFormatter(AppRoute.TEST_RUNS_EDIT, {
             projectId,
@@ -69,15 +69,15 @@ const useTestRuns = () => {
           })
         );
         break;
-      case TR_DROP_OPTIONS[1].body: // assign
+      case TR_DROP_OPTIONS[1].id: // assign
         dispatch(setIsVisibleProps({ key: 'assignTestRunModal', value: true }));
         break;
-      case TR_DROP_OPTIONS[2].body: // close_run
+      case TR_DROP_OPTIONS[2].id: // close_run
         dispatch(
           setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
         );
         break;
-      case TR_DROP_OPTIONS[3].body: // delete
+      case TR_DROP_OPTIONS[3].id: // delete
         dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
         break;
       default:

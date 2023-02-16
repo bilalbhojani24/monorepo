@@ -112,7 +112,9 @@ const AllProjects = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          onClick={(e) => onDropDownChange(e, data)}
+          onClick={(e, selectedOption) =>
+            onDropDownChange(e, selectedOption, data)
+          }
           options={dropDownOptions}
         />
       )

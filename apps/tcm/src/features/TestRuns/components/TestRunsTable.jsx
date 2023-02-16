@@ -110,7 +110,9 @@ const TestRunsTable = () => {
               ? TR_DROP_OPTIONS
               : [TR_DROP_OPTIONS[3]] // only delete
           }
-          onClick={(e) => onDropDownChange(e, data)}
+          onClick={(e, selectedOption) =>
+            onDropDownChange(e, selectedOption, data)
+          }
         />
       ),
       class: 'w-[5%]'

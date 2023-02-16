@@ -90,9 +90,7 @@ const TestCasesTable = ({
         >
           {`${rowData?.identifier}`}
         </div>
-      ),
-      maxWidth: 'max-w-[10%]'
-      // cell: (rowData) =>
+      )
     },
     {
       name: 'TITLE',
@@ -118,8 +116,7 @@ const TestCasesTable = ({
             rowData.name
           )}
         </div>
-      ),
-      maxWidth: 'max-w-[40%]'
+      )
     },
     {
       name: 'PRIORITY',
@@ -129,16 +126,14 @@ const TestCasesTable = ({
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
-      ),
-      maxWidth: 'max-w-[10%]'
+      )
     },
     {
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
         <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
-      ),
-      maxWidth: 'max-w-[10%]'
+      )
     },
     {
       name: 'Tags',
@@ -155,8 +150,7 @@ const TestCasesTable = ({
             '--'
           )}
         </span>
-      ),
-      maxWidth: 'max-w-[10%]'
+      )
     },
     {
       name: '',
@@ -167,10 +161,11 @@ const TestCasesTable = ({
         <TMDropdown
           options={dropDownOptions}
           triggerVariant="meatball-button"
-          onClick={(e) => onDropDownChange(e, data)}
+          onClick={(e, selectedOption) =>
+            onDropDownChange(e, selectedOption, data)
+          }
         />
-      ),
-      maxWidth: 'max-w-[10%]'
+      )
     }
   ];
 
