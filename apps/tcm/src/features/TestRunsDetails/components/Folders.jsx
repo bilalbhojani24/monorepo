@@ -1,17 +1,25 @@
 import React from 'react';
-import FolderExplorer from 'common/FolderExplorer';
+import {
+  // CreateNewFolderOutlinedIcon,
+  FindInPageOutlinedIcon
+  // SourceOutlinedIcon
+} from 'assets/icons';
+import { TMEmptyState } from 'common/bifrostProxy';
+// import FolderExplorer from 'common/FolderExplorer';
 import Loader from 'common/Loader';
 
 import useTRTCFolders from './useTRTCFolders';
 
 const Folders = () => {
   const {
-    projectId,
-    allFolders,
-    selectedFolder,
-    isFoldersLoading,
-    onFoldersUpdate,
-    onFolderClick
+    // projectId,
+    // allFolders,
+    isTestCasesLoading,
+    allTestCases
+    // selectedFolder,
+    // isFoldersLoading,
+    // onFoldersUpdate,
+    // onFolderClick
   } = useTRTCFolders();
 
   return (
@@ -22,15 +30,28 @@ const Folders = () => {
         </div> */}
 
         <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
-          {isFoldersLoading ? <Loader wrapperClassName="h-full" /> : null}
-          <FolderExplorer
+          {isTestCasesLoading ? (
+            <Loader wrapperClassName="h-full" />
+          ) : (
+            <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+              <TMEmptyState
+                // title=""
+                title={`${allTestCases.length} Test cases for this test run`}
+                mainIcon={
+                  <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                }
+                buttonProps={null}
+              />
+            </div>
+          )}
+          {/* <FolderExplorer
             projectId={projectId}
             folderId={selectedFolder?.id || null}
             allFolders={allFolders}
             isSingleSelect
             onFolderClick={onFolderClick}
             onFoldersUpdate={onFoldersUpdate}
-          />
+          /> */}
         </div>
       </div>
     </aside>
