@@ -14,7 +14,7 @@ import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
-import Draggable from './modules/Draggable';
+import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
 import DropdownTriggerWText from './modules/DropdownTriggerWText';
