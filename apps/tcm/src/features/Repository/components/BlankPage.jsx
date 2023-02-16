@@ -1,7 +1,5 @@
 import React from 'react';
-import { SourceOutlinedIcon,
-    // FileDownloadIcon
-} from 'assets/icons';
+import { SourceOutlinedIcon } from 'assets/icons';
 import { TMEmptyState, TMButton } from 'common/bifrostProxy';
 import {MdSaveAlt, MdOutlineDescription} from '@browserstack/bifrost'
 import AppRoute from 'const/routes';
@@ -24,9 +22,8 @@ export default function BlankPage() {
       <div className="w-9/12 p-5 text-base-500 text-sm text-center">
           <p>Alternatively, you can import your test case data using below options</p>
       </div>
-        {/*<p>Alternatively, you can import your test case data using below options</p>*/}
 
-        <div className={"flex justify-center"}>
+        <div className="flex justify-center">
             <div className="flex-1">
                 <Link to={AppRoute.IMPORT}>
                     <TMButton
