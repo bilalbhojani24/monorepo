@@ -13,6 +13,7 @@ import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import {
   addTestRun,
   setAddTestRunForm,
+  setEditTestRunForm,
   setIssuesArray,
   setIsVisibleProps,
   setTagsArray,
@@ -78,6 +79,10 @@ const useAddEditTestRun = () => {
           projectId
         })
       );
+  };
+
+  const setEditTestRun = () => {
+    dispatch(setEditTestRunForm(true));
   };
   const hideAddIssuesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssuesModal', value: false }));
@@ -267,7 +272,7 @@ const useAddEditTestRun = () => {
       fetchTestRunDetails(testRunId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testRunId]);
+  }, [isEditing]);
 
   return {
     isEditing,
@@ -295,7 +300,8 @@ const useAddEditTestRun = () => {
     onItemSelectionHandler,
     selectTestCasesConfirm,
     hideAddTestRunForm,
-    onBreadcrumbClick
+    onBreadcrumbClick,
+    setEditTestRun
   };
 };
 

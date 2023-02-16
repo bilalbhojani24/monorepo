@@ -6,7 +6,7 @@ import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
-import TestRuns from 'features/TestRuns';
+import TestRuns, { AddEditTestRun } from 'features/TestRuns';
 import TestRunsDetails from 'features/TestRunsDetails';
 
 import LoginScreen from '../Login';
@@ -81,7 +81,7 @@ const MainRoute = () => {
           path={AppRoute.TEST_RUNS_EDIT}
           element={
             <PrivateComponent>
-              <TestRuns isEditView key="edit" />
+              <AddEditTestRun isEdit />
             </PrivateComponent>
           }
         />

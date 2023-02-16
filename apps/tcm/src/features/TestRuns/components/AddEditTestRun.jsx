@@ -10,6 +10,7 @@ import {
   TMRichTextEditor,
   TMSelectMenu
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import { STATE_OPTIONS } from '../const/addEditConst';
 
@@ -17,7 +18,7 @@ import TestCasesExplorer from './TestCasesExplorer';
 import useAddEditTestRun from './useAddEditTestRun';
 import useTestRuns from './useTestRuns';
 
-const AddEditTestRun = () => {
+const AddEditTestRun = ({ isEdit }) => {
   const {
     inputError,
     isEditing,
@@ -37,13 +38,16 @@ const AddEditTestRun = () => {
     imageUploadRTEHelper,
     addIssuesSaveHelper,
     hideAddTestRunForm,
-    onBreadcrumbClick
+    onBreadcrumbClick,
+    setEditTestRun
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
 
   useEffect(() => {
     initFormValues();
+
+    if (isEdit) setEditTestRun();
 
     return () => {
       hideAddTestRunForm();
@@ -236,6 +240,14 @@ const AddEditTestRun = () => {
       <TestCasesExplorer />
     </>
   );
+};
+
+AddEditTestRun.propTypes = {
+  isEdit: PropTypes.bool
+};
+
+AddEditTestRun.defaultProps = {
+  isEdit: false
 };
 
 export default AddEditTestRun;
