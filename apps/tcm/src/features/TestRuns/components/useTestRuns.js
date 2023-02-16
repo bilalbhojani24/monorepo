@@ -10,6 +10,7 @@ import {
   setAddTestRunForm,
   setAllTestRuns,
   setCurrentTab,
+  setEditTestRunForm,
   setLoadedDataProjectId,
   setLoader,
   setMetaPage,
@@ -65,6 +66,9 @@ const useTestRuns = () => {
   const showTestRunAddFormHandler = () => {
     dispatch(setAddTestRunForm(true));
   };
+  const showTestRunEditForm = () => {
+    dispatch(setEditTestRunForm(true));
+  };
 
   const fetchTags = () => {
     getTagsAPI({ projectId }).then((data) => {
@@ -109,7 +113,8 @@ const useTestRuns = () => {
     handleTabChange,
     showTestRunAddFormHandler,
     initFormValues,
-    fetchAllTestRuns
+    fetchAllTestRuns,
+    showTestRunEditForm
   };
 };
 

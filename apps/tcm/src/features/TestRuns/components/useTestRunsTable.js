@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { capitalizeString } from 'utils/helperFunctions';
+import { useNavigate, useParams } from 'react-router-dom';
+import AppRoute from 'const/routes';
+import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
 
 import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
-import {
-  setEditTestRunForm,
-  setIsVisibleProps,
-  setSelectedTestRun
-} from '../slices/testRunsSlice';
+import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { projectId } = useParams();
 
@@ -64,7 +62,12 @@ const useTestRuns = () => {
     dispatch(setSelectedTestRun(selectedItem));
     switch (e.currentTarget.textContent) {
       case TR_DROP_OPTIONS[0].body: // edit
-        dispatch(setEditTestRunForm(true));
+        navigate(
+          routeFormatter(AppRoute.TEST_RUNS_EDIT, {
+            projectId,
+            testRunId: selectedItem?.id
+          })
+        );
         break;
       case TR_DROP_OPTIONS[1].body: // assign
         dispatch(setIsVisibleProps({ key: 'assignTestRunModal', value: true }));

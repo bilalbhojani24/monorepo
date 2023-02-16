@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
 import {
   addTestRunAPI,
   editTestRunAPI,
   getTestRunDetailsAPI
 } from 'api/testruns.api';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import AppRoute from 'const/routes';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   addTestRun,
@@ -22,7 +23,8 @@ import {
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
-  const { projectId } = useParams();
+  const { projectId, testRunId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputError, setInputError] = useState(false);
   const [selectedTCIDs, setSelectedTCIDs] = useState([]);
@@ -70,6 +72,12 @@ const useAddEditTestRun = () => {
 
   const hideAddTestRunForm = () => {
     dispatch(setAddTestRunForm(false));
+    if (isEditing)
+      navigate(
+        routeFormatter(AppRoute.TEST_RUNS, {
+          projectId
+        })
+      );
   };
   const hideAddIssuesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssuesModal', value: false }));
@@ -215,12 +223,10 @@ const useAddEditTestRun = () => {
     }
   };
 
-  const fetchTestRunDetails = () => {
-    getTestRunDetailsAPI({ projectId, testRunId: selectedTestRun.id }).then(
-      (data) => {
-        dispatch(setTestRunFormData(formDataRetriever(data.data)));
-      }
-    );
+  const fetchTestRunDetails = (testRunID) => {
+    getTestRunDetailsAPI({ projectId, testRunId: testRunID }).then((data) => {
+      dispatch(setTestRunFormData(formDataRetriever(data.data)));
+    });
   };
 
   useEffect(() => {
@@ -250,10 +256,18 @@ const useAddEditTestRun = () => {
           })
         )
       );
-      fetchTestRunDetails();
+      fetchTestRunDetails(selectedTestRun?.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTestRun]);
+
+  useEffect(() => {
+    if (isEditing && testRunId) {
+      // fetch test run details
+      fetchTestRunDetails(testRunId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testRunId]);
 
   return {
     isEditing,

@@ -73,7 +73,7 @@ const MainRoute = () => {
           path={AppRoute.TEST_RUNS}
           element={
             <PrivateComponent>
-              <TestRuns />
+              <TestRuns key="table" />
             </PrivateComponent>
           }
         />
@@ -81,7 +81,7 @@ const MainRoute = () => {
           path={AppRoute.TEST_RUNS_EDIT}
           element={
             <PrivateComponent>
-              <TestRuns isEdit />
+              <TestRuns isEditView key="edit" />
             </PrivateComponent>
           }
         />

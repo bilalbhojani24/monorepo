@@ -7,6 +7,7 @@ import {
   TMTabs
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
+import PropTypes from 'prop-types';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 
@@ -14,7 +15,7 @@ import AddEditTestRun from './AddEditTestRun';
 import TestRunsTable from './TestRunsTable';
 import useTestRuns from './useTestRuns';
 
-const TestRuns = () => {
+const TestRuns = ({ isEditView }) => {
   const {
     projectId,
     currentPage,
@@ -24,6 +25,7 @@ const TestRuns = () => {
     allTestRuns,
     isTestRunsLoading,
     showTestRunAddFormHandler,
+    showTestRunEditForm,
     handleTabChange,
     fetchAllTestRuns
   } = useTestRuns();
@@ -32,6 +34,10 @@ const TestRuns = () => {
     fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, currentTab, currentPage]);
+
+  useEffect(() => {
+    if (isEditView) showTestRunEditForm();
+  }, [isEditView, showTestRunEditForm]);
 
   if (isAddTestRunsFormVisible || isEditTestRunsFormVisible)
     return <AddEditTestRun />;
@@ -101,8 +107,12 @@ const TestRuns = () => {
   );
 };
 
-TestRuns.propTypes = {};
+TestRuns.propTypes = {
+  isEditView: PropTypes.bool
+};
 
-TestRuns.defaultProps = {};
+TestRuns.defaultProps = {
+  isEditView: false
+};
 
 export default TestRuns;
