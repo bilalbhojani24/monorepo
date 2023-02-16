@@ -30,7 +30,7 @@ const useAuthentication = () => {
     const bypassHists = [
       'localhost:5173',
       '127.0.0.1:5500',
-      '6da4-2406-8800-9014-ab0-1956-6585-3d08-fbf8.in.ngrok.io'
+      '354e-2406-8800-9014-ab0-d901-302-ac4f-9ca2.in.ngrok.io'
     ];
     if (bypassHists.includes(window.location.host)) {
       // mock for localhost

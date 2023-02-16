@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export const routeFormatter = (
   link,
@@ -18,6 +18,7 @@ export const routeFormatter = (
 
 export const formatTime = (date, to) => {
   if (!moment(date).isValid) return 'N/A';
+  const timeZoneString = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   switch (to) {
     case 'ago':
@@ -26,6 +27,10 @@ export const formatTime = (date, to) => {
       return moment(date).format('DD/MM/YYYY');
     case 'time':
       return moment(date).format('DD/MM/YYYY | h:mm A');
+    case 'timeG':
+      return moment(date)
+        .tz(timeZoneString)
+        .format('MMM DD, YYYY | h:mm:ss A (zz)');
     default:
       return moment(date).format('DD/MM/YYYY');
   }

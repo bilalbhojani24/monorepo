@@ -215,6 +215,14 @@ const useAddEditTestRun = () => {
     }
   };
 
+  const fetchTestRunDetails = () => {
+    getTestRunDetailsAPI({ projectId, testRunId: selectedTestRun.id }).then(
+      (data) => {
+        dispatch(setTestRunFormData(formDataRetriever(data.data)));
+      }
+    );
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -242,13 +250,7 @@ const useAddEditTestRun = () => {
           })
         )
       );
-
-      getTestRunDetailsAPI({ projectId, testRunId: selectedTestRun.id }).then(
-        (data) => {
-          dispatch(setTestRunFormData(formDataRetriever(data.data)));
-        }
-      );
-      // WIP
+      fetchTestRunDetails();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTestRun]);

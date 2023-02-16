@@ -7,6 +7,7 @@ import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
 import TestRuns from 'features/TestRuns';
+import TestRunsDetails from 'features/TestRunsDetails';
 
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
@@ -80,7 +81,7 @@ const MainRoute = () => {
           path={AppRoute.TEST_RUNS_DETAILS}
           element={
             <PrivateComponent>
-              <TestRuns />
+              <TestRunsDetails />
             </PrivateComponent>
           }
         />
