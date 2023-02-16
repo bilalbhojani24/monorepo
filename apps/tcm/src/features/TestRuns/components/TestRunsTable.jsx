@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -29,18 +30,20 @@ const TestRunsTable = () => {
     allTestRuns,
     isTestRunsLoading,
     metaPage,
-    getOptions,
+    getProgressOptions,
     onDropDownChange
   } = useTestRunsTable();
 
   const tableColumns = [
     {
       name: 'ID',
-      key: 'identifier'
+      key: 'identifier',
+      class: 'w-[10%]'
     },
     {
       name: 'TITLE',
       key: 'name',
+      class: 'w-[50%]',
       cell: (rowData) => (
         <Link
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
@@ -55,7 +58,8 @@ const TestRunsTable = () => {
     },
     {
       name: 'NO. OF TESTS',
-      key: 'test_cases_count'
+      key: 'test_cases_count',
+      class: 'w-[13%]'
     },
     // {
     //   name: 'CREATED DATE',
@@ -65,7 +69,8 @@ const TestRunsTable = () => {
     {
       name: 'ASSIGNED TO',
       key: 'owner',
-      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned'
+      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned',
+      class: 'w-[15%]'
     },
     {
       name: 'OVERALL PROGRESS',
@@ -78,19 +83,20 @@ const TestRunsTable = () => {
         const untestedPerc =
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
-          <div className="flex items-center">
-            {/* <div className="overflow-hidden rounded-md"> */}
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={getOptions(rowData)}
-            />
-            {/* </div> */}
-            <span className="text-base-500 ml-0.5">
+          <div className="flex w-full items-center">
+            <div className="w-full max-w-[calc(100%-30px)]">
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={getProgressOptions(rowData)}
+              />
+            </div>
+            <span className="text-base-500 ml-0.5 w-7">
               {untestedPerc.toFixed(0)}%
             </span>
           </div>
         );
-      }
+      },
+      class: 'w-[20%]'
     },
     {
       name: '',
@@ -106,15 +112,16 @@ const TestRunsTable = () => {
           }
           onClick={(e) => onDropDownChange(e, data)}
         />
-      )
+      ),
+      class: 'w-[5%]'
     }
   ];
 
   return (
     <div className="flex flex-1 flex-col  justify-start">
       <TMTable
+        tableWrapperClass="table-fixed w-full"
         containerWrapperClass={classNames(
-          // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto shadow-none border-none'
         )}
       >
@@ -124,10 +131,10 @@ const TestRunsTable = () => {
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClassName={classNames('test-base-500', {
+                wrapperClassName={classNames('test-base-500', col?.class, {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
                   'flex-1 w-9/12': index === 1,
-                  'min-w-[50%]': index === 2,
+                  // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
                   'right-0 ': col.isSticky && col.stickyPosition === 'right',
                   'left-10 ': col.isSticky && col.stickyPosition === 'left'
@@ -148,20 +155,24 @@ const TestRunsTable = () => {
                   {tableColumns?.map((column, colIdx) => {
                     const value = row[column.key];
                     return (
-                      <TMTableCell
+                      <td
                         key={column.id || colIdx}
-                        wrapperClassName={classNames('py-4', {
-                          'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
-                          'sticky bg-white': column.isSticky,
-                          'right-0 ':
-                            column.isSticky &&
-                            column.stickyPosition === 'right',
-                          'left-10 ':
-                            column.isSticky && column.stickyPosition === 'left'
-                        })}
+                        className={classNames(
+                          'px-3 text-base-500 whitespace-nowrap text-sm text-left inherit py-4 first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6 py-4',
+                          {
+                            'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed,
+                            'sticky bg-white': column.isSticky,
+                            'right-0 ':
+                              column.isSticky &&
+                              column.stickyPosition === 'right',
+                            'left-10 ':
+                              column.isSticky &&
+                              column.stickyPosition === 'left'
+                          }
+                        )}
                       >
                         {column.cell ? <>{column.cell(row)}</> : value}
-                      </TMTableCell>
+                      </td>
                     );
                   })}
                 </TMTableRow>

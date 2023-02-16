@@ -26,7 +26,7 @@ const TopSection = () => {
         subSection={
           <div className="mt-4 flex gap-4">
             <TMMetadata
-              metaDescription={testRunDetails?.assignee?.full_name}
+              metaDescription={testRunDetails?.assignee?.full_name || '--'}
               textColorClass="text-base-500 mt-1"
               icon={<MdPersonOutline className="text-base-500 h-5 w-5" />}
             />

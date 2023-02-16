@@ -24,7 +24,7 @@ const useTestRuns = () => {
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const getOptions = (data) => {
+  const getProgressOptions = (data) => {
     if (!data?.overall_progress) return CHART_OPTIONS;
 
     const totalValue = Object.values(data.overall_progress).reduce(
@@ -89,7 +89,7 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
-    getOptions,
+    getProgressOptions,
     onDropDownChange
   };
 };
