@@ -14,8 +14,8 @@ const whiteListUrl = [
 
 class Logger {
   constructor(AmplitudeKey, AnalyticsKey) {
-    this.AmplitudeKey = AmplitudeKey;
-    this.AnalyticsKey = AnalyticsKey;
+    this.Amplitude = new Amplitude(AmplitudeKey);
+    this.Analytics = new Analytics(AnalyticsKey);
   }
 
   logEvent(skipLoggingKeys, eventType, key, data, cb, sendToGA) {
@@ -40,8 +40,7 @@ class Logger {
     data.team = data.team || eventType;
 
     if (skipLoggingKeys.indexOf('amplitude') === -1) {
-      const amp = new Amplitude(this.AmplitudeKey);
-      amp.LogAmplitudeEvent(key, data, cb);
+      this.Amplitude.LogAmplitudeEvent(key, data, cb);
     }
 
     // Add Query parameter in json in event data with name of "params"
@@ -93,11 +92,12 @@ class Logger {
     if (skipLoggingKeys.indexOf('EDS') === -1) {
       EDS.logEvent(key, eventType, data);
     }
-    if (sendToGA === true) {
-      const analytics = new Analytics(this.AnalyticsKey);
-      if (key) {
-        analytics.analyticsEventTracker(data.team || '', key, data.label || '');
-      }
+    if (sendToGA === true && key) {
+      this.Analytics.analyticsEventTracker(
+        data.team || '',
+        key,
+        data.label || ''
+      );
     }
   }
 }
