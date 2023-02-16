@@ -2,76 +2,96 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import Button from '../Button';
-import { ChevronDownIcon, MdGridView } from '../Icon';
+import HeaderProductContainer from '../HeaderProductContainer';
+import Hyperlink from '../Hyperlink';
+import { ChevronDownIcon } from '../Icon';
+import GridViewSolidIcon from '../Icon/HeaderIcons/GridViewSolidIcon';
+import ToolTip from '../Tooltip';
 
 import './styles.scss';
 
-const HeaderProducts = ({ wrapperClassName }) => (
-  <div
-    className={twClassNames(
-      'flex flex-row items-center p-0 gap-4',
-      wrapperClassName
-    )}
-  >
-    <div
-      className={twClassNames(
-        'flex flex-row items-start p-0 max-[1360px]:hidden'
-      )}
-    >
-      <Button variant="minimal">
-        <span
-          className={twClassNames(
-            'flex flex-row justify-center items-center p-0 text-base-300'
-          )}
-        >
-          Automate
-        </span>
-      </Button>
-    </div>
-    <div
-      className={twClassNames(
-        'flex flex-row items-start p-0 max-[1360px]:hidden'
-      )}
-    >
-      <Button variant="minimal">
-        <span
-          className={twClassNames(
-            'flex flex-row justify-center items-center p-0 text-base-300'
-          )}
-        >
-          Test Observability
-        </span>
-      </Button>
-    </div>
+const PRODUCT_ARRAY = [
+  { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
+  { name: 'Automate', link: 'https://automate.browserstack.com' },
+  { name: 'App Live', link: 'https://app-live.browserstack.com/dashboard' }
+];
 
-    <div className={twClassNames('flex flex-row items-start p-0')}>
-      <Button variant="minimal">
-        <span
+const HeaderProducts = ({ wrapperClassName, productCount }) => (
+  <div
+    className={twClassNames('flex flex-row items-center p-0', wrapperClassName)}
+  >
+    {Array.from(Array(productCount), (e, index) => (
+      <Hyperlink
+        wrapperClassName={twClassNames('flex flex-row items-center py-2 px-3')}
+        href={PRODUCT_ARRAY[index].link}
+        key={index}
+      >
+        <p
           className={twClassNames(
-            'flex flex-row gap-1.5 justify-center items-center p-0 text-base-300'
+            'not-italic font-medium text-sm leading-5 text-base-300'
           )}
         >
-          <MdGridView
-            className={twClassNames('text-base-400 h-5 w-5')}
+          {PRODUCT_ARRAY[index].name}
+        </p>
+      </Hyperlink>
+    ))}
+    <ToolTip
+      arrowClassName="w-4 h-2"
+      content={<HeaderProductContainer />}
+      theme="light"
+      placementSide="bottom"
+      size="5xl"
+    >
+      <div
+        id="header-product-element"
+        className={twClassNames('flex flex-row items-center p-0')}
+      >
+        <div
+          className={twClassNames(
+            'flex flex-row items-center py-2 px-3 gap-1.5'
+          )}
+        >
+          <GridViewSolidIcon
+            iconClass="min-[1361px]:hidden"
             aria-hidden="true"
           />
-          All Products
-          <ChevronDownIcon
-            className={twClassNames('text-base-400 h-5 w-5')}
-            aria-hidden="true"
-          />
-        </span>
-      </Button>
-    </div>
+          <div
+            className={twClassNames(
+              'flex flex-row justify-center items-center p-0 gap-1'
+            )}
+          >
+            <p
+              className={twClassNames(
+                'not-italic font-medium text-sm leading-5 text-base-300 max-[1360px]:hidden'
+              )}
+            >
+              More
+            </p>
+            <p
+              className={twClassNames(
+                'not-italic font-medium text-sm leading-5 text-base-300 min-[1361px]:hidden'
+              )}
+            >
+              Products
+            </p>
+            <ChevronDownIcon
+              className={twClassNames('text-base-400 h-5 w-5')}
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      </div>
+    </ToolTip>
   </div>
 );
 
 HeaderProducts.propTypes = {
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  productCount: PropTypes.number
 };
 HeaderProducts.defaultProps = {
-  wrapperClassName: ''
+  wrapperClassName: '',
+  productCount: 0
 };
 
 export default HeaderProducts;
