@@ -1,34 +1,24 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setSelectedProject } from 'globalSlice';
-// import {setAllTestRuns, setCurrentTab, setMetaPage} from "../../TestRuns/slices/testRunsSlice";
 import { getSettingsApiKeys } from 'api/settings.api';
-import {setCurrentTab} from "../slices/settingsSlice";
 
+import { setApiKey, setCurrentTab } from '../slices/settingsSlice';
 
 export default function useSettings() {
-    const {  } = useParams();
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-    }, []);
+  useEffect(() => {}, []);
 
-    const handleTabChange = (tabName) => {
-        dispatch(setCurrentTab(tabName.name));
-    };
+  const handleTabChange = (tabName) => {
+    dispatch(setCurrentTab(tabName.name));
+  };
 
-    const fetchAPIKey = () => {
-        getSettingsApiKeys().then(
-            (data) => {
-                console.log("Got DAta from API Key");
-                console.log(data)
-                // dispatch(setAllTestRuns(data?.test_runs || []));
-                // dispatch(setMetaPage(data?.info));
-                // setTestRunsLoader(false);
-            }
-        );
-    }
+  const fetchAPIKey = () => {
+    getSettingsApiKeys().then((data) => {
+      dispatch(setApiKey(data.api_key));
+    });
+  };
 
-    return { handleTabChange, fetchAPIKey };
+  return { handleTabChange, fetchAPIKey };
 }

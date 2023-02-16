@@ -1,25 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {};
+const initialState = {
+  apiKey: '',
+  currentTab: ''
+};
 
 export const settingsSlice = createSlice({
-    name: 'settings',
-    initialState,
-    reducers: {
-        setActiveTestRuns: (state, { payload }) => {
-            // state.activeTestRuns = payload;
-        },
-        setCurrentTab: (state, { payload }) => {
-            state.currentTab = payload;
-            console.log("Coming to current tab");
-        },
+  name: 'settings',
+  initialState,
+  reducers: {
+    setApiKey: (state, { payload }) => {
+      state.apiKey = payload;
     },
+    setCurrentTab: (state, { payload }) => {
+      state.currentTab = payload;
+    }
+  }
 });
 
-export const {
-    setActiveTestRuns,
-    setCurrentTab
-} = settingsSlice.actions;
-
+export const { setApiKey, setCurrentTab } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
