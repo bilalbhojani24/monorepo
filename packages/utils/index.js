@@ -6,6 +6,7 @@ import getInitialAndFinalFocusableElementRef from './src/getInitialAndFinalFocus
 import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
 import Analytics from './src/googleAnalytics';
+import Logger from './src/logger';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
@@ -15,7 +16,6 @@ export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
-export * from './src/logEvent';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 
@@ -28,6 +28,7 @@ export {
   getInitialAndFinalFocusableElementRef,
   getUniqueId,
   getUrlParams,
+  Logger,
   makeDebounce,
   removePaddingfromBeginning
 };
