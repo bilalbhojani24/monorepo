@@ -1,16 +1,16 @@
+import { useDispatch } from 'react-redux';
 import { useAuthRoutes } from '@browserstack/hooks';
-import axios from 'axios';
+import { getProjectsList } from 'globalSlice';
 
-import { versionedBaseRoute } from './constants/common';
 import { APP_ROUTES } from './constants/routesConstants';
 
-const initAPI = () => axios.get(`${versionedBaseRoute()}/projects/lite`);
-
-const App = () =>
-  useAuthRoutes(
+const App = () => {
+  const dispatch = useDispatch();
+  return useAuthRoutes(
     APP_ROUTES,
-    initAPI,
+    () => dispatch(getProjectsList()),
     'https://www.browserstack.com/users/sign_in'
   );
+};
 
 export default App;

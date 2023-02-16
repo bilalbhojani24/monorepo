@@ -1,8 +1,7 @@
 import React from 'react';
+import LoaderIcon from 'assets/icons/loader.svg';
 import className from 'classnames';
 import PropTypes from 'prop-types';
-
-import LoaderIcon from '../../../assets/icons/loader.svg';
 
 const Loader = ({ isLoading, isOverlayed, wrapperClassName }) => {
   if (!isLoading) return '';

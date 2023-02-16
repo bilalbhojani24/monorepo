@@ -4,29 +4,49 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/browserstack.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:title" content="Observability by BrowserStack">
-    <meta property="og:description" content="Navigate from effect to cause using Observability by BrowserStack.">
+    <meta property="og:title" content="Observability by BrowserStack" />
+    <meta
+      property="og:description"
+      content="Navigate from effect to cause using Observability by BrowserStack."
+    />
     <meta property="og:url" content="https://observability.browserstack.com" />
-    <meta property="og:image" content="/browserstack.svg">
+    <meta property="og:image" content="/browserstack.svg" />
     <title>Observability by BrowserStack</title>
-    <meta name="title" content="Observability by BrowserStack">
-    <meta name="description" content="Navigate from effect to cause using Observability by BrowserStack.">
-  </head>
-  <body>
-    <div id="root" style="display: none"></div>
-    <div
-      id="root-loader"
-      style="
+    <meta name="title" content="Observability by BrowserStack" />
+    <meta
+      name="description"
+      content="Navigate from effect to cause using Observability by BrowserStack."
+    />
+    <style>
+      #root-loader {
         position: absolute;
         height: 100vh;
         width: 100vw;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: aquamarine;
-      "
-    >
-      Loading
+      }
+      .root-animate-spin {
+        animation: root-spin 1s linear infinite;
+      }
+      @keyframes root-spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" style="display: none"></div>
+    <div id="root-loader">
+      <img
+        src="/src/assets/icons/loader.svg"
+        alt=""
+        class="root-animate-spin"
+      />
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
