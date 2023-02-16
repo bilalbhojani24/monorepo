@@ -44,3 +44,12 @@ export const assignTestRunAPI = async ({ projectId, ownerId, testRunId }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-runs/${testRunId}/assign`, {
     test_run: { owner: ownerId }
   });
+
+export const getTestRunsTestCasesAPI = async ({
+  projectId,
+  testRunId,
+  page = 1
+}) =>
+  fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases`, {
+    params: { p: page }
+  });

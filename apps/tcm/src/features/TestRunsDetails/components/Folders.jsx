@@ -7,6 +7,7 @@ import useTRTCFolders from './useTRTCFolders';
 const Folders = () => {
   const {
     projectId,
+    allFolders,
     selectedFolder,
     isFoldersLoading,
     onFoldersUpdate,
@@ -25,7 +26,7 @@ const Folders = () => {
           <FolderExplorer
             projectId={projectId}
             folderId={selectedFolder?.id || null}
-            allFolders={null} // so that the folder are loaded by the component
+            allFolders={allFolders}
             isSingleSelect
             onFolderClick={onFolderClick}
             onFoldersUpdate={onFoldersUpdate}

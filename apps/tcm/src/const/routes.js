@@ -6,7 +6,8 @@ const AppRoute = {
   TEST_CASES_SEARCH: '/projects/:projectId?/folder?/search',
   DASHBOARD: '/projects/:projectId?',
   TEST_RUNS: '/projects/:projectId?/test-runs',
-  TEST_RUNS_DETAILS: '/projects/:projectId?/test-runs/:testRunId',
+  TEST_RUNS_DETAILS:
+    '/projects/:projectId?/test-runs/:testRunId?/test-cases?/:testCaseId',
   ONBOARDING: '/onboarding',
   RESOURCES: '/resources',
   SETTINGS: '/settings',

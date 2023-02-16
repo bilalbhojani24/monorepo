@@ -19,11 +19,9 @@ export default function useTestRunDetails() {
   const fetchTestRunDetails = () => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
       dispatch(setTestRunsDetails(null)); // clear in case there is a difference
-    getTestRunDetailsAPI({ projectId, testRunId, isFullDetails: true }).then(
-      (data) => {
-        dispatch(setTestRunsDetails(data.data.test_run));
-      }
-    );
+    getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
+      dispatch(setTestRunsDetails(data.data.test_run));
+    });
   };
 
   useEffect(() => {
