@@ -5,9 +5,18 @@ import PropTypes from 'prop-types';
 import TestCaseView from './components/TestCaseView';
 import useTestCaseView from './components/useTestCaseView';
 
-const TestCaseDetailsView = ({ projectId, folderId, testCaseId }) => {
-  const { initTestCaseDetails, hideTestCaseViewDrawer, isTestCaseViewVisible } =
-    useTestCaseView({ projectId, folderId, testCaseId });
+const TestCaseDetailsView = ({
+  projectId,
+  folderId,
+  testCaseId,
+  onDetailsClose
+}) => {
+  const {
+    initTestCaseDetails,
+    hideTestCaseViewDrawer,
+    actionHandler,
+    isTestCaseViewVisible
+  } = useTestCaseView({ projectId, folderId, testCaseId, onDetailsClose });
 
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
@@ -33,7 +42,7 @@ const TestCaseDetailsView = ({ projectId, folderId, testCaseId }) => {
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
-      <TestCaseView />
+      <TestCaseView actionHandler={actionHandler} />
     </TMSlideover>
   );
 };
@@ -41,13 +50,15 @@ const TestCaseDetailsView = ({ projectId, folderId, testCaseId }) => {
 TestCaseDetailsView.propTypes = {
   projectId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   folderId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number)
+  testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  onDetailsClose: PropTypes.func
 };
 
 TestCaseDetailsView.defaultProps = {
   projectId: null,
   folderId: null,
-  testCaseId: null
+  testCaseId: null,
+  onDetailsClose: () => {}
 };
 
 export default TestCaseDetailsView;

@@ -12,7 +12,7 @@ import {
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
-import useTestCaseView from './useTestCaseView';
+import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseBasicData = () => {
   const {
@@ -21,7 +21,7 @@ const TestCaseBasicData = () => {
     testCaseDetails,
     onAttachmentClick,
     closePreview
-  } = useTestCaseView();
+  } = useTestCaseViewDetails();
 
   return (
     <>

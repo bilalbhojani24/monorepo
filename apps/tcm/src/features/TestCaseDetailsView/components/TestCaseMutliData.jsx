@@ -10,7 +10,7 @@ import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
-import useTestCaseView from './useTestCaseView';
+import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseMutliData = () => {
   const {
@@ -19,7 +19,7 @@ const TestCaseMutliData = () => {
     testRunsDetails,
     testCaseIssues,
     handleTabChange
-  } = useTestCaseView();
+  } = useTestCaseViewDetails();
 
   const resultsTableColumn = [
     {
