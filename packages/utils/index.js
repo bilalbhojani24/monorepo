@@ -7,6 +7,7 @@ import getUrlParams from './src/getUrlParams';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
+export * from './src/amplitude';
 export * from './src/axiosUtils';
 export * from './src/delay';
 export * from './src/getNumberOrdinal';
