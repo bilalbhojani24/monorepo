@@ -11,8 +11,14 @@ import useTestCases from './components/useTestCases';
 
 const Repository = ({ isSearch }) => {
   const { fetchAllFolders } = useFolders();
-  const { folderId, projectId, currentPage, fetchAllTestCases, setRepoView } =
-    useTestCases();
+  const {
+    folderId,
+    projectId,
+    testCaseId,
+    currentPage,
+    fetchAllTestCases,
+    setRepoView
+  } = useTestCases();
 
   useEffect(() => {
     if (!isSearch) fetchAllFolders();
@@ -48,7 +54,11 @@ const Repository = ({ isSearch }) => {
           </main>
         </div>
       </div>
-      <TestCaseDetailsView />
+      <TestCaseDetailsView
+        folderId={folderId}
+        projectId={projectId}
+        testCaseId={testCaseId}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
@@ -8,17 +8,17 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
+  setMetaIds,
   setTestCaseDetails,
   setTestCaseViewVisibility
 } from '../slices/testCaseDetailsSlice';
 
-export default function useTestCasesView() {
+export default function useTestCaseView(prop) {
   const navigate = useNavigate();
   const { onDropDownChange } = useTestCasesTable();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   const [imageLink, setImageLink] = useState(null);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
-  const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
   const isTestCaseViewVisible = useSelector(
@@ -36,27 +36,27 @@ export default function useTestCasesView() {
   const testRunsCount = useSelector(
     (state) => state.testCaseDetails.allData?.test_runs_count || null
   );
+  const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
 
-  const fetchTestCaseDetails = () => {
+  const initTestCaseDetails = () => {
     dispatch(setTestCaseViewVisibility(true));
-    if (folderId && testCaseId) {
-      getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
-        (data) => {
-          dispatch(setTestCaseDetails(data?.data?.test_case || null));
-        }
-      );
+    dispatch(setMetaIds(prop));
+    if (prop?.folderId && prop?.testCaseId) {
+      getTestCaseDetailsAPI(prop).then((data) => {
+        dispatch(setTestCaseDetails(data?.data?.test_case || null));
+      });
     }
   };
 
   const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
-    if (folderId)
+    if (prop?.folderId)
       navigate(
         `${routeFormatter(
           AppRoute.TEST_CASES,
           {
-            projectId,
-            folderId
+            projectId: prop?.projectId,
+            folderId: prop?.folderId
           },
           true
         )}`,
@@ -92,17 +92,17 @@ export default function useTestCasesView() {
   };
 
   return {
+    testCaseId: metaIds?.testCaseId,
     showImagePreview,
     imageLink,
     testRunsCount,
     selectedTab,
     testCaseIssues,
-    testCaseId,
     testCaseDetails,
     testRunsDetails,
     hideTestCaseViewDrawer,
     isTestCaseViewVisible,
-    fetchTestCaseDetails,
+    initTestCaseDetails,
     handleTabChange,
     actionHandler,
     onAttachmentClick,

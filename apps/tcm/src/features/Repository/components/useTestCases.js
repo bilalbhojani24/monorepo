@@ -20,7 +20,7 @@ import {
 
 export default function useTestCases() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { projectId, folderId } = useParams();
+  const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
   const metaPage = useSelector((state) => state.repository.metaPage);
@@ -124,6 +124,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    testCaseId,
     metaPage,
     allFolders,
     isBulkUpdate,
