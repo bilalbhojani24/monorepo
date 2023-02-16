@@ -18,7 +18,7 @@ const TopSection = () => {
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
         wrapperClassName="px-4 pt-6 bg-transparent"
-        heading={`Test Run - ${formatTime(testRunDetails?.created_at)}`}
+        heading={testRunDetails?.name || ''}
         actions={
           <>
             <TMButton
@@ -44,7 +44,11 @@ const TopSection = () => {
               icon={<MdPersonOutline className="text-base-500 h-5 w-5" />}
             />
             <TMMetadata
-              metaDescription={formatTime(testRunDetails?.created_at, 'timeG')}
+              metaDescription={
+                testRunDetails?.created_at
+                  ? formatTime(testRunDetails?.created_at, 'timeG')
+                  : '--'
+              }
               textColorClass="text-base-500 mt-1"
               icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
             />
