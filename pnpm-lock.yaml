@@ -92,8 +92,10 @@ importers:
       '@types/react-dom': ^18.0.9
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
+      classnames: ^2.2.6
       postcss: 8.4.20
       postcss-preset-env: ^7.8.3
+      prop-types: ^15.8.1
       react: ^18.2.0
       react-dom: ^18.2.0
       react-redux: ^8.0.5
@@ -113,6 +115,8 @@ importers:
       '@browserstack/utils': link:../../packages/utils
       '@reduxjs/toolkit': 1.9.2_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
+      classnames: 2.3.2
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-redux: 8.0.5_ctrls2ti7t7iutxbwkm5ipogyy
