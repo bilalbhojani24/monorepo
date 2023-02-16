@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { throttle } from 'lodash';
+import { useEffect, useState } from 'react';
 
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
@@ -15,7 +14,7 @@ const useWindowSize = () => {
       });
     }
 
-    window.addEventListener('resize', throttle(handleResize, 16));
+    window.addEventListener('resize', handleResize);
 
     handleResize();
 

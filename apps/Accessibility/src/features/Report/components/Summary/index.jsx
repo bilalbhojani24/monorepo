@@ -334,7 +334,6 @@ export default function Summary() {
                 options={[
                   {
                     id: 'char-sort',
-                    value: 'char-sort',
                     body: (
                       <div className="flex items-center">
                         <MdSortByAlpha className="mr-2 text-xl" />{' '}
