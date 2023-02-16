@@ -29,23 +29,26 @@ export default function useTestRunDetails() {
     });
   };
 
-  const onDropDownChange = (e, selectedItem) => {
+  const onDropDownChange = (e, selectedOption) => {
     // dispatch(setSelectedTestRun(testRunDetails));
-    switch (e.currentTarget.textContent) {
-      case TR_DROP_OPTIONS[0].body: // close
+    switch (selectedOption?.id) {
+      case TR_DROP_OPTIONS[0].id: // close
         dispatch(
           setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
         );
         break;
-      case TR_DROP_OPTIONS[1].body: // edit
+      case TR_DROP_OPTIONS[1].id: // edit
         navigate(
           routeFormatter(AppRoute.TEST_RUNS_EDIT, {
             projectId,
             testRunId: testRunDetails?.id
-          })
+          }),
+          {
+            state: { isFromTRDetails: true }
+          }
         );
         break;
-      case TR_DROP_OPTIONS[2].body: // delete
+      case TR_DROP_OPTIONS[2].id: // delete
         dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
         break;
       default:

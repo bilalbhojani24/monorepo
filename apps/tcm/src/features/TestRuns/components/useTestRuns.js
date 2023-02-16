@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestRunsAPI } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
@@ -20,6 +20,7 @@ import {
 
 const useTestRuns = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { projectId } = useParams();
   const currentPage = searchParams.get('p');
@@ -45,6 +46,8 @@ const useTestRuns = () => {
   };
 
   const fetchAllTestRuns = () => {
+    if (location?.state?.isFromEditing && !isTestRunsLoading) return; // is from editing then do not refresh
+
     if (projectId) {
       dispatch(setSelectedProject(projectId));
       setTestRunsLoader(true);

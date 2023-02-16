@@ -38,8 +38,9 @@ const AddEditTestRun = ({ isEdit }) => {
     imageUploadRTEHelper,
     addIssuesSaveHelper,
     hideAddTestRunForm,
+    cleanupActivities,
     onBreadcrumbClick,
-    setEditTestRun
+    initTestRunFormData
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -47,10 +48,10 @@ const AddEditTestRun = ({ isEdit }) => {
   useEffect(() => {
     initFormValues();
 
-    if (isEdit) setEditTestRun();
+    if (isEdit) initTestRunFormData();
 
     return () => {
-      hideAddTestRunForm();
+      cleanupActivities();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
