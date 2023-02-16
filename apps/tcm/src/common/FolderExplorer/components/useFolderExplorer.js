@@ -98,7 +98,7 @@ const useFolderExplorer = ({
 
   useEffect(() => {
     if (isSingleSelect) {
-      const thisFolderID = folderId || allFolders[0]?.id;
+      const thisFolderID = folderId || foldersArray[0]?.id;
       setSelectedNodesId([parseInt(thisFolderID, 10)]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

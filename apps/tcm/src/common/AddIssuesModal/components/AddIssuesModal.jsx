@@ -61,7 +61,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                   id="jira-account"
                   label="JIRA Account"
                   disabled
-                  value={jiraConfig?.email || ''}
+                  value={jiraConfig?.host || ''}
                 />
                 {/* <div className="mt-4">
                       <TMSelectMenu

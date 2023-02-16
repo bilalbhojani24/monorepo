@@ -18,7 +18,7 @@ const TestCaseView = () => {
     );
 
   return (
-    <div class="overflow-scroll flex-1">
+    <div className="flex-1 overflow-scroll">
       <div className="flex h-full flex-col items-stretch px-6 pt-5">
         <div className="pb-4">
           <TestCaseTopBar />

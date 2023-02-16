@@ -3,6 +3,7 @@ import TestCaseDetailsView from 'features/TestCaseDetailsView';
 import PropTypes from 'prop-types';
 
 import Folders from './components/Folders';
+import MiniatureRepository from './components/MiniatureRepository';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
@@ -61,3 +62,5 @@ Repository.defaultProps = {
 };
 
 export default Repository;
+
+export { MiniatureRepository };

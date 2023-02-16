@@ -9,8 +9,15 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const TMSelectMenu = ({ placeholder, label, options, onChange, value }) => (
-  <SelectMenu onChange={onChange} value={value}>
+const TMSelectMenu = ({
+  placeholder,
+  label,
+  options,
+  onChange,
+  value,
+  isMulti
+}) => (
+  <SelectMenu onChange={onChange} value={value} isMulti={isMulti}>
     {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
     <SelectMenuTrigger placeholder={placeholder} />
     <SelectMenuOptionGroup>
@@ -23,6 +30,7 @@ const TMSelectMenu = ({ placeholder, label, options, onChange, value }) => (
 
 TMSelectMenu.propTypes = {
   placeholder: PropTypes.string,
+  isMulti: PropTypes.bool,
   label: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -41,6 +49,7 @@ TMSelectMenu.propTypes = {
 };
 
 TMSelectMenu.defaultProps = {
+  isMulti: false,
   placeholder: '',
   label: '',
   options: [],
