@@ -1,3 +1,4 @@
+import Amplitude from './src/amplitude';
 import convertSecondsToMinutes from './src/convertSecondsToMinutes';
 import cookieUtils from './src/cookie';
 import fileDownload from './src/fileDownload';
@@ -7,17 +8,19 @@ import getUrlParams from './src/getUrlParams';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
-export * from './src/amplitude';
+// export * from './src/amplitude';
 export * from './src/axiosUtils';
 export * from './src/delay';
 export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
+export * from './src/logEvent';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 
 export {
+  Amplitude,
   convertSecondsToMinutes,
   cookieUtils,
   fileDownload,

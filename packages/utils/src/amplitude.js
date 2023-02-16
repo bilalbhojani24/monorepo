@@ -1,21 +1,15 @@
 import amplitude from 'amplitude-js';
 
-export const initAmplitude = (API_KEY) => {
-  amplitude.getInstance().init(API_KEY);
-};
+class Amplitude {
+  constructor(KEY) {
+    amplitude.getInstance().init(KEY);
+    this.LogAmplitudeEvent = this.LogAmplitudeEvent.bind(this);
+  }
 
-export const setAmplitudeUserDevice = (installationToken) => {
-  amplitude.getInstance().setDeviceId(installationToken);
-};
+  // eslint-disable-next-line class-methods-use-this
+  LogAmplitudeEvent(key, data, cb) {
+    amplitude.getInstance().logEvent(key, data, cb);
+  }
+}
 
-export const setAmplitudeUserId = (userId) => {
-  amplitude.getInstance().setUserId(userId);
-};
-
-export const setAmplitudeUserProperties = (properties) => {
-  amplitude.getInstance().setUserProperties(properties);
-};
-
-export const sendAmplitudeData = (eventType, eventProperties) => {
-  amplitude.getInstance().logEvent(eventType, eventProperties);
-};
+export default Amplitude;
