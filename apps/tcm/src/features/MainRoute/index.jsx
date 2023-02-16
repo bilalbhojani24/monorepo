@@ -78,7 +78,15 @@ const MainRoute = () => {
           }
         />
         <Route
-          path={AppRoute.TEST_RUNS_DETAILS}
+          path={AppRoute.TEST_RUNS_EDIT}
+          element={
+            <PrivateComponent>
+              <TestRuns isEdit />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.TEST_RUN_DETAILS}
           element={
             <PrivateComponent>
               <TestRunsDetails />

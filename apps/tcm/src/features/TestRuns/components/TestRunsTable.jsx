@@ -47,7 +47,7 @@ const TestRunsTable = () => {
       cell: (rowData) => (
         <Link
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
-          to={routeFormatter(AppRoute.TEST_RUNS_DETAILS, {
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
             testRunId: rowData?.id
           })}

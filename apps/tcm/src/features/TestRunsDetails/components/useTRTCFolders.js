@@ -35,7 +35,7 @@ export default function useTRTCFolders() {
   const handleTestCaseViewClick = (testCaseItem) => () => {
     navigate(
       routeFormatter(
-        AppRoute.TEST_RUNS_DETAILS,
+        AppRoute.TEST_RUN_DETAILS,
         {
           projectId,
           testRunId,
