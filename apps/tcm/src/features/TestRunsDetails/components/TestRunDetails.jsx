@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import Folders from './Folders';
 import MiniDetails from './MiniDetails';
 import TopSection from './TopSection';
 import useTestRunDetails from './useTestRunDetails';
@@ -23,11 +24,7 @@ const TestRunDetails = () => {
               Test cases
             </section>
 
-            <aside className="lg:order-first lg:block lg:shrink-0">
-              <div className="relative flex h-full w-96 flex-col overflow-hidden">
-                Folders
-              </div>
-            </aside>
+            <Folders />
           </main>
         </div>
       </div>

@@ -1,7 +1,14 @@
 import React from 'react';
 import { MdOutlineAccessTime, MdPersonOutline } from '@browserstack/bifrost';
-import { TMButton, TMMetadata, TMPageHeadings } from 'common/bifrostProxy';
+import {
+  TMButton,
+  TMDropdown,
+  TMMetadata,
+  TMPageHeadings
+} from 'common/bifrostProxy';
 import { formatTime } from 'utils/helperFunctions';
+
+import { TR_DROP_OPTIONS } from '../const/immutableConst';
 
 import useTestRunDetails from './useTestRunDetails';
 
@@ -15,12 +22,18 @@ const TopSection = () => {
         actions={
           <>
             <TMButton
+              wrapperClassName="mr-4"
               variant="primary"
               colors="white"
               onClick={showIssuesHandler}
             >
               Issues
             </TMButton>
+
+            <TMDropdown
+              triggerVariant="menu-button"
+              options={TR_DROP_OPTIONS}
+            />
           </>
         }
         subSection={
