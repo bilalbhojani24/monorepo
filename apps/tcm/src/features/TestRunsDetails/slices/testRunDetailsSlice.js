@@ -30,6 +30,8 @@ export const testRunDetailsSlice = createSlice({
   reducers: {
     setTestRunsDetails: (state, { payload }) => {
       state.fullDetails = payload;
+
+      if (!payload) state.testCaseDetails = initialState.testCaseDetails;
     },
     setSelectedFolder: (state, { payload }) => {
       state.selectedFolder = payload;
@@ -48,11 +50,15 @@ export const testRunDetailsSlice = createSlice({
     },
     setTestCaseDetails: (state, { payload }) => {
       state.testCaseDetails = payload;
+    },
+    resetTestCaseDetails: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
     }
   }
 });
 
 export const {
+  resetTestCaseDetails,
   setTestCaseDetails,
   setMetaPage,
   setTestRunsDetails,

@@ -22,6 +22,8 @@ const TestCaseDetailsView = ({
     if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testCaseId]);
 
   return (

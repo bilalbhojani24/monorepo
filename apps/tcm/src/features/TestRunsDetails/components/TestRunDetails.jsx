@@ -8,8 +8,13 @@ import TopSection from './TopSection';
 import useTestRunDetails from './useTestRunDetails';
 
 const TestRunDetails = () => {
-  const { projectId, testCaseDetails, testRunId, fetchTestRunDetails } =
-    useTestRunDetails();
+  const {
+    projectId,
+    testCaseDetails,
+    testRunId,
+    fetchTestRunDetails,
+    resetTestCaseDetailsMeta
+  } = useTestRunDetails();
 
   useEffect(() => {
     fetchTestRunDetails();
@@ -32,6 +37,7 @@ const TestRunDetails = () => {
         folderId={testCaseDetails?.folderId}
         projectId={projectId}
         testCaseId={testCaseDetails?.testCaseId}
+        onDetailsClose={resetTestCaseDetailsMeta}
       />
     </div>
   );

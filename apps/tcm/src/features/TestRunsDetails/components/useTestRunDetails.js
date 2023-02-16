@@ -9,7 +9,10 @@ import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
-import { setTestRunsDetails } from '../slices/testRunDetailsSlice';
+import {
+  resetTestCaseDetails,
+  setTestRunsDetails
+} from '../slices/testRunDetailsSlice';
 
 export default function useTestRunDetails() {
   const navigate = useNavigate();
@@ -59,6 +62,10 @@ export default function useTestRunDetails() {
     }
   };
 
+  const resetTestCaseDetailsMeta = () => {
+    dispatch(resetTestCaseDetails());
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,6 +78,7 @@ export default function useTestRunDetails() {
     projectId,
     testRunId,
     fetchTestRunDetails,
-    onDropDownChange
+    onDropDownChange,
+    resetTestCaseDetailsMeta
   };
 }
