@@ -3,6 +3,7 @@
 
 import Amplitude from './amplitude';
 import { EDS } from './eds';
+import Analytics from './googleAnalytics';
 
 const whiteListUrl = [
   '/pricing',
@@ -94,10 +95,9 @@ export const logEvent = (
     EDS.logEvent(key, eventType, data);
   }
   if (sendToGA === true) {
-    // const gaEvent = mapEventDataToGAEvent(key, data);
-    // if (gaEvent !== null) {
-    //   Analytics.sendDataToGA(gaEvent.category, gaEvent.action, gaEvent.label);
-    // }
-    // Call Google Analytics
+    const analytics = new Analytics();
+    if (key) {
+      analytics.analyticsEventTracker(data.team || '', key, data.label || '');
+    }
   }
 };

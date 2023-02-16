@@ -1,13 +1,14 @@
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
-export const GAInitialize = (TRACKING_ID) => {
-  ReactGA.initialize(TRACKING_ID);
-};
+class Analytics {
+  constructor(TRACKING_ID) {
+    ReactGA.initialize(TRACKING_ID);
+  }
 
-export const useAnalyticsEventTracker = (
-  action = 'test action',
-  category = 'Blog category',
-  label = 'test label'
-) => {
-  ReactGA.event({ action, category, label });
-};
+  // eslint-disable-next-line class-methods-use-this
+  analyticsEventTracker(category, action, label) {
+    ReactGA.event({ category, action, label });
+  }
+}
+
+export default Analytics;

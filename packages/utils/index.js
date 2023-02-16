@@ -5,10 +5,10 @@ import fileDownload from './src/fileDownload';
 import getInitialAndFinalFocusableElementRef from './src/getInitialAndFinalFocusableElementRef';
 import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
+import Analytics from './src/googleAnalytics';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
-// export * from './src/amplitude';
 export * from './src/axiosUtils';
 export * from './src/delay';
 export * from './src/getNumberOrdinal';
@@ -21,6 +21,7 @@ export * from './src/validateEmail';
 
 export {
   Amplitude,
+  Analytics,
   convertSecondsToMinutes,
   cookieUtils,
   fileDownload,
