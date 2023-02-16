@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
-import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
-import { routeFormatter } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import {
@@ -14,7 +11,6 @@ import {
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseView(prop) {
-  const navigate = useNavigate();
   const { onDropDownChange } = useTestCasesTable();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   const [imageLink, setImageLink] = useState(null);
@@ -50,20 +46,7 @@ export default function useTestCaseView(prop) {
 
   const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
-    if (prop?.folderId)
-      navigate(
-        `${routeFormatter(
-          AppRoute.TEST_CASES,
-          {
-            projectId: prop?.projectId,
-            folderId: prop?.folderId
-          },
-          true
-        )}`,
-        {
-          replace: true
-        }
-      );
+    prop?.onDetailsClose?.();
   };
 
   const handleTabChange = (value) => {

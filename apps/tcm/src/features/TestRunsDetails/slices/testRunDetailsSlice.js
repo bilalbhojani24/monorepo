@@ -16,6 +16,11 @@ const initialState = {
     prev: null,
     count: null,
     page_size: null
+  },
+  testCaseDetails: {
+    projectId: null,
+    folderId: null,
+    testCaseId: null
   }
 };
 
@@ -40,11 +45,15 @@ export const testRunDetailsSlice = createSlice({
     },
     setMetaPage: (state, { payload }) => {
       state.metaPage = payload;
+    },
+    setTestCaseDetails: (state, { payload }) => {
+      state.testCaseDetails = payload;
     }
   }
 });
 
 export const {
+  setTestCaseDetails,
   setMetaPage,
   setTestRunsDetails,
   setIsLoadingProps,

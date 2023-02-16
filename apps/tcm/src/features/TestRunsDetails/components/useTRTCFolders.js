@@ -1,18 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getTestRunsTestCasesAPI } from 'api/testruns.api';
-import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   setAllFolders,
   setAllTestCases,
   setIsLoadingProps,
-  setSelectedFolder
+  setSelectedFolder,
+  setTestCaseDetails
 } from '../slices/testRunDetailsSlice';
 
 export default function useTRTCFolders() {
-  const navigate = useNavigate();
   const { projectId, testRunId } = useParams();
   const dispatch = useDispatch();
 
@@ -33,21 +31,28 @@ export default function useTRTCFolders() {
   );
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
-    navigate(
-      routeFormatter(
-        AppRoute.TEST_RUN_DETAILS,
-        {
-          projectId,
-          testRunId,
-          folderId: testCaseItem.test_case_folder_id,
-          testCaseId: testCaseItem?.id
-        },
-        true
-      ),
-      {
-        replace: true
-      }
+    dispatch(
+      setTestCaseDetails({
+        folderId: testCaseItem.test_case_folder_id,
+        testCaseId: testCaseItem?.id
+      })
     );
+
+    // navigate(
+    //   routeFormatter(
+    //     AppRoute.TEST_RUN_DETAILS,
+    //     {
+    //       projectId,
+    //       testRunId,
+    //       folderId: testCaseItem.test_case_folder_id,
+    //       testCaseId: testCaseItem?.id
+    //     },
+    //     true
+    //   ),
+    //   {
+    //     replace: true
+    //   }
+    // );
   };
 
   const fetchTestCases = () => {

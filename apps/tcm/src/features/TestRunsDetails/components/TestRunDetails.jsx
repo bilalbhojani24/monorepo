@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import TestCaseDetailsView from 'features/TestCaseDetailsView';
 
 import Folders from './Folders';
 import MiniDetails from './MiniDetails';
@@ -7,7 +8,8 @@ import TopSection from './TopSection';
 import useTestRunDetails from './useTestRunDetails';
 
 const TestRunDetails = () => {
-  const { projectId, testRunId, fetchTestRunDetails } = useTestRunDetails();
+  const { projectId, testCaseDetails, testRunId, fetchTestRunDetails } =
+    useTestRunDetails();
 
   useEffect(() => {
     fetchTestRunDetails();
@@ -26,6 +28,11 @@ const TestRunDetails = () => {
           </main>
         </div>
       </div>
+      <TestCaseDetailsView
+        folderId={testCaseDetails?.folderId}
+        projectId={projectId}
+        testCaseId={testCaseDetails?.testCaseId}
+      />
     </div>
   );
 };

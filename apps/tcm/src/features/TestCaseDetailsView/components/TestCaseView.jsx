@@ -10,7 +10,10 @@ import useTestCaseView from './useTestCaseView';
 const TestCaseView = () => {
   const { testCaseDetails, testCaseId } = useTestCaseView();
 
-  if (!testCaseDetails || testCaseId !== `${testCaseDetails?.id}`)
+  if (
+    !testCaseDetails ||
+    parseInt(testCaseId, 10) !== parseInt(testCaseDetails?.id, 10)
+  )
     return (
       <div className="flex h-full flex-col items-stretch px-6 pt-5">
         <Loader />

@@ -17,7 +17,8 @@ const Repository = ({ isSearch }) => {
     testCaseId,
     currentPage,
     fetchAllTestCases,
-    setRepoView
+    setRepoView,
+    detailsCloseHandler
   } = useTestCases();
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const Repository = ({ isSearch }) => {
         folderId={folderId}
         projectId={projectId}
         testCaseId={testCaseId}
+        onDetailsClose={detailsCloseHandler}
       />
     </div>
   );

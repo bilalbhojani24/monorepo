@@ -1,11 +1,12 @@
 // import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   setAddTestCaseVisibility,
@@ -19,6 +20,7 @@ import {
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
@@ -118,6 +120,22 @@ export default function useTestCases() {
     }
   };
 
+  const detailsCloseHandler = () => {
+    navigate(
+      `${routeFormatter(
+        AppRoute.TEST_CASES,
+        {
+          projectId,
+          folderId
+        },
+        true
+      )}`,
+      {
+        replace: true
+      }
+    );
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,6 +162,7 @@ export default function useTestCases() {
     fetchAllTestCases,
     fetchUsers,
     initFormValues,
-    setRepoView
+    setRepoView,
+    detailsCloseHandler
   };
 }

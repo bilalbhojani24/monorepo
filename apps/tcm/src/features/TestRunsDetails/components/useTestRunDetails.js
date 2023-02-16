@@ -20,6 +20,9 @@ export default function useTestRunDetails() {
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
+  const testCaseDetails = useSelector(
+    (state) => state.testRunsDetails.testCaseDetails
+  );
 
   const fetchTestRunDetails = () => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
@@ -62,6 +65,7 @@ export default function useTestRunDetails() {
   }, [projectId]);
 
   return {
+    testCaseDetails,
     getProgressOptions,
     testRunDetails,
     projectId,
