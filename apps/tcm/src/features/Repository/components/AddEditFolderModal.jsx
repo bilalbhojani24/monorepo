@@ -24,7 +24,7 @@ const AddEditFolderModal = ({
   isEditFolder,
   currentData
 }) => {
-  const functionName = isEditFolder ? 'Edit' : 'Add';
+  const functionName = isEditFolder ? 'Edit' : 'Create';
   const { hideFolderModal, updateFolders, renameFolderHelper } =
     useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
@@ -98,7 +98,7 @@ const AddEditFolderModal = ({
           <TMInputField
             wrapperClassName="mb-2"
             label="Folder name"
-            placeholder="Ex. New Folder"
+            placeholder="Enter Folder Name"
             value={filledFormData.name}
             errorText={formError.nameError}
             onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}

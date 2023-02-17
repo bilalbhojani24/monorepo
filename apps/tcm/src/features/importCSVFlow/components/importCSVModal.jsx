@@ -16,7 +16,8 @@ import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 import {
   setCSVCurrentScreen,
   setCSVImportSteps,
-  setNotificationConfigForConfirmCSVImport
+  setNotificationConfigForConfirmCSVImport,
+  setRetryImport
 } from '../slices/importCSVSlice';
 
 const ImportCSVModal = ({ data, show, status }) => {
@@ -71,6 +72,7 @@ const ImportCSVModal = ({ data, show, status }) => {
       )
     );
     dispatch(setCSVCurrentScreen('mapFields'));
+    dispatch(setRetryImport(true));
     detoxNotification();
   };
 
@@ -79,7 +81,7 @@ const ImportCSVModal = ({ data, show, status }) => {
   };
 
   return (
-    <TMModal show={show} withDismissButton={false}>
+    <TMModal show={show}>
       <TMModalHeader
         heading={data?.label}
         handleDismissClick={onModalCloseHandler}
@@ -99,7 +101,7 @@ const ImportCSVModal = ({ data, show, status }) => {
         iconWrapperClassname={
           status === 'ongoing' ? 'bg-brand-100' : 'bg-danger-100'
         }
-        withDismissButton={false}
+        dismissButton={data.secondButtonText}
       />
       <TMModalBody>
         <div>{data?.text}</div>

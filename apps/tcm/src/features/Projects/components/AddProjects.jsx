@@ -26,14 +26,14 @@ const AddProjects = ({ show }) => {
   return (
     <TMModal show={show} withDismissButton onOverlayClick={hideAddProjectModal}>
       <TMModalHeader
-        heading="Add Project"
+        heading="Create Project"
         handleDismissClick={hideAddProjectModal}
       />
       <TMModalBody>
         <div className="mb-4">
           <TMInputField
             label="Project Name"
-            placeholder="Project Name"
+            placeholder="Enter Project Name"
             value={formData.name}
             errorText={formError.nameError}
             onKeyDown={(e) => onSubmitKeyHandler(e, createProjectHandler)}
@@ -47,7 +47,7 @@ const AddProjects = ({ show }) => {
         </div>
         <TMTextArea
           label="Description"
-          placeholder="Explaining in brief about the project description"
+          placeholder="Write in brief about the project"
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.currentTarget.value })

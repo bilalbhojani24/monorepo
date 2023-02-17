@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -16,15 +16,25 @@ import useTestRuns from './useTestRuns';
 
 const TestRuns = () => {
   const {
+    projectId,
+    currentPage,
+    isEditTestRunsFormVisible,
+    isAddTestRunsFormVisible,
     currentTab,
     allTestRuns,
     isTestRunsLoading,
-    showTestRunAddFormHandlers,
-    isAddTestRunsFormVisible,
-    handleTabChange
+    showTestRunAddFormHandler,
+    handleTabChange,
+    fetchAllTestRuns
   } = useTestRuns();
 
-  if (isAddTestRunsFormVisible) return <AddEditTestRun />;
+  useEffect(() => {
+    fetchAllTestRuns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId, currentTab, currentPage]);
+
+  if (isAddTestRunsFormVisible || isEditTestRunsFormVisible)
+    return <AddEditTestRun />;
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
@@ -34,7 +44,7 @@ const TestRuns = () => {
           heading="Test Runs"
           actions={
             <>
-              <TMButton variant="primary" onClick={showTestRunAddFormHandlers}>
+              <TMButton variant="primary" onClick={showTestRunAddFormHandler}>
                 Create Test Run
               </TMButton>
             </>

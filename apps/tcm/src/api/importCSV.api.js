@@ -28,9 +28,12 @@ export const postMappingData = async ({ importId, payload }) =>
   // eslint-disable-next-line no-return-await
   await fetchPost(`/api/v1/import/custom/csv/${importId}/preview`, payload);
 
-export const startCSVImport = async ({ importId, payload }) =>
+export const startCSVImport = async ({ importId, retryImport, payload }) =>
   // eslint-disable-next-line no-return-await
-  await fetchPost(`/api/v1/import/custom/csv/${importId}/insert`, payload);
+  await fetchPost(
+    `/api/v1/import/custom/csv/${importId}/insert?retry=${retryImport}`,
+    payload
+  );
 
 export const downloadReport = async (importId) => {
   await fetchGet(`/api/v1/import/${importId}/error-file`);

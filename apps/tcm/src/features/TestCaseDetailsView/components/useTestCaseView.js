@@ -16,7 +16,8 @@ export default function useTestCasesView() {
   const navigate = useNavigate();
   const { onDropDownChange } = useTestCasesTable();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
-  // const [inputError, setInputError] = useState(false);
+  const [imageLink, setImageLink] = useState(null);
+  const [showImagePreview, setImagePreviewVisibility] = useState(false);
   const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
@@ -75,10 +76,24 @@ export default function useTestCasesView() {
   };
 
   const onAttachmentClick = (item) => {
-    if (item?.url) window.open(item.url, '_blank').focus();
+    if (item?.url) {
+      if (item.content_type.includes('image/')) {
+        setImageLink(item.url);
+        setImagePreviewVisibility(true);
+      } else window.open(item.url);
+    }
+  };
+
+  const closePreview = () => {
+    setImagePreviewVisibility(false);
+    setTimeout(() => {
+      setImageLink(null);
+    }, 400);
   };
 
   return {
+    showImagePreview,
+    imageLink,
     testRunsCount,
     selectedTab,
     testCaseIssues,
@@ -90,6 +105,7 @@ export default function useTestCasesView() {
     fetchTestCaseDetails,
     handleTabChange,
     actionHandler,
-    onAttachmentClick
+    onAttachmentClick,
+    closePreview
   };
 }

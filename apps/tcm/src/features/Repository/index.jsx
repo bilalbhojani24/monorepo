@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { setNotificationConfigForConfirmCSVImport } from '../importCSVFlow/slices/importCSVSlice';
 
 import Folders from './components/Folders';
+import MiniatureRepository from './components/MiniatureRepository';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
@@ -101,3 +102,5 @@ Repository.defaultProps = {
 };
 
 export default Repository;
+
+export { MiniatureRepository };

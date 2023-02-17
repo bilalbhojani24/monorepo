@@ -18,6 +18,7 @@ const usePreviewAndConfirm = () => {
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
+  const retryImport = useSelector((state) => state.importCSV.retryCSVImport);
 
   const previewAndConfirmTableRows = previewData.map((data, idx) => ({
     id: idx + 1,
@@ -32,7 +33,8 @@ const usePreviewAndConfirm = () => {
     dispatch(
       startImportingTestCases({
         importId: mapFieldsConfig.importId,
-        projectId
+        projectId,
+        retryImport
       })
     );
   };

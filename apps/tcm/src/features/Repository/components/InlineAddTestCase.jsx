@@ -26,7 +26,7 @@ const InlineAddTestCase = ({ noBorder }) => {
         value={testCase}
         onKeyDown={(e) => onSubmitKeyHandler(e, handleInlineInputButtonClick)}
         id="inline-add-test-case"
-        buttonElement="Create Test Case"
+        buttonElement="Add"
         placeholder="Add new test case"
         onChange={(e) => setTestCase(e.target.value)}
         onButtonClick={handleInlineInputButtonClick}

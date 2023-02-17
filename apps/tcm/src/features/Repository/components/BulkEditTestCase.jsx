@@ -52,7 +52,7 @@ const BulkEditTestCase = () => {
         title="Bulk Edit Test Cases"
         variant="buttons"
         trailingHeadNode={
-          <>
+          <div className="flex items-center justify-end">
             <TMButton
               colors="white"
               variant="primary"
@@ -67,7 +67,7 @@ const BulkEditTestCase = () => {
             >
               Update All
             </TMButton>
-          </>
+          </div>
         }
       />
       <p className="text-base-800 my-3 font-normal">

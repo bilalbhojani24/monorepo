@@ -72,7 +72,7 @@ const initialState = {
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
-  recentRquestedAfterUnsaved: ''
+  recentRequestedAfterUnsaved: ''
 };
 
 export const repositorySlice = createSlice({
@@ -197,7 +197,7 @@ export const repositorySlice = createSlice({
       state.isUnsavedDataModalVisible = payload;
     },
     setRecentRquestedAfterUnsaved: (state, { payload }) => {
-      state.recentRquestedAfterUnsaved = payload;
+      state.recentRequestedAfterUnsaved = payload;
     }
   }
 });

@@ -24,7 +24,7 @@ const useUnsavedChanges = () => {
     (state) => state.repository.isUnsavedDataModalVisible
   );
   const recentRequestedStep = useSelector(
-    (state) => state.repository.recentRquestedAfterUnsaved
+    (state) => state.repository.recentRequestedAfterUnsaved
   );
   const setRecentRequestedStep = (value) => {
     dispatch(setRecentRquestedAfterUnsaved(value));

@@ -49,6 +49,7 @@ const initialState = {
   },
   previewData: [],
   folderName: '',
+  retryCSVImport: false,
   uploadFileProceedLoading: false,
   confirmCSVImportNotificationConfig: {
     show: false,
@@ -169,11 +170,20 @@ const importCSVSlice = createSlice({
           FAILED_IMPORT_MODAL_DATA;
       }
     },
-    startImportingTestCaseRejected: (state) => {
-      state.confirmCSVImportNotificationConfig.show = true;
-      state.confirmCSVImportNotificationConfig.status = 'failed';
-      state.confirmCSVImportNotificationConfig.modalData =
-        FAILED_IMPORT_MODAL_DATA;
+    startImportingTestCaseRejected: (state, { payload }) => {
+      if (payload.response.status === 499) {
+        state.confirmCSVImportNotificationConfig.show = false;
+        state.confirmCSVImportNotificationConfig.status = '';
+        state.confirmCSVImportNotificationConfig.modalData = null;
+      } else {
+        state.confirmCSVImportNotificationConfig.show = true;
+        state.confirmCSVImportNotificationConfig.status = 'failed';
+        state.confirmCSVImportNotificationConfig.modalData =
+          FAILED_IMPORT_MODAL_DATA;
+      }
+    },
+    setRetryImport: (state, { payload }) => {
+      state.retryCSVImport = payload;
     }
   },
   extraReducers: (builder) => {
@@ -269,6 +279,7 @@ export const {
   setCSVCurrentScreen,
   setCSVImportSteps,
   setCSVFormData,
+  setRetryImport,
   setCSVUploadError,
   setFileConfig,
   setShowMoreFields,
@@ -283,12 +294,13 @@ export const {
 export default importCSVSlice.reducer;
 
 export const startImportingTestCases =
-  ({ importId, projectId }) =>
+  ({ importId, projectId, retryImport }) =>
   async (dispatch) => {
     dispatch(startImportingTestCasePending());
     try {
       const response = await startCSVImport({
         importId,
+        retryImport,
         payload: { project_id: projectId }
       });
       dispatch(startImportingTestCaseFulfilled(response));
