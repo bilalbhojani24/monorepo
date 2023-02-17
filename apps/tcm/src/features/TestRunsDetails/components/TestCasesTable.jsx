@@ -22,7 +22,8 @@ const TestCasesTable = () => {
     isTestCasesLoading,
     allTestCases,
     onPaginationClick,
-    handleTestCaseViewClick
+    handleTestCaseViewClick,
+    onResultChange
   } = useTRTCFolders();
 
   const datatableColumns = [
@@ -67,7 +68,11 @@ const TestCasesTable = () => {
       cell: (rowData) => (
         <TMSelectMenu
           options={STATUS_OPTIONS}
-          // onClick={onDropDownChange}
+          value={
+            rowData?.latest_status &&
+            STATUS_OPTIONS.find((item) => item.value === rowData.latest_status)
+          }
+          onChange={(e) => onResultChange(e, rowData)}
         />
       ),
       // <span className="capitalize">{rowData.status}</span>,

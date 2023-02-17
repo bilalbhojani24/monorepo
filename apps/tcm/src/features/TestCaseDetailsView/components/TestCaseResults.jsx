@@ -14,8 +14,8 @@ import { RESULTS_DROP_OPTIONS } from '../const/testCaseViewConst';
 
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseResults = ({ isFromTestRun }) => {
-  const { testRunsDetails } = useTestCaseViewDetails();
+const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
+  const { testRunsDetails, testCaseDetails } = useTestCaseViewDetails();
 
   const resultsTableColumn = [
     {
@@ -55,12 +55,20 @@ const TestCaseResults = ({ isFromTestRun }) => {
             You can log results for this test case from the options below:
           </div>
           <div className="flex gap-4">
-            <TMButton size="default" variant="secondary" colors="brand">
+            <TMButton
+              size="default"
+              variant="secondary"
+              colors="brand"
+              onClick={() => onResultClick(null, testCaseDetails)}
+            >
               Add Result
             </TMButton>
 
             <div className="flex">
               <TMButton
+                onClick={() =>
+                  onResultClick({ value: 'passed' }, testCaseDetails)
+                }
                 size="default"
                 variant="primary"
                 colors="white"
@@ -72,7 +80,9 @@ const TestCaseResults = ({ isFromTestRun }) => {
                 triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10"
                 triggerVariant="menu-button"
                 options={RESULTS_DROP_OPTIONS}
-                //   onClick={onDropDownChange}
+                onClick={(e, selectedOption) =>
+                  onResultClick({ value: selectedOption.id }, testCaseDetails)
+                }
               />
             </div>
           </div>
@@ -106,11 +116,13 @@ const TestCaseResults = ({ isFromTestRun }) => {
 };
 
 TestCaseResults.propTypes = {
-  isFromTestRun: PropTypes.bool
+  isFromTestRun: PropTypes.func,
+  onResultClick: PropTypes.bool
 };
 
 TestCaseResults.defaultProps = {
-  isFromTestRun: false
+  isFromTestRun: false,
+  onResultClick: () => {}
 };
 
 export default TestCaseResults;

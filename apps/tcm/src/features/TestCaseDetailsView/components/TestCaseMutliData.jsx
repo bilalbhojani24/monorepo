@@ -9,7 +9,7 @@ import { TABS_ARRAY } from '../const/testCaseViewConst';
 import TestCaseResults from './TestCaseResults';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseMutliData = ({ isFromTestRun }) => {
+const TestCaseMutliData = ({ isFromTestRun, onResultClick }) => {
   const { testRunsCount, selectedTab, testCaseIssues, handleTabChange } =
     useTestCaseViewDetails();
 
@@ -55,7 +55,10 @@ const TestCaseMutliData = ({ isFromTestRun }) => {
       />
 
       {selectedTab.name === TABS_ARRAY[0].name && (
-        <TestCaseResults isFromTestRun={isFromTestRun} />
+        <TestCaseResults
+          isFromTestRun={isFromTestRun}
+          onResultClick={onResultClick}
+        />
       )}
 
       {selectedTab.name === TABS_ARRAY[1].name && (
@@ -88,11 +91,13 @@ const TestCaseMutliData = ({ isFromTestRun }) => {
 };
 
 TestCaseMutliData.propTypes = {
-  isFromTestRun: PropTypes.bool
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.bool
 };
 
 TestCaseMutliData.defaultProps = {
-  isFromTestRun: false
+  isFromTestRun: false,
+  onResultClick: () => {}
 };
 
 export default TestCaseMutliData;

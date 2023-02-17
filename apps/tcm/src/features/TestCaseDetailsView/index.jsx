@@ -10,7 +10,8 @@ const TestCaseDetailsView = ({
   folderId,
   testCaseId,
   onDetailsClose,
-  isFromTestRun
+  isFromTestRun,
+  onResultClick
 }) => {
   const {
     initTestCaseDetails,
@@ -48,6 +49,7 @@ const TestCaseDetailsView = ({
       <TestCaseView
         actionHandler={actionHandler}
         isFromTestRun={isFromTestRun}
+        onResultClick={onResultClick}
       />
     </TMSlideover>
   );
@@ -58,7 +60,8 @@ TestCaseDetailsView.propTypes = {
   folderId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   onDetailsClose: PropTypes.func,
-  isFromTestRun: PropTypes.bool
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.bool
 };
 
 TestCaseDetailsView.defaultProps = {
@@ -66,7 +69,8 @@ TestCaseDetailsView.defaultProps = {
   folderId: null,
   testCaseId: null,
   onDetailsClose: () => {},
-  isFromTestRun: false
+  isFromTestRun: false,
+  onResultClick: () => {}
 };
 
 export default TestCaseDetailsView;

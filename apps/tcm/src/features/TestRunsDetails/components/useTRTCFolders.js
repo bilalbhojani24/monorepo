@@ -74,6 +74,10 @@ export default function useTRTCFolders() {
     }
   };
 
+  const onResultChange = (selectedOption, data) => {
+    console.log(selectedOption);
+  };
+
   return {
     allTestCases,
     metaPage,
@@ -86,6 +90,7 @@ export default function useTRTCFolders() {
     onFoldersUpdate,
     fetchTestCases,
     handleTestCaseViewClick,
-    onFolderClick
+    onFolderClick,
+    onResultChange
   };
 }

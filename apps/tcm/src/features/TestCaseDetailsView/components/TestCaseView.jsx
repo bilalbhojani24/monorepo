@@ -8,7 +8,7 @@ import TestCaseMutliData from './TestCaseMutliData';
 import TestCaseTopBar from './TestCaseTopBar';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseView = ({ actionHandler, isFromTestRun }) => {
+const TestCaseView = ({ actionHandler, isFromTestRun, onResultClick }) => {
   const { testCaseDetails, testCaseId } = useTestCaseViewDetails();
 
   if (
@@ -27,7 +27,10 @@ const TestCaseView = ({ actionHandler, isFromTestRun }) => {
         <div className="pb-4">
           <TestCaseTopBar actionHandler={actionHandler} />
           <TestCaseBasicData />
-          <TestCaseMutliData isFromTestRun={isFromTestRun} />
+          <TestCaseMutliData
+            isFromTestRun={isFromTestRun}
+            onResultClick={onResultClick}
+          />
         </div>
         {/* <div className="flex w-full justify-between">
         <TMButton variant="minimal" colors="white">
@@ -44,12 +47,14 @@ const TestCaseView = ({ actionHandler, isFromTestRun }) => {
 
 TestCaseView.propTypes = {
   actionHandler: PropTypes.func,
-  isFromTestRun: PropTypes.bool
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.bool
 };
 
 TestCaseView.defaultProps = {
   actionHandler: () => {},
-  isFromTestRun: false
+  isFromTestRun: false,
+  onResultClick: () => {}
 };
 
 export default TestCaseView;
