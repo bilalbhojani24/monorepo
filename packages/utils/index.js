@@ -4,7 +4,6 @@ import fileDownload from './src/fileDownload';
 import getInitialAndFinalFocusableElementRef from './src/getInitialAndFinalFocusableElementRef';
 import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
-// import Logger from './src/logger';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
@@ -25,7 +24,6 @@ export {
   getInitialAndFinalFocusableElementRef,
   getUniqueId,
   getUrlParams,
-  // Logger,
   makeDebounce,
   removePaddingfromBeginning
 };

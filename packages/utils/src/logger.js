@@ -1,6 +1,4 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable no-param-reassign */
-
 import { initAmplitude, LogAmplitudeEvent } from './amplitude';
 import { initEDS, logEDSEvent } from './eds';
 import { initGA, logAnalyticsEvent } from './googleAnalytics';
@@ -30,22 +28,22 @@ export const logEvent = (
   sendToGA
 ) => {
   if (baseLogger !== undefined) {
-    data = data || {};
+    const logData = data || {};
     // Check to exclude data which is not of type object
-    if (!(typeof data === 'object' && !Array.isArray(data))) {
+    if (!(typeof logData === 'object' && !Array.isArray(logData))) {
       return;
     }
-    data.url = window.location.href;
+    logData.url = window.location.href;
     // For GDPR
-    delete data.email;
+    delete logData.email;
     /*
       The below chunk appends the value of `team` for each event that is being sent for L/AL/A/AA
       All new events that are being sent post 1st March 2021, will be dropped if the `team` key is missing
      */
     // Note: Checking for data.team as Product's like Speedlad use GTM directly to send events
-    data.team = data.team || eventType;
-    if (skipLoggingKeys.indexOf('amplitude') === -1) {
-      LogAmplitudeEvent(key, data, cb);
+    logData.team = logData.team || eventType;
+    if (!skipLoggingKeys.includes('amplitude')) {
+      LogAmplitudeEvent(key, logData, cb);
     }
     // Add Query parameter in json in event data with name of "params"
     if (window.location.search !== '') {
@@ -74,27 +72,19 @@ export const logEvent = (
           });
           // if params set then add params props
           if (Object.keys(paramsValue).length > 0) {
-            data.params = paramsValue;
+            logData.params = paramsValue;
           }
         }
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
+        throw new Error(e);
       }
     }
-    if (key === 'NewSignup') {
-      data.user = {
-        user_id: data.user_id,
-        type: data.user_type,
-        plan_id: data.plan_id,
-        group_id: data.group_id
-      };
+
+    if (!skipLoggingKeys.includes('EDS')) {
+      logEDSEvent(key, eventType, logData);
     }
-    if (skipLoggingKeys.indexOf('EDS') === -1) {
-      logEDSEvent(key, eventType, data);
-    }
-    if (sendToGA === true && key) {
-      logAnalyticsEvent(data.team || '', key, data.label || '');
+    if (sendToGA === true) {
+      logAnalyticsEvent(logData.team || '', key, logData.label || '');
     }
   }
 };
