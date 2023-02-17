@@ -7,7 +7,8 @@ const initialState = {
     projectId: null,
     folderId: null,
     testCaseId: null
-  }
+  },
+  testResultsArray: []
 };
 
 export const testCaseDetailsSlice = createSlice({
@@ -22,11 +23,18 @@ export const testCaseDetailsSlice = createSlice({
     },
     setTestCaseDetails: (state, { payload }) => {
       state.allData = payload;
+    },
+    setTestResultsArray: (state, { payload }) => {
+      state.testResultsArray = payload;
     }
   }
 });
 
-export const { setTestCaseViewVisibility, setTestCaseDetails, setMetaIds } =
-  testCaseDetailsSlice.actions;
+export const {
+  setTestCaseViewVisibility,
+  setTestCaseDetails,
+  setMetaIds,
+  setTestResultsArray
+} = testCaseDetailsSlice.actions;
 
 export default testCaseDetailsSlice.reducer;

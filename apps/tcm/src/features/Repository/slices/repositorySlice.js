@@ -183,7 +183,7 @@ export const repositorySlice = createSlice({
       state.loadedDataProjectId = payload;
     },
     setMetaPage: (state, { payload }) => {
-      state.metaPage = payload;
+      state.metaPage = !payload ? initialState.metaPage : payload;
     },
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;

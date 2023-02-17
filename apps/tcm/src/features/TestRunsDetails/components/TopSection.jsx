@@ -6,6 +6,7 @@ import {
   TMMetadata,
   TMPageHeadings
 } from 'common/bifrostProxy';
+import { CloseTestRun, DeleteTestRun } from 'features/TestRuns';
 import { formatTime } from 'utils/helperFunctions';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
@@ -57,6 +58,8 @@ const TopSection = () => {
           </div>
         }
       />
+      <CloseTestRun />
+      <DeleteTestRun />
     </div>
   );
 };

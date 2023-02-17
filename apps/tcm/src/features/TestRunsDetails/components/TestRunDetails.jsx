@@ -6,6 +6,7 @@ import MiniDetails from './MiniDetails';
 import TestCases from './TestCases';
 import TopSection from './TopSection';
 import useTestRunDetails from './useTestRunDetails';
+import useTRTCFolders from './useTRTCFolders';
 
 const TestRunDetails = () => {
   const {
@@ -15,6 +16,8 @@ const TestRunDetails = () => {
     fetchTestRunDetails,
     resetTestCaseDetailsMeta
   } = useTestRunDetails();
+
+  const { onResultChange, testResultsArray } = useTRTCFolders();
 
   useEffect(() => {
     fetchTestRunDetails();
@@ -34,10 +37,13 @@ const TestRunDetails = () => {
         </div>
       </div>
       <TestCaseDetailsView
+        testResultsArray={testResultsArray}
         folderId={testCaseDetails?.folderId}
         projectId={projectId}
         testCaseId={testCaseDetails?.testCaseId}
         onDetailsClose={resetTestCaseDetailsMeta}
+        isFromTestRun
+        onResultClick={onResultChange}
       />
     </div>
   );

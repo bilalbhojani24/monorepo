@@ -16,7 +16,8 @@ import {
   setFilterSearchMeta,
   updateAllTestCases,
   updateFoldersLoading,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  setMetaPage
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
@@ -59,7 +60,7 @@ const useFilter = (prop) => {
     dispatch(resetFilterSearchMeta());
   };
 
-  const fetchFilteredCases = (filterOptions) => {
+  const fetchFilteredCases = (filterOptions, page) => {
     const queryParams = {};
     Object.keys(filterOptions).forEach((key) => {
       const value = Array.isArray(filterOptions[key])
@@ -73,6 +74,8 @@ const useFilter = (prop) => {
       }
     });
 
+    if (page) queryParams['p'] = page;
+
     if (Object.keys(queryParams).length) {
       dispatch(updateTestCasesListLoading(true));
       getTestCasesSearchFilterAPI({
@@ -83,6 +86,8 @@ const useFilter = (prop) => {
           ...item,
           folders: res?.folders?.[item.id] || null
         }));
+
+        dispatch(setMetaPage(res.info));
         dispatch(updateAllTestCases(testCases));
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
@@ -164,16 +169,17 @@ const useFilter = (prop) => {
   };
 
   useEffect(() => {
-    const filterOptions = getFilterOptions(searchParams);
+    let filterOptions = getFilterOptions(searchParams);
 
     const count = [
       filterOptions.tags,
       filterOptions.owner,
       filterOptions.priority
     ];
+
     updateFilterSearchMeta(filterOptions);
     setAppliedFiltersCount(count.filter((item) => item.length).length);
-    fetchFilteredCases(filterOptions);
+    fetchFilteredCases(filterOptions, searchParams?.get('p'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 

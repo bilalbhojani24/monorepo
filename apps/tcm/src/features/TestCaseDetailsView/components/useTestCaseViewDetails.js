@@ -23,6 +23,9 @@ export default function useTestCaseViewDetails() {
   const testRunsCount = useSelector(
     (state) => state.testCaseDetails.allData?.test_runs_count || null
   );
+  const testResultsArray = useSelector(
+    (state) => state.testCaseDetails.testResultsArray || []
+  );
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
 
   const handleTabChange = (value) => {
@@ -46,6 +49,7 @@ export default function useTestCaseViewDetails() {
   };
 
   return {
+    testResultsArray,
     testCaseId: metaIds?.testCaseId,
     showImagePreview,
     imageLink,
