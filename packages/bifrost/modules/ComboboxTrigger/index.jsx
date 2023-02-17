@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -12,13 +12,9 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth } = useContext(ComboboxContextData);
 
-  const memoizedSetWidthCb = useCallback(() => {
+  useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
-  }, [setWidth]);
-
-  useLayoutEffect(() => {
-    memoizedSetWidthCb();
-  }, [memoizedSetWidthCb]);
+  }, [buttonRef, setWidth]);
 
   return (
     <Popover.Trigger asChild ref={buttonRef}>
