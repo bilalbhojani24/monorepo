@@ -17,7 +17,7 @@ const TestRunDetails = () => {
     resetTestCaseDetailsMeta
   } = useTestRunDetails();
 
-  const { onResultChange } = useTRTCFolders();
+  const { onResultChange, testResultsArray } = useTRTCFolders();
 
   useEffect(() => {
     fetchTestRunDetails();
@@ -37,6 +37,7 @@ const TestRunDetails = () => {
         </div>
       </div>
       <TestCaseDetailsView
+        testResultsArray={testResultsArray}
         folderId={testCaseDetails?.folderId}
         projectId={projectId}
         testCaseId={testCaseDetails?.testCaseId}

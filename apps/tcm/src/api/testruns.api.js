@@ -66,3 +66,8 @@ export const addTestResultAPI = async ({
       test_result: payload
     }
   );
+
+export const getTestResultsAPI = async ({ projectId, testRunId, testCaseId }) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/test-results`
+  );

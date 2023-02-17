@@ -32,7 +32,8 @@ const initialState = {
     issues: []
   },
   issuesArray: [],
-  selectedTestCase: null
+  selectedTestCase: null,
+  testResultsArray: []
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -73,6 +74,12 @@ export const testRunDetailsSlice = createSlice({
     setMetaPage: (state, { payload }) => {
       state.metaPage = payload;
     },
+    setTestResultsArray: (state, { payload }) => {
+      state.testResultsArray = payload;
+    },
+    addTestResultItem: (state, { payload }) => {
+      state.testResultsArray = [...state.testResultsArray, payload];
+    },
     setTestCaseDetails: (state, { payload }) => {
       state.testCaseDetails = payload;
     },
@@ -89,6 +96,8 @@ export const testRunDetailsSlice = createSlice({
 });
 
 export const {
+  addTestResultItem,
+  setTestResultsArray,
   setSelectedTestCase,
   setIssuesArray,
   initAddStatusForm,

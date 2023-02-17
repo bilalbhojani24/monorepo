@@ -15,9 +15,10 @@ import { RESULTS_DROP_OPTIONS } from '../const/testCaseViewConst';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
-  const { testRunsDetails, testCaseDetails } = useTestCaseViewDetails();
+  const { testRunsDetails, testCaseDetails, testResultsArray } =
+    useTestCaseViewDetails();
 
-  const resultsTableColumn = [
+  const resultsTCTableColumn = [
     {
       name: 'Test Run Details',
       key: 'test_case_id',
@@ -41,6 +42,40 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
           modifier={rowData?.latest_status
             ?.replace('untested', 'base')
             ?.replace('passed', 'success')
+            ?.replace('failed', 'error')}
+        />
+      )
+    }
+  ];
+
+  const resultsTRTableColumn = [
+    {
+      name: 'Note',
+      key: 'id',
+      cell: (rowData) => (
+        <div className="flex flex-col">
+          <div className="text-base-900 font-medium">
+            {`This test is marked as`}{' '}
+            <span className="capitalize">{rowData.status}</span>
+          </div>
+          <div className="text-base-500">By: N/A</div>
+        </div>
+      )
+    },
+    {
+      name: 'Status',
+      key: 'status',
+      cell: (rowData) => (
+        <TMBadge
+          isRounded
+          wrapperClassName="capitalize"
+          text={rowData?.status}
+          modifier={rowData?.status
+            ?.replace('untested', 'base')
+            ?.replace('passed', 'success')
+            ?.replace('retest', 'primary')
+            ?.replace('blocked', 'error')
+            ?.replace('skipped', 'warn')
             ?.replace('failed', 'error')}
         />
       )
@@ -90,6 +125,16 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
               />
             </div>
           </div>
+
+          {testResultsArray?.length ? (
+            <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
+              <TMDataTable
+                isHeaderCapitalize
+                columns={resultsTRTableColumn}
+                rows={testResultsArray}
+              />
+            </div>
+          ) : null}
         </div>
       ) : (
         <>
@@ -97,7 +142,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
-                columns={resultsTableColumn}
+                columns={resultsTCTableColumn}
                 rows={testRunsDetails}
               />
             </div>

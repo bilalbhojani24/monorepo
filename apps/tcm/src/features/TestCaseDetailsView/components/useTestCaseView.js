@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
@@ -5,14 +6,16 @@ import useTestCasesTable from 'features/Repository/components/useTestCasesTable'
 import {
   setMetaIds,
   setTestCaseDetails,
-  setTestCaseViewVisibility
+  setTestCaseViewVisibility,
+  setTestResultsArray
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseView({
   projectId,
   folderId,
   testCaseId,
-  onDetailsClose
+  onDetailsClose,
+  testResultsArray
 }) {
   const dispatch = useDispatch();
   const { onDropDownChange } = useTestCasesTable();
@@ -45,6 +48,12 @@ export default function useTestCaseView({
     hideTestCaseViewDrawer();
     onDropDownChange(e, selectedOption, testCaseDetails);
   };
+
+  useEffect(() => {
+    // getting this from parent component as there are updates happening inside the parent component
+    dispatch(setTestResultsArray(testResultsArray));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testResultsArray]);
 
   return {
     testCaseDetails,

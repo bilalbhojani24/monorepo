@@ -1,9 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addTestResultAPI, getTestRunsTestCasesAPI } from 'api/testruns.api';
+import {
+  addTestResultAPI,
+  getTestResultsAPI,
+  getTestRunsTestCasesAPI
+} from 'api/testruns.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
+  addTestResultItem,
   closeAllVisibleForms,
   initAddStatusForm,
   setAllFolders,
@@ -14,6 +19,7 @@ import {
   setSelectedFolder,
   setSelectedTestCase,
   setTestCaseDetails,
+  setTestResultsArray,
   updateAddStatusForm
 } from '../slices/testRunDetailsSlice';
 
@@ -42,6 +48,9 @@ export default function useTRTCFolders() {
   const selectedTestCase = useSelector(
     (state) => state.testRunsDetails.selectedTestCase
   );
+  const testResultsArray = useSelector(
+    (state) => state.testRunsDetails.testResultsArray
+  );
   const allFolders = useSelector((state) => state.testRunsDetails.allFolders);
   const issuesArray = useSelector((state) => state.testRunsDetails.issuesArray);
   const metaPage = useSelector((state) => state.testRunsDetails.metaPage);
@@ -62,6 +71,12 @@ export default function useTRTCFolders() {
     dispatch(setIsVisibleProps({ key: 'addIssues', value: false }));
   };
 
+  const loadTestResults = (testCaseId) => {
+    getTestResultsAPI({ projectId, testRunId, testCaseId }).then((data) => {
+      dispatch(setTestResultsArray(data?.['test-results']));
+    });
+  };
+
   const handleTestCaseViewClick = (testCaseItem) => () => {
     dispatch(
       setTestCaseDetails({
@@ -69,6 +84,8 @@ export default function useTRTCFolders() {
         testCaseId: testCaseItem?.id
       })
     );
+
+    loadTestResults(testCaseItem?.id);
   };
 
   const fetchTestCases = () => {
@@ -121,7 +138,7 @@ export default function useTRTCFolders() {
       testCaseId,
       testRunId,
       payload
-    }).then(() => {
+    }).then((data) => {
       dispatch(
         setAllTestCases(
           allTestCases.map((item) =>
@@ -132,6 +149,7 @@ export default function useTRTCFolders() {
         )
       );
       dispatch(setSelectedTestCase(null));
+      dispatch(addTestResultItem(data.data['test-result']));
       closeAll();
     });
   };
@@ -161,6 +179,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    testResultsArray,
     isAddIssuesModalShown,
     issuesArray,
     addStatusFormData,

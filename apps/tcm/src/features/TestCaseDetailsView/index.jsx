@@ -11,14 +11,21 @@ const TestCaseDetailsView = ({
   testCaseId,
   onDetailsClose,
   isFromTestRun,
-  onResultClick
+  onResultClick,
+  testResultsArray
 }) => {
   const {
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
     isTestCaseViewVisible
-  } = useTestCaseView({ projectId, folderId, testCaseId, onDetailsClose });
+  } = useTestCaseView({
+    projectId,
+    folderId,
+    testCaseId,
+    onDetailsClose,
+    testResultsArray
+  });
 
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
@@ -61,7 +68,8 @@ TestCaseDetailsView.propTypes = {
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   onDetailsClose: PropTypes.func,
   isFromTestRun: PropTypes.bool,
-  onResultClick: PropTypes.bool
+  onResultClick: PropTypes.bool,
+  testResultsArray: PropTypes.arrayOf(PropTypes.object)
 };
 
 TestCaseDetailsView.defaultProps = {
@@ -70,7 +78,8 @@ TestCaseDetailsView.defaultProps = {
   testCaseId: null,
   onDetailsClose: () => {},
   isFromTestRun: false,
-  onResultClick: () => {}
+  onResultClick: () => {},
+  testResultsArray: []
 };
 
 export default TestCaseDetailsView;
