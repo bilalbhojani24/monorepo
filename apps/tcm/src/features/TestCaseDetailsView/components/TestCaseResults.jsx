@@ -58,7 +58,9 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
             {`This test is marked as`}{' '}
             <span className="capitalize">{rowData.status}</span>
           </div>
-          <div className="text-base-500">By: N/A</div>
+          <div className="text-base-500">
+            By: {rowData?.author?.full_name || '--'}
+          </div>
         </div>
       )
     },
