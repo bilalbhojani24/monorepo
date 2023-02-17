@@ -6,6 +6,7 @@ import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
+import Settings from 'features/Settings';
 import TestRuns, { AddEditTestRun } from 'features/TestRuns';
 import TestRunsDetails from 'features/TestRunsDetails';
 
@@ -95,7 +96,11 @@ const MainRoute = () => {
         />
         <Route
           path={AppRoute.SETTINGS}
-          element={<PrivateComponent>SETTINGS</PrivateComponent>}
+          element={
+            <PrivateComponent>
+              <Settings />
+            </PrivateComponent>
+        }
         />
         <Route
           path={AppRoute.RESOURCES}
