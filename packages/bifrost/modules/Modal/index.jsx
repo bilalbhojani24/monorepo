@@ -8,7 +8,8 @@ import { MODAL_SIZE } from './const/modalConstants';
 import './styles.scss';
 
 const Modal = forwardRef((props, ref) => {
-  const { children, onClose, onOverlayClick, show, size } = props;
+  const { children, onClose, onOverlayClick, show, size, wrapperClassName } =
+    props;
 
   return (
     <Transition.Root show={show}>
@@ -45,7 +46,7 @@ const Modal = forwardRef((props, ref) => {
             >
               <Dialog.Panel
                 className={twClassNames(
-                  'relative flex max-h-[35rem] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
+                  'relative flex max-h-[75vh] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
@@ -57,7 +58,8 @@ const Modal = forwardRef((props, ref) => {
                     'sm:max-w-5xl': MODAL_SIZE[7] === size,
                     'sm:max-w-6xl': MODAL_SIZE[8] === size,
                     'sm:max-w-full': MODAL_SIZE[9] === size
-                  }
+                  },
+                  wrapperClassName
                 )}
               >
                 {children}
@@ -75,14 +77,16 @@ Modal.propTypes = {
   onOverlayClick: PropTypes.func,
   onClose: PropTypes.func,
   show: PropTypes.bool,
-  size: PropTypes.string
+  size: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 Modal.defaultProps = {
   children: null,
   onOverlayClick: null,
   onClose: null,
   show: false,
-  size: MODAL_SIZE[2]
+  size: MODAL_SIZE[2],
+  wrapperClassName: ''
 };
 
 export default Modal;

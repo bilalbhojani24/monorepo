@@ -127,6 +127,10 @@ const defaultConfig = {
       options: TP_TOOLTIP_THEME,
       control: { type: inlineRadio },
       defaultValue: TP_TOOLTIP_THEME[0]
+    },
+    wrapperClassName: {
+      options: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
