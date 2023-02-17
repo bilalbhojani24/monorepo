@@ -86,6 +86,8 @@ const getInitialTab = () => {
       result.defaultIndex = 0;
     }
   }
+
+  console.log('result: ', result);
   return result;
 };
 

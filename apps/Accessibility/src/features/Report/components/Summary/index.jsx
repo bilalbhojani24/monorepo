@@ -49,6 +49,7 @@ export default function Summary() {
       id: 1,
       name: 'Needs review issues',
       stat: needsReviewIssues,
+      // onClick: () => console.log('Hi')
       onClick: () => onRowClick('showNeedsReviewIssues', true, true)
     },
     {
@@ -493,9 +494,9 @@ export default function Summary() {
             </div>
           </Card> */}
           <div className="mt-4 flex">
-            {options.map(({ name, id, stat }) => (
+            {options.map((option) => (
               <div className="mr-4 w-2/4">
-                <Stats option={{ name, id, stat }} />
+                <Stats option={option} />
               </div>
             ))}
             {/* <Card height={1} width={1} className="m-20">

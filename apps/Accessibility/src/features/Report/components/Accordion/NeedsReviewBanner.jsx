@@ -5,6 +5,7 @@ import {
   Button,
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
+  MdWarningAmber,
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
@@ -59,7 +60,7 @@ function NodeIssueNavigator({
 
   const getReviewStatusInfo = () => {
     if (isConfirmedInAllReports === null && !showHiddenIssues) {
-      if (showPagination) {
+      if (!showPagination) {
         const modifier = getReviewTagColor(
           nodeNeedsReviewStatus[currentItemIndex].confirmed
         );
@@ -70,23 +71,25 @@ function NodeIssueNavigator({
           nodeNeedsReviewStatus[currentItemIndex].reportName.length > 20;
 
         return (
-          <div>
+          <div className="flex items-center">
             <p className="text-base-700 text-sm">{`Review status (${
               currentItemIndex + 1
             } of ${totalItems}):`}</p>
             &nbsp;
             <Tooltip
-              show
+              show={showToolTip}
               theme="dark"
               content={
-                <TooltipBody>
+                <TooltipBody wrapperClassName="mb-0">
                   {showToolTip
                     ? nodeNeedsReviewStatus[currentItemIndex].reportName
                     : ''}
                 </TooltipBody>
               }
             >
-              <p>{nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;</p>
+              <p className="text-sm font-medium">
+                {nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;
+              </p>
             </Tooltip>
             <Badge
               text={text}
@@ -101,9 +104,9 @@ function NodeIssueNavigator({
       }
 
       return (
-        <div>
-          <p>Reports can be reviewed on the extension by the report author</p>
-        </div>
+        <p className="text-attention-700 ml-5 pl-2 text-sm">
+          Reports can be reviewed on the extension by the report author
+        </p>
       );
     }
     if (isConfirmedInAllReports) {
@@ -236,15 +239,17 @@ function NeedsReviewBanner({
   //   return <CancelIcon fontSize="small" htmlColor="#AE2727" />;
   // };
 
+  const isFail =
+    showHiddenIssues ||
+    (isConfirmedInAllReports !== null && !isConfirmedInAllReports);
+
   return (
     <Accordion
       triggerClassName={twClassNames(
         'flex w-full bg-white py-3 px-6 bg-attention-50',
         {
           'bg-success-50': isConfirmedInAllReports,
-          'base-error-50':
-            showHiddenIssues ||
-            (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+          'base-error-50': isFail
         }
       )}
       triggerContentNode={
@@ -268,12 +273,27 @@ function NeedsReviewBanner({
         <div
           className={twClassNames('px-6 py-2 bg-attention-50', {
             'bg-success-50': isConfirmedInAllReports,
-            'base-error-50':
-              showHiddenIssues ||
-              (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+            'base-error-50': isFail
           })}
         >
-          <span>{message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}</span>
+          <div className="flex items-start">
+            <div>
+              <MdWarningAmber className="text-attention-500 text-xl" />
+            </div>
+            <div>
+              <p
+                className={twClassNames(
+                  'text-attention-800 text-sm font-medium mb-2 ml-2',
+                  {
+                    'text-success-800': isConfirmedInAllReports,
+                    'text-error-800': isFail
+                  }
+                )}
+              >
+                {message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}
+              </p>
+            </div>
+          </div>
           <NodeIssueNavigator
             nodeNeedsReviewStatus={nodeNeedsReviewStatus}
             isConfirmedInAllReports={isConfirmedInAllReports}

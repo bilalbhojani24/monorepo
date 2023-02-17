@@ -70,9 +70,9 @@ export default function useReport() {
       // logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
-    return () => {
-      dispatch(resetReportAppInfo());
-    };
+    // return () => {
+    //   dispatch(resetReportAppInfo());
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 

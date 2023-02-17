@@ -43,7 +43,7 @@ export default function ReportRow({ id }) {
   };
 
   const onReportClick = (e) => {
-    if (e.target.id === 'checkbox') {
+    if (e?.target?.id === 'checkbox') {
       return;
     }
     if (isSelectionMode) {
@@ -71,22 +71,17 @@ export default function ReportRow({ id }) {
     <div
       tabIndex={0}
       role="button"
-      onKeyDown={(e) => handleClickByEnterOrSpace(e, onReportClick)}
+      onKeyDown={(e) => handleClickByEnterOrSpace(e, () => onReportClick(e))}
       className="border-base-200 hover:bg-base-50 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
       <div className="flex" style={{ width: `calc(100% - 801px)` }}>
         <Checkbox
-          // ariaLabelText={`${name} selection checkbox`}
-          id={id.toString()}
-          title={name}
-          onChange={onReportCheckBoxClick}
+          data={{ value: name }}
+          border={false}
+          wrapperClassName="border-0 flex items-center w-16 justify-center pt-0"
           checked={isSelected}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-          wrapperClassName="border-0 flex items-center w-16 justify-center"
-          // onClick={(e) => e.stopPropagation()}
+          onChange={onReportCheckBoxClick}
         />
         <div
           className="flex flex-col items-start justify-center"

@@ -75,7 +75,7 @@ export default function useSummary() {
 
   const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
     const values = shouldShowNeedsReviewIssues || [value];
-    // console.log('Hii');
+    console.log('Hii');
     dispatch(resetFilters());
     dispatch(setShowHiddenIssues({ hideIssues: false }));
     dispatch(resetIntermediateFilters());

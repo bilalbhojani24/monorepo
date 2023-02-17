@@ -97,7 +97,10 @@ export default function Reports() {
           </Button>
         </ModalFooter>
       </Modal>
-      <div className="border-base-200 fixed top-16 z-10 w-full border-b p-6">
+      <div
+        className="border-base-200 fixed top-16 z-10 w-full border-b p-6"
+        style={{ width: 'calc(100vw - 256px)' }}
+      >
         {isShowingBanner ? (
           <div className="fixed inset-x-0 top-0 z-10">
             <Banner
@@ -141,7 +144,7 @@ export default function Reports() {
                   onChange={onInputValueChange}
                 />
               </div>
-              <div className="w-32">
+              <div className="w-40">
                 <SelectMenu
                   onChange={onUpdateSelectedReportType}
                   value={selectedReportType}
