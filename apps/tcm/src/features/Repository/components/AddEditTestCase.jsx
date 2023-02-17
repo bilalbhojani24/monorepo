@@ -146,7 +146,9 @@ const AddEditTestCase = () => {
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
-            <div className="mt-4">
+            <div className="mt-4 flex gap-4">
+
+            <div className="flex-1">
               <TMRichTextEditor
                 label="Steps"
                 placeholder="Steps for the test"
@@ -156,7 +158,7 @@ const AddEditTestCase = () => {
                 onAssetUpload={imageUploadRTEHelper}
               />
             </div>
-            <div className="mt-4">
+            <div className="flex-1">
               <TMRichTextEditor
                 label="Expected Results"
                 placeholder="Expected result(s) from above steps"
@@ -167,6 +169,7 @@ const AddEditTestCase = () => {
                 }
                 onAssetUpload={imageUploadRTEHelper}
               />
+            </div>
             </div>
           </>
         ) : (
