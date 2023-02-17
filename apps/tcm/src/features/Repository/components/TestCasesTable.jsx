@@ -146,12 +146,17 @@ const TestCasesTable = ({
       name: 'Tags',
       key: 'tags',
       cell: (rowData) => (
-        <span>
+          <span>
           {rowData.tags.length > 0 ? (
             <div className="mt-1 flex gap-1">
-              {rowData.tags.map((item) => (
-                <TMBadge text={item} size="large" key={item} />
-              ))}
+              <TMBadge text={rowData.tags[0]} size="large" key={rowData.tags[0]} />
+              {rowData.tags.length > 1 ? (
+                  <TMBadge text={`+${rowData.tags.length - 1}`}
+                           size="large"
+                           key={`+${rowData.tags.length - 1}`}
+                           onClick={handleTestCaseViewClick(rowData)}
+                  />
+              ) : (null)}
             </div>
           ) : (
             '--'

@@ -133,9 +133,6 @@ const MapFields = () => {
         variant="buttons"
         trailingHeadNode={
           <div className="min-w-fit">
-            <TMButton variant="primary" colors="white" wrapperClass="mr-3">
-              Back
-            </TMButton>
             <TMButton variant="primary" onClick={handleMappingProceedClick}>
               Proceed
             </TMButton>

@@ -268,10 +268,12 @@ const useMapFields = () => {
     console.log('final paylaod', myFieldMappings, valueMappings);
     console.log('query params', queryParams.get('project'));
     const projectId = queryParams.get('project');
+    const folderId = queryParams.get('folder');
     dispatch(
       submitMappingData({
         importId: mapFieldsConfig.importId,
         projectId,
+        folderId,
         myFieldMappings,
         valueMappings
       })

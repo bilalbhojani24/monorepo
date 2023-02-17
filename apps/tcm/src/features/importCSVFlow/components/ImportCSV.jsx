@@ -15,6 +15,7 @@ import {
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
+import PreviewAndConfirm from './PreviewAndConfirm';
 import UploadFile from './UploadFile';
 import useImportCSV from './useImportCSV';
 
@@ -37,8 +38,8 @@ const ImportCSV = () => {
       return <MapFields />;
     }
     if (currentCSVScreen === PREVIEW_AND_CONFIRM_IMPORT)
-      return <>Last Screen</>;
-    //   return <ConfirmCSVUpload projects={testManagementProjects} />;
+      return <PreviewAndConfirm />;
+
     return <>Something went wrong!</>;
   };
 
