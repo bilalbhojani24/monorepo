@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { capitalizeString } from 'utils/helperFunctions';
+import { useNavigate, useParams } from 'react-router-dom';
+import AppRoute from 'const/routes';
+import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
 
 import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
-import {
-  setEditTestRunForm,
-  setIsVisibleProps,
-  setSelectedTestRun
-} from '../slices/testRunsSlice';
+import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { projectId } = useParams();
 
@@ -24,7 +22,7 @@ const useTestRuns = () => {
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const getOptions = (data) => {
+  const getProgressOptions = (data) => {
     if (!data?.overall_progress) return CHART_OPTIONS;
 
     const totalValue = Object.values(data.overall_progress).reduce(
@@ -60,21 +58,26 @@ const useTestRuns = () => {
     };
   };
 
-  const onDropDownChange = (e, selectedItem) => {
+  const onDropDownChange = (e, selectedOption, selectedItem) => {
     dispatch(setSelectedTestRun(selectedItem));
-    switch (e.currentTarget.textContent) {
-      case TR_DROP_OPTIONS[0].body: // edit
-        dispatch(setEditTestRunForm(true));
+    switch (selectedOption?.id) {
+      case TR_DROP_OPTIONS[0].id: // edit
+        navigate(
+          routeFormatter(AppRoute.TEST_RUNS_EDIT, {
+            projectId,
+            testRunId: selectedItem?.id
+          })
+        );
         break;
-      case TR_DROP_OPTIONS[1].body: // assign
+      case TR_DROP_OPTIONS[1].id: // assign
         dispatch(setIsVisibleProps({ key: 'assignTestRunModal', value: true }));
         break;
-      case TR_DROP_OPTIONS[2].body: // close_run
+      case TR_DROP_OPTIONS[2].id: // close_run
         dispatch(
           setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
         );
         break;
-      case TR_DROP_OPTIONS[3].body: // delete
+      case TR_DROP_OPTIONS[3].id: // delete
         dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
         break;
       default:
@@ -89,7 +92,7 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
-    getOptions,
+    getProgressOptions,
     onDropDownChange
   };
 };

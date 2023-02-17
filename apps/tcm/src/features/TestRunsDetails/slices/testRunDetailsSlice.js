@@ -1,0 +1,71 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  fullDetails: null,
+  isLoading: {
+    testRunDetails: true,
+    isFoldersLoading: true,
+    isTestCasesLoading: true
+  },
+  allFolders: null, // so that the folders are loaded by the component
+  allTestCases: [],
+  selectedFolder: null,
+  metaPage: {
+    page: null,
+    next: null,
+    prev: null,
+    count: null,
+    page_size: null
+  },
+  testCaseDetails: {
+    projectId: null,
+    folderId: null,
+    testCaseId: null
+  }
+};
+
+export const testRunDetailsSlice = createSlice({
+  name: 'testRunsDetails',
+  initialState,
+  reducers: {
+    setTestRunsDetails: (state, { payload }) => {
+      state.fullDetails = payload;
+
+      if (!payload) state.testCaseDetails = initialState.testCaseDetails;
+    },
+    setSelectedFolder: (state, { payload }) => {
+      state.selectedFolder = payload;
+    },
+    setAllFolders: (state, { payload }) => {
+      state.allFolders = payload;
+    },
+    setAllTestCases: (state, { payload }) => {
+      state.allTestCases = payload;
+    },
+    setIsLoadingProps: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
+    },
+    setMetaPage: (state, { payload }) => {
+      state.metaPage = payload;
+    },
+    setTestCaseDetails: (state, { payload }) => {
+      state.testCaseDetails = payload;
+    },
+    resetTestCaseDetails: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
+    }
+  }
+});
+
+export const {
+  resetTestCaseDetails,
+  setTestCaseDetails,
+  setMetaPage,
+  setTestRunsDetails,
+  setIsLoadingProps,
+  setSelectedFolder,
+  setAllFolders,
+  setAllTestCases
+} = testRunDetailsSlice.actions;
+
+export default testRunDetailsSlice.reducer;

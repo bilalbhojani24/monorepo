@@ -15,9 +15,15 @@ const TMSelectMenu = ({
   options,
   onChange,
   value,
-  isMulti
+  isMulti,
+  defaultValue
 }) => (
-  <SelectMenu onChange={onChange} value={value} isMulti={isMulti}>
+  <SelectMenu
+    onChange={onChange}
+    value={value}
+    isMulti={isMulti}
+    defaultValue={defaultValue}
+  >
     {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
     <SelectMenuTrigger placeholder={placeholder} />
     <SelectMenuOptionGroup>
@@ -45,6 +51,11 @@ TMSelectMenu.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     image: PropTypes.string
+  }),
+  defaultValue: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    label: PropTypes.string.isRequired,
+    image: PropTypes.string
   })
 };
 
@@ -54,6 +65,7 @@ TMSelectMenu.defaultProps = {
   label: '',
   options: [],
   onChange: () => {},
-  value: null
+  value: null,
+  defaultValue: null
 };
 export default TMSelectMenu;

@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Dropdown, DropdownTriggerWIcon } from '@browserstack/bifrost';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 const TMDropdown = (props) => {
@@ -9,7 +10,14 @@ const TMDropdown = (props) => {
   return (
     <Dropdown
       {...props}
-      trigger={<DropdownTriggerWIcon variant={triggerVariant} />}
+      trigger={
+        <DropdownTriggerWIcon
+          variant={triggerVariant}
+          wrapperClassName={classNames({
+            'border-base-300 border': triggerVariant === 'menu-button'
+          })}
+        />
+      }
       wrapperClassName="flex"
     />
   );

@@ -1,3 +1,4 @@
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
@@ -24,6 +25,7 @@ import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
+import FolderIcon from '@mui/icons-material/Folder';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import HideSourceOutlinedIcon from '@mui/icons-material/HideSourceOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -46,6 +48,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 export {
   AccessTimeFilledIcon,
   AccessTimeFilledRoundedIcon,
+  AccessTimeIcon,
   AddBoxOutlinedIcon,
   ArrowBackOutlinedIcon,
   ArrowDownwardOutlinedIcon,
@@ -70,6 +73,7 @@ export {
   ExpandMoreOutlinedIcon,
   FilterAltOutlinedIcon,
   FindInPageOutlinedIcon,
+  FolderIcon,
   FolderOpenOutlinedIcon,
   HideSourceOutlinedIcon,
   HomeOutlinedIcon,

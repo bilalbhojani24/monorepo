@@ -20,14 +20,8 @@ const TestRailImportForm = () => {
     testRailsCredTouched
   } = useImport();
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (getUserEmail)
-  //     dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
-  // }, [dispatch, getUserEmail]);
-
   return (
-    <div className="mt-12">
+    <>
       <div className="flex justify-around">
         <div className="mr-6 w-full">
           <TMInputField
@@ -135,7 +129,7 @@ const TestRailImportForm = () => {
         />
       )}
       <TermsAndConditions />
-    </div>
+    </>
   );
 };
 

@@ -43,8 +43,10 @@ const ConfigureTool = () => {
   };
 
   return (
-    <div className="border-base-200 m-4 flex flex-col items-stretch rounded-md border-2 border-solid p-6">
-      <div className="text-lg">Choose your existing tool</div>
+    <div className="border-base-200 m-4 h-max w-4/5 rounded-md border-2 border-solid bg-white p-6">
+      <div className="text-base-700 text-sm font-medium">
+        Choose your existing tool
+      </div>
       <div className="mt-2 flex">
         <div className="mr-3">
           <TMButton
@@ -95,7 +97,7 @@ const ConfigureTool = () => {
       </div>
       {currentTestManagementTool && (
         <div className="mt-6">
-          <div className="text-lg">Choose import Type:</div>
+          <div className="text-sm font-normal">Choose import Type:</div>
           <div className="mt-3">
             <TMRadioGroup
               direction="horizontal"
@@ -128,6 +130,7 @@ const ConfigureTool = () => {
               ]}
             />
           </div>
+          <div className="border-base-200 my-6 border text-sm font-normal" />
         </div>
       )}
       {getForm()}

@@ -12,11 +12,12 @@ import {
 } from 'common/bifrostProxy';
 import CopyButton from 'common/CopyButton';
 import { dropDownOptions } from 'features/Repository/const/testCaseConst';
+import PropTypes from 'prop-types';
 
-import useTestCaseView from './useTestCaseView';
+import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseTopBar = () => {
-  const { testCaseDetails, actionHandler } = useTestCaseView();
+const TestCaseTopBar = ({ actionHandler }) => {
+  const { testCaseDetails } = useTestCaseViewDetails();
   return (
     <div className="mb-4 flex  w-full items-start justify-between">
       <div className="relative flex w-full  items-end pr-2 text-base font-medium">
@@ -34,12 +35,17 @@ const TestCaseTopBar = () => {
               <TMTooltipBody>
                 <div className="text-sm">
                   <p>ID: {testCaseDetails?.identifier}</p>
-                  <p>URL: {testCaseDetails?.links?.self?.slice(7,)}</p>
+                  <p>URL: {testCaseDetails?.links?.self?.slice(7)}</p>
                   <div className="mt-3 flex w-full gap-4">
                     <CopyButton copyValue={testCaseDetails?.identifier}>
                       Copy ID
                     </CopyButton>
-                    <CopyButton copyValue={window.location.origin + testCaseDetails?.links?.self?.slice(7,)}>
+                    <CopyButton
+                      copyValue={
+                        window.location.origin +
+                        testCaseDetails?.links?.self?.slice(7)
+                      }
+                    >
                       Copy URL
                     </CopyButton>
                   </div>
@@ -62,6 +68,14 @@ const TestCaseTopBar = () => {
       </div>
     </div>
   );
+};
+
+TestCaseTopBar.propTypes = {
+  actionHandler: PropTypes.func
+};
+
+TestCaseTopBar.defaultProps = {
+  actionHandler: () => {}
 };
 
 export default TestCaseTopBar;

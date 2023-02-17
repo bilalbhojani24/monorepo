@@ -10,7 +10,7 @@ import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
-import useTestCaseView from './useTestCaseView';
+import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseMutliData = () => {
   const {
@@ -19,7 +19,7 @@ const TestCaseMutliData = () => {
     testRunsDetails,
     testCaseIssues,
     handleTabChange
-  } = useTestCaseView();
+  } = useTestCaseViewDetails();
 
   const resultsTableColumn = [
     {
@@ -27,7 +27,7 @@ const TestCaseMutliData = () => {
       key: 'test_case_id',
       cell: (rowData) => (
         <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`TR-${rowData.test_case_id} | ${rowData.test_run_name}`}</div>
+          <div className="text-base-900 font-medium">{`${rowData.identifier} | ${rowData.name}`}</div>
           <div className="text-base-500">
             {formatTime(rowData.created_at, 'time')}
           </div>
@@ -41,11 +41,11 @@ const TestCaseMutliData = () => {
         <TMBadge
           isRounded
           wrapperClassName="capitalize"
-          text={rowData.latest_status}
-          modifier={rowData.latest_status
-            .replace('untested', 'base')
-            .replace('passed', 'success')
-            .replace('failed', 'error')}
+          text={rowData?.latest_status}
+          modifier={rowData?.latest_status
+            ?.replace('untested', 'base')
+            ?.replace('passed', 'success')
+            ?.replace('failed', 'error')}
         />
       )
     }

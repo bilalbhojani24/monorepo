@@ -20,8 +20,8 @@ const ImportCSVSteps = (props) => {
         dispatch(setCSVCurrentScreen('uploadFile'));
       else if (step.name === 'MAP FIELDS')
         dispatch(setCSVCurrentScreen('mapFields'));
-      else if (step.name === 'REVIEW & CONFIRM IMPORT')
-        dispatch(setCSVCurrentScreen('reviewAndConfirmImport'));
+      else if (step.name === 'PREVIEW & CONFIRM IMPORT')
+        dispatch(setCSVCurrentScreen('previewAndConfirmImport'));
     }
   };
 
