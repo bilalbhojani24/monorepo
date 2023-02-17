@@ -70,7 +70,10 @@ const Import = () => {
         // }
       />
       <Steps steps={allImportSteps} />
-      <div id="current-screen-wrapper" className="overflow-auto">
+      <div
+        id="current-screen-wrapper"
+        className="mt-4 flex justify-center overflow-auto"
+      >
         {getCurrentScreen()}
       </div>
     </>

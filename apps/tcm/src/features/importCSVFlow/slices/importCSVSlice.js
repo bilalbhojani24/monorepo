@@ -5,12 +5,15 @@ import {
   getFieldMapping,
   getUsers,
   postCSV,
-  postMappingData
+  postMappingData,
+  startCSVImport
 } from '../../../api/importCSV.api';
 import {
   COMPLETE_STEP,
   CURRENT_STEP,
+  FAILED_IMPORT_MODAL_DATA,
   IMPORT_CSV_STEPS,
+  ONGOING_IMPORT_MODAL_DATA,
   PREVIEW_AND_CONFIRM_IMPORT,
   UPLOAD_FILE,
   VALUE_MAPPING_OPTIONS
@@ -43,6 +46,14 @@ const initialState = {
   },
   VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN: {
     ...VALUE_MAPPING_OPTIONS
+  },
+  previewData: [],
+  folderName: '',
+  uploadFileProceedLoading: false,
+  confirmCSVImportNotificationConfig: {
+    show: false,
+    status: 'ongoing',
+    modalData: ONGOING_IMPORT_MODAL_DATA
   }
 };
 
@@ -77,6 +88,7 @@ export const setUsers = createAsyncThunk('importCSV/setUsers', async (id) => {
 
 export const setValueMappingsThunk = createAsyncThunk(
   'importCSV/setValueMappings',
+  // eslint-disable-next-line camelcase
   async ({ importId, field, mapped_field }) => {
     try {
       const response = await getFieldMapping({ importId, field, mapped_field });
@@ -89,12 +101,13 @@ export const setValueMappingsThunk = createAsyncThunk(
 
 export const submitMappingData = createAsyncThunk(
   'importCSV/submitMappingData',
-  async ({ importId, projectId, myFieldMappings, valueMappings }) => {
+  async ({ importId, projectId, folderId, myFieldMappings, valueMappings }) => {
     try {
       return await postMappingData({
         importId,
         payload: {
           project_id: projectId,
+          folder_id: folderId,
           field_mappings: myFieldMappings,
           value_mappings: valueMappings
         }
@@ -135,6 +148,32 @@ const importCSVSlice = createSlice({
     },
     setValueMappings: (state, { payload }) => {
       state.valueMappings[payload.key] = payload.value;
+    },
+    setNotificationConfigForConfirmCSVImport: (state, { payload }) => {
+      state.confirmCSVImportNotificationConfig = payload;
+    },
+    startImportingTestCasePending: (state) => {
+      state.confirmCSVImportNotificationConfig.show = true;
+      state.confirmCSVImportNotificationConfig.status = 'ongoing';
+      state.confirmCSVImportNotificationConfig.modalData =
+        ONGOING_IMPORT_MODAL_DATA;
+    },
+    startImportingTestCaseFulfilled: (state, { payload }) => {
+      if (payload.success) {
+        state.confirmCSVImportNotificationConfig.show = false;
+        state.confirmCSVImportNotificationConfig.status = 'success';
+      } else if (payload.code === 'ERR_BAD_REQUEST') {
+        state.confirmCSVImportNotificationConfig.show = true;
+        state.confirmCSVImportNotificationConfig.status = 'failed';
+        state.confirmCSVImportNotificationConfig.modalData =
+          FAILED_IMPORT_MODAL_DATA;
+      }
+    },
+    startImportingTestCaseRejected: (state) => {
+      state.confirmCSVImportNotificationConfig.show = true;
+      state.confirmCSVImportNotificationConfig.status = 'failed';
+      state.confirmCSVImportNotificationConfig.modalData =
+        FAILED_IMPORT_MODAL_DATA;
     }
   },
   extraReducers: (builder) => {
@@ -146,6 +185,7 @@ const importCSVSlice = createSlice({
       state.mapFieldsConfig.defaultFields =
         action.payload.fields_available?.default;
       state.mapFieldsConfig.importFields = action.payload.import_fields;
+      state.uploadFileProceedLoading = false;
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of Object.entries(
         action.payload?.value_mappings
@@ -169,6 +209,9 @@ const importCSVSlice = createSlice({
     });
     builder.addCase(uploadFile.rejected, (state, { payload }) => {
       state.csvUploadError = payload;
+    });
+    builder.addCase(uploadFile.pending, (state) => {
+      state.uploadFileProceedLoading = true;
     });
     builder.addCase(setCSVConfigurations.fulfilled, (state, { payload }) => {
       // eslint-disable-next-line prefer-destructuring
@@ -210,8 +253,9 @@ const importCSVSlice = createSlice({
       ];
     });
     builder.addCase(submitMappingData.fulfilled, (state, { payload }) => {
-      console.log('post request completed', payload);
-      // next screen ke liye data set kardo.
+      state.folderName = payload.folder;
+      state.previewData = payload.test_cases;
+      // next screen
       state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
       state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
         if (idx === 2) return { ...step, status: CURRENT_STEP };
@@ -230,6 +274,25 @@ export const {
   setShowMoreFields,
   setMapFieldModalConfig,
   setFieldsMapping,
-  setValueMappings
+  setValueMappings,
+  startImportingTestCasePending,
+  startImportingTestCaseFulfilled,
+  startImportingTestCaseRejected,
+  setNotificationConfigForConfirmCSVImport
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;
+
+export const startImportingTestCases =
+  ({ importId, projectId }) =>
+  async (dispatch) => {
+    dispatch(startImportingTestCasePending());
+    try {
+      const response = await startCSVImport({
+        importId,
+        payload: { project_id: projectId }
+      });
+      dispatch(startImportingTestCaseFulfilled(response));
+    } catch (err) {
+      dispatch(startImportingTestCaseRejected(err));
+    }
+  };

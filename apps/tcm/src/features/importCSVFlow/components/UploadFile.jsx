@@ -20,6 +20,7 @@ const UploadFile = () => {
     csvUploadError,
     fileConfig,
     showMoreFields,
+    uploadFileProceedLoading,
     handleFileUpload,
     handleFileRemove,
     handleProceedClick,
@@ -62,7 +63,11 @@ const UploadFile = () => {
         variant="buttons"
         trailingHeadNode={
           <>
-            <TMButton variant="primary" onClick={handleProceedClick}>
+            <TMButton
+              variant="primary"
+              onClick={handleProceedClick}
+              loading={uploadFileProceedLoading}
+            >
               Proceed
             </TMButton>
           </>

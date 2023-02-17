@@ -66,62 +66,6 @@ const useImport = () => {
     dispatch(setConnectionStatusMap({ key, value }));
   };
 
-  const handleTestConnection = (decider) => {
-    if (currentTestManagementTool === 'testrails') {
-      checkTestManagementConnection('testrail', testRailsCred)
-        .then((data) => {
-          // show the success banners
-          if (decider === 'proceed') {
-            dispatch(
-              setProjectForTestManagementImport(
-                data.projects.map((project) => ({ ...project, checked: true }))
-              )
-            );
-            // set connection status
-            setConnectionStatus({ key: 'testrails', value: '' }); // proceed button click
-          } else setConnectionStatus({ key: 'testrails', value: 'success' });
-        })
-        .catch(() => {
-          // show failure banner
-          if (decider === 'proceed')
-            setConnectionStatus({ key: 'testrails', value: '' });
-          else setConnectionStatus({ key: 'testrails', value: 'error' });
-        });
-    } else if (currentTestManagementTool === 'zephyr') {
-      checkTestManagementConnection('zephyr', zephyrCred)
-        .then((data) => {
-          if (decider === 'proceed') {
-            dispatch(
-              setProjectForTestManagementImport(
-                data.projects.map((project) => ({ ...project, checked: true }))
-              )
-            );
-            setConnectionStatus({ key: 'zephyr', value: '' });
-          } else {
-            setConnectionStatus({ key: 'zephyr', value: 'success' });
-          }
-        })
-        .catch(() => {
-          // show failure banner
-          if (decider === 'proceed')
-            setConnectionStatus({ key: 'zephyr', value: '' });
-          else setConnectionStatus({ key: 'zephyr', value: 'error' });
-        });
-    }
-    // set first step as current step and all other as upcoming.
-    if (decider === 'proceed') {
-      dispatch(
-        setImportSteps(
-          allImportSteps.map((step, idx) =>
-            idx === 0
-              ? { ...step, status: 'current' }
-              : { ...step, status: 'upcoming' }
-          )
-        )
-      );
-    }
-  };
-
   const handleStepChange = (prevStep, currentStep) =>
     allImportSteps.map((step) => {
       if (step.name.toLowerCase() === prevStep)
@@ -133,33 +77,96 @@ const useImport = () => {
       return step;
     });
 
-  const commonProceedFlow = () => {
-    handleTestConnection('proceed');
-
-    dispatch(
-      setImportSteps(handleStepChange('configure tool', 'configure data'))
-    );
-    dispatch(setCurrentScreen('configureData'));
+  const handleTestConnection = (decider) => {
+    if (currentTestManagementTool === 'testrails') {
+      checkTestManagementConnection('testrail', testRailsCred)
+        .then((data) => {
+          // show the success banners
+          if (decider === 'proceed') {
+            dispatch(
+              setProjectForTestManagementImport(
+                data.projects.map((project) => ({ ...project, checked: true }))
+              )
+            );
+            dispatch(
+              setImportSteps(
+                handleStepChange('configure tool', 'configure data')
+              )
+            );
+            dispatch(setCurrentScreen('configureData'));
+            // set connection status
+            setConnectionStatus({ key: 'testrails', value: '' }); // proceed button click
+          } else setConnectionStatus({ key: 'testrails', value: 'success' });
+        })
+        .catch(() => {
+          // show failure banner
+          // if (decider === 'proceed')
+          //   setConnectionStatus({ key: 'testrails', value: '' });
+          setConnectionStatus({ key: 'testrails', value: 'error' });
+        });
+    } else if (currentTestManagementTool === 'zephyr') {
+      checkTestManagementConnection('zephyr', zephyrCred)
+        .then((data) => {
+          if (decider === 'proceed') {
+            dispatch(
+              setProjectForTestManagementImport(
+                data.projects.map((project) => ({ ...project, checked: true }))
+              )
+            );
+            dispatch(
+              setImportSteps(
+                handleStepChange('configure tool', 'configure data')
+              )
+            );
+            dispatch(setCurrentScreen('configureData'));
+            setConnectionStatus({ key: 'zephyr', value: '' });
+          } else {
+            setConnectionStatus({ key: 'zephyr', value: 'success' });
+          }
+        })
+        .catch(() => {
+          // show failure banner
+          // if (decider === 'proceed')
+          //   setConnectionStatus({ key: 'zephyr', value: '' });
+          setConnectionStatus({ key: 'zephyr', value: 'error' });
+        });
+    }
+    // set first step as current step and all other as upcoming.
+    // if (decider === 'proceed') {
+    //   dispatch(
+    //     setImportSteps(
+    //       allImportSteps.map((step, idx) =>
+    //         idx === 0
+    //           ? { ...step, status: 'current' }
+    //           : { ...step, status: 'upcoming' }
+    //       )
+    //     )
+    //   );
+    // }
   };
 
   const handleProceed = () => {
     if (currentTestManagementTool === 'testrails') {
       if (testRailsCred.key && testRailsCred.host && testRailsCred.email)
-        commonProceedFlow();
-      else
+        handleTestConnection('proceed');
+      else {
         Object.keys(testRailsCredTouched).forEach((key) => {
           dispatch(setTestRailsCredTouched({ key, value: true }));
         });
+        setConnectionStatus({ key: 'testrails', value: 'error' });
+      }
     } else if (currentTestManagementTool === 'zephyr') {
       if (
         (zephyrCred.jira_key && zephyrCred.host && zephyrCred.email,
         zephyrCred.zephyr_key)
       )
-        commonProceedFlow();
-      else
+        handleTestConnection('proceed');
+      else {
         Object.keys(zephyrCredTouched).forEach((key) => {
           dispatch(setZephyrCredTouched({ key, value: true }));
         });
+        setConnectionStatus({ key: 'zephyr', value: 'error' });
+      }
     }
   };
 

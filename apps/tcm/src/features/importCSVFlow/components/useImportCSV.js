@@ -29,6 +29,9 @@ const useImportCSV = () => {
   );
   const allEncodings = useSelector((state) => state.importCSV.allEncodings);
   const allSeparators = useSelector((state) => state.importCSV.allSeparators);
+  const uploadFileProceedLoading = useSelector(
+    (state) => state.importCSV.uploadFileProceedLoading
+  );
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -96,7 +99,8 @@ const useImportCSV = () => {
     handleProceedClick,
     handleShowMoreFields,
     mappingFieldsData,
-    mapFieldModalConfig
+    mapFieldModalConfig,
+    uploadFileProceedLoading
   };
 };
 
