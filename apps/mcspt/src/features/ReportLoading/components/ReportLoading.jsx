@@ -45,45 +45,47 @@ const ReportLoading = () => {
           </div>
         </div>
 
-        {sessionState !== REPORT_LOADING_STATES.RECORDING && (
-          <Button
-            icon={
-              <div className="mr-3">
-                <MdClose />
-              </div>
-            }
-            iconPlacement="start"
-            size="large"
-            colors="white"
-            variant="primary"
-            onClick={onCancelClicked}
-          >
-            Cancel
-          </Button>
-        )}
-
-        {sessionState === REPORT_LOADING_STATES.RECORDING && (
-          <div className="bg-danger-50 flex items-center rounded-md p-2">
-            <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
-              {convertIntoMinutes(secondsElapsed)}
-            </div>
-
+        <div className="flex min-w-[320px] justify-end">
+          {sessionState !== REPORT_LOADING_STATES.RECORDING && (
             <Button
               icon={
                 <div className="mr-3">
-                  <MdOutlineStopCircle />
+                  <MdClose />
                 </div>
               }
               iconPlacement="start"
               size="large"
-              colors="danger"
+              colors="white"
               variant="primary"
-              onClick={stopSessionClicked}
+              onClick={onCancelClicked}
             >
-              Stop Test
+              Cancel
             </Button>
-          </div>
-        )}
+          )}
+
+          {sessionState === REPORT_LOADING_STATES.RECORDING && (
+            <div className="bg-danger-50 flex items-center justify-between rounded-md p-2">
+              <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
+                {convertIntoMinutes(secondsElapsed)}
+              </div>
+
+              <Button
+                icon={
+                  <div className="mr-3">
+                    <MdOutlineStopCircle />
+                  </div>
+                }
+                iconPlacement="start"
+                size="large"
+                colors="danger"
+                variant="primary"
+                onClick={stopSessionClicked}
+              >
+                Stop Test
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col p-9">

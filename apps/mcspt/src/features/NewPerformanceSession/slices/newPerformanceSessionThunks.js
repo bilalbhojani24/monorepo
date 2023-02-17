@@ -7,6 +7,7 @@ import {
 import {
   setAreApplicationsStillLoading,
   setAreDevicesStillLoading,
+  setIsSessionApiLoading,
   setListOfApplications,
   setListOfDevices,
   setSessionDetails
@@ -60,6 +61,8 @@ export const fetchApplicationsFromSelectedDevice =
 export const triggerSession =
   (navigatorCallback, sessionName) => async (dispatch, getState) => {
     try {
+      dispatch(setIsSessionApiLoading(true));
+
       dispatch(setSessionDetails({ sessionName }));
 
       const selectedDevice = getState()?.newPerformanceSession?.selectedDevice;
@@ -78,5 +81,7 @@ export const triggerSession =
       if (error?.response?.status !== 461) {
         throw error;
       }
+    } finally {
+      dispatch(setIsSessionApiLoading(false));
     }
   };

@@ -18,7 +18,9 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
     navigateToStep,
     startTestSession,
     sessionName,
-    sessionNameChanged
+    sessionNameChanged,
+    sessionNameError,
+    isSessionApiLoading
   } = useConfirmStartTesting();
 
   return (
@@ -46,6 +48,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
             placeholder="Enter Test Name"
             value={sessionName}
             onChange={sessionNameChanged}
+            errorText={sessionNameError}
           />
         </div>
 
@@ -92,6 +95,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           colors="white"
           variant="primary"
           onClick={() => navigateToStep(2)}
+          disabled={!!isSessionApiLoading}
         >
           Back
         </Button>
@@ -101,6 +105,8 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           colors="brand"
           variant="primary"
           onClick={startTestSession}
+          disabled={!!sessionNameError}
+          loading={isSessionApiLoading}
         >
           Start Testing
         </Button>

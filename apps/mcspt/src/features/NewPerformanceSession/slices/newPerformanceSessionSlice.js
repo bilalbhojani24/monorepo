@@ -8,6 +8,7 @@ const initialState = {
   listOfDevices: [],
   areApplicationsStillLoading: true,
   lisOfApplications: [],
+  isSessionApiLoading: false,
   sessionDetails: {
     sessionName: ''
   }
@@ -47,6 +48,10 @@ export const newPerformanceSessionSlice = createSlice({
 
     setSessionDetails: (state, action) => {
       state.sessionDetails = { ...state.sessionDetails, ...action.payload };
+    },
+
+    setIsSessionApiLoading: (state, action) => {
+      state.isSessionApiLoading = action.payload;
     }
   }
 });
@@ -75,6 +80,9 @@ export const getListOfApplications = (state) =>
 export const getSessionDetails = (state) =>
   state.newPerformanceSession.sessionDetails;
 
+export const getIsSessionApiLoading = (state) =>
+  state.newPerformanceSession.isSessionApiLoading;
+
 // Action creators are generated for each case reducer function
 export const {
   setCurrentSetupStep,
@@ -84,7 +92,8 @@ export const {
   setListOfDevices,
   setAreApplicationsStillLoading,
   setListOfApplications,
-  setSessionDetails
+  setSessionDetails,
+  setIsSessionApiLoading
 } = newPerformanceSessionSlice.actions;
 
 export default newPerformanceSessionSlice.reducer;
