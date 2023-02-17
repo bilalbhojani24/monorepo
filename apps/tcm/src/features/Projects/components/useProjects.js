@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
@@ -33,6 +33,7 @@ const useProjects = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const modalFocusRef = useRef();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -145,6 +146,7 @@ const useProjects = () => {
   };
 
   return {
+    modalFocusRef,
     isLoading,
     currentPage: searchParams.get('p'),
     metaPage,
