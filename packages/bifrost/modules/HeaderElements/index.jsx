@@ -287,7 +287,7 @@ const HeaderElements = ({
       )}
       theme="light"
       placementSide="bottom"
-      size="5xl"
+      size="lg"
       key={elementOptions.name}
     >
       <div
@@ -333,7 +333,7 @@ const HeaderElements = ({
           content={accountPopover(supportLink, showTestInsights)}
           theme="light"
           placementSide="bottom"
-          size="5xl"
+          size="lg"
           key={element.name}
         >
           <div
@@ -354,7 +354,16 @@ const HeaderElements = ({
           }
           key={element.name}
         >
-          <Button variant="minimal" icon={element.icon} />
+          <button
+            type="button"
+            aria-label={
+              element.name === 'notifications'
+                ? 'Notification button'
+                : 'Search button'
+            }
+          >
+            {element.icon}
+          </button>
         </div>
       );
     }

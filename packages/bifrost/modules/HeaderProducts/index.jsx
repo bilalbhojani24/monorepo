@@ -41,11 +41,9 @@ const HeaderProducts = ({ wrapperClassName, productCount }) => (
       theme="light"
       placementSide="bottom"
       size="5xl"
+      wrapperClassName="py-0"
     >
-      <div
-        id="header-product-element"
-        className={twClassNames('flex flex-row items-center p-0')}
-      >
+      <div className={twClassNames('flex flex-row items-center p-0')}>
         <div
           className={twClassNames(
             'flex flex-row items-center py-2 px-3 gap-1.5'

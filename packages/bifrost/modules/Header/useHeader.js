@@ -12,9 +12,7 @@ export default function useHeader() {
     const headerElementsWidth = document
       .getElementById('header-elements')
       ?.getBoundingClientRect().width;
-    const headerProductWidth = document
-      .getElementById('header-product-element')
-      ?.getBoundingClientRect().width;
+    const headerProductWidth = 84;
     const spaceLeftToShowProducts =
       headerWidth -
       headerBrandWidth -
