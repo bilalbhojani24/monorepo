@@ -32,7 +32,7 @@ export default function useTestRunDetails() {
 
   const fetchTestRunDetails = () => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
-      dispatch(setTestRunsDetails(null)); // clear in case there is a difference
+      dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
     getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
       dispatch(setTestRunsDetails(data.data.test_run));
     });
