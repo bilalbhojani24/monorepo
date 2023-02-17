@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   TMButton,
   TMInputField,
@@ -15,6 +15,7 @@ import useProjects from './useProjects';
 
 const AddProjects = ({ show }) => {
   const {
+    modalFocusRef,
     createProjectHandler,
     hideAddProjectModal,
     formData,
@@ -23,8 +24,13 @@ const AddProjects = ({ show }) => {
     setFormError
   } = useProjects();
 
+  const dataRef = useRef();
+
+
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideAddProjectModal}>
+    <TMModal show={show} withDismissButton
+             onOverlayClick={hideAddProjectModal}
+             ref={modalFocusRef}>
       <TMModalHeader
         heading="Create Project"
         handleDismissClick={hideAddProjectModal}
@@ -35,6 +41,7 @@ const AddProjects = ({ show }) => {
             label="Project Name"
             placeholder="Enter Project Name"
             value={formData.name}
+            ref={modalFocusRef}
             errorText={formError.nameError}
             onKeyDown={(e) => onSubmitKeyHandler(e, createProjectHandler)}
             onChange={(e) => {
