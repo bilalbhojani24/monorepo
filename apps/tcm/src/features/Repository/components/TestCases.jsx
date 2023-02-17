@@ -33,7 +33,8 @@ export default function TestCases() {
     isAddTestCasePageVisible,
     isBulkUpdate,
     isTestCasesLoading,
-    isFoldersLoading
+    isFoldersLoading,
+    handleFilterPagination
   } = useTestCases();
 
   if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
@@ -121,6 +122,9 @@ export default function TestCases() {
                       isLoading={isTestCasesLoading}
                       isSearchFilterView={isSearchFilterView}
                       metaPage={metaPage}
+                      onPaginationClick={
+                        isSearchFilterView ? handleFilterPagination : null
+                      }
                     />
                   </div>
                 )}

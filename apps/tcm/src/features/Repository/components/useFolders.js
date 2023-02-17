@@ -47,7 +47,7 @@ export default function useFolders() {
     (state) => state.repository.isLoading.testCases
   );
   const testCasesCount =
-    useSelector((state) => state.repository.allTestCases)?.length || 0;
+    useSelector((state) => state.repository.metaPage?.count) || 0;
 
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));

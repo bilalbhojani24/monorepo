@@ -168,6 +168,7 @@ const useTestCasesTable = (prop) => {
   }, []);
 
   return {
+    isSearchFilterView,
     projectId,
     folderId,
     showMoveModal,

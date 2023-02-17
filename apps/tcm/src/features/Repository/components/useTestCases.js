@@ -154,6 +154,17 @@ export default function useTestCases() {
     }
   };
 
+  const handleFilterPagination = ({ p }) => {
+    let currentParams = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (let entry of searchParams.entries()) {
+      const [key, value] = entry;
+      currentParams[key] = value;
+    }
+
+    setSearchParams({ ...currentParams, p });
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,6 +194,7 @@ export default function useTestCases() {
     initFormValues,
     setRepoView,
     detailsCloseHandler,
-    initTestCaseDetails
+    initTestCaseDetails,
+    handleFilterPagination
   };
 }
