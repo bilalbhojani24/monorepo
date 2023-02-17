@@ -76,6 +76,16 @@ const defaultConfig = {
     },
     wrapperClassName: {
       defaultValue: 'p-8 rounded-lg border border-base-300'
+    },
+    breadcrumbWrapperClassName: {
+      controls: { type: 'string' },
+      defaultValue: ''
+    },
+    onBreadcrumbClick: {
+      control: { type: null },
+      defaultValue: (e, clickedItem) => {
+        console.log(e, clickedItem);
+      }
     }
   },
   controls: {}

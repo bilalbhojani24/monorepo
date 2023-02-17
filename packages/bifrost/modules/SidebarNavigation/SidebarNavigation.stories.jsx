@@ -10,6 +10,10 @@ import {
   InboxIcon,
   UsersIcon
 } from '../Icon';
+import SelectMenu from '../SelectMenu';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
+import SelectMenuTrigger from '../SelectMenuTrigger';
 import SidebarHeader from '../SidebarHeader';
 import SidebarItem from '../SidebarItem';
 
@@ -183,7 +187,16 @@ SidebarwithBrandImage.args = {
 /* ----------------------------
  * SidebarwithSelect
  * ----------------------------*/
-const SWSHeader = <SidebarHeader dropdownOptions={selectOptions} />;
+const SWSHeader = (
+  <SelectMenu>
+    <SelectMenuTrigger placeholder="Select.." />
+    <SelectMenuOptionGroup>
+      {selectOptions.map((item) => (
+        <SelectMenuOptionItem key={item.value} option={item} />
+      ))}
+    </SelectMenuOptionGroup>
+  </SelectMenu>
+);
 
 const SWSSidebarPri = (
   <>
