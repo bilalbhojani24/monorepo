@@ -38,6 +38,6 @@ export const EDSUserDetails = { user_id: 1, group_id: 2 };
 
 export const EdsConfig = {
   api: '',
-  server: 10,
-  port: 6006
+  server: null,
+  port: null
 };
