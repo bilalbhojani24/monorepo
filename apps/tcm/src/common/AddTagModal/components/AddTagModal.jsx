@@ -23,6 +23,7 @@ const AddTagModal = ({
   // verifierFunction
 }) => {
   const {
+    modalFocusRef,
     errorText,
     selectedTagsInternal,
     enteredTag,
@@ -43,6 +44,7 @@ const AddTagModal = ({
     <TMModal
       show={isVisible}
       withDismissButton
+      ref={modalFocusRef}
       onOverlayClick={onCloseHandler}
       // size="medium"
     >
@@ -57,6 +59,7 @@ const AddTagModal = ({
           label="Tag Name"
           errorText={errorText}
           placeholder="Enter Tag name separated by comma"
+          ref={modalFocusRef}
           onChange={(e) => {
             setTagEntered(e.currentTarget.value);
             if (errorText) setErrorText('');

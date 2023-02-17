@@ -1,6 +1,6 @@
 // if folderId exists then it is a subfolder creation
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { addFolder, addSubFolder, renameFolder } from 'api/folders.api';
 import {
   TMButton,
@@ -25,8 +25,12 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Create';
-  const { hideFolderModal, updateFolders, renameFolderHelper } =
-    useAddEditFolderModal();
+  const {
+    modalFocusRef,
+    hideFolderModal,
+    updateFolders,
+    renameFolderHelper
+  } = useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: ''
@@ -35,6 +39,7 @@ const AddEditFolderModal = ({
   const [formError, setFormError] = useState({
     nameError: ''
   });
+
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
@@ -86,7 +91,7 @@ const AddEditFolderModal = ({
   }, [currentData]);
 
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
+    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal} ref={modalFocusRef} >
       <TMModalHeader
         heading={
           isSubFolder ? `${functionName} Sub Folder` : `${functionName} Folder`
@@ -101,6 +106,7 @@ const AddEditFolderModal = ({
             placeholder="Enter Folder Name"
             value={filledFormData.name}
             errorText={formError.nameError}
+            ref={modalFocusRef}
             onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
