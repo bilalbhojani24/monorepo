@@ -22,7 +22,7 @@ const Breadcrumb = (props) => {
 
   const handleClick = (e, clickedItem) => {
     e.preventDefault();
-    onClick(e, clickedItem);
+    onClick?.(e, clickedItem);
   };
 
   return (
@@ -104,7 +104,7 @@ Breadcrumb.defaultProps = {
   ChevronIcon: ChevronRightIcon,
   ChevronIconClass: '',
   data: [],
-  onClick: () => {},
+  onClick: null,
   size: 'full-width',
   wrapperClassName: ''
 };

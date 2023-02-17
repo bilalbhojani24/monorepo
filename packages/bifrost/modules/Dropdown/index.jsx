@@ -17,8 +17,8 @@ const Dropdown = (props) => {
     wrapperClassName
   } = props;
 
-  const handleClick = (e) => {
-    onClick(e);
+  const handleClick = (e, optionData) => {
+    onClick(e, optionData);
   };
 
   return (
@@ -53,7 +53,7 @@ const Dropdown = (props) => {
                 )}
               >
                 <button
-                  onClick={handleClick}
+                  onClick={(e) => handleClick(e, option)}
                   type="button"
                   className="block w-full px-4 py-2 text-left text-sm"
                 >
