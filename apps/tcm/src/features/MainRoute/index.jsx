@@ -6,7 +6,6 @@ import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
-import TestRuns from 'features/TestRuns';
 import Settings from 'features/Settings';
 import TestRuns, { AddEditTestRun } from 'features/TestRuns';
 import TestRunsDetails from 'features/TestRunsDetails';
