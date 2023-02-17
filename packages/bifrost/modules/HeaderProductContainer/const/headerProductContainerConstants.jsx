@@ -14,25 +14,25 @@ export const WEBSITE_TESTING_PRODUCTS = [
   {
     name: 'Live',
     description: 'Interactive cross browser testing',
-    icon: <LiveIcon />,
+    icon: <LiveIcon iconClass="w-9 h-[34px]" />,
     link: 'https://live.browserstack.com/dashboard'
   },
   {
     name: 'Automate',
     description: 'Selenium testing at scale',
-    icon: <AutomateIcon />,
+    icon: <AutomateIcon iconClass="w-9 h-[34px]" />,
     link: 'https://automate.browserstack.com'
   },
   {
     name: 'Percy',
     description: 'Visual testing & review',
-    icon: <PercyIcon />,
+    icon: <PercyIcon iconClass="w-9 h-[34px]" />,
     link: 'https://percy.io/api/auth/start-sso'
   }
   // {
   //   name: 'Accessibility Toolkit',
   //   description: 'Interactive accessibility testing',
-  //   icon: <AccessibilityToolkitIcon />,
+  //   icon: <AccessibilityToolkitIcon iconClass="w-9 h-[34px]" />,
   //   link: ''
   // }
 ];
@@ -40,19 +40,19 @@ export const MOBILE_APP_TESTING_PRODUCTS = [
   {
     name: 'App Live',
     description: 'Interactive mobile app testing',
-    icon: <AppLiveIcon />,
+    icon: <AppLiveIcon iconClass="w-9 h-[34px]" />,
     link: 'https://app-live.browserstack.com/dashboard'
   },
   {
     name: 'App Automate',
     description: 'Test automation for mobile apps',
-    icon: <AppAutomateIcon />,
+    icon: <AppAutomateIcon iconClass="w-9 h-[34px]" />,
     link: 'https://app-automate.browserstack.com'
   },
   {
     name: 'App Percy',
     description: 'Visual testing for mobile apps',
-    icon: <AppPercyIcon />,
+    icon: <AppPercyIcon iconClass="w-9 h-[34px]" />,
     link: 'https://www.browserstack.com/app-percy'
   }
 ];
@@ -60,7 +60,7 @@ export const TEST_MANAGEMENT_PRODUCTS = [
   {
     name: 'Test Observability',
     description: 'Interactive cross browser testing',
-    icon: <TestObservabilityIcon />,
+    icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
     link: ''
   }
 ];
@@ -68,7 +68,7 @@ export const TEST_DEVELOPMENT_PRODUCTS = [
   {
     name: 'Nightwatch.js',
     description: 'Interactive mobile app testing',
-    icon: <NightwatchIcon />,
+    icon: <NightwatchIcon iconClass="w-9 h-[34px]" />,
     link: ''
   }
 ];

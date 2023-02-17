@@ -348,22 +348,26 @@ const HeaderElements = ({
       temp = (
         <div
           className={twClassNames('flex flex-row items-center p-2')}
-          href={element.link}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
           }
           key={element.name}
         >
-          <button
-            type="button"
-            aria-label={
-              element.name === 'notifications'
-                ? 'Notification button'
-                : 'Search button'
-            }
-          >
-            {element.icon}
-          </button>
+          {element.name === 'notifications' && (
+            <button
+              type="button"
+              aria-label={
+                element.name === 'notifications'
+                  ? 'Notification button'
+                  : 'Search button'
+              }
+            >
+              {element.icon}
+            </button>
+          )}
+          {element.name === 'search' && (
+            <Hyperlink href={element.link}>{element.icon}</Hyperlink>
+          )}
         </div>
       );
     }
