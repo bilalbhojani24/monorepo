@@ -16,7 +16,8 @@ import {
   TMTableBody,
   TMTableCell,
   TMTableHead,
-  TMTableRow
+  TMTableRow,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
@@ -90,7 +91,8 @@ const TestCasesTable = ({
         >
           {`${rowData?.identifier}`}
         </div>
-      )
+      ),
+      class: 'w-[8%]'
     },
     {
       name: 'TITLE',
@@ -106,17 +108,20 @@ const TestCasesTable = ({
           {isSearchFilterView ? (
             <>
               <div className="text-base-900 hover:text-brand-600 font-medium ">
-                {rowData.name}
+                <TMTruncateText>{rowData.name}</TMTruncateText>
               </div>
               <div className="text-base-400 font-normal">
-                {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
+                <TMTruncateText>
+                  {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
+                </TMTruncateText>
               </div>
             </>
           ) : (
-            rowData.name
+            <TMTruncateText>{rowData.name}</TMTruncateText>
           )}
         </div>
-      )
+      ),
+      class: 'w-[42%]'
     },
     {
       name: 'PRIORITY',
@@ -126,14 +131,16 @@ const TestCasesTable = ({
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
-      )
+      ),
+      class: 'w-[15%]'
     },
     {
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
         <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
-      )
+      ),
+      class: 'w-[15%]'
     },
     {
       name: 'Tags',
@@ -150,7 +157,8 @@ const TestCasesTable = ({
             '--'
           )}
         </span>
-      )
+      ),
+      class: 'w-[10%]'
     },
     {
       name: '',
@@ -165,7 +173,8 @@ const TestCasesTable = ({
             onDropDownChange(e, selectedOption, data)
           }
         />
-      )
+      ),
+      class: 'w-[5%]'
     }
   ];
 
@@ -176,7 +185,7 @@ const TestCasesTable = ({
   return (
     <>
       <TMTable
-        tableWrapperClass="table-fixe w-full"
+        tableWrapperClass="table-fixed w-full"
         containerWrapperClass={classNames(
           containerWrapperClass,
           // 'max-w-[calc(100vw-40rem)]'
@@ -185,9 +194,9 @@ const TestCasesTable = ({
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            <TMTableCell
+            <td
               variant="body"
-              wrapperClassName=" border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
+              className="border-base-50 text-base-500 h-full w-[5%] p-2"
               textTransform="uppercase"
             >
               {/* all checkbox */}
@@ -208,15 +217,15 @@ const TestCasesTable = ({
                 }
                 onChange={selectAll}
               />
-            </TMTableCell>
+            </td>
             {datatableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key || index}
                 variant="body"
-                wrapperClassName={classNames(`test-base-500`, col?.maxWidth, {
+                wrapperClassName={classNames(`test-base-500`, col?.class, {
                   'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
-                  'flex-1 w-9/12': index === 1,
-                  'min-w-[50%]': index === 2,
+                  // 'flex-1 w-9/12': index === 1,
+                  // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
                   'right-0 ': col.isSticky && col.stickyPosition === 'right',
                   'left-10 ': col.isSticky && col.stickyPosition === 'left'
@@ -267,10 +276,11 @@ const TestCasesTable = ({
               {rows?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  <TMTableCell
+                  <td
                     variant="body"
-                    wrapperClassName={classNames(
-                      'border-l-2 test-base-500 flex items-center w-5 px-0 py-2.5 sm:first:pl-0',
+                    // className="border-base-50 test-base-500 h-full min-w-[5%] p-2"
+                    className={classNames(
+                      'border-base-50 test-base-500 h-full min-w-[5%] p-2',
                       !deSelectedTestCaseIDs.includes(row.id) &&
                         (isAllSelected || selectedTestCaseIDs.includes(row.id))
                         ? 'border-l-brand-600'
@@ -287,13 +297,13 @@ const TestCasesTable = ({
                       }
                       onChange={(e) => updateSelection(e, row)}
                     />
-                  </TMTableCell>
+                  </td>
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
                         key={column.id}
-                        wrapperClassName={classNames(column?.maxWidth, {
+                        wrapperClassName={classNames(column?.class, {
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
