@@ -92,7 +92,7 @@ const TestCasesTable = ({
           {`${rowData?.identifier}`}
         </div>
       ),
-      class: 'w-[8%]'
+      class: 'w-[10%]'
     },
     {
       name: 'TITLE',
