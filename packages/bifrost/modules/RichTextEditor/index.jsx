@@ -30,7 +30,7 @@ const RichTextEditor = ({
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
       <label
-        htmlFor={`rich-text-editor-${label}`}
+        htmlFor={`rich-text-editor-${id}`}
         className="text-base-700 mb-1 block text-sm font-medium"
       >
         {label}
@@ -68,7 +68,7 @@ RichTextEditor.propTypes = {
 RichTextEditor.defaultProps = {
   initialValue: undefined,
   onChange: undefined,
-  height: 500,
+  height: 100,
   label: null,
   placeholder: 'Type something...',
   value: undefined,

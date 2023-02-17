@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
+import { useOnClickOutside } from '@browserstack/hooks';
 import { Editor } from '@tinymce/tinymce-react';
 
 import { imageDialogConfig } from '../config/index';
 import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
 
 const TextEditor = forwardRef((props, ref) => {
+  const containerRef = useRef();
   const {
     id,
     onAssetUpload,
@@ -16,69 +18,80 @@ const TextEditor = forwardRef((props, ref) => {
     width,
     initialValue
   } = props;
-
+  const containerId = `rich-text-editor-container-${id}`;
+  const appliedId = `rich-text-editor-${id}`;
   const editorRef = ref;
 
+  const hideFunc = () => {
+    const toolbar = document.querySelector(
+      `#${containerId} .tox-editor-header`
+    );
+    toolbar.classList.remove('rte-show-toolbar');
+  };
+
+  const hideToolbar = () => {
+    hideFunc();
+
+    // Will be using this code in future
+    // setTimeout(() => {
+    //   if (
+    //     !document
+    //       .getElementById(containerId)
+    //       .classList.contains('rich-text-editor-modal-open')
+    //   ) {
+    //     hideFunc();
+    //   }
+    // }, 200);
+  };
+
+  const showToolbar = () => {
+    const toolbar = document.querySelector(
+      `#${containerId} .tox-editor-header`
+    );
+    toolbar.classList.add('rte-show-toolbar');
+  };
+
+  useOnClickOutside(containerRef, hideToolbar);
+
   return (
-    <>
+    <div id={containerId} ref={containerRef}>
       <Editor
-        id={`rich-text-editor-${id}`}
+        id={appliedId}
         apiKey={TINYMCE_API_KEY}
         onInit={(evt, editor) => {
           if (editorRef) editorRef.current = editor;
         }}
         initialValue={initialValue}
-        height={height}
         value={value}
         onEditorChange={onChange}
         init={{
-          // height: 100,
+          height,
           width,
           menubar: false,
-          plugins: [
-            'advlist',
-            'lists',
-            'link',
-            'image',
-            'anchor',
-            'table',
-            'help',
-            'codesample',
-            'autoresize'
-          ],
+          plugins: ['link', 'image', 'anchor', 'table', 'codesample'],
           toolbar:
             'bold italic strikethrough underline blocks custom-image codesample',
           toolbar_sticky: true,
           toolbar_mode: 'sliding',
           fixed_toolbar_container: '#mytoolbar',
-          // auto_focus: `rich-text-editor-${label}`,
-
-          toolbar_persist: true,
+          autoresize_on_init: false,
           setup: (editor) => {
             editor.ui.registry.addButton('custom-image', {
               icon: 'image',
-              onAction: () =>
+              onAction: () => {
+                // Will be using this code in future
+                // document
+                //   .getElementById(containerId)
+                //   .classList.add('rich-text-editor-modal-open');
+
                 editor.windowManager.open(
-                  imageDialogConfig(editor, onAssetUpload)
-                )
+                  imageDialogConfig(editor, onAssetUpload, containerId)
+                );
+              }
             });
 
-            editor.on('init', (ed) => {
-              const toolbarPar = ed.target.container.firstElementChild;
-              const toolbar = toolbarPar.firstElementChild;
-              toolbar.style.visibility = 'hidden';
-            });
-
-            editor.on('focus', (ed) => {
-              const toolbarPar = ed.target.container.firstElementChild;
-              const toolbar = toolbarPar.firstElementChild;
-              toolbar.style.visibility = 'visible';
-            });
-
-            editor.on('blur', (ed) => {
-              const toolbarPar = ed.target.container.firstElementChild;
-              const toolbar = toolbarPar.firstElementChild;
-              toolbar.style.visibility = 'hidden';
+            editor.on('focus', () => {
+              showToolbar();
             });
           },
           statusbar: true,
@@ -90,10 +103,8 @@ const TextEditor = forwardRef((props, ref) => {
             'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/ui/TW-RTE'
         }}
       />
-    </>
+    </div>
   );
 });
 
 export default TextEditor;
-
-// 'undo redo  bold italic strikethrough underline  blocks forecolor fontsize alignleft aligncenter alignright alignjustify  bullist numlist  custom-image table blockquote codesample',

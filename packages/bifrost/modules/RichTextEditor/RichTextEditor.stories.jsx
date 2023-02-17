@@ -50,7 +50,7 @@ const defaultConfig = {
       }
     },
     height: {
-      defaultValue: 500,
+      defaultValue: 100,
       control: { type: 'string' }
     },
     label: {
@@ -101,8 +101,10 @@ export const UncontrolledTextEditor = () => {
       <RichTextEditor
         editorRef={ref}
         initialValue="<p>Hello world!</p>"
-        height={600}
+        height={100}
         onAssetUpload={onAssetUpload}
+        id="uc1"
+        label="RTE 1"
       />
     </>
   );
@@ -116,15 +118,7 @@ export const ControlledTextEditor = () => {
       <RichTextEditor
         id="one"
         value={value}
-        height={600}
-        onChange={(val) => setValue(val)}
-        onAssetUpload={onAssetUpload}
-      />
-
-      <RichTextEditor
-        id="Two"
-        value={value}
-        height={600}
+        height={100}
         onChange={(val) => setValue(val)}
         onAssetUpload={onAssetUpload}
       />
