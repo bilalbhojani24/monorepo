@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { TMPageHeadings, TMTabs } from 'common/bifrostProxy';
 
 import useSettings from './useSettings';
-// import useDashboard from './useDashboard';
 
 export const SETTINGS_TABS_ARRAY = [
   { name: 'Integrations' },

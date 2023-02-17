@@ -96,12 +96,12 @@ const SingleStepComponent = ({
     <div className="mb-2 flex gap-4">
       <div className="flex-1">
         <TMRichTextEditor
-          rows={1}
           value={data?.step}
           label="Step"
           placeholder="Write step"
           height={200}
-          onChange={(e) => onChange(index, 'step', e.currentTarget.value)}
+          onChange={(val) => onChange(index, 'step', val)}
+          // onAssetUpload={imageUploadRTEHelper}
         />
       </div>
       <div className="flex-1">
@@ -109,9 +109,9 @@ const SingleStepComponent = ({
           label="Result"
           placeholder="Expected result"
           height={200}
-          rows={1}
           value={data?.expected_result}
-          onChange={(e) => onChange(index, 'expected_result', e.currentTarget.value)}
+          onChange={(val) => onChange(index, 'expected_result', val)}
+          // onAssetUpload={imageUploadRTEHelper}
         />
       </div>
     </div>

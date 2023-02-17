@@ -8,7 +8,6 @@ import { setApiKey, setCurrentTab } from '../slices/settingsSlice';
 export default function useSettings() {
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
 
   const handleTabChange = (tabName) => {
     dispatch(setCurrentTab(tabName.name));
