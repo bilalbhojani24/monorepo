@@ -71,6 +71,7 @@ export default function useTestRunDetails() {
   };
 
   useEffect(() => {
+    resetTestCaseDetailsMeta();
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);

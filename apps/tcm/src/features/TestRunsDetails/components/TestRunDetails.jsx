@@ -38,6 +38,7 @@ const TestRunDetails = () => {
         projectId={projectId}
         testCaseId={testCaseDetails?.testCaseId}
         onDetailsClose={resetTestCaseDetailsMeta}
+        isFromTestRun
       />
     </div>
   );

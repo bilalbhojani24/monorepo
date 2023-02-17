@@ -9,7 +9,8 @@ const TestCaseDetailsView = ({
   projectId,
   folderId,
   testCaseId,
-  onDetailsClose
+  onDetailsClose,
+  isFromTestRun
 }) => {
   const {
     initTestCaseDetails,
@@ -44,7 +45,10 @@ const TestCaseDetailsView = ({
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
-      <TestCaseView actionHandler={actionHandler} />
+      <TestCaseView
+        actionHandler={actionHandler}
+        isFromTestRun={isFromTestRun}
+      />
     </TMSlideover>
   );
 };
@@ -53,14 +57,16 @@ TestCaseDetailsView.propTypes = {
   projectId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   folderId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  onDetailsClose: PropTypes.func
+  onDetailsClose: PropTypes.func,
+  isFromTestRun: PropTypes.bool
 };
 
 TestCaseDetailsView.defaultProps = {
   projectId: null,
   folderId: null,
   testCaseId: null,
-  onDetailsClose: () => {}
+  onDetailsClose: () => {},
+  isFromTestRun: false
 };
 
 export default TestCaseDetailsView;

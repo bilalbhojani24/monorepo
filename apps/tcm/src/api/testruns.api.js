@@ -22,7 +22,7 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
 export const getTestRunDetailsAPI = async ({
   projectId,
   testRunId,
-  isFullDetails = false
+  isFullDetails = true // to be updated later once API is fine
 }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/detail`, {
     params: { case_details: isFullDetails }

@@ -1,55 +1,17 @@
 import React from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
-import {
-  TMBadge,
-  TMDataTable,
-  TMEmptyState,
-  TMTabs
-} from 'common/bifrostProxy';
+import { TMDataTable, TMEmptyState, TMTabs } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 import { formatTime } from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
+import TestCaseResults from './TestCaseResults';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseMutliData = () => {
-  const {
-    testRunsCount,
-    selectedTab,
-    testRunsDetails,
-    testCaseIssues,
-    handleTabChange
-  } = useTestCaseViewDetails();
-
-  const resultsTableColumn = [
-    {
-      name: 'Test Run Details',
-      key: 'test_case_id',
-      cell: (rowData) => (
-        <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`${rowData.identifier} | ${rowData.name}`}</div>
-          <div className="text-base-500">
-            {formatTime(rowData.created_at, 'time')}
-          </div>
-        </div>
-      )
-    },
-    {
-      name: 'Status',
-      key: 'latest_status',
-      cell: (rowData) => (
-        <TMBadge
-          isRounded
-          wrapperClassName="capitalize"
-          text={rowData?.latest_status}
-          modifier={rowData?.latest_status
-            ?.replace('untested', 'base')
-            ?.replace('passed', 'success')
-            ?.replace('failed', 'error')}
-        />
-      )
-    }
-  ];
+const TestCaseMutliData = ({ isFromTestRun }) => {
+  const { testRunsCount, selectedTab, testCaseIssues, handleTabChange } =
+    useTestCaseViewDetails();
 
   const issuesTableColumn = [
     {
@@ -93,32 +55,12 @@ const TestCaseMutliData = () => {
       />
 
       {selectedTab.name === TABS_ARRAY[0].name && (
-        <>
-          {testRunsDetails?.length ? (
-            <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
-              <TMDataTable
-                isHeaderCapitalize
-                columns={resultsTableColumn}
-                rows={testRunsDetails}
-              />
-            </div>
-          ) : (
-            <div className="mt-10">
-              <TMEmptyState
-                title="No Results"
-                description="Once you start linking this test case in a test run, historical result will appear here"
-                mainIcon={
-                  <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
-                }
-                buttonProps={null}
-              />
-            </div>
-          )}
-        </>
+        <TestCaseResults isFromTestRun={isFromTestRun} />
       )}
 
       {selectedTab.name === TABS_ARRAY[1].name && (
         <>
+          {isFromTestRun}
           {testCaseIssues?.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
@@ -143,6 +85,14 @@ const TestCaseMutliData = () => {
       )}
     </>
   );
+};
+
+TestCaseMutliData.propTypes = {
+  isFromTestRun: PropTypes.bool
+};
+
+TestCaseMutliData.defaultProps = {
+  isFromTestRun: false
 };
 
 export default TestCaseMutliData;
