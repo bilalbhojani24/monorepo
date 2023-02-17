@@ -104,7 +104,7 @@ const MiniatureRepository = ({
                 <>
                   <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
                     {isTestCasesLoading || isFoldersLoading ? (
-                      <Loader wrapperClassName="h-full" />
+                      <Loader wrapperClassName="h-96" />
                     ) : (
                       <>
                         {!allTestCases?.length && isSearchFilterView ? (

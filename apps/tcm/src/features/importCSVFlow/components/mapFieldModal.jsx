@@ -31,6 +31,13 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
   } = useMapFields();
 
+  console.log(
+    'inside modal',
+    key,
+    valueMappings,
+    valueMappings?.[key],
+    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
+  );
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     modalRowRef.current = Object.keys(value)?.map((field) => {

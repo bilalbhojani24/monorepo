@@ -9,8 +9,8 @@ export const CHART_OPTIONS = {
     spacingBottom: 0,
     spacingLeft: 0,
     plotBorderWidth: 0,
-    margin: [0, 0, 0, 0],
-    width: 125
+    margin: [0, 0, 0, 0]
+    // width: 125
   },
   title: {
     text: ''
@@ -40,7 +40,7 @@ export const CHART_OPTIONS = {
   },
   plotOptions: {
     series: {
-      // animation: false,
+      animation: false,
       borderWidth: 0,
       stacking: 'normal',
       dataLabels: {

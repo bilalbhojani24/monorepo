@@ -17,8 +17,17 @@ import useTestCases from './components/useTestCases';
 const Repository = ({ isSearch }) => {
   const dispatch = useDispatch();
   const { fetchAllFolders } = useFolders();
-  const { folderId, projectId, currentPage, fetchAllTestCases, setRepoView } =
-    useTestCases();
+
+  const {
+    folderId,
+    projectId,
+    currentPage,
+    testCaseDetailsIDs,
+    detailsCloseHandler,
+    initTestCaseDetails,
+    fetchAllTestCases,
+    setRepoView
+  } = useTestCases();
   const confirmCSVImportNotificationConfig = useSelector(
     (state) => state.importCSV.confirmCSVImportNotificationConfig
   );
@@ -65,6 +74,13 @@ const Repository = ({ isSearch }) => {
   }, [projectId, folderId, currentPage, isSearch]);
 
   useEffect(() => {
+    // onload set the testcase details IDs
+    initTestCaseDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     setRepoView(isSearch);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +104,12 @@ const Repository = ({ isSearch }) => {
           </main>
         </div>
       </div>
-      <TestCaseDetailsView />
+      <TestCaseDetailsView
+        folderId={testCaseDetailsIDs?.folderId}
+        projectId={projectId}
+        testCaseId={testCaseDetailsIDs?.testCaseId}
+        onDetailsClose={detailsCloseHandler}
+      />
     </div>
   );
 };

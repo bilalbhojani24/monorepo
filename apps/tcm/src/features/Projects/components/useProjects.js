@@ -82,10 +82,10 @@ const useProjects = () => {
     );
   };
 
-  const onDropDownChange = (e, selectedItem) => {
-    if (e.currentTarget.textContent === dropDownOptions[0].body) {
+  const onDropDownChange = (e, selectedOption, selectedItem) => {
+    if (selectedOption?.id === dropDownOptions[0].id) {
       dispatch(setEditProjectModalVisibility(true));
-    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+    } else if (selectedOption?.id === dropDownOptions[1].id) {
       dispatch(setDeleteProjectModalVisibility(true));
     }
     dispatch(setSelectedProject(selectedItem));

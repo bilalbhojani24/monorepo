@@ -6,7 +6,9 @@ import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
-import TestRuns from 'features/TestRuns';
+import Settings from 'features/Settings';
+import TestRuns, { AddEditTestRun } from 'features/TestRuns';
+import TestRunsDetails from 'features/TestRunsDetails';
 
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
@@ -72,21 +74,33 @@ const MainRoute = () => {
           path={AppRoute.TEST_RUNS}
           element={
             <PrivateComponent>
-              <TestRuns />
+              <TestRuns key="table" />
             </PrivateComponent>
           }
         />
         <Route
-          path={AppRoute.TEST_RUNS_DETAILS}
+          path={AppRoute.TEST_RUNS_EDIT}
           element={
             <PrivateComponent>
-              <TestRuns />
+              <AddEditTestRun isEdit />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.TEST_RUN_DETAILS}
+          element={
+            <PrivateComponent>
+              <TestRunsDetails />
             </PrivateComponent>
           }
         />
         <Route
           path={AppRoute.SETTINGS}
-          element={<PrivateComponent>SETTINGS</PrivateComponent>}
+          element={
+            <PrivateComponent>
+              <Settings />
+            </PrivateComponent>
+        }
         />
         <Route
           path={AppRoute.RESOURCES}

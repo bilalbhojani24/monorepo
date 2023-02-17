@@ -1,20 +1,28 @@
 import React, { useEffect } from 'react';
 import { TMSlideover, TMSlideoverHeader } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import TestCaseView from './components/TestCaseView';
 import useTestCaseView from './components/useTestCaseView';
 
-const TestCaseDetailsView = () => {
+const TestCaseDetailsView = ({
+  projectId,
+  folderId,
+  testCaseId,
+  onDetailsClose
+}) => {
   const {
-    testCaseId,
-    fetchTestCaseDetails,
+    initTestCaseDetails,
     hideTestCaseViewDrawer,
+    actionHandler,
     isTestCaseViewVisible
-  } = useTestCaseView();
+  } = useTestCaseView({ projectId, folderId, testCaseId, onDetailsClose });
 
   useEffect(() => {
-    if (testCaseId) fetchTestCaseDetails();
+    if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testCaseId]);
 
@@ -36,9 +44,23 @@ const TestCaseDetailsView = () => {
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
-      <TestCaseView />
+      <TestCaseView actionHandler={actionHandler} />
     </TMSlideover>
   );
+};
+
+TestCaseDetailsView.propTypes = {
+  projectId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  folderId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  onDetailsClose: PropTypes.func
+};
+
+TestCaseDetailsView.defaultProps = {
+  projectId: null,
+  folderId: null,
+  testCaseId: null,
+  onDetailsClose: () => {}
 };
 
 export default TestCaseDetailsView;

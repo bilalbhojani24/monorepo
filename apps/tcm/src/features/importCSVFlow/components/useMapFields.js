@@ -184,16 +184,18 @@ const useMapFields = () => {
     );
     const name = mapDisplayToName[selectedOption.label]; // description
     const mappedValue = allowedValueMapper[name];
-    const defaultSelectedValue =
-      mappedValue.allowedValueDisplayToNameMapper[
-        mappedValue.allowedValueDisplayOptions[0].label // it is the default selected option
-      ];
-    dispatch(
-      setValueMappings({
-        key: field,
-        value: defaultSelectedValue
-      })
-    );
+    if (mappedValue.allowedValueDisplayOptions) {
+      const defaultSelectedValue =
+        mappedValue.allowedValueDisplayToNameMapper[
+          mappedValue.allowedValueDisplayOptions[0].label // it is the default selected option
+        ];
+      dispatch(
+        setValueMappings({
+          key: field,
+          value: defaultSelectedValue
+        })
+      );
+    }
   };
 
   const setDefaultDropdownValue = (

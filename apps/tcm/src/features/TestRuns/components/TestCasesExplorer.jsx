@@ -33,7 +33,7 @@ const TestCasesExplorer = () => {
         subHeading=""
         handleDismissClick={hideTestCasesModal}
       />
-      <TMModalBody className="">
+      <TMModalBody wrapperClassName="h-96">
         <div className="border-base-300 mb-4 h-full shrink-0 grow overflow-hidden rounded-md border">
           <MiniatureRepository
             projectId={projectId}

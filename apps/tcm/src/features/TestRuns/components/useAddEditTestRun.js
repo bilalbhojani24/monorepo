@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
 import {
   addTestRunAPI,
   editTestRunAPI,
   getTestRunDetailsAPI
 } from 'api/testruns.api';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import AppRoute from 'const/routes';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
   addTestRun,
   setAddTestRunForm,
+  setEditTestRunForm,
   setIssuesArray,
   setIsVisibleProps,
   setTagsArray,
@@ -22,7 +24,9 @@ import {
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
-  const { projectId } = useParams();
+  const { projectId, testRunId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputError, setInputError] = useState(false);
   const [selectedTCIDs, setSelectedTCIDs] = useState([]);
@@ -68,9 +72,28 @@ const useAddEditTestRun = () => {
       );
   };
 
-  const hideAddTestRunForm = () => {
+  const cleanupActivities = () => {
+    // this will reset everything in the slice
     dispatch(setAddTestRunForm(false));
   };
+
+  const hideAddTestRunForm = () => {
+    if (isEditing) {
+      navigate(
+        routeFormatter(
+          location?.state?.isFromTRDetails
+            ? AppRoute.TEST_RUN_DETAILS
+            : AppRoute.TEST_RUNS,
+          {
+            projectId,
+            testRunId: testRunFormData?.test_run?.id
+          }
+        ),
+        { state: { isFromEditing: true } }
+      );
+    } else dispatch(setAddTestRunForm(false));
+  };
+
   const hideAddIssuesModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssuesModal', value: false }));
   };
@@ -86,6 +109,7 @@ const useAddEditTestRun = () => {
   const showAddTagsModal = () => {
     dispatch(setIsVisibleProps({ key: 'addTagsModal', value: true }));
   };
+
   const hideAddTagsModal = (newTags, selectedTags) => {
     const updatedAllTags = selectMenuValueMapper([
       ...new Set([...newTags, ...tagsArray.map((item) => item.value)])
@@ -184,7 +208,7 @@ const useAddEditTestRun = () => {
       editTestRunAPI({
         payload: formDataFormatter(testRunFormData),
         projectId,
-        testRunId: selectedTestRun?.id
+        testRunId: testRunFormData?.test_run?.id
       }).then((data) => {
         dispatch(updateTestRun(data.data.testrun || []));
         hideAddTestRunForm();
@@ -215,6 +239,17 @@ const useAddEditTestRun = () => {
     }
   };
 
+  const fetchTestRunDetails = (testRunID) => {
+    getTestRunDetailsAPI({ projectId, testRunId: testRunID }).then((data) => {
+      dispatch(setTestRunFormData(formDataRetriever(data.data)));
+    });
+  };
+
+  const initTestRunFormData = () => {
+    dispatch(setEditTestRunForm(true));
+    if (testRunId) fetchTestRunDetails(testRunId);
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -233,7 +268,6 @@ const useAddEditTestRun = () => {
 
   useEffect(() => {
     if (isEditing && selectedTestRun?.id) {
-      // fetch test run details
       dispatch(
         setTestRunFormData(
           formDataRetriever({
@@ -242,16 +276,9 @@ const useAddEditTestRun = () => {
           })
         )
       );
-
-      getTestRunDetailsAPI({ projectId, testRunId: selectedTestRun.id }).then(
-        (data) => {
-          dispatch(setTestRunFormData(formDataRetriever(data.data)));
-        }
-      );
-      // WIP
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTestRun]);
+  }, [isEditing, selectedTestRun]);
 
   return {
     isEditing,
@@ -279,7 +306,9 @@ const useAddEditTestRun = () => {
     onItemSelectionHandler,
     selectTestCasesConfirm,
     hideAddTestRunForm,
-    onBreadcrumbClick
+    onBreadcrumbClick,
+    initTestRunFormData,
+    cleanupActivities
   };
 };
 

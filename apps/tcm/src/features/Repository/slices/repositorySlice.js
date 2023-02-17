@@ -72,7 +72,11 @@ const initialState = {
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
-  recentRequestedAfterUnsaved: ''
+  recentRequestedAfterUnsaved: '',
+  testCaseDetails: {
+    folderId: null,
+    testCaseId: null
+  }
 };
 
 export const repositorySlice = createSlice({
@@ -198,11 +202,19 @@ export const repositorySlice = createSlice({
     },
     setRecentRquestedAfterUnsaved: (state, { payload }) => {
       state.recentRequestedAfterUnsaved = payload;
+    },
+    setTestCaseDetails: (state, { payload }) => {
+      state.testCaseDetails = payload;
+    },
+    resetTestCaseDetails: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
     }
   }
 });
 
 export const {
+  setTestCaseDetails,
+  resetTestCaseDetails,
   setRecentRquestedAfterUnsaved,
   setUnsavedDataModal,
   setUnsavedDataExists,
