@@ -1,12 +1,10 @@
-import Amplitude from './src/amplitude';
 import convertSecondsToMinutes from './src/convertSecondsToMinutes';
 import cookieUtils from './src/cookie';
 import fileDownload from './src/fileDownload';
 import getInitialAndFinalFocusableElementRef from './src/getInitialAndFinalFocusableElementRef';
 import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
-import Analytics from './src/googleAnalytics';
-import Logger from './src/logger';
+// import Logger from './src/logger';
 import makeDebounce from './src/makeDebounce';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
@@ -16,19 +14,18 @@ export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
+export * from './src/logger';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 
 export {
-  Amplitude,
-  Analytics,
   convertSecondsToMinutes,
   cookieUtils,
   fileDownload,
   getInitialAndFinalFocusableElementRef,
   getUniqueId,
   getUrlParams,
-  Logger,
+  // Logger,
   makeDebounce,
   removePaddingfromBeginning
 };

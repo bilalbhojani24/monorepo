@@ -1,15 +1,11 @@
 import amplitude from 'amplitude-js';
 
-class Amplitude {
-  constructor(KEY) {
-    amplitude.getInstance().init(KEY);
-    this.LogAmplitudeEvent = this.LogAmplitudeEvent.bind(this);
-  }
+let initialized = false;
+export const initAmplitude = (key) => {
+  initialized = true;
+  amplitude.getInstance().init(key);
+};
 
-  // eslint-disable-next-line class-methods-use-this
-  LogAmplitudeEvent(key, data, cb) {
-    amplitude.getInstance().logEvent(key, data, cb);
-  }
-}
-
-export default Amplitude;
+export const LogAmplitudeEvent = (key, data, cb) => {
+  if (initialized) amplitude.getInstance().logEvent(key, data, cb);
+};

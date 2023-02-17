@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-param-reassign */
 
-import Amplitude from './amplitude';
+import { initAmplitude, LogAmplitudeEvent } from './amplitude';
 import { EDS } from './eds';
-import Analytics from './googleAnalytics';
+import { initGA, logAnalyticsEvent } from './googleAnalytics';
 
 const whiteListUrl = [
   '/pricing',
@@ -12,37 +12,40 @@ const whiteListUrl = [
   '/accounts/manage-users'
 ];
 
-class Logger {
-  constructor(AmplitudeKey, AnalyticsKey) {
-    this.Amplitude = new Amplitude(AmplitudeKey);
-    this.Analytics = new Analytics(AnalyticsKey);
-  }
+let baseLogger;
 
-  logEvent(skipLoggingKeys, eventType, key, data, cb, sendToGA) {
+export const initLogger = (initArgs) => {
+  baseLogger = initArgs;
+  initAmplitude(initArgs.amplitudeKey);
+  initGA(initArgs.analyticsKey);
+};
+
+export const logEvent = (
+  skipLoggingKeys,
+  eventType,
+  key,
+  data,
+  cb,
+  sendToGA
+) => {
+  if (baseLogger !== undefined) {
     data = data || {};
-
     // Check to exclude data which is not of type object
     if (!(typeof data === 'object' && !Array.isArray(data))) {
       return;
     }
-
     data.url = window.location.href;
-
     // For GDPR
     delete data.email;
-
-    /* 
-        The below chunk appends the value of `team` for each event that is being sent for L/AL/A/AA
-        All new events that are being sent post 1st March 2021, will be dropped if the `team` key is missing
-       */
-
+    /*
+      The below chunk appends the value of `team` for each event that is being sent for L/AL/A/AA
+      All new events that are being sent post 1st March 2021, will be dropped if the `team` key is missing
+     */
     // Note: Checking for data.team as Product's like Speedlad use GTM directly to send events
     data.team = data.team || eventType;
-
     if (skipLoggingKeys.indexOf('amplitude') === -1) {
-      this.Amplitude.LogAmplitudeEvent(key, data, cb);
+      LogAmplitudeEvent(key, data, cb);
     }
-
     // Add Query parameter in json in event data with name of "params"
     if (window.location.search !== '') {
       try {
@@ -61,7 +64,6 @@ class Logger {
           (paramsObjKey, value) =>
             paramsObjKey === '' ? value : decodeURIComponent(value)
         );
-
         if (whiteListUrl.indexOf(window.location.pathname) !== -1) {
           // check white list params
           Object.keys(paramsObj).forEach((ObjectKey) => {
@@ -69,7 +71,6 @@ class Logger {
               paramsValue[ObjectKey] = paramsObj[ObjectKey];
             }
           });
-
           // if params set then add params props
           if (Object.keys(paramsValue).length > 0) {
             data.params = paramsValue;
@@ -80,7 +81,6 @@ class Logger {
         console.log(e);
       }
     }
-
     if (key === 'NewSignup') {
       data.user = {
         user_id: data.user_id,
@@ -93,13 +93,7 @@ class Logger {
       EDS.logEvent(key, eventType, data);
     }
     if (sendToGA === true && key) {
-      this.Analytics.analyticsEventTracker(
-        data.team || '',
-        key,
-        data.label || ''
-      );
+      logAnalyticsEvent(data.team || '', key, data.label || '');
     }
   }
-}
-
-export default Logger;
+};
