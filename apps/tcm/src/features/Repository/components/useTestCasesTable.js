@@ -16,6 +16,7 @@ import {
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
   setSelectedTestCase,
+  setTestCaseDetails,
   setTestCaseFormData,
   updateAllTestCases
 } from '../slices/repositorySlice';
@@ -43,6 +44,9 @@ const useTestCasesTable = (prop) => {
   );
   const deSelectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.de_selected_ids
+  );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
   );
   const isAllSelected = useSelector(
     (state) => state.repository.bulkSelection.select_all
@@ -127,20 +131,29 @@ const useTestCasesTable = (prop) => {
   const handleTestCaseViewClick = (testCaseItem) => () => {
     if (prop?.isMini) return;
 
-    navigate(
-      routeFormatter(
-        AppRoute.TEST_CASES,
-        {
-          projectId,
-          folderId: testCaseItem.test_case_folder_id,
-          testCaseId: testCaseItem?.id
-        },
-        true
-      ),
-      {
-        replace: true
-      }
+    dispatch(
+      setTestCaseDetails({
+        folderId: testCaseItem?.test_case_folder_id,
+        testCaseId: testCaseItem?.id
+      })
     );
+    if (!isSearchFilterView) {
+      // update route only if its in repostiory view
+      navigate(
+        routeFormatter(
+          AppRoute.TEST_CASES,
+          {
+            projectId,
+            folderId: testCaseItem.test_case_folder_id,
+            testCaseId: testCaseItem?.id
+          },
+          true
+        ),
+        {
+          replace: true
+        }
+      );
+    }
   };
 
   useEffect(() => {

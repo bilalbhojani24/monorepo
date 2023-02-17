@@ -9,11 +9,13 @@ import { setSelectedProject } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
+  resetTestCaseDetails,
   setAddTestCaseVisibility,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
   setTagsArray,
+  setTestCaseDetails,
   setUsers,
   updateAllTestCases,
   updateTestCasesListLoading
@@ -31,6 +33,9 @@ export default function useTestCases() {
   );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
+  );
+  const testCaseDetailsIDs = useSelector(
+    (state) => state.repository.testCaseDetails
   );
   const isAddTestCaseFromSearch = useSelector(
     (state) => state.repository.isAddTestCaseFromSearch
@@ -121,19 +126,32 @@ export default function useTestCases() {
   };
 
   const detailsCloseHandler = () => {
-    navigate(
-      `${routeFormatter(
-        AppRoute.TEST_CASES,
+    dispatch(resetTestCaseDetails());
+    if (!isSearchFilterView)
+      navigate(
+        `${routeFormatter(
+          AppRoute.TEST_CASES,
+          {
+            projectId,
+            folderId
+          },
+          true
+        )}`,
         {
-          projectId,
-          folderId
-        },
-        true
-      )}`,
-      {
-        replace: true
-      }
-    );
+          replace: true
+        }
+      );
+  };
+
+  const initTestCaseDetails = () => {
+    if (testCaseId && folderId) {
+      dispatch(
+        setTestCaseDetails({
+          folderId,
+          testCaseId
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -142,6 +160,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    testCaseDetailsIDs,
     testCaseId,
     metaPage,
     allFolders,
@@ -163,6 +182,7 @@ export default function useTestCases() {
     fetchUsers,
     initFormValues,
     setRepoView,
-    detailsCloseHandler
+    detailsCloseHandler,
+    initTestCaseDetails
   };
 }

@@ -12,13 +12,14 @@ import useTestCases from './components/useTestCases';
 const Repository = ({ isSearch }) => {
   const { fetchAllFolders } = useFolders();
   const {
+    testCaseDetailsIDs,
     folderId,
     projectId,
-    testCaseId,
     currentPage,
     fetchAllTestCases,
     setRepoView,
-    detailsCloseHandler
+    detailsCloseHandler,
+    initTestCaseDetails
   } = useTestCases();
 
   useEffect(() => {
@@ -30,6 +31,13 @@ const Repository = ({ isSearch }) => {
     if (!isSearch) fetchAllTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, folderId, currentPage, isSearch]);
+
+  useEffect(() => {
+    // onload set the testcase details IDs
+    initTestCaseDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setRepoView(isSearch);
@@ -56,9 +64,9 @@ const Repository = ({ isSearch }) => {
         </div>
       </div>
       <TestCaseDetailsView
-        folderId={folderId}
+        folderId={testCaseDetailsIDs?.folderId}
         projectId={projectId}
-        testCaseId={testCaseId}
+        testCaseId={testCaseDetailsIDs?.testCaseId}
         onDetailsClose={detailsCloseHandler}
       />
     </div>
