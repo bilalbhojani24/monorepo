@@ -115,7 +115,8 @@ const Filter = ({ isMini, onFilterChange }) => {
           onClick={() => setFilter(!isFilterVisible)}
           // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
-            'rounded-tr-none rounded-br-none': appliedFiltersCount
+            'rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10':
+              appliedFiltersCount
           })}
           size="default"
           variant={appliedFiltersCount ? 'secondary' : 'primary'}
@@ -132,7 +133,7 @@ const Filter = ({ isMini, onFilterChange }) => {
           <TMButton
             onClick={resetFilterAndSearch}
             buttonType="half-rounded-button"
-            wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none"
+            wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
             size="default"
             variant="primary"
             colors="white"
