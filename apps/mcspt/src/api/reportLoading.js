@@ -18,7 +18,7 @@ export const fetchSessionStatus = async (sessionId) => {
 };
 
 export const stopSession = async (sessionId) => {
-  const response = await axios.get(
+  const response = await axios.post(
     `${getBaseUrl()}/session/${sessionId}/stop`,
     {
       headers: commonHeaders

@@ -9,7 +9,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../../utils/tailwindUtils';
+import { twClassNames } from '../../../utils';
 
 import useSelectApplicationStep from './useSelectApplicationStep';
 

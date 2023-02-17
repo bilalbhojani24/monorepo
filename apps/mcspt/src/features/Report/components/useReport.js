@@ -1,9 +1,12 @@
+// import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const useReport = () => {
-  const count = useSelector((state) => state.counter.value);
+import { getSessionMetrics } from '../slices/reportSlice';
 
-  return { count };
+const useReport = () => {
+  const sessionData = useSelector(getSessionMetrics);
+
+  return { sessionData };
 };
 
 export default useReport;

@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { homeReducer } from './features/Home';
 import { newPerformanceSessionReducer } from './features/NewPerformanceSession';
+import { reportReducer } from './features/Report';
 import { reportLoadingReducer } from './features/ReportLoading';
 
 export const store = configureStore({
   reducer: {
     newPerformanceSession: newPerformanceSessionReducer,
     home: homeReducer,
-    reportLoading: reportLoadingReducer
+    reportLoading: reportLoadingReducer,
+    report: reportReducer
   }
 });
 

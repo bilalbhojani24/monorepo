@@ -12,24 +12,21 @@ import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
 
 import useReportLoading from './useReportLoading';
 
-const sessionStateMap = {
-  [REPORT_LOADING_STATES.CONNECTING]: {
-    icon: <MdPhoneAndroid />,
-    statusHeading: 'Connecting to the Google Pixel 7 Pro...'
-  },
-  [REPORT_LOADING_STATES.LAUNCHING]: {
-    icon: <MdApps />,
-    statusHeading: 'Launching the Wikipedia app...'
-  },
-  [REPORT_LOADING_STATES.RECORDING]: {
-    icon: <MdRadioButtonChecked className="text-danger-600" />,
-    statusHeading: 'Performance Data is being Recorded from your device'
-  }
+const sessionStateIconMap = {
+  [REPORT_LOADING_STATES.CONNECTING]: <MdPhoneAndroid />,
+  [REPORT_LOADING_STATES.LAUNCHING]: <MdApps />,
+  [REPORT_LOADING_STATES.RECORDING]: (
+    <MdRadioButtonChecked className="text-danger-600" />
+  )
 };
 
 const ReportLoading = () => {
   const {
     sessionState,
+    sessionDetails,
+    selectedDevice,
+    sesstionTextMap,
+    selectedApplication,
     onCancelClicked,
     stopSessionClicked,
     secondsElapsed,
@@ -40,8 +37,8 @@ const ReportLoading = () => {
     <div className="flex flex-col">
       <div className="border-base-300 flex items-center justify-between border-b p-5">
         <div className="">
-          <div className="text-2xl font-bold leading-8">
-            Wikipedia_3.5.3-pixel7-13_01_22
+          <div className="max-w-2xl text-2xl font-bold leading-8">
+            {sessionDetails?.sessionName}
           </div>
           <div className="text-base-500 text-sm font-medium leading-5">
             Testing in Progress
@@ -92,12 +89,12 @@ const ReportLoading = () => {
       <div className="flex flex-1 flex-col p-9">
         <div className="mb-16 flex items-center">
           <div className="text-base-500 mr-3 text-4xl">
-            {sessionStateMap?.[sessionState]?.icon}
+            {sessionStateIconMap?.[sessionState]}
           </div>
 
           <div className="">
             <div className="text-2xl font-bold leading-8">
-              {sessionStateMap?.[sessionState]?.statusHeading}
+              {sesstionTextMap?.[sessionState]}
             </div>
             <div className="text-base-700 text-xl font-medium leading-7">
               Please ensure that the device is connected & unlocked
@@ -112,10 +109,10 @@ const ReportLoading = () => {
 
           <div className="">
             <div className="text-2xl font-semibold leading-8">
-              Google Pixel 7 Pro
+              {`${selectedDevice?.manufacturer} ${selectedDevice?.model}`}
             </div>
             <div className="text-base-500 text-sm font-medium leading-5">
-              Android 13
+              {`${selectedDevice?.os} ${selectedDevice?.osVersion}`}
             </div>
           </div>
         </div>
@@ -127,7 +124,7 @@ const ReportLoading = () => {
 
           <div className="">
             <div className="text-2xl font-semibold leading-8">
-              Wikipedia v2.0.3
+              {`${selectedApplication?.name}-v${selectedApplication?.version}`}
             </div>
             <div className="text-base-500 text-sm font-medium leading-5">
               Application

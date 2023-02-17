@@ -22,7 +22,10 @@ const useConfirmStartTesting = () => {
 
   const sessionNameChanged = (event) => {
     const newValue = event.target.value;
-    setSessionName(newValue);
+
+    if (newValue?.length <= 50) {
+      setSessionName(newValue);
+    }
   };
 
   const dispatch = useDispatch();

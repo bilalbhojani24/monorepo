@@ -58,8 +58,10 @@ export const fetchApplicationsFromSelectedDevice =
   };
 
 export const triggerSession =
-  (navigatorCallback) => async (dispatch, getState) => {
+  (navigatorCallback, sessionName) => async (dispatch, getState) => {
     try {
+      dispatch(setSessionDetails({ sessionName }));
+
       const selectedDevice = getState()?.newPerformanceSession?.selectedDevice;
       const selectedApplication =
         getState()?.newPerformanceSession?.selectedApplication;

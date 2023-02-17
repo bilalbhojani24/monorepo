@@ -1,6 +1,9 @@
 import Report from './components/Report';
-import reportReducer, { updateSessionMetrics } from './slices/reportSlice';
+import reportReducer, {
+  getSessionMetrics,
+  updateSessionMetrics
+} from './slices/reportSlice';
 
-export { reportReducer, updateSessionMetrics };
+export { getSessionMetrics, reportReducer, updateSessionMetrics };
 
 export default Report;

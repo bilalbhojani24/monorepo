@@ -9,7 +9,7 @@ const initialState = {
   areApplicationsStillLoading: true,
   lisOfApplications: [],
   sessionDetails: {
-    // 6b237dd8-74d5-4588-ac64-956f5078ab71
+    sessionName: ''
   }
 };
 
@@ -46,7 +46,7 @@ export const newPerformanceSessionSlice = createSlice({
     },
 
     setSessionDetails: (state, action) => {
-      state.sessionDetails = action.payload;
+      state.sessionDetails = { ...state.sessionDetails, ...action.payload };
     }
   }
 });
