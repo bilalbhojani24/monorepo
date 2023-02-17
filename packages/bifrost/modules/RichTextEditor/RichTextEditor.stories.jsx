@@ -114,6 +114,15 @@ export const ControlledTextEditor = () => {
   return (
     <>
       <RichTextEditor
+        id="one"
+        value={value}
+        height={600}
+        onChange={(val) => setValue(val)}
+        onAssetUpload={onAssetUpload}
+      />
+
+      <RichTextEditor
+        id="Two"
         value={value}
         height={600}
         onChange={(val) => setValue(val)}

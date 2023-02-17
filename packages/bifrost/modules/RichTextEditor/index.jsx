@@ -23,6 +23,7 @@ const RichTextEditor = ({
   onChange,
   value,
   initialValue,
+  id,
   editorRef,
   placeholder
 }) => (
@@ -36,6 +37,7 @@ const RichTextEditor = ({
       </label>
     ) : null}
     <Editor
+      id={id}
       onAssetUpload={onAssetUpload}
       height={height}
       width={width}
@@ -52,6 +54,7 @@ const RichTextEditor = ({
 RichTextEditor.propTypes = {
   onAssetUpload: func.isRequired,
   initialValue: string,
+  id: string.isRequired,
   onChange: func,
   height: oneOfType([number, string]),
   label: string,

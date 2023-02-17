@@ -7,14 +7,14 @@ import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
 
 const TextEditor = forwardRef((props, ref) => {
   const {
+    id,
     onAssetUpload,
     height,
     placeholder,
     onChange,
     value,
     width,
-    initialValue,
-    label
+    initialValue
   } = props;
 
   const editorRef = ref;
@@ -22,7 +22,7 @@ const TextEditor = forwardRef((props, ref) => {
   return (
     <>
       <Editor
-        id={`rich-text-editor-${label}`}
+        id={`rich-text-editor-${id}`}
         apiKey={TINYMCE_API_KEY}
         onInit={(evt, editor) => {
           if (editorRef) editorRef.current = editor;
@@ -32,7 +32,7 @@ const TextEditor = forwardRef((props, ref) => {
         value={value}
         onEditorChange={onChange}
         init={{
-          height,
+          // height: 100,
           width,
           menubar: false,
           plugins: [
@@ -43,11 +43,16 @@ const TextEditor = forwardRef((props, ref) => {
             'anchor',
             'table',
             'help',
-            'codesample'
+            'codesample',
+            'autoresize'
           ],
           toolbar:
-            'undo redo  bold italic strikethrough underline  blocks forecolor fontsize  alignleft aligncenter alignright alignjustify  bullist numlist  custom-image table blockquote codesample',
+            'bold italic strikethrough underline blocks custom-image codesample',
+          toolbar_sticky: true,
           toolbar_mode: 'sliding',
+          fixed_toolbar_container: '#mytoolbar',
+          // auto_focus: `rich-text-editor-${label}`,
+
           toolbar_persist: true,
           setup: (editor) => {
             editor.ui.registry.addButton('custom-image', {
@@ -57,10 +62,27 @@ const TextEditor = forwardRef((props, ref) => {
                   imageDialogConfig(editor, onAssetUpload)
                 )
             });
+
+            editor.on('init', (ed) => {
+              const toolbarPar = ed.target.container.firstElementChild;
+              const toolbar = toolbarPar.firstElementChild;
+              toolbar.style.visibility = 'hidden';
+            });
+
+            editor.on('focus', (ed) => {
+              const toolbarPar = ed.target.container.firstElementChild;
+              const toolbar = toolbarPar.firstElementChild;
+              toolbar.style.visibility = 'visible';
+            });
+
+            editor.on('blur', (ed) => {
+              const toolbarPar = ed.target.container.firstElementChild;
+              const toolbar = toolbarPar.firstElementChild;
+              toolbar.style.visibility = 'hidden';
+            });
           },
-          statusbar: false,
-          branding: false,
-          resize: 'both',
+          statusbar: true,
+          resize: true,
           placeholder,
           content_css:
             'http://127.0.0.1:5500/packages/bifrost/utils/texteditorSkin/content/TW-RTE/content.min.css',
@@ -73,3 +95,5 @@ const TextEditor = forwardRef((props, ref) => {
 });
 
 export default TextEditor;
+
+// 'undo redo  bold italic strikethrough underline  blocks forecolor fontsize alignleft aligncenter alignright alignjustify  bullist numlist  custom-image table blockquote codesample',
