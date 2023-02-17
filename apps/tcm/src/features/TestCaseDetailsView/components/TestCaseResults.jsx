@@ -67,7 +67,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
             <div className="flex">
               <TMButton
                 onClick={() =>
-                  onResultClick({ value: 'passed' }, testCaseDetails)
+                  onResultClick({ value: 'passed' }, testCaseDetails, true)
                 }
                 size="default"
                 variant="primary"
@@ -81,7 +81,11 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
                 triggerVariant="menu-button"
                 options={RESULTS_DROP_OPTIONS}
                 onClick={(e, selectedOption) =>
-                  onResultClick({ value: selectedOption.id }, testCaseDetails)
+                  onResultClick(
+                    { value: selectedOption.id },
+                    testCaseDetails,
+                    true
+                  )
                 }
               />
             </div>

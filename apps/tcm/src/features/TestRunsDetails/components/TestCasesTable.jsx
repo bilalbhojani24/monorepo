@@ -56,14 +56,14 @@ const TestCasesTable = () => {
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          <TMTruncateText>{rowData.name}</TMTruncateText>
+          <TMTruncateText hidetooltipTriggerIcon>{rowData.name}</TMTruncateText>
         </div>
       ),
       maxWidth: 'max-w-[40%]'
     },
     {
       name: 'STATUS',
-      class: 'w-[6%]',
+      class: 'w-[16%]',
       key: 'status',
       cell: (rowData) => (
         <TMSelectMenu

@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getTestRunsTestCasesAPI } from 'api/testruns.api';
+import { addTestResultAPI, getTestRunsTestCasesAPI } from 'api/testruns.api';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
+  closeAllVisibleForms,
+  initAddStatusForm,
   setAllFolders,
   setAllTestCases,
   setIsLoadingProps,
+  setIssuesArray,
+  setIsVisibleProps,
   setSelectedFolder,
-  setTestCaseDetails
+  setSelectedTestCase,
+  setTestCaseDetails,
+  updateAddStatusForm
 } from '../slices/testRunDetailsSlice';
 
 export default function useTRTCFolders() {
@@ -23,12 +30,37 @@ export default function useTRTCFolders() {
   const selectedFolder = useSelector(
     (state) => state.testRunsDetails.selectedFolder
   );
+  const isAddStatusVisible = useSelector(
+    (state) => state.testRunsDetails.isVisible.addStatus
+  );
+  const isAddIssuesModalShown = useSelector(
+    (state) => state.testRunsDetails.isVisible.addIssues
+  );
+  const addStatusFormData = useSelector(
+    (state) => state.testRunsDetails.addStatusForm
+  );
+  const selectedTestCase = useSelector(
+    (state) => state.testRunsDetails.selectedTestCase
+  );
   const allFolders = useSelector((state) => state.testRunsDetails.allFolders);
+  const issuesArray = useSelector((state) => state.testRunsDetails.issuesArray);
   const metaPage = useSelector((state) => state.testRunsDetails.metaPage);
 
   const allTestCases = useSelector(
     (state) => state.testRunsDetails.allTestCases
   );
+
+  const closeAll = () => {
+    dispatch(closeAllVisibleForms());
+  };
+
+  const showAddIssueModal = () => {
+    dispatch(setIsVisibleProps({ key: 'addIssues', value: true }));
+  };
+
+  const hideAddIssueModal = () => {
+    dispatch(setIsVisibleProps({ key: 'addIssues', value: false }));
+  };
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
     dispatch(
@@ -37,22 +69,6 @@ export default function useTRTCFolders() {
         testCaseId: testCaseItem?.id
       })
     );
-
-    // navigate(
-    //   routeFormatter(
-    //     AppRoute.TEST_RUN_DETAILS,
-    //     {
-    //       projectId,
-    //       testRunId,
-    //       folderId: testCaseItem.test_case_folder_id,
-    //       testCaseId: testCaseItem?.id
-    //     },
-    //     true
-    //   ),
-    //   {
-    //     replace: true
-    //   }
-    // );
   };
 
   const fetchTestCases = () => {
@@ -74,11 +90,81 @@ export default function useTRTCFolders() {
     }
   };
 
-  const onResultChange = (selectedOption, data) => {
-    console.log(selectedOption);
+  const statusFormChangeHandler = (key, value) => {
+    dispatch(updateAddStatusForm({ key, value }));
+  };
+
+  const addIssuesSaveHelper = (newIssuesArray) => {
+    hideAddIssueModal();
+    const updatedAllIssues = selectMenuValueMapper([
+      ...new Set([...issuesArray.map((item) => item.value), ...newIssuesArray])
+    ]);
+    const selectedIssues = addStatusFormData?.issues
+      ? [
+          ...new Set([
+            ...newIssuesArray,
+            ...addStatusFormData?.issues?.map((item) => item.value)
+          ])
+        ]
+      : newIssuesArray;
+    const combinedIssues = updatedAllIssues.filter((item) =>
+      selectedIssues.includes(item.value)
+    );
+
+    dispatch(setIssuesArray(updatedAllIssues));
+    statusFormChangeHandler('issues', combinedIssues);
+  };
+
+  const addStatusSaveHelper = (testCaseId, payload, thisTestCase) => {
+    addTestResultAPI({
+      projectId,
+      testCaseId,
+      testRunId,
+      payload
+    }).then(() => {
+      dispatch(
+        setAllTestCases(
+          allTestCases.map((item) =>
+            item.id === thisTestCase.id
+              ? { ...item, latest_status: payload.status }
+              : item
+          )
+        )
+      );
+      dispatch(setSelectedTestCase(null));
+      closeAll();
+    });
+  };
+
+  const onResultChange = (selectedOption, data, isQuickUpdate) => {
+    dispatch(setSelectedTestCase(data));
+    if (isQuickUpdate) {
+      addStatusSaveHelper(
+        data?.id,
+        {
+          status: selectedOption?.value
+        },
+        data
+      );
+    } else {
+      dispatch(initAddStatusForm(selectedOption?.value || null));
+      dispatch(setIsVisibleProps({ key: 'addStatus', value: true }));
+    }
+  };
+
+  const addStatusOkHandler = () => {
+    const payload = { ...addStatusFormData };
+    if (addStatusFormData?.issues)
+      payload.issues = addStatusFormData?.issues?.map((item) => item.value);
+
+    addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase);
   };
 
   return {
+    isAddIssuesModalShown,
+    issuesArray,
+    addStatusFormData,
+    isAddStatusVisible,
     allTestCases,
     metaPage,
     isTestCasesLoading,
@@ -91,6 +177,12 @@ export default function useTRTCFolders() {
     fetchTestCases,
     handleTestCaseViewClick,
     onFolderClick,
-    onResultChange
+    onResultChange,
+    addStatusOkHandler,
+    closeAll,
+    statusFormChangeHandler,
+    showAddIssueModal,
+    hideAddIssueModal,
+    addIssuesSaveHelper
   };
 }

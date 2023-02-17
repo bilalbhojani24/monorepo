@@ -11,7 +11,7 @@ export const TABS_ARRAY = [
 
 export const RESULTS_DROP_OPTIONS = [
   {
-    id: 'fail',
+    id: 'failed',
     body: 'Add Fail'
   },
   {
