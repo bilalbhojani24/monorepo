@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
+import dashboardReducer from 'features/Dashboard/slices/dashboardSlice';
 import projectReducer from 'features/Projects/slices/projectSlice';
 import importReducer from 'features/quickImportFlow/slices/importSlice';
 import repositoryReducer from 'features/Repository/slices/repositorySlice';
@@ -17,7 +18,8 @@ export const store = configureStore({
     testRuns: testRunsReducer,
     testCaseDetails: testCaseDetailsReducer,
     import: importReducer,
-    importCSV: importCSVReducer
+    importCSV: importCSVReducer,
+    dashboard: dashboardReducer
   },
   middleware
 });

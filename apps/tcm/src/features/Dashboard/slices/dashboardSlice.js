@@ -1,17 +1,17 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-// const initialState = {};
+const initialState = {activeTestRuns: {}};
 
-// export const dashboardSlice = createSlice({
-//   name: 'dashboard',
-//   initialState,
-//   reducers: {
-//     updateAllFolders: (state, { payload }) => {
-//       state.allFolders = payload;
-//     },
-//   },
-// });
+export const dashboardSlice = createSlice({
+  name: 'dashboard',
+  initialState,
+  reducers: {
+    setActiveTestRuns: (state, { payload }) => {
+      state.activeTestRuns = payload;
+    },
+  },
+});
 
-// export const { updateAllFolders } = dashboardSlice.actions;
+export const { setActiveTestRuns } = dashboardSlice.actions;
 
-// export default dashboardSlice.reducer;
+export default dashboardSlice.reducer;
