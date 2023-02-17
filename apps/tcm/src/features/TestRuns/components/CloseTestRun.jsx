@@ -10,11 +10,15 @@ import {
 import useMiscConnections from './useMiscConnections';
 
 const CloseTestRun = () => {
-  const { closeAll, closeTestRunHandler, isCloseTVisible } =
+  const { closeAll, closeTestRunHandler, isCloseTRVisible } =
     useMiscConnections();
 
   return (
-    <TMModal show={isCloseTVisible} withDismissButton onOverlayClick={closeAll}>
+    <TMModal
+      show={isCloseTRVisible}
+      withDismissButton
+      onOverlayClick={closeAll}
+    >
       <TMModalHeader
         heading="Close Run"
         subHeading={

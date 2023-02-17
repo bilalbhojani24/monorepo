@@ -24,7 +24,7 @@ const useMiscConnections = () => {
   const isDeleteModalVisible = useSelector(
     (state) => state.testRuns.isVisible.deleteTestRunModal
   );
-  const isCloseTVisible = useSelector(
+  const isCloseTRVisible = useSelector(
     (state) => state.testRuns.isVisible.closeRunTestRunModal
   );
   const isAssignTestVisible = useSelector(
@@ -77,7 +77,7 @@ const useMiscConnections = () => {
   return {
     selectedTestRun,
     isAssignTestVisible,
-    isCloseTVisible,
+    isCloseTRVisible,
     isDeleteModalVisible,
     selectedAssignee,
     setAssignee,
