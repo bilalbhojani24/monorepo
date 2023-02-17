@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AddBoxOutlinedIcon, DeleteOutlineOutlinedIcon } from 'assets/icons';
-import { TMButton, TMTextArea } from 'common/bifrostProxy';
+import { TMButton, TMTextArea, TMRichTextEditor } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { stepTemplate } from '../const/addTestCaseConst';
@@ -93,29 +93,25 @@ const SingleStepComponent = ({
         </TMButton>
       )}
     </div>
-    <div className="mb-2 flex items-center">
-      <div className="text-base-700 block w-20 text-sm font-medium">Step</div>
+    <div className="mb-2 flex gap-4">
       <div className="flex-1">
-        <TMTextArea
-          rows={1}
+        <TMRichTextEditor
           value={data?.step}
-          label=""
+          label="Step"
           placeholder="Write step"
-          onChange={(e) => onChange(index, 'step', e.currentTarget.value)}
+          height={200}
+          onChange={(val) => onChange(index, 'step', val)}
+          // onAssetUpload={imageUploadRTEHelper}
         />
       </div>
-    </div>
-    <div className="flex items-center">
-      <div className="text-base-700 block w-20 text-sm font-medium">Result</div>
       <div className="flex-1">
-        <TMTextArea
-          rows={1}
-          value={data?.expected_result}
-          label=""
+        <TMRichTextEditor
+          label="Result"
           placeholder="Expected result"
-          onChange={(e) =>
-            onChange(index, 'expected_result', e.currentTarget.value)
-          }
+          height={200}
+          value={data?.expected_result}
+          onChange={(val) => onChange(index, 'expected_result', val)}
+          // onAssetUpload={imageUploadRTEHelper}
         />
       </div>
     </div>
