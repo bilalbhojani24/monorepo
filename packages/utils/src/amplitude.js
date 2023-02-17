@@ -7,5 +7,6 @@ export const initAmplitude = (key) => {
 };
 
 export const LogAmplitudeEvent = (key, data, cb) => {
-  if (initialized) amplitude.getInstance().logEvent(key, data, cb);
+  if (!initialized) throw new Error('Amplitude not initialised');
+  amplitude.getInstance().logEvent(key, data, cb);
 };

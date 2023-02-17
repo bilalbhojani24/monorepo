@@ -7,5 +7,6 @@ export const initGA = (trackingId) => {
 };
 
 export const logAnalyticsEvent = (category, action, label) => {
-  if (initialized) ReactGA.event({ category, action, label });
+  if (!initialized) throw new Error('Google Analytics not initialised');
+  ReactGA.event({ category, action, label });
 };

@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 
 import { initAmplitude, LogAmplitudeEvent } from './amplitude';
-import { EDS } from './eds';
+import { initEDS, logEDSEvent } from './eds';
 import { initGA, logAnalyticsEvent } from './googleAnalytics';
 
 const whiteListUrl = [
@@ -18,6 +18,7 @@ export const initLogger = (initArgs) => {
   baseLogger = initArgs;
   initAmplitude(initArgs.amplitudeKey);
   initGA(initArgs.analyticsKey);
+  initEDS(initArgs.EDSDetails);
 };
 
 export const logEvent = (
@@ -90,7 +91,7 @@ export const logEvent = (
       };
     }
     if (skipLoggingKeys.indexOf('EDS') === -1) {
-      EDS.logEvent(key, eventType, data);
+      logEDSEvent(key, eventType, data);
     }
     if (sendToGA === true && key) {
       logAnalyticsEvent(data.team || '', key, data.label || '');

@@ -22,22 +22,3 @@ export const messages = {
   recordingDownloaded: 'recordingDownloaded',
   recordingDiscarded: 'recordingDiscarded'
 };
-
-export const EDSThresholdConstants = {
-  EDSLiveTestSessionsThrottleThreshold: 100,
-  EDSAppLiveTestSessionsThrottleThreshold: 100,
-  EDSLiveWebEventsThrottleThreshold: 100,
-  EDSAppLiveWebEventsThrottleThreshold: 100,
-  EDSAppAutomateWebEventsThrottleThreshold: 100,
-  EDSWebEventsThrottleThreshold: 100,
-  EDSWebEventsPiiThrottleThreshold: 100,
-  EDSCommonThrottleThreshold: 100
-};
-
-export const EDSUserDetails = { user_id: 1, group_id: 2 };
-
-export const EdsConfig = {
-  api: '',
-  server: null,
-  port: null
-};
