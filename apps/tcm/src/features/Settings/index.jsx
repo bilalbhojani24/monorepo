@@ -1,7 +1,3 @@
-import React from 'react';
+import Settings from './components/Settings';
 
-import SettingsComponent from './components/SettingsComponent';
-//
-// const SettingsComponent = () => <SettingsComponent />;
-
-export default SettingsComponent;
+export default Settings;
