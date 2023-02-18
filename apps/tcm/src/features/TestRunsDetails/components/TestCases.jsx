@@ -9,6 +9,7 @@ import {
 import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
 
+import AddStatusModal from './AddStatusModal';
 import TestCasesTable from './TestCasesTable';
 import useTRTCFolders from './useTRTCFolders';
 
@@ -116,6 +117,7 @@ const TestCases = () => {
           </div>
         )}
       </div>
+      <AddStatusModal />
     </section>
   );
 };

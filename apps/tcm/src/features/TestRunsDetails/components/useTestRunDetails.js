@@ -4,13 +4,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getTestRunDetailsAPI } from 'api/testruns.api';
 import AppRoute from 'const/routes';
 import useTestRunsTable from 'features/TestRuns/components/useTestRunsTable';
-import { setIsVisibleProps } from 'features/TestRuns/slices/testRunsSlice';
+import {
+  setIsVisibleProps,
+  setSelectedTestRun
+} from 'features/TestRuns/slices/testRunsSlice';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import {
   resetTestCaseDetails,
+  setIsLoadingProps,
   setTestRunsDetails
 } from '../slices/testRunDetailsSlice';
 
@@ -27,18 +31,22 @@ export default function useTestRunDetails() {
     (state) => state.testRunsDetails.testCaseDetails
   );
 
-  const fetchTestRunDetails = () => {
+  const fetchTestRunDetails = (forceRefetch = true) => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
-      dispatch(setTestRunsDetails(null)); // clear in case there is a difference
-    getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
-      dispatch(setTestRunsDetails(data.data.test_run));
-    });
+      dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
+
+    if (forceRefetch || testRunDetails?.id !== parseInt(testRunId, 10)) {
+      getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
+        dispatch(setTestRunsDetails(data.data.test_run));
+        dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
+      });
+    }
   };
 
   const onDropDownChange = (e, selectedOption) => {
-    // dispatch(setSelectedTestRun(testRunDetails));
     switch (selectedOption?.id) {
       case TR_DROP_OPTIONS[0].id: // close
+        dispatch(setSelectedTestRun(testRunDetails));
         dispatch(
           setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
         );
@@ -55,6 +63,7 @@ export default function useTestRunDetails() {
         );
         break;
       case TR_DROP_OPTIONS[2].id: // delete
+        dispatch(setSelectedTestRun(testRunDetails));
         dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
         break;
       default:
@@ -67,6 +76,7 @@ export default function useTestRunDetails() {
   };
 
   useEffect(() => {
+    resetTestCaseDetailsMeta();
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);

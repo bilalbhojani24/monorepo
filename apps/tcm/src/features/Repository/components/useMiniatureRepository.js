@@ -33,19 +33,23 @@ const useMiniatureRepository = ({ projectId }) => {
       // search - filter
       setIsTestCasesLoading(true);
       setIsSearchFilterView(true);
+      const filterOptionsFull =
+        currentPage > 1 ? { ...filterOptions, p: currentPage } : filterOptions;
       getTestCasesSearchFilterAPI({
         projectId,
-        props: filterOptions
+        props: filterOptionsFull
       }).then((res) => {
         const testCases = res.test_cases.map((item) => ({
           ...item,
           folders: res?.folders?.[item.id] || null
         }));
         setAllTestCases(testCases);
+        setMetaPage(res.info);
         // (updateTestCasesListLoading(false));
         setIsTestCasesLoading(false);
       });
     } else if (selectedFolder?.id) {
+      // normal test cases load
       setIsSearchFilterView(false);
       setIsTestCasesLoading(true);
       getTestCasesAPI({
@@ -72,6 +76,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const onPaginationClick = ({ p }) => {
     setCurrentPage(p || 1);
   };
+
   const onFilterChange = (params) => {
     setFilterOptions(params);
     setCurrentPage(1);

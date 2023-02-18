@@ -22,7 +22,8 @@ const TestCasesTable = () => {
     isTestCasesLoading,
     allTestCases,
     onPaginationClick,
-    handleTestCaseViewClick
+    handleTestCaseViewClick,
+    onResultChange
   } = useTRTCFolders();
 
   const datatableColumns = [
@@ -44,7 +45,7 @@ const TestCasesTable = () => {
       // cell: (rowData) =>
     },
     {
-      name: 'HEADING',
+      name: 'TITLE',
       key: 'name',
       class: 'w-[80%]',
       cell: (rowData) => (
@@ -55,19 +56,23 @@ const TestCasesTable = () => {
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          <TMTruncateText>{rowData.name}</TMTruncateText>
+          <TMTruncateText hidetooltipTriggerIcon>{rowData.name}</TMTruncateText>
         </div>
       ),
       maxWidth: 'max-w-[40%]'
     },
     {
       name: 'STATUS',
-      class: 'w-[6%]',
+      class: 'w-[16%]',
       key: 'status',
       cell: (rowData) => (
         <TMSelectMenu
           options={STATUS_OPTIONS}
-          // onClick={onDropDownChange}
+          value={
+            rowData?.latest_status &&
+            STATUS_OPTIONS.find((item) => item.value === rowData.latest_status)
+          }
+          onChange={(e) => onResultChange(e, rowData)}
         />
       ),
       // <span className="capitalize">{rowData.status}</span>,

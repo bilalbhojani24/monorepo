@@ -51,6 +51,10 @@ export default function useAddEditTestCase() {
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
 
+  const isAddTestCasePageVisible = useSelector(
+    (state) => state.repository.isAddTestCasePageVisible
+  );
+
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
@@ -351,6 +355,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    isAddTestCasePageVisible,
     showBulkEditConfirmModal,
     isBulkUpdate,
     testCaseBulkFormData,

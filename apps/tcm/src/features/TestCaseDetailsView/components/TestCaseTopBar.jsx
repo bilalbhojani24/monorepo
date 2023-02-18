@@ -14,9 +14,11 @@ import CopyButton from 'common/CopyButton';
 import { dropDownOptions } from 'features/Repository/const/testCaseConst';
 import PropTypes from 'prop-types';
 
+import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
+
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseTopBar = ({ actionHandler }) => {
+const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
   const { testCaseDetails } = useTestCaseViewDetails();
   return (
     <div className="mb-4 flex  w-full items-start justify-between">
@@ -61,7 +63,7 @@ const TestCaseTopBar = ({ actionHandler }) => {
         <TMDropdown
           onClick={actionHandler}
           triggerVariant="meatball-button"
-          options={dropDownOptions}
+          options={isFromTestRun ? TR_DROP_OPTIONS : dropDownOptions}
         />
         {/* <ArrowBackOutlinedIcon className="ml-2 !h-5 !w-5 cursor-pointer" />
         <ArrowForwardOutlinedIcon className="!h-5 !w-5 cursor-pointer" /> */}
@@ -71,11 +73,13 @@ const TestCaseTopBar = ({ actionHandler }) => {
 };
 
 TestCaseTopBar.propTypes = {
-  actionHandler: PropTypes.func
+  actionHandler: PropTypes.func,
+  isFromTestRun: PropTypes.bool
 };
 
 TestCaseTopBar.defaultProps = {
-  actionHandler: () => {}
+  actionHandler: () => {},
+  isFromTestRun: false
 };
 
 export default TestCaseTopBar;

@@ -33,11 +33,12 @@ export default function TestCases() {
     isAddTestCasePageVisible,
     isBulkUpdate,
     isTestCasesLoading,
-    isFoldersLoading
+    isFoldersLoading,
+    handleFilterPagination
   } = useTestCases();
 
-  if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
-  if (isAddTestCasePageVisible) return <AddEditTestCase />;
+  if (isAddTestCasePageVisible)
+    return isBulkUpdate ? <BulkEditTestCase /> : <AddEditTestCase />;
 
   return (
     <div className="flex w-full shrink-0 grow flex-col items-start overflow-hidden ">
@@ -82,7 +83,10 @@ export default function TestCases() {
                   </TMTooltip>
                 </div>
                 {selectedFolder?.notes && (
-                  <TMTruncateText wrapperClassName="text-base-500 mt-1 text-sm">
+                  <TMTruncateText
+                    wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
+                    hidetooltipTriggerIcon
+                  >
                     {selectedFolder?.notes}
                   </TMTruncateText>
                 )}
@@ -121,6 +125,9 @@ export default function TestCases() {
                       isLoading={isTestCasesLoading}
                       isSearchFilterView={isSearchFilterView}
                       metaPage={metaPage}
+                      onPaginationClick={
+                        isSearchFilterView ? handleFilterPagination : null
+                      }
                     />
                   </div>
                 )}

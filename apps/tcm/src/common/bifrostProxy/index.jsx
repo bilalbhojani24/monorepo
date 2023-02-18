@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   Alerts,
   Badge,
@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  DataVisualization,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -65,14 +66,20 @@ export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
 export const TMListTreeNodeContents = (props) => (
   <ListTreeNodeContents {...props} />
 );
-export const TMButton = (props) => <Button {...props} />;
-export const TMInputField = (props) => <InputField {...props} />;
+export const TMButton = forwardRef((props, ref) => (
+  <Button {...props} ref={ref} />
+));
+export const TMInputField = forwardRef((props, ref) => (
+  <InputField {...props} ref={ref} />
+));
 export const TMInputWButton = (props) => <InputWButton {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
-export const TMModal = (props) => <Modal {...props} />;
+export const TMModal = forwardRef((props, ref) => (
+  <Modal {...props} ref={ref} />
+));
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
@@ -100,6 +107,7 @@ export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
+export const TMDataVisualization = (props) => <DataVisualization {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';

@@ -159,7 +159,7 @@ const MiniatureRepository = ({
                     <TMEmptyState
                       // title=""
                       title={`We found ${
-                        allTestCases?.length
+                        metaPage?.count || 0
                       } Search Results for '${
                         filterOptions?.q || ''
                       }' across all folders`}

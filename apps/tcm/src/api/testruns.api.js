@@ -22,7 +22,7 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
 export const getTestRunDetailsAPI = async ({
   projectId,
   testRunId,
-  isFullDetails = false
+  isFullDetails = true // to be updated later once API is fine
 }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/detail`, {
     params: { case_details: isFullDetails }
@@ -53,3 +53,21 @@ export const getTestRunsTestCasesAPI = async ({
   fetchGet(`/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases`, {
     params: { p: page }
   });
+
+export const addTestResultAPI = async ({
+  projectId,
+  testCaseId,
+  testRunId,
+  payload
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/test-results`,
+    {
+      test_result: payload
+    }
+  );
+
+export const getTestResultsAPI = async ({ projectId, testRunId, testCaseId }) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/test-results`
+  );

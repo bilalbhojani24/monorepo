@@ -29,7 +29,7 @@ export const STATUS_OPTIONS = [
   },
   {
     label: 'Retest',
-    value: 'restest'
+    value: 'retest'
   },
   {
     label: 'Blocked',

@@ -106,7 +106,10 @@ export default function useTestCases() {
 
   const fetchAllTestCases = () => {
     if (!isAddTestCaseFromSearch) dispatch(setAddTestCaseVisibility(false)); // if routed from search view and the user clicked Create Test Case CTA, do not reset
-    if (folderId) {
+    if (projectId === 'new') {
+      // dont load anything start from scratch
+      dispatch(updateTestCasesListLoading(false));
+    } else if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       const page = searchParams.get('p');
       getTestCasesAPI({ projectId, folderId, page })
@@ -154,6 +157,17 @@ export default function useTestCases() {
     }
   };
 
+  const handleFilterPagination = ({ p }) => {
+    const currentParams = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const entry of searchParams.entries()) {
+      const [key, value] = entry;
+      currentParams[key] = value;
+    }
+
+    setSearchParams({ ...currentParams, p });
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,6 +197,7 @@ export default function useTestCases() {
     initFormValues,
     setRepoView,
     detailsCloseHandler,
-    initTestCaseDetails
+    initTestCaseDetails,
+    handleFilterPagination
   };
 }

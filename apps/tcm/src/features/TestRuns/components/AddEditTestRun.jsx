@@ -60,7 +60,7 @@ const AddEditTestRun = ({ isEdit }) => {
     <>
       <div className="border-base-200 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
         <TMPageHeadings
-          breadcrumbWrapperClassName="ribin"
+          breadcrumbWrapperClassName=""
           onBreadcrumbClick={onBreadcrumbClick}
           breadcrumbs={[
             { name: 'Test Runs', isHome: true, url: '#' },

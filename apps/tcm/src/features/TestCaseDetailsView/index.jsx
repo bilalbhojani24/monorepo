@@ -9,14 +9,23 @@ const TestCaseDetailsView = ({
   projectId,
   folderId,
   testCaseId,
-  onDetailsClose
+  onDetailsClose,
+  isFromTestRun,
+  onResultClick,
+  testResultsArray
 }) => {
   const {
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
     isTestCaseViewVisible
-  } = useTestCaseView({ projectId, folderId, testCaseId, onDetailsClose });
+  } = useTestCaseView({
+    projectId,
+    folderId,
+    testCaseId,
+    onDetailsClose,
+    testResultsArray
+  });
 
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
@@ -44,7 +53,11 @@ const TestCaseDetailsView = ({
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
       />
-      <TestCaseView actionHandler={actionHandler} />
+      <TestCaseView
+        actionHandler={actionHandler}
+        isFromTestRun={isFromTestRun}
+        onResultClick={onResultClick}
+      />
     </TMSlideover>
   );
 };
@@ -53,14 +66,20 @@ TestCaseDetailsView.propTypes = {
   projectId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   folderId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  onDetailsClose: PropTypes.func
+  onDetailsClose: PropTypes.func,
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.bool,
+  testResultsArray: PropTypes.arrayOf(PropTypes.object)
 };
 
 TestCaseDetailsView.defaultProps = {
   projectId: null,
   folderId: null,
   testCaseId: null,
-  onDetailsClose: () => {}
+  onDetailsClose: () => {},
+  isFromTestRun: false,
+  onResultClick: () => {},
+  testResultsArray: []
 };
 
 export default TestCaseDetailsView;

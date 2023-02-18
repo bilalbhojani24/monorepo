@@ -47,7 +47,7 @@ export default function useFolders() {
     (state) => state.repository.isLoading.testCases
   );
   const testCasesCount =
-    useSelector((state) => state.repository.allTestCases)?.length || 0;
+    useSelector((state) => state.repository.metaPage?.count) || 0;
 
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
@@ -129,7 +129,10 @@ export default function useFolders() {
 
   const fetchAllFolders = () => {
     // dispatch(setAddTestCaseVisibility(false));
-    if (projectId) {
+    if (projectId === 'new') {
+      // dont load anything start from scratch
+      dispatch(updateFoldersLoading(false));
+    } else if (projectId) {
       dispatch(updateFoldersLoading(true));
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
