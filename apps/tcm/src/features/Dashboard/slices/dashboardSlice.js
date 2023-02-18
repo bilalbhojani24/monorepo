@@ -1,17 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {activeTestRuns: {}};
+const initialState = { activeTestRuns: {} };
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {
-    setActiveTestRuns: (state, { payload }) => {
+    setActiveTestRunsFulfilled: (state, { payload }) => {
       state.activeTestRuns = payload;
-    },
-  },
+    }
+  }
 });
 
-export const { setActiveTestRuns } = dashboardSlice.actions;
-
+export const { setActiveTestRunsFulfilled } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

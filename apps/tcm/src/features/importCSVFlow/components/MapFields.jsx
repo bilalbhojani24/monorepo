@@ -58,6 +58,12 @@ const MapFields = () => {
         );
 
       case 'field_dropdown': // modal
+        console.log(
+          'display options',
+          value,
+          allowedValueMapper[value],
+          allowedValueMapper[value]?.allowedValueDisplayOptions
+        );
         return (
           <span>
             Value Mapped{' '}

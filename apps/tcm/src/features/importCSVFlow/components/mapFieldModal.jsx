@@ -89,7 +89,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                 <TableCell wrapperClass="py-2 mr-4">
                   <TMSelectMenu
                     checkPosition="right"
-                    options={row?.displayOptions || []}
+                    options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
                     onChange={handleModalSelectMenuChange(key, row.csvValue)}
                   />
