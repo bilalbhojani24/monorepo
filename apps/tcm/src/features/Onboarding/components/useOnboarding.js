@@ -9,6 +9,7 @@ import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { JOB_ROLES, SETUP_FORMATS, STRENGTH } from '../const/immutableConst';
 import {
+  setIsProcessing,
   setJobRolesArray,
   setOrgStrengthArray,
   updateFormData
@@ -19,6 +20,7 @@ const useOnboarding = () => {
   const navigate = useNavigate();
 
   const userData = useSelector((state) => state.global.user);
+  const isProcessing = useSelector((state) => state.onboarding.isProcessing);
   const formData = useSelector((state) => state.onboarding.formData);
   const jobRolesArray = useSelector((state) => state.onboarding.jobRolesArray);
   const orgStrengthArray = useSelector(
@@ -44,8 +46,8 @@ const useOnboarding = () => {
   const continueClickHandler = () => {
     if (!formData?.format) return;
 
-    // setOnboardingDataAPI().then()
-
+    dispatch(setIsProcessing(true));
+    // setOnboardingDataAPI({}).then((data)=>{
     updateUserValue();
     switch (formData.format) {
       case SETUP_FORMATS[0].id: // quick_import
@@ -59,6 +61,7 @@ const useOnboarding = () => {
       default:
         break;
     }
+    // })
   };
 
   useEffect(() => {
@@ -67,6 +70,7 @@ const useOnboarding = () => {
   }, []);
 
   return {
+    isProcessing,
     formData,
     userData,
     orgStrengthArray,

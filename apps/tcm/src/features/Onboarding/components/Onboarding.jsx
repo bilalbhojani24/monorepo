@@ -8,6 +8,7 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    isProcessing,
     userData,
     formData,
     orgStrengthArray,
@@ -58,7 +59,11 @@ const Onboarding = () => {
           </div>
         </div>
         <div className="mt-12 flex w-full justify-end">
-          <TMButton size="default" onClick={continueClickHandler}>
+          <TMButton
+            size="default"
+            onClick={continueClickHandler}
+            loading={isProcessing}
+          >
             Contine
           </TMButton>
         </div>

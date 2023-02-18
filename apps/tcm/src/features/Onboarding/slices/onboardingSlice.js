@@ -5,6 +5,7 @@ import { SETUP_FORMATS } from '../const/immutableConst';
 const initialState = {
   jobRolesArray: [],
   orgStrengthArray: [],
+  isProcessing: false,
   formData: {
     job: '',
     strength: '',
@@ -16,6 +17,9 @@ export const onboardingSlice = createSlice({
   name: 'onboarding',
   initialState,
   reducers: {
+    setIsProcessing: (state, { payload }) => {
+      state.isProcessing = payload;
+    },
     setJobRolesArray: (state, { payload }) => {
       state.jobRolesArray = payload;
     },
@@ -28,7 +32,11 @@ export const onboardingSlice = createSlice({
   }
 });
 
-export const { setJobRolesArray, setOrgStrengthArray, updateFormData } =
-  onboardingSlice.actions;
+export const {
+  setJobRolesArray,
+  setOrgStrengthArray,
+  updateFormData,
+  setIsProcessing
+} = onboardingSlice.actions;
 
 export default onboardingSlice.reducer;
