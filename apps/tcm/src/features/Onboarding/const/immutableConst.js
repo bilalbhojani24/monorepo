@@ -19,3 +19,21 @@ export const SETUP_FORMATS = [
       'You can start from a clean slate and add data through CSV/XLS import'
   }
 ];
+
+export const JOB_ROLES = [
+  'Manual Tester',
+  'Automation Engineer',
+  'QA Lead/Head of QA',
+  'Software Developer',
+  'Product Manager',
+  'Other'
+];
+
+export const STRENGTH = [
+  '1-10',
+  '11-50',
+  '51-100',
+  '101-250',
+  '251-500',
+  '500+'
+];

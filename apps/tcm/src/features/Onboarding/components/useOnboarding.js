@@ -1,6 +1,13 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
-import { updateFormData } from '../slices/onboardingSlice';
+import { JOB_ROLES, STRENGTH } from '../const/immutableConst';
+import {
+  setJobRolesArray,
+  setOrgStrengthArray,
+  updateFormData
+} from '../slices/onboardingSlice';
 
 const useOnboarding = () => {
   const dispatch = useDispatch();
@@ -12,9 +19,19 @@ const useOnboarding = () => {
     (state) => state.onboarding.orgStrengthArray
   );
 
+  const initFormData = () => {
+    dispatch(setJobRolesArray(selectMenuValueMapper(JOB_ROLES)));
+    dispatch(setOrgStrengthArray(selectMenuValueMapper(STRENGTH)));
+  };
+
   const onFormChange = (key, value) => {
     dispatch(updateFormData({ key, value }));
   };
+
+  useEffect(() => {
+    initFormData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { formData, userName, orgStrengthArray, jobRolesArray, onFormChange };
 };

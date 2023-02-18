@@ -3,18 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SETUP_FORMATS } from '../const/immutableConst';
 
 const initialState = {
-  jobRolesArray: [
-    {
-      label: 'Test',
-      value: 'test'
-    }
-  ],
-  orgStrengthArray: [
-    {
-      label: 'Test',
-      value: 'test'
-    }
-  ],
+  jobRolesArray: [],
+  orgStrengthArray: [],
   formData: {
     job: '',
     strength: '',
