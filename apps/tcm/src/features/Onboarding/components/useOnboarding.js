@@ -47,13 +47,15 @@ const useOnboarding = () => {
     if (!formData?.format) return;
 
     dispatch(setIsProcessing(true));
-    // setOnboardingDataAPI({}).then((data)=>{
+    // setOnboardingDataAPI({}).then((data)=>{ TODO
     updateUserValue();
     switch (formData.format) {
       case SETUP_FORMATS[0].id: // quick_import
         navigate(AppRoute.IMPORT);
         break;
       case SETUP_FORMATS[1].id: // example_project
+        // create new project API TODO
+        navigate(AppRoute.ROOT);
         break;
       case SETUP_FORMATS[2].id: // scratch
         navigate(routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }));
