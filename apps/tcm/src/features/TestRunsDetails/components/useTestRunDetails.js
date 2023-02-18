@@ -14,6 +14,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import {
   resetTestCaseDetails,
+  setIsLoadingProps,
   setTestRunsDetails
 } from '../slices/testRunDetailsSlice';
 
@@ -30,12 +31,16 @@ export default function useTestRunDetails() {
     (state) => state.testRunsDetails.testCaseDetails
   );
 
-  const fetchTestRunDetails = () => {
+  const fetchTestRunDetails = (forceRefetch = true) => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
       dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
-    getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
-      dispatch(setTestRunsDetails(data.data.test_run));
-    });
+
+    if (forceRefetch || testRunDetails?.id !== parseInt(testRunId, 10)) {
+      getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
+        dispatch(setTestRunsDetails(data.data.test_run));
+        dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
+      });
+    }
   };
 
   const onDropDownChange = (e, selectedOption) => {

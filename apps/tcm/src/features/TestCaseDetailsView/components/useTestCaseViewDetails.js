@@ -15,13 +15,13 @@ export default function useTestCaseViewDetails() {
     (state) => state.testCaseDetails.allData || null
   );
   const testRunsDetails = useSelector(
-    (state) => state.testCaseDetails.allData?.test_runs || null
+    (state) => state.testCaseDetails.allData?.test_run_results || null
   );
   const testCaseIssues = useSelector(
     (state) => state.testCaseDetails.allData?.test_run_issues || null
   );
   const testRunsCount = useSelector(
-    (state) => state.testCaseDetails.allData?.test_runs_count || null
+    (state) => state.testCaseDetails.allData?.test_run_results_count || null
   );
   const testResultsArray = useSelector(
     (state) => state.testCaseDetails.testResultsArray || []

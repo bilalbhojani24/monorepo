@@ -8,7 +8,7 @@ import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
 import Settings from 'features/Settings';
 import TestRuns, { AddEditTestRun } from 'features/TestRuns';
-import TestRunsDetails from 'features/TestRunsDetails';
+import TestRunsDetails, { Issues } from 'features/TestRunsDetails';
 
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
@@ -88,7 +88,11 @@ const MainRoute = () => {
         />
         <Route
           path={AppRoute.TEST_RUN_ISSUES}
-          element={<PrivateComponent>ISSUES</PrivateComponent>}
+          element={
+            <PrivateComponent>
+              <Issues />
+            </PrivateComponent>
+          }
         />
         <Route
           path={AppRoute.TEST_RUNS_EDIT}

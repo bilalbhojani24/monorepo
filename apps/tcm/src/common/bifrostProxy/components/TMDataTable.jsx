@@ -24,7 +24,11 @@ const TMDataTable = ({
           <TableCell
             key={col.key}
             variant="body"
-            wrapperClassName={classNames('test-base-500', col?.className)}
+            wrapperClassName={classNames(
+              col?.class,
+              'test-base-500',
+              col?.className
+            )}
             textTransform="uppercase"
           >
             {col.name}
@@ -45,9 +49,13 @@ const TMDataTable = ({
                 return (
                   <TableCell
                     key={column.id}
-                    wrapperClassName={classNames(column?.className, {
-                      'first:pr-3 last:pl-3 px-2 py-2': isCondensed
-                    })}
+                    wrapperClassName={classNames(
+                      column?.className,
+                      column?.class,
+                      {
+                        'first:pr-3 last:pl-3 px-2 py-2': isCondensed
+                      }
+                    )}
                   >
                     {column.cell ? <>{column.cell(row)}</> : value}
                   </TableCell>
