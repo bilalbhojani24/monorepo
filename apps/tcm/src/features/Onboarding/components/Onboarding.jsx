@@ -7,13 +7,19 @@ import FormatCard from './FormatCard';
 import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
-  const { userName, formData, orgStrengthArray, jobRolesArray, onFormChange } =
-    useOnboarding();
+  const {
+    userData,
+    formData,
+    orgStrengthArray,
+    jobRolesArray,
+    onFormChange,
+    continueClickHandler
+  } = useOnboarding();
   return (
     <div className="flex w-full justify-center pt-10">
       <div className="border-base-300 w-screen max-w-4xl rounded-md border bg-white p-5">
         <div className="text-2xl font-medium">
-          Hey {userName}, Welcome to Test Management
+          Hey {userData?.full_name}, Welcome to Test Management
         </div>
         <div className="text-base-500 mt-4 text-sm">
           We just need some details to help you serve better
@@ -52,7 +58,9 @@ const Onboarding = () => {
           </div>
         </div>
         <div className="mt-12 flex w-full justify-end">
-          <TMButton size="default">Contine</TMButton>
+          <TMButton size="default" onClick={continueClickHandler}>
+            Contine
+          </TMButton>
         </div>
       </div>
     </div>

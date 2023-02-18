@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { useNavigate } from 'react-router-dom';
+// import { setOnboardingDataAPI } from 'api/onboarding.api';
+import { AUTH_TOKEN_KEY } from 'const/immutables';
+import AppRoute from 'const/routes';
+import { setUser } from 'globalSlice';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
-import { JOB_ROLES, STRENGTH } from '../const/immutableConst';
+import { JOB_ROLES, SETUP_FORMATS, STRENGTH } from '../const/immutableConst';
 import {
   setJobRolesArray,
   setOrgStrengthArray,
@@ -11,8 +16,9 @@ import {
 
 const useOnboarding = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const userName = useSelector((state) => state.global.user?.full_name || '');
+  const userData = useSelector((state) => state.global.user);
   const formData = useSelector((state) => state.onboarding.formData);
   const jobRolesArray = useSelector((state) => state.onboarding.jobRolesArray);
   const orgStrengthArray = useSelector(
@@ -28,12 +34,46 @@ const useOnboarding = () => {
     dispatch(updateFormData({ key, value }));
   };
 
+  const updateUserValue = () => {
+    const updatedUserData = { ...userData };
+    delete updatedUserData.is_first_time;
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(updatedUserData));
+    dispatch(setUser(updatedUserData));
+  };
+
+  const continueClickHandler = () => {
+    if (!formData?.format) return;
+
+    // setOnboardingDataAPI().then()
+
+    updateUserValue();
+    switch (formData.format) {
+      case SETUP_FORMATS[0].id: // quick_import
+        navigate(AppRoute.IMPORT);
+        break;
+      case SETUP_FORMATS[1].id: // example_project
+        break;
+      case SETUP_FORMATS[2].id: // scratch
+        navigate(routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }));
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     initFormData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { formData, userName, orgStrengthArray, jobRolesArray, onFormChange };
+  return {
+    formData,
+    userData,
+    orgStrengthArray,
+    jobRolesArray,
+    onFormChange,
+    continueClickHandler
+  };
 };
 
 export default useOnboarding;

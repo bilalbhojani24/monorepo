@@ -129,7 +129,10 @@ export default function useFolders() {
 
   const fetchAllFolders = () => {
     // dispatch(setAddTestCaseVisibility(false));
-    if (projectId) {
+    if (projectId === 'new') {
+      // dont load anything start from scratch
+      dispatch(updateFoldersLoading(false));
+    } else if (projectId) {
       dispatch(updateFoldersLoading(true));
       getFolders({ projectId }).then((data) => {
         if (!data?.folders?.length) {
