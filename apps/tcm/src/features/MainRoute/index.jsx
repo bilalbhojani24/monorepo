@@ -87,6 +87,18 @@ const MainRoute = () => {
           }
         />
         <Route
+          path={AppRoute.TEST_RUN_ISSUES}
+          element={<PrivateComponent>ISSUES</PrivateComponent>}
+        />
+        <Route
+          path={AppRoute.TEST_RUNS_EDIT}
+          element={
+            <PrivateComponent>
+              <AddEditTestRun isEdit />
+            </PrivateComponent>
+          }
+        />
+        <Route
           path={AppRoute.TEST_RUN_DETAILS}
           element={
             <PrivateComponent>
@@ -100,7 +112,7 @@ const MainRoute = () => {
             <PrivateComponent>
               <Settings />
             </PrivateComponent>
-        }
+          }
         />
         <Route
           path={AppRoute.RESOURCES}

@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
+import { routeFormatter } from 'utils/helperFunctions';
 
+import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
   setMetaIds,
   setTestCaseDetails,
@@ -17,6 +21,7 @@ export default function useTestCaseView({
   onDetailsClose,
   testResultsArray
 }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { onDropDownChange } = useTestCasesTable();
 
@@ -45,8 +50,17 @@ export default function useTestCaseView({
   };
 
   const actionHandler = (e, selectedOption) => {
-    hideTestCaseViewDrawer();
-    onDropDownChange(e, selectedOption, testCaseDetails);
+    // hideTestCaseViewDrawer();
+    if (selectedOption?.id === TR_DROP_OPTIONS[0]?.id) {
+      // if view test case
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: testCaseDetails?.project_id,
+          folderId: testCaseDetails?.test_case_folder_id,
+          testCaseId: testCaseDetails?.id
+        })
+      );
+    } else onDropDownChange(e, selectedOption, testCaseDetails);
   };
 
   useEffect(() => {

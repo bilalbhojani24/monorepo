@@ -27,3 +27,10 @@ export const RESULTS_DROP_OPTIONS = [
     body: 'Add Skipped'
   }
 ];
+
+export const TR_DROP_OPTIONS = [
+  {
+    id: 'view_test_case',
+    body: 'View Test Case'
+  }
+];

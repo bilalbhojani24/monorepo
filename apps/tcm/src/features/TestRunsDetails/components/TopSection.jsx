@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MdOutlineAccessTime, MdPersonOutline } from '@browserstack/bifrost';
 import {
   TMButton,
@@ -6,16 +7,22 @@ import {
   TMMetadata,
   TMPageHeadings
 } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import { CloseTestRun, DeleteTestRun } from 'features/TestRuns';
-import { formatTime } from 'utils/helperFunctions';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 
 import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
-  const { showIssuesHandler, testRunDetails, onDropDownChange } =
-    useTestRunDetails();
+  const {
+    projectId,
+    testRunId,
+    showIssuesHandler,
+    testRunDetails,
+    onDropDownChange
+  } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
@@ -23,14 +30,21 @@ const TopSection = () => {
         heading={testRunDetails?.name || ''}
         actions={
           <>
-            <TMButton
-              wrapperClassName="mr-4"
-              variant="primary"
-              colors="white"
-              onClick={showIssuesHandler}
+            <Link
+              to={routeFormatter(AppRoute.TEST_RUN_ISSUES, {
+                projectId,
+                testRunId
+              })}
             >
-              Issues
-            </TMButton>
+              <TMButton
+                wrapperClassName="mr-4"
+                variant="primary"
+                colors="white"
+                onClick={showIssuesHandler}
+              >
+                Issues
+              </TMButton>
+            </Link>
 
             <TMDropdown
               triggerVariant="menu-button"
