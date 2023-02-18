@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
   ArrowDownwardOutlinedIcon,
@@ -108,16 +109,20 @@ const TestCasesTable = ({
           {isSearchFilterView ? (
             <>
               <div className="text-base-900 hover:text-brand-600 font-medium ">
-                <TMTruncateText>{rowData.name}</TMTruncateText>
+                <TMTruncateText hidetooltipTriggerIcon>
+                  {rowData.name}
+                </TMTruncateText>
               </div>
               <div className="text-base-400 font-normal">
-                <TMTruncateText>
+                <TMTruncateText hidetooltipTriggerIcon>
                   {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
                 </TMTruncateText>
               </div>
             </>
           ) : (
-            <TMTruncateText>{rowData.name}</TMTruncateText>
+            <TMTruncateText hidetooltipTriggerIcon>
+              {rowData.name}
+            </TMTruncateText>
           )}
         </div>
       ),

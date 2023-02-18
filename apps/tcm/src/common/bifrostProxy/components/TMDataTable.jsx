@@ -14,10 +14,14 @@ const TMDataTable = ({
   columns,
   rows,
   containerWrapperClass,
+  tableWrapperClass,
   isCondensed,
   isLoading
 }) => (
-  <Table containerWrapperClass={containerWrapperClass}>
+  <Table
+    containerWrapperClass={containerWrapperClass}
+    tableWrapperClass={tableWrapperClass}
+  >
     <TableHead wrapperClassName="w-full rounded-xs">
       <TableRow>
         {columns?.map((col) => (
@@ -73,12 +77,14 @@ TMDataTable.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   containerWrapperClass: PropTypes.string,
+  tableWrapperClass: PropTypes.string,
   isCondensed: PropTypes.bool,
   isLoading: PropTypes.bool
 };
 
 TMDataTable.defaultProps = {
   containerWrapperClass: '',
+  tableWrapperClass: '',
   isCondensed: false,
   isLoading: false
 };

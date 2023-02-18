@@ -9,7 +9,8 @@ import {
   TMDropdown,
   TMEmptyState,
   TMPageHeadings,
-  TMPagination
+  TMPagination,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
@@ -43,7 +44,6 @@ const AllProjects = () => {
     {
       name: 'ID',
       key: 'id',
-      className: 'w-10',
       cell: (rowData) => (
         <div
           role="button"
@@ -54,12 +54,12 @@ const AllProjects = () => {
         >
           {rowData.identifier}
         </div>
-      )
+      ),
+      class: 'w-[10%]'
     },
     {
       name: 'PROJECT TITLE',
       key: 'name',
-      className: 'w-3/6',
       cell: (rowData) => (
         <div
           role="button"
@@ -73,11 +73,18 @@ const AllProjects = () => {
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
-            {rowData.name}
+            <TMTruncateText hidetooltipTriggerIcon>
+              {rowData.name}
+            </TMTruncateText>
           </div>
-          <div className="text-base-400">{rowData.description}</div>
+          <div className="text-base-400">
+            <TMTruncateText hidetooltipTriggerIcon>
+              {rowData.description}
+            </TMTruncateText>
+          </div>
         </div>
-      )
+      ),
+      class: 'w-[80%]'
     },
     {
       name: 'QUICK LINKS',
@@ -104,12 +111,12 @@ const AllProjects = () => {
             {rowData.test_runs_count} Test Runs
           </div>
         </div>
-      )
+      ),
+      class: 'w-[25%]'
     },
     {
       name: '',
       key: 'action',
-      className: 'w-10',
       cell: (data) => (
         <TMDropdown
           triggerVariant="meatball-button"
@@ -119,7 +126,8 @@ const AllProjects = () => {
           }
           options={dropDownOptions}
         />
-      )
+      ),
+      class: 'w-[5%]'
     }
   ];
 
@@ -191,7 +199,8 @@ const AllProjects = () => {
                   <TMDataTable
                     columns={tableColumns}
                     rows={allProjects}
-                    containerWrapperClass="shadow-none border-none"
+                    containerWrapperClass="shadow-none border-none "
+                    tableWrapperClass="table-fixed w-full"
                   />
 
                   {metaPage?.count > metaPage?.page_size && (
