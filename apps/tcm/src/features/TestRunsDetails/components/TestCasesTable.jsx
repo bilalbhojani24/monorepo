@@ -45,7 +45,7 @@ const TestCasesTable = () => {
       // cell: (rowData) =>
     },
     {
-      name: 'HEADING',
+      name: 'TITLE',
       key: 'name',
       class: 'w-[80%]',
       cell: (rowData) => (
