@@ -17,6 +17,7 @@ export default function useSideNav() {
   const [primaryNavs, setPrimaryNavs] = useState([]);
   const [secondaryNavs] = useState(secondaryNavLinks);
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
+  const [showAddProject, setShowAddProject] = useState(false);
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
@@ -51,6 +52,10 @@ export default function useSideNav() {
           projectId: project?.id
         })
       );
+  };
+
+  const setAddProjectModal = (value) => {
+    setShowAddProject(value);
   };
 
   useEffect(() => {
@@ -100,13 +105,15 @@ export default function useSideNav() {
   }, [allProjects]);
 
   return {
-    onLinkChange,
+    showAddProject,
     primaryNavs,
     secondaryNavs,
     allProjectsDrop,
     showProjects,
     activeRoute,
+    selectedProjectId,
+    onLinkChange,
     onProjectChange,
-    selectedProjectId
+    setAddProjectModal
   };
 }

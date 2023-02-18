@@ -29,7 +29,7 @@ import {
   updateProject
 } from '../slices/projectSlice';
 
-const useProjects = () => {
+const useProjects = (prop) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -113,6 +113,7 @@ const useProjects = () => {
 
   const hideAddProjectModal = () => {
     dispatch(setAddProjectModalVisibility(false));
+    prop?.onClose?.();
   };
 
   const createProjectHandler = () => {
