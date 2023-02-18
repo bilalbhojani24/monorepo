@@ -147,7 +147,7 @@ export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
       borderWidth: 0
     }
   },
-  series: [
+  series: chartData || [
     {
       name: 'Tokyo',
       data: [
@@ -190,7 +190,7 @@ export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
       stacking: 'percent'
     }
   },
-  series: [
+  series: chartData || [
     {
       name: 'Kevin De Bruyne',
       data: [4, 4, 2, 4, 4]
