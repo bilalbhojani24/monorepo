@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  DataVisualization,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -106,6 +107,7 @@ export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
+export const TMDataVisualization = (props) => <DataVisualization {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
