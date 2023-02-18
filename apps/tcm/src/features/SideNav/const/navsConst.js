@@ -4,7 +4,7 @@ import {
   CodeOutlinedIcon,
   FolderOpenOutlinedIcon,
   HomeOutlinedIcon,
-  SettingsOutlinedIcon,
+  SettingsOutlinedIcon
 } from 'assets/icons';
 import AppRoute from 'const/routes';
 
@@ -14,8 +14,8 @@ export const basePrimaryNavLinks = [
     label: 'All Projects',
     activeIcon: HomeOutlinedIcon,
     inActiveIcon: HomeOutlinedIcon,
-    path: AppRoute.ROOT,
-  },
+    path: AppRoute.ROOT
+  }
 ];
 
 export const internalPrimaryNavLinks = [
@@ -24,22 +24,22 @@ export const internalPrimaryNavLinks = [
     label: 'Dashboard',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
-    path: AppRoute.DASHBOARD,
+    path: AppRoute.DASHBOARD
   },
   {
     id: AppRoute.TEST_CASES,
     label: 'Test Cases',
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
-    path: AppRoute.TEST_CASES,
+    path: AppRoute.TEST_CASES
   },
   {
     id: AppRoute.TEST_RUNS,
     label: 'Test Runs',
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
-    path: AppRoute.TEST_RUNS,
-  },
+    path: AppRoute.TEST_RUNS
+  }
   // {
   //   id: AppRoute.REPORTS,
   //   label: 'Reports',
@@ -55,13 +55,15 @@ export const secondaryNavLinks = [
     label: 'Settings',
     activeIcon: SettingsOutlinedIcon,
     inActiveIcon: SettingsOutlinedIcon,
-    path: AppRoute.SETTINGS,
+    path: AppRoute.SETTINGS
   },
   {
     id: AppRoute.RESOURCES,
     label: 'Resources',
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,
-    path: AppRoute.RESOURCES,
-  },
+    path: AppRoute.RESOURCES
+  }
 ];
+
+export const noNavRoutes = [AppRoute.LANDING, AppRoute.ONBOARDING];

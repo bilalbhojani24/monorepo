@@ -9,14 +9,13 @@ const AppRoute = {
   TEST_RUN_ISSUES:
     '/projects/:projectId/test-runs/:testRunId/test-cases/issues',
   TEST_RUNS_EDIT: '/projects/:projectId/test-runs/:testRunId/edit',
-  ONBOARDING: '/onboarding',
+  ONBOARDING: '/welcome',
   RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',
   IMPORT: '/import',
   IMPORT_CSV: '/import/csv',
-  SETTINGS_API_KEYS: '/settings/api-keys',
-  FIRST_TIME_USER: '/welcome'
+  SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
 export const BASE_API_URL = 'https://teststack.bsstag.com';

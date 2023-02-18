@@ -10,7 +10,7 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
-    localStorage.setItem(AUTH_TOKEN_KEY, 'true');
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res.data.data.user));
     if (res.data?.data?.user) {
       dispatch(setUser(res.data.data.user));
     }
@@ -27,12 +27,12 @@ const useAuthentication = () => {
   };
 
   const authInit = () => {
-    const bypassHists = [
+    const bypassHosts = [
       'localhost:5173',
       '127.0.0.1:5500',
       '73e3-2406-8800-9014-ab0-d901-302-ac4f-9ca2.in.ngrok.io'
     ];
-    if (bypassHists.includes(window.location.host)) {
+    if (bypassHosts.includes(window.location.host)) {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {
         onAuthFailureHandler({
@@ -47,7 +47,13 @@ const useAuthentication = () => {
       } else {
         onAuthSuccessHandler({
           data: {
-            data: { full_name: 'Faker Name', email: 'fake2@example.com' }
+            data: {
+              user: {
+                full_name: 'Ribin ROy',
+                email: 'fake2@example.com',
+                is_first_time: true
+              }
+            }
           }
         });
       }

@@ -1,3 +1,3 @@
-import Dashboard from './components/Dashboard';
+import Onboarding from './components/Onboarding';
 
-export default Dashboard;
+export default Onboarding;

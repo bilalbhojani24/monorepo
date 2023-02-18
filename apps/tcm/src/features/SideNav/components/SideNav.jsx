@@ -6,8 +6,9 @@ import {
   SidebarNavigation
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
+
+import { noNavRoutes } from '../const/navsConst';
 
 import useSideNav from './useSideNav';
 
@@ -25,7 +26,7 @@ const SideNav = (props) => {
     onProjectChange
   } = useSideNav();
 
-  if (location.pathname === AppRoute.LANDING) return '';
+  if (noNavRoutes.includes(location.pathname)) return '';
 
   return (
     <SidebarNavigation

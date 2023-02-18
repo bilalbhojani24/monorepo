@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
+import Onboarding from 'features/Onboarding';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
 import Settings from 'features/Settings';
@@ -18,6 +19,7 @@ import {
   PrivateComponent
 } from './components/RouteHelpers';
 import useMainRoute from './components/useMainRoute';
+import { noNavRoutes } from './const/mainRoutesConst';
 
 const MainRoute = () => {
   const location = useLocation();
@@ -26,7 +28,7 @@ const MainRoute = () => {
   return (
     <div
       className={classNames('flex flex-1 flex-col overflow-hidden', {
-        'md:pl-64': location.pathname !== AppRoute.LANDING
+        'md:pl-64': !noNavRoutes.includes(location.pathname)
       })}
     >
       <Routes>
@@ -51,6 +53,14 @@ const MainRoute = () => {
           element={
             <PrivateComponent>
               <Dashboard />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path={AppRoute.ONBOARDING}
+          element={
+            <PrivateComponent isOnboarding>
+              <Onboarding />
             </PrivateComponent>
           }
         />
