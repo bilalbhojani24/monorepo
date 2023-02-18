@@ -72,7 +72,11 @@ const initialState = {
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
-  recentRquestedAfterUnsaved: ''
+  recentRequestedAfterUnsaved: '',
+  testCaseDetails: {
+    folderId: null,
+    testCaseId: null
+  }
 };
 
 export const repositorySlice = createSlice({
@@ -179,7 +183,7 @@ export const repositorySlice = createSlice({
       state.loadedDataProjectId = payload;
     },
     setMetaPage: (state, { payload }) => {
-      state.metaPage = payload;
+      state.metaPage = !payload ? initialState.metaPage : payload;
     },
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
@@ -197,12 +201,20 @@ export const repositorySlice = createSlice({
       state.isUnsavedDataModalVisible = payload;
     },
     setRecentRquestedAfterUnsaved: (state, { payload }) => {
-      state.recentRquestedAfterUnsaved = payload;
+      state.recentRequestedAfterUnsaved = payload;
+    },
+    setTestCaseDetails: (state, { payload }) => {
+      state.testCaseDetails = payload;
+    },
+    resetTestCaseDetails: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
     }
   }
 });
 
 export const {
+  setTestCaseDetails,
+  resetTestCaseDetails,
   setRecentRquestedAfterUnsaved,
   setUnsavedDataModal,
   setUnsavedDataExists,

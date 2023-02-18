@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import Highcharts from 'highcharts';
+import { useNavigate, useParams } from 'react-router-dom';
+import AppRoute from 'const/routes';
+import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
 
 import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
-import { setMetaPage } from '../slices/testRunsSlice';
+import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { projectId } = useParams();
 
@@ -21,7 +22,7 @@ const useTestRuns = () => {
     (state) => state.testRuns.isVisible.addTestRunsForm
   );
 
-  const getOptions = (data) => {
+  const getProgressOptions = (data) => {
     if (!data?.overall_progress) return CHART_OPTIONS;
 
     const totalValue = Object.values(data.overall_progress).reduce(
@@ -49,19 +50,38 @@ const useTestRuns = () => {
           return `<div><b>${this.x}</b></div>
                   <span style="color:${
                     this.point.color
-                  }">\u25CF</span> <span class="whitespace-nowrap">${
+                  }">\u25CF</span> <span class="whitespace-nowrap">${capitalizeString(
             this.series.name
-          } ${this.y} (${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
+          )} ${this.y} (${((this.y / totalValue) * 100).toFixed(0)}%)</span>`;
         }
       }
     };
   };
 
-  const onDropDownChange = (e, selectedItem) => {
-    if (e.currentTarget.textContent === TR_DROP_OPTIONS[0].body) {
-      // edit
-    } else if (e.currentTarget.textContent === TR_DROP_OPTIONS[1].body) {
-      // delete
+  const onDropDownChange = (e, selectedOption, selectedItem) => {
+    dispatch(setSelectedTestRun(selectedItem));
+    switch (selectedOption?.id) {
+      case TR_DROP_OPTIONS[0].id: // edit
+        navigate(
+          routeFormatter(AppRoute.TEST_RUNS_EDIT, {
+            projectId,
+            testRunId: selectedItem?.id
+          })
+        );
+        break;
+      case TR_DROP_OPTIONS[1].id: // assign
+        dispatch(setIsVisibleProps({ key: 'assignTestRunModal', value: true }));
+        break;
+      case TR_DROP_OPTIONS[2].id: // close_run
+        dispatch(
+          setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
+        );
+        break;
+      case TR_DROP_OPTIONS[3].id: // delete
+        dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
+        break;
+      default:
+        break;
     }
   };
 
@@ -72,7 +92,7 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
-    getOptions,
+    getProgressOptions,
     onDropDownChange
   };
 };

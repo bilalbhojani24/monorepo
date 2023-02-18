@@ -1,12 +1,14 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   Alerts,
   Badge,
   Banner,
+  Breadcrumb,
   Button,
   Checkbox,
-  ComboBox,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -15,6 +17,7 @@ import {
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
+  Metadata,
   Modal,
   ModalBody,
   ModalFooter,
@@ -24,7 +27,6 @@ import {
   RadioGroup,
   RichTextEditor,
   SectionHeadings,
-  SelectMenu,
   Slideover,
   SlideoverHeader,
   StackedListWSingleColumn,
@@ -38,14 +40,17 @@ import {
   TextArea,
   Tooltip,
   TooltipBody,
-  TooltipHeader
+  TooltipHeader,
+  TruncateText
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
+import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
+import TMSelectMenu from './components/TMSelectMenu';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMPageHeadings = (props) => (
@@ -60,17 +65,20 @@ export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
 export const TMListTreeNodeContents = (props) => (
   <ListTreeNodeContents {...props} />
 );
-export const TMButton = (props) => <Button {...props} />;
-export const TMInputField = (props) => <InputField {...props} />;
+export const TMButton = forwardRef((props, ref) => (
+  <Button {...props} ref={ref} />
+));
+export const TMInputField = forwardRef((props, ref) => (
+  <InputField {...props} ref={ref} />
+));
 export const TMInputWButton = (props) => <InputWButton {...props} />;
-export const TMComboBox = (props) => <ComboBox {...props} />;
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
-export const TMSelectMenu = (props) => <SelectMenu {...props} />;
-export const TMSlideover = (props) => <Slideover {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
-export const TMModal = (props) => <Modal {...props} />;
+export const TMModal = forwardRef((props, ref) => (
+  <Modal {...props} ref={ref} />
+));
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
 export const TMModalHeader = (props) => <ModalHeader {...props} />;
@@ -95,11 +103,29 @@ export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
+export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
+export const TMTruncateText = (props) => <TruncateText {...props} />;
+export const TMMetadata = (props) => <Metadata {...props} />;
 
-export const TMSlideoverHeader = (props) => {
+export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
 
-  return <SlideoverHeader {...props} topMarginElementId={topMarginElementId} />;
+  return <Slideover {...props} topMarginElementId={topMarginElementId} />;
 };
+export const TMSlideoverHeader = (props) => (
+  <SlideoverHeader
+    {...props}
+    subheading={<TruncateText>{props?.subheading}</TruncateText>}
+    heading={<TruncateText>{props?.heading}</TruncateText>}
+  />
+);
 
-export { TMAttachments, TMDataTable, TMDropdown, TMHeader, TMPagination };
+export {
+  TMAttachments,
+  TMComboBox,
+  TMDataTable,
+  TMDropdown,
+  TMHeader,
+  TMPagination,
+  TMSelectMenu
+};

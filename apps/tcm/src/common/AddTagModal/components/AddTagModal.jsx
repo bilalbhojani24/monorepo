@@ -19,12 +19,13 @@ const AddTagModal = ({
   isVisible,
   onClose,
   existingTags,
-  verifierFunction
+  selectedTags
+  // verifierFunction
 }) => {
   const {
     errorText,
+    selectedTagsInternal,
     enteredTag,
-    allTags,
     setTagEntered,
     addTagHandler,
     onTagRemoveClick,
@@ -33,8 +34,9 @@ const AddTagModal = ({
   } = useAddTagModal({
     isVisible,
     onClose,
-    verifierFunction,
-    existingTags
+    // verifierFunction,
+    existingTags,
+    selectedTags
   });
 
   return (
@@ -49,9 +51,9 @@ const AddTagModal = ({
         <TMInputWButton
           id="tag-name"
           value={enteredTag}
-          onKeyDown={onSubmitKeyHandler(addTagHandler)}
+          onKeyDown={(e) => onSubmitKeyHandler(e, addTagHandler)}
           onButtonClick={addTagHandler}
-          buttonElement="Add Tag"
+          buttonElement="Add/Modify Tag"
           label="Tag Name"
           errorText={errorText}
           placeholder="Enter Tag name separated by comma"
@@ -64,9 +66,9 @@ const AddTagModal = ({
           Existing Tags in this test case:
         </div>
         <div className="border-base-300 flex max-h-32 w-full flex-wrap gap-2 overflow-y-auto rounded-md border p-2">
-          {allTags.length ? (
+          {selectedTagsInternal.length ? (
             <>
-              {allTags?.map((item) => (
+              {selectedTagsInternal?.map((item) => (
                 <TMBadge
                   text={item}
                   hasRemoveButton
@@ -100,16 +102,18 @@ const AddTagModal = ({
 
 AddTagModal.propTypes = {
   onClose: PropTypes.func,
-  verifierFunction: PropTypes.func,
+  // verifierFunction: PropTypes.func,
   isVisible: PropTypes.bool,
-  existingTags: PropTypes.string
+  existingTags: PropTypes.arrayOf(PropTypes.string),
+  selectedTags: PropTypes.arrayOf(PropTypes.string)
 };
 
 AddTagModal.defaultProps = {
   onClose: () => {},
-  verifierFunction: () => {},
+  // verifierFunction: () => {},
   isVisible: false,
-  existingTags: ''
+  existingTags: [],
+  selectedTags: ''
 };
 
 export default AddTagModal;

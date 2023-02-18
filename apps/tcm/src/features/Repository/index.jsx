@@ -1,17 +1,67 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Notifications, notify } from '@browserstack/bifrost';
+import { CheckCircleRoundedIcon } from 'assets/icons';
 import TestCaseDetailsView from 'features/TestCaseDetailsView';
 import PropTypes from 'prop-types';
 
+import { setNotificationConfigForConfirmCSVImport } from '../importCSVFlow/slices/importCSVSlice';
+
 import Folders from './components/Folders';
+import MiniatureRepository from './components/MiniatureRepository';
 import TestCases from './components/TestCases';
 import TopSection from './components/TopSection';
 import useFolders from './components/useFolders';
 import useTestCases from './components/useTestCases';
 
 const Repository = ({ isSearch }) => {
+  const dispatch = useDispatch();
   const { fetchAllFolders } = useFolders();
-  const { folderId, projectId, currentPage, fetchAllTestCases, setRepoView } =
-    useTestCases();
+
+  const {
+    folderId,
+    projectId,
+    currentPage,
+    testCaseDetailsIDs,
+    detailsCloseHandler,
+    initTestCaseDetails,
+    fetchAllTestCases,
+    setRepoView
+  } = useTestCases();
+  const confirmCSVImportNotificationConfig = useSelector(
+    (state) => state.importCSV.confirmCSVImportNotificationConfig
+  );
+  const successfullyImportedProjects = useSelector(
+    (state) => state.importCSV.previewData
+  );
+
+  useEffect(() => {
+    if (confirmCSVImportNotificationConfig.status === 'success') {
+      notify(
+        <Notifications
+          id="import-csv-success"
+          title="Test Cases have been imported"
+          description={`${successfullyImportedProjects.length} test cases have been successfully imported to your Test Cases.`}
+          headerIcon={<CheckCircleRoundedIcon className="text-success-500" />}
+          handleClose={(toastData) => {
+            notify.remove(toastData.id);
+            dispatch(
+              setNotificationConfigForConfirmCSVImport({
+                show: false,
+                status: '',
+                modalData: ''
+              })
+            );
+          }}
+        />,
+        {
+          position: 'top-right',
+          duration: 2147483646
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, confirmCSVImportNotificationConfig]);
 
   useEffect(() => {
     if (!isSearch) fetchAllFolders();
@@ -22,6 +72,13 @@ const Repository = ({ isSearch }) => {
     if (!isSearch) fetchAllTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, folderId, currentPage, isSearch]);
+
+  useEffect(() => {
+    // onload set the testcase details IDs
+    initTestCaseDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setRepoView(isSearch);
@@ -47,7 +104,12 @@ const Repository = ({ isSearch }) => {
           </main>
         </div>
       </div>
-      <TestCaseDetailsView />
+      <TestCaseDetailsView
+        folderId={testCaseDetailsIDs?.folderId}
+        projectId={projectId}
+        testCaseId={testCaseDetailsIDs?.testCaseId}
+        onDetailsClose={detailsCloseHandler}
+      />
     </div>
   );
 };
@@ -61,3 +123,5 @@ Repository.defaultProps = {
 };
 
 export default Repository;
+
+export { MiniatureRepository };

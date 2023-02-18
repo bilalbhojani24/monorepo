@@ -29,6 +29,7 @@ export default function Folders() {
     projectId,
     folderId,
     allFolders,
+    isMoveToRootAvailable,
     showAddFolderModal,
     updateRouteHelper,
     folderUpdateHandler,
@@ -46,26 +47,28 @@ export default function Folders() {
       <AddEditFolderModal
         isSubFolder
         folderId={openedFolderModal?.folder?.id}
-        show={openedFolderModal?.modal === folderDropOptions[1].body}
+        show={openedFolderModal?.modal === folderDropOptions[1].id}
         projectId={projectId}
       />
       <FolderExplorerModal
-        show={openedFolderModal?.modal === folderDropOptions[2].body}
+        show={openedFolderModal?.modal === folderDropOptions[2].id}
         heading="Move Folder"
         subHeading="Choose desired folder where you want to move the folder:"
         alertText="The selected folder will be moved from the current location to the above selected folder."
         onOK={moveFolderOnOkHandler}
         onClose={hideFolderModal}
+        isRootAvailable={isMoveToRootAvailable}
+        confirmButtonText="Move Folder"
       />
       <AddEditFolderModal
         isEditFolder
         currentData={openedFolderModal?.folder}
         folderId={openedFolderModal?.folder?.id}
-        show={openedFolderModal?.modal === folderDropOptions[3].body}
+        show={openedFolderModal?.modal === folderDropOptions[3].id}
         projectId={projectId}
       />
       <DeleteFolder
-        show={openedFolderModal?.modal === folderDropOptions[4].body}
+        show={openedFolderModal?.modal === folderDropOptions[4].id}
         projectId={projectId}
       />
       {allFolders.length || isSearchFilterView || isFoldersLoading ? (

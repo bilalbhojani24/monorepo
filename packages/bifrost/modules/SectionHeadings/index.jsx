@@ -20,7 +20,7 @@ const SectionHeadings = ({
     })}
   >
     <div className="border-base-200 sm:flex sm:items-baseline sm:justify-between">
-      <div className="w-full" role="contentinfo">
+      <div className="w-auto" role="contentinfo">
         {(subTitle || title) && (
           <div className="flex flex-wrap items-baseline">
             {title && (
@@ -50,7 +50,16 @@ const SectionHeadings = ({
     </div>
     {tabsProps && (
       <div className={tabsWrapperClassName}>
-        <Tabs {...tabsProps} />
+        <Tabs
+          defaultIndex={tabsProps?.defaultIndex}
+          id={tabsProps?.id}
+          isContained={tabsProps?.isContained}
+          isFullWidth={tabsProps?.isFullWidth}
+          label={tabsProps?.label}
+          onTabChange={tabsProps?.onTabChange}
+          shape={tabsProps?.shape}
+          tabsArray={tabsProps?.tabsArray}
+        />
       </div>
     )}
   </div>

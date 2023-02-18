@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 
 import SectionHeadings from './index';
 
@@ -55,7 +56,14 @@ const defaultConfig = {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       defaultValue: (
-        <p className="flex w-full justify-end">Trailing Head Node</p>
+        <div className="min-w-fit">
+          <Button aria-label="Increment value" wrapperClassName="mr-3">
+            Really long
+          </Button>
+          <Button aria-label="Increment value" wrapperClassName="ml-3 mr-3">
+            Button name
+          </Button>
+        </div>
       )
     },
     tabsProps: {

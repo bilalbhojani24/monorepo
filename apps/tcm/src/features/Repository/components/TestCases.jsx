@@ -5,8 +5,10 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
+import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
 
 import AddEditTestCase from './AddEditTestCase';
@@ -22,6 +24,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    metaPage,
     allFolders,
     isSearchFilterView,
     showDeleteModal,
@@ -30,7 +33,8 @@ export default function TestCases() {
     isAddTestCasePageVisible,
     isBulkUpdate,
     isTestCasesLoading,
-    isFoldersLoading
+    isFoldersLoading,
+    handleFilterPagination
   } = useTestCases();
 
   if (isAddTestCasePageVisible && isBulkUpdate) return <BulkEditTestCase />;
@@ -56,9 +60,21 @@ export default function TestCases() {
                           {selectedFolder?.name}
                         </TMTooltipHeader>
                         <TMTooltipBody>
-                          <p className="text-sm">
-                            URL: {selectedFolder?.links?.self || ''}
-                          </p>
+                          <div className="text-sm">
+                            <p>
+                              URL: {selectedFolder?.links?.self?.slice(7) || ''}
+                            </p>
+                            <div className="mt-3 flex w-full gap-4">
+                              <CopyButton
+                                copyValue={
+                                  window.location.origin +
+                                  selectedFolder?.links?.self?.slice(7)
+                                }
+                              >
+                                Copy URL
+                              </CopyButton>
+                            </div>
+                          </div>
                         </TMTooltipBody>
                       </>
                     }
@@ -67,9 +83,9 @@ export default function TestCases() {
                   </TMTooltip>
                 </div>
                 {selectedFolder?.notes && (
-                  <div className="text-base-500 mt-1 text-xs">
+                  <TMTruncateText wrapperClassName="text-base-500 mt-1 text-sm">
                     {selectedFolder?.notes}
-                  </div>
+                  </TMTruncateText>
                 )}
               </div>
             </div>
@@ -104,6 +120,11 @@ export default function TestCases() {
                       containerWrapperClass="md:rounded-none"
                       rows={allTestCases}
                       isLoading={isTestCasesLoading}
+                      isSearchFilterView={isSearchFilterView}
+                      metaPage={metaPage}
+                      onPaginationClick={
+                        isSearchFilterView ? handleFilterPagination : null
+                      }
                     />
                   </div>
                 )}

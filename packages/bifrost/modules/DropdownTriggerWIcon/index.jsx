@@ -11,12 +11,12 @@ import './styles.scss';
 const DropdownTriggerWIcon = ({ variant, wrapperClassName, icon }) => (
   <div
     className={twClassNames(
-      wrapperClassName,
-      'w-fit flex items-center rounded-full bg-base-100 text-base-400 hover:text-base-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-base-100',
+      'w-fit flex items-center rounded-full text-base-400 hover:text-base-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-base-100',
       {
         'border-gray rounded-lg border border-2 bg-white p-2':
           variant === DROPDOWN_TRIGGER_TYPES[1]
-      }
+      },
+      wrapperClassName
     )}
   >
     <span className="sr-only">Open options</span>

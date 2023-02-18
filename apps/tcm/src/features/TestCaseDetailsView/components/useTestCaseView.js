@@ -1,24 +1,29 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getTestCaseDetailsAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { TABS_ARRAY } from '../const/testCaseViewConst';
+import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
+  setMetaIds,
   setTestCaseDetails,
-  setTestCaseViewVisibility
+  setTestCaseViewVisibility,
+  setTestResultsArray
 } from '../slices/testCaseDetailsSlice';
 
-export default function useTestCasesView() {
+export default function useTestCaseView({
+  projectId,
+  folderId,
+  testCaseId,
+  onDetailsClose,
+  testResultsArray
+}) {
   const navigate = useNavigate();
-  const { onDropDownChange } = useTestCasesTable();
-  const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
-  // const [inputError, setInputError] = useState(false);
-  const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
+  const { onDropDownChange } = useTestCasesTable();
 
   const isTestCaseViewVisible = useSelector(
     (state) => state.testCaseDetails.isTestCaseViewVisible
@@ -26,18 +31,10 @@ export default function useTestCasesView() {
   const testCaseDetails = useSelector(
     (state) => state.testCaseDetails.allData || null
   );
-  const testRunsDetails = useSelector(
-    (state) => state.testCaseDetails.allData?.test_runs || null
-  );
-  const testCaseIssues = useSelector(
-    (state) => state.testCaseDetails.allData?.test_run_issues || null
-  );
-  const testRunsCount = useSelector(
-    (state) => state.testCaseDetails.allData?.test_runs_count || null
-  );
 
-  const fetchTestCaseDetails = () => {
+  const initTestCaseDetails = () => {
     dispatch(setTestCaseViewVisibility(true));
+    dispatch(setMetaIds({ projectId, folderId, testCaseId }));
     if (folderId && testCaseId) {
       getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
         (data) => {
@@ -49,47 +46,34 @@ export default function useTestCasesView() {
 
   const hideTestCaseViewDrawer = () => {
     dispatch(setTestCaseViewVisibility(false));
-    if (folderId)
+    onDetailsClose?.();
+  };
+
+  const actionHandler = (e, selectedOption) => {
+    // hideTestCaseViewDrawer();
+    if (selectedOption?.id === TR_DROP_OPTIONS[0]?.id) {
+      // if view test case
       navigate(
-        `${routeFormatter(
-          AppRoute.TEST_CASES,
-          {
-            projectId,
-            folderId
-          },
-          true
-        )}`,
-        {
-          replace: true
-        }
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: testCaseDetails?.project_id,
+          folderId: testCaseDetails?.test_case_folder_id,
+          testCaseId: testCaseDetails?.id
+        })
       );
+    } else onDropDownChange(e, selectedOption, testCaseDetails);
   };
 
-  const handleTabChange = (value) => {
-    setTab(value);
-  };
-
-  const actionHandler = (e) => {
-    hideTestCaseViewDrawer();
-    onDropDownChange(e, testCaseDetails);
-  };
-
-  const onAttachmentClick = (item) => {
-    if (item?.url) window.open(item.url, '_blank').focus();
-  };
+  useEffect(() => {
+    // getting this from parent component as there are updates happening inside the parent component
+    dispatch(setTestResultsArray(testResultsArray));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testResultsArray]);
 
   return {
-    testRunsCount,
-    selectedTab,
-    testCaseIssues,
-    testCaseId,
     testCaseDetails,
-    testRunsDetails,
-    hideTestCaseViewDrawer,
     isTestCaseViewVisible,
-    fetchTestCaseDetails,
-    handleTabChange,
-    actionHandler,
-    onAttachmentClick
+    hideTestCaseViewDrawer,
+    initTestCaseDetails,
+    actionHandler
   };
 }

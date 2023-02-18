@@ -10,8 +10,12 @@ const TMPagination = (props) => {
   const handlerPaginatedLoad = (toBeLoadedPage) => {
     if (searchParams.get('p') === `${toBeLoadedPage}`) return;
 
-    if (toBeLoadedPage === 1) setSearchParams({});
-    else setSearchParams({ p: toBeLoadedPage });
+    let navValue = {};
+    if (toBeLoadedPage === 1) navValue = {};
+    else navValue = { p: toBeLoadedPage };
+
+    if (props.onActionClick) props.onActionClick(navValue);
+    else setSearchParams(navValue);
   };
 
   return (
@@ -33,7 +37,7 @@ TMPagination.propTypes = {
 TMPagination.defaultProps = {
   attachments: [],
   wrapperClassName: '',
-  onActionClick: () => {}
+  onActionClick: null
 };
 
 export default TMPagination;

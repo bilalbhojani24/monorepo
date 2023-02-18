@@ -8,8 +8,13 @@ import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
 import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
+import ComboboxLabel from './modules/ComboboxLabel/index';
+import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
+import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
+import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
 import DropdownTriggerWText from './modules/DropdownTriggerWText';
@@ -53,6 +58,10 @@ import RadioTable from './modules/RadioTable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
+import SelectMenuLabel from './modules/SelectMenuLabel/index';
+import SelectMenuOptionGroup from './modules/SelectMenuOptionGroup/index';
+import SelectMenuOptionItem from './modules/SelectMenuOptionItem/index';
+import SelectMenuTrigger from './modules/SelectMenuTrigger/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
@@ -77,6 +86,7 @@ import Tooltip from './modules/Tooltip/index';
 import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
 import TooltipHeader from './modules/TooltipHeader/index';
+import TruncateText from './modules/TruncateText/index';
 
 export * from './modules/Icon/index';
 
@@ -91,8 +101,13 @@ export {
   Checkbox,
   ColorPicker,
   ComboBox,
+  ComboboxLabel,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
+  ComboboxTrigger,
   DataVisualization,
   DescriptionList,
+  Draggable,
   Dropdown,
   DropdownTriggerWIcon,
   DropdownTriggerWText,
@@ -137,6 +152,10 @@ export {
   RichTextEditor,
   SectionHeadings,
   SelectMenu,
+  SelectMenuLabel,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger,
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
@@ -160,5 +179,6 @@ export {
   Tooltip,
   TooltipBody,
   TooltipFooter,
-  TooltipHeader
+  TooltipHeader,
+  TruncateText
 };

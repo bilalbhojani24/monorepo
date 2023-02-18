@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: {},
+  user: null,
   allProjects: [],
   selectedProjectId: null,
   loginUrl: '',
@@ -24,7 +24,8 @@ export const globalSlice = createSlice({
       state.loginUrl = payload;
     },
     setSelectedProject: (state, { payload }) => {
-      state.selectedProjectId = payload;
+      if (payload !== state.selectedProjectId)
+        state.selectedProjectId = payload;
     },
     addGlobalProject: (state, { payload }) => {
       state.allProjects = [payload, ...state.allProjects];

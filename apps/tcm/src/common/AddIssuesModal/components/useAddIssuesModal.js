@@ -52,12 +52,13 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
 
   useEffect(() => {
     if (isVisible && !jiraConfig) {
-      setIssueIds('');
       getJIRAConfigAPI().then((e) => {
         setJiraConfig(e);
         setIsLoading(false);
       });
     }
+
+    if (isVisible) setIssueIds('');
 
     if (jiraConfig) setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps

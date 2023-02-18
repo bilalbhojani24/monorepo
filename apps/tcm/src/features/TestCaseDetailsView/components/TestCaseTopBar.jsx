@@ -12,11 +12,14 @@ import {
 } from 'common/bifrostProxy';
 import CopyButton from 'common/CopyButton';
 import { dropDownOptions } from 'features/Repository/const/testCaseConst';
+import PropTypes from 'prop-types';
 
-import useTestCaseView from './useTestCaseView';
+import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 
-const TestCaseTopBar = () => {
-  const { testCaseDetails, actionHandler } = useTestCaseView();
+import useTestCaseViewDetails from './useTestCaseViewDetails';
+
+const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
+  const { testCaseDetails } = useTestCaseViewDetails();
   return (
     <div className="mb-4 flex  w-full items-start justify-between">
       <div className="relative flex w-full  items-end pr-2 text-base font-medium">
@@ -33,13 +36,18 @@ const TestCaseTopBar = () => {
               <TMTooltipHeader>{testCaseDetails?.name}</TMTooltipHeader>
               <TMTooltipBody>
                 <div className="text-sm">
-                  <p>ID: {testCaseDetails?.id}</p>
-                  <p>URL: {testCaseDetails?.links?.self}</p>
+                  <p>ID: {testCaseDetails?.identifier}</p>
+                  <p>URL: {testCaseDetails?.links?.self?.slice(7)}</p>
                   <div className="mt-3 flex w-full gap-4">
-                    <CopyButton copyValue={testCaseDetails?.id}>
+                    <CopyButton copyValue={testCaseDetails?.identifier}>
                       Copy ID
                     </CopyButton>
-                    <CopyButton copyValue={testCaseDetails?.links?.self}>
+                    <CopyButton
+                      copyValue={
+                        window.location.origin +
+                        testCaseDetails?.links?.self?.slice(7)
+                      }
+                    >
                       Copy URL
                     </CopyButton>
                   </div>
@@ -55,13 +63,23 @@ const TestCaseTopBar = () => {
         <TMDropdown
           onClick={actionHandler}
           triggerVariant="meatball-button"
-          options={dropDownOptions}
+          options={isFromTestRun ? TR_DROP_OPTIONS : dropDownOptions}
         />
         {/* <ArrowBackOutlinedIcon className="ml-2 !h-5 !w-5 cursor-pointer" />
         <ArrowForwardOutlinedIcon className="!h-5 !w-5 cursor-pointer" /> */}
       </div>
     </div>
   );
+};
+
+TestCaseTopBar.propTypes = {
+  actionHandler: PropTypes.func,
+  isFromTestRun: PropTypes.bool
+};
+
+TestCaseTopBar.defaultProps = {
+  actionHandler: () => {},
+  isFromTestRun: false
 };
 
 export default TestCaseTopBar;

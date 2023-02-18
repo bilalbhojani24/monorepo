@@ -2,18 +2,13 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import SelectMenu from '../SelectMenu';
-
 import './styles.scss';
 
 const SidebarHeader = ({
   brandImage,
   brandImageClass,
   brandImageContainerClass,
-  onDropdownValueChange,
-  dropdownOptions,
-  dropdownValue,
-  dropdownDefaultValue
+  children
 }) => (
   <>
     {brandImage?.length ? (
@@ -30,17 +25,7 @@ const SidebarHeader = ({
         />
       </div>
     ) : null}
-
-    {dropdownOptions.length ? (
-      <div className="px-1">
-        <SelectMenu
-          options={dropdownOptions}
-          value={dropdownValue || dropdownOptions[0]}
-          defaultValue={dropdownDefaultValue}
-          onChange={onDropdownValueChange}
-        />
-      </div>
-    ) : null}
+    {children && <div className="px-1">{children}</div>}
   </>
 );
 
@@ -48,34 +33,14 @@ SidebarHeader.propTypes = {
   brandImage: PropTypes.string,
   brandImageClass: PropTypes.string,
   brandImageContainerClass: PropTypes.string,
-  dropdownOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      label: PropTypes.string,
-      image: PropTypes.string
-    })
-  ),
-  dropdownValue: PropTypes.shape({
-    value: PropTypes.number,
-    label: PropTypes.string,
-    image: PropTypes.string
-  }),
-  dropdownDefaultValue: PropTypes.shape({
-    value: PropTypes.number,
-    label: PropTypes.string,
-    image: PropTypes.string
-  }),
-  onDropdownValueChange: PropTypes.func
+  children: PropTypes.node
 };
 
 SidebarHeader.defaultProps = {
   brandImage: '',
   brandImageClass: '',
   brandImageContainerClass: '',
-  dropdownValue: null,
-  dropdownDefaultValue: null,
-  dropdownOptions: [],
-  onDropdownValueChange: () => {}
+  children: null
 };
 
 export default SidebarHeader;

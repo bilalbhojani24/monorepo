@@ -1,34 +1,41 @@
 // import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { getTagsAPI } from 'api/common.api';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
-import { getTestCasesAPI } from 'api/testcases.api';
+import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
+import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
+  resetTestCaseDetails,
   setAddTestCaseVisibility,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
   setTagsArray,
+  setTestCaseDetails,
   setUsers,
   updateAllTestCases,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 export default function useTestCases() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { projectId, folderId } = useParams();
+  const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
+  const metaPage = useSelector((state) => state.repository.metaPage);
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
+  );
+  const testCaseDetailsIDs = useSelector(
+    (state) => state.repository.testCaseDetails
   );
   const isAddTestCaseFromSearch = useSelector(
     (state) => state.repository.isAddTestCaseFromSearch
@@ -99,7 +106,10 @@ export default function useTestCases() {
 
   const fetchAllTestCases = () => {
     if (!isAddTestCaseFromSearch) dispatch(setAddTestCaseVisibility(false)); // if routed from search view and the user clicked Create Test Case CTA, do not reset
-    if (folderId) {
+    if (projectId === 'new') {
+      // dont load anything start from scratch
+      dispatch(updateTestCasesListLoading(false));
+    } else if (folderId) {
       dispatch(updateTestCasesListLoading(true));
       const page = searchParams.get('p');
       getTestCasesAPI({ projectId, folderId, page })
@@ -118,12 +128,55 @@ export default function useTestCases() {
     }
   };
 
+  const detailsCloseHandler = () => {
+    dispatch(resetTestCaseDetails());
+    if (!isSearchFilterView)
+      navigate(
+        `${routeFormatter(
+          AppRoute.TEST_CASES,
+          {
+            projectId,
+            folderId
+          },
+          true
+        )}`,
+        {
+          replace: true
+        }
+      );
+  };
+
+  const initTestCaseDetails = () => {
+    if (testCaseId && folderId) {
+      dispatch(
+        setTestCaseDetails({
+          folderId,
+          testCaseId
+        })
+      );
+    }
+  };
+
+  const handleFilterPagination = ({ p }) => {
+    const currentParams = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const entry of searchParams.entries()) {
+      const [key, value] = entry;
+      currentParams[key] = value;
+    }
+
+    setSearchParams({ ...currentParams, p });
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   return {
+    testCaseDetailsIDs,
+    testCaseId,
+    metaPage,
     allFolders,
     isBulkUpdate,
     isSearchFilterView,
@@ -142,6 +195,9 @@ export default function useTestCases() {
     fetchAllTestCases,
     fetchUsers,
     initFormValues,
-    setRepoView
+    setRepoView,
+    detailsCloseHandler,
+    initTestCaseDetails,
+    handleFilterPagination
   };
 }

@@ -16,10 +16,11 @@ import {
   setFilterSearchMeta,
   updateAllTestCases,
   updateFoldersLoading,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  setMetaPage
 } from '../slices/repositorySlice';
 
-const useFilter = () => {
+const useFilter = (prop) => {
   const navigate = useNavigate();
   const filterBoxRef = useRef();
   const [searchParams] = useSearchParams();
@@ -47,15 +48,19 @@ const useFilter = () => {
 
   const resetFilterAndSearch = () => {
     // if no filter/search
-    navigate({
-      pathname: routeFormatter(AppRoute.TEST_CASES, {
-        projectId
-      })
-    });
+    if (prop?.onFilterChange) {
+      prop?.onFilterChange({});
+      setAppliedFiltersCount(0);
+    } else
+      navigate({
+        pathname: routeFormatter(AppRoute.TEST_CASES, {
+          projectId
+        })
+      });
     dispatch(resetFilterSearchMeta());
   };
 
-  const fetchFilteredCases = (filterOptions) => {
+  const fetchFilteredCases = (filterOptions, page) => {
     const queryParams = {};
     Object.keys(filterOptions).forEach((key) => {
       const value = Array.isArray(filterOptions[key])
@@ -69,6 +74,8 @@ const useFilter = () => {
       }
     });
 
+    if (page) queryParams['p'] = page;
+
     if (Object.keys(queryParams).length) {
       dispatch(updateTestCasesListLoading(true));
       getTestCasesSearchFilterAPI({
@@ -79,11 +86,26 @@ const useFilter = () => {
           ...item,
           folders: res?.folders?.[item.id] || null
         }));
+
+        dispatch(setMetaPage(res.info));
         dispatch(updateAllTestCases(testCases));
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
       });
     } else if (isSearchFilterView) resetFilterAndSearch();
+  };
+
+  const getFilterOptions = (thisParams) => {
+    const tags = thisParams.get('tags');
+    const owner = thisParams.get('owner');
+    const priority = thisParams.get('priority');
+    const q = thisParams.get('q');
+    return {
+      tags: tags?.split(',') || [],
+      owner: owner?.split(',') || [],
+      priority: priority?.split(',') || [],
+      q: q || ''
+    };
   };
 
   const applyFilterHandler = () => {
@@ -100,12 +122,23 @@ const useFilter = () => {
       }
     });
 
-    navigate({
-      pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
-        projectId
-      }),
-      search: createSearchParams(searchParamsTemp).toString()
-    });
+    if (prop?.onFilterChange) {
+      prop?.onFilterChange(searchParamsTemp);
+      const count = [
+        searchParamsTemp.tags,
+        searchParamsTemp.owner,
+        searchParamsTemp.priority
+      ];
+      // updateFilterSearchMeta(filterOptions);
+      setAppliedFiltersCount(count.filter((item) => item).length);
+    } else {
+      navigate({
+        pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
+          projectId
+        }),
+        search: createSearchParams(searchParamsTemp).toString()
+      });
+    }
     setFilter(false);
   };
 
@@ -136,20 +169,17 @@ const useFilter = () => {
   };
 
   useEffect(() => {
-    const tags = searchParams.get('tags');
-    const owner = searchParams.get('owner');
-    const priority = searchParams.get('priority');
-    const q = searchParams.get('q');
-    const filterOptions = {
-      tags: tags?.split(',') || [],
-      owner: owner?.split(',') || [],
-      priority: priority?.split(',') || [],
-      q: q || ''
-    };
-    const count = [tags, owner, priority];
-    setAppliedFiltersCount(count.filter((item) => item).length);
+    let filterOptions = getFilterOptions(searchParams);
+
+    const count = [
+      filterOptions.tags,
+      filterOptions.owner,
+      filterOptions.priority
+    ];
+
     updateFilterSearchMeta(filterOptions);
-    fetchFilteredCases(filterOptions);
+    setAppliedFiltersCount(count.filter((item) => item.length).length);
+    fetchFilteredCases(filterOptions, searchParams?.get('p'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 

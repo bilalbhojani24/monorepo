@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
@@ -7,8 +7,9 @@ import { MODAL_SIZE } from './const/modalConstants';
 
 import './styles.scss';
 
-const Modal = (props) => {
-  const { children, onClose, onOverlayClick, show, size } = props;
+const Modal = forwardRef((props, ref) => {
+  const { children, onClose, onOverlayClick, show, size, wrapperClassName } =
+    props;
 
   return (
     <Transition.Root show={show}>
@@ -19,6 +20,7 @@ const Modal = (props) => {
           if (onClose) onClose();
           if (onOverlayClick) onOverlayClick();
         }}
+        initialFocus={ref}
       >
         <Transition.Child
           enter="ease-out duration-300"
@@ -44,7 +46,7 @@ const Modal = (props) => {
             >
               <Dialog.Panel
                 className={twClassNames(
-                  'relative flex max-h-[35rem] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
+                  'relative flex max-h-[75vh] flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
                   {
                     'sm:max-w-sm': MODAL_SIZE[0] === size,
                     'sm:max-w-md': MODAL_SIZE[1] === size,
@@ -56,7 +58,8 @@ const Modal = (props) => {
                     'sm:max-w-5xl': MODAL_SIZE[7] === size,
                     'sm:max-w-6xl': MODAL_SIZE[8] === size,
                     'sm:max-w-full': MODAL_SIZE[9] === size
-                  }
+                  },
+                  wrapperClassName
                 )}
               >
                 {children}
@@ -67,21 +70,23 @@ const Modal = (props) => {
       </Dialog>
     </Transition.Root>
   );
-};
+});
 
 Modal.propTypes = {
   children: PropTypes.node,
   onOverlayClick: PropTypes.func,
   onClose: PropTypes.func,
   show: PropTypes.bool,
-  size: PropTypes.string
+  size: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 Modal.defaultProps = {
   children: null,
   onOverlayClick: null,
   onClose: null,
   show: false,
-  size: MODAL_SIZE[2]
+  size: MODAL_SIZE[2],
+  wrapperClassName: ''
 };
 
 export default Modal;

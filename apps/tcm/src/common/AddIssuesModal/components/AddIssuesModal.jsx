@@ -1,6 +1,6 @@
 import React from 'react';
 import { Loader } from '@browserstack/bifrost';
-import { OpenInNewOutlinedIcon } from 'assets/icons';
+import { LayersIcon, OpenInNewOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMInputField,
@@ -11,6 +11,7 @@ import {
   // TMSelectMenu
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useAddIssuesModal from './useAddIssuesModal';
 
@@ -36,17 +37,19 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
       show={isVisible}
       withDismissButton
       onOverlayClick={onCloseHandler}
-      // size="medium"
+      size={!isLoading && jiraConfig ? 'lg' : 'sm'}
     >
-      <TMModalHeader
-        heading="Add Link"
-        handleDismissClick={onCloseHandler}
-        subHeading={
-          !isLoading && jiraConfig
-            ? 'Add your Issue ID from your projects or create a new one:'
-            : null
-        }
-      />
+      {jiraConfig && (
+        <TMModalHeader
+          heading="Add Link"
+          handleDismissClick={onCloseHandler}
+          subHeading={
+            !isLoading && jiraConfig
+              ? 'Add your Issue ID from your projects or create a new one:'
+              : null
+          }
+        />
+      )}
       <TMModalBody>
         {isLoading ? (
           <Loader />
@@ -58,7 +61,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                   id="jira-account"
                   label="JIRA Account"
                   disabled
-                  value={jiraConfig?.email || ''}
+                  value={jiraConfig?.host || ''}
                 />
                 {/* <div className="mt-4">
                       <TMSelectMenu
@@ -75,6 +78,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                       label="Issue IDs"
                       errorText={errorText}
                       value={enterdIssueIDs}
+                      onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
                       onChange={(e) => {
                         setIssueIds(e.currentTarget.value);
                       }}
@@ -92,24 +96,54 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                 </div>
               </div>
             ) : (
-              <div className="flex w-full justify-center">
-                <TMButton onClick={configureJIRAInit}>
-                  Configure your JIRA first
-                </TMButton>
+              <div className="mt-8">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                  <LayersIcon
+                    className="text-base-800 !h-14 !w-14"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="mt-3 text-center sm:mt-5">
+                  <h3
+                    as="h3"
+                    className="text-base-900 text-lg font-medium leading-6"
+                  >
+                    No JIRA Accounts Linked
+                  </h3>
+                  <div className="mt-2">
+                    <p className="text-base-500 text-sm">
+                      Click on the button below to link JIRA Account and we’ll
+                      fetch projects to allow seamless integration.
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
           </>
         )}
       </TMModalBody>
       <TMModalFooter position="right">
-        {!isLoading && jiraConfig && (
+        {!isLoading && (
           <>
-            <TMButton variant="primary" colors="white" onClick={onCloseHandler}>
-              Cancel
-            </TMButton>
-            <TMButton variant="primary" onClick={onLinkIssueClick}>
-              Link Issue
-            </TMButton>
+            {jiraConfig ? (
+              <>
+                {' '}
+                <TMButton
+                  variant="primary"
+                  colors="white"
+                  onClick={onCloseHandler}
+                >
+                  Cancel
+                </TMButton>
+                <TMButton variant="primary" onClick={onLinkIssueClick}>
+                  Link Issue
+                </TMButton>
+              </>
+            ) : (
+              <TMButton fullWidth colors="brand" onClick={configureJIRAInit}>
+                Setup JIRA Account
+              </TMButton>
+            )}
           </>
         )}
       </TMModalFooter>

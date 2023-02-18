@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
@@ -12,19 +11,19 @@ import {
 } from 'assets/icons';
 import classNames from 'classnames';
 import { TMButton, TMCheckBox, TMInputField } from 'common/bifrostProxy';
-import AppRoute from 'const/routes';
+import PropTypes from 'prop-types';
 // import PropTypes from 'prop-types';
-import { onSubmitKeyHandler, routeFormatter } from 'utils/helperFunctions';
+import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useFilter from './useFilter';
 import useTestCases from './useTestCases';
 
-const Filter = () => {
+const Filter = ({ isMini, onFilterChange }) => {
   const { initFormValues } = useTestCases();
   const {
     filterBoxRef,
     appliedFiltersCount,
-    projectId,
+    // projectId,
     isFilterVisible,
     ownersFilteredArray,
     tagsFilteredArray,
@@ -38,7 +37,7 @@ const Filter = () => {
     setFilter,
     searchChangeHandler,
     resetFilterAndSearch
-  } = useFilter();
+  } = useFilter({ onFilterChange });
 
   useEffect(() => {
     if (isFilterVisible) initFormValues();
@@ -82,7 +81,15 @@ const Filter = () => {
   ];
 
   return (
-    <div className="border-base-300 relative z-[1] flex w-full items-start border-b py-3 pr-3">
+    <div
+      className={classNames(
+        'border-base-300 relative z-10 flex w-full items-start border-b',
+        {
+          'h-12 flex items-center pr-1': isMini,
+          'py-3  pr-3': !isMini
+        }
+      )}
+    >
       <div className="w-full">
         <TMInputField
           placeholder="Search by Test Case name, ID"
@@ -108,7 +115,8 @@ const Filter = () => {
           onClick={() => setFilter(!isFilterVisible)}
           // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
-            'rounded-tr-none rounded-br-none': appliedFiltersCount
+            'rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10':
+              appliedFiltersCount
           })}
           size="default"
           variant={appliedFiltersCount ? 'secondary' : 'primary'}
@@ -122,21 +130,16 @@ const Filter = () => {
           {appliedFiltersCount ? `Filters (${appliedFiltersCount})` : 'Filter'}
         </TMButton>
         {appliedFiltersCount ? (
-          <Link
-            to={routeFormatter(AppRoute.TEST_CASES, {
-              projectId
-            })}
+          <TMButton
+            onClick={resetFilterAndSearch}
+            buttonType="half-rounded-button"
+            wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
+            size="default"
+            variant="primary"
+            colors="white"
           >
-            <TMButton
-              buttonType="half-rounded-button"
-              wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none"
-              size="default"
-              variant="primary"
-              colors="white"
-            >
-              <CloseOutlinedIcon className="!h-5 !w-5" />
-            </TMButton>
-          </Link>
+            <CloseOutlinedIcon className="!h-5 !w-5" />
+          </TMButton>
         ) : null}
       </div>
       {isFilterVisible && (
@@ -223,8 +226,14 @@ const Filter = () => {
   );
 };
 
-Filter.propTypes = {};
+Filter.propTypes = {
+  isMini: PropTypes.bool,
+  onFilterChange: PropTypes.func
+};
 
-Filter.defaultProps = {};
+Filter.defaultProps = {
+  isMini: false,
+  onFilterChange: null
+};
 
 export default Filter;

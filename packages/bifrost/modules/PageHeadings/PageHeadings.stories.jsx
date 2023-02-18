@@ -13,6 +13,7 @@ import Button from '../Button';
 import Dropdown from '../Dropdown';
 import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
 import DropdownTriggerWText from '../DropdownTriggerWText';
+import Metadata from '../Metadata';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import PageHeadings from './index';
@@ -44,63 +45,47 @@ const defaultConfig = {
         { name: 'Frontend Engineers', url: 'www.google.com', current: false }
       ]
     },
-    metaData: {
-      defaultValue: [
-        {
-          id: 'node-1',
-          metaNode: (
-            <>
-              <BriefcaseIcon
-                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
-                aria-hidden="true"
-              />
-              Full-time
-            </>
-          )
-        },
-        {
-          id: 'node-2',
-          metaNode: (
-            <>
-              <MapPinIcon
-                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
-                aria-hidden="true"
-              />
-              Remote
-            </>
-          )
-        },
-        {
-          id: 'node-3',
-          metaNode: (
-            <>
-              <CurrencyDollarIcon
-                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
-                aria-hidden="true"
-              />
-              $120k &ndash; $140k
-            </>
-          )
-        },
-        {
-          id: 'node-4',
-          metaNode: (
-            <>
-              <CalendarIcon
-                className="text-base-400 mr-1.5 h-5 w-5 shrink-0"
-                aria-hidden="true"
-              />
-              Closing on January 9, 2020
-            </>
-          )
-        }
-      ]
+    subSection: {
+      defaultValue: (
+        <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+          <Metadata
+            metaDescription="Full-time"
+            textColorClass="text-base-400 mt-1"
+            icon={<BriefcaseIcon className="h-5 w-5" />}
+          />
+          <Metadata
+            metaDescription="Remote"
+            textColorClass="text-base-400 mt-1"
+            icon={<MapPinIcon className="h-5 w-5" />}
+          />
+          <Metadata
+            metaDescription="$120k – $140k"
+            textColorClass="text-base-400 mt-1"
+            icon={<CurrencyDollarIcon className="h-5 w-5" />}
+          />
+          <Metadata
+            metaDescription="Closing on January 9, 2020"
+            textColorClass="text-base-400 mt-1"
+            icon={<CalendarIcon className="h-5 w-5" />}
+          />
+        </div>
+      )
     },
     actions: {
       defaultValue: []
     },
     wrapperClassName: {
       defaultValue: 'p-8 rounded-lg border border-base-300'
+    },
+    breadcrumbWrapperClassName: {
+      controls: { type: 'string' },
+      defaultValue: ''
+    },
+    onBreadcrumbClick: {
+      control: { type: null },
+      defaultValue: (e, clickedItem) => {
+        console.log(e, clickedItem);
+      }
     }
   },
   controls: {}

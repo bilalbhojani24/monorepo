@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-const Header = ({ children, wrapperClassName }) => (
+const Header = ({ headerID, children, wrapperClassName }) => (
   <nav
     className={twClassNames(
       'h-16 w-auto flex flex-row items-center p-0 bg-base-800 gap-4',
       wrapperClassName
     )}
+    id={headerID || null}
   >
     {children}
   </nav>
@@ -17,11 +18,13 @@ const Header = ({ children, wrapperClassName }) => (
 
 Header.propTypes = {
   children: PropTypes.node,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  headerID: PropTypes.string
 };
 Header.defaultProps = {
   children: null,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  headerID: ''
 };
 
 export default Header;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
@@ -29,10 +29,11 @@ import {
   updateProject
 } from '../slices/projectSlice';
 
-const useProjects = () => {
+const useProjects = (prop) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const modalFocusRef = useRef();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -82,10 +83,10 @@ const useProjects = () => {
     );
   };
 
-  const onDropDownChange = (e, selectedItem) => {
-    if (e.currentTarget.textContent === dropDownOptions[0].body) {
+  const onDropDownChange = (e, selectedOption, selectedItem) => {
+    if (selectedOption?.id === dropDownOptions[0].id) {
       dispatch(setEditProjectModalVisibility(true));
-    } else if (e.currentTarget.textContent === dropDownOptions[1].body) {
+    } else if (selectedOption?.id === dropDownOptions[1].id) {
       dispatch(setDeleteProjectModalVisibility(true));
     }
     dispatch(setSelectedProject(selectedItem));
@@ -112,6 +113,7 @@ const useProjects = () => {
 
   const hideAddProjectModal = () => {
     dispatch(setAddProjectModalVisibility(false));
+    prop?.onClose?.();
   };
 
   const createProjectHandler = () => {
@@ -134,6 +136,11 @@ const useProjects = () => {
     dispatch(setEditProjectModalVisibility(false));
   };
 
+  const onCreateDropClick = () => {
+    // console.log(selectedOption);
+    // TODO add API
+  };
+
   const editProjectHandler = () => {
     editProjectAPI(selectedProject.id, {
       project: formData
@@ -145,6 +152,7 @@ const useProjects = () => {
   };
 
   return {
+    modalFocusRef,
     isLoading,
     currentPage: searchParams.get('p'),
     metaPage,
@@ -166,7 +174,8 @@ const useProjects = () => {
     formError,
     setFormError,
     editProjectHandler,
-    hideEditProjectModal
+    hideEditProjectModal,
+    onCreateDropClick
   };
 };
 
