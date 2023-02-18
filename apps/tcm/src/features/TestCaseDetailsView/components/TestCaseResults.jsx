@@ -21,10 +21,10 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
   const resultsTCTableColumn = [
     {
       name: 'Test Run Details',
-      key: 'test_case_id',
+      key: 'test_run_id',
       cell: (rowData) => (
         <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`${rowData.identifier} | ${rowData.name}`}</div>
+          <div className="text-base-900 font-medium">{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</div>
           <div className="text-base-500">
             {formatTime(rowData.created_at, 'time')}
           </div>
