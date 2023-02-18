@@ -49,7 +49,7 @@ const useAuthentication = () => {
           data: {
             data: {
               user: {
-                full_name: 'Ribin ROy',
+                full_name: 'Ribin Roy',
                 email: 'fake2@example.com',
                 is_first_time: true
               }
