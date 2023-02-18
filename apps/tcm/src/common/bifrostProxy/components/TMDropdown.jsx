@@ -2,11 +2,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Dropdown, DropdownTriggerWIcon } from '@browserstack/bifrost';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const TMDropdown = (props) => {
-  const { triggerVariant, triggerClassName } = props;
+  const { triggerVariant, triggerClassName, triggerIcon } = props;
 
   return (
     <Dropdown
@@ -14,9 +14,13 @@ const TMDropdown = (props) => {
       trigger={
         <DropdownTriggerWIcon
           variant={triggerVariant}
-          wrapperClassName={classNames(triggerClassName, {
-            'border-base-300 border': triggerVariant === 'menu-button'
-          })}
+          wrapperClassName={twClassNames(
+            {
+              'border-base-300 border': triggerVariant === 'menu-button'
+            },
+            triggerClassName
+          )}
+          icon={triggerIcon}
         />
       }
       wrapperClassName="flex"
@@ -25,11 +29,13 @@ const TMDropdown = (props) => {
 };
 
 TMDropdown.propTypes = {
-  triggerVariant: PropTypes.string
+  triggerVariant: PropTypes.string,
+  triggerIcon: PropTypes.node
 };
 
 TMDropdown.defaultProps = {
-  triggerVariant: ''
+  triggerVariant: '',
+  triggerIcon: null
 };
 
 export default TMDropdown;

@@ -23,7 +23,7 @@ const MiniDetails = () => {
     100 - (testRunDetails?.overall_progress?.untested / totalValue) * 100;
 
   return (
-    <TMTable containerWrapperClass="border-b border-base-300 md:rounded-none ribin">
+    <TMTable containerWrapperClass="border-b border-base-300 md:rounded-none">
       <TMTableBody>
         <TMTableRow wrapperClassName="border-none flex">
           <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
