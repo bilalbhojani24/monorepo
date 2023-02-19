@@ -29,13 +29,16 @@ const DataVisualization = ({
   wrapperClassName
 }) => (
   <div
-    className={twClassNames('rounded-lg shadow', {
-      'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
-      'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
-      'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
-      'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3],
+    className={twClassNames(
+      'rounded-lg shadow',
+      {
+        'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
+        'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
+        'w-[684px]': size === DATA_VISUALIZATION_SIZES[2],
+        'w-[1388px]': size === DATA_VISUALIZATION_SIZES[3]
+      },
       wrapperClassName
-    })}
+    )}
   >
     <div className="p-6">
       <div className="flex items-center justify-between">
