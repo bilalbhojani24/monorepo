@@ -49,9 +49,7 @@ export default function TestCases() {
             <div className="border-base-300 w-full border-l">
               <div className="border-base-200 w-full border-b p-4">
                 <div className="text-base-800 w-full font-medium">
-                  {/*<TMTruncateText hidetooltipTriggerIcon>*/}
-                    {selectedFolder?.name}
-                  {/*</TMTruncateText>*/}
+                  {selectedFolder?.name}
                   <TMTooltip
                     size="xs"
                     placementSide="bottom"
