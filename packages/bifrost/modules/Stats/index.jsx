@@ -41,7 +41,7 @@ const Stats = (props) => {
         onKeyDown={(e) => {
           if (e.key === 'Enter') option.onClick?.(e);
         }}
-        tabIndex={0}
+        tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
         <div>
           {variant === STATS_VARIANTS.WITH_ICON && (
