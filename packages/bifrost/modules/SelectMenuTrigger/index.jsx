@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -12,13 +12,9 @@ const SelectMenuTrigger = ({ placeholder }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth } = useContext(SelectMenuContextData);
 
-  const memoizedSetWidthCb = useCallback(() => {
+  useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
   }, [setWidth]);
-
-  useLayoutEffect(() => {
-    memoizedSetWidthCb();
-  }, [memoizedSetWidthCb]);
 
   return (
     <Popover.Trigger asChild>
