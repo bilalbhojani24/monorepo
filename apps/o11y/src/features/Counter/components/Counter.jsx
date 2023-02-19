@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@browserstack/bifrost';
 
 import useCounter from './useCounter';
@@ -19,6 +20,8 @@ export default function Counter() {
       <Button aria-label="Decrement value" onClick={decrementCount}>
         Decrement
       </Button>
+
+      <Link to="/projects/rwerwer/builds">View Counter</Link>
     </div>
   );
 }

@@ -1,38 +1,26 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Header,
-  HeaderBrand,
-  HeaderElements,
-  HeaderProducts
-} from '@browserstack/bifrost';
-import { O11yBadge } from 'common/bifrostProxy';
+import { Header } from '@browserstack/bifrost';
 import { ROUTES } from 'constants/routes';
 
 const O11yHeader = () => (
-  <Header wrapperClassName="fixed w-full" headerID="bstack-header">
-    <Link to={ROUTES.root}>
-      <HeaderBrand
-        productName={
-          <div className="flex items-center">
-            Test Observability
-            <O11yBadge
-              isRounded
-              text="Alpha"
-              modifier="primary"
-              size="basic"
-              wrapperClassName="ml-1"
-            />
-          </div>
-        }
-      />
-    </Link>
-    <HeaderProducts wrapperClassName="max-[1360px]:hidden" />
-    <div className="ml-auto">
-      <HeaderElements />
-    </div>
-  </Header>
+  <Header
+    wrapperClassName="fixed w-full"
+    headerID="bstack-header"
+    productName="Test Observability"
+    productLink={ROUTES.root}
+    release="Alpha"
+    beamerProductId="XxcUulZf52793"
+    supportLink="https://www.browserstack.com/docs/test-observability/"
+    headerElementArray={[
+      'team',
+      'pricing',
+      // 'help',
+      'search',
+      'notifications',
+      'account'
+    ]}
+  />
 );
 
 export default O11yHeader;
