@@ -13,10 +13,7 @@ export default defineConfig(() => ({
       fileName: () => `index.js`
     },
     rollupOptions: {
-      external: [
-        ...packageViteConfig.build.rollupOptions.external,
-        '@browserstack/utils'
-      ]
+      external: [...packageViteConfig.build.rollupOptions.external]
     }
   }
 }));
