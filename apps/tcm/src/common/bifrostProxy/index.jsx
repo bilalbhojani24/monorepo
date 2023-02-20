@@ -71,8 +71,9 @@ export const TMButton = forwardRef((props, ref) => (
 export const TMInputField = forwardRef((props, ref) => (
     <InputField {...props} ref={ref} />
 ));
-
-export const TMInputWButton = (props) => <InputWButton {...props} />;
+export const TMInputWButton = forwardRef((props, ref) => (
+    <InputWButton {...props} ref={ref} />
+));
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;

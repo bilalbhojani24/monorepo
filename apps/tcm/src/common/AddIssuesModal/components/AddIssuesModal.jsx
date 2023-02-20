@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import { Loader } from '@browserstack/bifrost';
 import { LayersIcon, OpenInNewOutlinedIcon } from 'assets/icons';
 import {
