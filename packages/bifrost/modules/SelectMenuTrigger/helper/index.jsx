@@ -18,6 +18,11 @@ export const renderSingleOptions = (opts, placeholder) => {
 };
 
 export const renderMultiOptions = (opts, placeholder) => {
-  if (opts.length) return opts?.map((val) => val.label).join(', ');
+  if (opts.length)
+    return opts?.map((val, index) => (
+      <div className="mr-2 flex">
+        {val.label} {index < opts.length - 1 ? ',' : null}
+      </div>
+    ));
   return placeholder;
 };
