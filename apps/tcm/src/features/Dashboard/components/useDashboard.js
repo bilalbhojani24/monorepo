@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getActiveTestRuns } from 'api/dashboard.api';
+// import { getActiveTestRuns } from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
 
-import { setActiveTestRuns } from '../slices/dashboardSlice';
-
+// import { setActiveTestRuns } from '../slices/dashboardSlice';
 import {
   barOptionsCreator,
   donutOptionCreator,

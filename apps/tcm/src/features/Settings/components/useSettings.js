@@ -1,23 +1,31 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getSettingsApiKeys } from 'api/settings.api';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setApiKey, setCurrentTab } from '../slices/settingsSlice';
+import { setJiraConfigurations, setSettingsApiKeys } from '../slices/thunk';
 
 export default function useSettings() {
   const dispatch = useDispatch();
-
-
-  const handleTabChange = (tabName) => {
-    dispatch(setCurrentTab(tabName.name));
-  };
+  const jiraConfiguration = useSelector(
+    (state) => state.settings.jiraConfiguration
+  );
+  const settingsApiKeys = useSelector(
+    (state) => state.settings.settingsApiKeys
+  );
+  // const handleTabChange = (tabName) => {
+  //   dispatch(setCurrentTab(tabName.name));
+  // };
 
   const fetchAPIKey = () => {
-    getSettingsApiKeys().then((data) => {
-      dispatch(setApiKey(data.api_key));
-    });
+    dispatch(setSettingsApiKeys());
   };
 
-  return { handleTabChange, fetchAPIKey };
+  const fetchJiraConfigurations = () => {
+    dispatch(setJiraConfigurations());
+  };
+
+  return {
+    jiraConfiguration,
+    settingsApiKeys,
+    fetchAPIKey,
+    fetchJiraConfigurations
+  };
 }

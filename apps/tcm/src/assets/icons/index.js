@@ -34,6 +34,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
@@ -82,6 +83,7 @@ export {
   KeyboardDoubleArrowUpOutlinedIcon,
   LayersIcon,
   MoreVertOutlinedIcon,
+  OpenInNewIcon,
   OpenInNewOutlinedIcon,
   PostAddIcon,
   RemoveOutlinedIcon,
