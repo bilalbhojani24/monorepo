@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { splitStringToArray } from 'utils/helperFunctions';
 
 const useAddTagModal = ({
@@ -13,7 +13,7 @@ const useAddTagModal = ({
   const [newTags, setNewTags] = useState([]);
   const [enteredTag, setTagEntered] = useState('');
   const [errorText, setErrorText] = useState(null);
-
+  const modalFocusRef = useRef();
   const getUniqueTags = (tagsSplitted) =>
     tagsSplitted.filter((item) => !selectedTagsInternal.includes(item));
 
@@ -73,6 +73,7 @@ const useAddTagModal = ({
   }, [isVisible]);
 
   return {
+    modalFocusRef,
     allTags,
     selectedTagsInternal,
     enteredTag,
