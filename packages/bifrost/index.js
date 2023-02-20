@@ -59,6 +59,7 @@ import RadioGroup from './modules/RadioGroup/index';
 import RadioSmallCards from './modules/RadioSmallCards/index';
 import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
+import Resizable from './modules/Resizable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
@@ -160,6 +161,7 @@ export {
   RadioSmallCards,
   RadioStackedCard,
   RadioTable,
+  Resizable,
   RichTextEditor,
   SectionHeadings,
   SelectMenu,
