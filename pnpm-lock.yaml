@@ -388,17 +388,21 @@ importers:
     specifiers:
       '@browserstack/vite-config': workspace:*
       '@vitejs/plugin-react': 2.2.0
+      amplitude-js: 8.21.4
       axios: 1.2.2
       classnames: ^2.2.6
       react: 16.13.1
       react-dom: 16.13.1
+      react-ga4: 2.0.0
       tailwind-merge: ^1.8.1
       vite: 3.2.5
     dependencies:
+      amplitude-js: 8.21.4
       axios: 1.2.2
       classnames: 2.3.2
       react: 16.13.1
       react-dom: 16.13.1_react@16.13.1
+      react-ga4: 2.0.0
       tailwind-merge: 1.9.1
     devDependencies:
       '@browserstack/vite-config': link:../vite-config
@@ -414,6 +418,29 @@ importers:
       vite: 3.2.5
 
 packages:
+
+  /@amplitude/analytics-connector/1.4.6:
+    resolution: {integrity: sha512-6jD2pOosRD4y8DT8StUCz7yTd5ZDkdOU9/AWnlWKM5qk90Mz7sdZrdZ9H7sA/L3yOJEpQOYZgQplQdWWUzyWug==}
+    dependencies:
+      '@amplitude/ua-parser-js': 0.7.31
+    dev: false
+
+  /@amplitude/types/1.10.2:
+    resolution: {integrity: sha512-I8qenRI7uU6wKNb9LiZrAosSHVoNHziXouKY81CrqxH9xhVTEIJFXeuCV0hbtBr0Al/8ejnGjQRx+S2SvU/pPg==}
+    engines: {node: '>=10'}
+    dev: false
+
+  /@amplitude/ua-parser-js/0.7.31:
+    resolution: {integrity: sha512-+z8UGRaj13Pt5NDzOnkTBy49HE2CX64jeL0ArB86HAtilpnfkPB7oqkigN7Lf2LxscMg4QhFD7mmCfedh3rqTg==}
+    dev: false
+
+  /@amplitude/utils/1.10.2:
+    resolution: {integrity: sha512-tVsHXu61jITEtRjB7NugQ5cVDd4QDzne8T3ifmZye7TiJeUfVRvqe44gDtf55A+7VqhDhyEIIXTA1iVcDGqlEw==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@amplitude/types': 1.10.2
+      tslib: 2.5.0
+    dev: false
 
   /@ampproject/remapping/2.2.0:
     resolution: {integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==}
@@ -8605,6 +8632,17 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
 
+  /amplitude-js/8.21.4:
+    resolution: {integrity: sha512-XeWwwqaA4wvWh52Mc2yzfofJATy9biyCFpmPQttOM5iGN0NujjTESyEcV+XN4ud0Q67mnAA4tfjTfhYjXSTHEg==}
+    dependencies:
+      '@amplitude/analytics-connector': 1.4.6
+      '@amplitude/ua-parser-js': 0.7.31
+      '@amplitude/utils': 1.10.2
+      '@babel/runtime': 7.20.13
+      blueimp-md5: 2.19.0
+      query-string: 8.0.3
+    dev: false
+
   /ansi-align/3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
     dependencies:
@@ -9438,6 +9476,10 @@ packages:
   /bluebird/3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
     dev: true
+
+  /blueimp-md5/2.19.0:
+    resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==}
+    dev: false
 
   /bn.js/4.12.0:
     resolution: {integrity: sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==}
@@ -10849,7 +10891,6 @@ packages:
   /decode-uri-component/0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
-    dev: true
 
   /decompress-response/6.0.0:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
@@ -12931,6 +12972,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
+
+  /filter-obj/5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /finalhandler/1.2.0:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
@@ -18465,6 +18511,15 @@ packages:
       side-channel: 1.0.4
     dev: true
 
+  /query-string/8.0.3:
+    resolution: {integrity: sha512-RtRwkRFCLPQWz27ETbeqIA9UdaLv2Ps7EiNjIS57BaZyx/gWi4QKq7K4+rYBEHToSo/dvLZ+S1fEOKcacojA/Q==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      decode-uri-component: 0.2.2
+      filter-obj: 5.1.0
+      split-on-first: 1.1.0
+    dev: false
+
   /querystring-es3/0.2.1:
     resolution: {integrity: sha512-773xhDQnZBMFobEiztv8LIl70ch5MSF/jUQVlhwFyBILqq96anmoctVIYz+ZRp0qbCKATTn6ev02M3r7Ga5vqA==}
     engines: {node: '>=0.4.x'}
@@ -18716,6 +18771,10 @@ packages:
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
     dev: true
+
+  /react-ga4/2.0.0:
+    resolution: {integrity: sha512-WHi98hMunzh4ngRdNil8NN6Qly3ZZUkprhbgSqA+NFzovp8zqpYV3jcbKL9FnMdeBQHGhv8AVNCT2oFEE+EFXA==}
+    dev: false
 
   /react-helmet-async/1.3.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-9jZ57/dAn9t3q6hneQS0wukqC2ENOBgMNVEhb/ZG9ZSxUetzVIw4iAmEU38IaVg3QGYauQPhSeUTuIUtFglWpg==}
@@ -19778,6 +19837,7 @@ packages:
       chokidar: 3.5.3
       immutable: 4.2.1
       source-map-js: 1.0.2
+    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
@@ -20257,6 +20317,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /split-on-first/1.1.0:
+    resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
+    engines: {node: '>=6'}
+    dev: false
 
   /split-string/3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
@@ -21919,6 +21984,7 @@ packages:
       sass: 1.57.1
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /vm-browserify/1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
