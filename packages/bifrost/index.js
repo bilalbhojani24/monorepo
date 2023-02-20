@@ -25,6 +25,7 @@ import FileUpload from './modules/FileUpload/index';
 import Header from './modules/Header/index';
 import HeaderBrand from './modules/HeaderBrand/index';
 import HeaderElements from './modules/HeaderElements/index';
+import HeaderProductContainer from './modules/HeaderProductContainer/index';
 import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
@@ -67,6 +68,7 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Slideover from './modules/Slideover/index';
+import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
@@ -119,6 +121,7 @@ export {
   Header,
   HeaderBrand,
   HeaderElements,
+  HeaderProductContainer,
   HeaderProducts,
   Hyperlink,
   InputAddOnTexts,
@@ -162,6 +165,7 @@ export {
   SidebarItem,
   SidebarNavigation,
   Slideover,
+  SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
   StackedListWAvatar,
