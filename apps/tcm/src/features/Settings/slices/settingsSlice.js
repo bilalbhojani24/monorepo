@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   apiKey: '',
-  currentTab: ''
+  currentTab: '',
+  jiraConfiguration: {},
+  settingsApiKeys: {}
 };
 
 export const settingsSlice = createSlice({
@@ -12,12 +14,30 @@ export const settingsSlice = createSlice({
     setApiKey: (state, { payload }) => {
       state.apiKey = payload;
     },
-    setCurrentTab: (state, { payload }) => {
-      state.currentTab = payload;
+    getJiraConfigFulfilled: (state, { payload }) => {
+      state.jiraConfiguration = payload;
+    },
+    getJiraConfigFailed: (state, { payload }) => {
+      state.jiraConfiguration = payload;
+    },
+    getSettingsApiKeysFulfilled: (state, { payload }) => {
+      state.settingsApiKeys = payload;
+    },
+    getSettingsApiKeysFailed: (state, { payload }) => {
+      state.settingsApiKeys = payload;
     }
+    // setCurrentTab: (state, { payload }) => {
+    //   state.currentTab = payload;
+    // }
   }
 });
 
-export const { setApiKey, setCurrentTab } = settingsSlice.actions;
+export const {
+  setApiKey,
+  getJiraConfigFulfilled,
+  getJiraConfigFailed,
+  getSettingsApiKeysFulfilled,
+  getSettingsApiKeysFailed
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

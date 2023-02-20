@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteFolder } from 'api/folders.api';
@@ -23,6 +24,7 @@ export default function useAddEditFolderModal() {
   const { isOkToExitForm } = useUnsavedChanges();
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const modalFocusRef = useRef();
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
   const openedFolderModal = useSelector(
@@ -97,6 +99,7 @@ export default function useAddEditFolderModal() {
   };
 
   return {
+    modalFocusRef,
     hideFolderModal,
     updateFolders,
     renameFolderHelper,

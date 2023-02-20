@@ -7,7 +7,7 @@ import {
   number,
   oneOfType,
   shape,
-  string
+  string,
 } from '../../shared/proptypesConstants';
 
 import Editor from './components/TextEditor';
@@ -25,7 +25,8 @@ const RichTextEditor = ({
   initialValue,
   id,
   editorRef,
-  placeholder
+  placeholder,
+  assetsURL,
 }) => (
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
@@ -47,6 +48,7 @@ const RichTextEditor = ({
       placeholder={placeholder}
       ref={editorRef}
       label={label}
+      assetsURL={assetsURL}
     />
   </div>
 );
@@ -62,7 +64,8 @@ RichTextEditor.propTypes = {
   value: string,
   width: oneOfType([number, string]),
   wrapperClassName: string,
-  editorRef: shape({ current: instanceOf(Element) })
+  editorRef: shape({ current: instanceOf(Element) }),
+  assetsURL: string.isRequired,
 };
 
 RichTextEditor.defaultProps = {
@@ -74,7 +77,7 @@ RichTextEditor.defaultProps = {
   value: undefined,
   width: '100%',
   wrapperClassName: '',
-  editorRef: null
+  editorRef: null,
 };
 
 export default RichTextEditor;

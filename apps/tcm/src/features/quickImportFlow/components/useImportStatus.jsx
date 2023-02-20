@@ -124,6 +124,7 @@ const useImportStatus = () => {
     notify(
       <Notifications
         id={data?.id}
+        // isCondensed
         title={
           totalCount > successCount
             ? `${successCount}/${totalCount} ${data?.title}`
