@@ -1,3 +1,4 @@
+import { FaApple } from 'react-icons';
 import {
   ArrowDownIcon,
   ArrowLongLeftIcon,
@@ -57,6 +58,7 @@ export {
   EnvelopeOpenIcon,
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
+  FaApple,
   FolderIcon,
   HomeIcon,
   InboxIcon,
