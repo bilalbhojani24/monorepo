@@ -137,6 +137,7 @@ const AddEditTestCase = () => {
         <div className="mt-4">
           <TMRichTextEditor
             label="Description"
+            id="main-description"
             value={testCaseFormData?.description}
             height={200}
             placeholder="Write in brief about this test case"
@@ -150,6 +151,7 @@ const AddEditTestCase = () => {
               <div className="flex-1">
                 <TMRichTextEditor
                   label="Steps"
+                  id="steps-rte"
                   placeholder="Steps for the test"
                   value={testCaseFormData?.steps?.[0]}
                   height={200}
@@ -159,6 +161,7 @@ const AddEditTestCase = () => {
               </div>
               <div className="flex-1">
                 <TMRichTextEditor
+                  id="expected-results-rte"
                   label="Expected Results"
                   placeholder="Expected result(s) from above steps"
                   value={testCaseFormData?.expected_result}
@@ -268,6 +271,7 @@ const AddEditTestCase = () => {
             </div>
             <div className="mt-4">
               <TMRichTextEditor
+                id="preconnditions-rte"
                 placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}

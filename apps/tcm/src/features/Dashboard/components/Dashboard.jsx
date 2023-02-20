@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { TMDataVisualization, TMPageHeadings } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
 import HighchartsReact from 'highcharts-react-official';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import useDashboard from './useDashboard';
 
@@ -36,8 +38,8 @@ const Dashboard = () => {
               wrapperClassName="bg-white"
               size="fit-content"
               footerProps={{
-                description: 'View All Active Runs',
-                linkTo: '#'
+                linkText: 'View All Active Runs',
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
               }}
               analytics={
                 <HighchartsReact
@@ -54,8 +56,8 @@ const Dashboard = () => {
               wrapperClassName="bg-white"
               size="fit-content"
               footerProps={{
-                description: 'View All Closed Runs',
-                linkTo: '#'
+                linkText: 'View All Closed Runs',
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }) || ''
               }}
               analytics={
                 <HighchartsReact
@@ -74,8 +76,8 @@ const Dashboard = () => {
               wrapperClassName="bg-white"
               size="fit-content"
               footerProps={{
-                description: 'View All Closed Runs',
-                linkTo: '#'
+                linkText: 'View All Closed Runs',
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
               }}
               analytics={
                 <HighchartsReact
