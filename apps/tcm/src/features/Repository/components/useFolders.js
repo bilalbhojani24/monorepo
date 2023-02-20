@@ -128,7 +128,6 @@ export default function useFolders() {
   };
 
   const fetchAllFolders = () => {
-    // dispatch(setAddTestCaseVisibility(false));
     if (projectId === 'new') {
       // dont load anything start from scratch
       dispatch(updateFoldersLoading(false));

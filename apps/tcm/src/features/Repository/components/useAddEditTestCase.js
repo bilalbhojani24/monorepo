@@ -327,6 +327,7 @@ export default function useAddEditTestCase() {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
       return;
     dispatch(setAddTestCaseVisibility(true));
+    /// RIIIBIIIIN
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)
       // then in search view, go to repository view
