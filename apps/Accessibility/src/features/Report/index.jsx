@@ -32,8 +32,6 @@ export default function Report() {
   } = useReport();
   const reportData = useSelector(getReportData);
 
-  console.log('activeTab: ', activeTab);
-
   const {
     location: { search, origin, pathname }
   } = window;
@@ -41,9 +39,6 @@ export default function Report() {
   const currentPageUrl = `${origin}${pathname}?ids=${params.get(
     'ids'
   )}&wcagVersion=${params.get('wcagVersion')}`;
-  // Object.entries(params).forEach(([key, value]) => {
-  //   console.log('params: ', key, value);
-  // });
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 

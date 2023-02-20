@@ -14,7 +14,8 @@ const Stats = (props) => {
     option,
     variant,
     textColor,
-    wrapperClassName
+    wrapperClassName,
+    hideBoxShadow
   } = props;
 
   return (
@@ -30,10 +31,12 @@ const Stats = (props) => {
           {
             'py-5 sm:py-6':
               variant === STATS_VARIANTS.WITHOUT_ICON ||
-              variant === STATS_VARIANTS.SIMPLE,
-            'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON
+              variant === STATS_VARIANTS.SIMPLE ||
+              variant === STATS_VARIANTS.KPI_VARIANT,
+            'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
+            shadow: !hideBoxShadow
           },
-          'relative overflow-hidden bg-white px-4 sm:px-6 shadow rounded-lg',
+          'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
           cardWrapperClassname
         )}
         role="button"
@@ -41,7 +44,7 @@ const Stats = (props) => {
         onKeyDown={(e) => {
           if (e.key === 'Enter') option.onClick?.(e);
         }}
-        tabIndex={0}
+        tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
         <div>
           {variant === STATS_VARIANTS.WITH_ICON && (
@@ -61,7 +64,8 @@ const Stats = (props) => {
               'font-normal text-base text-base-900':
                 variant === STATS_VARIANTS.WITHOUT_ICON,
               'truncate text-sm font-medium text-base-500':
-                variant === STATS_VARIANTS.SIMPLE
+                variant === STATS_VARIANTS.SIMPLE ||
+                variant === STATS_VARIANTS.KPI_VARIANT
             })}
           >
             {option.name}
@@ -145,6 +149,11 @@ const Stats = (props) => {
             {option.stat}
           </div>
         )}
+        {variant === STATS_VARIANTS.KPI_VARIANT && (
+          <div className="text-base-900 mt-1 text-xl font-semibold tracking-tight">
+            {option.stat}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -156,7 +165,7 @@ Stats.propTypes = {
   option: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    stat: PropTypes.string,
+    stat: oneOf([PropTypes.node, PropTypes.string]),
     icon: PropTypes.node,
     iconContainerWrapperClass: PropTypes.string,
     change: PropTypes.string,
@@ -167,14 +176,16 @@ Stats.propTypes = {
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  hideBoxShadow: PropTypes.bool
 };
 Stats.defaultProps = {
   cardWrapperClassname: '',
   heading: '',
   variant: STATS_VARIANTS.SIMPLE,
   textColor: 'text-base-900',
-  wrapperClassName: ''
+  wrapperClassName: '',
+  hideBoxShadow: false
 };
 
 export default Stats;

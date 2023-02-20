@@ -75,7 +75,6 @@ export default function useSummary() {
 
   const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
     const values = shouldShowNeedsReviewIssues || [value];
-    console.log('Hii');
     dispatch(resetFilters());
     dispatch(setShowHiddenIssues({ hideIssues: false }));
     dispatch(resetIntermediateFilters());
@@ -171,7 +170,7 @@ export default function useSummary() {
     ]
   };
 
-  const onMenuChange = (_, option) => {
+  const onMenuChange = (option) => {
     const { id } = option;
     if (id === 'char-sort') {
       setCategoryList(

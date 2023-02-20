@@ -168,7 +168,6 @@ export default function useIssues() {
           nodes: filteredNodes
         };
       });
-      // console.log({ filteredViolations });
     }
     if (activeReportFilters.showNeedsReviewIssues) {
       filteredViolations = reportData.map((violation) => ({
