@@ -1,35 +1,49 @@
 import React, { useEffect } from 'react';
-import { TMPageHeadings, TMTabs } from 'common/bifrostProxy';
+import { TMPageHeadings } from 'common/bifrostProxy';
 
+import JiraConfigurationAvailable from './JiraConfigurationAvailable';
+import JiraFooter from './JiraFooter';
+import NoJiraConfiguration from './NoJiraConfiguration';
 import useSettings from './useSettings';
 
-export const SETTINGS_TABS_ARRAY = [
-  { name: 'Integrations' },
-  { name: 'API Keys' }
-];
+// export const SETTINGS_TABS_ARRAY = [
+//   { name: 'Integrations' },
+//   { name: 'API Keys' }
+// ];
 
 const Settings = () => {
-  const { handleTabChange, fetchAPIKey } = useSettings();
+  const {
+    jiraConfiguration,
+    settingsApiKeys,
+    fetchAPIKey,
+    fetchJiraConfigurations
+  } = useSettings();
 
   useEffect(() => {
+    fetchJiraConfigurations();
     fetchAPIKey();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
-      <div className="border-base-300 border-b">
+      <div className="border-base-300 border-b pb-6">
         <TMPageHeadings
           wrapperClassName="px-4 pt-6 bg-transparent"
           heading="Settings"
         />
-        <div className="mb-0 w-full px-4">
+        {/* <div className="mb-0 w-full px-4">
           <TMTabs
             id="settings-tabs"
             tabsArray={SETTINGS_TABS_ARRAY}
             onTabChange={handleTabChange}
           />
-        </div>
+        </div> */}
+      </div>
+      <div className="w-3/4 p-6">
+        {/* <JiraConfigurationAvailable configuration={jiraConfiguration} /> */}
+        <NoJiraConfiguration />
+        <JiraFooter apiKey={settingsApiKeys.api_key} />
       </div>
     </div>
   );

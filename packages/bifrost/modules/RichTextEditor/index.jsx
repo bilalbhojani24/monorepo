@@ -7,7 +7,7 @@ import {
   number,
   oneOfType,
   shape,
-  string
+  string,
 } from '../../shared/proptypesConstants';
 
 import Editor from './components/TextEditor';
@@ -23,19 +23,22 @@ const RichTextEditor = ({
   onChange,
   value,
   initialValue,
+  id,
   editorRef,
-  placeholder
+  placeholder,
+  assetsURL,
 }) => (
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
       <label
-        htmlFor={`rich-text-editor-${label}`}
+        htmlFor={`rich-text-editor-${id}`}
         className="text-base-700 mb-1 block text-sm font-medium"
       >
         {label}
       </label>
     ) : null}
     <Editor
+      id={id}
       onAssetUpload={onAssetUpload}
       height={height}
       width={width}
@@ -45,6 +48,7 @@ const RichTextEditor = ({
       placeholder={placeholder}
       ref={editorRef}
       label={label}
+      assetsURL={assetsURL}
     />
   </div>
 );
@@ -52,6 +56,7 @@ const RichTextEditor = ({
 RichTextEditor.propTypes = {
   onAssetUpload: func.isRequired,
   initialValue: string,
+  id: string.isRequired,
   onChange: func,
   height: oneOfType([number, string]),
   label: string,
@@ -59,19 +64,20 @@ RichTextEditor.propTypes = {
   value: string,
   width: oneOfType([number, string]),
   wrapperClassName: string,
-  editorRef: shape({ current: instanceOf(Element) })
+  editorRef: shape({ current: instanceOf(Element) }),
+  assetsURL: string.isRequired,
 };
 
 RichTextEditor.defaultProps = {
   initialValue: undefined,
   onChange: undefined,
-  height: 500,
+  height: 100,
   label: null,
   placeholder: 'Type something...',
   value: undefined,
   width: '100%',
   wrapperClassName: '',
-  editorRef: null
+  editorRef: null,
 };
 
 export default RichTextEditor;

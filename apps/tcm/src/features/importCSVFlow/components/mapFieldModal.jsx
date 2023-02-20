@@ -31,6 +31,13 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
   } = useMapFields();
 
+  console.log(
+    'inside modal',
+    key,
+    valueMappings,
+    valueMappings?.[key],
+    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
+  );
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     modalRowRef.current = Object.keys(value)?.map((field) => {
@@ -82,7 +89,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                 <TableCell wrapperClass="py-2 mr-4">
                   <TMSelectMenu
                     checkPosition="right"
-                    options={row?.displayOptions || []}
+                    options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
                     onChange={handleModalSelectMenuChange(key, row.csvValue)}
                   />

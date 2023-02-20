@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJIRAConfigAPI } from 'api/common.api';
 import { setUserConfig } from 'globalSlice';
@@ -10,6 +10,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const [isLoading, setIsLoading] = useState(true);
   const JIRA_REGEX = /^[A-Z]+-\d+?$/;
   const dispatch = useDispatch();
+  const modalFocusRef = useRef();
   const [enterdIssueIDs, setIssueIds] = useState('');
   const [errorText, setErrorText] = useState('');
 
@@ -65,6 +66,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   }, [isVisible]);
 
   return {
+    modalFocusRef,
     isLoading,
     errorText,
     enterdIssueIDs,

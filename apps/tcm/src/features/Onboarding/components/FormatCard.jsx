@@ -5,16 +5,9 @@ import { TMBadge } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
-const FormatCard = ({
-  id,
-  title,
-  description,
-  isSelected,
-  badgeText,
-  onClick
-}) => {
+const FormatCard = ({ title, description, isSelected, badgeText, onClick }) => {
   const onClickHandler = () => {
-    onClick(id);
+    onClick(title);
   };
   return (
     <div
@@ -27,7 +20,7 @@ const FormatCard = ({
       tabIndex={0}
       onClick={onClickHandler}
       role="button"
-      onKeyDown={onSubmitKeyHandler(onClickHandler)}
+      onKeyUp={(e) => onSubmitKeyHandler(e, onClickHandler)}
     >
       <div className="mb-2 flex justify-between text-sm font-medium">
         <div>
@@ -52,7 +45,6 @@ const FormatCard = ({
 FormatCard.propTypes = {
   onClick: PropTypes.func,
   title: PropTypes.string,
-  id: PropTypes.string,
   description: PropTypes.string,
   badgeText: PropTypes.string,
   isSelected: PropTypes.bool
@@ -61,7 +53,6 @@ FormatCard.propTypes = {
 FormatCard.defaultProps = {
   onClick: () => {},
   title: '',
-  id: '',
   description: '',
   badgeText: '',
   isSelected: false

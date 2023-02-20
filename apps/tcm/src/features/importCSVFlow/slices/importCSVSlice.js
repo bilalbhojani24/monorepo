@@ -249,6 +249,7 @@ const importCSVSlice = createSlice({
       state.valueMappings[field] = valueMappings;
     });
     builder.addCase(setUsers.fulfilled, (state, { payload }) => {
+      console.log('inside set users', payload);
       const options = payload.users.map((item) => ({
         label: item.full_name,
         value: item.full_name

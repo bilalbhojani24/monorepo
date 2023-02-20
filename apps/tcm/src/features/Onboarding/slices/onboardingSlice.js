@@ -7,9 +7,9 @@ const initialState = {
   orgStrengthArray: [],
   isProcessing: false,
   formData: {
-    job: '',
-    strength: '',
-    format: SETUP_FORMATS[0].id
+    role: '',
+    organisation_strength: '',
+    start_method: SETUP_FORMATS[0].title
   }
 };
 

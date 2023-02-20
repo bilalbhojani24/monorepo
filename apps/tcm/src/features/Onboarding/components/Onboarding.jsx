@@ -31,7 +31,7 @@ const Onboarding = () => {
             label="Which job role best describes you?"
             placeholder="Select from options"
             options={jobRolesArray}
-            onChange={(val) => onFormChange('job', val.value)}
+            onChange={(val) => onFormChange('role', val.value)}
           />
         </div>
         <div className="mt-6 max-w-sm">
@@ -39,7 +39,7 @@ const Onboarding = () => {
             label="What's your organisation strength?"
             placeholder="Select from options"
             options={orgStrengthArray}
-            onChange={(val) => onFormChange('strength', val.value)}
+            onChange={(val) => onFormChange('organisation_strength', val.value)}
           />
         </div>
         <div className="mt-6">
@@ -52,8 +52,8 @@ const Onboarding = () => {
                 id={item.id}
                 description={item.description}
                 badgeText={item.badgeText}
-                isSelected={item.id === formData.format}
-                onClick={(val) => onFormChange('format', val)}
+                isSelected={item.title === formData.start_method}
+                onClick={(val) => onFormChange('start_method', val)}
               />
             ))}
           </div>

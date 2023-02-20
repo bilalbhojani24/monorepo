@@ -42,7 +42,7 @@ import {
   Tooltip,
   TooltipBody,
   TooltipHeader,
-  TruncateText
+  TruncateText,
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
@@ -72,7 +72,9 @@ export const TMButton = forwardRef((props, ref) => (
 export const TMInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
-export const TMInputWButton = (props) => <InputWButton {...props} />;
+export const TMInputWButton = forwardRef((props, ref) => (
+  <InputWButton {...props} ref={ref} />
+));
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
@@ -102,7 +104,9 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
-export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
+export const TMRichTextEditor = (props) => (
+  <RichTextEditor {...props} assetsURL={import.meta.env.DEV ? '/dist' : '/'} />
+);
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
@@ -129,5 +133,5 @@ export {
   TMDropdown,
   TMHeader,
   TMPagination,
-  TMSelectMenu
+  TMSelectMenu,
 };

@@ -114,10 +114,10 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
                 Add Pass Result
               </TMButton>
               <TMDropdown
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10"
+                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
                 triggerVariant="menu-button"
                 options={RESULTS_DROP_OPTIONS}
-                onClick={(e, selectedOption) =>
+                onClick={(selectedOption) =>
                   onResultClick(
                     { value: selectedOption.id },
                     testCaseDetails,

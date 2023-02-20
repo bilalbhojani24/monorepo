@@ -11,22 +11,26 @@ import {
 
 export const ELEMENTS_WITH_LABEL = [
   {
-    discription: 'Invite my Team',
-    icon: <MdPersonAddAlt1 className="text-base-400 h-5 w-5" />
+    name: 'team',
+    description: 'Invite my Team',
+    icon: <MdPersonAddAlt1 className="text-base-400 h-5 w-5" />,
+    link: 'https://www.browserstack.com/accounts/manage-users'
   },
   {
-    discription: 'Pricing',
-    icon: <MdLocalOffer className="text-base-400 h-5 w-5" />
-  }
-];
-export const ELEMENTS_WITH_ICON = [
+    name: 'pricing',
+    description: 'Plan & Pricing',
+    icon: <MdLocalOffer className="text-base-400 h-5 w-5" />,
+    link: 'https://www.browserstack.com/accounts/subscriptions'
+  },
   {
     name: 'help',
-    icon: <MdHelp className="text-base-400 h-6 w-6" />
+    description: 'Get Help',
+    icon: <MdHelp className="text-base-400 h-5 w-5" />
   },
   {
     name: 'search',
-    icon: <MdSearch className="text-base-400 h-6 w-6" />
+    icon: <MdSearch className="text-base-400 h-6 w-6" />,
+    link: 'https://www.browserstack.com/search'
   },
   {
     name: 'notifications',
@@ -36,4 +40,18 @@ export const ELEMENTS_WITH_ICON = [
     name: 'account',
     icon: <MdAccountCircle className="text-base-400 h-6 w-6" />
   }
+];
+export const ACCOUNT_ARRAY = [
+  { name: 'Summary', link: 'https://www.browserstack.com/accounts/profile' },
+  {
+    name: 'User Management',
+    link: 'https://www.browserstack.com/accounts/manage-users'
+  },
+  {
+    name: 'Integrations',
+    link: 'https://www.browserstack.com/accounts/integrations'
+  },
+  { name: 'Settings', link: 'https://www.browserstack.com/accounts/settings' },
+  { name: 'Support', link: '' },
+  { name: 'Contact', link: 'https://www.browserstack.com/contact?ref=header' }
 ];

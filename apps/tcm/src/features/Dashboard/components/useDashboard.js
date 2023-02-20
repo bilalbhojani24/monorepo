@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getActiveTestRuns } from 'api/dashboard.api';
+// import { getActiveTestRuns } from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
 
-import { setActiveTestRuns } from '../slices/dashboardSlice';
-
+// import { setActiveTestRuns } from '../slices/dashboardSlice';
 import {
   barOptionsCreator,
   donutOptionCreator,
@@ -30,7 +29,7 @@ export default function useDashboard() {
     // getActiveTestRuns(projectId).then((res) => {
     // dispatch(setActiveTestRuns(res));
     setActiveTestRunsOptions(
-      donutOptionCreator({ title: '', subtitle: 'Total Test Cases' })
+      donutOptionCreator({ title: '1024', subtitle: 'Total Test Cases' })
     );
     setClosedTestRunsLineOptions(lineOptionsCreator({}));
     setTestCasesTrendOptions(lineOptionsCreator({ showLegend: true }));

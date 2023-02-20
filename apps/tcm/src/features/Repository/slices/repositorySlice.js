@@ -26,7 +26,8 @@ const initialState = {
     steps: [''],
     attachments: [],
     issues: [],
-    tags: []
+    tags: [],
+    test_case_folder_id: null
   },
   testCaseBulkFormData: {
     case_type: null,

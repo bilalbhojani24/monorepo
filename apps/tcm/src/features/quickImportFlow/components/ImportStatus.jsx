@@ -124,6 +124,7 @@ const ImportStatus = () => {
       notify(
         <Notifications
           id={notificationData?.id}
+          // isCondensed
           title={
             totalImportProjectsCount > successImportProjectCount
               ? `${successImportProjectCount}/${totalImportProjectsCount} ${notificationData?.title}`
