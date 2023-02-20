@@ -113,7 +113,9 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange('name', e.currentTarget.value)
               }
-              errorText={inputError ? "This field can't be left empty" : ''}
+              errorText={
+                inputError?.name ? "This field can't be left empty" : ''
+              }
             />
             {/* <div className="mt-2.5 flex w-full">
               <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
@@ -176,6 +178,9 @@ const AddEditTestCase = () => {
           </>
         ) : (
           <StepComponent
+            errorText={
+              inputError?.steps ? "This field can't be left empty" : ''
+            }
             data={testCaseFormData.steps}
             onChange={(data) => handleTestCaseFieldChange('steps', data)}
           />

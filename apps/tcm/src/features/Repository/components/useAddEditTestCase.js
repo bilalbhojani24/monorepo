@@ -44,7 +44,9 @@ export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
   const navigate = useNavigate();
   const { isOkToExitForm } = useUnsavedChanges();
-  const [inputError, setInputError] = useState(false);
+  const [inputError, setInputError] = useState({
+    name: false
+  });
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
@@ -116,7 +118,8 @@ export default function useAddEditTestCase() {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
-      if (key === 'name' && value) setInputError(false);
+      if (key === 'name' && value)
+        setInputError({ ...inputError, name: false });
 
       if (key === 'template') {
         dispatch(
@@ -180,26 +183,49 @@ export default function useAddEditTestCase() {
     });
   };
 
+  const isFormValidated = (formData) => {
+    const inputErrorsFound = {};
+    if (!formData.name) {
+      inputErrorsFound.name = true;
+    }
+
+    if (
+      formData.template === templateOptions[1].value &&
+      formData.steps.find(
+        (item) => item.step === '' || item.expected_result === ''
+      )
+    ) {
+      inputErrorsFound.steps = true;
+    }
+
+    if (Object.keys(inputErrorsFound).length) {
+      setInputError(inputErrorsFound);
+      return false;
+    }
+    return true;
+  };
+
   const saveTestCase = (formData) => {
-    if (!formData.name) setInputError(true);
-    else if (!allFolders.length) {
-      // if no folders, create a folder and then move forward
-      addFolder({
-        projectId,
-        payload: { name: emptyFolderName }
-      }).then((item) => {
-        if (item.data?.folder) {
-          dispatch(setAllFolders([item.data.folder]));
-          addTestCaseAPIHelper(formData, item.data.folder.id);
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId,
-              folderId: item.data.folder.id
-            })
-          );
-        }
-      });
-    } else addTestCaseAPIHelper(formData, folderId);
+    if (isFormValidated(formData)) {
+      if (!allFolders.length) {
+        // if no folders, create a folder and then move forward
+        addFolder({
+          projectId,
+          payload: { name: emptyFolderName }
+        }).then((item) => {
+          if (item.data?.folder) {
+            dispatch(setAllFolders([item.data.folder]));
+            addTestCaseAPIHelper(formData, item.data.folder.id);
+            navigate(
+              routeFormatter(AppRoute.TEST_CASES, {
+                projectId,
+                folderId: item.data.folder.id
+              })
+            );
+          }
+        });
+      } else addTestCaseAPIHelper(formData, folderId);
+    }
   };
 
   const saveBulkEditHelper = () => {
@@ -223,8 +249,7 @@ export default function useAddEditTestCase() {
   };
 
   const editTestCase = (formData) => {
-    if (!formData.name) setInputError(true);
-    else {
+    if (isFormValidated(formData)) {
       editTestCaseAPI({
         projectId,
         folderId,
@@ -338,6 +363,13 @@ export default function useAddEditTestCase() {
       );
   };
 
+  const goToThisURL = (url) => {
+    if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
+      return;
+
+    navigate(url);
+  };
+
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -390,6 +422,7 @@ export default function useAddEditTestCase() {
     saveBulkEditHelper,
     setBulkEditConfirm,
     imageUploadRTEHelper,
-    showTestCaseAdditionPage
+    showTestCaseAdditionPage,
+    goToThisURL
   };
 }
