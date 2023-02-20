@@ -64,6 +64,7 @@ const TableCell = ({
             type="button"
             className="bg-base-200 text-base-900 hover:bg-base-300 ml-2 inline-flex flex-none self-center rounded"
             onClick={handleSort}
+            tabIndex={onSort ? 0 : -1}
           >
             {sortDirection === CELL_DIRECTION[0] ? (
               <ChevronUpIcon

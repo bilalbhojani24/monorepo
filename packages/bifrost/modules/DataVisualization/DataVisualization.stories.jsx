@@ -3,17 +3,65 @@ import React from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
-import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
-import DropdownTriggerWText from '../DropdownTriggerWText';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
+import { EllipsisVerticalIcon, MdAddCircle, MdInfoOutline } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
 
 import {
   DATA_VISUALIZATION_DESC_POSITION,
-  DATA_VISUALIZATION_SIZES
+  DATA_VISUALIZATION_SIZES,
+  DATA_VISUALIZATION_STATS_DIRECTION
 } from './const/dataVisualizationConstants';
 import DataVisualization from './index';
+
+const options = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  },
+  {
+    id: '4',
+    body: 'Edit'
+  },
+  {
+    id: '5',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '6',
+    body: 'Archive',
+    divider: true
+  },
+  {
+    id: '7',
+    body: 'Edit'
+  },
+  {
+    id: '8',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '9',
+    body: 'Archive',
+    divider: true
+  }
+];
 
 const defaultConfig = {
   title: 'Application/Components/DataVisualization',
@@ -86,7 +134,7 @@ const defaultConfig = {
           difference: '65',
           description: 'Kpi info',
           percentage: '02',
-          direction: 'vertical'
+          direction: DATA_VISUALIZATION_STATS_DIRECTION[0]
         },
         {
           id: 2,
@@ -95,82 +143,34 @@ const defaultConfig = {
           difference: '35',
           description: 'Kpi info',
           percentage: '69',
-          direction: 'vertical'
+          direction: DATA_VISUALIZATION_STATS_DIRECTION[0]
         }
       ]
     },
     filterDropdown: {
       defaultValue: (
-        <Dropdown
-          trigger={<DropdownTriggerWText>trigger</DropdownTriggerWText>}
-          options={[
-            {
-              id: '1',
-              body: 'Edit'
-            },
-            {
-              id: '2',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '3',
-              body: 'Archive',
-              divider: true
-            },
-            {
-              id: '4',
-              body: 'Edit'
-            },
-            {
-              id: '5',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '6',
-              body: 'Archive',
-              divider: true
-            },
-            {
-              id: '7',
-              body: 'Edit'
-            },
-            {
-              id: '8',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '9',
-              body: 'Archive',
-              divider: true
-            }
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>
+            <EllipsisVerticalIcon className="h-5 w-5" />
+          </DropdownTrigger>
+          <DropdownOptionGroup>
+            {options.map((op) => (
+              <DropdownOptionItem option={op} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
       )
     },
     otherOptions: {
       defaultValue: (
-        <Dropdown
-          trigger={<DropdownTriggerWIcon variant="menu-button" />}
-          options={[
-            {
-              id: '10',
-              body: 'Edit'
-            },
-            {
-              id: '11',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '12',
-              body: 'Archive',
-              divider: true
-            }
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>trigger</DropdownTrigger>
+          <DropdownOptionGroup>
+            {options.map((op) => (
+              <DropdownOptionItem option={op} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
       )
     },
     headerInfo: {
@@ -194,6 +194,7 @@ const defaultConfig = {
             </TooltipFooter>
           </>
         ),
+        children: <MdInfoOutline />,
         size: 'extra-small',
         theme: 'dark'
       }
@@ -207,5 +208,57 @@ Primary.parameters = {
   controls: {}
 };
 
+const DataVisualizationDetail = (args) => (
+  <DataVisualization
+    {...args}
+    hasWiderColumns
+    size="large"
+    title="This is title"
+    desc=""
+    descPosition={DATA_VISUALIZATION_DESC_POSITION[0]}
+    analytics={null}
+    footerProps=""
+    KpiProps={[
+      {
+        id: 1,
+        title: 'lorem',
+        changeType: 'increase',
+        difference: '65',
+        description: 'desc',
+        leadingIcon: <MdAddCircle />,
+        percentage: '02',
+        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+        trailingIconNode: (
+          <MdInfoOutline
+            className="h-4 w-4 shrink-0 cursor-pointer"
+            aria-hidden="true"
+          />
+        )
+      },
+      {
+        id: 2,
+        title: 'ipsum',
+        changeType: 'descrease',
+        difference: '35',
+        description: 'desc',
+        leadingIcon: <MdAddCircle />,
+        percentage: '69',
+        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+        trailingIconNode: (
+          <MdInfoOutline
+            className="h-4 w-4 shrink-0 cursor-pointer"
+            aria-hidden="true"
+          />
+        )
+      }
+    ]}
+    otherOptions={null}
+    filterDropdown={null}
+    headerInfo
+    headerInfoTooltipProps={args.headerInfoTooltipProps}
+    wrapperClassName=""
+  />
+);
+
 export default defaultConfig;
-export { Primary };
+export { DataVisualizationDetail, Primary };
