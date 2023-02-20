@@ -3,1323 +3,533 @@ import { createSlice } from '@reduxjs/toolkit';
 const sessionDataJson = {
   status: 'Session Stopped',
   aggregated: {
-    appStartWaitTime: {
-      value: 944
-    },
     appStartTotalTime: {
-      value: 941
+      value: 2437
     },
     appStartType: {
       value: 'cold'
     },
     memoryUsageMbMax: {
-      value: 490.799
+      value: 52.653
     },
     memoryUsageMbAvg: {
-      value: 400.308
+      value: 50.052
     },
     cpuUsagePercentageMax: {
-      value: 19.98
+      value: 16.38
     },
     cpuUsagePercentageAvg: {
-      value: 5.897
+      value: 3.745
     },
     cpuActiveThreadMax: {
-      value: 131
+      value: 37
     },
     cpuActiveThreadAvg: {
-      value: 122.738
+      value: 33.308
     },
     networkReadKbTotal: {
-      value: 2590.053
+      value: 30.414
     },
     networkWriteKbTotal: {
-      value: 37883.396
+      value: 8.473
     },
     totalBatteryConsumedPercent: {
-      value: 1
+      value: 0
     },
     fpsAvg: {
-      value: 11.143
+      value: 8.364
     },
     jankyFpsAvg: {
-      value: 1.429
+      value: 2.818
     },
     slowFramePercent: {
-      value: 13.17
+      value: 33.33
     },
-    frozenFrame: {
-      value: 0
+    frozenFramePercent: {
+      value: 1.058
     },
     anrCount: {
       value: 0
     },
     applicationTotalBatteryCapacitymAh: {
-      value: 2716
+      value: 1000
     },
     batterymAhConsumedByAppPercent: {
-      value: 0.04786450662739319
+      value: 0
     },
     diskReadMbTotal: {
-      value: 42.983
+      value: 0
     },
     diskWriteMbTotal: {
-      value: 16.99
+      value: 0.991
     }
   },
   report: {
     'App Startup': {
-      appStartWaitTime: 944,
-      appStartTotalTime: 941,
+      appStartTotalTime: 2437,
       appStartType: 'cold'
     },
     'Screen Load': {
       metrics: [
         {
-          ts: 2697,
-          activityName:
-            'com.application.zomato/com.application.zomato.tabbed.home.HomeActivity',
-          renderTime: 867
-        },
-        {
-          ts: 13701,
-          activityName:
-            'com.application.zomato/com.application.zomato.tabbed.home.HomeActivity',
-          renderTime: 362
-        },
-        {
-          ts: 16672,
-          activityName:
-            'com.application.zomato/com.application.zomato.newRestaurant.view.ResMenuCartActivity',
-          renderTime: 374
+          activityName: 'org.wikipedia/org.wikipedia.main.MainActivity',
+          timeData: [
+            {
+              startTime: 5337,
+              renderTime: 2196
+            }
+          ],
+          avg: 2196,
+          max: 2196
         }
-      ],
-      metadata: {}
+      ]
     },
     Memory: {
       metrics: [
         {
-          ts: 2597,
-          memoryMB: 206.628
+          ts: 5202,
+          memoryMB: 45.104
         },
         {
-          ts: 4243,
-          memoryMB: 279.455
+          ts: 7290,
+          memoryMB: 52.313
         },
         {
-          ts: 5723,
-          memoryMB: 307.85
+          ts: 8555,
+          memoryMB: 52.653
         },
         {
-          ts: 7548,
-          memoryMB: 262.569
+          ts: 9786,
+          memoryMB: 50.15
         },
         {
-          ts: 9339,
-          memoryMB: 260.759
+          ts: 11150,
+          memoryMB: 50.05
         },
         {
-          ts: 11180,
-          memoryMB: 259.84
+          ts: 12284,
+          memoryMB: 50.05
         },
         {
-          ts: 12954,
-          memoryMB: 263.015
+          ts: 13440,
+          memoryMB: 50.05
         },
         {
-          ts: 14557,
-          memoryMB: 292.602
+          ts: 14659,
+          memoryMB: 50.05
         },
         {
-          ts: 15946,
-          memoryMB: 289.3
+          ts: 15803,
+          memoryMB: 50.046
         },
         {
-          ts: 17314,
-          memoryMB: 315.351
+          ts: 16993,
+          memoryMB: 50.054
         },
         {
-          ts: 18685,
-          memoryMB: 346.609
-        },
-        {
-          ts: 20403,
-          memoryMB: 408.486
-        },
-        {
-          ts: 21960,
-          memoryMB: 417.299
-        },
-        {
-          ts: 23443,
-          memoryMB: 453.07
-        },
-        {
-          ts: 24972,
-          memoryMB: 478.924
-        },
-        {
-          ts: 26508,
-          memoryMB: 475.628
-        },
-        {
-          ts: 27995,
-          memoryMB: 475.524
-        },
-        {
-          ts: 29509,
-          memoryMB: 475.528
-        },
-        {
-          ts: 31027,
-          memoryMB: 477.471
-        },
-        {
-          ts: 32550,
-          memoryMB: 479.973
-        },
-        {
-          ts: 34056,
-          memoryMB: 490.799
-        },
-        {
-          ts: 35571,
-          memoryMB: 489.342
-        },
-        {
-          ts: 37089,
-          memoryMB: 487.388
-        },
-        {
-          ts: 38610,
-          memoryMB: 485.703
-        },
-        {
-          ts: 40098,
-          memoryMB: 485.636
-        },
-        {
-          ts: 41635,
-          memoryMB: 485.643
-        },
-        {
-          ts: 43104,
-          memoryMB: 486.128
-        },
-        {
-          ts: 44590,
-          memoryMB: 486.521
-        },
-        {
-          ts: 46073,
-          memoryMB: 485.879
+          ts: 18138,
+          memoryMB: 50.05
         }
       ],
       metadata: {
         memoryUsageMb: {
-          max: 490.799,
-          avg: 400.308
+          max: 52.653,
+          avg: 50.052
         }
       }
     },
     CPU: {
       metrics: [
         {
-          ts: 3723,
-          cpuUsagePercentage: 19.98,
-          cpuThreads: 112
+          ts: 6626,
+          cpuUsagePercentage: 16.38,
+          cpuThreads: 37
         },
         {
-          ts: 4693,
-          cpuUsagePercentage: 14.07,
-          cpuThreads: 115
+          ts: 7681,
+          cpuUsagePercentage: 10.06,
+          cpuThreads: 33
         },
         {
-          ts: 5664,
-          cpuUsagePercentage: 6.93,
-          cpuThreads: 116
+          ts: 8686,
+          cpuUsagePercentage: 7.79,
+          cpuThreads: 33
         },
         {
-          ts: 6699,
-          cpuUsagePercentage: 9.49,
-          cpuThreads: 110
+          ts: 9673,
+          cpuUsagePercentage: 1.26,
+          cpuThreads: 33
         },
         {
-          ts: 7719,
-          cpuUsagePercentage: 0.35,
-          cpuThreads: 110
+          ts: 10662,
+          cpuUsagePercentage: 4.59,
+          cpuThreads: 33
         },
         {
-          ts: 8747,
-          cpuUsagePercentage: 8.01,
-          cpuThreads: 110
+          ts: 11645,
+          cpuUsagePercentage: 0.75,
+          cpuThreads: 33
         },
         {
-          ts: 9792,
-          cpuUsagePercentage: 1.81,
-          cpuThreads: 110
+          ts: 12600,
+          cpuUsagePercentage: 1.28,
+          cpuThreads: 33
         },
         {
-          ts: 10792,
-          cpuUsagePercentage: 6.62,
-          cpuThreads: 110
+          ts: 13607,
+          cpuUsagePercentage: 0.25,
+          cpuThreads: 33
         },
         {
-          ts: 11797,
-          cpuUsagePercentage: 9.21,
-          cpuThreads: 111
+          ts: 14577,
+          cpuUsagePercentage: 1.5,
+          cpuThreads: 33
         },
         {
-          ts: 12908,
-          cpuUsagePercentage: 4.43,
-          cpuThreads: 113
+          ts: 15540,
+          cpuUsagePercentage: 1.04,
+          cpuThreads: 33
         },
         {
-          ts: 13919,
-          cpuUsagePercentage: 8.49,
-          cpuThreads: 118
+          ts: 16515,
+          cpuUsagePercentage: 1.54,
+          cpuThreads: 33
         },
         {
-          ts: 14910,
-          cpuUsagePercentage: 2.07,
-          cpuThreads: 118
+          ts: 17550,
+          cpuUsagePercentage: 0.99,
+          cpuThreads: 33
         },
         {
-          ts: 15951,
-          cpuUsagePercentage: 1.45,
-          cpuThreads: 118
-        },
-        {
-          ts: 16936,
-          cpuUsagePercentage: 6.96,
-          cpuThreads: 120
-        },
-        {
-          ts: 17888,
-          cpuUsagePercentage: 5.54,
-          cpuThreads: 119
-        },
-        {
-          ts: 18994,
-          cpuUsagePercentage: 11.54,
-          cpuThreads: 126
-        },
-        {
-          ts: 20031,
-          cpuUsagePercentage: 19.1,
-          cpuThreads: 131
-        },
-        {
-          ts: 21109,
-          cpuUsagePercentage: 8.86,
-          cpuThreads: 129
-        },
-        {
-          ts: 22213,
-          cpuUsagePercentage: 1.37,
-          cpuThreads: 129
-        },
-        {
-          ts: 23249,
-          cpuUsagePercentage: 7.66,
-          cpuThreads: 128
-        },
-        {
-          ts: 24289,
-          cpuUsagePercentage: 8.35,
-          cpuThreads: 128
-        },
-        {
-          ts: 25302,
-          cpuUsagePercentage: 3.18,
-          cpuThreads: 128
-        },
-        {
-          ts: 26338,
-          cpuUsagePercentage: 3.53,
-          cpuThreads: 128
-        },
-        {
-          ts: 27353,
-          cpuUsagePercentage: 4.1,
-          cpuThreads: 128
-        },
-        {
-          ts: 28374,
-          cpuUsagePercentage: 1.97,
-          cpuThreads: 128
-        },
-        {
-          ts: 29374,
-          cpuUsagePercentage: 2.48,
-          cpuThreads: 128
-        },
-        {
-          ts: 30406,
-          cpuUsagePercentage: 4.3,
-          cpuThreads: 128
-        },
-        {
-          ts: 31414,
-          cpuUsagePercentage: 4.78,
-          cpuThreads: 128
-        },
-        {
-          ts: 32493,
-          cpuUsagePercentage: 4.18,
-          cpuThreads: 127
-        },
-        {
-          ts: 33538,
-          cpuUsagePercentage: 8.41,
-          cpuThreads: 127
-        },
-        {
-          ts: 34638,
-          cpuUsagePercentage: 10.6,
-          cpuThreads: 127
-        },
-        {
-          ts: 35714,
-          cpuUsagePercentage: 2.66,
-          cpuThreads: 127
-        },
-        {
-          ts: 36743,
-          cpuUsagePercentage: 7.05,
-          cpuThreads: 127
-        },
-        {
-          ts: 37769,
-          cpuUsagePercentage: 4.43,
-          cpuThreads: 127
-        },
-        {
-          ts: 38787,
-          cpuUsagePercentage: 0.36,
-          cpuThreads: 127
-        },
-        {
-          ts: 39819,
-          cpuUsagePercentage: 4.03,
-          cpuThreads: 127
-        },
-        {
-          ts: 40852,
-          cpuUsagePercentage: 3.99,
-          cpuThreads: 127
-        },
-        {
-          ts: 41870,
-          cpuUsagePercentage: 0.48,
-          cpuThreads: 127
-        },
-        {
-          ts: 42913,
-          cpuUsagePercentage: 3.93,
-          cpuThreads: 127
-        },
-        {
-          ts: 43938,
-          cpuUsagePercentage: 6.57,
-          cpuThreads: 127
-        },
-        {
-          ts: 44972,
-          cpuUsagePercentage: 2.05,
-          cpuThreads: 127
-        },
-        {
-          ts: 46020,
-          cpuUsagePercentage: 2.3,
-          cpuThreads: 127
+          ts: 19037,
+          cpuUsagePercentage: 1.26,
+          cpuThreads: 33
         }
       ],
       metadata: {
         cpuUsagePercentage: {
-          max: 19.98,
-          avg: 5.897
+          max: 16.38,
+          avg: 3.745
         },
         cpuActiveThread: {
-          max: 131,
-          avg: 122.738
+          max: 37,
+          avg: 33.308
         }
       }
     },
     Network: {
       metrics: [
         {
-          ts: 4634,
-          networkReadKb: 74.304,
-          networkWriteKb: 872.303
+          ts: 7076,
+          networkReadKb: 8.64,
+          networkWriteKb: 2.338
         },
         {
-          ts: 5990,
-          networkReadKb: 31.505,
-          networkWriteKb: 634.455
+          ts: 8388,
+          networkReadKb: 21.61,
+          networkWriteKb: 6.063
         },
         {
-          ts: 7344,
-          networkReadKb: 13.364,
-          networkWriteKb: 71.578
+          ts: 9601,
+          networkReadKb: 0.054,
+          networkWriteKb: 0.072
         },
         {
-          ts: 8713,
-          networkReadKb: 12.097,
-          networkWriteKb: 18.994
+          ts: 10808,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 10068,
-          networkReadKb: 7.587,
-          networkWriteKb: 11.644
+          ts: 11990,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 11412,
-          networkReadKb: 9.332,
-          networkWriteKb: 13.809
+          ts: 13168,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 13000,
-          networkReadKb: 11.059,
-          networkWriteKb: 18.33
+          ts: 14308,
+          networkReadKb: 0.11,
+          networkWriteKb: 0
         },
         {
-          ts: 14237,
-          networkReadKb: 43.354,
-          networkWriteKb: 2934.733
+          ts: 15455,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 15564,
-          networkReadKb: 23.138,
-          networkWriteKb: 2518.53
+          ts: 16591,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 16893,
-          networkReadKb: 14.487,
-          networkWriteKb: 617.788
+          ts: 17743,
+          networkReadKb: 0,
+          networkWriteKb: 0
         },
         {
-          ts: 18106,
-          networkReadKb: 35.255,
-          networkWriteKb: 1721.804
-        },
-        {
-          ts: 19484,
-          networkReadKb: 85.698,
-          networkWriteKb: 337.1
-        },
-        {
-          ts: 20869,
-          networkReadKb: 294.819,
-          networkWriteKb: 1529.199
-        },
-        {
-          ts: 22305,
-          networkReadKb: 130.597,
-          networkWriteKb: 3470.551
-        },
-        {
-          ts: 23672,
-          networkReadKb: 187.435,
-          networkWriteKb: 4012.309
-        },
-        {
-          ts: 25045,
-          networkReadKb: 220.393,
-          networkWriteKb: 2989.063
-        },
-        {
-          ts: 26402,
-          networkReadKb: 13.768,
-          networkWriteKb: 621.482
-        },
-        {
-          ts: 27779,
-          networkReadKb: 13.028,
-          networkWriteKb: 171.145
-        },
-        {
-          ts: 29131,
-          networkReadKb: 12.868,
-          networkWriteKb: 149.202
-        },
-        {
-          ts: 30498,
-          networkReadKb: 9.524,
-          networkWriteKb: 34.588
-        },
-        {
-          ts: 31827,
-          networkReadKb: 111.797,
-          networkWriteKb: 3745.346
-        },
-        {
-          ts: 33222,
-          networkReadKb: 199.666,
-          networkWriteKb: 1781.26
-        },
-        {
-          ts: 34626,
-          networkReadKb: 689.55,
-          networkWriteKb: 3702.169
-        },
-        {
-          ts: 36014,
-          networkReadKb: 166.292,
-          networkWriteKb: 1055.584
-        },
-        {
-          ts: 37370,
-          networkReadKb: 93.808,
-          networkWriteKb: 1769.887
-        },
-        {
-          ts: 38738,
-          networkReadKb: 11.984,
-          networkWriteKb: 46.394
-        },
-        {
-          ts: 40109,
-          networkReadKb: 13.272,
-          networkWriteKb: 268.391
-        },
-        {
-          ts: 41522,
-          networkReadKb: 10.74,
-          networkWriteKb: 113.925
-        },
-        {
-          ts: 42930,
-          networkReadKb: 13.836,
-          networkWriteKb: 348.524
-        },
-        {
-          ts: 44290,
-          networkReadKb: 20.68,
-          networkWriteKb: 2050.401
-        },
-        {
-          ts: 45660,
-          networkReadKb: 14.816,
-          networkWriteKb: 252.908
+          ts: 19064,
+          networkReadKb: 0,
+          networkWriteKb: 0
         }
       ],
       metadata: {
         networkReadKb: {
-          total: 2590.053
+          total: 30.414
         },
         networkWriteKb: {
-          total: 37883.396
+          total: 8.473
         }
       }
     },
     Battery: {
       metrics: [
         {
-          ts: 2663,
-          batteryPercentage: 66
+          ts: 5268,
+          batteryPercentage: 100
         },
         {
-          ts: 3785,
-          batteryPercentage: 66
+          ts: 6437,
+          batteryPercentage: 100
         },
         {
-          ts: 4871,
-          batteryPercentage: 66
+          ts: 7594,
+          batteryPercentage: 100
         },
         {
-          ts: 5974,
-          batteryPercentage: 66
+          ts: 8692,
+          batteryPercentage: 100
         },
         {
-          ts: 7058,
-          batteryPercentage: 66
+          ts: 9804,
+          batteryPercentage: 100
         },
         {
-          ts: 8172,
-          batteryPercentage: 66
+          ts: 10895,
+          batteryPercentage: 100
         },
         {
-          ts: 9299,
-          batteryPercentage: 66
+          ts: 11987,
+          batteryPercentage: 100
         },
         {
-          ts: 10393,
-          batteryPercentage: 66
+          ts: 13062,
+          batteryPercentage: 100
         },
         {
-          ts: 11508,
-          batteryPercentage: 66
+          ts: 14162,
+          batteryPercentage: 100
         },
         {
-          ts: 12614,
-          batteryPercentage: 66
+          ts: 15265,
+          batteryPercentage: 100
         },
         {
-          ts: 13750,
-          batteryPercentage: 66
+          ts: 16345,
+          batteryPercentage: 100
         },
         {
-          ts: 14878,
-          batteryPercentage: 66
+          ts: 17462,
+          batteryPercentage: 100
         },
         {
-          ts: 15998,
-          batteryPercentage: 66
-        },
-        {
-          ts: 17078,
-          batteryPercentage: 66
-        },
-        {
-          ts: 18137,
-          batteryPercentage: 66
-        },
-        {
-          ts: 19209,
-          batteryPercentage: 66
-        },
-        {
-          ts: 20309,
-          batteryPercentage: 66
-        },
-        {
-          ts: 21398,
-          batteryPercentage: 66
-        },
-        {
-          ts: 22529,
-          batteryPercentage: 66
-        },
-        {
-          ts: 23638,
-          batteryPercentage: 66
-        },
-        {
-          ts: 24741,
-          batteryPercentage: 66
-        },
-        {
-          ts: 25868,
-          batteryPercentage: 66
-        },
-        {
-          ts: 26990,
-          batteryPercentage: 66
-        },
-        {
-          ts: 28119,
-          batteryPercentage: 66
-        },
-        {
-          ts: 29206,
-          batteryPercentage: 66
-        },
-        {
-          ts: 30318,
-          batteryPercentage: 66
-        },
-        {
-          ts: 31420,
-          batteryPercentage: 66
-        },
-        {
-          ts: 32536,
-          batteryPercentage: 66
-        },
-        {
-          ts: 33640,
-          batteryPercentage: 66
-        },
-        {
-          ts: 34768,
-          batteryPercentage: 66
-        },
-        {
-          ts: 35882,
-          batteryPercentage: 65
-        },
-        {
-          ts: 36977,
-          batteryPercentage: 65
-        },
-        {
-          ts: 38072,
-          batteryPercentage: 65
-        },
-        {
-          ts: 39189,
-          batteryPercentage: 65
-        },
-        {
-          ts: 40305,
-          batteryPercentage: 65
-        },
-        {
-          ts: 41409,
-          batteryPercentage: 65
-        },
-        {
-          ts: 42510,
-          batteryPercentage: 65
-        },
-        {
-          ts: 43619,
-          batteryPercentage: 65
-        },
-        {
-          ts: 44720,
-          batteryPercentage: 65
-        },
-        {
-          ts: 45822,
-          batteryPercentage: 65
-        },
-        {
-          ts: 46922,
-          batteryPercentage: 65
+          ts: 18821,
+          batteryPercentage: 100
         }
       ],
       metadata: {
-        totalBatteryConsumedPercent: 1
+        totalBatteryConsumedPercent: 0
       }
     },
     Frames: {
       metrics: [
         {
-          ts: 3982,
-          fps: 45,
+          ts: 6659,
+          fps: 46,
+          jankyFps: 15
+        },
+        {
+          ts: 8067,
+          fps: 23,
           jankyFps: 9
         },
         {
-          ts: 5149,
-          fps: 15,
-          jankyFps: 4
-        },
-        {
-          ts: 6261,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 7623,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 8793,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 10026,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 11255,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 12432,
-          fps: 1,
+          ts: 9355,
+          fps: 12,
           jankyFps: 1
         },
         {
-          ts: 13741,
-          fps: 4,
-          jankyFps: 3
-        },
-        {
-          ts: 14906,
-          fps: 1,
-          jankyFps: 0
-        },
-        {
-          ts: 16105,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 17387,
-          fps: 26,
-          jankyFps: 3
-        },
-        {
-          ts: 18722,
-          fps: 32,
-          jankyFps: 0
-        },
-        {
-          ts: 20009,
-          fps: 18,
+          ts: 10498,
+          fps: 11,
           jankyFps: 6
         },
         {
-          ts: 21213,
-          fps: 25,
-          jankyFps: 7
-        },
-        {
-          ts: 22394,
-          fps: 1,
-          jankyFps: 1
-        },
-        {
-          ts: 23583,
-          fps: 25,
-          jankyFps: 4
-        },
-        {
-          ts: 25080,
-          fps: 27,
-          jankyFps: 2
-        },
-        {
-          ts: 26552,
+          ts: 11688,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 27719,
+          ts: 12873,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 28885,
+          ts: 14032,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 30044,
+          ts: 15164,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 31210,
-          fps: 26,
-          jankyFps: 1
-        },
-        {
-          ts: 32624,
-          fps: 33,
-          jankyFps: 2
-        },
-        {
-          ts: 34170,
-          fps: 52,
-          jankyFps: 5
-        },
-        {
-          ts: 35635,
-          fps: 16,
-          jankyFps: 0
-        },
-        {
-          ts: 36812,
-          fps: 20,
-          jankyFps: 1
-        },
-        {
-          ts: 37977,
+          ts: 16330,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 39176,
+          ts: 17484,
           fps: 0,
           jankyFps: 0
         },
         {
-          ts: 40364,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 41720,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 43173,
-          fps: 8,
-          jankyFps: 0
-        },
-        {
-          ts: 44352,
-          fps: 15,
-          jankyFps: 1
-        },
-        {
-          ts: 45530,
-          fps: 0,
-          jankyFps: 0
-        },
-        {
-          ts: 46708,
+          ts: 18748,
           fps: 0,
           jankyFps: 0
         }
       ],
       metadata: {
         fps: {
-          avg: 11.143
+          avg: 8.364
         },
         jankyFps: {
-          avg: 1.429
+          avg: 2.818
         },
-        slowFramePercent: 13.17,
-        frozenFrame: 0
+        slowFramePercent: 33.33,
+        frozenFramePercent: 1.058
       }
     },
-    'App size': 20.89,
+    'App size': 16.232,
     ANR: 0,
     'Application Battery': {
       metrics: [
         {
-          ts: 3167,
-          batterymAh: 9.4
+          ts: 6260,
+          batterymAh: 4.82
         },
         {
-          ts: 4492,
-          batterymAh: 9.51
+          ts: 7800,
+          batterymAh: 4.82
         },
         {
-          ts: 5658,
-          batterymAh: 9.58
+          ts: 9007,
+          batterymAh: 4.82
         },
         {
-          ts: 6834,
-          batterymAh: 9.63
+          ts: 10343,
+          batterymAh: 4.82
         },
         {
-          ts: 8048,
-          batterymAh: 9.64
+          ts: 11517,
+          batterymAh: 4.82
         },
         {
-          ts: 9244,
-          batterymAh: 9.65
+          ts: 12667,
+          batterymAh: 4.82
         },
         {
-          ts: 10437,
-          batterymAh: 9.69
+          ts: 13836,
+          batterymAh: 4.82
         },
         {
-          ts: 11631,
-          batterymAh: 9.73
+          ts: 14997,
+          batterymAh: 4.82
         },
         {
-          ts: 13144,
-          batterymAh: 9.77
+          ts: 16149,
+          batterymAh: 4.82
         },
         {
-          ts: 14319,
-          batterymAh: 9.81
+          ts: 17325,
+          batterymAh: 4.82
         },
         {
-          ts: 15513,
-          batterymAh: 9.82
-        },
-        {
-          ts: 16722,
-          batterymAh: 9.85
-        },
-        {
-          ts: 17869,
-          batterymAh: 9.88
-        },
-        {
-          ts: 19091,
-          batterymAh: 9.96
-        },
-        {
-          ts: 20335,
-          batterymAh: 10.1
-        },
-        {
-          ts: 21629,
-          batterymAh: 10.1
-        },
-        {
-          ts: 22824,
-          batterymAh: 10.2
-        },
-        {
-          ts: 24005,
-          batterymAh: 10.2
-        },
-        {
-          ts: 25196,
-          batterymAh: 10.2
-        },
-        {
-          ts: 26398,
-          batterymAh: 10.3
-        },
-        {
-          ts: 27601,
-          batterymAh: 10.3
-        },
-        {
-          ts: 28819,
-          batterymAh: 10.3
-        },
-        {
-          ts: 30010,
-          batterymAh: 10.3
-        },
-        {
-          ts: 31224,
-          batterymAh: 10.3
-        },
-        {
-          ts: 32437,
-          batterymAh: 10.4
-        },
-        {
-          ts: 33612,
-          batterymAh: 10.4
-        },
-        {
-          ts: 34822,
-          batterymAh: 10.5
-        },
-        {
-          ts: 36029,
-          batterymAh: 10.6
-        },
-        {
-          ts: 37224,
-          batterymAh: 10.6
-        },
-        {
-          ts: 38437,
-          batterymAh: 10.6
-        },
-        {
-          ts: 39644,
-          batterymAh: 10.6
-        },
-        {
-          ts: 40838,
-          batterymAh: 10.6
-        },
-        {
-          ts: 42010,
-          batterymAh: 10.7
-        },
-        {
-          ts: 43180,
-          batterymAh: 10.7
-        },
-        {
-          ts: 44373,
-          batterymAh: 10.7
-        },
-        {
-          ts: 45572,
-          batterymAh: 10.7
-        },
-        {
-          ts: 46800,
-          batterymAh: 10.7
+          ts: 19143,
+          batterymAh: 4.82
         }
       ],
       metadata: {
-        applicationTotalBatteryCapacitymAh: 2716,
-        batterymAhConsumedByAppPercent: 0.04786450662739319
+        applicationTotalBatteryCapacitymAh: 1000,
+        batterymAhConsumedByAppPercent: 0
       }
     },
     'Disk IO': {
       metrics: [
         {
-          ts: 3038,
-          diskReadKb: 42024.96,
-          diskWriteKb: 7491.584
-        },
-        {
-          ts: 4389,
-          diskReadKb: 229.376,
-          diskWriteKb: 757.76
-        },
-        {
-          ts: 5621,
-          diskReadKb: 368.64,
-          diskWriteKb: 2310.144
-        },
-        {
-          ts: 6930,
-          diskReadKb: 0,
-          diskWriteKb: 229.376
-        },
-        {
-          ts: 8217,
-          diskReadKb: 0,
-          diskWriteKb: 65.536
-        },
-        {
-          ts: 9518,
-          diskReadKb: 0,
-          diskWriteKb: 106.496
-        },
-        {
-          ts: 10774,
-          diskReadKb: 0,
-          diskWriteKb: 12.288
-        },
-        {
-          ts: 12029,
-          diskReadKb: 0,
-          diskWriteKb: 61.44
-        },
-        {
-          ts: 13457,
-          diskReadKb: 0,
-          diskWriteKb: 540.672
-        },
-        {
-          ts: 14660,
-          diskReadKb: 0,
-          diskWriteKb: 307.2
-        },
-        {
-          ts: 15930,
-          diskReadKb: 0,
-          diskWriteKb: 307.2
-        },
-        {
-          ts: 17150,
-          diskReadKb: 8.192,
-          diskWriteKb: 692.224
-        },
-        {
-          ts: 18313,
-          diskReadKb: 12.288,
-          diskWriteKb: 90.112
-        },
-        {
-          ts: 19611,
-          diskReadKb: 20.48,
-          diskWriteKb: 536.576
-        },
-        {
-          ts: 20987,
-          diskReadKb: 40.96,
-          diskWriteKb: 462.848
-        },
-        {
-          ts: 22287,
-          diskReadKb: 8.192,
-          diskWriteKb: 98.304
-        },
-        {
-          ts: 23553,
-          diskReadKb: 65.536,
-          diskWriteKb: 172.032
-        },
-        {
-          ts: 24831,
-          diskReadKb: 4.096,
-          diskWriteKb: 196.608
-        },
-        {
-          ts: 26100,
-          diskReadKb: 4.096,
-          diskWriteKb: 196.608
-        },
-        {
-          ts: 27370,
-          diskReadKb: 4.096,
-          diskWriteKb: 196.608
-        },
-        {
-          ts: 28672,
-          diskReadKb: 4.096,
-          diskWriteKb: 196.608
-        },
-        {
-          ts: 29935,
-          diskReadKb: 4.096,
-          diskWriteKb: 196.608
-        },
-        {
-          ts: 31267,
+          ts: 5892,
           diskReadKb: 0,
           diskWriteKb: 90.112
         },
         {
-          ts: 32638,
+          ts: 7237,
           diskReadKb: 0,
-          diskWriteKb: 40.96
+          diskWriteKb: 90.112
         },
         {
-          ts: 33887,
-          diskReadKb: 36.864,
-          diskWriteKb: 389.12
-        },
-        {
-          ts: 35148,
-          diskReadKb: 143.36,
-          diskWriteKb: 434.176
-        },
-        {
-          ts: 36431,
-          diskReadKb: 4.096,
-          diskWriteKb: 147.456
-        },
-        {
-          ts: 37749,
+          ts: 8549,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 39016,
+          ts: 9748,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 40291,
+          ts: 10977,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 41588,
+          ts: 12168,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 42876,
+          ts: 13408,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 44138,
+          ts: 14650,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 45435,
+          ts: 15866,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 46698,
+          ts: 17050,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         },
         {
-          ts: 47999,
+          ts: 18955,
           diskReadKb: 0,
-          diskWriteKb: 73.728
+          diskWriteKb: 90.112
         }
       ],
       metadata: {
         diskReadMb: {
-          total: 42.983
+          total: 0
         },
         diskWriteMb: {
-          total: 16.99
+          total: 0.991
         }
       }
     }
@@ -1381,7 +591,38 @@ const sessionDataJson = {
       operator: 'greaterThan',
       value: 20
     }
-  }
+  },
+  startTime: '2023-02-18T05:53:27.000Z',
+  endTime: '2023-02-18T05:53:47.000Z',
+  device: {
+    deviceId: 'emulator-5554',
+    name: 'sdk_gphone64_x86_64',
+    os: 'android',
+    osVersion: '12'
+  },
+  package: {
+    bundleId: 'org.wikipedia',
+    name: 'Wikipedia',
+    version: '2.7.50426-r-2022-12-08'
+  },
+  metadata: {
+    video:
+      '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/video.mp4',
+    diagnostic:
+      '/Users/ashu/.csp/sessions/1ec4c04e-9cde-4dfd-aef6-082e570f5502',
+    logcat: {
+      main: '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/logcat_main.txt',
+      system:
+        '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/logcat_system.txt',
+      crash:
+        '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/logcat_crash.txt',
+      radio:
+        '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/logcat_radio.txt',
+      events:
+        '/Users/pankajkaushik/.csp/sessions/33a9c793-5383-44fa-9d0e-9acf6f2f0ff1/logcat_events.txt'
+    }
+  },
+  name: 'test'
 };
 
 const initialState = {

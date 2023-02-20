@@ -2,10 +2,10 @@ import { useSelector } from 'react-redux';
 
 import { getSessionMetrics } from '../../Report';
 
-const useScreenLoadTime = () => {
+const useCpuMemoryCard = () => {
   const sessionData = useSelector(getSessionMetrics);
 
   return { sessionData };
 };
 
-export default useScreenLoadTime;
+export default useCpuMemoryCard;

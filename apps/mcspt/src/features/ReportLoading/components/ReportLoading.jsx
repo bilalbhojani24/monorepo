@@ -8,6 +8,7 @@ import {
   MdRadioButtonChecked
 } from '@browserstack/bifrost';
 
+import { secondsToMinutes } from '../../../utils';
 import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
 
 import useReportLoading from './useReportLoading';
@@ -29,8 +30,7 @@ const ReportLoading = () => {
     selectedApplication,
     onCancelClicked,
     stopSessionClicked,
-    secondsElapsed,
-    convertIntoMinutes
+    secondsElapsed
   } = useReportLoading();
 
   return (
@@ -66,7 +66,7 @@ const ReportLoading = () => {
           {sessionState === REPORT_LOADING_STATES.RECORDING && (
             <div className="bg-danger-50 flex items-center justify-between rounded-md p-2">
               <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
-                {convertIntoMinutes(secondsElapsed)}
+                {secondsToMinutes(secondsElapsed)}
               </div>
 
               <Button

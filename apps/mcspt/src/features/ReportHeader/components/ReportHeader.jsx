@@ -7,10 +7,13 @@ import {
   MdOutlineCalendarToday
 } from '@browserstack/bifrost';
 
+import { formatReportTime } from '../../../utils/dateUtils';
+
 import useReportHeader from './useReportHeader';
 
 const ReportHeader = () => {
-  const { backButtonClicked } = useReportHeader();
+  const { sessionData, backButtonClicked, openDiagnosticFolder } =
+    useReportHeader();
 
   return (
     <div className="flex items-center justify-between p-4 shadow">
@@ -22,7 +25,7 @@ const ReportHeader = () => {
         <div className="ml-5 flex flex-col">
           <div className="flex items-center">
             <div className="mb-1 text-xl font-bold leading-7">
-              my_app_3.5.3-pixel7-13_01_22
+              {sessionData.name}
             </div>
 
             <div className="text-base-500 ml-2.5 text-xl">
@@ -36,7 +39,7 @@ const ReportHeader = () => {
             </div>
 
             <div className="text-sm font-medium leading-5">
-              February 7, 2022 ∙ 12:23pm
+              {formatReportTime(sessionData.startTime)}
             </div>
           </div>
         </div>
@@ -48,6 +51,7 @@ const ReportHeader = () => {
           colors="white"
           variant="primary"
           icon={<MdFolderOpen />}
+          onClick={openDiagnosticFolder}
         >
           Diagnostics
         </Button>

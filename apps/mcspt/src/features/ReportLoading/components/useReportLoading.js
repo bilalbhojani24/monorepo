@@ -44,15 +44,6 @@ const useReportLoading = () => {
     dispatch(stopRecordingSession(navigateToPath));
   };
 
-  const convertIntoMinutes = (numberOfSeconds) => {
-    const minutes = Math.floor(numberOfSeconds / 60)
-      .toFixed(0)
-      .padStart(2, '0');
-    const leftOverSeconds = (numberOfSeconds % 60).toFixed(0).padStart(2, '0');
-
-    return `${minutes}:${leftOverSeconds}`;
-  };
-
   useEffect(() => {
     dispatch(checkSessionStatus());
   }, [dispatch]);
@@ -81,8 +72,7 @@ const useReportLoading = () => {
     selectedApplication,
     onCancelClicked,
     stopSessionClicked,
-    secondsElapsed,
-    convertIntoMinutes
+    secondsElapsed
   };
 };
 

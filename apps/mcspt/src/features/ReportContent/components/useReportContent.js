@@ -1,16 +1,9 @@
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import { getSessionMetrics } from '../../Report';
 
-const useReportHeader = () => {
+const useReportContent = () => {
   const sessionData = useSelector(getSessionMetrics);
-
-  const navigateToPath = useNavigate();
-
-  const backButtonClicked = () => {
-    navigateToPath('/');
-  };
 
   const openDiagnosticFolder = () => {
     window.remoteThreadFunctions.openSystemFileFromPath(
@@ -18,7 +11,7 @@ const useReportHeader = () => {
     );
   };
 
-  return { sessionData, backButtonClicked, openDiagnosticFolder };
+  return { sessionData, openDiagnosticFolder };
 };
 
-export default useReportHeader;
+export default useReportContent;
