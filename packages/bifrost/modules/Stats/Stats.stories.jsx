@@ -2,7 +2,12 @@ import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Hyperlink from '../Hyperlink';
-import { CursorArrowRaysIcon, EnvelopeOpenIcon, UsersIcon } from '../Icon';
+import {
+  CursorArrowRaysIcon,
+  EnvelopeOpenIcon,
+  MdErrorOutline,
+  UsersIcon
+} from '../Icon';
 
 import { STATS_VARIANTS } from './const/statsConstants';
 import Stats from './index';
@@ -40,6 +45,27 @@ const options = [
     changeType: 'decrease',
     link: 'wikipedia.com',
     onClick: () => console.log('stats wikipedia.com')
+  },
+  {
+    id: 4,
+    name: (
+      <div className="flex items-center">
+        Avg. Click Rate
+        <MdErrorOutline className="ml-3" />
+      </div>
+    ),
+    stat: (
+      <div className="flex items-center">
+        <MdErrorOutline className="mr-3" />
+        24.57%
+      </div>
+    ),
+    icon: null,
+    change: null,
+    previousStat: null,
+    changeType: null,
+    link: null,
+    onClick: () => console.log('stats null.com')
   }
 ];
 
@@ -127,6 +153,18 @@ export const SharedBorder = () => (
         cardWrapperClassname="rounded-none"
       />
     ))}
+  </dl>
+);
+
+export const KpiVariantCard = () => (
+  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+    <Stats
+      key={options[3].id}
+      option={options[3]}
+      variant={STATS_VARIANTS.KPI_VARIANT}
+      cardWrapperClassname="rounded-none"
+      hideBoxShadow
+    />
   </dl>
 );
 

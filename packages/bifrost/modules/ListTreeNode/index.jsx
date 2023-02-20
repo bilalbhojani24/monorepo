@@ -75,7 +75,7 @@ const ListTreeNode = ({
 
       <div
         role="presentation"
-        className={twClassNames('hidden group-hover:flex group-focus:flex', {
+        className={twClassNames(' group-hover:flex group-focus:flex', {
           flex: isFocused
         })}
         onClick={(e) => {

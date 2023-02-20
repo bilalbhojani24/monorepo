@@ -3,14 +3,32 @@ import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Dropdown from '../Dropdown';
-import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
-import { MdFolderSpecial } from '../Icon';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
+import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
 
 import ListTree from './index';
 
+const options = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  }
+];
 const defaultConfig = {
   title: 'Application/Components/ListTree',
   component: ListTree,
@@ -160,26 +178,16 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
               index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />
             }
             trailingVisualElement={
-              <Dropdown
-                wrapperClassName="flex"
-                trigger={<DropdownTriggerWIcon />}
-                options={[
-                  {
-                    id: '1',
-                    body: 'Edit'
-                  },
-                  {
-                    id: '2',
-                    body: 'Duplicate',
-                    divider: false
-                  },
-                  {
-                    id: '3',
-                    body: 'Archive',
-                    divider: true
-                  }
-                ]}
-              />
+              <Dropdown>
+                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+                  <EllipsisVerticalIcon className="h-5 w-5" />
+                </DropdownTrigger>
+                <DropdownOptionGroup>
+                  {options.map((op) => (
+                    <DropdownOptionItem option={op} />
+                  ))}
+                </DropdownOptionGroup>
+              </Dropdown>
             }
           />
           {!!item?.contents && (
@@ -213,26 +221,16 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
               setSelectedNodeMap({ ...selectedNodeMap });
             }}
             trailingVisualElement={
-              <Dropdown
-                wrapperClassName="flex"
-                trigger={<DropdownTriggerWIcon />}
-                options={[
-                  {
-                    id: '1',
-                    body: 'Edit'
-                  },
-                  {
-                    id: '2',
-                    body: 'Duplicate',
-                    divider: false
-                  },
-                  {
-                    id: '3',
-                    body: 'Archive',
-                    divider: true
-                  }
-                ]}
-              />
+              <Dropdown>
+                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+                  Options
+                </DropdownTrigger>
+                <DropdownOptionGroup>
+                  {options.map((op) => (
+                    <DropdownOptionItem option={op} />
+                  ))}
+                </DropdownOptionGroup>
+              </Dropdown>
             }
           />
           {!!item?.contents && (
@@ -286,29 +284,16 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
               setOpenNodeMap({ ...openNodeMap });
             }}
             trailingVisualElement={
-              <Dropdown
-                wrapperClassName="flex"
-                trigger={<DropdownTriggerWIcon />}
-                options={[
-                  {
-                    id: '1',
-                    body: 'Edit'
-                  },
-                  {
-                    id: '2',
-                    body: 'Duplicate',
-                    divider: false
-                  },
-                  {
-                    id: '3',
-                    body: 'Archive',
-                    divider: true
-                  }
-                ]}
-                onOpenChange={(isOpen) =>
-                  setFocused(isOpen ? item.name : undefined)
-                }
-              />
+              <Dropdown>
+                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+                  <EllipsisVerticalIcon className="h-5 w-5" />
+                </DropdownTrigger>
+                <DropdownOptionGroup>
+                  {options.map((op) => (
+                    <DropdownOptionItem option={op} />
+                  ))}
+                </DropdownOptionGroup>
+              </Dropdown>
             }
           />
           {!!item?.contents && (
