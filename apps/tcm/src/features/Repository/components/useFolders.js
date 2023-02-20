@@ -128,7 +128,6 @@ export default function useFolders() {
   };
 
   const fetchAllFolders = () => {
-    // dispatch(setAddTestCaseVisibility(false));
     if (projectId === 'new') {
       // dont load anything start from scratch
       dispatch(updateFoldersLoading(false));
@@ -175,10 +174,10 @@ export default function useFolders() {
     navigate(route);
   };
 
-  const folderActionsHandler = ({ e, folder, selectedOption }) => {
-    if (e?.currentTarget?.textContent) {
-      const isCreateTestCase = selectedOption?.id === folderDropOptions[0].id;
-      dispatch(setFolderModalConf({ modal: selectedOption?.id, folder }));
+  const folderActionsHandler = ({ folder, selectedOption }) => {
+    if (selectedOption?.id) {
+      const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
+      dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
 
       if (isCreateTestCase) {
         // create test case

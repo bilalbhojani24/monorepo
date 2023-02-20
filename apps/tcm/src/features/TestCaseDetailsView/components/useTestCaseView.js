@@ -49,7 +49,7 @@ export default function useTestCaseView({
     onDetailsClose?.();
   };
 
-  const actionHandler = (e, selectedOption) => {
+  const actionHandler = (selectedOption) => {
     // hideTestCaseViewDrawer();
     if (selectedOption?.id === TR_DROP_OPTIONS[0]?.id) {
       // if view test case
@@ -60,7 +60,7 @@ export default function useTestCaseView({
           testCaseId: testCaseDetails?.id
         })
       );
-    } else onDropDownChange(e, selectedOption, testCaseDetails);
+    } else onDropDownChange(selectedOption, testCaseDetails);
   };
 
   useEffect(() => {

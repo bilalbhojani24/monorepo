@@ -121,9 +121,7 @@ const AllProjects = () => {
         <TMDropdown
           triggerVariant="meatball-button"
           dividerRequired
-          onClick={(e, selectedOption) =>
-            onDropDownChange(e, selectedOption, data)
-          }
+          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
           options={dropDownOptions}
         />
       ),
@@ -175,14 +173,12 @@ const AllProjects = () => {
                 triggerIcon={
                   <MdOutlineExpandMore className="text-2xl text-white" />
                 }
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-brand-600 border-t-0 border-b-0"
+                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-brand-600 border-t-0 border-b-0 hover:bg-brand-700"
                 triggerVariant="menu-button"
                 options={[
                   { body: 'Create Example Project', id: 'example_project' }
                 ]}
-                onClick={(e, selectedOption) =>
-                  onCreateDropClick(selectedOption)
-                }
+                onClick={(selectedOption) => onCreateDropClick(selectedOption)}
               />
             </div>
           </>

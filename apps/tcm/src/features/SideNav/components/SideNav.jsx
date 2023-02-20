@@ -2,6 +2,10 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   MdOutlineAddBox,
+  SelectMenu,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger,
   SidebarHeader,
   SidebarItem,
   SidebarNavigation
@@ -59,13 +63,21 @@ const SideNav = (props) => {
           showProjects && (
             <>
               {allProjectsDrop?.length ? (
-                <SidebarHeader
-                  dropdownOptions={allProjectsDrop}
-                  onDropdownValueChange={onProjectChange}
-                  dropdownValue={allProjectsDrop.find(
-                    (item) => `${item.value}` === selectedProjectId
-                  )}
-                />
+                <SidebarHeader>
+                  <SelectMenu
+                    onChange={onProjectChange}
+                    value={allProjectsDrop.find(
+                      (item) => `${item.value}` === selectedProjectId
+                    )}
+                  >
+                    <SelectMenuTrigger placeholder="Select.." />
+                    <SelectMenuOptionGroup>
+                      {allProjectsDrop.map((item) => (
+                        <SelectMenuOptionItem key={item.value} option={item} />
+                      ))}
+                    </SelectMenuOptionGroup>
+                  </SelectMenu>
+                </SidebarHeader>
               ) : (
                 <div className="w-full p-2">
                   <TMButton

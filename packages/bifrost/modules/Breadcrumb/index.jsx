@@ -21,7 +21,6 @@ const Breadcrumb = (props) => {
   } = props;
 
   const handleClick = (e, clickedItem) => {
-    e.preventDefault();
     onClick?.(e, clickedItem);
   };
 

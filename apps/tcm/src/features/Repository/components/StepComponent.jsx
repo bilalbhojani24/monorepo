@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { AddBoxOutlinedIcon, DeleteOutlineOutlinedIcon } from 'assets/icons';
-import { TMButton, TMTextArea, TMRichTextEditor } from 'common/bifrostProxy';
+import { TMButton, TMRichTextEditor } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { stepTemplate } from '../const/addTestCaseConst';
 
-const StepComponent = ({ data, onChange }) => {
+const StepComponent = ({ data, onChange, errorText }) => {
   const onChangeHandler = (index, key, value) => {
     onChange(
       data.map((item, idx) =>
@@ -44,6 +44,7 @@ const StepComponent = ({ data, onChange }) => {
         <SingleStepComponent
           index={index}
           data={item}
+          errorText={errorText}
           //   key={`${JSON}`}
           isDeleteDisabled={data.length === 1}
           onDelete={deleteStep}
@@ -76,7 +77,8 @@ const SingleStepComponent = ({
   data,
   onChange,
   onDelete,
-  isDeleteDisabled
+  isDeleteDisabled,
+  errorText
 }) => (
   <div className="mt-4 w-full">
     <div className="mb-2 flex items-center">
@@ -97,22 +99,30 @@ const SingleStepComponent = ({
       <div className="flex-1">
         <TMRichTextEditor
           value={data?.step}
+          id={`step-rte-tc-${index}`}
           label="Step"
           placeholder="Write step"
           height={200}
           onChange={(val) => onChange(index, 'step', val)}
           // onAssetUpload={imageUploadRTEHelper}
         />
+        {errorText && data?.step === '' && (
+          <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
+        )}
       </div>
       <div className="flex-1">
         <TMRichTextEditor
           label="Result"
+          id={`result-rte-tc-${index}`}
           placeholder="Expected result"
           height={200}
           value={data?.expected_result}
           onChange={(val) => onChange(index, 'expected_result', val)}
           // onAssetUpload={imageUploadRTEHelper}
         />
+        {errorText && data?.expected_result === '' && (
+          <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
+        )}
       </div>
     </div>
   </div>
@@ -126,14 +136,16 @@ SingleStepComponent.propTypes = {
   onChange: PropTypes.func,
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool,
-  index: PropTypes.number
+  index: PropTypes.number,
+  errorText: PropTypes.string
 };
 SingleStepComponent.defaultProps = {
   data: [],
   onChange: () => {},
   onDelete: () => {},
   isDeleteDisabled: false,
-  index: 0
+  index: 0,
+  errorText: ''
 };
 
 StepComponent.propTypes = {
@@ -143,11 +155,13 @@ StepComponent.propTypes = {
       expected_result: PropTypes.string
     })
   ),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  errorText: PropTypes.string
 };
 StepComponent.defaultProps = {
   data: [],
-  onChange: () => {}
+  onChange: () => {},
+  errorText: ''
 };
 
 export default StepComponent;

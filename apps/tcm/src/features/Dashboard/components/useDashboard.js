@@ -29,7 +29,7 @@ export default function useDashboard() {
     // getActiveTestRuns(projectId).then((res) => {
     // dispatch(setActiveTestRuns(res));
     setActiveTestRunsOptions(
-      donutOptionCreator({ title: '', subtitle: 'Total Test Cases' })
+      donutOptionCreator({ title: '1024', subtitle: 'Total Test Cases' })
     );
     setClosedTestRunsLineOptions(lineOptionsCreator({}));
     setTestCasesTrendOptions(lineOptionsCreator({ showLegend: true }));
