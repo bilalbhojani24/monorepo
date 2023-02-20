@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AddBoxOutlinedIcon, DeleteOutlineOutlinedIcon } from 'assets/icons';
-import { TMButton, TMTextArea, TMRichTextEditor } from 'common/bifrostProxy';
+import { TMButton, TMRichTextEditor } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { stepTemplate } from '../const/addTestCaseConst';
@@ -97,6 +97,7 @@ const SingleStepComponent = ({
       <div className="flex-1">
         <TMRichTextEditor
           value={data?.step}
+          id={`step-rte-tc-${index}`}
           label="Step"
           placeholder="Write step"
           height={200}
@@ -107,6 +108,7 @@ const SingleStepComponent = ({
       <div className="flex-1">
         <TMRichTextEditor
           label="Result"
+          id={`result-rte-tc-${index}`}
           placeholder="Expected result"
           height={200}
           value={data?.expected_result}
