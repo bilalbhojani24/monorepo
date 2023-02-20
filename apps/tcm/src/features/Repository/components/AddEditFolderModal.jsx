@@ -9,7 +9,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea
+  TMRichTextEditor
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -25,12 +25,8 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Create';
-  const {
-    modalFocusRef,
-    hideFolderModal,
-    updateFolders,
-    renameFolderHelper
-  } = useAddEditFolderModal();
+  const { modalFocusRef, hideFolderModal, updateFolders, renameFolderHelper } =
+    useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
     name: '',
     notes: ''
@@ -39,7 +35,6 @@ const AddEditFolderModal = ({
   const [formError, setFormError] = useState({
     nameError: ''
   });
-
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
@@ -91,7 +86,12 @@ const AddEditFolderModal = ({
   }, [currentData]);
 
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal} ref={modalFocusRef} >
+    <TMModal
+      show={show}
+      withDismissButton
+      onOverlayClick={hideFolderModal}
+      ref={modalFocusRef}
+    >
       <TMModalHeader
         heading={
           isSubFolder ? `${functionName} Sub Folder` : `${functionName} Folder`
@@ -117,13 +117,13 @@ const AddEditFolderModal = ({
           />
         </div>
         <div className="pb-1">
-          <TMTextArea
+          <TMRichTextEditor
             label="Description"
-            placeholder="Enter folder description/notes"
+            id="Description"
             value={filledFormData.notes}
-            onChange={(e) =>
-              setFormData({ ...filledFormData, notes: e.currentTarget.value })
-            }
+            height={200}
+            placeholder="Enter folder description/notes"
+            onChange={(val) => setFormData({ ...filledFormData, notes: val })}
           />
         </div>
       </TMModalBody>

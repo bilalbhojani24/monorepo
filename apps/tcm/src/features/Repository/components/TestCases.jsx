@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
 import {
   TMEmptyState,
@@ -87,7 +88,7 @@ export default function TestCases() {
                     wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
                     hidetooltipTriggerIcon
                   >
-                    {selectedFolder?.notes}
+                    {ReactHtmlParser(selectedFolder?.notes)}
                   </TMTruncateText>
                 )}
               </div>
