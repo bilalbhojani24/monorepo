@@ -1,6 +1,6 @@
 // if folderId exists then it is a subfolder creation
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { addFolder, addSubFolder, renameFolder } from 'api/folders.api';
 import {
   TMButton,
