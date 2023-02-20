@@ -38,7 +38,7 @@ const useOnboarding = () => {
 
   const updateUserValue = () => {
     const updatedUserData = { ...userData };
-    delete updatedUserData.is_first_time;
+    updatedUserData.onboarded = 1;
     localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(updatedUserData));
     dispatch(setUser(updatedUserData));
   };

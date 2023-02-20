@@ -50,8 +50,8 @@ const useAuthentication = () => {
             data: {
               user: {
                 full_name: 'Ribin Roy',
-                email: 'fake2@example.com'
-                // is_first_time: true
+                email: 'fake2@example.com',
+                onboarded: 1
               }
             }
           }
