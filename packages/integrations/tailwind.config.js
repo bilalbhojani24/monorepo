@@ -1,8 +1,8 @@
-module.exports = require('@browserstack/tailwind-config');
+const globalConfigs = require('@browserstack/tailwind-config');
 
-// const bifrostTailwindConfig = {
-//   ...globalConfigs.globalTailwindConfig,
-//   content: ['./modules/**/*.{js,jsx}']
-// };
+const bifrostTailwindConfig = {
+  ...globalConfigs.globalTailwindConfig,
+  content: ['./src/**/*.{js,jsx}']
+};
 
-// module.exports = bifrostTailwindConfig;
+module.exports = bifrostTailwindConfig;
