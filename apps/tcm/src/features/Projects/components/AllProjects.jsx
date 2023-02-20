@@ -175,7 +175,7 @@ const AllProjects = () => {
                 triggerIcon={
                   <MdOutlineExpandMore className="text-2xl text-white" />
                 }
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-brand-600"
+                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-brand-600 border-t-0 border-b-0"
                 triggerVariant="menu-button"
                 options={[
                   { body: 'Create Example Project', id: 'example_project' }
