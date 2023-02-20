@@ -31,11 +31,11 @@ const Dashboard = () => {
       <TMPageHeadings heading="Dashboard" />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
         <div className="flex w-full gap-4">
-          <div className="w-1/2 flex-1">
+          <div className="relative w-1/2 flex-1">
             <TMDataVisualization
               headerInfo={false}
               title="Active Test Runs"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               footerProps={{
                 linkText: 'View All Active Runs',
@@ -73,7 +73,7 @@ const Dashboard = () => {
             <TMDataVisualization
               headerInfo={false}
               title="Closed Test Runs (Last 15 days)"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               footerProps={{
                 linkText: 'View All Closed Runs',
@@ -92,7 +92,7 @@ const Dashboard = () => {
           <div className="w-1/2 flex-1">
             <TMDataVisualization
               title="Type of Test Cases"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
                 <HighchartsReact

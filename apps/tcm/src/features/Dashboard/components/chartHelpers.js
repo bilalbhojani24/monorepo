@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
   chart: {
-    type: 'pie'
-    // renderTo: 'container'
+    type: 'pie',
+    renderTo: 'container'
   },
   legend: {
     enabled: true,
@@ -10,23 +10,37 @@ export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
     verticalAlign: 'top',
     layout: 'vertical',
     x: 0,
-    y: 100
+    y: 100,
+    useHTML: true,
+    // width: 200,
+    itemMarginBottom: 15,
+    labelFormatter() {
+      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="color:${this.color}">${this.name}: </span><b>${this.options.y}<br/></div>`;
+    }
   },
   title: {
     verticalAlign: 'middle',
     floating: true,
-    text: title || ''
+    text: title || '',
+    y: 0,
+    x: -50
   },
   subtitle: {
     verticalAlign: 'middle',
     floating: true,
     text: subtitle || '',
-    y: 30,
-    x: 0
+    y: 20,
+    x: -50
   },
   plotOptions: {
     pie: {
-      innerSize: '75%'
+      innerSize: '75%',
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: false
+      },
+      showInLegend: true
     }
   },
   series: [
@@ -55,7 +69,8 @@ export const lineOptionsCreator = ({ chartData, showLegend, title }) => ({
     align: 'center',
     verticalAlign: 'top',
     floating: false,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    itemMarginBottom: 15
   },
   plotOptions: {
     series: {
@@ -108,7 +123,8 @@ export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
     text: title || ''
   },
   legend: {
-    enabled: showLegend
+    enabled: showLegend,
+    itemMarginBottom: 15
   },
   xAxis: {
     categories: [
@@ -177,7 +193,8 @@ export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
     verticalAlign: 'top',
     layout: 'vertical',
     x: 0,
-    y: 100
+    y: 100,
+    itemMarginBottom: 15
   },
   yAxis: {
     min: 0,
