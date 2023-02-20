@@ -11,9 +11,9 @@ const TooltipBody = ({ children, wrapperClassName }) => {
   const tooltipTheme = useContext(ThemeContextData);
 
   return (
-    <p
+    <div
       className={twClassNames(
-        'px-4 mb-2',
+        'px-4',
         {
           'text-base-500': tooltipTheme?.theme === TP_TOOLTIP_THEME[0],
           'text-base-300': tooltipTheme?.theme === TP_TOOLTIP_THEME[1]
@@ -22,7 +22,7 @@ const TooltipBody = ({ children, wrapperClassName }) => {
       )}
     >
       {children}
-    </p>
+    </div>
   );
 };
 

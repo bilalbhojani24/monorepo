@@ -14,7 +14,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
-  }, [buttonRef, setWidth]);
+  }, [setWidth]);
 
   return (
     <Popover.Trigger asChild ref={buttonRef}>

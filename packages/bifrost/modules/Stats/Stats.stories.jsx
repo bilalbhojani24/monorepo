@@ -17,7 +17,7 @@ const options = [
     previousStat: '28.62%',
     changeType: 'increase',
     link: 'google.com',
-    onClick: () => console.log('stats -1')
+    onClick: () => console.log('stats google.com')
   },
   {
     id: 2,
@@ -27,7 +27,8 @@ const options = [
     change: '5.4%',
     previousStat: '50.62%',
     changeType: 'increase',
-    link: 'data.com'
+    link: 'data.com',
+    onClick: () => console.log('stats data.com')
   },
   {
     id: 3,
@@ -37,7 +38,8 @@ const options = [
     change: '3.2%',
     previousStat: '28.62%',
     changeType: 'decrease',
-    link: 'wikipedia.com'
+    link: 'wikipedia.com',
+    onClick: () => console.log('stats wikipedia.com')
   }
 ];
 
