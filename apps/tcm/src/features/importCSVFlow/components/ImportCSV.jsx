@@ -9,8 +9,8 @@ import {
   UPLOAD_FILE
 } from '../const/importCSVConstants';
 import {
-  setCSVConfigurations,
-  setFieldsMapping
+  setCSVConfigurations
+  // setFieldsMapping
 } from '../slices/importCSVSlice';
 
 import ImportCSVSteps from './ImportCSVSteps';
@@ -21,22 +21,11 @@ import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
   const dispatch = useDispatch();
-  const { currentCSVScreen, importCSVSteps, mappingFieldsData } =
-    useImportCSV();
+  const { currentCSVScreen, importCSVSteps } = useImportCSV();
 
   const getCurrentScreen = () => {
     if (currentCSVScreen === UPLOAD_FILE) return <UploadFile />;
-    if (currentCSVScreen === MAP_FIELDS) {
-      if (mappingFieldsData.field_mappings) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const [key, value] of Object.entries(
-          mappingFieldsData?.field_mappings
-        )) {
-          dispatch(setFieldsMapping({ key, value }));
-        }
-      }
-      return <MapFields />;
-    }
+    if (currentCSVScreen === MAP_FIELDS) return <MapFields />;
     if (currentCSVScreen === PREVIEW_AND_CONFIRM_IMPORT)
       return <PreviewAndConfirm />;
 

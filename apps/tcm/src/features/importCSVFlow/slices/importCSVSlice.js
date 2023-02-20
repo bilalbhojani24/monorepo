@@ -9,9 +9,13 @@ import {
   startCSVImport
 } from '../../../api/importCSV.api';
 import {
+  ADD_VALUE_LABEL,
+  ADD_VALUE_VALUE,
   COMPLETE_STEP,
   CURRENT_STEP,
   FAILED_IMPORT_MODAL_DATA,
+  IGNORE_VALUE_LABEL,
+  IGNORE_VALUE_VALUE,
   IMPORT_CSV_STEPS,
   ONGOING_IMPORT_MODAL_DATA,
   PREVIEW_AND_CONFIRM_IMPORT,
@@ -36,7 +40,7 @@ const initialState = {
   showCSVFields: false,
   fieldsMapping: {},
   valueMappings: {},
-  mapFieldModalConfig: { show: false, field: '' },
+  mapFieldModalConfig: { show: false, field: '', mapped_field: '' },
   usersForDropdown: [],
   mapFieldsConfig: {
     importId: null,
@@ -90,9 +94,14 @@ export const setUsers = createAsyncThunk('importCSV/setUsers', async (id) => {
 export const setValueMappingsThunk = createAsyncThunk(
   'importCSV/setValueMappings',
   // eslint-disable-next-line camelcase
-  async ({ importId, field, mapped_field }) => {
+  async ({ importId, field, projectId, mapped_field }) => {
     try {
-      const response = await getFieldMapping({ importId, field, mapped_field });
+      const response = await getFieldMapping({
+        importId,
+        field,
+        projectId,
+        mapped_field
+      });
       return { field, ...response };
     } catch (err) {
       return err;
@@ -148,7 +157,10 @@ const importCSVSlice = createSlice({
       state.fieldsMapping[payload.key] = payload.value;
     },
     setValueMappings: (state, { payload }) => {
-      state.valueMappings[payload.key] = payload.value;
+      if (payload.value === 'delete') {
+        delete state.valueMappings[payload.key];
+        // let { [payload.key], ...res } = state.valueMappings;
+      } else state.valueMappings[payload.key] = payload.value;
     },
     setNotificationConfigForConfirmCSVImport: (state, { payload }) => {
       state.confirmCSVImportNotificationConfig = payload;
@@ -209,7 +221,14 @@ const importCSVSlice = createSlice({
           {}
         );
       }
-
+      // if (mappingFieldsData.field_mappings) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(
+        action.payload?.field_mappings
+      )) {
+        state.fieldsMapping[key] = value;
+      }
+      // }
       state.currentCSVScreen = 'mapFields';
       state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
         if (idx === 0) return { ...step, status: COMPLETE_STEP };
@@ -249,17 +268,23 @@ const importCSVSlice = createSlice({
       state.valueMappings[field] = valueMappings;
     });
     builder.addCase(setUsers.fulfilled, (state, { payload }) => {
-      console.log('inside set users', payload);
       const options = payload.users.map((item) => ({
         label: item.full_name,
         value: item.full_name
       }));
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = [
-        { label: 'Add', value: 'Add' },
+        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
         ...options
       ];
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = [
-        { label: 'Add', value: 'Add' },
+        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
+        ...options
+      ];
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = [
+        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
         ...options
       ];
     });

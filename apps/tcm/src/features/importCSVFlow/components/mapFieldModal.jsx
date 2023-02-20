@@ -16,39 +16,58 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 
-import { MAP_MODAL_COLUMNS } from '../const/importCSVConstants';
+import {
+  ADD_VALUE_LABEL,
+  ADD_VALUE_VALUE,
+  IGNORE_VALUE_LABEL,
+  IGNORE_VALUE_VALUE,
+  MAP_MODAL_COLUMNS
+} from '../const/importCSVConstants';
 
 import useMapFields from './useMapFields';
 
 const MapFieldModal = ({ modalConfig, valueMappings }) => {
   const modalRowRef = useRef(null);
-  const key = modalConfig?.field;
-  const value = valueMappings?.[key];
   const {
     handleSaveClick,
     onModalCloseHandler,
     handleModalSelectMenuChange,
-    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
+    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
+    mapNameToDisplay
   } = useMapFields();
+  const csvFileField = modalConfig?.field;
+  const mappedField = mapNameToDisplay[modalConfig?.mapped_field];
+  const value = valueMappings?.[csvFileField];
 
-  console.log(
-    'inside modal',
-    key,
-    valueMappings,
-    valueMappings?.[key],
-    VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN
-  );
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     modalRowRef.current = Object.keys(value)?.map((field) => {
       const displayOptions =
         VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
-          key.split(' ').join('').toUpperCase()
+          mappedField.split(' ').join('').toUpperCase()
         ];
-      let defaultSelected = displayOptions[0];
-      displayOptions.forEach((item) => {
-        if (item.label.toLowerCase() === value[field]) defaultSelected = item;
-      });
+      let defaultSelected = null;
+      for (let i = 0; i < displayOptions.length; i += 1) {
+        if (value[field]?.action === ADD_VALUE_VALUE) {
+          defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
+          break;
+        } else if (value[field]?.action === IGNORE_VALUE_VALUE) {
+          defaultSelected = {
+            label: IGNORE_VALUE_LABEL,
+            value: IGNORE_VALUE_VALUE
+          };
+          break;
+        } else if (displayOptions[i].label === value[field]) {
+          defaultSelected = displayOptions[i];
+          break;
+        }
+      }
+      if (!defaultSelected)
+        defaultSelected = {
+          label: IGNORE_VALUE_LABEL,
+          value: IGNORE_VALUE_VALUE
+        };
+
       return {
         displayOptions,
         csvValue: field,
@@ -64,13 +83,13 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
       onOverlayClick={onModalCloseHandler}
     >
       <TMModalHeader
-        heading={`Map Values for '${key}'`}
+        heading={`Map Values for '${csvFileField}'`}
         handleDismissClick={onModalCloseHandler}
       />
       <TMModalBody>
         <div>
-          Values for {modalConfig?.field} are mapped by default. You can update
-          the mapping if needed:
+          Values for {csvFileField} are mapped by default. You can update the
+          mapping if needed:
         </div>
         <Table containerWrapperClass="mb-4 mt-4">
           <TableHead wrapperClass="w-full rounded-xs">
@@ -84,14 +103,17 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           </TableHead>
           <TableBody>
             {modalRowRef?.current?.map((row) => (
-              <TableRow key={key}>
+              <TableRow key={row.csvValue}>
                 <TableCell wrapperClass="py-1">{row.csvValue}</TableCell>
                 <TableCell wrapperClass="py-2 mr-4">
                   <TMSelectMenu
                     checkPosition="right"
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
-                    onChange={handleModalSelectMenuChange(key, row.csvValue)}
+                    onChange={handleModalSelectMenuChange(
+                      csvFileField,
+                      row.csvValue
+                    )}
                   />
                 </TableCell>
               </TableRow>
@@ -100,7 +122,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         </Table>
         <TMAlerts
           show
-          title="New Values will be created with same name as present in respective CSV fields. "
+          title="New values will be created with same name as present in respective CSV fields. "
           linkText={null}
           modifier="primary"
         />
@@ -120,4 +142,5 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
     </TMModal>
   );
 };
+
 export default MapFieldModal;
