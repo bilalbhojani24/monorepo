@@ -53,16 +53,16 @@ const AddProjects = ({ show, onClose }) => {
           />
         </div>
         <TMRichTextEditor
-            label="Description"
-            value={formData.description}
-            height={200}
-            placeholder="Write in brief about the project"
-            onChange={(e) =>
-                setFormData({ ...formData, description: e.currentTarget.value })
-            }
-            // onAssetUpload={imageUploadRTEHelper}
+          label="Description"
+          id="Description"
+          value={formData.description}
+          height={200}
+          placeholder="Write in brief about the project"
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.currentTarget.value })
+          }
+          // onAssetUpload={imageUploadRTEHelper}
         />
-
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton

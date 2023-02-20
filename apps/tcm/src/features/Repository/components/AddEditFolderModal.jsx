@@ -112,15 +112,15 @@ const AddEditFolderModal = ({
         </div>
         <div className="pb-1">
           <TMRichTextEditor
-              label="Description"
-              value={filledFormData.notes}
-              height={200}
-              placeholder="Enter folder description/notes"
-              onChange={(e) =>
-                  setFormData({ ...filledFormData, notes: e.currentTarget.value })
-              }
+            label="Description"
+            id="Description"
+            value={filledFormData.notes}
+            height={200}
+            placeholder="Enter folder description/notes"
+            onChange={(e) =>
+              setFormData({ ...filledFormData, notes: e.currentTarget.value })
+            }
           />
-
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
