@@ -1,8 +1,9 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 // import { TMHyperlink } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const CopyButton = ({ children, copyValue }) => {
+const CopyButton = ({ children, copyValue, wrapperClassName }) => {
   const copyHelper = () => {
     navigator.clipboard.writeText(copyValue);
   };
@@ -17,7 +18,10 @@ const CopyButton = ({ children, copyValue }) => {
       color="text-white"
       underlined
       fontWeight="font-semibold"
-      className="font-semibold text-white underline"
+      className={twClassNames(
+        'font-semibold text-white underline',
+        wrapperClassName
+      )}
     >
       {children}
     </div>
@@ -26,12 +30,14 @@ const CopyButton = ({ children, copyValue }) => {
 
 CopyButton.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  copyValue: PropTypes.string
+  copyValue: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 
 CopyButton.defaultProps = {
   children: '',
-  copyValue: ''
+  copyValue: '',
+  wrapperClassName: ''
 };
 
 export default CopyButton;
