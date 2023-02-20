@@ -1,4 +1,4 @@
-import { FaApple } from 'react-icons';
+import { FaApple } from 'react-icons/fa';
 import {
   ArrowDownIcon,
   ArrowLongLeftIcon,
