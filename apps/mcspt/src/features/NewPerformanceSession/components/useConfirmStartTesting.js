@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { getIsSessionApiLoading } from '../slices/loadingStateForNewPerformanceSession';
 import {
-  getIsSessionApiLoading,
   getSelectedApplication,
   getSelectedDevice,
   setCurrentSetupStep

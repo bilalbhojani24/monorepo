@@ -7,7 +7,9 @@ import {
 import {
   setAreApplicationsStillLoading,
   setAreDevicesStillLoading,
-  setIsSessionApiLoading,
+  setIsSessionApiLoading
+} from './loadingStateForNewPerformanceSession';
+import {
   setListOfApplications,
   setListOfDevices,
   setSessionDetails

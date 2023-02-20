@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getAreApplicationsStillLoading } from '../slices/loadingStateForNewPerformanceSession';
 import {
-  getAreApplicationsStillLoading,
   getListOfApplications,
   getSelectedApplication,
   setCurrentSetupStep,

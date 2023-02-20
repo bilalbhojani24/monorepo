@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getAreDevicesStillLoading } from '../slices/loadingStateForNewPerformanceSession';
 import {
-  getAreDevicesStillLoading,
   getListOfDevices,
   getSelectedDevice,
   setCurrentSetupStep,
