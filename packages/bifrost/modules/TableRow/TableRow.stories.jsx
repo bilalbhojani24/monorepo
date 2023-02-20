@@ -37,6 +37,10 @@ const defaultConfig = {
       defaultValue: true
     }
   },
+  onRowClick: {
+    control: { type: 'text' },
+    defaultValue: () => console.log('Row clicked')
+  },
   controls: {}
 };
 const Template = (args) => <TableRow {...args} />;

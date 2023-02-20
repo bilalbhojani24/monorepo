@@ -2,7 +2,8 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { ArrowDownIcon, ArrowUpIcon, InformationCircleIcon } from '../../Icon';
+import { ArrowDownIcon, ArrowUpIcon } from '../../Icon';
+import { DATA_VISUALIZATION_STATS_DIRECTION } from '../const/dataVisualizationConstants';
 
 const Kpi = ({
   title,
@@ -10,7 +11,9 @@ const Kpi = ({
   difference,
   percentage,
   description,
-  direction
+  direction,
+  leadingIcon,
+  trailingIconNode
 }) => (
   <div>
     <p className="text-base-900 text-base font-normal leading-6">{title}</p>
@@ -18,35 +21,38 @@ const Kpi = ({
     <div
       className={twClassNames(
         'flex',
-        direction === 'vertical' ? 'flex-col items-start gap-1' : 'items-center'
+        direction === DATA_VISUALIZATION_STATS_DIRECTION[0]
+          ? 'flex-col items-start gap-1'
+          : 'items-center'
       )}
     >
-      <p className="text-base-900 mr-2.5 text-3xl font-semibold leading-9">
-        {percentage}%
-      </p>
+      <div className="flex items-center">
+        {leadingIcon}
+        <p className="text-base-900 mr-2.5 flex text-3xl font-semibold leading-9">
+          {percentage}%
+        </p>
+      </div>
 
       {description.length > 0 && (
         <>
           <div
             className={twClassNames('flex items-center', {
-              'flex-row-reverse': direction === 'vertical'
+              'flex-row-reverse':
+                direction === DATA_VISUALIZATION_STATS_DIRECTION[0]
             })}
           >
             <p
               className={twClassNames(
                 'text-sm font-medium leading-5 text-base-500',
                 {
-                  'ml-1.5': direction === 'vertical',
-                  'mr-1.5': direction === 'horizontal'
+                  'ml-1.5': direction === DATA_VISUALIZATION_STATS_DIRECTION[0],
+                  'mr-1.5': direction === DATA_VISUALIZATION_STATS_DIRECTION[1]
                 }
               )}
             >
               {description}
             </p>
-            <InformationCircleIcon
-              className="h-4 w-4 shrink-0 cursor-pointer"
-              aria-hidden="true"
-            />
+            {trailingIconNode}
           </div>
 
           <div
@@ -54,7 +60,9 @@ const Kpi = ({
               changeType === 'increase'
                 ? 'bg-success-100 text-success-800'
                 : 'bg-danger-100 text-danger-800',
-              direction === 'vertical' ? 'mt-2.5' : 'ml-2.5',
+              direction === DATA_VISUALIZATION_STATS_DIRECTION[0]
+                ? 'mt-2.5'
+                : 'ml-2.5',
               'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium'
             )}
           >
@@ -87,7 +95,12 @@ Kpi.propTypes = {
   difference: PropTypes.string,
   description: PropTypes.string,
   percentage: PropTypes.string,
-  direction: PropTypes.oneOf(['horizontal', 'vertical'])
+  direction: PropTypes.oneOf([
+    DATA_VISUALIZATION_STATS_DIRECTION[1],
+    DATA_VISUALIZATION_STATS_DIRECTION[0]
+  ]),
+  leadingIcon: PropTypes.node,
+  trailingIconNode: PropTypes.node
 };
 
 Kpi.defaultProps = {
@@ -96,7 +109,9 @@ Kpi.defaultProps = {
   changeType: '',
   description: '',
   percentage: '',
-  direction: 'horizontal'
+  direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+  leadingIcon: null,
+  trailingIconNode: null
 };
 
 export default Kpi;
