@@ -23,19 +23,21 @@ const RichTextEditor = ({
   onChange,
   value,
   initialValue,
+  id,
   editorRef,
   placeholder
 }) => (
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
       <label
-        htmlFor={`rich-text-editor-${label}`}
+        htmlFor={`rich-text-editor-${id}`}
         className="text-base-700 mb-1 block text-sm font-medium"
       >
         {label}
       </label>
     ) : null}
     <Editor
+      id={id}
       onAssetUpload={onAssetUpload}
       height={height}
       width={width}
@@ -52,6 +54,7 @@ const RichTextEditor = ({
 RichTextEditor.propTypes = {
   onAssetUpload: func.isRequired,
   initialValue: string,
+  id: string.isRequired,
   onChange: func,
   height: oneOfType([number, string]),
   label: string,
@@ -65,7 +68,7 @@ RichTextEditor.propTypes = {
 RichTextEditor.defaultProps = {
   initialValue: undefined,
   onChange: undefined,
-  height: 500,
+  height: 100,
   label: null,
   placeholder: 'Type something...',
   value: undefined,

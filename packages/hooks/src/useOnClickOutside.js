@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import useMountEffect from './useMountEffect';
 
@@ -17,8 +17,10 @@ export default function useOnClickOutside(elRef, callback) {
     }
   }, []);
 
-  const attachListener = () => document.addEventListener('click', handleOutsideClick, true);
-  const removeListener = () => document.removeEventListener('click', handleOutsideClick, true);
+  const attachListener = () =>
+    document.addEventListener('click', handleOutsideClick, true);
+  const removeListener = () =>
+    document.removeEventListener('click', handleOutsideClick, true);
 
   useMountEffect(attachListener, removeListener);
 }

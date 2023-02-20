@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "0.5.6",
+  "version": "0.5.8",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@browserstack/utils": "workspace:*",
+    "@browserstack/hooks": "workspace:*",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
     "@radix-ui/react-dropdown-menu": "^2.0.2",

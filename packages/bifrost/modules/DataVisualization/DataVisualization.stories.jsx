@@ -5,13 +5,15 @@ import Button from '../Button';
 import Dropdown from '../Dropdown';
 import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
 import DropdownTriggerWText from '../DropdownTriggerWText';
+import { MdAddCircle, MdInfoOutline } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
 
 import {
   DATA_VISUALIZATION_DESC_POSITION,
-  DATA_VISUALIZATION_SIZES
+  DATA_VISUALIZATION_SIZES,
+  DATA_VISUALIZATION_STATS_DIRECTION
 } from './const/dataVisualizationConstants';
 import DataVisualization from './index';
 
@@ -86,7 +88,7 @@ const defaultConfig = {
           difference: '65',
           description: 'Kpi info',
           percentage: '02',
-          direction: 'vertical'
+          direction: DATA_VISUALIZATION_STATS_DIRECTION[0]
         },
         {
           id: 2,
@@ -95,7 +97,7 @@ const defaultConfig = {
           difference: '35',
           description: 'Kpi info',
           percentage: '69',
-          direction: 'vertical'
+          direction: DATA_VISUALIZATION_STATS_DIRECTION[0]
         }
       ]
     },
@@ -194,6 +196,7 @@ const defaultConfig = {
             </TooltipFooter>
           </>
         ),
+        children: <MdInfoOutline />,
         size: 'extra-small',
         theme: 'dark'
       }
@@ -207,5 +210,57 @@ Primary.parameters = {
   controls: {}
 };
 
+const DataVisualizationDetail = (args) => (
+  <DataVisualization
+    {...args}
+    hasWiderColumns
+    size="large"
+    title="This is title"
+    desc=""
+    descPosition={DATA_VISUALIZATION_DESC_POSITION[0]}
+    analytics={null}
+    footerProps=""
+    KpiProps={[
+      {
+        id: 1,
+        title: 'lorem',
+        changeType: 'increase',
+        difference: '65',
+        description: 'desc',
+        leadingIcon: <MdAddCircle />,
+        percentage: '02',
+        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+        trailingIconNode: (
+          <MdInfoOutline
+            className="h-4 w-4 shrink-0 cursor-pointer"
+            aria-hidden="true"
+          />
+        )
+      },
+      {
+        id: 2,
+        title: 'ipsum',
+        changeType: 'descrease',
+        difference: '35',
+        description: 'desc',
+        leadingIcon: <MdAddCircle />,
+        percentage: '69',
+        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+        trailingIconNode: (
+          <MdInfoOutline
+            className="h-4 w-4 shrink-0 cursor-pointer"
+            aria-hidden="true"
+          />
+        )
+      }
+    ]}
+    otherOptions={null}
+    filterDropdown={null}
+    headerInfo
+    headerInfoTooltipProps={args.headerInfoTooltipProps}
+    wrapperClassName=""
+  />
+);
+
 export default defaultConfig;
-export { Primary };
+export { DataVisualizationDetail, Primary };
