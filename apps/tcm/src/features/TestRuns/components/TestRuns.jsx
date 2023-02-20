@@ -89,7 +89,7 @@ const TestRuns = ({ isEditView }) => {
                       currentTab === TABS_ARRAY[0].name
                         ? {
                             children: 'Create Test Run',
-                            // onClick: showAddProjectModal,
+                            onClick: showTestRunAddFormHandler,
                             colors: 'white'
                           }
                         : null
