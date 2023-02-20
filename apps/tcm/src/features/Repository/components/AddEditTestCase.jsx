@@ -147,29 +147,28 @@ const AddEditTestCase = () => {
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
             <div className="mt-4 flex gap-4">
-
-            <div className="flex-1">
-              <TMRichTextEditor
-                label="Steps"
-                placeholder="Steps for the test"
-                value={testCaseFormData?.steps?.[0]}
-                height={200}
-                onChange={(val) => handleTestCaseFieldChange('steps', [val])}
-                onAssetUpload={imageUploadRTEHelper}
-              />
-            </div>
-            <div className="flex-1">
-              <TMRichTextEditor
-                label="Expected Results"
-                placeholder="Expected result(s) from above steps"
-                value={testCaseFormData?.expected_result}
-                height={200}
-                onChange={(val) =>
-                  handleTestCaseFieldChange('expected_result', val)
-                }
-                onAssetUpload={imageUploadRTEHelper}
-              />
-            </div>
+              <div className="flex-1">
+                <TMRichTextEditor
+                  label="Steps"
+                  placeholder="Steps for the test"
+                  value={testCaseFormData?.steps?.[0]}
+                  height={200}
+                  onChange={(val) => handleTestCaseFieldChange('steps', [val])}
+                  onAssetUpload={imageUploadRTEHelper}
+                />
+              </div>
+              <div className="flex-1">
+                <TMRichTextEditor
+                  label="Expected Results"
+                  placeholder="Expected result(s) from above steps"
+                  value={testCaseFormData?.expected_result}
+                  height={200}
+                  onChange={(val) =>
+                    handleTestCaseFieldChange('expected_result', val)
+                  }
+                  onAssetUpload={imageUploadRTEHelper}
+                />
+              </div>
             </div>
           </>
         ) : (
