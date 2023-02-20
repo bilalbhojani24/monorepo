@@ -39,7 +39,7 @@ const Checkbox = (props) => {
   return (
     <div
       className={twClassNames(
-        'pt-4',
+        'pt-0',
         {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
             border && !isCard
