@@ -184,9 +184,7 @@ const TestCasesTable = ({
         <TMDropdown
           options={dropDownOptions}
           triggerVariant="meatball-button"
-          onClick={(e, selectedOption) =>
-            onDropDownChange(e, selectedOption, data)
-          }
+          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
         />
       ),
       class: 'w-[5%]'

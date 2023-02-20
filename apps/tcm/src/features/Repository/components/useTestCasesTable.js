@@ -115,7 +115,7 @@ const useTestCasesTable = (prop) => {
       });
   };
 
-  const onDropDownChange = (e, selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
       dispatch(setEditTestCasePageVisibility(true));

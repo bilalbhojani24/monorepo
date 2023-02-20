@@ -47,7 +47,7 @@ const TopSection = () => {
                 triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0"
                 triggerVariant="menu-button"
                 options={IMPORT_OPTIONS}
-                onClick={(e, selectedOption) =>
+                onClick={(selectedOption) =>
                   selectedOption?.route ? navigate(selectedOption?.route) : null
                 }
               />

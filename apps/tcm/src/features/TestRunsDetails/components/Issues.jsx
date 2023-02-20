@@ -36,9 +36,7 @@ const Issues = () => {
           triggerVariant="meatball-button"
           dividerRequired
           options={[]}
-          onClick={(e, selectedOption) =>
-            onDropDownChange(e, selectedOption, data)
-          }
+          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
         />
       ),
       class: 'w-[5%]'

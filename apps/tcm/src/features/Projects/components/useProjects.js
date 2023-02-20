@@ -83,7 +83,7 @@ const useProjects = (prop) => {
     );
   };
 
-  const onDropDownChange = (e, selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       dispatch(setEditProjectModalVisibility(true));
     } else if (selectedOption?.id === dropDownOptions[1].id) {

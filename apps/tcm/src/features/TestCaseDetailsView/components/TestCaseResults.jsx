@@ -117,7 +117,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
                 triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10"
                 triggerVariant="menu-button"
                 options={RESULTS_DROP_OPTIONS}
-                onClick={(e, selectedOption) =>
+                onClick={(selectedOption) =>
                   onResultClick(
                     { value: selectedOption.id },
                     testCaseDetails,

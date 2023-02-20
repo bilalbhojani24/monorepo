@@ -53,8 +53,8 @@ const ConrolledNestedTree = ({
               <>
                 {actionsEnabled && actionOptions.length && (
                   <TMDropdown
-                    onClick={(e, selectedOption) =>
-                      onActionClick({ e, selectedOption, folder: item })
+                    onClick={(selectedOption) =>
+                      onActionClick({ selectedOption, folder: item })
                     }
                     triggerVariant="meatball-button"
                     options={actionOptions}
