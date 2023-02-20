@@ -26,7 +26,8 @@ const DataVisualization = ({
   filterDropdown,
   headerInfo,
   headerInfoTooltipProps,
-  wrapperClassName
+  wrapperClassName,
+  hasWiderColumns
 }) => (
   <div
     className={twClassNames(
@@ -92,23 +93,32 @@ const DataVisualization = ({
         <div
           className={twClassNames('mt-4', {
             'grid grid-cols-1 gap-2': size === DATA_VISUALIZATION_SIZES[0],
-            'grid grid-cols-3 gap-2': size === DATA_VISUALIZATION_SIZES[1],
+            'grid grid-cols-3 gap-2':
+              (size === DATA_VISUALIZATION_SIZES[1] && !hasWiderColumns) ||
+              (size === DATA_VISUALIZATION_SIZES[3] && hasWiderColumns),
             'grid grid-cols-5 gap-2':
-              size === DATA_VISUALIZATION_SIZES[2] ||
-              size === DATA_VISUALIZATION_SIZES[3],
+              (size === DATA_VISUALIZATION_SIZES[2] ||
+                size === DATA_VISUALIZATION_SIZES[3]) &&
+              !hasWiderColumns,
             'align-items-center flex justify-between':
-              size === DATA_VISUALIZATION_SIZES[4]
+              size === DATA_VISUALIZATION_SIZES[4],
+
+            'grid grid-cols-2 gap-2':
+              size === DATA_VISUALIZATION_SIZES[1] ||
+              (size === DATA_VISUALIZATION_SIZES[2] && hasWiderColumns)
           })}
         >
           {KpiProps.map((propsObject) => (
             <Kpi
               key={propsObject.id}
+              leadingIcon={propsObject.leadingIcon}
               difference={propsObject?.difference}
               changeType={propsObject?.changeType}
               description={propsObject?.description}
               percentage={propsObject?.percentage}
               direction={propsObject?.direction}
               title={propsObject?.title}
+              trailingIconNode={propsObject?.trailingIconNode}
             />
           ))}
         </div>
@@ -161,13 +171,16 @@ DataVisualization.propTypes = {
     changeType: PropTypes.string,
     difference: PropTypes.string,
     description: PropTypes.string,
-    percentage: PropTypes.string
+    percentage: PropTypes.string,
+    leadingIcon: PropTypes.bool,
+    hideStateIcon: PropTypes.bool
   }),
   otherOptions: PropTypes.node,
   filterDropdown: PropTypes.node,
   headerInfo: PropTypes.bool,
   headerInfoTooltipProps: PropTypes.shape(TooltipPropTypes),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  hasWiderColumns: PropTypes.bool
 };
 DataVisualization.defaultProps = {
   size: DATA_VISUALIZATION_SIZES[1],
@@ -181,7 +194,8 @@ DataVisualization.defaultProps = {
   filterDropdown: null,
   headerInfo: true,
   headerInfoTooltipProps: {},
-  wrapperClassName: ''
+  wrapperClassName: '',
+  hasWiderColumns: false
 };
 
 export default DataVisualization;
