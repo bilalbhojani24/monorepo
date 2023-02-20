@@ -13,11 +13,16 @@ export const postCSV = async (payload) =>
   await fetchPost('/api/v1/import/custom/csv/', payload);
 
 // eslint-disable-next-line camelcase
-export const getFieldMapping = async ({ importId, field, mapped_field }) =>
+export const getFieldMapping = async ({
+  importId,
+  field,
+  projectId,
+  mapped_field
+}) =>
   // eslint-disable-next-line no-return-await
   await fetchGet(
     // eslint-disable-next-line camelcase
-    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}`
+    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`
   );
 
 export const getUsers = async (id) =>

@@ -3,6 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import {
+  ADD_FIELD_LABEL,
+  ADD_FIELD_VALUE,
+  ADD_VALUE_LABEL,
+  ADD_VALUE_VALUE,
+  IGNORE_FIELD_LABEL,
+  IGNORE_FIELD_VALUE,
+  IGNORE_VALUE_LABEL,
+  IGNORE_VALUE_VALUE
+} from '../const/importCSVConstants';
+import {
   setFieldsMapping,
   setMapFieldModalConfig,
   setValueMappings,
@@ -41,8 +51,8 @@ const useMapFields = () => {
   }));
 
   const displayOptions = [
-    { label: 'Ignore Column', value: 'Ignore Column' },
-    { label: 'Add', value: 'Add' },
+    { label: IGNORE_FIELD_LABEL, value: IGNORE_FIELD_VALUE },
+    { label: ADD_FIELD_LABEL, value: ADD_FIELD_VALUE },
     ...defaultOptions,
     ...customOptions
   ]; // all display options
@@ -163,8 +173,22 @@ const useMapFields = () => {
   };
 
   const handleSelectMenuChange = (field) => (selectedOption) => {
-    if (selectedOption.label === 'Add') {
-      dispatch(setFieldsMapping({ key: field, value: { action: 'add' } }));
+    if (selectedOption.label === ADD_FIELD_LABEL) {
+      dispatch(
+        setFieldsMapping({ key: field, value: { action: ADD_FIELD_VALUE } })
+      );
+      dispatch(
+        setValueMappings({ key: field, value: { action: ADD_FIELD_VALUE } })
+      );
+      return;
+    }
+    if (selectedOption.label === IGNORE_FIELD_LABEL) {
+      dispatch(
+        setFieldsMapping({ key: field, value: { action: IGNORE_FIELD_VALUE } })
+      );
+      dispatch(
+        setValueMappings({ key: field, value: { action: IGNORE_FIELD_VALUE } })
+      );
       return;
     }
     dispatch(
@@ -175,24 +199,39 @@ const useMapFields = () => {
     );
 
     // dispatch value mappings
-    dispatch(
-      setValueMappingsThunk({
-        importId: mapFieldsConfig.importId,
-        field,
-        mapped_field: mapDisplayToName[selectedOption.label]
-      })
-    );
+    if (
+      typeMapper[mapDisplayToName[selectedOption.label]] &&
+      typeMapper[mapDisplayToName[selectedOption.label]] === 'field_dropdown'
+    ) {
+      dispatch(
+        setValueMappingsThunk({
+          importId: mapFieldsConfig?.importId,
+          field,
+          projectId: queryParams.get('project'),
+          mapped_field: mapDisplayToName[selectedOption.label]
+        })
+      );
+    }
+
     const name = mapDisplayToName[selectedOption.label]; // description
     const mappedValue = allowedValueMapper[name];
-    if (mappedValue.allowedValueDisplayOptions) {
+    if (mappedValue?.allowedValueDisplayOptions) {
       const defaultSelectedValue =
-        mappedValue.allowedValueDisplayToNameMapper[
-          mappedValue.allowedValueDisplayOptions[0].label // it is the default selected option
+        mappedValue?.allowedValueDisplayToNameMapper[
+          mappedValue?.allowedValueDisplayOptions?.[0]?.label // it is the default selected option
         ];
       dispatch(
         setValueMappings({
           key: field,
           value: defaultSelectedValue
+        })
+      );
+    } else {
+      // agar hame mappedValue nahi milta hai toh
+      dispatch(
+        setValueMappings({
+          key: field,
+          value: 'delete'
         })
       );
     }
@@ -242,15 +281,27 @@ const useMapFields = () => {
     const selectedLabel =
       currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
         ? currentSelectedModalOption.current.label.toLowerCase()
-        : currentSelectedModalOption.current.label; // converting it to lowerCase in case of priority
+        : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
 
-    if (currentSelectedModalOption.current.label === 'Add') {
+    if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
       dispatch(
         setValueMappings({
           key: currentSelectedModalCSVKey.current,
           value: {
-            ...valueMappings[currentSelectedModalField.current],
-            [currentSelectedModalField.current]: { action: 'add' }
+            ...valueMappings[currentSelectedModalCSVKey.current],
+            [currentSelectedModalField.current]: { action: ADD_VALUE_VALUE }
+          }
+        })
+      );
+    } else if (
+      currentSelectedModalOption.current.label === IGNORE_VALUE_LABEL
+    ) {
+      dispatch(
+        setValueMappings({
+          key: currentSelectedModalCSVKey.current,
+          value: {
+            ...valueMappings[currentSelectedModalCSVKey.current],
+            [currentSelectedModalField.current]: { action: IGNORE_VALUE_VALUE }
           }
         })
       );
@@ -259,11 +310,13 @@ const useMapFields = () => {
         setValueMappings({
           key: currentSelectedModalCSVKey.current,
           value: {
-            ...valueMappings[currentSelectedModalField.current],
+            ...valueMappings[currentSelectedModalCSVKey.current],
             [currentSelectedModalField.current]: selectedLabel
           }
         })
       );
+
+    dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
   const handleMappingProceedClick = () => {
