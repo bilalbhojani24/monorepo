@@ -17,7 +17,7 @@ const TextEditor = forwardRef((props, ref) => {
     value,
     width,
     initialValue,
-    assetsURL,
+    assetsURL
   } = props;
   const containerId = `rich-text-editor-container-${id}`;
   const appliedId = `rich-text-editor-${id}`;
@@ -25,9 +25,9 @@ const TextEditor = forwardRef((props, ref) => {
 
   const hideFunc = () => {
     const toolbar = document.querySelector(
-      `#${containerId} .tox-editor-header`,
+      `#${containerId} .tox-editor-header`
     );
-    toolbar.classList.remove('rte-show-toolbar');
+    toolbar.style.display = 'none';
   };
 
   const hideToolbar = () => {
@@ -47,9 +47,9 @@ const TextEditor = forwardRef((props, ref) => {
 
   const showToolbar = () => {
     const toolbar = document.querySelector(
-      `#${containerId} .tox-editor-header`,
+      `#${containerId} .tox-editor-header`
     );
-    toolbar.classList.add('rte-show-toolbar');
+    toolbar.style.display = 'block';
   };
 
   useOnClickOutside(containerRef, hideToolbar);
@@ -71,7 +71,7 @@ const TextEditor = forwardRef((props, ref) => {
           menubar: false,
           plugins: ['link', 'image', 'anchor', 'table', 'codesample'],
           toolbar:
-            'bold italic strikethrough underline blocks custom-image codesample',
+            'bold italic strikethrough underline custom-image codesample',
           toolbar_sticky: true,
           toolbar_mode: 'sliding',
           fixed_toolbar_container: '#mytoolbar',
@@ -86,9 +86,9 @@ const TextEditor = forwardRef((props, ref) => {
                 //   .classList.add('rich-text-editor-modal-open');
 
                 editor.windowManager.open(
-                  imageDialogConfig(editor, onAssetUpload, containerId),
+                  imageDialogConfig(editor, onAssetUpload, containerId)
                 );
-              },
+              }
             });
 
             editor.on('focus', () => {
@@ -98,8 +98,8 @@ const TextEditor = forwardRef((props, ref) => {
           statusbar: true,
           resize: true,
           placeholder,
-          content_css: `${assetsURL}texteditorSkin/content/TW-RTE/content.min.css`,
-          skin_url: `${assetsURL}/texteditorSkin/ui/TW-RTE`,
+          content_css: `${assetsURL}/texteditorSkin/content/TW-RTE/content.min.css`,
+          skin_url: `${assetsURL}/texteditorSkin/ui/TW-RTE`
         }}
       />
     </div>
