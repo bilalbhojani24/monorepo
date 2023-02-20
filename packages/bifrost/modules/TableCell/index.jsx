@@ -47,8 +47,8 @@ const TableCell = ({
           [textTransform]: textTransform,
           'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky
         },
-        wrapperClassName,
-        'first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6'
+        'first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6',
+        wrapperClassName
       )}
       colSpan={colspan}
     >
@@ -64,6 +64,7 @@ const TableCell = ({
             type="button"
             className="bg-base-200 text-base-900 hover:bg-base-300 ml-2 inline-flex flex-none self-center rounded"
             onClick={handleSort}
+            tabIndex={onSort ? 0 : -1}
           >
             {sortDirection === CELL_DIRECTION[0] ? (
               <ChevronUpIcon

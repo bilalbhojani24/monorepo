@@ -1,11 +1,10 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import HeaderBrand from '../HeaderBrand';
-import HeaderElements from '../HeaderElements';
-import HeaderProducts from '../HeaderProducts';
 
 import Header from './index';
+
+const DEFAULT_LINK = 'https://www.browserstack.com';
 
 const defaultConfig = {
   title: 'Application/Components/Header',
@@ -20,21 +19,75 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    children: {
-      option: { type: null },
-      defaultValue: (
-        <>
-          <HeaderBrand productName="Test Management" />
-          <HeaderProducts wrapperClassName="max-[1360px]:hidden" />
-          <div className="float-right ml-auto">
-            <HeaderElements />
-          </div>
-        </>
-      )
-    },
-    containerWrapperClass: {
+    wrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
+    },
+    productName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: true },
+      defaultValue: 'Live'
+    },
+    productLink: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: true },
+      defaultValue: ''
+    },
+    release: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      defaultValue: 'alpha'
+    },
+    documentationLink: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: true },
+      defaultValue: ''
+    },
+    supportLink: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: true },
+      defaultValue: ''
+    },
+    beamerProductId: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: true },
+      defaultValue: 'XxcUulZf52793'
+    },
+    showTestInsights: {
+      control: { type: 'boolean' },
+      type: { summary: 'BOOLEAN', required: true },
+      defaultValue: true
+    },
+    headerElementArray: {
+      defaultValue: [
+        'team',
+        'pricing',
+        'help',
+        'search',
+        'notifications',
+        'account'
+      ]
+    },
+    documentation: {
+      defaultValue: {
+        title: 'Documentation',
+        options: [
+          { name: 'lorem', link: DEFAULT_LINK },
+          { name: 'ipsum', link: DEFAULT_LINK }
+        ]
+      }
+    },
+    references: {
+      defaultValue: {
+        title: 'References',
+        options: [
+          { name: 'lorem', link: DEFAULT_LINK },
+          { name: 'ipsum', link: DEFAULT_LINK }
+        ]
+      }
+    },
+    others: {
+      defaultValue: { title: 'Other', options: [] }
     }
   },
   controls: {}

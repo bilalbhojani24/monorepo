@@ -14,10 +14,11 @@ import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
-import Draggble from './modules/Draggable/index';
+import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
-import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
-import DropdownTriggerWText from './modules/DropdownTriggerWText';
+import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
+import DropdownOptionItem from './modules/DropdownOptionItem/index';
+import DropdownTrigger from './modules/DropdownTrigger/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
@@ -25,6 +26,7 @@ import FileUpload from './modules/FileUpload/index';
 import Header from './modules/Header/index';
 import HeaderBrand from './modules/HeaderBrand/index';
 import HeaderElements from './modules/HeaderElements/index';
+import HeaderProductContainer from './modules/HeaderProductContainer/index';
 import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
 import InputAddOnTexts from './modules/InputAddOnTexts/index';
@@ -66,6 +68,7 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Slideover from './modules/Slideover/index';
+import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
@@ -107,10 +110,11 @@ export {
   ComboboxTrigger,
   DataVisualization,
   DescriptionList,
-  Draggble,
+  Draggable,
   Dropdown,
-  DropdownTriggerWIcon,
-  DropdownTriggerWText,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
@@ -118,6 +122,7 @@ export {
   Header,
   HeaderBrand,
   HeaderElements,
+  HeaderProductContainer,
   HeaderProducts,
   Hyperlink,
   InputAddOnTexts,
@@ -160,6 +165,7 @@ export {
   SidebarItem,
   SidebarNavigation,
   Slideover,
+  SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
   StackedListWAvatar,
