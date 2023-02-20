@@ -61,7 +61,7 @@ export const TEST_MANAGEMENT_PRODUCTS = [
     name: 'Test Observability',
     description: 'Interactive cross browser testing',
     icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
-    link: ''
+    link: 'http://observability.browserstack.com'
   }
 ];
 export const TEST_DEVELOPMENT_PRODUCTS = [
@@ -69,7 +69,7 @@ export const TEST_DEVELOPMENT_PRODUCTS = [
     name: 'Nightwatch.js',
     description: 'Interactive mobile app testing',
     icon: <NightwatchIcon iconClass="w-9 h-[34px]" />,
-    link: ''
+    link: 'https://nightwatchjs.org/'
   }
 ];
 export const FOR_TEAMS_PRODUCTS = [

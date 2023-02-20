@@ -94,7 +94,8 @@ const HeaderProductContainer = () => {
                   productElementContainer(
                     element.icon,
                     element.name,
-                    element.description
+                    element.description,
+                    element.link
                   )
                 )}
               </div>
@@ -119,7 +120,8 @@ const HeaderProductContainer = () => {
                   productElementContainer(
                     element.icon,
                     element.name,
-                    element.description
+                    element.description,
+                    element.link
                   )
                 )}
               </div>
@@ -151,7 +153,8 @@ const HeaderProductContainer = () => {
                     productElementContainer(
                       element.icon,
                       element.name,
-                      element.description
+                      element.description,
+                      element.link
                     )
                   )}
                 </div>
@@ -178,7 +181,8 @@ const HeaderProductContainer = () => {
                     productElementContainer(
                       element.icon,
                       element.name,
-                      element.description
+                      element.description,
+                      element.link
                     )
                   )}
                 </div>

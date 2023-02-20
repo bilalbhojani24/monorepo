@@ -4,6 +4,8 @@ import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
 import Header from './index';
 
+const DEFAULT_LINK = 'https://www.browserstack.com';
+
 const defaultConfig = {
   title: 'Application/Components/Header',
   component: Header,
@@ -67,13 +69,25 @@ const defaultConfig = {
       ]
     },
     documentation: {
-      defaultValue: { title: '', options: [] }
+      defaultValue: {
+        title: 'Documentation',
+        options: [
+          { name: 'lorem', link: DEFAULT_LINK },
+          { name: 'ipsum', link: DEFAULT_LINK }
+        ]
+      }
     },
     references: {
-      defaultValue: { title: '', options: [] }
+      defaultValue: {
+        title: 'References',
+        options: [
+          { name: 'lorem', link: DEFAULT_LINK },
+          { name: 'ipsum', link: DEFAULT_LINK }
+        ]
+      }
     },
     others: {
-      defaultValue: { title: '', options: [] }
+      defaultValue: { title: 'Other', options: [] }
     }
   },
   controls: {}
