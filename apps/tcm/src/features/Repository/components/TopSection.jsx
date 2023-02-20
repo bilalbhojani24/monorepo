@@ -44,7 +44,7 @@ const TopSection = () => {
                 triggerIcon={
                   <MdOutlineExpandMore className="text-2xl text-black" />
                 }
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0"
+                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0 bg-white"
                 triggerVariant="menu-button"
                 options={IMPORT_OPTIONS}
                 onClick={(selectedOption) =>

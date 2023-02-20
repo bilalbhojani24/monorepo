@@ -439,7 +439,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@amplitude/types': 1.10.2
-      tslib: 2.5.0
+      tslib: 2.4.1
     dev: false
 
   /@ampproject/remapping/2.2.0:
@@ -8638,7 +8638,7 @@ packages:
       '@amplitude/analytics-connector': 1.4.6
       '@amplitude/ua-parser-js': 0.7.31
       '@amplitude/utils': 1.10.2
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': 7.20.7
       blueimp-md5: 2.19.0
       query-string: 8.0.3
     dev: false
@@ -19837,7 +19837,6 @@ packages:
       chokidar: 3.5.3
       immutable: 4.2.1
       source-map-js: 1.0.2
-    dev: true
 
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
@@ -21984,7 +21983,6 @@ packages:
       sass: 1.57.1
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /vm-browserify/1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
