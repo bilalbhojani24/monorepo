@@ -19,7 +19,7 @@ const imageErrorView = {
   buttons: []
 };
 
-export const imageDialogConfig = (editor, onAssetUpload) => ({
+export const imageDialogConfig = (editor, onAssetUpload, containerId) => ({
   title: 'Image',
   body: {
     type: 'panel',
@@ -42,6 +42,9 @@ export const imageDialogConfig = (editor, onAssetUpload) => ({
         editor.execCommand('mceInsertContent', false, `<img src=${res} />`);
         api.unblock();
         api.close();
+        document
+          .getElementById(containerId)
+          .classList.remove('rich-text-editor-image-modal-open');
         editor.execCommand('toggletoolbardrawer');
       } else {
         api.unblock();
