@@ -101,6 +101,41 @@ const ControlledModal = (args) => {
   );
 };
 
+const ModalKeyboardClose = (args) => {
+  const [show, setShow] = React.useState(true);
+  return (
+    <div>
+      <Modal
+        {...args}
+        show={show}
+        onClose={() => setShow(false)}
+        onOverlayClick={() => {}}
+      >
+        <ModalHeader
+          dismissButton
+          heading="Modal Keyboard Close"
+          subHeading="Overlay and Escape Close is Enabled"
+        />
+        <p className="px-5 pb-5">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius id
+          excepturi quisquam at, repudiandae officiis beatae consequuntur
+          doloribus? Accusamus libero aliquam fugiat dolorem deserunt recusandae
+          quaerat explicabo non ipsa culpa.
+        </p>
+        <ModalFooter
+          position="right"
+          backgroundColorClass="bg-base-100"
+          isBorder
+        >
+          <Button colors="white" onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>{' '}
+      </Modal>
+    </div>
+  );
+};
+
 const Template = (args) => <Modal {...args} />;
 const CustomBodyTemplate = (args) => <Modal {...args} />;
 const HeaderWithIconTemplate = (args) => <Modal {...args} />;
@@ -120,6 +155,7 @@ export {
   ControlledModal,
   CustomBody,
   HeaderWithIcon,
+  ModalKeyboardClose,
   Primary,
   ScrollableModal
 };
