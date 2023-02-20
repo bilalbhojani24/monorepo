@@ -14,7 +14,8 @@ const Stats = (props) => {
     option,
     variant,
     textColor,
-    wrapperClassName
+    wrapperClassName,
+    hideBoxShadow
   } = props;
 
   return (
@@ -32,9 +33,10 @@ const Stats = (props) => {
               variant === STATS_VARIANTS.WITHOUT_ICON ||
               variant === STATS_VARIANTS.SIMPLE ||
               variant === STATS_VARIANTS.KPI_VARIANT,
-            'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON
+            'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
+            shadow: !hideBoxShadow
           },
-          'relative overflow-hidden bg-white px-4 sm:px-6 shadow rounded-lg',
+          'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
           cardWrapperClassname
         )}
         role="button"
@@ -163,7 +165,7 @@ Stats.propTypes = {
   option: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    stat: PropTypes.string || PropTypes.node,
+    stat: oneOf([PropTypes.node, PropTypes.string]),
     icon: PropTypes.node,
     iconContainerWrapperClass: PropTypes.string,
     change: PropTypes.string,
@@ -174,14 +176,16 @@ Stats.propTypes = {
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  hideBoxShadow: PropTypes.bool
 };
 Stats.defaultProps = {
   cardWrapperClassname: '',
   heading: '',
   variant: STATS_VARIANTS.SIMPLE,
   textColor: 'text-base-900',
-  wrapperClassName: ''
+  wrapperClassName: '',
+  hideBoxShadow: false
 };
 
 export default Stats;
