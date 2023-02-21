@@ -20,7 +20,12 @@ const TextArea = (props) => {
 
   return (
     <div>
-      <label htmlFor={id} className="text-base-700 block text-sm font-medium">
+      <label
+        htmlFor={id}
+        className={twClassNames('text-base-700 block text-sm font-medium', {
+          'opacity-25 cursor-not-allowed': disabled
+        })}
+      >
         {label}
       </label>
       <div className="mt-1">
@@ -32,7 +37,8 @@ const TextArea = (props) => {
           className={twClassNames(
             'border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
             {
-              'resize-none': !isResizable
+              'resize-none': !isResizable,
+              'opacity-25 cursor-not-allowed': disabled
             }
           )}
           disabled={disabled}
