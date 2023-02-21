@@ -6,7 +6,6 @@ import {
   HeaderElements,
   HeaderProducts
 } from '@browserstack/bifrost';
-import { TMBadge } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
 const TMHeader = () => (
@@ -14,21 +13,10 @@ const TMHeader = () => (
     wrapperClassName="fixed w-full"
     headerID="bstack-header"
     productLink={AppRoute.ROOT}
+    productName="Test Management"
+    release="alpha"
   >
-    <HeaderBrand
-      productName={
-        <div className="flex items-center">
-          Test Management
-          <TMBadge
-            isRounded
-            text="Alpha"
-            modifier="primary"
-            size="basic"
-            wrapperClassName="ml-1"
-          />
-        </div>
-      }
-    />
+    <HeaderBrand />
     <HeaderProducts wrapperClassName="max-[1360px]:hidden" />
     <div className="float-right ml-auto">
       <HeaderElements />
