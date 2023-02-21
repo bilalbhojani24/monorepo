@@ -21,7 +21,9 @@
     "axios": "1.2.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-ga4": "2.0.0"
+    "react-ga4": "2.0.0",
+    "@sentry/react": "7.38.0",
+    "@sentry/tracing": "7.38.0"
   },
   "files": [
     "dist/*",
