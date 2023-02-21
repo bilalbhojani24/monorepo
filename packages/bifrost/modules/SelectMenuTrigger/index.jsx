@@ -8,33 +8,15 @@ import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { ChevronUpDownIcon } from '../Icon';
 import TruncateText from '../TruncateText';
 
-import { renderMultiOptions, renderSingleOptions } from './helper';
+import RenderButtonChildren from './components/RenderButtonChildren';
 
 const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth, showCount, setShowCount } = useContext(
-    SelectMenuContextData
-  );
+  const { isMulti, setWidth, showCount } = useContext(SelectMenuContextData);
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
   }, [setWidth]);
-
-  const RenderButtonChildren = (props) => {
-    // eslint-disable-next-line react/prop-types
-    const { val, truncated } = props;
-    useEffect(() => {
-      setShowCount(truncated);
-    }, [truncated]);
-
-    return (
-      <>
-        {isMulti && Array.isArray(val)
-          ? renderMultiOptions(val, placeholder)
-          : renderSingleOptions(val, placeholder)}
-      </>
-    );
-  };
 
   return (
     <Popover.Trigger asChild>
@@ -49,7 +31,7 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
           <>
             <span className="line-clamp-1">
               <TruncateText hidetooltipTriggerIcon isTooltip={false}>
-                <RenderButtonChildren val={value} />
+                <RenderButtonChildren value={value} placeholder={placeholder} />
               </TruncateText>
             </span>
 
