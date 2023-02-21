@@ -26,12 +26,11 @@ const SkipToContent = ({ wrapperClassName, children, target }) => {
 
 SkipToContent.propTypes = {
   wrapperClassName: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.string.isRequired,
   target: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired
 };
 SkipToContent.defaultProps = {
-  wrapperClassName: '',
-  children: ''
+  wrapperClassName: ''
 };
 
 export default SkipToContent;
