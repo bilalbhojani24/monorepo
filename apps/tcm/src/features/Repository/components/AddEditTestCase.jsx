@@ -36,6 +36,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -58,8 +59,7 @@ const AddEditTestCase = () => {
     // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper,
-    imageUploadRTEHelper
+    addIssuesSaveHelper
   } = useAddEditTestCase();
 
   const { initFormValues } = useTestCases();
@@ -144,7 +144,7 @@ const AddEditTestCase = () => {
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
-            onAssetUpload={imageUploadRTEHelper}
+            projectId={projectId}
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
@@ -158,7 +158,7 @@ const AddEditTestCase = () => {
                   value={testCaseFormData?.steps?.[0]}
                   height={200}
                   onChange={(val) => handleTestCaseFieldChange('steps', [val])}
-                  onAssetUpload={imageUploadRTEHelper}
+                  projectId={projectId}
                 />
               </div>
               <div className="flex-1">
@@ -171,7 +171,7 @@ const AddEditTestCase = () => {
                   onChange={(val) =>
                     handleTestCaseFieldChange('expected_result', val)
                   }
-                  onAssetUpload={imageUploadRTEHelper}
+                  projectId={projectId}
                 />
               </div>
             </div>
@@ -183,6 +183,7 @@ const AddEditTestCase = () => {
             }
             data={testCaseFormData.steps}
             onChange={(data) => handleTestCaseFieldChange('steps', data)}
+            projectId={projectId}
           />
         )}
         <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
@@ -284,7 +285,7 @@ const AddEditTestCase = () => {
                 onChange={(val) =>
                   handleTestCaseFieldChange('preconditions', val)
                 }
-                onAssetUpload={imageUploadRTEHelper}
+                projectId={projectId}
               />
             </div>
             <div className="mt-4 flex gap-4">

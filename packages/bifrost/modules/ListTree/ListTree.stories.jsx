@@ -246,7 +246,7 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
 
 const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
   const [selectedNodeMap, setSelectedNodeMap] = useState({});
-  const [focused, setFocused] = useState();
+  const [focused, setFocused] = useState(null);
 
   const [openNodeMap, setOpenNodeMap] = useState({
     'file 2': true,
@@ -284,7 +284,11 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
               setOpenNodeMap({ ...openNodeMap });
             }}
             trailingVisualElement={
-              <Dropdown>
+              <Dropdown
+                onOpenChange={(isOpen) => {
+                  setFocused(isOpen ? item.name : null);
+                }}
+              >
                 <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
                   <EllipsisVerticalIcon className="h-5 w-5" />
                 </DropdownTrigger>

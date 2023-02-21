@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { imageUploadRTEHandlerAPI, uploadFilesAPI } from 'api/attachments.api';
+import { uploadFilesAPI } from 'api/attachments.api';
 // import { verifyTagAPI } from 'api/common.api';
 import { addFolder } from 'api/folders.api';
 import {
@@ -345,9 +345,6 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const imageUploadRTEHelper = (files) =>
-    imageUploadRTEHandlerAPI({ files, projectId });
-
   const showTestCaseAdditionPage = () => {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
       return;
@@ -421,7 +418,6 @@ export default function useAddEditTestCase() {
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    imageUploadRTEHelper,
     showTestCaseAdditionPage,
     goToThisURL
   };

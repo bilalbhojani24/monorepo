@@ -16,6 +16,7 @@ import useTRTCFolders from './useTRTCFolders';
 
 const AddStatusModal = () => {
   const {
+    projectId,
     isAddIssuesModalShown,
     issuesArray,
     addStatusFormData,
@@ -62,7 +63,7 @@ const AddStatusModal = () => {
               height={200}
               placeholder="Enter your remarks about the test (if any)"
               onChange={(val) => statusFormChangeHandler('description', val)}
-              // onAssetUpload={imageUploadRTEHelper}
+              projectId={projectId}
             />
           </div>
           <div className="flex flex-1 items-end justify-between pb-2">

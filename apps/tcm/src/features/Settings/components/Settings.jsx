@@ -40,7 +40,7 @@ const Settings = () => {
           />
         </div> */}
       </div>
-      <div className="w-3/4 p-6">
+      <div className="w-full max-w-4xl p-6">
         {/* <JiraConfigurationAvailable configuration={jiraConfiguration} /> */}
         <NoJiraConfiguration />
         <JiraFooter apiKey={settingsApiKeys.api_key} />
