@@ -16,6 +16,8 @@ import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
 const SelectMenu = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
+  const [showCount, setShowCount] = useState(false);
+
   const { children, onChange, isMulti, defaultValue, value } = props;
 
   return (
@@ -23,7 +25,9 @@ const SelectMenu = forwardRef((props, ref) => {
       value={{
         isMulti,
         setWidth,
-        width
+        width,
+        showCount,
+        setShowCount
       }}
     >
       <Popover.Root>
