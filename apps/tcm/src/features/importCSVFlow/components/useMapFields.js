@@ -39,6 +39,9 @@ const useMapFields = () => {
   const modalConfig = useSelector(
     (state) => state.importCSV.mapFieldModalConfig
   );
+  const mapFieldsError = useSelector(
+    (state) => state.importCSV.mappingFieldsError
+  );
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
@@ -121,7 +124,11 @@ const useMapFields = () => {
     {}
   );
 
-  const typeMapper = { ...defaultTypeMapper, ...customTypeMapper };
+  const typeMapper = {
+    ...defaultTypeMapper,
+    ...customTypeMapper,
+    add: 'Add'
+  };
 
   const allowedValueMapper = mapFieldsConfig.defaultFields.reduce(
     (mapObject, field) => {
@@ -158,7 +165,7 @@ const useMapFields = () => {
           value: mapNameToDisplay[myFieldMappings[item]]
         }
       },
-      mappedValue: myFieldMappings[item]
+      mappedValue: myFieldMappings[item]?.action || myFieldMappings[item]
     }));
   }
 
@@ -278,44 +285,51 @@ const useMapFields = () => {
   };
 
   const handleSaveClick = () => {
-    const selectedLabel =
-      currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
-        ? currentSelectedModalOption.current.label.toLowerCase()
-        : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
-
-    if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
-      dispatch(
-        setValueMappings({
-          key: currentSelectedModalCSVKey.current,
-          value: {
-            ...valueMappings[currentSelectedModalCSVKey.current],
-            [currentSelectedModalField.current]: { action: ADD_VALUE_VALUE }
-          }
-        })
-      );
-    } else if (
-      currentSelectedModalOption.current.label === IGNORE_VALUE_LABEL
+    if (
+      currentSelectedModalCSVKey.current &&
+      currentSelectedModalField.current &&
+      currentSelectedModalOption.current
     ) {
-      dispatch(
-        setValueMappings({
-          key: currentSelectedModalCSVKey.current,
-          value: {
-            ...valueMappings[currentSelectedModalCSVKey.current],
-            [currentSelectedModalField.current]: { action: IGNORE_VALUE_VALUE }
-          }
-        })
-      );
-    } else
-      dispatch(
-        setValueMappings({
-          key: currentSelectedModalCSVKey.current,
-          value: {
-            ...valueMappings[currentSelectedModalCSVKey.current],
-            [currentSelectedModalField.current]: selectedLabel
-          }
-        })
-      );
+      const selectedLabel =
+        currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
+          ? currentSelectedModalOption.current.label.toLowerCase()
+          : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
 
+      if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
+        dispatch(
+          setValueMappings({
+            key: currentSelectedModalCSVKey.current,
+            value: {
+              ...valueMappings[currentSelectedModalCSVKey.current],
+              [currentSelectedModalField.current]: { action: ADD_VALUE_VALUE }
+            }
+          })
+        );
+      } else if (
+        currentSelectedModalOption.current.label === IGNORE_VALUE_LABEL
+      ) {
+        dispatch(
+          setValueMappings({
+            key: currentSelectedModalCSVKey.current,
+            value: {
+              ...valueMappings[currentSelectedModalCSVKey.current],
+              [currentSelectedModalField.current]: {
+                action: IGNORE_VALUE_VALUE
+              }
+            }
+          })
+        );
+      } else
+        dispatch(
+          setValueMappings({
+            key: currentSelectedModalCSVKey.current,
+            value: {
+              ...valueMappings[currentSelectedModalCSVKey.current],
+              [currentSelectedModalField.current]: selectedLabel
+            }
+          })
+        );
+    }
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
@@ -336,6 +350,7 @@ const useMapFields = () => {
   };
 
   return {
+    mapFieldsError,
     allowedValueMapper,
     displayOptions,
     mapNameToDisplay,

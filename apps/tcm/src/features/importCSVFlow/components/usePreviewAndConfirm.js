@@ -30,10 +30,12 @@ const usePreviewAndConfirm = () => {
   const handleImportTestCaseClick = () => {
     // make an api call
     const projectId = queryParams.get('project');
+    const folderId = queryParams.get('folder');
     dispatch(
       startImportingTestCases({
         importId: mapFieldsConfig.importId,
         projectId,
+        folderId,
         retryImport
       })
     );
