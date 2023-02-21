@@ -9,10 +9,10 @@ import useAddEditTestCase from './useAddEditTestCase';
 const InlineAddTestCase = ({ noBorder }) => {
   const [testCase, setTestCase] = useState('');
 
-  const { saveTestCase } = useAddEditTestCase();
+  const { saveTestCase, folderId } = useAddEditTestCase();
 
   const handleInlineInputButtonClick = () => {
-    saveTestCase({ name: testCase });
+    saveTestCase({ name: testCase, test_case_folder_id: folderId });
     setTestCase('');
   };
 

@@ -59,6 +59,7 @@ export default function Folders() {
         onClose={hideFolderModal}
         isRootAvailable={isMoveToRootAvailable}
         confirmButtonText="Move Folder"
+        disabledFolders={[openedFolderModal?.folder?.id]}
       />
       <AddEditFolderModal
         isEditFolder

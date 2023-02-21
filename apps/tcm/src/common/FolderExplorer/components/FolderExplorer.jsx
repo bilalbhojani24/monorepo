@@ -16,7 +16,8 @@ const FolderExplorer = ({
   onFoldersUpdate,
   actionOptions,
   actionClickHandler,
-  isSingleSelect
+  isSingleSelect,
+  disabledFolders // these folders wont be able to be selected/opened
 }) => {
   const {
     selectedNodesId,
@@ -41,6 +42,7 @@ const FolderExplorer = ({
         onFolderClick={folderClickHandler}
         onFolderOpen={subFolderOpenHandler}
         onActionClick={actionClickHandler}
+        disabledFolders={disabledFolders}
         selectedNodesId={folderId ? [parseInt(folderId, 10)] : selectedNodesId}
       />
     </>
@@ -56,7 +58,8 @@ FolderExplorer.propTypes = {
   folderId: PropTypes.string,
   actionsEnabled: PropTypes.bool,
   isSingleSelect: PropTypes.bool,
-  actionOptions: PropTypes.arrayOf(PropTypes.object)
+  actionOptions: PropTypes.arrayOf(PropTypes.object),
+  disabledFolders: PropTypes.arrayOf(PropTypes.number)
 };
 
 FolderExplorer.defaultProps = {
@@ -68,7 +71,8 @@ FolderExplorer.defaultProps = {
   actionClickHandler: () => {},
   actionsEnabled: false,
   isSingleSelect: true,
-  actionOptions: []
+  actionOptions: [],
+  disabledFolders: []
 };
 
 export default FolderExplorer;
