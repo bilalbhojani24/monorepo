@@ -124,6 +124,7 @@ const AddEditFolderModal = ({
             height={200}
             placeholder="Enter folder description/notes"
             onChange={(val) => setFormData({ ...filledFormData, notes: val })}
+            projectId={projectId}
           />
         </div>
       </TMModalBody>

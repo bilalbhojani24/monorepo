@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { stepTemplate } from '../const/addTestCaseConst';
 
-const StepComponent = ({ data, onChange, errorText }) => {
+const StepComponent = ({ data, onChange, errorText, projectId }) => {
   const onChangeHandler = (index, key, value) => {
     onChange(
       data.map((item, idx) =>
@@ -49,6 +49,7 @@ const StepComponent = ({ data, onChange, errorText }) => {
           isDeleteDisabled={data.length === 1}
           onDelete={deleteStep}
           onChange={onChangeHandler}
+          projectId={projectId}
         />
       ))}
       <div className="mt-4 w-full">
@@ -78,7 +79,8 @@ const SingleStepComponent = ({
   onChange,
   onDelete,
   isDeleteDisabled,
-  errorText
+  errorText,
+  projectId
 }) => (
   <div className="mt-4 w-full">
     <div className="mb-2 flex items-center">
@@ -104,7 +106,7 @@ const SingleStepComponent = ({
           placeholder="Write step"
           height={200}
           onChange={(val) => onChange(index, 'step', val)}
-          // onAssetUpload={imageUploadRTEHelper}
+          projectId={projectId}
         />
         {errorText && data?.step === '' && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -118,7 +120,7 @@ const SingleStepComponent = ({
           height={200}
           value={data?.expected_result}
           onChange={(val) => onChange(index, 'expected_result', val)}
-          // onAssetUpload={imageUploadRTEHelper}
+          projectId={projectId}
         />
         {errorText && data?.expected_result === '' && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -137,6 +139,7 @@ SingleStepComponent.propTypes = {
   onDelete: PropTypes.func,
   isDeleteDisabled: PropTypes.bool,
   index: PropTypes.number,
+  projectId: PropTypes.string,
   errorText: PropTypes.string
 };
 SingleStepComponent.defaultProps = {
@@ -145,7 +148,8 @@ SingleStepComponent.defaultProps = {
   onDelete: () => {},
   isDeleteDisabled: false,
   index: 0,
-  errorText: ''
+  errorText: '',
+  projectId: ''
 };
 
 StepComponent.propTypes = {
@@ -156,12 +160,14 @@ StepComponent.propTypes = {
     })
   ),
   onChange: PropTypes.func,
-  errorText: PropTypes.string
+  errorText: PropTypes.string,
+  projectId: PropTypes.string
 };
 StepComponent.defaultProps = {
   data: [],
   onChange: () => {},
-  errorText: ''
+  errorText: '',
+  projectId: ''
 };
 
 export default StepComponent;

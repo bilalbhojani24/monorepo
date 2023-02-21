@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { imageUploadRTEHandlerAPI } from 'api/attachments.api';
 import {
   addTestRunAPI,
   editTestRunAPI,
@@ -151,9 +150,6 @@ const useAddEditTestRun = () => {
     handleTestRunInputFieldChange('issues', combinedIssues);
   };
 
-  const imageUploadRTEHelper = (files) =>
-    imageUploadRTEHandlerAPI({ files, projectId });
-
   // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
   const formDataFormatter = (formData) => {
@@ -294,7 +290,6 @@ const useAddEditTestRun = () => {
     issuesArray,
     showTestCasesModal,
     handleTestRunInputFieldChange,
-    imageUploadRTEHelper,
     showAddTagsModal,
     showAddIssuesModal,
     hideAddIssuesModal,

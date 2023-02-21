@@ -26,7 +26,6 @@ import {
   Notifications,
   PageHeadings,
   RadioGroup,
-  RichTextEditor,
   SectionHeadings,
   Slideover,
   SlideoverHeader,
@@ -51,6 +50,7 @@ import TMDataTable from './components/TMDataTable';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
+import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
@@ -104,12 +104,7 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
-export const TMRichTextEditor = (props) => (
-  <RichTextEditor
-    {...props}
-    assetsURL={import.meta.env.DEV ? '/dist/assets/' : '/assets/'}
-  />
-);
+
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
@@ -136,5 +131,6 @@ export {
   TMDropdown,
   TMHeader,
   TMPagination,
+  TMRichTextEditor,
   TMSelectMenu
 };

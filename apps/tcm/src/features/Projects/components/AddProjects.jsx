@@ -59,7 +59,6 @@ const AddProjects = ({ show, onClose }) => {
           height={200}
           placeholder="Write in brief about the project"
           onChange={(val) => setFormData({ ...formData, description: val })}
-          // onAssetUpload={imageUploadRTEHelper}
         />
       </TMModalBody>
       <TMModalFooter position="right">
