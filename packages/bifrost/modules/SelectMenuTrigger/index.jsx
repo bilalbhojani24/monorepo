@@ -5,16 +5,35 @@ import * as Popover from '@radix-ui/react-popover';
 import { string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { ChevronUpDownIcon } from '../Icon';
+import TruncateText from '../TruncateText';
 
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
 const SelectMenuTrigger = ({ placeholder }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth } = useContext(SelectMenuContextData);
+  const { isMulti, setWidth, showCount, setShowCount } = useContext(
+    SelectMenuContextData
+  );
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
   }, [setWidth]);
+
+  const RenderButtonChildren = (props) => {
+    // eslint-disable-next-line react/prop-types
+    const { val, truncated } = props;
+    useEffect(() => {
+      setShowCount(truncated);
+    }, [truncated]);
+
+    return (
+      <>
+        {isMulti && Array.isArray(val)
+          ? renderMultiOptions(val, placeholder)
+          : renderSingleOptions(val, placeholder)}
+      </>
+    );
+  };
 
   return (
     <Popover.Trigger asChild>
@@ -24,14 +43,14 @@ const SelectMenuTrigger = ({ placeholder }) => {
       >
         {({ value }) => (
           <>
-            <span className="flex items-center truncate">
-              {isMulti && Array.isArray(value)
-                ? renderMultiOptions(value, placeholder)
-                : renderSingleOptions(value, placeholder)}
+            <span className="line-clamp-1">
+              <TruncateText hidetooltipTriggerIcon isTooltip={false}>
+                <RenderButtonChildren val={value} />
+              </TruncateText>
             </span>
 
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              {isMulti && value?.length ? (
+              {isMulti && value?.length && showCount ? (
                 <span className="mr-1 font-bold">{`(${value.length})`}</span>
               ) : null}
               <ChevronUpDownIcon
