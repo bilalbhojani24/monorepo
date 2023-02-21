@@ -8,7 +8,9 @@ import {
   Tabs
 } from '@browserstack/bifrost';
 
+import Issues from './Allissues/Issues';
 import ScanLogs from './ScanLogs';
+import ScanReportSummary from './ScanReportSummary';
 import useScanReport from './useScanReport';
 
 export default function ScanReport() {
@@ -20,15 +22,16 @@ export default function ScanReport() {
     reportCommonData,
     isLoading,
     scanLogsStateData,
-    onFilterApplied
+    onFilterApplied,
+    reportOverviewData
   } = useScanReport();
 
   const getTabContent = () => {
     switch (activeTab) {
       case tabsOptions.SUMMARY.id:
-        return 'Summary';
+        return reportOverviewData ? <ScanReportSummary /> : 'loading';
       case tabsOptions.ALLISSUES.id:
-        return 'all issues';
+        return <Issues />;
       case tabsOptions.SCANLOGS.id:
         return (
           <ScanLogs
@@ -38,7 +41,7 @@ export default function ScanReport() {
           />
         );
       default:
-        return 'Summary';
+        return reportOverviewData ? <ScanReportSummary /> : 'loading';
     }
   };
 

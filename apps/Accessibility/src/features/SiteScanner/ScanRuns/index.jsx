@@ -62,7 +62,7 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
             <TableRow
               key={row.id}
               onRowClick={() => {
-                navigate(`/site-scanner/scan-report/${row.id}`);
+                navigate(`/site-scanner/scan-report?id=${row.id}`);
               }}
               tabIndex="0"
             >

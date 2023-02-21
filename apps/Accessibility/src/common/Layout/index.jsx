@@ -25,11 +25,7 @@ const Layout = () => (
         path={`${ROUTES.scanDetails}/:id`}
         element={<ScanDetails />}
       />
-      <Route
-        exact
-        path={`${ROUTES.scanReports}/:id`}
-        element={<ScanReport />}
-      />
+      <Route exact path={`${ROUTES.scanReports}`} element={<ScanReport />} />
     </Routes>
   </Dashboard>
   // <Routes>

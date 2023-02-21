@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import fetchScanConfigs from '../../../api/siteScannerScanConfigs';
-import { fetchScanRuns } from '../../../api/siteScannerScanDetails';
+import {
+  fetchScanConfigs,
+  fetchScanConfigsById
+} from '../../../api/siteScannerScanConfigs';
+import {
+  fetchScanOverviewData,
+  fetchScanRuns
+} from '../../../api/siteScannerScanDetails';
 import { fetchScanLogs } from '../../../api/siteScannerScanReports';
 
 const { actions, reducer } = createSlice({
@@ -11,7 +17,15 @@ const { actions, reducer } = createSlice({
     scanConfigs: {},
     scanRunCommon: {},
     scanLogs: {},
-    scanReportsCommon: {}
+    scanReportsCommon: {},
+    scanReportsOverview: null,
+    customData: null,
+    reportOverviewMetaData: {
+      issueSummary: null,
+      meta: null,
+      chartData: null
+    },
+    scanOverviewData: {}
   },
   reducers: {
     setScanConfigsData: (state, { payload }) => {
@@ -28,6 +42,21 @@ const { actions, reducer } = createSlice({
     },
     setScanReportCommonData: (state, { payload }) => {
       state.scanReportsCommon = payload;
+    },
+    setOverviewData: (state, { payload }) => {
+      const { reportData, issueSummary, meta, chartData } = payload;
+      state.scanReportsOverview = reportData;
+      state.reportOverviewMetaData = {
+        issueSummary,
+        meta,
+        chartData
+      };
+    },
+    setCustomData: (state, { payload }) => {
+      state.customData = payload;
+    },
+    setScanOverview: (state, { payload }) => {
+      state.scanOverviewData = payload;
     }
   }
 });
@@ -37,7 +66,10 @@ export const {
   setScanRuns,
   setScanRunCommonData,
   setScanLogs,
-  setScanReportCommonData
+  setScanReportCommonData,
+  setOverviewData,
+  setCustomData,
+  setScanOverview
 } = actions;
 
 export default reducer;
@@ -76,6 +108,23 @@ export const getScanLogs = () => async (dispatch) => {
       dispatch(setScanLogs(data));
       const commonData = { ...data.data };
       delete commonData.reports;
+      dispatch(
+        setScanReportCommonData({
+          ...commonData
+        })
+      );
+    })
+    .catch(() => {
+      // dispatch(setScanConfigsError(err));
+    });
+};
+
+export const getScanOverview = (id) => async (dispatch) => {
+  fetchScanOverviewData()
+    .then((data) => {
+      dispatch(setScanOverview(data));
+      const commonData = { ...data.data };
+      delete commonData.overview;
       dispatch(
         setScanReportCommonData({
           ...commonData

@@ -9,3 +9,13 @@ export async function fetchScanLogs(id = null) {
   }
   return false;
 }
+
+export async function fetchOverviewData() {
+  const response = await axios.get(
+    'https://run.mocky.io/v3/b4f657e9-d1a9-4876-9db9-e4765d7c7c0f'
+  );
+  if (response.data) {
+    return response.data;
+  }
+  return false;
+}

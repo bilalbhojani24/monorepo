@@ -1,10 +1,13 @@
 import React from 'react';
 import {
   Badge,
+  Breadcrumb,
   Button,
   Dropdown,
+  DropdownTriggerWIcon,
   MdBarChart,
   MdCalendarToday,
+  MdOutlineMoreVert,
   MdOutlineTableChart,
   MdPerson,
   Tabs
@@ -22,15 +25,26 @@ const ScanDetails = () => {
     tabChangeHandler,
     scanRunData,
     isLoading,
-    scanRunDataCommon
+    scanRunDataCommon,
+    scanOverviewData
   } = useScanDetails();
+  console.log(scanRunDataCommon);
   return (
     <>
+      <Breadcrumb
+        data={[
+          { name: 'Website scan', url: '/site-scanner', current: '' },
+          { name: 'Consolidated report', url: '', current: '' }
+        ]}
+        size="default"
+      />
       <div className="bg-base-50">
         <div className="flex justify-between p-6">
           <div className="flex-col">
             <div className="flex items-center">
-              <h1 className="mb-2 mr-2 text-2xl font-bold">Main user flow</h1>
+              <h1 className="mb-2 mr-2 text-2xl font-bold">
+                {scanRunDataCommon?.name || 'NA'}
+              </h1>
               <Badge text="WCAG 2.1 AA" wrapperClassName="mr-2 h-6" />
               <Badge
                 text={`Active, Next scan: ${
@@ -82,8 +96,14 @@ const ScanDetails = () => {
               Stop recurring
             </Button>
             <Dropdown
-              triggerVariant="menu-button"
-              options={[{ id: '1', body: 'Edit' }]}
+              trigger={
+                <DropdownTriggerWIcon
+                  variant="menu-button"
+                  icon={<MdOutlineMoreVert />}
+                  wrapperClassName="text-lg"
+                />
+              }
+              options={[{ id: '1', body: 'Clone scan configuration' }]}
               heading="WCAG Version"
               onClick={() => {}}
               className="border-none"
@@ -110,7 +130,7 @@ const ScanDetails = () => {
       </div>
       <div>
         {activeTab === 'Overview' ? (
-          <Overview />
+          <Overview scanOverviewData={scanOverviewData} />
         ) : (
           <ScanRuns scanRunData={scanRunData} isLoading={isLoading} />
         )}

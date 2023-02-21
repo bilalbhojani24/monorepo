@@ -28,30 +28,47 @@ export const wcagVersions = [
 export const days = [
   {
     id: 'monday',
-    body: 'Monday'
+    body: 'Monday',
+    number: 0
   },
   {
     id: 'tuesday',
-    body: 'Tuesday'
+    body: 'Tuesday',
+    number: 1
   },
   {
     id: 'wednesday',
-    body: 'Wednesday'
+    body: 'Wednesday',
+    number: 2
   },
   {
     id: 'thursday',
-    body: 'Thursday'
+    body: 'Thursday',
+    number: 3
   },
   {
     id: 'friday',
-    body: 'Friday'
+    body: 'Friday',
+    number: 4
   },
   {
     id: 'saturday',
-    body: 'Saturday'
+    body: 'Saturday',
+    number: 5
   },
   {
     id: 'sunday',
-    body: 'Sunday'
+    body: 'Sunday',
+    number: 6
   }
 ];
+
+export const dayMap = {
+  0: 'Sunday',
+  1: 'Monday',
+  2: 'Tuesday',
+  3: 'Wednesday',
+  4: 'Thursday',
+  5: 'Friday',
+  6: 'Sunday'
+};

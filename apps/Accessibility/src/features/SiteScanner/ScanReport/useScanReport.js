@@ -1,9 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import fetchCustomData from 'api/fetchCustomData';
+import { fetchOverviewData } from 'api/siteScannerScanReports';
 
-import { getScanLogs } from '../slices/dataSlice';
-import { getScanLogsData, getScanReportCommonData } from '../slices/selector';
+import { resetReportAppInfo } from '../slices/appSlice';
+import {
+  getScanLogs,
+  setCustomData,
+  setOverviewData
+} from '../slices/dataSlice';
+import {
+  getScanLogsData,
+  getScanReportCommonData,
+  getScanReportMetaData,
+  getScanReportOverviewData
+} from '../slices/selector';
 
 const tabsOptions = {
   SUMMARY: { name: 'Summary', id: 'SUMMARY', index: 0 },
@@ -22,6 +34,8 @@ export default function useScanReport() {
   const dispatch = useDispatch();
   const scanLogsData = useSelector(getScanLogsData);
   const reportCommonData = useSelector(getScanReportCommonData);
+  const reportOverviewData = useSelector(getScanReportOverviewData);
+  const reportMetaData = useSelector(getScanReportMetaData);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -35,6 +49,28 @@ export default function useScanReport() {
   useEffect(() => {
     setIsLoading(true);
     dispatch(getScanLogs());
+
+    const reportIDList = searchParams.get('id');
+    setIsLoading(true);
+    Promise.all([
+      fetchCustomData(),
+      fetchOverviewData(reportIDList, window.dashboardUserID)
+    ]).then(([customData, overviewData]) => {
+      dispatch(setCustomData(customData.data));
+      dispatch(setOverviewData(overviewData.data));
+      const dataObject = {
+        reportType: 'Individual',
+        issueCount: overviewData.issueSummary.issueCount,
+        pageCount: overviewData.issueSummary.pageCount,
+        componentCount: overviewData.issueSummary.componentCount
+      };
+      // logEvent('OnADReportView', dataObject);
+      setIsLoading(false);
+    });
+    return () => {
+      dispatch(resetReportAppInfo());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
@@ -80,6 +116,7 @@ export default function useScanReport() {
     isLoading,
     reportCommonData,
     scanLogsStateData,
-    onFilterApplied
+    onFilterApplied,
+    reportOverviewData
   };
 }

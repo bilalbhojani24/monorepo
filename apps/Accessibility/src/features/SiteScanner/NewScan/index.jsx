@@ -4,22 +4,21 @@ import {
   Button,
   Checkbox,
   Dropdown,
+  DropdownTriggerWText,
   InputField,
   MdDelete,
+  Slideover,
+  //   SlideoverBody,
+  SlideoverFooter,
+  SlideoverHeader,
   Switch
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import {
-  ASSlideover,
-  ASSlideoverFooter,
-  ASSlideoverHeader
-} from '../../../middleware/bifrost';
-
 import { days, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
 
-const NewScan = ({ show, closeSlideover }) => {
+const NewScan = ({ show, closeSlideover, preConfigData }) => {
   const {
     recurringStatus,
     formData,
@@ -29,38 +28,61 @@ const NewScan = ({ show, closeSlideover }) => {
     timeRef,
     scanNameRef,
     scanUrlRef
-  } = useNewScan(closeSlideover);
+  } = useNewScan(closeSlideover, preConfigData);
 
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
-      <Switch
-        leftLabel="Include Needs Review issues"
-        leftDescription="Issues marked as Needs Review needs manual inspection to confirm it’s validity."
-        onChange={(e) => handleFormData(e, 'needsReview')}
-      />
-      <Switch
-        leftLabel="Include Best Practices issues"
-        leftDescription="Issues marked as Best practices aren't Accessibility guideline violations, but resolving them will improve the overall user experience."
-        onChange={(e) => handleFormData(e, 'bestPractices')}
-      />
+      <div className="flex items-center justify-between">
+        <div className="flex grow flex-col">
+          <span className="text-base-900 text-sm font-medium">
+            Include Needs Review issues
+          </span>
+          <span className="text-base-500 text-sm">
+            Issues marked as Needs Review needs manual inspection to confirm
+            it’s validity.
+          </span>
+        </div>
+        <Switch
+          onChange={(e) => handleFormData(e, 'needsReview')}
+          defaultValue={formData.scanData.needsReview}
+        />
+      </div>
+
+      <div className="mt-2 flex items-center justify-between">
+        <div className="flex grow flex-col">
+          <span className="text-base-900 text-sm font-medium">
+            Include Best Practices issues
+          </span>
+          <span className="text-base-500 text-sm">
+            {`Issues marked as Best practices aren't Accessibility guideline
+            violations, but resolving them will improve the overall user
+            experience.`}
+          </span>
+        </div>
+        <Switch
+          onChange={(e) => handleFormData(e, 'bestPractices')}
+          defaultValue={formData.scanData.bestPractices}
+        />
+      </div>
     </div>
   );
   return (
     <div>
-      <ASSlideover
+      <Slideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"
         onOverlayClick={handlerCloseOver}
         backgroundOverlay
         onClose={handlerCloseOver}
       >
-        <ASSlideoverHeader
+        <SlideoverHeader
           dismissButton
           handleDismissClick={handlerCloseOver}
           heading="New website scan"
           subHeading="Setup your new website scan"
           backgroundColorClass="bg-base-50"
         />
+        {/* <SlideoverBody> */}
         <div className="border-base-200 flex-col border-b pb-4">
           <div className="flex items-center">
             <div
@@ -73,7 +95,7 @@ const NewScan = ({ show, closeSlideover }) => {
                 onChange={(e) => handleFormData(e, 'scanName')}
                 id="scan-name"
                 placeholder="Scan Name"
-                defaultValue={formData.name}
+                value={formData.name}
                 errorText={validationError.scanName}
                 ref={scanNameRef}
               />
@@ -86,7 +108,11 @@ const NewScan = ({ show, closeSlideover }) => {
                 WCAG Version
               </label>
               <Dropdown
-                triggerTitle={formData?.scanData?.wcagVersion.body}
+                trigger={
+                  <DropdownTriggerWText>
+                    {formData?.scanData?.wcagVersion.body}
+                  </DropdownTriggerWText>
+                }
                 options={wcagVersions}
                 heading="WCAG Version"
                 onClick={(e) => handleFormData(e, 'wcagVersion')}
@@ -105,26 +131,65 @@ const NewScan = ({ show, closeSlideover }) => {
                   'You can schedule periodic scans for the added pages'
               }}
               id="recurringRef"
+              checked={recurringStatus}
             />
             {recurringStatus ? (
-              <div className="flex items-center pt-5">
-                <span className="mr-2">On the </span>
-                <Dropdown
-                  triggerTitle={formData.day || 'Day'}
-                  options={days}
-                  onClick={(e) => handleFormData(e, 'day')}
-                  id="recurring-days"
-                />
-                <span className="mx-2">of every week, at</span>
-                <InputField
-                  onChange={(e) => handleFormData(e, 'time')}
-                  id="time"
-                  placeholder="Time"
-                  type="time"
-                  className="text-base-500"
-                  value={formData.time}
-                  ref={timeRef}
-                />
+              <div className="flex-col items-center pt-5">
+                <div className="mb-4 flex w-32">
+                  <Button
+                    variant="primary"
+                    size="default"
+                    colors="white"
+                    // onClick={showAddProjectModal}
+                    onClick={(e) => handleFormData(e, 'weekly')}
+                    wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
+                  >
+                    Weekly
+                  </Button>
+
+                  <Button
+                    variant="primary"
+                    size="default"
+                    colors="white"
+                    // onClick={showAddProjectModal}
+                    onClick={(e) => handleFormData(e, 'daily')}
+                    wrapperClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0 bg-white"
+                  >
+                    Daily
+                  </Button>
+                </div>
+                <div className="ml-4 flex items-center">
+                  {formData.type === 'weekly' && (
+                    <>
+                      <span className="mr-2">On the </span>
+                      <Dropdown
+                        options={days}
+                        onClick={(e) => handleFormData(e, 'day')}
+                        id="recurring-days"
+                        trigger={
+                          <DropdownTriggerWText>
+                            {formData.day || 'Day'}
+                          </DropdownTriggerWText>
+                        }
+                      />
+                      <span className="mx-2">of every week, at</span>{' '}
+                    </>
+                  )}
+                  {formData.type === 'daily' ? (
+                    <span className="mx-2">Everyday at</span>
+                  ) : (
+                    ''
+                  )}
+                  <InputField
+                    onChange={(e) => handleFormData(e, 'time')}
+                    id="time"
+                    placeholder="Time"
+                    type="time"
+                    className="text-base-500"
+                    value={formData.time}
+                    ref={timeRef}
+                  />
+                </div>
               </div>
             ) : (
               ''
@@ -190,7 +255,8 @@ const NewScan = ({ show, closeSlideover }) => {
               : null}
           </div>
         </div>
-        <ASSlideoverFooter position="right" isBorder>
+        {/* </SlideoverBody> */}
+        <SlideoverFooter position="right" isBorder>
           <div className="flex w-full justify-end bg-white">
             <Button
               onClick={handlerCloseOver}
@@ -211,20 +277,22 @@ const NewScan = ({ show, closeSlideover }) => {
               Create
             </Button>
           </div>
-        </ASSlideoverFooter>
-      </ASSlideover>
+        </SlideoverFooter>
+      </Slideover>
     </div>
   );
 };
 
 NewScan.defaultProps = {
   show: false,
-  closeSlideover: () => {}
+  closeSlideover: () => {},
+  preConfigData: null
 };
 
 NewScan.propTypes = {
   show: PropTypes.bool,
-  closeSlideover: PropTypes.func
+  closeSlideover: PropTypes.func,
+  preConfigData: PropTypes.instanceOf(Object)
 };
 
 export default NewScan;

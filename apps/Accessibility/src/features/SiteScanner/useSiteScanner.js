@@ -7,9 +7,10 @@ import { getScanConfigData } from './slices/selector';
 export default function useSiteScanner() {
   const [isLoading, setIsLoading] = useState(false);
   const [scanConfigStateData, setScanConfigStateData] = useState({});
+  const [rowMenuOpen, setRowMenuOpen] = useState(false);
+  const [preConfigData, setPreConfigData] = useState(false);
   const dispatch = useDispatch();
   const scanConfigsData = useSelector(getScanConfigData);
-
   useEffect(() => {
     setIsLoading(true);
     dispatch(getScanConfigs());
@@ -43,6 +44,10 @@ export default function useSiteScanner() {
   return {
     scanConfigStateData,
     isLoading,
-    handleSearch
+    handleSearch,
+    rowMenuOpen,
+    setRowMenuOpen,
+    setPreConfigData,
+    preConfigData
   };
 }

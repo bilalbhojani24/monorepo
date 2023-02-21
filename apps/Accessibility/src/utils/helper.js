@@ -161,3 +161,11 @@ export const isValidHttpUrl = (string) => {
     return false;
   }
 };
+
+export const addZero = (i) => {
+  let newMins = i;
+  if (i < 10) {
+    newMins = `0${newMins}`;
+  }
+  return newMins;
+};

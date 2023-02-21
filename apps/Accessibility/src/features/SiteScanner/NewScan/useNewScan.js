@@ -1,28 +1,98 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
-import { isValidHttpUrl } from '../../../utils/helper';
+import { addZero, isValidHttpUrl } from '../../../utils/helper';
 
-import { days, wcagVersions } from './constants';
+import { dayMap, days, wcagVersions } from './constants';
 
-export default function useNewScan(closeSlideover) {
+const DAILY = 'daily';
+const WEEKLY = 'weekly';
+
+export default function useNewScan(closeSlideover, preConfigData) {
   const [recurringStatus, setRecurringStatus] = useState(false);
   const [formData, setFormData] = useState({
     scanData: {
       wcagVersion: wcagVersions[0],
       needsReview: true,
-      bestPractices: true
+      bestPractices: false
     },
     day: days[0].body,
-    time: '12:00'
+    time: '12:00',
+    type: WEEKLY
   });
   const [validationError, setValidationError] = useState({});
 
   const scanNameRef = useRef();
   const timeRef = useRef();
   const scanUrlRef = useRef();
-  const recurringRef = useRef();
+
+  const getWcagVersionFromBody = (val) =>
+    wcagVersions.filter((version) => version.body === val)[0];
+
+  const getWcagVersionFromVal = (val) =>
+    wcagVersions.filter((version) => version.id === val)[0];
+
+  useEffect(() => {
+    const formDataCpy = { ...formData };
+    if (preConfigData) {
+      formDataCpy.name = preConfigData.name;
+      setRecurringStatus(preConfigData.recurring);
+      formDataCpy.scanData.needsReview = preConfigData.scanData.needsReview;
+      formDataCpy.scanData.bestPractices = preConfigData.scanData.bestPractices;
+      formDataCpy.scanData.wcagVersion = getWcagVersionFromVal(
+        preConfigData.scanData.wcagVersion
+      );
+      formDataCpy.scanData.urlSet = preConfigData.scanData.urlSet;
+      const schedulePatternVerbose = cronstrue.toString(
+        preConfigData.schedulePattern,
+        {
+          use24HourTimeFormat: true,
+          verbose: true
+        }
+      );
+
+      // Interval from parser
+      const interval = parser.parseExpression(preConfigData.schedulePattern);
+      if (schedulePatternVerbose.includes('every day')) {
+        formDataCpy.type = DAILY;
+        const hours = new Date(interval.next().toString()).getHours();
+        const minutes = addZero(
+          new Date(interval.next().toString()).getMinutes()
+        );
+        formDataCpy.time = `${hours}:${minutes}`;
+      } else {
+        formDataCpy.type = WEEKLY;
+        const day = new Date(interval.next().toString()).getDay();
+        const hours = new Date(interval.next().toString()).getHours();
+        const minutes = addZero(
+          new Date(interval.next().toString()).getMinutes()
+        );
+        formDataCpy.day = dayMap[day];
+        formDataCpy.time = `${hours}:${minutes}`;
+      }
+      setFormData(formDataCpy);
+      console.log(preConfigData.name, formDataCpy, schedulePatternVerbose);
+    }
+    //     {
+    //     "success": true,
+    //     "data": {
+    //         "name": "scan name",
+    //         "recurring": true,
+    //         "schedulePattern": "00 12 * * 1",
+    //         "scanData": {
+    //             "needsReview": true,
+    //             "bestPractices": true,
+    //             "wcagVersion": "wcag21aa",
+    //             "urlSet": [
+    //                 "browserstack.com"
+    //             ]
+    //         }
+    //     }
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preConfigData]);
 
   const onRecurringStatus = () => {
     setRecurringStatus(!recurringStatus);
@@ -42,9 +112,6 @@ export default function useNewScan(closeSlideover) {
 
     return true;
   };
-
-  const getWcagVersionFromBody = (val) =>
-    wcagVersions.filter((version) => version.body === val)[0];
 
   const handleFormData = (e, name) => {
     const formDataObj = { ...formData };
@@ -103,22 +170,31 @@ export default function useNewScan(closeSlideover) {
           formDataObj.scanData.urlSet.push(formDataObj.url);
         }
         break;
+      case WEEKLY:
+      case DAILY:
+        formDataObj.type = name;
+        break;
       case 'submit':
         if (checkForValidation()) {
           const payload = { ...formData };
           const time = formData.time.split(':');
           if (formData.recurring) {
-            payload.schedulePattern = cronTime.onSpecificDaysAt(
-              [formData.day.toLowerCase()],
-              time[0],
-              time[1]
-            );
+            if (formData.type === WEEKLY) {
+              payload.schedulePattern = cronTime.onSpecificDaysAt(
+                [formData.day.toLowerCase()],
+                time[0],
+                time[1]
+              );
+            } else {
+              payload.schedulePattern = cronTime.everyDayAt(time[0], time[1]);
+            }
           }
           delete payload.day;
           delete payload.time;
           delete payload.url;
+          delete payload.type;
           const selectedWcagVersion = getWcagVersionFromBody(
-            formData.wcagVersion
+            formData.scanData.wcagVersion.body
           );
           payload.scanData.wcagVersion = {
             label: selectedWcagVersion.body,

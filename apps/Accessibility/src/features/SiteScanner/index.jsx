@@ -3,24 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Button,
+  Dropdown,
+  DropdownTriggerWIcon,
+  DropdownTriggerWText,
+  InputField,
+  MdAdd,
   MdCancel,
   MdCheckCircle,
+  MdOutlineContentCopy,
   MdOutlineHistory,
+  MdOutlineMoreVert,
   MdOutlineSync,
   MdPerson,
-  MdSearch
+  MdSearch,
+  MdStop,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
 } from '@browserstack/bifrost';
 import dateFormat from 'dateformat';
-import {
-  ASInputField,
-  ASSelectMenu,
-  ASTable,
-  ASTableBody,
-  ASTableCell,
-  ASTableHead,
-  ASTableRow
-} from 'middleware/bifrost';
 
+import { fetchScanConfigsById } from '../../api/siteScannerScanConfigs';
+
+// import { rowMenu } from './constants';
 import NewScan from './NewScan';
 import useSiteScanner from './useSiteScanner';
 
@@ -36,92 +43,63 @@ const columns = [
   {
     name: 'Page summary',
     key: 'pageSummary'
+  },
+  {
+    name: '',
+    key: 'menu'
   }
 ];
 
 const typesScan = [
   {
-    label: 'All Scans',
-    value: 'allScans'
+    body: 'All Scans',
+    id: 'allScans'
   },
   {
-    label: 'Your Scans',
-    value: 'youScans'
+    body: 'Your Scans',
+    id: 'yourScans'
   },
   {
-    label: 'Other Scans',
-    value: 'otherScans'
+    body: 'Other Scans',
+    id: 'otherScans'
   }
 ];
 
-const rows = [
+export const rowMenu = [
   {
-    scanSummary: (
-      <div className="cursor-pointer flex-col font-normal">
-        <div>
-          <span className="mr-2">Main Flow</span>
-          <Badge text="WCAG 2.0" />
-        </div>
-        <div className="mt-0.5 flex items-center font-light">
-          <span className="mr-2 flex items-center">
-            <span>
-              <MdPerson className="mr-0.5" color="#9CA3AF" />
-            </span>{' '}
-            You
-          </span>
-          <span className="mr-2">25 pages</span>
-          <Badge
-            text="Recurring On"
-            wrapperClassName="mr-2"
-            modifier="primary"
-          />
-          <span className="mr-2">Next: Feb 2, 12 PM</span>
-        </div>
-      </div>
-    ),
-    lastScanSummary: (
-      <div className="flex flex-col font-normal">
-        <span className="text-black">10745 issues</span>
-        <span>Last scan: Feb 2, 12 PM</span>
-      </div>
-    ),
-    pageSummary: (
-      <div>
-        <span className="mr-4">10 success</span>
-        <span className="mr-4">2 failed</span>
-        <span>3 redirects</span>
+    id: 'newScanRun',
+    value: 'newScanRun',
+    body: (
+      <div className="flex items-center">
+        <MdAdd />
+        <span className="ml-2">New Scan</span>
       </div>
     )
   },
   {
-    scanSummary: (
-      <div className="flex-col font-normal">
-        <div>
-          <span className="mr-2">Main Flow</span>
-          <Badge text="WCAG 2.0" />
-        </div>
-        <div className="mt-0.5 flex items-center font-light">
-          <span className="mr-2 flex items-center">
-            <span>
-              <MdPerson className="mr-0.5" color="#9CA3AF" />
-            </span>{' '}
-            You
-          </span>
-          <span className="mr-2">25 pages</span>
-          <Badge text="Single Run" wrapperClassName="mr-2" />
-        </div>
+    id: 'stopRecurringScans',
+    body: (
+      <div className="flex items-center">
+        <MdStop />
+        <span className="ml-2">Stop Recurring Scan</span>
       </div>
-    ),
-    lastScanSummary: (
-      <div className="text-base-500 flex font-normal">
-        <span>Intializing your scan</span>
+    )
+  },
+  {
+    id: 'cloneScanConfig',
+    body: (
+      <div className="flex items-center">
+        <MdOutlineContentCopy />
+        <span className="ml-2">Clone Scan Configuration</span>
       </div>
-    ),
-    pageSummary: (
-      <div>
-        <span className="mr-4">10 success</span>
-        <span className="mr-4">2 failed</span>
-        <span>3 redirects</span>
+    )
+  },
+  {
+    id: 'lastScanRun',
+    body: (
+      <div className="flex items-center">
+        <MdOutlineHistory />
+        <span className="ml-2">View last scan run</span>
       </div>
     )
   }
@@ -129,7 +107,16 @@ const rows = [
 
 export default function SiteScanner() {
   const [showNewScan, setShowNewScan] = useState(false);
-  const { scanConfigStateData, isLoading, handleSearch } = useSiteScanner();
+  const {
+    scanConfigStateData,
+    isLoading,
+    handleSearch,
+    rowMenuOpen,
+    setRowMenuOpen,
+    preConfigData,
+    setPreConfigData,
+    handleSearchFilter
+  } = useSiteScanner();
   const navigate = useNavigate();
   /*
     Close Slideover
@@ -171,7 +158,27 @@ export default function SiteScanner() {
     );
   };
 
-  console.log(scanConfigStateData);
+  const handleRowMenuClick = (e) => {
+    const menuItem = e.target.textContent;
+    switch (menuItem) {
+      case 'New Scan':
+        setShowNewScan(true);
+        break;
+      case 'Clone Scan Configuration':
+        fetchScanConfigsById()
+          .then((config) => {
+            setPreConfigData(config.data);
+            setShowNewScan(true);
+          })
+          .catch((err) => console.log(err));
+        break;
+      default:
+        console.log(menuItem);
+        break;
+    }
+  };
+
+  console.log(scanConfigStateData, showNewScan);
   return (
     <div className="bg-base-50">
       <div className="flex justify-between p-6">
@@ -198,18 +205,25 @@ export default function SiteScanner() {
         <div className="flex justify-between">
           <div className="flex items-center">
             <div className="mt-1 mr-4 w-64">
-              <ASInputField
+              <InputField
                 onChange={handleSearch}
                 id="search-scan"
                 placeholder="Search for name or user..."
                 leadingIcon={<MdSearch />}
               />
             </div>
-            <ASSelectMenu
-              onChange={() => {}}
-              options={typesScan}
-              placeholder="All Scans"
-            />
+            <div className="mt-1 mr-4">
+              <Dropdown
+                trigger={
+                  <DropdownTriggerWText>
+                    {typesScan[0].body}
+                  </DropdownTriggerWText>
+                }
+                options={typesScan}
+                onClick={handleSearchFilter}
+                id="scanFilter"
+              />
+            </div>
           </div>
           <div>
             <Badge
@@ -221,31 +235,33 @@ export default function SiteScanner() {
           </div>
         </div>
       </div>
-      <ASTable>
-        <ASTableHead>
-          <ASTableRow>
+      <Table>
+        <TableHead>
+          <TableRow>
             {columns.map((col) => (
-              <ASTableCell
+              <TableCell
                 key={col.key}
                 variant="header"
                 wrapperClass="first:pr-3 last:pl-3 px-2"
               >
                 {col.name}
-              </ASTableCell>
+              </TableCell>
             ))}
-          </ASTableRow>
-        </ASTableHead>
-        <ASTableBody>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {!isLoading
             ? scanConfigStateData?.data?.reports.map((row) => (
-                <ASTableRow
+                <TableRow
                   key={row.id}
                   onRowClick={() => {
-                    navigate(`/site-scanner/scan-details/${row.id}`);
+                    if (!rowMenuOpen) {
+                      navigate(`/site-scanner/scan-details/${row.id}`);
+                    }
                   }}
                   tabIndex="0"
                 >
-                  <ASTableCell
+                  <TableCell
                     key="scanSummary"
                     wrapperClass="font-medium text-base-900 first:pr-3 last:pl-3 p-5"
                   >
@@ -265,9 +281,9 @@ export default function SiteScanner() {
                         {getRunTypeBadge(row.scheduled)}
                       </div>
                     </div>
-                  </ASTableCell>
-                  <ASTableCell>{getCurrrentStatus(row)}</ASTableCell>
-                  <ASTableCell>
+                  </TableCell>
+                  <TableCell>{getCurrrentStatus(row)}</TableCell>
+                  <TableCell>
                     {row.reportSummary ? (
                       <div className="flex">
                         <span className="mr-4 flex items-center">
@@ -287,13 +303,33 @@ export default function SiteScanner() {
                         </span>
                       </div>
                     ) : null}
-                  </ASTableCell>
-                </ASTableRow>
+                  </TableCell>
+                  <TableCell>
+                    <Dropdown
+                      trigger={
+                        <DropdownTriggerWIcon
+                          variant="meatball-button"
+                          icon={<MdOutlineMoreVert />}
+                          wrapperClassName="text-lg"
+                        />
+                      }
+                      options={rowMenu}
+                      onClick={(e) => handleRowMenuClick(e, row)}
+                      onOpenChange={(e) => {
+                        setRowMenuOpen(e);
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
               ))
             : 'Loading'}
-        </ASTableBody>
-      </ASTable>
-      <NewScan show={showNewScan} closeSlideover={closeSlideover} />
+        </TableBody>
+      </Table>
+      <NewScan
+        show={showNewScan}
+        closeSlideover={closeSlideover}
+        preConfigData={preConfigData}
+      />
     </div>
   );
 }
