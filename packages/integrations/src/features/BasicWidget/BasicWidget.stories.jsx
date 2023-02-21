@@ -10,7 +10,7 @@ const defaultConfig = {
     authUrl: {
       option: { type: 'string' },
       defaultValue:
-        'https://local.bsstag.com/integrations-service/user-access-token'
+        'http://localhost:3000/integrations-service/user-access-token'
     },
     isOpen: {
       option: { type: 'boolean ' },
