@@ -3194,9 +3194,3 @@ body.tox-dialog__disable-scroll {
 .tox-editor-header {
   display: none;
 }
-
-.tox-editor-header.rte-show-toolbar {
-  display: block;
-}
-
-.rich-text-editor-image-modal-open{}
