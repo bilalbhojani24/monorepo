@@ -10,7 +10,7 @@ export default defineConfig(() => ({
       entry: resolve('./index.js'),
       name: 'Browserstack Utils',
       formats: ['es'],
-      fileName: () => `index.js`
+      fileName: () => `index.js`,
     },
     rollupOptions: {
       external: [
@@ -19,8 +19,9 @@ export default defineConfig(() => ({
         'enzyme',
         'uuid',
         'axios',
-        'dexie'
-      ]
-    }
-  }
+        'dexie',
+        'react/jsx-runtime',
+      ],
+    },
+  },
 }));
