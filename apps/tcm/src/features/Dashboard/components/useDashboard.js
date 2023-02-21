@@ -84,8 +84,13 @@ export default function useDashboard() {
       setClosedTestRunsDailyLineOptions(
         stackedBarOptionsCreator({
           showLegend: true,
-          xAxis: res.date_list,
-          chartData: res.empty_data ? [] : res?.data,
+          xAxis: res?.date_list,
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item, index) => ({
+                ...item,
+                color: ACTIVE_TEST_RUNS_COLOR[index]
+              })),
           addOns: {
             isEmpty: res?.empty_data
           }
