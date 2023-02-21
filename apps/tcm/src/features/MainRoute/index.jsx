@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+// import AlphaAccess from 'common/MiscPages/AlphaAccess';
 import NotFound from 'common/MiscPages/NotFound';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
