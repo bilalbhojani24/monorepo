@@ -37,6 +37,7 @@ const initialState = {
     firstRowIsHeader: true
   },
   csvUploadError: '',
+  mappingFieldsError: '',
   showCSVFields: false,
   fieldsMapping: {},
   valueMappings: {},
@@ -144,8 +145,12 @@ const importCSVSlice = createSlice({
     setCSVUploadError: (state, { payload }) => {
       state.csvUploadError = payload;
     },
+    setMapFieldsError: (state, { payload }) => {
+      state.mappingFieldsError = payload;
+    },
     setFileConfig: (state, { payload }) => {
       state.fileConfig = payload;
+      state.csvUploadError = '';
     },
     setShowMoreFields: (state, { payload }) => {
       state.showCSVFields = payload;
@@ -208,6 +213,7 @@ const importCSVSlice = createSlice({
         action.payload.fields_available?.default;
       state.mapFieldsConfig.importFields = action.payload.import_fields;
       state.uploadFileProceedLoading = false;
+      // state.csvUploadError = '';
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of Object.entries(
         action.payload?.value_mappings
@@ -265,7 +271,16 @@ const importCSVSlice = createSlice({
     builder.addCase(setValueMappingsThunk.fulfilled, (state, { payload }) => {
       if (payload?.response?.status === 400) return;
       const { field, value_mappings: valueMappings } = payload;
-      state.valueMappings[field] = valueMappings;
+
+      const newValueMappings = Object.keys(valueMappings).reduce(
+        (obj, item) => {
+          if (valueMappings[item] === null)
+            return { ...obj, [item]: { action: 'add' } };
+          return { ...obj, [item]: valueMappings[item] };
+        },
+        {}
+      );
+      state.valueMappings[field] = newValueMappings;
     });
     builder.addCase(setUsers.fulfilled, (state, { payload }) => {
       const options = payload.users.map((item) => ({
@@ -289,14 +304,19 @@ const importCSVSlice = createSlice({
       ];
     });
     builder.addCase(submitMappingData.fulfilled, (state, { payload }) => {
-      state.folderName = payload.folder;
-      state.previewData = payload.test_cases;
-      // next screen
-      state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
-      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-        if (idx === 2) return { ...step, status: CURRENT_STEP };
-        return { ...step, status: COMPLETE_STEP };
-      });
+      if (payload.response?.status === 400) {
+        state.mappingFieldsError = payload.response.data.message;
+      } // in case of error
+      else {
+        state.folderName = payload.folder;
+        state.previewData = payload.test_cases;
+        // next screen
+        state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
+        state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
+          if (idx === 2) return { ...step, status: CURRENT_STEP };
+          return { ...step, status: COMPLETE_STEP };
+        });
+      }
     });
   }
 });
@@ -307,6 +327,7 @@ export const {
   setCSVFormData,
   setRetryImport,
   setCSVUploadError,
+  setMapFieldsError,
   setFileConfig,
   setShowMoreFields,
   setMapFieldModalConfig,
@@ -320,14 +341,14 @@ export const {
 export default importCSVSlice.reducer;
 
 export const startImportingTestCases =
-  ({ importId, projectId, retryImport }) =>
+  ({ importId, projectId, folderId, retryImport }) =>
   async (dispatch) => {
     dispatch(startImportingTestCasePending());
     try {
       const response = await startCSVImport({
         importId,
         retryImport,
-        payload: { project_id: projectId }
+        payload: { project_id: projectId, folder_id: folderId }
       });
       dispatch(startImportingTestCaseFulfilled(response));
     } catch (err) {
