@@ -181,7 +181,7 @@ export default function useFolders() {
 
       if (isCreateTestCase) {
         // create test case
-        showTestCaseAdditionPage();
+        showTestCaseAdditionPage(folder);
       } else hideTestCaseAddEditPage();
     }
   };
