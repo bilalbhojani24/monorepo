@@ -1,5 +1,8 @@
 // eslint-disable-next-line no-unused-vars
-export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
+
+export const donutOptionCreator = ({ chartData, total, colors }) => ({
+  colors,
+  total,
   chart: {
     type: 'pie',
     renderTo: 'container'
@@ -12,25 +15,27 @@ export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
     x: 0,
     y: 100,
     useHTML: true,
-    // width: 200,
+    width: '40%',
     itemMarginBottom: 15,
     labelFormatter() {
-      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="color:${this.color}">${this.name}: </span><b>${this.options.y}<br/></div>`;
+      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="">${
+        this.name
+      }: </span><b>${this.y} (${this.percentage.toFixed(1)}%)<br/></div>`;
     }
   },
   title: {
     verticalAlign: 'middle',
-    floating: true,
-    text: title || '',
+    // floating: true,
+    text: '',
     y: 0,
-    x: -50
+    x: -65
   },
   subtitle: {
     verticalAlign: 'middle',
     floating: true,
-    text: subtitle || '',
+    text: '',
     y: 20,
-    x: -50
+    x: -65
   },
   plotOptions: {
     pie: {

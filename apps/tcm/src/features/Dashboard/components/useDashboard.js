@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-// import { getActiveTestRuns } from 'api/dashboard.api';
+import { getActiveTestRunsAPI } from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
 
 // import { setActiveTestRuns } from '../slices/dashboardSlice';
+import { ACTIVE_TEST_RUNS_COLOR } from '../const/immutableConst';
+
 import {
   barOptionsCreator,
   donutOptionCreator,
@@ -26,11 +28,19 @@ export default function useDashboard() {
   const activeTestRuns = useSelector((state) => state.dashboard.activeTestRuns);
 
   const fetchActiveTestRuns = () => {
-    // getActiveTestRuns(projectId).then((res) => {
+    getActiveTestRunsAPI(projectId).then((res) => {
+      if (!res.empty_data) {
+        setActiveTestRunsOptions(
+          donutOptionCreator({
+            total: res.data.reduce((total, item) => item.y + total, 0),
+            chartData: res.data.map((item) => [item.name, item.y]),
+            colors: ACTIVE_TEST_RUNS_COLOR
+          })
+        );
+      }
+    });
     // dispatch(setActiveTestRuns(res));
-    setActiveTestRunsOptions(
-      donutOptionCreator({ title: '1024', subtitle: 'Total Test Cases' })
-    );
+
     setClosedTestRunsLineOptions(lineOptionsCreator({}));
     setTestCasesTrendOptions(lineOptionsCreator({ showLegend: true }));
     setClosedTestRunsStackedOptions(

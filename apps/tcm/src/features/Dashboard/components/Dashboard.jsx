@@ -42,10 +42,20 @@ const Dashboard = () => {
                 linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
               }}
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={activeTestRunsOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={activeTestRunsOptions}
+                  />
+                  <div className="absolute top-0 left-0 flex h-full w-3/5 flex-col items-center justify-center">
+                    <div className="text-base-800 text-xl font-bold">
+                      {activeTestRunsOptions?.total || ''}
+                    </div>
+                    <div className="text-base-500 text-xs font-semibold">
+                      Total Test Cases
+                    </div>
+                  </div>
+                </div>
               }
             />
           </div>
