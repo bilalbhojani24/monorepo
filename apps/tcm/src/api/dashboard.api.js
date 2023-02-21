@@ -5,12 +5,12 @@ export const getActiveTestRunsAPI = async (projectId) =>
     `/api/v1/projects/${projectId}/dashboard-analytics/active-test-runs-info`
   );
 
-export const getClosedTestRunsAPI = async (projectId) =>
+export const getClosedTestRunsMonthlyAPI = async (projectId) =>
   fetchGet(
     `/api/v1/projects/${projectId}/dashboard-analytics/closed-test-runs-info`
   );
 
-export const getClosedTestRunsSplitAPI = async (projectId) =>
+export const getClosedTestRunsDailyAPI = async (projectId) =>
   fetchGet(
     `/api/v1/projects/${projectId}/dashboard-analytics/closed-test-runs-split`
   );
@@ -20,12 +20,12 @@ export const getTestCaseTypeSplitAPI = async (projectId) =>
     `/api/v1/projects/${projectId}/dashboard-analytics/test-case-type-split`
   );
 
-export const getIssuesCountAPI = async (projectId) =>
-  fetchGet(
-    `/api/v1/projects/${projectId}/dashboard-analytics/issues-count-info`
-  );
-
 export const getTestCaseCountTrendAPI = async (projectId) =>
   fetchGet(
     `/api/v1/projects/${projectId}/dashboard-analytics/test-case-count-trend`
+  );
+
+export const getIssuesCountAPI = async (projectId) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/dashboard-analytics/issues-count-info`
   );

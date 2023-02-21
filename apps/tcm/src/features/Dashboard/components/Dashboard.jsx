@@ -15,9 +15,9 @@ const Dashboard = () => {
     projectId,
     testCaseTypesOptions,
     activeTestRunsOptions,
-    closedTestRunsLineOptions,
+    closedTestRunsMonthlyLineOptions,
     jiraIssuesOptions,
-    closedTestRunsStackedOptions,
+    closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
     fetchAllChartData
   } = useDashboard();
@@ -53,7 +53,9 @@ const Dashboard = () => {
                       {activeTestRunsOptions?.total || ''}
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
-                      Total Test Cases
+                      {activeTestRunsOptions?.isEmpty
+                        ? 'No data to display'
+                        : 'Total Test Cases'}
                     </div>
                   </div>
                 </div>
@@ -73,7 +75,7 @@ const Dashboard = () => {
               analytics={
                 <HighchartsReact
                   highcharts={Highcharts}
-                  options={closedTestRunsLineOptions}
+                  options={closedTestRunsMonthlyLineOptions}
                 />
               }
             />
@@ -93,7 +95,7 @@ const Dashboard = () => {
               analytics={
                 <HighchartsReact
                   highcharts={Highcharts}
-                  options={closedTestRunsStackedOptions}
+                  options={closedTestRunsDailyLineOptions}
                 />
               }
             />
@@ -116,7 +118,9 @@ const Dashboard = () => {
                       {testCaseTypesOptions?.total || ''}
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
-                      Total Test Cases
+                      {testCaseTypesOptions?.isEmpty
+                        ? 'No data to display'
+                        : 'Total Test Cases'}
                     </div>
                   </div>
                 </div>
