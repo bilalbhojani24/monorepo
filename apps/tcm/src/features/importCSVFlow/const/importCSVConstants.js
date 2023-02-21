@@ -1,6 +1,7 @@
 export const CURRENT_STEP = 'current';
 export const UPCOMING_STEP = 'upcoming';
 export const COMPLETE_STEP = 'complete';
+export const CURRENT_COMPLETED_STEP = 'current_completed';
 
 export const IMPORT_CSV_STEPS = [
   {
@@ -85,20 +86,21 @@ export const PREVIEW_AND_CONFIRM_COLUMNS = [
 
 export const VALUE_MAPPING_OPTIONS = {
   PRIORITY: [
-    { label: 'High', value: 'High' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Low', value: 'Low' },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE }
+    { label: 'Critical', value: 'critical' },
+    { label: 'High', value: 'high' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Low', value: 'low' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ],
   STATE: [
     { label: 'Active', value: 'Active' },
     { label: 'Draft', value: 'Draft' },
-    { label: 'In Review Status', value: 'In Review Status' },
-    { label: 'Rejected Status', value: 'Rejected Status' },
-    { label: 'Outdated Status', value: 'Outdated Status' },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE }
+    { label: 'Under Review', value: 'Under Review' },
+    { label: 'Rejected', value: 'Rejected' },
+    { label: 'Retired', value: 'Retired' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ],
   TESTCASETYPE: [
     { label: 'Acceptance', value: 'Acceptance' },
@@ -111,10 +113,10 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Performance', value: 'Performance' },
     { label: 'Regression', value: 'Regression' },
     { label: 'Security', value: 'Security' },
-    { label: 'Smoke Sanity', value: 'Smoke Sanity' },
+    { label: 'Smoke & Sanity', value: 'Smoke & Sanity' },
     { label: 'Usability', value: 'Usability' },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE }
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ]
 };
 

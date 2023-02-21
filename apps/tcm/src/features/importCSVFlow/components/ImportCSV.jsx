@@ -46,7 +46,7 @@ const ImportCSV = () => {
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div
         id="current-import-csv-screen"
-        className="mt-4 flex justify-center overflow-auto"
+        className="mt-4 flex flex-col items-center overflow-auto"
       >
         {getCurrentScreen()}
       </div>
