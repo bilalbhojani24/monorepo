@@ -17,7 +17,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import max from 'lodash/max';
 import { updateUrlWithQueryParam } from 'utils/helper';
-// import { logEvent } from 'utils/logEvent';
+import { logEvent } from 'utils/logEvent';
 
 export default function useSummary() {
   const dispatch = useDispatch();
@@ -135,11 +135,11 @@ export default function useSummary() {
               onRowClick('impact', value?.point?.options?.name.toLowerCase());
             },
             mouseOver: (value) => {
-              // logEvent('OnADReportView', {
-              //   actionType: events.INTERACT_WITH_CHART,
-              //   chartType: 'Issue summary',
-              //   severity: value?.target?.options?.name
-              // });
+              logEvent('OnADReportView', {
+                actionType: events.INTERACT_WITH_CHART,
+                chartType: 'Issue summary',
+                severity: value?.target?.options?.name
+              });
             }
           }
         },
@@ -189,11 +189,11 @@ export default function useSummary() {
         cloneDeep(categoryList).sort((a, b) => a.count - b.count)
       );
     }
-    // logEvent('OnADReportView', {
-    //   actionType: events.INTERACT_WITH_CHART,
-    //   chartType: 'Issue category',
-    //   sortType: value
-    // });
+    logEvent('OnADReportView', {
+      actionType: events.INTERACT_WITH_CHART,
+      chartType: 'Issue category',
+      sortType: id
+    });
   };
 
   useEffect(() => {

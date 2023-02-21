@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useAuthRoutes } from '@browserstack/hooks';
-import axios from 'axios';
+// import axios from 'axios';
+import fetchAuth from 'api/auth';
 import { APP_ROUTES } from 'constants/routes';
 
 const initAPI = async () => {
@@ -13,17 +14,12 @@ const initAPI = async () => {
   // });
 
   console.log('This is the init API...');
-
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(true);
-  //   }, 2000);
-  // });
+  return fetchAuth();
 
   // returns status code - 200 (uncomment and test)
-  return axios.get(
-    'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
-  );
+  // return axios.get(
+  //   'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
+  // );
 
   // returns status code - 401 (uncomment and test)
   // return axios.get(

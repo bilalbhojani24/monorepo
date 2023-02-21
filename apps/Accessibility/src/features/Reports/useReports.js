@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
+import { events } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
-// import { events } from 'constants';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 import {
   resetReportSelection,
@@ -48,36 +49,36 @@ export default function useReports() {
     setIsOpen(false);
     setStorage('showed-extension-modal', true);
 
-    // if (action === 'cross-click') {
-    //   logEvent('InteractedWithADExtensionDownloadModal', {
-    //     actionType: events.CROSS_BUTTON
-    //   });
-    // } else if (action === 'do-later') {
-    //   logEvent('InteractedWithADExtensionDownloadModal', {
-    //     actionType: events.CLOSE_MODAL
-    //   });
-    // } else if (action === 'download-extension') {
-    //   logEvent('InteractedWithADExtensionDownloadModal', {
-    //     actionType: events.DOWNLOAD_EXTENSION
-    //   });
-    // }
+    if (action === 'cross-click') {
+      logEvent('InteractedWithADExtensionDownloadModal', {
+        actionType: events.CROSS_BUTTON
+      });
+    } else if (action === 'do-later') {
+      logEvent('InteractedWithADExtensionDownloadModal', {
+        actionType: events.CLOSE_MODAL
+      });
+    } else if (action === 'download-extension') {
+      logEvent('InteractedWithADExtensionDownloadModal', {
+        actionType: events.DOWNLOAD_EXTENSION
+      });
+    }
   };
 
   // Note: Mount effect
   useEffect(() => {
     if (isLandingFirstTime) {
       setStorage('is-landing-first-time', true);
-      // logEvent('OnADHomepage', {
-      //   firstVisit: true
-      // });
+      logEvent('OnADHomepage', {
+        firstVisit: true
+      });
     } else {
-      // logEvent('OnADHomepage', {
-      //   firstVisit: false
-      // });
+      logEvent('OnADHomepage', {
+        firstVisit: false
+      });
     }
-    // if (!isShowingModalByDefault) {
-    //   logEvent('OnADExtensionDownloadModal', {});
-    // }
+    if (!isShowingModalByDefault) {
+      logEvent('OnADExtensionDownloadModal', {});
+    }
   }, [isLandingFirstTime, isShowingModalByDefault]);
 
   useEffect(() => {
@@ -98,25 +99,25 @@ export default function useReports() {
   const onVersionSelect = (id) => {
     if (id !== activeVersion) {
       dispatch(setActiveVersion(id));
-      // logEvent('InteractedWithADHomepage', {
-      //   actionType: events.SELECT_TAB,
-      //   tabName: id
-      // });
+      logEvent('InteractedWithADHomepage', {
+        actionType: events.SELECT_TAB,
+        tabName: id
+      });
     }
   };
 
   const resetSelection = () => {
     dispatch(resetReportSelection());
-    // logEvent('InteractedWithADHomepage', {
-    //   actionType: events.CANCEL_SELECTION
-    // });
+    logEvent('InteractedWithADHomepage', {
+      actionType: events.CANCEL_SELECTION
+    });
   };
 
   const onCloseClick = () => {
     setIsShowingBanner(false);
-    // logEvent('InteractedWithADHomepage', {
-    //   actionType: events.CLOSE_BANNER
-    // });
+    logEvent('InteractedWithADHomepage', {
+      actionType: events.CLOSE_BANNER
+    });
   };
 
   const onDownloadExtensionClick = () => {
@@ -138,10 +139,10 @@ export default function useReports() {
       params.dashboardUserID = window.dashboardUserID;
     }
     const path = updateUrlWithQueryParam(params);
-    // logEvent('InteractedWithADHomepage', {
-    //   actionType: 'View consolidated report',
-    //   reportCount: selectedReportsLength
-    // });
+    logEvent('InteractedWithADHomepage', {
+      actionType: 'View consolidated report',
+      reportCount: selectedReportsLength
+    });
     navigate(`reports/report?${path}`);
   };
 

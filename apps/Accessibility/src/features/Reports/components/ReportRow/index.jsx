@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Checkbox } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
-// import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import {
   handleClickByEnterOrSpace,
   updateUrlWithQueryParam
 } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 import { setIsReportSelected } from '../../slices/appSlice';
 import {
@@ -49,9 +49,9 @@ export default function ReportRow({ id }) {
     if (isSelectionMode) {
       dispatch(setIsReportSelected({ id, isSelected: !isSelected }));
     } else {
-      // logEvent('InteractedWithADHomepage', {
-      //   actionType: 'View individual report'
-      // });
+      logEvent('InteractedWithADHomepage', {
+        actionType: 'View individual report'
+      });
       const params = {
         ids: id,
         wcagVersion: activeVersion.split('WCAG ')[1]

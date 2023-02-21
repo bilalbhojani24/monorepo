@@ -1,7 +1,6 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-// import Sidebar from 'app/bsA11y/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
