@@ -9,7 +9,7 @@ import DiskIODetails from './DiskIODetails';
 import MetricStat from './MetricStat';
 import NetworkIODetails from './NetworkIODetails';
 import ScreenLoadTime from './ScreenLoadTime';
-import UIRenderingCard from './UIRednderingCard';
+import UIRenderingCard from './UIRenderingCard';
 import useReportContent from './useReportContent';
 
 const ReportContent = () => {

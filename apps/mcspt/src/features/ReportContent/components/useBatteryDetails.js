@@ -7,9 +7,9 @@ import { getSessionMetrics } from '../../Report';
 const generateBatteryChartOptions = (sessionData) => {
   const chartOptions = getDefaultChartOptions();
 
-  const batteryTimeSeriesData = sessionData?.report?.Battery?.metrics?.map(
-    (x) => [x.ts / 1000, x.batteryPercentage]
-  );
+  const batteryTimeSeriesData = sessionData?.report?.[
+    'Application Battery'
+  ]?.metrics?.map((x) => [x.ts / 1000, x.batterymAh]);
 
   chartOptions.chart = {
     type: 'spline',

@@ -1,5 +1,7 @@
 import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 import { decideIfCriteriaBreached, sanitizeValue } from '../../../utils';
 
@@ -7,7 +9,7 @@ import MetricStat from './MetricStat';
 import useUIRenderingCard from './useUIRenderingCard';
 
 const UIRenderingCard = () => {
-  const { sessionData } = useUIRenderingCard();
+  const { sessionData, frameChartOptions } = useUIRenderingCard();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white shadow">
@@ -71,6 +73,19 @@ const UIRenderingCard = () => {
           )}
           triangleDirection={sessionData?.threshold?.anrCount?.operator}
         />
+      </div>
+
+      <div className="p-4">
+        <div className="relative h-[182px]">
+          <div className="absolute top-0 left-0 w-full">
+            {frameChartOptions && (
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={frameChartOptions}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
