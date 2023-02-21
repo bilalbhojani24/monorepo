@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {fetchGet} from "./_utils/fetch";
 
 export const authUser = async () =>
-  axios.get(`https://teststack.bsstag.com/api/v1`);
+    fetchGet(`/api/v1`);
