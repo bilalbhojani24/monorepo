@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { NotificationsContextData } from '../../shared/notificationsContext';
 import { XMarkIcon } from '../Icon';
 
-import './styles.scss';
-
 const Notifications = forwardRef((props, ref) => {
   const {
     actionButtons,

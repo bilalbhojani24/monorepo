@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -9,7 +10,7 @@ import TruncateText from '../TruncateText';
 
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
-const SelectMenuTrigger = ({ placeholder }) => {
+const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth, showCount, setShowCount } = useContext(
     SelectMenuContextData
@@ -39,7 +40,10 @@ const SelectMenuTrigger = ({ placeholder }) => {
     <Popover.Trigger asChild>
       <Listbox.Button
         ref={buttonRef}
-        className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm"
+        className={twClassNames(
+          'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm',
+          wrapperClassName
+        )}
       >
         {({ value }) => (
           <>
@@ -66,10 +70,12 @@ const SelectMenuTrigger = ({ placeholder }) => {
 };
 
 SelectMenuTrigger.propTypes = {
-  placeholder: string
+  placeholder: string,
+  wrapperClassName: string
 };
 SelectMenuTrigger.defaultProps = {
-  placeholder: ''
+  placeholder: '',
+  wrapperClassName: ''
 };
 
 export default SelectMenuTrigger;
