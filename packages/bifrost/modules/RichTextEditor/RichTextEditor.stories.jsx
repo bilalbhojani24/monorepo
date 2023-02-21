@@ -35,6 +35,10 @@ const defaultConfig = {
     }
   },
   argTypes: {
+    assetsURL: {
+      option: { type: 'string' },
+      defaultValue: 'http://127.0.0.1:5500/packages/bifrost/dist/'
+    },
     onAssetUpload: {
       option: { type: 'string' },
       defaultValue: onAssetUpload
