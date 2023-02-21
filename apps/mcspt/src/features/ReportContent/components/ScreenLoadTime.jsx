@@ -23,20 +23,11 @@ const columns = [
     )
   },
   {
-    name: 'END',
-    key: 'slEnd',
-    cell: (row) => (
-      <div className="text-base-500 font-normal">
-        {secondsToMinutes(Math.floor(row.renderTime / 1000))}
-      </div>
-    )
-  },
-  {
     name: 'LOAD TIME',
     key: 'slLoadTime',
     cell: (row) => (
       <div className="text-base-900 font-medium">
-        {secondsToMinutes(Math.floor((row.startTime + row.renderTime) / 1000))}
+        {secondsToMinutes(Math.floor(row.renderTime / 1000))}
       </div>
     )
   }

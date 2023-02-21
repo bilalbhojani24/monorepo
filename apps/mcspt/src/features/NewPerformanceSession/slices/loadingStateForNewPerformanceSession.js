@@ -25,13 +25,13 @@ export const loadingStateForNewPerformanceSession = createSlice({
 });
 
 export const getAreDevicesStillLoading = (state) =>
-  state.newPerformanceSession.areDevicesStillLoading;
+  state.loadingStateForNewPerformanceSession.areDevicesStillLoading;
 
 export const getAreApplicationsStillLoading = (state) =>
-  state.newPerformanceSession.areApplicationsStillLoading;
+  state.loadingStateForNewPerformanceSession.areApplicationsStillLoading;
 
 export const getIsSessionApiLoading = (state) =>
-  state.newPerformanceSession.isSessionApiLoading;
+  state.loadingStateForNewPerformanceSession.isSessionApiLoading;
 
 // Action creators are generated for each case reducer function
 export const {

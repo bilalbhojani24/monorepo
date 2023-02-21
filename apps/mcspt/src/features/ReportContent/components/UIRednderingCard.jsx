@@ -1,6 +1,8 @@
 import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 
+import { decideIfCriteriaBreached, sanitizeValue } from '../../../utils';
+
 import MetricStat from './MetricStat';
 import useUIRenderingCard from './useUIRenderingCard';
 
@@ -13,15 +15,29 @@ const UIRenderingCard = () => {
         <MetricStat
           wrapperClassName="p-4"
           metricTitle="Avg FPS"
-          metricText={`${sessionData?.aggregated?.fpsAvg?.value}`}
+          metricText={`${sanitizeValue(
+            sessionData?.aggregated?.fpsAvg?.value
+          )}`}
           MetricIcon={<MdInfoOutline />}
+          criteriaForBreach={decideIfCriteriaBreached(
+            sessionData?.aggregated?.fpsAvg?.value,
+            sessionData?.threshold?.fpsAvg
+          )}
+          triangleDirection={sessionData?.threshold?.fpsAvg?.operator}
         />
 
         <MetricStat
           wrapperClassName="p-4"
           metricTitle="Slow Frame Rate"
-          metricText={`${sessionData?.aggregated?.slowFramePercent?.value} %`}
+          metricText={`${sanitizeValue(
+            sessionData?.aggregated?.slowFramePercent?.value
+          )} %`}
           MetricIcon={<MdInfoOutline />}
+          criteriaForBreach={decideIfCriteriaBreached(
+            sessionData?.aggregated?.slowFramePercent?.value,
+            sessionData?.threshold?.slowFramePercent
+          )}
+          triangleDirection={sessionData?.threshold?.slowFramePercent?.operator}
         />
       </div>
 
@@ -29,15 +45,31 @@ const UIRenderingCard = () => {
         <MetricStat
           wrapperClassName="p-4"
           metricTitle="Frozen Frame Rate"
-          metricText={`${sessionData?.aggregated?.frozenFramePercent?.value} %`}
+          metricText={`${sanitizeValue(
+            sessionData?.aggregated?.frozenFramePercent?.value
+          )} %`}
           MetricIcon={<MdInfoOutline />}
+          criteriaForBreach={decideIfCriteriaBreached(
+            sessionData?.aggregated?.frozenFramePercent?.value,
+            sessionData?.threshold?.frozenFramePercent
+          )}
+          triangleDirection={
+            sessionData?.threshold?.frozenFramePercent?.operator
+          }
         />
 
         <MetricStat
           wrapperClassName="p-4"
           metricTitle="ANRs Detected"
-          metricText={`${sessionData?.aggregated?.anrCount?.value}`}
+          metricText={`${sanitizeValue(
+            sessionData?.aggregated?.anrCount?.value
+          )}`}
           MetricIcon={<MdInfoOutline />}
+          criteriaForBreach={decideIfCriteriaBreached(
+            sessionData?.aggregated?.anrCount?.value,
+            sessionData?.threshold?.anrCount
+          )}
+          triangleDirection={sessionData?.threshold?.anrCount?.operator}
         />
       </div>
     </div>

@@ -30,7 +30,8 @@ const ReportLoading = () => {
     selectedApplication,
     onCancelClicked,
     stopSessionClicked,
-    secondsElapsed
+    secondsElapsed,
+    isSessionStopInProgress
   } = useReportLoading();
 
   return (
@@ -80,6 +81,7 @@ const ReportLoading = () => {
                 colors="danger"
                 variant="primary"
                 onClick={stopSessionClicked}
+                loading={isSessionStopInProgress}
               >
                 Stop Test
               </Button>

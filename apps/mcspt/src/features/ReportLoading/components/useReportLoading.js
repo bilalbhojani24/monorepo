@@ -8,7 +8,10 @@ import {
   getSessionDetails
 } from '../../NewPerformanceSession';
 import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
-import { getLatestSessionStatus } from '../slices/reportLoadingSlice';
+import {
+  getIsSessionStopInProgress,
+  getLatestSessionStatus
+} from '../slices/reportLoadingSlice';
 import {
   checkSessionStatus,
   stopRecordingSession
@@ -23,9 +26,12 @@ const generateSessionTextMap = (device, application) => ({
 
 const useReportLoading = () => {
   const sessionState = useSelector(getLatestSessionStatus);
+
   const sessionDetails = useSelector(getSessionDetails);
   const selectedDevice = useSelector(getSelectedDevice);
   const selectedApplication = useSelector(getSelectedApplication);
+
+  const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
 
   const [sesstionTextMap, setSessionTextMap] = useState(null);
   const [timerIntervalId, setTimerIntervalId] = useState(null);
@@ -56,6 +62,8 @@ const useReportLoading = () => {
         }, 1000)
       );
     }
+
+    return undefined;
   }, [sessionState]);
 
   useEffect(() => {
@@ -63,6 +71,13 @@ const useReportLoading = () => {
       generateSessionTextMap(selectedDevice, selectedApplication)
     );
   }, [selectedApplication, selectedDevice]);
+
+  useEffect(
+    () => () => {
+      clearInterval(timerIntervalId);
+    },
+    [timerIntervalId]
+  );
 
   return {
     sessionState,
@@ -72,7 +87,8 @@ const useReportLoading = () => {
     selectedApplication,
     onCancelClicked,
     stopSessionClicked,
-    secondsElapsed
+    secondsElapsed,
+    isSessionStopInProgress
   };
 };
 

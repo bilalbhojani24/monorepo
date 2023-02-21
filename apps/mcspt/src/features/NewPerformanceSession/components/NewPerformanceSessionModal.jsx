@@ -43,7 +43,7 @@ const NewPerformanceSessionModal = ({
   const { currentSetupStep, stepsDetails } = useNewPerformanceSessionModal();
 
   return (
-    <Modal show={showNewSessionModal} size="3xl">
+    <Modal wrapperClassName="max-h-full" show={showNewSessionModal} size="3xl">
       <div className="flex min-h-[35rem]">
         <div className="border-base-300 w-[212px] border-r">
           <SetupProgressBar

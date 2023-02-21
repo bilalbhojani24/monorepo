@@ -2,7 +2,10 @@ import { fetchSessionStatus, stopSession } from '../../../api/reportLoading';
 import { updateSessionMetrics } from '../../Report';
 import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
 
-import { updateSessionStatus } from './reportLoadingSlice';
+import {
+  setIsSessionStopInProgress,
+  updateSessionStatus
+} from './reportLoadingSlice';
 
 export const checkSessionStatus = () => async (dispatch, getState) => {
   try {
@@ -47,6 +50,8 @@ export const stopRecordingSession =
       const currentSessionId =
         getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
+      dispatch(setIsSessionStopInProgress(true));
+
       const response = await stopSession(currentSessionId);
 
       dispatch(updateSessionMetrics(response));
@@ -56,5 +61,7 @@ export const stopRecordingSession =
       if (error?.response?.status === 500) {
         throw error;
       }
+    } finally {
+      dispatch(setIsSessionStopInProgress(false));
     }
   };

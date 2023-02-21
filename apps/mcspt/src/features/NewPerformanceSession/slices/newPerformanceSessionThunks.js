@@ -73,7 +73,8 @@ export const triggerSession =
 
       const response = await startSession({
         appID: selectedApplication.packageName,
-        deviceID: selectedDevice.deviceId
+        deviceID: selectedDevice.deviceId,
+        sessionName
       });
 
       dispatch(setSessionDetails(response));
