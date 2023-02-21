@@ -13,18 +13,19 @@ variablePie(Highcharts);
 const Dashboard = () => {
   const {
     projectId,
+    testCaseTypesOptions,
     activeTestRunsOptions,
     closedTestRunsLineOptions,
     jiraIssuesOptions,
     closedTestRunsStackedOptions,
     testCasesTrendOptions,
-    fetchActiveTestRuns
+    fetchAllChartData
   } = useDashboard();
 
   useEffect(() => {
-    fetchActiveTestRuns(projectId);
+    fetchAllChartData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [projectId]);
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
@@ -105,10 +106,20 @@ const Dashboard = () => {
               wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={activeTestRunsOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={testCaseTypesOptions}
+                  />
+                  <div className="absolute top-0 left-0 flex h-full w-3/5 flex-col items-center justify-center">
+                    <div className="text-base-800 text-xl font-bold">
+                      {testCaseTypesOptions?.total || ''}
+                    </div>
+                    <div className="text-base-500 text-xs font-semibold">
+                      Total Test Cases
+                    </div>
+                  </div>
+                </div>
               }
             />
           </div>

@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getActiveTestRunsAPI } from 'api/dashboard.api';
+import {
+  getActiveTestRunsAPI,
+  getTestCaseTypeSplitAPI
+} from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
 
 // import { setActiveTestRuns } from '../slices/dashboardSlice';
-import { ACTIVE_TEST_RUNS_COLOR } from '../const/immutableConst';
+import {
+  ACTIVE_TEST_RUNS_COLOR,
+  TEST_CASES_TYPES_COLORS
+} from '../const/immutableConst';
 
 import {
   barOptionsCreator,
@@ -18,6 +24,7 @@ export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
+  const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
   const [testCasesTrendOptions, setTestCasesTrendOptions] = useState(null);
   const [closedTestRunsLineOptions, setClosedTestRunsLineOptions] =
     useState(null);
@@ -39,6 +46,26 @@ export default function useDashboard() {
         );
       }
     });
+  };
+
+  const fetchTestCaseTypeSplit = () => {
+    getTestCaseTypeSplitAPI(projectId).then((res) => {
+      if (!res.empty_data) {
+        setTestCaseTypesOptions(
+          donutOptionCreator({
+            total: res.data.reduce((total, item) => item.y + total, 0),
+            chartData: res.data.map((item) => [item.name, item.y]),
+            colors: TEST_CASES_TYPES_COLORS
+          })
+        );
+      }
+    });
+  };
+
+  const fetchAllChartData = () => {
+    fetchActiveTestRuns(); // Active test runs - pie
+    fetchTestCaseTypeSplit(); // Type of test cases - pie
+
     // dispatch(setActiveTestRuns(res));
 
     setClosedTestRunsLineOptions(lineOptionsCreator({}));
@@ -56,6 +83,7 @@ export default function useDashboard() {
   }, [projectId]);
 
   return {
+    testCaseTypesOptions,
     closedTestRunsStackedOptions,
     jiraIssuesOptions,
     activeTestRunsOptions,
@@ -63,6 +91,6 @@ export default function useDashboard() {
     testCasesTrendOptions,
     projectId,
     activeTestRuns,
-    fetchActiveTestRuns
+    fetchAllChartData
   };
 }
