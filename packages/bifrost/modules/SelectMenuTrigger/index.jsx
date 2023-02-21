@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
 import { string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { ChevronUpDownIcon } from '../Icon';
+import TruncateText from '../TruncateText';
 
-import { renderMultiOptions, renderSingleOptions } from './helper';
+import RenderButtonChildren from './components/RenderButtonChildren';
 
-const SelectMenuTrigger = ({ placeholder }) => {
+const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth } = useContext(SelectMenuContextData);
+  const { isMulti, setWidth, showCount } = useContext(SelectMenuContextData);
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
@@ -20,18 +22,21 @@ const SelectMenuTrigger = ({ placeholder }) => {
     <Popover.Trigger asChild>
       <Listbox.Button
         ref={buttonRef}
-        className="border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm"
+        className={twClassNames(
+          'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm',
+          wrapperClassName
+        )}
       >
         {({ value }) => (
           <>
-            <span className="flex items-center truncate">
-              {isMulti && Array.isArray(value)
-                ? renderMultiOptions(value, placeholder)
-                : renderSingleOptions(value, placeholder)}
+            <span className="line-clamp-1">
+              <TruncateText hidetooltipTriggerIcon isTooltip={false}>
+                <RenderButtonChildren value={value} placeholder={placeholder} />
+              </TruncateText>
             </span>
 
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              {isMulti && value?.length ? (
+              {isMulti && value?.length && showCount ? (
                 <span className="mr-1 font-bold">{`(${value.length})`}</span>
               ) : null}
               <ChevronUpDownIcon
@@ -47,10 +52,12 @@ const SelectMenuTrigger = ({ placeholder }) => {
 };
 
 SelectMenuTrigger.propTypes = {
-  placeholder: string
+  placeholder: string,
+  wrapperClassName: string
 };
 SelectMenuTrigger.defaultProps = {
-  placeholder: ''
+  placeholder: '',
+  wrapperClassName: ''
 };
 
 export default SelectMenuTrigger;
