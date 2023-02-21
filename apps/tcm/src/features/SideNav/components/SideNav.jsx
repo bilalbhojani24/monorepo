@@ -60,15 +60,17 @@ const SideNav = (props) => {
           />
         ))}
         sidebarHeader={
-          showProjects && (
+          showProjects ? (
             <>
               {allProjectsDrop?.length ? (
                 <SidebarHeader>
                   <SelectMenu
                     onChange={onProjectChange}
-                    value={allProjectsDrop.find(
-                      (item) => `${item.value}` === selectedProjectId
-                    )}
+                    value={
+                      allProjectsDrop.find(
+                        (item) => `${item.value}` === selectedProjectId
+                      ) || null
+                    }
                   >
                     <SelectMenuTrigger placeholder="Select.." />
                     <SelectMenuOptionGroup>
@@ -92,7 +94,7 @@ const SideNav = (props) => {
                 </div>
               )}
             </>
-          )
+          ) : null
         }
       />
       <AddProjects

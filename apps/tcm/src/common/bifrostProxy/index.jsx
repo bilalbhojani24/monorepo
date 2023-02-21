@@ -42,7 +42,7 @@ import {
   Tooltip,
   TooltipBody,
   TooltipHeader,
-  TruncateText,
+  TruncateText
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
@@ -105,7 +105,10 @@ export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => (
-  <RichTextEditor {...props} assetsURL={import.meta.env.DEV ? '/dist' : '/'} />
+  <RichTextEditor
+    {...props}
+    assetsURL={import.meta.env.DEV ? '/dist/assets' : '/assets'}
+  />
 );
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
@@ -133,5 +136,5 @@ export {
   TMDropdown,
   TMHeader,
   TMPagination,
-  TMSelectMenu,
+  TMSelectMenu
 };
