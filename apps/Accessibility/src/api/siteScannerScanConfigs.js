@@ -5,7 +5,7 @@ export async function fetchScanConfigs() {
   //     resolve(data.data);
   //   });
   const response = await axios.get(
-    'https://run.mocky.io/v3/2041b41b-49db-4381-ada6-87f26770ec20'
+    'https://run.mocky.io/v3/63a12ba8-ece3-45c7-a7de-dc735549e1f1'
   );
   // const response = await axios.get('/guidelines');
   if (response.data) {

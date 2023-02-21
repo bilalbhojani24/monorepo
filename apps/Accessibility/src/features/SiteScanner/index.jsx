@@ -105,8 +105,21 @@ export const rowMenu = [
   }
 ];
 
+const singleMenu = [
+  {
+    id: 'scanRun',
+    value: 'scanRun',
+    body: (
+      <div className="flex items-center">
+        <span className="ml-2">View Scan Details</span>
+      </div>
+    )
+  }
+];
+
 export default function SiteScanner() {
   const [showNewScan, setShowNewScan] = useState(false);
+  const [viewScanDetails, setViewScanDetails] = useState(false);
   const {
     scanConfigStateData,
     isLoading,
@@ -125,13 +138,13 @@ export default function SiteScanner() {
     setShowNewScan(false);
   };
 
-  const getRunTypeBadge = (scheduled) => {
-    if (scheduled.label && scheduled.active) {
+  const getRunTypeBadge = (recurring, active) => {
+    if (recurring && active) {
       return (
         <Badge text="Recurring On" wrapperClassName="mr-2" modifier="primary" />
       );
     }
-    if (scheduled.label && !scheduled.active) {
+    if (recurring && !active) {
       return <Badge text="Recurring inactive" wrapperClassName="mr-2" />;
     }
     return <Badge text="Single Run" wrapperClassName="mr-2" />;
@@ -148,17 +161,20 @@ export default function SiteScanner() {
 
     return (
       <div className="flex flex-col font-normal">
-        <span className="text-black">{row.issues} issues</span>
+        <span className="text-black">{row.lastScanDetails.issues} issues</span>
         <span className="flex items-center">
           <MdOutlineHistory className="mr-0.5" />
           Last scan:{' '}
-          {dateFormat(new Date(row.lastScanDate), 'mmmm dS, h:MM:ss TT')}
+          {dateFormat(
+            new Date(row.lastScanDetails.lastScanDate),
+            'mmmm dS, h:MM:ss TT'
+          )}
         </span>
       </div>
     );
   };
 
-  const handleRowMenuClick = (e) => {
+  const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.target.textContent;
     switch (menuItem) {
       case 'New Scan':
@@ -171,6 +187,13 @@ export default function SiteScanner() {
             setShowNewScan(true);
           })
           .catch((err) => console.log(err));
+        break;
+      case 'View last scan run':
+        navigate(
+          `/site-scanner/scan-report?id=${rowData.lastScanDetails.reportId}`
+        );
+        break;
+      case 'View Scan Details':
         break;
       default:
         console.log(menuItem);
@@ -278,28 +301,29 @@ export default function SiteScanner() {
                           {row.createdBy.name}
                         </span>
                         <span className="mr-2">{row.pageCount} pages</span>
-                        {getRunTypeBadge(row.scheduled)}
+                        {getRunTypeBadge(row.recurring, row.active)}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>{getCurrrentStatus(row)}</TableCell>
                   <TableCell>
-                    {row.reportSummary ? (
+                    {row?.lastScanDetails?.reportSummary ? (
                       <div className="flex">
                         <span className="mr-4 flex items-center">
                           <MdCheckCircle color="#10B981" className="mr-0.5" />
-                          {row.reportSummary.success} success
+                          {row?.lastScanDetails?.reportSummary?.success} success
                         </span>
                         <span className="mr-4 flex items-center">
                           <MdCancel color="#EF4444" className="mr-0.5" />
-                          {row.reportSummary.failure} failed
+                          {row?.lastScanDetails?.reportSummary?.failure} failed
                         </span>
                         <span className="flex items-center">
                           <MdOutlineSync
                             color="#FFF"
                             className="bg-attention-500 mr-0.5 rounded-full"
                           />
-                          {row.reportSummary.redirect} redirects
+                          {row?.lastScanDetails?.reportSummary?.redirect}{' '}
+                          redirects
                         </span>
                       </div>
                     ) : null}
@@ -313,7 +337,9 @@ export default function SiteScanner() {
                           wrapperClassName="text-lg"
                         />
                       }
-                      options={rowMenu}
+                      options={
+                        row.scanStatus === 'ongoing' ? singleMenu : rowMenu
+                      }
                       onClick={(e) => handleRowMenuClick(e, row)}
                       onOpenChange={(e) => {
                         setRowMenuOpen(e);
