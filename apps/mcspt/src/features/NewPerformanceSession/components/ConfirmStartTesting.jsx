@@ -12,8 +12,16 @@ import PropTypes from 'prop-types';
 import useConfirmStartTesting from './useConfirmStartTesting';
 
 const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
-  const { selectedDevice, selectedApp, navigateToStep, startTestSession } =
-    useConfirmStartTesting();
+  const {
+    selectedDevice,
+    selectedApp,
+    navigateToStep,
+    startTestSession,
+    sessionName,
+    sessionNameChanged,
+    sessionNameError,
+    isSessionApiLoading
+  } = useConfirmStartTesting();
 
   return (
     <div className="flex flex-1 flex-col">
@@ -38,7 +46,9 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
             id="testName"
             label="Test Name"
             placeholder="Enter Test Name"
-            value="Wikipedia-v2.0.3-Google-Pixel-7-Pro-13_01_2022-15_42_21"
+            value={sessionName}
+            onChange={sessionNameChanged}
+            errorText={sessionNameError}
           />
         </div>
 
@@ -85,6 +95,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           colors="white"
           variant="primary"
           onClick={() => navigateToStep(2)}
+          disabled={!!isSessionApiLoading}
         >
           Back
         </Button>
@@ -94,6 +105,8 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
           colors="brand"
           variant="primary"
           onClick={startTestSession}
+          disabled={!!sessionNameError}
+          loading={isSessionApiLoading}
         >
           Start Testing
         </Button>

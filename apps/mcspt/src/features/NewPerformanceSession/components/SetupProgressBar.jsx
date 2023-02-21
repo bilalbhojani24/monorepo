@@ -4,28 +4,11 @@ import {
   MdOutlineCircle,
   MdRadioButtonChecked
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../../utils/tailwindUtils';
+import { twClassNames } from '../../../utils';
 
-const stepsDetails = [
-  {
-    stepNumber: 1,
-    stepTitle: 'Select device',
-    stepDesc: 'Google Pixel 7 Pro ∙ Android 12'
-  },
-  {
-    stepNumber: 2,
-    stepTitle: 'Select Application',
-    stepDesc: 'Select an application to test'
-  },
-  {
-    stepNumber: 3,
-    stepTitle: 'Start Testing',
-    stepDesc: 'Confirm details & start testing'
-  }
-];
-
-const SetupProgressBar = ({ currentStep }) => (
+const SetupProgressBar = ({ currentStep, stepsDetails }) => (
   <div className="flex flex-col px-4 py-6">
     {stepsDetails.map((step) => (
       <div
@@ -75,7 +58,7 @@ const SetupProgressBar = ({ currentStep }) => (
           >
             {step.stepTitle}
           </div>
-          <div className="text-base-500 text-sm font-normal leading-5">
+          <div className="text-base-500 break-all text-sm font-normal leading-5">
             {step.stepDesc}
           </div>
         </div>
@@ -83,5 +66,15 @@ const SetupProgressBar = ({ currentStep }) => (
     ))}
   </div>
 );
+
+SetupProgressBar.propTypes = {
+  currentStep: PropTypes.number,
+  stepsDetails: PropTypes.arrayOf(PropTypes.object)
+};
+
+SetupProgressBar.defaultProps = {
+  currentStep: 0,
+  stepsDetails: []
+};
 
 export default SetupProgressBar;

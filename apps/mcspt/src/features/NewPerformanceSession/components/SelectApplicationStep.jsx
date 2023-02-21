@@ -9,7 +9,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../../utils/tailwindUtils';
+import { twClassNames } from '../../../utils';
 
 import useSelectApplicationStep from './useSelectApplicationStep';
 
@@ -73,48 +73,50 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
             />
           </div>
 
-          <div className="flex max-h-[342px] flex-1 flex-col overflow-y-auto">
-            {searchResults.map((result) => (
-              <div
-                className={twClassNames(
-                  'flex items-center justify-between rounded-0 border-b p-4',
-                  {
-                    'border-base-200':
-                      result.packageName !== selectedApplication?.packageName,
-                    'border-brand-200 bg-brand-50':
-                      result.packageName === selectedApplication?.packageName
-                  }
-                )}
-                key={result.packageName}
-                role="presentation"
-                onClick={() => {
-                  applicationSelected(result);
-                }}
-              >
-                <Radio
-                  id={`radio-${result.packageName}`}
-                  name={result.name}
-                  description={null}
-                  checked={
-                    result.packageName === selectedApplication?.packageName
-                  }
-                />
-
+          {searchResults?.length > 0 && (
+            <div className="flex max-h-[342px] flex-1 flex-col overflow-y-auto">
+              {searchResults.map((result) => (
                 <div
-                  className={twClassNames('flex items-center', {
-                    'text-base-500':
-                      result.packageName !== selectedApplication?.packageName,
-                    'text-brand-600':
-                      result.packageName === selectedApplication?.packageName
-                  })}
+                  className={twClassNames(
+                    'flex items-center justify-between rounded-0 border-b p-4',
+                    {
+                      'border-base-200':
+                        result.packageName !== selectedApplication?.packageName,
+                      'border-brand-200 bg-brand-50':
+                        result.packageName === selectedApplication?.packageName
+                    }
+                  )}
+                  key={result.packageName}
+                  role="presentation"
+                  onClick={() => {
+                    applicationSelected(result);
+                  }}
                 >
-                  <div className="text-sm font-normal leading-5">
-                    {result.packageName}
+                  <Radio
+                    id={`radio-${result.packageName}`}
+                    name={result.name}
+                    description={null}
+                    checked={
+                      result.packageName === selectedApplication?.packageName
+                    }
+                  />
+
+                  <div
+                    className={twClassNames('flex items-center', {
+                      'text-base-500':
+                        result.packageName !== selectedApplication?.packageName,
+                      'text-brand-600':
+                        result.packageName === selectedApplication?.packageName
+                    })}
+                  >
+                    <div className="text-sm font-normal leading-5">
+                      {result.packageName}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="border-base-200 absolute bottom-0 flex w-full justify-between border-t bg-white p-3">
             <Button

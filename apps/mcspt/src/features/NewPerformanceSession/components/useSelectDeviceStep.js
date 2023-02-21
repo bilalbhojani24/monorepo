@@ -1,36 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getAreDevicesStillLoading } from '../slices/loadingStateForNewPerformanceSession';
 import {
+  getListOfDevices,
   getSelectedDevice,
   setCurrentSetupStep,
   setSelectedDevice
 } from '../slices/newPerformanceSessionSlice';
-
-const listOfDevices = [
-  {
-    deviceId: '192.168.29.140:5555',
-    model: 'Google Pixel 7 Pro',
-    manufacturer: 'Google',
-    os: 'Android 11'
-  },
-  {
-    deviceId: '192.168.29.140:5556',
-    model: 'iPhone 14 Pro Max',
-    manufacturer: 'OnePlus',
-    os: 'iOS 14'
-  },
-  {
-    deviceId: '192.168.29.140:5557',
-    model: 'Google Pixel 6 Pro',
-    manufacturer: 'Google',
-    os: 'Android 12'
-  }
-];
+import { fetchConnectedDevices } from '../slices/newPerformanceSessionThunks';
 
 const useSelectDeviceStep = () => {
-  const [areDevicesStillLoading, setAreDevicesStillLoading] = useState(true);
-
+  const areDevicesStillLoading = useSelector(getAreDevicesStillLoading);
+  const listOfDevices = useSelector(getListOfDevices);
   const selectedDevice = useSelector(getSelectedDevice);
 
   const dispatch = useDispatch();
@@ -44,10 +26,8 @@ const useSelectDeviceStep = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setAreDevicesStillLoading(false);
-    }, 2000);
-  }, []);
+    dispatch(fetchConnectedDevices());
+  }, [dispatch]);
 
   return {
     areDevicesStillLoading,

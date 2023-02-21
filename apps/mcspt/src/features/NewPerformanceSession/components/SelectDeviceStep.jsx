@@ -8,7 +8,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '../../../utils/tailwindUtils';
+import { twClassNames } from '../../../utils';
 
 import useSelectDeviceStep from './useSelectDeviceStep';
 
@@ -51,7 +51,7 @@ const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
         </div>
       )}
 
-      {!areDevicesStillLoading && (
+      {!areDevicesStillLoading && listOfDevices && (
         <div className="relative flex flex-1 flex-col">
           <div className="flex flex-1 flex-col p-4">
             {listOfDevices.map((device) => (

@@ -1,6 +1,8 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
+import './api/httpInterceptor';
+
 import Dashboard from './features/Dashboard';
 import Home from './features/Home';
 import Report from './features/Report';
