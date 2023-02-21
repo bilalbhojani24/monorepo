@@ -148,14 +148,12 @@ export default function useDashboard() {
           chartData: [
             {
               name: 'Issues',
-              data: res.empty_data
-                ? []
-                : res.data.map((item) => item?.[1] || 0),
-              addOns: {
-                isEmpty: res?.empty_data
-              }
+              data: res.empty_data ? [] : res.data.map((item) => item?.[1] || 0)
             }
-          ]
+          ],
+          addOns: {
+            isEmpty: res?.empty_data
+          }
         })
       );
       dispatch(setIsLoadingProps({ key: 'jiraIssues', value: false }));
