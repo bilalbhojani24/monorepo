@@ -12,6 +12,7 @@ variablePie(Highcharts);
 
 const Dashboard = () => {
   const {
+    isLoadingStates,
     projectId,
     testCaseTypesOptions,
     activeTestRunsOptions,
@@ -34,6 +35,7 @@ const Dashboard = () => {
         <div className="flex w-full gap-4">
           <div className="relative w-1/2 flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.activeTR || false}
               headerInfo={false}
               title="Active Test Runs"
               wrapperClassName="bg-white relative"
@@ -64,19 +66,29 @@ const Dashboard = () => {
           </div>
           <div className="w-1/2 flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.closedTRMonthly || false}
               headerInfo={false}
               title="Closed Test Runs (Last 12 Months)"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               footerProps={{
                 linkText: 'View All Closed Runs',
                 linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }) || ''
               }}
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={closedTestRunsMonthlyLineOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={closedTestRunsMonthlyLineOptions}
+                  />
+                  {closedTestRunsMonthlyLineOptions?.isEmpty ? (
+                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                      <div className="text-base-500 text-xs font-semibold">
+                        No data to display
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               }
             />
           </div>
@@ -84,6 +96,7 @@ const Dashboard = () => {
         <div className="mt-4 flex w-full">
           <div className="flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.closedTRDaily || false}
               headerInfo={false}
               title="Closed Test Runs (Last 15 days)"
               wrapperClassName="bg-white relative"
@@ -93,10 +106,19 @@ const Dashboard = () => {
                 linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
               }}
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={closedTestRunsDailyLineOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={closedTestRunsDailyLineOptions}
+                  />
+                  {closedTestRunsDailyLineOptions?.isEmpty ? (
+                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                      <div className="text-base-500 text-xs font-semibold">
+                        No data to display
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               }
             />
           </div>
@@ -104,6 +126,7 @@ const Dashboard = () => {
         <div className="mt-4 flex w-full gap-4">
           <div className="w-1/2 flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.typeOfTC || false}
               title="Type of Test Cases"
               wrapperClassName="bg-white relative"
               size="fit-content"
@@ -129,14 +152,24 @@ const Dashboard = () => {
           </div>
           <div className="w-1/2 flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.trendOfTC || false}
               title="Trend of Test Cases"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={testCasesTrendOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={testCasesTrendOptions}
+                  />
+                  {testCasesTrendOptions?.isEmpty ? (
+                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                      <div className="text-base-500 text-xs font-semibold">
+                        No data to display
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               }
             />
           </div>
@@ -144,15 +177,25 @@ const Dashboard = () => {
         <div className="mt-4 flex w-full">
           <div className="flex-1">
             <TMDataVisualization
+              isLoading={isLoadingStates?.jiraIssues || false}
               headerInfo={false}
               title="JIRA Issues (Last 12 Months)"
-              wrapperClassName="bg-white"
+              wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={jiraIssuesOptions}
-                />
+                <div className="relative">
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={jiraIssuesOptions}
+                  />
+                  {jiraIssuesOptions?.isEmpty ? (
+                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                      <div className="text-base-500 text-xs font-semibold">
+                        No data to display
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               }
             />
           </div>

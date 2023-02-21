@@ -9,7 +9,6 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
-  DataVisualization,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -47,6 +46,7 @@ import {
 import TMAttachments from './components/TMAttachments';
 import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
+import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
@@ -109,7 +109,6 @@ export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
-export const TMDataVisualization = (props) => <DataVisualization {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
@@ -128,6 +127,7 @@ export {
   TMAttachments,
   TMComboBox,
   TMDataTable,
+  TMDataVisualization,
   TMDropdown,
   TMHeader,
   TMPagination,

@@ -11,11 +11,11 @@ import {
 } from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
 
-// import { setActiveTestRuns } from '../slices/dashboardSlice';
 import {
   ACTIVE_TEST_RUNS_COLOR,
   TEST_CASES_TYPES_COLORS
 } from '../const/immutableConst';
+import { setIsLoadingProps } from '../slices/dashboardSlice';
 
 import {
   barOptionsCreator,
@@ -38,9 +38,10 @@ export default function useDashboard() {
     useState(null);
   const [jiraIssuesOptions, setJiraIssuesOptions] = useState(null);
 
-  const activeTestRuns = useSelector((state) => state.dashboard.activeTestRuns);
+  const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
 
   const fetchActiveTestRuns = () => {
+    dispatch(setIsLoadingProps({ key: 'activeTR', value: true }));
     getActiveTestRunsAPI(projectId).then((res) => {
       setActiveTestRunsOptions(
         donutOptionCreator({
@@ -52,42 +53,50 @@ export default function useDashboard() {
           }
         })
       );
+      dispatch(setIsLoadingProps({ key: 'activeTR', value: false }));
     });
   };
 
   const fetchClosedTestRunsMonthly = () => {
+    dispatch(setIsLoadingProps({ key: 'closedTRMonthly', value: true }));
     getClosedTestRunsMonthlyAPI(projectId).then((res) => {
-      if (!res.empty_data) {
-        setClosedTestRunsMonthlyLineOptions(
-          lineOptionsCreator({
-            chartData: [
-              {
-                name: '',
-                data: res.data.map((item) => item?.[1] || 0)
-              }
-            ],
-            xAxis: res.data.map((item) => item?.[0])
-          })
-        );
-      }
+      setClosedTestRunsMonthlyLineOptions(
+        lineOptionsCreator({
+          chartData: [
+            {
+              name: '',
+              data: res.empty_data ? [] : res.data.map((item) => item?.[1] || 0)
+            }
+          ],
+          xAxis: res.data.map((item) => item?.[0]),
+          addOns: {
+            isEmpty: res?.empty_data
+          }
+        })
+      );
+      dispatch(setIsLoadingProps({ key: 'closedTRMonthly', value: false }));
     });
   };
 
   const fetchClosedTestRunsDaily = () => {
+    dispatch(setIsLoadingProps({ key: 'closedTRDaily', value: true }));
     getClosedTestRunsDailyAPI(projectId).then((res) => {
-      if (!res.empty_data) {
-        setClosedTestRunsDailyLineOptions(
-          stackedBarOptionsCreator({
-            showLegend: true,
-            xAxis: res.date_list,
-            chartData: res?.data
-          })
-        );
-      }
+      setClosedTestRunsDailyLineOptions(
+        stackedBarOptionsCreator({
+          showLegend: true,
+          xAxis: res.date_list,
+          chartData: res.empty_data ? [] : res?.data,
+          addOns: {
+            isEmpty: res?.empty_data
+          }
+        })
+      );
+      dispatch(setIsLoadingProps({ key: 'closedTRDaily', value: false }));
     });
   };
 
   const fetchTestCaseTypeSplit = () => {
+    dispatch(setIsLoadingProps({ key: 'typeOfTC', value: true }));
     getTestCaseTypeSplitAPI(projectId).then((res) => {
       setTestCaseTypesOptions(
         donutOptionCreator({
@@ -99,42 +108,52 @@ export default function useDashboard() {
           }
         })
       );
+      dispatch(setIsLoadingProps({ key: 'typeOfTC', value: false }));
     });
   };
 
   const fetchTrendOfTestCases = () => {
+    dispatch(setIsLoadingProps({ key: 'trendOfTC', value: true }));
     getTestCaseCountTrendAPI(projectId).then((res) => {
-      if (!res.empty_data) {
-        setTestCasesTrendOptions(
-          lineOptionsCreator({
-            showLegend: true,
-            chartData: [
-              {
-                name: '',
-                data: res.data.map((item) => item?.[1] || 0)
-              }
-            ],
-            xAxis: res.data.map((item) => item?.[0])
-          })
-        );
-      }
+      setTestCasesTrendOptions(
+        lineOptionsCreator({
+          showLegend: res ? !res?.empty_data : false,
+          chartData: [
+            {
+              name: '',
+              data: res?.data?.map((item) => item?.[1] || 0) || []
+            }
+          ],
+          xAxis: res?.empty_data ? [] : res?.data?.map((item) => item?.[0]),
+          addOns: {
+            isEmpty: res ? res?.empty_data : true
+          }
+        })
+      );
+      dispatch(setIsLoadingProps({ key: 'trendOfTC', value: false }));
     });
   };
+
   const fetchJiraIssues = () => {
+    dispatch(setIsLoadingProps({ key: 'jiraIssues', value: true }));
     getIssuesCountAPI(projectId).then((res) => {
-      if (!res.empty_data) {
-        setJiraIssuesOptions(
-          barOptionsCreator({
-            xAxis: res.data.map((item) => item?.[0] || ''),
-            chartData: [
-              {
-                name: 'Issues',
-                data: res.data.map((item) => item?.[1] || 0)
+      setJiraIssuesOptions(
+        barOptionsCreator({
+          xAxis: res.data.map((item) => item?.[0] || ''),
+          chartData: [
+            {
+              name: 'Issues',
+              data: res.empty_data
+                ? []
+                : res.data.map((item) => item?.[1] || 0),
+              addOns: {
+                isEmpty: res?.empty_data
               }
-            ]
-          })
-        );
-      }
+            }
+          ]
+        })
+      );
+      dispatch(setIsLoadingProps({ key: 'jiraIssues', value: false }));
     });
   };
 
@@ -143,7 +162,7 @@ export default function useDashboard() {
     fetchClosedTestRunsMonthly(); // Closed Test Runs Monthly- line
     fetchClosedTestRunsDaily(); // Closed Test Runs Daily - stacked
     fetchTestCaseTypeSplit(); // Type of test cases - pie
-    // fetchTrendOfTestCases(); // Trend of Test Cases - muli line
+    fetchTrendOfTestCases(); // Trend of Test Cases - muli line
     fetchJiraIssues(); // JIRA Issues (Last 12 Months) - bar
   };
 
@@ -160,7 +179,7 @@ export default function useDashboard() {
     closedTestRunsMonthlyLineOptions,
     testCasesTrendOptions,
     projectId,
-    activeTestRuns,
+    isLoadingStates,
     fetchAllChartData
   };
 }

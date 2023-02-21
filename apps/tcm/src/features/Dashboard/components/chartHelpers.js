@@ -68,7 +68,8 @@ export const lineOptionsCreator = ({
   chartData,
   showLegend,
   title,
-  xAxis
+  xAxis,
+  addOns
 }) => ({
   title: {
     text: title || ''
@@ -125,10 +126,17 @@ export const lineOptionsCreator = ({
   },
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
 
-export const barOptionsCreator = ({ chartData, showLegend, title, xAxis }) => ({
+export const barOptionsCreator = ({
+  chartData,
+  showLegend,
+  title,
+  xAxis,
+  addOns
+}) => ({
   chart: {
     type: 'column'
   },
@@ -177,14 +185,16 @@ export const barOptionsCreator = ({ chartData, showLegend, title, xAxis }) => ({
   ],
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
 
 export const stackedBarOptionsCreator = ({
   chartData,
   showLegend,
   title,
-  xAxis
+  xAxis,
+  addOns
 }) => ({
   chart: {
     type: 'column'
@@ -218,5 +228,6 @@ export const stackedBarOptionsCreator = ({
   series: chartData || [],
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
