@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
+  Header,
   MdOutlineHome,
   SidebarItem,
   SidebarNavigation
@@ -51,9 +52,10 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <header className="fixed top-0 z-10 h-16 w-full bg-white pt-4 text-center">
-        BrowserStack Header
-      </header>
+      <Header
+        wrapperClassName="fixed top-0 z-10 w-full"
+        productName="Accessibility"
+      />
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         wrapperClassName="bg-white pt-16 mt-5"

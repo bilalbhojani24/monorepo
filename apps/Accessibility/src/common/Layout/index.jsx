@@ -1,78 +1,44 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-import React, { Suspense } from 'react';
-// import Settings from 'bsA11y/Settings';
-// import RootPathContainer from './RootPathContainer';
-// import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom';
-// import { Route, Routes } from 'react-router-dom';
-// import App from 'src/App';
-// import LayoutLoader from 'app/_components/LayoutLoader';
-import { BASE_ROUTE, ROUTES } from 'constants';
-import Dashboard from 'features/Dashboard';
-import Report from 'features/Report';
-// import Home from 'features/Home';
-import Reports from 'features/Reports';
-// import Reports from 'bsA11y/Reports';
-import ScreenReader from 'features/ScreenReader';
+import React from 'react';
+import { useAuthRoutes } from '@browserstack/hooks';
+import axios from 'axios';
+import { APP_ROUTES } from 'constants/routes';
 
-// const EmptyPage = lazy(() => import('bsA11y/EmptyPage'));
+const initAPI = async () => {
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(false);
+  //   }, 2000);
+  // });
 
-const Layout = () => (
-  <Dashboard>
-    <Routes>
-      <Route path={ROUTES.reports} element={<Reports />} />
-      <Route exact path={ROUTES.screenReader} element={<ScreenReader />} />
-      <Route exact path={ROUTES.report} element={<Report />} />
-      {/* <Route path="/" element={<div>Hello</div>}>
-        
-      </Route> */}
-    </Routes>
-  </Dashboard>
-  // <Routes>
-  //   <Route
-  //     path={ROUTES.home}
-  //     element={
-  //       <Dashboard>
-  //         <Home />
-  //       </Dashboard>
-  //     }
-  //   />
-  // </Routes>
-  // <Router basename={BASE_ROUTE}>
-  //   {/* <Suspense fallback={<LayoutLoader />}> */}
-  //   <Dashboard>
-  //     <Switch>
-  //       {/* {/* <Route exact path={ROUTES.build} render={(props) => <TestList {...props} />} /> */}
-  //       <Route
-  //         exact
-  //         path={ROUTES.home}
-  //         render={(props) => <Home {...props} />}
-  //       />
-  //       {/* <Route
-  //           exact
-  //           path={ROUTES.reports}
-  //           render={(props) => <Reports {...props} />}
-  //         />
-  //         <Route
-  //           exact
-  //           path={ROUTES.screenReader}
-  //           render={(props) => <ScreenReader {...props} />}
-  //         />
-  //         <Route
-  //           exact
-  //           path={ROUTES.report}
-  //           render={(props) => <Report {...props} />}
-  //         />
-  //         <Route
-  //           path={ROUTES.settings}
-  //           render={(props) => <Settings {...props} />}
-  //         /> */}
-  //       {/* <Route exact path={ROUTES.root} render={() => <RootPathContainer />} /> */}
-  //     </Switch>
-  //   </Dashboard>
-  //   {/* </Suspense> */}
-  // </Router>
-);
+  console.log('This is the init API...');
 
-export default Layout;
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(true);
+  //   }, 2000);
+  // });
+
+  // returns status code - 200 (uncomment and test)
+  return axios.get(
+    'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
+  );
+
+  // returns status code - 401 (uncomment and test)
+  // return axios.get(
+  //   'https://run.mocky.io/v3/a1656866-98fe-49cd-9b97-1163c2866b48'
+  // );
+};
+
+const App = () => {
+  const Routes = useAuthRoutes(
+    APP_ROUTES,
+    initAPI,
+    'https://www.browserstack.com/users/sign_in'
+  );
+
+  return <>{Routes}</>;
+};
+
+export default App;
