@@ -5,6 +5,7 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 
 import {
   bool,
+  node,
   number,
   oneOf,
   oneOfType,
@@ -85,7 +86,9 @@ const SelectMenuOptionItem = forwardRef(
                   type="checkbox"
                   checked={selected}
                   id={option.name}
-                  className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                  className={twClassNames(
+                    'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded'
+                  )}
                   readOnly
                 />
                 <label htmlFor={option.name} className="cursor-pointer">
@@ -104,8 +107,8 @@ SelectMenuOptionItem.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
   disabled: bool,
   option: shape({
-    value: oneOfType([number, string]),
-    label: string,
+    value: oneOfType([number, string]).isRequired,
+    label: node.isRequired,
     image: string
   }).isRequired,
   wrapperClassName: string
