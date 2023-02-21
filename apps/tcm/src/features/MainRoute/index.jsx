@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import NotFound from 'common/MiscPages/NotFound';
 import AppRoute from 'const/routes';
 import Dashboard from 'features/Dashboard';
 import ImportCSV from 'features/importCSVFlow';
@@ -148,7 +149,7 @@ const MainRoute = () => {
             </PrivateComponent>
           }
         />
-        <Route path="*" element="Error 404" />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
