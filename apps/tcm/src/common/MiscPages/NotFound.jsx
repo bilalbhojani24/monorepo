@@ -12,7 +12,7 @@ const NotFound = () => {
   };
 
   return (
-    <div className="bg-base-50 fixed top-16 left-0 flex h-full w-full items-center justify-center">
+    <div className="bg-base-50 flex h-full w-full items-center justify-center">
       <div className="border-base-300 flex h-72 w-screen max-w-xl items-center justify-center rounded-md border">
         <TMEmptyState
           title="Page Not Found"

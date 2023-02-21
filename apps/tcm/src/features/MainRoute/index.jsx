@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import AlphaAccess from 'common/MiscPages/AlphaAccess';
 import NotFound from 'common/MiscPages/NotFound';
@@ -10,6 +10,7 @@ import Onboarding from 'features/Onboarding';
 import Import from 'features/quickImportFlow';
 import Repository from 'features/Repository';
 import Settings from 'features/Settings';
+import { noNavRoutes } from 'features/SideNav/const/navsConst';
 import TestRuns, { AddEditTestRun } from 'features/TestRuns';
 import TestRunsDetails, { Issues } from 'features/TestRunsDetails';
 
@@ -23,7 +24,6 @@ import {
   PrivateComponent
 } from './components/RouteHelpers';
 import useMainRoute from './components/useMainRoute';
-import { noNavRoutes } from './const/mainRoutesConst';
 
 const MainRoute = () => {
   const location = useLocation();
@@ -160,7 +160,18 @@ const MainRoute = () => {
             </PrivateComponent>
           }
         />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path={AppRoute.NOT_FOUND}
+          element={
+            <PrivateComponent>
+              <NotFound />
+            </PrivateComponent>
+          }
+        />
+        <Route
+          path="*"
+          element={<Navigate to={AppRoute.NOT_FOUND} replace />}
+        />
       </Routes>
     </div>
   );
