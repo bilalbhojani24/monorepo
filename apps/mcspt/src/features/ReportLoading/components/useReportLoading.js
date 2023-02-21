@@ -21,7 +21,7 @@ const generateSessionTextMap = (device, application) => ({
   [REPORT_LOADING_STATES.CONNECTING]: `Connecting to the ${device?.manufacturer} ${device?.model}...`,
   [REPORT_LOADING_STATES.LAUNCHING]: `Launching the ${application?.name} app...`,
   [REPORT_LOADING_STATES.RECORDING]:
-    'Performance Data is being Recorded from your device'
+    'Performance Data is being recorded from your device'
 });
 
 const useReportLoading = () => {

@@ -30,7 +30,7 @@ const BatteryChart = () => {
         />
       </div>
 
-      <div className="relative h-[140px] flex-1">
+      <div className="relative h-[182px] flex-1">
         <div className="absolute top-0 left-0 w-full">
           {batteryChartOptions && (
             <HighchartsReact

@@ -13,7 +13,8 @@ const generateBatteryChartOptions = (sessionData) => {
 
   chartOptions.chart = {
     type: 'spline',
-    height: 140
+    height: 182,
+    spacingBottom: 0
   };
 
   chartOptions.tooltip = {
@@ -22,7 +23,9 @@ const generateBatteryChartOptions = (sessionData) => {
   };
 
   chartOptions.legend = {
-    enabled: false
+    enabled: true,
+    marginTop: 16,
+    marginBottom: 0
   };
 
   chartOptions.series = [

@@ -31,7 +31,8 @@ export const getDefaultChartOptions = () => ({
     lineWidth: 1
   },
   legend: {
-    enabled: true
+    enabled: true,
+    margin: 0
   },
   responsive: {
     rules: []

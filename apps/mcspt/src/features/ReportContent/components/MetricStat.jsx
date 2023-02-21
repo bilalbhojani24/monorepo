@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -25,11 +26,7 @@ const MetricStat = ({
     <div className="flex items-center">
       {criteriaForBreach && (
         <div className="text-danger-600 mr-2 text-xl">
-          <TriangleIcon
-            wrapperClassName={
-              triangleDirection === 'lessThan' ? 'rotate-180' : ''
-            }
-          />
+          <TriangleIcon />
         </div>
       )}
 

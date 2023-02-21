@@ -8,7 +8,7 @@ const NetworkIODetails = () => {
   const { networkIOChartOptions } = useNetworkIODetails();
 
   return (
-    <div className="relative h-[140px]">
+    <div className="relative h-[182px]">
       <div className="absolute top-0 left-0 w-full">
         {networkIOChartOptions && (
           <HighchartsReact
