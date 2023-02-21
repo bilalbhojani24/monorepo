@@ -79,6 +79,7 @@ importers:
 
   packages/bifrost:
     specifiers:
+      '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
@@ -129,6 +130,7 @@ importers:
       tailwindcss: ^3.1.4
       vite: 3.2.5
     dependencies:
+      '@browserstack/hooks': link:../hooks
       '@browserstack/utils': link:../utils
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -265,6 +267,7 @@ importers:
       '@browserstack/bifrost': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
+      '@browserstack/utils': workspace:*
       '@browserstack/vite-config': workspace:*
       '@storybook/addon-actions': ^6.5.16
       '@storybook/addon-essentials': ^6.5.16
@@ -274,12 +277,15 @@ importers:
       '@storybook/manager-webpack4': ^6.5.16
       '@storybook/react': ^6.5.16
       '@storybook/testing-library': ^0.0.13
+      axios: 1.2.2
       babel-loader: ^8.3.0
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
     dependencies:
       '@browserstack/bifrost': link:../bifrost
+      '@browserstack/utils': link:../utils
+      axios: 1.2.2
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
