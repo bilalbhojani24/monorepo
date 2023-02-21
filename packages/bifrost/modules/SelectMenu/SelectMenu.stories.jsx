@@ -90,6 +90,40 @@ export const ControlledSelectMenu = () => {
   );
 };
 
+export const CustomSelectMenu = () => {
+  const options = [
+    {
+      label: (
+        <div className="flex items-center space-x-2">
+          <div className="bg-danger-500 h-2 w-2 rounded-full" />
+          <span>Wade copper</span>
+        </div>
+      ),
+      value: 1
+    },
+    {
+      label: (
+        <div className="flex items-center space-x-2">
+          <div className="bg-success-500 h-2 w-2 rounded-full" />
+          <span>Devon webb</span>
+        </div>
+      ),
+      value: 2
+    }
+  ];
+  return (
+    <SelectMenu isMulti>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuOptionGroup>
+        {options.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
+  );
+};
+
 export default defaultConfig;
 export { MultiSelect, Primary, SelectWithPlaceholder };
 
