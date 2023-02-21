@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set the source and destination paths
-SOURCE="/path/to/source/folder"
-DESTINATION="/path/to/destination/folder"
+SOURCE="node_modules/@browserstack/bifrost/utils/texteditorSkin"
+DESTINATION="dist/assets/texteditorSkin"
 
 # Check if the source folder exists
 if [ ! -d "$SOURCE" ]; then
@@ -13,7 +13,7 @@ fi
 # Check if the destination folder exists
 if [ -d "$DESTINATION" ]; then
   echo "Destination folder already exists"
-  exit 1
+  exit 0
 fi
 
 # Copy the folder

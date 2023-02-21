@@ -107,7 +107,7 @@ export const TMBanner = (props) => <Banner {...props} />;
 export const TMRichTextEditor = (props) => (
   <RichTextEditor
     {...props}
-    assetsURL={import.meta.env.DEV ? '/dist/assets' : '/assets'}
+    assetsURL={import.meta.env.DEV ? '/dist/assets/' : '/assets/'}
   />
 );
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
