@@ -34,28 +34,34 @@ const Notifications = forwardRef((props, ref) => {
         })}
       >
         <p className="text-base-900 text-sm font-medium">{title}</p>
+
         {!isCondensed && (
           <p className="text-base-500 mt-1 text-sm">{description}</p>
         )}
-        {!isCondensed && (
-          <div className={twClassNames('mt-3 flex space-x-4')}>
+
+        {!isCondensed && actionButtons && (
+          <div className={twClassNames('mt-3 flex space-x-3')}>
             {actionButtons?.(toastCtx?.toast || null)}
           </div>
         )}
       </div>
-      <div className="flex shrink-0">
-        {isCondensed && actionButtons?.(toastCtx?.toast || null)}
-        <button
-          type="button"
-          className="text-base-400 hover:text-base-500 focus:ring-brand-500 ml-4 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-          onClick={() => {
-            if (handleClose) handleClose(toastCtx?.toast || null);
-          }}
-        >
-          <span className="sr-only">Close</span>
-          <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
+
+      {isCondensed && actionButtons && (
+        <div className="ml-3 flex shrink-0">
+          {actionButtons?.(toastCtx?.toast || null)}
+        </div>
+      )}
+
+      <button
+        type="button"
+        className="text-base-400 hover:text-base-500 focus:ring-brand-500 ml-4 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        onClick={() => {
+          if (handleClose) handleClose(toastCtx?.toast || null);
+        }}
+      >
+        <span className="sr-only">Close</span>
+        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
     </div>
   );
 });
