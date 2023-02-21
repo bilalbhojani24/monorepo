@@ -27,7 +27,7 @@ const initialState = {
     attachments: [],
     issues: [],
     tags: [],
-    test_case_folder_id: null
+    test_case_folder_id: null // this is for internal process not to be passed with API
   },
   testCaseBulkFormData: {
     case_type: null,
@@ -117,7 +117,10 @@ export const repositorySlice = createSlice({
       state.isAddTestCasePageVisible = payload;
       if (payload) {
         // reset form data
-        state.testCaseFormData = initialState.testCaseFormData;
+        state.testCaseFormData = {
+          ...initialState.testCaseFormData,
+          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+        };
       }
     },
     setSelectedFolder: (state, { payload }) => {

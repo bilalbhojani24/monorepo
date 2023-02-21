@@ -181,7 +181,7 @@ export default function useFolders() {
 
       if (isCreateTestCase) {
         // create test case
-        showTestCaseAdditionPage();
+        showTestCaseAdditionPage(folder);
       } else hideTestCaseAddEditPage();
     }
   };
@@ -234,7 +234,7 @@ export default function useFolders() {
   };
 
   useEffect(() => {
-    if (openedFolderModal?.modal === folderDropOptions?.[2]?.body) {
+    if (openedFolderModal?.modal === folderDropOptions?.[2]?.id) {
       setMoveToRoot(
         !allFolders.find((item) => item.id === openedFolderModal?.folder?.id)
       );

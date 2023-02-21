@@ -84,8 +84,13 @@ export default function useDashboard() {
       setClosedTestRunsDailyLineOptions(
         stackedBarOptionsCreator({
           showLegend: true,
-          xAxis: res.date_list,
-          chartData: res.empty_data ? [] : res?.data,
+          xAxis: res?.date_list,
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item, index) => ({
+                ...item,
+                color: ACTIVE_TEST_RUNS_COLOR[index]
+              })),
           addOns: {
             isEmpty: res?.empty_data
           }
@@ -118,13 +123,16 @@ export default function useDashboard() {
       setTestCasesTrendOptions(
         lineOptionsCreator({
           showLegend: res ? !res?.empty_data : false,
-          chartData: [
-            {
-              name: '',
-              data: res?.data?.map((item) => item?.[1] || 0) || []
-            }
-          ],
-          xAxis: res?.empty_data ? [] : res?.data?.map((item) => item?.[0]),
+          chartData: res?.empty_data
+            ? []
+            : Object.keys(res?.data).map((item, index) => ({
+                color: ACTIVE_TEST_RUNS_COLOR[index],
+                name: item,
+                data: res?.data[item] ? Object.values(res?.data[item]) : []
+              })),
+          xAxis: res?.data
+            ? Object.keys(Object.entries(res?.data)?.[0]?.[1])
+            : [],
           addOns: {
             isEmpty: res ? res?.empty_data : true
           }
@@ -143,14 +151,12 @@ export default function useDashboard() {
           chartData: [
             {
               name: 'Issues',
-              data: res.empty_data
-                ? []
-                : res.data.map((item) => item?.[1] || 0),
-              addOns: {
-                isEmpty: res?.empty_data
-              }
+              data: res.empty_data ? [] : res.data.map((item) => item?.[1] || 0)
             }
-          ]
+          ],
+          addOns: {
+            isEmpty: res?.empty_data
+          }
         })
       );
       dispatch(setIsLoadingProps({ key: 'jiraIssues', value: false }));

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { MdInfoOutline } from '@browserstack/bifrost';
 import { TMDataVisualization, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
@@ -128,6 +129,20 @@ const Dashboard = () => {
             <TMDataVisualization
               isLoading={isLoadingStates?.typeOfTC || false}
               title="Type of Test Cases"
+              headerInfo
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    Below is the list of the test cases available within the
+                    project. This list shows the top 5 types of test cases.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
@@ -154,6 +169,21 @@ const Dashboard = () => {
             <TMDataVisualization
               isLoading={isLoadingStates?.trendOfTC || false}
               title="Trend of Test Cases"
+              headerInfo
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    Below is the trend of various types of test cases over a
+                    period of one yeart. This list shows the top 5 types of test
+                    cases.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               wrapperClassName="bg-white relative"
               size="fit-content"
               analytics={
@@ -178,7 +208,15 @@ const Dashboard = () => {
           <div className="flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.jiraIssues || false}
-              headerInfo={false}
+              headerInfo
+              headerInfoTooltipProps={{
+                content: <div className="text-base-300 w-60 px-4 text-sm" />,
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               title="JIRA Issues (Last 12 Months)"
               wrapperClassName="bg-white relative"
               size="fit-content"

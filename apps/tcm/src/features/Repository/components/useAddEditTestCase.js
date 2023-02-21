@@ -178,7 +178,9 @@ export default function useAddEditTestCase() {
       folderId: thisFolderID,
       payload: formDataFormatter(formData)
     }).then((data) => {
-      dispatch(addSingleTestCase(data));
+      if (parseInt(folderId, 10) === data.test_case_folder_id)
+        // only if the added test case belong to the opened folder
+        dispatch(addSingleTestCase(data));
       hideTestCaseAddEditPage(null, true);
     });
   };
@@ -224,7 +226,7 @@ export default function useAddEditTestCase() {
             );
           }
         });
-      } else addTestCaseAPIHelper(formData, folderId);
+      } else addTestCaseAPIHelper(formData, formData.test_case_folder_id);
     }
   };
 
@@ -345,10 +347,15 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const showTestCaseAdditionPage = () => {
+  const showTestCaseAdditionPage = (thisFolder) => {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
       return;
-    dispatch(setAddTestCaseVisibility(true));
+
+    const thisSelectedFolder = thisFolder?.id
+      ? thisFolder?.id
+      : selectedFolder?.id;
+
+    dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
     /// RIIIBIIIIN
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)
