@@ -9,7 +9,7 @@ const setupInterceptors = (navigateTo) => {
       // alpha no access error
       navigateTo(AppRoute.NO_ACCESS);
     }
-    return res;
+    return Promise.reject(res);
   };
 
   axios.interceptors.response.use(onSuccess, onFailure);

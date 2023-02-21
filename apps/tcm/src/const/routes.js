@@ -19,6 +19,8 @@ const AppRoute = {
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
-export const BASE_API_URL = import.meta.env.DEV ? 'https://teststack.bsstag.com': "https://test-management.browserstack.com";
+export const BASE_API_URL = import.meta.env.DEV
+  ? 'https://teststack.bsstag.com'
+  : 'https://test-management.browserstack.com';
 
 export default AppRoute;
