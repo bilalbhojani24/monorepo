@@ -71,16 +71,19 @@ export const lineOptionsCreator = ({
   xAxis,
   addOns
 }) => ({
+  chart: {
+    type: 'spline'
+  },
   title: {
     text: title || ''
   },
   legend: {
     enabled: showLegend,
-    layout: 'vertical',
+    layout: 'horizontal',
     align: 'center',
     verticalAlign: 'top',
     floating: false,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'transparent',
     itemMarginBottom: 15
   },
   plotOptions: {
