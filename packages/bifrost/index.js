@@ -16,8 +16,9 @@ import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
-import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
-import DropdownTriggerWText from './modules/DropdownTriggerWText';
+import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
+import DropdownOptionItem from './modules/DropdownOptionItem/index';
+import DropdownTrigger from './modules/DropdownTrigger/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
@@ -112,8 +113,9 @@ export {
   DescriptionList,
   Draggable,
   Dropdown,
-  DropdownTriggerWIcon,
-  DropdownTriggerWText,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import Button from '../Button';
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
 import { MdArrowRightAlt } from '../Icon';
@@ -18,6 +17,8 @@ import './styles.scss';
 
 const ACCOUNT_LINKS_CLASSNAMES =
   'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]';
+const LINKS_TEXT_CLASSNAMES =
+  'not-italic font-normal text-sm leading-4 text-black';
 
 const HeaderElements = ({
   documentation,
@@ -67,21 +68,23 @@ const HeaderElements = ({
           )}
         />
       </div>
-      {optionArray.map((element) => (
-        <Hyperlink
-          className={twClassNames(
-            'w-full flex flex-col items-start p-0 gap-0.5'
-          )}
-          href={element.link}
-          key={element.name}
-        >
-          <p
-            className={twClassNames('not-italic font-normal text-sm leading-4')}
+      <div
+        className={twClassNames('flex flex-col items-start p-0 gap-0.5 w-full')}
+      >
+        {optionArray.map((element) => (
+          <Hyperlink
+            wrapperClassName={twClassNames(
+              'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]'
+            )}
+            href={element.link}
+            key={element.name}
           >
-            {element.name}
-          </p>
-        </Hyperlink>
-      ))}
+            <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
+              {element.name}
+            </p>
+          </Hyperlink>
+        ))}
+      </div>
     </>
   );
   const helpPopover = (
@@ -180,15 +183,11 @@ const HeaderElements = ({
             <Hyperlink
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href={
-                element.name === 'Settings' ? productSupportLink : element.link
+                element.name === 'Support' ? productSupportLink : element.link
               }
               key={element.name}
             >
-              <p
-                className={twClassNames(
-                  'not-italic font-normal text-sm leading-4 text-black'
-                )}
-              >
+              <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
                 {element.name}
               </p>
             </Hyperlink>
@@ -198,11 +197,7 @@ const HeaderElements = ({
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href="https://www.browserstack.com/accounts/usage-reporting"
             >
-              <p
-                className={twClassNames(
-                  'not-italic font-normal text-sm leading-4 text-black'
-                )}
-              >
+              <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
                 Test Insights
               </p>
               <div
@@ -354,19 +349,14 @@ const HeaderElements = ({
           key={element.name}
         >
           {element.name === 'notifications' && (
-            <button
-              type="button"
-              aria-label={
-                element.name === 'notifications'
-                  ? 'Notification button'
-                  : 'Search button'
-              }
-            >
+            <button type="button" aria-label="Notification button">
               {element.icon}
             </button>
           )}
           {element.name === 'search' && (
-            <Hyperlink href={element.link}>{element.icon}</Hyperlink>
+            <a href={element.link} aria-label="Search button">
+              {element.icon}
+            </a>
           )}
         </div>
       );
@@ -387,20 +377,32 @@ const HeaderElements = ({
       )}
 
       {headerElementArray.includes('pricing') && (
-        <Hyperlink
-          wrapperClassName={twClassNames('flex flex-row items-start p-0')}
-          href="https://www.browserstack.com/accounts/subscriptions"
+        <div
+          className={twClassNames(
+            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2'
+          )}
         >
-          <Button variant="primary" colors="success">
-            <span
+          <Hyperlink
+            wrapperClassName={twClassNames(
+              'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
+            )}
+            href="https://www.browserstack.com/accounts/subscriptions"
+          >
+            <div
               className={twClassNames(
-                'flex flex-row justify-center items-center'
+                'flex flex-row justify-center items-center bg-[#15803d] hover:bg-[#166534] py-[9px] px-[15px] rounded-md shadow-[0_1px_2px_rgba(0,0,0,0.5)]'
               )}
             >
-              Buy a Plan
-            </span>
-          </Button>
-        </Hyperlink>
+              <p
+                className={twClassNames(
+                  'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5'
+                )}
+              >
+                Buy a Plan
+              </p>
+            </div>
+          </Hyperlink>
+        </div>
       )}
     </div>
   );

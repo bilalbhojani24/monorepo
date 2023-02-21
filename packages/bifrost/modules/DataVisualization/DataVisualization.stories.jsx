@@ -3,9 +3,10 @@ import React from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
-import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
-import DropdownTriggerWText from '../DropdownTriggerWText';
-import { MdAddCircle, MdInfoOutline } from '../Icon';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
+import { EllipsisVerticalIcon, MdAddCircle, MdInfoOutline } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
@@ -16,6 +17,51 @@ import {
   DATA_VISUALIZATION_STATS_DIRECTION
 } from './const/dataVisualizationConstants';
 import DataVisualization from './index';
+
+const options = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  },
+  {
+    id: '4',
+    body: 'Edit'
+  },
+  {
+    id: '5',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '6',
+    body: 'Archive',
+    divider: true
+  },
+  {
+    id: '7',
+    body: 'Edit'
+  },
+  {
+    id: '8',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '9',
+    body: 'Archive',
+    divider: true
+  }
+];
 
 const defaultConfig = {
   title: 'Application/Components/DataVisualization',
@@ -103,76 +149,28 @@ const defaultConfig = {
     },
     filterDropdown: {
       defaultValue: (
-        <Dropdown
-          trigger={<DropdownTriggerWText>trigger</DropdownTriggerWText>}
-          options={[
-            {
-              id: '1',
-              body: 'Edit'
-            },
-            {
-              id: '2',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '3',
-              body: 'Archive',
-              divider: true
-            },
-            {
-              id: '4',
-              body: 'Edit'
-            },
-            {
-              id: '5',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '6',
-              body: 'Archive',
-              divider: true
-            },
-            {
-              id: '7',
-              body: 'Edit'
-            },
-            {
-              id: '8',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '9',
-              body: 'Archive',
-              divider: true
-            }
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>
+            <EllipsisVerticalIcon className="h-5 w-5" />
+          </DropdownTrigger>
+          <DropdownOptionGroup>
+            {options.map((op) => (
+              <DropdownOptionItem option={op} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
       )
     },
     otherOptions: {
       defaultValue: (
-        <Dropdown
-          trigger={<DropdownTriggerWIcon variant="menu-button" />}
-          options={[
-            {
-              id: '10',
-              body: 'Edit'
-            },
-            {
-              id: '11',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '12',
-              body: 'Archive',
-              divider: true
-            }
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>trigger</DropdownTrigger>
+          <DropdownOptionGroup>
+            {options.map((op) => (
+              <DropdownOptionItem option={op} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
       )
     },
     headerInfo: {
