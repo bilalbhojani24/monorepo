@@ -1,5 +1,6 @@
 const AppRoute = {
   ROOT: '/',
+  NO_ACCESS: '/access',
   LANDING: '/landing',
   TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?',
   TEST_CASES_SEARCH: '/projects/:projectId/folder/search',
