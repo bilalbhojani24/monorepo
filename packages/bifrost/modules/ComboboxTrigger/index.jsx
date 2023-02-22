@@ -35,7 +35,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
         <Combobox.Input
           placeholder={placeholder}
           className={twClassNames(
-            'border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm',
+            'border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm text-ellipsis',
             { 'border-danger-600': errorText }
           )}
           onChange={onInputValueChange}
