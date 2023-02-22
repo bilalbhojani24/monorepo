@@ -6,7 +6,7 @@ const TermsAndConditions = () => (
     <div>
       By continuing, you agree to our{' '}
       <a className="text-base-700" href="https://www.browserstack.com/terms">
-        Terms and Conditions
+        Terms of Service
       </a>{' '}
       &
       <a className="text-base-700" href="https://www.browserstack.com/privacy">

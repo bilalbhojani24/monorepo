@@ -137,9 +137,23 @@ const ZephyrImportForm = (props) => {
               label={
                 <>
                   Zephyr Scale API Token
-                  <span className="ml-1">
-                    <InfoOutlinedIcon fontSize="inherit" />
-                  </span>
+                  <TMTooltip
+                    size="xs"
+                    placementSide="right"
+                    theme="dark"
+                    content={
+                      <TMTooltipBody>
+                        <a
+                          href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
+                          className="block cursor-pointer text-white underline"
+                        >
+                          Click here to get API Token
+                        </a>
+                      </TMTooltipBody>
+                    }
+                  >
+                    <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                  </TMTooltip>
                 </>
               }
               placeholder="Enter Zephyr Scale API Token"

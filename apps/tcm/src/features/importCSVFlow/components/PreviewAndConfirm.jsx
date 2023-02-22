@@ -117,6 +117,7 @@ const PreviewAndConfirm = () => {
               </TableCell>
               <TableCell>{formatTemplate(row.templateType)}</TableCell>
               <TableCell>{formatPriority(row.priority)}</TableCell>
+              <TableCell>{row.owner}</TableCell>
             </TableRow>
           ))}
         </TableBody>

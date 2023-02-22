@@ -25,7 +25,7 @@ const ConfigureTool = () => {
   } = useImport();
 
   const testMgmtNameInDesc =
-    currentTestManagementTool === 'testrails' ? "TestRail's" : 'Zephyr Scale';
+    currentTestManagementTool === 'testrails' ? 'TestRail' : 'Zephyr Scale';
   const handleButtonClick = (text) => () => {
     if (text === ZEPHYR) isJiraConfiguredForZephyr();
     setTestManagementTool(text);
@@ -115,6 +115,7 @@ const ConfigureTool = () => {
                     <>
                       <span className="mr-1">Import data from tool</span>
                       <TMBadge
+                        wrapperClassName="hover:bg-attention-100"
                         isRounded
                         text="Recommended"
                         modifier="warn"
@@ -122,7 +123,7 @@ const ConfigureTool = () => {
                       />
                     </>
                   ),
-                  description: `Enter ${testMgmtNameInDesc} credentials we'll import your data`
+                  description: `Enter ${testMgmtNameInDesc} credentials, we'll import your data`
                 },
                 {
                   id: 'upload-file',

@@ -5,6 +5,7 @@ import { Notifications, notify } from '@browserstack/bifrost';
 import { TMButton } from 'common/bifrostProxy';
 
 import { getQuickImportStatus } from '../../../api/import.api';
+import useProjects from '../../Projects/components/useProjects';
 import {
   COMPLETED,
   FAILURE_DATA,
@@ -30,6 +31,7 @@ import {
 const useImportStatus = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { fetchProjects } = useProjects();
 
   const importStatus = useSelector((state) => state.import.importStatus);
   const importId = useSelector((state) => state.import.importId);
@@ -102,6 +104,7 @@ const useImportStatus = () => {
         dismissNotification(toastData, currentImportStatus, 'showModal');
       } else {
         dismissNotification(toastData, currentImportStatus);
+        fetchProjects();
         navigate('/');
       }
     };
