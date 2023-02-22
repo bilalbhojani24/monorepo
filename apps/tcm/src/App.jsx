@@ -6,6 +6,7 @@ import { NotificationsContainer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
+import Notification from 'features/Notification';
 import ImportStatus from 'features/quickImportFlow/components/ImportStatus';
 import SideNav from 'features/SideNav';
 
@@ -59,6 +60,7 @@ function App() {
           <MainRoute />
         </div>
       </div>
+      <Notification />
       <NotificationsContainer />
     </BrowserRouter>
   );

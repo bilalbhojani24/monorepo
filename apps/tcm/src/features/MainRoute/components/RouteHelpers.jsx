@@ -4,7 +4,7 @@ import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
 
-const PrivateComponent = ({ children, isOnboarding }) => {
+const PrivateComponent = ({ children, isOnboarding, isForced }) => {
   const isAuthenticatedUser = localStorage.getItem(AUTH_TOKEN_KEY);
   const isToBeOnboarded =
     isAuthenticatedUser && JSON.parse(isAuthenticatedUser)?.onboarded === 0;
@@ -17,7 +17,7 @@ const PrivateComponent = ({ children, isOnboarding }) => {
   //   return <Navigate to={AppRoute.ROOT} />;
 
   // if first time user go to onboarding page else go to which ever page
-  return isToBeOnboarded && !isOnboarding ? (
+  return isToBeOnboarded && !isOnboarding && !isForced ? (
     <Navigate to={AppRoute.ONBOARDING} />
   ) : (
     children || ''
@@ -26,11 +26,13 @@ const PrivateComponent = ({ children, isOnboarding }) => {
 
 PrivateComponent.propTypes = {
   children: PropTypes.node.isRequired,
-  isOnboarding: PropTypes.bool
+  isOnboarding: PropTypes.bool,
+  isForced: PropTypes.bool
 };
 
 PrivateComponent.defaultProps = {
-  isOnboarding: false
+  isOnboarding: false,
+  isForced: false
 };
 
 const OnlyPublicComponent = ({ children }) => {
