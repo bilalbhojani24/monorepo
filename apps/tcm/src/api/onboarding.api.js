@@ -1,3 +1,8 @@
-import { fetchPost } from './_utils/fetch';
+import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const setOnboardingDataAPI = async () => fetchPost('TBD');
+export const setOnboardingDataAPI = async ({ payload }) =>
+  fetchPost('/api/v1/user/onboarding', {
+    onboarding_info: payload
+  });
+
+export const getJIRAConfigAPI = async () => fetchGet(`/api/v1/user/onboarding`);

@@ -10,9 +10,9 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res.data.data.user));
-    if (res.data?.data?.user) {
-      dispatch(setUser(res.data.data.user));
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res?.data?.user));
+    if (res?.data?.user) {
+      dispatch(setUser(res.data.user));
     }
     // on redirection after login, location.pathname tanks! hence using window.location.pathname
     if (window.location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
@@ -27,12 +27,11 @@ const useAuthentication = () => {
   };
 
   const authInit = () => {
-    const bypassHosts = [
-      'localhost:5173',
-      '127.0.0.1:5500',
-      '73e3-2406-8800-9014-ab0-d901-302-ac4f-9ca2.in.ngrok.io'
-    ];
-    if (bypassHosts.includes(window.location.host)) {
+    const bypassHosts = ['localhost:5173', '127.0.0.1:5500'];
+    if (
+      bypassHosts.includes(window.location.host) ||
+      window.location.host.includes('.in.ngrok.io')
+    ) {
       // mock for localhost
       if (localStorage.getItem('TCM_LOGGED_OUT') === 'true') {
         onAuthFailureHandler({
@@ -47,12 +46,10 @@ const useAuthentication = () => {
       } else {
         onAuthSuccessHandler({
           data: {
-            data: {
-              user: {
-                full_name: 'Ribin Roy',
-                email: 'fake2@example.com'
-                // is_first_time: true
-              }
+            user: {
+              full_name: 'Ribin Roy',
+              email: 'fake2@example.com',
+              onboarded: 1
             }
           }
         });

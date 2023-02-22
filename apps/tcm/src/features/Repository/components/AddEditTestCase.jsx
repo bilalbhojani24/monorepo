@@ -36,6 +36,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
@@ -58,8 +59,7 @@ const AddEditTestCase = () => {
     // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper,
-    imageUploadRTEHelper
+    addIssuesSaveHelper
   } = useAddEditTestCase();
 
   const { initFormValues } = useTestCases();
@@ -113,7 +113,9 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange('name', e.currentTarget.value)
               }
-              errorText={inputError ? "This field can't be left empty" : ''}
+              errorText={
+                inputError?.name ? "This field can't be left empty" : ''
+              }
             />
             {/* <div className="mt-2.5 flex w-full">
               <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
@@ -137,45 +139,51 @@ const AddEditTestCase = () => {
         <div className="mt-4">
           <TMRichTextEditor
             label="Description"
+            id="main-description"
             value={testCaseFormData?.description}
             height={200}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
-            onAssetUpload={imageUploadRTEHelper}
+            projectId={projectId}
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ? (
           <>
             <div className="mt-4 flex gap-4">
-
-            <div className="flex-1">
-              <TMRichTextEditor
-                label="Steps"
-                placeholder="Steps for the test"
-                value={testCaseFormData?.steps?.[0]}
-                height={200}
-                onChange={(val) => handleTestCaseFieldChange('steps', [val])}
-                onAssetUpload={imageUploadRTEHelper}
-              />
-            </div>
-            <div className="flex-1">
-              <TMRichTextEditor
-                label="Expected Results"
-                placeholder="Expected result(s) from above steps"
-                value={testCaseFormData?.expected_result}
-                height={200}
-                onChange={(val) =>
-                  handleTestCaseFieldChange('expected_result', val)
-                }
-                onAssetUpload={imageUploadRTEHelper}
-              />
-            </div>
+              <div className="flex-1">
+                <TMRichTextEditor
+                  label="Steps"
+                  id="steps-rte"
+                  placeholder="Steps for the test"
+                  value={testCaseFormData?.steps?.[0]}
+                  height={200}
+                  onChange={(val) => handleTestCaseFieldChange('steps', [val])}
+                  projectId={projectId}
+                />
+              </div>
+              <div className="flex-1">
+                <TMRichTextEditor
+                  id="expected-results-rte"
+                  label="Expected Results"
+                  placeholder="Expected result(s) from above steps"
+                  value={testCaseFormData?.expected_result}
+                  height={200}
+                  onChange={(val) =>
+                    handleTestCaseFieldChange('expected_result', val)
+                  }
+                  projectId={projectId}
+                />
+              </div>
             </div>
           </>
         ) : (
           <StepComponent
+            errorText={
+              inputError?.steps ? "This field can't be left empty" : ''
+            }
             data={testCaseFormData.steps}
             onChange={(data) => handleTestCaseFieldChange('steps', data)}
+            projectId={projectId}
           />
         )}
         <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
@@ -269,6 +277,7 @@ const AddEditTestCase = () => {
             </div>
             <div className="mt-4">
               <TMRichTextEditor
+                id="preconnditions-rte"
                 placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}
@@ -276,7 +285,7 @@ const AddEditTestCase = () => {
                 onChange={(val) =>
                   handleTestCaseFieldChange('preconditions', val)
                 }
-                onAssetUpload={imageUploadRTEHelper}
+                projectId={projectId}
               />
             </div>
             <div className="mt-4 flex gap-4">

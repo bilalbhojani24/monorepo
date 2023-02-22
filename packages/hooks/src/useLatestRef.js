@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /*
   This hook returns a ref object that always points to the latest value passed to it.

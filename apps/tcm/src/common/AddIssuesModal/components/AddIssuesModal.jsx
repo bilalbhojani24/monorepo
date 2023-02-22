@@ -17,6 +17,7 @@ import useAddIssuesModal from './useAddIssuesModal';
 
 const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const {
+    modalFocusRef,
     isLoading,
     jiraConfig,
     errorText,
@@ -37,6 +38,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
       show={isVisible}
       withDismissButton
       onOverlayClick={onCloseHandler}
+      ref={modalFocusRef}
       size={!isLoading && jiraConfig ? 'lg' : 'sm'}
     >
       {jiraConfig && (
@@ -78,6 +80,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                       label="Issue IDs"
                       errorText={errorText}
                       value={enterdIssueIDs}
+                      ref={modalFocusRef}
                       onKeyDown={(e) => onSubmitKeyHandler(e, onLinkIssueClick)}
                       onChange={(e) => {
                         setIssueIds(e.currentTarget.value);

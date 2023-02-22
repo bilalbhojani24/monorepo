@@ -58,7 +58,7 @@ const useTestRuns = () => {
     };
   };
 
-  const onDropDownChange = (e, selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem) => {
     dispatch(setSelectedTestRun(selectedItem));
     switch (selectedOption?.id) {
       case TR_DROP_OPTIONS[0].id: // edit

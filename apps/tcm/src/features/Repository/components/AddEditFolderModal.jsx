@@ -9,7 +9,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMTextArea
+  TMRichTextEditor
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -25,7 +25,7 @@ const AddEditFolderModal = ({
   currentData
 }) => {
   const functionName = isEditFolder ? 'Edit' : 'Create';
-  const { hideFolderModal, updateFolders, renameFolderHelper } =
+  const { modalFocusRef, hideFolderModal, updateFolders, renameFolderHelper } =
     useAddEditFolderModal();
   const [filledFormData, setFormData] = useState({
     name: '',
@@ -86,7 +86,12 @@ const AddEditFolderModal = ({
   }, [currentData]);
 
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
+    <TMModal
+      show={show}
+      withDismissButton
+      onOverlayClick={hideFolderModal}
+      ref={modalFocusRef}
+    >
       <TMModalHeader
         heading={
           isSubFolder ? `${functionName} Sub Folder` : `${functionName} Folder`
@@ -101,6 +106,7 @@ const AddEditFolderModal = ({
             placeholder="Enter Folder Name"
             value={filledFormData.name}
             errorText={formError.nameError}
+            ref={modalFocusRef}
             onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
@@ -111,13 +117,14 @@ const AddEditFolderModal = ({
           />
         </div>
         <div className="pb-1">
-          <TMTextArea
+          <TMRichTextEditor
             label="Description"
-            placeholder="Enter folder description/notes"
+            id="Description"
             value={filledFormData.notes}
-            onChange={(e) =>
-              setFormData({ ...filledFormData, notes: e.currentTarget.value })
-            }
+            height={200}
+            placeholder="Enter folder description/notes"
+            onChange={(val) => setFormData({ ...filledFormData, notes: val })}
+            projectId={projectId}
           />
         </div>
       </TMModalBody>

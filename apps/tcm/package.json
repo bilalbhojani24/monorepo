@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "./copy-tinymce.sh && vite",
+    "build": "vite build && ./copy-tinymce.sh",
     "preview": "vite preview",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
     "lint:fix": "npm run lint:check -- --fix",

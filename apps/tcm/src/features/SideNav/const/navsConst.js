@@ -66,4 +66,9 @@ export const secondaryNavLinks = [
   }
 ];
 
-export const noNavRoutes = [AppRoute.LANDING, AppRoute.ONBOARDING];
+export const noNavRoutes = [
+  AppRoute.LANDING,
+  AppRoute.ONBOARDING,
+  AppRoute.NOT_FOUND,
+  AppRoute.NO_ACCESS
+];

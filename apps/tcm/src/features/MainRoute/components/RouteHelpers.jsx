@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 const PrivateComponent = ({ children, isOnboarding }) => {
   const isAuthenticatedUser = localStorage.getItem(AUTH_TOKEN_KEY);
   const isToBeOnboarded =
-    isAuthenticatedUser && JSON.parse(isAuthenticatedUser)?.is_first_time;
+    isAuthenticatedUser && JSON.parse(isAuthenticatedUser)?.onboarded === 0;
 
   /// if not logged in, redirect to login
   if (!isAuthenticatedUser) return <Navigate to={AppRoute.LANDING} />;
 
-  if (isOnboarding && !isToBeOnboarded)
-    // if onboarding page hit, and if the user already onboarded go to root
-    return <Navigate to={AppRoute.ROOT} />;
+  // if (isOnboarding && !isToBeOnboarded)
+  //   // if onboarding page hit, and if the user already onboarded go to root
+  //   return <Navigate to={AppRoute.ROOT} />;
 
   // if first time user go to onboarding page else go to which ever page
   return isToBeOnboarded && !isOnboarding ? (

@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { activeTestRuns: {} };
+const initialState = {
+  isLoading: {
+    activeTR: true,
+    closedTRMonthly: true,
+    closedTRDaily: true,
+    typeOfTC: true,
+    trendOfTC: true,
+    jiraIssues: true
+  }
+};
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
@@ -8,9 +17,13 @@ export const dashboardSlice = createSlice({
   reducers: {
     setActiveTestRunsFulfilled: (state, { payload }) => {
       state.activeTestRuns = payload;
+    },
+    setIsLoadingProps: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
 
-export const { setActiveTestRunsFulfilled } = dashboardSlice.actions;
+export const { setActiveTestRunsFulfilled, setIsLoadingProps } =
+  dashboardSlice.actions;
 export default dashboardSlice.reducer;

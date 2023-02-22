@@ -17,8 +17,8 @@ const Onboarding = () => {
     continueClickHandler
   } = useOnboarding();
   return (
-    <div className="flex w-full justify-center pt-10">
-      <div className="border-base-300 w-screen max-w-4xl rounded-md border bg-white p-5">
+    <div className="flex h-full w-full items-start justify-center py-10">
+      <div className="border-base-300 max-h-full w-screen max-w-4xl overflow-y-auto rounded-md border bg-white p-5">
         <div className="text-2xl font-medium">
           Hey {userData?.full_name}, Welcome to Test Management
         </div>
@@ -31,7 +31,7 @@ const Onboarding = () => {
             label="Which job role best describes you?"
             placeholder="Select from options"
             options={jobRolesArray}
-            onChange={(val) => onFormChange('job', val.value)}
+            onChange={(val) => onFormChange('role', val.value)}
           />
         </div>
         <div className="mt-6 max-w-sm">
@@ -39,12 +39,12 @@ const Onboarding = () => {
             label="What's your organisation strength?"
             placeholder="Select from options"
             options={orgStrengthArray}
-            onChange={(val) => onFormChange('strength', val.value)}
+            onChange={(val) => onFormChange('organisation_strength', val.value)}
           />
         </div>
         <div className="mt-6">
           <div className="text-base">Choose your setup format</div>
-          <div className="mt-4 flex justify-center gap-4">
+          <div className="mt-4 flex  gap-4">
             {SETUP_FORMATS.map((item) => (
               <FormatCard
                 key={item.id}
@@ -52,8 +52,8 @@ const Onboarding = () => {
                 id={item.id}
                 description={item.description}
                 badgeText={item.badgeText}
-                isSelected={item.id === formData.format}
-                onClick={(val) => onFormChange('format', val)}
+                isSelected={item.title === formData.start_method}
+                onClick={(val) => onFormChange('start_method', val)}
               />
             ))}
           </div>
