@@ -1,14 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { TMCheckBox } from 'common/bifrostProxy';
-import { number, shape, string } from 'prop-types';
+import { TMAlerts, TMCheckBox } from 'common/bifrostProxy';
+import { bool, number, shape, string } from 'prop-types';
 
-import { setProjectForTestManagementImport } from '../slices/importSlice';
+import {
+  setErrorForConfigureData,
+  setProjectForTestManagementImport
+} from '../slices/importSlice';
 
 const ConfigureDataList = (props) => {
-  const { projects } = props;
+  const { projects, showError } = props;
   const dispatch = useDispatch();
   const allChecked = projects.every((project) => project.checked);
+  const someChecked = projects.some((project) => project.checked);
 
   const handleCheckBoxChange = (name) => (e) => {
     if (name === 'allProjects') {
@@ -21,6 +25,7 @@ const ConfigureDataList = (props) => {
             }))
           )
         );
+        dispatch(setErrorForConfigureData(false));
       } else {
         dispatch(
           setProjectForTestManagementImport(
@@ -29,6 +34,7 @@ const ConfigureDataList = (props) => {
         );
       }
     } else {
+      if (e.target.checked) dispatch(setErrorForConfigureData(false));
       const filteredProjects = projects.map((project) => {
         if (project.name === name)
           return { ...project, checked: !project.checked };
@@ -40,6 +46,15 @@ const ConfigureDataList = (props) => {
 
   return (
     <>
+      {showError && (
+        <div className="my-4">
+          <TMAlerts
+            modifier="error"
+            title="Select at least 1 project to proceed."
+            linkText={null}
+          />
+        </div>
+      )}
       <TMCheckBox
         position="left"
         data={{
@@ -48,7 +63,7 @@ const ConfigureDataList = (props) => {
         }}
         onChange={handleCheckBoxChange('allProjects')}
         checked={allChecked}
-        indeterminate={!allChecked}
+        indeterminate={someChecked && !allChecked}
         description="block"
       />
       {projects.map((project) => (
@@ -71,11 +86,13 @@ ConfigureDataList.propTypes = {
     id: number,
     name: string,
     suite_mode: number
-  })
+  }),
+  showError: bool
 };
 
 ConfigureDataList.defaultProps = {
-  projects: []
+  projects: [],
+  showError: false
 };
 
 export default ConfigureDataList;

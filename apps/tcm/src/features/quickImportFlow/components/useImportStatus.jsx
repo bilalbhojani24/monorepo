@@ -187,7 +187,13 @@ const useImportStatus = () => {
               successCount: data.success_count
             })
           );
-          dispatch(setCurrentTestManagementTool(data.import_type));
+          dispatch(
+            setCurrentTestManagementTool(
+              data.import_type.split('_')[0] === 'testrail'
+                ? 'testrails'
+                : 'zephyr'
+            )
+          );
           showNotification(
             FAILURE_DATA,
             data.status,

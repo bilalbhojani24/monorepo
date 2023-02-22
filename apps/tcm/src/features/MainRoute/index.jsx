@@ -141,6 +141,14 @@ const MainRoute = () => {
           }
         />
         <Route
+          path={AppRoute.IMPORT_WITH_PROJECTS}
+          element={
+            <PrivateComponent>
+              <Import />
+            </PrivateComponent>
+          }
+        />
+        <Route
           path={AppRoute.IMPORT_CSV}
           element={
             <PrivateComponent>

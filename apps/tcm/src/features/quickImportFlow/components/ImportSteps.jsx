@@ -1,33 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { TMSteps } from 'common/bifrostProxy';
 import { arrayOf, shape, string } from 'prop-types';
 
-import { setCurrentScreen } from '../slices/importSlice';
+import {
+  COMPLETE_STEP,
+  CURRENT_COMPLETED_STEP,
+  CURRENT_STEP
+} from '../const/importSteps';
+import { setCurrentScreen, setImportSteps } from '../slices/importSlice';
 
 const ImportSteps = (props) => {
   const { steps } = props;
   const dispatch = useDispatch();
-  const [stepOptions, setStepOptions] = useState([...steps]);
 
-  useEffect(() => {
-    setStepOptions(steps);
-  }, [steps]);
+  const redirectToScreen = (stepName) => {
+    if (stepName === 'CONFIGURE TOOL')
+      dispatch(setCurrentScreen('configureTool'));
+    else if (stepName === 'CONFIGURE DATA')
+      dispatch(setCurrentScreen('configureData'));
+    else if (stepName === 'CONFIRM IMPORT')
+      dispatch(setCurrentScreen('confirmImport'));
+  };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleStepClick = (_, step) => {
-    if (step.status === 'complete' || step.status === 'current') {
-      if (step.name === 'CONFIGURE TOOL')
-        dispatch(setCurrentScreen('configureTool'));
-      else if (step.name === 'CONFIGURE DATA')
-        dispatch(setCurrentScreen('configureData'));
-      else if (step.name === 'CONFIRM IMPORT')
-        dispatch(setCurrentScreen('confirmImport'));
+    if (step.status === CURRENT_STEP) {
+      const currentStepIndex = steps.findIndex(
+        (cStep) => cStep.name === step.name
+      );
+      const newSteps = steps.map((currentStep, idx) => {
+        if (idx < currentStepIndex)
+          return { ...currentStep, status: COMPLETE_STEP };
+        if (idx === currentStepIndex)
+          return { ...currentStep, status: CURRENT_STEP };
+        return currentStep;
+      });
+      dispatch(setImportSteps(newSteps));
+      redirectToScreen(step.name);
+    } else if (step.status === COMPLETE_STEP) {
+      const currentStepIndex = steps.findIndex(
+        (cStep) => cStep.name === step.name
+      );
+      const newSteps = steps.map((currentStep, idx) => {
+        if (idx === currentStepIndex)
+          return { ...currentStep, status: CURRENT_COMPLETED_STEP };
+        if (
+          (idx > currentStepIndex || idx < currentStepIndex) &&
+          currentStep.status === CURRENT_COMPLETED_STEP
+        )
+          return { ...currentStep, status: COMPLETE_STEP };
+
+        return currentStep;
+      });
+      dispatch(setImportSteps(newSteps));
+      redirectToScreen(step.name);
     }
   };
 
   return (
     <TMSteps
-      steps={stepOptions}
+      steps={steps}
       format="panels-with-borders"
       onClick={handleStepClick}
     />

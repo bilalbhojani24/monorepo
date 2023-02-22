@@ -60,7 +60,7 @@ const useImportCSV = () => {
   const handleProceedClick = () => {
     // now create the payload and make the api call
     if (!fileConfig.file) {
-      dispatch(setCSVUploadError('Please select a CSV file.'));
+      dispatch(setCSVUploadError('Please select a CSV/Excel file.'));
       return;
     }
     const filesData = new FormData();
