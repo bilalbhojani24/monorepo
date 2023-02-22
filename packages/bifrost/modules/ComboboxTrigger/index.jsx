@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -10,7 +11,7 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 
 const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth } = useContext(ComboboxContextData);
+  const { isMulti, setWidth, errorText } = useContext(ComboboxContextData);
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
@@ -21,7 +22,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
       <div className="relative">
         <Combobox.Input
           placeholder={placeholder}
-          className="border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm"
+          className={twClassNames(
+            'border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pl-3 pr-16 shadow-sm focus:outline-none focus:ring-1 sm:text-sm',
+            { 'border-danger-600': errorText }
+          )}
           onChange={onInputValueChange}
           displayValue={(dv) =>
             isMulti && Array.isArray(dv)

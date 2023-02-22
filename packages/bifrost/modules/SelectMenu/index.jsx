@@ -18,7 +18,7 @@ const SelectMenu = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
 
-  const { children, onChange, isMulti, defaultValue, value } = props;
+  const { children, errorText, onChange, isMulti, defaultValue, value } = props;
 
   return (
     <SelectMenuContextData.Provider
@@ -27,7 +27,8 @@ const SelectMenu = forwardRef((props, ref) => {
         setWidth,
         width,
         showCount,
-        setShowCount
+        setShowCount,
+        errorText
       }}
     >
       <Popover.Root>
@@ -46,6 +47,9 @@ const SelectMenu = forwardRef((props, ref) => {
         >
           {children}
         </Listbox>
+        {errorText && (
+          <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
+        )}
       </Popover.Root>
     </SelectMenuContextData.Provider>
   );
@@ -67,6 +71,7 @@ SelectMenu.propTypes = {
       image: string
     })
   ]),
+  errorText: string,
   isMulti: bool,
   onChange: func,
   value: oneOfType([
@@ -87,6 +92,7 @@ SelectMenu.propTypes = {
 
 SelectMenu.defaultProps = {
   defaultValue: null,
+  errorText: '',
   isMulti: false,
   onChange: () => {},
   value: null
