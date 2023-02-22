@@ -24,7 +24,6 @@ const InputWDropdown = forwardRef(
       label,
       addOnText,
       addOnIcon,
-      multiType,
       multiPosition,
       onBlur,
       onDropdownChange,
@@ -67,18 +66,16 @@ const InputWDropdown = forwardRef(
 
     const InsetElement = () => (
       <span
-        className={twClassNames(
-          isAddOnInline
-            ? [
-                'pointer-events-none absolute inset-y-0 flex items-center',
-                multiPosition === INPUT_MULTI_POSITION[0]
-                  ? 'right-0 pr-3'
-                  : 'left-0 pl-3'
-              ]
-            : [
-                'inline-flex items-center rounded-l-md border border-r-0 border-base-300 bg-base-50 px-3 text-base-500 sm:text-sm'
-              ]
-        )}
+        className={twClassNames({
+          'pointer-events-none absolute inset-y-0 flex items-center':
+            isAddOnInline,
+          'right-0 pr-3':
+            multiPosition === INPUT_MULTI_POSITION[0] && isAddOnInline,
+          'left-0 pl-3':
+            multiPosition !== INPUT_MULTI_POSITION[0] && isAddOnInline,
+          'inline-flex items-center rounded-l-md border border-r-0 border-base-300 bg-base-50 px-3 text-base-500 sm:text-sm':
+            !isAddOnInline
+        })}
       >
         <span
           className={twClassNames('', {
@@ -89,25 +86,13 @@ const InputWDropdown = forwardRef(
         </span>
       </span>
     );
-    const LeftElement = () =>
-      multiPosition === INPUT_MULTI_POSITION[0] ? (
-        <MultiElement />
-      ) : (
-        <InsetElement />
-      );
-    const RightElement = () =>
-      multiPosition === INPUT_MULTI_POSITION[1] ? (
-        <MultiElement />
-      ) : (
-        <InsetElement />
-      );
     const hasLeftPadding =
       multiPosition === INPUT_MULTI_POSITION[0] ? true : !!addOnText;
     const hasRightPadding =
       multiPosition === INPUT_MULTI_POSITION[1] ? true : !!addOnText;
 
     return (
-      <div className="bifrost-input-field">
+      <div>
         {(label || cornerHintText) && (
           <div className="mb-1 flex justify-between">
             <label
@@ -128,7 +113,11 @@ const InputWDropdown = forwardRef(
             'flex ': !isAddOnInline
           })}
         >
-          <LeftElement />
+          {multiPosition === INPUT_MULTI_POSITION[0] ? (
+            <MultiElement />
+          ) : (
+            <InsetElement />
+          )}
           <input
             aria-invalid={!!errorText}
             aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
@@ -167,9 +156,14 @@ const InputWDropdown = forwardRef(
             onFocus={onFocus}
             onBlur={onBlur}
             autoComplete={autoComplete}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...rest}
           />
-          <RightElement />
+          {multiPosition === INPUT_MULTI_POSITION[1] ? (
+            <MultiElement />
+          ) : (
+            <InsetElement />
+          )}
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             {errorText && (
               <ExclamationCircleIcon
@@ -204,7 +198,7 @@ InputWDropdown.propTypes = {
   errorText: PropTypes.string,
   id: PropTypes.string.isRequired,
   inputRef: PropTypes.oneOfType([
-    PropTypes.shape({ current: PropTypes.any }),
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
     PropTypes.func
   ]),
   label: PropTypes.string,
@@ -222,7 +216,7 @@ InputWDropdown.defaultProps = {
   addOnIcon: null,
   autoComplete: 'off',
   cornerHintText: '',
-  defaultValue: '',
+  defaultValue: undefined,
   description: '',
   disabled: false,
   dropdownList: [],

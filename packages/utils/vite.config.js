@@ -19,7 +19,8 @@ export default defineConfig(() => ({
         'enzyme',
         'uuid',
         'axios',
-        'dexie'
+        'dexie',
+        'react/jsx-runtime'
       ]
     }
   }
