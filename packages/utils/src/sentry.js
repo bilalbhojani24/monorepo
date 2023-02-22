@@ -1,4 +1,4 @@
-const Sentry = require('@sentry/react');
+import * as Sentry from '@sentry/react';
 
 let initialized;
 const checkIfInitialized = () => {
