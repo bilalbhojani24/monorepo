@@ -10,7 +10,6 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
-    debugger;
     localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res?.data?.user));
     if (res?.data?.user) {
       dispatch(setUser(res.data.user));
