@@ -69,7 +69,7 @@ const TextEditor = forwardRef((props, ref) => {
           height,
           width,
           menubar: false,
-          plugins: ['link', 'image', 'anchor', 'table', 'codesample'],
+          plugins: ['image', 'codesample'],
           toolbar:
             'bold italic strikethrough underline custom-image codesample',
           toolbar_sticky: true,
@@ -91,7 +91,7 @@ const TextEditor = forwardRef((props, ref) => {
               }
             });
 
-            editor.on('focus', () => {
+            editor.on('focusin', () => {
               showToolbar();
             });
           },

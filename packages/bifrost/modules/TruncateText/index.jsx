@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { isValidElement, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -24,6 +24,7 @@ const TruncateText = ({
   headerTooltipProps,
   tooltipTriggerIcon,
   hidetooltipTriggerIcon,
+  isTooltip,
   containerClassName,
   variant,
   tooltipContent
@@ -67,9 +68,16 @@ const TruncateText = ({
         )}
         ref={headerNameRef}
       >
-        {children}
+        {React.Children.map(children, (child) => {
+          if (isValidElement(child))
+            return React.cloneElement(child, {
+              truncated: truncatedDataTooltip
+            });
+          return child;
+        })}
       </Component>
-      {truncatedDataTooltip && (
+
+      {truncatedDataTooltip && isTooltip && (
         <span
           className={twClassNames('absolute bottom-0', {
             'right-0': !hidetooltipTriggerIcon,
@@ -80,9 +88,9 @@ const TruncateText = ({
             theme="dark"
             placementSide="left"
             content={
-              typeof tooltipContent === 'function'
-                ? tooltipContent(truncatedDataTooltip, children)
-                : tooltipContent
+              tooltipContent || (
+                <p className="text-base-300 mb-0 px-4">{children}</p>
+              )
             }
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...headerTooltipProps}
@@ -102,8 +110,9 @@ const TruncateText = ({
 TruncateText.propTypes = {
   children: PropTypes.node,
   wrapperClassName: PropTypes.string,
-  tooltipContent: PropTypes.func || PropTypes.node,
+  tooltipContent: PropTypes.node,
   headerTooltipProps: PropTypes.shape(TooltipPropTypes),
+  isTooltip: PropTypes.bool,
   tooltipTriggerIcon: PropTypes.node,
   hidetooltipTriggerIcon: PropTypes.bool,
   containerClassName: PropTypes.string,
@@ -112,10 +121,9 @@ TruncateText.propTypes = {
 TruncateText.defaultProps = {
   children: null,
   wrapperClassName: '',
-  tooltipContent: (isTooltipVisible, children) => (
-    <p className="text-base-300 mb-0 px-4">{children}</p>
-  ),
+  tooltipContent: null,
   headerTooltipProps: {},
+  isTooltip: true,
   tooltipTriggerIcon: <MdErrorOutline className="max-h-4" />,
   hidetooltipTriggerIcon: false,
   containerClassName: '',
