@@ -121,9 +121,15 @@ Checkbox.propTypes = {
   border: PropTypes.bool,
   checked: PropTypes.bool,
   data: PropTypes.shape({
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ]),
     value: PropTypes.string.isRequired,
-    description: PropTypes.string
+    description: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ])
   }),
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
