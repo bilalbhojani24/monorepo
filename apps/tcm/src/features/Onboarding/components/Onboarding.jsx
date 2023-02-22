@@ -17,8 +17,8 @@ const Onboarding = () => {
     continueClickHandler
   } = useOnboarding();
   return (
-    <div className="flex w-full justify-center pt-10">
-      <div className="border-base-300 w-screen max-w-4xl rounded-md border bg-white p-5">
+    <div className="flex h-full w-full items-start justify-center py-10">
+      <div className="border-base-300 max-h-full w-screen max-w-4xl overflow-y-auto rounded-md border bg-white p-5">
         <div className="text-2xl font-medium">
           Hey {userData?.full_name}, Welcome to Test Management
         </div>
