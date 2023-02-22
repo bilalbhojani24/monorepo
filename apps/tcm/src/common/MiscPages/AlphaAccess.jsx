@@ -1,24 +1,37 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { MdLock, MdMail, MdOutlineTextSnippet } from '@browserstack/bifrost';
 import { requestAccessAPI } from 'api/common.api';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
 
 const AlphaAccess = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const requestAccess = () => {
     requestAccessAPI().then((data) => {
-      dispatch(
-        addNotificaton({
-          id: 'access_requested',
-          title: 'Access has been requested',
-          description:
-            "You've requested access for Test Management. Check email for updates.",
-          variant: 'success'
-        })
-      );
+      if (data.message === 'Already Accessible') {
+        dispatch(
+          addNotificaton({
+            id: 'access_requested_done',
+            title: data.message,
+            description: 'Redirecting you to the main page'
+          })
+        );
+        navigate(AppRoute.ROOT);
+      } else
+        dispatch(
+          addNotificaton({
+            id: 'access_requested',
+            title: 'Access has been requested',
+            description:
+              "You've requested access for Test Management. Check email for updates.",
+            variant: 'success'
+          })
+        );
     });
   };
 
