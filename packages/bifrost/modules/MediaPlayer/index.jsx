@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import MediaPlayerControlPanel from '../MediaPlayerControlPanel';
@@ -10,7 +10,8 @@ const MediaPlayer = ({
   controlPanelStickToBottom,
   showRewindForwardControls,
   timeUpdateCallBack,
-  hoverSeekTime
+  hoverSeekTime,
+  seekToTimeStamp
 }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [duration, setDuration] = useState(0);
@@ -37,13 +38,18 @@ const MediaPlayer = ({
     if (videoRef.current.currentTime >= duration) {
       setIsPaused(true);
     }
-    timeUpdateCallBack(videoRef.current.currentTime);
+    timeUpdateCallBack(videoRef.current);
   };
   const handleSliderChange = ({ target: { value } }) => {
     if (videoRef.current?.currentTime) {
       videoRef.current.currentTime = value;
     }
   };
+  useEffect(() => {
+    if (seekToTimeStamp <= duration) {
+      videoRef.current.currentTime = seekToTimeStamp;
+    }
+  }, [duration, seekToTimeStamp]);
 
   return (
     <div className={wrapperClassName}>
@@ -77,7 +83,8 @@ MediaPlayer.propTypes = {
   controlPanelClassName: PropTypes.string,
   showRewindForwardControls: PropTypes.bool,
   timeUpdateCallBack: PropTypes.func,
-  hoverSeekTime: PropTypes.number
+  hoverSeekTime: PropTypes.number,
+  seekToTimeStamp: PropTypes.number
 };
 MediaPlayer.defaultProps = {
   url: '',
@@ -86,7 +93,8 @@ MediaPlayer.defaultProps = {
   controlPanelClassName: '',
   showRewindForwardControls: true,
   timeUpdateCallBack: () => {},
-  hoverSeekTime: null
+  hoverSeekTime: null,
+  seekToTimeStamp: null
 };
 
 export default MediaPlayer;
