@@ -56,7 +56,7 @@ const PopoverContainer = (props) => {
         onOpenChange={onOpenChange}
         modal={modal}
       >
-        <PopoverPrimitive.Trigger as>{children}</PopoverPrimitive.Trigger>
+        <PopoverPrimitive.Trigger asChild>{children}</PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align={placementAlign}
