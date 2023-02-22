@@ -7,7 +7,8 @@ const MediaPlayer = ({
   url,
   wrapperClassName,
   controlPanelClassName,
-  controlPanelStickToBottom
+  controlPanelStickToBottom,
+  showRewindForwardControls
 }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [duration, setDuration] = useState(0);
@@ -31,6 +32,9 @@ const MediaPlayer = ({
   };
   const handleTimeUpdate = () => {
     setCurrentTime(videoRef.current.currentTime);
+    if (videoRef.current.currentTime >= duration) {
+      setIsPaused(true);
+    }
   };
   const handleSliderChange = ({ target: { value } }) => {
     videoRef.current.currentTime = value;
@@ -54,6 +58,7 @@ const MediaPlayer = ({
         onJumpXSeconds={handleMoveXSeconds}
         stickToBottom={controlPanelStickToBottom}
         wrapperClassName={controlPanelClassName}
+        showRewindForwardButtons={showRewindForwardControls}
       />
     </div>
   );
@@ -63,13 +68,15 @@ MediaPlayer.propTypes = {
   url: PropTypes.string,
   wrapperClassName: PropTypes.string,
   controlPanelStickToBottom: PropTypes.bool,
-  controlPanelClassName: PropTypes.string
+  controlPanelClassName: PropTypes.string,
+  showRewindForwardControls: PropTypes.bool
 };
 MediaPlayer.defaultProps = {
   url: '',
   wrapperClassName: '',
   controlPanelStickToBottom: false,
-  controlPanelClassName: ''
+  controlPanelClassName: '',
+  showRewindForwardControls: true
 };
 
 export default MediaPlayer;
