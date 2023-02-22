@@ -96,7 +96,7 @@ const TestRailImportForm = () => {
                         API Key is located at My Settings &gt; API Keys
                         {testRailsCred.host && (
                           <a
-                            href={`${testRailsCred.host}index.php?/mysettings`}
+                            href={`${testRailsCred.host}/index.php?/mysettings`}
                             className="mt-3 block cursor-pointer font-medium text-white underline"
                           >
                             Click here to get Token ID

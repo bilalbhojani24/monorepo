@@ -2,7 +2,7 @@ import AppRoute from 'const/routes';
 
 export const IMPORT_OPTIONS = [
   {
-    body: 'Quick Import (Recommended)',
+    body: 'Quick Import',
     id: 'quick',
     divider: true,
     route: AppRoute.IMPORT

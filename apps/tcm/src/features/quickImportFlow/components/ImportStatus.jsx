@@ -13,9 +13,11 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 
+import useProjects from '../../Projects/components/useProjects';
 import { COMPLETED, FAILURE, INFINITY, ONGOING } from '../const/importConst';
 import {
   setCurrentScreen,
@@ -44,6 +46,7 @@ const ImportStatus = () => {
   } = useImportStatus();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { fetchProjects } = useProjects();
 
   const dismissNotification = (toastData, modalDecider) => {
     notify.remove(toastData.id);
@@ -98,6 +101,7 @@ const ImportStatus = () => {
       dismissNotification(toastData, 'showModal');
     } else {
       dismissNotification(toastData);
+      fetchProjects();
       navigate('/');
     }
   };
@@ -204,14 +208,22 @@ const ImportStatus = () => {
               importProjects.map((project) => (
                 <div className="border-base-100 text-base-500 flex place-content-between border-b p-3 text-xs">
                   <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
-                    {project.name}
+                    <TMTruncateText hidetooltipTriggerIcon>
+                      {project.name}
+                    </TMTruncateText>
                   </span>
                   <div className="ml-6 flex-1">
                     {project.status === FAILURE ? (
                       <>
                         <ErrorIcon className="text-danger-600" />
                         <div className="text-base-500 text-sm">
-                          {project.error}
+                          <TMTruncateText
+                            hidetooltipTriggerIcon
+                            wrapperClassName="line-clamp-2"
+                            isFullWidthTooltip
+                          >
+                            {project.error}
+                          </TMTruncateText>
                         </div>
                       </>
                     ) : (
