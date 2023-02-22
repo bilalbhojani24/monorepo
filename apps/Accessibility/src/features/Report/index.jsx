@@ -39,9 +39,6 @@ export default function Report() {
   const currentPageUrl = `${origin}${pathname}?ids=${params.get(
     'ids'
   )}&wcagVersion=${params.get('wcagVersion')}`;
-  // Object.entries(params).forEach(([key, value]) => {
-  //   console.log('params: ', key, value);
-  // });
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
@@ -63,7 +60,10 @@ export default function Report() {
 
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
-      <div className="bg-base-50 fixed top-16 z-10 w-full">
+      <div
+        className="bg-base-50 fixed top-16 z-10"
+        style={{ width: 'calc(100vw - 256px)' }}
+      >
         <div className="px-6 pt-6">
           <Breadcrumb
             data={[

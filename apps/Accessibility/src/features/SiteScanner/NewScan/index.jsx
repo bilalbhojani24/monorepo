@@ -4,9 +4,12 @@ import {
   Button,
   Checkbox,
   Dropdown,
-  DropdownTriggerWText,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
   InputField,
   MdDelete,
+  MdExpandMore,
   Slideover,
   //   SlideoverBody,
   SlideoverFooter,
@@ -27,7 +30,8 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     handlerCloseOver,
     timeRef,
     scanNameRef,
-    scanUrlRef
+    scanUrlRef,
+    fileUploadRef
   } = useNewScan(closeSlideover, preConfigData);
 
   const getAccordionBody = () => (
@@ -109,15 +113,32 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               </label>
               <Dropdown
                 trigger={
-                  <DropdownTriggerWText>
+                  <DropdownTrigger>
                     {formData?.scanData?.wcagVersion.body}
-                  </DropdownTriggerWText>
+                  </DropdownTrigger>
                 }
                 options={wcagVersions}
                 heading="WCAG Version"
                 onClick={(e) => handleFormData(e, 'wcagVersion')}
                 id="wcagVersion"
               />
+              <Dropdown
+                onClick={(e) => handleFormData(e, 'wcagVersion')}
+                id="scanFilter"
+              >
+                <div className="flex">
+                  <DropdownTrigger>
+                    {formData?.scanData?.wcagVersion.body}
+                    <MdExpandMore className="h-5 w-5" aria-hidden="true" />
+                  </DropdownTrigger>
+                </div>
+
+                <DropdownOptionGroup>
+                  {wcagVersions.map((opt) => (
+                    <DropdownOptionItem key={opt.id} option={opt} />
+                  ))}
+                </DropdownOptionGroup>
+              </Dropdown>
             </div>
           </div>
           <div className="mx-5">
@@ -162,16 +183,36 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   {formData.type === 'weekly' && (
                     <>
                       <span className="mr-2">On the </span>
-                      <Dropdown
+                      {/* <Dropdown
                         options={days}
                         onClick={(e) => handleFormData(e, 'day')}
                         id="recurring-days"
                         trigger={
-                          <DropdownTriggerWText>
+                          <DropdownTrigger>
                             {formData.day || 'Day'}
-                          </DropdownTriggerWText>
+                          </DropdownTrigger>
                         }
-                      />
+                      /> */}
+                      <Dropdown
+                        onClick={(e) => handleFormData(e, 'day')}
+                        id="scanFilter"
+                      >
+                        <div className="flex">
+                          <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+                            {formData.day || 'Day'}
+                            <MdExpandMore
+                              className="h-5 w-5"
+                              aria-hidden="true"
+                            />
+                          </DropdownTrigger>
+                        </div>
+
+                        <DropdownOptionGroup>
+                          {days.map((opt) => (
+                            <DropdownOptionItem key={opt.id} option={opt} />
+                          ))}
+                        </DropdownOptionGroup>
+                      </Dropdown>
                       <span className="mx-2">of every week, at</span>{' '}
                     </>
                   )}
@@ -229,9 +270,27 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
             >
               Add
             </Button>
+            <input
+              ref={fileUploadRef}
+              type="file"
+              id="csvUpload"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                  const arr = e.target.result.replaceAll('\r', '').split('\n');
+                  arr.shift();
+                  handleFormData(Array.from(new Set(arr)), 'csvUpload');
+                  // Continue processing...
+                };
+
+                reader.readAsText(e.target.files[0]);
+              }}
+            />
             <Button
               colors="white"
-              onClick={() => {}}
+              onClick={() => fileUploadRef.current.click()}
               size="small"
               type="subtle"
               wrapperClassName="ml-4 w-36"
@@ -249,7 +308,16 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                     <span className="text-base-900 w-6/12 truncate text-sm">
                       {url}
                     </span>
-                    <MdDelete />
+                    <div
+                      onClick={() => {
+                        handleFormData(url, 'deleteUrl');
+                      }}
+                      onKeyDown={() => {}}
+                      role="button"
+                      tabIndex="0"
+                    >
+                      <MdDelete />
+                    </div>
                   </div>
                 ))
               : null}

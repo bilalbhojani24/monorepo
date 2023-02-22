@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Checkbox } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
-// import { logEvent } from '@browserstack/utils';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import {
   handleClickByEnterOrSpace,
   updateUrlWithQueryParam
 } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 import { setIsReportSelected } from '../../slices/appSlice';
 import {
@@ -43,15 +43,15 @@ export default function ReportRow({ id }) {
   };
 
   const onReportClick = (e) => {
-    if (e.target.id === 'checkbox') {
+    if (e?.target?.id === 'checkbox') {
       return;
     }
     if (isSelectionMode) {
       dispatch(setIsReportSelected({ id, isSelected: !isSelected }));
     } else {
-      // logEvent('InteractedWithADHomepage', {
-      //   actionType: 'View individual report'
-      // });
+      logEvent('InteractedWithADHomepage', {
+        actionType: 'View individual report'
+      });
       const params = {
         ids: id,
         wcagVersion: activeVersion.split('WCAG ')[1]
@@ -71,22 +71,17 @@ export default function ReportRow({ id }) {
     <div
       tabIndex={0}
       role="button"
-      onKeyDown={(e) => handleClickByEnterOrSpace(e, onReportClick)}
+      onKeyDown={(e) => handleClickByEnterOrSpace(e, () => onReportClick(e))}
       className="border-base-200 hover:bg-base-50 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
       <div className="flex" style={{ width: `calc(100% - 801px)` }}>
         <Checkbox
-          // ariaLabelText={`${name} selection checkbox`}
-          id={id.toString()}
-          title={name}
-          onChange={onReportCheckBoxClick}
+          data={{ value: name }}
+          border={false}
+          wrapperClassName="border-0 flex items-center w-16 justify-center pt-0"
           checked={isSelected}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-          wrapperClassName="border-0 flex items-center w-16 justify-center"
-          // onClick={(e) => e.stopPropagation()}
+          onChange={onReportCheckBoxClick}
         />
         <div
           className="flex flex-col items-start justify-center"

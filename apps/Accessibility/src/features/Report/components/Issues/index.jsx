@@ -190,7 +190,7 @@ export default function Issues() {
               onChange={onNeedsReviewChecked}
             />
           </ModalBody>
-          <ModalFooter position="right ">
+          <ModalFooter position="right">
             <Button onClick={onCloseClick} colors="white">
               Cancel
             </Button>
@@ -216,10 +216,13 @@ export default function Issues() {
               {issueTabs.map(({ label, value }, index) => (
                 <Button
                   wrapperClassName={twClassNames({
+                    'rounded-l-none border-l-0': index === 1,
+                    'border-r-none border-r-0':
+                      index === 0 && activeSwitch !== value,
+                    'border-l-1 border-brand-500':
+                      index === 1 && activeSwitch === value,
                     'border-brand-500': activeSwitch === value,
-                    'rounded-r-none': index === 0,
-                    'rounded-l-none border-l-0':
-                      index !== 0 && activeSwitch === value
+                    'rounded-r-none': index === 0
                   })}
                   onClick={() => onTabSelect(value)}
                   colors="white"

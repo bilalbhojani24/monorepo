@@ -17,7 +17,7 @@ import {
   getReportMetaData
 } from 'features/Report/slice/selector';
 import { updateUrlWithQueryParam } from 'utils/helper';
-// import { logEvent } from 'utils/logEvent';
+import { logEvent } from 'utils/logEvent';
 
 export default function useReport() {
   const [isCopied, setIsCopied] = useState(false);
@@ -33,10 +33,10 @@ export default function useReport() {
     dispatch(setActiveTab(tab.value));
     dispatch(setActiveSwitch(ISSUE_TYPE));
     dispatch(setOpenAccordionId(''));
-    // logEvent('OnADReportView', {
-    //   actionType: events.CHOOSE_TAB,
-    //   tab: tab.value
-    // });
+    logEvent('OnADReportView', {
+      actionType: events.CHOOSE_TAB,
+      tab: tab.value
+    });
     const path = updateUrlWithQueryParam({ activeTab: tab.value });
     navigate(`?${path}`);
   };
@@ -67,12 +67,12 @@ export default function useReport() {
       if (isConsolidated) {
         dataObject.reportCount = reportIDList.length;
       }
-      // logEvent('OnADReportView', dataObject);
+      logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
-    return () => {
-      dispatch(resetReportAppInfo());
-    };
+    // return () => {
+    //   dispatch(resetReportAppInfo());
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 

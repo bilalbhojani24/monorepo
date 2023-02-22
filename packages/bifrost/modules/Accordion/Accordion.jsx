@@ -25,6 +25,7 @@ const Accordion = ({
           onClick={(event) => {
             onTriggerClick?.(event);
           }}
+          tabIndex={typeof onTriggerClick === 'function' ? 0 : -1}
         >
           <div
             className="my-auto h-5 w-5"
@@ -32,6 +33,7 @@ const Accordion = ({
             onClick={(event) => {
               onChevronClick?.(event);
             }}
+            tabIndex={typeof onChevronClick === 'function' ? 0 : -1}
           >
             {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
           </div>

@@ -70,6 +70,72 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const ControlledModal = (args) => {
+  const [show, setShow] = React.useState(true);
+  return (
+    <div>
+      <Modal {...args} show={show} onClose={() => {}}>
+        <ModalHeader
+          dismissButton={false}
+          heading="This Modal Cannot Close"
+          subHeading="Overlay and Escape Close is Disabled"
+        />
+        <p className="px-5 pb-5">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius id
+          excepturi quisquam at, repudiandae officiis beatae consequuntur
+          doloribus? Accusamus libero aliquam fugiat dolorem deserunt recusandae
+          quaerat explicabo non ipsa culpa.
+        </p>
+        <ModalFooter
+          position="right"
+          backgroundColorClass="bg-base-100"
+          isBorder
+        >
+          <Button colors="white" onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
+};
+
+const ModalKeyboardClose = (args) => {
+  const [show, setShow] = React.useState(true);
+  return (
+    <div>
+      <Modal
+        {...args}
+        show={show}
+        onClose={() => setShow(false)}
+        onOverlayClick={() => {}}
+      >
+        <ModalHeader
+          dismissButton
+          heading="Modal Keyboard Close"
+          subHeading="Overlay and Escape Close is Enabled"
+        />
+        <p className="px-5 pb-5">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius id
+          excepturi quisquam at, repudiandae officiis beatae consequuntur
+          doloribus? Accusamus libero aliquam fugiat dolorem deserunt recusandae
+          quaerat explicabo non ipsa culpa.
+        </p>
+        <ModalFooter
+          position="right"
+          backgroundColorClass="bg-base-100"
+          isBorder
+        >
+          <Button colors="white" onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>{' '}
+      </Modal>
+    </div>
+  );
+};
+
 const Template = (args) => <Modal {...args} />;
 const CustomBodyTemplate = (args) => <Modal {...args} />;
 const HeaderWithIconTemplate = (args) => <Modal {...args} />;
@@ -85,7 +151,14 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { CustomBody, HeaderWithIcon, Primary, ScrollableModal };
+export {
+  ControlledModal,
+  CustomBody,
+  HeaderWithIcon,
+  ModalKeyboardClose,
+  Primary,
+  ScrollableModal
+};
 
 /** ------------------
  * CustomBody
@@ -161,33 +234,29 @@ ScrollableModal.args = {
       />
       <ModalBody className="py-2">
         <h1>First am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
-        <h1>I am Modal Body</h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo,
+          eveniet? Iusto necessitatibus repellendus minima corrupti, facilis
+          quibusdam blanditiis enim esse ab nihil eveniet, vitae ea minus
+          perspiciatis modi nemo cum! Similique autem saepe blanditiis beatae
+          quidem iusto quis aspernatur incidunt rem aut est corporis vero,
+          cumque in, commodi, facilis minus a. Numquam impedit excepturi autem
+          nam harum ut corrupti est! Harum ex optio ut beatae eveniet est, ipsam
+          molestias architecto cupiditate exercitationem. Impedit veniam quidem
+          totam harum necessitatibus dolor quis neque sint quod! Ipsa hic nam
+          iusto minima, officiis nihil. Cum, ad eligendi! Voluptatum dolorum
+          sapiente non doloribus, ipsam soluta eius corrupti ratione commodi
+          corporis expedita dolore nisi aliquam possimus in deleniti nihil
+          minima natus maxime aut est! Ipsum, deleniti! In, architecto porro.
+          Libero ad voluptas delectus! Ullam quia magnam quae atque dicta vel
+          nobis suscipit tenetur aliquid commodi. Dicta error sapiente, commodi
+          necessitatibus id amet. Impedit, aliquam? Natus, a. Magni sint
+          necessitatibus nam nesciunt, non nisi laborum maiores quod fugit
+          dolorem provident minus ipsum in explicabo soluta asperiores eum porro
+          voluptatem, fuga exercitationem commodi et delectus vitae expedita!
+          Neque.
+        </p>
+
         <h1>Last am Modal Body</h1>
       </ModalBody>
       <ModalFooter position="right" backgroundColorClass="bg-base-100" isBorder>

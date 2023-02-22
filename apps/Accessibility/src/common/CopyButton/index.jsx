@@ -1,34 +1,57 @@
 import React, { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, MdContentCopy, MdFileCopy } from '@browserstack/bifrost';
+import {
+  Button,
+  MdContentCopy,
+  MdFileCopy,
+  Tooltip,
+  TooltipBody
+} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 export default function CopyButton({ className, text }) {
   const [isCopied, setIsCopied] = useState(false);
   return (
-    <CopyToClipboard
-      onCopy={() => {
-        setIsCopied(true);
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 2500);
-      }}
-      text={text}
+    <Tooltip
+      show={isCopied}
+      theme="dark"
+      placementSide="bottom"
+      content={
+        <TooltipBody wrapperClassName="mb-0">
+          {isCopied ? 'Copied' : null}
+        </TooltipBody>
+      }
     >
-      <Button
-        icon={
-          isCopied ? (
-            <MdFileCopy className="text-xl" />
-          ) : (
-            <MdContentCopy className="text-xl" />
-          )
-        }
-        colors="white"
-        size="small"
-        isIconOnlyButton
-        wrapperClassName={className}
-      />
-    </CopyToClipboard>
+      <CopyToClipboard
+        onCopy={() => {
+          setIsCopied(true);
+          setTimeout(() => {
+            setIsCopied(false);
+          }, 2500);
+        }}
+        text={text}
+      >
+        <Button
+          icon={
+            isCopied ? (
+              <MdFileCopy className="text-xl" />
+            ) : (
+              <MdContentCopy className="text-xl" />
+            )
+          }
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.target.click();
+            }
+          }}
+          colors="white"
+          size="small"
+          isIconOnlyButton
+          wrapperClassName={className}
+        />
+      </CopyToClipboard>
+    </Tooltip>
   );
 }
 

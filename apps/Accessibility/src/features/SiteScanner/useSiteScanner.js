@@ -8,6 +8,7 @@ export default function useSiteScanner() {
   const [isLoading, setIsLoading] = useState(false);
   const [scanConfigStateData, setScanConfigStateData] = useState({});
   const [rowMenuOpen, setRowMenuOpen] = useState(false);
+  const [dataFilter, setDataFilter] = useState('allScans');
   const [preConfigData, setPreConfigData] = useState(false);
   const dispatch = useDispatch();
   const scanConfigsData = useSelector(getScanConfigData);
@@ -41,6 +42,22 @@ export default function useSiteScanner() {
     }
   };
 
+  const handleSearchFilter = (e) => {
+    /*
+        TODO
+    */
+    switch (e.id) {
+      case 'yourScans':
+        break;
+      case 'otherScans':
+        break;
+      default:
+        setScanConfigStateData(scanConfigsData);
+        break;
+    }
+    setDataFilter(e.id);
+  };
+
   return {
     scanConfigStateData,
     isLoading,
@@ -48,6 +65,8 @@ export default function useSiteScanner() {
     rowMenuOpen,
     setRowMenuOpen,
     setPreConfigData,
-    preConfigData
+    preConfigData,
+    handleSearchFilter,
+    dataFilter
   };
 }

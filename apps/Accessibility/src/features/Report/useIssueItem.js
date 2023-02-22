@@ -47,18 +47,18 @@ export default function useIssueItem(activeComponentNodes) {
     }
   };
 
-  const onFirstPageClick = () => {
-    dispatch(setActiveIssueIndex(0));
-    const path = updateUrlWithQueryParam({ activeIssueIndex: 0 });
-    navigate(`?${path}`);
-  };
+  // const onFirstPageClick = () => {
+  //   dispatch(setActiveIssueIndex(0));
+  //   const path = updateUrlWithQueryParam({ activeIssueIndex: 0 });
+  //   navigate(`?${path}`);
+  // };
 
-  const onLastPageClick = () => {
-    const newIndex = activeComponentNodes.length - 1;
-    dispatch(setActiveIssueIndex(newIndex));
-    const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-    navigate(`?${path}`);
-  };
+  // const onLastPageClick = () => {
+  //   const newIndex = activeComponentNodes.length - 1;
+  //   dispatch(setActiveIssueIndex(newIndex));
+  //   const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
+  //   navigate(`?${path}`);
+  // };
 
   const onCloseClick = () => {
     dispatch(setIsShowingIssue(false));
@@ -127,8 +127,6 @@ export default function useIssueItem(activeComponentNodes) {
     reportIds,
     onNextClick,
     onPreviousClick,
-    onFirstPageClick,
-    onLastPageClick,
     onCloseClick,
     onTabChange,
     onTagClick,

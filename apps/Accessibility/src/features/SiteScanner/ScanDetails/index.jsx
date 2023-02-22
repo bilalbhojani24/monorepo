@@ -4,7 +4,7 @@ import {
   Breadcrumb,
   Button,
   Dropdown,
-  DropdownTriggerWIcon,
+  DropdownTrigger,
   MdBarChart,
   MdCalendarToday,
   MdOutlineMoreVert,
@@ -19,6 +19,19 @@ import ScanRuns from '../ScanRuns';
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
 
+export const tabsArray = [
+  {
+    name: 'Overview',
+    icon: () => <MdBarChart className="mt-0.5 mr-2" />,
+    id: 'OVERVIEW'
+  },
+  {
+    name: 'Scan runs',
+    icon: () => <MdOutlineTableChart className="mt-0.5 mr-2" />,
+    id: 'SCANRUNS'
+  }
+];
+
 const ScanDetails = () => {
   const {
     activeTab,
@@ -26,21 +39,24 @@ const ScanDetails = () => {
     scanRunData,
     isLoading,
     scanRunDataCommon,
-    scanOverviewData
+    scanOverviewData,
+    activeTabIndex
   } = useScanDetails();
-  console.log(scanRunDataCommon);
+  console.log(scanRunDataCommon, activeTab, activeTabIndex);
   return (
     <>
-      <Breadcrumb
-        data={[
-          { name: 'Website scan', url: '/site-scanner', current: '' },
-          { name: 'Consolidated report', url: '', current: '' }
-        ]}
-        size="default"
-      />
       <div className="bg-base-50">
         <div className="flex justify-between p-6">
           <div className="flex-col">
+            <div className="mb-4">
+              <Breadcrumb
+                data={[
+                  { name: 'Website scan', url: '/site-scanner', current: '' },
+                  { name: 'Consolidated report', url: '', current: '' }
+                ]}
+                size="default"
+              />
+            </div>
             <div className="flex items-center">
               <h1 className="mb-2 mr-2 text-2xl font-bold">
                 {scanRunDataCommon?.name || 'NA'}
@@ -97,7 +113,7 @@ const ScanDetails = () => {
             </Button>
             <Dropdown
               trigger={
-                <DropdownTriggerWIcon
+                <DropdownTrigger
                   variant="menu-button"
                   icon={<MdOutlineMoreVert />}
                   wrapperClassName="text-lg"
@@ -112,24 +128,15 @@ const ScanDetails = () => {
         </div>
         <div className="pl-6">
           <Tabs
-            defaultIndex="0"
+            defaultIndex={activeTabIndex}
             id="menu"
             onTabChange={tabChangeHandler}
-            tabsArray={[
-              {
-                name: 'Overview',
-                icon: () => <MdBarChart className="mt-0.5 mr-2" />
-              },
-              {
-                name: 'Scan runs',
-                icon: () => <MdOutlineTableChart className="mt-0.5 mr-2" />
-              }
-            ]}
+            tabsArray={tabsArray}
           />
         </div>
       </div>
       <div>
-        {activeTab === 'Overview' ? (
+        {activeTab === 'OVERVIEW' ? (
           <Overview scanOverviewData={scanOverviewData} />
         ) : (
           <ScanRuns scanRunData={scanRunData} isLoading={isLoading} />

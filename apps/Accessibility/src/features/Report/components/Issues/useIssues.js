@@ -25,7 +25,7 @@ import {
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
-// import { logEvent } from 'utils/logEvent';
+import { logEvent } from 'utils/logEvent';
 
 export default function useIssues() {
   const dispatch = useDispatch();
@@ -168,7 +168,6 @@ export default function useIssues() {
           nodes: filteredNodes
         };
       });
-      // console.log({ filteredViolations });
     }
     if (activeReportFilters.showNeedsReviewIssues) {
       filteredViolations = reportData.map((violation) => ({
@@ -290,10 +289,10 @@ export default function useIssues() {
   const onTabSelect = (tabValue) => {
     dispatch(setActiveSwitch(tabValue));
     dispatch(setOpenAccordionId(''));
-    // logEvent('OnADReportView', {
-    //   actionType: events.allIssuesTab,
-    //   tab: tabValue
-    // });
+    logEvent('OnADReportView', {
+      actionType: events.allIssuesTab,
+      tab: tabValue
+    });
     const path = updateUrlWithQueryParam({
       activeSwitch: tabValue,
       activeViolationId: '',

@@ -129,8 +129,6 @@ export default function IssueItem() {
     onTabChange,
     onNextClick,
     onPreviousClick,
-    onFirstPageClick,
-    onLastPageClick,
     onCloseClick,
     onTagClick,
     setIsCopied,
@@ -185,7 +183,7 @@ export default function IssueItem() {
   return (
     <div className="relative">
       <div className="border-base-200 sticky top-0 z-10 flex w-full justify-between border-b bg-white py-4 pr-4 pl-6">
-        <div className="">
+        <div>
           <div className="flex">
             <p
               className="text-base-900 mb-1 mr-2 max-w-md overflow-hidden truncate text-lg font-medium"
@@ -197,7 +195,9 @@ export default function IssueItem() {
               show={isCopied}
               theme="dark"
               content={
-                <TooltipBody>{isCopied ? 'Link copied' : null}</TooltipBody>
+                <TooltipBody wrapperClassName="mb-0">
+                  {isCopied ? 'Link copied' : null}
+                </TooltipBody>
               }
             >
               <CopyToClipboard
@@ -425,7 +425,16 @@ export default function IssueItem() {
           }`
         }}
       >
-        <Pagination withNumber={false} />
+        <Pagination
+          key={`${activeViolationId}_${activeComponentId}`}
+          hideDetailsString
+          withNumber={false}
+          onNextClick={onNextClick}
+          onPreviousClick={onPreviousClick}
+          pageNumber={activeIssueIndex + 1}
+          pageSize={1}
+          count={activeComponentNodes.length}
+        />
       </div>
     </div>
   );

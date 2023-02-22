@@ -2,19 +2,19 @@ export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const ROUTES = {
-  report: '/reports/report',
-  home: '/',
+  report: 'reports/report',
   reports: 'reports',
-  settings: '/settings',
   screenReader: 'screen-reader',
   siteScanner: 'site-scanner',
-  scanDetails: 'site-scanner/scan-details',
+  scanDetails: 'site-scanner/scan-details/:id',
   scanReports: 'site-scanner/scan-report'
 };
 
 const Config = {
   generate_url: () => 'hello'
 };
+
+export const EDSKey = 'web_events';
 
 export const SCREEN_READER_LIVE_URL = Config.generate_url(
   '/screen-reader/start',

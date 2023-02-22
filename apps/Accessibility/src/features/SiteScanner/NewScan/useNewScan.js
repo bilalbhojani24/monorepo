@@ -27,6 +27,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
   const scanNameRef = useRef();
   const timeRef = useRef();
   const scanUrlRef = useRef();
+  const fileUploadRef = useRef();
 
   const getWcagVersionFromBody = (val) =>
     wcagVersions.filter((version) => version.body === val)[0];
@@ -129,10 +130,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
-
-        formDataObj.scanData.wcagVersion = getWcagVersionFromBody(
-          e.target.textContent
-        );
+        formDataObj.scanData.wcagVersion = getWcagVersionFromBody(e.body);
         break;
       case 'recurring':
         formDataObj.recurring = e.target.checked;
@@ -154,7 +152,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
         formDataObj.url = e.target.value;
         break;
       case 'day':
-        formDataObj.day = e.target.textContent;
+        formDataObj.day = e.body;
         break;
       case 'time':
         formDataObj.time = e.target.value;
@@ -173,6 +171,22 @@ export default function useNewScan(closeSlideover, preConfigData) {
       case WEEKLY:
       case DAILY:
         formDataObj.type = name;
+        break;
+      case 'csvUpload':
+        if (!formDataObj.scanData) {
+          formDataObj.scanData = {};
+        }
+        if (!formDataObj.scanData.urlSet) {
+          formDataObj.scanData.urlSet = [];
+        }
+        formDataObj.scanData.urlSet.push(...e);
+        break;
+      case 'deleteUrl':
+        formDataObj.scanData.urlSet.splice(
+          formDataObj.scanData.urlSet.indexOf(e),
+          1
+        );
+        //
         break;
       case 'submit':
         if (checkForValidation()) {
@@ -242,6 +256,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     handlerCloseOver,
     scanNameRef,
     timeRef,
-    scanUrlRef
+    scanUrlRef,
+    fileUploadRef
   };
 }

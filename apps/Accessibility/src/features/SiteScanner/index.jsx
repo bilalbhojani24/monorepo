@@ -4,12 +4,15 @@ import {
   Badge,
   Button,
   Dropdown,
-  DropdownTriggerWIcon,
-  DropdownTriggerWText,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
+  EllipsisVerticalIcon,
   InputField,
   MdAdd,
   MdCancel,
   MdCheckCircle,
+  MdExpandMore,
   MdOutlineContentCopy,
   MdOutlineHistory,
   MdOutlineMoreVert,
@@ -128,7 +131,8 @@ export default function SiteScanner() {
     setRowMenuOpen,
     preConfigData,
     setPreConfigData,
-    handleSearchFilter
+    handleSearchFilter,
+    dataFilter
   } = useSiteScanner();
   const navigate = useNavigate();
   /*
@@ -175,6 +179,7 @@ export default function SiteScanner() {
   };
 
   const handleRowMenuClick = (e, rowData) => {
+    console.log(e);
     const menuItem = e.target.textContent;
     switch (menuItem) {
       case 'New Scan':
@@ -201,7 +206,7 @@ export default function SiteScanner() {
     }
   };
 
-  console.log(scanConfigStateData, showNewScan);
+  const currentFilter = typesScan.filter((type) => type.id === dataFilter)[0];
   return (
     <div className="bg-base-50">
       <div className="flex justify-between p-6">
@@ -236,16 +241,20 @@ export default function SiteScanner() {
               />
             </div>
             <div className="mt-1 mr-4">
-              <Dropdown
-                trigger={
-                  <DropdownTriggerWText>
-                    {typesScan[0].body}
-                  </DropdownTriggerWText>
-                }
-                options={typesScan}
-                onClick={handleSearchFilter}
-                id="scanFilter"
-              />
+              <Dropdown onClick={handleSearchFilter} id="scanFilter">
+                <div className="flex">
+                  <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+                    {currentFilter.body}
+                    <MdExpandMore className="h-5 w-5" aria-hidden="true" />
+                  </DropdownTrigger>
+                </div>
+
+                <DropdownOptionGroup>
+                  {typesScan.map((opt) => (
+                    <DropdownOptionItem key={opt.id} option={opt} />
+                  ))}
+                </DropdownOptionGroup>
+              </Dropdown>
             </div>
           </div>
           <div>
@@ -277,12 +286,12 @@ export default function SiteScanner() {
             ? scanConfigStateData?.data?.reports.map((row) => (
                 <TableRow
                   key={row.id}
-                  onRowClick={() => {
+                  onRowClick={(e) => {
+                    console.log(e);
                     if (!rowMenuOpen) {
                       navigate(`/site-scanner/scan-details/${row.id}`);
                     }
                   }}
-                  tabIndex="0"
                 >
                   <TableCell
                     key="scanSummary"
@@ -329,9 +338,9 @@ export default function SiteScanner() {
                     ) : null}
                   </TableCell>
                   <TableCell>
-                    <Dropdown
+                    {/* <Dropdown
                       trigger={
-                        <DropdownTriggerWIcon
+                        <DropdownTrigger
                           variant="meatball-button"
                           icon={<MdOutlineMoreVert />}
                           wrapperClassName="text-lg"
@@ -342,9 +351,39 @@ export default function SiteScanner() {
                       }
                       onClick={(e) => handleRowMenuClick(e, row)}
                       onOpenChange={(e) => {
+                        console.log(e);
                         setRowMenuOpen(e);
                       }}
-                    />
+                    /> */}
+                    <Dropdown
+                      onClick={(val) => {
+                        handleRowMenuClick(val, row);
+                      }}
+                      id="scanFilter"
+                      onOpenChange={(e) => {
+                        console.log('afd', e);
+                        setRowMenuOpen(e);
+                      }}
+                    >
+                      <div className="flex">
+                        <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                          <EllipsisVerticalIcon
+                            className="h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        </DropdownTrigger>
+                      </div>
+
+                      <DropdownOptionGroup>
+                        {row.scanStatus === 'ongoing'
+                          ? singleMenu.map((opt) => (
+                              <DropdownOptionItem key={opt.id} option={opt} />
+                            ))
+                          : rowMenu.map((opt) => (
+                              <DropdownOptionItem key={opt.id} option={opt} />
+                            ))}
+                      </DropdownOptionGroup>
+                    </Dropdown>
                   </TableCell>
                 </TableRow>
               ))

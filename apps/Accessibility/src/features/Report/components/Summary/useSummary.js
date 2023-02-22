@@ -17,7 +17,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import max from 'lodash/max';
 import { updateUrlWithQueryParam } from 'utils/helper';
-// import { logEvent } from 'utils/logEvent';
+import { logEvent } from 'utils/logEvent';
 
 export default function useSummary() {
   const dispatch = useDispatch();
@@ -75,7 +75,6 @@ export default function useSummary() {
 
   const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
     const values = shouldShowNeedsReviewIssues || [value];
-    // console.log('Hii');
     dispatch(resetFilters());
     dispatch(setShowHiddenIssues({ hideIssues: false }));
     dispatch(resetIntermediateFilters());
@@ -136,11 +135,11 @@ export default function useSummary() {
               onRowClick('impact', value?.point?.options?.name.toLowerCase());
             },
             mouseOver: (value) => {
-              // logEvent('OnADReportView', {
-              //   actionType: events.INTERACT_WITH_CHART,
-              //   chartType: 'Issue summary',
-              //   severity: value?.target?.options?.name
-              // });
+              logEvent('OnADReportView', {
+                actionType: events.INTERACT_WITH_CHART,
+                chartType: 'Issue summary',
+                severity: value?.target?.options?.name
+              });
             }
           }
         },
@@ -171,10 +170,9 @@ export default function useSummary() {
     ]
   };
 
-  const onMenuChange = (item, b) => {
-    console.log(item, b);
-    const { value } = item;
-    if (value === 'char-sort') {
+  const onMenuChange = (option) => {
+    const { id } = option;
+    if (id === 'char-sort') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) =>
           map[a.category.split('cat.')[1]].localeCompare(
@@ -182,20 +180,20 @@ export default function useSummary() {
           )
         )
       );
-    } else if (value === 'desc') {
+    } else if (id === 'desc') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) => b.count - a.count)
       );
-    } else if (value === 'asc') {
+    } else if (id === 'asc') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) => a.count - b.count)
       );
     }
-    // logEvent('OnADReportView', {
-    //   actionType: events.INTERACT_WITH_CHART,
-    //   chartType: 'Issue category',
-    //   sortType: value
-    // });
+    logEvent('OnADReportView', {
+      actionType: events.INTERACT_WITH_CHART,
+      chartType: 'Issue category',
+      sortType: id
+    });
   };
 
   useEffect(() => {

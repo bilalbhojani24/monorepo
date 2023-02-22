@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Dropdown,
-  DropdownTriggerWText,
+  DropdownTrigger,
   MdContentCopy,
   MdOutlineContentCopy,
   Table,
@@ -227,9 +227,9 @@ const Overview = ({ scanOverviewData }) => {
             <span className="ml-6 font-semibold">Issue History</span>
             <Dropdown
               trigger={
-                <DropdownTriggerWText>
+                <DropdownTrigger>
                   {currentRunFilter === 4 ? 'Last 4 runs' : 'Last 8 runs'}
-                </DropdownTriggerWText>
+                </DropdownTrigger>
               }
               options={[
                 {
@@ -258,9 +258,9 @@ const Overview = ({ scanOverviewData }) => {
             <span className="ml-6 font-semibold">Scan Stability</span>
             <Dropdown
               trigger={
-                <DropdownTriggerWText>
+                <DropdownTrigger>
                   {currentSplineRunFilter === 4 ? 'Last 4 runs' : 'Last 8 runs'}
-                </DropdownTriggerWText>
+                </DropdownTrigger>
               }
               options={[
                 {

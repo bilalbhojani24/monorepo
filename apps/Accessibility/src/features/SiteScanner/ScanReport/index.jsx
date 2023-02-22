@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Badge,
+  Breadcrumb,
   Button,
   MdDownload,
   MdPerson,
@@ -50,6 +51,15 @@ export default function ScanReport() {
       <div className="bg-base-50">
         <div className="flex justify-between px-6 py-4">
           <div className="flex-col">
+            <div className="mb-4">
+              <Breadcrumb
+                data={[
+                  { name: 'Website scan', url: '/site-scanner', current: '' },
+                  { name: 'Consolidated report', url: '', current: '' }
+                ]}
+                size="default"
+              />
+            </div>
             <div className="flex items-center">
               <h1 className="mb-2 mr-2 text-2xl font-bold">Main user flow</h1>
               <Badge
