@@ -175,3 +175,6 @@ export const severityOptions = [
     value: 'minor'
   }
 ];
+
+export const getUrlForHeader = (relativeUrl) =>
+  `https://www.browserstack.com/${relativeUrl}`;

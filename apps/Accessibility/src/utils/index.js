@@ -21,3 +21,14 @@ export const getCookieByKeyName = (key) => {
   }
   return '';
 };
+
+export const defaultPath = () => {
+  const link = window.location.href;
+  if (link.includes('/reports')) {
+    return 'report-listing';
+  }
+  if (link.includes('/screen-reader')) {
+    return 'screen-reader';
+  }
+  return 'report-listing';
+};
