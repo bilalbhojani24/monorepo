@@ -8,7 +8,9 @@ const MediaPlayer = ({
   wrapperClassName,
   controlPanelClassName,
   controlPanelStickToBottom,
-  showRewindForwardControls
+  showRewindForwardControls,
+  timeUpdateCallBack,
+  hoverSeekTime
 }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [duration, setDuration] = useState(0);
@@ -35,9 +37,12 @@ const MediaPlayer = ({
     if (videoRef.current.currentTime >= duration) {
       setIsPaused(true);
     }
+    timeUpdateCallBack(videoRef.current.currentTime);
   };
   const handleSliderChange = ({ target: { value } }) => {
-    videoRef.current.currentTime = value;
+    if (videoRef.current?.currentTime) {
+      videoRef.current.currentTime = value;
+    }
   };
 
   return (
@@ -59,6 +64,7 @@ const MediaPlayer = ({
         stickToBottom={controlPanelStickToBottom}
         wrapperClassName={controlPanelClassName}
         showRewindForwardButtons={showRewindForwardControls}
+        hoverSeekTime={hoverSeekTime}
       />
     </div>
   );
@@ -69,14 +75,18 @@ MediaPlayer.propTypes = {
   wrapperClassName: PropTypes.string,
   controlPanelStickToBottom: PropTypes.bool,
   controlPanelClassName: PropTypes.string,
-  showRewindForwardControls: PropTypes.bool
+  showRewindForwardControls: PropTypes.bool,
+  timeUpdateCallBack: PropTypes.func,
+  hoverSeekTime: PropTypes.number
 };
 MediaPlayer.defaultProps = {
   url: '',
   wrapperClassName: '',
   controlPanelStickToBottom: false,
   controlPanelClassName: '',
-  showRewindForwardControls: true
+  showRewindForwardControls: true,
+  timeUpdateCallBack: () => {},
+  hoverSeekTime: null
 };
 
 export default MediaPlayer;
