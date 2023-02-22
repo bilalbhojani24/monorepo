@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MdFolderSpecial } from '@browserstack/bifrost';
 import {
   TMDropdown,
   TMListTree,
@@ -41,6 +42,11 @@ const ConrolledNestedTree = ({
               disabledFolders?.includes(parseInt(item?.id, 10))
                 ? 'opacity-25 pointer-events-none'
                 : ''
+            }
+            leadingIcon={
+              item?.is_automation && (
+                <MdFolderSpecial className="h-full w-full" />
+              )
             }
             isFocused={focused === item.name}
             label={
