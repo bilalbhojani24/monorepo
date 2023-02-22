@@ -19,7 +19,7 @@ const TableRow = ({
       },
       wrapperClassName
     )}
-    onClick={() => onRowClick?.()}
+    onClick={(e) => onRowClick?.(e)}
     onKeyDown={(e) => {
       if (e.key === 'Enter' && onRowClick) onRowClick(e);
       if (e.key === ' ' && onRowClick) onRowClick(e);
