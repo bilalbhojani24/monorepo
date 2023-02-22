@@ -26,14 +26,3 @@ do
 done
 
 echo "All projects built!"
-
-
-echo "copying RTE skin css to dist of bifrost"
-# Source folder path
-src_folder="packages/bifrost/utils/texteditorSkin"
-
-# Destination folder path
-dest_folder="packages/bifrost/dist"
-
-# Copy the folder and its contents to the destination folder
-cp -r "$src_folder" "$dest_folder"
