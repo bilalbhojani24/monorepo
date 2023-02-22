@@ -25,7 +25,8 @@ const FolderExplorerModal = ({
   isRootAvailable,
   onOK,
   confirmButtonText,
-  onClose
+  onClose,
+  disabledFolders
 }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
@@ -45,6 +46,7 @@ const FolderExplorerModal = ({
     if (show) {
       setInternalAllFolders(allFolders);
       setPrimaryMoveLocation(moveFolderOptions[0].id);
+      setSelectedFolder(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
@@ -79,6 +81,7 @@ const FolderExplorerModal = ({
               allFolders={allFolders}
               onFolderClick={(folder) => setSelectedFolder(folder)}
               onFoldersUpdate={(data) => setInternalAllFolders(data)}
+              disabledFolders={disabledFolders}
             />
           </div>
         ) : null}
@@ -97,6 +100,7 @@ const FolderExplorerModal = ({
           Cancel
         </TMButton>
         <TMButton
+          disabled={!selectedFolder}
           variant="primary"
           wrapperClassName="ml-3"
           onClick={moveFolderOnOkHandler}
@@ -116,7 +120,8 @@ FolderExplorerModal.propTypes = {
   heading: PropTypes.string,
   subHeading: PropTypes.string,
   confirmButtonText: PropTypes.string,
-  alertText: PropTypes.string
+  alertText: PropTypes.string,
+  disabledFolders: PropTypes.arrayOf(PropTypes.number)
 };
 
 FolderExplorerModal.defaultProps = {
@@ -127,7 +132,8 @@ FolderExplorerModal.defaultProps = {
   heading: '',
   subHeading: '',
   confirmButtonText: '',
-  alertText: ''
+  alertText: '',
+  disabledFolders: []
 };
 
 export default FolderExplorerModal;

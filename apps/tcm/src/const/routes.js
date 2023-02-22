@@ -1,5 +1,7 @@
 const AppRoute = {
   ROOT: '/',
+  NO_ACCESS: '/access',
+  NOT_FOUND: '/404',
   LANDING: '/landing',
   TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?',
   TEST_CASES_SEARCH: '/projects/:projectId/folder/search',
@@ -18,6 +20,8 @@ const AppRoute = {
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
-export const BASE_API_URL = 'https://teststack.bsstag.com';
+export const BASE_API_URL = import.meta.env.DEV
+  ? 'https://teststack.bsstag.com'
+  : 'https://test-management.browserstack.com';
 
 export default AppRoute;

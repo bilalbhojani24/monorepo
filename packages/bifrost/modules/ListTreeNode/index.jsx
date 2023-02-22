@@ -75,9 +75,12 @@ const ListTreeNode = ({
 
       <div
         role="presentation"
-        className={twClassNames(' group-hover:flex group-focus:flex', {
-          flex: isFocused
-        })}
+        className={twClassNames(
+          'invisible flex group-hover:visible group-focus:visible',
+          {
+            visible: isFocused
+          }
+        )}
         onClick={(e) => {
           e.stopPropagation();
           onTrailingIconClick?.();

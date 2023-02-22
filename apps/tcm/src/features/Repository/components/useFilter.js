@@ -14,10 +14,10 @@ import { routeFormatter } from 'utils/helperFunctions';
 import {
   resetFilterSearchMeta,
   setFilterSearchMeta,
+  setMetaPage,
   updateAllTestCases,
   updateFoldersLoading,
-  updateTestCasesListLoading,
-  setMetaPage
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
@@ -74,7 +74,7 @@ const useFilter = (prop) => {
       }
     });
 
-    if (page) queryParams['p'] = page;
+    if (page) queryParams.p = page;
 
     if (Object.keys(queryParams).length) {
       dispatch(updateTestCasesListLoading(true));
@@ -84,7 +84,7 @@ const useFilter = (prop) => {
       }).then((res) => {
         const testCases = res.test_cases.map((item) => ({
           ...item,
-          folders: res?.folders?.[item.id] || null
+          folders: res?.folders?.[item.test_case_folder_id] || null
         }));
 
         dispatch(setMetaPage(res.info));
@@ -169,7 +169,7 @@ const useFilter = (prop) => {
   };
 
   useEffect(() => {
-    let filterOptions = getFilterOptions(searchParams);
+    const filterOptions = getFilterOptions(searchParams);
 
     const count = [
       filterOptions.tags,

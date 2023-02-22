@@ -43,7 +43,7 @@ export default function useTestRunDetails() {
     }
   };
 
-  const onDropDownChange = (e, selectedOption) => {
+  const onDropDownChange = (selectedOption) => {
     switch (selectedOption?.id) {
       case TR_DROP_OPTIONS[0].id: // close
         dispatch(setSelectedTestRun(testRunDetails));

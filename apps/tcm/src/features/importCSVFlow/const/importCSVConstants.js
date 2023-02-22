@@ -1,6 +1,7 @@
 export const CURRENT_STEP = 'current';
 export const UPCOMING_STEP = 'upcoming';
 export const COMPLETE_STEP = 'complete';
+export const CURRENT_COMPLETED_STEP = 'current_completed';
 
 export const IMPORT_CSV_STEPS = [
   {
@@ -64,6 +65,16 @@ export const MAP_MODAL_COLUMNS = [
   }
 ];
 
+export const IGNORE_FIELD_LABEL = 'Ignore this Field';
+export const IGNORE_FIELD_VALUE = 'ignore';
+export const ADD_FIELD_LABEL = 'Add New Field';
+export const ADD_FIELD_VALUE = 'add';
+
+export const IGNORE_VALUE_LABEL = 'Ignore this value';
+export const IGNORE_VALUE_VALUE = 'ignore';
+export const ADD_VALUE_LABEL = 'Create new value';
+export const ADD_VALUE_VALUE = 'add';
+
 export const PREVIEW_AND_CONFIRM_COLUMNS = [
   { name: '#', key: 'id' },
   { name: 'Title', key: 'title' },
@@ -75,11 +86,37 @@ export const PREVIEW_AND_CONFIRM_COLUMNS = [
 
 export const VALUE_MAPPING_OPTIONS = {
   PRIORITY: [
-    { label: 'High', value: 'High' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Low', value: 'Low' },
-    { label: 'Ignore', value: 'Ignore' },
-    { label: 'Create new one', value: 'Create new one' }
+    { label: 'Critical', value: 'critical' },
+    { label: 'High', value: 'high' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Low', value: 'low' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+  ],
+  STATE: [
+    { label: 'Active', value: 'Active' },
+    { label: 'Draft', value: 'Draft' },
+    { label: 'Under Review', value: 'Under Review' },
+    { label: 'Rejected', value: 'Rejected' },
+    { label: 'Retired', value: 'Retired' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+  ],
+  TESTCASETYPE: [
+    { label: 'Acceptance', value: 'Acceptance' },
+    { label: 'Accessibility', value: 'Accessibility' },
+    { label: 'Automated', value: 'Automated' },
+    { label: 'Compatibility', value: 'Compatibility' },
+    { label: 'Destructive', value: 'Destructive' },
+    { label: 'Functional', value: 'Functional' },
+    { label: 'Other', value: 'Other' },
+    { label: 'Performance', value: 'Performance' },
+    { label: 'Regression', value: 'Regression' },
+    { label: 'Security', value: 'Security' },
+    { label: 'Smoke & Sanity', value: 'Smoke & Sanity' },
+    { label: 'Usability', value: 'Usability' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ]
 };
 

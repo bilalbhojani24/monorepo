@@ -54,7 +54,7 @@ const useImportCSV = () => {
 
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
-    dispatch(setCSVUploadError('Please select a CSV file.'));
+    // dispatch(setCSVUploadError('Please select a CSV file.'));
   };
 
   const handleProceedClick = () => {

@@ -6,12 +6,14 @@ import PropTypes from 'prop-types';
 
 import { DropdownContextData } from '../../shared/dropdownContext';
 
+import RenderChildren from './components/Render';
 import { DROPDOWN_ALIGN, DROPDOWN_SIDE } from './const/dropdownConstants';
 
 import './styles.scss';
 
 const Dropdown = (props) => {
-  const { align, children, onClick, side, wrapperClassName } = props;
+  const { align, children, onClick, side, wrapperClassName, onOpenChange } =
+    props;
 
   return (
     <DropdownContextData.Provider
@@ -29,7 +31,11 @@ const Dropdown = (props) => {
             wrapperClassName
           )}
         >
-          {children}
+          {({ open }) => (
+            <RenderChildren open={open} onOpenChange={onOpenChange}>
+              {children}
+            </RenderChildren>
+          )}
         </Menu>
       </Popover.Root>
     </DropdownContextData.Provider>
@@ -41,13 +47,15 @@ Dropdown.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   side: PropTypes.oneOf(DROPDOWN_SIDE),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  onOpenChange: PropTypes.func
 };
 Dropdown.defaultProps = {
   align: DROPDOWN_ALIGN[0],
   onClick: () => {},
   side: DROPDOWN_SIDE[0],
-  wrapperClassName: ''
+  wrapperClassName: '',
+  onOpenChange: null
 };
 
 export default Dropdown;

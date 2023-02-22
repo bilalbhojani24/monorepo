@@ -10,6 +10,7 @@ import {
 } from '@browserstack/bifrost';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
+  TMAlerts,
   TMButton,
   TMSectionHeadings,
   TMSelectMenu,
@@ -18,8 +19,12 @@ import {
   TMTooltipHeader
 } from 'common/bifrostProxy';
 
-import { MAP_FIELD_COLUMNS } from '../const/importCSVConstants';
-import { setUsers } from '../slices/importCSVSlice';
+import {
+  IGNORE_FIELD_LABEL,
+  IGNORE_FIELD_VALUE,
+  MAP_FIELD_COLUMNS
+} from '../const/importCSVConstants';
+import { setMapFieldsError, setUsers } from '../slices/importCSVSlice';
 
 import MapFieldModal from './mapFieldModal';
 import useImportCSV from './useImportCSV';
@@ -29,6 +34,7 @@ const MapFields = () => {
   const dispatch = useDispatch();
   const { mapFieldModalConfig } = useImportCSV();
   const {
+    mapFieldsError,
     allowedValueMapper,
     typeMapper,
     rowRef,
@@ -58,12 +64,6 @@ const MapFields = () => {
         );
 
       case 'field_dropdown': // modal
-        console.log(
-          'display options',
-          value,
-          allowedValueMapper[value],
-          allowedValueMapper[value]?.allowedValueDisplayOptions
-        );
         return (
           <span>
             Value Mapped{' '}
@@ -78,13 +78,10 @@ const MapFields = () => {
         );
 
       case 'field_int':
-        return 'No Mapping Needed';
-
       case 'field_string':
-        return 'No Mapping Needed (String)';
-
       case 'field_date':
-        return 'No Mapping Needed (Date)';
+      case 'Add':
+        return 'No Mapping Needed';
 
       default:
         return '--';
@@ -133,71 +130,86 @@ const MapFields = () => {
   }, []);
 
   return (
-    <div className="border-base-200 m-4 flex h-max w-4/5 flex-col rounded-md border-2 border-solid bg-white p-6">
-      <TMSectionHeadings
-        title="Map Fields"
-        variant="buttons"
-        trailingHeadNode={
-          <div className="min-w-fit">
-            <TMButton variant="primary" onClick={handleMappingProceedClick}>
-              Proceed
-            </TMButton>
-          </div>
-        }
-      />
-      <div className="text-base-800 my-4 text-sm">
-        Fields and values are mapped by default. You can update the mapping if
-        needed:
-      </div>
-      <Table className="h-full">
-        <TableHead wrapperClass="w-full rounded-xs">
-          <TableRow wrapperClass="relative">
-            {MAP_FIELD_COLUMNS.map((col, index) => (
-              <TableCell key={col.key} variant="header">
-                {col.name}
-                {getTooltip(index)}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.field}>
-              <TableCell wrapperClassName="py-1">{row.field}</TableCell>
-              <TableCell wrapperClassName="py-2 mr-4">
-                <TMSelectMenu
-                  checkPosition="right"
-                  options={row.mappedField.displayOptions}
-                  /* eslint-disable react/jsx-props-no-spreading */
-                  {...(row.mappedField.defaultValue.label && {
-                    defaultValue: row.mappedField.defaultValue
-                  })}
-                  {...(!row.mappedField.defaultValue.label && {
-                    defaultValue: {
-                      label: 'Ignore Column',
-                      value: 'Ignore Column'
-                    }
-                  })}
-                  onChange={handleSelectMenuChange(row.field)}
-                />
-              </TableCell>
-              <TableCell wrapperClassName="py-1">
-                {getMappingForLastCol(
-                  row.field,
-                  row.mappedValue,
-                  typeMapper[row.mappedValue]
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {mapFieldModalConfig.show && (
-        <MapFieldModal
-          modalConfig={mapFieldModalConfig}
-          valueMappings={valueMappings}
-        />
+    <div className="w-4/5">
+      {mapFieldsError && (
+        <div className="mb-3">
+          <TMAlerts
+            accentBorder={false}
+            show={!!mapFieldsError}
+            dismissButton
+            modifier="error"
+            title={mapFieldsError}
+            linkText={null}
+            dismissButtonFn={() => dispatch(setMapFieldsError(''))}
+          />
+        </div>
       )}
+      <div className="border-base-200 max-h-max rounded-md border-2 border-solid bg-white p-6">
+        <TMSectionHeadings
+          title="Map Fields"
+          variant="buttons"
+          trailingHeadNode={
+            <div className="min-w-fit">
+              <TMButton variant="primary" onClick={handleMappingProceedClick}>
+                Proceed
+              </TMButton>
+            </div>
+          }
+        />
+        <div className="text-base-800 my-4 text-sm">
+          Fields and values are mapped by default. You can update the mapping if
+          needed:
+        </div>
+        <Table className="h-full">
+          <TableHead wrapperClass="w-full rounded-xs">
+            <TableRow wrapperClass="relative">
+              {MAP_FIELD_COLUMNS.map((col, index) => (
+                <TableCell key={col.key} variant="header">
+                  {col.name}
+                  {getTooltip(index)}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.field}>
+                <TableCell wrapperClassName="py-1">{row.field}</TableCell>
+                <TableCell wrapperClassName="py-2 mr-4">
+                  <TMSelectMenu
+                    checkPosition="right"
+                    options={row.mappedField.displayOptions}
+                    /* eslint-disable react/jsx-props-no-spreading */
+                    {...(row.mappedField.defaultValue.label && {
+                      defaultValue: row.mappedField.defaultValue
+                    })}
+                    {...(!row.mappedField.defaultValue.label && {
+                      defaultValue: {
+                        label: IGNORE_FIELD_LABEL,
+                        value: IGNORE_FIELD_VALUE
+                      }
+                    })}
+                    onChange={handleSelectMenuChange(row.field)}
+                  />
+                </TableCell>
+                <TableCell wrapperClassName="py-1">
+                  {getMappingForLastCol(
+                    row.field,
+                    row.mappedValue,
+                    typeMapper[row.mappedValue]
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {mapFieldModalConfig.show && (
+          <MapFieldModal
+            modalConfig={mapFieldModalConfig}
+            valueMappings={valueMappings}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,8 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
+
+export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
+  colors,
   chart: {
-    type: 'pie'
-    // renderTo: 'container'
+    type: 'pie',
+    renderTo: 'container'
   },
   legend: {
     enabled: true,
@@ -10,23 +12,39 @@ export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
     verticalAlign: 'top',
     layout: 'vertical',
     x: 0,
-    y: 100
+    y: 100,
+    useHTML: true,
+    width: '40%',
+    itemMarginBottom: 15,
+    labelFormatter() {
+      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="">${
+        this.name
+      }: </span><b>${this.y} (${this.percentage.toFixed(1)}%)<br/></div>`;
+    }
   },
   title: {
     verticalAlign: 'middle',
-    floating: true,
-    text: title || ''
+    // floating: true,
+    text: '',
+    y: 0,
+    x: -65
   },
   subtitle: {
     verticalAlign: 'middle',
     floating: true,
-    text: subtitle || '',
-    y: 30,
-    x: 0
+    text: '',
+    y: 20,
+    x: -65
   },
   plotOptions: {
     pie: {
-      innerSize: '75%'
+      innerSize: '75%',
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: false
+      },
+      showInLegend: true
     }
   },
   series: [
@@ -42,33 +60,47 @@ export const donutOptionCreator = ({ chartData, title, subtitle }) => ({
   ],
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
 
-export const lineOptionsCreator = ({ chartData, showLegend, title }) => ({
+export const lineOptionsCreator = ({
+  chartData,
+  showLegend,
+  title,
+  xAxis,
+  addOns
+}) => ({
+  chart: {
+    type: 'spline'
+  },
   title: {
     text: title || ''
   },
   legend: {
     enabled: showLegend,
-    layout: 'vertical',
+    layout: 'horizontal',
     align: 'center',
     verticalAlign: 'top',
     floating: false,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: 'transparent',
+    itemMarginBottom: 15
   },
   plotOptions: {
     series: {
+      color: '#0891B2',
       label: {
         connectorAllowed: false
-      },
-      pointStart: 2010
+      }
     }
   },
   yAxis: {
     title: {
       text: null
     }
+  },
+  xAxis: {
+    categories: xAxis
   },
   series: chartData || [
     {
@@ -97,10 +129,17 @@ export const lineOptionsCreator = ({ chartData, showLegend, title }) => ({
   },
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
 
-export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
+export const barOptionsCreator = ({
+  chartData,
+  showLegend,
+  title,
+  xAxis,
+  addOns
+}) => ({
   chart: {
     type: 'column'
   },
@@ -108,23 +147,11 @@ export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
     text: title || ''
   },
   legend: {
-    enabled: showLegend
+    enabled: showLegend,
+    itemMarginBottom: 15
   },
   xAxis: {
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ],
+    categories: xAxis,
     crosshair: false
   },
   yAxis: {
@@ -132,18 +159,21 @@ export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
       text: null
     }
   },
-  tooltip: {
-    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-    pointFormat:
-      '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-      '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-    footerFormat: '</table>',
-    shared: true,
-    useHTML: true
-  },
+  // tooltip: {
+  //   headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+  //   pointFormat:
+  //     '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+  //     '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+  //   footerFormat: '</table>',
+  //   shared: true,
+  //   useHTML: true
+  // },
   plotOptions: {
+    series: {
+      color: '#465FA3'
+    },
     column: {
-      pointPadding: 0.2,
+      // pointPadding: 0.2,
       borderWidth: 0
     }
   },
@@ -158,10 +188,17 @@ export const barOptionsCreator = ({ chartData, showLegend, title }) => ({
   ],
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });
 
-export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
+export const stackedBarOptionsCreator = ({
+  chartData,
+  showLegend,
+  title,
+  xAxis,
+  addOns
+}) => ({
   chart: {
     type: 'column'
   },
@@ -169,7 +206,7 @@ export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
     text: title || ''
   },
   xAxis: {
-    categories: ['2021/22', '2020/21', '2019/20', '2018/19', '2017/18']
+    categories: xAxis || []
   },
   legend: {
     enabled: showLegend,
@@ -177,7 +214,8 @@ export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
     verticalAlign: 'top',
     layout: 'vertical',
     x: 0,
-    y: 100
+    y: 100,
+    itemMarginBottom: 15
   },
   yAxis: {
     min: 0,
@@ -190,21 +228,9 @@ export const stackedBarOptionsCreator = ({ chartData, showLegend, title }) => ({
       stacking: 'percent'
     }
   },
-  series: chartData || [
-    {
-      name: 'Kevin De Bruyne',
-      data: [4, 4, 2, 4, 4]
-    },
-    {
-      name: 'Joshua Kimmich',
-      data: [0, 4, 3, 2, 3]
-    },
-    {
-      name: 'Sadio Mané',
-      data: [1, 2, 2, 1, 2]
-    }
-  ],
+  series: chartData || [],
   credits: {
     enabled: false
-  }
+  },
+  ...addOns
 });

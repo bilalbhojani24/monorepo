@@ -17,7 +17,7 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: testCaseTypesOptions[0].value,
+    case_type: testCaseTypesOptions[6].value,
     priority: priorityOptions[2].value,
     owner: null,
     status: statusOptions[0].value,
@@ -26,7 +26,8 @@ const initialState = {
     steps: [''],
     attachments: [],
     issues: [],
-    tags: []
+    tags: [],
+    test_case_folder_id: null // this is for internal process not to be passed with API
   },
   testCaseBulkFormData: {
     case_type: null,
@@ -116,7 +117,10 @@ export const repositorySlice = createSlice({
       state.isAddTestCasePageVisible = payload;
       if (payload) {
         // reset form data
-        state.testCaseFormData = initialState.testCaseFormData;
+        state.testCaseFormData = {
+          ...initialState.testCaseFormData,
+          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+        };
       }
     },
     setSelectedFolder: (state, { payload }) => {

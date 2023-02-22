@@ -20,6 +20,7 @@ import useTestRuns from './useTestRuns';
 
 const AddEditTestRun = ({ isEdit }) => {
   const {
+    projectId,
     inputError,
     isEditing,
     isAddTagModalShown,
@@ -35,7 +36,6 @@ const AddEditTestRun = ({ isEdit }) => {
     showTestCasesModal,
     hideAddIssuesModal,
     hideAddTagsModal,
-    imageUploadRTEHelper,
     addIssuesSaveHelper,
     hideAddTestRunForm,
     cleanupActivities,
@@ -130,7 +130,7 @@ const AddEditTestRun = ({ isEdit }) => {
                 onChange={(val) =>
                   handleTestRunInputFieldChange('description', val)
                 }
-                onAssetUpload={imageUploadRTEHelper}
+                projectId={projectId}
               />
             </div>
             <div className="mt-4 flex gap-4">

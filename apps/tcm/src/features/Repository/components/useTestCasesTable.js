@@ -115,11 +115,12 @@ const useTestCasesTable = (prop) => {
       });
   };
 
-  const onDropDownChange = (e, selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
+      /// RIIIBIIIIN
       dispatch(setTestCaseFormData(selectedItem));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete

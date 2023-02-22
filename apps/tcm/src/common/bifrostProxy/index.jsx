@@ -9,7 +9,6 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
-  DataVisualization,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -26,7 +25,6 @@ import {
   Notifications,
   PageHeadings,
   RadioGroup,
-  RichTextEditor,
   SectionHeadings,
   Slideover,
   SlideoverHeader,
@@ -48,9 +46,11 @@ import {
 import TMAttachments from './components/TMAttachments';
 import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
+import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
 import TMPagination from './components/TMPagination';
+import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
@@ -67,20 +67,20 @@ export const TMListTreeNodeContents = (props) => (
   <ListTreeNodeContents {...props} />
 );
 export const TMButton = forwardRef((props, ref) => (
-    <Button {...props} ref={ref} />
+  <Button {...props} ref={ref} />
 ));
 export const TMInputField = forwardRef((props, ref) => (
-    <InputField {...props} ref={ref} />
+  <InputField {...props} ref={ref} />
 ));
 export const TMInputWButton = forwardRef((props, ref) => (
-    <InputWButton {...props} ref={ref} />
+  <InputWButton {...props} ref={ref} />
 ));
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
 export const TMNotifications = (props) => <Notifications {...props} />;
 export const TMTextArea = (props) => <TextArea {...props} />;
 export const TMModal = forwardRef((props, ref) => (
-    <Modal {...props} ref={ref} />
+  <Modal {...props} ref={ref} />
 ));
 export const TMModalBody = (props) => <ModalBody {...props} />;
 export const TMModalFooter = (props) => <ModalFooter {...props} />;
@@ -104,12 +104,11 @@ export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
-export const TMRichTextEditor = (props) => <RichTextEditor {...props} />;
+
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
-export const TMDataVisualization = (props) => <DataVisualization {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
@@ -128,8 +127,10 @@ export {
   TMAttachments,
   TMComboBox,
   TMDataTable,
+  TMDataVisualization,
   TMDropdown,
   TMHeader,
   TMPagination,
+  TMRichTextEditor,
   TMSelectMenu
 };
