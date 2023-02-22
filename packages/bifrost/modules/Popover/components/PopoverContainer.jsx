@@ -41,7 +41,8 @@ const PopoverContainer = (props) => {
     size,
     sideOffset,
     sticky,
-    theme
+    theme,
+    triggerWrapperClassName
   } = props;
 
   return (
@@ -56,7 +57,9 @@ const PopoverContainer = (props) => {
         onOpenChange={onOpenChange}
         modal={modal}
       >
-        <PopoverPrimitive.Trigger asChild>{children}</PopoverPrimitive.Trigger>
+        <PopoverPrimitive.Trigger className={triggerWrapperClassName}>
+          {children}
+        </PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align={placementAlign}
@@ -138,7 +141,8 @@ PopoverContainer.propTypes = {
   sideOffset: PropTypes.number,
   size: PropTypes.oneOf(TP_SIZE),
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
-  theme: PropTypes.oneOf(TP_TOOLTIP_THEME)
+  theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
+  triggerWrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
   arrowClassName: '',
@@ -166,7 +170,8 @@ PopoverContainer.defaultProps = {
   sideOffset: 5,
   size: TP_SIZE[0],
   sticky: TP_STICKY_OPTIONS[0],
-  theme: TP_TOOLTIP_THEME[0]
+  theme: TP_TOOLTIP_THEME[0],
+  triggerWrapperClassName: ''
 };
 
 export default PopoverContainer;

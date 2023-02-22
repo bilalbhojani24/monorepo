@@ -36,6 +36,7 @@ const TooltipContainer = (props) => {
     sideOffset,
     sticky,
     theme,
+    triggerWrapperClassName,
     wrapperClassName
   } = props;
 
@@ -51,8 +52,8 @@ const TooltipContainer = (props) => {
           defaultOpen={defaultOpen}
           onOpenChange={onOpenChange}
         >
-          <TooltipPrimitive.Trigger asChild>
-            <span>{children}</span>
+          <TooltipPrimitive.Trigger className={triggerWrapperClassName}>
+            {children}
           </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content
@@ -127,6 +128,7 @@ export const TooltipPropTypes = {
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   show: PropTypes.bool,
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
+  triggerWrapperClassName: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
 
@@ -152,6 +154,7 @@ TooltipContainer.defaultProps = {
   sideOffset: 5,
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
+  triggerWrapperClassName: '',
   wrapperClassName: ''
 };
 
