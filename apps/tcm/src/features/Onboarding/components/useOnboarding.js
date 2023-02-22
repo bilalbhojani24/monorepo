@@ -37,7 +37,7 @@ const useOnboarding = () => {
         dispatch(
           setOrgStrengthArray(selectMenuValueMapper(res?.organisation_strength))
         );
-      if (res?.has_projects) dispatch(setHasProjects(true));
+      if (res?.project_count) dispatch(setHasProjects(!!res.project_count));
     });
   };
 
