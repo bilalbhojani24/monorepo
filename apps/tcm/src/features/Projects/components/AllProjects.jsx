@@ -73,12 +73,20 @@ const AllProjects = () => {
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
-            <TMTruncateText hidetooltipTriggerIcon>
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+            >
               {rowData.name}
             </TMTruncateText>
           </div>
           <div className="text-base-400">
-            <TMTruncateText hidetooltipTriggerIcon>
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+            >
               {rowData.description}
             </TMTruncateText>
           </div>

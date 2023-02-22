@@ -50,7 +50,11 @@ const ConrolledNestedTree = ({
             }
             isFocused={focused === item.name}
             label={
-              <TMTruncateText hidetooltipTriggerIcon>
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+              >
                 {item.name}
               </TMTruncateText>
             }
