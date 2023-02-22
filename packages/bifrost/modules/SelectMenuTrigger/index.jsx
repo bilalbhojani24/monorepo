@@ -12,7 +12,9 @@ import RenderButtonChildren from './components/RenderButtonChildren';
 
 const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth, showCount } = useContext(SelectMenuContextData);
+  const { isMulti, setWidth, showCount, errorText } = useContext(
+    SelectMenuContextData
+  );
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
@@ -24,6 +26,7 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
         ref={buttonRef}
         className={twClassNames(
           'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-16 text-left shadow-sm focus:ring-1 sm:text-sm',
+          { 'border-danger-600': errorText },
           wrapperClassName
         )}
       >
