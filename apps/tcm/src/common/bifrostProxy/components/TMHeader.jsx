@@ -14,7 +14,7 @@ const TMHeader = () => (
     headerID="bstack-header"
     productLink={AppRoute.ROOT}
     productName="Test Management"
-    release="alpha"
+    release="Alpha"
   >
     <HeaderBrand />
     <HeaderProducts wrapperClassName="max-[1360px]:hidden" />

@@ -1,12 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { MdLock, MdMail, MdOutlineTextSnippet } from '@browserstack/bifrost';
 import { requestAccessAPI } from 'api/common.api';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
+import { addNotificaton } from 'globalSlice';
 
 const AlphaAccess = () => {
+  const dispatch = useDispatch();
+
   const requestAccess = () => {
     requestAccessAPI().then((data) => {
-      debugger;
+      dispatch(
+        addNotificaton({
+          id: 'access_requested',
+          title: 'Access has been requested',
+          description:
+            'You’ve requested access for Test Management. Check email for updates.',
+          variant: 'success'
+        })
+      );
     });
   };
 

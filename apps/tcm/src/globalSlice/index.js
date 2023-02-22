@@ -7,7 +7,8 @@ const initialState = {
   loginUrl: '',
   userConfig: {
     jira: null
-  }
+  },
+  notification: null
 };
 
 export const globalSlice = createSlice({
@@ -42,11 +43,19 @@ export const globalSlice = createSlice({
       state.allProjects = state.allProjects.filter(
         (item) => item.id !== payload.id
       );
+    },
+    addNotificaton: (state, { payload }) => {
+      state.notification = payload;
+    },
+    removeNotificaton: (state, { payload }) => {
+      if (state.notification?.id === payload) state.notification = null;
     }
   }
 });
 
 export const {
+  removeNotificaton,
+  addNotificaton,
   setUserConfig,
   setAllProjects,
   setUser,
