@@ -59,6 +59,12 @@ export default function useSideNav() {
   };
 
   useEffect(() => {
+    if (selectedProjectId === 'new') {
+      setAddProjectModal(true);
+    }
+  }, [selectedProjectId]);
+
+  useEffect(() => {
     // set view
     if (baseViewRoutes.includes(location.pathname)) {
       // basic view page without secondary navs

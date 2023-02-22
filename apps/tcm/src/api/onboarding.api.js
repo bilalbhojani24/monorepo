@@ -5,4 +5,5 @@ export const setOnboardingDataAPI = async ({ payload }) =>
     onboarding_info: payload
   });
 
-export const getJIRAConfigAPI = async () => fetchGet(`/api/v1/user/onboarding`);
+export const getOnboardingInitDataAPI = async () =>
+  fetchGet(`/api/v1/user/onboarding`);

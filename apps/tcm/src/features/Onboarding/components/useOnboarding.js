@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getJIRAConfigAPI, setOnboardingDataAPI } from 'api/onboarding.api';
+import {
+  getOnboardingInitDataAPI,
+  setOnboardingDataAPI
+} from 'api/onboarding.api';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setUser } from 'globalSlice';
@@ -30,7 +33,7 @@ const useOnboarding = () => {
   );
 
   const initFormData = () => {
-    getJIRAConfigAPI().then((res) => {
+    getOnboardingInitDataAPI().then((res) => {
       if (res?.role)
         dispatch(setJobRolesArray(selectMenuValueMapper(res?.role)));
       if (res?.organisation_strength)
