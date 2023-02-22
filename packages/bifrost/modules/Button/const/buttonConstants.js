@@ -19,6 +19,14 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
+export const BUTTON_LOADER_CLASSES = {
+  brand: 'fill-brand-50 text-brand-400',
+  success: 'fill-success-50 text-success-400',
+  attention: 'fill-attention-100 text-attention-600',
+  danger: 'fill-danger-50 text-danger-400',
+  white: 'fill-base-400 text-base-300'
+};
+
 export const BUTTON_STYLE_CLASSES = {
   'extra-small-brand-primary':
     'rounded py-1.5 px-2.5 text-xs bg-brand-600 text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',

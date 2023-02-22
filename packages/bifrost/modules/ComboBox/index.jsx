@@ -17,14 +17,15 @@ import {
 const ComboBox = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
 
-  const { children, defaultValue, onChange, isMulti, value } = props;
+  const { children, defaultValue, errorText, onChange, isMulti, value } = props;
 
   return (
     <ComboboxContextData.Provider
       value={{
         isMulti,
         width,
-        setWidth
+        setWidth,
+        errorText
       }}
     >
       <Popover.Root>
@@ -44,6 +45,9 @@ const ComboBox = forwardRef((props, ref) => {
         >
           {children}
         </Combobox>
+        {errorText && (
+          <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
+        )}
       </Popover.Root>
     </ComboboxContextData.Provider>
   );
@@ -65,6 +69,7 @@ ComboBox.propTypes = {
       image: string
     })
   ]),
+  errorText: string,
   isMulti: bool,
   onChange: func,
   value: oneOfType([
@@ -85,6 +90,7 @@ ComboBox.propTypes = {
 
 ComboBox.defaultProps = {
   defaultValue: null,
+  errorText: '',
   isMulti: false,
   onChange: () => {},
   value: null

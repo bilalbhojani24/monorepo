@@ -20,9 +20,9 @@ export const renderSingleOptions = (opts, placeholder) => {
 export const renderMultiOptions = (opts, placeholder) => {
   if (opts.length)
     return opts?.map((val, index) => (
-      <div className="mr-2 flex">
+      <span className="mr-2 inline">
         {val.label} {index < opts.length - 1 ? ',' : null}
-      </div>
+      </span>
     ));
   return placeholder;
 };
