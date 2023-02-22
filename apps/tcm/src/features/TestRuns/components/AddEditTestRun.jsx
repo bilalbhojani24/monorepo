@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
 import {
@@ -44,12 +44,13 @@ const AddEditTestRun = ({ isEdit }) => {
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
-
+  const focusRef = useRef(null);
   useEffect(() => {
     initFormValues();
 
     if (isEdit) initTestRunFormData();
 
+    focusRef?.current?.focus();
     return () => {
       cleanupActivities();
     };
@@ -96,6 +97,7 @@ const AddEditTestRun = ({ isEdit }) => {
                   id="test-run-name"
                   errorText={inputError ? "This field can't be left empty" : ''}
                   label="Test Run Name*"
+                  ref={focusRef}
                   placeholder="Enter test run name"
                   onChange={(e) =>
                     handleTestRunInputFieldChange('name', e.currentTarget.value)
