@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import DocPageTemplate from '../../../.storybook/DocPageTemplate';
 import BasicWidget from '.';
 
 const defaultConfig = {
