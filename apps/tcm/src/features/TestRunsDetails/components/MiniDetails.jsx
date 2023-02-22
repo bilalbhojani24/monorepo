@@ -23,55 +23,57 @@ const MiniDetails = () => {
     100 - (testRunDetails?.overall_progress?.untested / totalValue) * 100;
 
   return (
-    <TMTable containerWrapperClass="border-b border-base-300 md:rounded-none">
-      <TMTableBody>
-        <TMTableRow wrapperClassName="border-none flex">
-          <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
-            <div className="text-base-500 flex items-center text-sm">
-              <MdOutlineBarChart className="mr-2 h-5 w-5" />
-              Overall Progress:{' '}
-              {Number.isNaN(untestedPerc)
-                ? '--'
-                : `${untestedPerc.toFixed(0)}%`}
-            </div>
-          </TMTableCell>
-          <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
-            <div className="text-base-500 flex items-center text-sm">
-              <MdCode className="mr-2 h-5 w-5" />
-              Total Count
-            </div>
-          </TMTableCell>
-          <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
-            <div className="text-base-500 flex items-center text-sm">
-              <MdCode className="mr-2 h-5 w-5" />
-              Run Status
-            </div>
-          </TMTableCell>
-        </TMTableRow>
-        <TMTableRow wrapperClassName="border-none flex">
-          <td className="flex w-1/3 border-none py-2">
-            <div className="flex w-full items-center px-6">
-              {testRunDetails?.overall_progress && (
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={getProgressOptions(testRunDetails)}
-                />
-              )}
-            </div>
-          </td>
-          <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
-            <div className="text-base-900 pl-7">
-              {testRunDetails?.test_cases?.length} Tests
-            </div>
-          </TMTableCell>
-          <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
-            <div className="text-base-900 pl-7 capitalize">
-              {testRunDetails?.run_state?.replace('_', ' ')}
-            </div>
-          </TMTableCell>
-        </TMTableRow>
-      </TMTableBody>
-    </TMTable>
+    <div className="border-base-300 border-b border-r-0 bg-white">
+      <TMTable containerWrapperClass="md:rounded-none max-w-6xl border-r-0 ring-0 shadow-none">
+        <TMTableBody>
+          <TMTableRow wrapperClassName="border-none flex">
+            <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
+              <div className="text-base-500 flex items-center text-sm">
+                <MdOutlineBarChart className="mr-2 h-5 w-5" />
+                Overall Progress:{' '}
+                {Number.isNaN(untestedPerc)
+                  ? '--'
+                  : `${untestedPerc.toFixed(0)}%`}
+              </div>
+            </TMTableCell>
+            <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
+              <div className="text-base-500 flex items-center text-sm">
+                <MdCode className="mr-2 h-5 w-5" />
+                Total Count
+              </div>
+            </TMTableCell>
+            <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
+              <div className="text-base-500 flex items-center text-sm">
+                <MdCode className="mr-2 h-5 w-5" />
+                Run Status
+              </div>
+            </TMTableCell>
+          </TMTableRow>
+          <TMTableRow wrapperClassName="border-none flex">
+            <td className="flex w-1/3 border-none py-2">
+              <div className="flex w-full items-center px-6">
+                {testRunDetails?.overall_progress && (
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={getProgressOptions(testRunDetails)}
+                  />
+                )}
+              </div>
+            </td>
+            <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
+              <div className="text-base-900 pl-7">
+                {testRunDetails?.test_cases?.length} Tests
+              </div>
+            </TMTableCell>
+            <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
+              <div className="text-base-900 pl-7 capitalize">
+                {testRunDetails?.run_state?.replace('_', ' ')}
+              </div>
+            </TMTableCell>
+          </TMTableRow>
+        </TMTableBody>
+      </TMTable>
+    </div>
   );
 };
 
