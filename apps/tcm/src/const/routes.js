@@ -15,7 +15,8 @@ const AppRoute = {
   RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',
-  IMPORT: '/import',
+  IMPORT: '/projects/import',
+  IMPORT_WITH_PROJECTS: '/projects/:projectId/import',
   IMPORT_CSV: '/import/csv',
   SETTINGS_API_KEYS: '/settings/api-keys'
 };

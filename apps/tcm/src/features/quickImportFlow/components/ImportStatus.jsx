@@ -82,7 +82,6 @@ const ImportStatus = () => {
 
   const handleNotificationClose = (toastData) => {
     dismissNotification(toastData);
-    // if (importStatus === ONGOING) dispatch(setCheckImportStatusClicked(false));
   };
 
   const onModalCloseHandler = () => {
@@ -124,7 +123,6 @@ const ImportStatus = () => {
       notify(
         <Notifications
           id={notificationData?.id}
-          // isCondensed
           title={
             totalImportProjectsCount > successImportProjectCount
               ? `${successImportProjectCount}/${totalImportProjectsCount} ${notificationData?.title}`
@@ -208,16 +206,18 @@ const ImportStatus = () => {
                   <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
                     {project.name}
                   </span>
-                  <span className="ml-6 inline-flex flex-1">
+                  <div className="ml-6 flex-1">
                     {project.status === FAILURE ? (
                       <>
                         <ErrorIcon className="text-danger-600" />
-                        <span className="ml-2">{project.error}</span>
+                        <div className="text-base-500 text-sm">
+                          {project.error}
+                        </div>
                       </>
                     ) : (
                       <CheckCircleRoundedIcon className="text-success-600" />
                     )}
-                  </span>
+                  </div>
                 </div>
               ))}
           </TMModalBody>
@@ -240,5 +240,3 @@ const ImportStatus = () => {
 };
 
 export default ImportStatus;
-
-// !document.querySelector('.go4109123758') &&

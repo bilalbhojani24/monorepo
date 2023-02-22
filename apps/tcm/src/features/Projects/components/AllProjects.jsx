@@ -145,7 +145,7 @@ const AllProjects = () => {
               wrapperClassName="sr-only"
               onClick={() =>
                 navigate({
-                  pathname: '/import'
+                  pathname: 'projects/import'
                 })
               }
             />

@@ -20,7 +20,7 @@ const UploadFile = () => {
     csvUploadError,
     fileConfig,
     showMoreFields,
-    uploadFileProceedLoading,
+    // uploadFileProceedLoading,
     handleFileUpload,
     handleFileRemove,
     handleProceedClick,
@@ -67,7 +67,7 @@ const UploadFile = () => {
               <TMButton
                 variant="primary"
                 onClick={handleProceedClick}
-                loading={uploadFileProceedLoading}
+                // loading={uploadFileProceedLoading}
               >
                 Proceed
               </TMButton>
@@ -80,7 +80,7 @@ const UploadFile = () => {
             linkText="Upload a file"
             heading="or drag and drop"
             subHeading="CSV & XLS format allowed"
-            accept=".csv,.xls"
+            accept=".csv,.xlsx"
             onChange={handleFileUpload}
           />
         )}

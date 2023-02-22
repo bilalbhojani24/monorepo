@@ -205,42 +205,46 @@ const importCSVSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(uploadFile.fulfilled, (state, action) => {
-      state.fieldsMappingData = action.payload;
-      state.mapFieldsConfig.importId = action.payload.import_id;
-      state.mapFieldsConfig.customFields =
-        action.payload.fields_available?.custom;
-      state.mapFieldsConfig.defaultFields =
-        action.payload.fields_available?.default;
-      state.mapFieldsConfig.importFields = action.payload.import_fields;
-      state.uploadFileProceedLoading = false;
-      // state.csvUploadError = '';
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(
-        action.payload?.value_mappings
-      )) {
-        state.valueMappings[key] = Object.keys(value).reduce(
-          (obj, nestedKey) => {
-            if (value[nestedKey] === null)
-              return { ...obj, [nestedKey]: { action: 'add' } };
-            return { ...obj, [nestedKey]: value[nestedKey] };
-          },
-          {}
-        );
+      if (action.payload?.response?.status === 400) {
+        state.csvUploadError = action.payload.response.data.message;
+        state.uploadFileProceedLoading = false;
+      } else {
+        state.fieldsMappingData = action.payload;
+        state.mapFieldsConfig.importId = action.payload.import_id;
+        state.mapFieldsConfig.customFields =
+          action.payload.fields_available?.custom;
+        state.mapFieldsConfig.defaultFields =
+          action.payload.fields_available?.default;
+        state.mapFieldsConfig.importFields = action.payload.import_fields;
+        state.uploadFileProceedLoading = false;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const [key, value] of Object.entries(
+          action.payload?.value_mappings
+        )) {
+          state.valueMappings[key] = Object.keys(value).reduce(
+            (obj, nestedKey) => {
+              if (value[nestedKey] === null)
+                return { ...obj, [nestedKey]: { action: 'add' } };
+              return { ...obj, [nestedKey]: value[nestedKey] };
+            },
+            {}
+          );
+        }
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const [key, value] of Object.entries(
+          action.payload?.field_mappings
+        )) {
+          state.fieldsMapping[key] = value;
+        }
+
+        state.currentCSVScreen = 'mapFields';
+        state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
+          if (idx === 0) return { ...step, status: COMPLETE_STEP };
+          if (idx === 1) return { ...step, status: CURRENT_STEP };
+          return step;
+        });
       }
-      // if (mappingFieldsData.field_mappings) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(
-        action.payload?.field_mappings
-      )) {
-        state.fieldsMapping[key] = value;
-      }
-      // }
-      state.currentCSVScreen = 'mapFields';
-      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-        if (idx === 0) return { ...step, status: COMPLETE_STEP };
-        if (idx === 1) return { ...step, status: CURRENT_STEP };
-        return step;
-      });
     });
     builder.addCase(uploadFile.rejected, (state, { payload }) => {
       state.csvUploadError = payload;

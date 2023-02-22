@@ -14,8 +14,13 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
+import { IMPORT_STEPS } from '../const/importSteps';
 
 const initialState = {
+  configureToolTestConnectionLoading: false,
+  configureToolProceedLoading: false,
+  configureToolProceed: false,
+  showErrorForConfigData: false,
   testRailsCred: {
     email: '',
     host: '',
@@ -35,7 +40,7 @@ const initialState = {
   },
   projectsForTestManagementImport: [],
   currentScreen: 'configureTool',
-  importSteps: [],
+  importSteps: IMPORT_STEPS,
   currentTestManagementTool: '',
   testRailsCredTouched: { email: false, host: false, key: false },
   zephyrCredTouched: {
@@ -90,7 +95,8 @@ export const setRetryImport = createAsyncThunk(
   'import/retryImport',
   async ({ id, testTool }) => {
     try {
-      return await retryImport(id, testTool);
+      const response = await retryImport(id, testTool);
+      return { ...response, testTool };
     } catch (err) {
       return err;
     }
@@ -112,6 +118,18 @@ const importSlice = createSlice({
   name: 'import',
   initialState,
   reducers: {
+    setConfigureToolProceedLoading: (state, { payload }) => {
+      state.configureToolProceedLoading = payload;
+    },
+    setConfigureToolTestConnectionLoading: (state, { payload }) => {
+      state.configureToolTestConnectionLoading = payload;
+    },
+    setErrorForConfigureData: (state, { payload }) => {
+      state.showErrorForConfigData = payload;
+    },
+    setConfigureToolProceeded: (state, { payload }) => {
+      state.configureToolProceed = payload;
+    },
     setTestRailsCred: (state, { payload }) => {
       state.testRailsCred[payload.key] = payload.value;
     },
@@ -133,13 +151,9 @@ const importSlice = createSlice({
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
       if (payload.key === 'testrails') {
-        state.zephyrCred = initialState.zephyrCred;
         state.connectionStatusMap.zephyr = '';
-        state.selectedRadioIdMap.zephyr = '';
       } else if (payload.key === 'zephyr') {
-        state.testRailsCred = initialState.testRailsCred;
         state.connectionStatusMap.testrails = '';
-        state.selectedRadioIdMap.testrails = '';
       }
     },
     setImportStatus: (state, { payload }) => {
@@ -225,11 +239,11 @@ const importSlice = createSlice({
       }
     });
     builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
-      if (state.currentTestManagementTool === 'testrails') {
+      if (payload.testTool === 'testrail') {
         state.testRailsCred.email = payload.credentials.email;
         state.testRailsCred.host = payload.credentials.host;
         state.testRailsCred.key = payload.credentials.key;
-      } else if (state.currentTestManagementTool === 'zephyr') {
+      } else if (payload.testTool === 'zephyr') {
         state.zephyrCred.email = payload.credentials.email;
         state.zephyrCred.host = payload.credentials.host;
         state.zephyrCred.jira_key = payload.credentials.jira_key;
@@ -243,8 +257,12 @@ const importSlice = createSlice({
 });
 
 export const {
+  setConfigureToolProceedLoading,
+  setConfigureToolTestConnectionLoading,
+  setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setErrorForConfigureData,
   setTestRailsCred,
   setTestRailsCredTouched,
   setZephyrCred,
