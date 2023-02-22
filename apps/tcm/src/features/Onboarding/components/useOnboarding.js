@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getJIRAConfigAPI, setOnboardingDataAPI } from 'api/onboarding.api';
-import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setUser } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
@@ -45,7 +44,6 @@ const useOnboarding = () => {
   const updateUserValue = () => {
     const updatedUserData = { ...userData };
     updatedUserData.onboarded = 1;
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(updatedUserData));
     dispatch(setUser(updatedUserData));
   };
 

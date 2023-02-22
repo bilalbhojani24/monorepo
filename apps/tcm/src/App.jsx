@@ -2,37 +2,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { useAuthRoutes } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
-import axios from 'axios';
 import { TMHeader } from 'common/bifrostProxy';
-// import MainRoute from 'features/MainRoute';
+import MainRoute from 'features/MainRoute';
 import ImportStatus from 'features/quickImportFlow/components/ImportStatus';
 import SideNav from 'features/SideNav';
 
-import { APP_ROUTES } from './const/routes';
 import {
   setImportConfigurations,
   setQuickImportStatus
 } from './features/quickImportFlow/slices/importSlice';
-
-const initAPI = async () => {
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(false);
-    }, 2000);
-  });
-
-  // returns status code - 200 (uncomment and test)
-  return axios.get(
-    'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
-  );
-
-  // returns status code - 401 (uncomment and test)
-  // return axios.get(
-  //   'https://run.mocky.io/v3/a1656866-98fe-49cd-9b97-1163c2866b48'
-  // );
-};
 
 function App() {
   const dispatch = useDispatch();
@@ -44,13 +23,6 @@ function App() {
   );
   const showNotificationModal = useSelector(
     (state) => state.import.showNotificationModal
-  );
-
-  // Auth Routes
-  const Routes = useAuthRoutes(
-    APP_ROUTES,
-    initAPI,
-    'https://www.browserstack.com/users/sign_in'
   );
 
   useEffect(() => {
@@ -83,11 +55,10 @@ function App() {
           )}
         >
           <SideNav importStatus={importStatus} />
-          {/* <MainRoute /> */}
+          <MainRoute />
         </div>
       </div>
       <NotificationsContainer />
-      {Routes}
     </>
   );
 }

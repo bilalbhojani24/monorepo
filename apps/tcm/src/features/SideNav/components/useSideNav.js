@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
+import { setAllProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
@@ -13,6 +15,7 @@ import {
 export default function useSideNav() {
   const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const [primaryNavs, setPrimaryNavs] = useState([]);
   const [secondaryNavs] = useState(secondaryNavLinks);
@@ -25,9 +28,16 @@ export default function useSideNav() {
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
+  const userData = useSelector((state) => state.global.user);
 
   const onLinkChange = (linkItem) => {
     navigate(linkItem.path);
+  };
+
+  const loadProjectsList = () => {
+    getProjectsMinifiedAPI().then((res) => {
+      dispatch(setAllProjects(res.projects));
+    });
   };
 
   const dynamicLinkReplaceHelper = (array) => {
@@ -57,6 +67,11 @@ export default function useSideNav() {
   const setAddProjectModal = (value) => {
     setShowAddProject(value);
   };
+
+  useEffect(() => {
+    if (userData && !allProjects.length) loadProjectsList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
 
   useEffect(() => {
     // set view
