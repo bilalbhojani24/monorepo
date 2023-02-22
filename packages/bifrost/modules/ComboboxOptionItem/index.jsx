@@ -81,7 +81,9 @@ const ComboboxOptionItem = forwardRef(
                   type="checkbox"
                   checked={selected}
                   id={option.name}
-                  className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded"
+                  className={`border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
+                    active ? 'ring-brand-500 ring-2 ring-offset-2' : ''
+                  }`}
                   readOnly
                 />
                 <label htmlFor={option.name} className="cursor-pointer">
