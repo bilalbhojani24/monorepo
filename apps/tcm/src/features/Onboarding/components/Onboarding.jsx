@@ -44,7 +44,7 @@ const Onboarding = () => {
         </div>
         <div className="mt-6">
           <div className="text-base">Choose your setup format</div>
-          <div className="mt-4 flex justify-center gap-4">
+          <div className="mt-4 flex  gap-4">
             {SETUP_FORMATS.map((item) => (
               <FormatCard
                 key={item.id}
