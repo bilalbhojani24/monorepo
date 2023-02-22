@@ -62,7 +62,7 @@ const SideNav = (props) => {
         sidebarHeader={
           showProjects ? (
             <>
-              {allProjectsDrop?.length ? (
+              {allProjectsDrop?.length > 2 ? (
                 <SidebarHeader>
                   <SelectMenu
                     onChange={onProjectChange}

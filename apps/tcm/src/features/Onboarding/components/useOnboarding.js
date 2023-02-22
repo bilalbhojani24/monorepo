@@ -9,6 +9,7 @@ import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { SETUP_FORMATS } from '../const/immutableConst';
 import {
+  setHasProjects,
   setIsProcessing,
   setJobRolesArray,
   setOrgStrengthArray,
@@ -21,6 +22,7 @@ const useOnboarding = () => {
 
   const userData = useSelector((state) => state.global.user);
   const isProcessing = useSelector((state) => state.onboarding.isProcessing);
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const formData = useSelector((state) => state.onboarding.formData);
   const jobRolesArray = useSelector((state) => state.onboarding.jobRolesArray);
   const orgStrengthArray = useSelector(
@@ -35,6 +37,7 @@ const useOnboarding = () => {
         dispatch(
           setOrgStrengthArray(selectMenuValueMapper(res?.organisation_strength))
         );
+      if (res?.project_count) dispatch(setHasProjects(!!res.project_count));
     });
   };
 
@@ -60,12 +63,16 @@ const useOnboarding = () => {
         case SETUP_FORMATS[0].title: // quick_import
           navigate(AppRoute.IMPORT);
           break;
-        case SETUP_FORMATS[1].title: // example_project
-          // create new project API TODO
-          navigate(AppRoute.ROOT);
-          break;
-        case SETUP_FORMATS[2].title: // scratch
-          navigate(routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }));
+        // case SETUP_FORMATS[1].title: // example_project
+        //   // create new project API TODO
+        //   navigate(AppRoute.ROOT);
+        //   break;
+        case SETUP_FORMATS[1].title: // scratch
+          navigate(
+            hasProjects
+              ? AppRoute.ROOT
+              : routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' })
+          );
           break;
         default:
           break;
