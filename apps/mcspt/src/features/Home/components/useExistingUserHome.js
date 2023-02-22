@@ -1,18 +1,41 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { extractSessionDetailsById } from '../slices/homeThunks';
+
+const rowSearchCriteria = (row, newValue) => {
+  if (row?.name?.toLowerCase().indexOf(newValue.toLowerCase()) !== -1) {
+    return true;
+  }
+
+  if (
+    row?.package?.name?.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
+  ) {
+    return true;
+  }
+
+  return (
+    row?.device?.name?.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
+  );
+};
 
 const useExistingUserHome = (previousUserSessions) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tableRows, setTableRows] = useState(previousUserSessions);
   const [currentSortDir, setCurrentSortDir] = useState('asc');
 
+  const navigateToPath = useNavigate();
+
+  const dispatch = useDispatch();
+
   const performSearch = (event) => {
     const newValue = event.target.value;
     setSearchTerm(newValue);
 
     setTableRows(() =>
-      previousUserSessions.filter(
-        (x) =>
-          x.application.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
+      previousUserSessions.filter((singleRow) =>
+        rowSearchCriteria(singleRow, newValue)
       )
     );
   };
@@ -37,12 +60,17 @@ const useExistingUserHome = (previousUserSessions) => {
     setCurrentSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
+  const sessionSelected = (row) => {
+    dispatch(extractSessionDetailsById(row?.uuid, navigateToPath));
+  };
+
   return {
     searchTerm,
     tableRows,
     performSearch,
     sortRows,
-    currentSortDir
+    currentSortDir,
+    sessionSelected
   };
 };
 

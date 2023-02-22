@@ -2,19 +2,13 @@ import axios from 'axios';
 
 import { getBaseUrl } from './utils';
 
-export const getSessions = async () => {
-  const response = await axios.get(`${getBaseUrl()}/sessions`);
-
-  return response.data;
-};
-
-export const getDevices = async (platformName) => {
+export const fetchDevices = async (platformName) => {
   const response = await axios.get(`${getBaseUrl()}/${platformName}/devices`);
 
   return response.data;
 };
 
-export const getDeviceApplications = async (platformName, deviceId) => {
+export const fetchDeviceApplications = async (platformName, deviceId) => {
   const response = await axios.get(
     `${getBaseUrl()}/${platformName}/devices/${deviceId}/apps`
   );

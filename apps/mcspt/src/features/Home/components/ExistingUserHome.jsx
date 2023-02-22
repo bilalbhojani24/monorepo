@@ -12,6 +12,8 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import { formatReportTime } from '../../../utils';
+
 import useExistingUserHome from './useExistingUserHome';
 
 const columns = [
@@ -21,10 +23,23 @@ const columns = [
     isSortable: true,
     cell: (row) => (
       <>
-        <div className="text-sm font-medium leading-5">
-          {row.testSessionName}
-        </div>
+        <div className="text-sm font-medium leading-5">{row.name}</div>
       </>
+    )
+  },
+
+  {
+    name: 'Test Conducted',
+    key: 'testStartDate',
+    cell: (row) => (
+      <div className="flex flex-col">
+        <div className="text-base-900 text-sm font-medium leading-5">
+          {formatReportTime(row?.startTime, 'dddd, MMMM, D, YYYY')}
+        </div>
+        <div className="text-base-500 text-sm font-normal leading-5">
+          {formatReportTime(row?.startTime, 'h:mma')}
+        </div>
+      </div>
     )
   },
   {
@@ -33,10 +48,10 @@ const columns = [
     cell: (row) => (
       <div className="flex flex-col">
         <div className="text-base-900 text-sm font-medium leading-5">
-          {row.application}
+          {row?.package?.name}
         </div>
         <div className="text-base-500 text-sm font-normal leading-5">
-          {row.packageDetails}
+          {`${row?.package?.bundleId} ∙ v${row?.package?.version}`}
         </div>
       </div>
     )
@@ -47,10 +62,10 @@ const columns = [
     cell: (row) => (
       <>
         <div className="text-base-900 text-sm font-medium leading-5 ">
-          {row.device}
+          {row?.device?.name}
         </div>
         <div className="text-base-500 text-sm font-normal leading-5 ">
-          {row.osDetails}
+          {`${row?.device?.os} ${row?.device?.osVersion}`}
         </div>
       </>
     )
@@ -58,8 +73,14 @@ const columns = [
 ];
 
 const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
-  const { searchTerm, tableRows, performSearch, sortRows, currentSortDir } =
-    useExistingUserHome(previousUserSessions);
+  const {
+    searchTerm,
+    tableRows,
+    performSearch,
+    sortRows,
+    currentSortDir,
+    sessionSelected
+  } = useExistingUserHome(previousUserSessions);
 
   return (
     <div className="flex flex-col">
@@ -102,6 +123,7 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
             {columns.map((col) => (
               <TableCell
                 key={col.key}
+                wrapperClassName="text-xs leading-4 font-medium tracking-wider uppercase text-base-500"
                 variant="header"
                 sortable={col.isSortable}
                 onSort={sortRows}
@@ -114,17 +136,18 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
         </TableHead>
         <TableBody>
           {tableRows.map((row) => (
-            <TableRow key={row.testSessionName}>
-              {columns.map((column, colIdx) => {
+            <TableRow
+              key={row?.name}
+              onRowClick={() => {
+                sessionSelected(row);
+              }}
+            >
+              {columns.map((column) => {
                 const value = row[column.key];
                 return (
                   <TableCell
                     key={column.key + column.id}
-                    wrapperClass={
-                      colIdx === 0
-                        ? 'text-base-900 font-medium'
-                        : 'text-base-500'
-                    }
+                    wrapperClassName="text-base-900"
                   >
                     {column.cell ? <>{column.cell(row)}</> : value}
                   </TableCell>
