@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
-import { fetchToken } from '../../api/fetchToken';
+import { fetchToken } from '../../api/index';
 
 import WidgetContainer from './components/DraggableResizable';
 import WidgetHeader from './components/WidgetHeader';
 
-const Widget = () => (
+const Widget = ({ children }) => (
   <WidgetContainer>
     <WidgetHeader />
-    <p className="p-4">
-      Hello, this is the body of Basic Widget. Cannot drag from here
-    </p>
+    {children}
   </WidgetContainer>
 );
+
+Widget.propTypes = {
+  children: PropTypes.node
+};
+Widget.defaultProps = {
+  children: null
+};
 
 const WidgetPortal = ({
   authUrl,
@@ -21,7 +27,8 @@ const WidgetPortal = ({
   position,
   projectId,
   isOpen,
-  handleClose
+  handleClose,
+  children
 }) => {
   const [hasToken, setHasToken] = useState(false);
   useEffect(() => {
@@ -39,7 +46,9 @@ const WidgetPortal = ({
           positionRef={positionRef}
           projectId={projectId}
           handleClose={handleClose}
-        />,
+        >
+          {children}
+        </Widget>,
         document.body
       )
     : null;
