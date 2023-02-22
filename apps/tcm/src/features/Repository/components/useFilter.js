@@ -183,7 +183,7 @@ const useFilter = (prop) => {
       fetchFilteredCases(filterOptions, searchParams?.get('p'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchParams, isSearchFilterView]);
 
   useEffect(() => {
     if (usersArray) {
