@@ -20,7 +20,6 @@ const InputWButton = forwardRef(
       label,
       addOnText,
       addOnIcon,
-      multiPosition,
       onBlur,
       onButtonClick,
       onChange,
@@ -31,7 +30,7 @@ const InputWButton = forwardRef(
     },
     ref
   ) => (
-    <div className="bifrost-input-field">
+    <div>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between">
           <label
@@ -77,6 +76,7 @@ const InputWButton = forwardRef(
             onFocus={onFocus}
             onBlur={onBlur}
             autoComplete={autoComplete}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...rest}
           />
         </div>
@@ -112,7 +112,7 @@ InputWButton.propTypes = {
   id: PropTypes.string.isRequired,
   icon: PropTypes.node,
   inputRef: PropTypes.oneOfType([
-    PropTypes.shape({ current: PropTypes.any }),
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
     PropTypes.func
   ]),
   label: PropTypes.string,
@@ -130,7 +130,7 @@ InputWButton.defaultProps = {
   autoComplete: 'off',
   buttonElement: '.',
   cornerHintText: '',
-  defaultValue: '',
+  defaultValue: undefined,
   description: '',
   disabled: false,
   errorText: '',

@@ -1,19 +1,29 @@
 import React from 'react';
-import RadioTable from './index';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
+import { dummyData } from './const/radioTableConstants';
+import RadioTable from './index';
+
 const defaultConfig = {
-    title: 'Application/Components/RadioTable',
-    component: RadioTable,
-    parameters: {
-        docs: {
-        page: () => {
-            return <DocPageTemplate importStatement={"import RadioTable from 'bifrost/RadioTable'"} />;
-        }
-        }
-    },
-    argTypes: {},
-    controls: {}
+  title: 'Application/Components/RadioTable',
+  component: RadioTable,
+  parameters: {
+    docs: {
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import RadioTable from 'bifrost/RadioTable'"}
+        />
+      )
+    }
+  },
+  argTypes: {
+    options: {
+      option: { type: null },
+      defaultValue: dummyData
+    }
+  },
+  controls: {}
 };
 const Template = (args) => <RadioTable {...args} />;
 const Primary = Template.bind({});
