@@ -154,6 +154,7 @@ const MainRoute = () => {
         />
         <Route
           path={AppRoute.NO_ACCESS}
+          isForced
           element={
             <PrivateComponent>
               <AlphaAccess />
