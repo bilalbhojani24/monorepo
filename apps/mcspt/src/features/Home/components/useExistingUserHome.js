@@ -45,11 +45,11 @@ const useExistingUserHome = (previousUserSessions) => {
 
     setTableRows(
       rowsToBeSorted.sort((a, b) => {
-        if (a.testSessionName > b.testSessionName) {
+        if (a.name > b.name) {
           return currentSortDir === 'asc' ? -1 : 1;
         }
 
-        if (b.testSessionName > a.testSessionName) {
+        if (b.name > a.name) {
           return currentSortDir === 'asc' ? 1 : -1;
         }
 
