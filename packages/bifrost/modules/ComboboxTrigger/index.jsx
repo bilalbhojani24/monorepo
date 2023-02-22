@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
@@ -11,11 +11,23 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 
 const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth, errorText } = useContext(ComboboxContextData);
+  const comboInputRef = useRef();
+  const { isMulti, setWidth, errorText, value } =
+    useContext(ComboboxContextData);
+
+  const [isTruncated, setIsTruncated] = useState(false);
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
   }, [setWidth]);
+
+  useEffect(() => {
+    if (comboInputRef.current) {
+      setIsTruncated(
+        comboInputRef.current.offsetWidth < comboInputRef.current.scrollWidth
+      );
+    }
+  }, [value]);
 
   return (
     <Popover.Trigger asChild ref={buttonRef}>
@@ -32,11 +44,12 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
               ? renderMultiOptions(dv)
               : renderSingleOptions(dv)
           }
+          ref={comboInputRef}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           {({ value: buttonValue }) => (
             <>
-              {isMulti && buttonValue?.length ? (
+              {isMulti && buttonValue?.length && isTruncated ? (
                 <span className="mr-1 font-bold">{`(${buttonValue?.length})`}</span>
               ) : null}
               <ChevronUpDownIcon
