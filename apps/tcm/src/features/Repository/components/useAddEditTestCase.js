@@ -238,6 +238,8 @@ export default function useAddEditTestCase() {
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
     }).then((res) => {
+      // dispatch(setMetaPage(res.info));
+      // dispatch(updateAllTestCases(res?.test_cases || []));
       dispatch(
         updateAllTestCases(
           allTestCases.map(

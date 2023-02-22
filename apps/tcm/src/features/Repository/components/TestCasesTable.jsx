@@ -45,6 +45,7 @@ const TestCasesTable = ({
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
     isAllSelected,
+    isAllChecked,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -218,16 +219,18 @@ const TestCasesTable = ({
                   border={false}
                   wrapperClassName="pt-0"
                   checked={
-                    (isAllSelected && !deSelectedTestCaseIDs.length) ||
-                    (rows.length !== 0 &&
-                      selectedTestCaseIDs.length === rows.length)
+                    isAllChecked
+                    // (isAllSelected && !deSelectedTestCaseIDs.length) ||
+                    // (rows.length !== 0 &&
+                    //   selectedTestCaseIDs.length === rows.length)
                   }
                   indeterminate={
-                    !!(
-                      (isAllSelected && deSelectedTestCaseIDs.length) ||
-                      (selectedTestCaseIDs.length &&
-                        selectedTestCaseIDs.length !== rows.length)
-                    )
+                    isAllChecked ? false : selectedTestCaseIDs.length
+                    // !!(
+                    //   (isAllSelected && deSelectedTestCaseIDs.length) ||
+                    //   (selectedTestCaseIDs.length &&
+                    //     selectedTestCaseIDs.length !== rows.length)
+                    // )
                   }
                   onChange={selectAll}
                 />
@@ -394,7 +397,7 @@ TestCasesTable.defaultProps = {
   onPaginationClick: null,
   onItemSelectionCb: () => {},
   metaPage: {},
-  selectedTestCases: []
+  selectedTestCases: null // only if this is passed as prop take it, else ignore
 };
 
 export default TestCasesTable;
