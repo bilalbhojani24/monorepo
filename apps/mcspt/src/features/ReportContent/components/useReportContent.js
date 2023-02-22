@@ -7,7 +7,7 @@ const useReportContent = () => {
 
   const openDiagnosticFolder = () => {
     window.remoteThreadFunctions.openSystemFileFromPath(
-      sessionData?.metadata?.diagnostic
+      sessionData?.metadata?.video
     );
   };
 

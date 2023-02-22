@@ -12,8 +12,8 @@ import { triggerSession } from '../slices/newPerformanceSessionThunks';
 
 const getDefaultAutoGenerateName = (selectedDevice, selectedApp) =>
   `${selectedApp?.name}-v${selectedApp?.version}-${
-    selectedDevice?.manufacturer
-  }-${selectedDevice?.model}-${new Date().toISOString()}`;
+    selectedDevice?.model
+  }-${new Date().getTime()}`;
 
 const useConfirmStartTesting = () => {
   const selectedDevice = useSelector(getSelectedDevice);

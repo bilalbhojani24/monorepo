@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -63,6 +63,11 @@ const useExistingUserHome = (previousUserSessions) => {
   const sessionSelected = (row) => {
     dispatch(extractSessionDetailsById(row?.uuid, navigateToPath));
   };
+
+  useEffect(() => {
+    setSearchTerm('');
+    setTableRows(previousUserSessions);
+  }, [previousUserSessions]);
 
   return {
     searchTerm,
