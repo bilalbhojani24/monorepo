@@ -1,8 +1,6 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-// import PropTypes from 'prop-types';
 import { fetchToken } from '../../api/fetchToken';
 
 import WidgetContainer from './components/DraggableResizable';
@@ -16,10 +14,6 @@ const Widget = () => (
     </p>
   </WidgetContainer>
 );
-
-// Widget.propTypes = {
-//   authUrl: PropTypes.string.isRequired
-// };
 
 const WidgetPortal = ({
   authUrl,

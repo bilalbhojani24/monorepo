@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useRef } from 'react';
 import { Draggable, Resizable } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';

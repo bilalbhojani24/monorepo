@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React from 'react';
 import { Bars2Icon, Button } from '@browserstack/bifrost';
 
