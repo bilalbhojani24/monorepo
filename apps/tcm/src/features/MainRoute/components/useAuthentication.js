@@ -10,9 +10,10 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res.data.data.user));
-    if (res.data?.data?.user) {
-      dispatch(setUser(res.data.data.user));
+    debugger;
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res?.data?.user));
+    if (res?.data?.user) {
+      dispatch(setUser(res.data.user));
     }
     // on redirection after login, location.pathname tanks! hence using window.location.pathname
     if (window.location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
@@ -46,12 +47,10 @@ const useAuthentication = () => {
       } else {
         onAuthSuccessHandler({
           data: {
-            data: {
-              user: {
-                full_name: 'Ribin Roy',
-                email: 'fake2@example.com',
-                onboarded: 1
-              }
+            user: {
+              full_name: 'Ribin Roy',
+              email: 'fake2@example.com',
+              onboarded: 1
             }
           }
         });

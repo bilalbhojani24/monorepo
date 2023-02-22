@@ -2,7 +2,7 @@ import axios from 'axios';
 import AppRoute from 'const/routes';
 
 const setupInterceptors = (navigateTo) => {
-  const onSuccess = (res) => res;
+  const onSuccess = (res) => Promise.resolve(res);
 
   const onFailure = (res) => {
     if (res?.response?.status === 412) {
