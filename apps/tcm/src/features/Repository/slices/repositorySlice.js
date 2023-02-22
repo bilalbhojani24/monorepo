@@ -17,7 +17,7 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: testCaseTypesOptions[0].value,
+    case_type: testCaseTypesOptions[6].value,
     priority: priorityOptions[2].value,
     owner: null,
     status: statusOptions[0].value,

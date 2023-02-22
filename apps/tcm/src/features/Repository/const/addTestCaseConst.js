@@ -17,7 +17,7 @@ export const testCaseTypesOptions = [
   { label: 'Compatibility', value: 'compatibility' },
   { label: 'Destructive', value: 'destructive' },
   { label: 'Functional', value: 'functional' },
-  { label: 'Other (Default)', value: 'other' },
+  { label: 'Other', value: 'other' },
   { label: 'Performance', value: 'performance' },
   { label: 'Regression', value: 'regression' },
   { label: 'Security', value: 'security' },
