@@ -43,6 +43,7 @@ const Stats = (props) => {
         onClick={(e) => option.onClick?.(e)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') option.onClick?.(e);
+          if (e.key === ' ') option.onClick?.(e);
         }}
         tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
