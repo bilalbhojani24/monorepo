@@ -87,7 +87,9 @@ const SelectMenuOptionItem = forwardRef(
                   checked={selected}
                   id={option.name}
                   className={twClassNames(
-                    'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded'
+                    `border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
+                      active ? 'ring-2 ring-offset-2 ring-brand-500' : ''
+                    }`
                   )}
                   readOnly
                 />
