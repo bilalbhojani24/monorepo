@@ -22,8 +22,7 @@ do
   echo "Building $project..."
   cd "$project" || exit
   pnpm run build
-  cd ..
-  cd ..
+ cd ../..
 done
 
 echo "All projects built!"
