@@ -34,7 +34,7 @@ const SelectMenuOptionItem = forwardRef(
               'py-2 pl-3 hover:bg-base-50': selectMenuCtx.isMulti,
               'bg-base-50 text-base-500': disabled
             },
-            'relative cursor-pointer select-none',
+            'group relative cursor-pointer select-none',
             wrapperClassName
           )
         }
@@ -87,7 +87,11 @@ const SelectMenuOptionItem = forwardRef(
                   checked={selected}
                   id={option.name}
                   className={twClassNames(
-                    'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded'
+                    `border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
+                      active
+                        ? 'ring-2 ring-offset-2 ring-brand-500 group-hover:ring-0 group-hover:ring-offset-0'
+                        : ''
+                    }`
                   )}
                   readOnly
                 />
