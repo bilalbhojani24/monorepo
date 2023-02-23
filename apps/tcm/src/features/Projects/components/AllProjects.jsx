@@ -1,7 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineExpandMore } from '@browserstack/bifrost';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -36,8 +35,7 @@ const AllProjects = () => {
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
-    showAddProjectModal,
-    onCreateDropClick
+    showAddProjectModal
   } = useProjects();
 
   const tableColumns = [
@@ -181,21 +179,10 @@ const AllProjects = () => {
                 variant="primary"
                 size="default"
                 onClick={showAddProjectModal}
-                wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
+                wrapperClassName="ml-3 whitespace-nowrap w-full focus:ring-offset-0 focus:z-10"
               >
                 Create Project
               </TMButton>
-              <TMDropdown
-                triggerIcon={
-                  <MdOutlineExpandMore className="text-2xl text-white" />
-                }
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-brand-600 border-t-0 border-b-0 hover:bg-brand-700"
-                triggerVariant="menu-button"
-                options={[
-                  { body: 'Create Example Project', id: 'example_project' }
-                ]}
-                onClick={(selectedOption) => onCreateDropClick(selectedOption)}
-              />
             </div>
           </>
         }

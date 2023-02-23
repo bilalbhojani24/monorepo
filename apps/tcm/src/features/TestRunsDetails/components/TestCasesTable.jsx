@@ -76,7 +76,18 @@ const TestCasesTable = () => {
       key: 'status',
       cell: (rowData) => (
         <TMSelectMenu
-          options={STATUS_OPTIONS}
+          options={STATUS_OPTIONS.map((el) => ({
+            label: (
+              <div>
+                <div
+                  className={`${el.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                  style={{ backgroundColor: el.color ? el.color : 'auto' }}
+                />
+                <span className="inline-block">{el.label}</span>
+              </div>
+            ),
+            value: el.value
+          }))}
           value={
             rowData?.latest_status &&
             STATUS_OPTIONS.find((item) => item.value === rowData.latest_status)

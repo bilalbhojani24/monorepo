@@ -1,8 +1,12 @@
 import React from 'react';
 import { OpenInNewIcon } from 'assets/icons';
 import { TMButton, TMDataTable } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
-const JiraConfigurationAvailable = ({ configuration }) => {
+const JiraConfigurationAvailable = ({
+  configuration,
+  onIntegrationsButtonClick
+}) => {
   const COLUMNS = [
     {
       name: 'Connection Name',
@@ -43,6 +47,7 @@ const JiraConfigurationAvailable = ({ configuration }) => {
             colors="white"
             iconPlacement="end"
             icon={<OpenInNewIcon className="h-4 w-4" />}
+            onClick={onIntegrationsButtonClick}
           >
             Go to Integrations
           </TMButton>
@@ -56,6 +61,13 @@ const JiraConfigurationAvailable = ({ configuration }) => {
       />
     </>
   );
+};
+
+JiraConfigurationAvailable.propTypes = {
+  configuration: {
+    host: PropTypes.string.isRequired
+  }.isRequired,
+  onIntegrationsButtonClick: PropTypes.func.isRequired
 };
 
 export default JiraConfigurationAvailable;
