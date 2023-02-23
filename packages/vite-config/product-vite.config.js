@@ -9,6 +9,7 @@
 const react = require('@vitejs/plugin-react');
 
 module.exports = {
+  envPrefix: 'BSTACK_', // TO add prefix to product env files
   plugins: [react()],
   build: {
     lib: {
