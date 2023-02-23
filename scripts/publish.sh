@@ -8,7 +8,7 @@ export AWS_SECRET_ACCESS_KEY=$2
 export AWS_DEFAULT_REGION='us-east-1'
 
 # Set bucket name and temporary folder name
-export BUCKET_NAME=$3
+BUCKET_NAME=$3
 export TEMP_FOLDER_NAME='temp'
 
 # Check if the temporary folder exists in the bucket
@@ -18,7 +18,7 @@ if ! aws s3 ls "s3://$BUCKET_NAME/$TEMP_FOLDER_NAME/" >/dev/null 2>&1; then
 fi
 
 # Get the local path of the file/folder to be uploaded
-export LOCAL_PATH=$4
+LOCAL_PATH=$4
 
 if [ -f "$LOCAL_PATH" ]; then
   # Upload file to temporary folder in the bucket
