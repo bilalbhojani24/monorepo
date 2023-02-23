@@ -208,7 +208,12 @@ const ImportStatus = () => {
               importProjects.map((project) => (
                 <div className="border-base-100 text-base-500 flex place-content-between border-b p-3 text-xs">
                   <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
-                    <TMTruncateText hidetooltipTriggerIcon>
+                    <TMTruncateText
+                      hidetooltipTriggerIcon
+                      headerTooltipProps={{
+                        delay: 500
+                      }}
+                    >
                       {project.name}
                     </TMTruncateText>
                   </span>
@@ -221,6 +226,9 @@ const ImportStatus = () => {
                             hidetooltipTriggerIcon
                             wrapperClassName="line-clamp-2"
                             isFullWidthTooltip
+                            headerTooltipProps={{
+                              delay: 500
+                            }}
                           >
                             {project.error}
                           </TMTruncateText>

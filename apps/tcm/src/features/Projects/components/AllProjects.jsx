@@ -78,7 +78,7 @@ const AllProjects = () => {
               hidetooltipTriggerIcon
               isFullWidthTooltip
               headerTooltipProps={{
-                delay: 200
+                delay: 500
               }}
             >
               {rowData.name}
@@ -91,7 +91,7 @@ const AllProjects = () => {
                 hidetooltipTriggerIcon
                 isFullWidthTooltip
                 headerTooltipProps={{
-                  delay: 200
+                  delay: 500
                 }}
               >
                 {rowData.description}

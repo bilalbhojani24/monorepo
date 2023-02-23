@@ -60,6 +60,9 @@ const TestCasesTable = () => {
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
           >
             {rowData.name}
           </TMTruncateText>

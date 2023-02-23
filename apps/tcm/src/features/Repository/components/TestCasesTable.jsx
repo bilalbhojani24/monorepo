@@ -114,6 +114,9 @@ const TestCasesTable = ({
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
+                  headerTooltipProps={{
+                    delay: 500
+                  }}
                 >
                   {rowData.name}
                 </TMTruncateText>
@@ -123,6 +126,9 @@ const TestCasesTable = ({
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
+                  headerTooltipProps={{
+                    delay: 500
+                  }}
                 >
                   {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
                 </TMTruncateText>
@@ -133,6 +139,9 @@ const TestCasesTable = ({
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
             >
               {rowData.name}
             </TMTruncateText>

@@ -88,6 +88,9 @@ export default function TestCases() {
                     wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
                     hidetooltipTriggerIcon
                     isFullWidthTooltip
+                    headerTooltipProps={{
+                      delay: 500
+                    }}
                   >
                     {ReactHtmlParser(selectedFolder?.notes)}
                   </TMTruncateText>

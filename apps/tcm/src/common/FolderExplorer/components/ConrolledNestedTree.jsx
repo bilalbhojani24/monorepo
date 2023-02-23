@@ -54,6 +54,9 @@ const ConrolledNestedTree = ({
                 truncateUsingClamp={false}
                 hidetooltipTriggerIcon
                 isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
               >
                 {item.name}
               </TMTruncateText>
