@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build:dev": "bash scripts/build-packages-dev.sh",
+    "build:app": "bash scripts/build-app.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "lint:check": "eslint --format=table --ignore-pattern node_modules --max-warnings 0 \"**/*.{js,jsx}\"",
