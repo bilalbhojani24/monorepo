@@ -40,11 +40,11 @@ export const newPerformanceSessionSlice = createSlice({
     },
 
     resetSessionSetupData: (state) => {
-      state.currentSetupStep = 1;
-      state.selectedDevice = null;
-      state.selectedApplication = null;
-      state.listOfDevices = [];
-      state.lisOfApplications = [];
+      state.currentSetupStep = initialState.currentSetupStep;
+      state.selectedDevice = initialState.selectedDevice;
+      state.selectedApplication = initialState.selectedApplication;
+      state.listOfDevices = initialState.listOfDevices;
+      state.lisOfApplications = initialState.lisOfApplications;
     }
   }
 });

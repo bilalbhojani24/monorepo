@@ -12,13 +12,21 @@ import { secondsToMinutes } from '../../../utils';
 
 import useScreenLoadTime from './useScreenLoadTime';
 
+const roundDown = (value) => {
+  if (value || value === 0) {
+    return Math.floor(value);
+  }
+
+  return '';
+};
+
 const columns = [
   {
     name: 'START',
     key: 'slStart',
     cell: (row) => (
       <div className="text-base-500 font-normal ">
-        {secondsToMinutes(Math.floor(row.startTime / 1000))}
+        {secondsToMinutes(roundDown(row.startTime / 1000))}
       </div>
     )
   },
@@ -27,7 +35,7 @@ const columns = [
     key: 'slLoadTime',
     cell: (row) => (
       <div className="text-base-900 font-medium">
-        {`${Math.floor(row.renderTime)} ms`}
+        {`${roundDown(row.renderTime)} ms`}
       </div>
     )
   }
@@ -49,11 +57,11 @@ const ScreenLoadTime = () => {
                 </div>
 
                 <div className="text-base-500  flex text-sm">
-                  <div className="mr-6">{`Avg ${Math.floor(
+                  <div className="mr-6">{`Avg ${roundDown(
                     metric.avg
                   )} ms`}</div>
 
-                  <div className="">{`Max ${Math.floor(metric.max)} ms`}</div>
+                  <div className="">{`Max ${roundDown(metric.max)} ms`}</div>
                 </div>
               </div>
             }
