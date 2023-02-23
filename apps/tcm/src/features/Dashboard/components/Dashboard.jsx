@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
+import classNames from 'classnames';
 import { TMDataVisualization, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
@@ -51,7 +52,12 @@ const Dashboard = () => {
                     highcharts={Highcharts}
                     options={activeTestRunsOptions}
                   />
-                  <div className="absolute top-0 left-0 flex h-full w-3/5 flex-col items-center justify-center">
+                  <div
+                    className={classNames(
+                      'absolute top-0 left-0 flex h-full flex-col items-center justify-center',
+                      activeTestRunsOptions?.isEmpty ? 'w-full' : 'w-3/5'
+                    )}
+                  >
                     <div className="text-base-800 text-xl font-bold">
                       {activeTestRunsOptions?.total || ''}
                     </div>

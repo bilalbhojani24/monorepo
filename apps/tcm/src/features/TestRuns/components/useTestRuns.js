@@ -50,15 +50,21 @@ const useTestRuns = () => {
 
     if (projectId) {
       dispatch(setSelectedProject(projectId));
-      setTestRunsLoader(true);
-      const isClosed = currentTab === TABS_ARRAY[1]?.name;
-      getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
-        (data) => {
-          dispatch(setAllTestRuns(data?.test_runs || []));
-          dispatch(setMetaPage(data?.info));
-          setTestRunsLoader(false);
-        }
-      );
+
+      if (projectId === 'new') {
+        dispatch(setAllTestRuns([]));
+        setTestRunsLoader(false);
+      } else {
+        setTestRunsLoader(true);
+        const isClosed = currentTab === TABS_ARRAY[1]?.name;
+        getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
+          (data) => {
+            dispatch(setAllTestRuns(data?.test_runs || []));
+            dispatch(setMetaPage(data?.info));
+            setTestRunsLoader(false);
+          }
+        );
+      }
     } else dispatch(setAllTestRuns([]));
   };
 
