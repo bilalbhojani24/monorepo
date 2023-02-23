@@ -20,11 +20,29 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
 export const BUTTON_LOADER_CLASSES = {
-  brand: 'fill-brand-50 text-brand-400',
-  success: 'fill-success-50 text-success-400',
-  attention: 'fill-attention-100 text-attention-600',
-  danger: 'fill-danger-50 text-danger-400',
-  white: 'fill-base-400 text-base-300'
+  'brand-primary': 'fill-brand-50 text-brand-400',
+  'brand-secondary': 'fill-brand-500 text-brand-300',
+  'brand-rounded': 'fill-brand-50 text-brand-400',
+  'brand-minimal': '',
+
+  'success-primary': 'fill-success-50 text-success-400',
+  'success-secondary': 'fill-success-500 text-success-300',
+  'success-rounded': 'fill-success-50 text-success-400',
+  'success-minimal': '',
+
+  'attention-primary': 'fill-attention-100 text-attention-600',
+  'attention-secondary': 'fill-attention-600 text-attention-400',
+  'attention-rounded': 'fill-attention-100 text-attention-600',
+  'attention-minimal': '',
+
+  'danger-primary': 'fill-danger-50 text-danger-400',
+  'danger-secondary': 'fill-danger-300 text-danger-500',
+  'danger-rounded': 'fill-danger-50 text-danger-400',
+  'danger-minimal': '',
+
+  'white-primary': 'fill-base-400 text-base-300',
+  'white-rounded': 'fill-base-400 text-base-300',
+  'white-minimal': ''
 };
 
 export const BUTTON_STYLE_CLASSES = {

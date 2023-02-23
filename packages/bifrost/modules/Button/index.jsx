@@ -37,7 +37,9 @@ const Button = (
   const effectiveChildren =
     loading && !disabled && variant !== BUTTON_VARIANTS[3] ? (
       <Loader
-        wrapperStyle={`mx-auto ${BUTTON_LOADER_CLASSES[colors]}`}
+        wrapperStyle={`mx-auto ${
+          BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
+        }`}
         height={
           size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
         }
