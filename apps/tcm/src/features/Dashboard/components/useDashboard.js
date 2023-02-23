@@ -59,7 +59,9 @@ export default function useDashboard() {
     projectIdCheck('activeTR', getActiveTestRunsAPI, (res) => {
       setActiveTestRunsOptions(
         donutOptionCreator({
-          chartData: res?.data?.map((item) => [item.name, item.y]) || [],
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item) => [item.name, item.y]) || [],
           colors: ACTIVE_TEST_RUNS_COLOR,
           addOns: {
             isEmpty: res?.empty_data,
@@ -115,7 +117,9 @@ export default function useDashboard() {
     projectIdCheck('typeOfTC', getTestCaseTypeSplitAPI, (res) => {
       setTestCaseTypesOptions(
         donutOptionCreator({
-          chartData: res?.data?.map((item) => [item.name, item.y]) || [],
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item) => [item.name, item.y]) || [],
           colors: TEST_CASES_TYPES_COLORS,
           addOns: {
             isEmpty: res?.empty_data,
