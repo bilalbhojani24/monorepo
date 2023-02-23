@@ -17,9 +17,12 @@ const MediaPlayerControlPanel = ({
   onJumpXSeconds,
   showRewindForwardButtons,
   wrapperClassName,
-  stickToBottom
+  stickToBottom,
+  hoverSeekTime
 }) => {
   const [draggingSeekbar, setDraggingSeekbar] = useState(false);
+  const [hoverState, setHoverState] = useState(false);
+  const [hoverSeekPosition, setHoverSeekPosition] = useState(0);
   const durationInTimeFormat = convertSecondsToTimeFormat(duration);
   const currentTimeInTimeFormat = convertSecondsToTimeFormat(currentTime);
   const seekbarRef = useRef(null);
@@ -32,28 +35,43 @@ const MediaPlayerControlPanel = ({
     onJumpXSeconds(10);
   };
 
-  const handleSeekbarDrag = useCallback(
-    (event) => {
-      const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
-      onSeekbarChange({ target: { value: offsetXRatio * duration } });
-    },
-    [duration, onSeekbarChange]
-  );
+  const handleHoverSeekbarMouseMove = useCallback((event) => {
+    const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
+    setHoverSeekPosition(offsetXRatio * 100);
+  }, []);
 
-  const handleSeekbarMouseMove = useCallback(
-    (event) => {
-      handleSeekbarDrag(event);
-    },
-    [handleSeekbarDrag]
-  );
+  const handleMouseEnter = (event) => {
+    document.addEventListener('mousemove', handleHoverSeekbarMouseMove);
+    setHoverState(true);
+    const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
+    setHoverSeekPosition(offsetXRatio * 100);
+  };
 
-  const handleSeekbarMouseUp = useCallback(
-    (event) => {
-      setDraggingSeekbar(false);
-      handleSeekbarDrag(event);
-    },
-    [handleSeekbarDrag]
-  );
+  useEffect(() => {
+    if (!hoverState) {
+      document.removeEventListener('mousemove', handleHoverSeekbarMouseMove);
+    }
+  }, [hoverState, handleHoverSeekbarMouseMove]);
+
+  const handleMouseLeave = () => {
+    setHoverState(false);
+  };
+
+  const handleSeekbarDrag = (event) => {
+    const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
+    onSeekbarChange({ target: { value: offsetXRatio * duration } });
+  };
+
+  const handleSeekbarMouseMove = (event) => {
+    handleSeekbarDrag(event);
+  };
+
+  const handleSeekbarMouseUp = (event) => {
+    setDraggingSeekbar(false);
+    handleSeekbarDrag(event);
+    document.removeEventListener('mousemove', handleSeekbarMouseMove);
+    document.removeEventListener('mouseup', handleSeekbarMouseUp);
+  };
 
   const handleSeekbarMouseDown = () => {
     document.addEventListener('mousemove', handleSeekbarMouseMove);
@@ -62,11 +80,10 @@ const MediaPlayerControlPanel = ({
   };
 
   useEffect(() => {
-    if (!draggingSeekbar) {
-      document.removeEventListener('mousemove', handleSeekbarMouseMove);
-      document.removeEventListener('mouseup', handleSeekbarMouseUp);
+    if (hoverSeekTime <= duration) {
+      setHoverSeekPosition((hoverSeekTime / duration) * 100);
     }
-  }, [draggingSeekbar, handleSeekbarMouseMove, handleSeekbarMouseUp]);
+  }, [duration, hoverSeekTime]);
 
   return (
     <div
@@ -150,26 +167,62 @@ const MediaPlayerControlPanel = ({
           >
             {currentTimeInTimeFormat}
           </p>
-          <div
-            role="presentation"
-            className={twClassNames(
-              'flex flex-auto rounded-full bg-base-300 h-2 w-max cursor-pointer'
-            )}
-            ref={seekbarRef}
-            onMouseDown={handleSeekbarMouseDown}
-          >
+          <div className={twClassNames('flex w-full')}>
             <div
+              role="presentation"
               className={twClassNames(
-                'h-2 flex-none rounded-l-full bg-[#0070f0]'
+                'rounded-full bg-base-300 h-2 w-full cursor-pointer'
               )}
-              style={{ width: `calc(${progress}% - 6px)` }}
-            />
-            <div
-              className={twClassNames(
-                '-my-[0.3125rem] ml-0.5 h-[1.125rem] w-1 rounded-full bg-[#0070f0]'
+              ref={seekbarRef}
+              onMouseDown={handleSeekbarMouseDown}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div
+                className={twClassNames('h-2 rounded-l-full bg-[#0070f0]')}
+                style={{ width: `calc(${progress}% - 6px)` }}
+              />
+              {!draggingSeekbar && (
+                <div
+                  className={twClassNames(
+                    '-mt-3.5 ml-0.5 h-5 w-1 rounded-full bg-[#0070f0]'
+                  )}
+                  style={{
+                    marginLeft: progress === 0 ? '' : `calc(${progress}% - 4px`
+                  }}
+                />
               )}
-            />
+              {draggingSeekbar && (
+                <div
+                  className={twClassNames(
+                    '-mt-3.5 ml-0.5 h-5 w-2.5 rounded-full bg-[#0070f0] flex flex-row flex-wrap justify-center items-center'
+                  )}
+                  style={{ marginLeft: `calc(${hoverSeekPosition}% - 4px` }}
+                >
+                  <div
+                    className={twClassNames(
+                      'mx-auto h-[1rem] w-1 rounded-full bg-white'
+                    )}
+                  />
+                </div>
+              )}
+              {(hoverState && !draggingSeekbar) || hoverSeekTime ? (
+                <div
+                  className={twClassNames(
+                    '-mt-5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center'
+                  )}
+                  style={{ marginLeft: `calc(${hoverSeekPosition}% - 4px` }}
+                >
+                  <div
+                    className={twClassNames(
+                      'mx-auto h-[1rem] w-1 rounded-full bg-white'
+                    )}
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
+
           <p
             className={twClassNames(
               'h-3 not-italic font-normal text-xs leading-3 text-black'
@@ -192,7 +245,8 @@ MediaPlayerControlPanel.propTypes = {
   onJumpXSeconds: PropTypes.func,
   showRewindForwardButtons: PropTypes.bool,
   wrapperClassName: PropTypes.string,
-  stickToBottom: PropTypes.bool
+  stickToBottom: PropTypes.bool,
+  hoverSeekTime: PropTypes.number
 };
 MediaPlayerControlPanel.defaultProps = {
   isPaused: false,
@@ -201,7 +255,8 @@ MediaPlayerControlPanel.defaultProps = {
   onJumpXSeconds: () => {},
   showRewindForwardButtons: false,
   wrapperClassName: '',
-  stickToBottom: true
+  stickToBottom: true,
+  hoverSeekTime: null
 };
 
 export default MediaPlayerControlPanel;
