@@ -129,7 +129,7 @@ const TopSection = () => {
         }
       />
       <CloseTestRun />
-      <DeleteTestRun />
+      <DeleteTestRun redirectToDetails />
     </div>
   );
 };

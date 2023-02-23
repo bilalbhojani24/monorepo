@@ -6,12 +6,13 @@ import {
   TMModalFooter,
   TMModalHeader
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import useMiscConnections from './useMiscConnections';
 
-const DeleteTestRun = () => {
+const DeleteTestRun = ({ redirectToDetails }) => {
   const { closeAll, deleteTestRunHandler, isDeleteModalVisible } =
-    useMiscConnections();
+    useMiscConnections({ redirectToDetails });
 
   return (
     <TMModal
@@ -43,8 +44,12 @@ const DeleteTestRun = () => {
   );
 };
 
-DeleteTestRun.propTypes = {};
+DeleteTestRun.propTypes = {
+  redirectToDetails: PropTypes.bool
+};
 
-DeleteTestRun.defaultProps = {};
+DeleteTestRun.defaultProps = {
+  redirectToDetails: false
+};
 
 export default DeleteTestRun;
