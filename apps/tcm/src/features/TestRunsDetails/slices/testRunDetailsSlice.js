@@ -78,7 +78,7 @@ export const testRunDetailsSlice = createSlice({
       state.testResultsArray = payload;
     },
     addTestResultItem: (state, { payload }) => {
-      state.testResultsArray = [...state.testResultsArray, payload];
+      state.testResultsArray = [payload, ...state.testResultsArray];
     },
     setTestCaseDetails: (state, { payload }) => {
       state.testCaseDetails = payload;
