@@ -94,11 +94,11 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ],
   STATE: [
-    { label: 'Active', value: 'Active' },
-    { label: 'Draft', value: 'Draft' },
-    { label: 'Under Review', value: 'Under Review' },
-    { label: 'Rejected', value: 'Rejected' },
-    { label: 'Retired', value: 'Retired' },
+    { label: 'Active', value: 'active' },
+    { label: 'Draft', value: 'draft' },
+    { label: 'Under Review', value: 'under review' },
+    { label: 'Rejected', value: 'rejected' },
+    { label: 'Retired', value: 'retired' },
     { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
     { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ],
@@ -115,6 +115,10 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Security', value: 'Security' },
     { label: 'Smoke & Sanity', value: 'Smoke & Sanity' },
     { label: 'Usability', value: 'Usability' },
+    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+  ],
+  TAGS: [
     { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
     { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
   ]

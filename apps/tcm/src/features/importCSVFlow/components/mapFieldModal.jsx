@@ -39,6 +39,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
   const mappedField = mapNameToDisplay[modalConfig?.mapped_field];
   const value = valueMappings?.[csvFileField];
 
+  console.log('inside modal', csvFileField, mappedField, value);
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     modalRowRef.current = Object.keys(value)?.map((field) => {
@@ -47,7 +48,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           mappedField.split(' ').join('').toUpperCase()
         ];
       let defaultSelected = null;
-      for (let i = 0; i < displayOptions.length; i += 1) {
+      for (let i = 0; i < displayOptions?.length; i += 1) {
         if (value[field]?.action === ADD_VALUE_VALUE) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;

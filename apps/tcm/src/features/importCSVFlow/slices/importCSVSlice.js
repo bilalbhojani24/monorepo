@@ -60,7 +60,8 @@ const initialState = {
     show: false,
     status: 'ongoing',
     modalData: ONGOING_IMPORT_MODAL_DATA
-  }
+  },
+  totalImportedProjectsInPreview: null
 };
 
 export const setCSVConfigurations = createAsyncThunk(
@@ -312,6 +313,7 @@ const importCSVSlice = createSlice({
         state.mappingFieldsError = payload.response.data.message;
       } // in case of error
       else {
+        state.totalImportedProjectsInPreview = payload.cases_count;
         state.folderName = payload.folder;
         state.previewData = payload.test_cases;
         // next screen

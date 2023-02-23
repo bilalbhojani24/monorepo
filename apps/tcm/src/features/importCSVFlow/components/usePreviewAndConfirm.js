@@ -19,6 +19,9 @@ const usePreviewAndConfirm = () => {
     (state) => state.importCSV.mapFieldsConfig
   );
   const retryImport = useSelector((state) => state.importCSV.retryCSVImport);
+  const totalImportedProjectsInPreview = useSelector(
+    (state) => state.importCSV.totalImportedProjectsInPreview
+  );
 
   const previewAndConfirmTableRows = previewData.map((data, idx) => ({
     id: idx + 1,
@@ -48,6 +51,7 @@ const usePreviewAndConfirm = () => {
     previewAndConfirmTableRows,
     showFolderExplorerModal,
     confirmCSVImportNotificationConfig,
+    totalImportedProjectsInPreview,
     handleImportTestCaseClick
   };
 };

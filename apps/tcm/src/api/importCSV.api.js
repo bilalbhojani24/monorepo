@@ -41,7 +41,7 @@ export const startCSVImport = async ({ importId, retryImport, payload }) =>
   );
 
 export const downloadReport = async (importId) => {
-  await fetchGet(`/api/v1/import/${importId}/error-file`);
+  await fetchGet(`/api/v1/import/${importId}/error_file`);
 };
 
 export const cancelImport = async (importId) => {
