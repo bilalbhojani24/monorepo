@@ -54,6 +54,7 @@ const TestCaseBasicData = () => {
           <>
             <DetailsSnippet
               isPrimary
+              dontCapitalize
               title="All Steps & Results:"
               value={
                 <>
