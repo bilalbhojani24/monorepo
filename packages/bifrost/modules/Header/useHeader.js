@@ -18,7 +18,7 @@ export default function useHeader() {
       headerBrandWidth -
       headerElementsWidth -
       headerProductWidth -
-      32;
+      64;
 
     if (spaceLeftToShowProducts < 132) {
       setProductsToShow(0);

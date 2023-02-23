@@ -26,12 +26,12 @@ const defaultConfig = {
     productName: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: true },
-      defaultValue: 'Live'
+      defaultValue: 'App Automate'
     },
     productLink: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: true },
-      defaultValue: ''
+      defaultValue: 'https://www.browserstack.com'
     },
     release: {
       control: { type: 'text' },
@@ -63,9 +63,9 @@ const defaultConfig = {
         'team',
         'pricing',
         'help',
-        'search',
+        'account',
         'notifications',
-        'account'
+        'search'
       ]
     },
     documentation: {
@@ -88,6 +88,16 @@ const defaultConfig = {
     },
     others: {
       defaultValue: { title: 'Other', options: [] }
+    },
+    productArray: {
+      defaultValue: [
+        { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
+        { name: 'Automate', link: 'https://automate.browserstack.com' },
+        {
+          name: 'App Live',
+          link: 'https://app-live.browserstack.com/dashboard'
+        }
+      ]
     }
   },
   controls: {}

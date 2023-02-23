@@ -14,13 +14,13 @@ export const WEBSITE_TESTING_PRODUCTS = [
   {
     name: 'Live',
     description: 'Interactive cross browser testing',
-    icon: <LiveIcon iconClass="w-9 h-[34px]" />,
+    icon: <LiveIcon />,
     link: 'https://live.browserstack.com/dashboard'
   },
   {
     name: 'Automate',
     description: 'Selenium testing at scale',
-    icon: <AutomateIcon iconClass="w-9 h-[34px]" />,
+    icon: <AutomateIcon />,
     link: 'https://automate.browserstack.com'
   },
   {
@@ -40,13 +40,13 @@ export const MOBILE_APP_TESTING_PRODUCTS = [
   {
     name: 'App Live',
     description: 'Interactive mobile app testing',
-    icon: <AppLiveIcon iconClass="w-9 h-[34px]" />,
+    icon: <AppLiveIcon />,
     link: 'https://app-live.browserstack.com/dashboard'
   },
   {
     name: 'App Automate',
     description: 'Test automation for mobile apps',
-    icon: <AppAutomateIcon iconClass="w-9 h-[34px]" />,
+    icon: <AppAutomateIcon />,
     link: 'https://app-automate.browserstack.com'
   },
   {
