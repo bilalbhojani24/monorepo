@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { startImportingTestCases } from '../slices/importCSVSlice';
+import { startImportingTestCases } from '../slices/csvThunk';
 
 const usePreviewAndConfirm = () => {
   const dispatch = useDispatch();
