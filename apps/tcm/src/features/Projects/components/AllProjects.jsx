@@ -77,19 +77,27 @@ const AllProjects = () => {
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 200
+              }}
             >
               {rowData.name}
             </TMTruncateText>
           </div>
-          <div className="text-base-400">
-            <TMTruncateText
-              truncateUsingClamp={false}
-              hidetooltipTriggerIcon
-              isFullWidthTooltip
-            >
-              {rowData.description}
-            </TMTruncateText>
-          </div>
+          {rowData.description && (
+            <div className="text-base-400">
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 200
+                }}
+              >
+                {rowData.description}
+              </TMTruncateText>
+            </div>
+          )}
         </div>
       ),
       class: 'w-[80%]'
