@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MdFolderSpecial } from '@browserstack/bifrost';
+import { AutomationFolderIcon } from '@browserstack/bifrost';
 import {
   TMDropdown,
   TMListTree,
@@ -45,7 +45,7 @@ const ConrolledNestedTree = ({
             }
             leadingIcon={
               item?.is_automation && (
-                <MdFolderSpecial className="h-full w-full" />
+                <AutomationFolderIcon className="h-full w-full" />
               )
             }
             isFocused={focused === item.name}
