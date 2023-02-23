@@ -42,7 +42,7 @@ const columns = [
 ];
 
 const ScreenLoadTime = () => {
-  const { sessionData } = useScreenLoadTime();
+  const { sessionData, splitActivityName } = useScreenLoadTime();
 
   return (
     <div>
@@ -53,7 +53,7 @@ const ScreenLoadTime = () => {
             triggerContentNode={
               <div className="flex flex-1 justify-between">
                 <div className="max-w-xs break-all text-sm font-medium leading-5 md:max-w-[480px] lg:max-w-[640px]">
-                  {metric.activityName?.split?.('/')?.[1]}
+                  {splitActivityName(metric.activityName)}
                 </div>
 
                 <div className="text-base-500  flex text-sm">

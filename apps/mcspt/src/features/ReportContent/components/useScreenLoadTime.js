@@ -5,7 +5,17 @@ import { getSessionMetrics } from '../../Report';
 const useScreenLoadTime = () => {
   const sessionData = useSelector(getSessionMetrics);
 
-  return { sessionData };
+  const splitActivityName = (name) => {
+    if (name) {
+      const fragments = name?.split('/');
+
+      return fragments[fragments.length - 1];
+    }
+
+    return '';
+  };
+
+  return { sessionData, splitActivityName };
 };
 
 export default useScreenLoadTime;
