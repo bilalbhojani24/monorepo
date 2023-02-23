@@ -42,7 +42,7 @@ export default function useIssues() {
   const [filteredReportData, setFilteredReportData] = useState(reportData);
 
   const generateData = () =>
-    filteredReportData.map((violation) => {
+    filteredReportData?.map((violation) => {
       const totalCount = violation.nodes.length;
       return {
         violation,

@@ -425,7 +425,16 @@ export default function IssueItem() {
           }`
         }}
       >
-        <Pagination withNumber={false} />
+        <Pagination
+          key={`${activeViolationId}_${activeComponentId}`}
+          hideDetailsString
+          withNumber={false}
+          onNextClick={onNextClick}
+          onPreviousClick={onPreviousClick}
+          pageNumber={activeIssueIndex + 1}
+          pageSize={1}
+          count={activeComponentNodes.length}
+        />
       </div>
     </div>
   );

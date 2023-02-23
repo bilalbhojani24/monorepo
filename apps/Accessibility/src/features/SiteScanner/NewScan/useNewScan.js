@@ -11,7 +11,7 @@ const DAILY = 'daily';
 const WEEKLY = 'weekly';
 
 export default function useNewScan(closeSlideover, preConfigData) {
-  const [recurringStatus, setRecurringStatus] = useState(false);
+  const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
     scanData: {
       wcagVersion: wcagVersions[0],
@@ -234,14 +234,15 @@ export default function useNewScan(closeSlideover, preConfigData) {
         bestPractices: true
       },
       day: days[0].body,
-      time: '12:00'
+      time: '12:00',
+      type: WEEKLY
     });
     scanNameRef.current.value = '';
     if (timeRef.current) {
       timeRef.current.value = '';
     }
     scanUrlRef.current.value = '';
-    setRecurringStatus(false);
+    setRecurringStatus(true);
     document.querySelector('#recurring').checked = false;
     closeSlideover();
   };

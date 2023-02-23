@@ -25,17 +25,17 @@ import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
-
-import { SectionsDataContext } from '../../context/SectionsDataContext';
+import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
   getActiveComponentId,
   getIsShowingIssue,
   getReportFilters,
   getUniqFilterValues
-} from '../../slice/selector';
+} from 'features/Report/slice/selector';
+
 // import { handleClickByEnterOrSpace } from 'utils/helper';
-import Accordion from '../Accordion';
-import IssueItem from '../Accordion/IssueItem';
+import Accordion from '../Allissues/Accordion';
+import IssueItem from '../Allissues/Accordion/IssueItem';
 
 import useIssues from './useIssues';
 
@@ -199,7 +199,7 @@ export default function Issues() {
         </Modal>
         <div
           className="bg-base-50 border-base-200 fixed z-10 border-b"
-          style={{ width: 'calc(100% - 256px)', top: '246px' }}
+          style={{ width: 'calc(100% - 256px)', top: '230px' }}
         >
           <div className="flex w-full items-center justify-between py-4 px-6">
             <div className="flex items-center">
@@ -216,13 +216,10 @@ export default function Issues() {
               {issueTabs.map(({ label, value }, index) => (
                 <Button
                   wrapperClassName={twClassNames({
-                    'rounded-l-none border-l-0': index === 1,
-                    'border-r-none border-r-0':
-                      index === 0 && activeSwitch !== value,
-                    'border-l-1 border-brand-500':
-                      index === 1 && activeSwitch === value,
                     'border-brand-500': activeSwitch === value,
-                    'rounded-r-none': index === 0
+                    'rounded-r-none': index === 0,
+                    'rounded-l-none border-l-0':
+                      index !== 0 && activeSwitch === value,
                   })}
                   onClick={() => onTabSelect(value)}
                   colors="white"
@@ -233,7 +230,7 @@ export default function Issues() {
               ))}
             </div>
             <div className="flex">
-              <div className="mr-8 w-36">
+              <div className="mr-4 w-36">
                 <SelectMenu
                   onChange={onUpdateImpact}
                   value={reportFilters.impact}
@@ -328,7 +325,7 @@ export default function Issues() {
           ) : null}
         </div>
         <div
-          className="fixed mt-4 overflow-auto"
+          className="fixed overflow-auto"
           style={{
             top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
             height: 'calc(100vh - 228px)',

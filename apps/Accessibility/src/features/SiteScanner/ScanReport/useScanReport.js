@@ -29,7 +29,7 @@ export default function useScanReport() {
   const [scanLogsStateData, setScanLogsStateData] = useState(false);
   const [activeTab, setActiveTab] = useState('summary');
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
+  const [isCopied, setIsCopied] = useState(false);
   // Redux
   const dispatch = useDispatch();
   const scanLogsData = useSelector(getScanLogsData);
@@ -60,9 +60,9 @@ export default function useScanReport() {
       dispatch(setOverviewData(overviewData.data));
       const dataObject = {
         reportType: 'Individual',
-        issueCount: overviewData.issueSummary.issueCount,
-        pageCount: overviewData.issueSummary.pageCount,
-        componentCount: overviewData.issueSummary.componentCount
+        issueCount: overviewData?.issueSummary?.issueCount,
+        pageCount: overviewData?.issueSummary?.pageCount,
+        componentCount: overviewData?.issueSummary?.componentCount
       };
       // logEvent('OnADReportView', dataObject);
       setIsLoading(false);
@@ -117,6 +117,8 @@ export default function useScanReport() {
     reportCommonData,
     scanLogsStateData,
     onFilterApplied,
-    reportOverviewData
+    reportOverviewData,
+    isCopied,
+    setIsCopied
   };
 }

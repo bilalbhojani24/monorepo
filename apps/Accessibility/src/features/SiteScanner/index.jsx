@@ -15,7 +15,6 @@ import {
   MdExpandMore,
   MdOutlineContentCopy,
   MdOutlineHistory,
-  MdOutlineMoreVert,
   MdOutlineSync,
   MdPerson,
   MdSearch,
@@ -179,13 +178,12 @@ export default function SiteScanner() {
   };
 
   const handleRowMenuClick = (e, rowData) => {
-    console.log(e);
-    const menuItem = e.target.textContent;
+    const menuItem = e.id;
     switch (menuItem) {
-      case 'New Scan':
+      case 'newScan':
         setShowNewScan(true);
         break;
-      case 'Clone Scan Configuration':
+      case 'cloneScanConfig':
         fetchScanConfigsById()
           .then((config) => {
             setPreConfigData(config.data);
@@ -193,12 +191,12 @@ export default function SiteScanner() {
           })
           .catch((err) => console.log(err));
         break;
-      case 'View last scan run':
+      case 'stopRecurringScans':
+        break;
+      case 'lastScanRun':
         navigate(
           `/site-scanner/scan-report?id=${rowData.lastScanDetails.reportId}`
         );
-        break;
-      case 'View Scan Details':
         break;
       default:
         console.log(menuItem);
@@ -287,10 +285,7 @@ export default function SiteScanner() {
                 <TableRow
                   key={row.id}
                   onRowClick={(e) => {
-                    console.log(e);
-                    if (!rowMenuOpen) {
-                      navigate(`/site-scanner/scan-details/${row.id}`);
-                    }
+                    navigate(`/site-scanner/scan-details/${row.id}`);
                   }}
                 >
                   <TableCell
@@ -356,17 +351,24 @@ export default function SiteScanner() {
                       }}
                     /> */}
                     <Dropdown
-                      onClick={(val) => {
+                      onClick={(val, e) => {
+                        e.stopPropagation();
                         handleRowMenuClick(val, row);
                       }}
                       id="scanFilter"
-                      onOpenChange={(e) => {
-                        console.log('afd', e);
-                        setRowMenuOpen(e);
-                      }}
+                      // onOpenChange={(e) => {
+                      //   console.log('afd', e);
+                      //   setRowMenuOpen(e);
+                      // }}
                     >
                       <div className="flex">
-                        <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                        <DropdownTrigger
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRowMenuOpen(!rowMenuOpen);
+                          }}
+                          wrapperClassName="p-0 border-0 shadow-none"
+                        >
                           <EllipsisVerticalIcon
                             className="h-5 w-5"
                             aria-hidden="true"

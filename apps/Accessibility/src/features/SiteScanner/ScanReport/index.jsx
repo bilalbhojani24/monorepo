@@ -1,4 +1,5 @@
 import React from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Badge,
   Breadcrumb,
@@ -6,7 +7,9 @@ import {
   MdDownload,
   MdPerson,
   MdShare,
-  Tabs
+  Tabs,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 
 import Issues from './Allissues/Issues';
@@ -24,7 +27,9 @@ export default function ScanReport() {
     isLoading,
     scanLogsStateData,
     onFilterApplied,
-    reportOverviewData
+    reportOverviewData,
+    isCopied,
+    setIsCopied
   } = useScanReport();
 
   const getTabContent = () => {
@@ -75,17 +80,36 @@ export default function ScanReport() {
             </span>
           </div>
           <div className="flex items-center">
-            <Button
-              colors="white"
-              onClick={() => {}}
-              size="small"
-              type="subtle"
-              wrapperClassName="h-10 mr-2"
-              icon={<MdShare />}
-              iconPlacement="end"
+            <Tooltip
+              show={isCopied}
+              theme="dark"
+              content={
+                <TooltipBody>{isCopied ? 'Link copied' : null}</TooltipBody>
+              }
             >
-              Share Link
-            </Button>
+              <CopyToClipboard
+                onCopy={() => {
+                  setIsCopied(true);
+                  setTimeout(() => {
+                    setIsCopied(false);
+                  }, 2500);
+                }}
+                text={window.location.href}
+              >
+                <Button
+                  colors="white"
+                  onClick={() => {}}
+                  size="small"
+                  type="subtle"
+                  wrapperClassName="h-10 mr-2"
+                  icon={<MdShare />}
+                  iconPlacement="end"
+                >
+                  Share Link
+                </Button>
+              </CopyToClipboard>
+            </Tooltip>
+
             <Button
               onClick={() => {}}
               size="small"

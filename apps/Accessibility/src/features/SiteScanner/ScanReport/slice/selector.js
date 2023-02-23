@@ -41,7 +41,7 @@ export const getUniqFilterValues = createSelector(
     const urls = [];
     const componentIds = [];
     const categories = [];
-    reportData.forEach((violation) => {
+    reportData?.forEach((violation) => {
       const category = violation.tags
         .find((tag) => tag.includes('cat.'))
         ?.split('cat.')[1];

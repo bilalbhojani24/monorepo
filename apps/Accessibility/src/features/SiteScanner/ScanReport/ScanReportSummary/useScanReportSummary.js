@@ -173,10 +173,9 @@ export default function useScanReportSummary() {
     ]
   };
 
-  const onMenuChange = (item, b) => {
-    console.log(item, b);
-    const { value } = item;
-    if (value === 'char-sort') {
+  const onMenuChange = (option) => {
+    const { id } = option;
+    if (id === 'char-sort') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) =>
           map[a.category.split('cat.')[1]].localeCompare(
@@ -184,11 +183,11 @@ export default function useScanReportSummary() {
           )
         )
       );
-    } else if (value === 'desc') {
+    } else if (id === 'desc') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) => b.count - a.count)
       );
-    } else if (value === 'asc') {
+    } else if (id === 'asc') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) => a.count - b.count)
       );
@@ -196,7 +195,7 @@ export default function useScanReportSummary() {
     // logEvent('OnADReportView', {
     //   actionType: events.INTERACT_WITH_CHART,
     //   chartType: 'Issue category',
-    //   sortType: value
+    //   sortType: id
     // });
   };
 

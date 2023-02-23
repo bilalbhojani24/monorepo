@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  Dropdown,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
   MdCancel,
   MdCheckCircle,
+  MdExpandMore,
   MdOutlineSync,
   MdSchedule,
-  SelectMenu,
   Table,
   TableBody,
   TableCell,
@@ -29,21 +33,12 @@ const columns = [
     isSortable: true
   },
   {
-    name: 'Scanner Status',
-    key: 'scannerStatus'
-  },
-  {
-    name: 'Page Status',
-    key: 'pageStatus'
-  },
-  {
     name: 'Description',
     key: 'description'
   }
 ];
 
 const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
-  const navigate = useNavigate();
   if (isLoading) {
     return 'Loading';
   }
@@ -51,14 +46,22 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
     <div>
       <div className="flex justify-between">
         <div className="w-64 px-6 py-4">
-          <SelectMenu
-            isMultiSelect
-            onChange={onFilterApplied}
-            options={pageStatus}
-            placeholder="Page Status"
-          />
+          <Dropdown onClick={onFilterApplied} id="scanFilter">
+            <div className="flex">
+              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+                Page Status
+                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
+              </DropdownTrigger>
+            </div>
+
+            <DropdownOptionGroup>
+              {pageStatus.map((opt) => (
+                <DropdownOptionItem key={opt.id} option={opt} />
+              ))}
+            </DropdownOptionGroup>
+          </Dropdown>
         </div>
-        <div className="flex text-sm">
+        {/* <div className="flex text-sm">
           <span className="mr-4 flex items-center">
             <MdCheckCircle color="#10B981" className="mr-0.5" />
             Success
@@ -74,7 +77,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
             />
             Redirect
           </span>
-        </div>
+        </div> */}
       </div>
       <Table>
         <TableHead>
@@ -102,16 +105,21 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
                 </div>
               </TableCell>
               <TableCell>
-                <span className="ml-0.5">{row.pageUrl}</span>
+                <div className="mr-2 flex items-center">
+                  {row.pageStatus === 'success' && (
+                    <MdCheckCircle color="#10B981" />
+                  )}
+                  {row.pageStatus === 'redirected' && (
+                    <MdOutlineSync
+                      color="#FFF"
+                      className="bg-attention-500 mr-0.5 rounded-full"
+                    />
+                  )}
+                  {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
+                  <span className="ml-2">{row.pageUrl}</span>
+                </div>
               </TableCell>
-              <TableCell>
-                {row.scannerStatus ? (
-                  <MdCheckCircle color="#10B981" />
-                ) : (
-                  <MdCancel color="#EF4444" />
-                )}
-              </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 {row.pageStatus === 'success' && (
                   <MdCheckCircle color="#10B981" />
                 )}
@@ -122,7 +130,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
                   />
                 )}
                 {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
-              </TableCell>
+              </TableCell> */}
               <TableCell>{row.description}</TableCell>
             </TableRow>
           ))}

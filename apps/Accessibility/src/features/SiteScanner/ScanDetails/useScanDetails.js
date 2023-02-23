@@ -27,8 +27,8 @@ export default function useScanDetails() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const tab = searchParams.get('tab') || tabsOptions.OVERVIEW.name;
-    console.log('jhfakj', tab);
+    const tab = searchParams.get('tab') || tabsOptions.OVERVIEW.id;
+    console.log(tab);
     setActiveTab(tab);
     setActiveTabIndex(tabsOptions[tab]?.index || 0);
   }, [searchParams]);
