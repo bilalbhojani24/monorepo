@@ -1,0 +1,47 @@
+# This will run linter script only on the Bifrost folder.
+
+name: Bifrost Linter Check
+
+on:
+  issue_comment:
+    types:
+      - created
+      - edited
+  pull_request:
+    types: [opened, reopened]
+    paths:
+      - "packages/bifrost/**.**"
+
+jobs:
+  bifrost-lint:
+    if: contains(github.event.comment.body, 'RUN_LINTER')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/bifrost
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changes
+        run: |
+          echo "ALL_CHANGED=$(git diff --name-only --diff-filter=ACMRT origin/master | sed 's/packages\/bifrost\///g' | xargs)" >> $GITHUB_OUTPUT
+
+      - name: Use PNPM 6.0.2
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
+
+      - name: Install dev dependencies
+        run: |
+          pnpm install
+
+      - name: Echo all changed files
+        run: echo ${{steps.changes.outputs.ALL_CHANGED}}
+
+      - name: Run ESLint on the files
+        run: npm run lint:check-github ${{steps.changes.outputs.JS_CHANGED}}
+
