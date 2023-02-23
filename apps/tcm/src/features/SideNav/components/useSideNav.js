@@ -32,10 +32,14 @@ export default function useSideNav() {
   };
 
   const dynamicLinkReplaceHelper = (array) => {
+    const emptyProjectId = allProjects.length
+      ? allProjectsDrop?.[0]?.value
+      : 'new'; // show new as id if no projects exists
     const replaceProjectId =
       !selectedProjectId || `${selectedProjectId}` === 'null'
-        ? allProjectsDrop?.[0]?.value || null
+        ? emptyProjectId || null
         : selectedProjectId;
+
     return array.map((item) => ({
       ...item,
       path: routeFormatter(item.path, {
@@ -60,9 +64,10 @@ export default function useSideNav() {
   };
 
   useEffect(() => {
-    if (selectedProjectId === 'new') {
+    if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
       setAddProjectModal(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProjectId]);
 
   useEffect(() => {
