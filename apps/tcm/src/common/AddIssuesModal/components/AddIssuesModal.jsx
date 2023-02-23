@@ -1,5 +1,5 @@
-import React from 'react';
-import { Loader, MdOutlineLayers } from '@browserstack/bifrost';
+import React, { useEffect } from 'react';
+import { MdOutlineLayers } from '@browserstack/bifrost';
 import { OpenInNewOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -10,6 +10,7 @@ import {
   TMModalHeader
   // TMSelectMenu
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
@@ -33,15 +34,20 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
     onSave
   });
 
+  useEffect(() => {
+    if (!isLoading && !jiraConfig) {
+      modalFocusRef?.current?.focus();
+    }
+  }, [isLoading, jiraConfig, modalFocusRef]);
+
   return (
     <TMModal
       show={isVisible}
-      withDismissButton
       onOverlayClick={onCloseHandler}
       ref={modalFocusRef}
       size={!isLoading && jiraConfig ? 'lg' : 'sm'}
     >
-      {jiraConfig && (
+      {jiraConfig ? (
         <TMModalHeader
           heading="Add Link"
           handleDismissClick={onCloseHandler}
@@ -51,10 +57,21 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
               : null
           }
         />
+      ) : (
+        !isLoading && (
+          <TMModalHeader
+            dismissButton
+            heading=""
+            handleDismissClick={onCloseHandler}
+            subHeading=""
+          />
+        )
       )}
       <TMModalBody>
         {isLoading ? (
-          <Loader />
+          <div className="mt-6">
+            <Loader />
+          </div>
         ) : (
           <>
             {jiraConfig ? (
@@ -140,9 +157,16 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                 </TMButton>
               </>
             ) : (
-              <TMButton fullWidth colors="brand" onClick={configureJIRAInit}>
-                Setup JIRA Account
-              </TMButton>
+              <>
+                <TMButton
+                  ref={modalFocusRef}
+                  fullWidth
+                  colors="brand"
+                  onClick={configureJIRAInit}
+                >
+                  Setup JIRA Account
+                </TMButton>
+              </>
             )}
           </>
         )}
