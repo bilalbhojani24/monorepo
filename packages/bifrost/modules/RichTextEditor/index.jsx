@@ -26,8 +26,7 @@ const RichTextEditor = ({
   initialValue,
   id,
   editorRef,
-  placeholder,
-  assetsURL
+  placeholder
 }) => (
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
@@ -50,7 +49,6 @@ const RichTextEditor = ({
       placeholder={placeholder}
       ref={editorRef}
       label={label}
-      assetsURL={assetsURL}
     />
   </div>
 );
@@ -67,8 +65,7 @@ RichTextEditor.propTypes = {
   value: string,
   width: oneOfType([number, string]),
   wrapperClassName: string,
-  editorRef: shape({ current: instanceOf(Element) }),
-  assetsURL: string.isRequired
+  editorRef: shape({ current: instanceOf(Element) })
 };
 
 RichTextEditor.defaultProps = {
