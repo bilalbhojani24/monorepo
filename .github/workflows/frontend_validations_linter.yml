@@ -1,0 +1,45 @@
+# This will run linter script on root folder.
+
+name: Frontend Validation Check
+
+on:
+  issue_comment:
+    types:
+      - created
+      - edited
+  pull_request:
+    types: [opened, reopened]
+    paths:
+      - "/**/**.**"
+
+jobs:
+  frontend-lint:
+    if: contains(github.event.comment.body, 'RUN_LINTER')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changes
+        run: echo "ALL_CHANGED=$(git diff --name-only --diff-filter=ACMRT origin/master | xargs)" >> $GITHUB_OUTPUT
+
+      - name: Use PNPM 7.20.0
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.20.0
+
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Echo all changed files
+        run: echo ${{steps.changes.outputs.ALL_CHANGED}}
+
+      - name: Run Linter on the files
+        run: echo "Ran Linter"
+
