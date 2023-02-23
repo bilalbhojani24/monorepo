@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Define an array of project directories
 projects=(

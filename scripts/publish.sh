@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # $1 -> AWS_ACCESS_KEY_ID $2 -> AWS_SECRET_ACCESS_KEY $3 -> BUCKET_NAME $4  ->  LOCAL_PATH
 # Set AWS credentials
