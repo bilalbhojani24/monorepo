@@ -7,7 +7,7 @@ projects=(
   "packages/bifrost"
 )
 
-Loop through each project and build the React app
+# Loop through each project and build the React app
 for project in "${projects[@]}"
 do
   echo "Building $project..."
@@ -19,7 +19,7 @@ done
 
 #Generate Product path and run pnpm build 
 export PRODUCT_NAME=$1
-export PRODUCT_PATH="../${PRODUCT_NAME}"
+export PRODUCT_PATH="apps/${PRODUCT_NAME}"
 
 echo "$PRODUCT_PATH"
 cd "$PRODUCT_PATH"
