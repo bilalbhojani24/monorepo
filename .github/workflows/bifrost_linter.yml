@@ -10,7 +10,7 @@ on:
   pull_request:
     types: [opened, reopened]
     paths:
-      - "packages/**.**"
+      - "packages/**/**.**"
 
 jobs:
   bifrost-lint:
