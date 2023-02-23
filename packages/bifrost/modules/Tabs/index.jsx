@@ -51,7 +51,7 @@ const Tabs = ({
               name={id}
               onChange={onTabClickHandler}
               className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md py-2 pl-3 pr-10 text-base focus:outline-none sm:text-sm"
-              defaultValue={selectedTab?.name}
+              value={selectedTab?.name}
             >
               {tabsArray?.map((tab) => (
                 <option key={tab.name}>{tab.name}</option>

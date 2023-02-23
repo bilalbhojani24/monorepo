@@ -98,6 +98,7 @@ const SideNav = (props) => {
         }
       />
       <AddProjects
+        isFirstProject
         show={showAddProject}
         onClose={() => setAddProjectModal(false)}
       />

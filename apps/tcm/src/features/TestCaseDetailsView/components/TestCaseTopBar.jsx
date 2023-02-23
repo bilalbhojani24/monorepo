@@ -23,17 +23,17 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
   const { testCaseDetails } = useTestCaseViewDetails();
   return (
     <>
-      <div className="w-full">
-        {testCaseDetails?.is_automation && (
+      {testCaseDetails?.is_automation && (
+        <div className="mb-4 w-full">
           <TMAlerts
             linkText={null}
             modifier="primary"
             accentBorder={false}
             title="This is an automation test case."
           />
-        )}
-      </div>
-      <div className="my-4 flex  w-full items-start justify-between">
+        </div>
+      )}
+      <div className="mb-4 flex  w-full items-start justify-between">
         <div className="relative flex w-full  items-end pr-2 text-base font-medium">
           {/* <div className="text-ellipsis">{testCaseDetails?.name}</div> */}
           <div className="line-clamp-2 overflow-hidden break-all">

@@ -28,9 +28,10 @@ const RadioStackedCard = (props) => {
           'space-y-4': placement === RADIO_STACKED_CARD_PLACEMENT.vertical
         })}
       >
-        {data.map((item, itemIdx) => (
+        {data.map((item) => (
           <RadioGroup.Option
-            key={item.label + itemIdx}
+            disabled={item.disabled || false}
+            key={item.id}
             value={item}
             className={({ checked, active }) =>
               twClassNames(
@@ -43,9 +44,13 @@ const RadioStackedCard = (props) => {
               )
             }
           >
-            {({ active, checked }) => (
+            {({ active, checked, disabled }) => (
               <>
-                <span className="flex flex-1">
+                <span
+                  className={twClassNames('flex flex-1', {
+                    'opacity-25 cursor-not-allowed': disabled
+                  })}
+                >
                   <span className="flex flex-col">
                     <RadioGroup.Label
                       as="span"

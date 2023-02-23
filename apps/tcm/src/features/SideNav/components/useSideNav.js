@@ -21,6 +21,7 @@ export default function useSideNav() {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const allProjects = useSelector((state) => state.global.allProjects);
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
@@ -66,7 +67,10 @@ export default function useSideNav() {
 
   useEffect(() => {
     // set view
-    if (baseViewRoutes.includes(location.pathname)) {
+    const isImportWithProjects =
+      location.pathname === AppRoute.IMPORT && hasProjects;
+
+    if (baseViewRoutes.includes(location.pathname) || isImportWithProjects) {
       // basic view page without secondary navs
       setShowProjects(false);
       setPrimaryNavs(dynamicLinkReplaceHelper(basePrimaryNavLinks));
