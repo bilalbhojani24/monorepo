@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
-import { TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 
+import AppRoute from '../../../const/routes';
 import { setNotificationData, setTestRailsCred } from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
@@ -14,11 +16,13 @@ import useImport from './useImport';
 const Import = () => {
   const dispatch = useDispatch();
   const {
+    isFromOnboarding,
     currentScreen,
     testManagementProjects,
     allImportSteps,
     getUserEmail,
-    importStatus
+    importStatus,
+    onCancelClickHandler
   } = useImport();
 
   const getCurrentScreen = () => {
@@ -52,16 +56,28 @@ const Import = () => {
     <>
       <TMPageHeadings
         heading="Quick Import"
-        // actions={
-        //   <>
-        //     <TMButton variant="primary" colors="white" wrapperClassName="mr-4">
-        //       Change Setup
-        //     </TMButton>
-        //     <TMButton variant="primary" colors="white">
-        //       Skip for now
-        //     </TMButton>
-        //   </>
-        // }
+        actions={
+          <>
+            {isFromOnboarding && (
+              <Link to={AppRoute.ONBOARDING}>
+                <TMButton
+                  variant="primary"
+                  colors="white"
+                  wrapperClassName="mr-4"
+                >
+                  Change Setup
+                </TMButton>
+              </Link>
+            )}
+            <TMButton
+              variant="primary"
+              colors="white"
+              onClick={onCancelClickHandler}
+            >
+              Cancel
+            </TMButton>
+          </>
+        }
       />
       <Steps steps={allImportSteps} />
       <div

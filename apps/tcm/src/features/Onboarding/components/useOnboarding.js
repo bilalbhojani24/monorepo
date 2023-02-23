@@ -64,7 +64,10 @@ const useOnboarding = () => {
       dispatch(setIsProcessing(false));
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import
-          navigate(AppRoute.IMPORT);
+          navigate(AppRoute.IMPORT, {
+            state: { isFromOnboarding: true },
+            replace: true
+          });
           break;
         // case SETUP_FORMATS[1].title: // example_project
         //   // create new project API TODO
@@ -74,7 +77,8 @@ const useOnboarding = () => {
           navigate(
             hasProjects
               ? AppRoute.ROOT
-              : routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' })
+              : routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }),
+            { replace: true }
           );
           break;
         default:
