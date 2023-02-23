@@ -173,18 +173,20 @@ export default function useAddEditTestCase() {
 
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
+    // name validation
     if (!formData.name) {
       inputErrorsFound.name = true;
     }
 
-    if (
-      formData.template === templateOptions[1].value &&
-      formData.steps.find(
-        (item) => item.step === '' || item.expected_result === ''
-      )
-    ) {
-      inputErrorsFound.steps = true;
-    }
+    // steps validation
+    // if (
+    //   formData.template === templateOptions[1].value &&
+    //   formData.steps.find(
+    //     (item) => item.step === '' || item.expected_result === ''
+    //   )
+    // ) {
+    //   inputErrorsFound.steps = true;
+    // }
 
     if (Object.keys(inputErrorsFound).length) {
       setInputError(inputErrorsFound);
