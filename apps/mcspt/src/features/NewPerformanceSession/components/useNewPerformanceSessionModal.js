@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getCurrentSetupStep,
   getSelectedApplication,
-  getSelectedDevice
+  getSelectedDevice,
+  resetSessionSetupData
 } from '../slices/newPerformanceSessionSlice';
 
-const useNewPerformanceSessionModal = () => {
+const useNewPerformanceSessionModal = (setShowNewSessionModal) => {
   const currentSetupStep = useSelector(getCurrentSetupStep);
   const selectedApplication = useSelector(getSelectedApplication);
   const selectedDevice = useSelector(getSelectedDevice);
 
   const [stepsDetails, setStepsDetails] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const sessionSetupClosed = () => {
+    setShowNewSessionModal(false);
+    dispatch(resetSessionSetupData());
+  };
 
   useEffect(() => {
     setStepsDetails([
@@ -38,7 +46,7 @@ const useNewPerformanceSessionModal = () => {
     ]);
   }, [selectedDevice, selectedApplication]);
 
-  return { currentSetupStep, stepsDetails };
+  return { currentSetupStep, stepsDetails, sessionSetupClosed };
 };
 
 export default useNewPerformanceSessionModal;

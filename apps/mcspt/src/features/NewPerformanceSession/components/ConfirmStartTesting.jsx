@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import useConfirmStartTesting from './useConfirmStartTesting';
 
-const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
+const ConfirmStartTesting = ({ closeCallback }) => {
   const {
     selectedDevice,
     selectedApp,
@@ -29,9 +29,7 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
         <div className="flex justify-between">
           <div className="text-xl font-bold">Start Testing</div>
           <div className="text-base-600 text-2xl">
-            <MdClose
-              onClick={() => setShowNewSessionModal((value) => !value)}
-            />
+            <MdClose onClick={() => closeCallback((value) => !value)} />
           </div>
         </div>
 
@@ -116,11 +114,11 @@ const ConfirmStartTesting = ({ setShowNewSessionModal }) => {
 };
 
 ConfirmStartTesting.propTypes = {
-  setShowNewSessionModal: PropTypes.func
+  closeCallback: PropTypes.func
 };
 
 ConfirmStartTesting.defaultProps = {
-  setShowNewSessionModal: () => {}
+  closeCallback: () => {}
 };
 
 export default ConfirmStartTesting;

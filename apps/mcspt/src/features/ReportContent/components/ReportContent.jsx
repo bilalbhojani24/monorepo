@@ -20,7 +20,7 @@ const ReportContent = () => {
       <div className="flex flex-col">
         <div className="mb-4 text-lg font-medium leading-6">Startup Time</div>
 
-        <div className="mb-8 flex flex-col rounded-lg bg-white shadow">
+        <div className="mb-8 flex w-1/2 flex-col rounded-lg bg-white shadow">
           <MetricStat
             wrapperClassName="p-4"
             metricTitle="Cold Startup Time"

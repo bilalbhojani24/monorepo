@@ -13,7 +13,7 @@ import { twClassNames } from '../../../utils';
 
 import useSelectApplicationStep from './useSelectApplicationStep';
 
-const SelectApplicationStep = ({ setShowNewSessionModal }) => {
+const SelectApplicationStep = ({ closeCallback }) => {
   const {
     areApplicationsStillLoading,
     searchTerm,
@@ -30,9 +30,7 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
         <div className="flex justify-between">
           <div className="text-xl font-bold">Select Application</div>
           <div className="text-base-600 text-2xl">
-            <MdClose
-              onClick={() => setShowNewSessionModal((value) => !value)}
-            />
+            <MdClose onClick={() => closeCallback((value) => !value)} />
           </div>
         </div>
 
@@ -145,11 +143,11 @@ const SelectApplicationStep = ({ setShowNewSessionModal }) => {
 };
 
 SelectApplicationStep.propTypes = {
-  setShowNewSessionModal: PropTypes.func
+  closeCallback: PropTypes.func
 };
 
 SelectApplicationStep.defaultProps = {
-  setShowNewSessionModal: () => {}
+  closeCallback: () => {}
 };
 
 export default SelectApplicationStep;

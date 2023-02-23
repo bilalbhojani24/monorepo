@@ -12,7 +12,7 @@ import { twClassNames } from '../../../utils';
 
 import useSelectDeviceStep from './useSelectDeviceStep';
 
-const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
+const NewPerformanceSessionModal = ({ closeCallback }) => {
   const {
     areDevicesStillLoading,
     listOfDevices,
@@ -27,9 +27,7 @@ const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
         <div className="flex justify-between">
           <div className="text-xl font-bold">Select a device</div>
           <div className="text-base-600 text-2xl">
-            <MdClose
-              onClick={() => setShowNewSessionModal((value) => !value)}
-            />
+            <MdClose onClick={() => closeCallback((value) => !value)} />
           </div>
         </div>
         <div className="text-base-500 mt-1">Select a device to test on</div>
@@ -117,11 +115,11 @@ const NewPerformanceSessionModal = ({ setShowNewSessionModal }) => {
 };
 
 NewPerformanceSessionModal.propTypes = {
-  setShowNewSessionModal: PropTypes.func
+  closeCallback: PropTypes.func
 };
 
 NewPerformanceSessionModal.defaultProps = {
-  setShowNewSessionModal: () => {}
+  closeCallback: () => {}
 };
 
 export default NewPerformanceSessionModal;

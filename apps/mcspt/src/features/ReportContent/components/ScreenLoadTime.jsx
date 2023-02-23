@@ -12,13 +12,21 @@ import { secondsToMinutes } from '../../../utils';
 
 import useScreenLoadTime from './useScreenLoadTime';
 
+const roundDown = (value) => {
+  if (value || value === 0) {
+    return Math.floor(value);
+  }
+
+  return '';
+};
+
 const columns = [
   {
     name: 'START',
     key: 'slStart',
     cell: (row) => (
       <div className="text-base-500 font-normal ">
-        {secondsToMinutes(Math.floor(row.startTime / 1000))}
+        {secondsToMinutes(roundDown(row.startTime / 1000))}
       </div>
     )
   },
@@ -27,7 +35,7 @@ const columns = [
     key: 'slLoadTime',
     cell: (row) => (
       <div className="text-base-900 font-medium">
-        {secondsToMinutes(Math.floor(row.renderTime / 1000))}
+        {`${roundDown(row.renderTime)} ms`}
       </div>
     )
   }
@@ -45,12 +53,15 @@ const ScreenLoadTime = () => {
             triggerContentNode={
               <div className="flex flex-1 justify-between">
                 <div className="max-w-xs break-all text-sm font-medium leading-5 md:max-w-[480px] lg:max-w-[640px]">
-                  {metric.activityName}
+                  {metric.activityName?.split?.('/')?.[1]}
                 </div>
 
                 <div className="text-base-500  flex text-sm">
-                  <div className="mr-6">{`Avg ${metric.avg} ms`}</div>
-                  <div className="">{`Max ${metric.max} ms`}</div>
+                  <div className="mr-6">{`Avg ${roundDown(
+                    metric.avg
+                  )} ms`}</div>
+
+                  <div className="">{`Max ${roundDown(metric.max)} ms`}</div>
                 </div>
               </div>
             }

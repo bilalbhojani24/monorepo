@@ -8,26 +8,18 @@ import SelectDeviceStep from './SelectDeviceStep';
 import SetupProgressBar from './SetupProgressBar';
 import useNewPerformanceSessionModal from './useNewPerformanceSessionModal';
 
-const renderCurrentStep = (step, setShowNewSessionModal) => {
+const renderCurrentStep = (step, sessionSetupClosed) => {
   switch (step) {
     case 1: {
-      return (
-        <SelectDeviceStep setShowNewSessionModal={setShowNewSessionModal} />
-      );
+      return <SelectDeviceStep closeCallback={sessionSetupClosed} />;
     }
 
     case 2: {
-      return (
-        <SelectApplicationStep
-          setShowNewSessionModal={setShowNewSessionModal}
-        />
-      );
+      return <SelectApplicationStep closeCallback={sessionSetupClosed} />;
     }
 
     case 3: {
-      return (
-        <ConfirmStartTesting setShowNewSessionModal={setShowNewSessionModal} />
-      );
+      return <ConfirmStartTesting closeCallback={sessionSetupClosed} />;
     }
 
     default: {
@@ -40,7 +32,8 @@ const NewPerformanceSessionModal = ({
   showNewSessionModal,
   setShowNewSessionModal
 }) => {
-  const { currentSetupStep, stepsDetails } = useNewPerformanceSessionModal();
+  const { currentSetupStep, stepsDetails, sessionSetupClosed } =
+    useNewPerformanceSessionModal(setShowNewSessionModal);
 
   return (
     <Modal wrapperClassName="max-h-full" show={showNewSessionModal} size="3xl">
@@ -52,7 +45,7 @@ const NewPerformanceSessionModal = ({
           />
         </div>
 
-        {renderCurrentStep(currentSetupStep, setShowNewSessionModal)}
+        {renderCurrentStep(currentSetupStep, sessionSetupClosed)}
       </div>
     </Modal>
   );

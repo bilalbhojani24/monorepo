@@ -1,10 +1,18 @@
-const { app, BrowserWindow } = require('electron');
+const { app, protocol, BrowserWindow } = require('electron');
 const { initializeRemoteHandlers } = require('./mainThreadFunctions/index.js');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+const fileHandler = (req, callback) => {
+  const filePath = `${req.url.slice('securefileprotocol://'.length)}`;
+
+  callback({
+    path: filePath
+  });
+};
 
 const createWindow = () => {
   // Create the browser window.
@@ -23,7 +31,18 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  protocol.registerFileProtocol('securefileprotocol', fileHandler);
 };
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'securefileprotocol',
+    privileges: {
+      bypassCSP: true
+    }
+  }
+]);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
