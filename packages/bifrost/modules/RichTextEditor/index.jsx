@@ -15,6 +15,7 @@ import Editor from './components/TextEditor';
 import './styles.scss';
 
 const RichTextEditor = ({
+  assetsURL,
   onAssetUpload,
   height,
   label,
@@ -37,6 +38,7 @@ const RichTextEditor = ({
       </label>
     ) : null}
     <Editor
+      assetsURL={assetsURL}
       id={id}
       onAssetUpload={onAssetUpload}
       height={height}
@@ -52,6 +54,7 @@ const RichTextEditor = ({
 );
 
 RichTextEditor.propTypes = {
+  assetsURL: string.isRequired,
   onAssetUpload: func.isRequired,
   initialValue: string,
   id: string.isRequired,
