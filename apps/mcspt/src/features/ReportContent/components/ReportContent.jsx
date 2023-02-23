@@ -40,15 +40,13 @@ const ReportContent = () => {
       </div>
 
       <div id="uiRenderingCPUMemory" className="flex flex-wrap">
-        <div className="w-full pr-0 lg:w-1/2 lg:pr-1">
+        <div className="w-full">
           <div className="mb-4 text-lg font-medium leading-6">UI Rendering</div>
 
           <UIRenderingCard />
         </div>
 
-        <div className="w-full pl-0 lg:w-1/2 lg:pl-1">
-          <div className="mb-4 text-lg font-medium leading-6">CPU & Memory</div>
-
+        <div className="w-full">
           <CpuMemoryCard />
         </div>
       </div>
