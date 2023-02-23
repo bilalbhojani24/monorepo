@@ -67,7 +67,9 @@ const TruncateText = ({
             <p className="text-base-300 mb-0 px-4">{children}</p>
           )
         }
-        isTooltipToBeWrapped={isFullWidthTooltip}
+        isTooltipToBeWrapped={
+          isFullWidthTooltip && truncatedDataTooltip && isTooltip
+        }
         headerTooltipProps={{ ...headerTooltipProps }}
       >
         <Component
