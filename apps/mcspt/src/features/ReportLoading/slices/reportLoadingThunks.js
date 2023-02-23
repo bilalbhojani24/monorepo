@@ -1,4 +1,5 @@
 import { fetchSessionStatus, stopSession } from '../../../api/reportLoading';
+import { resetSessionSetupData } from '../../NewPerformanceSession';
 import { updateSessionMetrics } from '../../Report';
 import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
 
@@ -55,6 +56,8 @@ export const stopRecordingSession =
       const response = await stopSession(currentSessionId);
 
       dispatch(updateSessionMetrics(response));
+
+      dispatch(resetSessionSetupData());
 
       navigationCallback('/report');
     } catch (error) {

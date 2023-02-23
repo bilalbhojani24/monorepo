@@ -6,7 +6,8 @@ import loadingStateForNewPerformanceSessionReducer from './slices/loadingStateFo
 import newPerformanceSessionReducer, {
   getSelectedApplication,
   getSelectedDevice,
-  getSessionDetails
+  getSessionDetails,
+  resetSessionSetupData
 } from './slices/newPerformanceSessionSlice';
 
 export {
@@ -17,6 +18,7 @@ export {
   loadingStateForNewPerformanceSessionReducer,
   NewPerformanceSessionModal,
   newPerformanceSessionReducer,
+  resetSessionSetupData,
   SelectApplicationStep,
   SelectDeviceStep
 };

@@ -37,6 +37,14 @@ export const newPerformanceSessionSlice = createSlice({
 
     setSessionDetails: (state, action) => {
       state.sessionDetails = { ...state.sessionDetails, ...action.payload };
+    },
+
+    resetSessionSetupData: (state) => {
+      state.currentSetupStep = 1;
+      state.selectedDevice = null;
+      state.selectedApplication = null;
+      state.listOfDevices = [];
+      state.lisOfApplications = [];
     }
   }
 });
@@ -66,7 +74,8 @@ export const {
   setSelectedApplication,
   setListOfDevices,
   setListOfApplications,
-  setSessionDetails
+  setSessionDetails,
+  resetSessionSetupData
 } = newPerformanceSessionSlice.actions;
 
 export default newPerformanceSessionSlice.reducer;
