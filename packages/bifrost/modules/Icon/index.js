@@ -1,4 +1,5 @@
 import { FaApple } from 'react-icons/fa';
+import { SiJira } from 'react-icons/si';
 import {
   ArrowDownIcon,
   ArrowLongLeftIcon,
@@ -72,6 +73,7 @@ export {
   PaperClipIcon,
   PhotoIcon,
   PlusIcon,
+  SiJira,
   UsersIcon,
   XCircleIcon,
   XMarkIcon
