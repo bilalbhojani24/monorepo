@@ -29,13 +29,13 @@ jobs:
         id: changes
         run: echo "ALL_CHANGED=$(git diff --name-only --diff-filter=ACMRT origin/master | xargs)" >> $GITHUB_OUTPUT
 
-      - name: Use PNPM 6.0.2
+      - name: Use PNPM 7.20.0
         uses: pnpm/action-setup@v2
         with:
-          version: 6.0.2
+          version: 7.20.0
 
-      - name: Install dev dependencies
-        run: pnpm install
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
 
       - name: Echo all changed files
         run: echo ${{steps.changes.outputs.ALL_CHANGED}}
