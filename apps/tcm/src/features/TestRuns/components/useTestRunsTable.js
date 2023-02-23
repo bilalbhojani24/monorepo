@@ -39,7 +39,12 @@ const useTestRuns = () => {
       pointPadding: 0,
       name: key,
       data: [data.overall_progress?.[key] || 0],
-      color: PROGRESS_COLOR_MAP[key]
+      color: PROGRESS_COLOR_MAP[key],
+      states: {
+        hover: {
+          color: PROGRESS_COLOR_MAP[key]
+        }
+      }
     }));
 
     return {

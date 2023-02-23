@@ -53,6 +53,11 @@ export const CHART_OPTIONS = {
       stacking: 'normal',
       dataLabels: {
         enabled: false
+      },
+      states: {
+        inactive: {
+          opacity: 1
+        }
       }
     }
     // bar: {

@@ -29,9 +29,7 @@ function App() {
     (state) => state.import.showNotificationModal
   );
 
-  useEffect(() => {
-    setupInterceptors(navigate, dispatch);
-  }, [navigate, dispatch]);
+  setupInterceptors(navigate, dispatch);
 
   useEffect(() => {
     dispatch(setImportConfigurations());
