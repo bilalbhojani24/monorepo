@@ -13,14 +13,14 @@ import {
   IGNORE_VALUE_LABEL,
   IGNORE_VALUE_VALUE
 } from '../const/importCSVConstants';
+import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
   setFieldsMapping,
   setMapFieldModalConfig,
-  setValueMappings,
-  setValueMappingsThunk,
-  submitMappingData
+  setValueMappings
 } from '../slices/importCSVSlice';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const useMapFields = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
