@@ -61,7 +61,12 @@ const TestRunsTable = () => {
             {rowData.name}
           </Link>
           <div className="text-base-400">
-            <TMTruncateText hidetooltipTriggerIcon>
+            <TMTruncateText
+              hidetooltipTriggerIcon
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
               {ReactHtmlParser(rowData.description)}
             </TMTruncateText>
           </div>

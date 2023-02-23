@@ -56,7 +56,16 @@ const TestCasesTable = () => {
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          <TMTruncateText hidetooltipTriggerIcon>{rowData.name}</TMTruncateText>
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {rowData.name}
+          </TMTruncateText>
         </div>
       ),
       maxWidth: 'max-w-[40%]'
