@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 
-import { setNotificationData, setTestRailsCred } from '../slices/importSlice';
+import { setNotificationData } from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -17,7 +17,6 @@ const Import = () => {
     currentScreen,
     testManagementProjects,
     allImportSteps,
-    getUserEmail,
     importStatus
   } = useImport();
 
@@ -32,8 +31,7 @@ const Import = () => {
 
   useEffect(() => {
     dispatch(setNotificationData(null));
-    dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
-  }, [dispatch, getUserEmail]);
+  }, [dispatch]);
 
   if (!importStatus || importStatus === 'ongoing')
     return (

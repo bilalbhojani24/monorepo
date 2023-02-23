@@ -5,6 +5,8 @@ import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setLoginURL, setUser } from 'globalSlice';
 
+import { setTestRailsCred } from '../../quickImportFlow/slices/importSlice';
+
 const useAuthentication = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,6 +15,7 @@ const useAuthentication = () => {
     localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(res?.data?.user));
     if (res?.data?.user) {
       dispatch(setUser(res.data.user));
+      dispatch(setTestRailsCred({ key: 'email', value: res.data.user?.email }));
     }
     // on redirection after login, location.pathname tanks! hence using window.location.pathname
     if (window.location.pathname === AppRoute.LANDING) navigate(AppRoute.ROOT);
