@@ -62,7 +62,9 @@ const TestRunsTable = () => {
           </Link>
           <div className="text-base-400">
             <TMTruncateText
+              truncateUsingClamp={false}
               hidetooltipTriggerIcon
+              isFullWidthTooltip
               headerTooltipProps={{
                 delay: 500
               }}

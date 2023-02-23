@@ -84,12 +84,13 @@ const AddEditFolderModal = ({
         </div>
         <div className="pb-1">
           <TMTextArea
+            id={projectId}
             label="Description"
-            id="Description"
-            value={filledFormData.notes}
             placeholder="Enter folder description/notes"
-            onChange={(val) => setFormData({ ...filledFormData, notes: val })}
-            projectId={projectId}
+            value={filledFormData.notes}
+            onChange={(e) =>
+              setFormData({ ...filledFormData, notes: e.currentTarget.value })
+            }
           />
         </div>
       </TMModalBody>

@@ -35,9 +35,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
   });
 
   useEffect(() => {
-    if (!isLoading && !jiraConfig) {
-      modalFocusRef?.current?.focus();
-    }
+    modalFocusRef?.current?.focus();
   }, [isLoading, jiraConfig, modalFocusRef]);
 
   return (
