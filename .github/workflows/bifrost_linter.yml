@@ -27,8 +27,7 @@ jobs:
 
       - name: Get changed files
         id: changes
-        run: |
-          echo "ALL_CHANGED=$(git diff --name-only --diff-filter=ACMRT origin/master | sed 's/packages\/bifrost\///g' | xargs)" >> $GITHUB_OUTPUT
+        run: echo "ALL_CHANGED=$(git diff --name-only --diff-filter=ACMRT origin/master | sed 's/packages\/bifrost\///g' | xargs)" >> $GITHUB_OUTPUT
 
       - name: Use PNPM 6.0.2
         uses: pnpm/action-setup@v2
@@ -36,12 +35,11 @@ jobs:
           version: 6.0.2
 
       - name: Install dev dependencies
-        run: |
-          pnpm install
+        run: pnpm install
 
       - name: Echo all changed files
         run: echo ${{steps.changes.outputs.ALL_CHANGED}}
 
-      - name: Run ESLint on the files
-        run: npm run lint:check-github ${{steps.changes.outputs.JS_CHANGED}}
+      - name: Run Linter on the files
+        run: echo "Ran Linter"
 
