@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import {
   FindInPageOutlinedIcon,
   InfoOutlinedIcon,
@@ -8,7 +9,8 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import CopyButton from 'common/CopyButton';
 import FolderExplorer from 'common/FolderExplorer';
@@ -88,9 +90,16 @@ const MiniatureRepository = ({
                           </TMTooltip>
                         </div>
                         {selectedFolder?.notes && (
-                          <div className="text-base-500 mt-1 text-xs">
-                            {selectedFolder?.notes}
-                          </div>
+                          <TMTruncateText
+                            wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
+                            hidetooltipTriggerIcon
+                            isFullWidthTooltip
+                            headerTooltipProps={{
+                              delay: 500
+                            }}
+                          >
+                            {ReactHtmlParser(selectedFolder?.notes)}
+                          </TMTruncateText>
                         )}
                       </div>
                     </div>
