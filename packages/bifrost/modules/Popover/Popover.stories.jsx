@@ -6,7 +6,7 @@ import {
   TP_PLACEMENT_SIDE,
   TP_SIZE,
   TP_STICKY_OPTIONS,
-  TP_TOOLTIP_THEME,
+  TP_TOOLTIP_THEME
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
 import Hyperlink from '../Hyperlink';
@@ -27,34 +27,34 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Popover from 'bifrost/Popover'"}
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
     arrowClassName: {
       option: { type: 'string' },
-      defaultValue: '',
+      defaultValue: ''
     },
     arrowWidth: {
       option: { type: 'number' },
-      defaultValue: 20,
+      defaultValue: 20
     },
     arrowHeight: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     arrowPadding: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     alignOffset: {
       option: { type: 'number' },
-      defaultValue: 10,
+      defaultValue: 10
     },
     avoidCollisions: {
       option: { type: 'boolean' },
-      defaultValue: true,
+      defaultValue: true
     },
     content: {
       option: { type: null },
@@ -70,91 +70,95 @@ const defaultConfig = {
             <Button colors="white">Action 2</Button>
           </PopoverFooter>
         </>
-      ),
+      )
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Click me</Button>,
+      defaultValue: <Button>Click me</Button>
     },
     defaultOpen: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     forceMount: {
       option: { type: 'boolean' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     hideWhenDetached: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     modal: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     onOpenChange: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onOpenAutoFocus: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onCloseAutoFocus: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onEscapeKeyDown: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onPointerDownOutside: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onFocusOutside: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     onInteractOutside: {
       option: { type: null },
-      defaultValue: null,
+      defaultValue: null
     },
     placementAlign: {
       options: TP_PLACEMENT_ALIGN,
       control: { type: inlineRadio },
-      defaultValue: TP_PLACEMENT_ALIGN[0],
+      defaultValue: TP_PLACEMENT_ALIGN[0]
     },
     placementSide: {
       options: TP_PLACEMENT_SIDE,
       control: { type: inlineRadio },
-      defaultValue: TP_PLACEMENT_SIDE[0],
+      defaultValue: TP_PLACEMENT_SIDE[0]
     },
     show: {
       option: { type: 'boolean' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     sideOffset: {
       option: { type: 'number' },
-      defaultValue: 5,
+      defaultValue: 5
     },
     size: {
       options: TP_SIZE,
       control: { type: inlineRadio },
-      defaultValue: TP_SIZE[0],
+      defaultValue: TP_SIZE[0]
     },
     sticky: {
       options: TP_STICKY_OPTIONS,
       control: { type: inlineRadio },
-      defaultValue: TP_STICKY_OPTIONS[0],
+      defaultValue: TP_STICKY_OPTIONS[0]
     },
     theme: {
       options: TP_TOOLTIP_THEME,
       control: { type: inlineRadio },
-      defaultValue: TP_TOOLTIP_THEME[0],
+      defaultValue: TP_TOOLTIP_THEME[0]
     },
+    triggerWrapperClassName: {
+      option: { type: 'string' },
+      defaultValue: ''
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Popover {...args} />;
 const DarkThemeTemplate = (args) => <Popover {...args} />;
@@ -166,7 +170,7 @@ const DarkTheme = DarkThemeTemplate.bind({});
 const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
 const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -192,7 +196,7 @@ DarkTheme.args = {
         </Button>
       </PopoverFooter>
     </>
-  ),
+  )
 };
 // Darktheme tooltip end
 
@@ -228,7 +232,7 @@ LightThemeHyperlink.args = {
         </Hyperlink>
       </PopoverFooter>
     </>
-  ),
+  )
 };
 // LightThemeHyperlink tooltip start
 
@@ -264,6 +268,6 @@ DarkThemeHyperlink.args = {
         </Hyperlink>
       </PopoverFooter>
     </>
-  ),
+  )
 };
 // DarkThemeHyperlink tooltip start
