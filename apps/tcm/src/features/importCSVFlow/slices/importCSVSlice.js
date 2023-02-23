@@ -3,19 +3,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getCSVConfigurations,
   getFieldMapping,
-  getUsers,
   postCSV,
-  postMappingData,
-  startCSVImport
+  postMappingData
 } from '../../../api/importCSV.api';
 import {
-  ADD_VALUE_LABEL,
-  ADD_VALUE_VALUE,
   COMPLETE_STEP,
   CURRENT_STEP,
   FAILED_IMPORT_MODAL_DATA,
-  IGNORE_VALUE_LABEL,
-  IGNORE_VALUE_VALUE,
   IMPORT_CSV_STEPS,
   ONGOING_IMPORT_MODAL_DATA,
   PREVIEW_AND_CONFIRM_IMPORT,
@@ -86,13 +80,6 @@ export const uploadFile = createAsyncThunk(
     }
   }
 );
-export const setUsers = createAsyncThunk('importCSV/setUsers', async (id) => {
-  try {
-    return await getUsers(id);
-  } catch (err) {
-    return err;
-  }
-});
 
 export const setValueMappingsThunk = createAsyncThunk(
   'importCSV/setValueMappings',
@@ -203,6 +190,14 @@ const importCSVSlice = createSlice({
     },
     setRetryImport: (state, { payload }) => {
       state.retryCSVImport = payload;
+    },
+    setSystemTags: (state, { payload }) => {
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.TAGS = payload;
+    },
+    setSystemUsers: (state, { payload }) => {
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = payload;
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = payload;
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = payload;
     }
   },
   extraReducers: (builder) => {
@@ -288,27 +283,6 @@ const importCSVSlice = createSlice({
       );
       state.valueMappings[field] = newValueMappings;
     });
-    builder.addCase(setUsers.fulfilled, (state, { payload }) => {
-      const options = payload.users.map((item) => ({
-        label: item.full_name,
-        value: item.full_name
-      }));
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-    });
     builder.addCase(submitMappingData.pending, (state) => {
       state.mapFieldsProceedLoading = true;
     });
@@ -344,25 +318,11 @@ export const {
   setMapFieldModalConfig,
   setFieldsMapping,
   setValueMappings,
+  setSystemTags,
+  setSystemUsers,
   startImportingTestCasePending,
   startImportingTestCaseFulfilled,
   startImportingTestCaseRejected,
   setNotificationConfigForConfirmCSVImport
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;
-
-export const startImportingTestCases =
-  ({ importId, projectId, folderId, retryImport }) =>
-  async (dispatch) => {
-    dispatch(startImportingTestCasePending());
-    try {
-      const response = await startCSVImport({
-        importId,
-        retryImport,
-        payload: { project_id: projectId, folder_id: folderId }
-      });
-      dispatch(startImportingTestCaseFulfilled(response));
-    } catch (err) {
-      dispatch(startImportingTestCaseRejected(err));
-    }
-  };

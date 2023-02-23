@@ -37,7 +37,11 @@ const ConfirmImport = (props) => {
         {selectedProjects.map((project) => (
           <>
             <div className="text-base-900 mb-4 text-sm font-medium">
-              <TMTruncateText hidetooltipTriggerIcon isFullWidthTooltip>
+              <TMTruncateText
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                isTooltip
+              >
                 {project.name}
               </TMTruncateText>
             </div>

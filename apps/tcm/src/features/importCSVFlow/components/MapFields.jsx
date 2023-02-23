@@ -24,7 +24,8 @@ import {
   IGNORE_FIELD_VALUE,
   MAP_FIELD_COLUMNS
 } from '../const/importCSVConstants';
-import { setMapFieldsError, setUsers } from '../slices/importCSVSlice';
+import { setTags, setUsers } from '../slices/csvThunk';
+import { setMapFieldsError } from '../slices/importCSVSlice';
 
 import MapFieldModal from './mapFieldModal';
 import useImportCSV from './useImportCSV';
@@ -127,6 +128,7 @@ const MapFields = () => {
         );
     });
     dispatch(setUsers(queryParams.get('project')));
+    dispatch(setTags(queryParams.get('project')));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -166,10 +168,14 @@ const MapFields = () => {
           needed:
         </div>
         <Table className="h-full">
-          <TableHead wrapperClass="w-full rounded-xs">
-            <TableRow wrapperClass="relative">
+          <TableHead wrapperClassName="w-full rounded-xs">
+            <TableRow wrapperClassName="relative">
               {MAP_FIELD_COLUMNS.map((col, index) => (
-                <TableCell key={col.key} variant="header">
+                <TableCell
+                  key={col.key}
+                  variant="header"
+                  wrapperClassName={index === 2 ? 'px-10' : 'px-4'}
+                >
                   {col.name}
                   {getTooltip(index)}
                 </TableCell>
