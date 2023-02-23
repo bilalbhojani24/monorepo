@@ -131,6 +131,10 @@ const defaultConfig = {
     wrapperClassName: {
       options: { type: 'string' },
       defaultValue: ''
+    },
+    triggerWrapperClassName: {
+      options: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
