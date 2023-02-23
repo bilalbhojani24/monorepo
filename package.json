@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "build:dev-PACKAGE": "./scripts/build-packages-dev.sh",
+    "build:dev-package": "./scripts/build-packages-dev.sh",
     "build:app": "./scripts/build-app.sh",
     "upload:s3": "./scripts/publish.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
