@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
@@ -21,9 +22,10 @@ import {
 const useTestRuns = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId } = useParams();
   const currentPage = searchParams.get('p');
+  const closedRuns = searchParams.get('closed');
 
   const loadedDataProjectId = useSelector(
     (state) => state.testRuns.loadedDataProjectId
@@ -50,20 +52,29 @@ const useTestRuns = () => {
 
     if (projectId) {
       dispatch(setSelectedProject(projectId));
-      setTestRunsLoader(true);
-      const isClosed = currentTab === TABS_ARRAY[1]?.name;
-      getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
-        (data) => {
-          dispatch(setAllTestRuns(data?.test_runs || []));
-          dispatch(setMetaPage(data?.info));
-          setTestRunsLoader(false);
-        }
-      );
+
+      if (projectId === 'new') {
+        dispatch(setAllTestRuns([]));
+        setTestRunsLoader(false);
+      } else {
+        setTestRunsLoader(true);
+        const isClosed = currentTab === TABS_ARRAY[1]?.name;
+        getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
+          (data) => {
+            dispatch(setAllTestRuns(data?.test_runs || []));
+            dispatch(setMetaPage(data?.info));
+            setTestRunsLoader(false);
+          }
+        );
+      }
     } else dispatch(setAllTestRuns([]));
   };
 
   const handleTabChange = (tabName) => {
     dispatch(setCurrentTab(tabName.name));
+    const params = {};
+    if (tabName?.id === TABS_ARRAY[1].id) params.closed = true;
+    setSearchParams(params);
   };
 
   const showTestRunAddFormHandler = () => {
@@ -104,6 +115,12 @@ const useTestRuns = () => {
       fetchTags();
     }
   };
+
+  useEffect(() => {
+    if (closedRuns) {
+      dispatch(setCurrentTab(TABS_ARRAY[1].name));
+    }
+  }, [closedRuns, dispatch]);
 
   return {
     currentPage,

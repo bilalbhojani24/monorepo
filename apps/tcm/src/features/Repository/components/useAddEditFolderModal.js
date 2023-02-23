@@ -1,7 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteFolder } from 'api/folders.api';
+import {
+  addFolder,
+  addFolderWithoutProjectAPI,
+  addSubFolder,
+  deleteFolder,
+  renameFolder
+} from 'api/folders.api';
 import AppRoute from 'const/routes';
 import {
   deleteFolderFromArray,
@@ -19,12 +25,20 @@ import {
 
 import useUnsavedChanges from './useUnsavedChanges';
 
-export default function useAddEditFolderModal() {
+export default function useAddEditFolderModal(prop) {
   const navigate = useNavigate();
   const { isOkToExitForm } = useUnsavedChanges();
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const modalFocusRef = useRef();
+  const [filledFormData, setFormData] = useState({
+    name: '',
+    notes: ''
+  });
+
+  const [formError, setFormError] = useState({
+    nameError: ''
+  });
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
   const openedFolderModal = useSelector(
@@ -98,11 +112,73 @@ export default function useAddEditFolderModal() {
     }
   };
 
+  const noProjectFolderCreationRouteUpdate = (data) => {
+    if (projectId === 'new' && data?.data?.folder?.project_id)
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: data.data.folder.project_id
+        })
+      );
+  };
+
+  const renameFolderHandler = () => {
+    renameFolder({
+      projectId,
+      folderId: prop?.folderId,
+      payload: filledFormData
+    }).then((item) => {
+      if (item.data?.folder) renameFolderHelper(item.data.folder);
+      hideFolderModal();
+    });
+  };
+
+  const addSubFolderHandler = () => {
+    addSubFolder({
+      projectId,
+      folderId: prop?.folderId,
+      payload: filledFormData
+    }).then((item) => {
+      if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
+      hideFolderModal();
+    });
+  };
+
+  const addFolderHelper = () => {
+    const addFolderAPIFunction =
+      projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
+    addFolderAPIFunction({
+      projectId,
+      payload: filledFormData
+    }).then((item) => {
+      if (item.data?.folder) updateFolders(item.data.folder);
+      noProjectFolderCreationRouteUpdate(item);
+      hideFolderModal();
+    });
+  };
+
+  const createFolderHandler = () => {
+    if (filledFormData.name.length === 0) {
+      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+    } else if (prop?.isSubFolder && prop?.folderId) {
+      addSubFolderHandler();
+    } else if (prop?.isEditFolder && prop?.folderId) {
+      renameFolderHandler();
+    } else {
+      addFolderHelper();
+    }
+  };
+
   return {
     modalFocusRef,
+    filledFormData,
+    formError,
+    setFormError,
+    setFormData,
     hideFolderModal,
     updateFolders,
     renameFolderHelper,
-    deleteFolderHandler
+    deleteFolderHandler,
+    noProjectFolderCreationRouteUpdate,
+    createFolderHandler
   };
 }

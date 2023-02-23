@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 // import { verifyTagAPI } from 'api/common.api';
-import { addFolder } from 'api/folders.api';
 import {
   addTestCaseAPI,
+  addTestCaseWithoutFolderAPI,
+  addTestCaseWithoutProjectAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
   getTestCaseDetailsAPI
@@ -14,11 +15,7 @@ import {
 import AppRoute from 'const/routes';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
-import {
-  emptyFolderName,
-  stepTemplate,
-  templateOptions
-} from '../const/addTestCaseConst';
+import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import { requestedSteps } from '../const/unsavedConst';
 import {
   addSingleTestCase,
@@ -34,8 +31,10 @@ import {
   setUnsavedDataExists,
   updateAllTestCases,
   updateBulkTestCaseFormData,
+  updateFoldersLoading,
   updateTestCase,
-  updateTestCaseFormData
+  updateTestCaseFormData,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 import useUnsavedChanges from './useUnsavedChanges';
@@ -133,7 +132,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const formDataFormatter = (formData) => {
+  const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
       ...formData
     };
@@ -146,7 +145,7 @@ export default function useAddEditTestCase() {
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
 
-    return { test_case: testCase };
+    return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
 
   const formDataRetriever = (formData) => ({
@@ -172,19 +171,6 @@ export default function useAddEditTestCase() {
 
   // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
-  const addTestCaseAPIHelper = (formData, thisFolderID) => {
-    addTestCaseAPI({
-      projectId,
-      folderId: thisFolderID,
-      payload: formDataFormatter(formData)
-    }).then((data) => {
-      if (parseInt(folderId, 10) === data.test_case_folder_id)
-        // only if the added test case belong to the opened folder
-        dispatch(addSingleTestCase(data));
-      hideTestCaseAddEditPage(null, true);
-    });
-  };
-
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
     if (!formData.name) {
@@ -209,24 +195,44 @@ export default function useAddEditTestCase() {
 
   const saveTestCase = (formData) => {
     if (isFormValidated(formData)) {
-      if (!allFolders.length) {
-        // if no folders, create a folder and then move forward
-        addFolder({
-          projectId,
-          payload: { name: emptyFolderName }
-        }).then((item) => {
-          if (item.data?.folder) {
-            dispatch(setAllFolders([item.data.folder]));
-            addTestCaseAPIHelper(formData, item.data.folder.id);
-            navigate(
-              routeFormatter(AppRoute.TEST_CASES, {
-                projectId,
-                folderId: item.data.folder.id
-              })
-            );
+      let apiSaveFunction = addTestCaseAPI;
+      if (projectId === 'new') {
+        // no project
+        dispatch(updateFoldersLoading(true));
+        dispatch(updateTestCasesListLoading(true));
+        apiSaveFunction = addTestCaseWithoutProjectAPI;
+      } else if (!allFolders.length) {
+        // no folder
+        dispatch(updateFoldersLoading(true));
+        dispatch(updateTestCasesListLoading(true));
+        apiSaveFunction = addTestCaseWithoutFolderAPI;
+      }
+
+      apiSaveFunction({
+        projectId,
+        folderId: formData.test_case_folder_id,
+        payload: formDataFormatter(formData, !allFolders.length)
+      }).then((data) => {
+        if (projectId === 'new' || !allFolders.length) {
+          // no project/folder
+          navigate(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId: data.project_id,
+              folderId: data.test_case_folder_id
+            })
+          );
+
+          // if no folders append the data rightaway
+          if (!allFolders.length && data?.folder) {
+            setAllFolders([data.folder]);
+            dispatch(updateFoldersLoading(false));
           }
-        });
-      } else addTestCaseAPIHelper(formData, formData.test_case_folder_id);
+        } else if (parseInt(folderId, 10) === data.test_case_folder_id) {
+          // only if the added test case belong to the opened folder
+          dispatch(addSingleTestCase(data));
+        }
+        hideTestCaseAddEditPage(null, true);
+      });
     }
   };
 

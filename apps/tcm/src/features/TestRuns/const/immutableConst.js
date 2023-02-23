@@ -1,4 +1,7 @@
-export const TABS_ARRAY = [{ name: 'Active Runs' }, { name: 'Closed Runs' }];
+export const TABS_ARRAY = [
+  { name: 'Active Runs', id: 'active' },
+  { name: 'Closed Runs', id: 'closed' }
+];
 
 export const CHART_OPTIONS = {
   chart: {

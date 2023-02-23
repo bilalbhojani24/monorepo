@@ -110,18 +110,39 @@ const TestCasesTable = ({
           {isSearchFilterView ? (
             <>
               <div className="text-base-900 hover:text-brand-600 font-medium ">
-                <TMTruncateText hidetooltipTriggerIcon>
+                <TMTruncateText
+                  truncateUsingClamp={false}
+                  hidetooltipTriggerIcon
+                  isFullWidthTooltip
+                  headerTooltipProps={{
+                    delay: 500
+                  }}
+                >
                   {rowData.name}
                 </TMTruncateText>
               </div>
               <div className="text-base-400 font-normal">
-                <TMTruncateText hidetooltipTriggerIcon>
+                <TMTruncateText
+                  truncateUsingClamp={false}
+                  hidetooltipTriggerIcon
+                  isFullWidthTooltip
+                  headerTooltipProps={{
+                    delay: 500
+                  }}
+                >
                   {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
                 </TMTruncateText>
               </div>
             </>
           ) : (
-            <TMTruncateText hidetooltipTriggerIcon>
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
               {rowData.name}
             </TMTruncateText>
           )}

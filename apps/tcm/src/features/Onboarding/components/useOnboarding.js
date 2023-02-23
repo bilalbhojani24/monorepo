@@ -78,7 +78,7 @@ const useOnboarding = () => {
             hasProjects
               ? AppRoute.ROOT
               : routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }),
-            { replace: true }
+            { state: { isFromOnboarding: true }, replace: true }
           );
           break;
         default:

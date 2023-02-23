@@ -11,6 +11,9 @@ export const getTestRunsAPI = async ({ projectId, isClosed, page }) =>
 export const addTestRunAPI = async ({ projectId, payload }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-runs/`, payload);
 
+export const addTestRunWithoutProjectAPI = async ({ payload }) =>
+  fetchPost(`/api/v1/projects/test-runs`, payload);
+
 export const getTagsAPI = async ({ projectId }) =>
   fetchGet(`/api/v1/projects/${projectId}/test-run/tags`);
 

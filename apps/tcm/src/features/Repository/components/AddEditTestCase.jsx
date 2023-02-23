@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
@@ -63,10 +63,10 @@ const AddEditTestCase = () => {
   } = useAddEditTestCase();
 
   const { initFormValues } = useTestCases();
-
+  const focusRef = useRef(null);
   useEffect(() => {
     initFormValues();
-
+    focusRef?.current?.focus();
     return () => {
       hideTestCaseAddEditPage(null, true);
     };
@@ -113,6 +113,7 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange('name', e.currentTarget.value)
               }
+              ref={focusRef}
               errorText={
                 inputError?.name ? "This field can't be left empty" : ''
               }

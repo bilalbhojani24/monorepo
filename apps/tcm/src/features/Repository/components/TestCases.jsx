@@ -87,6 +87,10 @@ export default function TestCases() {
                   <TMTruncateText
                     wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
                     hidetooltipTriggerIcon
+                    isFullWidthTooltip
+                    headerTooltipProps={{
+                      delay: 500
+                    }}
                   >
                     {ReactHtmlParser(selectedFolder?.notes)}
                   </TMTruncateText>
@@ -102,9 +106,10 @@ export default function TestCases() {
       isFoldersLoading ? (
         <>
           <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
-            {isTestCasesLoading || isFoldersLoading ? (
+            {(isTestCasesLoading || isFoldersLoading) && (
               <Loader wrapperClassName="h-full" />
-            ) : (
+            )}
+            {!isTestCasesLoading && !isFoldersLoading && (
               <>
                 {!allTestCases.length && isSearchFilterView ? (
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
