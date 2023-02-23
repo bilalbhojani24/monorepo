@@ -21,6 +21,7 @@ export default function useSideNav() {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const allProjects = useSelector((state) => state.global.allProjects);
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
@@ -31,10 +32,14 @@ export default function useSideNav() {
   };
 
   const dynamicLinkReplaceHelper = (array) => {
+    const emptyProjectId = allProjects.length
+      ? allProjectsDrop?.[0]?.value
+      : 'new'; // show new as id if no projects exists
     const replaceProjectId =
       !selectedProjectId || `${selectedProjectId}` === 'null'
-        ? allProjectsDrop?.[0]?.value || null
+        ? emptyProjectId || null
         : selectedProjectId;
+
     return array.map((item) => ({
       ...item,
       path: routeFormatter(item.path, {
@@ -59,8 +64,18 @@ export default function useSideNav() {
   };
 
   useEffect(() => {
+    if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
+      setAddProjectModal(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjectId]);
+
+  useEffect(() => {
     // set view
-    if (baseViewRoutes.includes(location.pathname)) {
+    const isImportWithProjects =
+      location.pathname === AppRoute.IMPORT && hasProjects;
+
+    if (baseViewRoutes.includes(location.pathname) || isImportWithProjects) {
       // basic view page without secondary navs
       setShowProjects(false);
       setPrimaryNavs(dynamicLinkReplaceHelper(basePrimaryNavLinks));

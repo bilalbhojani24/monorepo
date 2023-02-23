@@ -7,6 +7,7 @@ import {
   TMTooltipBody
 } from 'common/bifrostProxy';
 
+import { INPUT_FIELD_ERROR } from '../const/importConst';
 import { TEST_RAILS } from '../const/importSteps';
 
 import TermsAndConditions from './TermsAndConditions';
@@ -32,7 +33,7 @@ const TestRailImportForm = () => {
             label="TestRail Email Address"
             errorText={
               !testRailsCred.email && testRailsCredTouched.email
-                ? 'This field is required'
+                ? INPUT_FIELD_ERROR
                 : ''
             }
           />
@@ -42,6 +43,7 @@ const TestRailImportForm = () => {
             id="host-name"
             value={testRailsCred.host}
             onChange={handleInputFieldChange('host')}
+            autoComplete="on"
             label={
               <>
                 TestRail Host Name
@@ -68,13 +70,13 @@ const TestRailImportForm = () => {
             placeholder="Enter Host Name"
             errorText={
               !testRailsCred.host && testRailsCredTouched.host
-                ? 'This field is required'
+                ? INPUT_FIELD_ERROR
                 : ''
             }
           />
         </div>
       </div>
-      <div className="my-4 w-1/2">
+      <div className="my-4 w-1/2 pr-2">
         <TMInputField
           type="password"
           id="api-key"
@@ -92,12 +94,14 @@ const TestRailImportForm = () => {
                     <TMTooltipBody>
                       <p className="text-sm">
                         API Key is located at My Settings &gt; API Keys
-                        <a
-                          href={`${testRailsCred.host}index.php?/mysettings`}
-                          className="mt-3 block cursor-pointer font-medium text-white underline"
-                        >
-                          Click here to get Token ID
-                        </a>
+                        {testRailsCred.host && (
+                          <a
+                            href={`${testRailsCred.host}/index.php?/mysettings`}
+                            className="mt-3 block cursor-pointer font-medium text-white underline"
+                          >
+                            Click here to get Token ID
+                          </a>
+                        )}
                       </p>
                     </TMTooltipBody>
                   </>
@@ -110,7 +114,7 @@ const TestRailImportForm = () => {
           placeholder="Enter API Key"
           errorText={
             !testRailsCred.key && testRailsCredTouched.key
-              ? 'This field is required'
+              ? INPUT_FIELD_ERROR
               : ''
           }
         />

@@ -24,6 +24,7 @@ const usePreviewAndConfirm = () => {
     id: idx + 1,
     title: data.name,
     templateType: data.template,
+    owner: data.owner,
     priority: data.priority
   }));
 

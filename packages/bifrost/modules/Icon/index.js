@@ -34,6 +34,9 @@ import {
   XMarkIcon
 } from '@heroicons/react/20/solid';
 
+import AutomationFolderIcon from './CustomIcons/AutomationFolderIcon';
+import AutomationIcon from './CustomIcons/AutomationIcon';
+
 export * from 'react-icons/md';
 
 export {
@@ -41,6 +44,8 @@ export {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
   ArrowUpIcon,
+  AutomationFolderIcon,
+  AutomationIcon,
   Bars3Icon,
   BarsArrowUpIcon,
   CalendarIcon,

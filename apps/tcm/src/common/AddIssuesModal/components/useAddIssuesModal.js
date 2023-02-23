@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJIRAConfigAPI } from 'api/common.api';
 import { setUserConfig } from 'globalSlice';
@@ -54,7 +54,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   useEffect(() => {
     if (isVisible && !jiraConfig) {
       getJIRAConfigAPI().then((e) => {
-        setJiraConfig(e);
+        setJiraConfig(e?.success ? e : null);
         setIsLoading(false);
       });
     }

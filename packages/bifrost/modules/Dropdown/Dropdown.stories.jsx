@@ -51,6 +51,12 @@ const defaultConfig = {
     onClick: {
       controls: { type: null }
     },
+    onOpenChange: {
+      controls: { type: null },
+      defaultValue: (openStatus) => {
+        console.log(openStatus);
+      }
+    },
     wrapperClassName: {
       controles: { type: 'string' },
       defaultValue: ''

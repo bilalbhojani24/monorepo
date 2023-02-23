@@ -73,15 +73,31 @@ const AllProjects = () => {
           onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
-            <TMTruncateText hidetooltipTriggerIcon>
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
               {rowData.name}
             </TMTruncateText>
           </div>
-          <div className="text-base-400">
-            <TMTruncateText hidetooltipTriggerIcon>
-              {rowData.description}
-            </TMTruncateText>
-          </div>
+          {rowData.description && (
+            <div className="text-base-400">
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
+              >
+                {rowData.description}
+              </TMTruncateText>
+            </div>
+          )}
         </div>
       ),
       class: 'w-[80%]'
@@ -145,7 +161,7 @@ const AllProjects = () => {
               wrapperClassName="sr-only"
               onClick={() =>
                 navigate({
-                  pathname: '/import'
+                  pathname: 'projects/import'
                 })
               }
             />

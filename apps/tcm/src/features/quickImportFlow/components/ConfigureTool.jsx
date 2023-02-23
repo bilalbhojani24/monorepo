@@ -10,6 +10,7 @@ import {
 
 import ImportFooter from './ImportFooter';
 import TestRailImportForm from './TestRailImportForm';
+import UploadFile from './UploadFile';
 import useImport from './useImport';
 import ZephyrImportForm from './ZephyrImportForm';
 
@@ -23,6 +24,8 @@ const ConfigureTool = () => {
     selectedRadioIdMap
   } = useImport();
 
+  const testMgmtNameInDesc =
+    currentTestManagementTool === 'testrails' ? 'TestRail' : 'Zephyr Scale';
   const handleButtonClick = (text) => () => {
     if (text === ZEPHYR) isJiraConfiguredForZephyr();
     setTestManagementTool(text);
@@ -37,7 +40,7 @@ const ConfigureTool = () => {
       );
     }
     if (selectedRadioIdMap[currentTestManagementTool] === UPLOAD_FILE) {
-      return 'Upload';
+      return <UploadFile />;
     }
     return null;
   };
@@ -71,7 +74,7 @@ const ConfigureTool = () => {
             size="large"
             onClick={handleButtonClick(ZEPHYR)}
           >
-            Zephyr
+            Zephyr Scale
           </TMButton>
         </div>
         {/* <div className="mr-3">
@@ -112,6 +115,7 @@ const ConfigureTool = () => {
                     <>
                       <span className="mr-1">Import data from tool</span>
                       <TMBadge
+                        wrapperClassName="hover:bg-attention-100"
                         isRounded
                         text="Recommended"
                         modifier="warn"
@@ -119,13 +123,12 @@ const ConfigureTool = () => {
                       />
                     </>
                   ),
-                  description: `Enter ${currentTestManagementTool} credentials we'll import your data`
+                  description: `Enter ${testMgmtNameInDesc} credentials, we'll import your data`
                 },
                 {
                   id: 'upload-file',
                   name: 'Upload file',
-                  description: `Upload ${currentTestManagementTool} XML file with test case data`,
-                  disabled: true
+                  description: `Upload ${testMgmtNameInDesc} XML file with test case data`
                 }
               ]}
             />

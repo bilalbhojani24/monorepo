@@ -145,6 +145,14 @@ const MainRoute = () => {
           }
         />
         <Route
+          path={AppRoute.IMPORT_WITH_PROJECTS}
+          element={
+            <PrivateComponent>
+              <Import />
+            </PrivateComponent>
+          }
+        />
+        <Route
           path={AppRoute.IMPORT_CSV}
           element={
             <PrivateComponent>
@@ -152,14 +160,7 @@ const MainRoute = () => {
             </PrivateComponent>
           }
         />
-        <Route
-          path={AppRoute.NO_ACCESS}
-          element={
-            <PrivateComponent>
-              <AlphaAccess />
-            </PrivateComponent>
-          }
-        />
+        <Route path={AppRoute.NO_ACCESS} isForced element={<AlphaAccess />} />
         <Route
           path={AppRoute.NOT_FOUND}
           element={

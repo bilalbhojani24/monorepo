@@ -169,19 +169,21 @@ const useFilter = (prop) => {
   };
 
   useEffect(() => {
-    const filterOptions = getFilterOptions(searchParams);
+    if (isSearchFilterView) {
+      const filterOptions = getFilterOptions(searchParams);
 
-    const count = [
-      filterOptions.tags,
-      filterOptions.owner,
-      filterOptions.priority
-    ];
+      const count = [
+        filterOptions.tags,
+        filterOptions.owner,
+        filterOptions.priority
+      ];
 
-    updateFilterSearchMeta(filterOptions);
-    setAppliedFiltersCount(count.filter((item) => item.length).length);
-    fetchFilteredCases(filterOptions, searchParams?.get('p'));
+      updateFilterSearchMeta(filterOptions);
+      setAppliedFiltersCount(count.filter((item) => item.length).length);
+      fetchFilteredCases(filterOptions, searchParams?.get('p'));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchParams, isSearchFilterView]);
 
   useEffect(() => {
     if (usersArray) {

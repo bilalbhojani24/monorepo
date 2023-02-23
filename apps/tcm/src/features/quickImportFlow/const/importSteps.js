@@ -23,3 +23,7 @@ export const IMPORT_FROM_TOOL = 'import-from-tool';
 export const UPLOAD_FILE = 'upload-file';
 export const TEST_RAILS = 'testrails';
 export const ZEPHYR = 'zephyr';
+export const CURRENT_STEP = 'current';
+export const UPCOMING_STEP = 'upcoming';
+export const COMPLETE_STEP = 'complete';
+export const CURRENT_COMPLETED_STEP = 'current_completed';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { CheckCircleIcon } from '@browserstack/bifrost';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -9,6 +8,7 @@ import {
 } from 'common/bifrostProxy';
 import { bool } from 'prop-types';
 
+import { INPUT_FIELD_ERROR } from '../const/importConst';
 import { ZEPHYR } from '../const/importSteps';
 
 import TermsAndConditions from './TermsAndConditions';
@@ -19,16 +19,21 @@ const ZephyrImportForm = (props) => {
   const {
     connectionStatusMap,
     handleInputFieldChange,
+    configureToolProceed,
     zephyrCred,
     zephyrCredTouched
   } = useImport();
 
   return (
-    <div className="mt-12">
-      {jiraConfigured && (
-        <div className="mb-2 flex items-center">
-          <CheckCircleIcon className="text-success-500 mr-1 h-5 w-5" />
-          We found your Host Name as per your previous JIRA integration.
+    <>
+      {jiraConfigured && !configureToolProceed && (
+        <div className="mb-6">
+          <TMAlerts
+            accentBorder={false}
+            linkText={null}
+            modifier="success"
+            title="We found your Host Name as per your previous JIRA integration."
+          />
         </div>
       )}
       <>
@@ -64,7 +69,7 @@ const ZephyrImportForm = (props) => {
               placeholder="https://abcd.atlassian.net"
               errorText={
                 !zephyrCred.host && zephyrCredTouched.host
-                  ? 'This field is required'
+                  ? INPUT_FIELD_ERROR
                   : ''
               }
             />
@@ -102,7 +107,7 @@ const ZephyrImportForm = (props) => {
               placeholder="Enter JIRA API Token"
               errorText={
                 !zephyrCred.jira_key && zephyrCredTouched.jira_key
-                  ? 'This field is required'
+                  ? INPUT_FIELD_ERROR
                   : ''
               }
             />
@@ -118,7 +123,7 @@ const ZephyrImportForm = (props) => {
               placeholder="Enter JIRA Email Address"
               errorText={
                 !zephyrCred.email && zephyrCredTouched.email
-                  ? 'This field is required'
+                  ? INPUT_FIELD_ERROR
                   : ''
               }
             />
@@ -131,16 +136,30 @@ const ZephyrImportForm = (props) => {
               value={zephyrCred.zephyr_key}
               label={
                 <>
-                  Zephyr API Token
-                  <span className="ml-1">
-                    <InfoOutlinedIcon fontSize="inherit" />
-                  </span>
+                  Zephyr Scale API Token
+                  <TMTooltip
+                    size="xs"
+                    placementSide="right"
+                    theme="dark"
+                    content={
+                      <TMTooltipBody>
+                        <a
+                          href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
+                          className="block cursor-pointer text-white underline"
+                        >
+                          Click here to get API Token
+                        </a>
+                      </TMTooltipBody>
+                    }
+                  >
+                    <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                  </TMTooltip>
                 </>
               }
-              placeholder="Enter Zephyr API Token"
+              placeholder="Enter Zephyr Scale API Token"
               errorText={
                 !zephyrCred.zephyr_key && zephyrCredTouched.zephyr_key
-                  ? 'This field is required'
+                  ? INPUT_FIELD_ERROR
                   : ''
               }
             />
@@ -161,7 +180,7 @@ const ZephyrImportForm = (props) => {
         />
       )}
       <TermsAndConditions />
-    </div>
+    </>
   );
 };
 

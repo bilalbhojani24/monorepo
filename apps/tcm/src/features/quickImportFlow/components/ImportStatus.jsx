@@ -13,9 +13,11 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 
+import useProjects from '../../Projects/components/useProjects';
 import { COMPLETED, FAILURE, INFINITY, ONGOING } from '../const/importConst';
 import {
   setCurrentScreen,
@@ -44,6 +46,7 @@ const ImportStatus = () => {
   } = useImportStatus();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { fetchProjects } = useProjects();
 
   const dismissNotification = (toastData, modalDecider) => {
     notify.remove(toastData.id);
@@ -82,7 +85,6 @@ const ImportStatus = () => {
 
   const handleNotificationClose = (toastData) => {
     dismissNotification(toastData);
-    // if (importStatus === ONGOING) dispatch(setCheckImportStatusClicked(false));
   };
 
   const onModalCloseHandler = () => {
@@ -99,6 +101,7 @@ const ImportStatus = () => {
       dismissNotification(toastData, 'showModal');
     } else {
       dismissNotification(toastData);
+      fetchProjects();
       navigate('/');
     }
   };
@@ -124,7 +127,6 @@ const ImportStatus = () => {
       notify(
         <Notifications
           id={notificationData?.id}
-          // isCondensed
           title={
             totalImportProjectsCount > successImportProjectCount
               ? `${successImportProjectCount}/${totalImportProjectsCount} ${notificationData?.title}`
@@ -206,18 +208,36 @@ const ImportStatus = () => {
               importProjects.map((project) => (
                 <div className="border-base-100 text-base-500 flex place-content-between border-b p-3 text-xs">
                   <span className="text-base-900 inline-flex flex-1 text-sm font-medium">
-                    {project.name}
+                    <TMTruncateText
+                      hidetooltipTriggerIcon
+                      headerTooltipProps={{
+                        delay: 500
+                      }}
+                    >
+                      {project.name}
+                    </TMTruncateText>
                   </span>
-                  <span className="ml-6 inline-flex flex-1">
+                  <div className="ml-6 flex-1">
                     {project.status === FAILURE ? (
                       <>
                         <ErrorIcon className="text-danger-600" />
-                        <span className="ml-2">{project.error}</span>
+                        <div className="text-base-500 text-sm">
+                          <TMTruncateText
+                            hidetooltipTriggerIcon
+                            wrapperClassName="line-clamp-2"
+                            isFullWidthTooltip
+                            headerTooltipProps={{
+                              delay: 500
+                            }}
+                          >
+                            {project.error}
+                          </TMTruncateText>
+                        </div>
                       </>
                     ) : (
                       <CheckCircleRoundedIcon className="text-success-600" />
                     )}
-                  </span>
+                  </div>
                 </div>
               ))}
           </TMModalBody>
@@ -240,5 +260,3 @@ const ImportStatus = () => {
 };
 
 export default ImportStatus;
-
-// !document.querySelector('.go4109123758') &&

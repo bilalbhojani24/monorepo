@@ -37,7 +37,7 @@ const defaultConfig = {
   argTypes: {
     assetsURL: {
       option: { type: 'string' },
-      defaultValue: 'http://127.0.0.1:5500/packages/bifrost/dist/'
+      defaultValue: 'http://127.0.0.1:5500/packages/bifrost/dist'
     },
     onAssetUpload: {
       option: { type: 'string' },
@@ -103,6 +103,7 @@ export const UncontrolledTextEditor = () => {
         Get Data
       </Button>
       <RichTextEditor
+        assetsURL="http://127.0.0.1:5500/packages/bifrost/dist"
         editorRef={ref}
         initialValue="<p>Hello world!</p>"
         height={100}
@@ -120,6 +121,7 @@ export const ControlledTextEditor = () => {
   return (
     <>
       <RichTextEditor
+        assetsURL="http://127.0.0.1:5500/packages/bifrost/dist"
         id="one"
         value={value}
         height={100}

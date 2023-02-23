@@ -58,6 +58,10 @@ const TestRuns = ({ isEditView }) => {
         />
         <div className="mb-0 w-full px-4">
           <TMTabs
+            defaultIndex={TABS_ARRAY.findIndex(
+              (item) => item.name === currentTab
+            )}
+            key={TABS_ARRAY.findIndex((item) => item.name === currentTab)}
             id="project-tabs"
             tabsArray={TABS_ARRAY}
             onTabChange={handleTabChange}

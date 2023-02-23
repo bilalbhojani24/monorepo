@@ -1,6 +1,6 @@
 import React from 'react';
-import { Loader } from '@browserstack/bifrost';
-import { LayersIcon, OpenInNewOutlinedIcon } from 'assets/icons';
+import { Loader, MdOutlineLayers } from '@browserstack/bifrost';
+import { OpenInNewOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMInputField,
@@ -101,10 +101,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
             ) : (
               <div className="mt-8">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                  <LayersIcon
-                    className="text-base-800 !h-14 !w-14"
-                    aria-hidden="true"
-                  />
+                  <MdOutlineLayers className="text-base-600 h-14 w-14" />
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
                   <h3

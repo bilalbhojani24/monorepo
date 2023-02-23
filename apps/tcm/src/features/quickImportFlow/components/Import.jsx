@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
-import { TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 
-import { IMPORT_STEPS } from '../const/importSteps';
-import {
-  setImportSteps,
-  setNotificationData,
-  setTestRailsCred
-} from '../slices/importSlice';
+import AppRoute from '../../../const/routes';
+import { setNotificationData } from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -19,11 +16,12 @@ import useImport from './useImport';
 const Import = () => {
   const dispatch = useDispatch();
   const {
+    isFromOnboarding,
     currentScreen,
     testManagementProjects,
     allImportSteps,
-    getUserEmail,
-    importStatus
+    importStatus,
+    onCancelClickHandler
   } = useImport();
 
   const getCurrentScreen = () => {
@@ -36,10 +34,8 @@ const Import = () => {
   };
 
   useEffect(() => {
-    dispatch(setImportSteps(IMPORT_STEPS));
     dispatch(setNotificationData(null));
-    dispatch(setTestRailsCred({ key: 'email', value: getUserEmail }));
-  }, [dispatch, getUserEmail]);
+  }, [dispatch]);
 
   if (!importStatus || importStatus === 'ongoing')
     return (
@@ -58,16 +54,28 @@ const Import = () => {
     <>
       <TMPageHeadings
         heading="Quick Import"
-        // actions={
-        //   <>
-        //     <TMButton variant="primary" colors="white" wrapperClassName="mr-4">
-        //       Change Setup
-        //     </TMButton>
-        //     <TMButton variant="primary" colors="white">
-        //       Skip for now
-        //     </TMButton>
-        //   </>
-        // }
+        actions={
+          <>
+            {isFromOnboarding && (
+              <Link to={AppRoute.ONBOARDING}>
+                <TMButton
+                  variant="primary"
+                  colors="white"
+                  wrapperClassName="mr-4"
+                >
+                  Change Setup
+                </TMButton>
+              </Link>
+            )}
+            <TMButton
+              variant="primary"
+              colors="white"
+              onClick={onCancelClickHandler}
+            >
+              Cancel
+            </TMButton>
+          </>
+        }
       />
       <Steps steps={allImportSteps} />
       <div
