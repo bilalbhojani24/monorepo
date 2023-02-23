@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Menu } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
@@ -12,6 +12,7 @@ import { DROPDOWN_ALIGN, DROPDOWN_SIDE } from './const/dropdownConstants';
 import './styles.scss';
 
 const Dropdown = (props) => {
+  const [open, setOpen] = useState(false);
   const { align, children, onClick, side, wrapperClassName, onOpenChange } =
     props;
 
@@ -20,10 +21,12 @@ const Dropdown = (props) => {
       value={{
         align,
         onClick,
-        side
+        side,
+        open,
+        setOpen
       }}
     >
-      <Popover.Root>
+      <Popover.Root open={open}>
         <Menu
           as="div"
           className={twClassNames(
@@ -31,8 +34,8 @@ const Dropdown = (props) => {
             wrapperClassName
           )}
         >
-          {({ open }) => (
-            <RenderChildren open={open} onOpenChange={onOpenChange}>
+          {({ open: dropdownOpen }) => (
+            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
               {children}
             </RenderChildren>
           )}

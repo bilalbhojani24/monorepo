@@ -42,6 +42,10 @@ const defaultConfig = {
         'Default selected values for the combobox, and the value state will be controlled internally, means values doesnt get updated on re-render',
       defaultValue: COMBOBOX_OPTIONS[0]
     },
+    errorText: {
+      controls: { type: 'string' },
+      defaultValue: ''
+    },
     isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
