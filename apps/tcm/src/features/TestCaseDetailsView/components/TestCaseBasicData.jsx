@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceOutlinedIcon } from 'assets/icons';
+import { SiJira } from '@browserstack/bifrost';
 import {
   TMAttachments,
   TMBadge,
@@ -134,7 +134,7 @@ const TestCaseBasicData = () => {
                         text={item.jira_id}
                         size="extra-small"
                         colors="white"
-                        icon={<SourceOutlinedIcon className="!h-5 !w-5" />}
+                        icon={<SiJira className="h-4 w-4" />}
                       >
                         {item.jira_id}
                       </TMButton>
