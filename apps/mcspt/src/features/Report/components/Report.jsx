@@ -17,7 +17,7 @@ const Report = () => {
         <div className="flex w-64 shrink-0 grow-0 flex-col items-center lg:w-64 xl:w-[360px]">
           <div className="bg-base-100 h-full w-full p-2">
             <MediaPlayer
-              wrapperClassName="rounded-lg overflow-hidden"
+              wrapperClassName="rounded-lg overflow-hidden sticky top-2 z-20"
               url={`securefileprotocol://${sessionData?.metadata?.video}`}
               controlPanelStickToBottom
               controlPanelClassName="fixed z-20 -ml-2"
