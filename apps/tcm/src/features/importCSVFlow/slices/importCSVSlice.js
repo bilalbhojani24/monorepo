@@ -61,7 +61,8 @@ const initialState = {
     status: 'ongoing',
     modalData: ONGOING_IMPORT_MODAL_DATA
   },
-  totalImportedProjectsInPreview: null
+  totalImportedProjectsInPreview: null,
+  mapFieldsProceedLoading: false
 };
 
 export const setCSVConfigurations = createAsyncThunk(
@@ -308,7 +309,11 @@ const importCSVSlice = createSlice({
         ...options
       ];
     });
+    builder.addCase(submitMappingData.pending, (state) => {
+      state.mapFieldsProceedLoading = true;
+    });
     builder.addCase(submitMappingData.fulfilled, (state, { payload }) => {
+      state.mapFieldsProceedLoading = false;
       if (payload.response?.status === 400) {
         state.mappingFieldsError = payload.response.data.message;
       } // in case of error

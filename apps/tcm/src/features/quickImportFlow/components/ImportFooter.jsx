@@ -6,9 +6,9 @@ import useImport from './useImport';
 const ImportFooter = () => {
   const {
     handleTestConnection,
-    handleProceed
-    // configureToolProceedLoading,
-    // configureToolTestConnectionLoading
+    handleProceed,
+    configureToolProceedLoading,
+    configureToolTestConnectionLoading
   } = useImport();
 
   return (
@@ -19,7 +19,7 @@ const ImportFooter = () => {
         size="default"
         wrapperClassName="mr-3"
         onClick={handleTestConnection}
-        // loading={configureToolTestConnectionLoading}
+        loading={configureToolTestConnectionLoading}
       >
         Test Connection
       </TMButton>
@@ -28,7 +28,7 @@ const ImportFooter = () => {
         variant="primary"
         size="default"
         onClick={handleProceed}
-        // loading={configureToolProceedLoading}
+        loading={configureToolProceedLoading}
       >
         Proceed
       </TMButton>

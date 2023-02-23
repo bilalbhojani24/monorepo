@@ -42,6 +42,9 @@ const useMapFields = () => {
   const mapFieldsError = useSelector(
     (state) => state.importCSV.mappingFieldsError
   );
+  const mapFieldProceedLoading = useSelector(
+    (state) => state.importCSV.mapFieldsProceedLoading
+  );
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
@@ -359,6 +362,7 @@ const useMapFields = () => {
     myFieldMappings,
     rowRef,
     valueMappings,
+    mapFieldProceedLoading,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
     handleSaveClick,
     onModalCloseHandler,

@@ -39,7 +39,6 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
   const mappedField = mapNameToDisplay[modalConfig?.mapped_field];
   const value = valueMappings?.[csvFileField];
 
-  console.log('inside modal', csvFileField, mappedField, value);
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     modalRowRef.current = Object.keys(value)?.map((field) => {
@@ -105,8 +104,10 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           <TableBody>
             {modalRowRef?.current?.map((row) => (
               <TableRow key={row.csvValue}>
-                <TableCell wrapperClass="py-1">{row.csvValue}</TableCell>
-                <TableCell wrapperClass="py-2 mr-4">
+                <TableCell wrapperClassName="py-1 w-1/3">
+                  {row.csvValue}
+                </TableCell>
+                <TableCell wrapperClassName="py-2 mr-4 w-2/3">
                   <TMSelectMenu
                     checkPosition="right"
                     options={row?.displayOptions}
