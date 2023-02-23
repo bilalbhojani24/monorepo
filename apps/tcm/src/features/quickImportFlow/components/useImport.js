@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { checkTestManagementConnection, importProjects } from 'api/import.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   importCleanUp,
@@ -26,10 +28,13 @@ import {
 const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const isFromOnboarding = location?.state?.isFromOnboarding;
   // global selector
   const getUserEmail = useSelector((state) => state.global.user?.email);
 
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
   const zephyrCred = useSelector((state) => state.import.zephyrCred);
   const testManagementProjects = useSelector(
@@ -239,7 +244,7 @@ const useImport = () => {
     dispatch(importCleanUp());
     dispatch(setImportStarted(true));
     dispatch(setCheckImportStatusClicked(false));
-    navigate('/');
+    navigate(AppRoute.ROOT);
   };
 
   const isJiraConfiguredForZephyr = () => {
@@ -254,7 +259,21 @@ const useImport = () => {
     dispatch(setSelectedRadioIdMap({ key: testManagementTool, value: id }));
   };
 
+  const onCancelClickHandler = () => {
+    if (isFromOnboarding) {
+      navigate(
+        hasProjects
+          ? AppRoute.ROOT
+          : routeFormatter(AppRoute.TEST_CASES, { projectId: 'new' }),
+        {
+          replace: true
+        }
+      );
+    } else navigate(-1);
+  };
+
   return {
+    isFromOnboarding,
     allImportSteps,
     importStatus,
     configureToolProceed,
@@ -279,7 +298,8 @@ const useImport = () => {
     zephyrCred,
     zephyrCredTouched,
     configureToolTestConnectionLoading,
-    configureToolProceedLoading
+    configureToolProceedLoading,
+    onCancelClickHandler
   };
 };
 

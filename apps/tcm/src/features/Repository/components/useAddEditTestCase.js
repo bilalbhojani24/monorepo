@@ -358,7 +358,6 @@ export default function useAddEditTestCase() {
       : selectedFolder?.id;
 
     dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
-    /// RIIIBIIIIN
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)
       // then in search view, go to repository view
@@ -373,7 +372,7 @@ export default function useAddEditTestCase() {
     if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
       return;
 
-    navigate(url);
+    navigate(routeFormatter(url, { projectId }));
   };
 
   useEffect(() => {

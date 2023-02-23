@@ -13,7 +13,7 @@ import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useProjects from './useProjects';
 
-const AddProjects = ({ show, onClose }) => {
+const AddProjects = ({ show, onClose, isFirstProject }) => {
   const {
     modalFocusRef,
     formData,
@@ -22,7 +22,7 @@ const AddProjects = ({ show, onClose }) => {
     createProjectHandler,
     hideAddProjectModal,
     setFormError
-  } = useProjects({ onClose });
+  } = useProjects({ isFirstProject, onClose });
 
   return (
     <TMModal
@@ -83,11 +83,13 @@ const AddProjects = ({ show, onClose }) => {
 
 AddProjects.propTypes = {
   show: PropTypes.bool,
+  isFirstProject: PropTypes.bool,
   onClose: PropTypes.func
 };
 
 AddProjects.defaultProps = {
   show: false,
+  isFirstProject: false,
   onClose: null // this should be null and be a function onlyif needed
 };
 
