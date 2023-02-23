@@ -192,6 +192,7 @@ const MapFields = () => {
                   <TMSelectMenu
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
+                    dividerIdx={1}
                     /* eslint-disable react/jsx-props-no-spreading */
                     {...(row.mappedField.defaultValue.label && {
                       defaultValue: row.mappedField.defaultValue
