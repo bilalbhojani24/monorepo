@@ -42,7 +42,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   const createNewIssueModalHandler = () => {
-    if (jiraConfig)
+    if (jiraConfig?.data?.host)
       window.open(`${jiraConfig?.data?.host}${CREATE_ISSUE_URL}`, 'popup');
   };
 

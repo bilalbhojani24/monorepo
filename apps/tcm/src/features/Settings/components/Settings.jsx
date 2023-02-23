@@ -16,6 +16,7 @@ const Settings = () => {
     jiraConfiguration,
     settingsApiKeys,
     fetchAPIKey,
+    onIntegrationsButtonClick,
     fetchJiraConfigurations
   } = useSettings();
 
@@ -41,8 +42,14 @@ const Settings = () => {
         </div> */}
       </div>
       <div className="w-full max-w-4xl p-6">
-        {/* <JiraConfigurationAvailable configuration={jiraConfiguration} /> */}
-        <NoJiraConfiguration />
+        {jiraConfiguration?.data ? (
+          <JiraConfigurationAvailable
+            configuration={jiraConfiguration?.data}
+            onIntegrationsButtonClick={onIntegrationsButtonClick}
+          />
+        ) : (
+          <NoJiraConfiguration />
+        )}
         <JiraFooter apiKey={settingsApiKeys.api_key} />
       </div>
     </div>
