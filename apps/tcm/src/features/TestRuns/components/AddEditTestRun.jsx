@@ -7,8 +7,8 @@ import {
   TMComboBox,
   TMInputField,
   TMPageHeadings,
-  TMRichTextEditor,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -124,10 +124,9 @@ const AddEditTestRun = ({ isEdit }) => {
               </div>
             </div>
             <div className="mt-4">
-              <TMRichTextEditor
+              <TMTextArea
                 label="Description"
                 value={testRunFormData?.test_run?.description}
-                height={200}
                 placeholder="Explaining in brief about the test run description"
                 onChange={(val) =>
                   handleTestRunInputFieldChange('description', val)

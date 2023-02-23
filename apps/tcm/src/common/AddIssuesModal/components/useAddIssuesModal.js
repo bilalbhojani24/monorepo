@@ -42,8 +42,8 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   const createNewIssueModalHandler = () => {
-    if (jiraConfig)
-      window.open(`${jiraConfig?.host}${CREATE_ISSUE_URL}`, 'popup');
+    if (jiraConfig?.data?.host)
+      window.open(`${jiraConfig?.data?.host}${CREATE_ISSUE_URL}`, 'popup');
   };
 
   const configureJIRAInit = () => {

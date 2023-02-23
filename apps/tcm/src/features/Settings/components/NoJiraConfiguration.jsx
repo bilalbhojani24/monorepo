@@ -1,10 +1,13 @@
 import React from 'react';
+import { MdOutlineLayers } from '@browserstack/bifrost';
 import { OpenInNewIcon } from 'assets/icons';
 import { TMButton } from 'common/bifrostProxy';
 
 const NoJiraConfiguration = () => (
   <div className="border-base-200 flex flex-col items-center justify-center rounded-lg border bg-white py-9">
-    <div>icon</div>
+    <div>
+      <MdOutlineLayers className="h-10 w-10" />
+    </div>
     <div className="text-base-900 mt-4 mb-2 text-base font-semibold">
       No JIRA Integrations Added
     </div>

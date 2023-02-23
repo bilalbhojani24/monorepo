@@ -13,11 +13,11 @@ const TMHeader = () => (
     productName="Test Management"
     release="Alpha"
     headerElementArray={[
-      // 'team',
-      // 'pricing',
+      'team',
+      'pricing',
       'help',
-      // 'search',
-      // 'notifications',
+      'search',
+      'notifications',
       'account'
     ]}
     documentation={{
