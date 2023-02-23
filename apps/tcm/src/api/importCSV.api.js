@@ -17,6 +17,7 @@ export const getFieldMapping = async ({
   importId,
   field,
   projectId,
+  // eslint-disable-next-line camelcase
   mapped_field
 }) =>
   // eslint-disable-next-line no-return-await
