@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import MediaPlayerControlPanel from '../MediaPlayerControlPanel';
@@ -7,7 +7,11 @@ const MediaPlayer = ({
   url,
   wrapperClassName,
   controlPanelClassName,
-  controlPanelStickToBottom
+  controlPanelStickToBottom,
+  showRewindForwardControls,
+  timeUpdateCallBack,
+  hoverSeekTime,
+  seekToTimeStamp
 }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [duration, setDuration] = useState(0);
@@ -31,10 +35,21 @@ const MediaPlayer = ({
   };
   const handleTimeUpdate = () => {
     setCurrentTime(videoRef.current.currentTime);
+    if (videoRef.current.currentTime >= duration) {
+      setIsPaused(true);
+    }
+    timeUpdateCallBack(videoRef.current);
   };
   const handleSliderChange = ({ target: { value } }) => {
-    videoRef.current.currentTime = value;
+    if (videoRef.current?.currentTime) {
+      videoRef.current.currentTime = value;
+    }
   };
+  useEffect(() => {
+    if (seekToTimeStamp <= duration) {
+      videoRef.current.currentTime = seekToTimeStamp;
+    }
+  }, [duration, seekToTimeStamp]);
 
   return (
     <div className={wrapperClassName}>
@@ -54,6 +69,8 @@ const MediaPlayer = ({
         onJumpXSeconds={handleMoveXSeconds}
         stickToBottom={controlPanelStickToBottom}
         wrapperClassName={controlPanelClassName}
+        showRewindForwardButtons={showRewindForwardControls}
+        hoverSeekTime={hoverSeekTime}
       />
     </div>
   );
@@ -63,13 +80,21 @@ MediaPlayer.propTypes = {
   url: PropTypes.string,
   wrapperClassName: PropTypes.string,
   controlPanelStickToBottom: PropTypes.bool,
-  controlPanelClassName: PropTypes.string
+  controlPanelClassName: PropTypes.string,
+  showRewindForwardControls: PropTypes.bool,
+  timeUpdateCallBack: PropTypes.func,
+  hoverSeekTime: PropTypes.number,
+  seekToTimeStamp: PropTypes.number
 };
 MediaPlayer.defaultProps = {
   url: '',
   wrapperClassName: '',
   controlPanelStickToBottom: false,
-  controlPanelClassName: ''
+  controlPanelClassName: '',
+  showRewindForwardControls: true,
+  timeUpdateCallBack: () => {},
+  hoverSeekTime: null,
+  seekToTimeStamp: null
 };
 
 export default MediaPlayer;
