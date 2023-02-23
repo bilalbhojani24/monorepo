@@ -244,7 +244,7 @@ export const BUTTON_STYLE_CLASSES = {
   'small-danger-rounded-disabled':
     'rounded-full py-2 px-3 text-sm bg-danger-500 text-danger-200 cursor-not-allowed',
   'small-attention-primary-disabled':
-    'rounded-md py-2 px-3 text-sm bg-attention-500 text-attention-500 cursor-not-allowed',
+    'rounded-md py-2 px-3 text-sm bg-attention-200 text-attention-500 cursor-not-allowed',
   'small-attention-secondary-disabled':
     'rounded-md py-2 px-3 text-sm bg-attention-50 text-attention-400 cursor-not-allowed',
   'small-attention-rounded-disabled':
@@ -276,7 +276,7 @@ export const BUTTON_STYLE_CLASSES = {
   'default-danger-rounded-disabled':
     'text-sm py-2 px-4 rounded-full bg-danger-500 text-danger-200 cursor-not-allowed',
   'default-attention-primary-disabled':
-    'text-sm py-2 px-4 rounded-md bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-sm py-2 px-4 rounded-md bg-attention-200 text-attention-500 cursor-not-allowed',
   'default-attention-secondary-disabled':
     'text-sm py-2 px-4 rounded-md bg-attention-50 text-attention-400 cursor-not-allowed',
   'default-attention-rounded-disabled':
@@ -308,7 +308,7 @@ export const BUTTON_STYLE_CLASSES = {
   'large-danger-rounded-disabled':
     'text-base py-2 px-4 rounded-full bg-danger-500 text-danger-200 cursor-not-allowed',
   'large-attention-primary-disabled':
-    'text-base py-2 px-4 rounded-md bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-base py-2 px-4 rounded-md bg-attention-200 text-attention-500 cursor-not-allowed',
   'large-attention-secondary-disabled':
     'text-base py-2 px-4 rounded-md bg-attention-50 text-attention-400 cursor-not-allowed',
   'large-attention-rounded-disabled':
@@ -340,7 +340,7 @@ export const BUTTON_STYLE_CLASSES = {
   'extra-large-danger-rounded-disabled':
     'rounded-full text-base py-4 px-6 bg-danger-500 text-danger-200 cursor-not-allowed',
   'extra-large-attention-primary-disabled':
-    'text-base rounded-md py-4 px-6 bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-base rounded-md py-4 px-6 bg-attention-200 text-attention-500 cursor-not-allowed',
   'extra-large-attention-secondary-disabled':
     'text-base rounded-md py-4 px-6 bg-attention-50 text-attention-400 cursor-not-allowed',
   'extra-large-attention-rounded-disabled':
