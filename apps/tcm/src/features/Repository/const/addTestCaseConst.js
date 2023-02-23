@@ -35,5 +35,3 @@ export const statusOptions = [
 ];
 
 export const stepTemplate = { step: '', expected_result: '' };
-
-export const emptyFolderName = 'New Folder';
