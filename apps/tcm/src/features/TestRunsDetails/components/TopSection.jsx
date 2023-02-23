@@ -33,6 +33,15 @@ const TopSection = () => {
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
         wrapperClassName="px-4 pt-6 bg-transparent"
+        breadcrumbs={[
+          {
+            name: 'Test Runs',
+            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+          },
+          {
+            name: testRunDetails?.identifier || testRunId
+          }
+        ]}
         heading={
           <div className="flex">
             {testRunDetails?.name}

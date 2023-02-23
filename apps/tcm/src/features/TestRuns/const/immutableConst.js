@@ -68,11 +68,14 @@ export const CHART_OPTIONS = {
     useHTML: true,
     outside: true,
     enabled: true,
+    delayForDisplay: 2000,
     backgroundColor: '#00335D',
     borderColor: '#00335D',
     style: {
       color: '#fff'
-    }
+    },
+    hideDelay: 1,
+    borderWidth: 0
   }
 };
 
