@@ -104,7 +104,7 @@ const Button = (
   };
 
   const buttonDimensions = useMemo(() => {
-    if (loading) {
+    if (loading && !fullWidth) {
       const target = ref || buttonRef;
       return {
         width: target?.current?.getBoundingClientRect()?.width,
@@ -113,7 +113,7 @@ const Button = (
     }
 
     return null;
-  }, [loading, ref]);
+  }, [loading, ref, fullWidth]);
 
   const stylePicker = () => {
     if (disabled) {
