@@ -8,7 +8,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMRichTextEditor
+  TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -83,14 +83,14 @@ const AddEditFolderModal = ({
           />
         </div>
         <div className="pb-1">
-          <TMRichTextEditor
+          <TMTextArea
+            id={projectId}
             label="Description"
-            id="Description"
-            value={filledFormData.notes}
-            height={200}
             placeholder="Enter folder description/notes"
-            onChange={(val) => setFormData({ ...filledFormData, notes: val })}
-            projectId={projectId}
+            value={filledFormData.notes}
+            onChange={(e) =>
+              setFormData({ ...filledFormData, notes: e.currentTarget.value })
+            }
           />
         </div>
       </TMModalBody>

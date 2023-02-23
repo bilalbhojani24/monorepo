@@ -12,19 +12,25 @@ export const CHART_OPTIONS = {
     spacingBottom: 0,
     spacingLeft: 0,
     plotBorderWidth: 0,
-    margin: [0, 0, 0, 0]
-    // width: 125
+    margin: [0, 0, 0, 0],
+    events: {
+      load(event) {
+        event.target.reflow();
+      }
+    }
   },
   title: {
     text: ''
   },
   xAxis: {
     minPadding: 0,
+    maxPadding: 0,
     lineWidth: 0,
     categories: ['Test Cases'],
     labels: {
       enabled: false
     }
+    // max: 500000
   },
   yAxis: {
     minPadding: 0,
@@ -35,8 +41,7 @@ export const CHART_OPTIONS = {
     },
     labels: {
       enabled: false
-    },
-    max: 100
+    }
   },
   legend: {
     enabled: false
@@ -48,6 +53,11 @@ export const CHART_OPTIONS = {
       stacking: 'normal',
       dataLabels: {
         enabled: false
+      },
+      states: {
+        inactive: {
+          opacity: 1
+        }
       }
     }
     // bar: {
@@ -55,7 +65,6 @@ export const CHART_OPTIONS = {
     //   borderRadius: 6
     // }
   },
-  colors: ['#E5E7EB', '#F87171', '#10B981'],
   series: [],
   credits: {
     enabled: false
@@ -64,11 +73,14 @@ export const CHART_OPTIONS = {
     useHTML: true,
     outside: true,
     enabled: true,
+    delayForDisplay: 2000,
     backgroundColor: '#00335D',
     borderColor: '#00335D',
     style: {
       color: '#fff'
-    }
+    },
+    hideDelay: 1,
+    borderWidth: 0
   }
 };
 
@@ -92,3 +104,12 @@ export const TR_DROP_OPTIONS = [
     divider: true
   }
 ];
+
+export const PROGRESS_COLOR_MAP = {
+  untested: '#4B5563',
+  passed: '#059669',
+  failed: '#F87171',
+  retest: '#FBBF24',
+  blocked: '#818CF8',
+  skipped: '#E5E7EB'
+};

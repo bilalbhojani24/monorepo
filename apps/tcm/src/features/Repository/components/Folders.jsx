@@ -1,9 +1,9 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
+import { MdOutlineCreateNewFolder } from '@browserstack/bifrost';
 import {
   CreateNewFolderOutlinedIcon,
-  FindInPageOutlinedIcon,
-  SourceOutlinedIcon
+  FindInPageOutlinedIcon
 } from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
@@ -132,7 +132,7 @@ export default function Folders() {
           <TMEmptyState
             title="Create New Folder"
             description="You can get started by creating test cases/folders by entering details below."
-            mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
+            mainIcon={<MdOutlineCreateNewFolder className="m-auto h-12 w-12" />}
             buttonProps={{
               children: 'Create Folder',
               onClick: showAddFolderModal,

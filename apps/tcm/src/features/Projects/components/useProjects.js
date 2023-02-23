@@ -139,11 +139,6 @@ const useProjects = (prop) => {
     dispatch(setEditProjectModalVisibility(false));
   };
 
-  const onCreateDropClick = () => {
-    // console.log(selectedOption);
-    // TODO add API
-  };
-
   const editProjectHandler = () => {
     editProjectAPI(selectedProject.id, {
       project: formData
@@ -177,8 +172,7 @@ const useProjects = (prop) => {
     formError,
     setFormError,
     editProjectHandler,
-    hideEditProjectModal,
-    onCreateDropClick
+    hideEditProjectModal
   };
 };
 

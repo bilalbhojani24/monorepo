@@ -23,8 +23,11 @@ import {
   updateAddStatusForm
 } from '../slices/testRunDetailsSlice';
 
+import useTestRunDetails from './useTestRunDetails';
+
 export default function useTRTCFolders() {
   const { projectId, testRunId } = useParams();
+  const { fetchTestRunDetails } = useTestRunDetails();
   const dispatch = useDispatch();
 
   const isFoldersLoading = useSelector(
@@ -150,6 +153,7 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
+      fetchTestRunDetails();
       closeAll();
     });
   };

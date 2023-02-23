@@ -1,4 +1,5 @@
 import React from 'react';
+import { AutomationIcon } from '@browserstack/bifrost';
 import {
   // ArrowBackOutlinedIcon,
   // ArrowForwardOutlinedIcon,
@@ -26,6 +27,7 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
       {testCaseDetails?.is_automation && (
         <div className="mb-4 w-full">
           <TMAlerts
+            alertIcon={<AutomationIcon iconClass="h-5 w-5" />}
             linkText={null}
             modifier="primary"
             accentBorder={false}

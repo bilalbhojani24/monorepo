@@ -111,7 +111,7 @@ export default function useSideNav() {
         value: item.id
       })),
       {
-        label: 'All Projects',
+        label: 'View All Projects',
         value: allProjectOptionValue,
         id: allProjectOptionValue,
         divider: true

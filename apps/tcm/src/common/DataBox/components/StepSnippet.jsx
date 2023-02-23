@@ -13,13 +13,13 @@ const StepSnippet = ({ index, step, result, parseContent }) => (
     <div className="w-full pl-4">
       <div className="mb-2 w-full text-sm">
         <div className="font-medium">Step:</div>
-        <div className="text-base-700">
+        <div className="text-base-700 break-all">
           {parseContent ? ReactHtmlParser(step) : step}
         </div>
       </div>
       <div className="w-full">
         <div className="font-medium">Result:</div>
-        <div className="text-base-700">
+        <div className="text-base-700 break-all">
           {parseContent ? ReactHtmlParser(result) : result}
         </div>
       </div>

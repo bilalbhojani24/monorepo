@@ -37,6 +37,15 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     x: -65
   },
   plotOptions: {
+    series: {
+      point: {
+        events: {
+          legendItemClick() {
+            return false; // <== returning false will cancel the default action
+          }
+        }
+      }
+    },
     pie: {
       innerSize: '75%',
       allowPointSelect: true,
@@ -91,6 +100,11 @@ export const lineOptionsCreator = ({
       color: '#0891B2',
       label: {
         connectorAllowed: false
+      },
+      events: {
+        legendItemClick() {
+          return false; // <== returning false will cancel the default action
+        }
       }
     }
   },
@@ -225,7 +239,12 @@ export const stackedBarOptionsCreator = ({
   },
   plotOptions: {
     column: {
-      stacking: 'percent'
+      stacking: 'percent',
+      events: {
+        legendItemClick() {
+          return false; // <== returning false will cancel the default action
+        }
+      }
     }
   },
   series: chartData || [],

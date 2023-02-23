@@ -1,5 +1,7 @@
 import React from 'react';
 import { TMDataTable } from 'common/bifrostProxy';
+import CopyButton from 'common/CopyButton';
+import PropTypes from 'prop-types';
 
 const JiraFooter = ({ apiKey }) => {
   const COLUMNS = [
@@ -9,11 +11,16 @@ const JiraFooter = ({ apiKey }) => {
 
   const rows = [
     {
-      apiKey: `${apiKey}`,
+      apiKey: `${apiKey?.replace(
+        apiKey?.substring(2, apiKey?.length - 2),
+        '*'.repeat(apiKey?.length - 4)
+      )}`,
       action: (
-        <button type="button" className="text-brand-400">
-          Copy
-        </button>
+        <CopyButton copyValue={apiKey}>
+          <button type="button" className="text-brand-400">
+            Copy
+          </button>
+        </CopyButton>
       )
     }
   ];
@@ -31,6 +38,10 @@ const JiraFooter = ({ apiKey }) => {
       />
     </div>
   );
+};
+
+JiraFooter.propTypes = {
+  apiKey: PropTypes.string.isRequired
 };
 
 export default JiraFooter;

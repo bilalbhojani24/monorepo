@@ -7,8 +7,8 @@ import {
   TMComboBox,
   TMInputField,
   TMPageHeadings,
-  TMRichTextEditor,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -91,19 +91,17 @@ const AddEditTestRun = ({ isEdit }) => {
         <div className="flex-1 overflow-y-auto">
           <div className="border-base-200 flex flex-1 flex-col justify-start overflow-hidden border-b bg-white p-4 sm:rounded-lg">
             <div className="w-2/4">
-              <div className="mt-4">
-                <TMInputField
-                  value={testRunFormData?.test_run?.name}
-                  id="test-run-name"
-                  errorText={inputError ? "This field can't be left empty" : ''}
-                  label="Test Run Name*"
-                  ref={focusRef}
-                  placeholder="Enter test run name"
-                  onChange={(e) =>
-                    handleTestRunInputFieldChange('name', e.currentTarget.value)
-                  }
-                />
-              </div>
+              <TMInputField
+                value={testRunFormData?.test_run?.name}
+                id="test-run-name"
+                errorText={inputError ? "This field can't be left empty" : ''}
+                label="Test Run Name*"
+                ref={focusRef}
+                placeholder="Enter test run name"
+                onChange={(e) =>
+                  handleTestRunInputFieldChange('name', e.currentTarget.value)
+                }
+              />
               <div className="mt-4">
                 <div className="flex w-full justify-between">
                   <div className="text-base-700 mb-2 block text-sm font-medium">
@@ -124,14 +122,16 @@ const AddEditTestRun = ({ isEdit }) => {
               </div>
             </div>
             <div className="mt-4">
-              <TMRichTextEditor
+              <TMTextArea
                 label="Description"
-                value={testRunFormData?.test_run?.description}
-                height={200}
+                defaultValue={testRunFormData?.test_run?.description}
                 placeholder="Explaining in brief about the test run description"
-                onChange={(val) =>
-                  handleTestRunInputFieldChange('description', val)
-                }
+                onChange={(e) => {
+                  handleTestRunInputFieldChange(
+                    'description',
+                    e.currentTarget.value
+                  );
+                }}
                 projectId={projectId}
               />
             </div>
