@@ -80,7 +80,10 @@ const Dashboard = () => {
               size="fit-content"
               footerProps={{
                 linkText: 'View All Closed Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }) || ''
+                linkTo:
+                  `${routeFormatter(AppRoute.TEST_RUNS, {
+                    projectId
+                  })}?closed=true` || ''
               }}
               analytics={
                 <div className="relative">
@@ -110,7 +113,9 @@ const Dashboard = () => {
               size="fit-content"
               footerProps={{
                 linkText: 'View All Closed Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+                linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
+                  projectId
+                })}?closed=true`
               }}
               analytics={
                 <div className="relative">
