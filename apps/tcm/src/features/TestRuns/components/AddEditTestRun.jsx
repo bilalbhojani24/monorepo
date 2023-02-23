@@ -126,11 +126,14 @@ const AddEditTestRun = ({ isEdit }) => {
             <div className="mt-4">
               <TMTextArea
                 label="Description"
-                value={testRunFormData?.test_run?.description}
+                defaultValue={testRunFormData?.test_run?.description}
                 placeholder="Explaining in brief about the test run description"
-                onChange={(val) =>
-                  handleTestRunInputFieldChange('description', val)
-                }
+                onChange={(e) => {
+                  handleTestRunInputFieldChange(
+                    'description',
+                    e.currentTarget.value
+                  );
+                }}
                 projectId={projectId}
               />
             </div>
