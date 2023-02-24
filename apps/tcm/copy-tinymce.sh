@@ -2,7 +2,7 @@
 
 # Set the source and destination paths
 SOURCE="node_modules/@browserstack/bifrost/utils/texteditorSkin"
-DESTINATION="dist/assets/texteditorSkin"
+DESTINATION="dist/assets/css/texteditorSkin"
 
 # Check if the source folder exists
 if [ ! -d "$SOURCE" ]; then

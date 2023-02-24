@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
-import { setAllProjects } from 'globalSlice';
+import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
@@ -24,14 +24,29 @@ export default function useSideNav() {
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const allProjects = useSelector((state) => state.global.allProjects);
+  const isAllProjectsLoading = useSelector(
+    (state) => state.global.isLoading.allProjects
+  );
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
   const userData = useSelector((state) => state.global.user);
 
+  const fetchAllProjects = () => {
+    getProjectsMinifiedAPI().then((res) => {
+      dispatch(setAllProjects(res.projects));
+      dispatch(setIsLoadingProps({ key: 'allProjects', value: false }));
+    });
+  };
+
   const onLinkChange = (linkItem) => {
-    navigate(linkItem.path);
+    if (linkItem?.isExternalLink) {
+      window.open(linkItem.path);
+    } else {
+      navigate(linkItem.path);
+    }
   };
 
   const loadProjectsList = () => {
@@ -41,10 +56,14 @@ export default function useSideNav() {
   };
 
   const dynamicLinkReplaceHelper = (array) => {
+    const emptyProjectId = allProjects.length
+      ? allProjectsDrop?.[0]?.value
+      : 'new'; // show new as id if no projects exists
     const replaceProjectId =
       !selectedProjectId || `${selectedProjectId}` === 'null'
-        ? allProjectsDrop?.[0]?.value || null
+        ? emptyProjectId || null
         : selectedProjectId;
+
     return array.map((item) => ({
       ...item,
       path: routeFormatter(item.path, {
@@ -69,25 +88,35 @@ export default function useSideNav() {
   };
 
   useEffect(() => {
-    if (userData && !allProjects.length) loadProjectsList();
+    if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
+      setAddProjectModal(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  }, [selectedProjectId]);
 
   useEffect(() => {
     // set view
-    if (baseViewRoutes.includes(location.pathname)) {
+    const isImportWithProjects =
+      location.pathname === AppRoute.IMPORT && hasProjects;
+
+    if (baseViewRoutes.includes(location.pathname) || isImportWithProjects) {
       // basic view page without secondary navs
       setShowProjects(false);
       setPrimaryNavs(dynamicLinkReplaceHelper(basePrimaryNavLinks));
       // setSecondaryNavs([]);
     } else {
       // with secondary navs
-      setShowProjects(true);
+      setShowProjects(!isAllProjectsLoading);
       setPrimaryNavs(dynamicLinkReplaceHelper(internalPrimaryNavLinks));
       // setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, selectedProjectId, allProjectsDrop]);
+  }, [
+    location.pathname,
+    selectedProjectId,
+    allProjectsDrop,
+    isAllProjectsLoading
+  ]);
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
@@ -111,7 +140,7 @@ export default function useSideNav() {
         value: item.id
       })),
       {
-        label: 'All Projects',
+        label: 'View All Projects',
         value: allProjectOptionValue,
         id: allProjectOptionValue,
         divider: true
@@ -119,7 +148,13 @@ export default function useSideNav() {
     ]);
   }, [allProjects]);
 
+  useEffect(() => {
+    fetchAllProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return {
+    isAllProjectsLoading,
     showAddProject,
     primaryNavs,
     secondaryNavs,

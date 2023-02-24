@@ -42,7 +42,8 @@ const Checkbox = (props) => {
         'pt-0',
         {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
-            border && !isCard
+            border && !isCard,
+          'opacity-25 cursor-not-allowed': disabled
         },
         wrapperClassName
       )}
@@ -60,7 +61,10 @@ const Checkbox = (props) => {
             name={`${name}${data?.value || ''}`}
             type="checkbox"
             className={twClassNames(
-              'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded'
+              'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded',
+              {
+                'cursor-not-allowed': disabled
+              }
             )}
             defaultChecked={defaultChecked}
             checked={checked}
@@ -71,13 +75,16 @@ const Checkbox = (props) => {
         {data ? (
           <div
             className={twClassNames('min-w-0 flex-1 text-sm', {
-              'ml-3': position === CHECKBOX_POSITION_VARIANT.left
+              'ml-3':
+                position === CHECKBOX_POSITION_VARIANT.left &&
+                (data.label.length > 0 || data.description.length > 0)
             })}
           >
             <label
               htmlFor={`${name}${data.value}`}
               className={twClassNames('text-base-700 select-none font-medium', {
-                'flex flex-row items-center gap-1.5': icon
+                'flex flex-row items-center gap-1.5': icon,
+                'cursor-not-allowed': disabled
               })}
             >
               {icon}
@@ -86,8 +93,10 @@ const Checkbox = (props) => {
             <p
               id={`${name}-${data.value}`}
               className={twClassNames('text-base-500', {
-                'inline ml-2':
-                  description === CHECKBOX_DESCRIPTION_VARIANT.inline,
+                'ml-2':
+                  description === CHECKBOX_DESCRIPTION_VARIANT.inline &&
+                  data.label.length > 0,
+                inline: description === CHECKBOX_DESCRIPTION_VARIANT.inline,
                 block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
                 hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none
               })}
@@ -116,9 +125,15 @@ Checkbox.propTypes = {
   border: PropTypes.bool,
   checked: PropTypes.bool,
   data: PropTypes.shape({
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ]),
     value: PropTypes.string.isRequired,
-    description: PropTypes.string
+    description: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ])
   }),
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,

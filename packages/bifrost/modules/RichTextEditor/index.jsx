@@ -7,7 +7,7 @@ import {
   number,
   oneOfType,
   shape,
-  string,
+  string
 } from '../../shared/proptypesConstants';
 
 import Editor from './components/TextEditor';
@@ -15,6 +15,7 @@ import Editor from './components/TextEditor';
 import './styles.scss';
 
 const RichTextEditor = ({
+  assetsURL,
   onAssetUpload,
   height,
   label,
@@ -25,8 +26,7 @@ const RichTextEditor = ({
   initialValue,
   id,
   editorRef,
-  placeholder,
-  assetsURL,
+  placeholder
 }) => (
   <div className={twClassNames(wrapperClassName)}>
     {label ? (
@@ -38,6 +38,7 @@ const RichTextEditor = ({
       </label>
     ) : null}
     <Editor
+      assetsURL={assetsURL}
       id={id}
       onAssetUpload={onAssetUpload}
       height={height}
@@ -48,12 +49,12 @@ const RichTextEditor = ({
       placeholder={placeholder}
       ref={editorRef}
       label={label}
-      assetsURL={assetsURL}
     />
   </div>
 );
 
 RichTextEditor.propTypes = {
+  assetsURL: string.isRequired,
   onAssetUpload: func.isRequired,
   initialValue: string,
   id: string.isRequired,
@@ -64,8 +65,7 @@ RichTextEditor.propTypes = {
   value: string,
   width: oneOfType([number, string]),
   wrapperClassName: string,
-  editorRef: shape({ current: instanceOf(Element) }),
-  assetsURL: string.isRequired,
+  editorRef: shape({ current: instanceOf(Element) })
 };
 
 RichTextEditor.defaultProps = {
@@ -77,7 +77,7 @@ RichTextEditor.defaultProps = {
   value: undefined,
   width: '100%',
   wrapperClassName: '',
-  editorRef: null,
+  editorRef: null
 };
 
 export default RichTextEditor;

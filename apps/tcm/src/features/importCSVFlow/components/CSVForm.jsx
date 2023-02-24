@@ -9,7 +9,7 @@ const CSVForm = () => {
 
   return (
     <>
-      <div className="mt-6 flex justify-between">
+      <div className="my-6 flex justify-between">
         <div className="flex-1">
           <TMSelectMenu
             checkPosition="right"

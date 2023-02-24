@@ -29,6 +29,13 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     y: 0,
     x: -65
   },
+  tooltip: {
+    backgroundColor: '#00335D',
+    borderColor: '#00335D',
+    style: {
+      color: '#fff'
+    }
+  },
   subtitle: {
     verticalAlign: 'middle',
     floating: true,
@@ -37,6 +44,15 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     x: -65
   },
   plotOptions: {
+    series: {
+      point: {
+        events: {
+          legendItemClick() {
+            return false; // <== returning false will cancel the default action
+          }
+        }
+      }
+    },
     pie: {
       innerSize: '75%',
       allowPointSelect: true,
@@ -74,6 +90,13 @@ export const lineOptionsCreator = ({
   chart: {
     type: 'spline'
   },
+  tooltip: {
+    backgroundColor: '#00335D',
+    borderColor: '#00335D',
+    style: {
+      color: '#fff'
+    }
+  },
   title: {
     text: title || ''
   },
@@ -91,6 +114,11 @@ export const lineOptionsCreator = ({
       color: '#0891B2',
       label: {
         connectorAllowed: false
+      },
+      events: {
+        legendItemClick() {
+          return false; // <== returning false will cancel the default action
+        }
       }
     }
   },
@@ -159,6 +187,13 @@ export const barOptionsCreator = ({
       text: null
     }
   },
+  tooltip: {
+    backgroundColor: '#00335D',
+    borderColor: '#00335D',
+    style: {
+      color: '#fff'
+    }
+  },
   // tooltip: {
   //   headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
   //   pointFormat:
@@ -205,6 +240,13 @@ export const stackedBarOptionsCreator = ({
   title: {
     text: title || ''
   },
+  tooltip: {
+    backgroundColor: '#00335D',
+    borderColor: '#00335D',
+    style: {
+      color: '#fff'
+    }
+  },
   xAxis: {
     categories: xAxis || []
   },
@@ -225,7 +267,12 @@ export const stackedBarOptionsCreator = ({
   },
   plotOptions: {
     column: {
-      stacking: 'percent'
+      stacking: 'percent',
+      events: {
+        legendItemClick() {
+          return false; // <== returning false will cancel the default action
+        }
+      }
     }
   },
   series: chartData || [],

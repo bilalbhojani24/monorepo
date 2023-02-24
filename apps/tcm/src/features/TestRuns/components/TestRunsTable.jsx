@@ -1,6 +1,8 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import { Link } from 'react-router-dom';
+import { MdOutlineInsights } from '@browserstack/bifrost';
 import classNames from 'classnames';
 import {
   TMDropdown,
@@ -9,7 +11,10 @@ import {
   TMTableBody,
   TMTableCell,
   TMTableHead,
-  TMTableRow
+  TMTableRow,
+  TMTooltip,
+  TMTooltipBody,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
@@ -38,28 +43,105 @@ const TestRunsTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[10%]'
-    },
-    {
-      name: 'TITLE',
-      key: 'name',
-      class: 'w-[50%]',
+      class: 'w-[10%]',
       cell: (rowData) => (
         <Link
-          className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
+          className="hover:text-brand-600 cursor-pointer font-medium"
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
             testRunId: rowData?.id
           })}
         >
-          {rowData.name}
+          {rowData.identifier}
         </Link>
+      )
+    },
+    {
+      name: 'TITLE',
+      key: 'name',
+      class: 'w-[40%]',
+      cell: (rowData) => (
+        <>
+          <Link
+            className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
+            to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+              projectId,
+              testRunId: rowData?.id
+            })}
+          >
+            {rowData.name}
+          </Link>
+          <div className="text-base-400">
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
+              {ReactHtmlParser(rowData.description)}
+            </TMTruncateText>
+          </div>
+        </>
+      )
+    },
+    {
+      name: 'Type of Run',
+      key: 'name',
+      class: 'w-[15%]',
+      cell: (rowData) => (
+        <div>
+          {rowData.is_automation ? (
+            <div className="flex">
+              Automation
+              {rowData.observability_url && (
+                <TMTooltip
+                  size="xs"
+                  placementSide="bottom"
+                  theme="dark"
+                  content={
+                    <>
+                      <TMTooltipBody>
+                        <p className="text-sm ">
+                          This in an automated test run created with Test
+                          Observability.
+                          <br />
+                          <br />
+                          Build Run:
+                        </p>
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={rowData.observability_url}
+                          className="mt-1 text-sm font-normal text-white underline"
+                        >
+                          {rowData.name}
+                        </a>
+                      </TMTooltipBody>
+                    </>
+                  }
+                >
+                  <a
+                    href={rowData.observability_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <MdOutlineInsights className="text-brand-500 ml-1 h-5 w-5" />
+                  </a>
+                </TMTooltip>
+              )}
+            </div>
+          ) : (
+            'Manual'
+          )}
+        </div>
       )
     },
     {
       name: 'NO. OF TESTS',
       key: 'test_cases_count',
-      class: 'w-[13%]'
+      class: 'w-[15%]'
     },
     // {
     //   name: 'CREATED DATE',
@@ -84,8 +166,9 @@ const TestRunsTable = () => {
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
           <div className="flex w-full items-center">
-            <div className="w-full max-w-[calc(100%-30px)]">
+            <div className="relative flex h-10 w-full max-w-[calc(100%-30px)] items-center">
               <HighchartsReact
+                id={rowData.id}
                 highcharts={Highcharts}
                 options={getProgressOptions(rowData)}
               />
@@ -135,7 +218,7 @@ const TestRunsTable = () => {
                 variant="body"
                 wrapperClassName={classNames('test-base-500', col?.class, {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
-                  'flex-1 w-9/12': index === 1,
+                  // 'flex-1 w-9/12': index === 1,
                   // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
                   'right-0 ': col.isSticky && col.stickyPosition === 'right',

@@ -47,7 +47,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           mappedField.split(' ').join('').toUpperCase()
         ];
       let defaultSelected = null;
-      for (let i = 0; i < displayOptions.length; i += 1) {
+      for (let i = 0; i < displayOptions?.length; i += 1) {
         if (value[field]?.action === ADD_VALUE_VALUE) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;
@@ -104,8 +104,10 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           <TableBody>
             {modalRowRef?.current?.map((row) => (
               <TableRow key={row.csvValue}>
-                <TableCell wrapperClass="py-1">{row.csvValue}</TableCell>
-                <TableCell wrapperClass="py-2 mr-4">
+                <TableCell wrapperClassName="py-1 w-1/3">
+                  {row.csvValue}
+                </TableCell>
+                <TableCell wrapperClassName="py-2 mr-4 w-2/3">
                   <TMSelectMenu
                     checkPosition="right"
                     options={row?.displayOptions}
@@ -114,6 +116,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                       csvFileField,
                       row.csvValue
                     )}
+                    dividerIdx={row?.displayOptions.length - 3}
                   />
                 </TableCell>
               </TableRow>

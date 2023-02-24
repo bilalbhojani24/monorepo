@@ -17,6 +17,7 @@ export const testCaseTypesOptions = [
   { label: 'Compatibility', value: 'compatibility' },
   { label: 'Destructive', value: 'destructive' },
   { label: 'Functional', value: 'functional' },
+  { label: 'Manual', value: 'manual' },
   { label: 'Other', value: 'other' },
   { label: 'Performance', value: 'performance' },
   { label: 'Regression', value: 'regression' },
@@ -34,5 +35,3 @@ export const statusOptions = [
 ];
 
 export const stepTemplate = { step: '', expected_result: '' };
-
-export const emptyFolderName = 'New Folder';

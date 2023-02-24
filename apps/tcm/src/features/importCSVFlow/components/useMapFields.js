@@ -7,19 +7,20 @@ import {
   ADD_FIELD_VALUE,
   ADD_VALUE_LABEL,
   ADD_VALUE_VALUE,
+  DEFAULT_TABLE_DROPDOWN_OPTIONS,
   IGNORE_FIELD_LABEL,
   IGNORE_FIELD_VALUE,
   IGNORE_VALUE_LABEL,
   IGNORE_VALUE_VALUE
 } from '../const/importCSVConstants';
+import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
   setFieldsMapping,
   setMapFieldModalConfig,
-  setValueMappings,
-  setValueMappingsThunk,
-  submitMappingData
+  setValueMappings
 } from '../slices/importCSVSlice';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const useMapFields = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
@@ -42,6 +43,9 @@ const useMapFields = () => {
   const mapFieldsError = useSelector(
     (state) => state.importCSV.mappingFieldsError
   );
+  const mapFieldProceedLoading = useSelector(
+    (state) => state.importCSV.mapFieldsProceedLoading
+  );
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
@@ -54,8 +58,7 @@ const useMapFields = () => {
   }));
 
   const displayOptions = [
-    { label: IGNORE_FIELD_LABEL, value: IGNORE_FIELD_VALUE },
-    { label: ADD_FIELD_LABEL, value: ADD_FIELD_VALUE },
+    ...DEFAULT_TABLE_DROPDOWN_OPTIONS,
     ...defaultOptions,
     ...customOptions
   ]; // all display options
@@ -155,19 +158,19 @@ const useMapFields = () => {
     {}
   );
 
-  if (myFieldMappings && Object.keys(myFieldMappings).length) {
-    rowRef.current = mapFieldsConfig.importFields.map((item) => ({
-      field: item,
-      mappedField: {
-        displayOptions,
-        defaultValue: {
-          label: mapNameToDisplay[myFieldMappings[item]],
-          value: mapNameToDisplay[myFieldMappings[item]]
-        }
-      },
-      mappedValue: myFieldMappings[item]?.action || myFieldMappings[item]
-    }));
-  }
+  // if (myFieldMappings && Object.keys(myFieldMappings).length) {
+  rowRef.current = mapFieldsConfig.importFields.map((item) => ({
+    field: item,
+    mappedField: {
+      displayOptions,
+      defaultValue: {
+        label: mapNameToDisplay[myFieldMappings?.[item]],
+        value: mapNameToDisplay[myFieldMappings?.[item]]
+      }
+    },
+    mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
+  }));
+  // }
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -349,6 +352,7 @@ const useMapFields = () => {
     );
   };
 
+  console.log('row ref', rowRef.current);
   return {
     mapFieldsError,
     allowedValueMapper,
@@ -359,6 +363,7 @@ const useMapFields = () => {
     myFieldMappings,
     rowRef,
     valueMappings,
+    mapFieldProceedLoading,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
     handleSaveClick,
     onModalCloseHandler,

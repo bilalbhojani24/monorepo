@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { formatTime } from 'utils/helperFunctions';
 
 import { STATE_OPTIONS } from '../const/addEditConst';
 import { TABS_ARRAY } from '../const/immutableConst';
@@ -33,7 +34,7 @@ const initialState = {
   },
   testRunFormData: {
     test_run: {
-      name: '',
+      name: `Test Run-${formatTime(new Date(), 'date')}`,
       description: '',
       run_state: STATE_OPTIONS[0].value,
       owner: null,

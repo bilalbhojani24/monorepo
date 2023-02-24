@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import setupInterceptors from 'api/_utils/interceptor';
+
+import useAuthentication from './useAuthentication';
 
 export default function useMainRoute() {
-  const navigate = useNavigate();
+  const { authInit } = useAuthentication();
 
   useEffect(() => {
-    setupInterceptors(navigate);
-  }, [navigate]);
+    authInit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {};
 }

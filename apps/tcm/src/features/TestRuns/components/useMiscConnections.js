@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   assignTestRunAPI,
   closeTestRunAPI,
   deleteTestRunAPI
 } from 'api/testruns.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import {
   closeAllVisibleForms,
@@ -13,8 +15,9 @@ import {
   updateTestRun
 } from '../slices/testRunsSlice';
 
-const useMiscConnections = () => {
+const useMiscConnections = (prop) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedAssignee, setAssignee] = useState(null);
   const { projectId } = useParams();
 
@@ -40,6 +43,10 @@ const useMiscConnections = () => {
       deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(
         () => {
           dispatch(deleteTestRun(selectedTestRun));
+          if (prop?.redirectToDetails) {
+            // move to test runs list page if in detaiils page
+            navigate(routeFormatter(AppRoute.TEST_RUNS, { projectId }));
+          }
           closeAll();
         }
       );

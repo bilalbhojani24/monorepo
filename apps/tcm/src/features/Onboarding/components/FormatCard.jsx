@@ -12,7 +12,7 @@ const FormatCard = ({ title, description, isSelected, badgeText, onClick }) => {
   return (
     <div
       className={classNames(
-        'flex-1 rounded-md border p-4',
+        'w-1/3 rounded-md border p-4',
         isSelected
           ? 'border-brand-600 ring-2 ring-brand-600'
           : 'border-base-300'

@@ -50,7 +50,7 @@ export default function useTestCaseView({
   };
 
   const actionHandler = (selectedOption) => {
-    // hideTestCaseViewDrawer();
+    hideTestCaseViewDrawer();
     if (selectedOption?.id === TR_DROP_OPTIONS[0]?.id) {
       // if view test case
       navigate(

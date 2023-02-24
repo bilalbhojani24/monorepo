@@ -123,10 +123,13 @@ const useProjects = (prop) => {
       addProjectsAPI(formData).then((res) => {
         dispatch(addProject(res.data.project));
         dispatch(addGlobalProject(res.data.project));
+
         navigate(
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId: res.data.project.id
-          })
+          prop?.isFirstProject
+            ? AppRoute.ROOT
+            : routeFormatter(AppRoute.TEST_CASES, {
+                projectId: res.data.project.id
+              })
         );
         hideAddProjectModal();
       });
@@ -134,11 +137,6 @@ const useProjects = (prop) => {
 
   const hideEditProjectModal = () => {
     dispatch(setEditProjectModalVisibility(false));
-  };
-
-  const onCreateDropClick = () => {
-    // console.log(selectedOption);
-    // TODO add API
   };
 
   const editProjectHandler = () => {
@@ -174,8 +172,7 @@ const useProjects = (prop) => {
     formError,
     setFormError,
     editProjectHandler,
-    hideEditProjectModal,
-    onCreateDropClick
+    hideEditProjectModal
   };
 };
 

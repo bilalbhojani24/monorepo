@@ -1,10 +1,13 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
+import Notification from 'features/Notification';
 import ImportStatus from 'features/quickImportFlow/components/ImportStatus';
 import SideNav from 'features/SideNav';
 
@@ -14,6 +17,7 @@ import {
 } from './features/quickImportFlow/slices/importSlice';
 
 function App() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const importId = useSelector((state) => state.import.importId);
   const importStarted = useSelector((state) => state.import.importStarted);
@@ -24,6 +28,8 @@ function App() {
   const showNotificationModal = useSelector(
     (state) => state.import.showNotificationModal
   );
+
+  setupInterceptors(navigate, dispatch);
 
   useEffect(() => {
     dispatch(setImportConfigurations());
@@ -58,6 +64,7 @@ function App() {
           <MainRoute />
         </div>
       </div>
+      <Notification />
       <NotificationsContainer />
     </>
   );

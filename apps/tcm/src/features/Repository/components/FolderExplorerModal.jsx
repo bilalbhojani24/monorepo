@@ -100,7 +100,9 @@ const FolderExplorerModal = ({
           Cancel
         </TMButton>
         <TMButton
-          disabled={!selectedFolder}
+          disabled={
+            !selectedFolder && primaryMoveLocation !== moveFolderOptions[1]?.id
+          }
           variant="primary"
           wrapperClassName="ml-3"
           onClick={moveFolderOnOkHandler}

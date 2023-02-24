@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
@@ -50,6 +50,7 @@ const AddEditTestCase = () => {
     showMoreFields,
     setShowMoreFields,
     usersArrayMapped,
+    updatedMySelfLabelName,
     tagsArray,
     issuesArray,
     showAddTagsModal,
@@ -63,15 +64,19 @@ const AddEditTestCase = () => {
   } = useAddEditTestCase();
 
   const { initFormValues } = useTestCases();
-
+  const focusRef = useRef(null);
   useEffect(() => {
     initFormValues();
-
+    focusRef?.current?.focus();
     return () => {
       hideTestCaseAddEditPage(null, true);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const defaultOwnerValue = !isTestCaseEditing
+    ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
+    : { label: '', value: '' };
 
   return (
     <div className="border-base-200 flex w-full  shrink-0 grow flex-col items-start overflow-hidden border-l">
@@ -113,6 +118,7 @@ const AddEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange('name', e.currentTarget.value)
               }
+              ref={focusRef}
               errorText={
                 inputError?.name ? "This field can't be left empty" : ''
               }
@@ -264,7 +270,7 @@ const AddEditTestCase = () => {
                       ? usersArrayMapped?.find(
                           (item) => item.value === testCaseFormData.owner
                         )
-                      : { label: '', value: '' } // to be updated to null
+                      : defaultOwnerValue
                   }
                   isMulti={false}
                   placeholder="Select owner"
@@ -356,7 +362,7 @@ const AddEditTestCase = () => {
             <div className="mt-4 flex gap-4">
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
-                  <TMSelectMenu
+                  <TMComboBox
                     checkPosition="right"
                     isMulti
                     placeholder="Select from options"
@@ -404,7 +410,7 @@ const AddEditTestCase = () => {
                   wrapperClassName="w-64 h-36"
                   heading=""
                   linkText="Upload a file"
-                  subHeading="PNG, JPG, PDF up to 10MB"
+                  subHeading="PNG, JPG, PDF, CSV, MP4 up to 50 MB"
                   onChange={fileUploaderHelper}
                   accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
                 />

@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import { uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
   setCSVUploadError,
   setFileConfig,
-  setShowMoreFields,
-  uploadFile
+  setShowMoreFields
 } from '../slices/importCSVSlice';
 
 const useImportCSV = () => {
@@ -60,7 +60,7 @@ const useImportCSV = () => {
   const handleProceedClick = () => {
     // now create the payload and make the api call
     if (!fileConfig.file) {
-      dispatch(setCSVUploadError('Please select a CSV file.'));
+      dispatch(setCSVUploadError('Please select a CSV/Excel file.'));
       return;
     }
     const filesData = new FormData();

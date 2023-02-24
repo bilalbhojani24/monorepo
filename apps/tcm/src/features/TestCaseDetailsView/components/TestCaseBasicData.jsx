@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceOutlinedIcon } from 'assets/icons';
+import { SiJira } from '@browserstack/bifrost';
 import {
   TMAttachments,
   TMBadge,
@@ -54,6 +54,7 @@ const TestCaseBasicData = () => {
           <>
             <DetailsSnippet
               isPrimary
+              dontCapitalize
               title="All Steps & Results:"
               value={
                 <>
@@ -102,6 +103,12 @@ const TestCaseBasicData = () => {
           </div>
           <div className="w-3/6">
             <DetailsSnippet
+              title="Type of test case"
+              value={testCaseDetails?.case_type?.split('_')?.join(' ') || '--'}
+            />
+          </div>
+          <div className="w-3/6">
+            <DetailsSnippet
               title="Priority"
               value={testCaseDetails?.priority || '--'}
             />
@@ -134,7 +141,7 @@ const TestCaseBasicData = () => {
                         text={item.jira_id}
                         size="extra-small"
                         colors="white"
-                        icon={<SourceOutlinedIcon className="!h-5 !w-5" />}
+                        icon={<SiJira className="h-4 w-4" />}
                       >
                         {item.jira_id}
                       </TMButton>
@@ -167,6 +174,7 @@ const TestCaseBasicData = () => {
           }
         />
         <DetailsSnippet
+          parseContent
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />

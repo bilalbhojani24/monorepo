@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import {
   FindInPageOutlinedIcon,
   InfoOutlinedIcon,
@@ -8,7 +9,8 @@ import {
   TMEmptyState,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 import CopyButton from 'common/CopyButton';
 import FolderExplorer from 'common/FolderExplorer';
@@ -40,7 +42,8 @@ const MiniatureRepository = ({
   } = useMiniatureRepository({ projectId });
 
   return (
-    <div className="flex h-full flex-1 shrink-0 grow flex-col overflow-hidden">
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <div className="flex h-[calc(75vh-9rem)] flex-1 shrink-0 grow flex-col overflow-hidden">
       <div className="flex flex-1 shrink-0 grow  items-stretch justify-center  overflow-hidden bg-white">
         <main className="w-full min-w-0 shrink-0 grow overflow-hidden lg:flex">
           <section className="flex h-full w-full  min-w-0 lg:order-last">
@@ -88,9 +91,16 @@ const MiniatureRepository = ({
                           </TMTooltip>
                         </div>
                         {selectedFolder?.notes && (
-                          <div className="text-base-500 mt-1 text-xs">
-                            {selectedFolder?.notes}
-                          </div>
+                          <TMTruncateText
+                            wrapperClassName="text-base-500 mt-1 text-sm line-clamp-3"
+                            hidetooltipTriggerIcon
+                            isFullWidthTooltip
+                            headerTooltipProps={{
+                              delay: 500
+                            }}
+                          >
+                            {ReactHtmlParser(selectedFolder?.notes)}
+                          </TMTruncateText>
                         )}
                       </div>
                     </div>
@@ -104,7 +114,7 @@ const MiniatureRepository = ({
                 <>
                   <div className="border-base-300 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
                     {isTestCasesLoading || isFoldersLoading ? (
-                      <Loader wrapperClassName="h-96" />
+                      <Loader wrapperClassName="h-full" />
                     ) : (
                       <>
                         {!allTestCases?.length && isSearchFilterView ? (

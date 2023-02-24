@@ -6,7 +6,11 @@ const initialState = {
   selectedProjectId: null,
   userConfig: {
     jira: null
-  }
+  },
+  isLoading: {
+    allProjects: true
+  },
+  notification: null
 };
 
 export const globalSlice = createSlice({
@@ -38,11 +42,23 @@ export const globalSlice = createSlice({
       state.allProjects = state.allProjects.filter(
         (item) => item.id !== payload.id
       );
+    },
+    addNotificaton: (state, { payload }) => {
+      state.notification = payload;
+    },
+    removeNotificaton: (state, { payload }) => {
+      if (state.notification?.id === payload) state.notification = null;
+    },
+    setIsLoadingProps: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
 
 export const {
+  setIsLoadingProps,
+  removeNotificaton,
+  addNotificaton,
   setUserConfig,
   setAllProjects,
   setUser,

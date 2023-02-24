@@ -59,7 +59,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
             <span className="capitalize">{rowData.status}</span>
           </div>
           <div className="text-base-500">
-            By: {rowData?.author?.full_name || '--'}
+            {formatTime(rowData.updated_at, 'timeG')}
           </div>
         </div>
       )

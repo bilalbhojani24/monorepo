@@ -43,3 +43,4 @@ export const INFINITY = 2147483646;
 export const ONGOING = 'ongoing';
 export const COMPLETED = 'completed';
 export const FAILURE = 'failure';
+export const INPUT_FIELD_ERROR = 'This field is required';

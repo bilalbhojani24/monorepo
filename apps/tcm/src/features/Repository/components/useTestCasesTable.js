@@ -9,7 +9,7 @@ import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkSelection,
   setAddTestCaseVisibility,
-  setBulkAllSelected,
+  // setBulkAllSelected,
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
@@ -25,6 +25,8 @@ const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
+  const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
+  const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -33,9 +35,9 @@ const useTestCasesTable = (prop) => {
   const setDeSelectedTestCaseIDs = (data) => {
     dispatch(setBulkDeSelectedtestCaseIDs(data));
   };
-  const setBulkAll = (data) => {
-    dispatch(setBulkAllSelected(data));
-  };
+  // const setBulkAll = (data) => {
+  //   dispatch(setBulkAllSelected(data));
+  // };
   const setBulkStatus = (data) => {
     dispatch(setBulkUpdateProgress(data));
   };
@@ -49,7 +51,7 @@ const useTestCasesTable = (prop) => {
     (state) => state.repository.isSearchFilterView
   );
   const isAllSelected = useSelector(
-    (state) => state.repository.bulkSelection.select_all
+    (state) => state.repository.bulkSelection.select_all // logic when all the items through out all the pages were selected, currently this isnt in place.
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
 
@@ -74,11 +76,20 @@ const useTestCasesTable = (prop) => {
 
   const selectAll = (e) => {
     if (e.currentTarget.checked) {
-      setBulkAll(true);
+      // setBulkAll(true);
+      setSelectedTestCaseIDs([
+        ...new Set([
+          ...selectedTestCaseIDs,
+          ...prop?.rows.map((item) => item.id)
+        ])
+      ]);
       setDeSelectedTestCaseIDs([]);
     } else {
-      setBulkAll(false);
-      setSelectedTestCaseIDs([]);
+      // setBulkAll(false);
+      const thisPageTCIDs = prop?.rows.map((item) => item.id);
+      setSelectedTestCaseIDs(
+        selectedTestCaseIDs.filter((item) => !thisPageTCIDs.includes(item))
+      );
       setDeSelectedTestCaseIDs([]);
     }
   };
@@ -158,6 +169,22 @@ const useTestCasesTable = (prop) => {
   };
 
   useEffect(() => {
+    if (prop?.rows) {
+      const checkedItems = prop?.rows
+        .map((item) => item.id)
+        .filter((item) => selectedTestCaseIDs.includes(item));
+
+      setAllChecked(checkedItems.length === prop.rows.length);
+
+      setIndeterminate(
+        checkedItems.length === prop.rows.length || !checkedItems.length
+          ? false
+          : checkedItems.length !== prop.rows.length
+      );
+    }
+  }, [prop?.rows, selectedTestCaseIDs]);
+
+  useEffect(() => {
     prop?.onItemSelectionCb?.(selectedTestCaseIDs);
   }, [prop, selectedTestCaseIDs]);
 
@@ -169,6 +196,8 @@ const useTestCasesTable = (prop) => {
   }, []);
 
   return {
+    isIndeterminate,
+    isAllChecked,
     isSearchFilterView,
     projectId,
     folderId,

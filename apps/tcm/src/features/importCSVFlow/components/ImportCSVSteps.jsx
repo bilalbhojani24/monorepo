@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { TMSteps } from 'common/bifrostProxy';
 import { arrayOf, shape, string } from 'prop-types';
 
@@ -16,12 +16,6 @@ import {
 const ImportCSVSteps = (props) => {
   const { steps } = props;
   const dispatch = useDispatch();
-  const [stepOptions, setStepOptions] = useState([...steps]);
-  const importCSVSteps = useSelector((state) => state.importCSV.importCSVSteps);
-
-  useEffect(() => {
-    setStepOptions(steps);
-  }, [steps]);
 
   const redirectToScreen = (stepName) => {
     if (stepName === 'UPLOAD FILE') dispatch(setCSVCurrentScreen('uploadFile'));
@@ -31,12 +25,13 @@ const ImportCSVSteps = (props) => {
       dispatch(setCSVCurrentScreen('previewAndConfirmImport'));
   };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleStepClick = (_, step) => {
     if (step.status === CURRENT_STEP) {
-      const currentStepIndex = importCSVSteps.findIndex(
+      const currentStepIndex = steps.findIndex(
         (cStep) => cStep.name === step.name
       );
-      const newSteps = importCSVSteps.map((currentStep, idx) => {
+      const newSteps = steps.map((currentStep, idx) => {
         if (idx < currentStepIndex)
           return { ...currentStep, status: COMPLETE_STEP };
         if (idx === currentStepIndex)
@@ -46,14 +41,14 @@ const ImportCSVSteps = (props) => {
       dispatch(setCSVImportSteps(newSteps));
       redirectToScreen(step.name);
     } else if (step.status === COMPLETE_STEP) {
-      const currentStepIndex = importCSVSteps.findIndex(
+      const currentStepIndex = steps.findIndex(
         (cStep) => cStep.name === step.name
       );
-      const newSteps = importCSVSteps.map((currentStep, idx) => {
+      const newSteps = steps.map((currentStep, idx) => {
         if (idx === currentStepIndex)
           return { ...currentStep, status: CURRENT_COMPLETED_STEP };
         if (
-          idx > currentStepIndex &&
+          (idx > currentStepIndex || idx < currentStepIndex) &&
           currentStep.status === CURRENT_COMPLETED_STEP
         )
           return { ...currentStep, status: COMPLETE_STEP };
@@ -66,11 +61,13 @@ const ImportCSVSteps = (props) => {
   };
 
   return (
-    <TMSteps
-      steps={stepOptions}
-      format="panels-with-borders"
-      onClick={handleStepClick}
-    />
+    <div className="bg-white">
+      <TMSteps
+        steps={steps}
+        format="panels-with-borders"
+        onClick={handleStepClick}
+      />
+    </div>
   );
 };
 

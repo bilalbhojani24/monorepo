@@ -3,22 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 // import { verifyTagAPI } from 'api/common.api';
-import { addFolder } from 'api/folders.api';
 import {
   addTestCaseAPI,
+  addTestCaseWithoutFolderAPI,
+  addTestCaseWithoutProjectAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
   getTestCaseDetailsAPI
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
-import {
-  emptyFolderName,
-  stepTemplate,
-  templateOptions
-} from '../const/addTestCaseConst';
+import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import { requestedSteps } from '../const/unsavedConst';
 import {
   addSingleTestCase,
@@ -34,8 +32,10 @@ import {
   setUnsavedDataExists,
   updateAllTestCases,
   updateBulkTestCaseFormData,
+  updateFoldersLoading,
   updateTestCase,
-  updateTestCaseFormData
+  updateTestCaseFormData,
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 import useUnsavedChanges from './useUnsavedChanges';
@@ -52,6 +52,8 @@ export default function useAddEditTestCase() {
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -133,7 +135,7 @@ export default function useAddEditTestCase() {
     }
   };
 
-  const formDataFormatter = (formData) => {
+  const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
       ...formData
     };
@@ -146,7 +148,7 @@ export default function useAddEditTestCase() {
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
 
-    return { test_case: testCase };
+    return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
 
   const formDataRetriever = (formData) => ({
@@ -172,33 +174,22 @@ export default function useAddEditTestCase() {
 
   // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
 
-  const addTestCaseAPIHelper = (formData, thisFolderID) => {
-    addTestCaseAPI({
-      projectId,
-      folderId: thisFolderID,
-      payload: formDataFormatter(formData)
-    }).then((data) => {
-      if (parseInt(folderId, 10) === data.test_case_folder_id)
-        // only if the added test case belong to the opened folder
-        dispatch(addSingleTestCase(data));
-      hideTestCaseAddEditPage(null, true);
-    });
-  };
-
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
+    // name validation
     if (!formData.name) {
       inputErrorsFound.name = true;
     }
 
-    if (
-      formData.template === templateOptions[1].value &&
-      formData.steps.find(
-        (item) => item.step === '' || item.expected_result === ''
-      )
-    ) {
-      inputErrorsFound.steps = true;
-    }
+    // steps validation
+    // if (
+    //   formData.template === templateOptions[1].value &&
+    //   formData.steps.find(
+    //     (item) => item.step === '' || item.expected_result === ''
+    //   )
+    // ) {
+    //   inputErrorsFound.steps = true;
+    // }
 
     if (Object.keys(inputErrorsFound).length) {
       setInputError(inputErrorsFound);
@@ -209,24 +200,59 @@ export default function useAddEditTestCase() {
 
   const saveTestCase = (formData) => {
     if (isFormValidated(formData)) {
-      if (!allFolders.length) {
-        // if no folders, create a folder and then move forward
-        addFolder({
-          projectId,
-          payload: { name: emptyFolderName }
-        }).then((item) => {
-          if (item.data?.folder) {
-            dispatch(setAllFolders([item.data.folder]));
-            addTestCaseAPIHelper(formData, item.data.folder.id);
-            navigate(
-              routeFormatter(AppRoute.TEST_CASES, {
-                projectId,
-                folderId: item.data.folder.id
-              })
-            );
+      let apiSaveFunction = addTestCaseAPI;
+      if (projectId === 'new') {
+        // no project
+        dispatch(updateFoldersLoading(true));
+        dispatch(updateTestCasesListLoading(true));
+        apiSaveFunction = addTestCaseWithoutProjectAPI;
+      } else if (!allFolders.length) {
+        // no folder
+        dispatch(updateFoldersLoading(true));
+        dispatch(updateTestCasesListLoading(true));
+        apiSaveFunction = addTestCaseWithoutFolderAPI;
+      }
+
+      apiSaveFunction({
+        projectId,
+        folderId: formData.test_case_folder_id,
+        payload: formDataFormatter(formData, !allFolders.length)
+      }).then((data) => {
+        const testCaseData = data.data.test_case;
+        const folderData = data.data.folder;
+
+        dispatch(
+          addNotificaton({
+            id: `test_case_added${testCaseData?.id}`,
+            title: 'Test case added',
+            variant: 'success',
+            description: null
+          })
+        );
+
+        if (projectId === 'new' || !allFolders.length) {
+          // no project/folder
+
+          // if no folders append the data rightaway
+          if (!allFolders.length && folderData) {
+            dispatch(setAllFolders([folderData]));
+            dispatch(updateFoldersLoading(false));
           }
-        });
-      } else addTestCaseAPIHelper(formData, formData.test_case_folder_id);
+
+          navigate(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId: testCaseData.project_id,
+              folderId: testCaseData.test_case_folder_id
+            })
+          );
+        } else if (
+          parseInt(folderId, 10) === testCaseData.test_case_folder_id
+        ) {
+          // only if the added test case belong to the opened folder
+          dispatch(addSingleTestCase(testCaseData));
+        }
+        hideTestCaseAddEditPage(null, true);
+      });
     }
   };
 
@@ -238,6 +264,8 @@ export default function useAddEditTestCase() {
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
     }).then((res) => {
+      // dispatch(setMetaPage(res.info));
+      // dispatch(updateAllTestCases(res?.test_cases || []));
       dispatch(
         updateAllTestCases(
           allTestCases.map(
@@ -356,7 +384,6 @@ export default function useAddEditTestCase() {
       : selectedFolder?.id;
 
     dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
-    /// RIIIBIIIIN
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)
       // then in search view, go to repository view
@@ -371,7 +398,7 @@ export default function useAddEditTestCase() {
     if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
       return;
 
-    navigate(url);
+    navigate(routeFormatter(url, { projectId }));
   };
 
   useEffect(() => {
@@ -382,7 +409,15 @@ export default function useAddEditTestCase() {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
+        usersArray.map((item) => {
+          if (item.full_name === 'Myself') {
+            return {
+              label: updatedMySelfLabelName,
+              value: item.id
+            };
+          }
+          return { label: item.full_name, value: item.id };
+        })
       );
     } else {
       setUsersArray([]);
@@ -402,6 +437,7 @@ export default function useAddEditTestCase() {
     tagsArray,
     issuesArray,
     usersArrayMapped,
+    updatedMySelfLabelName,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,

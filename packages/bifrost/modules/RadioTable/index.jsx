@@ -20,6 +20,7 @@ const RadioTable = (props) => {
       <div className="relative -space-y-px rounded-md bg-white">
         {options.map((option, optionIdx) => (
           <RadioGroup.Option
+            disabled={option.disabled || false}
             key={option.name}
             value={option}
             className={({ checked }) =>
@@ -35,9 +36,13 @@ const RadioTable = (props) => {
               )
             }
           >
-            {({ active, checked }) => (
+            {({ active, checked, disabled }) => (
               <>
-                <span className="flex items-center text-sm">
+                <span
+                  className={twClassNames('flex items-center text-sm', {
+                    'opacity-25 cursor-not-allowed': disabled
+                  })}
+                >
                   <span
                     className={twClassNames(
                       {
@@ -123,31 +128,12 @@ RadioTable.propTypes = {
       firsColVal: PropTypes.string,
       secondColVal: PropTypes.string
     })
-  ).isRequired,
+  ),
   onChange: PropTypes.func,
   withDescription: PropTypes.bool
 };
 RadioTable.defaultProps = {
-  options: [
-    {
-      name: 'Startup',
-      description: 'It is the description 1',
-      firstColVal: '$29 / mo ($290 / yr)',
-      secondColVal: 'Up to 5 active job postings'
-    },
-    {
-      name: 'Business',
-      description: 'It is the description 2',
-      firstColVal: '$99 / mo ($990 / yr)',
-      secondColVal: 'Up to 25 active job postings'
-    },
-    {
-      name: 'Enterprise',
-      description: 'It is the description 3',
-      firstColVal: '$249 / mo ($2490 / yr)',
-      secondColVal: 'Unlimited active job postings'
-    }
-  ],
+  options: [],
   onChange: () => {},
   withDescription: false
 };

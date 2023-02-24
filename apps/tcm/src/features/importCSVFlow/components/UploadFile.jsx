@@ -80,7 +80,7 @@ const UploadFile = () => {
             linkText="Upload a file"
             heading="or drag and drop"
             subHeading="CSV & XLS format allowed"
-            accept=".csv,.xls"
+            accept=".csv,.xlsx"
             onChange={handleFileUpload}
           />
         )}

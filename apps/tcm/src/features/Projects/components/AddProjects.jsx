@@ -6,14 +6,14 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMRichTextEditor
+  TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useProjects from './useProjects';
 
-const AddProjects = ({ show, onClose }) => {
+const AddProjects = ({ show, onClose, isFirstProject }) => {
   const {
     modalFocusRef,
     formData,
@@ -22,7 +22,7 @@ const AddProjects = ({ show, onClose }) => {
     createProjectHandler,
     hideAddProjectModal,
     setFormError
-  } = useProjects({ onClose });
+  } = useProjects({ isFirstProject, onClose });
 
   return (
     <TMModal
@@ -52,13 +52,13 @@ const AddProjects = ({ show, onClose }) => {
             }}
           />
         </div>
-        <TMRichTextEditor
+        <TMTextArea
           label="Description"
-          id="Description"
-          value={formData.description}
-          height={200}
           placeholder="Write in brief about the project"
-          onChange={(val) => setFormData({ ...formData, description: val })}
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.currentTarget.value })
+          }
         />
       </TMModalBody>
       <TMModalFooter position="right">
@@ -83,11 +83,13 @@ const AddProjects = ({ show, onClose }) => {
 
 AddProjects.propTypes = {
   show: PropTypes.bool,
+  isFirstProject: PropTypes.bool,
   onClose: PropTypes.func
 };
 
 AddProjects.defaultProps = {
   show: false,
+  isFirstProject: false,
   onClose: null // this should be null and be a function onlyif needed
 };
 

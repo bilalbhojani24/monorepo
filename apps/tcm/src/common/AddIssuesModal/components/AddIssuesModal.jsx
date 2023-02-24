@@ -1,6 +1,6 @@
-import React from 'react';
-import { Loader } from '@browserstack/bifrost';
-import { LayersIcon, OpenInNewOutlinedIcon } from 'assets/icons';
+import React, { useEffect } from 'react';
+import { MdOutlineLayers } from '@browserstack/bifrost';
+import { OpenInNewOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMInputField,
@@ -10,6 +10,7 @@ import {
   TMModalHeader
   // TMSelectMenu
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
@@ -33,15 +34,18 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
     onSave
   });
 
+  useEffect(() => {
+    modalFocusRef?.current?.focus();
+  }, [isLoading, jiraConfig, modalFocusRef]);
+
   return (
     <TMModal
       show={isVisible}
-      withDismissButton
       onOverlayClick={onCloseHandler}
       ref={modalFocusRef}
       size={!isLoading && jiraConfig ? 'lg' : 'sm'}
     >
-      {jiraConfig && (
+      {jiraConfig ? (
         <TMModalHeader
           heading="Add Link"
           handleDismissClick={onCloseHandler}
@@ -51,10 +55,21 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
               : null
           }
         />
+      ) : (
+        !isLoading && (
+          <TMModalHeader
+            dismissButton
+            heading=""
+            handleDismissClick={onCloseHandler}
+            subHeading=""
+          />
+        )
       )}
       <TMModalBody>
         {isLoading ? (
-          <Loader />
+          <div className="mt-6">
+            <Loader />
+          </div>
         ) : (
           <>
             {jiraConfig ? (
@@ -63,7 +78,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                   id="jira-account"
                   label="JIRA Account"
                   disabled
-                  value={jiraConfig?.host || ''}
+                  value={jiraConfig?.data?.host || ''}
                 />
                 {/* <div className="mt-4">
                       <TMSelectMenu
@@ -101,10 +116,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
             ) : (
               <div className="mt-8">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full">
-                  <LayersIcon
-                    className="text-base-800 !h-14 !w-14"
-                    aria-hidden="true"
-                  />
+                  <MdOutlineLayers className="text-base-600 h-14 w-14" />
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
                   <h3
@@ -143,9 +155,16 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                 </TMButton>
               </>
             ) : (
-              <TMButton fullWidth colors="brand" onClick={configureJIRAInit}>
-                Setup JIRA Account
-              </TMButton>
+              <>
+                <TMButton
+                  ref={modalFocusRef}
+                  fullWidth
+                  colors="brand"
+                  onClick={configureJIRAInit}
+                >
+                  Setup JIRA Account
+                </TMButton>
+              </>
             )}
           </>
         )}

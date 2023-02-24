@@ -1,11 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MdOutlineAccessTime, MdPersonOutline } from '@browserstack/bifrost';
+import {
+  MdOutlineAccessTime,
+  MdOutlineInsights,
+  MdPersonOutline
+} from '@browserstack/bifrost';
 import {
   TMButton,
   TMDropdown,
   TMMetadata,
-  TMPageHeadings
+  TMPageHeadings,
+  TMTooltip,
+  TMTooltipBody
 } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { CloseTestRun, DeleteTestRun } from 'features/TestRuns';
@@ -27,7 +33,57 @@ const TopSection = () => {
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
         wrapperClassName="px-4 pt-6 bg-transparent"
-        heading={testRunDetails?.name || ''}
+        breadcrumbs={[
+          {
+            name: 'Test Runs',
+            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+          },
+          {
+            name: testRunDetails?.identifier || testRunId
+          }
+        ]}
+        heading={
+          <div className="flex">
+            {testRunDetails?.name}
+            {testRunDetails?.is_automation &&
+              testRunDetails?.observability_url && (
+                <TMTooltip
+                  size="xs"
+                  placementSide="bottom"
+                  theme="dark"
+                  content={
+                    <>
+                      <TMTooltipBody>
+                        <p className="text-sm ">
+                          This in an automated test run created with Test
+                          Observability.
+                          <br />
+                          <br />
+                          Build Run:
+                        </p>
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={testRunDetails?.observability_url}
+                          className="mt-1 text-sm font-normal text-white underline"
+                        >
+                          {testRunDetails?.name}
+                        </a>
+                      </TMTooltipBody>
+                    </>
+                  }
+                >
+                  <a
+                    href={testRunDetails?.observability_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <MdOutlineInsights className="text-brand-500 ml-3 h-8 w-8" />
+                  </a>
+                </TMTooltip>
+              )}
+          </div>
+        }
         actions={
           <>
             <Link
@@ -73,7 +129,7 @@ const TopSection = () => {
         }
       />
       <CloseTestRun />
-      <DeleteTestRun />
+      <DeleteTestRun redirectToDetails />
     </div>
   );
 };

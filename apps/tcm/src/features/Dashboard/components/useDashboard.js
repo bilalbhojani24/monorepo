@@ -40,47 +40,61 @@ export default function useDashboard() {
 
   const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
 
+  const projectIdCheck = (key, apiFunction, doAfter) => {
+    if (projectId === 'new') {
+      dispatch(setIsLoadingProps({ key, value: false }));
+      doAfter?.({
+        empty_data: true
+      });
+    } else {
+      dispatch(setIsLoadingProps({ key, value: true }));
+      apiFunction(projectId).then((res) => {
+        doAfter?.(res);
+        dispatch(setIsLoadingProps({ key, value: false }));
+      });
+    }
+  };
+
   const fetchActiveTestRuns = () => {
-    dispatch(setIsLoadingProps({ key: 'activeTR', value: true }));
-    getActiveTestRunsAPI(projectId).then((res) => {
+    projectIdCheck('activeTR', getActiveTestRunsAPI, (res) => {
       setActiveTestRunsOptions(
         donutOptionCreator({
-          chartData: res.data.map((item) => [item.name, item.y]),
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item) => [item.name, item.y]) || [],
           colors: ACTIVE_TEST_RUNS_COLOR,
           addOns: {
             isEmpty: res?.empty_data,
-            total: res.data.reduce((total, item) => item.y + total, 0)
+            total: res?.data?.reduce((total, item) => item.y + total, 0) || 0
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'activeTR', value: false }));
     });
   };
 
   const fetchClosedTestRunsMonthly = () => {
-    dispatch(setIsLoadingProps({ key: 'closedTRMonthly', value: true }));
-    getClosedTestRunsMonthlyAPI(projectId).then((res) => {
+    projectIdCheck('closedTRMonthly', getClosedTestRunsMonthlyAPI, (res) => {
       setClosedTestRunsMonthlyLineOptions(
         lineOptionsCreator({
           chartData: [
             {
               name: '',
-              data: res.empty_data ? [] : res.data.map((item) => item?.[1] || 0)
+              data: res?.empty_data
+                ? []
+                : res?.data?.map((item) => item?.[1] || 0)
             }
           ],
-          xAxis: res.data.map((item) => item?.[0]),
+          xAxis: res?.data?.map((item) => item?.[0]) || [],
           addOns: {
             isEmpty: res?.empty_data
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'closedTRMonthly', value: false }));
     });
   };
 
   const fetchClosedTestRunsDaily = () => {
-    dispatch(setIsLoadingProps({ key: 'closedTRDaily', value: true }));
-    getClosedTestRunsDailyAPI(projectId).then((res) => {
+    projectIdCheck('closedTRDaily', getClosedTestRunsDailyAPI, (res) => {
       setClosedTestRunsDailyLineOptions(
         stackedBarOptionsCreator({
           showLegend: true,
@@ -96,30 +110,28 @@ export default function useDashboard() {
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'closedTRDaily', value: false }));
     });
   };
 
   const fetchTestCaseTypeSplit = () => {
-    dispatch(setIsLoadingProps({ key: 'typeOfTC', value: true }));
-    getTestCaseTypeSplitAPI(projectId).then((res) => {
+    projectIdCheck('typeOfTC', getTestCaseTypeSplitAPI, (res) => {
       setTestCaseTypesOptions(
         donutOptionCreator({
-          chartData: res.data.map((item) => [item.name, item.y]),
+          chartData: res?.empty_data
+            ? []
+            : res?.data?.map((item) => [item.name, item.y]) || [],
           colors: TEST_CASES_TYPES_COLORS,
           addOns: {
             isEmpty: res?.empty_data,
-            total: res.data.reduce((total, item) => item.y + total, 0)
+            total: res?.data?.reduce((total, item) => item.y + total, 0) || 0
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'typeOfTC', value: false }));
     });
   };
 
   const fetchTrendOfTestCases = () => {
-    dispatch(setIsLoadingProps({ key: 'trendOfTC', value: true }));
-    getTestCaseCountTrendAPI(projectId).then((res) => {
+    projectIdCheck('trendOfTC', getTestCaseCountTrendAPI, (res) => {
       setTestCasesTrendOptions(
         lineOptionsCreator({
           showLegend: res ? !res?.empty_data : false,
@@ -138,20 +150,20 @@ export default function useDashboard() {
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'trendOfTC', value: false }));
     });
   };
 
   const fetchJiraIssues = () => {
-    dispatch(setIsLoadingProps({ key: 'jiraIssues', value: true }));
-    getIssuesCountAPI(projectId).then((res) => {
+    projectIdCheck('jiraIssues', getIssuesCountAPI, (res) => {
       setJiraIssuesOptions(
         barOptionsCreator({
-          xAxis: res.data.map((item) => item?.[0] || ''),
+          xAxis: res?.data?.map((item) => item?.[0] || '') || [],
           chartData: [
             {
               name: 'Issues',
-              data: res.empty_data ? [] : res.data.map((item) => item?.[1] || 0)
+              data: res?.empty_data
+                ? []
+                : res?.data?.map((item) => item?.[1] || 0)
             }
           ],
           addOns: {
@@ -159,7 +171,6 @@ export default function useDashboard() {
           }
         })
       );
-      dispatch(setIsLoadingProps({ key: 'jiraIssues', value: false }));
     });
   };
 

@@ -6,10 +6,11 @@ const useAuthentication = () => {
   const dispatch = useDispatch();
 
   const onAuthSuccessHandler = (res) => {
-    if (res.data?.data?.user) {
-      dispatch(setUser(res.data.data.user));
+    if (res.data?.user) {
+      dispatch(setUser(res.data.user));
+
+      return Promise.resolve(res);
     }
-    return Promise.resolve(res);
   };
 
   const onAuthFailureHandler = (res) => Promise.reject(res);

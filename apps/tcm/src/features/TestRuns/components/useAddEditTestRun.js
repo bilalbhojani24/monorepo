@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   addTestRunAPI,
+  addTestRunWithoutProjectAPI,
   editTestRunAPI,
   getTestRunDetailsAPI
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -30,6 +32,8 @@ const useAddEditTestRun = () => {
   const [inputError, setInputError] = useState(false);
   const [selectedTCIDs, setSelectedTCIDs] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isEditing = useSelector(
     (state) => state.testRuns.isVisible.editTestRunsForm
@@ -192,7 +196,7 @@ const useAddEditTestRun = () => {
     return {
       test_run: testRun,
       test_case_ids: testRun?.test_cases
-        ? testRun.test_cases
+        ? testRun.test_cases?.map((item) => item.id) || []
         : formData.test_case_ids
     };
   };
@@ -210,11 +214,31 @@ const useAddEditTestRun = () => {
         hideAddTestRunForm();
       });
     } else {
-      addTestRunAPI({
+      const addtestRunAPIFunction =
+        projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
+      addtestRunAPIFunction({
         payload: formDataFormatter(testRunFormData),
         projectId
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
+
+        dispatch(
+          addNotificaton({
+            id: `test_run_added${data.data.testrun?.id}`,
+            title: 'Test run added',
+            variant: 'success',
+            description: null
+          })
+        );
+
+        if (projectId === 'new') {
+          navigate(
+            `${routeFormatter(AppRoute.TEST_RUNS, {
+              projectId: data.data.testrun?.project_id
+            })}`
+          );
+        }
+
         hideAddTestRunForm();
       });
     }
@@ -249,7 +273,15 @@ const useAddEditTestRun = () => {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
+        usersArray.map((item) => {
+          if (item.full_name === 'Myself') {
+            return {
+              label: updatedMySelfLabelName,
+              value: item.id
+            };
+          }
+          return { label: item.full_name, value: item.id };
+        })
       );
     } else {
       setUsersArray([]);
@@ -285,6 +317,7 @@ const useAddEditTestRun = () => {
     isAddTagModalShown,
     isAddIssuesModalShown,
     usersArrayMapped,
+    updatedMySelfLabelName,
     testRunFormData,
     tagsArray,
     issuesArray,

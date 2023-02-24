@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AutomationFolderIcon } from '@browserstack/bifrost';
 import {
   TMDropdown,
   TMListTree,
@@ -42,9 +43,20 @@ const ConrolledNestedTree = ({
                 ? 'opacity-25 pointer-events-none'
                 : ''
             }
+            leadingIcon={
+              item?.is_automation && (
+                <AutomationFolderIcon className="h-full w-full" />
+              )
+            }
             isFocused={focused === item.name}
             label={
-              <TMTruncateText hidetooltipTriggerIcon>
+              <TMTruncateText
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
+              >
                 {item.name}
               </TMTruncateText>
             }

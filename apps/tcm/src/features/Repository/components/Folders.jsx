@@ -1,9 +1,12 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
+  MdOutlineCreateNewFolder,
+  MdOutlineSearchOff
+} from '@browserstack/bifrost';
+import {
   CreateNewFolderOutlinedIcon,
-  FindInPageOutlinedIcon,
-  SourceOutlinedIcon
+  FindInPageOutlinedIcon
 } from 'assets/icons';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import FolderExplorer from 'common/FolderExplorer';
@@ -20,7 +23,6 @@ import '../styles/Folders.scss';
 
 export default function Folders() {
   const {
-    searchKey,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -112,11 +114,22 @@ export default function Folders() {
                     ) : (
                       <TMEmptyState
                         // title=""
-                        title={`We found ${testCasesCount} Search Results for '${
-                          searchKey || ''
-                        }' across all folders`}
+                        title={
+                          testCasesCount !== 0
+                            ? `We found ${testCasesCount} Search Results across all folders`
+                            : 'No Results Found'
+                        }
+                        description={
+                          testCasesCount !== 0
+                            ? ''
+                            : 'Reset the filters or try again.'
+                        }
                         mainIcon={
-                          <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                          testCasesCount !== 0 ? (
+                            <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                          ) : (
+                            <MdOutlineSearchOff className="text-base-400 m-auto h-12 w-12" />
+                          )
                         }
                         buttonProps={null}
                       />
@@ -132,7 +145,7 @@ export default function Folders() {
           <TMEmptyState
             title="Create New Folder"
             description="You can get started by creating test cases/folders by entering details below."
-            mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
+            mainIcon={<MdOutlineCreateNewFolder className="m-auto h-12 w-12" />}
             buttonProps={{
               children: 'Create Folder',
               onClick: showAddFolderModal,

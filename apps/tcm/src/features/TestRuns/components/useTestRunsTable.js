@@ -3,7 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
 
-import { CHART_OPTIONS, TR_DROP_OPTIONS } from '../const/immutableConst';
+import {
+  CHART_OPTIONS,
+  PROGRESS_COLOR_MAP,
+  TR_DROP_OPTIONS
+} from '../const/immutableConst';
 import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
 
 const useTestRuns = () => {
@@ -34,20 +38,28 @@ const useTestRuns = () => {
       groupPadding: 0,
       pointPadding: 0,
       name: key,
-      data: [data.overall_progress?.[key] || 0]
+      data: [data.overall_progress?.[key] || 0],
+      color: PROGRESS_COLOR_MAP[key],
+      states: {
+        hover: {
+          color: PROGRESS_COLOR_MAP[key]
+        }
+      }
     }));
 
     return {
       ...CHART_OPTIONS,
       series,
       yAxis: {
-        ...CHART_OPTIONS.yAxis,
-        max: totalValue
+        ...CHART_OPTIONS.yAxis
+      },
+      xAxis: {
+        ...CHART_OPTIONS.xAxis
       },
       tooltip: {
         ...CHART_OPTIONS.tooltip,
         formatter() {
-          return `<div><b>${this.x}</b></div>
+          return `<div><p>${this.x}</p></div>
                   <span style="color:${
                     this.point.color
                   }">\u25CF</span> <span class="whitespace-nowrap">${capitalizeString(

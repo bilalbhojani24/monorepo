@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 const TMSelectMenu = ({
   placeholder,
+  dividerIdx,
   label,
   options,
   onChange,
@@ -28,7 +29,14 @@ const TMSelectMenu = ({
     <SelectMenuTrigger placeholder={placeholder} />
     <SelectMenuOptionGroup>
       {React.Children.toArray(
-        options.map((item) => <SelectMenuOptionItem option={item} />)
+        options.map((item, idx) => (
+          <SelectMenuOptionItem
+            option={item}
+            wrapperClassName={
+              idx === dividerIdx ? 'border-base-100 border-b' : ''
+            }
+          />
+        ))
       )}
     </SelectMenuOptionGroup>
   </SelectMenu>
@@ -38,6 +46,7 @@ TMSelectMenu.propTypes = {
   placeholder: PropTypes.string,
   isMulti: PropTypes.bool,
   label: PropTypes.string,
+  dividerIdx: PropTypes.number,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -62,6 +71,7 @@ TMSelectMenu.propTypes = {
 TMSelectMenu.defaultProps = {
   isMulti: false,
   placeholder: '',
+  dividerIdx: null,
   label: '',
   options: [],
   onChange: () => {},
