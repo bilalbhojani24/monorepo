@@ -25,6 +25,17 @@ import {
   uploadFileRejected
 } from './importCSVSlice';
 
+const removeIgnoredValues = (valueMappings) =>
+  Object.keys(valueMappings).reduce((obj, key) => {
+    if (typeof valueMappings[key] === 'object' && !valueMappings[key].action)
+      return { ...obj, [key]: removeIgnoredValues(valueMappings[key]) };
+
+    if (valueMappings[key]?.action === 'ignore') {
+      return { ...obj };
+    }
+    return { ...obj, [key]: valueMappings[key] };
+  }, {});
+
 export const setCSVConfigurations = () => async (dispatch) => {
   try {
     const response = await getCSVConfigurations();
@@ -64,6 +75,8 @@ export const submitMappingData =
   ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
   async (dispatch) => {
     dispatch(submitMappingDataPending());
+    const filteredValueMappings = removeIgnoredValues(valueMappings);
+
     try {
       const response = await postMappingData({
         importId,
@@ -71,7 +84,7 @@ export const submitMappingData =
           project_id: projectId,
           folder_id: folderId,
           field_mappings: myFieldMappings,
-          value_mappings: valueMappings
+          value_mappings: filteredValueMappings
         }
       });
       dispatch(submitMappingDataFulfilled(response));
