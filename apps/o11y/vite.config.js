@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 const { productViteConfig } = require('@browserstack/vite-config');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: productViteConfig.plugins,
+  plugins: [...productViteConfig.plugins, splitVendorChunkPlugin()],
   server: {
     https: {
       key: fs.readFileSync('./certs/bsstag.com.key'),
