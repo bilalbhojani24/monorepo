@@ -215,23 +215,24 @@ export default function useAddEditTestCase() {
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
       }).then((data) => {
-        const testCaseData = data.test_case;
-        const folderData = data.folder;
+        const testCaseData = data.data.test_case;
+        const folderData = data.data.folder;
 
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
+
+          // if no folders append the data rightaway
+          if (!allFolders.length && folderData) {
+            dispatch(setAllFolders([folderData]));
+            dispatch(updateFoldersLoading(false));
+          }
+
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
               projectId: testCaseData.project_id,
               folderId: testCaseData.test_case_folder_id
             })
           );
-
-          // if no folders append the data rightaway
-          if (!allFolders.length && folderData) {
-            setAllFolders([folderData]);
-            dispatch(updateFoldersLoading(false));
-          }
         } else if (
           parseInt(folderId, 10) === testCaseData.test_case_folder_id
         ) {
