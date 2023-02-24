@@ -22,12 +22,10 @@ import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 
 import useAuthentication from './components/useAuthentication';
-import useMainRoute from './components/useMainRoute';
 
 const MainRoute = () => {
   const location = useLocation();
   const { authInit } = useAuthentication();
-  useMainRoute();
 
   const APP_ROUTES = [
     {
@@ -36,8 +34,8 @@ const MainRoute = () => {
       component: <AllProjects />
     },
     {
-      path: AppRoute.LANDING,
-      isProtected: true,
+      path: AppRoute.LANDING, // to be removed
+      isProtected: false,
       component: <LoginScreen />
     },
     {
@@ -46,7 +44,7 @@ const MainRoute = () => {
       component: <Dashboard />
     },
     {
-      path: AppRoute.ONBOARDING,
+      path: AppRoute.ONBOARDING, // verify
       isProtected: true,
       component: <Onboarding />
     },
@@ -101,12 +99,19 @@ const MainRoute = () => {
       component: <Import />
     },
     {
+      path: AppRoute.IMPORT_WITH_PROJECTS,
+      isProtected: true,
+      component: <Import />
+    },
+    {
       path: AppRoute.IMPORT_CSV,
       isProtected: true,
       component: <ImportCSV />
     },
+
+    // Working heree
     {
-      path: AppRoute.NO_ACCESS,
+      path: AppRoute.NO_ACCESS, // verify this
       isProtected: true,
       component: <AlphaAccess />
     },
@@ -135,145 +140,6 @@ const MainRoute = () => {
       })}
     >
       {Routes}
-      {/* <Routes>
-        <Route
-          path={AppRoute.LANDING}
-          element={
-            <OnlyPublicComponent>
-              <LoginScreen />
-            </OnlyPublicComponent>
-          }
-        />
-        <Route
-          path={AppRoute.ROOT}
-          element={
-            <PrivateComponent>
-              <AllProjects />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.DASHBOARD}
-          element={
-            <PrivateComponent>
-              <Dashboard />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.ONBOARDING}
-          element={
-            <PrivateComponent isOnboarding>
-              <Onboarding />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_CASES}
-          element={
-            <PrivateComponent>
-              <Repository />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_CASES_SEARCH}
-          element={
-            <PrivateComponent>
-              <Repository isSearch />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_RUNS}
-          element={
-            <PrivateComponent>
-              <TestRuns key="table" />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_RUNS_EDIT}
-          element={
-            <PrivateComponent>
-              <AddEditTestRun isEdit />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_RUN_ISSUES}
-          element={
-            <PrivateComponent>
-              <Issues />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_RUNS_EDIT}
-          element={
-            <PrivateComponent>
-              <AddEditTestRun isEdit />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.TEST_RUN_DETAILS}
-          element={
-            <PrivateComponent>
-              <TestRunsDetails />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.SETTINGS}
-          element={
-            <PrivateComponent>
-              <Settings />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.RESOURCES}
-          element={<PrivateComponent>RESOURCES</PrivateComponent>}
-        />
-        <Route
-          path={AppRoute.IMPORT}
-          element={
-            <PrivateComponent>
-              <Import />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.IMPORT_WITH_PROJECTS}
-          element={
-            <PrivateComponent>
-              <Import />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path={AppRoute.IMPORT_CSV}
-          element={
-            <PrivateComponent>
-              <ImportCSV />
-            </PrivateComponent>
-          }
-        />
-        <Route path={AppRoute.NO_ACCESS} isForced element={<AlphaAccess />} />
-        <Route
-          path={AppRoute.NOT_FOUND}
-          element={
-            <PrivateComponent>
-              <NotFound />
-            </PrivateComponent>
-          }
-        />
-        <Route
-          path="*"
-          element={<Navigate to={AppRoute.NOT_FOUND} replace />}
-        />
-      </Routes> */}
     </div>
   );
 };
