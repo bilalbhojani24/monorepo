@@ -51,6 +51,8 @@ export default function useAddEditTestCase() {
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -391,7 +393,15 @@ export default function useAddEditTestCase() {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
+        usersArray.map((item) => {
+          if (item.full_name === 'Myself') {
+            return {
+              label: updatedMySelfLabelName,
+              value: item.id
+            };
+          }
+          return { label: item.full_name, value: item.id };
+        })
       );
     } else {
       setUsersArray([]);
@@ -411,6 +421,7 @@ export default function useAddEditTestCase() {
     tagsArray,
     issuesArray,
     usersArrayMapped,
+    updatedMySelfLabelName,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
