@@ -158,19 +158,19 @@ const useMapFields = () => {
     {}
   );
 
-  if (myFieldMappings && Object.keys(myFieldMappings).length) {
-    rowRef.current = mapFieldsConfig.importFields.map((item) => ({
-      field: item,
-      mappedField: {
-        displayOptions,
-        defaultValue: {
-          label: mapNameToDisplay[myFieldMappings[item]],
-          value: mapNameToDisplay[myFieldMappings[item]]
-        }
-      },
-      mappedValue: myFieldMappings[item]?.action || myFieldMappings[item]
-    }));
-  }
+  // if (myFieldMappings && Object.keys(myFieldMappings).length) {
+  rowRef.current = mapFieldsConfig.importFields.map((item) => ({
+    field: item,
+    mappedField: {
+      displayOptions,
+      defaultValue: {
+        label: mapNameToDisplay[myFieldMappings?.[item]],
+        value: mapNameToDisplay[myFieldMappings?.[item]]
+      }
+    },
+    mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
+  }));
+  // }
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -352,6 +352,7 @@ const useMapFields = () => {
     );
   };
 
+  console.log('row ref', rowRef.current);
   return {
     mapFieldsError,
     allowedValueMapper,

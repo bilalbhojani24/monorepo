@@ -23,7 +23,8 @@ const Header = ({
   supportLink,
   showTestInsights,
   beamerProductId,
-  headerElementArray
+  headerElementArray,
+  productArray
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -43,6 +44,7 @@ const Header = ({
       <HeaderProducts
         wrapperClassName="max-[1360px]:hidden"
         productCount={productsToShow}
+        productArray={productArray}
       />
       <div className="float-right ml-auto">
         <HeaderElements
@@ -73,7 +75,10 @@ Header.propTypes = {
   beamerProductId: PropTypes.string,
   showTestInsights: PropTypes.bool,
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
-  headerID: PropTypes.string
+  headerID: PropTypes.string,
+  productArray: PropTypes.arrayOf(
+    PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
+  )
 };
 Header.defaultProps = {
   wrapperClassName: '',
@@ -88,7 +93,8 @@ Header.defaultProps = {
   beamerProductId: '',
   showTestInsights: true,
   headerElementArray: [],
-  headerID: ''
+  headerID: '',
+  productArray: []
 };
 
 export default Header;

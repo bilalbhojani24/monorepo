@@ -207,9 +207,11 @@ const importCSVSlice = createSlice({
         if (idx === 2) return { ...step, status: CURRENT_STEP };
         return { ...step, status: COMPLETE_STEP };
       });
+      state.mapFieldsProceedLoading = false;
     },
     submitMappingDataRejected: (state, { payload }) => {
       state.mappingFieldsError = payload.response.data.message;
+      state.mapFieldsProceedLoading = false;
     },
     setRetryImport: (state, { payload }) => {
       state.retryCSVImport = payload;
