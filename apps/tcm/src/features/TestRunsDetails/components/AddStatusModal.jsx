@@ -46,7 +46,18 @@ const AddStatusModal = () => {
             <TMSelectMenu
               label="Status"
               placeholder="Choose from options"
-              options={STATUS_OPTIONS}
+              options={STATUS_OPTIONS.map((el) => ({
+                label: (
+                  <div>
+                    <div
+                      className={`${el.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                      style={{ backgroundColor: el.color ? el.color : 'auto' }}
+                    />
+                    <span className="inline-block">{el.label}</span>
+                  </div>
+                ),
+                value: el.value
+              }))}
               value={
                 addStatusFormData?.status &&
                 STATUS_OPTIONS.find(

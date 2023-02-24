@@ -31,8 +31,8 @@ const Repository = ({ isSearch }) => {
   const confirmCSVImportNotificationConfig = useSelector(
     (state) => state.importCSV.confirmCSVImportNotificationConfig
   );
-  const successfullyImportedProjects = useSelector(
-    (state) => state.importCSV.previewData
+  const totalImportedProjectsInPreview = useSelector(
+    (state) => state.importCSV.totalImportedProjectsInPreview
   );
 
   useEffect(() => {
@@ -40,8 +40,8 @@ const Repository = ({ isSearch }) => {
       notify(
         <Notifications
           id="import-csv-success"
-          title="Test Cases have been imported"
-          description={`${successfullyImportedProjects.length} test cases have been successfully imported to your Test Cases.`}
+          title="Data Imported"
+          description={`${totalImportedProjectsInPreview} test cases have been imported successfully.`}
           headerIcon={<CheckCircleRoundedIcon className="text-success-500" />}
           handleClose={(toastData) => {
             notify.remove(toastData.id);

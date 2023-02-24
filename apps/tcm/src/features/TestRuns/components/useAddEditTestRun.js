@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   addTestRunAPI,
+  addTestRunWithoutProjectAPI,
   editTestRunAPI,
   getTestRunDetailsAPI
 } from 'api/testruns.api';
@@ -210,11 +211,21 @@ const useAddEditTestRun = () => {
         hideAddTestRunForm();
       });
     } else {
-      addTestRunAPI({
+      const addtestRunAPIFunction =
+        projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
+      addtestRunAPIFunction({
         payload: formDataFormatter(testRunFormData),
         projectId
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
+        if (projectId === 'new') {
+          navigate(
+            `${routeFormatter(AppRoute.TEST_RUNS, {
+              projectId: data.data.testrun?.project_id
+            })}`
+          );
+        }
+
         hideAddTestRunForm();
       });
     }

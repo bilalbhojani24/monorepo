@@ -80,7 +80,7 @@ const Import = () => {
       <Steps steps={allImportSteps} />
       <div
         id="current-screen-wrapper"
-        className="mt-4 flex justify-center overflow-auto"
+        className="flex justify-center overflow-auto pt-4"
       >
         {getCurrentScreen()}
       </div>

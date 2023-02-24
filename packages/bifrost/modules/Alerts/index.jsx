@@ -52,6 +52,7 @@ const link = (
 
 const Alerts = (props) => {
   const {
+    alertIcon,
     accentBorder,
     alertLinkPosition,
     handleLinkClick,
@@ -143,7 +144,9 @@ const Alerts = (props) => {
           })}
         >
           <div className="flex">
-            <div className="shrink-0">{renderAlertIcon(modifier)}</div>
+            <div className="shrink-0">
+              {alertIcon || renderAlertIcon(modifier)}
+            </div>
             <div className="ml-3 flex-1 items-end md:flex md:justify-between">
               <div>
                 {/* alert title */}
@@ -317,6 +320,7 @@ const Alerts = (props) => {
 };
 
 Alerts.propTypes = {
+  alertIcon: PropTypes.node,
   accentBorder: PropTypes.bool,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
@@ -352,6 +356,7 @@ Alerts.propTypes = {
 };
 
 Alerts.defaultProps = {
+  alertIcon: null,
   accentBorder: false,
   alertLinkPosition: 'end',
   handleLinkClick: () => {},

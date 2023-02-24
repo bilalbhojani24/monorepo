@@ -16,7 +16,7 @@ const ConfigureData = (props) => {
   if (!testManagementProjects.length) return <NoProjects />;
 
   return (
-    <div className="border-base-100 shadow-base-200 mt-4 w-3/4 rounded-md border-2 p-6">
+    <div className="border-base-100 shadow-base-200 mt-4 h-max w-3/4 rounded-md border-2 bg-white p-6">
       <TMSectionHeadings
         title="Select projects you would like to import"
         variant="buttons"

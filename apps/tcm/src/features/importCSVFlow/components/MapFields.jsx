@@ -24,7 +24,8 @@ import {
   IGNORE_FIELD_VALUE,
   MAP_FIELD_COLUMNS
 } from '../const/importCSVConstants';
-import { setMapFieldsError, setUsers } from '../slices/importCSVSlice';
+import { setTags, setUsers } from '../slices/csvThunk';
+import { setMapFieldsError } from '../slices/importCSVSlice';
 
 import MapFieldModal from './mapFieldModal';
 import useImportCSV from './useImportCSV';
@@ -39,6 +40,7 @@ const MapFields = () => {
     typeMapper,
     rowRef,
     valueMappings,
+    mapFieldProceedLoading,
     setDefaultDropdownValue,
     handleSelectMenuChange,
     handleUpdateClick,
@@ -126,6 +128,7 @@ const MapFields = () => {
         );
     });
     dispatch(setUsers(queryParams.get('project')));
+    dispatch(setTags(queryParams.get('project')));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -150,7 +153,11 @@ const MapFields = () => {
           variant="buttons"
           trailingHeadNode={
             <div className="min-w-fit">
-              <TMButton variant="primary" onClick={handleMappingProceedClick}>
+              <TMButton
+                variant="primary"
+                onClick={handleMappingProceedClick}
+                loading={mapFieldProceedLoading}
+              >
                 Proceed
               </TMButton>
             </div>
@@ -161,10 +168,14 @@ const MapFields = () => {
           needed:
         </div>
         <Table className="h-full">
-          <TableHead wrapperClass="w-full rounded-xs">
-            <TableRow wrapperClass="relative">
+          <TableHead wrapperClassName="w-full rounded-xs">
+            <TableRow wrapperClassName="relative">
               {MAP_FIELD_COLUMNS.map((col, index) => (
-                <TableCell key={col.key} variant="header">
+                <TableCell
+                  key={col.key}
+                  variant="header"
+                  wrapperClassName={index === 2 ? 'px-10' : 'px-4'}
+                >
                   {col.name}
                   {getTooltip(index)}
                 </TableCell>
@@ -174,11 +185,14 @@ const MapFields = () => {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.field}>
-                <TableCell wrapperClassName="py-1">{row.field}</TableCell>
-                <TableCell wrapperClassName="py-2 mr-4">
+                <TableCell wrapperClassName="py-1 w-1/4 px-4">
+                  {row.field}
+                </TableCell>
+                <TableCell wrapperClassName="py-2 px-4 w-auto">
                   <TMSelectMenu
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
+                    dividerIdx={1}
                     /* eslint-disable react/jsx-props-no-spreading */
                     {...(row.mappedField.defaultValue.label && {
                       defaultValue: row.mappedField.defaultValue
@@ -192,7 +206,7 @@ const MapFields = () => {
                     onChange={handleSelectMenuChange(row.field)}
                   />
                 </TableCell>
-                <TableCell wrapperClassName="py-1">
+                <TableCell wrapperClassName="py-1 w-2/5 px-10">
                   {getMappingForLastCol(
                     row.field,
                     row.mappedValue,

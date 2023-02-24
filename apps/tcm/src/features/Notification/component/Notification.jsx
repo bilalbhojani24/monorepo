@@ -26,6 +26,7 @@ const Notification = () => {
     if (notification?.id) {
       notify(
         <TMNotifications
+          isCondensed={notification?.isCondensed || false}
           title={notification?.title}
           description={notification?.description}
           actionButtons={null}
@@ -43,6 +44,7 @@ const Notification = () => {
         }
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notification?.id]);
 
   return '';

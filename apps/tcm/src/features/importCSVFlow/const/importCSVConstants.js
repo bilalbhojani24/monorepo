@@ -84,23 +84,31 @@ export const PREVIEW_AND_CONFIRM_COLUMNS = [
   { name: 'Type', key: 'type' }
 ];
 
+export const DEFAULT_TABLE_DROPDOWN_OPTIONS = [
+  { label: IGNORE_FIELD_LABEL, value: IGNORE_FIELD_VALUE },
+  { label: ADD_FIELD_LABEL, value: ADD_FIELD_VALUE }
+];
+
+export const DEFAULT_MODAL_DROPDOWN_OPTIONS = [
+  { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
+  { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+];
+
 export const VALUE_MAPPING_OPTIONS = {
   PRIORITY: [
     { label: 'Critical', value: 'critical' },
     { label: 'High', value: 'high' },
     { label: 'Medium', value: 'medium' },
     { label: 'Low', value: 'low' },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
   ],
   STATE: [
-    { label: 'Active', value: 'Active' },
-    { label: 'Draft', value: 'Draft' },
-    { label: 'Under Review', value: 'Under Review' },
-    { label: 'Rejected', value: 'Rejected' },
-    { label: 'Retired', value: 'Retired' },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+    { label: 'Active', value: 'active' },
+    { label: 'Draft', value: 'draft' },
+    { label: 'Under Review', value: 'under review' },
+    { label: 'Rejected', value: 'rejected' },
+    { label: 'Retired', value: 'retired' },
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
   ],
   TESTCASETYPE: [
     { label: 'Acceptance', value: 'Acceptance' },
@@ -115,8 +123,7 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Security', value: 'Security' },
     { label: 'Smoke & Sanity', value: 'Smoke & Sanity' },
     { label: 'Usability', value: 'Usability' },
-    { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-    { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
   ]
 };
 

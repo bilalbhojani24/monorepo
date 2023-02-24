@@ -59,11 +59,13 @@ const ImportSteps = (props) => {
   };
 
   return (
-    <TMSteps
-      steps={steps}
-      format="panels-with-borders"
-      onClick={handleStepClick}
-    />
+    <div className="bg-white">
+      <TMSteps
+        steps={steps}
+        format="panels-with-borders"
+        onClick={handleStepClick}
+      />
+    </div>
   );
 };
 

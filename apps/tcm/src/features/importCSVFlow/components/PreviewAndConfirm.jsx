@@ -26,6 +26,7 @@ const PreviewAndConfirm = () => {
   const {
     folderName,
     confirmCSVImportNotificationConfig,
+    totalImportedProjectsInPreview,
     previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
@@ -88,7 +89,7 @@ const PreviewAndConfirm = () => {
         secondCta="Upload to Root Folder"
       />
       <div className="text-base-800 mt-8 text-base font-medium">
-        {previewAndConfirmTableRows.length} entries ready for import
+        {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">
         Showing a preview of few test cases before importing:

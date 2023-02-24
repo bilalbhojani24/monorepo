@@ -6,7 +6,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMRichTextEditor
+  TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
@@ -52,13 +52,13 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
             }}
           />
         </div>
-        <TMRichTextEditor
+        <TMTextArea
           label="Description"
-          id="Description"
-          value={formData.description}
-          height={200}
           placeholder="Write in brief about the project"
-          onChange={(val) => setFormData({ ...formData, description: val })}
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.currentTarget.value })
+          }
         />
       </TMModalBody>
       <TMModalFooter position="right">

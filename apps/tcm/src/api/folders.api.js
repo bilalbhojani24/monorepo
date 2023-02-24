@@ -12,6 +12,10 @@ export const addFolder = async ({ projectId, payload }) =>
   fetchPost(`/api/v1/projects/${projectId}/repository/mkdir`, {
     folder: payload
   });
+export const addFolderWithoutProjectAPI = async ({ payload }) =>
+  fetchPost(`/api/v1/projects/folders`, {
+    folder: payload
+  });
 
 export const renameFolder = async ({ projectId, folderId, payload }) =>
   fetchPost(`/api/v1/projects/${projectId}/folder/${folderId}/rename`, {

@@ -11,7 +11,7 @@ const AppRoute = {
   TEST_RUN_ISSUES:
     '/projects/:projectId/test-runs/:testRunId/test-cases/issues',
   TEST_RUNS_EDIT: '/projects/:projectId/test-runs/:testRunId/edit',
-  ONBOARDING: '/welcome',
+  ONBOARDING: '/onboarding',
   RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',

@@ -8,10 +8,7 @@ import {
   PREVIEW_AND_CONFIRM_IMPORT,
   UPLOAD_FILE
 } from '../const/importCSVConstants';
-import {
-  setCSVConfigurations
-  // setFieldsMapping
-} from '../slices/importCSVSlice';
+import { setCSVConfigurations } from '../slices/csvThunk';
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
@@ -46,7 +43,7 @@ const ImportCSV = () => {
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div
         id="current-import-csv-screen"
-        className="mt-4 flex flex-col items-center overflow-auto"
+        className="flex flex-col items-center overflow-auto pt-4"
       >
         {getCurrentScreen()}
       </div>

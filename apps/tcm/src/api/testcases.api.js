@@ -5,11 +5,19 @@ export const getTestCasesAPI = async ({ folderId, projectId, page }) =>
     params: { p: page }
   });
 
+// /--------add test cases --------
 export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases`,
     payload
   );
+export const addTestCaseWithoutProjectAPI = async ({ payload }) =>
+  fetchPost(`/api/v1/projects/test-cases`, payload);
+
+export const addTestCaseWithoutFolderAPI = async ({ projectId, payload }) =>
+  fetchPost(`/api/v1/projects/${projectId}/repository/test-cases`, payload);
+
+// /--------add test cases ends  --------
 
 export const deleteTestCaseAPI = async ({ projectId, folderId, testCaseId }) =>
   fetchPost(
