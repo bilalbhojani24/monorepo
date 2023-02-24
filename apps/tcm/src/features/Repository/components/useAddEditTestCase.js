@@ -225,8 +225,8 @@ export default function useAddEditTestCase() {
           addNotificaton({
             id: `test_case_added${testCaseData?.id}`,
             title: 'Test case added',
-            isCondensed: true,
-            variant: 'success'
+            variant: 'success',
+            description: null
           })
         );
 
