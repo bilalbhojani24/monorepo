@@ -383,7 +383,7 @@ export default function Issues() {
                 className={twClassNames('w-full border-r border-base-200', {
                   'w-2/4': isHalfView && sectionData
                 })}
-                style={{ height: 'calc(100vh - 228px)' }}
+                style={{ minHeight: 'calc(100vh - 228px)', height: '100%' }}
               >
                 <Accordion />
               </div>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAuthRoutes } from '@browserstack/hooks';
 // import axios from 'axios';
-import fetchAuth from 'api/auth';
+// import fetchAuth from 'api/auth';
 import { APP_ROUTES } from 'constants/routes';
 
 const initAPI = async () => {
@@ -14,7 +14,9 @@ const initAPI = async () => {
   // });
 
   console.log('This is the init API...');
-  return fetchAuth();
+  return new Promise((resolve) => {
+    resolve();
+  });
 
   // returns status code - 200 (uncomment and test)
   // return axios.get(

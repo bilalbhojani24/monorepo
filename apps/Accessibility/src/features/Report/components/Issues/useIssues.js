@@ -74,7 +74,13 @@ export default function useIssues() {
     navigate(`?${path}`);
 
     // update query params with applied filters
-    const updatedPath = updateUrlWithQueryParam(intermediateFilters);
+    const filterValues = {};
+    Object.entries(intermediateFilters).forEach(([key, values]) => {
+      if (key !== 'showNeedsReviewIssues' && values.length > 0) {
+        filterValues[key] = values.map(({ value }) => value);
+      }
+    });
+    const updatedPath = updateUrlWithQueryParam(filterValues);
     navigate(`?${updatedPath}`);
     setIsOpen(false);
   };

@@ -2,10 +2,10 @@ export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const ROUTES = {
-  report: 'reports/report',
-  reports: 'reports',
-  screenReader: 'screen-reader',
-  root: ''
+  report: '/reports/report',
+  reports: '/reports',
+  screenReader: '/screen-reader',
+  root: '/'
 };
 
 const Config = {

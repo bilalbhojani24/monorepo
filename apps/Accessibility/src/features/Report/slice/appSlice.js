@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { activeInitFilters, ISSUE_TYPE, ISSUES, SUMMARY } from 'constants';
+import { formatComponentIdString } from 'utils/helper';
 
 const initialParamState = {
   activeTab: SUMMARY,
@@ -39,19 +40,31 @@ const getInitialTab = () => {
   };
 
   if (params.get('impact')) {
-    activeFilters.impact = params.get('impact').split(',');
+    activeFilters.impact = params
+      .get('impact')
+      .split(',')
+      .map((value) => ({ label: value, value }));
   }
 
   if (params.get('page')) {
-    activeFilters.page = params.get('page').split(',');
+    activeFilters.page = params
+      .get('page')
+      .split(',')
+      .map((value) => ({ label: value, value }));
   }
 
   if (params.get('component')) {
-    activeFilters.component = params.get('component').split(',');
+    activeFilters.component = params
+      .get('component')
+      .split(',')
+      .map((value) => ({ label: formatComponentIdString(value), value }));
   }
 
   if (params.get('category')) {
-    activeFilters.category = params.get('category').split(',');
+    activeFilters.category = params
+      .get('category')
+      .split(',')
+      .map((value) => ({ label: value, value }));
   }
 
   const result = { ...initialParamState, showHiddenIssues };

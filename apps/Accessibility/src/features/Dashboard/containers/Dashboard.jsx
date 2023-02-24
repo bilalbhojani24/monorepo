@@ -81,6 +81,17 @@ export default function Dashboard({ children }) {
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility"
+        productArray={[
+          { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
+          {
+            name: 'Automate',
+            link: 'https://automate.browserstack.com/dashboard'
+          },
+          {
+            name: 'Percy',
+            link: 'https://percy.io/api/auth/start-sso'
+          }
+        ]}
         headerElementArray={[
           'team',
           'pricing',
