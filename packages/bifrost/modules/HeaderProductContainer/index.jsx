@@ -202,7 +202,7 @@ const HeaderProductContainer = () => {
             >
               <p
                 className={twClassNames(
-                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1'
+                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1 whitespace-nowrap'
                 )}
               >
                 Use Browserstack with your favourite products. See our
