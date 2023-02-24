@@ -215,23 +215,28 @@ export default function useAddEditTestCase() {
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
       }).then((data) => {
+        const testCaseData = data.test_case;
+        const folderData = data.folder;
+
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
-              projectId: data.project_id,
-              folderId: data.test_case_folder_id
+              projectId: testCaseData.project_id,
+              folderId: testCaseData.test_case_folder_id
             })
           );
 
           // if no folders append the data rightaway
-          if (!allFolders.length && data?.folder) {
-            setAllFolders([data.folder]);
+          if (!allFolders.length && folderData) {
+            setAllFolders([folderData]);
             dispatch(updateFoldersLoading(false));
           }
-        } else if (parseInt(folderId, 10) === data.test_case_folder_id) {
+        } else if (
+          parseInt(folderId, 10) === testCaseData.test_case_folder_id
+        ) {
           // only if the added test case belong to the opened folder
-          dispatch(addSingleTestCase(data));
+          dispatch(addSingleTestCase(testCaseData));
         }
         hideTestCaseAddEditPage(null, true);
       });
