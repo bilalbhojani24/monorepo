@@ -1,9 +1,9 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useRef } from 'react';
+import { MdFolderOpen } from '@browserstack/bifrost';
 import {
   ExpandLessOutlinedIcon,
   ExpandMoreOutlinedIcon,
-  // FolderOpenOutlinedIcon,
   InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
@@ -19,7 +19,8 @@ import {
   TMSelectMenu,
   TMTooltip,
   TMTooltipBody,
-  TMTooltipHeader
+  TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 
 import {
@@ -36,6 +37,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    scheduledFolder,
     projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
@@ -61,7 +63,7 @@ const AddEditTestCase = () => {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper
-  } = useAddEditTestCase();
+  } = useAddEditTestCase({ isAddEditOnly: true });
 
   const { initFormValues } = useTestCases();
   const focusRef = useRef(null);
@@ -123,9 +125,20 @@ const AddEditTestCase = () => {
                 inputError?.name ? "This field can't be left empty" : ''
               }
             />
-            {/* <div className="mt-2.5 flex w-full">
-              <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
-            </div> */}
+            <div className="mt-2.5 flex w-full">
+              <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
+              <div className="text-base-500 ml-1 break-all text-xs">
+                <TMTruncateText
+                  hidetooltipTriggerIcon
+                  isFullWidthTooltip
+                  headerTooltipProps={{
+                    delay: 500
+                  }}
+                >
+                  {scheduledFolder?.map((item) => item?.name).join('/')}
+                </TMTruncateText>
+              </div>
+            </div>
           </div>
           <div className="w-1/4">
             <TMSelectMenu

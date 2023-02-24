@@ -14,6 +14,7 @@ import {
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
+import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
@@ -40,7 +41,7 @@ import {
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
 
-export default function useAddEditTestCase() {
+export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function useAddEditTestCase() {
     name: false
   });
   const [isUploadInProgress, setUploadProgress] = useState(false);
+  const [scheduledFolder, setScheduledFolder] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
@@ -401,6 +403,19 @@ export default function useAddEditTestCase() {
   };
 
   useEffect(() => {
+    if (
+      testCaseFormData?.test_case_folder_id &&
+      isAddTestCasePageVisible &&
+      prop?.isAddEditOnly // to reduce recalculation for other components
+    ) {
+      setScheduledFolder(
+        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
+
+  useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing]);
@@ -426,6 +441,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    scheduledFolder,
     isAddTestCasePageVisible,
     showBulkEditConfirmModal,
     isBulkUpdate,
