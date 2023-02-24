@@ -1,11 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Attachments } from '@browserstack/bifrost';
+import { Attachments, MdOutlineAttachFile } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { TMButton } from '../index';
 
-const TMAttachments = ({ attachments, onActionClick, wrapperClassName }) => {
+const TMAttachments = ({
+  attachments,
+  onActionClick,
+  wrapperClassName,
+  icon
+}) => {
   if (!attachments?.length) return '';
 
   return (
@@ -18,6 +23,7 @@ const TMAttachments = ({ attachments, onActionClick, wrapperClassName }) => {
           </TMButton>
         )
       }))}
+      icon={icon || <MdOutlineAttachFile className="h-5 w-5" />}
       wrapperClassName={wrapperClassName}
     />
   );
@@ -26,11 +32,13 @@ const TMAttachments = ({ attachments, onActionClick, wrapperClassName }) => {
 TMAttachments.propTypes = {
   attachments: PropTypes.arrayOf(PropTypes.object).isRequired,
   onActionClick: PropTypes.func.isRequired,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  icon: PropTypes.node
 };
 
 TMAttachments.defaultProps = {
-  wrapperClassName: ''
+  wrapperClassName: '',
+  icon: null
 };
 
 export default TMAttachments;

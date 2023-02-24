@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { MdOutlineDescription } from '@browserstack/bifrost';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
 import {
@@ -109,6 +110,9 @@ const AddEditTestRun = ({ isEdit }) => {
                   </div>
                 </div>
                 <TMAttachments
+                  icon={
+                    <MdOutlineDescription className="text-base-500 h-5 w-5" />
+                  }
                   attachments={[
                     {
                       name: `${
