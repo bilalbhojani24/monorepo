@@ -56,6 +56,7 @@ const useOnboarding = () => {
   };
 
   const continueClickHandler = () => {
+    if (!formData?.role || !formData?.organisation_strength) return;
     if (!formData?.start_method) return;
 
     dispatch(setIsProcessing(true));

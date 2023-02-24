@@ -20,7 +20,11 @@ const Onboarding = () => {
     <div className="flex h-full w-full items-start justify-center py-10">
       <div className="border-base-300 max-h-full w-screen max-w-4xl overflow-y-auto rounded-md border bg-white p-5">
         <div className="text-2xl font-medium">
-          Hey {userData?.full_name}, Welcome to Test Management
+          Hey&nbsp;
+          {userData?.full_name?.split(' ').length
+            ? userData?.full_name?.split(' ')[0]
+            : ''}
+          , Welcome to Test Management
         </div>
         <div className="text-base-500 mt-4 text-sm">
           We just need some details to help you serve better
@@ -28,7 +32,7 @@ const Onboarding = () => {
 
         <div className="mt-6 max-w-sm">
           <TMSelectMenu
-            label="Which job role best describes you?"
+            label="Which job role best describes you?*"
             placeholder="Select from options"
             options={jobRolesArray}
             onChange={(val) => onFormChange('role', val.value)}
@@ -36,7 +40,7 @@ const Onboarding = () => {
         </div>
         <div className="mt-6 max-w-sm">
           <TMSelectMenu
-            label="What's your organisation strength?"
+            label="What's your organisation strength?*"
             placeholder="Select from options"
             options={orgStrengthArray}
             onChange={(val) => onFormChange('organisation_strength', val.value)}
