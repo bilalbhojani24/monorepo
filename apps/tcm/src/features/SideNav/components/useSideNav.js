@@ -28,7 +28,11 @@ export default function useSideNav() {
   );
 
   const onLinkChange = (linkItem) => {
-    navigate(linkItem.path);
+    if (linkItem?.isExternalLink) {
+      window.open(linkItem.path);
+    } else {
+      navigate(linkItem.path);
+    }
   };
 
   const dynamicLinkReplaceHelper = (array) => {
