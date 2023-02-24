@@ -11,6 +11,10 @@ import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
 
 import {
   setCSVConfigurationsFulfilled,
+  setErrorLabelInMapFields,
+  setFieldsMapping,
+  setMapFieldsError,
+  setShowSelectMenuErrorInMapFields,
   setSystemTags,
   setSystemUsers,
   setValueMappingThunkFulfilled,
@@ -53,6 +57,37 @@ export const uploadFile = (payload) => async (dispatch) => {
   } catch (err) {
     dispatch(uploadFileRejected(err));
   }
+};
+
+export const setFieldsMappingThunk = (payload) => (dispatch, getState) => {
+  const { fieldsMapping } = getState().importCSV;
+  const allKeysInFieldsMapping = Object.keys(fieldsMapping);
+  let duplicateValuesFound = false;
+  for (let i = 0; i < allKeysInFieldsMapping.length; i += 1) {
+    if (
+      // this is to handle the click on selected item.
+      allKeysInFieldsMapping[i] === payload.key &&
+      fieldsMapping[allKeysInFieldsMapping[i]] === payload.value
+    )
+      break;
+
+    if (payload.value === fieldsMapping[allKeysInFieldsMapping[i]]) {
+      duplicateValuesFound = true;
+      dispatch(setErrorLabelInMapFields(payload.label));
+    }
+  }
+
+  if (!duplicateValuesFound) {
+    dispatch(setMapFieldsError(''));
+    dispatch(setErrorLabelInMapFields(''));
+    dispatch(setShowSelectMenuErrorInMapFields(false));
+  }
+  dispatch(
+    setFieldsMapping({
+      key: payload.key,
+      value: payload.value
+    })
+  );
 };
 
 export const setValueMappingsThunk =

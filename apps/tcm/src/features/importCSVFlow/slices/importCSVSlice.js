@@ -31,6 +31,7 @@ const initialState = {
   valueMappings: {},
   mapFieldModalConfig: { show: false, field: '', mapped_field: '' },
   usersForDropdown: [],
+  errorLabelInMapFields: null,
   mapFieldsConfig: {
     importId: null,
     customFields: [],
@@ -50,7 +51,8 @@ const initialState = {
     modalData: ONGOING_IMPORT_MODAL_DATA
   },
   totalImportedProjectsInPreview: null,
-  mapFieldsProceedLoading: false
+  mapFieldsProceedLoading: false,
+  showSelectMenuErrorInMapFields: false
 };
 
 const importCSVSlice = createSlice({
@@ -84,6 +86,12 @@ const importCSVSlice = createSlice({
     },
     setFieldsMapping: (state, { payload }) => {
       state.fieldsMapping[payload.key] = payload.value;
+    },
+    setErrorLabelInMapFields: (state, { payload }) => {
+      state.errorLabelInMapFields = payload;
+    },
+    setShowSelectMenuErrorInMapFields: (state, { payload }) => {
+      state.showSelectMenuErrorInMapFields = payload;
     },
     setValueMappings: (state, { payload }) => {
       if (payload.value === 'delete') {
@@ -208,10 +216,13 @@ const importCSVSlice = createSlice({
         return { ...step, status: COMPLETE_STEP };
       });
       state.mapFieldsProceedLoading = false;
+      state.showSelectMenuErrorInMapFields = false;
+      state.errorLabelInMapFields = null;
     },
     submitMappingDataRejected: (state, { payload }) => {
       state.mappingFieldsError = payload.response.data.message;
       state.mapFieldsProceedLoading = false;
+      state.showSelectMenuErrorInMapFields = true;
     },
     setRetryImport: (state, { payload }) => {
       state.retryCSVImport = payload;
@@ -244,6 +255,8 @@ export const {
   uploadFilePending,
   uploadFileFulfilled,
   uploadFileRejected,
+  setErrorLabelInMapFields,
+  setShowSelectMenuErrorInMapFields,
   setCSVConfigurationsFulfilled,
   startImportingTestCasePending,
   startImportingTestCaseFulfilled,

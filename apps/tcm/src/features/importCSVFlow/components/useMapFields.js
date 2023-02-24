@@ -13,8 +13,13 @@ import {
   IGNORE_VALUE_LABEL,
   IGNORE_VALUE_VALUE
 } from '../const/importCSVConstants';
-import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
+  setFieldsMappingThunk,
+  setValueMappingsThunk,
+  submitMappingData
+} from '../slices/csvThunk';
+import {
+  // setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
@@ -46,6 +51,12 @@ const useMapFields = () => {
   );
   const mapFieldProceedLoading = useSelector(
     (state) => state.importCSV.mapFieldsProceedLoading
+  );
+  const errorLabelInMapFields = useSelector(
+    (state) => state.importCSV.errorLabelInMapFields
+  );
+  const showSelectMenuErrorInMapFields = useSelector(
+    (state) => state.importCSV.showSelectMenuErrorInMapFields
   );
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
@@ -159,7 +170,6 @@ const useMapFields = () => {
     {}
   );
 
-  // if (myFieldMappings && Object.keys(myFieldMappings).length) {
   rowRef.current = mapFieldsConfig.importFields.map((item) => ({
     field: item,
     mappedField: {
@@ -171,7 +181,6 @@ const useMapFields = () => {
     },
     mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
   }));
-  // }
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -204,22 +213,11 @@ const useMapFields = () => {
     }
     if (selectedOption.label === 'Title') dispatch(setMapFieldsError('')); // to resolve the title should be mapped error
 
-    let noOfTimesSelectedOptionOccurred = 0;
-    let shouldErrorBeRemoved = true;
-    Object.keys(myFieldMappings).forEach((key) => {
-      if (mapDisplayToName[selectedOption.label] === myFieldMappings[key])
-        noOfTimesSelectedOptionOccurred += 1;
-
-      if (noOfTimesSelectedOptionOccurred === 2) {
-        shouldErrorBeRemoved = false;
-      }
-    });
-    if (shouldErrorBeRemoved) dispatch(setMapFieldsError(''));
-
     dispatch(
-      setFieldsMapping({
+      setFieldsMappingThunk({
         key: field,
-        value: mapDisplayToName[selectedOption.label]
+        value: mapDisplayToName[selectedOption.label],
+        label: selectedOption.label
       })
     );
 
@@ -352,8 +350,8 @@ const useMapFields = () => {
   };
 
   const handleMappingProceedClick = () => {
-    console.log('final paylaod', myFieldMappings, valueMappings);
-    console.log('query params', queryParams.get('project'));
+    // console.log('final paylaod', myFieldMappings, valueMappings);
+    // console.log('query params', queryParams.get('project'));
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
     dispatch(
@@ -377,7 +375,9 @@ const useMapFields = () => {
     myFieldMappings,
     rowRef,
     valueMappings,
+    errorLabelInMapFields,
     mapFieldProceedLoading,
+    showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
     handleSaveClick,
     onModalCloseHandler,

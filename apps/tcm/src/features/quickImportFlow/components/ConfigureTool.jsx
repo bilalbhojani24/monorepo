@@ -46,7 +46,7 @@ const ConfigureTool = () => {
   };
 
   return (
-    <div className="border-base-200 m-4 h-max w-4/5 rounded-md border-2 border-solid bg-white p-6">
+    <div className="border-base-200 m-4 h-max w-4/5 max-w-7xl rounded-md border-2 border-solid bg-white p-6">
       <div className="text-base-700 text-sm font-medium">
         Choose your existing tool
       </div>
