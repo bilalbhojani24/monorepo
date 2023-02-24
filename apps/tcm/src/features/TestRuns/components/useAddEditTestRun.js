@@ -196,7 +196,7 @@ const useAddEditTestRun = () => {
     return {
       test_run: testRun,
       test_case_ids: testRun?.test_cases
-        ? testRun.test_cases
+        ? testRun.test_cases?.map((item) => item.id) || []
         : formData.test_case_ids
     };
   };

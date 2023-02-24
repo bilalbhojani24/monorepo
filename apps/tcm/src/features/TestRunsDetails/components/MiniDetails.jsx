@@ -13,7 +13,8 @@ import HighchartsReact from 'highcharts-react-official';
 import useTestRunDetails from './useTestRunDetails';
 
 const MiniDetails = () => {
-  const { testRunDetails, getProgressOptions } = useTestRunDetails();
+  const { isTestRunDetailsLoading, testRunDetails, getProgressOptions } =
+    useTestRunDetails();
   const totalValue = testRunDetails?.overall_progress
     ? Object.values(testRunDetails?.overall_progress).reduce(
         (total, num) => total + num,
@@ -32,13 +33,15 @@ const MiniDetails = () => {
               <div className="text-base-500 flex items-center text-sm">
                 <MdOutlineBarChart className="mr-2 h-5 w-5" />
                 Overall Progress:{' '}
-                <TMBadge
-                  wrapperClassName="ml-1"
-                  text={isPassed ? 'Passed' : 'Failed'}
-                  modifier={isPassed ? 'success' : 'error'}
-                  size="large"
-                  // key={rowData.tags[0]}
-                />
+                {!isTestRunDetailsLoading && (
+                  <TMBadge
+                    wrapperClassName="ml-1"
+                    text={isPassed ? 'Passed' : 'Failed'}
+                    modifier={isPassed ? 'success' : 'error'}
+                    size="large"
+                    // key={rowData.tags[0]}
+                  />
+                )}
               </div>
             </TMTableCell>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
