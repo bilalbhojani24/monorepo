@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { InputWButton } from '@browserstack/bifrost';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -6,7 +6,7 @@ import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
 import useAddEditTestCase from './useAddEditTestCase';
 
-const InlineAddTestCase = ({ noBorder }) => {
+const InlineAddTestCase = forwardRef(({ noBorder }, ref) => {
   const [testCase, setTestCase] = useState('');
 
   const { saveTestCase, folderId } = useAddEditTestCase();
@@ -27,13 +27,14 @@ const InlineAddTestCase = ({ noBorder }) => {
         onKeyDown={(e) => onSubmitKeyHandler(e, handleInlineInputButtonClick)}
         id="inline-add-test-case"
         buttonElement="Add"
+        ref={ref}
         placeholder="Add new test case"
         onChange={(e) => setTestCase(e.target.value)}
         onButtonClick={handleInlineInputButtonClick}
       />
     </div>
   );
-};
+});
 InlineAddTestCase.propTypes = {
   noBorder: PropTypes.bool
 };

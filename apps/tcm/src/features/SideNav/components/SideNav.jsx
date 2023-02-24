@@ -23,6 +23,7 @@ const SideNav = (props) => {
   const { importStatus } = props;
   const location = useLocation();
   const {
+    isAllProjectsLoading,
     onLinkChange,
     showAddProject,
     primaryNavs,
@@ -60,7 +61,7 @@ const SideNav = (props) => {
           />
         ))}
         sidebarHeader={
-          showProjects ? (
+          showProjects && !isAllProjectsLoading ? (
             <>
               {allProjectsDrop?.length > 1 ? (
                 <SidebarHeader>

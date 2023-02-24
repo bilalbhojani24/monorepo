@@ -8,6 +8,7 @@ import {
   getTestRunDetailsAPI
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -31,6 +32,8 @@ const useAddEditTestRun = () => {
   const [inputError, setInputError] = useState(false);
   const [selectedTCIDs, setSelectedTCIDs] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isEditing = useSelector(
     (state) => state.testRuns.isVisible.editTestRunsForm
@@ -218,6 +221,16 @@ const useAddEditTestRun = () => {
         projectId
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
+
+        dispatch(
+          addNotificaton({
+            id: `test_run_added${data.data.testrun?.id}`,
+            title: 'Test run added',
+            variant: 'success',
+            description: null
+          })
+        );
+
         if (projectId === 'new') {
           navigate(
             `${routeFormatter(AppRoute.TEST_RUNS, {
@@ -260,7 +273,15 @@ const useAddEditTestRun = () => {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
+        usersArray.map((item) => {
+          if (item.full_name === 'Myself') {
+            return {
+              label: updatedMySelfLabelName,
+              value: item.id
+            };
+          }
+          return { label: item.full_name, value: item.id };
+        })
       );
     } else {
       setUsersArray([]);
@@ -296,6 +317,7 @@ const useAddEditTestRun = () => {
     isAddTagModalShown,
     isAddIssuesModalShown,
     usersArrayMapped,
+    updatedMySelfLabelName,
     testRunFormData,
     tagsArray,
     issuesArray,

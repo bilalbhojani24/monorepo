@@ -13,6 +13,7 @@ export const CHART_OPTIONS = {
     spacingLeft: 0,
     plotBorderWidth: 0,
     margin: [0, 0, 0, 0],
+    plotAreaHeight: 100,
     events: {
       load(event) {
         event.target.reflow();
@@ -29,8 +30,9 @@ export const CHART_OPTIONS = {
     categories: ['Test Cases'],
     labels: {
       enabled: false
-    }
-    // max: 500000
+    },
+    width: 20
+    // height: 40
   },
   yAxis: {
     minPadding: 0,
@@ -50,7 +52,7 @@ export const CHART_OPTIONS = {
     series: {
       animation: false,
       borderWidth: 0,
-      stacking: 'normal',
+      stacking: 'percent',
       dataLabels: {
         enabled: false
       },
@@ -59,6 +61,9 @@ export const CHART_OPTIONS = {
           opacity: 1
         }
       }
+    },
+    bar: {
+      pointWidth: 20
     }
     // bar: {
     //   grouping: true,
@@ -73,7 +78,6 @@ export const CHART_OPTIONS = {
     useHTML: true,
     outside: true,
     enabled: true,
-    delayForDisplay: 2000,
     backgroundColor: '#00335D',
     borderColor: '#00335D',
     style: {
@@ -81,6 +85,12 @@ export const CHART_OPTIONS = {
     },
     hideDelay: 1,
     borderWidth: 0
+    // positioner(labelWidth, labelHeight, point) {
+    //   return {
+    //     x: point.plotX - labelWidth + 20,
+    //     y: point.plotY + labelHeight / 2
+    //   };
+    // }
   }
 };
 

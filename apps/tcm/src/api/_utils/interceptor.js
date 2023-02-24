@@ -15,7 +15,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
       // if server error, show toast
       dispatch(
         addNotificaton({
-          id: 'access_requested_done',
+          id: 'server_error',
           title: res.message,
           description: null,
           variant: 'error'

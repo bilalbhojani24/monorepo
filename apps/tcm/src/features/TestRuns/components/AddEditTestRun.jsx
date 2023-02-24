@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { MdOutlineDescription } from '@browserstack/bifrost';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
 import {
@@ -40,7 +41,8 @@ const AddEditTestRun = ({ isEdit }) => {
     hideAddTestRunForm,
     cleanupActivities,
     onBreadcrumbClick,
-    initTestRunFormData
+    initTestRunFormData,
+    updatedMySelfLabelName
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -56,6 +58,11 @@ const AddEditTestRun = ({ isEdit }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const defaultOwnerValue =
+    !isEditing && usersArrayMapped?.length
+      ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
+      : { label: '', value: '' };
 
   return (
     <>
@@ -109,6 +116,9 @@ const AddEditTestRun = ({ isEdit }) => {
                   </div>
                 </div>
                 <TMAttachments
+                  icon={
+                    <MdOutlineDescription className="text-base-500 h-5 w-5" />
+                  }
                   attachments={[
                     {
                       name: `${
@@ -147,7 +157,7 @@ const AddEditTestRun = ({ isEdit }) => {
                           (item) =>
                             item.value === testRunFormData?.test_run?.owner
                         )
-                      : { label: '', value: '' } // to be updated to null
+                      : defaultOwnerValue
                   }
                   options={usersArrayMapped}
                   onChange={(e) =>

@@ -51,13 +51,15 @@ const useTestRuns = () => {
       ...CHART_OPTIONS,
       series,
       yAxis: {
-        ...CHART_OPTIONS.yAxis,
-        max: totalValue
+        ...CHART_OPTIONS.yAxis
+      },
+      xAxis: {
+        ...CHART_OPTIONS.xAxis
       },
       tooltip: {
         ...CHART_OPTIONS.tooltip,
         formatter() {
-          return `<div><b>${this.x}</b></div>
+          return `<div><p>${this.x}</p></div>
                   <span style="color:${
                     this.point.color
                   }">\u25CF</span> <span class="whitespace-nowrap">${capitalizeString(

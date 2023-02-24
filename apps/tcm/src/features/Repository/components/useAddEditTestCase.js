@@ -13,6 +13,7 @@ import {
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
@@ -51,6 +52,8 @@ export default function useAddEditTestCase() {
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -215,23 +218,33 @@ export default function useAddEditTestCase() {
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
       }).then((data) => {
-        const testCaseData = data.test_case;
-        const folderData = data.folder;
+        const testCaseData = data.data.test_case;
+        const folderData = data.data.folder;
+
+        dispatch(
+          addNotificaton({
+            id: `test_case_added${testCaseData?.id}`,
+            title: 'Test case added',
+            variant: 'success',
+            description: null
+          })
+        );
 
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
+
+          // if no folders append the data rightaway
+          if (!allFolders.length && folderData) {
+            dispatch(setAllFolders([folderData]));
+            dispatch(updateFoldersLoading(false));
+          }
+
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
               projectId: testCaseData.project_id,
               folderId: testCaseData.test_case_folder_id
             })
           );
-
-          // if no folders append the data rightaway
-          if (!allFolders.length && folderData) {
-            setAllFolders([folderData]);
-            dispatch(updateFoldersLoading(false));
-          }
         } else if (
           parseInt(folderId, 10) === testCaseData.test_case_folder_id
         ) {
@@ -396,7 +409,15 @@ export default function useAddEditTestCase() {
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
-        usersArray.map((item) => ({ label: item.full_name, value: item.id }))
+        usersArray.map((item) => {
+          if (item.full_name === 'Myself') {
+            return {
+              label: updatedMySelfLabelName,
+              value: item.id
+            };
+          }
+          return { label: item.full_name, value: item.id };
+        })
       );
     } else {
       setUsersArray([]);
@@ -416,6 +437,7 @@ export default function useAddEditTestCase() {
     tagsArray,
     issuesArray,
     usersArrayMapped,
+    updatedMySelfLabelName,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
