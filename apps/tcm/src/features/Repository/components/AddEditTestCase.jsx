@@ -135,7 +135,7 @@ const AddEditTestCase = () => {
                     delay: 500
                   }}
                 >
-                  {scheduledFolder?.map((item) => item?.name).join('/')}
+                  {scheduledFolder?.map((item) => item?.name).join(' / ')}
                 </TMTruncateText>
               </div>
             </div>
