@@ -60,18 +60,20 @@ const TestRunsTable = () => {
           >
             {rowData.name}
           </Link>
-          <div className="text-base-400">
-            <TMTruncateText
-              truncateUsingClamp={false}
-              hidetooltipTriggerIcon
-              isFullWidthTooltip
-              headerTooltipProps={{
-                delay: 500
-              }}
-            >
-              {ReactHtmlParser(rowData.description)}
-            </TMTruncateText>
-          </div>
+          {rowData.description && (
+            <div className="text-base-500">
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
+              >
+                {ReactHtmlParser(rowData.description)}
+              </TMTruncateText>
+            </div>
+          )}
         </>
       )
     },
