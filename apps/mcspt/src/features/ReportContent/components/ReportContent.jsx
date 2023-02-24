@@ -4,8 +4,9 @@ import { Button, MdFolderOpen, MdInfoOutline } from '@browserstack/bifrost';
 import { decideIfCriteriaBreached, sanitizeValue } from '../../../utils';
 
 import BatteryChart from './BatteryDetails';
-import CpuMemoryCard from './CpuMemoryCard';
+import CpuDetails from './CpuDetails';
 import DiskIODetails from './DiskIODetails';
+import MemoryDetails from './MemoryDetails';
 import MetricStat from './MetricStat';
 import NetworkIODetails from './NetworkIODetails';
 import ScreenLoadTime from './ScreenLoadTime';
@@ -39,15 +40,23 @@ const ReportContent = () => {
         </div>
       </div>
 
-      <div id="uiRenderingCPUMemory" className="flex flex-wrap">
-        <div className="w-full">
-          <div className="mb-4 text-lg font-medium leading-6">UI Rendering</div>
+      <div className="w-full">
+        <div className="mb-4 text-lg font-medium leading-6">UI Rendering</div>
 
-          <UIRenderingCard />
+        <UIRenderingCard />
+      </div>
+
+      <div className="flex flex-wrap">
+        <div className="w-full pr-0 lg:w-1/2 lg:pr-1">
+          <div className="mb-4 text-lg font-medium leading-6">Memory</div>
+
+          <MemoryDetails />
         </div>
 
-        <div className="w-full">
-          <CpuMemoryCard />
+        <div className="w-full pl-0 lg:w-1/2 lg:pl-1">
+          <div className="mb-4 text-lg font-medium leading-6">CPU</div>
+
+          <CpuDetails />
         </div>
       </div>
 

@@ -43,57 +43,16 @@ const generateCPUChartOptions = (sessionData) => {
   return chartOptions;
 };
 
-const generateMemoryChartOptions = (sessionData) => {
-  const chartOptions = getDefaultChartOptions();
-
-  const memoryTimeSeriesData = sessionData?.report?.Memory?.metrics?.map(
-    (x) => [x.ts / 1000, x.memoryMB]
-  );
-
-  chartOptions.chart = {
-    type: 'spline',
-    height: 182,
-    spacingBottom: 0
-  };
-
-  chartOptions.tooltip = {
-    headerFormat: '<b>{series.name}</b><br/>',
-    pointFormat: '<b>Time:</b> {point.x}s</br><b>Value:</b> {point.y:.2f}'
-  };
-
-  chartOptions.legend = {
-    enabled: true,
-    marginTop: 16,
-    marginBottom: 0
-  };
-
-  chartOptions.series = [
-    {
-      name: 'Memory',
-      color: '#4F46E5',
-      marker: {
-        enabled: false
-      },
-      data: memoryTimeSeriesData
-    }
-  ];
-
-  return chartOptions;
-};
-
-const useCpuMemoryCard = () => {
+const useCpuDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
 
   const [cpuChartOptions, setCpuChartOptions] = useState(null);
 
-  const [memoryChartOptions, setMemoryChartOptions] = useState(null);
-
   useEffect(() => {
     setCpuChartOptions(generateCPUChartOptions(sessionData));
-    setMemoryChartOptions(generateMemoryChartOptions(sessionData));
   }, [sessionData]);
 
-  return { sessionData, cpuChartOptions, memoryChartOptions };
+  return { sessionData, cpuChartOptions };
 };
 
-export default useCpuMemoryCard;
+export default useCpuDetails;
