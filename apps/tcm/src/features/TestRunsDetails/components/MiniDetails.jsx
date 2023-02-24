@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdCode, MdOutlineBarChart } from '@browserstack/bifrost';
 import {
+  TMBadge,
   TMTable,
   TMTableBody,
   TMTableCell,
@@ -19,8 +20,8 @@ const MiniDetails = () => {
         0
       )
     : 0;
-  const untestedPerc =
-    100 - (testRunDetails?.overall_progress?.untested / totalValue) * 100;
+
+  const isPassed = testRunDetails?.overall_progress?.passed === totalValue;
 
   return (
     <div className="border-base-300 border-b border-r-0 bg-white">
@@ -31,9 +32,13 @@ const MiniDetails = () => {
               <div className="text-base-500 flex items-center text-sm">
                 <MdOutlineBarChart className="mr-2 h-5 w-5" />
                 Overall Progress:{' '}
-                {Number.isNaN(untestedPerc)
-                  ? '--'
-                  : `${untestedPerc.toFixed(0)}%`}
+                <TMBadge
+                  wrapperClassName="ml-1"
+                  text={isPassed ? 'Passed' : 'Failed'}
+                  modifier={isPassed ? 'success' : 'error'}
+                  size="large"
+                  // key={rowData.tags[0]}
+                />
               </div>
             </TMTableCell>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">

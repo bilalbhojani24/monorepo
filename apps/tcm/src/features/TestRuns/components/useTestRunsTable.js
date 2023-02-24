@@ -51,8 +51,10 @@ const useTestRuns = () => {
       ...CHART_OPTIONS,
       series,
       yAxis: {
-        ...CHART_OPTIONS.yAxis,
-        max: totalValue
+        ...CHART_OPTIONS.yAxis
+      },
+      xAxis: {
+        ...CHART_OPTIONS.xAxis
       },
       tooltip: {
         ...CHART_OPTIONS.tooltip,
