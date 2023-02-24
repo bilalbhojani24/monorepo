@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
-import { MdArrowRightAlt } from '../Icon';
+import { ChevronDownIcon, MdArrowRightAlt } from '../Icon';
 import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
@@ -49,7 +49,9 @@ const HeaderElements = ({
 
   const linkContainer = (title, optionArray) => (
     <>
-      <div className={twClassNames('flex flex-col items-start p-0 gap-2')}>
+      <div
+        className={twClassNames('flex flex-col items-start p-0 gap-2 w-full')}
+      >
         <div
           className={twClassNames('flex flex-row items-center py-0 px-2 gap-2')}
         >
@@ -113,13 +115,17 @@ const HeaderElements = ({
           )}
         >
           <div
-            className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+            className={twClassNames(
+              'flex flex-col items-start p-0 gap-1.5 w-full'
+            )}
           >
             {linkContainer(columnRight1.title, columnRight1.options)}
           </div>
           {columnRight2 && (
             <div
-              className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+              className={twClassNames(
+                'flex flex-col items-start p-0 gap-1.5 w-full'
+              )}
             >
               {linkContainer(columnRight2.title, columnRight2.options)}
             </div>
@@ -170,7 +176,11 @@ const HeaderElements = ({
     </div>
   );
   const accountPopover = (productSupportLink, testInsight) => (
-    <div className={twClassNames('flex flex-col items-start p-0')}>
+    <div
+      className={twClassNames(
+        'flex flex-col items-start bg-white pt-2 pb-2.5 px-0 gap-2.5'
+      )}
+    >
       <div
         className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
       >
@@ -227,7 +237,7 @@ const HeaderElements = ({
       >
         <div
           className={twClassNames(
-            'flex flex-col items-start p-0 gap-0.5 w-[208px]'
+            'flex flex-col items-start py-0 px-2 gap-1 w-[208px]'
           )}
         >
           <Hyperlink
@@ -249,20 +259,20 @@ const HeaderElements = ({
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'flex flex-row items-center py-2 px-3 hover:text-base-200'
+        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1024px]:hidden'
       )}
       href={elementOptions.link}
       key={elementOptions.name}
     >
       <div
         className={twClassNames(
-          'flex flex-row justify-center items-center p-0 gap-1.5'
+          'flex flex-row justify-center items-center p-0 gap-1.5 w-[126px]'
         )}
       >
         {elementOptions.icon}
         <p
           className={twClassNames(
-            'not-italic font-medium text-sm leading-5 text-base-300 hover:text-base-200'
+            'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100'
           )}
         >
           {elementOptions.description}
@@ -284,10 +294,11 @@ const HeaderElements = ({
       placementSide="bottom"
       size="lg"
       key={elementOptions.name}
+      wrapperClassName="py-0"
     >
       <div
         className={twClassNames(
-          'flex flex-row items-center py-2 px-3 hover:text-base-200 max-[1229px]:hidden'
+          'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1229px]:hidden'
         )}
       >
         <div
@@ -298,16 +309,22 @@ const HeaderElements = ({
           {elementOptions.icon}
           <p
             className={twClassNames(
-              'not-italic font-medium text-sm leading-5 text-base-300 hover:text-base-200'
+              'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100 float-left whitespace-nowrap'
             )}
           >
             {elementOptions.description}
           </p>
+          <ChevronDownIcon
+            className={twClassNames(
+              'text-base-400 h-5 w-5 group-hover:text-base-100'
+            )}
+            aria-hidden="true"
+          />
         </div>
       </div>
       <div
         className={twClassNames(
-          'flex flex-row items-center p-2 hover:text-base-200 min-[1230px]:hidden'
+          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1024px]:hidden'
         )}
         href={elementOptions.link}
       >
@@ -330,9 +347,12 @@ const HeaderElements = ({
           placementSide="bottom"
           size="lg"
           key={element.name}
+          wrapperClassName="py-0"
         >
           <div
-            className={twClassNames('flex flex-row items-center p-2')}
+            className={twClassNames(
+              'flex flex-row items-center p-2 max-[1024px]:hidden'
+            )}
             href={element.link}
           >
             {element.icon}
@@ -342,7 +362,9 @@ const HeaderElements = ({
     } else if (['notifications', 'search'].includes(element.name)) {
       temp = (
         <div
-          className={twClassNames('flex flex-row items-center p-2')}
+          className={twClassNames('flex flex-row items-center p-2', {
+            'max-[1024px]:hidden': element.name === 'notifications'
+          })}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
           }
@@ -369,7 +391,7 @@ const HeaderElements = ({
       id="header-elements"
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
-      <HeaderProducts wrapperClassName="min-[1361px]:hidden" />
+      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1024px]:hidden" />
       {ELEMENTS_WITH_LABEL?.map((element) =>
         headerElementArray.includes(element.name)
           ? elementRender(element)
@@ -379,7 +401,7 @@ const HeaderElements = ({
       {headerElementArray.includes('pricing') && (
         <div
           className={twClassNames(
-            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2'
+            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1024px]:hidden'
           )}
         >
           <Hyperlink

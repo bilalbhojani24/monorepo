@@ -28,7 +28,8 @@ const Button = (
     icon,
     iconPlacement,
     isIconOnlyButton,
-    colors
+    colors,
+    ariaLabel
   },
   ref
 ) => {
@@ -127,15 +128,24 @@ const Button = (
     return BUTTON_STYLE_CLASSES[`${size}-${colors}-${variant}`];
   };
 
+  const getConditionalProps = () => {
+    const conditionalProps = {};
+    if (buttonDimensions) {
+      conditionalProps.style = {
+        width: buttonDimensions.width,
+        height: buttonDimensions.height
+      };
+    }
+    if (ariaLabel.length > 0) {
+      conditionalProps['aria-label'] = ariaLabel;
+    }
+    return conditionalProps;
+  };
+
   return (
     <button
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(buttonDimensions && {
-        style: {
-          width: buttonDimensions.width,
-          height: buttonDimensions.height
-        }
-      })}
+      {...getConditionalProps()}
       type="button"
       ref={ref || buttonRef}
       aria-disabled={disabled}
@@ -167,7 +177,8 @@ const buttonProps = {
   icon: PropTypes.node,
   iconPlacement: PropTypes.string,
   colors: PropTypes.oneOf(BUTTON_COLORS),
-  isIconOnlyButton: PropTypes.bool
+  isIconOnlyButton: PropTypes.bool,
+  ariaLabel: PropTypes.string
 };
 
 const defaultProps = {
@@ -182,7 +193,8 @@ const defaultProps = {
   icon: null,
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
   colors: BUTTON_COLORS[0],
-  isIconOnlyButton: false
+  isIconOnlyButton: false,
+  ariaLabel: ''
 };
 
 const WrappedButton = forwardRef(Button);
