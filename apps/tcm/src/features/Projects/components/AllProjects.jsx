@@ -83,7 +83,7 @@ const AllProjects = () => {
             </TMTruncateText>
           </div>
           {rowData.description && (
-            <div className="text-base-400">
+            <div className="text-base-500">
               <TMTruncateText
                 truncateUsingClamp={false}
                 hidetooltipTriggerIcon

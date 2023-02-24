@@ -161,6 +161,11 @@ const Filter = ({ isMini, onFilterChange }) => {
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+                {ownersFilteredArray.length ? (
+                  <p className="mb-3 text-xs font-medium">
+                    RECENTLY ADDED USERS
+                  </p>
+                ) : null}
                 {ownersFilteredArray.map((item) => (
                   <TMCheckBox
                     key={item.value}
@@ -186,6 +191,11 @@ const Filter = ({ isMini, onFilterChange }) => {
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+                {tagsFilteredArray.length ? (
+                  <p className="mb-3 text-xs font-medium">
+                    RECENTLY ADDED TAGS
+                  </p>
+                ) : null}
                 {tagsFilteredArray.map((item) => (
                   <TMCheckBox
                     key={item.value}

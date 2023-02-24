@@ -71,9 +71,7 @@ const TestCaseBasicData = () => {
             />
           </>
         )}
-
         <div className="border-base-200 mb-4 w-full border-b" />
-
         <div className="flex w-full flex-wrap">
           <div className="w-3/6">
             <DetailsSnippet
@@ -178,6 +176,18 @@ const TestCaseBasicData = () => {
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />
+
+        {Object.keys(testCaseDetails?.custom_fields).map((field) => (
+          <DetailsSnippet
+            key={field}
+            parseContent
+            title={
+              <span className="capitalize">{field?.split('_')?.join(' ')}</span>
+            }
+            value={testCaseDetails.custom_fields[field]}
+          />
+        ))}
+
         <div />
       </div>
 

@@ -14,9 +14,9 @@ const BlankPage = forwardRef((props, ref) => {
   return (
     <div className="flex w-full flex-wrap justify-center">
       <TMEmptyState
-        title="Add Test Cases"
+        title={<p className="text-base-800">Add Test Cases</p>}
         description="You can create test cases by entering details below"
-        mainIcon={<SourceOutlinedIcon className="!h-12 !w-12" />}
+        mainIcon={<SourceOutlinedIcon className="text-base-400 !h-12 !w-12" />}
         buttonProps={null}
       />
       <div className="w-9/12 p-5">

@@ -27,6 +27,9 @@ export default function useTestRunDetails() {
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
+  const isTestRunDetailsLoading = useSelector(
+    (state) => state.testRunsDetails.isLoading.testRunDetails
+  );
   const testCaseDetails = useSelector(
     (state) => state.testRunsDetails.testCaseDetails
   );
@@ -82,6 +85,7 @@ export default function useTestRunDetails() {
   }, [projectId]);
 
   return {
+    isTestRunDetailsLoading,
     testCaseDetails,
     getProgressOptions,
     testRunDetails,

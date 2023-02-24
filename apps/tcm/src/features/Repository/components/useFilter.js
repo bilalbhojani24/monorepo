@@ -32,6 +32,8 @@ const useFilter = (prop) => {
   const [ownerSearchKey, setOwnerSearchKey] = useState('');
   const [tagSearchKey, setTagSearchKey] = useState('');
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
+  const userData = useSelector((state) => state.global.user);
+  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const usersArray = useSelector((state) => state.repository.usersArray);
   const tagsArray = useSelector((state) => state.repository.tagsArray);
@@ -191,10 +193,18 @@ const useFilter = (prop) => {
       setOwnersFilteredArray(
         usersArray
           .filter((item) => item.full_name.toLowerCase().includes(searchKey))
-          .map((item) => ({ value: item.id, label: item.full_name }))
+          .map((item) => {
+            if (item.full_name === 'Myself') {
+              return {
+                label: updatedMySelfLabelName,
+                value: item.id
+              };
+            }
+            return { value: item.id, label: item.full_name };
+          })
       );
     } else setOwnersFilteredArray([]);
-  }, [usersArray, ownerSearchKey]);
+  }, [usersArray, ownerSearchKey, updatedMySelfLabelName]);
 
   useEffect(() => {
     if (tagsArray) {

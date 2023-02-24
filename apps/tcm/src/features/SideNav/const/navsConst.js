@@ -59,10 +59,11 @@ export const secondaryNavLinks = [
   },
   {
     id: AppRoute.RESOURCES,
-    label: 'Resources',
+    label: 'Documentation',
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,
-    path: AppRoute.RESOURCES
+    isExternalLink: true,
+    path: 'https://www.browserstack.com/docs/test-management/'
   }
 ];
 

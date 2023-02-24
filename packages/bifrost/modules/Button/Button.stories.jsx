@@ -66,6 +66,10 @@ const defaultConfig = {
       options: [true, false],
       control: { type: 'inline-radio' },
       defaultValue: false
+    },
+    ariaLabel: {
+      options: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}

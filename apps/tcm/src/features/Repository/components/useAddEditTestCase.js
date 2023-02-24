@@ -13,6 +13,8 @@ import {
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
+import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
@@ -29,7 +31,6 @@ import {
   setTagsArray,
   setTestCaseFormData,
   setUnsavedDataExists,
-  updateAllTestCases,
   updateBulkTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
@@ -37,16 +38,19 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
+import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
 
-export default function useAddEditTestCase() {
+export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
+  const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
   const { isOkToExitForm } = useUnsavedChanges();
   const [inputError, setInputError] = useState({
     name: false
   });
   const [isUploadInProgress, setUploadProgress] = useState(false);
+  const [scheduledFolder, setScheduledFolder] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
@@ -92,7 +96,6 @@ export default function useAddEditTestCase() {
   const isBulkUpdateInit = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
-  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
 
@@ -220,6 +223,15 @@ export default function useAddEditTestCase() {
         const testCaseData = data.data.test_case;
         const folderData = data.data.folder;
 
+        dispatch(
+          addNotificaton({
+            id: `test_case_added${testCaseData?.id}`,
+            title: 'Test case added',
+            variant: 'success',
+            description: null
+          })
+        );
+
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
 
@@ -253,16 +265,15 @@ export default function useAddEditTestCase() {
       folderId,
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
-    }).then((res) => {
-      // dispatch(setMetaPage(res.info));
-      // dispatch(updateAllTestCases(res?.test_cases || []));
-      dispatch(
-        updateAllTestCases(
-          allTestCases.map(
-            (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-          )
-        )
-      );
+    }).then(() => {
+      // dispatch(
+      //   updateAllTestCases(
+      //     allTestCases.map(
+      //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
+      //     )
+      //   )
+      // );
+      fetchAllTestCases();
       hideTestCaseAddEditPage(null, true);
       dispatch(resetBulkSelection());
     });
@@ -392,6 +403,19 @@ export default function useAddEditTestCase() {
   };
 
   useEffect(() => {
+    if (
+      testCaseFormData?.test_case_folder_id &&
+      isAddTestCasePageVisible &&
+      prop?.isAddEditOnly // to reduce recalculation for other components
+    ) {
+      setScheduledFolder(
+        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
+
+  useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing]);
@@ -417,6 +441,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    scheduledFolder,
     isAddTestCasePageVisible,
     showBulkEditConfirmModal,
     isBulkUpdate,

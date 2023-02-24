@@ -43,7 +43,18 @@ const TestRunsTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[10%]'
+      class: 'w-[10%]',
+      cell: (rowData) => (
+        <Link
+          className="hover:text-brand-600 cursor-pointer font-medium"
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+            projectId,
+            testRunId: rowData?.id
+          })}
+        >
+          {rowData.identifier}
+        </Link>
+      )
     },
     {
       name: 'TITLE',
@@ -60,18 +71,20 @@ const TestRunsTable = () => {
           >
             {rowData.name}
           </Link>
-          <div className="text-base-400">
-            <TMTruncateText
-              truncateUsingClamp={false}
-              hidetooltipTriggerIcon
-              isFullWidthTooltip
-              headerTooltipProps={{
-                delay: 500
-              }}
-            >
-              {ReactHtmlParser(rowData.description)}
-            </TMTruncateText>
-          </div>
+          {rowData.description && (
+            <div className="text-base-500">
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
+              >
+                {ReactHtmlParser(rowData.description)}
+              </TMTruncateText>
+            </div>
+          )}
         </>
       )
     },
@@ -155,8 +168,9 @@ const TestRunsTable = () => {
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
           <div className="flex w-full items-center">
-            <div className="relative w-full max-w-[calc(100%-30px)]">
+            <div className="relative flex h-10 w-full max-w-[calc(100%-30px)] items-center">
               <HighchartsReact
+                id={rowData.id}
                 highcharts={Highcharts}
                 options={getProgressOptions(rowData)}
               />

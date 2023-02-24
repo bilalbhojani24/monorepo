@@ -8,6 +8,7 @@ import {
   getTestRunDetailsAPI
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -195,7 +196,7 @@ const useAddEditTestRun = () => {
     return {
       test_run: testRun,
       test_case_ids: testRun?.test_cases
-        ? testRun.test_cases
+        ? testRun.test_cases?.map((item) => item.id) || []
         : formData.test_case_ids
     };
   };
@@ -220,6 +221,16 @@ const useAddEditTestRun = () => {
         projectId
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
+
+        dispatch(
+          addNotificaton({
+            id: `test_run_added${data.data.testrun?.id}`,
+            title: 'Test run added',
+            variant: 'success',
+            description: null
+          })
+        );
+
         if (projectId === 'new') {
           navigate(
             `${routeFormatter(AppRoute.TEST_RUNS, {
