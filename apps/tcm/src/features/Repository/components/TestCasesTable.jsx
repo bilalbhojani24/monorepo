@@ -46,6 +46,7 @@ const TestCasesTable = ({
     deSelectedTestCaseIDs,
     isAllSelected,
     isAllChecked,
+    isIndeterminate,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -246,7 +247,7 @@ const TestCasesTable = ({
                     //   selectedTestCaseIDs.length === rows.length)
                   }
                   indeterminate={
-                    isAllChecked ? false : selectedTestCaseIDs.length
+                    isIndeterminate
                     // !!(
                     //   (isAllSelected && deSelectedTestCaseIDs.length) ||
                     //   (selectedTestCaseIDs.length &&

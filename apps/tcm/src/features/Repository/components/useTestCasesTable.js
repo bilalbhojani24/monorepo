@@ -26,6 +26,7 @@ const useTestCasesTable = (prop) => {
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
+  const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -168,11 +169,19 @@ const useTestCasesTable = (prop) => {
   };
 
   useEffect(() => {
-    setAllChecked(
-      !prop?.rows
+    if (prop?.rows) {
+      const checkedItems = prop?.rows
         .map((item) => item.id)
-        .find((item) => !selectedTestCaseIDs.includes(item))
-    );
+        .filter((item) => selectedTestCaseIDs.includes(item));
+
+      setAllChecked(checkedItems.length === prop.rows.length);
+
+      setIndeterminate(
+        checkedItems.length === prop.rows.length || !checkedItems.length
+          ? false
+          : checkedItems.length !== prop.rows.length
+      );
+    }
   }, [prop?.rows, selectedTestCaseIDs]);
 
   useEffect(() => {
@@ -187,6 +196,7 @@ const useTestCasesTable = (prop) => {
   }, []);
 
   return {
+    isIndeterminate,
     isAllChecked,
     isSearchFilterView,
     projectId,
