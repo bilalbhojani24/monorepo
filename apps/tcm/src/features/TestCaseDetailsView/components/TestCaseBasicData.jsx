@@ -103,6 +103,12 @@ const TestCaseBasicData = () => {
           </div>
           <div className="w-3/6">
             <DetailsSnippet
+              title="Type of test case"
+              value={testCaseDetails?.case_type?.split('_')?.join(' ') || '--'}
+            />
+          </div>
+          <div className="w-3/6">
+            <DetailsSnippet
               title="Priority"
               value={testCaseDetails?.priority || '--'}
             />
