@@ -30,7 +30,6 @@ import {
   setTagsArray,
   setTestCaseFormData,
   setUnsavedDataExists,
-  updateAllTestCases,
   updateBulkTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
@@ -38,10 +37,12 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
+import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useAddEditTestCase() {
   const { projectId, folderId } = useParams();
+  const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
   const { isOkToExitForm } = useUnsavedChanges();
   const [inputError, setInputError] = useState({
@@ -93,7 +94,6 @@ export default function useAddEditTestCase() {
   const isBulkUpdateInit = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
-  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const allFolders = useSelector((state) => state.repository?.allFolders);
 
@@ -263,16 +263,15 @@ export default function useAddEditTestCase() {
       folderId,
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
-    }).then((res) => {
-      // dispatch(setMetaPage(res.info));
-      // dispatch(updateAllTestCases(res?.test_cases || []));
-      dispatch(
-        updateAllTestCases(
-          allTestCases.map(
-            (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-          )
-        )
-      );
+    }).then(() => {
+      // dispatch(
+      //   updateAllTestCases(
+      //     allTestCases.map(
+      //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
+      //     )
+      //   )
+      // );
+      fetchAllTestCases();
       hideTestCaseAddEditPage(null, true);
       dispatch(resetBulkSelection());
     });
