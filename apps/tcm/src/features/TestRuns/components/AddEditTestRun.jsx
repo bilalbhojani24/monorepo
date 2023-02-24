@@ -41,7 +41,8 @@ const AddEditTestRun = ({ isEdit }) => {
     hideAddTestRunForm,
     cleanupActivities,
     onBreadcrumbClick,
-    initTestRunFormData
+    initTestRunFormData,
+    updatedMySelfLabelName
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -57,6 +58,11 @@ const AddEditTestRun = ({ isEdit }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const defaultOwnerValue =
+    !isEditing && usersArrayMapped?.length
+      ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
+      : { label: '', value: '' };
 
   return (
     <>
@@ -151,7 +157,7 @@ const AddEditTestRun = ({ isEdit }) => {
                           (item) =>
                             item.value === testRunFormData?.test_run?.owner
                         )
-                      : { label: '', value: '' } // to be updated to null
+                      : defaultOwnerValue
                   }
                   options={usersArrayMapped}
                   onChange={(e) =>
