@@ -97,6 +97,7 @@ const MapFields = () => {
           size="xs"
           placementAlign="start"
           placementSide="bottom"
+          alignOffset={-20}
           theme="dark"
           content={
             <>
@@ -190,6 +191,7 @@ const MapFields = () => {
                 </TableCell>
                 <TableCell wrapperClassName="py-2 px-4 w-auto">
                   <TMSelectMenu
+                    // wrapperClassName="border-error-400"
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
                     dividerIdx={1}

@@ -17,6 +17,7 @@ import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
   setFieldsMapping,
   setMapFieldModalConfig,
+  setMapFieldsError,
   setValueMappings
 } from '../slices/importCSVSlice';
 
@@ -201,6 +202,20 @@ const useMapFields = () => {
       );
       return;
     }
+    if (selectedOption.label === 'Title') dispatch(setMapFieldsError('')); // to resolve the title should be mapped error
+
+    let noOfTimesSelectedOptionOccurred = 0;
+    let shouldErrorBeRemoved = true;
+    Object.keys(myFieldMappings).forEach((key) => {
+      if (mapDisplayToName[selectedOption.label] === myFieldMappings[key])
+        noOfTimesSelectedOptionOccurred += 1;
+
+      if (noOfTimesSelectedOptionOccurred === 2) {
+        shouldErrorBeRemoved = false;
+      }
+    });
+    if (shouldErrorBeRemoved) dispatch(setMapFieldsError(''));
+
     dispatch(
       setFieldsMapping({
         key: field,
@@ -352,7 +367,6 @@ const useMapFields = () => {
     );
   };
 
-  console.log('row ref', rowRef.current);
   return {
     mapFieldsError,
     allowedValueMapper,
