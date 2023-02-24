@@ -39,11 +39,12 @@ export default function ReportRow({ id }) {
 
   const onReportCheckBoxClick = (event) => {
     const isChecked = event.target.checked;
+    event.stopPropagation();
     dispatch(setIsReportSelected({ id, isSelected: isChecked }));
   };
 
   const onReportClick = (e) => {
-    if (e?.target?.id === 'checkbox') {
+    if (e?.target?.type === 'checkbox') {
       return;
     }
     if (isSelectionMode) {
@@ -75,7 +76,16 @@ export default function ReportRow({ id }) {
       className="border-base-200 hover:bg-base-50 flex justify-between border-b bg-white"
       onClick={onReportClick}
     >
-      <div className="flex" style={{ width: `calc(100% - 801px)` }}>
+      <div
+        className="flex"
+        style={{
+          width: `${
+            window.innerWidth < 1280
+              ? 'calc(100% - 374px)'
+              : 'calc(100% - 801px)'
+          } `
+        }}
+      >
         <Checkbox
           data={{ value: name }}
           border={false}

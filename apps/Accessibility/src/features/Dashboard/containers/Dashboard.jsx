@@ -45,11 +45,15 @@ export default function Dashboard({ children }) {
       label: 'View documentation',
       activeIcon: MdTextSnippet,
       inActiveIcon: MdTextSnippet,
-      path: '/reports'
+      path: '/reports',
+      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction'
     }
   ];
 
   const handleNavigationClick = (nav) => {
+    if (nav.id === 'doc') {
+      window.open(nav.link, '_target');
+    }
     navigate(nav.path);
     setCurrentPath(nav.id);
   };

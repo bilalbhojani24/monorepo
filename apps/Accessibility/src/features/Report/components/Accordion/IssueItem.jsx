@@ -5,6 +5,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlig
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
   Badge,
+  Button,
   Hyperlink,
   InputField,
   MdClose,
@@ -182,7 +183,7 @@ export default function IssueItem() {
 
   return (
     <div className="relative">
-      <div className="border-base-200 sticky top-0 z-10 flex w-full justify-between border-b bg-white py-4 pr-4 pl-6">
+      <div className="border-base-200 sticky top-0 z-10 flex w-full items-start justify-between border-b bg-white py-4 pr-4 pl-6">
         <div>
           <div className="flex">
             <p
@@ -218,9 +219,14 @@ export default function IssueItem() {
             issues
           </p>
         </div>
-        <MdClose
-          className="text-base-400 cursor-pointer text-2xl"
+        <Button
+          icon={<MdClose className="text-base-400 text-2xl" />}
           onClick={onCloseClick}
+          colors="white"
+          size="large"
+          isIconOnlyButton
+          variant="minimal"
+          wrapperClassName="text-2xl p-0"
         />
       </div>
       <div className="pb-40" style={{ top: '90px' }}>

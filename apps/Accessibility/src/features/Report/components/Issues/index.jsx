@@ -47,8 +47,11 @@ export default function Issues() {
   const { urls, componentIds, categories } = useSelector(getUniqFilterValues);
   const {
     activeSwitch,
+    categoryValue,
+    componentValue,
     isOpen,
     intermediateFilters,
+    pageValue,
     sectionData,
     showHiddenIssues,
     onApplyFilters,
@@ -61,7 +64,10 @@ export default function Issues() {
     generateData,
     onNeedsReviewChecked,
     onHiddenIssueClick,
-    onUpdateFilters
+    onUpdateFilters,
+    setPageValue,
+    setComponentValue,
+    setCategoryValue
   } = useIssues();
   const violations = generateData();
   const showEmptyScreen = violations.every(
@@ -132,14 +138,23 @@ export default function Issues() {
                 isMulti
               >
                 <ComboboxLabel>Pages</ComboboxLabel>
-                <ComboboxTrigger placeholder="Select" />
+                <ComboboxTrigger
+                  placeholder="Select"
+                  onInputValueChange={(e) =>
+                    setPageValue(e.target.value.trim())
+                  }
+                />
                 <ComboboxOptionGroup>
-                  {urls.map((item) => (
-                    <ComboboxOptionItem
-                      option={item}
-                      wrapperClassName="text-base-500 text-sm"
-                    />
-                  ))}
+                  {urls
+                    .filter(({ value }) =>
+                      value.toLowerCase().includes(pageValue.toLowerCase())
+                    )
+                    .map((item) => (
+                      <ComboboxOptionItem
+                        option={item}
+                        wrapperClassName="text-base-500 text-sm"
+                      />
+                    ))}
                 </ComboboxOptionGroup>
               </ComboBox>
             </div>
@@ -150,14 +165,23 @@ export default function Issues() {
                 isMulti
               >
                 <ComboboxLabel>Components</ComboboxLabel>
-                <ComboboxTrigger placeholder="Select" />
+                <ComboboxTrigger
+                  placeholder="Select"
+                  onInputValueChange={(e) =>
+                    setComponentValue(e.target.value.trim())
+                  }
+                />
                 <ComboboxOptionGroup>
-                  {componentIds.map((item) => (
-                    <ComboboxOptionItem
-                      option={item}
-                      wrapperClassName="text-base-500 text-sm"
-                    />
-                  ))}
+                  {componentIds
+                    .filter(({ value }) =>
+                      value.toLowerCase().includes(componentValue.toLowerCase())
+                    )
+                    .map((item) => (
+                      <ComboboxOptionItem
+                        option={item}
+                        wrapperClassName="text-base-500 text-sm"
+                      />
+                    ))}
                 </ComboboxOptionGroup>
               </ComboBox>
             </div>
@@ -168,14 +192,23 @@ export default function Issues() {
                 isMulti
               >
                 <ComboboxLabel>Category</ComboboxLabel>
-                <ComboboxTrigger placeholder="Select..." />
+                <ComboboxTrigger
+                  placeholder="Select"
+                  onInputValueChange={(e) =>
+                    setCategoryValue(e.target.value.trim())
+                  }
+                />
                 <ComboboxOptionGroup>
-                  {categories.map((item) => (
-                    <ComboboxOptionItem
-                      option={item}
-                      wrapperClassName="text-base-500 text-sm"
-                    />
-                  ))}
+                  {categories
+                    .filter(({ value }) =>
+                      value.toLowerCase().includes(categoryValue.toLowerCase())
+                    )
+                    .map((item) => (
+                      <ComboboxOptionItem
+                        option={item}
+                        wrapperClassName="text-base-500 text-sm"
+                      />
+                    ))}
                 </ComboboxOptionGroup>
               </ComboBox>
             </div>

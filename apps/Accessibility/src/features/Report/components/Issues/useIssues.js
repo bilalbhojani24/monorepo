@@ -30,6 +30,9 @@ import { logEvent } from 'utils/logEvent';
 export default function useIssues() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [pageValue, setPageValue] = useState('');
+  const [componentValue, setComponentValue] = useState('');
+  const [categoryValue, setCategoryValue] = useState('');
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -316,9 +319,12 @@ export default function useIssues() {
 
   return {
     activeSwitch,
+    categoryValue,
+    componentValue,
     customData,
     isOpen,
     intermediateFilters,
+    pageValue,
     sectionData,
     showHiddenIssues,
     onNeedsReviewChecked,
@@ -331,6 +337,9 @@ export default function useIssues() {
     onTabSelect,
     onTagClose,
     generateData,
-    onUpdateFilters
+    onUpdateFilters,
+    setPageValue,
+    setComponentValue,
+    setCategoryValue
   };
 }

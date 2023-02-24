@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
+import Loader from 'common/Loader';
 import { ROUTES } from 'constants';
 import Dashboard from 'features/Dashboard';
-import Report from 'features/Report';
-import Reports from 'features/Reports';
-import ScreenReader from 'features/ScreenReader';
+
+const Report = lazy(() => import('features/Report'));
+const Reports = lazy(() => import('features/Reports'));
+const ScreenReader = lazy(() => import('features/ScreenReader'));
 
 const Layout = (Component) => (
-  <Dashboard>
-    <Component />
-  </Dashboard>
+  <Suspense fallback={<Loader />}>
+    <Dashboard>
+      <Component />
+    </Dashboard>
+  </Suspense>
 );
 
 export const APP_ROUTES = [

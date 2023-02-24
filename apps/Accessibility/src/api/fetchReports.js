@@ -27,7 +27,7 @@ export default async function fetchReports(dashboardUserID) {
   // return response.data.data.reports;
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(data.data.reports);
+      resolve(data.data.reports.slice(0, 50));
     }, 1000);
   });
 }

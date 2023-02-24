@@ -55,9 +55,10 @@ export default function Reports() {
       )
     : reportList;
 
-  const isFirstPage = lastIndex === 20;
+  const isFirstPage = lastIndex === reportPerPage;
   const isLastPage =
-    Math.ceil(searchFilterList.length / 20) === Math.ceil(lastIndex / 20);
+    Math.ceil(searchFilterList.length / reportPerPage) ===
+    Math.ceil(lastIndex / reportPerPage);
 
   return (
     <div className="bg-base-50">
