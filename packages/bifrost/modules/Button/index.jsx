@@ -7,6 +7,7 @@ import Loader from '../Loader/index';
 import {
   BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
+  BUTTON_LOADER_CLASSES,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
   BUTTON_VARIANTS
@@ -36,7 +37,9 @@ const Button = (
   const effectiveChildren =
     loading && !disabled && variant !== BUTTON_VARIANTS[3] ? (
       <Loader
-        wrapperStyle="mx-auto"
+        wrapperStyle={`mx-auto ${
+          BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
+        }`}
         height={
           size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
         }
@@ -101,7 +104,7 @@ const Button = (
   };
 
   const buttonDimensions = useMemo(() => {
-    if (loading) {
+    if (loading && !fullWidth) {
       const target = ref || buttonRef;
       return {
         width: target?.current?.getBoundingClientRect()?.width,
@@ -110,7 +113,7 @@ const Button = (
     }
 
     return null;
-  }, [loading, ref]);
+  }, [loading, ref, fullWidth]);
 
   const stylePicker = () => {
     if (disabled) {

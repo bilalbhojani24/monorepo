@@ -1,3 +1,5 @@
+import { FaApple } from 'react-icons/fa';
+import { SiJira } from 'react-icons/si';
 import {
   ArrowDownIcon,
   ArrowLongLeftIcon,
@@ -33,6 +35,9 @@ import {
   XMarkIcon
 } from '@heroicons/react/20/solid';
 
+import AutomationFolderIcon from './CustomIcons/AutomationFolderIcon';
+import AutomationIcon from './CustomIcons/AutomationIcon';
+
 export * from 'react-icons/md';
 
 export {
@@ -40,6 +45,8 @@ export {
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
   ArrowUpIcon,
+  AutomationFolderIcon,
+  AutomationIcon,
   Bars3Icon,
   BarsArrowUpIcon,
   CalendarIcon,
@@ -57,6 +64,7 @@ export {
   EnvelopeOpenIcon,
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
+  FaApple,
   FolderIcon,
   HomeIcon,
   InboxIcon,
@@ -65,6 +73,7 @@ export {
   PaperClipIcon,
   PhotoIcon,
   PlusIcon,
+  SiJira,
   UsersIcon,
   XCircleIcon,
   XMarkIcon

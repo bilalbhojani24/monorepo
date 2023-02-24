@@ -18,6 +18,11 @@ export const renderSingleOptions = (opts, placeholder) => {
 };
 
 export const renderMultiOptions = (opts, placeholder) => {
-  if (opts.length) return opts?.map((val) => val.label).join(', ');
+  if (opts.length)
+    return opts?.map((val, index) => (
+      <span className="mr-2 inline">
+        {val.label} {index < opts.length - 1 ? ',' : null}
+      </span>
+    ));
   return placeholder;
 };

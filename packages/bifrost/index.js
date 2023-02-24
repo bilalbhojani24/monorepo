@@ -16,8 +16,9 @@ import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
-import DropdownTriggerWIcon from './modules/DropdownTriggerWIcon';
-import DropdownTriggerWText from './modules/DropdownTriggerWText';
+import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
+import DropdownOptionItem from './modules/DropdownOptionItem/index';
+import DropdownTrigger from './modules/DropdownTrigger/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
@@ -37,6 +38,8 @@ import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
+import MediaPlayer from './modules/MediaPlayer';
+import MediaPlayerControlPanel from './modules/MediaPlayerControlPanel';
 import Metadata from './modules/Metadata';
 import Modal from './modules/Modal';
 import ModalBody from './modules/ModalBody';
@@ -67,6 +70,7 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import Slideover from './modules/Slideover/index';
+import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
@@ -110,8 +114,9 @@ export {
   DescriptionList,
   Draggable,
   Dropdown,
-  DropdownTriggerWIcon,
-  DropdownTriggerWText,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
@@ -131,6 +136,8 @@ export {
   ListTreeNode,
   ListTreeNodeContents,
   Loader,
+  MediaPlayer,
+  MediaPlayerControlPanel,
   Metadata,
   Modal,
   ModalBody,
@@ -162,6 +169,7 @@ export {
   SidebarItem,
   SidebarNavigation,
   Slideover,
+  SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
   StackedListWAvatar,

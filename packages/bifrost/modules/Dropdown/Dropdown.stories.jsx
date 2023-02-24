@@ -1,9 +1,18 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { ChevronDownIcon } from '../Icon';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
+import { ChevronDownIcon, EllipsisVerticalIcon } from '../Icon';
 
 import Dropdown from './index';
+
+const options = [
+  { body: 'Account Settings', id: 1 },
+  { body: 'Support', id: 2 },
+  { body: 'License', id: 3 }
+];
 
 const defaultConfig = {
   title: 'Application/Components/Dropdown',
@@ -18,73 +27,71 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    trigger: {
-      description: 'Trigger to open/close dropdown',
+    children: {
+      controles: { type: null },
       defaultValue: (
-        <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-          Options
-          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-        </div>
+        <>
+          <div className="flex">
+            <DropdownTrigger>
+              Options
+              <ChevronDownIcon
+                className="-mr-1 ml-2 h-5 w-5"
+                aria-hidden="true"
+              />
+            </DropdownTrigger>
+          </div>
+          <DropdownOptionGroup>
+            {options.map((opt) => (
+              <DropdownOptionItem key={opt.value} option={opt} />
+            ))}
+          </DropdownOptionGroup>
+        </>
       )
     },
-    headerVisible: {
-      control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem amit',
-      defaultValue: false
-    },
-    heading: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: 'Lorem'
-    },
-    subHeading: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'Lorem Ipsum',
-      defaultValue: 'Ipsum'
-    },
-    options: {
-      defaultValue: [
-        {
-          id: '1',
-          body: 'Edit'
-        },
-        {
-          id: '2',
-          body: 'Duplicate',
-          divider: false
-        },
-        {
-          id: '3',
-          body: 'Archive',
-          divider: true
-        }
-      ]
-    },
-    wrapperClassName: {
-      control: { type: 'text' },
-      type: { summary: 'TEXT', required: false },
-      description: 'wrapper styles for the dropdown component',
-      defaultValue: ''
+    onClick: {
+      controls: { type: null }
     },
     onOpenChange: {
-      control: { type: null },
-      defaultValue: (open) => console.log(open)
+      controls: { type: null },
+      defaultValue: (openStatus) => {
+        console.log(openStatus);
+      }
+    },
+    wrapperClassName: {
+      controles: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
 };
-const Template = (args) => (
-  <div className="flex justify-center">
-    <Dropdown {...args} />
-  </div>
-);
+
+const Template = (args) => <Dropdown {...args} />;
+
 const Primary = Template.bind({});
+
 Primary.parameters = {
   controls: {}
 };
+
+export const MeatballDropdown = () => (
+  <Dropdown
+    onClick={(value) => {
+      console.log(value);
+    }}
+  >
+    <div className="flex">
+      <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+        <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+      </DropdownTrigger>
+    </div>
+
+    <DropdownOptionGroup>
+      {options.map((opt) => (
+        <DropdownOptionItem key={opt.value} option={opt} />
+      ))}
+    </DropdownOptionGroup>
+  </Dropdown>
+);
 
 export default defaultConfig;
 export { Primary };

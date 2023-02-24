@@ -11,12 +11,31 @@ import {
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import Dropdown from '../Dropdown';
-import DropdownTriggerWIcon from '../DropdownTriggerWIcon';
-import DropdownTriggerWText from '../DropdownTriggerWText';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
+import { EllipsisVerticalIcon } from '../Icon';
 import Metadata from '../Metadata';
 
 import { PAGE_HEADINGS_THEME } from './const/pageHeadingsConstants';
 import PageHeadings from './index';
+
+const options = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  }
+];
 
 const defaultConfig = {
   title: 'Application/Components/PageHeadings',
@@ -151,45 +170,25 @@ ActionsWithDropdowns.args = {
   actions: (
     <>
       <div className="mr-2">
-        <Dropdown
-          trigger={<DropdownTriggerWText>Options</DropdownTriggerWText>}
-          options={[
-            {
-              id: '1',
-              body: 'Edit'
-            },
-            {
-              id: '2',
-              body: 'Duplicate',
-              divider: false
-            },
-            {
-              id: '3',
-              body: 'Archive',
-              divider: true
-            }
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>trigger</DropdownTrigger>
+          <DropdownOptionGroup>
+            {options.map((op) => (
+              <DropdownOptionItem option={op} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
       </div>
-      <Dropdown
-        trigger={<DropdownTriggerWIcon variant="menu-button" />}
-        options={[
-          {
-            id: '1',
-            body: 'Edit'
-          },
-          {
-            id: '2',
-            body: 'Duplicate',
-            divider: false
-          },
-          {
-            id: '3',
-            body: 'Archive',
-            divider: true
-          }
-        ]}
-      />
+      <Dropdown>
+        <DropdownTrigger>
+          <EllipsisVerticalIcon className="h-5 w-5" />
+        </DropdownTrigger>
+        <DropdownOptionGroup>
+          {options.map((op) => (
+            <DropdownOptionItem option={op} />
+          ))}
+        </DropdownOptionGroup>
+      </Dropdown>
     </>
     // </div>
   )

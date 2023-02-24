@@ -13,6 +13,8 @@ export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
+export * from './src/logger';
+export * from './src/sentry';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 

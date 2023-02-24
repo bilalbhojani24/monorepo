@@ -19,6 +19,32 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
+export const BUTTON_LOADER_CLASSES = {
+  'brand-primary': 'fill-brand-50 text-brand-400',
+  'brand-secondary': 'fill-brand-500 text-brand-300',
+  'brand-rounded': 'fill-brand-50 text-brand-400',
+  'brand-minimal': '',
+
+  'success-primary': 'fill-success-50 text-success-400',
+  'success-secondary': 'fill-success-500 text-success-300',
+  'success-rounded': 'fill-success-50 text-success-400',
+  'success-minimal': '',
+
+  'attention-primary': 'fill-attention-100 text-attention-600',
+  'attention-secondary': 'fill-attention-600 text-attention-400',
+  'attention-rounded': 'fill-attention-100 text-attention-600',
+  'attention-minimal': '',
+
+  'danger-primary': 'fill-danger-50 text-danger-400',
+  'danger-secondary': 'fill-danger-300 text-danger-500',
+  'danger-rounded': 'fill-danger-50 text-danger-400',
+  'danger-minimal': '',
+
+  'white-primary': 'fill-base-400 text-base-300',
+  'white-rounded': 'fill-base-400 text-base-300',
+  'white-minimal': ''
+};
+
 export const BUTTON_STYLE_CLASSES = {
   'extra-small-brand-primary':
     'rounded py-1.5 px-2.5 text-xs bg-brand-600 text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2',
@@ -236,7 +262,7 @@ export const BUTTON_STYLE_CLASSES = {
   'small-danger-rounded-disabled':
     'rounded-full py-2 px-3 text-sm bg-danger-500 text-danger-200 cursor-not-allowed',
   'small-attention-primary-disabled':
-    'rounded-md py-2 px-3 text-sm bg-attention-500 text-attention-500 cursor-not-allowed',
+    'rounded-md py-2 px-3 text-sm bg-attention-200 text-attention-500 cursor-not-allowed',
   'small-attention-secondary-disabled':
     'rounded-md py-2 px-3 text-sm bg-attention-50 text-attention-400 cursor-not-allowed',
   'small-attention-rounded-disabled':
@@ -268,7 +294,7 @@ export const BUTTON_STYLE_CLASSES = {
   'default-danger-rounded-disabled':
     'text-sm py-2 px-4 rounded-full bg-danger-500 text-danger-200 cursor-not-allowed',
   'default-attention-primary-disabled':
-    'text-sm py-2 px-4 rounded-md bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-sm py-2 px-4 rounded-md bg-attention-200 text-attention-500 cursor-not-allowed',
   'default-attention-secondary-disabled':
     'text-sm py-2 px-4 rounded-md bg-attention-50 text-attention-400 cursor-not-allowed',
   'default-attention-rounded-disabled':
@@ -300,7 +326,7 @@ export const BUTTON_STYLE_CLASSES = {
   'large-danger-rounded-disabled':
     'text-base py-2 px-4 rounded-full bg-danger-500 text-danger-200 cursor-not-allowed',
   'large-attention-primary-disabled':
-    'text-base py-2 px-4 rounded-md bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-base py-2 px-4 rounded-md bg-attention-200 text-attention-500 cursor-not-allowed',
   'large-attention-secondary-disabled':
     'text-base py-2 px-4 rounded-md bg-attention-50 text-attention-400 cursor-not-allowed',
   'large-attention-rounded-disabled':
@@ -332,7 +358,7 @@ export const BUTTON_STYLE_CLASSES = {
   'extra-large-danger-rounded-disabled':
     'rounded-full text-base py-4 px-6 bg-danger-500 text-danger-200 cursor-not-allowed',
   'extra-large-attention-primary-disabled':
-    'text-base rounded-md py-4 px-6 bg-attention-500 text-attention-500 cursor-not-allowed',
+    'text-base rounded-md py-4 px-6 bg-attention-200 text-attention-500 cursor-not-allowed',
   'extra-large-attention-secondary-disabled':
     'text-base rounded-md py-4 px-6 bg-attention-50 text-attention-400 cursor-not-allowed',
   'extra-large-attention-rounded-disabled':
