@@ -16,9 +16,9 @@ const HeaderBrand = ({ productName, productLink, release }) => (
         'flex flex-row items-center pl-8 gap-2 w-fit'
       )}
     >
-      <BrandLogo iconClass="min-[1230px]:hidden" />
-      <BrandLogoWithName iconClass="max-[1229px]:hidden" />
-      <p className="font-sans text-lg font-medium not-italic leading-6 text-white">
+      <BrandLogo iconClass="min-[1230px]:hidden -mt-0.5" />
+      <BrandLogoWithName iconClass="max-[1229px]:hidden -mt-0.5" />
+      <p className="float-left whitespace-nowrap font-sans text-lg font-normal not-italic leading-6 text-white">
         {productName}
       </p>
       {release && (
