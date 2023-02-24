@@ -17,7 +17,8 @@ const TMSelectMenu = ({
   onChange,
   value,
   isMulti,
-  defaultValue
+  defaultValue,
+  triggerWrapperClassName
 }) => (
   <SelectMenu
     onChange={onChange}
@@ -26,7 +27,10 @@ const TMSelectMenu = ({
     defaultValue={defaultValue}
   >
     {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
-    <SelectMenuTrigger placeholder={placeholder} />
+    <SelectMenuTrigger
+      placeholder={placeholder}
+      wrapperClassName={triggerWrapperClassName}
+    />
     <SelectMenuOptionGroup>
       {React.Children.toArray(
         options.map((item, idx) => (

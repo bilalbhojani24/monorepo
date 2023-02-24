@@ -17,7 +17,7 @@ const ConfirmImport = (props) => {
     .filter((project) => project !== null);
 
   return (
-    <div className="border-base-100 shadow-base-200 mt-4 h-max w-3/4 rounded-md border-2 bg-white p-6">
+    <div className="border-base-100 shadow-base-200 mt-4 h-max w-3/4 max-w-7xl rounded-md border-2 bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"

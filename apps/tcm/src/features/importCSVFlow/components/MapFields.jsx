@@ -40,7 +40,9 @@ const MapFields = () => {
     typeMapper,
     rowRef,
     valueMappings,
+    // errorLabelInMapFields,
     mapFieldProceedLoading,
+    // showSelectMenuErrorInMapFields,
     setDefaultDropdownValue,
     handleSelectMenuChange,
     handleUpdateClick,
@@ -134,7 +136,7 @@ const MapFields = () => {
   }, []);
 
   return (
-    <div className="w-4/5">
+    <div className="w-4/5 max-w-7xl">
       {mapFieldsError && (
         <div className="mb-3">
           <TMAlerts
@@ -191,7 +193,12 @@ const MapFields = () => {
                 </TableCell>
                 <TableCell wrapperClassName="py-2 px-4 w-auto">
                   <TMSelectMenu
-                    // wrapperClassName="border-error-400"
+                    // triggerWrapperClassName={
+                    //   row.mappedField.defaultValue.label ===
+                    //     errorLabelInMapFields && showSelectMenuErrorInMapFields
+                    //     ? 'border-danger-400'
+                    //     : ''
+                    // }
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
                     dividerIdx={1}

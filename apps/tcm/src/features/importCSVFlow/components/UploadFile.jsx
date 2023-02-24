@@ -44,7 +44,7 @@ const UploadFile = () => {
   };
 
   return (
-    <div className="w-4/5">
+    <div className="w-4/5 max-w-7xl">
       {csvUploadError && (
         <div className="mb-3">
           <TMAlerts
