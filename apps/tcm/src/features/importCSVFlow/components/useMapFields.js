@@ -7,19 +7,20 @@ import {
   ADD_FIELD_VALUE,
   ADD_VALUE_LABEL,
   ADD_VALUE_VALUE,
+  DEFAULT_TABLE_DROPDOWN_OPTIONS,
   IGNORE_FIELD_LABEL,
   IGNORE_FIELD_VALUE,
   IGNORE_VALUE_LABEL,
   IGNORE_VALUE_VALUE
 } from '../const/importCSVConstants';
+import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
   setFieldsMapping,
   setMapFieldModalConfig,
-  setValueMappings,
-  setValueMappingsThunk,
-  submitMappingData
+  setValueMappings
 } from '../slices/importCSVSlice';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const useMapFields = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
@@ -57,8 +58,7 @@ const useMapFields = () => {
   }));
 
   const displayOptions = [
-    { label: IGNORE_FIELD_LABEL, value: IGNORE_FIELD_VALUE },
-    { label: ADD_FIELD_LABEL, value: ADD_FIELD_VALUE },
+    ...DEFAULT_TABLE_DROPDOWN_OPTIONS,
     ...defaultOptions,
     ...customOptions
   ]; // all display options

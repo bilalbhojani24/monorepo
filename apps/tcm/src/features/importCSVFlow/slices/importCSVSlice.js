@@ -1,21 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  getCSVConfigurations,
-  getFieldMapping,
-  getUsers,
-  postCSV,
-  postMappingData,
-  startCSVImport
-} from '../../../api/importCSV.api';
-import {
-  ADD_VALUE_LABEL,
-  ADD_VALUE_VALUE,
   COMPLETE_STEP,
   CURRENT_STEP,
   FAILED_IMPORT_MODAL_DATA,
-  IGNORE_VALUE_LABEL,
-  IGNORE_VALUE_VALUE,
   IMPORT_CSV_STEPS,
   ONGOING_IMPORT_MODAL_DATA,
   PREVIEW_AND_CONFIRM_IMPORT,
@@ -65,72 +53,6 @@ const initialState = {
   mapFieldsProceedLoading: false
 };
 
-export const setCSVConfigurations = createAsyncThunk(
-  'importCSV/setCSVConfigurations',
-  async () => {
-    try {
-      return await getCSVConfigurations();
-    } catch (err) {
-      return err;
-    }
-  }
-);
-
-export const uploadFile = createAsyncThunk(
-  'importCSV/uploadFile',
-  async (payload) => {
-    try {
-      return await postCSV(payload);
-    } catch (err) {
-      return err;
-    }
-  }
-);
-export const setUsers = createAsyncThunk('importCSV/setUsers', async (id) => {
-  try {
-    return await getUsers(id);
-  } catch (err) {
-    return err;
-  }
-});
-
-export const setValueMappingsThunk = createAsyncThunk(
-  'importCSV/setValueMappings',
-  // eslint-disable-next-line camelcase
-  async ({ importId, field, projectId, mapped_field }) => {
-    try {
-      const response = await getFieldMapping({
-        importId,
-        field,
-        projectId,
-        mapped_field
-      });
-      return { field, ...response };
-    } catch (err) {
-      return err;
-    }
-  }
-);
-
-export const submitMappingData = createAsyncThunk(
-  'importCSV/submitMappingData',
-  async ({ importId, projectId, folderId, myFieldMappings, valueMappings }) => {
-    try {
-      return await postMappingData({
-        importId,
-        payload: {
-          project_id: projectId,
-          folder_id: folderId,
-          field_mappings: myFieldMappings,
-          value_mappings: valueMappings
-        }
-      });
-    } catch (err) {
-      return err;
-    }
-  }
-);
-
 const importCSVSlice = createSlice({
   name: 'importCSV',
   initialState,
@@ -178,6 +100,64 @@ const importCSVSlice = createSlice({
       state.confirmCSVImportNotificationConfig.modalData =
         ONGOING_IMPORT_MODAL_DATA;
     },
+    setCSVConfigurationsFulfilled: (state, { payload }) => {
+      // eslint-disable-next-line prefer-destructuring
+      state.csvFormData.encodings = {
+        label: payload.encodings[2],
+        value: payload.encodings[2]
+      };
+      // eslint-disable-next-line prefer-destructuring
+      state.csvFormData.separators = {
+        label: payload.separators[0],
+        value: payload.separators[0]
+      };
+      state.allEncodings = payload.encodings.map((encoding) => ({
+        label: encoding,
+        value: encoding
+      }));
+      state.allSeparators = payload.separators.map((separator) => ({
+        label: separator,
+        value: separator
+      }));
+    },
+    uploadFilePending: (state) => {
+      state.uploadFileProceedLoading = true;
+    },
+    uploadFileFulfilled: (state, { payload }) => {
+      state.fieldsMappingData = payload;
+      state.mapFieldsConfig.importId = payload.import_id;
+      state.mapFieldsConfig.customFields = payload.fields_available?.custom;
+      state.mapFieldsConfig.defaultFields = payload.fields_available?.default;
+      state.mapFieldsConfig.importFields = payload.import_fields;
+      state.uploadFileProceedLoading = false;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(payload?.value_mappings)) {
+        state.valueMappings[key] = Object.keys(value).reduce(
+          (obj, nestedKey) => {
+            if (value[nestedKey] === null)
+              return { ...obj, [nestedKey]: { action: 'add' } };
+            return { ...obj, [nestedKey]: value[nestedKey] };
+          },
+          {}
+        );
+      }
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(payload?.field_mappings)) {
+        state.fieldsMapping[key] = value;
+      }
+
+      state.currentCSVScreen = 'mapFields';
+      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
+        if (idx === 0) return { ...step, status: COMPLETE_STEP };
+        if (idx === 1) return { ...step, status: CURRENT_STEP };
+        return step;
+      });
+    },
+    uploadFileRejected: (state, { payload }) => {
+      state.csvUploadError = payload.response.data.message;
+      state.uploadFileProceedLoading = false;
+    },
     startImportingTestCaseFulfilled: (state, { payload }) => {
       if (payload.success) {
         state.confirmCSVImportNotificationConfig.show = false;
@@ -201,81 +181,7 @@ const importCSVSlice = createSlice({
           FAILED_IMPORT_MODAL_DATA;
       }
     },
-    setRetryImport: (state, { payload }) => {
-      state.retryCSVImport = payload;
-    }
-  },
-  extraReducers: (builder) => {
-    builder.addCase(uploadFile.fulfilled, (state, action) => {
-      if (action.payload?.response?.status === 400) {
-        state.csvUploadError = action.payload.response.data.message;
-        state.uploadFileProceedLoading = false;
-      } else {
-        state.fieldsMappingData = action.payload;
-        state.mapFieldsConfig.importId = action.payload.import_id;
-        state.mapFieldsConfig.customFields =
-          action.payload.fields_available?.custom;
-        state.mapFieldsConfig.defaultFields =
-          action.payload.fields_available?.default;
-        state.mapFieldsConfig.importFields = action.payload.import_fields;
-        state.uploadFileProceedLoading = false;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const [key, value] of Object.entries(
-          action.payload?.value_mappings
-        )) {
-          state.valueMappings[key] = Object.keys(value).reduce(
-            (obj, nestedKey) => {
-              if (value[nestedKey] === null)
-                return { ...obj, [nestedKey]: { action: 'add' } };
-              return { ...obj, [nestedKey]: value[nestedKey] };
-            },
-            {}
-          );
-        }
-
-        // eslint-disable-next-line no-restricted-syntax
-        for (const [key, value] of Object.entries(
-          action.payload?.field_mappings
-        )) {
-          state.fieldsMapping[key] = value;
-        }
-
-        state.currentCSVScreen = 'mapFields';
-        state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-          if (idx === 0) return { ...step, status: COMPLETE_STEP };
-          if (idx === 1) return { ...step, status: CURRENT_STEP };
-          return step;
-        });
-      }
-    });
-    builder.addCase(uploadFile.rejected, (state, { payload }) => {
-      state.csvUploadError = payload;
-    });
-    builder.addCase(uploadFile.pending, (state) => {
-      state.uploadFileProceedLoading = true;
-    });
-    builder.addCase(setCSVConfigurations.fulfilled, (state, { payload }) => {
-      // eslint-disable-next-line prefer-destructuring
-      state.csvFormData.encodings = {
-        label: payload.encodings[2],
-        value: payload.encodings[2]
-      };
-      // eslint-disable-next-line prefer-destructuring
-      state.csvFormData.separators = {
-        label: payload.separators[0],
-        value: payload.separators[0]
-      };
-      state.allEncodings = payload.encodings.map((encoding) => ({
-        label: encoding,
-        value: encoding
-      }));
-      state.allSeparators = payload.separators.map((separator) => ({
-        label: separator,
-        value: separator
-      }));
-    });
-    builder.addCase(setValueMappingsThunk.fulfilled, (state, { payload }) => {
-      if (payload?.response?.status === 400) return;
+    setValueMappingThunkFulfilled: (state, { payload }) => {
       const { field, value_mappings: valueMappings } = payload;
 
       const newValueMappings = Object.keys(valueMappings).reduce(
@@ -287,48 +193,35 @@ const importCSVSlice = createSlice({
         {}
       );
       state.valueMappings[field] = newValueMappings;
-    });
-    builder.addCase(setUsers.fulfilled, (state, { payload }) => {
-      const options = payload.users.map((item) => ({
-        label: item.full_name,
-        value: item.full_name
-      }));
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = [
-        { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE },
-        { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE },
-        ...options
-      ];
-    });
-    builder.addCase(submitMappingData.pending, (state) => {
+    },
+    submitMappingDataPending: (state) => {
       state.mapFieldsProceedLoading = true;
-    });
-    builder.addCase(submitMappingData.fulfilled, (state, { payload }) => {
-      state.mapFieldsProceedLoading = false;
-      if (payload.response?.status === 400) {
-        state.mappingFieldsError = payload.response.data.message;
-      } // in case of error
-      else {
-        state.totalImportedProjectsInPreview = payload.cases_count;
-        state.folderName = payload.folder;
-        state.previewData = payload.test_cases;
-        // next screen
-        state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
-        state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-          if (idx === 2) return { ...step, status: CURRENT_STEP };
-          return { ...step, status: COMPLETE_STEP };
-        });
-      }
-    });
+    },
+    submitMappingDataFulfilled: (state, { payload }) => {
+      state.totalImportedProjectsInPreview = payload.cases_count;
+      state.folderName = payload.folder;
+      state.previewData = payload.test_cases;
+      // next screen
+      state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
+      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
+        if (idx === 2) return { ...step, status: CURRENT_STEP };
+        return { ...step, status: COMPLETE_STEP };
+      });
+    },
+    submitMappingDataRejected: (state, { payload }) => {
+      state.mappingFieldsError = payload.response.data.message;
+    },
+    setRetryImport: (state, { payload }) => {
+      state.retryCSVImport = payload;
+    },
+    setSystemTags: (state, { payload }) => {
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.TAGS = payload;
+    },
+    setSystemUsers: (state, { payload }) => {
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = payload;
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = payload;
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = payload;
+    }
   }
 });
 
@@ -344,25 +237,19 @@ export const {
   setMapFieldModalConfig,
   setFieldsMapping,
   setValueMappings,
+  setSystemTags,
+  setSystemUsers,
+  uploadFilePending,
+  uploadFileFulfilled,
+  uploadFileRejected,
+  setCSVConfigurationsFulfilled,
   startImportingTestCasePending,
   startImportingTestCaseFulfilled,
   startImportingTestCaseRejected,
+  setValueMappingThunkFulfilled,
+  submitMappingDataPending,
+  submitMappingDataFulfilled,
+  submitMappingDataRejected,
   setNotificationConfigForConfirmCSVImport
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;
-
-export const startImportingTestCases =
-  ({ importId, projectId, folderId, retryImport }) =>
-  async (dispatch) => {
-    dispatch(startImportingTestCasePending());
-    try {
-      const response = await startCSVImport({
-        importId,
-        retryImport,
-        payload: { project_id: projectId, folder_id: folderId }
-      });
-      dispatch(startImportingTestCaseFulfilled(response));
-    } catch (err) {
-      dispatch(startImportingTestCaseRejected(err));
-    }
-  };

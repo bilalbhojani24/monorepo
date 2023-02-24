@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
+import { uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
   setCSVUploadError,
   setFileConfig,
-  setShowMoreFields,
-  uploadFile
+  setShowMoreFields
 } from '../slices/importCSVSlice';
 
 const useImportCSV = () => {

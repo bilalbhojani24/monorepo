@@ -8,10 +8,7 @@ import {
   PREVIEW_AND_CONFIRM_IMPORT,
   UPLOAD_FILE
 } from '../const/importCSVConstants';
-import {
-  setCSVConfigurations
-  // setFieldsMapping
-} from '../slices/importCSVSlice';
+import { setCSVConfigurations } from '../slices/csvThunk';
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';

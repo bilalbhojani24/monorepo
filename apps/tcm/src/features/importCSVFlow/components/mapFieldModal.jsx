@@ -116,6 +116,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                       csvFileField,
                       row.csvValue
                     )}
+                    dividerIdx={row?.displayOptions.length - 3}
                   />
                 </TableCell>
               </TableRow>

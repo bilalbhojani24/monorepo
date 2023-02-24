@@ -43,6 +43,7 @@ const ConfirmImport = (props) => {
                 headerTooltipProps={{
                   delay: 500
                 }}
+                isTooltip
               >
                 {project.name}
               </TMTruncateText>
