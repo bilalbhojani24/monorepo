@@ -8,6 +8,7 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    invalidFields,
     isProcessing,
     userData,
     formData,
@@ -37,6 +38,11 @@ const Onboarding = () => {
             options={jobRolesArray}
             onChange={(val) => onFormChange('role', val.value)}
           />
+          {invalidFields?.role && (
+            <p className="text-danger-600 mt-1 text-sm">
+              This field can&apos;t be left empty
+            </p>
+          )}
         </div>
         <div className="mt-6 max-w-sm">
           <TMSelectMenu
@@ -45,6 +51,11 @@ const Onboarding = () => {
             options={orgStrengthArray}
             onChange={(val) => onFormChange('organisation_strength', val.value)}
           />
+          {invalidFields?.organisation_strength && (
+            <p className="text-danger-600 mt-1 text-sm">
+              This field can&apos;t be left empty
+            </p>
+          )}
         </div>
         <div className="mt-6">
           <div className="text-base">Choose your setup format</div>

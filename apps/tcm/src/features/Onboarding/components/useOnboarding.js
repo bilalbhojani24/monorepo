@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -23,6 +23,7 @@ const useOnboarding = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [invalidFields, setInvalidFields] = useState({});
   const userData = useSelector((state) => state.global.user);
   const isProcessing = useSelector((state) => state.onboarding.isProcessing);
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
@@ -45,6 +46,10 @@ const useOnboarding = () => {
   };
 
   const onFormChange = (key, value) => {
+    setInvalidFields({
+      ...invalidFields,
+      [key]: false
+    });
     dispatch(updateFormData({ key, value }));
   };
 
@@ -56,7 +61,13 @@ const useOnboarding = () => {
   };
 
   const continueClickHandler = () => {
-    if (!formData?.role || !formData?.organisation_strength) return;
+    if (!formData?.role || !formData?.organisation_strength) {
+      setInvalidFields({
+        role: !formData?.role,
+        organisation_strength: !formData?.organisation_strength
+      });
+      return;
+    }
     if (!formData?.start_method) return;
 
     dispatch(setIsProcessing(true));
@@ -94,6 +105,7 @@ const useOnboarding = () => {
   }, []);
 
   return {
+    invalidFields,
     isProcessing,
     formData,
     userData,
