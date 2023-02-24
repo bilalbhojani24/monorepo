@@ -87,7 +87,7 @@ const defaultConfig = {
       }
     },
     others: {
-      defaultValue: { title: 'Other', options: [] }
+      defaultValue: null
     },
     productArray: {
       defaultValue: [

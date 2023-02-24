@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
-import { MdArrowRightAlt } from '../Icon';
+import { ChevronDownIcon, MdArrowRightAlt } from '../Icon';
 import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
@@ -49,7 +49,9 @@ const HeaderElements = ({
 
   const linkContainer = (title, optionArray) => (
     <>
-      <div className={twClassNames('flex flex-col items-start p-0 gap-2')}>
+      <div
+        className={twClassNames('flex flex-col items-start p-0 gap-2 w-full')}
+      >
         <div
           className={twClassNames('flex flex-row items-center py-0 px-2 gap-2')}
         >
@@ -113,13 +115,17 @@ const HeaderElements = ({
           )}
         >
           <div
-            className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+            className={twClassNames(
+              'flex flex-col items-start p-0 gap-1.5 w-full'
+            )}
           >
             {linkContainer(columnRight1.title, columnRight1.options)}
           </div>
           {columnRight2 && (
             <div
-              className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+              className={twClassNames(
+                'flex flex-col items-start p-0 gap-1.5 w-full'
+              )}
             >
               {linkContainer(columnRight2.title, columnRight2.options)}
             </div>
@@ -170,7 +176,11 @@ const HeaderElements = ({
     </div>
   );
   const accountPopover = (productSupportLink, testInsight) => (
-    <div className={twClassNames('flex flex-col items-start p-0')}>
+    <div
+      className={twClassNames(
+        'flex flex-col items-start bg-white pt-2 pb-2.5 px-0 gap-2.5'
+      )}
+    >
       <div
         className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
       >
@@ -227,7 +237,7 @@ const HeaderElements = ({
       >
         <div
           className={twClassNames(
-            'flex flex-col items-start p-0 gap-0.5 w-[208px]'
+            'flex flex-col items-start py-0 px-2 gap-1 w-[208px]'
           )}
         >
           <Hyperlink
@@ -284,6 +294,7 @@ const HeaderElements = ({
       placementSide="bottom"
       size="lg"
       key={elementOptions.name}
+      wrapperClassName="py-0"
     >
       <div
         className={twClassNames(
@@ -292,17 +303,23 @@ const HeaderElements = ({
       >
         <div
           className={twClassNames(
-            'flex flex-row justify-center items-center p-0 gap-1.5 w-[88px]'
+            'flex flex-row justify-center items-center p-0 gap-1.5'
           )}
         >
           {elementOptions.icon}
           <p
             className={twClassNames(
-              'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100'
+              'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100 float-left whitespace-nowrap'
             )}
           >
             {elementOptions.description}
           </p>
+          <ChevronDownIcon
+            className={twClassNames(
+              'text-base-400 h-5 w-5 group-hover:text-base-100'
+            )}
+            aria-hidden="true"
+          />
         </div>
       </div>
       <div
@@ -330,6 +347,7 @@ const HeaderElements = ({
           placementSide="bottom"
           size="lg"
           key={element.name}
+          wrapperClassName="py-0"
         >
           <div
             className={twClassNames(
