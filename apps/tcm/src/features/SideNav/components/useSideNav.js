@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
+import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
@@ -13,6 +15,7 @@ import {
 export default function useSideNav() {
   const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const [primaryNavs, setPrimaryNavs] = useState([]);
   const [secondaryNavs] = useState(secondaryNavLinks);
@@ -23,9 +26,19 @@ export default function useSideNav() {
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const allProjects = useSelector((state) => state.global.allProjects);
+  const isAllProjectsLoading = useSelector(
+    (state) => state.global.isLoading.allProjects
+  );
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
+
+  const fetchAllProjects = () => {
+    getProjectsMinifiedAPI().then((res) => {
+      dispatch(setAllProjects(res.projects));
+      dispatch(setIsLoadingProps({ key: 'allProjects', value: false }));
+    });
+  };
 
   const onLinkChange = (linkItem) => {
     navigate(linkItem.path);
@@ -82,12 +95,17 @@ export default function useSideNav() {
       // setSecondaryNavs([]);
     } else {
       // with secondary navs
-      setShowProjects(true);
+      setShowProjects(!isAllProjectsLoading);
       setPrimaryNavs(dynamicLinkReplaceHelper(internalPrimaryNavLinks));
       // setSecondaryNavs(dynamicLinkReplaceHelper(secondaryNavLinks));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, selectedProjectId, allProjectsDrop]);
+  }, [
+    location.pathname,
+    selectedProjectId,
+    allProjectsDrop,
+    isAllProjectsLoading
+  ]);
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
@@ -119,7 +137,13 @@ export default function useSideNav() {
     ]);
   }, [allProjects]);
 
+  useEffect(() => {
+    fetchAllProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return {
+    isAllProjectsLoading,
     showAddProject,
     primaryNavs,
     secondaryNavs,

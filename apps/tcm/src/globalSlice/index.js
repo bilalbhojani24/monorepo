@@ -8,6 +8,9 @@ const initialState = {
   userConfig: {
     jira: null
   },
+  isLoading: {
+    allProjects: true
+  },
   notification: null
 };
 
@@ -49,11 +52,15 @@ export const globalSlice = createSlice({
     },
     removeNotificaton: (state, { payload }) => {
       if (state.notification?.id === payload) state.notification = null;
+    },
+    setIsLoadingProps: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
 
 export const {
+  setIsLoadingProps,
   removeNotificaton,
   addNotificaton,
   setUserConfig,
