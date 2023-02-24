@@ -63,7 +63,7 @@ const useNetworkIODetails = () => {
     setDiskIOChartOptions(generateDiskIOChartOptions(sessionData));
   }, [sessionData]);
 
-  return { networkIOChartOptions };
+  return { sessionData, networkIOChartOptions };
 };
 
 export default useNetworkIODetails;

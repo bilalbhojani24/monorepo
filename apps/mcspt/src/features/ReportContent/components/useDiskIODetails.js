@@ -63,7 +63,7 @@ const useDiskIODetails = () => {
     setDiskIOChartOptions(generateDiskIOChartOptions(sessionData));
   }, [sessionData]);
 
-  return { diskIOChartOptions };
+  return { sessionData, diskIOChartOptions };
 };
 
 export default useDiskIODetails;
