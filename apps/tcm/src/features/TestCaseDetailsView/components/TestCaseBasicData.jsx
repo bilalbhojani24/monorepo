@@ -168,6 +168,7 @@ const TestCaseBasicData = () => {
           }
         />
         <DetailsSnippet
+          parseContent
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />
