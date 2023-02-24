@@ -36,7 +36,7 @@ const Folders = () => {
             <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
               <TMEmptyState
                 // title=""
-                title={`${allTestCases.length} Test cases for this test run`}
+                title={`${allTestCases.length} test cases in this test run`}
                 mainIcon={
                   <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
                 }
