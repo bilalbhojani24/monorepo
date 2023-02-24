@@ -77,7 +77,7 @@ const Checkbox = (props) => {
             className={twClassNames('min-w-0 flex-1 text-sm', {
               'ml-3':
                 position === CHECKBOX_POSITION_VARIANT.left &&
-                (data.label.length > 0 || data.description.length > 0)
+                (data?.label?.length > 0 || data?.description?.length > 0)
             })}
           >
             <label

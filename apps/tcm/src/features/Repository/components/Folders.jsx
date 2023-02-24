@@ -143,9 +143,11 @@ export default function Folders() {
       ) : (
         <div className="flex h-full w-full flex-col items-stretch justify-center">
           <TMEmptyState
-            title="Create New Folder"
+            title={<p className="text-base-800">Create New Folder</p>}
             description="You can get started by creating test cases/folders by entering details below."
-            mainIcon={<MdOutlineCreateNewFolder className="m-auto h-12 w-12" />}
+            mainIcon={
+              <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
+            }
             buttonProps={{
               children: 'Create Folder',
               onClick: showAddFolderModal,
