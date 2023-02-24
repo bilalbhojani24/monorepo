@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MdOutlineDescription, MdSaveAlt } from '@browserstack/bifrost';
 import { SourceOutlinedIcon } from 'assets/icons';
@@ -9,7 +9,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
-export default function BlankPage() {
+const BlankPage = forwardRef((props, ref) => {
   const { projectId } = useTestCases();
   return (
     <div className="flex w-full flex-wrap justify-center">
@@ -20,7 +20,7 @@ export default function BlankPage() {
         buttonProps={null}
       />
       <div className="w-9/12 p-5">
-        <InlineAddTestCase noBorder />
+        <InlineAddTestCase noBorder ref={ref} />
       </div>
       <div className="text-base-500 w-9/12 p-5 text-center text-sm">
         <p>
@@ -60,4 +60,6 @@ export default function BlankPage() {
       </div>
     </div>
   );
-}
+});
+
+export default BlankPage;

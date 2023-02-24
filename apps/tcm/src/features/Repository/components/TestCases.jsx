@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
 import {
@@ -37,6 +37,17 @@ export default function TestCases() {
     isFoldersLoading,
     handleFilterPagination
   } = useTestCases();
+
+  const focusRef = useRef(null);
+
+  useEffect(() => {
+    focusRef?.current?.focus();
+  }, [
+    allTestCases.length,
+    isSearchFilterView,
+    isTestCasesLoading,
+    isFoldersLoading
+  ]);
 
   if (isAddTestCasePageVisible)
     return isBulkUpdate ? <BulkEditTestCase /> : <AddEditTestCase />;
@@ -115,7 +126,7 @@ export default function TestCases() {
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     <TMEmptyState
                       title="No Results Found"
-                      description="No matching results found. Try searching with another test case name/ID"
+                      description="Reset the filters or try again."
                       mainIcon={
                         <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }
@@ -137,14 +148,14 @@ export default function TestCases() {
                     />
                   </div>
                 )}
-                {!isSearchFilterView && <InlineAddTestCase />}
+                {!isSearchFilterView && <InlineAddTestCase ref={focusRef} />}
               </>
             )}
           </div>
         </>
       ) : (
         <div className="border-base-300 flex w-full flex-1 items-center justify-center border-l">
-          <BlankPage />
+          <BlankPage ref={focusRef} />
         </div>
       )}
 
