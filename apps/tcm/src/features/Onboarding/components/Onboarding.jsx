@@ -62,13 +62,34 @@ const Onboarding = () => {
             ))}
           </div>
         </div>
-        <div className="mt-12 flex w-full justify-end">
+        <div className="mt-12 flex w-full justify-between">
+          <div>
+            <p className="text-base-700 text-xs">
+              By continuing you agree to our&nbsp;
+              <a href="https://www.browserstack.com/terms" target="new">
+                Terms Of Service
+              </a>
+              ,
+            </p>
+            <p className="text-base-700 text-xs">
+              <a
+                href="https://www.browserstack.com/docs/test-management"
+                target="new"
+              >
+                Test Management Documentation
+              </a>
+              &nbsp;&
+              <a href="https://www.browserstack.com/privacy" target="new">
+                &nbsp;Privacy Policy
+              </a>
+            </p>
+          </div>
           <TMButton
             size="default"
             onClick={continueClickHandler}
             loading={isProcessing}
           >
-            Contine
+            Continue
           </TMButton>
         </div>
       </div>
