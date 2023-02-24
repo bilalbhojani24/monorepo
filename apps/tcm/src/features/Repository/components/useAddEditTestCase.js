@@ -13,6 +13,7 @@ import {
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
@@ -219,6 +220,15 @@ export default function useAddEditTestCase() {
       }).then((data) => {
         const testCaseData = data.data.test_case;
         const folderData = data.data.folder;
+
+        dispatch(
+          addNotificaton({
+            id: `test_case_added${testCaseData?.id}`,
+            title: 'Test case added',
+            isCondensed: true,
+            variant: 'success'
+          })
+        );
 
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
