@@ -126,7 +126,7 @@ export default function TestCases() {
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     <TMEmptyState
                       title="No Results Found"
-                      description="No matching results found. Try searching with another test case name/ID"
+                      description="Reset the filters or try again."
                       mainIcon={
                         <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }

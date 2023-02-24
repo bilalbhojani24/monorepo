@@ -410,7 +410,7 @@ const AddEditTestCase = () => {
                   wrapperClassName="w-64 h-36"
                   heading=""
                   linkText="Upload a file"
-                  subHeading="PNG, JPG, PDF up to 10MB"
+                  subHeading="PNG, JPG, PDF, CSV, MP4 up to 50 MB"
                   onChange={fileUploaderHelper}
                   accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
                 />
