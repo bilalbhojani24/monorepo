@@ -4,7 +4,8 @@ export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const ROUTES = {
   report: 'reports/report',
   reports: 'reports',
-  screenReader: 'screen-reader'
+  screenReader: 'screen-reader',
+  root: ''
 };
 
 const Config = {
