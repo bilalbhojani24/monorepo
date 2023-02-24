@@ -43,7 +43,18 @@ const TestRunsTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[10%]'
+      class: 'w-[10%]',
+      cell: (rowData) => (
+        <Link
+          className="hover:text-brand-600 cursor-pointer font-medium"
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+            projectId,
+            testRunId: rowData?.id
+          })}
+        >
+          {rowData.identifier}
+        </Link>
+      )
     },
     {
       name: 'TITLE',
