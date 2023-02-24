@@ -357,7 +357,7 @@ const AddEditTestCase = () => {
             <div className="mt-4 flex gap-4">
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
-                  <TMSelectMenu
+                  <TMComboBox
                     checkPosition="right"
                     isMulti
                     placeholder="Select from options"
