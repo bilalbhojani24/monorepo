@@ -155,7 +155,7 @@ const TestRunsTable = () => {
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
           <div className="flex w-full items-center">
-            <div className="w-full max-w-[calc(100%-30px)]">
+            <div className="relative w-full max-w-[calc(100%-30px)]">
               <HighchartsReact
                 highcharts={Highcharts}
                 options={getProgressOptions(rowData)}

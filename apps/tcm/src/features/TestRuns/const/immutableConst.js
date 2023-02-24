@@ -50,7 +50,7 @@ export const CHART_OPTIONS = {
     series: {
       animation: false,
       borderWidth: 0,
-      stacking: 'normal',
+      stacking: 'percent',
       dataLabels: {
         enabled: false
       },
@@ -73,14 +73,19 @@ export const CHART_OPTIONS = {
     useHTML: true,
     outside: true,
     enabled: true,
-    delayForDisplay: 2000,
     backgroundColor: '#00335D',
     borderColor: '#00335D',
     style: {
       color: '#fff'
     },
     hideDelay: 1,
-    borderWidth: 0
+    borderWidth: 0,
+    positioner(labelWidth, labelHeight, point) {
+      return {
+        x: point.plotX - labelWidth + 20,
+        y: point.plotY + labelHeight / 2
+      };
+    }
   }
 };
 

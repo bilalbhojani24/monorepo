@@ -57,7 +57,7 @@ const useTestRuns = () => {
       tooltip: {
         ...CHART_OPTIONS.tooltip,
         formatter() {
-          return `<div><b>${this.x}</b></div>
+          return `<div><p>${this.x}</p></div>
                   <span style="color:${
                     this.point.color
                   }">\u25CF</span> <span class="whitespace-nowrap">${capitalizeString(
