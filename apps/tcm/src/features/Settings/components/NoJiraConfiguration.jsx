@@ -9,10 +9,10 @@ const NoJiraConfiguration = () => (
       <MdOutlineLayers className="h-10 w-10" />
     </div>
     <div className="text-base-900 mt-4 mb-2 text-base font-semibold">
-      No JIRA Integrations Added
+        No JIRA Integration Added
     </div>
     <div className="text-base-400 mb-6 text-base">
-      Get started by clicking on the button below to create a folder
+        Get started by clicking on the button below to link a JIRA instance
     </div>
     <TMButton
       size="large"

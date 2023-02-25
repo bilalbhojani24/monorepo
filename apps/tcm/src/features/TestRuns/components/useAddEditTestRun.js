@@ -225,9 +225,9 @@ const useAddEditTestRun = () => {
         dispatch(
           addNotificaton({
             id: `test_run_added${data.data.testrun?.id}`,
-            title: 'Test run added',
-            variant: 'success',
-            description: null
+            title: 'Test Run created',
+            description: `${data.data.testrun?.name} has been successfully created.`,
+            variant: 'success'
           })
         );
 

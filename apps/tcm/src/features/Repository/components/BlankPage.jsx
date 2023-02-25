@@ -53,7 +53,7 @@ const BlankPage = forwardRef((props, ref) => {
               size="large"
               icon={<MdOutlineDescription />}
             >
-              &nbsp;Import from CSV / XLS
+              &nbsp;Import from CSV
             </TMButton>
           </Link>
         </div>

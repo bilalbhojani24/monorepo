@@ -7,7 +7,7 @@ export const TR_DROP_OPTIONS = [
   },
   {
     id: 'edit_details',
-    body: 'Edit Details'
+    body: 'Edit Test Run'
   },
   {
     id: 'delete',

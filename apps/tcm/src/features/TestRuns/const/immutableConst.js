@@ -97,11 +97,11 @@ export const CHART_OPTIONS = {
 export const TR_DROP_OPTIONS = [
   {
     id: 'edit_details',
-    body: 'Edit Details'
+    body: 'Edit Test Run'
   },
   {
     id: 'assign',
-    body: 'Assign',
+    body: 'Assign Run',
     divider: false
   },
   {

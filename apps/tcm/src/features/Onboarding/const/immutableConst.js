@@ -4,7 +4,7 @@ export const SETUP_FORMATS = [
     title: 'Quick Import',
     badgeText: 'Recommended',
     description:
-      'Select if you want to migrate project data from TestRail, Zephyr or Xray'
+      'Select if you want to migrate project data from TestRail & Zephyr Scale'
   },
   // {
   //   id: 'example_project',
@@ -16,7 +16,7 @@ export const SETUP_FORMATS = [
     id: 'scratch',
     title: 'Start from scratch',
     description:
-      'You can start from a clean slate and add data through CSV/XLS import'
+      'You can start from a clean slate and add data through CSV import'
   }
 ];
 
