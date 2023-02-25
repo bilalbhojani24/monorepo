@@ -116,10 +116,10 @@ export const TR_DROP_OPTIONS = [
 ];
 
 export const PROGRESS_COLOR_MAP = {
-  untested: '#4B5563',
+  untested: '#E5E7EB',
   passed: '#059669',
   failed: '#F87171',
   retest: '#FBBF24',
   blocked: '#818CF8',
-  skipped: '#E5E7EB'
+  skipped: '#4B5563'
 };

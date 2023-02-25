@@ -18,11 +18,6 @@ export const TR_DROP_OPTIONS = [
 
 export const STATUS_OPTIONS = [
   {
-    label: 'Untested',
-    class: 'bg-base-600',
-    value: 'untested'
-  },
-  {
     label: 'Passed',
     class: 'bg-success-600',
     value: 'passed'
@@ -47,5 +42,10 @@ export const STATUS_OPTIONS = [
     label: 'Skipped',
     class: 'bg-base-200',
     value: 'skipped'
+  },
+  {
+    label: 'Untested',
+    class: 'bg-base-600',
+    value: 'untested'
   }
 ];
