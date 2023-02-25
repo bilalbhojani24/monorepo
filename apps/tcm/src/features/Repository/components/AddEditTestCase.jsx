@@ -300,7 +300,7 @@ const AddEditTestCase = () => {
                 placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}
-                height={200}
+                height={160}
                 onChange={(val) =>
                   handleTestCaseFieldChange('preconditions', val)
                 }
