@@ -74,7 +74,7 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
         >
-          Add Project
+          Create Project
         </TMButton>
       </TMModalFooter>
     </TMModal>

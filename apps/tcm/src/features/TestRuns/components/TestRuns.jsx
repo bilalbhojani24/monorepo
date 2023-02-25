@@ -83,7 +83,7 @@ const TestRuns = ({ isEditView }) => {
                     title={`No ${currentTab}`}
                     description={
                       currentTab === TABS_ARRAY[0].name
-                        ? 'You can get started by creating test run by clicking on Create Test Run button.'
+                        ? 'You can get started by creating test runs on clicking Create Test Run Button'
                         : 'When you change status of any test run to closed, they will appear here'
                     }
                     mainIcon={

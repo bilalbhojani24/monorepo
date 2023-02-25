@@ -23,7 +23,7 @@ const AddEditFolderModal = ({
   isEditFolder,
   currentData
 }) => {
-  const functionName = isEditFolder ? 'Edit' : 'Create';
+  const functionName = isEditFolder ? 'Update' : 'Create';
   const {
     modalFocusRef,
     filledFormData,

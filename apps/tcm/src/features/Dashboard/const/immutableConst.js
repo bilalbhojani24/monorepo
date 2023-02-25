@@ -1,10 +1,10 @@
 export const ACTIVE_TEST_RUNS_COLOR = [
-  '#4B5563',
+  '#F1F5F9',
   '#059669',
   '#F87171',
   '#FBBF24',
   '#818CF8',
-  '#F1F5F9'
+  '#4B5563'
 ];
 
 export const TEST_CASES_TYPES_COLORS = [

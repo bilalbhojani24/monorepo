@@ -63,7 +63,7 @@ export const secondaryNavLinks = [
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,
     isExternalLink: true,
-    path: 'https://www.browserstack.com/docs/test-management/'
+    path: 'https://www.browserstack.com/docs/test-management/overview/what-is-test-management'
   }
 ];
 
