@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -35,7 +35,7 @@
     "prop-types": "15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.6.1"
+    "react-router-dom": "6.6.1"
   },
   "devDependencies": {
     "@browserstack/stylelint-config": "workspace:*",
