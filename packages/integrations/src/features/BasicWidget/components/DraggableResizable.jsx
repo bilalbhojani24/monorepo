@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { Draggable, Resizable } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
+
 const DraggableResizable = ({ children }) => {
   const widgetRef = useRef(null);
 
@@ -16,11 +18,11 @@ const DraggableResizable = ({ children }) => {
               ref={ref}
             />
           )}
-          width={300}
-          height={250}
-          resizeHandles={['s']}
-          minConstraints={[300, 200]}
-          maxConstraints={[300, 500]}
+          width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
+          height={DEFAULT_WIDGET_DIMENSIONS.INITIAL_HEIGHT}
+          resizeHandles={DEFAULT_RESIZE_HANDLE}
+          minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
+          maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
           {children}
         </Resizable>
