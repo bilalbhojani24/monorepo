@@ -174,6 +174,7 @@ const HeaderElements = ({
                   onChange={(e) => setSearchValue(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') onSubmitSearch();
+                    if (e.key === 'Escape') setIsSearchOpen(!isSearchOpen);
                   }}
                 />
                 <div
