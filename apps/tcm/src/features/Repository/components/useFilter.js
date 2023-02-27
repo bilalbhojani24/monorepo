@@ -12,6 +12,7 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
+  resetFilterMeta,
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
@@ -48,18 +49,61 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const resetFilterAndSearch = () => {
-    // if no filter/search
+  const applyFilterHandler = () => {
+    const queryParams = {};
+    const searchParamsTemp = {};
+    Object.keys(filterSearchMeta).forEach((key) => {
+      const value = Array.isArray(filterSearchMeta[key])
+        ? filterSearchMeta[key].join(',')
+        : filterSearchMeta[key];
+
+      if (value) {
+        searchParamsTemp[key] = value;
+        queryParams[`q[${key}]`] = value;
+      }
+    });
+
     if (prop?.onFilterChange) {
-      prop?.onFilterChange({});
-      setAppliedFiltersCount(0);
-    } else
+      prop?.onFilterChange(searchParamsTemp);
+      const count = [
+        searchParamsTemp.tags,
+        searchParamsTemp.owner,
+        searchParamsTemp.priority
+      ];
+      // updateFilterSearchMeta(filterOptions);
+      setAppliedFiltersCount(count.filter((item) => item).length);
+    } else {
+      navigate({
+        pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
+          projectId
+        }),
+        search: createSearchParams(searchParamsTemp).toString()
+      });
+    }
+    setFilter(false);
+  };
+
+  const resetFilterAndSearch = (forceClearAll) => {
+    // if no filter/search
+    debugger;
+    if (forceClearAll) {
+      // clear search and filter
+      dispatch(resetFilterSearchMeta());
       navigate({
         pathname: routeFormatter(AppRoute.TEST_CASES, {
           projectId
         })
       });
-    dispatch(resetFilterSearchMeta());
+    } else {
+      // clear only filter
+      dispatch(resetFilterMeta());
+      applyFilterHandler();
+    }
+
+    if (prop?.onFilterChange) {
+      prop?.onFilterChange({});
+      setAppliedFiltersCount(0);
+    }
   };
 
   const fetchFilteredCases = (filterOptions, page) => {
@@ -108,40 +152,6 @@ const useFilter = (prop) => {
       priority: priority?.split(',') || [],
       q: q || ''
     };
-  };
-
-  const applyFilterHandler = () => {
-    const queryParams = {};
-    const searchParamsTemp = {};
-    Object.keys(filterSearchMeta).forEach((key) => {
-      const value = Array.isArray(filterSearchMeta[key])
-        ? filterSearchMeta[key].join(',')
-        : filterSearchMeta[key];
-
-      if (value) {
-        searchParamsTemp[key] = value;
-        queryParams[`q[${key}]`] = value;
-      }
-    });
-
-    if (prop?.onFilterChange) {
-      prop?.onFilterChange(searchParamsTemp);
-      const count = [
-        searchParamsTemp.tags,
-        searchParamsTemp.owner,
-        searchParamsTemp.priority
-      ];
-      // updateFilterSearchMeta(filterOptions);
-      setAppliedFiltersCount(count.filter((item) => item).length);
-    } else {
-      navigate({
-        pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
-          projectId
-        }),
-        search: createSearchParams(searchParamsTemp).toString()
-      });
-    }
-    setFilter(false);
   };
 
   const filterChangeHandler = (filterType, data) => {

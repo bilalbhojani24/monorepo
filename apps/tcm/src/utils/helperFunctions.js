@@ -36,8 +36,12 @@ export const formatTime = (date, to) => {
   }
 };
 
-export const onSubmitKeyHandler = (e, doAfter) => {
-  if (e?.key === 'Enter') doAfter();
+export const onSubmitKeyHandler = (e, doAfter, confirmNotEmpty) => {
+  if (e?.key === 'Enter') {
+    if (confirmNotEmpty) {
+      if (e.currentTarget.value !== '') doAfter();
+    } else doAfter();
+  }
 };
 
 export const selectMenuValueMapper = (data) =>

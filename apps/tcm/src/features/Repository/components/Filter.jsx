@@ -95,14 +95,14 @@ const Filter = ({ isMini, onFilterChange }) => {
           placeholder="Search by Test Case name or Test Case ID"
           value={filterSearchMeta?.q}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
-          onKeyDown={(e) => onSubmitKeyHandler(e, applyFilterHandler)}
+          onKeyDown={(e) => onSubmitKeyHandler(e, applyFilterHandler, true)}
           leadingIcon={<SearchIcon className="text-base-400" />}
           isTrailingNodeClickable
           trailingIcon={
             <>
               {filterSearchMeta?.q ? (
                 <CloseOutlinedIcon
-                  onClick={resetFilterAndSearch}
+                  onClick={() => resetFilterAndSearch(true)}
                   className="text-base-800 cursor-pointer"
                 />
               ) : null}
@@ -131,7 +131,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         </TMButton>
         {appliedFiltersCount ? (
           <TMButton
-            onClick={resetFilterAndSearch}
+            onClick={() => resetFilterAndSearch()}
             buttonType="half-rounded-button"
             wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
             size="default"
