@@ -38,7 +38,7 @@ const Notification = () => {
         />,
         {
           position: 'top-right',
-          duration: 4000,
+          duration: 5000,
           // autoClose: true,
           id: notification?.id
         }

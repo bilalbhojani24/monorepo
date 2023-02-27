@@ -56,13 +56,17 @@ export default function useDashboard() {
   };
 
   const fetchActiveTestRuns = () => {
+    const formatPieChartData = (data) =>
+      Object.keys(ACTIVE_TEST_RUNS_COLOR).map((item) => [
+        item,
+        data?.find((dataItem) => dataItem?.name === item)?.y || 0
+      ]);
+
     projectIdCheck('activeTR', getActiveTestRunsAPI, (res) => {
       setActiveTestRunsOptions(
         donutOptionCreator({
-          chartData: res?.empty_data
-            ? []
-            : res?.data?.map((item) => [item.name, item.y]) || [],
-          colors: ACTIVE_TEST_RUNS_COLOR,
+          chartData: res?.empty_data ? [] : formatPieChartData(res?.data),
+          colors: Object.values(ACTIVE_TEST_RUNS_COLOR),
           addOns: {
             isEmpty: res?.empty_data,
             total: res?.data?.reduce((total, item) => item.y + total, 0) || 0
@@ -94,17 +98,19 @@ export default function useDashboard() {
   };
 
   const fetchClosedTestRunsDaily = () => {
+    const formatBarChartData = (data) =>
+      Object.keys(ACTIVE_TEST_RUNS_COLOR).map((item) => ({
+        name: item,
+        data: data?.find((dataItem) => dataItem?.name === item)?.data || [],
+        color: ACTIVE_TEST_RUNS_COLOR[item]
+      }));
+
     projectIdCheck('closedTRDaily', getClosedTestRunsDailyAPI, (res) => {
       setClosedTestRunsDailyLineOptions(
         stackedBarOptionsCreator({
           showLegend: true,
           xAxis: res?.date_list,
-          chartData: res?.empty_data
-            ? []
-            : res?.data?.map((item, index) => ({
-                ...item,
-                color: ACTIVE_TEST_RUNS_COLOR[index]
-              })),
+          chartData: res?.empty_data ? [] : formatBarChartData(res?.data),
           addOns: {
             isEmpty: res?.empty_data
           }

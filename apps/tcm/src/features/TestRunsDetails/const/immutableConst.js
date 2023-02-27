@@ -35,7 +35,7 @@ export const STATUS_OPTIONS = [
   {
     label: 'Blocked',
     class: '',
-    color: ACTIVE_TEST_RUNS_COLOR[4],
+    color: ACTIVE_TEST_RUNS_COLOR.blocked,
     value: 'blocked'
   },
   {
