@@ -6,7 +6,6 @@ import {
   MdPersonOutline
 } from '@browserstack/bifrost';
 import {
-  TMBadge,
   TMButton,
   TMDropdown,
   TMMetadata,
@@ -14,6 +13,7 @@ import {
   TMTooltip,
   TMTooltipBody
 } from 'common/bifrostProxy';
+import ClampedTags from 'common/ClampedTags';
 import AppRoute from 'const/routes';
 import { CloseTestRun, DeleteTestRun } from 'features/TestRuns';
 import { formatTime, routeFormatter } from 'utils/helperFunctions';
@@ -113,7 +113,9 @@ const TopSection = () => {
         subSection={
           <div className="mt-4 flex gap-4">
             <TMMetadata
-              metaDescription={testRunDetails?.assignee?.full_name || '--'}
+              metaDescription={
+                testRunDetails?.assignee?.full_name || 'Unassigned'
+              }
               textColorClass="text-base-500 mt-1"
               icon={<MdPersonOutline className="text-base-500 h-5 w-5" />}
             />
@@ -126,38 +128,7 @@ const TopSection = () => {
               textColorClass="text-base-500 mt-1"
               icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
             />
-            {testRunDetails?.tags?.length > 0 ? (
-              <div className="mt-1 flex gap-1">
-                <TMBadge
-                  text={testRunDetails.tags[0]}
-                  size="large"
-                  modifier="primary"
-                  wrapperClassName="pointer-events-none"
-                  key={testRunDetails.tags[0]}
-                />
-                {testRunDetails.tags.length > 2 ? (
-                  <TMBadge
-                    modifier="primary"
-                    text={`+${testRunDetails.tags.length - 1} tags`}
-                    size="large"
-                    key={`+${testRunDetails.tags.length - 1}`}
-                    // onClick={handleTestCaseViewClick(testRunDetails)}
-                  />
-                ) : (
-                  testRunDetails.tags.length > 1 && (
-                    <TMBadge
-                      text={testRunDetails.tags[1]}
-                      size="large"
-                      wrapperClassName="pointer-events-none"
-                      modifier="primary"
-                      key={testRunDetails.tags[1]}
-                    />
-                  )
-                )}
-              </div>
-            ) : (
-              '--'
-            )}
+            <ClampedTags tagsArray={testRunDetails?.tags || []} />
           </div>
         }
       />
