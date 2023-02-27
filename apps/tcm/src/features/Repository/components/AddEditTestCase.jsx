@@ -125,20 +125,22 @@ const AddEditTestCase = () => {
                 inputError?.name ? "This field can't be left empty" : ''
               }
             />
-            <div className="mt-2.5 flex w-full">
-              <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
-              <div className="text-base-500 ml-1 break-all text-xs">
-                <TMTruncateText
-                  hidetooltipTriggerIcon
-                  isFullWidthTooltip
-                  headerTooltipProps={{
-                    delay: 500
-                  }}
-                >
-                  {scheduledFolder?.map((item) => item?.name).join(' / ')}
-                </TMTruncateText>
+            {scheduledFolder.length && (
+              <div className="mt-2.5 flex w-full">
+                <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
+                <div className="text-base-500 ml-1 break-all text-xs">
+                  <TMTruncateText
+                    hidetooltipTriggerIcon
+                    isFullWidthTooltip
+                    headerTooltipProps={{
+                      delay: 500
+                    }}
+                  >
+                    {scheduledFolder?.map((item) => item?.name).join(' / ')}
+                  </TMTruncateText>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="w-1/4">
             <TMSelectMenu
@@ -323,20 +325,23 @@ const AddEditTestCase = () => {
                           <>
                             <TMTooltipHeader>Estimate</TMTooltipHeader>
                             <TMTooltipBody>
-                              <p className="text-sm pb-5">
-                                You can define an estimate of testing time
-                                you would require for this test case.
-                                Below format types are permitted:
+                              <p className="pb-5 text-sm">
+                                You can define an estimate of testing time you
+                                would require for this test case. Below format
+                                types are permitted:
                               </p>
-                              <ul className="list-disc pl-5 text-sm pb-5">
+                              <ul className="list-disc pl-5 pb-5 text-sm">
                                 <li>Seconds (s)</li>
                                 <li>Minutes (m)</li>
                                 <li>Hours (h)</li>
                                 <li>Minutes:Seconds (m:s)</li>
                                 <li>Hours:Minutes:Seconds (h:m:s)</li>
                               </ul>
-                              <p className="text-sm">Combination of above options are permitted.
-                                Eg: "2d 3h", "5m 30s", "10m".</p>
+                              <p className="text-sm">
+                                Combination of above options are permitted. Eg:
+                                &quot;2d 3h&quot;, &quot;5m 30s&quot;,
+                                &quot;10m&quot;.
+                              </p>
                             </TMTooltipBody>
                           </>
                         }
