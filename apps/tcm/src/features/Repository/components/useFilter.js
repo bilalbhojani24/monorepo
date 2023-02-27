@@ -55,8 +55,16 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const applyFilterHandler = (metaData) => {
+  const applyFilterHandler = (metaData, confirmFiltersToProceed) => {
     const thisFilterSearchMeta = metaData || filterSearchMeta;
+
+    if (
+      confirmFiltersToProceed &&
+      !Object.values(thisFilterSearchMeta).find((item) => item.length)
+    ) {
+      // if not filter/search values then do not continue
+      return;
+    }
 
     const queryParams = {};
     const searchParamsTemp = {};

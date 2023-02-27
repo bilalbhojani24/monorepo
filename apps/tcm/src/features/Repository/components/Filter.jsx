@@ -230,7 +230,7 @@ const Filter = ({ isMini, onFilterChange }) => {
             <TMButton colors="white" onClick={() => setFilter(false)}>
               Cancel
             </TMButton>
-            <TMButton onClick={() => applyFilterHandler()}>
+            <TMButton onClick={() => applyFilterHandler(null, true)}>
               Apply Filters
             </TMButton>
           </div>
