@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import DocPageTemplate from '../../../.storybook/DocPageTemplate';
-import CreateIssue from '.';
+import { CreateIssue } from '.';
 
 const defaultConfig = {
   title: 'CreateIssue',

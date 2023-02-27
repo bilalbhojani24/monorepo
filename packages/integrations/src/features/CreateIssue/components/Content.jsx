@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getIntegrations } from '../../../api/index';
+import { getIntegrationsThunk } from '../../../api/index';
 
 const Content = ({ projectId, componentKey }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    getIntegrations(projectId, componentKey);
-  }, [componentKey, projectId]);
+    dispatch(getIntegrationsThunk(projectId, componentKey));
+  }, [componentKey, dispatch, projectId]);
 
   return (
     <p className="p-4">
