@@ -23,7 +23,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
   return (
     <div
       className={twClassNames(
-        'flex flex-row items-center p-0 max-[1024px]:hidden',
+        'flex flex-row items-center p-0 max-[1023px]:hidden',
         wrapperClassName
       )}
     >

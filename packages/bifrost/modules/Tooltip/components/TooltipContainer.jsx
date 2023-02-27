@@ -38,6 +38,7 @@ const TooltipContainer = (props) => {
     theme,
     triggerWrapperClassName,
     triggerOnTouch,
+    triggerAriaLabel,
     wrapperClassName
   } = props;
   const triggerRef = useRef(null);
@@ -66,6 +67,7 @@ const TooltipContainer = (props) => {
             onClick={(event) => {
               if (triggerOnTouch) event.preventDefault();
             }}
+            aria-label={triggerAriaLabel}
           >
             {children}
           </TooltipPrimitive.Trigger>
@@ -144,6 +146,7 @@ export const TooltipPropTypes = {
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
   triggerWrapperClassName: PropTypes.string,
   triggerOnTouch: PropTypes.bool,
+  triggerAriaLabel: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
 
@@ -171,6 +174,7 @@ TooltipContainer.defaultProps = {
   theme: TP_TOOLTIP_THEME[0],
   triggerWrapperClassName: '',
   triggerOnTouch: false,
+  triggerAriaLabel: '',
   wrapperClassName: ''
 };
 

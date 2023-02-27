@@ -80,10 +80,14 @@ const HeaderElements = ({
   const linkContainer = (title, optionArray) => (
     <>
       <div
-        className={twClassNames('flex flex-col items-start p-0 gap-2 w-full')}
+        className={twClassNames(
+          'flex flex-col items-start p-0 gap-2 w-full border-b border-[#dddddd]'
+        )}
       >
         <div
-          className={twClassNames('flex flex-row items-center py-0 px-2 gap-2')}
+          className={twClassNames(
+            'flex flex-row items-center py-0 px-2 gap-2 mb-2'
+          )}
         >
           <NotebookIcon />
           <p
@@ -94,11 +98,6 @@ const HeaderElements = ({
             {title}
           </p>
         </div>
-        <span
-          className={twClassNames(
-            'w-full h-0.5 border border-solid border-[#dddddd]'
-          )}
-        />
       </div>
       <div
         className={twClassNames('flex flex-col items-start p-0 gap-0.5 w-full')}
@@ -164,7 +163,7 @@ const HeaderElements = ({
             >
               <div
                 className={twClassNames(
-                  'relative rounded-md shadow-sm max-[1024px]:w-11/12 min-[1025px]:w-[940px]'
+                  'relative rounded-md shadow-sm max-[1023px]:w-11/12 min-[1024px]:w-[940px]'
                 )}
               >
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -231,7 +230,9 @@ const HeaderElements = ({
       className={twClassNames('flex flex-col items-start py-4 px-0 gap-2.5')}
     >
       <div
-        className={twClassNames('flex flex-row items-start py-0 px-5 gap-5')}
+        className={twClassNames(
+          'flex flex-row items-start py-0 px-5 gap-5 pb-2.5 border-b border-[#dddddd]'
+        )}
       >
         <div
           className={twClassNames(
@@ -263,11 +264,6 @@ const HeaderElements = ({
           )}
         </div>
       </div>
-      <span
-        className={twClassNames(
-          'w-full h-0 border border-solid border-[#dddddd]'
-        )}
-      />
       <div
         className={twClassNames(
           'flex flex-row items-start pt-1.5 px-5 pb-0 gap-5'
@@ -314,7 +310,9 @@ const HeaderElements = ({
       )}
     >
       <div
-        className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
+        className={twClassNames(
+          'flex flex-row items-start py-0 px-4 gap-5 border-b pb-2.5 border-[#dddddd]'
+        )}
       >
         <div
           className={twClassNames(
@@ -359,11 +357,6 @@ const HeaderElements = ({
           )}
         </div>
       </div>
-      <span
-        className={twClassNames(
-          'w-full h-0 border border-solid border-[#dddddd]'
-        )}
-      />
       <div
         className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
       >
@@ -392,7 +385,7 @@ const HeaderElements = ({
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1024px]:hidden'
+        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1023px]:hidden'
       )}
       href={elementOptions.link}
       key={elementOptions.name}
@@ -430,6 +423,7 @@ const HeaderElements = ({
       key={elementOptions.name}
       wrapperClassName="py-0"
       triggerOnTouch
+      triggerAriaLabel="help popover"
     >
       <div
         className={twClassNames(
@@ -459,9 +453,8 @@ const HeaderElements = ({
       </div>
       <div
         className={twClassNames(
-          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1024px]:hidden'
+          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1023px]:hidden'
         )}
-        href={elementOptions.link}
       >
         {elementOptions.icon}
       </div>
@@ -485,12 +478,12 @@ const HeaderElements = ({
           key={element.name}
           wrapperClassName="py-0"
           triggerOnTouch
+          triggerAriaLabel="account popover"
         >
           <div
             className={twClassNames(
-              'flex flex-row items-center p-2 max-[1024px]:hidden'
+              'flex flex-row items-center p-2 max-[1023px]:hidden'
             )}
-            href={element.link}
           >
             {element.icon}
           </div>
@@ -500,7 +493,7 @@ const HeaderElements = ({
       temp = (
         <div
           className={twClassNames('flex flex-row items-center p-2', {
-            'max-[1024px]:hidden': element.name === 'notifications'
+            'max-[1023px]:hidden': element.name === 'notifications'
           })}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
@@ -536,7 +529,7 @@ const HeaderElements = ({
       id="header-elements"
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
-      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1024px]:hidden" />
+      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1023px]:hidden" />
       {ELEMENTS_WITH_LABEL?.map((element) =>
         headerElementArray.includes(element.name)
           ? elementRender(element)
@@ -546,7 +539,7 @@ const HeaderElements = ({
       {headerElementArray.includes('pricing') && (
         <div
           className={twClassNames(
-            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1024px]:hidden'
+            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1023px]:hidden'
           )}
         >
           <Hyperlink
