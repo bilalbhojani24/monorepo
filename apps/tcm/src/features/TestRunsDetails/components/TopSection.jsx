@@ -6,6 +6,7 @@ import {
   MdPersonOutline
 } from '@browserstack/bifrost';
 import {
+  TMBadge,
   TMButton,
   TMDropdown,
   TMMetadata,
@@ -125,6 +126,38 @@ const TopSection = () => {
               textColorClass="text-base-500 mt-1"
               icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
             />
+            {testRunDetails?.tags?.length > 0 ? (
+              <div className="mt-1 flex gap-1">
+                <TMBadge
+                  text={testRunDetails.tags[0]}
+                  size="large"
+                  modifier="primary"
+                  wrapperClassName="pointer-events-none"
+                  key={testRunDetails.tags[0]}
+                />
+                {testRunDetails.tags.length > 2 ? (
+                  <TMBadge
+                    modifier="primary"
+                    text={`+${testRunDetails.tags.length - 1} tags`}
+                    size="large"
+                    key={`+${testRunDetails.tags.length - 1}`}
+                    // onClick={handleTestCaseViewClick(testRunDetails)}
+                  />
+                ) : (
+                  testRunDetails.tags.length > 1 && (
+                    <TMBadge
+                      text={testRunDetails.tags[1]}
+                      size="large"
+                      wrapperClassName="pointer-events-none"
+                      modifier="primary"
+                      key={testRunDetails.tags[1]}
+                    />
+                  )
+                )}
+              </div>
+            ) : (
+              '--'
+            )}
           </div>
         }
       />
