@@ -76,22 +76,6 @@ export default function useNewScan(closeSlideover, preConfigData) {
       setFormData(formDataCpy);
       console.log(preConfigData.name, formDataCpy, schedulePatternVerbose);
     }
-    //     {
-    //     "success": true,
-    //     "data": {
-    //         "name": "scan name",
-    //         "recurring": true,
-    //         "schedulePattern": "00 12 * * 1",
-    //         "scanData": {
-    //             "needsReview": true,
-    //             "bestPractices": true,
-    //             "wcagVersion": "wcag21aa",
-    //             "urlSet": [
-    //                 "browserstack.com"
-    //             ]
-    //         }
-    //     }
-    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preConfigData]);
 

@@ -19,15 +19,22 @@ import {
   MdPerson,
   MdSearch,
   MdStop,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
 import { fetchScanConfigsById } from '../../api/siteScannerScanConfigs';
+import Loader from '../../common/Loader/index';
+import { getWcagVersionFromVal } from '../../utils/helper';
 
 // import { rowMenu } from './constants';
 import NewScan from './NewScan';
@@ -109,8 +116,8 @@ export const rowMenu = [
 
 const singleMenu = [
   {
-    id: 'scanRun',
-    value: 'scanRun',
+    id: 'scanDetails',
+    value: 'scanDetails',
     body: (
       <div className="flex items-center">
         <span className="ml-2">View Scan Details</span>
@@ -119,9 +126,21 @@ const singleMenu = [
   }
 ];
 
+const scanDetailsColumn = [
+  {
+    name: '#',
+    key: 'index'
+  },
+  {
+    name: 'URL',
+    key: 'url'
+  }
+];
+
 export default function SiteScanner() {
   const [showNewScan, setShowNewScan] = useState(false);
   const [viewScanDetails, setViewScanDetails] = useState(false);
+  const [currentScanDetails, setCurrentScanDetails] = useState(false);
   const {
     scanConfigStateData,
     isLoading,
@@ -184,7 +203,7 @@ export default function SiteScanner() {
         setShowNewScan(true);
         break;
       case 'cloneScanConfig':
-        fetchScanConfigsById()
+        fetchScanConfigsById(rowData.id)
           .then((config) => {
             setPreConfigData(config.data);
             setShowNewScan(true);
@@ -198,13 +217,29 @@ export default function SiteScanner() {
           `/site-scanner/scan-report?id=${rowData.lastScanDetails.reportId}`
         );
         break;
+      case 'scanDetails':
+        setViewScanDetails(true);
+        setCurrentScanDetails(rowData);
+        fetchScanConfigsById(rowData.id)
+          .then((config) => {
+            setPreConfigData(config.data);
+          })
+          .catch((err) => console.log(err));
+        break;
       default:
         console.log(menuItem);
         break;
     }
   };
-
   const currentFilter = typesScan.filter((type) => type.id === dataFilter)[0];
+  if (isLoading) {
+    return (
+      <div className="mt-8 flex h-screen items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-base-50">
       <div className="flex justify-between p-6">
@@ -258,13 +293,14 @@ export default function SiteScanner() {
           <div>
             <Badge
               text={`${
-                scanConfigStateData?.numRecurringScans || 0
+                scanConfigStateData?.data?.numRecurringScans || 0
               } recurring active scans`}
               modifier="primary"
             />
           </div>
         </div>
       </div>
+
       <Table>
         <TableHead>
           <TableRow>
@@ -280,60 +316,58 @@ export default function SiteScanner() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!isLoading
-            ? scanConfigStateData?.data?.reports.map((row) => (
-                <TableRow
-                  key={row.id}
-                  onRowClick={(e) => {
-                    navigate(`/site-scanner/scan-details/${row.id}`);
-                  }}
-                >
-                  <TableCell
-                    key="scanSummary"
-                    wrapperClass="font-medium text-base-900 first:pr-3 last:pl-3 p-5"
-                  >
-                    <div className="flex-col font-normal">
-                      <div>
-                        <span className="mr-2">{row.name}</span>
-                        <Badge text={row.wcagVersion.label} />
-                      </div>
-                      <div className="mt-0.5 flex items-center font-light">
-                        <span className="mr-2 flex items-center">
-                          <span>
-                            <MdPerson className="mr-0.5" color="#9CA3AF" />
-                          </span>{' '}
-                          {row.createdBy.name}
-                        </span>
-                        <span className="mr-2">{row.pageCount} pages</span>
-                        {getRunTypeBadge(row.recurring, row.active)}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{getCurrrentStatus(row)}</TableCell>
-                  <TableCell>
-                    {row?.lastScanDetails?.reportSummary ? (
-                      <div className="flex">
-                        <span className="mr-4 flex items-center">
-                          <MdCheckCircle color="#10B981" className="mr-0.5" />
-                          {row?.lastScanDetails?.reportSummary?.success} success
-                        </span>
-                        <span className="mr-4 flex items-center">
-                          <MdCancel color="#EF4444" className="mr-0.5" />
-                          {row?.lastScanDetails?.reportSummary?.failure} failed
-                        </span>
-                        <span className="flex items-center">
-                          <MdOutlineSync
-                            color="#FFF"
-                            className="bg-attention-500 mr-0.5 rounded-full"
-                          />
-                          {row?.lastScanDetails?.reportSummary?.redirect}{' '}
-                          redirects
-                        </span>
-                      </div>
-                    ) : null}
-                  </TableCell>
-                  <TableCell>
-                    {/* <Dropdown
+          {scanConfigStateData?.data?.reports.map((row) => (
+            <TableRow
+              key={row.id}
+              onRowClick={(e) => {
+                navigate(`/site-scanner/scan-details/${row.id}`);
+              }}
+            >
+              <TableCell
+                key="scanSummary"
+                wrapperClass="font-medium text-base-900 first:pr-3 last:pl-3 p-5"
+              >
+                <div className="flex-col font-normal">
+                  <div>
+                    <span className="mr-2">{row.name}</span>
+                    <Badge text={row.wcagVersion.label} />
+                  </div>
+                  <div className="mt-0.5 flex items-center font-light">
+                    <span className="mr-2 flex items-center">
+                      <span>
+                        <MdPerson className="mr-0.5" color="#9CA3AF" />
+                      </span>{' '}
+                      {row?.createdBy?.name}
+                    </span>
+                    <span className="mr-2">{row.pageCount} pages</span>
+                    {getRunTypeBadge(row.recurring, row.active)}
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell>{getCurrrentStatus(row)}</TableCell>
+              <TableCell>
+                {row?.lastScanDetails?.reportSummary ? (
+                  <div className="flex">
+                    <span className="mr-4 flex items-center">
+                      <MdCheckCircle color="#10B981" className="mr-0.5" />
+                      {row?.lastScanDetails?.reportSummary?.success} success
+                    </span>
+                    <span className="mr-4 flex items-center">
+                      <MdCancel color="#EF4444" className="mr-0.5" />
+                      {row?.lastScanDetails?.reportSummary?.failure} failed
+                    </span>
+                    <span className="flex items-center">
+                      <MdOutlineSync
+                        color="#FFF"
+                        className="bg-attention-500 mr-0.5 rounded-full"
+                      />
+                      {row?.lastScanDetails?.reportSummary?.redirect} redirects
+                    </span>
+                  </div>
+                ) : null}
+              </TableCell>
+              <TableCell>
+                {/* <Dropdown
                       trigger={
                         <DropdownTrigger
                           variant="meatball-button"
@@ -350,46 +384,45 @@ export default function SiteScanner() {
                         setRowMenuOpen(e);
                       }}
                     /> */}
-                    <Dropdown
-                      onClick={(val, e) => {
+                <Dropdown
+                  onClick={(val, e) => {
+                    e.stopPropagation();
+                    handleRowMenuClick(val, row);
+                  }}
+                  id="scanFilter"
+                  // onOpenChange={(e) => {
+                  //   console.log('afd', e);
+                  //   setRowMenuOpen(e);
+                  // }}
+                >
+                  <div className="flex">
+                    <DropdownTrigger
+                      onClick={(e) => {
                         e.stopPropagation();
-                        handleRowMenuClick(val, row);
+                        setRowMenuOpen(!rowMenuOpen);
                       }}
-                      id="scanFilter"
-                      // onOpenChange={(e) => {
-                      //   console.log('afd', e);
-                      //   setRowMenuOpen(e);
-                      // }}
+                      wrapperClassName="p-0 border-0 shadow-none"
                     >
-                      <div className="flex">
-                        <DropdownTrigger
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setRowMenuOpen(!rowMenuOpen);
-                          }}
-                          wrapperClassName="p-0 border-0 shadow-none"
-                        >
-                          <EllipsisVerticalIcon
-                            className="h-5 w-5"
-                            aria-hidden="true"
-                          />
-                        </DropdownTrigger>
-                      </div>
+                      <EllipsisVerticalIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </DropdownTrigger>
+                  </div>
 
-                      <DropdownOptionGroup>
-                        {row.scanStatus === 'ongoing'
-                          ? singleMenu.map((opt) => (
-                              <DropdownOptionItem key={opt.id} option={opt} />
-                            ))
-                          : rowMenu.map((opt) => (
-                              <DropdownOptionItem key={opt.id} option={opt} />
-                            ))}
-                      </DropdownOptionGroup>
-                    </Dropdown>
-                  </TableCell>
-                </TableRow>
-              ))
-            : 'Loading'}
+                  <DropdownOptionGroup>
+                    {row.scanStatus === 'ongoing'
+                      ? singleMenu.map((opt) => (
+                          <DropdownOptionItem key={opt.id} option={opt} />
+                        ))
+                      : rowMenu.map((opt) => (
+                          <DropdownOptionItem key={opt.id} option={opt} />
+                        ))}
+                  </DropdownOptionGroup>
+                </Dropdown>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <NewScan
@@ -397,6 +430,107 @@ export default function SiteScanner() {
         closeSlideover={closeSlideover}
         preConfigData={preConfigData}
       />
+      {/* View Running Scan Details */}
+      <Modal
+        show={viewScanDetails}
+        size="lg"
+        onOverlayClick={() => {
+          setViewScanDetails(false);
+          setCurrentScanDetails(null);
+        }}
+      >
+        <ModalHeader
+          handleDismissClick={() => {
+            setViewScanDetails(false);
+            setCurrentScanDetails(null);
+          }}
+          heading={currentScanDetails?.name || ''}
+          subHeading={`Scan schedule: ${
+            preConfigData.schedulePattern
+              ? cronstrue.toString(preConfigData?.schedulePattern, {
+                  verbose: true
+                })
+              : ''
+          }`}
+        />
+        <ModalBody>
+          <div className="my-4">
+            <span className="mr-2 flex items-center text-sm">
+              <span className="mr-0.5 flex items-center">
+                <MdPerson color="#9CA3AF" className="mr-2" />
+                <span className="text-base-500 mr-2">
+                  {currentScanDetails?.createdBy?.name}
+                </span>
+              </span>{' '}
+              {/* <span className="text-base-500">{preConfigData?.urlSet}</span> */}
+              {preConfigData?.scanData?.wcagVersion && (
+                <Badge
+                  text={
+                    getWcagVersionFromVal(preConfigData?.scanData?.wcagVersion)
+                      ?.body
+                  }
+                  wrapperClassName="mr-2"
+                />
+              )}
+              {preConfigData?.scanData?.bestPractices && (
+                <Badge text="Best practices enabled" wrapperClassName="mr-2" />
+              )}
+            </span>
+          </div>
+          <div className="my-4">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {scanDetailsColumn.map((col) => (
+                    <TableCell
+                      key={col.key}
+                      variant="header"
+                      wrapperClass="first:pr-3 last:pl-3 px-2"
+                    >
+                      {col.name}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {preConfigData?.scanData?.urlSet.map((row, idx) => (
+                  <TableRow
+                    key={idx}
+                    onRowClick={() => {
+                      // navigate('/site-scanner/scan-report/12');
+                    }}
+                    tabIndex="0"
+                  >
+                    <TableCell
+                      key={row}
+                      wrapperClass="first:pr-3 last:pl-3 p-5"
+                    >
+                      {idx + 1}
+                    </TableCell>
+                    <TableCell
+                      key={row}
+                      wrapperClass="first:pr-3 last:pl-3 p-5"
+                    >
+                      {row}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </ModalBody>
+        <ModalFooter position="right">
+          <Button
+            onClick={() => {
+              setViewScanDetails(false);
+              setCurrentScanDetails(null);
+            }}
+            colors="white"
+          >
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

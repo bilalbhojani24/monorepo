@@ -1,5 +1,7 @@
 import { json2csv } from 'json-2-csv';
 
+import { wcagVersions } from '../features/SiteScanner/NewScan/constants';
+
 const BEST_PRACTICE_TAG = 'best-practice';
 
 export const tagToView = (tags) =>
@@ -169,3 +171,6 @@ export const addZero = (i) => {
   }
   return newMins;
 };
+
+export const getWcagVersionFromVal = (val) =>
+  wcagVersions.filter((version) => version.id === val)[0];
