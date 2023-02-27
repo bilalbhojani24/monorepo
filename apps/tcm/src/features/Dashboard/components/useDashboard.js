@@ -138,7 +138,7 @@ export default function useDashboard() {
           chartData: res?.empty_data
             ? []
             : Object.keys(res?.data).map((item, index) => ({
-                color: ACTIVE_TEST_RUNS_COLOR[index],
+                color: TEST_CASES_TYPES_COLORS[index],
                 name: item,
                 data: res?.data[item] ? Object.values(res?.data[item]) : []
               })),
