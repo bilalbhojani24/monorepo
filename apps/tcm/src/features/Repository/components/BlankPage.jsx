@@ -10,7 +10,7 @@ import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 const BlankPage = forwardRef((props, ref) => {
-  const { projectId } = useTestCases();
+  const { projectId, folderId } = useTestCases();
   return (
     <div className="flex w-full flex-wrap justify-center">
       <TMEmptyState
@@ -45,7 +45,15 @@ const BlankPage = forwardRef((props, ref) => {
           </Link>
         </div>
         <div className="flex-1">
-          <Link to={AppRoute.IMPORT_CSV}>
+          <Link
+            to={`${AppRoute.IMPORT_CSV}${
+              projectId
+                ? `?project=${projectId}${
+                    folderId ? `&folder=${folderId}` : ''
+                  }`
+                : ''
+            }`}
+          >
             <TMButton
               wrapperClassName="ml-4 whitespace-nowrap w-64 py-3"
               variant="rounded"
