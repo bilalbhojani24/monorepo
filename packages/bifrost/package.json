@@ -28,13 +28,10 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tooltip": "1.0.2",
     "@tinymce/tinymce-react": "^4.3.0",
-    "concurrently": "^7.6.0",
-    "http-server": "^14.1.1",
     "react-draggable": "^4.4.5",
     "react-hot-toast": "2.4.0",
     "react-icons": "^4.7.1",
-    "react-resizable": "^3.0.4",
-    "wait-on": "^7.0.1"
+    "react-resizable": "^3.0.4"
   },
   "peerDependencies": {
     "prop-types": "15.8.1",
@@ -66,7 +63,9 @@
     "axe-playwright": "^1.2.3",
     "chromatic": "^6.17.0",
     "component-file-generator": "0.5.2",
+    "concurrently": "^7.6.0",
     "css-loader": "6.7.2",
+    "http-server": "^14.1.1",
     "mini-css-extract-plugin": "^2.7.2",
     "postcss": "8.4.20",
     "postcss-loader": "7.0.2",
@@ -82,7 +81,8 @@
     "stylelint-scss": "^4.3.0",
     "tailwind-config-viewer": "^1.7.2",
     "tailwindcss": "^3.1.4",
-    "vite": "3.2.5"
+    "vite": "3.2.5",
+    "wait-on": "^7.0.1"
   },
   "files": [
     "dist/*"
