@@ -59,6 +59,7 @@
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@vitejs/plugin-react": "2.2.0",
+    "axe-playwright": "^1.2.3",
     "chromatic": "^6.17.0",
     "component-file-generator": "0.5.2",
     "css-loader": "6.7.2",
