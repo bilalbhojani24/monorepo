@@ -29,22 +29,23 @@ const HeaderProductContainer = () => {
   ) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
+        'group flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
       )}
       href={productLink}
+      key={productName}
     >
       <span>{productIcon}</span>
       <div className={twClassNames('flex flex-col items-start p-0 w-48 h-10')}>
         <p
           className={twClassNames(
-            'w-[152px] h-5 not-italic font-semibold text-base leading-5 text-[#333333]'
+            'w-[152px] h-5 not-italic font-semibold text-base leading-5 text-[#333333] group-hover:text-brand-600'
           )}
         >
           {productName}
         </p>
         <p
           className={twClassNames(
-            'w-48 h-4 not-italic font-normal text-xs leading-4 text-[#666666]'
+            'w-48 h-4 not-italic font-normal text-xs leading-4 text-[#666666] group-hover:text-brand-600'
           )}
         >
           {productDescription}
@@ -202,13 +203,13 @@ const HeaderProductContainer = () => {
             >
               <p
                 className={twClassNames(
-                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1'
+                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1 float-left whitespace-nowrap'
                 )}
               >
                 Use Browserstack with your favourite products. See our
                 <Hyperlink
                   wrapperClassName={twClassNames(
-                    'not-italic font-bold text-sm leading-4 text-base-600'
+                    'not-italic font-bold text-sm leading-4 text-base-600 hover:text-brand-600'
                   )}
                   href="https://www.browserstack.com/integrations"
                 >
@@ -259,10 +260,11 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(
-                      'w-16 not-italic font-normal text-sm leading-4 text-[#666666]'
+                      'w-16 not-italic font-normal text-sm leading-4 text-[#666666] hover:text-brand-600'
                     )}
                   >
                     {product.name}
@@ -308,10 +310,11 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(
-                      'w-16 not-italic font-normal text-sm leading-4 text-[#666666]'
+                      'w-16 not-italic font-normal text-sm leading-4 text-[#666666] hover:text-brand-600'
                     )}
                   >
                     {product.name}

@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
+import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
+import Button from '../Button';
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
-import { MdArrowRightAlt } from '../Icon';
+import {
+  ChevronDownIcon,
+  MdArrowRightAlt,
+  MdClose,
+  MdSearch,
+  MdSubdirectoryArrowLeft
+} from '../Icon';
 import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
@@ -28,8 +36,13 @@ const HeaderElements = ({
   supportLink,
   showTestInsights,
   beamerProductId,
+  beamerOverlayTopProperty,
   headerElementArray
 }) => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const searchBarRef = useRef(null);
+
   useEffect(() => {
     window.beamer_config = {
       product_id: beamerProductId,
@@ -47,9 +60,28 @@ const HeaderElements = ({
     };
   }, [beamerProductId]);
 
+  const attachCSSToBeamer = () => {
+    const beamerOverlayContainer = document.getElementById('beamerOverlay');
+    if (beamerOverlayContainer) {
+      beamerOverlayContainer.style.top = `${beamerOverlayTopProperty}px`;
+    }
+  };
+
+  const onSubmitSearch = () => {
+    if (searchValue) {
+      window.location.href = `https://www.browserstack.com/search?query=${searchValue}&type=all`;
+    }
+  };
+
+  const focusSearchInput = () => {
+    searchBarRef.current?.focus();
+  };
+
   const linkContainer = (title, optionArray) => (
     <>
-      <div className={twClassNames('flex flex-col items-start p-0 gap-2')}>
+      <div
+        className={twClassNames('flex flex-col items-start p-0 gap-2 w-full')}
+      >
         <div
           className={twClassNames('flex flex-row items-center py-0 px-2 gap-2')}
         >
@@ -87,6 +119,107 @@ const HeaderElements = ({
       </div>
     </>
   );
+
+  const searchSlideover = (
+    <Transition show={isSearchOpen} unmount={false}>
+      <Transition.Child
+        appear="true"
+        unmount={false}
+        enter="ease-in duration-500"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="ease-in duration-500"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        <div
+          role="presentation"
+          className={twClassNames(`bg-base-500 fixed inset-0 z-10 opacity-75`)}
+          onClick={() => setIsSearchOpen(!isSearchOpen)}
+        />
+      </Transition.Child>
+
+      <Transition.Child
+        as={Fragment}
+        appear="true"
+        unmount={false}
+        enter="transform transition ease-out duration-500"
+        enterFrom="translate-y-full"
+        enterTo="translate-y-0"
+        leave="transform transition ease-out duration-500"
+        leaveFrom="translate-y-0"
+        leaveTo="translate-y-full"
+        afterEnter={focusSearchInput}
+      >
+        <div className="fixed right-0 top-16 z-10 flex items-start">
+          <div
+            className={twClassNames(
+              `relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0`
+            )}
+          >
+            <div
+              className={twClassNames(
+                'flex flex-col justify-center items-center h-16 bg-base-50 w-full'
+              )}
+            >
+              <div
+                className={twClassNames(
+                  'relative rounded-md shadow-sm max-[1024px]:w-11/12 min-[1025px]:w-[940px]'
+                )}
+              >
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <MdSearch className="text-base-500 h-5 w-5" />
+                </div>
+                <input
+                  type="text"
+                  className={twClassNames(
+                    'block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm pl-10 pr-10'
+                  )}
+                  placeholder="Search across browserstack.com"
+                  value={searchValue}
+                  ref={searchBarRef}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') onSubmitSearch();
+                    if (e.key === 'Escape') setIsSearchOpen(!isSearchOpen);
+                  }}
+                />
+                <div
+                  className={twClassNames(
+                    'absolute inset-y-0 right-0 flex items-center pr-3 gap-2'
+                  )}
+                >
+                  <Button
+                    variant="minimal"
+                    colors="white"
+                    isIconOnlyButton
+                    icon={<MdClose className="text-base-500 h-5 w-5" />}
+                    onClick={() => setSearchValue('')}
+                    wrapperClassName="p-0"
+                  />
+                  {searchValue && (
+                    <Button
+                      colors="white"
+                      size="extra-small"
+                      iconPlacement="end"
+                      icon={
+                        <MdSubdirectoryArrowLeft className="text-base-500 h-4 w-4" />
+                      }
+                      wrapperClassName="py-1"
+                      onClick={onSubmitSearch}
+                    >
+                      Press
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition.Child>
+    </Transition>
+  );
+
   const helpPopover = (
     columnleft,
     columnRight1,
@@ -113,13 +246,17 @@ const HeaderElements = ({
           )}
         >
           <div
-            className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+            className={twClassNames(
+              'flex flex-col items-start p-0 gap-1.5 w-full'
+            )}
           >
             {linkContainer(columnRight1.title, columnRight1.options)}
           </div>
           {columnRight2 && (
             <div
-              className={twClassNames('flex flex-col items-start p-0 gap-1.5')}
+              className={twClassNames(
+                'flex flex-col items-start p-0 gap-1.5 w-full'
+              )}
             >
               {linkContainer(columnRight2.title, columnRight2.options)}
             </div>
@@ -169,8 +306,13 @@ const HeaderElements = ({
       </div>
     </div>
   );
+
   const accountPopover = (productSupportLink, testInsight) => (
-    <div className={twClassNames('flex flex-col items-start p-0')}>
+    <div
+      className={twClassNames(
+        'flex flex-col items-start bg-white pt-2 pb-2.5 px-0 gap-2.5'
+      )}
+    >
       <div
         className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
       >
@@ -227,7 +369,7 @@ const HeaderElements = ({
       >
         <div
           className={twClassNames(
-            'flex flex-col items-start p-0 gap-0.5 w-[208px]'
+            'flex flex-col items-start py-0 px-2 gap-1 w-[208px]'
           )}
         >
           <Hyperlink
@@ -246,23 +388,24 @@ const HeaderElements = ({
       </div>
     </div>
   );
+
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'flex flex-row items-center py-2 px-3 hover:text-base-200'
+        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1024px]:hidden'
       )}
       href={elementOptions.link}
       key={elementOptions.name}
     >
       <div
         className={twClassNames(
-          'flex flex-row justify-center items-center p-0 gap-1.5'
+          'flex flex-row justify-center items-center p-0 gap-1.5 w-[126px]'
         )}
       >
         {elementOptions.icon}
         <p
           className={twClassNames(
-            'not-italic font-medium text-sm leading-5 text-base-300 hover:text-base-200'
+            'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100 float-left whitespace-nowrap'
           )}
         >
           {elementOptions.description}
@@ -270,6 +413,7 @@ const HeaderElements = ({
       </div>
     </Hyperlink>
   );
+
   const helpElement = (elementOptions) => (
     <ToolTip
       arrowClassName="w-4 h-2"
@@ -284,10 +428,12 @@ const HeaderElements = ({
       placementSide="bottom"
       size="lg"
       key={elementOptions.name}
+      wrapperClassName="py-0"
+      triggerOnTouch
     >
       <div
         className={twClassNames(
-          'flex flex-row items-center py-2 px-3 hover:text-base-200 max-[1229px]:hidden'
+          'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1229px]:hidden'
         )}
       >
         <div
@@ -298,16 +444,22 @@ const HeaderElements = ({
           {elementOptions.icon}
           <p
             className={twClassNames(
-              'not-italic font-medium text-sm leading-5 text-base-300 hover:text-base-200'
+              'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100 float-left whitespace-nowrap'
             )}
           >
             {elementOptions.description}
           </p>
+          <ChevronDownIcon
+            className={twClassNames(
+              'text-base-400 h-5 w-5 group-hover:text-base-100'
+            )}
+            aria-hidden="true"
+          />
         </div>
       </div>
       <div
         className={twClassNames(
-          'flex flex-row items-center p-2 hover:text-base-200 min-[1230px]:hidden'
+          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1024px]:hidden'
         )}
         href={elementOptions.link}
       >
@@ -315,6 +467,7 @@ const HeaderElements = ({
       </div>
     </ToolTip>
   );
+
   const elementRender = (element) => {
     let temp = null;
     if (['team', 'pricing'].includes(element.name)) {
@@ -330,9 +483,13 @@ const HeaderElements = ({
           placementSide="bottom"
           size="lg"
           key={element.name}
+          wrapperClassName="py-0"
+          triggerOnTouch
         >
           <div
-            className={twClassNames('flex flex-row items-center p-2')}
+            className={twClassNames(
+              'flex flex-row items-center p-2 max-[1024px]:hidden'
+            )}
             href={element.link}
           >
             {element.icon}
@@ -342,21 +499,31 @@ const HeaderElements = ({
     } else if (['notifications', 'search'].includes(element.name)) {
       temp = (
         <div
-          className={twClassNames('flex flex-row items-center p-2')}
+          className={twClassNames('flex flex-row items-center p-2', {
+            'max-[1024px]:hidden': element.name === 'notifications'
+          })}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
           }
           key={element.name}
         >
           {element.name === 'notifications' && (
-            <button type="button" aria-label="Notification button">
+            <button
+              type="button"
+              aria-label="Notification button"
+              onClick={attachCSSToBeamer}
+            >
               {element.icon}
             </button>
           )}
           {element.name === 'search' && (
-            <a href={element.link} aria-label="Search button">
+            <button
+              type="button"
+              aria-label="Search button"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
               {element.icon}
-            </a>
+            </button>
           )}
         </div>
       );
@@ -369,17 +536,17 @@ const HeaderElements = ({
       id="header-elements"
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
-      <HeaderProducts wrapperClassName="min-[1361px]:hidden" />
+      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1024px]:hidden" />
       {ELEMENTS_WITH_LABEL?.map((element) =>
         headerElementArray.includes(element.name)
           ? elementRender(element)
           : null
       )}
-
+      {searchSlideover}
       {headerElementArray.includes('pricing') && (
         <div
           className={twClassNames(
-            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2'
+            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1024px]:hidden'
           )}
         >
           <Hyperlink
@@ -415,6 +582,7 @@ HeaderElements.propTypes = {
   documentationLink: PropTypes.string,
   supportLink: PropTypes.string,
   beamerProductId: PropTypes.string,
+  beamerOverlayTopProperty: PropTypes.number,
   showTestInsights: PropTypes.bool,
   headerElementArray: PropTypes.arrayOf(PropTypes.string)
 };
@@ -425,6 +593,7 @@ HeaderElements.defaultProps = {
   documentationLink: '',
   supportLink: '',
   beamerProductId: '',
+  beamerOverlayTopProperty: 64,
   showTestInsights: true,
   headerElementArray: []
 };

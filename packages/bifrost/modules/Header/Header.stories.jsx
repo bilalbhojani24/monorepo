@@ -26,12 +26,12 @@ const defaultConfig = {
     productName: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: true },
-      defaultValue: 'Live'
+      defaultValue: 'App Automate'
     },
     productLink: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: true },
-      defaultValue: ''
+      defaultValue: 'https://www.browserstack.com'
     },
     release: {
       control: { type: 'text' },
@@ -53,6 +53,10 @@ const defaultConfig = {
       type: { summary: 'TEXT', required: true },
       defaultValue: 'XxcUulZf52793'
     },
+    beamerOverlayTopProperty: {
+      control: { type: 'number' },
+      defaultValue: 64
+    },
     showTestInsights: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: true },
@@ -63,9 +67,9 @@ const defaultConfig = {
         'team',
         'pricing',
         'help',
-        'search',
+        'account',
         'notifications',
-        'account'
+        'search'
       ]
     },
     documentation: {
@@ -87,7 +91,17 @@ const defaultConfig = {
       }
     },
     others: {
-      defaultValue: { title: 'Other', options: [] }
+      defaultValue: null
+    },
+    productArray: {
+      defaultValue: [
+        { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
+        { name: 'Automate', link: 'https://automate.browserstack.com' },
+        {
+          name: 'App Live',
+          link: 'https://app-live.browserstack.com/dashboard'
+        }
+      ]
     }
   },
   controls: {}

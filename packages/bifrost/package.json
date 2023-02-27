@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "0.6.1",
+  "version": "0.6.3",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -16,11 +16,12 @@
     "stylelint:fix:modified": "stylelint --fix",
     "prettier:check": "prettier --check \"**/*.{js,jsx}\" \"**/*.{css,scss}\"",
     "prettier:fix": "npm run prettier:check -- --write",
-    "tailwind-preview": "tailwind-config-viewer -o"
+    "tailwind-preview": "tailwind-config-viewer -o",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
-    "@browserstack/utils": "workspace:*",
     "@browserstack/hooks": "workspace:*",
+    "@browserstack/utils": "workspace:*",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
     "@radix-ui/react-popover": "^1.0.2",
@@ -35,7 +36,7 @@
     "prop-types": "15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.6.1"
+    "react-router-dom": "6.6.1"
   },
   "devDependencies": {
     "@browserstack/stylelint-config": "workspace:*",
@@ -45,15 +46,20 @@
     "@storybook/addon-actions": "^6.1.20",
     "@storybook/addon-docs": "6.4.19",
     "@storybook/addon-essentials": "^6.1.20",
+    "@storybook/addon-interactions": "^6.5.16",
     "@storybook/addon-links": "^6.1.20",
     "@storybook/builder-webpack5": "6.5.14",
+    "@storybook/jest": "^0.0.10",
     "@storybook/manager-webpack5": "6.5.14",
     "@storybook/node-logger": "^6.1.20",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.20",
+    "@storybook/test-runner": "^0.9.4",
+    "@storybook/testing-library": "^0.0.13",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@vitejs/plugin-react": "2.2.0",
+    "axe-playwright": "^1.2.3",
     "chromatic": "^6.17.0",
     "component-file-generator": "0.5.2",
     "css-loader": "6.7.2",
