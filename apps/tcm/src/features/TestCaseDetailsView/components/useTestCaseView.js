@@ -45,6 +45,7 @@ export default function useTestCaseView({
   };
 
   const hideTestCaseViewDrawer = (isSilentClose) => {
+    if (!isTestCaseViewVisible) return;
     dispatch(setTestCaseViewVisibility(false));
     onDetailsClose?.(isSilentClose);
   };
