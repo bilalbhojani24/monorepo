@@ -396,11 +396,11 @@ export default function useAddEditTestCase(prop) {
       );
   };
 
-  const goToThisURL = (url) => {
+  const goToThisURL = (url, dontFormat) => {
     if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
       return;
 
-    navigate(routeFormatter(url, { projectId }));
+    navigate(dontFormat ? url : routeFormatter(url, { projectId }));
   };
 
   useEffect(() => {

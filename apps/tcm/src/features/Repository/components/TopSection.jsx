@@ -8,8 +8,13 @@ import { IMPORT_OPTIONS } from '../const/topSectionConst';
 import useAddEditTestCase from './useAddEditTestCase';
 
 const TopSection = () => {
-  const { showTestCaseAdditionPage, goToThisURL, isAddTestCasePageVisible } =
-    useAddEditTestCase();
+  const {
+    showTestCaseAdditionPage,
+    goToThisURL,
+    isAddTestCasePageVisible,
+    folderId,
+    projectId
+  } = useAddEditTestCase();
 
   return (
     <div className="w-full">
@@ -32,7 +37,17 @@ const TopSection = () => {
                 size="default"
                 colors="white"
                 // onClick={showAddProjectModal}
-                onClick={() => goToThisURL(AppRoute.IMPORT_CSV)}
+                onClick={() =>
+                  goToThisURL(
+                    `${AppRoute.IMPORT_CSV}${
+                      projectId &&
+                      `?project=${projectId}${
+                        folderId && `&folder=${folderId}`
+                      }`
+                    }`,
+                    true
+                  )
+                }
                 wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
               >
                 Import via CSV
