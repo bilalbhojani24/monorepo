@@ -25,6 +25,7 @@ const SideNav = (props) => {
   const location = useLocation();
   const {
     // selectMenuRef,
+    hasProjects,
     isAllProjectsLoading,
     onLinkChange,
     showAddProject,
@@ -118,7 +119,7 @@ const SideNav = (props) => {
         }
       />
       <AddProjects
-        isFirstProject
+        isFirstProject={!hasProjects}
         show={showAddProject}
         onClose={() => setAddProjectModal(false)}
       />

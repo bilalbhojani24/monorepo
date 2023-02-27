@@ -148,6 +148,7 @@ export default function useSideNav() {
   }, []);
 
   return {
+    hasProjects,
     selectMenuRef,
     isAllProjectsLoading,
     showAddProject,
