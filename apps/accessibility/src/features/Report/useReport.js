@@ -73,7 +73,6 @@ export default function useReport() {
     // return () => {
     //   dispatch(resetReportAppInfo());
     // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return {
