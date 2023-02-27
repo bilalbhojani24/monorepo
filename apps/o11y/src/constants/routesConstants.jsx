@@ -1,4 +1,5 @@
 import React from 'react';
+import RootPathContainer from 'common/RootPathContainer';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 
 import { ROUTES } from './routes';
@@ -16,6 +17,11 @@ export const APP_ROUTES = [
         path: ROUTES.builds,
         isProtected: true,
         component: <Home />
+      },
+      {
+        path: ROUTES.root,
+        isProtected: true,
+        component: <RootPathContainer />
       }
     ]
   },
