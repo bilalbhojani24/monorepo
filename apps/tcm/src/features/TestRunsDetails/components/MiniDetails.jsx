@@ -35,7 +35,7 @@ const MiniDetails = () => {
               <div className="text-base-500 flex items-center text-sm">
                 <MdOutlineBarChart className="mr-2 h-5 w-5" />
                 Overall Progress:
-                <span className="text-base-500 ml-0.5 w-7">
+                <span className="text-base-500 ml-0.5">
                   {Number.isNaN(untestedPerc)
                     ? ''
                     : `${untestedPerc.toFixed(0)}%`}
