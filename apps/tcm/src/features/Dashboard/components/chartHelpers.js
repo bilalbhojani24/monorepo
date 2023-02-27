@@ -1,11 +1,14 @@
 // eslint-disable-next-line no-unused-vars
+const chartStyling = {
+  style: {
+    fontFamily: '"Inter", sans-serif'
+  }
+};
 
 export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
   colors,
   chart: {
-    style: {
-      fontFamily: '"Inter", sans-serif'
-    },
+    ...chartStyling,
     type: 'pie',
     renderTo: 'container'
   },
@@ -18,12 +21,7 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     y: 100,
     useHTML: true,
     width: '40%',
-    itemMarginBottom: 15,
-    labelFormatter() {
-      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="">${
-        this.name
-      }: </span><b>${this.y} (${this.percentage.toFixed(1)}%)<br/></div>`;
-    }
+    itemMarginBottom: 15
   },
   title: {
     verticalAlign: 'middle',
@@ -37,6 +35,13 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     borderColor: '#00335D',
     style: {
       color: '#fff'
+    },
+    formatter() {
+      return `<span  style="font-size:14px;color:${
+        this.point.color
+      }">\u25CF</span> <span class="whitespace-nowrap">${this.key} ${
+        this.y
+      } (${this.percentage.toFixed(0)}%)</span>`;
     }
   },
   subtitle: {
@@ -91,9 +96,7 @@ export const lineOptionsCreator = ({
   addOns
 }) => ({
   chart: {
-    style: {
-      fontFamily: '"Inter", sans-serif'
-    },
+    ...chartStyling,
     type: 'spline'
   },
   tooltip: {
@@ -181,9 +184,7 @@ export const barOptionsCreator = ({
   addOns
 }) => ({
   chart: {
-    style: {
-      fontFamily: '"Inter", sans-serif'
-    },
+    ...chartStyling,
     type: 'column'
   },
   title: {
@@ -256,9 +257,7 @@ export const stackedBarOptionsCreator = ({
   addOns
 }) => ({
   chart: {
-    style: {
-      fontFamily: '"Inter", sans-serif'
-    },
+    ...chartStyling,
     type: 'column'
   },
   title: {

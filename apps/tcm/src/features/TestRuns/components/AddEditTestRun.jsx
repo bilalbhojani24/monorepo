@@ -74,7 +74,7 @@ const AddEditTestRun = ({ isEdit }) => {
             { name: 'Test Runs', isHome: true, url: '#' },
             { name: isEditing ? 'Edit' : 'Create' }
           ]}
-          heading={isEditing ? 'Edit Test Run' : 'Create New Test Runs'}
+          heading={isEditing ? 'Edit Test Run' : 'Create New Test Run'}
           actions={
             <>
               <TMButton
