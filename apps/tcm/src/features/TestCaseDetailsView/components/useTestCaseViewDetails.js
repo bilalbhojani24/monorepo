@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { editTestCaseAPI } from 'api/testcases.api';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
+import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseViewDetails() {
+  const { projectId, folderId } = useParams();
+  const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   const [imageLink, setImageLink] = useState(null);
+  const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
 
   const isTestCaseViewVisible = useSelector(
@@ -48,6 +54,32 @@ export default function useTestCaseViewDetails() {
     }, 400);
   };
 
+  const showAddIssuesModal = () => {
+    setIsShowAddIssuesModal(true);
+  };
+  const hideAddIssuesModal = () => {
+    setIsShowAddIssuesModal(false);
+  };
+
+  const saveAddIssesModal = (newIssuesArray) => {
+    const newTestCaseDetails = { ...testCaseDetails };
+    const updatedIssuesArray = [
+      ...newTestCaseDetails.issues,
+      ...newIssuesArray
+    ];
+    newTestCaseDetails.issues = updatedIssuesArray;
+    editTestCaseAPI({
+      projectId,
+      folderId,
+      testCaseId: newTestCaseDetails.id,
+      payload: { test_case: newTestCaseDetails }
+    }).then((data) => {
+      const newData = data?.test_case ? data?.test_case : data;
+      dispatch(setTestCaseDetails(newData));
+      hideAddIssuesModal();
+    });
+  };
+
   return {
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
@@ -61,6 +93,10 @@ export default function useTestCaseViewDetails() {
     isTestCaseViewVisible,
     handleTabChange,
     onAttachmentClick,
-    closePreview
+    closePreview,
+    isShowAddIssuesModal,
+    showAddIssuesModal,
+    hideAddIssuesModal,
+    saveAddIssesModal
   };
 }
