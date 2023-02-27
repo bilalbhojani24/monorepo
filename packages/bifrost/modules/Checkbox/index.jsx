@@ -36,16 +36,6 @@ const Checkbox = (props) => {
     if (onChange) onChange(event);
   };
 
-  const isDataAvailable = () =>
-    (typeof data.label === 'string' && data.label.length > 0) ||
-    (typeof data.description === 'string' &&
-      data.description.length > 0 &&
-      description !== CHECKBOX_DESCRIPTION_VARIANT.none) ||
-    (typeof data.label !== 'string' && data.label) ||
-    (typeof data.description !== 'string' &&
-      data.description &&
-      description !== CHECKBOX_DESCRIPTION_VARIANT.none);
-
   return (
     <div
       className={twClassNames(
@@ -86,7 +76,10 @@ const Checkbox = (props) => {
           <div
             className={twClassNames('min-w-0 flex-1 text-sm', {
               'ml-3':
-                position === CHECKBOX_POSITION_VARIANT.left && isDataAvailable()
+                position === CHECKBOX_POSITION_VARIANT.left &&
+                (data.label ||
+                  (data.description &&
+                    description !== CHECKBOX_DESCRIPTION_VARIANT.none))
             })}
           >
             <label
@@ -104,8 +97,7 @@ const Checkbox = (props) => {
               className={twClassNames('text-base-500', {
                 'ml-2':
                   description === CHECKBOX_DESCRIPTION_VARIANT.inline &&
-                  ((typeof data.label === 'string' && data.label.length > 0) ||
-                    data.label),
+                  data.label,
                 inline: description === CHECKBOX_DESCRIPTION_VARIANT.inline,
                 block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
                 hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none
