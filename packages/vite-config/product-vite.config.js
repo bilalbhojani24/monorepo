@@ -35,9 +35,10 @@ module.exports = {
           }
           return 'assets/[name]-[hash][extname]';
         }
-      }
+      },
+      cache: false
     },
-    reportCompressedSize: true
-    // sourcemap: true
+    reportCompressedSize: true,
+    sourcemap: true
   }
 };
