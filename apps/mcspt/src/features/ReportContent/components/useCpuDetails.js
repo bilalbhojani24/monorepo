@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import { getSessionMetrics, useMcpChart } from '../../Report';
 
-const generateCPUChartOptions = (sessionData) => {
+const generateCPUChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const cpuTimeSeriesData = sessionData?.report?.CPU?.metrics?.map((x) => [
@@ -15,9 +15,21 @@ const generateCPUChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
   };
 
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
+  };
   chartOptions.tooltip = {
     headerFormat: '<b>{series.name}</b><br/>',
     pointFormat: '<b>Time:</b> {point.x}s</br><b>Value:</b> {point.y:.2f}'
@@ -46,11 +58,13 @@ const generateCPUChartOptions = (sessionData) => {
 const useCpuDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
 
+  const { chartGridClicked } = useMcpChart();
+
   const [cpuChartOptions, setCpuChartOptions] = useState(null);
 
   useEffect(() => {
-    setCpuChartOptions(generateCPUChartOptions(sessionData));
-  }, [sessionData]);
+    setCpuChartOptions(generateCPUChartOptions(sessionData, chartGridClicked));
+  }, [sessionData, chartGridClicked]);
 
   return { sessionData, cpuChartOptions };
 };

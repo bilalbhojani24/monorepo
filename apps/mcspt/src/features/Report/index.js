@@ -1,9 +1,17 @@
 import Report from './components/Report';
+import useMcpChart from './components/useMcpChart';
 import reportReducer, {
+  getLatestSeekTimeInSeconds,
   getSessionMetrics,
   updateSessionMetrics
 } from './slices/reportSlice';
 
-export { getSessionMetrics, reportReducer, updateSessionMetrics };
+export {
+  getLatestSeekTimeInSeconds,
+  getSessionMetrics,
+  reportReducer,
+  updateSessionMetrics,
+  useMcpChart
+};
 
 export default Report;

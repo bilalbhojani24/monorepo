@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import { getSessionMetrics, useMcpChart } from '../../Report';
 
-const generateBatteryChartOptions = (sessionData) => {
+const generateBatteryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const batteryTimeSeriesData = sessionData?.report?.[
@@ -14,7 +14,20 @@ const generateBatteryChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
+  };
+
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
   };
 
   chartOptions.tooltip = {
@@ -45,11 +58,15 @@ const generateBatteryChartOptions = (sessionData) => {
 const useBatteryDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
 
+  const { chartGridClicked } = useMcpChart();
+
   const [batteryChartOptions, setBatteryChartOptions] = useState(null);
 
   useEffect(() => {
-    setBatteryChartOptions(generateBatteryChartOptions(sessionData));
-  }, [sessionData]);
+    setBatteryChartOptions(
+      generateBatteryChartOptions(sessionData, chartGridClicked)
+    );
+  }, [sessionData, chartGridClicked]);
 
   return { sessionData, batteryChartOptions };
 };

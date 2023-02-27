@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import { getSessionMetrics, useMcpChart } from '../../Report';
 
-const generateMemoryChartOptions = (sessionData) => {
+const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const memoryTimeSeriesData = sessionData?.report?.Memory?.metrics?.map(
@@ -14,7 +14,20 @@ const generateMemoryChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
+  };
+
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
   };
 
   chartOptions.tooltip = {
@@ -45,11 +58,15 @@ const generateMemoryChartOptions = (sessionData) => {
 const useMemoryDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
 
+  const { chartGridClicked } = useMcpChart();
+
   const [memoryChartOptions, setMemoryChartOptions] = useState(null);
 
   useEffect(() => {
-    setMemoryChartOptions(generateMemoryChartOptions(sessionData));
-  }, [sessionData]);
+    setMemoryChartOptions(
+      generateMemoryChartOptions(sessionData, chartGridClicked)
+    );
+  }, [sessionData, chartGridClicked]);
 
   return { sessionData, memoryChartOptions };
 };

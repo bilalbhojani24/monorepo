@@ -1,6 +1,6 @@
 export const sanitizeValue = (value) => {
   if ((value !== 0 && !!value) || value === 0) {
-    return Math.ceil(value);
+    return Math.round(value);
   }
 
   return '';
