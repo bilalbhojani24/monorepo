@@ -203,7 +203,7 @@ const Dashboard = () => {
                   <div
                     className={classNames(
                       'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
-                      activeTestRunsOptions?.isEmpty ? 'w-full' : 'w-3/5'
+                      testCaseTypesOptions?.isEmpty ? 'w-full' : 'w-3/5'
                     )}
                   >
                     <div className="text-base-800 text-xl font-bold">
