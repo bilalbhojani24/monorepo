@@ -47,7 +47,9 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   const configureJIRAInit = () => {
-    window.open(`${integrationUrl}`);
+    if (integrationUrl) {
+      window.open(`${integrationUrl}`);
+    }
     onCloseHandler();
   };
 
