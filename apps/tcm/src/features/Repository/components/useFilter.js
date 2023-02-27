@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createSearchParams,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams
@@ -16,12 +17,14 @@ import {
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
+  setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const filterBoxRef = useRef();
   const [searchParams] = useSearchParams();
@@ -37,6 +40,9 @@ const useFilter = (prop) => {
   const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const usersArray = useSelector((state) => state.repository.usersArray);
+  const searchInitiatedFromURL = useSelector(
+    (state) => state.repository.searchInitiatedFromURL
+  );
   const tagsArray = useSelector((state) => state.repository.tagsArray);
   const filterSearchMeta = useSelector(
     (state) => state.repository.filterSearchMeta
@@ -49,13 +55,15 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const applyFilterHandler = () => {
+  const applyFilterHandler = (metaData) => {
+    const thisFilterSearchMeta = metaData || filterSearchMeta;
+
     const queryParams = {};
     const searchParamsTemp = {};
-    Object.keys(filterSearchMeta).forEach((key) => {
-      const value = Array.isArray(filterSearchMeta[key])
-        ? filterSearchMeta[key].join(',')
-        : filterSearchMeta[key];
+    Object.keys(thisFilterSearchMeta).forEach((key) => {
+      const value = Array.isArray(thisFilterSearchMeta[key])
+        ? thisFilterSearchMeta[key].join(',')
+        : thisFilterSearchMeta[key];
 
       if (value) {
         searchParamsTemp[key] = value;
@@ -73,6 +81,11 @@ const useFilter = (prop) => {
       // updateFilterSearchMeta(filterOptions);
       setAppliedFiltersCount(count.filter((item) => item).length);
     } else {
+      if (!isSearchFilterView) {
+        // if initial filter/search cache the current URL;
+        dispatch(setSearchInitiatedURL(location.pathname));
+      }
+
       navigate({
         pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
           projectId
@@ -84,20 +97,20 @@ const useFilter = (prop) => {
   };
 
   const resetFilterAndSearch = (forceClearAll) => {
-    // if no filter/search
-    debugger;
     if (forceClearAll) {
       // clear search and filter
       dispatch(resetFilterSearchMeta());
       navigate({
-        pathname: routeFormatter(AppRoute.TEST_CASES, {
-          projectId
-        })
+        pathname:
+          searchInitiatedFromURL ||
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId
+          })
       });
     } else {
       // clear only filter
       dispatch(resetFilterMeta());
-      applyFilterHandler();
+      applyFilterHandler({ q: filterSearchMeta?.q });
     }
 
     if (prop?.onFilterChange) {
@@ -138,7 +151,7 @@ const useFilter = (prop) => {
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
       });
-    } else if (isSearchFilterView) resetFilterAndSearch();
+    } else if (isSearchFilterView) resetFilterAndSearch(true);
   };
 
   const getFilterOptions = (thisParams) => {

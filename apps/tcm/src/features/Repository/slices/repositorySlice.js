@@ -67,6 +67,7 @@ const initialState = {
     q: ''
   },
   isSearchFilterView: false,
+  searchInitiatedFromURL: '',
   isLoading: {
     folder: true,
     testCases: true
@@ -203,6 +204,13 @@ export const repositorySlice = createSlice({
     },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
+
+      if (!payload) {
+        state.searchInitiatedFromURL = null;
+      }
+    },
+    setSearchInitiatedURL: (state, { payload }) => {
+      state.searchInitiatedFromURL = payload;
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
@@ -223,6 +231,7 @@ export const repositorySlice = createSlice({
 });
 
 export const {
+  setSearchInitiatedURL,
   setTestCaseDetails,
   resetTestCaseDetails,
   setRecentRquestedAfterUnsaved,
