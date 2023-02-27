@@ -1,0 +1,32 @@
+{
+  "name": "@browserstack/utils",
+  "version": "0.2.4",
+  "description": "Utility functions for browserstack frontend monorepo",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "tailwind-merge": "^1.8.1"
+  },
+  "devDependencies": {
+    "@browserstack/vite-config": "workspace:*",
+    "@vitejs/plugin-react": "2.2.0",
+    "vite": "3.2.5"
+  },
+  "peerDependencies": {
+    "amplitude-js": "8.21.4",
+    "axios": "1.2.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-ga4": "2.0.0",
+    "@sentry/react": "7.38.0",
+    "@sentry/tracing": "7.38.0"
+  },
+  "files": [
+    "dist/*",
+    "constants.js"
+  ]
+}
