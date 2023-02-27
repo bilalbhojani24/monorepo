@@ -33,6 +33,27 @@ const Button = (
   },
   ref
 ) => {
+  const smallButtons = (buttonSize) => {
+    let flag = false;
+    if (buttonSize === BUTTON_SIZES[0] || buttonSize === BUTTON_SIZES[1])
+      flag = true;
+
+    return flag;
+  };
+
+  const largeButtons = (buttonSize) => {
+    let flag = false;
+
+    if (
+      buttonSize === BUTTON_SIZES[2] ||
+      buttonSize === BUTTON_SIZES[3] ||
+      buttonSize === BUTTON_SIZES[4]
+    )
+      flag = true;
+
+    return flag;
+  };
+
   const buttonRef = useRef();
 
   const effectiveChildren =
@@ -41,21 +62,29 @@ const Button = (
         wrapperStyle={`mx-auto ${
           BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
         }`}
-        height={
-          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
-        }
-        width={
-          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
-        }
+        height={smallButtons(size) ? 'h-4' : 'h-5'}
+        width={smallButtons(size) ? 'h-4' : 'h-5'}
       />
     ) : (
       <span
         className={twClassNames({
           'mx-auto grid w-fit items-center gap-2.5': icon !== null,
           'grid-cols-[16px,2fr]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon !== null,
+            iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
+            icon !== null &&
+            smallButtons(size),
+          'grid-cols-[20px,2fr]':
+            iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
+            icon !== null &&
+            largeButtons(size),
           'grid-cols-[2fr,16px]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null,
+            iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
+            icon !== null &&
+            smallButtons(size),
+          'grid-cols-[2fr,20px]':
+            iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
+            icon !== null &&
+            largeButtons(size),
           'gap-0 grid-cols-auto': isIconOnlyButton,
           'h-5 w-5':
             (size === BUTTON_SIZES[0] ||
