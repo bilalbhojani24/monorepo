@@ -2,7 +2,6 @@ import { cookieUtils as Cookie } from '@browserstack/utils';
 import axios from 'axios';
 
 export const fetchToken = (url) => {
-  if (!url) return null;
   const cookie = new Cookie();
   const integrationsToken = cookie.read('integrations_token');
   const hasToken = Boolean(integrationsToken);
