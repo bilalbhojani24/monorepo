@@ -40,10 +40,11 @@ const TopSection = () => {
                 onClick={() =>
                   goToThisURL(
                     `${AppRoute.IMPORT_CSV}${
-                      projectId &&
-                      `?project=${projectId}${
-                        folderId && `&folder=${folderId}`
-                      }`
+                      projectId
+                        ? `?project=${projectId}${
+                            folderId ? `&folder=${folderId}` : ''
+                          }`
+                        : ''
                     }`,
                     true
                   )
