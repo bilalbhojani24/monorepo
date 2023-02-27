@@ -223,14 +223,6 @@ export default function useAddEditTestCase(prop) {
         const testCaseData = data.data.test_case;
         const folderData = data.data.folder;
 
-        dispatch(
-          addNotificaton({
-            id: `test_case_added${testCaseData?.id}`,
-            title: `'${testCaseData?.name}': Test case created`,
-            variant: 'success'
-          })
-        );
-
         if (projectId === 'new' || !allFolders.length) {
           // no project/folder
 
@@ -239,6 +231,14 @@ export default function useAddEditTestCase(prop) {
             dispatch(setAllFolders([folderData]));
             dispatch(updateFoldersLoading(false));
           }
+
+          dispatch(
+            addNotificaton({
+              id: `project_created${testCaseData?.id}`,
+              title: `'New Project': Project created`,
+              variant: 'success'
+            })
+          );
 
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
@@ -252,6 +252,17 @@ export default function useAddEditTestCase(prop) {
           // only if the added test case belong to the opened folder
           dispatch(addSingleTestCase(testCaseData));
         }
+
+        setTimeout(() => {
+          // time out to wait for the project notification
+          dispatch(
+            addNotificaton({
+              id: `test_case_added${testCaseData?.id}`,
+              title: `'${testCaseData?.name}': Test case created`,
+              variant: 'success'
+            })
+          );
+        }, 5);
         hideTestCaseAddEditPage(null, true);
       });
     }
