@@ -38,7 +38,7 @@ const ImportCSV = () => {
     <>
       <TMPageHeadings
         // breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV/XLS' }]}
-        heading="Import via CSV/XLS"
+        heading="Import via CSV"
       />
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div

@@ -1,12 +1,3 @@
-export const ACTIVE_TEST_RUNS_COLOR = [
-  '#4B5563',
-  '#059669',
-  '#F87171',
-  '#FBBF24',
-  '#818CF8',
-  '#F1F5F9'
-];
-
 export const TEST_CASES_TYPES_COLORS = [
   '#8C5789',
   '#F89C59',
@@ -15,3 +6,12 @@ export const TEST_CASES_TYPES_COLORS = [
   '#AE603D',
   '#F28CB0'
 ];
+
+export const ACTIVE_TEST_RUNS_COLOR = {
+  Passed: '#059669',
+  Failed: '#F87171',
+  Blocked: '#818CF8',
+  Retest: '#FBBF24',
+  Skipped: '#4B5563',
+  Untested: '#E5E7EB'
+};

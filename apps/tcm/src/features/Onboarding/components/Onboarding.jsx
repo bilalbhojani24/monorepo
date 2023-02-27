@@ -84,7 +84,7 @@ const Onboarding = () => {
             </p>
             <p className="text-base-700 text-xs">
               <a
-                href="https://www.browserstack.com/docs/test-management"
+                href="https://www.browserstack.com/docs/test-management/references/terms-and-conditions"
                 target="new"
               >
                 Test Management Documentation

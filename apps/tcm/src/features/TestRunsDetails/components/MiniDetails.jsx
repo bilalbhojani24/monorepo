@@ -22,6 +22,8 @@ const MiniDetails = () => {
       )
     : 0;
 
+  const untestedPerc =
+    100 - (testRunDetails?.overall_progress?.untested / totalValue) * 100;
   const isPassed = testRunDetails?.overall_progress?.passed === totalValue;
 
   return (
@@ -32,7 +34,12 @@ const MiniDetails = () => {
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
               <div className="text-base-500 flex items-center text-sm">
                 <MdOutlineBarChart className="mr-2 h-5 w-5" />
-                Overall Progress:{' '}
+                Overall Progress:
+                <span className="text-base-500 ml-0.5">
+                  {Number.isNaN(untestedPerc)
+                    ? ''
+                    : `${untestedPerc.toFixed(0)}%`}
+                </span>
                 {!isTestRunDetailsLoading && (
                   <TMBadge
                     wrapperClassName="ml-1"

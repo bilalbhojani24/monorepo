@@ -169,16 +169,18 @@ const TestRunsTable = () => {
         return (
           <div className="flex w-full items-center">
             <div className="relative flex h-10 w-full max-w-[calc(100%-30px)] items-center">
-              <HighchartsReact
-                id={rowData.id}
-                highcharts={Highcharts}
-                options={getProgressOptions(rowData)}
-              />
+              {Number.isNaN(untestedPerc) ? (
+                '--'
+              ) : (
+                <HighchartsReact
+                  id={rowData.id}
+                  highcharts={Highcharts}
+                  options={getProgressOptions(rowData)}
+                />
+              )}
             </div>
             <span className="text-base-500 ml-0.5 w-7">
-              {Number.isNaN(untestedPerc)
-                ? '--'
-                : `${untestedPerc.toFixed(0)}%`}
+              {Number.isNaN(untestedPerc) ? '' : `${untestedPerc.toFixed(0)}%`}
             </span>
           </div>
         );

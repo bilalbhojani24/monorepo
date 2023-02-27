@@ -38,8 +38,8 @@ const Notification = () => {
         />,
         {
           position: 'top-right',
-          duration: 4000,
-          autoClose: true,
+          duration: 5000,
+          // autoClose: true,
           id: notification?.id
         }
       );

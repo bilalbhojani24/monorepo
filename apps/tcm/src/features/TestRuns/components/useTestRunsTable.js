@@ -34,7 +34,7 @@ const useTestRuns = () => {
       0
     );
 
-    const series = Object.keys(data.overall_progress).map((key) => ({
+    const series = Object.keys(PROGRESS_COLOR_MAP).map((key) => ({
       groupPadding: 0,
       pointPadding: 0,
       name: key,
@@ -49,7 +49,7 @@ const useTestRuns = () => {
 
     return {
       ...CHART_OPTIONS,
-      series,
+      series: series.reverse(),
       yAxis: {
         ...CHART_OPTIONS.yAxis
       },

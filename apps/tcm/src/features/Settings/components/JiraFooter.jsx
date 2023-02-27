@@ -26,9 +26,9 @@ const JiraFooter = ({ apiKey }) => {
   ];
   return (
     <div className="mt-10">
-      <div className="text-base-900 text-lg font-medium">Active API Keys</div>
+      <div className="text-base-900 text-lg font-medium">Active API Key</div>
       <div className="text-base-500 text-sm">
-        Below are list of active API keys with your account
+          Below is active API key for your account
       </div>
       <TMDataTable
         columns={COLUMNS}

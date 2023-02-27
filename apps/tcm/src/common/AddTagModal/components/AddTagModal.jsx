@@ -55,7 +55,7 @@ const AddTagModal = ({
           value={enteredTag}
           onKeyDown={(e) => onSubmitKeyHandler(e, addTagHandler)}
           onButtonClick={addTagHandler}
-          buttonElement="Add/Modify Tag"
+          buttonElement="Add Tag"
           label="Tag Name"
           errorText={errorText}
           placeholder="Enter Tag name separated by comma"

@@ -3,7 +3,8 @@ import React from 'react';
 import { Header } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 
-const DEFAULT_LINK = 'https://www.browserstack.com';
+const TEST_RUNS_LINK =
+  'https://www.browserstack.com/docs/test-management/features/test-runs';
 
 const TMHeader = () => (
   <Header
@@ -21,28 +22,66 @@ const TMHeader = () => (
       'account'
     ]}
     documentation={{
-      title: 'Documentation',
+      title: 'Key Features',
       options: [
-        { name: 'lorem', link: DEFAULT_LINK },
-        { name: 'ipsum', link: DEFAULT_LINK }
+        {
+          name: 'Test Case Repository',
+          link: 'https://www.browserstack.com/docs/test-management/features/test-cases'
+        },
+        {
+          name: 'Test Runs',
+          link: TEST_RUNS_LINK
+        },
+        {
+          name: 'Integrate Test Observability',
+          link: 'https://www.browserstack.com/docs/test-management/integrations/test-observability'
+        },
+        {
+          name: 'Upload JUnit-XML/BDD-JSON Reports',
+          link: TEST_RUNS_LINK
+        },
+        {
+          name: 'Quick Import Data',
+          link: 'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
+        },
+        {
+          name: 'Dashboard Analytics',
+          link: 'https://www.browserstack.com/docs/test-management/features/dashboard'
+        },
+        {
+          name: '2-way Jira Integration',
+          link: 'https://www.browserstack.com/docs/test-management/features/2-way-jira-binding'
+        }
       ]
     }}
     references={{
-      title: 'References',
+      title: 'Overview',
       options: [
-        { name: 'lorem', link: DEFAULT_LINK },
-        { name: 'ipsum', link: DEFAULT_LINK }
+        {
+          name: 'Why use Test Management?',
+          link: 'https://www.browserstack.com/docs/test-management/'
+        },
+        {
+          name: 'Unify your Testing',
+          link: TEST_RUNS_LINK
+        }
       ]
     }}
     others={{
-      title: 'Other',
+      title: 'References',
       options: [
-        { name: 'lorem', link: DEFAULT_LINK },
-        { name: 'ipsum', link: DEFAULT_LINK }
+        {
+          name: 'Documentation',
+          link: 'https://www.browserstack.com/docs/test-management/'
+        },
+        {
+          name: 'Contact Support',
+          link: 'https://www.browserstack.com/contact'
+        }
       ]
     }}
-    documentationLink=""
-    supportLink=""
+    documentationLink="https://www.browserstack.com/docs/test-management/"
+    supportLink="https://www.browserstack.com/contact"
     // showTestInsights
     // beamerProductId="XxcUulZf52793"
   >

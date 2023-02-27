@@ -60,7 +60,7 @@ const UploadFile = () => {
       )}
       <div className="border-base-200 rounded-md border-2 border-solid bg-white p-6">
         <TMSectionHeadings
-          title="Upload CSV/XLS"
+          title="Upload CSV"
           variant="buttons"
           trailingHeadNode={
             <>
@@ -79,8 +79,8 @@ const UploadFile = () => {
           <TMFileUpload
             linkText="Upload a file"
             heading="or drag and drop"
-            subHeading="CSV & XLS format allowed"
-            accept=".csv,.xlsx"
+            subHeading="CSV format allowed"
+            accept=".csv"
             onChange={handleFileUpload}
           />
         )}

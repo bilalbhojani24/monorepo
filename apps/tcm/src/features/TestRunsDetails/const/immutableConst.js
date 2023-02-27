@@ -7,7 +7,7 @@ export const TR_DROP_OPTIONS = [
   },
   {
     id: 'edit_details',
-    body: 'Edit Details'
+    body: 'Edit Test Run'
   },
   {
     id: 'delete',
@@ -17,11 +17,6 @@ export const TR_DROP_OPTIONS = [
 ];
 
 export const STATUS_OPTIONS = [
-  {
-    label: 'Untested',
-    class: 'bg-base-600',
-    value: 'untested'
-  },
   {
     label: 'Passed',
     class: 'bg-success-600',
@@ -40,12 +35,17 @@ export const STATUS_OPTIONS = [
   {
     label: 'Blocked',
     class: '',
-    color: ACTIVE_TEST_RUNS_COLOR[4],
+    color: ACTIVE_TEST_RUNS_COLOR.blocked,
     value: 'blocked'
   },
   {
     label: 'Skipped',
     class: 'bg-base-200',
     value: 'skipped'
+  },
+  {
+    label: 'Untested',
+    class: 'bg-base-600',
+    value: 'untested'
   }
 ];

@@ -103,7 +103,7 @@ const AddEditTestCase = () => {
                   else saveTestCase(testCaseFormData);
                 }}
               >
-                {isTestCaseEditing ? 'Update Case' : 'Create'}
+                {isTestCaseEditing ? 'Update Case' : 'Create Case'}
               </TMButton>
             </div>
           }
@@ -160,7 +160,7 @@ const AddEditTestCase = () => {
             label="Description"
             id="main-description"
             value={testCaseFormData?.description}
-            height={200}
+            height={160}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
             projectId={projectId}
@@ -175,7 +175,7 @@ const AddEditTestCase = () => {
                   id="steps-rte"
                   placeholder="Steps for the test"
                   value={testCaseFormData?.steps?.[0]}
-                  height={200}
+                  height={160}
                   onChange={(val) => handleTestCaseFieldChange('steps', [val])}
                   projectId={projectId}
                 />
@@ -186,7 +186,7 @@ const AddEditTestCase = () => {
                   label="Expected Results"
                   placeholder="Expected result(s) from above steps"
                   value={testCaseFormData?.expected_result}
-                  height={200}
+                  height={160}
                   onChange={(val) =>
                     handleTestCaseFieldChange('expected_result', val)
                   }
@@ -300,7 +300,7 @@ const AddEditTestCase = () => {
                 placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}
-                height={200}
+                height={160}
                 onChange={(val) =>
                   handleTestCaseFieldChange('preconditions', val)
                 }
@@ -323,18 +323,20 @@ const AddEditTestCase = () => {
                           <>
                             <TMTooltipHeader>Estimate</TMTooltipHeader>
                             <TMTooltipBody>
-                              <p className="text-sm">
-                                You can define an estimate time you would
-                                require for this test case. Below format types
-                                are permitted:
+                              <p className="text-sm pb-5">
+                                You can define an estimate of testing time
+                                you would require for this test case.
+                                Below format types are permitted:
                               </p>
-                              <ul className="list-disc pl-5 text-sm">
+                              <ul className="list-disc pl-5 text-sm pb-5">
                                 <li>Seconds (s)</li>
                                 <li>Minutes (m)</li>
                                 <li>Hours (h)</li>
                                 <li>Minutes:Seconds (m:s)</li>
                                 <li>Hours:Minutes:Seconds (h:m:s)</li>
                               </ul>
+                              <p className="text-sm">Combination of above options are permitted.
+                                Eg: "2d 3h", "5m 30s", "10m".</p>
                             </TMTooltipBody>
                           </>
                         }

@@ -97,11 +97,11 @@ export const CHART_OPTIONS = {
 export const TR_DROP_OPTIONS = [
   {
     id: 'edit_details',
-    body: 'Edit Details'
+    body: 'Edit Test Run'
   },
   {
     id: 'assign',
-    body: 'Assign',
+    body: 'Assign Run',
     divider: false
   },
   {
@@ -116,10 +116,10 @@ export const TR_DROP_OPTIONS = [
 ];
 
 export const PROGRESS_COLOR_MAP = {
-  untested: '#4B5563',
   passed: '#059669',
   failed: '#F87171',
-  retest: '#FBBF24',
   blocked: '#818CF8',
-  skipped: '#E5E7EB'
+  retest: '#FBBF24',
+  skipped: '#4B5563',
+  untested: '#E5E7EB'
 };

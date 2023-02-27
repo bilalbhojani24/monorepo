@@ -116,7 +116,7 @@ export default function Folders() {
                         // title=""
                         title={
                           testCasesCount !== 0
-                            ? `We found ${testCasesCount} Search Results across all folders`
+                            ? `We found ${testCasesCount} results across all folders`
                             : 'No Results Found'
                         }
                         description={
@@ -144,7 +144,7 @@ export default function Folders() {
         <div className="flex h-full w-full flex-col items-stretch justify-center">
           <TMEmptyState
             title={<p className="text-base-800">Create New Folder</p>}
-            description="You can get started by creating test cases/folders by entering details below."
+            description="You can organize test cases in folders. Get started now."
             mainIcon={
               <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
             }
