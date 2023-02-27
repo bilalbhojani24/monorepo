@@ -39,6 +39,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => (
       placementSide="bottom"
       size="5xl"
       wrapperClassName="py-0"
+      triggerOnTouch
     >
       <div className={twClassNames('group flex flex-row items-center p-0')}>
         <div
