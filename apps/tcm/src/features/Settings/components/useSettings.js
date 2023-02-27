@@ -19,6 +19,10 @@ export default function useSettings() {
       window.open(`${jiraConfiguration?.integration_url}`, 'popup');
   };
 
+  const configureJIRAInit = () => {
+    window.open(`${jiraConfiguration?.integration_url}`);
+  };
+
   const fetchAPIKey = () => {
     dispatch(setSettingsApiKeys());
   };
@@ -32,6 +36,7 @@ export default function useSettings() {
     settingsApiKeys,
     fetchAPIKey,
     onIntegrationsButtonClick,
-    fetchJiraConfigurations
+    fetchJiraConfigurations,
+    configureJIRAInit
   };
 }

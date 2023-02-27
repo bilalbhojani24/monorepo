@@ -13,7 +13,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   const modalFocusRef = useRef();
   const [enterdIssueIDs, setIssueIds] = useState('');
   const [errorText, setErrorText] = useState('');
-
+  const [integrationUrl, setIntegerationUrl] = useState(null);
   const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
 
   const setJiraConfig = (value) => {
@@ -47,7 +47,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
   };
 
   const configureJIRAInit = () => {
-    window.open(`${jiraConfig?.integration_url}`);
+    window.open(`${integrationUrl}`);
     onCloseHandler();
   };
 
@@ -55,6 +55,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
     if (isVisible && !jiraConfig) {
       getJIRAConfigAPI().then((e) => {
         setJiraConfig(e?.success ? e : null);
+        setIntegerationUrl(e.integration_url);
         setIsLoading(false);
       });
     }
