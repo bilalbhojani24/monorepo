@@ -226,8 +226,7 @@ export default function useAddEditTestCase(prop) {
         dispatch(
           addNotificaton({
             id: `test_case_added${testCaseData?.id}`,
-            title: 'Test case created',
-            description: `${testCaseData?.name} has been successfully created.`,
+            title: `'${testCaseData?.name}': Test case created`,
             variant: 'success'
           })
         );
@@ -274,6 +273,13 @@ export default function useAddEditTestCase(prop) {
       //   )
       // );
       fetchAllTestCases();
+      dispatch(
+        addNotificaton({
+          id: `bulk_updated${projectId}${folderId}`,
+          title: `Test Cases updated`,
+          variant: 'success'
+        })
+      );
       hideTestCaseAddEditPage(null, true);
       dispatch(resetBulkSelection());
     });
@@ -289,6 +295,13 @@ export default function useAddEditTestCase(prop) {
       }).then((data) => {
         const newData = data?.test_case ? data?.test_case : data;
         dispatch(updateTestCase(newData));
+        dispatch(
+          addNotificaton({
+            id: `test_case_edited${newData?.id}`,
+            title: `'${newData.data?.test_case?.name}': Test case updated`,
+            variant: 'success'
+          })
+        );
         hideTestCaseAddEditPage(null, true);
       });
     }

@@ -227,8 +227,11 @@ export default function useFolders() {
           dispatch(
             addNotificaton({
               id: `folder_moved${data.data.folder?.id}`,
-              title: 'Folder moved',
-              description: `${data.data.folder?.name} has been successfully moved.`,
+              title: `'${data.data.folder?.name}' moved to ${
+                selectedFolder?.name
+                  ? `'${selectedFolder?.name}'`
+                  : 'new location'
+              }`,
               variant: 'success'
             })
           );

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { moveTestCasesBulkAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/testCaseConst';
@@ -122,6 +123,13 @@ const useTestCasesTable = (prop) => {
       }).then((data) => {
         dispatch(updateAllTestCases(data?.test_cases || []));
         dispatch(resetBulkSelection());
+        dispatch(
+          addNotificaton({
+            id: `test_cases_moved`,
+            title: `Test Cases moved to new location`,
+            variant: 'success'
+          })
+        );
         hideFolderModal();
       });
   };

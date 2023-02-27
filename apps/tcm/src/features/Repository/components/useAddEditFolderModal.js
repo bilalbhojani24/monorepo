@@ -9,6 +9,7 @@ import {
   renameFolder
 } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   injectFolderToParent,
@@ -152,6 +153,13 @@ export default function useAddEditFolderModal(prop) {
     }).then((item) => {
       if (item.data?.folder) updateFolders(item.data.folder);
       noProjectFolderCreationRouteUpdate(item);
+      dispatch(
+        addNotificaton({
+          id: `folder_created${item.data.folder?.id}`,
+          title: `'${item.data.folder?.name}': Folder created`,
+          variant: 'success'
+        })
+      );
       hideFolderModal();
     });
   };

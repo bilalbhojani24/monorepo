@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import { addNotificaton } from 'globalSlice';
 
 import {
   deleteTestCase,
@@ -69,6 +70,14 @@ export default function useDeleteTestCase() {
         // TC exists but need to fetch, set page to 1
         setSearchParams({});
       } else dispatch(updateAllTestCases(updatedTestCases));
+
+      dispatch(
+        addNotificaton({
+          id: `test_cases_deleted`,
+          title: `Test Cases deleted`,
+          variant: 'success'
+        })
+      );
       dispatch(resetBulkSelection());
       hideDeleteTestCaseModal();
     });
