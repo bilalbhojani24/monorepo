@@ -6,9 +6,8 @@ import {
   MdHourglassEmpty,
   Radio
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../../utils';
 
 import useSelectDeviceStep from './useSelectDeviceStep';
 

@@ -1,5 +1,10 @@
-// import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { pubSub } from '@browserstack/utils';
 
-const useDashboard = () => {};
+const useDashboard = () => {
+  useEffect(() => {
+    window.pubSub = pubSub();
+  }, []);
+};
 
 export default useDashboard;
