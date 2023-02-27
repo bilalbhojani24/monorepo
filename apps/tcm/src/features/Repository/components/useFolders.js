@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
@@ -219,9 +220,17 @@ export default function useFolders() {
       .then((data) => {
         if (data?.data?.success) {
           moveFolderHelper(
-            data?.data?.folder?.id,
+            data.data.folder?.id,
             selectedFolder?.id || null,
             internalAllFolders
+          );
+          dispatch(
+            addNotificaton({
+              id: `folder_moved${data.data.folder?.id}`,
+              title: 'Folder moved',
+              description: `${data.data.folder?.name} has been successfully moved.`,
+              variant: 'success'
+            })
           );
           hideFolderModal();
         }

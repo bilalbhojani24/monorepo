@@ -10,6 +10,7 @@ import {
 import AppRoute from 'const/routes';
 import {
   addGlobalProject,
+  addNotificaton,
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
@@ -123,6 +124,15 @@ const useProjects = (prop) => {
       addProjectsAPI(formData).then((res) => {
         dispatch(addProject(res.data.project));
         dispatch(addGlobalProject(res.data.project));
+
+        dispatch(
+          addNotificaton({
+            id: `project_added${res.data.project?.id}`,
+            title: 'Project created',
+            description: `${res.data.project?.name} has been successfully created.`,
+            variant: 'success'
+          })
+        );
 
         navigate(
           prop?.isFirstProject

@@ -226,9 +226,9 @@ export default function useAddEditTestCase(prop) {
         dispatch(
           addNotificaton({
             id: `test_case_added${testCaseData?.id}`,
-            title: 'Test case added',
-            variant: 'success',
-            description: null
+            title: 'Test case created',
+            description: `${testCaseData?.name} has been successfully created.`,
+            variant: 'success'
           })
         );
 
