@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
@@ -41,6 +41,7 @@ const HeaderElements = ({
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const searchBarRef = useRef(null);
 
   useEffect(() => {
     window.beamer_config = {
@@ -70,6 +71,10 @@ const HeaderElements = ({
     if (searchValue) {
       window.location.href = `https://www.browserstack.com/search?query=${searchValue}&type=all`;
     }
+  };
+
+  const focusSearchInput = () => {
+    searchBarRef.current?.focus();
   };
 
   const linkContainer = (title, optionArray) => (
@@ -144,6 +149,7 @@ const HeaderElements = ({
         leave="transform transition ease-out duration-500"
         leaveFrom="translate-y-0"
         leaveTo="translate-y-full"
+        afterEnter={focusSearchInput}
       >
         <div className="fixed right-0 top-16 z-10 flex items-start">
           <div
@@ -171,6 +177,7 @@ const HeaderElements = ({
                   )}
                   placeholder="Search across browserstack.com"
                   value={searchValue}
+                  ref={searchBarRef}
                   onChange={(e) => setSearchValue(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') onSubmitSearch();

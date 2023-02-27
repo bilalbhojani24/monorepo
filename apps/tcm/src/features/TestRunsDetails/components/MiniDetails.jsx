@@ -41,13 +41,18 @@ const MiniDetails = () => {
                     : `${untestedPerc.toFixed(0)}%`}
                 </span>
                 {!isTestRunDetailsLoading && (
-                  <TMBadge
-                    wrapperClassName="ml-1"
-                    text={isPassed ? 'Passed' : 'Failed'}
-                    modifier={isPassed ? 'success' : 'error'}
-                    size="large"
-                    // key={rowData.tags[0]}
-                  />
+                  <>
+                    {(isPassed ||
+                      testRunDetails?.overall_progress?.failed > 0) && (
+                      <TMBadge
+                        wrapperClassName="ml-1 pointer-events-none"
+                        text={isPassed ? 'Passed' : 'Failed'}
+                        modifier={isPassed ? 'success' : 'error'}
+                        size="large"
+                        // key={rowData.tags[0]}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </TMTableCell>
