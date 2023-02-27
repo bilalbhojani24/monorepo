@@ -23,6 +23,7 @@ const Header = ({
   supportLink,
   showTestInsights,
   beamerProductId,
+  beamerOverlayTopProperty,
   headerElementArray,
   productArray
 }) => {
@@ -55,6 +56,7 @@ const Header = ({
           supportLink={supportLink}
           showTestInsights={showTestInsights}
           beamerProductId={beamerProductId}
+          beamerOverlayTopProperty={beamerOverlayTopProperty}
           headerElementArray={headerElementArray}
         />
       </div>
@@ -73,6 +75,7 @@ Header.propTypes = {
   documentationLink: PropTypes.string,
   supportLink: PropTypes.string,
   beamerProductId: PropTypes.string,
+  beamerOverlayTopProperty: PropTypes.number,
   showTestInsights: PropTypes.bool,
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
   headerID: PropTypes.string,
@@ -91,6 +94,7 @@ Header.defaultProps = {
   documentationLink: '',
   supportLink: '',
   beamerProductId: '',
+  beamerOverlayTopProperty: 64,
   showTestInsights: true,
   headerElementArray: [],
   headerID: '',
