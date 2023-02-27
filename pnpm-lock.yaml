@@ -475,6 +475,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
       '@browserstack/vite-config': workspace:*
+      '@reduxjs/toolkit': ^1.9.1
       '@storybook/addon-actions': ^6.5.16
       '@storybook/addon-essentials': ^6.5.16
       '@storybook/addon-interactions': ^6.5.16
@@ -488,13 +489,16 @@ importers:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
+      react-redux: ^8.0.5
     dependencies:
       '@browserstack/bifrost': link:../bifrost
       '@browserstack/utils': link:../utils
+      '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.5_z6jct6nsyrzuhjsgpst3woph7a
     devDependencies:
       '@babel/core': 7.20.12
       '@browserstack/stylelint-config': link:../stylelint-config
@@ -2102,7 +2106,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/runtime/7.21.0:
     resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
@@ -19821,6 +19824,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+      prop-types: 15.8.1
       react: 17.0.2
       scheduler: 0.20.2
     dev: true
@@ -19903,7 +19907,7 @@ packages:
     peerDependencies:
       react: ^16.8.4 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       is-dom: 1.1.0
       prop-types: 15.8.1
       react: 18.2.0
@@ -19944,7 +19948,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
@@ -19976,10 +19980,43 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
+      '@types/use-sync-external-store': 0.0.3
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-is: 18.2.0
+      redux: 4.2.1
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
+  /react-redux/8.0.5_z6jct6nsyrzuhjsgpst3woph7a:
+    resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
+    peerDependencies:
+      '@types/react': ^16.8 || ^17.0 || ^18.0
+      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+      react-native: '>=0.59'
+      redux: ^4
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+      redux:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.20.7
+      '@types/hoist-non-react-statics': 3.3.1
+      '@types/react': 18.0.26
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
@@ -20271,6 +20308,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+      prop-types: 15.8.1
     dev: true
 
   /react/18.2.0:

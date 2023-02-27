@@ -1,14 +1,16 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import BasicWidget from '../BasicWidget';
+import { store } from '../store';
 
 import Content from './components/Content';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];
 
-const CreateIssue = ({
+export const CreateIssue = ({
   isOpen,
   authUrl,
   options,
@@ -53,4 +55,10 @@ CreateIssue.defaultProps = {
   projectId: null,
   positionRef: null
 };
-export default CreateIssue;
+
+const CreateIssueWithProvider = () => (
+  <Provider store={store}>
+    <CreateIssue />
+  </Provider>
+);
+export default CreateIssueWithProvider;
