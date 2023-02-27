@@ -1,33 +1,22 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { func, string } from '../../shared/proptypesConstants';
-import { ChevronUpDownIcon } from '../Icon';
 
+import TriggerButton from './component/TriggerButton';
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
 const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
-  const { isMulti, setWidth, errorText, value } =
-    useContext(ComboboxContextData);
-
-  const [isTruncated, setIsTruncated] = useState(false);
+  const { isMulti, setWidth, errorText } = useContext(ComboboxContextData);
 
   useEffect(() => {
     setWidth(buttonRef.current.offsetWidth);
   }, [setWidth]);
-
-  useEffect(() => {
-    if (comboInputRef.current) {
-      setIsTruncated(
-        comboInputRef.current.offsetWidth < comboInputRef.current.scrollWidth
-      );
-    }
-  }, [value]);
 
   return (
     <Popover.Trigger asChild ref={buttonRef}>
@@ -48,15 +37,11 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           {({ value: buttonValue }) => (
-            <>
-              {isMulti && buttonValue?.length && isTruncated ? (
-                <span className="mr-1 font-bold">{`(${buttonValue?.length})`}</span>
-              ) : null}
-              <ChevronUpDownIcon
-                className="text-base-400 h-5 w-5"
-                aria-hidden="true"
-              />
-            </>
+            <TriggerButton
+              value={buttonValue?.length}
+              isMulti={isMulti}
+              ref={comboInputRef}
+            />
           )}
         </Combobox.Button>
       </div>

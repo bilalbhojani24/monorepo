@@ -37,6 +37,7 @@ module.exports = {
         }
       }
     },
-    reportCompressedSize: true
+    reportCompressedSize: true,
+    sourcemap: true
   }
 };
