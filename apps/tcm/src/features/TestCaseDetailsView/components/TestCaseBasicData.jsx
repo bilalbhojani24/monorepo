@@ -12,6 +12,8 @@ import {
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
+import AddIssuesModal from '../../../common/AddIssuesModal/components/AddIssuesModal';
+
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseBasicData = () => {
@@ -20,7 +22,11 @@ const TestCaseBasicData = () => {
     imageLink,
     testCaseDetails,
     onAttachmentClick,
-    closePreview
+    closePreview,
+    showAddIssuesModal,
+    isShowAddIssuesModal,
+    hideAddIssuesModal,
+    saveAddIssesModal
   } = useTestCaseViewDetails();
 
   return (
@@ -146,7 +152,20 @@ const TestCaseBasicData = () => {
                     ))}
                   </div>
                 ) : (
-                  '--'
+                  <>
+                    <TMButton
+                      type="submit"
+                      variant="minimal"
+                      onClick={showAddIssuesModal}
+                    >
+                      Link to Jira
+                    </TMButton>
+                    <AddIssuesModal
+                      isVisible={isShowAddIssuesModal}
+                      onClose={hideAddIssuesModal}
+                      onSave={saveAddIssesModal}
+                    />
+                  </>
                 )
               }
             />

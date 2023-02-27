@@ -287,7 +287,8 @@ export default function useAddEditTestCase(prop) {
         testCaseId: selectedTestCase.id,
         payload: formDataFormatter(formData)
       }).then((data) => {
-        dispatch(updateTestCase(data));
+        const newData = data?.test_case ? data?.test_case : data;
+        dispatch(updateTestCase(newData));
         hideTestCaseAddEditPage(null, true);
       });
     }

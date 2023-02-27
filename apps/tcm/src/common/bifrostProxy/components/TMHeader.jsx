@@ -33,20 +33,24 @@ const TMHeader = () => (
           link: TEST_RUNS_LINK
         },
         {
-          name: 'Integrate Test Observability',
-          link: 'https://www.browserstack.com/docs/test-management/integrations/test-observability'
-        },
-        {
-          name: 'Upload JUnit-XML/BDD-JSON Reports',
-          link: TEST_RUNS_LINK
-        },
-        {
           name: 'Quick Import Data',
           link: 'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
         },
         {
           name: 'Dashboard Analytics',
           link: 'https://www.browserstack.com/docs/test-management/features/dashboard'
+        },
+        {
+          name: 'Integrate Test Observability',
+          link: 'https://www.browserstack.com/docs/test-management/integrations/test-observability'
+        },
+        {
+          name: 'Upload JUnit-XML Reports',
+          link: TEST_RUNS_LINK
+        },
+        {
+          name: 'Upload BDD-JSON Reports',
+          link: TEST_RUNS_LINK
         },
         {
           name: '2-way Jira Integration',
@@ -58,8 +62,8 @@ const TMHeader = () => (
       title: 'Overview',
       options: [
         {
-          name: 'Why use Test Management?',
-          link: 'https://www.browserstack.com/docs/test-management/'
+          name: 'Why Test Management?',
+          link: 'https://www.browserstack.com/docs/test-management/overview/what-is-test-management'
         },
         {
           name: 'Unify your Testing',
@@ -68,19 +72,19 @@ const TMHeader = () => (
       ]
     }}
     others={{
-      title: 'References',
+      title: 'Automation Runs',
       options: [
         {
-          name: 'Documentation',
-          link: 'https://www.browserstack.com/docs/test-management/'
+          name: 'Manual Test Runs',
+          link: 'https://www.browserstack.com/docs/test-management/features/test-runs#manual-test-runs'
         },
         {
-          name: 'Contact Support',
-          link: 'https://www.browserstack.com/contact'
+          name: 'Automation Test Runs',
+          link: 'https://www.browserstack.com/docs/test-management/features/test-runs#automation-test-runs'
         }
       ]
     }}
-    documentationLink="https://www.browserstack.com/docs/test-management/"
+    documentationLink="https://www.browserstack.com/docs/test-management/overview/what-is-test-management"
     supportLink="https://www.browserstack.com/contact"
     // showTestInsights
     // beamerProductId="XxcUulZf52793"
