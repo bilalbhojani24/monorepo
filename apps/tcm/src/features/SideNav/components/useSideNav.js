@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
@@ -13,6 +13,7 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
+  const selectMenuRef = useRef();
   const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -147,6 +148,7 @@ export default function useSideNav() {
   }, []);
 
   return {
+    selectMenuRef,
     isAllProjectsLoading,
     showAddProject,
     primaryNavs,

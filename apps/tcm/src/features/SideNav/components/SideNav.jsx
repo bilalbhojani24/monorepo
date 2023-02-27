@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+// import { Virtuoso } from 'react-virtuoso';
 import {
   MdOutlineAddBox,
   SelectMenu,
@@ -23,6 +24,7 @@ const SideNav = (props) => {
   const { importStatus } = props;
   const location = useLocation();
   const {
+    // selectMenuRef,
     isAllProjectsLoading,
     onLinkChange,
     showAddProject,
@@ -75,6 +77,23 @@ const SideNav = (props) => {
                   >
                     <SelectMenuTrigger placeholder="Select.." />
                     <SelectMenuOptionGroup>
+                      {/* <Virtuoso
+                        customScrollParent={
+                          selectMenuRef.current || document.body
+                        }
+                        data={allProjectsDrop}
+                        // endReached={loadMore}
+                        overscan={100}
+                        itemContent={(index, item) => (
+                          <SelectMenuOptionItem
+                            key={item.value}
+                            option={item}
+                          />
+                        )}
+                        // components={{
+                        //   Footer: isLoadingMore ? LoadingFooter : null
+                        // }}
+                      /> */}
                       {allProjectsDrop.map((item) => (
                         <SelectMenuOptionItem key={item.value} option={item} />
                       ))}
