@@ -57,7 +57,7 @@ const useAddIssuesModal = ({ isVisible, onClose, onSave }) => {
     if (isVisible && !jiraConfig) {
       getJIRAConfigAPI().then((e) => {
         setJiraConfig(e?.success ? e : null);
-        setIntegerationUrl(e.integration_url);
+        setIntegerationUrl(e?.integration_url);
         setIsLoading(false);
       });
     }
