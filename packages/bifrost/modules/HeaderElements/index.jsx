@@ -421,6 +421,7 @@ const HeaderElements = ({
       size="lg"
       key={elementOptions.name}
       wrapperClassName="py-0"
+      triggerOnTouch
     >
       <div
         className={twClassNames(
@@ -475,6 +476,7 @@ const HeaderElements = ({
           size="lg"
           key={element.name}
           wrapperClassName="py-0"
+          triggerOnTouch
         >
           <div
             className={twClassNames(

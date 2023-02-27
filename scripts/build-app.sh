@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Define an array of project directories
 projects=(
@@ -7,22 +8,21 @@ projects=(
   "packages/bifrost"
 )
 
-echo "Taking current pre-master pull..."
-git pull origin pre-master
-echo "Taking pull completed..."
-
-echo "Installing packages started..."
-pnpm install
-echo "Installing packages completed..."
-
 # Loop through each project and build the React app
 for project in "${projects[@]}"
 do
   echo "Building $project..."
   cd "$project" || exit
   pnpm run build
-  cd ..
-  cd ..
+  cd ../..
 done
 
-echo "All projects built!"
+#Generate Product path and run pnpm build 
+export PRODUCT_NAME=$1
+export PRODUCT_PATH="apps/${PRODUCT_NAME}"
+
+echo "$PRODUCT_PATH"
+cd "$PRODUCT_PATH"
+pnpm run build
+
+echo "Product projects built!"

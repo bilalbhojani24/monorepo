@@ -32,6 +32,7 @@ const HeaderProductContainer = () => {
         'group flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
       )}
       href={productLink}
+      key={productName}
     >
       <span>{productIcon}</span>
       <div className={twClassNames('flex flex-col items-start p-0 w-48 h-10')}>
@@ -259,6 +260,7 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(
@@ -308,6 +310,7 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(
