@@ -42,7 +42,7 @@ const MiniDetails = () => {
                 </span>
                 {!isTestRunDetailsLoading && (
                   <TMBadge
-                    wrapperClassName="ml-1"
+                    wrapperClassName="ml-1 pointer-events-none"
                     text={isPassed ? 'Passed' : 'Failed'}
                     modifier={isPassed ? 'success' : 'error'}
                     size="large"
