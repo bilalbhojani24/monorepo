@@ -30,10 +30,17 @@ const TestCaseDetailsView = ({
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testCaseId]);
+
+  useEffect(
+    () => () => {
+      hideTestCaseViewDrawer(true);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <TMSlideover

@@ -44,9 +44,9 @@ export default function useTestCaseView({
     }
   };
 
-  const hideTestCaseViewDrawer = () => {
+  const hideTestCaseViewDrawer = (isSilentClose) => {
     dispatch(setTestCaseViewVisibility(false));
-    onDetailsClose?.();
+    onDetailsClose?.(isSilentClose);
   };
 
   const actionHandler = (selectedOption) => {
@@ -58,7 +58,10 @@ export default function useTestCaseView({
           projectId: testCaseDetails?.project_id,
           folderId: testCaseDetails?.test_case_folder_id,
           testCaseId: testCaseDetails?.id
-        })
+        }),
+        {
+          replace: true
+        }
       );
     } else onDropDownChange(selectedOption, testCaseDetails);
   };
