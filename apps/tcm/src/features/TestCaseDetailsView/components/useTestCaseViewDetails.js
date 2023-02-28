@@ -75,8 +75,7 @@ export default function useTestCaseViewDetails() {
       testCaseId: newTestCaseDetails.id,
       payload: { test_case: newTestCaseDetails }
     }).then((data) => {
-      const newData = data?.test_case ? data?.test_case : data;
-      dispatch(setTestCaseDetails(newData));
+      dispatch(setTestCaseDetails(data?.data?.test_case));
       hideAddIssuesModal();
     });
   };

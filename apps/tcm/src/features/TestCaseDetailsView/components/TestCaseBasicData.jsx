@@ -158,21 +158,18 @@ const TestCaseBasicData = () => {
                     </div>
                   ) : (
                     <>
-                      --
-                      <div className="hidden">
-                        <TMButton
-                          type="submit"
-                          variant="minimal"
-                          onClick={showAddIssuesModal}
-                        >
-                          Link to Jira
-                        </TMButton>
-                        <AddIssuesModal
-                          isVisible={isShowAddIssuesModal}
-                          onClose={hideAddIssuesModal}
-                          onSave={saveAddIssesModal}
-                        />
-                      </div>
+                      <TMButton
+                        type="submit"
+                        variant="minimal"
+                        onClick={showAddIssuesModal}
+                      >
+                        Link to Jira
+                      </TMButton>
+                      <AddIssuesModal
+                        isVisible={isShowAddIssuesModal}
+                        onClose={hideAddIssuesModal}
+                        onSave={saveAddIssesModal}
+                      />
                     </>
                   )
                 }
