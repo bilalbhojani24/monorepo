@@ -76,8 +76,9 @@ const TestCasesTable = () => {
       key: 'status',
       cell: (rowData) => (
         <TMSelectMenu
+          placeholder="Not Started"
           checkPosition="right"
-          triggerWrapperClassName="border-none shadow-none pr-4"
+          triggerWrapperClassName="border-none shadow-none pr-6"
           options={STATUS_OPTIONS.map((el) => ({
             label: (
               <div>
