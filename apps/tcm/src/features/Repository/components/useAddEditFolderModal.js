@@ -9,7 +9,7 @@ import {
   renameFolder
 } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   injectFolderToParent,
@@ -160,6 +160,10 @@ export default function useAddEditFolderModal(prop) {
           variant: 'success'
         })
       );
+
+      if (projectId === 'new') {
+        dispatch(addGlobalProject(item.data.project));
+      }
       hideFolderModal();
     });
   };

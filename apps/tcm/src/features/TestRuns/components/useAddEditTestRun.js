@@ -8,7 +8,7 @@ import {
   getTestRunDetailsAPI
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -234,6 +234,7 @@ const useAddEditTestRun = () => {
         );
 
         if (projectId === 'new') {
+          dispatch(addGlobalProject(data.data.project));
           navigate(
             `${routeFormatter(AppRoute.TEST_RUNS, {
               projectId: data.data.testrun?.project_id
