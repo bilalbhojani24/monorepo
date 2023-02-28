@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -32,8 +32,6 @@ const PreviewAndConfirm = () => {
   } = usePreviewAndConfirm();
 
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -60,9 +58,7 @@ const PreviewAndConfirm = () => {
   useEffect(() => {
     if (confirmCSVImportNotificationConfig.status === 'success') {
       navigate({
-        pathname: `/projects/${queryParams.get(
-          'project'
-        )}/folder/${queryParams.get('folder')}/test-cases`
+        pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

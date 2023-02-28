@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -22,8 +21,6 @@ import EditProjects from './EditProjects';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
-  const navigate = useNavigate();
-
   const {
     isLoading,
     currentPage,
@@ -155,25 +152,6 @@ const AllProjects = () => {
         heading="All Projects"
         actions={
           <>
-            <TMButton
-              wrapperClassName="sr-only"
-              onClick={() =>
-                navigate({
-                  pathname: 'projects/import'
-                })
-              }
-            />
-            <TMButton
-              wrapperClassName="sr-only"
-              onClick={() =>
-                navigate({
-                  pathname: '/import/csv',
-                  search: '?project=1&folder=1'
-                })
-              }
-            >
-              Import CSV
-            </TMButton>
             <div className="flex">
               <TMButton
                 variant="primary"
