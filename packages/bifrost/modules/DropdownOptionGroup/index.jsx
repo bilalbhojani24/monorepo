@@ -10,7 +10,7 @@ const DropdownOptionGroup = ({ children, wrapperClassName }) => {
   const { align, side } = useContext(DropdownContextData);
 
   return (
-    <Popover.Portal forceMount>
+    <Popover.Portal>
       <Popover.Content asChild side={side} align={align}>
         <Transition
           as={Fragment}

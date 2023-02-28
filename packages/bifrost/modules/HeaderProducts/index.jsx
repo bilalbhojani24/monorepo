@@ -10,28 +10,25 @@ import ToolTip from '../Tooltip';
 
 import './styles.scss';
 
-const PRODUCT_ARRAY = [
-  { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
-  { name: 'Automate', link: 'https://automate.browserstack.com' },
-  { name: 'App Live', link: 'https://app-live.browserstack.com/dashboard' }
-];
-
-const HeaderProducts = ({ wrapperClassName, productCount }) => (
+const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => (
   <div
-    className={twClassNames('flex flex-row items-center p-0', wrapperClassName)}
+    className={twClassNames(
+      'flex flex-row items-center p-0 max-[1024px]:hidden',
+      wrapperClassName
+    )}
   >
     {Array.from(Array(productCount), (e, index) => (
       <Hyperlink
         wrapperClassName={twClassNames('flex flex-row items-center py-2 px-3')}
-        href={PRODUCT_ARRAY[index].link}
+        href={productArray[index]?.link}
         key={index}
       >
         <p
           className={twClassNames(
-            'not-italic font-medium text-sm leading-5 text-base-300'
+            'not-italic font-medium text-sm leading-5 text-base-300 hover:text-base-100 float-left whitespace-nowrap'
           )}
         >
-          {PRODUCT_ARRAY[index].name}
+          {productArray[index]?.name}
         </p>
       </Hyperlink>
     ))}
@@ -42,8 +39,9 @@ const HeaderProducts = ({ wrapperClassName, productCount }) => (
       placementSide="bottom"
       size="5xl"
       wrapperClassName="py-0"
+      triggerOnTouch
     >
-      <div className={twClassNames('flex flex-row items-center p-0')}>
+      <div className={twClassNames('group flex flex-row items-center p-0')}>
         <div
           className={twClassNames(
             'flex flex-row items-center py-2 px-3 gap-1.5'
@@ -60,20 +58,22 @@ const HeaderProducts = ({ wrapperClassName, productCount }) => (
           >
             <p
               className={twClassNames(
-                'not-italic font-medium text-sm leading-5 text-base-300 max-[1360px]:hidden'
+                'not-italic font-medium text-sm leading-5 text-base-300 max-[1360px]:hidden group-hover:text-base-100'
               )}
             >
               More
             </p>
             <p
               className={twClassNames(
-                'not-italic font-medium text-sm leading-5 text-base-300 min-[1361px]:hidden'
+                'not-italic font-medium text-sm leading-5 text-base-300 min-[1361px]:hidden group-hover:text-base-100'
               )}
             >
               Products
             </p>
             <ChevronDownIcon
-              className={twClassNames('text-base-400 h-5 w-5')}
+              className={twClassNames(
+                'text-base-400 h-5 w-5 group-hover:text-base-100'
+              )}
               aria-hidden="true"
             />
           </div>
@@ -85,11 +85,15 @@ const HeaderProducts = ({ wrapperClassName, productCount }) => (
 
 HeaderProducts.propTypes = {
   wrapperClassName: PropTypes.string,
-  productCount: PropTypes.number
+  productCount: PropTypes.number,
+  productArray: PropTypes.arrayOf(
+    PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
+  )
 };
 HeaderProducts.defaultProps = {
   wrapperClassName: '',
-  productCount: 0
+  productCount: 0,
+  productArray: []
 };
 
 export default HeaderProducts;

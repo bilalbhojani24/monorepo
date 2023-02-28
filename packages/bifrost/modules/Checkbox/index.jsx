@@ -75,7 +75,11 @@ const Checkbox = (props) => {
         {data ? (
           <div
             className={twClassNames('min-w-0 flex-1 text-sm', {
-              'ml-3': position === CHECKBOX_POSITION_VARIANT.left
+              'ml-3':
+                position === CHECKBOX_POSITION_VARIANT.left &&
+                (data.label ||
+                  (data.description &&
+                    description !== CHECKBOX_DESCRIPTION_VARIANT.none))
             })}
           >
             <label
@@ -91,8 +95,10 @@ const Checkbox = (props) => {
             <p
               id={`${name}-${data.value}`}
               className={twClassNames('text-base-500', {
-                'inline ml-2':
-                  description === CHECKBOX_DESCRIPTION_VARIANT.inline,
+                'ml-2':
+                  description === CHECKBOX_DESCRIPTION_VARIANT.inline &&
+                  data.label,
+                inline: description === CHECKBOX_DESCRIPTION_VARIANT.inline,
                 block: description === CHECKBOX_DESCRIPTION_VARIANT.block,
                 hidden: description === CHECKBOX_DESCRIPTION_VARIANT.none
               })}
@@ -121,9 +127,15 @@ Checkbox.propTypes = {
   border: PropTypes.bool,
   checked: PropTypes.bool,
   data: PropTypes.shape({
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ]),
     value: PropTypes.string.isRequired,
-    description: PropTypes.string
+    description: PropTypes.oneOf([
+      PropTypes.string.isRequired,
+      PropTypes.node.isRequired
+    ])
   }),
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
