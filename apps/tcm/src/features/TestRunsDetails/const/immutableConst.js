@@ -34,7 +34,7 @@ export const STATUS_OPTIONS = [
   },
   {
     label: 'Blocked',
-    color: ACTIVE_TEST_RUNS_COLOR.Blocked,
+    color: '#818CF8',
     value: 'blocked'
   },
   {
