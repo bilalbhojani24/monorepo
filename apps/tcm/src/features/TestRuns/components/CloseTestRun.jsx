@@ -6,12 +6,13 @@ import {
   TMModalFooter,
   TMModalHeader
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import useMiscConnections from './useMiscConnections';
 
-const CloseTestRun = () => {
+const CloseTestRun = ({ updateCb }) => {
   const { closeAll, closeTestRunHandler, isCloseTRVisible } =
-    useMiscConnections();
+    useMiscConnections({ updateCb });
 
   return (
     <TMModal
@@ -52,8 +53,12 @@ const CloseTestRun = () => {
   );
 };
 
-CloseTestRun.propTypes = {};
+CloseTestRun.propTypes = {
+  updateCb: PropTypes.func
+};
 
-CloseTestRun.defaultProps = {};
+CloseTestRun.defaultProps = {
+  updateCb: () => {}
+};
 
 export default CloseTestRun;

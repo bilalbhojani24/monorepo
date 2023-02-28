@@ -28,7 +28,8 @@ const TopSection = () => {
     testRunId,
     showIssuesHandler,
     testRunDetails,
-    onDropDownChange
+    onDropDownChange,
+    fetchTestRunDetails
   } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
@@ -136,7 +137,7 @@ const TopSection = () => {
           </div>
         }
       />
-      <CloseTestRun />
+      <CloseTestRun updateCb={() => fetchTestRunDetails(true)} />
       <DeleteTestRun redirectToDetails />
     </div>
   );
