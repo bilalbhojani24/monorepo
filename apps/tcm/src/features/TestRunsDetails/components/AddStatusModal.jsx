@@ -47,6 +47,7 @@ const AddStatusModal = () => {
           <div className="mb-4 max-w-xs">
             <TMSelectMenu
               label="Status"
+              checkPosition="right"
               placeholder="Choose from options"
               options={STATUS_OPTIONS.map((el) => ({
                 label: (
