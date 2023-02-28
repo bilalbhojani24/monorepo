@@ -37,7 +37,9 @@ const HeaderElements = ({
   showTestInsights,
   beamerProductId,
   beamerOverlayTopProperty,
-  headerElementArray
+  headerElementArray,
+  planButtonVisible,
+  isFreeUser
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -536,7 +538,7 @@ const HeaderElements = ({
           : null
       )}
       {searchSlideover}
-      {headerElementArray.includes('pricing') && (
+      {planButtonVisible && (
         <div
           className={twClassNames(
             'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1023px]:hidden'
@@ -558,7 +560,7 @@ const HeaderElements = ({
                   'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5'
                 )}
               >
-                Buy a Plan
+                {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
               </p>
             </div>
           </Hyperlink>
@@ -577,7 +579,9 @@ HeaderElements.propTypes = {
   beamerProductId: PropTypes.string,
   beamerOverlayTopProperty: PropTypes.number,
   showTestInsights: PropTypes.bool,
-  headerElementArray: PropTypes.arrayOf(PropTypes.string)
+  headerElementArray: PropTypes.arrayOf(PropTypes.string),
+  planButtonVisible: PropTypes.bool,
+  isFreeUser: PropTypes.bool
 };
 HeaderElements.defaultProps = {
   documentation: null,
@@ -588,7 +592,9 @@ HeaderElements.defaultProps = {
   beamerProductId: '',
   beamerOverlayTopProperty: 64,
   showTestInsights: true,
-  headerElementArray: []
+  headerElementArray: [],
+  planButtonVisible: true,
+  isFreeUser: true
 };
 
 export default HeaderElements;
