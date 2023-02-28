@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
-// import { initLogger } from '@browserstack/utils';
+import { initLogger, twClassNames } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
@@ -16,6 +15,10 @@ import {
   setImportConfigurations,
   setQuickImportStatus
 } from './features/quickImportFlow/slices/importSlice';
+
+if (window.initialized !== true) {
+  window.initialized = false;
+}
 
 function App() {
   const navigate = useNavigate();
@@ -43,16 +46,22 @@ function App() {
   }, [dispatch, isNotificationDismissed]);
 
   useEffect(() => {
-    // const keys = {
-    //   amplitudeKey: '',
-    //   analyticsKey: '',
-    //   EDSDetails: {
-    //     userDetails: '',
-    //     config: {}
-    //   }
-    // };
-    // initLogger(keys);
-    // logEvent([],'eventName','eventKey',{eventData},() => {}, sendToGoogleBoolean)
+    const keys = {
+      amplitudeKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd',
+      analyticsKey: 'UA-418548-19',
+      EDSDetails: {
+        userDetails: '12',
+        config: {
+          server: 'eds.browserstack.com',
+          port: '443',
+          api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+        }
+      }
+    };
+    if (window.initialized === false) {
+      initLogger(keys);
+      window.initialized = true;
+    }
   }, []);
 
   return (
