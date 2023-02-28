@@ -40,16 +40,17 @@ const Dashboard = () => {
               isLoading={isLoadingStates?.activeTR || false}
               headerInfo
               headerInfoTooltipProps={{
-                  content: (
-                      <div className="text-base-300 w-60 px-4 text-sm">
-                          This pie chart shows status of test cases in active test runs.
-                      </div>
-                  ),
-                  theme: 'dark',
-                  placementAlign: 'center',
-                  placementSide: 'bottom',
-                  size: 'xs',
-                  children: <MdInfoOutline className="h-5 w-5" />
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This pie chart shows status of test cases in active test
+                    runs.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
               }}
               title="Active Test Runs"
               wrapperClassName="bg-white relative"
@@ -88,16 +89,17 @@ const Dashboard = () => {
               isLoading={isLoadingStates?.closedTRMonthly || false}
               headerInfo
               headerInfoTooltipProps={{
-                  content: (
-                      <div className="text-base-300 w-60 px-4 text-sm">
-                          This trendline shows count of test runs closed in last 12 months.
-                      </div>
-                  ),
-                  theme: 'dark',
-                  placementAlign: 'center',
-                  placementSide: 'bottom',
-                  size: 'xs',
-                  children: <MdInfoOutline className="h-5 w-5" />
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This trendline shows count of test runs closed in last 12
+                    months.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
               }}
               title="Closed Test Runs (Last 12 Months)"
               wrapperClassName="bg-white relative"
@@ -133,16 +135,17 @@ const Dashboard = () => {
               isLoading={isLoadingStates?.closedTRDaily || false}
               headerInfo
               headerInfoTooltipProps={{
-                  content: (
-                      <div className="text-base-300 w-60 px-4 text-sm">
-                          This bar chart shows distribution of test case results across closed test runs.
-                      </div>
-                  ),
-                  theme: 'dark',
-                  placementAlign: 'center',
-                  placementSide: 'bottom',
-                  size: 'xs',
-                  children: <MdInfoOutline className="h-5 w-5" />
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This bar chart shows distribution of test case results
+                    across closed test runs.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
               }}
               title="Closed Test Runs (Last 15 days)"
               wrapperClassName="bg-white relative"
@@ -178,16 +181,16 @@ const Dashboard = () => {
               title="Type of Test Cases"
               headerInfo
               headerInfoTooltipProps={{
-                  content: (
-                      <div className="text-base-300 w-60 px-4 text-sm">
-                          This pie chart shows type of test cases in the project.
-                      </div>
-                  ),
-                  theme: 'dark',
-                  placementAlign: 'center',
-                  placementSide: 'bottom',
-                  size: 'xs',
-                  children: <MdInfoOutline className="h-5 w-5" />
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This pie chart shows type of test cases in the project.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
               }}
               wrapperClassName="bg-white relative"
               size="fit-content"
@@ -219,8 +222,8 @@ const Dashboard = () => {
               headerInfoTooltipProps={{
                 content: (
                   <div className="text-base-300 w-60 px-4 text-sm">
-                      This trendline shows type of test cases in
-                      the project over last 12 months.
+                    This trendline shows type of test cases in the project over
+                    last 12 months.
                   </div>
                 ),
                 theme: 'dark',
@@ -255,10 +258,12 @@ const Dashboard = () => {
               isLoading={isLoadingStates?.jiraIssues || false}
               headerInfo
               headerInfoTooltipProps={{
-                content: (<div className="text-base-300 w-60 px-4 text-sm" >
-                    This bar chart shows distribution of JIRA issues linked
-                    with test runs/results over last 12 months.
-                </div>),
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This bar chart shows distribution of JIRA issues linked with
+                    test runs/results over last 12 months.
+                  </div>
+                ),
                 theme: 'dark',
                 placementAlign: 'center',
                 placementSide: 'bottom',

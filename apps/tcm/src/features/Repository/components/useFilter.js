@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createSearchParams,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams
@@ -12,15 +13,18 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
+  resetFilterMeta,
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
+  setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const filterBoxRef = useRef();
   const [searchParams] = useSearchParams();
@@ -36,6 +40,9 @@ const useFilter = (prop) => {
   const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const usersArray = useSelector((state) => state.repository.usersArray);
+  const searchInitiatedFromURL = useSelector(
+    (state) => state.repository.searchInitiatedFromURL
+  );
   const tagsArray = useSelector((state) => state.repository.tagsArray);
   const filterSearchMeta = useSelector(
     (state) => state.repository.filterSearchMeta
@@ -48,18 +55,76 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const resetFilterAndSearch = () => {
-    // if no filter/search
+  const applyFilterHandler = (metaData, confirmFiltersToProceed) => {
+    const thisFilterSearchMeta = metaData || filterSearchMeta;
+
+    if (
+      confirmFiltersToProceed &&
+      !Object.values(thisFilterSearchMeta).find((item) => item.length)
+    ) {
+      // if not filter/search values then do not continue
+      return;
+    }
+
+    const queryParams = {};
+    const searchParamsTemp = {};
+    Object.keys(thisFilterSearchMeta).forEach((key) => {
+      const value = Array.isArray(thisFilterSearchMeta[key])
+        ? thisFilterSearchMeta[key].join(',')
+        : thisFilterSearchMeta[key];
+
+      if (value) {
+        searchParamsTemp[key] = value;
+        queryParams[`q[${key}]`] = value;
+      }
+    });
+
+    if (prop?.onFilterChange) {
+      prop?.onFilterChange(searchParamsTemp);
+      const count = [
+        searchParamsTemp.tags,
+        searchParamsTemp.owner,
+        searchParamsTemp.priority
+      ];
+      // updateFilterSearchMeta(filterOptions);
+      setAppliedFiltersCount(count.filter((item) => item).length);
+    } else {
+      if (!isSearchFilterView) {
+        // if initial filter/search cache the current URL;
+        dispatch(setSearchInitiatedURL(location.pathname));
+      }
+
+      navigate({
+        pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
+          projectId
+        }),
+        search: createSearchParams(searchParamsTemp).toString()
+      });
+    }
+    setFilter(false);
+  };
+
+  const resetFilterAndSearch = (forceClearAll) => {
+    if (forceClearAll) {
+      // clear search and filter
+      dispatch(resetFilterSearchMeta());
+      navigate({
+        pathname:
+          searchInitiatedFromURL ||
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId
+          })
+      });
+    } else {
+      // clear only filter
+      dispatch(resetFilterMeta());
+      applyFilterHandler({ q: filterSearchMeta?.q });
+    }
+
     if (prop?.onFilterChange) {
       prop?.onFilterChange({});
       setAppliedFiltersCount(0);
-    } else
-      navigate({
-        pathname: routeFormatter(AppRoute.TEST_CASES, {
-          projectId
-        })
-      });
-    dispatch(resetFilterSearchMeta());
+    }
   };
 
   const fetchFilteredCases = (filterOptions, page) => {
@@ -94,7 +159,7 @@ const useFilter = (prop) => {
         dispatch(updateTestCasesListLoading(false));
         dispatch(updateFoldersLoading(false));
       });
-    } else if (isSearchFilterView) resetFilterAndSearch();
+    } else if (isSearchFilterView) resetFilterAndSearch(true);
   };
 
   const getFilterOptions = (thisParams) => {
@@ -108,40 +173,6 @@ const useFilter = (prop) => {
       priority: priority?.split(',') || [],
       q: q || ''
     };
-  };
-
-  const applyFilterHandler = () => {
-    const queryParams = {};
-    const searchParamsTemp = {};
-    Object.keys(filterSearchMeta).forEach((key) => {
-      const value = Array.isArray(filterSearchMeta[key])
-        ? filterSearchMeta[key].join(',')
-        : filterSearchMeta[key];
-
-      if (value) {
-        searchParamsTemp[key] = value;
-        queryParams[`q[${key}]`] = value;
-      }
-    });
-
-    if (prop?.onFilterChange) {
-      prop?.onFilterChange(searchParamsTemp);
-      const count = [
-        searchParamsTemp.tags,
-        searchParamsTemp.owner,
-        searchParamsTemp.priority
-      ];
-      // updateFilterSearchMeta(filterOptions);
-      setAppliedFiltersCount(count.filter((item) => item).length);
-    } else {
-      navigate({
-        pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
-          projectId
-        }),
-        search: createSearchParams(searchParamsTemp).toString()
-      });
-    }
-    setFilter(false);
   };
 
   const filterChangeHandler = (filterType, data) => {

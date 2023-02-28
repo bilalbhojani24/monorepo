@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMBadge,
@@ -7,8 +8,9 @@ import {
   TMDropdown,
   TMEmptyState
 } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
-import { formatTime } from 'utils/helperFunctions';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import { RESULTS_DROP_OPTIONS } from '../const/testCaseViewConst';
 
@@ -24,7 +26,13 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
       key: 'test_run_id',
       cell: (rowData) => (
         <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</div>
+          <Link
+            to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+              projectId: testCaseDetails?.project_id,
+              testRunId: rowData?.test_run_id
+            })}
+            className="text-base-900 font-medium"
+          >{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</Link>
           <div className="text-base-500">
             {formatTime(rowData.created_at, 'time')}
           </div>

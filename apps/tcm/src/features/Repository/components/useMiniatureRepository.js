@@ -64,7 +64,6 @@ const useMiniatureRepository = ({ projectId }) => {
         })
         .catch(() => {
           // if page error, reset p=1
-          // setSearchParams({});
         });
     } else {
       setIsSearchFilterView(false);

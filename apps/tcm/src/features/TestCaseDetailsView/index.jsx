@@ -30,10 +30,17 @@ const TestCaseDetailsView = ({
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testCaseId]);
+
+  useEffect(
+    () => () => {
+      hideTestCaseViewDrawer(true);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <TMSlideover
@@ -48,7 +55,9 @@ const TestCaseDetailsView = ({
       size="md"
     >
       <TMSlideoverHeader
-        heading="Test Case Details"
+        isEllipsisHeader={false}
+        headingWrapperClassName="text-sm text-base-700 flex justify-center items-center"
+        heading="TEST CASE DETAILS"
         isBorder
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
