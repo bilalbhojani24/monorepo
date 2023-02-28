@@ -159,11 +159,19 @@ const useMapFields = () => {
         }),
         {}
       );
+      const allowedValueNameToDisplayMapper = field.allowed_types?.reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.name]: item.display_name
+        }),
+        {}
+      );
       return {
         ...mapObject,
         [name]: {
           allowedValueDisplayOptions,
-          allowedValueDisplayToNameMapper
+          allowedValueDisplayToNameMapper,
+          allowedValueNameToDisplayMapper
         }
       };
     },
@@ -217,7 +225,7 @@ const useMapFields = () => {
       setFieldsMappingThunk({
         key: field,
         value: mapDisplayToName[selectedOption.label],
-        label: selectedOption.label
+        mapper: mapNameToDisplay
       })
     );
 
