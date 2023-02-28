@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import classNames from 'classnames';
-import { TMDataVisualization, TMPageHeadings } from 'common/bifrostProxy';
+import {
+  TMAlerts,
+  TMDataVisualization,
+  TMPageHeadings
+} from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
@@ -14,6 +18,7 @@ variablePie(Highcharts);
 
 const Dashboard = () => {
   const {
+    isAllDashboadEmpty,
     isLoadingStates,
     projectId,
     testCaseTypesOptions,
@@ -34,7 +39,13 @@ const Dashboard = () => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
-        <div className="flex w-full gap-4">
+        <TMAlerts
+          show={isAllDashboadEmpty}
+          title="Currently, there is no data available in this project."
+          linkText={null}
+          modifier="primary"
+        />
+        <div className="mt-4 flex w-full gap-4">
           <div className="relative w-1/2 flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.activeTR || false}

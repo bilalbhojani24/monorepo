@@ -232,13 +232,14 @@ export default function useAddEditTestCase(prop) {
             dispatch(updateFoldersLoading(false));
           }
 
-          dispatch(
-            addNotificaton({
-              id: `project_created${testCaseData?.id}`,
-              title: `'New Project': Project created`,
-              variant: 'success'
-            })
-          );
+          if (projectId === 'new')
+            dispatch(
+              addNotificaton({
+                id: `project_created${testCaseData?.id}`,
+                title: `'New Project': Project created`,
+                variant: 'success'
+              })
+            );
 
           navigate(
             routeFormatter(AppRoute.TEST_CASES, {
