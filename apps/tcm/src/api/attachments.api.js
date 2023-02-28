@@ -13,5 +13,5 @@ export const imageUploadRTEHandlerAPI = async ({ projectId, files }) => {
     formData
   );
 
-  return res.data.url;
+  return { src: res.data.url, 'data-id': res.data['data-id'] };
 };
