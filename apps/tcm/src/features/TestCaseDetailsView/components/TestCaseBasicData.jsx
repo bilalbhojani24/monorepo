@@ -95,12 +95,12 @@ const TestCaseBasicData = () => {
                 }
               />
             </div>
-            <div className="w-3/6">
+            {/* <div className="w-3/6">
               <DetailsSnippet
                 title="Estimate"
                 value={testCaseDetails?.estimate || '--'}
               />
-            </div>
+            </div> */}
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
@@ -149,7 +149,9 @@ const TestCaseBasicData = () => {
                           text={item.jira_id}
                           size="extra-small"
                           colors="white"
-                          icon={<SiJirasoftware className="h-4 w-4" />}
+                          icon={
+                            <SiJirasoftware className="text-brand-600 h-4 w-4" />
+                          }
                         >
                           {item.jira_id}
                         </TMButton>
@@ -293,7 +295,9 @@ const TestCaseBasicData = () => {
                             text={item.jira_id}
                             size="extra-small"
                             colors="white"
-                            icon={<SiJirasoftware className="h-4 w-4" />}
+                            icon={
+                              <SiJirasoftware className="text-brand-600 h-4 w-4" />
+                            }
                           >
                             {item.jira_id}
                           </TMButton>
