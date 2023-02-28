@@ -74,7 +74,7 @@ export default function useDeleteTestCase() {
       dispatch(
         addNotificaton({
           id: `test_cases_deleted`,
-          title: `Test Cases deleted`,
+          title: `${bulkSelection?.ids?.length} Test cases deleted`,
           variant: 'success'
         })
       );

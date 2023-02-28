@@ -8,7 +8,7 @@ import {
 export const WARNING_DATA = {
   id: 'import-project-warning',
   title:
-    'Import activity still in progress. We will notify you once it completes',
+    'Import activity still in progress. We will notify you once it completes.',
   isCondensed: true,
   description: '',
   headerIcon: <AccessTimeFilledIcon className="text-attention-400" />,
@@ -17,7 +17,7 @@ export const WARNING_DATA = {
 
 export const SUCCESS_DATA = {
   id: 'import-project-success',
-  title: 'Project Imported Successfully',
+  title: 'Project imported successfully',
   description:
     'Congratulations, all your selected projects have been successfully imported.',
   isCondensed: false,
@@ -29,7 +29,7 @@ export const SUCCESS_DATA = {
 
 export const FAILURE_DATA = {
   id: 'import-project-failure',
-  title: 'Project Imported',
+  title: 'Project import failed',
   description:
     'Unfortunately, due to some issues we couldn’t import your projects',
   isCondensed: false,

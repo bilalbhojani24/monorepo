@@ -44,10 +44,10 @@ const ImportCSV = () => {
   return (
     <>
       <TMPageHeadings
-        breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV' }]}
+        breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV file' }]}
         breadcrumbWrapperClassName="cursor-pointer"
         onBreadcrumbClick={handleBreadcrumbClick}
-        heading="Import via CSV"
+        heading="Import via CSV file"
       />
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div

@@ -40,8 +40,8 @@ const Repository = ({ isSearch }) => {
       notify(
         <Notifications
           id="import-csv-success"
-          title="Data Imported"
-          description={`${totalImportedProjectsInPreview} test cases have been imported successfully.`}
+          title="CSV data imported"
+          description={`${totalImportedProjectsInPreview} test cases have been imported successfully`}
           headerIcon={<CheckCircleRoundedIcon className="text-success-500" />}
           handleClose={(toastData) => {
             notify.remove(toastData.id);
