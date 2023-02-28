@@ -28,13 +28,17 @@ const DeleteFolder = ({ show }) => {
         icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideFolderModal}>
+        <TMButton
+          variant="primary"
+          colors="white"
+          onClick={hideFolderModal}
+          ref={modalFocusRef}
+        >
           Cancel
         </TMButton>
         <TMButton
           variant="primary"
           colors="danger"
-          ref={modalFocusRef}
           wrapperClassName="ml-3"
           onClick={deleteFolderHandler}
         >
