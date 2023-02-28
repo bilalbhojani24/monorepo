@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import { setSelectedProject } from 'globalSlice';
 
 import AppRoute from '../../../const/routes';
 import {
@@ -45,6 +46,15 @@ const Import = () => {
       return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
+
+  useEffect(() => {
+    dispatch(setNotificationData(null));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (projectId) dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   if (!importStatus || importStatus === 'ongoing')
     return (
