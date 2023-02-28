@@ -52,7 +52,7 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
               <p className="text-base-600 mb-4 text-sm">
                 Here are all the tags linked to this test run:
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 {tagsArray.map((item) => (
                   <TMBadge
                     text={item}
