@@ -126,7 +126,7 @@ const AddEditTestCase = () => {
                 inputError?.name ? "This field can't be left empty" : ''
               }
             />
-            {scheduledFolder.length && (
+            {scheduledFolder.length ? (
               <div className="mt-2.5 flex w-full">
                 <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
                 <div className="text-base-500 ml-1 break-all text-xs">
@@ -141,7 +141,7 @@ const AddEditTestCase = () => {
                   </TMTruncateText>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
           <div className="w-1/4">
             <TMSelectMenu

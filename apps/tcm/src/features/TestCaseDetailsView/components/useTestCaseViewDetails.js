@@ -81,14 +81,26 @@ export default function useTestCaseViewDetails() {
     });
   };
 
-  // const imageClickOpener = (e) => {
-  //   debugger;
-  // };
+  const imageClickOpener = (e) => {
+    const imageURL = e?.currentTarget?.getAttribute('src');
+    if (imageURL) {
+      setImageLink(imageURL);
+      setImagePreviewVisibility(true);
+    }
+  };
 
-  // useEffect(() => {
-  //   debugger;
-  //   console.log(detailsRef.current);
-  // }, [detailsRef]);
+  useEffect(() => {
+    if (detailsRef.current) {
+      const imageElements = detailsRef.current.querySelectorAll('img');
+      if (imageElements) {
+        imageElements.forEach((item) => {
+          item.addEventListener('click', imageClickOpener);
+          // eslint-disable-next-line no-param-reassign
+          item.style.cursor = 'pointer';
+        });
+      }
+    }
+  }, [detailsRef]);
 
   return {
     detailsRef,
@@ -108,7 +120,6 @@ export default function useTestCaseViewDetails() {
     isShowAddIssuesModal,
     showAddIssuesModal,
     hideAddIssuesModal,
-    saveAddIssesModal,
-    imageClickOpener
+    saveAddIssesModal
   };
 }
