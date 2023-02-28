@@ -339,18 +339,34 @@ export default function useAddEditTestCase(prop) {
       }
 
       setUploadProgress(true);
-      uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
-        const uploadedFiles = files.filter((thisItem) => thisItem.id);
-        for (let idx = 0; idx < selectedFiles.length; idx += 1) {
-          uploadedFiles.push({
-            name: selectedFiles[idx].name,
-            id: item.generic_attachment[idx]
-          });
-        }
-        // update with id
-        handleTestCaseFieldChange('attachments', uploadedFiles);
-        setUploadProgress(false);
-      });
+      uploadFilesAPI({ projectId, payload: filesData })
+        .then((item) => {
+          const uploadedFiles = files.filter((thisItem) => thisItem.id);
+          for (let idx = 0; idx < selectedFiles.length; idx += 1) {
+            uploadedFiles.push({
+              name: selectedFiles[idx].name,
+              id: item.generic_attachment[idx]
+            });
+          }
+          // update with id
+          handleTestCaseFieldChange('attachments', uploadedFiles);
+          setUploadProgress(false);
+        })
+        .catch((err) => {
+          handleTestCaseFieldChange(
+            'attachments',
+            files.filter((item) => item.id)
+          );
+          setUploadProgress(false);
+          dispatch(
+            addNotificaton({
+              id: `error-upload${Math.random()}`,
+              title: err.response.statusText || 'File upload',
+              variant: 'error',
+              description: null
+            })
+          );
+        });
     }
   };
 
