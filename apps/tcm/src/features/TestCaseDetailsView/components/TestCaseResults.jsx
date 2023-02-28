@@ -16,7 +16,7 @@ import { RESULTS_DROP_OPTIONS } from '../const/testCaseViewConst';
 
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
+const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
   const { testRunsDetails, testCaseDetails, testResultsArray } =
     useTestCaseViewDetails();
 
@@ -96,45 +96,49 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
     <>
       {isFromTestRun ? (
         <div className="w-full pb-8">
-          <div className="mt-8 mb-4 text-sm">
-            You can log results for this test case from the options below:
-          </div>
-          <div className="flex gap-4">
-            <TMButton
-              size="default"
-              variant="secondary"
-              colors="brand"
-              onClick={() => onResultClick(null, testCaseDetails)}
-            >
-              Add Result
-            </TMButton>
+          {resultUpdatable && (
+            <>
+              <div className="mt-8 mb-4 text-sm">
+                You can log results for this test case from the options below:
+              </div>
+              <div className="flex gap-4">
+                <TMButton
+                  size="default"
+                  variant="secondary"
+                  colors="brand"
+                  onClick={() => onResultClick(null, testCaseDetails)}
+                >
+                  Add Result
+                </TMButton>
 
-            <div className="flex">
-              <TMButton
-                onClick={() =>
-                  onResultClick({ value: 'passed' }, testCaseDetails, true)
-                }
-                size="default"
-                variant="primary"
-                colors="white"
-                wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
-              >
-                Add Pass Result
-              </TMButton>
-              <TMDropdown
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
-                triggerVariant="menu-button"
-                options={RESULTS_DROP_OPTIONS}
-                onClick={(selectedOption) =>
-                  onResultClick(
-                    { value: selectedOption.id },
-                    testCaseDetails,
-                    true
-                  )
-                }
-              />
-            </div>
-          </div>
+                <div className="flex">
+                  <TMButton
+                    onClick={() =>
+                      onResultClick({ value: 'passed' }, testCaseDetails, true)
+                    }
+                    size="default"
+                    variant="primary"
+                    colors="white"
+                    wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
+                  >
+                    Add Pass Result
+                  </TMButton>
+                  <TMDropdown
+                    triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
+                    triggerVariant="menu-button"
+                    options={RESULTS_DROP_OPTIONS}
+                    onClick={(selectedOption) =>
+                      onResultClick(
+                        { value: selectedOption.id },
+                        testCaseDetails,
+                        true
+                      )
+                    }
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           {testResultsArray?.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
@@ -175,12 +179,14 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
 };
 
 TestCaseResults.propTypes = {
-  isFromTestRun: PropTypes.func,
-  onResultClick: PropTypes.bool
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.func,
+  resultUpdatable: PropTypes.bool
 };
 
 TestCaseResults.defaultProps = {
   isFromTestRun: false,
+  resultUpdatable: false,
   onResultClick: () => {}
 };
 
