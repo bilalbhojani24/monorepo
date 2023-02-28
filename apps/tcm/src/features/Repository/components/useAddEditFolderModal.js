@@ -166,7 +166,7 @@ export default function useAddEditFolderModal(prop) {
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
-      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+      setFormError({ ...formError, nameError: 'This is a required field' });
     } else if (prop?.isSubFolder && prop?.folderId) {
       addSubFolderHandler();
     } else if (prop?.isEditFolder && prop?.folderId) {

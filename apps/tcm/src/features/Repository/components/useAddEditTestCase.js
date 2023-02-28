@@ -259,7 +259,7 @@ export default function useAddEditTestCase(prop) {
           dispatch(
             addNotificaton({
               id: `test_case_added${testCaseData?.id}`,
-              title: `'${testCaseData?.name}': Test case created`,
+              title: `${testCaseData?.identifier} : Test case created`,
               variant: 'success'
             })
           );
@@ -288,7 +288,7 @@ export default function useAddEditTestCase(prop) {
       dispatch(
         addNotificaton({
           id: `bulk_updated${projectId}${folderId}`,
-          title: `Test Cases updated`,
+          title: `${bulkSelection?.ids?.length} Test cases updated`,
           variant: 'success'
         })
       );
@@ -310,7 +310,7 @@ export default function useAddEditTestCase(prop) {
         dispatch(
           addNotificaton({
             id: `test_case_edited${newData?.id}`,
-            title: `'${newData.data?.test_case?.name}': Test case updated`,
+            title: `${newData.data?.test_case?.identifier} : Test case updated`,
             variant: 'success'
           })
         );
