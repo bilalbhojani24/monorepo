@@ -17,8 +17,8 @@ const ConrolledNestedTree = ({
   actionsEnabled,
   actionOptions,
   onActionClick,
-  selectedNodesId,
-  disabledFolders
+  selectedNodesId
+  // disabledFolders
 }) => {
   const [focused, setFocused] = useState();
   /**
@@ -38,11 +38,11 @@ const ConrolledNestedTree = ({
           isTreeOpen={item.isOpened}
         >
           <TMListTreeNode
-            nodeLabelClassName={
-              disabledFolders?.includes(parseInt(item?.id, 10))
-                ? 'opacity-25 pointer-events-none'
-                : ''
-            }
+            // nodeLabelClassName={
+            //   disabledFolders?.includes(parseInt(item?.id, 10))
+            //     ? 'opacity-25 pointer-events-none'
+            //     : ''
+            // }
             leadingIcon={
               item?.is_automation && (
                 <AutomationFolderIcon className="h-full w-full" />
@@ -62,21 +62,24 @@ const ConrolledNestedTree = ({
             }
             description=""
             hideArrowIcon={
-              disabledFolders?.includes(parseInt(item?.id, 10))
-                ? true
-                : !item?.sub_folders_count || false
+              // disabledFolders?.includes(parseInt(item?.id, 10))
+              //   ? true
+              //   :
+              !item?.sub_folders_count || false
             }
             // nodeLabelClassName="max-w-xs"
             isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
             onNodeClick={() =>
-              disabledFolders?.includes(parseInt(item?.id, 10))
-                ? null
-                : onFolderClick(item)
+              // disabledFolders?.includes(parseInt(item?.id, 10))
+              //   ? null
+              //   :
+              onFolderClick(item)
             }
             onNodeOpen={() =>
-              disabledFolders?.includes(parseInt(item?.id, 10))
-                ? null
-                : onFolderOpen(item)
+              // disabledFolders?.includes(parseInt(item?.id, 10))
+              //   ? null
+              //   :
+              onFolderOpen(item)
             }
             trailingVisualElement={
               <>
@@ -95,22 +98,22 @@ const ConrolledNestedTree = ({
               </>
             }
           />
-          {!!item?.contents &&
-            !disabledFolders?.includes(parseInt(item?.id, 10)) && (
-              <TMListTreeNodeContents isTreeOpen={item.isOpened}>
-                <ConrolledNestedTree
-                  foldersArray={item.contents}
-                  indent={1 + indent}
-                  actionsEnabled={actionsEnabled}
-                  onFolderOpen={onFolderOpen}
-                  onFolderClick={onFolderClick}
-                  onActionClick={onActionClick}
-                  actionOptions={actionOptions}
-                  selectedNodesId={selectedNodesId}
-                  disabledFolders={disabledFolders}
-                />
-              </TMListTreeNodeContents>
-            )}
+          {!!item?.contents && (
+            // !disabledFolders?.includes(parseInt(item?.id, 10)) &&
+            <TMListTreeNodeContents isTreeOpen={item.isOpened}>
+              <ConrolledNestedTree
+                foldersArray={item.contents}
+                indent={1 + indent}
+                actionsEnabled={actionsEnabled}
+                onFolderOpen={onFolderOpen}
+                onFolderClick={onFolderClick}
+                onActionClick={onActionClick}
+                actionOptions={actionOptions}
+                selectedNodesId={selectedNodesId}
+                // disabledFolders={disabledFolders}
+              />
+            </TMListTreeNodeContents>
+          )}
         </TMListTree>
       ))}
     </>
@@ -125,8 +128,8 @@ ConrolledNestedTree.propTypes = {
   onActionClick: PropTypes.func,
   onFolderClick: PropTypes.func,
   actionOptions: PropTypes.arrayOf(PropTypes.object),
-  selectedNodesId: PropTypes.arrayOf(PropTypes.number),
-  disabledFolders: PropTypes.arrayOf(PropTypes.number)
+  selectedNodesId: PropTypes.arrayOf(PropTypes.number)
+  // disabledFolders: PropTypes.arrayOf(PropTypes.number)
 };
 
 ConrolledNestedTree.defaultProps = {
@@ -137,8 +140,8 @@ ConrolledNestedTree.defaultProps = {
   onActionClick: () => {},
   onFolderClick: () => {},
   actionOptions: [],
-  selectedNodesId: [],
-  disabledFolders: []
+  selectedNodesId: []
+  // disabledFolders: []
 };
 
 export default ConrolledNestedTree;
