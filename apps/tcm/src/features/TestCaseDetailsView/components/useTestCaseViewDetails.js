@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getJIRAConfigAPI } from 'api/common.api';
 import { editTestCaseAPI } from 'api/testcases.api';
+import { setUserConfig } from 'globalSlice';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
@@ -14,6 +16,7 @@ export default function useTestCaseViewDetails() {
   const [imageLink, setImageLink] = useState(null);
   const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
+  const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
 
   const isTestCaseViewVisible = useSelector(
     (state) => state.testCaseDetails.isTestCaseViewVisible
@@ -38,6 +41,13 @@ export default function useTestCaseViewDetails() {
   const handleTabChange = (value) => {
     setTab(value);
   };
+
+  const setJiraConfig = useCallback(
+    (value) => {
+      dispatch(setUserConfig({ key: 'jira', value }));
+    },
+    [dispatch]
+  );
 
   const onAttachmentClick = (item) => {
     if (item?.url) {
@@ -75,8 +85,7 @@ export default function useTestCaseViewDetails() {
       testCaseId: newTestCaseDetails.id,
       payload: { test_case: newTestCaseDetails }
     }).then((data) => {
-      const newData = data?.test_case ? data?.test_case : data;
-      dispatch(setTestCaseDetails(newData));
+      dispatch(setTestCaseDetails(data?.data?.test_case));
       hideAddIssuesModal();
     });
   };
@@ -87,6 +96,10 @@ export default function useTestCaseViewDetails() {
       setImageLink(imageURL);
       setImagePreviewVisibility(true);
     }
+  };
+
+  const onJiraButtonClick = (jiraID) => {
+    window.open(`${jiraConfig?.data?.host}/browse/${jiraID}`);
   };
 
   useEffect(() => {
@@ -101,6 +114,14 @@ export default function useTestCaseViewDetails() {
       }
     }
   }, [detailsRef]);
+
+  useEffect(() => {
+    if (!jiraConfig) {
+      getJIRAConfigAPI().then((e) => {
+        setJiraConfig(e?.success ? e : null);
+      });
+    }
+  }, [jiraConfig, setJiraConfig]);
 
   return {
     detailsRef,
@@ -120,6 +141,7 @@ export default function useTestCaseViewDetails() {
     isShowAddIssuesModal,
     showAddIssuesModal,
     hideAddIssuesModal,
-    saveAddIssesModal
+    saveAddIssesModal,
+    onJiraButtonClick
   };
 }
