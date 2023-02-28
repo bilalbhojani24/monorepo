@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 import { setSelectedProject } from 'globalSlice';
 
 import AppRoute from '../../../const/routes';
-import { setNotificationData } from '../slices/importSlice';
+import {
+  setNotificationData,
+  setProjectIdForQuickImport
+} from '../slices/importSlice';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -16,6 +19,8 @@ import useImport from './useImport';
 
 const Import = () => {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
+  const navigate = useNavigate();
   const {
     isFromOnboarding,
     currentScreen,
@@ -24,7 +29,14 @@ const Import = () => {
     importStatus,
     onCancelClickHandler
   } = useImport();
-  const { projectId } = useParams();
+
+  useEffect(() => {
+    dispatch(setNotificationData(null));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setProjectIdForQuickImport(projectId));
+  }, [projectId, dispatch]);
 
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
@@ -57,10 +69,23 @@ const Import = () => {
         />
       </div>
     );
+
+  const handleBreadcrumbClick = (_, clickedOption) => {
+    const { name } = clickedOption;
+    if (name === 'Test Cases') navigate(-1);
+  };
+
   return (
     <>
       <TMPageHeadings
         heading="Quick Import"
+        breadcrumbs={
+          !isFromOnboarding
+            ? [{ name: 'Test Cases' }, { name: 'Quick Import' }]
+            : null
+        }
+        breadcrumbWrapperClassName="cursor-pointer"
+        onBreadcrumbClick={handleBreadcrumbClick}
         actions={
           <>
             {isFromOnboarding && (

@@ -8,7 +8,12 @@ import TestCaseMutliData from './TestCaseMutliData';
 import TestCaseTopBar from './TestCaseTopBar';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseView = ({ actionHandler, isFromTestRun, onResultClick }) => {
+const TestCaseView = ({
+  actionHandler,
+  isFromTestRun,
+  resultUpdatable,
+  onResultClick
+}) => {
   const { testCaseDetails, testCaseId } = useTestCaseViewDetails();
 
   if (
@@ -33,6 +38,7 @@ const TestCaseView = ({ actionHandler, isFromTestRun, onResultClick }) => {
           <TestCaseMutliData
             isFromTestRun={isFromTestRun}
             onResultClick={onResultClick}
+            resultUpdatable={resultUpdatable}
           />
         </div>
         {/* <div className="flex w-full justify-between">
@@ -51,12 +57,14 @@ const TestCaseView = ({ actionHandler, isFromTestRun, onResultClick }) => {
 TestCaseView.propTypes = {
   actionHandler: PropTypes.func,
   isFromTestRun: PropTypes.bool,
+  resultUpdatable: PropTypes.bool,
   onResultClick: PropTypes.bool
 };
 
 TestCaseView.defaultProps = {
   actionHandler: () => {},
   isFromTestRun: false,
+  resultUpdatable: false,
   onResultClick: () => {}
 };
 

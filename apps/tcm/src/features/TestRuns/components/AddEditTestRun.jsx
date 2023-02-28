@@ -80,7 +80,7 @@ const AddEditTestRun = ({ isEdit }) => {
               <TMButton
                 variant="primary"
                 colors="white"
-                onClick={hideAddTestRunForm}
+                onClick={() => hideAddTestRunForm()}
               >
                 Cancel
               </TMButton>

@@ -32,6 +32,9 @@ export default function useTRTCFolders() {
   const { fetchTestRunDetails } = useTestRunDetails();
   const dispatch = useDispatch();
 
+  const testRunDetails = useSelector(
+    (state) => state.testRunsDetails.fullDetails
+  );
   const isFoldersLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.isFoldersLoading
   );
@@ -189,6 +192,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    testRunDetails,
     statusError,
     testResultsArray,
     isAddIssuesModalShown,
