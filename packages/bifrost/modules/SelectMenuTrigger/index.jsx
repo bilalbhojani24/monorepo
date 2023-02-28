@@ -3,14 +3,14 @@ import { twClassNames } from '@browserstack/utils';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
-import { string } from '../../shared/proptypesConstants';
+import { node, string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { ChevronUpDownIcon } from '../Icon';
 import TruncateText from '../TruncateText';
 
 import RenderButtonChildren from './components/RenderButtonChildren';
 
-const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
+const SelectMenuTrigger = ({ placeholder, wrapperClassName, triggerIcon }) => {
   const buttonRef = useRef();
   const { isMulti, setWidth, showCount, errorText } = useContext(
     SelectMenuContextData
@@ -42,10 +42,7 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
               {isMulti && value?.length && showCount ? (
                 <span className="mr-1 font-bold">{`(${value.length})`}</span>
               ) : null}
-              <ChevronUpDownIcon
-                className="text-base-400 h-5 w-5"
-                aria-hidden="true"
-              />
+              {triggerIcon}
             </span>
           </>
         )}
@@ -56,11 +53,15 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName }) => {
 
 SelectMenuTrigger.propTypes = {
   placeholder: string,
-  wrapperClassName: string
+  wrapperClassName: string,
+  triggerIcon: node
 };
 SelectMenuTrigger.defaultProps = {
   placeholder: '',
-  wrapperClassName: ''
+  wrapperClassName: '',
+  triggerIcon: (
+    <ChevronUpDownIcon className="text-base-400 h-5 w-5" aria-hidden="true" />
+  )
 };
 
 export default SelectMenuTrigger;
