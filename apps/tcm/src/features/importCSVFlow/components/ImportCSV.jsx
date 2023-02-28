@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
 import {
@@ -18,7 +19,13 @@ import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { currentCSVScreen, importCSVSteps } = useImportCSV();
+
+  const handleBreadcrumbClick = (_, clickedOption) => {
+    const { name } = clickedOption;
+    if (name === 'Test Cases') navigate(-1);
+  };
 
   const getCurrentScreen = () => {
     if (currentCSVScreen === UPLOAD_FILE) return <UploadFile />;
@@ -37,7 +44,9 @@ const ImportCSV = () => {
   return (
     <>
       <TMPageHeadings
-        // breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV/XLS' }]}
+        breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV' }]}
+        breadcrumbWrapperClassName="cursor-pointer"
+        onBreadcrumbClick={handleBreadcrumbClick}
         heading="Import via CSV"
       />
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />

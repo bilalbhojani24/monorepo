@@ -40,9 +40,9 @@ const MapFields = () => {
     typeMapper,
     rowRef,
     valueMappings,
-    // errorLabelInMapFields,
+    errorLabelInMapFields,
     mapFieldProceedLoading,
-    // showSelectMenuErrorInMapFields,
+    showSelectMenuErrorInMapFields,
     setDefaultDropdownValue,
     handleSelectMenuChange,
     handleUpdateClick,
@@ -56,12 +56,25 @@ const MapFields = () => {
   const getMappingForLastCol = (actualName, value, mappingType) => {
     switch (mappingType) {
       case 'field_multi': // dropdown
+        // eslint-disable-next-line no-case-declarations
+        let defaultValue = {
+          label:
+            allowedValueMapper[value]?.allowedValueNameToDisplayMapper[
+              valueMappings[actualName]
+            ],
+          value:
+            allowedValueMapper[value]?.allowedValueNameToDisplayMapper[
+              valueMappings[actualName]
+            ]
+        };
+        if (!defaultValue.label)
+          defaultValue =
+            allowedValueMapper[value]?.allowedValueDisplayOptions[0];
+
         return (
           <TMSelectMenu
             checkPosition="right"
-            defaultValue={
-              allowedValueMapper[value]?.allowedValueDisplayOptions[0]
-            }
+            defaultValue={defaultValue}
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
             onChange={handleValueMappingMenuChange(actualName, value)}
           />
@@ -193,12 +206,13 @@ const MapFields = () => {
                 </TableCell>
                 <TableCell wrapperClassName="py-2 px-4 w-auto">
                   <TMSelectMenu
-                    // triggerWrapperClassName={
-                    //   row.mappedField.defaultValue.label ===
-                    //     errorLabelInMapFields && showSelectMenuErrorInMapFields
-                    //     ? 'border-danger-400'
-                    //     : ''
-                    // }
+                    triggerWrapperClassName={
+                      errorLabelInMapFields?.has(
+                        row.mappedField.defaultValue.label
+                      ) && showSelectMenuErrorInMapFields
+                        ? 'border-danger-400'
+                        : ''
+                    }
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
                     dividerIdx={1}
