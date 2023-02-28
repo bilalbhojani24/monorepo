@@ -39,7 +39,7 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
         <div className="mb-4">
           <TMInputField
             ref={modalFocusRef}
-            label="Project Name"
+            label="Project Name *"
             placeholder="Enter project name"
             value={formData.name}
             errorText={formError.nameError}

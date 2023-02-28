@@ -30,7 +30,7 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[5%]',
+      class: 'w-[7%]',
       cell: (rowData) => (
         <div
           role="button"
@@ -76,7 +76,9 @@ const TestCasesTable = () => {
       key: 'status',
       cell: (rowData) => (
         <TMSelectMenu
-          triggerWrapperClassName="border-none shadow-none pr-4"
+          placeholder="Not Started"
+          checkPosition="right"
+          triggerWrapperClassName="border-none shadow-none pr-6"
           options={STATUS_OPTIONS.map((el) => ({
             label: (
               <div>

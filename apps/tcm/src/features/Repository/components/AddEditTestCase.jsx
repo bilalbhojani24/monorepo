@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { MdFolderOpen } from '@browserstack/bifrost';
 import {
   ExpandLessOutlinedIcon,
-  ExpandMoreOutlinedIcon,
-  InfoOutlinedIcon
+  ExpandMoreOutlinedIcon
+  // InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
@@ -17,9 +17,9 @@ import {
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTooltip,
-  TMTooltipBody,
-  TMTooltipHeader,
+  // TMTooltip,
+  // TMTooltipBody,
+  // TMTooltipHeader,
   TMTruncateText
 } from 'common/bifrostProxy';
 
@@ -311,7 +311,7 @@ const AddEditTestCase = () => {
               />
             </div>
             <div className="mt-4 flex gap-4">
-              <div className="flex-1">
+              {/* <div className="flex-1">
                 <TMInputField
                   id="test-case-estimate"
                   value={testCaseFormData?.estimate}
@@ -356,7 +356,7 @@ const AddEditTestCase = () => {
                     handleTestCaseFieldChange('estimate', e.currentTarget.value)
                   }
                 />
-              </div>
+              </div> */}
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -379,8 +379,7 @@ const AddEditTestCase = () => {
                   Add / Modify Tag
                 </TMButton>
               </div>
-            </div>
-            <div className="mt-4 flex gap-4">
+
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -401,8 +400,10 @@ const AddEditTestCase = () => {
                   Add / Modify Issue
                 </TMButton>
               </div>
-              <div className="flex-1" />
             </div>
+            {/* <div className="mt-4 flex gap-4">
+              <div className="flex-1" />
+            </div> */}
             <div className="mt-4 w-full">
               <div className="flex flex-col">
                 <div className="flex w-full justify-between">

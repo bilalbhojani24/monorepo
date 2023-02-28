@@ -16,6 +16,7 @@ import useTRTCFolders from './useTRTCFolders';
 
 const AddStatusModal = () => {
   const {
+    statusError,
     projectId,
     isAddIssuesModalShown,
     issuesArray,
@@ -26,7 +27,8 @@ const AddStatusModal = () => {
     addStatusOkHandler,
     closeAll,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    setStatusError
   } = useTRTCFolders();
 
   return (
@@ -64,8 +66,16 @@ const AddStatusModal = () => {
                   (item) => item.value === addStatusFormData.status
                 )
               }
-              onChange={(e) => statusFormChangeHandler('status', e?.value)}
+              onChange={(e) => {
+                if (statusError) setStatusError(false);
+                statusFormChangeHandler('status', e?.value);
+              }}
             />
+            {statusError && (
+              <p className="text-danger-600 mt-1 text-sm">
+                This is a required field
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <TMRichTextEditor

@@ -19,7 +19,8 @@ const TMSelectMenu = ({
   value,
   isMulti,
   defaultValue,
-  triggerWrapperClassName
+  triggerWrapperClassName,
+  checkPosition
 }) => (
   <SelectMenu
     onChange={onChange}
@@ -36,6 +37,7 @@ const TMSelectMenu = ({
       {React.Children.toArray(
         options.map((item, idx) => (
           <SelectMenuOptionItem
+            checkPosition={checkPosition}
             option={item}
             wrapperClassName={
               idx === dividerIdx ? 'border-base-100 border-b' : ''
@@ -51,6 +53,7 @@ TMSelectMenu.propTypes = {
   placeholder: PropTypes.string,
   isMulti: PropTypes.bool,
   label: PropTypes.string,
+  checkPosition: PropTypes.string,
   triggerWrapperClassName: PropTypes.string,
   dividerIdx: PropTypes.number,
   options: PropTypes.arrayOf(
@@ -79,6 +82,7 @@ TMSelectMenu.defaultProps = {
   placeholder: '',
   dividerIdx: null,
   label: '',
+  checkPosition: 'left',
   triggerWrapperClassName: '',
   options: [],
   onChange: () => {},
