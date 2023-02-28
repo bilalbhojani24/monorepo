@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { NotificationsContainer } from '@browserstack/bifrost';
+import { initLogger, NotificationsContainer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
@@ -40,6 +40,19 @@ function App() {
       dispatch(setQuickImportStatus(importId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isNotificationDismissed]);
+
+  useEffect(() => {
+    const keys = {
+      amplitudeKey: '',
+      analyticsKey: '',
+      EDSDetails: {
+        userDetails: '',
+        config: {}
+      }
+    };
+    initLogger(keys);
+    // logEvent([],'eventName','eventKey',{eventData},() => {}, sendToGoogleBoolean)
+  }, []);
 
   return (
     <>
