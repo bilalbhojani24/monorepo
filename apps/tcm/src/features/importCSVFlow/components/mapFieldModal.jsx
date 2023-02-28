@@ -48,6 +48,12 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         ];
       let defaultSelected = null;
       for (let i = 0; i < displayOptions?.length; i += 1) {
+        console.log(
+          'inside loop',
+          mappedField,
+          displayOptions[i].value,
+          value[field]
+        );
         if (value[field]?.action === ADD_VALUE_VALUE) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;
@@ -58,7 +64,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           };
           break;
         } else if (
-          (mappedField === 'State' &&
+          ((mappedField === 'State' || mappedField === 'Test Case Type') &&
             displayOptions[i].value === value[field].toLowerCase()) ||
           displayOptions[i].value === value[field]
         ) {
