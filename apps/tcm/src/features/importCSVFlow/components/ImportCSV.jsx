@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TMPageHeadings } from 'common/bifrostProxy';
+import { setSelectedProject } from 'globalSlice';
 
 import {
   IMPORT_CSV_STEPS,
@@ -20,6 +21,9 @@ import useImportCSV from './useImportCSV';
 const ImportCSV = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const projectId = queryParams.get('project');
   const { currentCSVScreen, importCSVSteps } = useImportCSV();
 
   const handleBreadcrumbClick = (_, clickedOption) => {
@@ -40,6 +44,11 @@ const ImportCSV = () => {
     dispatch(setCSVConfigurations());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return (
     <>

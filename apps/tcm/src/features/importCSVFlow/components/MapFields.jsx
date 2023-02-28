@@ -172,6 +172,7 @@ const MapFields = () => {
               <TMButton
                 variant="primary"
                 onClick={handleMappingProceedClick}
+                isIconOnlyButton={mapFieldProceedLoading}
                 loading={mapFieldProceedLoading}
               >
                 Proceed

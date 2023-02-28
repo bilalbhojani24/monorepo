@@ -67,6 +67,7 @@ const UploadFile = () => {
               <TMButton
                 variant="primary"
                 onClick={handleProceedClick}
+                isIconOnlyButton={uploadFileProceedLoading}
                 loading={uploadFileProceedLoading}
               >
                 Proceed
