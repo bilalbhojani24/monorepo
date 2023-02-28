@@ -13,7 +13,7 @@ import {
   MdSearch,
   MdSubdirectoryArrowLeft
 } from '../Icon';
-import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
+// import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
 import {
@@ -89,7 +89,7 @@ const HeaderElements = ({
             'flex flex-row items-center py-0 px-2 gap-2 mb-2'
           )}
         >
-          <NotebookIcon />
+          {/* <NotebookIcon /> */}
           <p
             className={twClassNames(
               'not-italic font-semibold text-xs leading-4 text-[#333333]'
