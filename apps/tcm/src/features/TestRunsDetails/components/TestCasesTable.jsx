@@ -74,7 +74,7 @@ const TestCasesTable = () => {
     },
     {
       name: 'STATUS',
-      class: 'w-[16%]',
+      class: 'w-[13%]',
       key: 'status',
       cell: (rowData) =>
         testRunDetails?.run_state === 'closed' ? (
@@ -108,7 +108,7 @@ const TestCasesTable = () => {
           />
         ),
       // <span className="capitalize">{rowData.status}</span>,
-      maxWidth: 'max-w-[10%]'
+      maxWidth: 'max-w-[80px]'
     }
   ];
 

@@ -36,7 +36,7 @@ const DeleteTestCase = ({ show }) => {
             : 'Are you sure you want to delete this test case? All the data will be permanently deleted. This action cannot be undone.'
         }
         handleDismissClick={hideDeleteTestCaseModal}
-        Icon={WarningAmberOutlinedIcon}
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
         <TMButton
