@@ -97,6 +97,7 @@ const TopSection = () => {
                 wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
+                size="default"
                 onClick={showIssuesHandler}
               >
                 Issues
