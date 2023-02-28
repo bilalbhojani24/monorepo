@@ -4,7 +4,11 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import { TMDataTable, TMEmptyState, TMTabs } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
-import { formatTime, routeFormatter } from 'utils/helperFunctions';
+import {
+  formatTime,
+  onSubmitKeyHandler,
+  routeFormatter
+} from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
@@ -21,7 +25,8 @@ const TestCaseMutliData = ({
     selectedTab,
     projectId,
     testCaseIssues,
-    handleTabChange
+    handleTabChange,
+    onJiraButtonClick
   } = useTestCaseViewDetails();
 
   const issuesTableColumn = [
@@ -29,7 +34,15 @@ const TestCaseMutliData = ({
       name: 'Issue',
       key: 'jira_id',
       cell: (rowData) => (
-        <div className="text-base-900 font-medium">{`${rowData.jira_id}`}</div>
+        <div
+          className="text-base-900 cursor-pointer font-medium"
+          role="button"
+          tabIndex={0}
+          onClick={() => onJiraButtonClick(rowData.jira_id)}
+          onKeyDown={(e) =>
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.jira_id))
+          }
+        >{`${rowData.jira_id}`}</div>
       )
     },
     {
