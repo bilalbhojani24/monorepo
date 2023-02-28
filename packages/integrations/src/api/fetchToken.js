@@ -8,7 +8,15 @@ export const fetchToken = (url) => {
   if (hasToken) {
     return Promise.resolve(integrationsToken);
   }
-  return axios.get(url).then((response) => {
+
+  return axios({
+    method: 'get',
+    url,
+    headers: {
+      Authorization:
+        'Basic cmFqZWV2bmFpcl9DTElXYmo6OHZldTJuSHdLNGpRRlJCTWRjY2k='
+    }
+  }).then((response) => {
     cookie.create('integrations_token', response.data.access_token);
     return response;
   });

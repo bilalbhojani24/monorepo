@@ -2,9 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { getIntegrationsThunk } from '../../api/index';
 
+import { LOADING_STATUS } from './constants';
+
 const initialState = {
   listOfIntegrations: [],
-  areLoading: false,
+  loading: LOADING_STATUS.IDLE,
   error: null
 };
 
@@ -13,16 +15,17 @@ export const integrationsSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(getIntegrationsThunk.pending, (state) => {
-      state.areLoading = true;
+      state.loading = LOADING_STATUS.PENDING;
       state.listOfIntegrations = [];
       state.error = null;
     });
     builder.addCase(getIntegrationsThunk.fulfilled, (state, action) => {
-      state.areLoading = false;
-      state.listOfIntegrations.push(action.payload);
+      const integrations = action.payload.data?.integrations ?? [];
+      state.loading = LOADING_STATUS.SUCCEEDED;
+      state.listOfIntegrations = integrations;
     });
     builder.addCase(getIntegrationsThunk.rejected, (state, action) => {
-      state.areLoading = false;
+      state.loading = LOADING_STATUS.FAILED;
       state.error = action.payload;
     });
   }
@@ -32,6 +35,6 @@ export default integrationsSlice.reducer;
 
 export const integrationsSelector = (state) =>
   state.integrations.listOfIntegrations;
-export const integrationsAreLoadingSelector = (state) =>
-  state.integrations.areLoading;
+export const integrationsLoadingSelector = (state) =>
+  state.integrations.loading;
 export const integrationsHasErrorSelecor = (state) => state.integrations.error;

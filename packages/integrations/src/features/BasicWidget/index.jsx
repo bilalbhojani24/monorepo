@@ -7,18 +7,21 @@ import { fetchToken } from '../../api/index';
 import WidgetContainer from './components/DraggableResizable';
 import WidgetHeader from './components/WidgetHeader';
 
-const Widget = ({ children }) => (
-  <WidgetContainer>
-    <WidgetHeader />
-    {children}
-  </WidgetContainer>
-);
+const Widget = ({ hasToken = true, children }) =>
+  hasToken ? (
+    <WidgetContainer>
+      <WidgetHeader />
+      <div className="flex-1 bg-white p-6">{children}</div>
+    </WidgetContainer>
+  ) : null;
 
 Widget.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  hasToken: PropTypes.bool
 };
 Widget.defaultProps = {
-  children: null
+  children: null,
+  hasToken: false
 };
 
 const WidgetPortal = ({

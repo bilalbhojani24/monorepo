@@ -31,7 +31,7 @@ export const CreateIssue = ({
     <Content
       projectId={projectId}
       options={options}
-      componentKey="create_issue"
+      componentKey="create-issue"
     />
   </BasicWidget>
 );
@@ -56,9 +56,27 @@ CreateIssue.defaultProps = {
   positionRef: null
 };
 
-const CreateIssueWithProvider = () => (
+const CreateIssueWithProvider = ({
+  isOpen,
+  authUrl,
+  options,
+  position,
+  projectId,
+  positionRef,
+  handleClose
+}) => (
   <Provider store={store}>
-    <CreateIssue />
+    <CreateIssue
+      isOpen={isOpen}
+      authUrl={authUrl}
+      options={options}
+      position={position}
+      projectId={projectId}
+      positionRef={positionRef}
+      handleClose={handleClose}
+    />
   </Provider>
 );
+CreateIssueWithProvider.propTypes = CreateIssue.propTypes;
+
 export default CreateIssueWithProvider;

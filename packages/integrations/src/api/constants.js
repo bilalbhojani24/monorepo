@@ -1,4 +1,3 @@
 export const URLS = {
-  LIST_INTEGRATIONS:
-    'http://localhost:3000/integrations-service/get-integrations'
+  LIST_INTEGRATIONS: 'https://integrations.bsstag.com/api/list-integrations'
 };
