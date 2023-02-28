@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { editTestCaseAPI } from 'api/testcases.api';
@@ -7,6 +7,7 @@ import { TABS_ARRAY } from '../const/testCaseViewConst';
 import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseViewDetails() {
+  const detailsRef = useRef();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
@@ -80,7 +81,17 @@ export default function useTestCaseViewDetails() {
     });
   };
 
+  // const imageClickOpener = (e) => {
+  //   debugger;
+  // };
+
+  // useEffect(() => {
+  //   debugger;
+  //   console.log(detailsRef.current);
+  // }, [detailsRef]);
+
   return {
+    detailsRef,
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
     showImagePreview,
@@ -97,6 +108,7 @@ export default function useTestCaseViewDetails() {
     isShowAddIssuesModal,
     showAddIssuesModal,
     hideAddIssuesModal,
-    saveAddIssesModal
+    saveAddIssesModal,
+    imageClickOpener
   };
 }
