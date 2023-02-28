@@ -15,6 +15,7 @@ import {
   setCurrentTestManagementTool,
   setErrorForConfigureData,
   setImportStarted,
+  setImportStatusOngoing,
   setImportSteps,
   setJiraConfigurationStatus,
   setProjectForTestManagementImport,
@@ -220,6 +221,8 @@ const useImport = () => {
   };
 
   const handleConfirmImport = () => {
+    // dispatch(startQuickImport(currentTestManagementTool));
+    dispatch(setImportStatusOngoing());
     if (currentTestManagementTool === 'testrails') {
       importProjects('testrail', {
         ...testRailsCred,
