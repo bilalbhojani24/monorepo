@@ -2,8 +2,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { initLogger, NotificationsContainer } from '@browserstack/bifrost';
+import { NotificationsContainer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+// import { initLogger } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
@@ -42,15 +43,15 @@ function App() {
   }, [dispatch, isNotificationDismissed]);
 
   useEffect(() => {
-    const keys = {
-      amplitudeKey: '',
-      analyticsKey: '',
-      EDSDetails: {
-        userDetails: '',
-        config: {}
-      }
-    };
-    initLogger(keys);
+    // const keys = {
+    //   amplitudeKey: '',
+    //   analyticsKey: '',
+    //   EDSDetails: {
+    //     userDetails: '',
+    //     config: {}
+    //   }
+    // };
+    // initLogger(keys);
     // logEvent([],'eventName','eventKey',{eventData},() => {}, sendToGoogleBoolean)
   }, []);
 
