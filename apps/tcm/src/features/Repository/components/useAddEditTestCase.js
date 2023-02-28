@@ -304,8 +304,8 @@ export default function useAddEditTestCase(prop) {
         testCaseId: selectedTestCase.id,
         payload: formDataFormatter(formData)
       }).then((data) => {
-        const newData = data?.test_case ? data?.test_case : data;
-        dispatch(updateTestCase(newData));
+        const newData = data;
+        dispatch(updateTestCase(newData?.data?.test_case));
         dispatch(
           addNotificaton({
             id: `test_case_edited${newData?.id}`,
