@@ -28,7 +28,8 @@ const usePreviewAndConfirm = () => {
     title: data.name,
     templateType: data.template,
     owner: data.owner,
-    priority: data.priority
+    priority: data.priority,
+    type: data.case_type
   }));
 
   const handleImportTestCaseClick = () => {
