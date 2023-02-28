@@ -1,5 +1,5 @@
 import React from 'react';
-import { SiJira } from '@browserstack/bifrost';
+import { SiJirasoftware } from '@browserstack/bifrost';
 import {
   TMAttachments,
   TMBadge,
@@ -145,7 +145,7 @@ const TestCaseBasicData = () => {
                         text={item.jira_id}
                         size="extra-small"
                         colors="white"
-                        icon={<SiJira className="h-4 w-4" />}
+                        icon={<SiJirasoftware className="h-4 w-4" />}
                       >
                         {item.jira_id}
                       </TMButton>

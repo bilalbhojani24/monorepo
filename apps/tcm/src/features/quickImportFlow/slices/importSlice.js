@@ -205,9 +205,9 @@ const importSlice = createSlice({
         state.isJiraConfiguredForZephyr = false;
       else {
         state.isJiraConfiguredForZephyr = true;
-        state.zephyrCred.email = action.payload.email;
-        state.zephyrCred.host = action.payload.host;
-        state.zephyrCred.jira_key = action.payload.key;
+        state.zephyrCred.email = action.payload.data.email;
+        state.zephyrCred.host = action.payload.data.host;
+        state.zephyrCred.jira_key = action.payload.data.key;
       }
     });
     builder.addCase(setJiraConfigurationStatus.rejected, (state) => {
