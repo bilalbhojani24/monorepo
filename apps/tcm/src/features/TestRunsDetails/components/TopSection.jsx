@@ -104,11 +104,14 @@ const TopSection = () => {
               </TMButton>
             </Link>
 
-            <TMDropdown
-              triggerVariant="menu-button"
-              options={TR_DROP_OPTIONS}
-              onClick={onDropDownChange}
-            />
+            {testRunDetails?.run_state &&
+              testRunDetails.run_state !== 'closed' && (
+                <TMDropdown
+                  triggerVariant="menu-button"
+                  options={TR_DROP_OPTIONS}
+                  onClick={onDropDownChange}
+                />
+              )}
           </>
         }
         subSection={
