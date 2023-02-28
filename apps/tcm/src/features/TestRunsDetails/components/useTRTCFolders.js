@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
@@ -27,6 +28,7 @@ import useTestRunDetails from './useTestRunDetails';
 
 export default function useTRTCFolders() {
   const { projectId, testRunId } = useParams();
+  const [statusError, setStatusError] = useState(false);
   const { fetchTestRunDetails } = useTestRunDetails();
   const dispatch = useDispatch();
 
@@ -175,6 +177,10 @@ export default function useTRTCFolders() {
   };
 
   const addStatusOkHandler = () => {
+    if (addStatusFormData?.status === '') {
+      setStatusError(true);
+      return;
+    }
     const payload = { ...addStatusFormData };
     if (addStatusFormData?.issues)
       payload.issues = addStatusFormData?.issues?.map((item) => item.value);
@@ -183,6 +189,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    statusError,
     testResultsArray,
     isAddIssuesModalShown,
     issuesArray,
@@ -206,6 +213,7 @@ export default function useTRTCFolders() {
     statusFormChangeHandler,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    setStatusError
   };
 }
