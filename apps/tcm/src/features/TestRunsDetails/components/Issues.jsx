@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { TMDataTable, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import useIssues from './useIssues';
 import useTestRunDetails from './useTestRunDetails';
@@ -24,9 +24,10 @@ const Issues = () => {
       cell: (data) => <div className="text-black">{data?.jira_id}</div>
     },
     {
-      name: 'TITLE',
+      name: 'CREATED AT',
       key: 'title',
-      cell: () => '--'
+      cell: (rowData) =>
+        rowData?.created_at ? formatTime(rowData.created_at, 'date') : '--'
     },
     {
       name: '',
