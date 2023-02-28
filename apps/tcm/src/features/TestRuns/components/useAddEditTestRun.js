@@ -131,9 +131,12 @@ const useAddEditTestRun = () => {
 
   const addIssuesSaveHelper = (newIssuesArray) => {
     hideAddIssuesModal();
+    const existingIssues = testRunFormData?.test_run?.issues
+      ? testRunFormData.test_run.issues.map((item) => item.value)
+      : [];
     const updatedAllIssues = selectMenuValueMapper([
       ...new Set([
-        ...testRunFormData?.test_run?.issues.map((item) => item.value),
+        ...existingIssues,
         ...issuesArray.map((item) => item.value),
         ...newIssuesArray
       ])
