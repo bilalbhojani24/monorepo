@@ -46,11 +46,11 @@ const TMHeader = () => (
         },
         {
           name: 'Upload JUnit-XML Reports',
-          link: TEST_RUNS_LINK
+          link: 'https://www.browserstack.com/docs/test-management/integrations/curl-upload#junit-xml'
         },
         {
           name: 'Upload BDD-JSON Reports',
-          link: TEST_RUNS_LINK
+          link: 'https://www.browserstack.com/docs/test-management/integrations/curl-upload#bdd-json'
         },
         {
           name: '2-way Jira Integration',
