@@ -149,14 +149,14 @@ const ZephyrImportForm = (props) => {
                     content={
                       <TMTooltipBody>
                         <p className="text-sm">
-                          You can access your Zephyr Scale API Token from using
-                          the link below:
+                          Get Zephyr Scale API Access Token using the link
+                          below: <br />
                           <a
                             href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
                             className="mt-3 block cursor-pointer font-medium text-white underline"
                             target="new"
                           >
-                            Click here to get API Token
+                            Zephyr Scale API Access Token
                           </a>
                         </p>
                       </TMTooltipBody>
