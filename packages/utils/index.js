@@ -5,6 +5,7 @@ import getInitialAndFinalFocusableElementRef from './src/getInitialAndFinalFocus
 import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
 import makeDebounce from './src/makeDebounce';
+import pubSub from './src/pubSub';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
 export * from './src/axiosUtils';
@@ -26,5 +27,6 @@ export {
   getUniqueId,
   getUrlParams,
   makeDebounce,
+  pubSub,
   removePaddingfromBeginning
 };
