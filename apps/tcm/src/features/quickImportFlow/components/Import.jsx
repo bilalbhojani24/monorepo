@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import { setSelectedProject } from 'globalSlice';
 
 import AppRoute from '../../../const/routes';
 import { setNotificationData } from '../slices/importSlice';
@@ -23,6 +24,7 @@ const Import = () => {
     importStatus,
     onCancelClickHandler
   } = useImport();
+  const { projectId } = useParams();
 
   const getCurrentScreen = () => {
     if (currentScreen === 'configureTool') return <ConfigureTool />;
@@ -36,6 +38,11 @@ const Import = () => {
   useEffect(() => {
     dispatch(setNotificationData(null));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (projectId) dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   if (!importStatus || importStatus === 'ongoing')
     return (
