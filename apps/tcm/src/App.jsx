@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
@@ -45,7 +45,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isNotificationDismissed]);
 
-  useEffect(() => {
+  useMemo(() => {
     const keys = {
       amplitudeKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd',
       analyticsKey: 'UA-418548-19',
