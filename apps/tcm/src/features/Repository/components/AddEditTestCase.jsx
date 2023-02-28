@@ -96,6 +96,7 @@ const AddEditTestCase = () => {
                 Cancel
               </TMButton>
               <TMButton
+                disabled={isUploadInProgress}
                 wrapperClassName="ml-4 whitespace-nowrap"
                 variant="primary"
                 onClick={() => {
