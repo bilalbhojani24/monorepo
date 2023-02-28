@@ -32,7 +32,7 @@ const ZephyrImportForm = (props) => {
             accentBorder={false}
             linkText={null}
             modifier="success"
-            title="We found your Host Name as per your previous JIRA integration."
+            title="We found JIRA Host Name as per your existing JIRA integration."
           />
         </div>
       )}
@@ -143,12 +143,17 @@ const ZephyrImportForm = (props) => {
                     theme="dark"
                     content={
                       <TMTooltipBody>
+                        <p className="text-sm">
+                        You can access your Zephyr Scale API Token from using the link below:
                         <a
                           href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
-                          className="block cursor-pointer text-white underline"
+                          className="mt-3 cursor-pointer font-medium text-white underline block"
+                          target="_blank"
                         >
                           Click here to get API Token
                         </a>
+                        </p>
+
                       </TMTooltipBody>
                     }
                   >

@@ -78,7 +78,7 @@ const Onboarding = () => {
             <p className="text-base-700 text-xs">
               By continuing you agree to our&nbsp;
               <a href="https://www.browserstack.com/terms" target="new">
-                Terms Of Service
+                Terms of Service
               </a>
               ,
             </p>

@@ -126,7 +126,7 @@ const useTestCasesTable = (prop) => {
         dispatch(
           addNotificaton({
             id: `test_cases_moved`,
-            title: `Test Cases moved to new location`,
+            title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
             variant: 'success'
           })
         );
