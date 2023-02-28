@@ -34,8 +34,9 @@ export default function useScanDetails() {
   }, [searchParams]);
 
   useEffect(() => {
+    // const tab = searchParams.get('tab');
     setIsLoading(true);
-    dispatch(getScanOverview());
+    dispatch(getScanOverview(2));
     dispatch(getScanRuns());
   }, [dispatch]);
 

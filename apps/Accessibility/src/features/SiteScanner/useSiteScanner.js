@@ -25,9 +25,9 @@ export default function useSiteScanner() {
   }, [scanConfigsData]);
 
   const handleSearch = (e) => {
-    if (scanConfigsData?.data?.reports) {
+    if (scanConfigsData?.data?.scanConfigs) {
       const searchTerm = e.target.value.toLowerCase();
-      const searchedResults = scanConfigsData?.data?.reports.filter(
+      const searchedResults = scanConfigsData?.data?.scanConfigs?.filter(
         (row) =>
           row.createdBy.name.toLowerCase().includes(searchTerm) ||
           row.name.toLowerCase().includes(searchTerm)
@@ -35,7 +35,7 @@ export default function useSiteScanner() {
       const completeInfoSet = {
         ...scanConfigsData,
         data: {
-          reports: [...searchedResults]
+          scanConfigs: [...searchedResults]
         }
       };
       setScanConfigStateData(completeInfoSet);
@@ -67,6 +67,8 @@ export default function useSiteScanner() {
     setPreConfigData,
     preConfigData,
     handleSearchFilter,
-    dataFilter
+    dataFilter,
+    setIsLoading,
+    dispatch
   };
 }

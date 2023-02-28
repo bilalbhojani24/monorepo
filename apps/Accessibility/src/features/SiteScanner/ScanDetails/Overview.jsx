@@ -41,6 +41,7 @@ const Overview = ({ scanOverviewData }) => {
   } = useOverview({
     scanOverviewData
   });
+  console.log(scanOverviewData?.data);
   return (
     <div
       className=" flex-col overflow-auto p-4"
@@ -132,7 +133,7 @@ const Overview = ({ scanOverviewData }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {scanOverviewData?.overview?.urlList.map((row, idx) => (
+              {scanOverviewData?.data?.overview?.urlList.map((row, idx) => (
                 <TableRow
                   key={idx}
                   onRowClick={() => {

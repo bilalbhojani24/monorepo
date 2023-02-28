@@ -57,6 +57,9 @@ const { actions, reducer } = createSlice({
     },
     setScanOverview: (state, { payload }) => {
       state.scanOverviewData = payload;
+    },
+    setNewScanData: (state, { payload }) => {
+      state.scanOverviewData = payload;
     }
   }
 });
@@ -120,7 +123,7 @@ export const getScanLogs = () => async (dispatch) => {
 };
 
 export const getScanOverview = (id) => async (dispatch) => {
-  fetchScanOverviewData()
+  fetchScanOverviewData(id)
     .then((data) => {
       dispatch(setScanOverview(data));
       const commonData = { ...data.data };

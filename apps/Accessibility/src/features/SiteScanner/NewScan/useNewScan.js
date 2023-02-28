@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { postNewScanConfig } from 'api/siteScannerScanConfigs';
 import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
@@ -13,6 +14,7 @@ const WEEKLY = 'weekly';
 export default function useNewScan(closeSlideover, preConfigData) {
   const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
+    recurring: true,
     scanData: {
       wcagVersion: wcagVersions[0],
       needsReview: true,
@@ -97,6 +99,26 @@ export default function useNewScan(closeSlideover, preConfigData) {
 
     return true;
   };
+  const handlerCloseOver = () => {
+    setFormData({
+      scanData: {
+        wcagVersion: wcagVersions[0],
+        needsReview: true,
+        bestPractices: true
+      },
+      day: days[0].body,
+      time: '12:00',
+      type: WEEKLY
+    });
+    scanNameRef.current.value = '';
+    if (timeRef.current) {
+      timeRef.current.value = '';
+    }
+    scanUrlRef.current.value = '';
+    setRecurringStatus(true);
+    document.querySelector('#recurring').checked = false;
+    closeSlideover();
+  };
 
   const handleFormData = (e, name) => {
     const formDataObj = { ...formData };
@@ -121,10 +143,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
         setRecurringStatus(!recurringStatus);
         break;
       case 'needsReview':
-        formDataObj.needsReview = e;
+        formDataObj.scanData.needsReview = e;
         break;
       case 'bestPractices':
-        formDataObj.bestPractices = e;
+        formDataObj.scanData.bestPractices = e;
         break;
       case 'url':
         if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
@@ -172,6 +194,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
         );
         //
         break;
+      case 'instantRun':
+        // Instant Run handler
+        formDataObj.instantRun = e.target.checked;
+        break;
       case 'submit':
         if (checkForValidation()) {
           const payload = { ...formData };
@@ -198,7 +224,12 @@ export default function useNewScan(closeSlideover, preConfigData) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
-          console.log(payload);
+
+          postNewScanConfig(payload)
+            .then((data) => {
+              handlerCloseOver();
+            })
+            .catch((err) => console.log(err));
         } else {
           console.log(validationError, formData);
         }
@@ -209,28 +240,6 @@ export default function useNewScan(closeSlideover, preConfigData) {
     setFormData({ ...formDataObj });
     setValidationError({ ...validationErrorCpy });
   };
-
-  const handlerCloseOver = () => {
-    setFormData({
-      scanData: {
-        wcagVersion: wcagVersions[0],
-        needsReview: true,
-        bestPractices: true
-      },
-      day: days[0].body,
-      time: '12:00',
-      type: WEEKLY
-    });
-    scanNameRef.current.value = '';
-    if (timeRef.current) {
-      timeRef.current.value = '';
-    }
-    scanUrlRef.current.value = '';
-    setRecurringStatus(true);
-    document.querySelector('#recurring').checked = false;
-    closeSlideover();
-  };
-
   return {
     recurringStatus,
     setRecurringStatus,

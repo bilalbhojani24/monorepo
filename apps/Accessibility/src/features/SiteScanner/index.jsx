@@ -32,10 +32,15 @@ import {
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
-import { fetchScanConfigsById } from '../../api/siteScannerScanConfigs';
+import {
+  fetchScanConfigsById,
+  runInstantScan,
+  stopRecurringScans
+} from '../../api/siteScannerScanConfigs';
 import Loader from '../../common/Loader/index';
 import { getWcagVersionFromVal } from '../../utils/helper';
 
+import { getScanConfigs } from './slices/dataSlice';
 // import { rowMenu } from './constants';
 import NewScan from './NewScan';
 import useSiteScanner from './useSiteScanner';
@@ -150,7 +155,9 @@ export default function SiteScanner() {
     preConfigData,
     setPreConfigData,
     handleSearchFilter,
-    dataFilter
+    dataFilter,
+    setIsLoading,
+    dispatch
   } = useSiteScanner();
   const navigate = useNavigate();
   /*
@@ -199,8 +206,15 @@ export default function SiteScanner() {
   const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.id;
     switch (menuItem) {
-      case 'newScan':
-        setShowNewScan(true);
+      case 'newScanRun':
+        runInstantScan(rowData.id)
+          .then((data) => {
+            console.log(data);
+            setIsLoading(true);
+            dispatch(getScanConfigs());
+            // alert('Stopped Recurring scan');
+          })
+          .catch((err) => console.log(err));
         break;
       case 'cloneScanConfig':
         fetchScanConfigsById(rowData.id)
@@ -211,6 +225,12 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       case 'stopRecurringScans':
+        stopRecurringScans(rowData.id)
+          .then((data) => {
+            console.log(data);
+            // alert('Stopped Recurring scan');
+          })
+          .catch((err) => console.log(err));
         break;
       case 'lastScanRun':
         navigate(
@@ -316,7 +336,7 @@ export default function SiteScanner() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {scanConfigStateData?.data?.reports.map((row) => (
+          {scanConfigStateData?.data?.scanConfigs?.map((row) => (
             <TableRow
               key={row.id}
               onRowClick={(e) => {

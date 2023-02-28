@@ -11,7 +11,7 @@ export default function useOverview({ scanOverviewData }) {
   const [splineChartData, setSplineChartData] = useState(chartOptionsSpline);
 
   useEffect(() => {
-    if (scanOverviewData?.overview?.issueHistory) {
+    if (scanOverviewData?.data?.overview?.issueHistory) {
       const severity = {
         minor: [],
         critical: [],
@@ -21,12 +21,15 @@ export default function useOverview({ scanOverviewData }) {
 
       const categories = [];
       for (let i = 0; i < currentRunFilter; i += 1) {
-        const item = scanOverviewData.overview.issueHistory[i];
-        severity.minor.push(item.minor);
-        severity.critical.push(item.critical);
-        severity.severe.push(item.severe);
-        severity.moderate.push(item.moderate);
-        categories.push(item.date);
+        const item = scanOverviewData?.data?.overview?.issueHistory[i];
+        console.log(item, scanOverviewData.data);
+        if (item) {
+          severity.minor.push(item.minor);
+          severity.critical.push(item.critical);
+          severity.severe.push(item.severe);
+          severity.moderate.push(item.moderate);
+          categories.push(item.date);
+        }
       }
       const currentStackedChartData = { ...stackedChartData };
       currentStackedChartData.xAxis.categories = categories;
@@ -64,7 +67,7 @@ export default function useOverview({ scanOverviewData }) {
       ];
       setStackedChartData(currentStackedChartData);
     }
-    if (scanOverviewData?.overview?.scanStability) {
+    if (scanOverviewData?.data?.overview?.scanStability) {
       const stability = {
         redirects: [],
         success: [],
@@ -73,7 +76,7 @@ export default function useOverview({ scanOverviewData }) {
 
       const categories = [];
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
-        const item = scanOverviewData.overview.scanStability[i];
+        const item = scanOverviewData.data.overview.scanStability[i];
         stability.redirects.push(item.redirects);
         stability.failure.push(item.failure);
         stability.success.push(item.success);
