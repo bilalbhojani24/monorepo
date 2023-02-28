@@ -7,6 +7,7 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const TMSelectMenu = ({
@@ -29,7 +30,7 @@ const TMSelectMenu = ({
     {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
     <SelectMenuTrigger
       placeholder={placeholder}
-      wrapperClassName={triggerWrapperClassName}
+      wrapperClassName={twClassNames('cursor-pointer', triggerWrapperClassName)}
     />
     <SelectMenuOptionGroup>
       {React.Children.toArray(
@@ -50,6 +51,7 @@ TMSelectMenu.propTypes = {
   placeholder: PropTypes.string,
   isMulti: PropTypes.bool,
   label: PropTypes.string,
+  triggerWrapperClassName: PropTypes.string,
   dividerIdx: PropTypes.number,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -77,6 +79,7 @@ TMSelectMenu.defaultProps = {
   placeholder: '',
   dividerIdx: null,
   label: '',
+  triggerWrapperClassName: '',
   options: [],
   onChange: () => {},
   value: null,

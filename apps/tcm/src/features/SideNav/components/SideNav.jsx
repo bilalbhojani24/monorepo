@@ -76,7 +76,10 @@ const SideNav = (props) => {
                       ) || null
                     }
                   >
-                    <SelectMenuTrigger placeholder="Select.." />
+                    <SelectMenuTrigger
+                      placeholder="Select.."
+                      wrapperClassName="cursor-pointer"
+                    />
                     <SelectMenuOptionGroup>
                       {/* <Virtuoso
                         customScrollParent={
