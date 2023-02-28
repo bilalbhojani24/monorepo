@@ -30,7 +30,7 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[5%]',
+      class: 'w-[7%]',
       cell: (rowData) => (
         <div
           role="button"
