@@ -80,8 +80,8 @@ const useAddEditTestRun = () => {
     dispatch(setAddTestRunForm(false));
   };
 
-  const hideAddTestRunForm = () => {
-    if (isEditing) {
+  const hideAddTestRunForm = (goBack) => {
+    if (isEditing || goBack) {
       navigate(
         routeFormatter(
           location?.state?.isFromTRDetails
@@ -263,6 +263,10 @@ const useAddEditTestRun = () => {
 
   const fetchTestRunDetails = (testRunID) => {
     getTestRunDetailsAPI({ projectId, testRunId: testRunID }).then((data) => {
+      if (data.data.test_run.run_state === 'closed') {
+        // if trying to edit the closed test run go back
+        hideAddTestRunForm(true);
+      }
       dispatch(setTestRunFormData(formDataRetriever(data.data)));
     });
   };
