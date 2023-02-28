@@ -19,33 +19,32 @@ export const TR_DROP_OPTIONS = [
 export const STATUS_OPTIONS = [
   {
     label: 'Passed',
-    class: 'bg-success-600',
+    color: ACTIVE_TEST_RUNS_COLOR.Passed,
     value: 'passed'
   },
   {
     label: 'Failed',
-    class: 'bg-danger-500',
+    color: ACTIVE_TEST_RUNS_COLOR.Failed,
     value: 'failed'
   },
   {
     label: 'Retest',
-    class: 'bg-attention-400',
+    color: ACTIVE_TEST_RUNS_COLOR.Retest,
     value: 'retest'
   },
   {
     label: 'Blocked',
-    class: '',
-    color: ACTIVE_TEST_RUNS_COLOR.blocked,
+    color: ACTIVE_TEST_RUNS_COLOR.Blocked,
     value: 'blocked'
   },
   {
     label: 'Skipped',
-    class: 'bg-base-200',
+    color: ACTIVE_TEST_RUNS_COLOR.Skipped,
     value: 'skipped'
   },
   {
     label: 'Untested',
-    class: 'bg-base-600',
+    color: ACTIVE_TEST_RUNS_COLOR.Untested,
     value: 'untested'
   }
 ];
