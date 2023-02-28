@@ -92,9 +92,11 @@ const ZephyrImportForm = (props) => {
                         <TMTooltipBody>
                           <p className="text-sm">
                             API Token can be located here:
+                            <br />
                             <a
                               href="https://id.atlassian.com/manage-profile/security/api-tokens"
                               className="mt-3 cursor-pointer font-medium text-white underline"
+                              target="new"
                             >
                               Click here to get API Token
                             </a>
