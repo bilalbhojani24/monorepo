@@ -27,7 +27,8 @@ const TestCaseBasicData = () => {
     showAddIssuesModal,
     isShowAddIssuesModal,
     hideAddIssuesModal,
-    saveAddIssesModal
+    saveAddIssesModal,
+    onJiraButtonClick
   } = useTestCaseViewDetails();
 
   return (
@@ -148,6 +149,8 @@ const TestCaseBasicData = () => {
                           text={item.jira_id}
                           size="extra-small"
                           colors="white"
+                          id={item.jira_id}
+                          onClick={() => onJiraButtonClick(item.jira_id)}
                           icon={
                             <SiJirasoftware className="text-brand-600 h-4 w-4" />
                           }
@@ -158,21 +161,18 @@ const TestCaseBasicData = () => {
                     </div>
                   ) : (
                     <>
-                      --
-                      <div className="hidden">
-                        <TMButton
-                          type="submit"
-                          variant="minimal"
-                          onClick={showAddIssuesModal}
-                        >
-                          Link to Jira
-                        </TMButton>
-                        <AddIssuesModal
-                          isVisible={isShowAddIssuesModal}
-                          onClose={hideAddIssuesModal}
-                          onSave={saveAddIssesModal}
-                        />
-                      </div>
+                      <TMButton
+                        type="submit"
+                        variant="minimal"
+                        onClick={showAddIssuesModal}
+                      >
+                        Link to Jira
+                      </TMButton>
+                      <AddIssuesModal
+                        isVisible={isShowAddIssuesModal}
+                        onClose={hideAddIssuesModal}
+                        onSave={saveAddIssesModal}
+                      />
                     </>
                   )
                 }

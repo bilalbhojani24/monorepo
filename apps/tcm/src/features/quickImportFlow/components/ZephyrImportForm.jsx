@@ -92,9 +92,14 @@ const ZephyrImportForm = (props) => {
                         <TMTooltipBody>
                           <p className="text-sm">
                             API Token can be located here:
-                            <div className="mt-3 cursor-pointer font-medium text-white underline">
+                            <br />
+                            <a
+                              href="https://id.atlassian.com/manage-profile/security/api-tokens"
+                              className="mt-3 cursor-pointer font-medium text-white underline"
+                              target="new"
+                            >
                               Click here to get API Token
-                            </div>
+                            </a>
                           </p>
                         </TMTooltipBody>
                       </>
@@ -144,16 +149,16 @@ const ZephyrImportForm = (props) => {
                     content={
                       <TMTooltipBody>
                         <p className="text-sm">
-                        You can access your Zephyr Scale API Token from using the link below:
-                        <a
-                          href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
-                          className="mt-3 cursor-pointer font-medium text-white underline block"
-                          target="_blank"
-                        >
-                          Click here to get API Token
-                        </a>
+                          You can access your Zephyr Scale API Token from using
+                          the link below:
+                          <a
+                            href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
+                            className="mt-3 block cursor-pointer font-medium text-white underline"
+                            target="new"
+                          >
+                            Click here to get API Token
+                          </a>
                         </p>
-
                       </TMTooltipBody>
                     }
                   >
