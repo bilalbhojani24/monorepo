@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   CheckCircleIcon,
@@ -9,19 +9,40 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import BrandLogo from './BrandLogo';
-import { OAuthMetaType } from './types';
+import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
+import BrandLogo from '../../../common/components/BrandLogo';
+import { OAuthMetaType } from '../types';
 
 const OAuth = ({
+  integrationKey,
   label,
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
   hasOAuthFailed,
+  setHasOAuthFailed,
   hideFailedAuthMessage,
   shouldShowFailedAuthMessage
 }) => {
+  useEffect(() => {
+    const handleMessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.hasError) {
+        setHasOAuthFailed(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [setHasOAuthFailed]);
+
   const handleAPIConnect = () => {
     showAPIToken();
+  };
+  const handleOAuthConnection = () => {
+    getOAuthUrlForTool(integrationKey).then((redirectUri) => {
+      window.open(redirectUri, 'mywindow', { width: '500', height: '500' });
+    });
   };
   return (
     <>
@@ -64,6 +85,7 @@ const OAuth = ({
         fullWidth
         icon={<MdArrowForward className="text-xl text-white" />}
         iconPlacement="end"
+        onClick={handleOAuthConnection}
       >
         {`Connect to ${label}`}
       </Button>
@@ -82,12 +104,14 @@ const OAuth = ({
 };
 
 OAuth.propTypes = {
+  integrationKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   oAuthMeta: PropTypes.shape(OAuthMetaType),
   hasOAuthFailed: PropTypes.bool,
   shouldShowFailedAuthMessage: PropTypes.bool,
   hideFailedAuthMessage: PropTypes.func.isRequired,
-  showAPIToken: PropTypes.func.isRequired
+  showAPIToken: PropTypes.func.isRequired,
+  setHasOAuthFailed: PropTypes.func.isRequired
 };
 
 OAuth.defaultProps = {
