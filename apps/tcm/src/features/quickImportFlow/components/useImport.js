@@ -5,7 +5,6 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
-  importCleanUp,
   setCheckImportStatusClicked,
   setConfigureToolProceeded,
   setConfigureToolProceedLoading,
@@ -244,7 +243,6 @@ const useImport = () => {
         // console.log('done successfully');
       });
     }
-    dispatch(importCleanUp());
     dispatch(setImportStarted(true));
     dispatch(setCheckImportStatusClicked(false));
     navigate(AppRoute.ROOT);
