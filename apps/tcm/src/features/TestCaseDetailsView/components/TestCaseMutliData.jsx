@@ -24,7 +24,8 @@ const TestCaseMutliData = ({
     selectedTab,
     testCaseIssues,
     handleTabChange,
-    onJiraButtonClick
+    onJiraButtonClick,
+    testRunButtonClick
   } = useTestCaseViewDetails();
 
   const issuesTableColumn = [
@@ -35,7 +36,7 @@ const TestCaseMutliData = ({
         <div className="text-base-900 font-medium">
           <TMButton
             variant="minimal"
-            wrapperClassName="text-base-900"
+            wrapperClassName="text-base-900 focus:ring-0"
             onClick={() => {
               onJiraButtonClick(rowData?.jira_id);
             }}
@@ -48,17 +49,19 @@ const TestCaseMutliData = ({
     {
       name: 'Test Run',
       key: 'jira_id',
-      cell: (rowData) =>
-        isFromTestRun ? (
-          <div className="text-base-900">{rowData?.test_run_name}</div>
-        ) : (
-          <div className="flex flex-col">
-            <div className="text-base-900 font-medium">{`${
-              rowData?.jira_id || ''
-            }`}</div>
-            <div className="text-base-500">{rowData?.test_run_name}</div>
-          </div>
-        )
+      cell: (rowData) => (
+        <div className="text-base-900">
+          <TMButton
+            variant="minimal"
+            wrapperClassName="text-base-900 focus:ring-0"
+            onClick={() => {
+              testRunButtonClick(rowData?.test_run_id);
+            }}
+          >
+            {rowData?.test_run_name}
+          </TMButton>
+        </div>
+      )
     },
     {
       name: 'Linked On',
