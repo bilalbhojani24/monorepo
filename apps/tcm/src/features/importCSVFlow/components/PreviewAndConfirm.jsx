@@ -84,6 +84,9 @@ const PreviewAndConfirm = () => {
         firstCta="Change Folder"
         secondCta="Upload to Root Folder"
       />
+      <div className="text-base-500 mb-4 text-sm font-normal">
+        This is the folder location where test cases will be imported
+      </div>
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>

@@ -71,7 +71,7 @@ const TestCaseMutliData = ({
       // )
     },
     {
-      name: 'Created On',
+      name: 'Linked On',
       key: 'created_at',
       cell: (rowData) => formatTime(rowData.created_at, 'date')
     }

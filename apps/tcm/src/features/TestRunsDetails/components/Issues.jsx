@@ -24,7 +24,7 @@ const Issues = () => {
       cell: (data) => <div className="text-black">{data?.jira_id}</div>
     },
     {
-      name: 'CREATED AT',
+      name: 'LINKED ON',
       key: 'title',
       cell: (rowData) =>
         rowData?.created_at ? formatTime(rowData.created_at, 'date') : '--'
