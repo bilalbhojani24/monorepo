@@ -16,7 +16,7 @@ export const reportSlice = createSlice({
     updateLatestSeekTimeInSeconds: (state, action) => {
       let value = action.payload;
 
-      if ((value !== 0 && !!value) || value === 0) {
+      if ((value !== 0 && Boolean(value)) || value === 0) {
         value = Math.round(value);
       } else {
         value = undefined;
@@ -27,7 +27,7 @@ export const reportSlice = createSlice({
     updateLatestVideoCurrentTimeInSeconds: (state, action) => {
       const value = action.payload;
 
-      if ((value !== 0 && !!value) || value === 0) {
+      if ((value !== 0 && Boolean(value)) || value === 0) {
         state.latestVideoCurrentTimeInSeconds = value;
       }
     }
