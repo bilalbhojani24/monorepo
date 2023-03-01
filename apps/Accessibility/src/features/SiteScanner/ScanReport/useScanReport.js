@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
-import { fetchOverviewData } from 'api/siteScannerScanReports';
+import { fetchConsolidatedData } from 'api/siteScannerScanReports';
 
 import { resetReportAppInfo } from '../slices/appSlice';
 import {
@@ -52,21 +52,20 @@ export default function useScanReport() {
 
     const reportIDList = searchParams.get('id');
     setIsLoading(true);
-    Promise.all([
-      fetchCustomData(),
-      fetchOverviewData(reportIDList, window.dashboardUserID)
-    ]).then(([customData, overviewData]) => {
-      dispatch(setCustomData(customData.data));
-      dispatch(setOverviewData(overviewData.data));
-      const dataObject = {
-        reportType: 'Individual',
-        issueCount: overviewData?.issueSummary?.issueCount,
-        pageCount: overviewData?.issueSummary?.pageCount,
-        componentCount: overviewData?.issueSummary?.componentCount
-      };
-      // logEvent('OnADReportView', dataObject);
-      setIsLoading(false);
-    });
+    Promise.all([fetchCustomData(), fetchConsolidatedData(reportIDList)]).then(
+      ([customData, overviewData]) => {
+        dispatch(setCustomData(customData.data));
+        dispatch(setOverviewData(overviewData.data));
+        const dataObject = {
+          reportType: 'Individual',
+          issueCount: overviewData?.issueSummary?.issueCount,
+          pageCount: overviewData?.issueSummary?.pageCount,
+          componentCount: overviewData?.issueSummary?.componentCount
+        };
+        // logEvent('OnADReportView', dataObject);
+        setIsLoading(false);
+      }
+    );
     return () => {
       dispatch(resetReportAppInfo());
     };

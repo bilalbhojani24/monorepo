@@ -42,7 +42,7 @@ const ScanDetails = () => {
     scanOverviewData,
     activeTabIndex
   } = useScanDetails();
-  console.log(scanRunDataCommon, activeTab, activeTabIndex);
+  console.log(scanRunDataCommon, scanRunDataCommon.name, activeTabIndex);
   return (
     <>
       <div className="bg-base-50">
@@ -59,7 +59,7 @@ const ScanDetails = () => {
             </div>
             <div className="flex items-center">
               <h1 className="mb-2 mr-2 text-2xl font-bold">
-                {scanRunDataCommon?.name || 'NA'}
+                {scanRunDataCommon?.name || 'N/A'}
               </h1>
               <Badge text="WCAG 2.1 AA" wrapperClassName="mr-2 h-6" />
               <Badge
@@ -88,7 +88,7 @@ const ScanDetails = () => {
                 <span className="mr-0.5">
                   <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
                 </span>{' '}
-                {scanRunDataCommon?.pages || '0'} pages
+                {scanRunDataCommon?.pageCount || '0'} pages
               </span>
             </div>
           </div>

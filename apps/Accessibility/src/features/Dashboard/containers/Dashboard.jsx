@@ -36,6 +36,14 @@ export default function Dashboard({ children }) {
       inActiveIcon: MdOutlineHome,
       path: '/screen-reader',
       badge: <Badge text="New" />
+    },
+    {
+      id: 'website-scanner',
+      label: 'Website Scanner',
+      activeIcon: MdHome,
+      inActiveIcon: MdOutlineHome,
+      path: '/site-scanner',
+      badge: <Badge text="New" />
     }
   ];
 

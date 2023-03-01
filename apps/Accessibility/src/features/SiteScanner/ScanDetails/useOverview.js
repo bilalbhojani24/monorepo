@@ -22,7 +22,6 @@ export default function useOverview({ scanOverviewData }) {
       const categories = [];
       for (let i = 0; i < currentRunFilter; i += 1) {
         const item = scanOverviewData?.data?.overview?.issueHistory[i];
-        console.log(item, scanOverviewData.data);
         if (item) {
           severity.minor.push(item.minor);
           severity.critical.push(item.critical);
@@ -77,10 +76,12 @@ export default function useOverview({ scanOverviewData }) {
       const categories = [];
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
         const item = scanOverviewData.data.overview.scanStability[i];
-        stability.redirects.push(item.redirects);
-        stability.failure.push(item.failure);
-        stability.success.push(item.success);
-        categories.push(item.date);
+        if (item) {
+          stability.redirects.push(item.redirects);
+          stability.failure.push(item.failure);
+          stability.success.push(item.success);
+          categories.push(item.date);
+        }
       }
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;

@@ -81,23 +81,27 @@ export default function useIssueItem(activeComponentNodes) {
     const result = [];
     if (childNodes.length > 0) {
       childNodes.forEach((item) => {
+        console.log(item);
         if (showHiddenIssues) {
           if (item.hidden) {
             result.push({
-              reportName: reportMetaData.meta[item.reportId].name,
+              reportName:
+                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
               confirmed: false
             });
           }
         } else if (activeFilters.showNeedsReviewIssues) {
           if (item.confirmed === null) {
             result.push({
-              reportName: reportMetaData.meta[item.reportId].name,
+              reportName:
+                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
               confirmed: item.confirmed
             });
           }
         } else {
           result.push({
-            reportName: reportMetaData.meta[item.reportId].name,
+            reportName:
+              reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
             confirmed: item.confirmed
           });
         }

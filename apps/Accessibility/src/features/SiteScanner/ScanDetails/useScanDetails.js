@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { getScanOverview, getScanRuns } from '../slices/dataSlice';
 import {
@@ -36,8 +36,8 @@ export default function useScanDetails() {
   useEffect(() => {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
-    dispatch(getScanOverview(2));
-    dispatch(getScanRuns());
+    dispatch(getScanOverview(3));
+    dispatch(getScanRuns(3));
   }, [dispatch]);
 
   useEffect(() => {

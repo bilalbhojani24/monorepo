@@ -88,12 +88,11 @@ export const getScanConfigs = () => async (dispatch) => {
     });
 };
 
-export const getScanRuns = () => async (dispatch) => {
-  fetchScanRuns()
+export const getScanRuns = (id) => async (dispatch) => {
+  fetchScanRuns(id)
     .then((data) => {
       dispatch(setScanRuns(data));
-      const commonData = { ...data.data };
-      delete commonData.reports;
+      const commonData = { ...data.data.scanConfigInfo };
       dispatch(
         setScanRunCommonData({
           ...commonData
@@ -126,10 +125,10 @@ export const getScanOverview = (id) => async (dispatch) => {
   fetchScanOverviewData(id)
     .then((data) => {
       dispatch(setScanOverview(data));
-      const commonData = { ...data.data };
-      delete commonData.overview;
+      const commonData = { ...data.data.scanConfigInfo };
+      console.log(commonData);
       dispatch(
-        setScanReportCommonData({
+        setScanRunCommonData({
           ...commonData
         })
       );
