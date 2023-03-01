@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
+import { runInstantScan } from '../../../api/siteScannerScanConfigs';
 import { getScanOverview, getScanRuns } from '../slices/dataSlice';
 import {
   getScanOverviewData,
@@ -25,10 +26,10 @@ export default function useScanDetails() {
   const scanOverviewData = useSelector(getScanOverviewData);
 
   const [searchParams] = useSearchParams();
+  const { id } = useParams();
 
   useEffect(() => {
     const tab = searchParams.get('tab') || tabsOptions.OVERVIEW.id;
-    console.log(tab);
     setActiveTab(tab);
     setActiveTabIndex(tabsOptions[tab]?.index || 0);
   }, [searchParams]);
@@ -36,9 +37,9 @@ export default function useScanDetails() {
   useEffect(() => {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
-    dispatch(getScanOverview(3));
-    dispatch(getScanRuns(3));
-  }, [dispatch]);
+    dispatch(getScanOverview(id));
+    dispatch(getScanRuns(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (scanRunData?.data) {
@@ -47,12 +48,21 @@ export default function useScanDetails() {
   }, [scanRunData]);
 
   const tabChangeHandler = (tab) => {
-    console.log(tab);
     setActiveTab(tab.id);
     navigate({
       search: `?tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
+  };
+
+  const handleNewScanRun = () => {
+    runInstantScan(id)
+      .then((data) => {
+        console.log(data);
+        setIsLoading(true);
+        // alert('Stopped Recurring scan');
+      })
+      .catch((err) => console.log(err));
   };
 
   return {
@@ -62,6 +72,7 @@ export default function useScanDetails() {
     isLoading,
     scanRunDataCommon,
     scanOverviewData,
-    activeTabIndex
+    activeTabIndex,
+    handleNewScanRun
   };
 }

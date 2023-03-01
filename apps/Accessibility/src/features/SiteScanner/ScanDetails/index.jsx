@@ -40,7 +40,8 @@ const ScanDetails = () => {
     isLoading,
     scanRunDataCommon,
     scanOverviewData,
-    activeTabIndex
+    activeTabIndex,
+    handleNewScanRun
   } = useScanDetails();
   console.log(scanRunDataCommon, scanRunDataCommon.name, activeTabIndex);
   return (
@@ -95,7 +96,7 @@ const ScanDetails = () => {
           <div className="flex items-center">
             <Button
               colors="white"
-              onClick={() => {}}
+              onClick={handleNewScanRun}
               size="small"
               type="subtle"
               wrapperClassName="h-10 mr-2"
