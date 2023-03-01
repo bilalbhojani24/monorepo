@@ -95,7 +95,7 @@ const ZephyrImportForm = (props) => {
                             <br />
                             <a
                               href="https://id.atlassian.com/manage-profile/security/api-tokens"
-                              className="mt-3 cursor-pointer font-medium text-white underline"
+                              className="mt-3 block cursor-pointer font-medium text-white underline"
                               target="new"
                             >
                               Click here to get API Token
@@ -141,7 +141,7 @@ const ZephyrImportForm = (props) => {
               value={zephyrCred.zephyr_key}
               label={
                 <>
-                  Zephyr Scale API Token
+                  Zephyr Scale API Access Token
                   <TMTooltip
                     size="xs"
                     placementSide="right"
@@ -166,7 +166,7 @@ const ZephyrImportForm = (props) => {
                   </TMTooltip>
                 </>
               }
-              placeholder="Enter Zephyr Scale API Token"
+              placeholder="Enter Zephyr Scale API Access Token"
               errorText={
                 !zephyrCred.zephyr_key && zephyrCredTouched.zephyr_key
                   ? INPUT_FIELD_ERROR

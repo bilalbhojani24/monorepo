@@ -1,6 +1,11 @@
 import React from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMDataTable, TMEmptyState, TMTabs } from 'common/bifrostProxy';
+import {
+  TMButton,
+  TMDataTable,
+  TMEmptyState,
+  TMTabs
+} from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { formatTime } from 'utils/helperFunctions';
 
@@ -14,15 +19,30 @@ const TestCaseMutliData = ({
   resultUpdatable,
   onResultClick
 }) => {
-  const { testRunsCount, selectedTab, testCaseIssues, handleTabChange } =
-    useTestCaseViewDetails();
+  const {
+    testRunsCount,
+    selectedTab,
+    testCaseIssues,
+    handleTabChange,
+    onJiraButtonClick
+  } = useTestCaseViewDetails();
 
   const issuesTableColumn = [
     {
       name: 'Issue',
       key: 'jira_id',
       cell: (rowData) => (
-        <div className="text-base-900 font-medium">{`${rowData.jira_id}`}</div>
+        <div className="text-base-900 font-medium">
+          <TMButton
+            variant="minimal"
+            wrapperClassName="text-base-900"
+            onClick={() => {
+              onJiraButtonClick(rowData?.jira_id);
+            }}
+          >
+            {`${rowData.jira_id}`}
+          </TMButton>
+        </div>
       )
     },
     {
@@ -41,7 +61,7 @@ const TestCaseMutliData = ({
         )
     },
     {
-      name: 'Created On',
+      name: 'Linked On',
       key: 'created_at',
       cell: (rowData) => formatTime(rowData.created_at, 'date')
     }
