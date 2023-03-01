@@ -10,6 +10,7 @@ import {
   setNotificationData,
   setProjectIdForQuickImport
 } from '../slices/importSlice';
+import { resetQuickImport } from '../slices/quickImportThunk';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
@@ -49,6 +50,10 @@ const Import = () => {
 
   useEffect(() => {
     dispatch(setNotificationData(null));
+
+    return () => {
+      dispatch(resetQuickImport());
+    };
   }, [dispatch]);
 
   useEffect(() => {

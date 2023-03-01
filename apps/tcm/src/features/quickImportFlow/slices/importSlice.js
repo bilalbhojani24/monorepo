@@ -175,18 +175,34 @@ const importSlice = createSlice({
     setZephyrCredTouched: (state, { payload }) => {
       state.zephyrCredTouched[payload.key] = payload.value;
     },
-    importCleanUp: (state) => {
-      state.testRailsCred = initialState.testRailsCred;
-      state.zephyrCred = initialState.zephyrCred;
-      state.connectionStatusMap = initialState.connectionStatusMap;
-      state.selectedRadioIdMap = initialState.selectedRadioIdMap;
-      state.projectsForTestManagementImport =
-        initialState.projectsForTestManagementImport;
-      state.currentScreen = initialState.currentScreen;
-      state.importSteps = initialState.importSteps;
-      state.currentTestManagementTool = initialState.currentTestManagementTool;
-      state.testRailsCredTouched = initialState.testRailsCredTouched;
-      state.zephyrCredTouched = initialState.zephyrCredTouched;
+    quickImportCleanUp: (state, { payload }) => {
+      const {
+        importId,
+        importStatus,
+        isDismissed,
+        importStarted,
+        notificationData,
+        notificationProjectConfig,
+        showNotificationModal,
+        checkImportStatusClicked,
+        quickImportProjectId,
+        currentTestManagementTool,
+        ...restInitialState
+      } = initialState;
+
+      return {
+        importId: payload?.importId,
+        importStatus: payload?.importStatus,
+        isDismissed: payload?.isDismissed,
+        importStarted: payload?.importStarted,
+        notificationData: payload?.notificationData,
+        notificationProjectConfig: payload?.notificationProjectConfig,
+        showNotificationModal: payload?.showNotificationModal,
+        checkImportStatusClicked: payload?.checkImportStatusClicked,
+        quickImportProjectId: payload?.quickImportProjectId,
+        currentTestManagementTool: payload?.currentTestManagementTool,
+        ...restInitialState
+      };
     },
     setCheckImportStatusClicked: (state, { payload }) => {
       state.checkImportStatusClicked = payload;
@@ -280,7 +296,7 @@ export const {
   setImportStarted,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
-  importCleanUp,
+  quickImportCleanUp,
   setImportConfig,
   setImportStatus,
   setNotificationData,
