@@ -16,6 +16,7 @@ import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
 import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import { requestedSteps } from '../const/unsavedConst';
@@ -422,10 +423,24 @@ export default function useAddEditTestCase(prop) {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const showTestCaseAdditionPage = (thisFolder) => {
+  const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
       return;
 
+    if (isFromListTree) {
+      dispatch(
+        logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
+          project_id: projectId,
+          folder_id: thisFolder?.id
+        })
+      );
+    } else {
+      dispatch(
+        logEventHelper('TM_CreateTcBtnClickedTopHeader', {
+          project_id: projectId
+        })
+      );
+    }
     const thisSelectedFolder = thisFolder?.id
       ? thisFolder?.id
       : selectedFolder?.id;

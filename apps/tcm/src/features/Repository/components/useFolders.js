@@ -10,6 +10,7 @@ import {
   injectFolderToParent
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
 import { requestedSteps } from '../const/unsavedConst';
@@ -160,6 +161,13 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
+    dispatch(
+      logEventHelper('TM_FolderClicked', {
+        project_id: projectId,
+        folder_id: selectedFolder.id
+      })
+    );
+
     const route = routeFormatter(AppRoute.TEST_CASES, {
       projectId,
       folderId: selectedFolder.id
@@ -182,7 +190,7 @@ export default function useFolders() {
 
       if (isCreateTestCase) {
         // create test case
-        showTestCaseAdditionPage(folder);
+        showTestCaseAdditionPage(folder, true);
       } else hideTestCaseAddEditPage();
     }
   };

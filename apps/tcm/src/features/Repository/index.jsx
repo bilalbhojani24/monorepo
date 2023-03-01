@@ -4,6 +4,7 @@ import { Notifications, notify } from '@browserstack/bifrost';
 import { CheckCircleRoundedIcon } from 'assets/icons';
 import TestCaseDetailsView from 'features/TestCaseDetailsView';
 import PropTypes from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   setImportCSVSuccessNotificationShown,
@@ -88,9 +89,18 @@ const Repository = ({ isSearch }) => {
   useEffect(() => {
     // onload set the testcase details IDs
     initTestCaseDetails();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      logEventHelper('TM_TestCasesPageLoaded', {
+        project_id: projectId,
+        folder_id: folderId
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
     setRepoView(isSearch);
