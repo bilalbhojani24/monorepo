@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import BasicWidget from '../BasicWidget';
 import { store } from '../store';
 
-import Content from './components/Content';
+import Content from './components/ContentContainer';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];

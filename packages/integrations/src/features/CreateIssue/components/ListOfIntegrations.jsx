@@ -1,9 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import IntegrationAuth from './IntegrationAuth';
+import IntegrationAuth from '../../Auth';
+import { integrationsSelector } from '../../slices/integrationsSlice';
 
 const renderAuth = ({
+  key: integrationKey,
   label,
   static_content: {
     oauth_screen: oAuthMeta,
@@ -11,29 +13,24 @@ const renderAuth = ({
   } = {}
 }) => (
   <IntegrationAuth
+    integrationKey={integrationKey}
     label={label}
     oAuthMeta={oAuthMeta}
     apiTokenMeta={apiTokenMeta}
   />
 );
 
-const ListOfIntegrations = ({ integrations }) => {
+const ListOfIntegrations = () => {
+  const integrations = useSelector(integrationsSelector);
+  // user has single integration available
   if (integrations.length === 1) {
-    return renderAuth(integrations[0]);
+    const integration = integrations[0];
+    // user has the single integration set up
+    if (!integration.setup_completed) return renderAuth(integration);
+    // user doesn't have the single integration set up
+    return null;
   }
+  // user has multiple integrations available
   return null;
-};
-
-const IntegrationType = PropTypes.shape({
-  label: PropTypes.string,
-  icon: PropTypes.string
-});
-
-ListOfIntegrations.propTypes = {
-  integrations: PropTypes.arrayOf(IntegrationType)
-};
-
-ListOfIntegrations.defaultProps = {
-  integrations: []
 };
 export default ListOfIntegrations;

@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import APIToken from './APIToken';
 import OAuth from './OAuth';
 import { APITokenMetaType, OAuthMetaType } from './types';
 
-const IntegrationAuth = ({ label, oAuthMeta, apiTokenMeta }) => {
+const IntegrationAuth = ({
+  integrationKey,
+  label,
+  oAuthMeta,
+  apiTokenMeta
+}) => {
   const [shouldShowFailedAuthMessage, setShowFailedAuthMessage] =
-    useState(true);
+    useState(false);
   const [hasOAuthFailed, setHasOAuthFailed] = useState(true);
   const [isOAuthActive, setIsOAuthActive] = useState(true);
   const showOAuth = () => {
@@ -19,9 +24,15 @@ const IntegrationAuth = ({ label, oAuthMeta, apiTokenMeta }) => {
   const hideFailedAuthMessage = () => {
     setShowFailedAuthMessage(false);
   };
+  useEffect(() => {
+    if (hasOAuthFailed) {
+      setShowFailedAuthMessage(true);
+    }
+  }, [hasOAuthFailed]);
 
   return isOAuthActive ? (
     <OAuth
+      integrationKey={integrationKey}
       label={label}
       oAuthMeta={oAuthMeta}
       showAPIToken={showAPIToken}
@@ -31,11 +42,17 @@ const IntegrationAuth = ({ label, oAuthMeta, apiTokenMeta }) => {
       shouldShowFailedAuthMessage={shouldShowFailedAuthMessage}
     />
   ) : (
-    <APIToken label={label} apiTokenMeta={apiTokenMeta} showOAuth={showOAuth} />
+    <APIToken
+      integrationKey={integrationKey}
+      label={label}
+      apiTokenMeta={apiTokenMeta}
+      showOAuth={showOAuth}
+    />
   );
 };
 
 IntegrationAuth.propTypes = {
+  integrationKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   oAuthMeta: PropTypes.shape(OAuthMetaType),
   apiTokenMeta: PropTypes.shape(APITokenMetaType)
