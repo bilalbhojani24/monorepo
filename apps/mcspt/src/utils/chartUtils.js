@@ -25,7 +25,7 @@ export const getDefaultChartOptions = () => ({
         id: 'videoSeekHandle',
         color: '#9CA3AF',
         width: 2,
-        value: 7
+        value: 0
       }
     ],
     gridLineWidth: 1,

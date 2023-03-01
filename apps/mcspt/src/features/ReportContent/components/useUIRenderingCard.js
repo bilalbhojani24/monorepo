@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics, useMcpChart } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
 const generateFrameChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -71,6 +75,9 @@ const generateFrameChartOptions = (sessionData, chartGridClicked) => {
 
 const useUIRenderingCard = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
 
   const { chartGridClicked } = useMcpChart();
 
@@ -81,6 +88,16 @@ const useUIRenderingCard = () => {
       generateFrameChartOptions(sessionData, chartGridClicked)
     );
   }, [chartGridClicked, sessionData]);
+
+  useEffect(() => {
+    setFrameChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, frameChartOptions };
 };

@@ -1,16 +1,25 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getLatestSeekTimeInSeconds,
-  getSessionMetrics
-} from '../../Report/slices/reportSlice';
+  getSessionMetrics,
+  updateLatestVideoCurrentTimeInSeconds
+} from '../../Report';
 
 const useReportSidebar = () => {
   const sessionData = useSelector(getSessionMetrics);
 
   const latestSeekTimeInSeconds = useSelector(getLatestSeekTimeInSeconds);
 
-  return { sessionData, latestSeekTimeInSeconds };
+  const dispatch = useDispatch();
+
+  const updateChartSeekerPosition = (videoRefCurrent) => {
+    dispatch(
+      updateLatestVideoCurrentTimeInSeconds(videoRefCurrent?.currentTime)
+    );
+  };
+
+  return { sessionData, latestSeekTimeInSeconds, updateChartSeekerPosition };
 };
 
 export default useReportSidebar;

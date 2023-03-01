@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics, useMcpChart } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
 const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -57,6 +61,9 @@ const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
 
 const useMemoryDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
 
   const { chartGridClicked } = useMcpChart();
 
@@ -67,6 +74,16 @@ const useMemoryDetails = () => {
       generateMemoryChartOptions(sessionData, chartGridClicked)
     );
   }, [sessionData, chartGridClicked]);
+
+  useEffect(() => {
+    setMemoryChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, memoryChartOptions };
 };

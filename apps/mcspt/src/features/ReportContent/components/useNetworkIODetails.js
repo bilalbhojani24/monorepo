@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics, useMcpChart } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
 const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -69,6 +73,9 @@ const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
 
 const useNetworkIODetails = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
 
   const { chartGridClicked } = useMcpChart();
 
@@ -79,6 +86,16 @@ const useNetworkIODetails = () => {
       generateDiskIOChartOptions(sessionData, chartGridClicked)
     );
   }, [sessionData, chartGridClicked]);
+
+  useEffect(() => {
+    setDiskIOChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, networkIOChartOptions };
 };
