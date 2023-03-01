@@ -49,7 +49,7 @@ const MediaPlayer = forwardRef(
       timeUpdateCallBack?.(videoRef.current);
     };
     const handleSliderChange = ({ target: { value } }) => {
-      if (videoRef.current?.currentTime) {
+      if (videoRef.current) {
         videoRef.current.currentTime = value;
       }
     };
