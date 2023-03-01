@@ -2,10 +2,10 @@ import dashboard from 'features/Dashboard/slices/uiSlice';
 import reportApp from 'features/Report/slice/appSlice';
 import reportData from 'features/Report/slice/dataSlice';
 import reportsApp from 'features/Reports/slices/appSlice';
-import siteScannerReport from 'features/SiteScanner/ScanReport/slice/appSlice';
 import siteScannerData from 'features/SiteScanner/slices/dataSlice';
 import { combineReducers } from 'redux';
 
+import siteScannerReport from './features/SiteScanner/ScanReport/slice/appSlice';
 // App Reducers
 const app = combineReducers({
   reports: reportsApp,
