@@ -23,10 +23,8 @@ const useTestRuns = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId } = useParams();
   const currentPage = searchParams.get('p');
-  const currentTab =
-    searchParams.get('closed') === 'true'
-      ? TABS_ARRAY[1].name
-      : TABS_ARRAY[0].name;
+  const isClosedTab = searchParams.get('closed') === 'true';
+  const currentTab = isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name;
 
   const loadedDataProjectId = useSelector(
     (state) => state.testRuns.loadedDataProjectId

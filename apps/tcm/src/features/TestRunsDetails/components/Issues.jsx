@@ -9,8 +9,7 @@ import useIssues from './useIssues';
 import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
-  const { testRunDetails, isIssuesLoading, issuesArray, onDropDownChange } =
-    useIssues();
+  const { testRunDetails, isIssuesLoading, issuesArray } = useIssues();
   const { projectId, testRunId, fetchTestRunDetails } = useTestRunDetails();
 
   useEffect(() => {
