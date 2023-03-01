@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-
-import { twClassNames } from '../../../utils';
 
 import TriangleIcon from './TriangleIcon';
 
@@ -11,8 +9,7 @@ const MetricStat = ({
   metricTitle,
   metricText,
   MetricIcon,
-  criteriaForBreach,
-  triangleDirection
+  criteriaForBreach
 }) => (
   <div className={twClassNames('flex flex-1 flex-col', wrapperClassName)}>
     <div className="flex items-center">
@@ -46,8 +43,7 @@ MetricStat.propTypes = {
   metricTitle: PropTypes.string,
   metricText: PropTypes.string,
   MetricIcon: PropTypes.node,
-  criteriaForBreach: PropTypes.bool,
-  triangleDirection: PropTypes.string
+  criteriaForBreach: PropTypes.bool
 };
 
 MetricStat.defaultProps = {
@@ -55,8 +51,7 @@ MetricStat.defaultProps = {
   metricTitle: '',
   metricText: '',
   MetricIcon: '',
-  criteriaForBreach: false,
-  triangleDirection: ''
+  criteriaForBreach: false
 };
 
 export default MetricStat;

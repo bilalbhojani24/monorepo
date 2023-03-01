@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
-const generateDiskIOChartOptions = (sessionData) => {
+const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const diskReadTimeSeries = sessionData?.report?.['Disk IO']?.metrics?.map(
@@ -18,7 +22,20 @@ const generateDiskIOChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
+  };
+
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
   };
 
   chartOptions.tooltip = {
@@ -56,12 +73,29 @@ const generateDiskIOChartOptions = (sessionData) => {
 
 const useDiskIODetails = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
+
+  const { chartGridClicked } = useMcpChart();
 
   const [diskIOChartOptions, setDiskIOChartOptions] = useState(null);
 
   useEffect(() => {
-    setDiskIOChartOptions(generateDiskIOChartOptions(sessionData));
-  }, [sessionData]);
+    setDiskIOChartOptions(
+      generateDiskIOChartOptions(sessionData, chartGridClicked)
+    );
+  }, [sessionData, chartGridClicked]);
+
+  useEffect(() => {
+    setDiskIOChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, diskIOChartOptions };
 };

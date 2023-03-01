@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
-const generateFrameChartOptions = (sessionData) => {
+const generateFrameChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const fpsSeries = sessionData?.report?.Frames?.metrics?.map((x) => [
@@ -20,7 +24,20 @@ const generateFrameChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
+  };
+
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
   };
 
   chartOptions.tooltip = {
@@ -58,12 +75,29 @@ const generateFrameChartOptions = (sessionData) => {
 
 const useUIRenderingCard = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
+
+  const { chartGridClicked } = useMcpChart();
 
   const [frameChartOptions, setFrameChartOptions] = useState(null);
 
   useEffect(() => {
-    setFrameChartOptions(generateFrameChartOptions(sessionData));
-  }, [sessionData]);
+    setFrameChartOptions(
+      generateFrameChartOptions(sessionData, chartGridClicked)
+    );
+  }, [chartGridClicked, sessionData]);
+
+  useEffect(() => {
+    setFrameChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, frameChartOptions };
 };

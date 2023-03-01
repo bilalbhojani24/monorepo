@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDefaultChartOptions } from '../../../utils';
-import { getSessionMetrics } from '../../Report';
+import {
+  getLatestVideoCurrentTimeInSeconds,
+  getSessionMetrics,
+  useMcpChart
+} from '../../Report';
 
-const generateMemoryChartOptions = (sessionData) => {
+const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const memoryTimeSeriesData = sessionData?.report?.Memory?.metrics?.map(
@@ -14,7 +18,20 @@ const generateMemoryChartOptions = (sessionData) => {
   chartOptions.chart = {
     type: 'spline',
     height: 182,
-    spacingBottom: 0
+    spacingBottom: 0,
+    events: {
+      click: chartGridClicked
+    }
+  };
+
+  chartOptions.plotOptions = {
+    spline: {
+      point: {
+        events: {
+          click: chartGridClicked
+        }
+      }
+    }
   };
 
   chartOptions.tooltip = {
@@ -44,12 +61,29 @@ const generateMemoryChartOptions = (sessionData) => {
 
 const useMemoryDetails = () => {
   const sessionData = useSelector(getSessionMetrics);
+  const latestVideoCurrentTimeInSeconds = useSelector(
+    getLatestVideoCurrentTimeInSeconds
+  );
+
+  const { chartGridClicked } = useMcpChart();
 
   const [memoryChartOptions, setMemoryChartOptions] = useState(null);
 
   useEffect(() => {
-    setMemoryChartOptions(generateMemoryChartOptions(sessionData));
-  }, [sessionData]);
+    setMemoryChartOptions(
+      generateMemoryChartOptions(sessionData, chartGridClicked)
+    );
+  }, [sessionData, chartGridClicked]);
+
+  useEffect(() => {
+    setMemoryChartOptions((prevOps) => {
+      const newOps = { ...prevOps };
+
+      newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;
+
+      return newOps;
+    });
+  }, [latestVideoCurrentTimeInSeconds]);
 
   return { sessionData, memoryChartOptions };
 };

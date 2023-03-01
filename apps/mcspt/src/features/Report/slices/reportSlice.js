@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  sessionData: {}
+  sessionData: {},
+  latestSeekTimeInSeconds: undefined,
+  latestVideoCurrentTimeInSeconds: 0
 };
 
 export const reportSlice = createSlice({
@@ -10,13 +12,39 @@ export const reportSlice = createSlice({
   reducers: {
     updateSessionMetrics: (state, action) => {
       state.sessionData = action.payload;
+    },
+    updateLatestSeekTimeInSeconds: (state, action) => {
+      let value = action.payload;
+
+      if ((value !== 0 && Boolean(value)) || value === 0) {
+        value = Math.round(value);
+      } else {
+        value = undefined;
+      }
+
+      state.latestSeekTimeInSeconds = value;
+    },
+    updateLatestVideoCurrentTimeInSeconds: (state, action) => {
+      const value = action.payload;
+
+      if ((value !== 0 && Boolean(value)) || value === 0) {
+        state.latestVideoCurrentTimeInSeconds = value;
+      }
     }
   }
 });
 
 export const getSessionMetrics = (state) => state.report.sessionData;
+export const getLatestSeekTimeInSeconds = (state) =>
+  state.report.latestSeekTimeInSeconds;
+export const getLatestVideoCurrentTimeInSeconds = (state) =>
+  state.report.latestVideoCurrentTimeInSeconds;
 
 // Action creators are generated for each case reducer function
-export const { updateSessionMetrics } = reportSlice.actions;
+export const {
+  updateSessionMetrics,
+  updateLatestSeekTimeInSeconds,
+  updateLatestVideoCurrentTimeInSeconds
+} = reportSlice.actions;
 
 export default reportSlice.reducer;

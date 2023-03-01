@@ -14,6 +14,20 @@ export const getDefaultChartOptions = () => ({
     labels: {
       enabled: false
     },
+    crosshair: {
+      enabled: true,
+      snap: false,
+      color: '#9CA3AF',
+      dashStyle: 'LongDash'
+    },
+    plotLines: [
+      {
+        id: 'videoSeekHandle',
+        color: '#9CA3AF',
+        width: 2,
+        value: 0
+      }
+    ],
     gridLineWidth: 1,
     showLastLabel: true,
     endOnTick: true,
