@@ -70,13 +70,15 @@ const ReportContent = () => {
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <div className="mb-4 text-lg font-medium leading-6">Battery</div>
+      {sessionData?.device?.os === 'android' && (
+        <div className="flex flex-col">
+          <div className="mb-4 text-lg font-medium leading-6">Battery</div>
 
-        <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow">
-          <BatteryChart />
+          <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow">
+            <BatteryChart />
+          </div>
         </div>
-      </div>
+      )}
 
       <div id="diskAndNetworkIO" className="flex flex-wrap">
         <div className="w-full pr-0 md:w-1/2 md:pr-1">

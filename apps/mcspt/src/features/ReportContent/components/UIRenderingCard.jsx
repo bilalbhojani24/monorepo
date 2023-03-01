@@ -43,37 +43,39 @@ const UIRenderingCard = () => {
         />
       </div>
 
-      <div className="flex">
-        <MetricStat
-          wrapperClassName="p-4"
-          metricTitle="Frozen Frame Rate"
-          metricText={`${sanitizeValue(
-            sessionData?.aggregated?.frozenFramePercent?.value
-          )} %`}
-          MetricIcon={<MdInfoOutline />}
-          criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.frozenFramePercent?.value,
-            sessionData?.threshold?.frozenFramePercent
-          )}
-          triangleDirection={
-            sessionData?.threshold?.frozenFramePercent?.operator
-          }
-        />
+      {sessionData?.device?.os === 'android' && (
+        <div className="flex">
+          <MetricStat
+            wrapperClassName="p-4"
+            metricTitle="Frozen Frame Rate"
+            metricText={`${sanitizeValue(
+              sessionData?.aggregated?.frozenFramePercent?.value
+            )} %`}
+            MetricIcon={<MdInfoOutline />}
+            criteriaForBreach={decideIfCriteriaBreached(
+              sessionData?.aggregated?.frozenFramePercent?.value,
+              sessionData?.threshold?.frozenFramePercent
+            )}
+            triangleDirection={
+              sessionData?.threshold?.frozenFramePercent?.operator
+            }
+          />
 
-        <MetricStat
-          wrapperClassName="p-4"
-          metricTitle="ANRs Detected"
-          metricText={`${sanitizeValue(
-            sessionData?.aggregated?.anrCount?.value
-          )}`}
-          MetricIcon={<MdInfoOutline />}
-          criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.anrCount?.value,
-            sessionData?.threshold?.anrCount
-          )}
-          triangleDirection={sessionData?.threshold?.anrCount?.operator}
-        />
-      </div>
+          <MetricStat
+            wrapperClassName="p-4"
+            metricTitle="ANRs Detected"
+            metricText={`${sanitizeValue(
+              sessionData?.aggregated?.anrCount?.value
+            )}`}
+            MetricIcon={<MdInfoOutline />}
+            criteriaForBreach={decideIfCriteriaBreached(
+              sessionData?.aggregated?.anrCount?.value,
+              sessionData?.threshold?.anrCount
+            )}
+            triangleDirection={sessionData?.threshold?.anrCount?.operator}
+          />
+        </div>
+      )}
 
       <div className="p-4">
         <div className="relative h-[182px]">
