@@ -21,7 +21,7 @@ const AppRoute = {
 };
 
 export const BASE_API_URL = import.meta.env.DEV
-  ? 'https://teststack.bsstag.com'
+  ? 'https://api.teststack.bsstag.com'
   : window.location.origin;
 
 export default AppRoute;
