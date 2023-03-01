@@ -12,8 +12,7 @@ export const logEventHelper = (eventName, data) => (_, getState) => {
 
   logEvent([], WEB_EVENT_NAME, eventName, {
     ...data,
-    user_id: state.global.user?.id,
-    group_id: state.global.user?.group_id,
+    user_id: state.global?.user?.id,
     product: PRODUCT_NAME,
     team: TEAM_NAME_EVENTS
   });
