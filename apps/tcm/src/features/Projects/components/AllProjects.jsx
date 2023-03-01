@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { logEvent } from '@browserstack/utils';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -12,8 +11,8 @@ import {
   TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
-import { TEAM_NAME_EVENTS, WEB_EVENT_NAME } from 'const/immutables';
 import AppRoute from 'const/routes';
+import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/projectsConst';
 
@@ -31,6 +30,7 @@ const AllProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
+    dispatch,
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
@@ -38,11 +38,8 @@ const AllProjects = () => {
   } = useProjects();
 
   useEffect(() => {
-    logEvent(['EDS'], WEB_EVENT_NAME, 'TM_AllProjectsPageLoaded', {
-      team: TEAM_NAME_EVENTS,
-      user_id: 12
-    });
-  }, []);
+    if (!isLoading) dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
+  }, [dispatch, isLoading]);
 
   const tableColumns = [
     {

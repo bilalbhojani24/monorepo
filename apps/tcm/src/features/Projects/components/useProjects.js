@@ -182,7 +182,8 @@ const useProjects = (prop) => {
     formError,
     setFormError,
     editProjectHandler,
-    hideEditProjectModal
+    hideEditProjectModal,
+    dispatch
   };
 };
 
