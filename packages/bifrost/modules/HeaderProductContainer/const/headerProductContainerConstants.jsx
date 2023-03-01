@@ -61,7 +61,7 @@ export const TEST_MANAGEMENT_PRODUCTS = [
     name: 'Test Observability',
     description: 'Interactive cross browser testing',
     icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
-    link: 'http://observability.browserstack.com'
+    link: 'https://observability.browserstack.com'
   }
 ];
 export const TEST_DEVELOPMENT_PRODUCTS = [
