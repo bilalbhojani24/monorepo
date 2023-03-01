@@ -58,6 +58,7 @@ const useMiscConnections = (prop) => {
       closeTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(() => {
         dispatch(deleteTestRun(selectedTestRun));
         closeAll();
+        prop?.updateCb();
       });
     }
   };

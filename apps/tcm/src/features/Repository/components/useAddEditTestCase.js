@@ -13,7 +13,7 @@ import {
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
@@ -200,6 +200,56 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
+  const onSaveTestSuccessHelper = (data) => {
+    const testCaseData = data.data.test_case;
+    const folderData = data.data.folder;
+    const projectData = data.data.project;
+
+    if (projectId === 'new' || !allFolders.length) {
+      // no project/folder
+
+      // if no folders append the data rightaway
+      if (!allFolders.length && folderData) {
+        dispatch(setAllFolders([folderData]));
+        dispatch(updateFoldersLoading(false));
+      }
+
+      if (projectId === 'new') {
+        dispatch(
+          addNotificaton({
+            id: `project_created${testCaseData?.id}`,
+            title: `'New Project': Project created`,
+            variant: 'success'
+          })
+        );
+
+        dispatch(addGlobalProject(projectData));
+      }
+
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: testCaseData.project_id,
+          folderId: testCaseData.test_case_folder_id
+        })
+      );
+    } else if (parseInt(folderId, 10) === testCaseData.test_case_folder_id) {
+      // only if the added test case belong to the opened folder
+      dispatch(addSingleTestCase(testCaseData));
+    }
+
+    setTimeout(() => {
+      // time out to wait for the project notification
+      dispatch(
+        addNotificaton({
+          id: `test_case_added${testCaseData?.id}`,
+          title: `${testCaseData?.identifier} : Test case created`,
+          variant: 'success'
+        })
+      );
+    }, 5);
+    hideTestCaseAddEditPage(null, true);
+  };
+
   const saveTestCase = (formData) => {
     if (isFormValidated(formData)) {
       let apiSaveFunction = addTestCaseAPI;
@@ -219,53 +269,7 @@ export default function useAddEditTestCase(prop) {
         projectId,
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
-      }).then((data) => {
-        const testCaseData = data.data.test_case;
-        const folderData = data.data.folder;
-
-        if (projectId === 'new' || !allFolders.length) {
-          // no project/folder
-
-          // if no folders append the data rightaway
-          if (!allFolders.length && folderData) {
-            dispatch(setAllFolders([folderData]));
-            dispatch(updateFoldersLoading(false));
-          }
-
-          if (projectId === 'new')
-            dispatch(
-              addNotificaton({
-                id: `project_created${testCaseData?.id}`,
-                title: `'New Project': Project created`,
-                variant: 'success'
-              })
-            );
-
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId: testCaseData.project_id,
-              folderId: testCaseData.test_case_folder_id
-            })
-          );
-        } else if (
-          parseInt(folderId, 10) === testCaseData.test_case_folder_id
-        ) {
-          // only if the added test case belong to the opened folder
-          dispatch(addSingleTestCase(testCaseData));
-        }
-
-        setTimeout(() => {
-          // time out to wait for the project notification
-          dispatch(
-            addNotificaton({
-              id: `test_case_added${testCaseData?.id}`,
-              title: `${testCaseData?.identifier} : Test case created`,
-              variant: 'success'
-            })
-          );
-        }, 5);
-        hideTestCaseAddEditPage(null, true);
-      });
+      }).then(onSaveTestSuccessHelper);
     }
   };
 

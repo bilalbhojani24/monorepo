@@ -133,6 +133,7 @@ export default function useTestCaseViewDetails() {
   }, [jiraConfig, setJiraConfig]);
 
   return {
+    projectId,
     detailsRef,
     testResultsArray,
     testCaseId: metaIds?.testCaseId,

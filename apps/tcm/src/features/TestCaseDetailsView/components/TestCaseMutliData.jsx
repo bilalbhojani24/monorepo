@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { InfoOutlinedIcon } from 'assets/icons';
-import {
-  TMButton,
-  TMDataTable,
-  TMEmptyState,
-  TMTabs
-} from 'common/bifrostProxy';
+import { TMDataTable, TMEmptyState, TMTabs } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
-import { formatTime } from 'utils/helperFunctions';
+import {
+  formatTime,
+  onSubmitKeyHandler,
+  routeFormatter
+} from 'utils/helperFunctions';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
@@ -22,10 +23,10 @@ const TestCaseMutliData = ({
   const {
     testRunsCount,
     selectedTab,
+    projectId,
     testCaseIssues,
     handleTabChange,
-    onJiraButtonClick,
-    testRunButtonClick
+    onJiraButtonClick
   } = useTestCaseViewDetails();
 
   const issuesTableColumn = [
@@ -33,35 +34,41 @@ const TestCaseMutliData = ({
       name: 'Issue',
       key: 'jira_id',
       cell: (rowData) => (
-        <div className="text-base-900 font-medium">
-          <TMButton
-            variant="minimal"
-            wrapperClassName="text-base-900 focus:ring-0"
-            onClick={() => {
-              onJiraButtonClick(rowData?.jira_id);
-            }}
-          >
-            {`${rowData.jira_id}`}
-          </TMButton>
-        </div>
+        <div
+          className="text-base-900 cursor-pointer font-medium"
+          role="button"
+          tabIndex={0}
+          onClick={() => onJiraButtonClick(rowData.jira_id)}
+          onKeyDown={(e) =>
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.jira_id))
+          }
+        >{`${rowData.jira_id}`}</div>
       )
     },
     {
       name: 'Test Run',
       key: 'jira_id',
       cell: (rowData) => (
-        <div className="text-base-900">
-          <TMButton
-            variant="minimal"
-            wrapperClassName="text-base-900 focus:ring-0"
-            onClick={() => {
-              testRunButtonClick(rowData?.test_run_id);
-            }}
-          >
-            {rowData?.test_run_name}
-          </TMButton>
-        </div>
+        <Link
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+            projectId,
+            testRunId: rowData?.test_run_id
+          })}
+          className="text-base-900"
+        >
+          {rowData?.test_run_name}
+        </Link>
       )
+      // isFromTestRun ? (
+      //   <div className="text-base-900">{rowData?.test_run_name}</div>
+      // ) : (
+      //   <div className="flex flex-col">
+      //     <div className="text-base-900 font-medium">{`${
+      //       rowData?.jira_id || ''
+      //     }`}</div>
+      //     <div className="text-base-500">{rowData?.test_run_name}</div>
+      //   </div>
+      // )
     },
     {
       name: 'Linked On',
