@@ -13,7 +13,11 @@ const TMRichTextEditor = (props) => {
     <RichTextEditor
       {...props}
       onAssetUpload={imageUploadRTEHelper}
-      assetsURL={import.meta.env.DEV ? '/dist/assets/css' : '/assets/css'}
+      assetsURL={
+        import.meta.env.DEV
+          ? '/dist/assets/css/texteditorSkin'
+          : '/assets/css/texteditorSkin'
+      }
     />
   );
 };
