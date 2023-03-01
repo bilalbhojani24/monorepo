@@ -20,9 +20,7 @@ export default function useHeader() {
       headerProductWidth -
       64;
 
-    if (spaceLeftToShowProducts < 132) {
-      setProductsToShow(0);
-    } else if (spaceLeftToShowProducts > 131 && spaceLeftToShowProducts < 208) {
+    if (spaceLeftToShowProducts < 208) {
       setProductsToShow(2);
     } else {
       setProductsToShow(3);

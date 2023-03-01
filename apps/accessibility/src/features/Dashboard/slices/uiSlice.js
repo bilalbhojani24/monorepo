@@ -11,7 +11,6 @@ const { actions, reducer } = createSlice({
       state.activeNav = payload;
     },
     setSidebarCollapsed: (state, { payload }) => {
-      console.log('Hbye');
       state.sidebarCollapsed = payload;
     }
   }

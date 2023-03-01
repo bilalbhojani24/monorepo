@@ -9,7 +9,7 @@ const initAPI = async () => {
   await new Promise((resolve) => {
     setTimeout(() => {
       resolve(false);
-    }, 2000);
+    }, 3000);
   });
 
   // returns status code - 200 (uncomment and test)
