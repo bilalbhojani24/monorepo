@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { formatTime } from 'utils/helperFunctions';
 
 import { STATE_OPTIONS } from '../const/addEditConst';
-import { TABS_ARRAY } from '../const/immutableConst';
 
 const initialState = {
   isVisible: {
@@ -20,7 +19,6 @@ const initialState = {
   },
   selectedTestRun: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
-  currentTab: TABS_ARRAY[0].name,
   allTestRuns: [],
   tagsArray: [],
   issuesArray: [],
@@ -100,9 +98,6 @@ const testRunslice = createSlice({
     setAllTestRuns: (state, { payload }) => {
       state.allTestRuns = payload;
     },
-    setCurrentTab: (state, { payload }) => {
-      state.currentTab = payload;
-    },
     setMetaPage: (state, { payload }) => {
       state.metaPage = payload;
     },
@@ -142,7 +137,6 @@ export const {
   updateTestRun,
   setAllTestRuns,
   setAddTestRunForm,
-  setCurrentTab,
   setMetaPage,
   deleteTestRun
 } = testRunslice.actions;
