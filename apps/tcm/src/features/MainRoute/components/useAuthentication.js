@@ -52,6 +52,7 @@ const useAuthentication = () => {
         onAuthSuccessHandler({
           data: {
             user: {
+              id: 4,
               full_name: 'Ribin Roy',
               email: 'fake2@example.com',
               onboarded: 1
