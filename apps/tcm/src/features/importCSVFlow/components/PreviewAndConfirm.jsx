@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -17,6 +18,7 @@ import {
 import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 
 import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
+import { resetImportCSVState } from '../slices/csvThunk';
 
 import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
@@ -30,7 +32,7 @@ const PreviewAndConfirm = () => {
     previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const formatPriority = (priority) => {
@@ -60,6 +62,7 @@ const PreviewAndConfirm = () => {
       navigate({
         pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
       });
+      dispatch(resetImportCSVState());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, confirmCSVImportNotificationConfig]);

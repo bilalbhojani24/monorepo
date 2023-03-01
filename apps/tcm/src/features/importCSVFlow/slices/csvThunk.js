@@ -10,6 +10,7 @@ import {
 import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
 
 import {
+  importCSVCleanUp,
   setCSVConfigurationsFulfilled,
   setErrorLabelInMapFields,
   setFieldsMapping,
@@ -182,3 +183,15 @@ export const startImportingTestCases =
       dispatch(startImportingTestCaseRejected(err));
     }
   };
+
+export const resetImportCSVState = () => (dispatch, getState) => {
+  const { totalImportedProjectsInPreview, confirmCSVImportNotificationConfig } =
+    getState().importCSV;
+
+  dispatch(
+    importCSVCleanUp({
+      totalImportedProjectsInPreview,
+      confirmCSVImportNotificationConfig
+    })
+  );
+};

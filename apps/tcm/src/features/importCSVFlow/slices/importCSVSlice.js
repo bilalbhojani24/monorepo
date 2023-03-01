@@ -54,7 +54,8 @@ const initialState = {
   },
   totalImportedProjectsInPreview: null,
   mapFieldsProceedLoading: false,
-  showSelectMenuErrorInMapFields: false
+  showSelectMenuErrorInMapFields: false,
+  importCSVSuccessNotificationShown: false
 };
 
 const importCSVSlice = createSlice({
@@ -179,12 +180,6 @@ const importCSVSlice = createSlice({
         state.confirmCSVImportNotificationConfig.csvImportFolderId =
           payload.folder_id;
       }
-      // else if (payload.code === 'ERR_BAD_REQUEST') {
-      //   state.confirmCSVImportNotificationConfig.show = true;
-      //   state.confirmCSVImportNotificationConfig.status = 'failed';
-      //   state.confirmCSVImportNotificationConfig.modalData =
-      //     FAILED_IMPORT_MODAL_DATA;
-      // }
     },
     startImportingTestCaseRejected: (state, { payload }) => {
       if (payload.response.status === 499) {
@@ -243,6 +238,23 @@ const importCSVSlice = createSlice({
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = payload;
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = payload;
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = payload;
+    },
+    setImportCSVSuccessNotificationShown: (state, { payload }) => {
+      state.importCSVSuccessNotificationShown = payload;
+    },
+    importCSVCleanUp: (state, { payload }) => {
+      const {
+        totalImportedProjectsInPreview,
+        confirmCSVImportNotificationConfig,
+        ...restInitialState
+      } = initialState;
+
+      return {
+        totalImportedProjectsInPreview: payload?.totalImportedProjectsInPreview,
+        confirmCSVImportNotificationConfig:
+          payload?.confirmCSVImportNotificationConfig,
+        ...restInitialState
+      };
     }
   }
 });
@@ -264,6 +276,7 @@ export const {
   uploadFilePending,
   uploadFileFulfilled,
   uploadFileRejected,
+  importCSVCleanUp,
   setErrorLabelInMapFields,
   setShowSelectMenuErrorInMapFields,
   setCSVConfigurationsFulfilled,
@@ -274,6 +287,7 @@ export const {
   submitMappingDataPending,
   submitMappingDataFulfilled,
   submitMappingDataRejected,
-  setNotificationConfigForConfirmCSVImport
+  setNotificationConfigForConfirmCSVImport,
+  setImportCSVSuccessNotificationShown
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;
