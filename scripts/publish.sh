@@ -21,7 +21,8 @@ if ! aws s3 ls "s3://$DESTINATION/" >/dev/null 2>&1; then
 fi
 
 
-if [ "$BCKP_FOLDERNAME" ] then
+if [ "$BCKP_FOLDERNAME" ] 
+then
   echo "*****PRODUCTION PUBLISH STARTED*****"
   
   echo "$SOURCE uploading to $DESTINATION"

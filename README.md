@@ -1,6 +1,6 @@
 # Turborepo starter
 
-This is an official pnpm starter turborepo.
+This is Frontend
 
 ## What's inside?
 
