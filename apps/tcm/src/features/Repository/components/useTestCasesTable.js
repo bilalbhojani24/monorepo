@@ -5,6 +5,7 @@ import { moveTestCasesBulkAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/testCaseConst';
 import {
@@ -100,11 +101,24 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkEdit = () => {
+    dispatch(
+      logEventHelper('TM_BulkEditBtnClicked', {
+        project_id: projectId,
+        folder_id_src: folderId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     dispatch(setAddTestCaseVisibility(true));
     setBulkStatus(true);
   };
 
   const initBulkDelete = () => {
+    dispatch(
+      logEventHelper('TM_BulkDeleteBtnClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     dispatch(setDeleteTestCaseModalVisibility(true));
     setBulkStatus(true);
   };
@@ -114,7 +128,15 @@ const useTestCasesTable = (prop) => {
   };
 
   const moveTestCasesHandler = (selectedFolder) => {
-    if (selectedFolder?.id)
+    if (selectedFolder?.id) {
+      dispatch(
+        logEventHelper('TM_TcMoveBtnClicked', {
+          project_id: projectId,
+          folder_id_src: folderId,
+          folder_id_dest: selectedFolder.id,
+          testcase_id: bulkSelection?.ids
+        })
+      );
       moveTestCasesBulkAPI({
         projectId,
         folderId,
@@ -132,18 +154,25 @@ const useTestCasesTable = (prop) => {
         );
         hideFolderModal();
       });
+    }
   };
 
-  const onDropDownChange = (selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
-      /// RIIIBIIIIN
       dispatch(setTestCaseFormData(selectedItem));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete
       dispatch(setDeleteTestCaseModalVisibility(true));
+      if (isFromTable)
+        dispatch(
+          logEventHelper('TM_DeleteTcLinkClickedTcList', {
+            project_id: projectId,
+            testcase_id: selectedItem?.id
+          })
+        );
     }
     dispatch(setSelectedTestCase(selectedItem));
   };

@@ -17,6 +17,7 @@ const Onboarding = () => {
     onFormChange,
     continueClickHandler
   } = useOnboarding();
+
   return (
     <div className="flex h-full w-full items-start justify-center py-10">
       <div className="border-base-300 max-h-full w-screen max-w-4xl overflow-y-auto rounded-md border bg-white">

@@ -12,7 +12,7 @@ const InlineAddTestCase = forwardRef(({ noBorder }, ref) => {
   const { saveTestCase, folderId } = useAddEditTestCase();
 
   const handleInlineInputButtonClick = () => {
-    saveTestCase({ name: testCase, test_case_folder_id: folderId });
+    saveTestCase({ name: testCase, test_case_folder_id: folderId }, true);
     setTestCase('');
   };
 

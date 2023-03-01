@@ -251,8 +251,18 @@ export default function useAddEditTestCase(prop) {
     hideTestCaseAddEditPage(null, true);
   };
 
-  const saveTestCase = (formData) => {
+  const saveTestCase = (formData, isInlineAddition) => {
     if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper(
+          isInlineAddition
+            ? 'TM_CreateTcBtnClickedQuickAddition'
+            : 'TM_CreateCaseBtnClickedTcForm',
+          {
+            project_id: projectId
+          }
+        )
+      );
       let apiSaveFunction = addTestCaseAPI;
       if (projectId === 'new') {
         // no project
@@ -275,6 +285,12 @@ export default function useAddEditTestCase(prop) {
   };
 
   const saveBulkEditHelper = () => {
+    dispatch(
+      logEventHelper('TM_UpdateAllBtnClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     setBulkEditConfirm(false);
     editTestCasesBulkAPI({
       projectId,
@@ -304,6 +320,13 @@ export default function useAddEditTestCase(prop) {
 
   const editTestCase = (formData) => {
     if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper('TM_UpdateCaseBtnClicked', {
+          project_id: projectId,
+          testcase_id: selectedTestCase.id
+        })
+      );
+
       editTestCaseAPI({
         projectId,
         folderId,
