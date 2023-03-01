@@ -58,7 +58,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
 
   const resultsTRTableColumn = [
     {
-      name: 'Note',
+      name: 'Remarks',
       key: 'id',
       cell: (rowData) => (
         <div className="flex flex-col">
