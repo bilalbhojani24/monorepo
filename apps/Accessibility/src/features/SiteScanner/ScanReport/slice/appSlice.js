@@ -90,7 +90,7 @@ const getInitialTab = () => {
 };
 
 const { actions, reducer } = createSlice({
-  name: 'reportApp',
+  name: 'siteScannerReportApp',
   initialState: {
     ...initialAppState,
     ...getInitialTab()
