@@ -1,4 +1,4 @@
-import dashboard from 'features/dashboard/slices/dashboardUISlice';
+import dashboard from 'features/Dashboard/slices/uiSlice';
 import reportApp from 'features/Report/slice/appSlice';
 import reportData from 'features/Report/slice/dataSlice';
 import reportsApp from 'features/Reports/slices/appSlice';
