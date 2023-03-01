@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
@@ -14,6 +15,7 @@ import {
 
 export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
+  const modalFocusRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -104,6 +106,7 @@ export default function useDeleteTestCase() {
   };
 
   return {
+    modalFocusRef,
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
     isBulkUpdate,

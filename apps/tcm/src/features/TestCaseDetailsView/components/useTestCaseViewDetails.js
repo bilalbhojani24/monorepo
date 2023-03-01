@@ -102,6 +102,15 @@ export default function useTestCaseViewDetails() {
     window.open(`${jiraConfig?.data?.host}/browse/${jiraID}`);
   };
 
+  const testRunButtonClick = (testRunID) => {
+    window.open(
+      `${window.location.href
+        .split('/')
+        .splice(0, 5)
+        .join('/')}/test-runs/${testRunID}`
+    );
+  };
+
   useEffect(() => {
     if (detailsRef.current) {
       const imageElements = detailsRef.current.querySelectorAll('img');
@@ -124,6 +133,7 @@ export default function useTestCaseViewDetails() {
   }, [jiraConfig, setJiraConfig]);
 
   return {
+    projectId,
     detailsRef,
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
@@ -142,6 +152,7 @@ export default function useTestCaseViewDetails() {
     showAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick
+    onJiraButtonClick,
+    testRunButtonClick
   };
 }

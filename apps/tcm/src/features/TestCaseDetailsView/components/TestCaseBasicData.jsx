@@ -164,7 +164,7 @@ const TestCaseBasicData = () => {
                       <TMButton
                         type="submit"
                         variant="minimal"
-                        wrapperClassName="text-xs"
+                        wrapperClassName="text-sm"
                         onClick={showAddIssuesModal}
                       >
                         Link to Jira

@@ -76,8 +76,29 @@ const TestCasesTable = () => {
       name: 'STATUS',
       class: 'w-[13%]',
       key: 'status',
-      cell: (rowData) =>
-        testRunDetails?.run_state === 'closed' ? (
+      cell: (rowData) => {
+        const value =
+          rowData?.latest_status &&
+          STATUS_OPTIONS.find((item) => item.value === rowData.latest_status);
+
+        const valueMapped = value
+          ? {
+              label: (
+                <div>
+                  <div
+                    className={`${value.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                    style={{
+                      backgroundColor: value.color ? value.color : 'auto'
+                    }}
+                  />
+                  <span className="inline-block">{value.label}</span>
+                </div>
+              ),
+              value: value.value
+            }
+          : null;
+
+        return testRunDetails?.run_state === 'closed' ? (
           <div className="capitalize">{rowData?.latest_status}</div>
         ) : (
           <TMSelectMenu
@@ -98,15 +119,11 @@ const TestCasesTable = () => {
               ),
               value: el.value
             }))}
-            value={
-              rowData?.latest_status &&
-              STATUS_OPTIONS.find(
-                (item) => item.value === rowData.latest_status
-              )
-            }
+            value={valueMapped}
             onChange={(e) => onResultChange(e, rowData)}
           />
-        ),
+        );
+      },
       // <span className="capitalize">{rowData.status}</span>,
       maxWidth: 'max-w-[80px]'
     }

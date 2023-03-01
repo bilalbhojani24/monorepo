@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -17,6 +18,7 @@ import {
 import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 
 import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
+import { resetImportCSVState } from '../slices/csvThunk';
 
 import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
@@ -30,7 +32,7 @@ const PreviewAndConfirm = () => {
     previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const formatPriority = (priority) => {
@@ -60,6 +62,7 @@ const PreviewAndConfirm = () => {
       navigate({
         pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
       });
+      dispatch(resetImportCSVState());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, confirmCSVImportNotificationConfig]);
@@ -84,6 +87,9 @@ const PreviewAndConfirm = () => {
         firstCta="Change Folder"
         secondCta="Upload to Root Folder"
       />
+      <div className="text-base-500 mb-4 text-sm font-normal">
+        This is the folder location where test cases will be imported
+      </div>
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
@@ -115,6 +121,7 @@ const PreviewAndConfirm = () => {
               <TableCell>{formatTemplate(row.templateType)}</TableCell>
               <TableCell>{formatPriority(row.priority)}</TableCell>
               <TableCell>{row.owner}</TableCell>
+              <TableCell>{row.type}</TableCell>
             </TableRow>
           ))}
         </TableBody>

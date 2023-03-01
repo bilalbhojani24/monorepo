@@ -58,7 +58,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
 
   const resultsTRTableColumn = [
     {
-      name: 'Note',
+      name: 'Remarks',
       key: 'id',
       cell: (rowData) => (
         <div className="flex flex-col">
@@ -69,6 +69,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
           <div className="text-base-500">
             {formatTime(rowData.updated_at, 'timeG')}
           </div>
+          <div className="text-base-500">{rowData?.author?.full_name}</div>
         </div>
       )
     },

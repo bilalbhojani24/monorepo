@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { MdOutlineExpandMore } from '@browserstack/bifrost';
 import { TMButton, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
+import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import { IMPORT_OPTIONS } from '../const/topSectionConst';
 
 import useAddEditTestCase from './useAddEditTestCase';
@@ -15,6 +17,12 @@ const TopSection = () => {
     folderId,
     projectId
   } = useAddEditTestCase();
+
+  const dispatch = useDispatch();
+  const handleDropdownOptionClick = (selectedOption) => {
+    if (selectedOption?.route) goToThisURL(selectedOption?.route);
+    dispatch(setCurrentTestManagementTool(''));
+  };
 
   return (
     <div className="w-full">
@@ -60,11 +68,7 @@ const TopSection = () => {
                 triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0 bg-white"
                 triggerVariant="menu-button"
                 options={IMPORT_OPTIONS}
-                onClick={(selectedOption) =>
-                  selectedOption?.route
-                    ? goToThisURL(selectedOption?.route)
-                    : null
-                }
+                onClick={handleDropdownOptionClick}
               />
             </div>
           </>

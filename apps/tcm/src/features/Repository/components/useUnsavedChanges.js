@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +15,7 @@ import {
 } from '../slices/repositorySlice';
 
 const useUnsavedChanges = () => {
+  const modalFocusRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isUnsavedDataExists = useSelector(
@@ -80,6 +82,7 @@ const useUnsavedChanges = () => {
   };
 
   return {
+    modalFocusRef,
     isUnsavedDataModalVisible,
     hideUnsavedModal,
     clearUnsavedChangesHandler,

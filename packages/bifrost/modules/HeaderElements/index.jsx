@@ -364,7 +364,7 @@ const HeaderElements = ({
       >
         <div
           className={twClassNames(
-            'flex flex-col items-start py-0 px-2 gap-1 w-[208px]'
+            'flex flex-col items-start p-0 gap-1 w-[208px]'
           )}
         >
           <Hyperlink

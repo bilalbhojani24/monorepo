@@ -14,6 +14,7 @@ const DeleteTestCase = ({ show }) => {
   const {
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
+    modalFocusRef,
     isBulkUpdate,
     selectedBulkTCCount
   } = useDeleteTestCase();
@@ -21,6 +22,7 @@ const DeleteTestCase = ({ show }) => {
   return (
     <TMModal
       show={show}
+      ref={modalFocusRef}
       withDismissButton
       onOverlayClick={hideDeleteTestCaseModal}
     >
@@ -43,6 +45,7 @@ const DeleteTestCase = ({ show }) => {
           variant="primary"
           colors="white"
           onClick={hideDeleteTestCaseModal}
+          ref={modalFocusRef}
         >
           Cancel
         </TMButton>

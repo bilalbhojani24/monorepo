@@ -95,7 +95,7 @@ const ZephyrImportForm = (props) => {
                             <br />
                             <a
                               href="https://id.atlassian.com/manage-profile/security/api-tokens"
-                              className="mt-3 cursor-pointer font-medium text-white underline"
+                              className="mt-3 block cursor-pointer font-medium text-white underline"
                               target="new"
                             >
                               Click here to get API Token
@@ -141,7 +141,7 @@ const ZephyrImportForm = (props) => {
               value={zephyrCred.zephyr_key}
               label={
                 <>
-                  Zephyr Scale API Token
+                  Zephyr Scale API Access Token
                   <TMTooltip
                     size="xs"
                     placementSide="right"
@@ -149,14 +149,14 @@ const ZephyrImportForm = (props) => {
                     content={
                       <TMTooltipBody>
                         <p className="text-sm">
-                          You can access your Zephyr Scale API Token from using
-                          the link below:
+                          Get Zephyr Scale API Access Token using the link
+                          below: <br />
                           <a
                             href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
                             className="mt-3 block cursor-pointer font-medium text-white underline"
                             target="new"
                           >
-                            Click here to get API Token
+                            Zephyr Scale API Access Token
                           </a>
                         </p>
                       </TMTooltipBody>
@@ -166,7 +166,7 @@ const ZephyrImportForm = (props) => {
                   </TMTooltip>
                 </>
               }
-              placeholder="Enter Zephyr Scale API Token"
+              placeholder="Enter Zephyr Scale API Access Token"
               errorText={
                 !zephyrCred.zephyr_key && zephyrCredTouched.zephyr_key
                   ? INPUT_FIELD_ERROR
