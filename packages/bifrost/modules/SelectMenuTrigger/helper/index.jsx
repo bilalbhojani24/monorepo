@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 
 export const renderSingleOptions = (opts, placeholder) => {
   if (opts?.value && opts?.label)
@@ -20,7 +20,11 @@ export const renderSingleOptions = (opts, placeholder) => {
 export const renderMultiOptions = (opts, placeholder) => {
   if (opts.length)
     return opts?.map((val, index) => (
-      <span className="mr-2 inline">
+      <span
+        className={`mr-2 ${
+          isValidElement(val.label) ? 'inline-flex' : 'inline'
+        }`}
+      >
         {val.label} {index < opts.length - 1 ? ',' : null}
       </span>
     ));
