@@ -47,7 +47,7 @@ function App() {
 
   useMemo(() => {
     const keys = {
-      amplitudeKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd4',
+      amplitudeKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd',
       analyticsKey: 'UA-418548-19',
       EDSDetails: {
         userDetails: '12',

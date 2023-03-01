@@ -186,7 +186,45 @@ export default function useFolders() {
   const folderActionsHandler = ({ folder, selectedOption }) => {
     if (selectedOption?.id) {
       const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
+
       dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
+      switch (selectedOption.id) {
+        case folderDropOptions[1].id: // sub folder
+          dispatch(
+            logEventHelper('TM_CreateSubfolderMenuClickedFolder', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[2].id: // move folder
+          dispatch(
+            logEventHelper('TM_MoveFolderLinkClickedFolder', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[3].id: // edit folder
+          dispatch(
+            logEventHelper('TM_EditFolderLinkClickedFolder', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[4].id: // delete folder
+          dispatch(
+            logEventHelper('TM_DeleteFolderLinkClickedFolder', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+
+        default:
+          break;
+      }
 
       if (isCreateTestCase) {
         // create test case
