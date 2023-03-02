@@ -25,7 +25,13 @@ import { getProjects } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
 import { getTestingTrendPath } from 'utils/routeUtils';
 
-const VTableRow = (props) => <O11yTableRow hover {...props} />;
+const TableRow = (props) => <O11yTableRow hover {...props} />;
+const Table = (props) => (
+  <O11yTable
+    containerWrapperClass="md:rounded-none shadow-none ring-0 shadow-none border-none"
+    {...props}
+  />
+);
 
 export default function ProjectList() {
   const projects = useSelector(getProjects);
@@ -104,8 +110,8 @@ export default function ProjectList() {
               style={{ height: '100%' }}
               data={projectsList}
               components={{
-                Table: O11yTable,
-                TableRow: VTableRow,
+                Table,
+                TableRow,
                 TableBody: O11yRefTableBody
               }}
               itemContent={(index, project) => (
