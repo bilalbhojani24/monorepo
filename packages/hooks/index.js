@@ -1,6 +1,6 @@
 import useGetFocusElementsAndTrap from './src/use-get-focus-elements-and-trap/GetFocusElementsAndTrap';
 import useLockBodyScroll from './src/use-lock-body-scroll/LockBodyScroll';
-// import useAuthRoutes from './src/useAuthRoutes';
+import useAuthRoutes from './src/useAuthRoutes';
 import useBodyClass from './src/useBodyClass';
 import useFocusTrap from './src/useFocusTrap';
 import useHandleFocusForSpotlights from './src/useHandleFocusForSpotlights';
@@ -24,7 +24,7 @@ import useWindowDimensionChange from './src/useWindowDimensionChange';
 import useWindowSize from './src/useWindowSize';
 
 export {
-  // useAuthRoutes,
+  useAuthRoutes,
   useBodyClass,
   useFocusTrap,
   useGetFocusElementsAndTrap,
