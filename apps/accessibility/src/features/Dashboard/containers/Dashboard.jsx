@@ -1,5 +1,5 @@
 // NOTE: Don't remove sidebar logic, will add once it required
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,7 +9,8 @@ import {
   MdOutlineHome,
   MdTextSnippet,
   SidebarItem,
-  SidebarNavigation
+  SidebarNavigation,
+  SkipToContent
 } from '@browserstack/bifrost';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
@@ -18,6 +19,7 @@ import { defaultPath } from 'utils';
 import { getSidebarCollapsedStatus } from '../slices/selectors';
 
 export default function Dashboard({ children }) {
+  const mainRef = useRef();
   const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -77,63 +79,69 @@ export default function Dashboard({ children }) {
   ));
 
   return (
-    <div>
-      <Header
-        wrapperClassName="fixed top-0 z-10 w-full"
-        productName="Accessibility"
-        productArray={[
-          { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
-          {
-            name: 'Automate',
-            link: 'https://automate.browserstack.com/dashboard'
-          },
-          {
-            name: 'Percy',
-            link: 'https://percy.io/api/auth/start-sso'
-          }
-        ]}
-        headerElementArray={[
-          'team',
-          'pricing',
-          'help',
-          'search',
-          'notifications',
-          'account'
-        ]}
-        documentation={{
-          title: 'Documentation',
-          options: [
+    <>
+      <SkipToContent target={mainRef}>Skip to main content</SkipToContent>
+      <div>
+        <Header
+          wrapperClassName="fixed top-0 z-10 w-full"
+          productName="Accessibility"
+          productArray={[
+            { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
             {
-              name: 'Introduction',
-              link: getUrlForHeader('docs/accessibility/overview/introduction')
+              name: 'Automate',
+              link: 'https://automate.browserstack.com/dashboard'
+            },
+            {
+              name: 'Percy',
+              link: 'https://percy.io/api/auth/start-sso'
             }
-          ]
-        }}
-        references={{
-          title: 'References',
-          options: [
-            { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
-            { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
-          ]
-        }}
-        supportLink={getUrlForHeader('contact#other')}
-        documentationLink={getUrlForHeader(
-          'docs/accessibility/overview/introduction'
-        )}
-      />
-      <SidebarNavigation
-        sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName="bg-white pt-16 mt-5"
-      />
-      <main
-        className={`${
-          isSidebarCollapsed ? 'pl-0' : 'pl-64'
-        } bg-base-50 mt-16 h-full`}
-      >
-        {children}
-      </main>
-    </div>
+          ]}
+          headerElementArray={[
+            'team',
+            'pricing',
+            'help',
+            'search',
+            'notifications',
+            'account'
+          ]}
+          documentation={{
+            title: 'Documentation',
+            options: [
+              {
+                name: 'Introduction',
+                link: getUrlForHeader(
+                  'docs/accessibility/overview/introduction'
+                )
+              }
+            ]
+          }}
+          references={{
+            title: 'References',
+            options: [
+              { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
+              { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
+            ]
+          }}
+          supportLink={getUrlForHeader('contact#other')}
+          documentationLink={getUrlForHeader(
+            'docs/accessibility/overview/introduction'
+          )}
+        />
+        <SidebarNavigation
+          sidebarPrimaryNavigation={SWBSidebarPri}
+          sidebarSecondaryNavigation={SWBSidebarSec}
+          wrapperClassName="bg-white pt-16 mt-5"
+        />
+        <main
+          ref={mainRef}
+          className={`${
+            isSidebarCollapsed ? 'pl-0' : 'pl-64'
+          } bg-base-50 mt-16 h-full`}
+        >
+          {children}
+        </main>
+      </div>
+    </>
   );
 }
 

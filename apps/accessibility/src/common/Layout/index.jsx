@@ -3,7 +3,7 @@ import { APP_ROUTES } from 'constants/routes';
 
 // import { useAuthRoutes } from '@browserstack/hooks';
 // import axios from 'axios';
-// import fetchAuth from 'api/auth';
+import fetchAuth from 'api/auth';
 import useAuthRoutes from '../../hooks/useAuthRoutes';
 
 const initAPI = async () => {
@@ -13,10 +13,12 @@ const initAPI = async () => {
   //   }, 2000);
   // });
 
-  console.log('This is the init API...');
-  return new Promise((resolve) => {
-    resolve();
-  });
+  // console.log('This is the init API...');
+  // return new Promise((resolve) => {
+  //   resolve();
+  // });
+
+  return fetchAuth();
 
   // returns status code - 200 (uncomment and test)
   // return axios.get(
