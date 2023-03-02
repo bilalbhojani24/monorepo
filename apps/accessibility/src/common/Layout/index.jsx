@@ -18,7 +18,7 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    'https://www.browserstack.com/users/sign_in'
+    'https://accessibility.bsstag.com/api/v1/auth/start-sso'
   );
 
   return <>{Routes}</>;
