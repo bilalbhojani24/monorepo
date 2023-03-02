@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
-import { setLoginURL, setUser } from 'globalSlice';
+import { setUser } from 'globalSlice';
 
 import { setTestRailsCred } from '../../quickImportFlow/slices/importSlice';
 
@@ -24,9 +24,11 @@ const useAuthentication = () => {
   const onAuthFailureHandler = (res) => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     if (res?.response?.data?.data?.login_url) {
-      dispatch(setLoginURL(res.response.data.data.login_url));
+      window.location.href = res.response.data.data.login_url;
+      // hard redirect
+      // dispatch(setLoginURL(res.response.data.data.login_url));
     }
-    navigate(AppRoute.LANDING);
+    // navigate(AppRoute.LANDING);
   };
 
   const authInit = () => {
@@ -50,6 +52,7 @@ const useAuthentication = () => {
         onAuthSuccessHandler({
           data: {
             user: {
+              id: 4,
               full_name: 'Ribin Roy',
               email: 'fake2@example.com',
               onboarded: 1

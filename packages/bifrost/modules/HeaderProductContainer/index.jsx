@@ -242,7 +242,9 @@ const HeaderProductContainer = () => {
                   'flex flex-row items-center p-0 w-24 gap-1'
                 )}
               >
-                <MdOutlinePeopleAlt className={twClassNames('w-3 h-3')} />
+                <MdOutlinePeopleAlt
+                  className={twClassNames('w-3 h-3 text-[#666666]')}
+                />
                 <p
                   className={twClassNames(
                     'w-[70px] not-italic font-semibold text-sm leading-4 text-[#666666]'

@@ -67,7 +67,7 @@ export const TMListTreeNodeContents = (props) => (
   <ListTreeNodeContents {...props} />
 );
 export const TMButton = forwardRef((props, ref) => (
-  <Button {...props} ref={ref} />
+  <Button {...props} ref={ref} size={props?.size || 'default'} />
 ));
 export const TMInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />

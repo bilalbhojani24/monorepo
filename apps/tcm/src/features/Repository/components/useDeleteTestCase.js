@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import { addNotificaton } from 'globalSlice';
 
 import {
   deleteTestCase,
@@ -13,6 +15,7 @@ import {
 
 export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
+  const modalFocusRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -69,6 +72,14 @@ export default function useDeleteTestCase() {
         // TC exists but need to fetch, set page to 1
         setSearchParams({});
       } else dispatch(updateAllTestCases(updatedTestCases));
+
+      dispatch(
+        addNotificaton({
+          id: `test_cases_deleted`,
+          title: `${bulkSelection?.ids?.length} Test cases deleted`,
+          variant: 'success'
+        })
+      );
       dispatch(resetBulkSelection());
       hideDeleteTestCaseModal();
     });
@@ -95,6 +106,7 @@ export default function useDeleteTestCase() {
   };
 
   return {
+    modalFocusRef,
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
     isBulkUpdate,

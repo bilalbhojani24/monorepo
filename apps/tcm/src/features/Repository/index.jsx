@@ -4,8 +4,12 @@ import { Notifications, notify } from '@browserstack/bifrost';
 import { CheckCircleRoundedIcon } from 'assets/icons';
 import TestCaseDetailsView from 'features/TestCaseDetailsView';
 import PropTypes from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
-import { setNotificationConfigForConfirmCSVImport } from '../importCSVFlow/slices/importCSVSlice';
+import {
+  setImportCSVSuccessNotificationShown,
+  setNotificationConfigForConfirmCSVImport
+} from '../importCSVFlow/slices/importCSVSlice';
 
 import Folders from './components/Folders';
 import MiniatureRepository from './components/MiniatureRepository';
@@ -34,14 +38,20 @@ const Repository = ({ isSearch }) => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
+  const importCSVSuccessNotificationShown = useSelector(
+    (state) => state.importCSV.importCSVSuccessNotificationShown
+  );
 
   useEffect(() => {
-    if (confirmCSVImportNotificationConfig.status === 'success') {
+    if (
+      confirmCSVImportNotificationConfig.status === 'success' &&
+      !importCSVSuccessNotificationShown
+    ) {
       notify(
         <Notifications
           id="import-csv-success"
-          title="Data Imported"
-          description={`${totalImportedProjectsInPreview} test cases have been imported successfully.`}
+          title="CSV data imported"
+          description={`${totalImportedProjectsInPreview} test cases have been imported successfully`}
           headerIcon={<CheckCircleRoundedIcon className="text-success-500" />}
           handleClose={(toastData) => {
             notify.remove(toastData.id);
@@ -49,7 +59,9 @@ const Repository = ({ isSearch }) => {
               setNotificationConfigForConfirmCSVImport({
                 show: false,
                 status: '',
-                modalData: ''
+                modalData: '',
+                csvImportProjectId: null,
+                csvImportFolderId: null
               })
             );
           }}
@@ -59,6 +71,7 @@ const Repository = ({ isSearch }) => {
           duration: 2147483646
         }
       );
+      dispatch(setImportCSVSuccessNotificationShown(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, confirmCSVImportNotificationConfig]);
@@ -76,9 +89,18 @@ const Repository = ({ isSearch }) => {
   useEffect(() => {
     // onload set the testcase details IDs
     initTestCaseDetails();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      logEventHelper('TM_TestCasesPageLoaded', {
+        project_id: projectId,
+        folder_id: folderId
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
     setRepoView(isSearch);
