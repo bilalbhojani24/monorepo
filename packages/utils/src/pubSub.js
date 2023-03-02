@@ -4,7 +4,8 @@ export default function PubSub() {
 
   function checkIfEventNameHasArrayOfCallbacks(eventName) {
     const currentEventName = subscribers[eventName];
-    const doesCurrentEventHaveAnArrayOfCallbacks = currentEventName && Array.isArray(currentEventName);
+    const doesCurrentEventHaveAnArrayOfCallbacks =
+      currentEventName && Array.isArray(currentEventName);
 
     if (doesCurrentEventHaveAnArrayOfCallbacks) {
       return currentEventName;
@@ -14,7 +15,8 @@ export default function PubSub() {
   }
 
   function subscribe(eventName, eventCallback) {
-    const isEventAlreadyPresent = checkIfEventNameHasArrayOfCallbacks(eventName);
+    const isEventAlreadyPresent =
+      checkIfEventNameHasArrayOfCallbacks(eventName);
     if (!isEventAlreadyPresent) {
       subscribers[eventName] = [];
     }
@@ -28,7 +30,8 @@ export default function PubSub() {
 
   function publish(eventName, params) {
     const currentEventName = subscribers[eventName];
-    const isEventAlreadyPresent = checkIfEventNameHasArrayOfCallbacks(eventName);
+    const isEventAlreadyPresent =
+      checkIfEventNameHasArrayOfCallbacks(eventName);
 
     if (!isEventAlreadyPresent) {
       return;

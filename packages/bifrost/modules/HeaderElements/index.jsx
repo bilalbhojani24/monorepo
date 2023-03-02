@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
@@ -13,7 +13,7 @@ import {
   MdSearch,
   MdSubdirectoryArrowLeft
 } from '../Icon';
-import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
+// import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
 import {
@@ -37,10 +37,13 @@ const HeaderElements = ({
   showTestInsights,
   beamerProductId,
   beamerOverlayTopProperty,
-  headerElementArray
+  headerElementArray,
+  planButtonVisible,
+  isFreeUser
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const searchBarRef = useRef(null);
 
   useEffect(() => {
     window.beamer_config = {
@@ -72,15 +75,23 @@ const HeaderElements = ({
     }
   };
 
+  const focusSearchInput = () => {
+    searchBarRef.current?.focus();
+  };
+
   const linkContainer = (title, optionArray) => (
     <>
       <div
-        className={twClassNames('flex flex-col items-start p-0 gap-2 w-full')}
+        className={twClassNames(
+          'flex flex-col items-start p-0 gap-2 w-full border-b border-[#dddddd]'
+        )}
       >
         <div
-          className={twClassNames('flex flex-row items-center py-0 px-2 gap-2')}
+          className={twClassNames(
+            'flex flex-row items-center py-0 px-2 gap-2 mb-2'
+          )}
         >
-          <NotebookIcon />
+          {/* <NotebookIcon /> */}
           <p
             className={twClassNames(
               'not-italic font-semibold text-xs leading-4 text-[#333333]'
@@ -89,11 +100,6 @@ const HeaderElements = ({
             {title}
           </p>
         </div>
-        <span
-          className={twClassNames(
-            'w-full h-0.5 border border-solid border-[#dddddd]'
-          )}
-        />
       </div>
       <div
         className={twClassNames('flex flex-col items-start p-0 gap-0.5 w-full')}
@@ -144,6 +150,7 @@ const HeaderElements = ({
         leave="transform transition ease-out duration-500"
         leaveFrom="translate-y-0"
         leaveTo="translate-y-full"
+        afterEnter={focusSearchInput}
       >
         <div className="fixed right-0 top-16 z-10 flex items-start">
           <div
@@ -158,7 +165,7 @@ const HeaderElements = ({
             >
               <div
                 className={twClassNames(
-                  'relative rounded-md shadow-sm max-[1024px]:w-11/12 min-[1025px]:w-[940px]'
+                  'relative rounded-md shadow-sm max-[1023px]:w-11/12 min-[1024px]:w-[940px]'
                 )}
               >
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -171,6 +178,7 @@ const HeaderElements = ({
                   )}
                   placeholder="Search across browserstack.com"
                   value={searchValue}
+                  ref={searchBarRef}
                   onChange={(e) => setSearchValue(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') onSubmitSearch();
@@ -224,7 +232,9 @@ const HeaderElements = ({
       className={twClassNames('flex flex-col items-start py-4 px-0 gap-2.5')}
     >
       <div
-        className={twClassNames('flex flex-row items-start py-0 px-5 gap-5')}
+        className={twClassNames(
+          'flex flex-row items-start py-0 px-5 gap-5 pb-2.5 border-b border-[#dddddd]'
+        )}
       >
         <div
           className={twClassNames(
@@ -256,11 +266,6 @@ const HeaderElements = ({
           )}
         </div>
       </div>
-      <span
-        className={twClassNames(
-          'w-full h-0 border border-solid border-[#dddddd]'
-        )}
-      />
       <div
         className={twClassNames(
           'flex flex-row items-start pt-1.5 px-5 pb-0 gap-5'
@@ -307,7 +312,9 @@ const HeaderElements = ({
       )}
     >
       <div
-        className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
+        className={twClassNames(
+          'flex flex-row items-start py-0 px-4 gap-5 border-b pb-2.5 border-[#dddddd]'
+        )}
       >
         <div
           className={twClassNames(
@@ -352,17 +359,12 @@ const HeaderElements = ({
           )}
         </div>
       </div>
-      <span
-        className={twClassNames(
-          'w-full h-0 border border-solid border-[#dddddd]'
-        )}
-      />
       <div
         className={twClassNames('flex flex-row items-start py-0 px-4 gap-5')}
       >
         <div
           className={twClassNames(
-            'flex flex-col items-start py-0 px-2 gap-1 w-[208px]'
+            'flex flex-col items-start p-0 gap-1 w-[208px]'
           )}
         >
           <Hyperlink
@@ -385,7 +387,7 @@ const HeaderElements = ({
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1024px]:hidden'
+        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1023px]:hidden'
       )}
       href={elementOptions.link}
       key={elementOptions.name}
@@ -423,6 +425,7 @@ const HeaderElements = ({
       key={elementOptions.name}
       wrapperClassName="py-0"
       triggerOnTouch
+      triggerAriaLabel="help popover"
     >
       <div
         className={twClassNames(
@@ -452,9 +455,8 @@ const HeaderElements = ({
       </div>
       <div
         className={twClassNames(
-          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1024px]:hidden'
+          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1023px]:hidden'
         )}
-        href={elementOptions.link}
       >
         {elementOptions.icon}
       </div>
@@ -478,12 +480,12 @@ const HeaderElements = ({
           key={element.name}
           wrapperClassName="py-0"
           triggerOnTouch
+          triggerAriaLabel="account popover"
         >
           <div
             className={twClassNames(
-              'flex flex-row items-center p-2 max-[1024px]:hidden'
+              'flex flex-row items-center p-2 max-[1023px]:hidden'
             )}
-            href={element.link}
           >
             {element.icon}
           </div>
@@ -493,7 +495,7 @@ const HeaderElements = ({
       temp = (
         <div
           className={twClassNames('flex flex-row items-center p-2', {
-            'max-[1024px]:hidden': element.name === 'notifications'
+            'max-[1023px]:hidden': element.name === 'notifications'
           })}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
@@ -529,17 +531,17 @@ const HeaderElements = ({
       id="header-elements"
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
-      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1024px]:hidden" />
+      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1023px]:hidden" />
       {ELEMENTS_WITH_LABEL?.map((element) =>
         headerElementArray.includes(element.name)
           ? elementRender(element)
           : null
       )}
       {searchSlideover}
-      {headerElementArray.includes('pricing') && (
+      {planButtonVisible && (
         <div
           className={twClassNames(
-            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1024px]:hidden'
+            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1023px]:hidden'
           )}
         >
           <Hyperlink
@@ -558,7 +560,7 @@ const HeaderElements = ({
                   'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5'
                 )}
               >
-                Buy a Plan
+                {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
               </p>
             </div>
           </Hyperlink>
@@ -577,7 +579,9 @@ HeaderElements.propTypes = {
   beamerProductId: PropTypes.string,
   beamerOverlayTopProperty: PropTypes.number,
   showTestInsights: PropTypes.bool,
-  headerElementArray: PropTypes.arrayOf(PropTypes.string)
+  headerElementArray: PropTypes.arrayOf(PropTypes.string),
+  planButtonVisible: PropTypes.bool,
+  isFreeUser: PropTypes.bool
 };
 HeaderElements.defaultProps = {
   documentation: null,
@@ -588,7 +592,9 @@ HeaderElements.defaultProps = {
   beamerProductId: '',
   beamerOverlayTopProperty: 64,
   showTestInsights: true,
-  headerElementArray: []
+  headerElementArray: [],
+  planButtonVisible: true,
+  isFreeUser: true
 };
 
 export default HeaderElements;
