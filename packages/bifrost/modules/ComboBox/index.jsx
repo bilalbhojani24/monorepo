@@ -18,7 +18,6 @@ const ComboBox = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
 
   const { children, defaultValue, errorText, onChange, isMulti, value } = props;
-  const [comboValue, setComboValue] = useState(value);
 
   return (
     <ComboboxContextData.Provider
@@ -27,17 +26,16 @@ const ComboBox = forwardRef((props, ref) => {
         width,
         setWidth,
         errorText,
-        value: comboValue
+        value
       }}
     >
       <Popover.Root>
         <Combobox
           ref={ref}
           as="div"
-          value={comboValue ?? undefined}
+          value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
-            setComboValue(val);
             if (onChange) onChange(val);
           }}
           multiple={isMulti}
