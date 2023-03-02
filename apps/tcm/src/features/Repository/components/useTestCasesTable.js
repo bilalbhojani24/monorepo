@@ -181,6 +181,12 @@ const useTestCasesTable = (prop) => {
     if (prop?.isMini) return;
 
     dispatch(
+      logEventHelper('TM_TcDetailView', {
+        project_id: projectId,
+        testcase_id: testCaseItem?.id
+      })
+    );
+    dispatch(
       setTestCaseDetails({
         folderId: testCaseItem?.test_case_folder_id,
         testCaseId: testCaseItem?.id

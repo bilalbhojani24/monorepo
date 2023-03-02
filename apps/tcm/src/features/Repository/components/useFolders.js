@@ -54,7 +54,17 @@ export default function useFolders() {
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
-  const showAddFolderModal = () => {
+  const showAddFolderModal = (isEmptyClick) => {
+    dispatch(
+      logEventHelper(
+        isEmptyClick
+          ? 'TM_CreateFolderCtaClicked'
+          : 'TM_CreateFolderIconClicked',
+        {
+          project_id: projectId
+        }
+      )
+    );
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
@@ -258,6 +268,14 @@ export default function useFolders() {
   };
 
   const moveFolderOnOkHandler = (selectedFolder, internalAllFolders) => {
+    dispatch(
+      logEventHelper('TM_MoveFolderCtaClickedFolder', {
+        project_id: projectId,
+        folder_id_src: openedFolderModal?.folder?.id,
+        folder_id_dest: selectedFolder?.id || 'root'
+      })
+    );
+
     moveFolder({
       projectId,
       folderId: openedFolderModal?.folder?.id,
