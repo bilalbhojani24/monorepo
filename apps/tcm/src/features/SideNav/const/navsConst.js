@@ -24,21 +24,24 @@ export const internalPrimaryNavLinks = [
     label: 'Dashboard',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
-    path: AppRoute.DASHBOARD
+    path: AppRoute.DASHBOARD,
+    instrumentKey: 'TM_DashboardClickedMenu'
   },
   {
     id: AppRoute.TEST_CASES,
     label: 'Test Cases',
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
-    path: AppRoute.TEST_CASES
+    path: AppRoute.TEST_CASES,
+    instrumentKey: 'TM_TestCasesClickedMenu'
   },
   {
     id: AppRoute.TEST_RUNS,
     label: 'Test Runs',
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
-    path: AppRoute.TEST_RUNS
+    path: AppRoute.TEST_RUNS,
+    instrumentKey: 'TM_TrClickedMenu'
   }
   // {
   //   id: AppRoute.REPORTS,

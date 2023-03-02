@@ -5,6 +5,7 @@ import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   basePrimaryNavLinks,
@@ -41,10 +42,21 @@ export default function useSideNav() {
     });
   };
 
+  const onPageChangeLogger = (linkItem) => {
+    if (linkItem?.instrumentKey) {
+      dispatch(
+        logEventHelper(linkItem?.instrumentKey, {
+          project_id: selectedProjectId
+        })
+      );
+    }
+  };
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
     } else {
+      onPageChangeLogger(linkItem);
       navigate(linkItem.path);
     }
   };
@@ -68,6 +80,7 @@ export default function useSideNav() {
 
   const onProjectChange = (project) => {
     if (project.id === allProjectOptionValue) {
+      dispatch(logEventHelper('TM_AllProjectClickedProjectDropDown', {}));
       navigate(AppRoute.ROOT);
     } else
       navigate(
