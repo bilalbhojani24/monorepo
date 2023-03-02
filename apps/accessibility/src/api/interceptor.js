@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { getConfigByKey, getCookieByKeyName } from 'utils';
 
-axios.defaults.baseURL = getConfigByKey('VITE_APP_BACKEND_URL');
+axios.defaults.baseURL =
+  getConfigByKey('VITE_APP_BACKEND_URL') ||
+  'https://accessibility.bsstag.com/api/v1';
 
 axios.interceptors.request.use(
   (request) => {
