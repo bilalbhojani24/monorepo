@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import IntegrationAuth from '../../Auth';
 import { integrationsSelector } from '../../slices/integrationsSlice';
 
+import IssueForm from './IssueForm';
+
 const renderAuth = ({
   key: integrationKey,
   label,
@@ -25,10 +27,10 @@ const ListOfIntegrations = () => {
   // user has single integration available
   if (integrations.length === 1) {
     const integration = integrations[0];
-    // user has the single integration set up
-    if (!integration.setup_completed) return renderAuth(integration);
     // user doesn't have the single integration set up
-    return null;
+    if (!integration.setup_completed) return renderAuth(integration);
+    // user has the single integration set up
+    return <IssueForm />;
   }
   // user has multiple integrations available
   return null;

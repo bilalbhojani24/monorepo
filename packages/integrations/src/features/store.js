@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import integrationsReducer from './slices/integrationsSlice';
+import integrationsReducers from './slices/integrationsSlice';
+import toolAuthRedducer from './slices/toolAuthSlice';
+import userAuthReducers from './slices/userAuthSlice';
 
 export const reducers = {
-  integrations: integrationsReducer
+  integrations: integrationsReducers,
+  userAuth: userAuthReducers,
+  toolAuth: toolAuthRedducer
 };
 export const store = configureStore({
   reducer: reducers

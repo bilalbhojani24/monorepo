@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntegrationsThunk } from '../../../api/index';
+import Loader from '../../../common/components/Loader';
 import { LOADING_STATUS } from '../../slices/constants';
 import { integrationsLoadingSelector } from '../../slices/integrationsSlice';
 
@@ -10,8 +11,12 @@ import ListOfIntegrations from './ListOfIntegrations';
 
 const getContentToRender = (loadingStatus) => {
   switch (loadingStatus) {
-    case LOADING_STATUS.NOT_LOADED:
-      return <div className="flex items-center justify-center">loading</div>;
+    case LOADING_STATUS.PENDING:
+      return (
+        <div className="flex h-full items-center justify-center">
+          <Loader />
+        </div>
+      );
     case LOADING_STATUS.SUCCEEDED:
       return <ListOfIntegrations />;
     default:

@@ -13,7 +13,7 @@ const IntegrationAuth = ({
 }) => {
   const [shouldShowFailedAuthMessage, setShowFailedAuthMessage] =
     useState(false);
-  const [hasOAuthFailed, setHasOAuthFailed] = useState(true);
+  const [hasOAuthFailed, setHasOAuthFailed] = useState(false);
   const [isOAuthActive, setIsOAuthActive] = useState(true);
   const showOAuth = () => {
     setIsOAuthActive(true);
