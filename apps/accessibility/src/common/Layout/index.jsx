@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { useAuthRoutes } from '@browserstack/hooks';
+import { APP_ROUTES } from 'constants/routes';
+
+// import { useAuthRoutes } from '@browserstack/hooks';
 // import axios from 'axios';
 // import fetchAuth from 'api/auth';
-import { APP_ROUTES } from 'constants/routes';
+import useAuthRoutes from '../../hooks/useAuthRoutes';
 
 const initAPI = async () => {
   // await new Promise((resolve) => {
