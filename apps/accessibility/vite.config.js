@@ -1,11 +1,12 @@
 import path from 'path';
 import { defineConfig } from 'vite';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
 const { productViteConfig } = require('@browserstack/vite-config');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: productViteConfig.plugins,
+  plugins: [...productViteConfig.plugins, viteSingleFile()],
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),
