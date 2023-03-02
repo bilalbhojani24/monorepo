@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "v1.0-aplha-12312312",
+  "version": "v2.0-apha-7978682",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
