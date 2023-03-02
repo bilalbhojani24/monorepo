@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts/highstock';
 import highchartsIndicators from 'highcharts/indicators/indicators';
 import highchartsTrendline from 'highcharts/indicators/trendline';
@@ -19,8 +19,8 @@ borderRadius(Highcharts);
 highchartsTrendline(Highcharts);
 
 const Chart = ({ options }) => {
-  const parentRef = React.useRef(null);
-  const chartRef = React.useRef(null);
+  const parentRef = useRef(null);
+  const chartRef = useRef(null);
 
   useEffect(() => {
     highchartsAccessibility(Highcharts);
