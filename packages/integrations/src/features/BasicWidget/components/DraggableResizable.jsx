@@ -1,11 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Draggable, Resizable } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+import useResizeObserver from './zzz';
 
 import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
 
 const DraggableResizable = ({ children }) => {
   const widgetRef = useRef(null);
+  const [widgetHeight, setWidgetHeight] = useState(null);
+  const [minHeightConstraint, setMinHeightConstraint] = useState(400);
+  const childrenRef = useRef(null);
+  const windowDimensions = useResizeObserver(childrenRef);
+
+  useEffect(() => {
+    if(childrenRef.current && (windowDimensions.inlineSize || windowDimensions.height)) {
+      setWidgetHeight((windowDimensions.inlineSize || windowDimensions.height) + 8);
+      setMinHeightConstraint((windowDimensions.inlineSize || windowDimensions.height) + 8);
+    }
+  }, [childrenRef.current, windowDimensions.inlineSize, windowDimensions.height]);
+
+  const onResize = (event, {element, size, handle}) => {
+    setWidgetHeight(size.height);
+  };
 
   return (
     <Draggable ref={widgetRef} handle=".drag-handle">
@@ -19,12 +35,13 @@ const DraggableResizable = ({ children }) => {
             />
           )}
           width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
-          height={DEFAULT_WIDGET_DIMENSIONS.INITIAL_HEIGHT}
+          height={widgetHeight || 400}
+          onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
-          minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
+          minConstraints={[450, minHeightConstraint]}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
-          {children}
+          <div style={{ height: widgetHeight + 'px' }} ref={childrenRef}>{children}</div>
         </Resizable>
       </div>
     </Draggable>

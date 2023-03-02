@@ -51,7 +51,7 @@ const OAuth = ({
   };
   const handleOAuthConnection = () => {
     getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      window.open(redirectUri, 'mywindow', { width: '500', height: '500' });
+      window.open(redirectUri, 'mywindow', 'height=640,width=960');
     });
   };
 
