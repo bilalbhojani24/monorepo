@@ -24,6 +24,7 @@ const Import = () => {
   const navigate = useNavigate();
   const {
     isFromOnboarding,
+    beginImportLoading,
     currentScreen,
     testManagementProjects,
     allImportSteps,
@@ -61,7 +62,11 @@ const Import = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
-  if (!importStatus || importStatus === 'ongoing')
+  if (
+    (!importStatus || importStatus === 'ongoing') &&
+    !beginImportLoading &&
+    currentScreen === 'configureTool'
+  )
     return (
       <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
         <TMEmptyState
