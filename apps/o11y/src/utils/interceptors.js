@@ -5,7 +5,7 @@ const getCookiePrefix = () => {
   const url = new URL(window.location);
 
   if (url.hostname.includes('bsstag')) {
-    if (url.hostname.includes('local')) {
+    if (url.hostname.includes('-local')) {
       return 'development__';
     }
     return `${url.hostname.split('.')[0].split('-').slice(1).join('-')}__`;
