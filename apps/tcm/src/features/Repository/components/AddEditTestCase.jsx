@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { MdFolderOpen } from '@browserstack/bifrost';
 import {
   ExpandLessOutlinedIcon,
-  ExpandMoreOutlinedIcon,
-  InfoOutlinedIcon
+  ExpandMoreOutlinedIcon
+  // InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
@@ -17,9 +17,9 @@ import {
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTooltip,
-  TMTooltipBody,
-  TMTooltipHeader,
+  // TMTooltip,
+  // TMTooltipBody,
+  // TMTooltipHeader,
   TMTruncateText
 } from 'common/bifrostProxy';
 
@@ -96,6 +96,7 @@ const AddEditTestCase = () => {
                 Cancel
               </TMButton>
               <TMButton
+                disabled={isUploadInProgress}
                 wrapperClassName="ml-4 whitespace-nowrap"
                 variant="primary"
                 onClick={() => {
@@ -125,7 +126,7 @@ const AddEditTestCase = () => {
                 inputError?.name ? "This field can't be left empty" : ''
               }
             />
-            {scheduledFolder.length && (
+            {scheduledFolder.length ? (
               <div className="mt-2.5 flex w-full">
                 <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
                 <div className="text-base-500 ml-1 break-all text-xs">
@@ -140,7 +141,7 @@ const AddEditTestCase = () => {
                   </TMTruncateText>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
           <div className="w-1/4">
             <TMSelectMenu
@@ -310,7 +311,7 @@ const AddEditTestCase = () => {
               />
             </div>
             <div className="mt-4 flex gap-4">
-              <div className="flex-1">
+              {/* <div className="flex-1">
                 <TMInputField
                   id="test-case-estimate"
                   value={testCaseFormData?.estimate}
@@ -355,7 +356,7 @@ const AddEditTestCase = () => {
                     handleTestCaseFieldChange('estimate', e.currentTarget.value)
                   }
                 />
-              </div>
+              </div> */}
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -378,8 +379,7 @@ const AddEditTestCase = () => {
                   Add / Modify Tag
                 </TMButton>
               </div>
-            </div>
-            <div className="mt-4 flex gap-4">
+
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -400,8 +400,10 @@ const AddEditTestCase = () => {
                   Add / Modify Issue
                 </TMButton>
               </div>
-              <div className="flex-1" />
             </div>
+            {/* <div className="mt-4 flex gap-4">
+              <div className="flex-1" />
+            </div> */}
             <div className="mt-4 w-full">
               <div className="flex flex-col">
                 <div className="flex w-full justify-between">

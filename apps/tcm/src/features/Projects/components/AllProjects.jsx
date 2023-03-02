@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -13,6 +12,7 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
+import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/projectsConst';
 
@@ -22,8 +22,6 @@ import EditProjects from './EditProjects';
 import useProjects from './useProjects';
 
 const AllProjects = () => {
-  const navigate = useNavigate();
-
   const {
     isLoading,
     currentPage,
@@ -32,11 +30,16 @@ const AllProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
+    dispatch,
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
     showAddProjectModal
   } = useProjects();
+
+  useEffect(() => {
+    if (!isLoading) dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
+  }, [dispatch, isLoading]);
 
   const tableColumns = [
     {
@@ -47,8 +50,18 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
-          onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+          onClick={handleClickDynamicLink(
+            rowData.test_cases_count > 0
+              ? AppRoute.DASHBOARD
+              : AppRoute.TEST_CASES,
+            rowData.id
+          )}
+          onKeyDown={handleClickDynamicLink(
+            rowData.test_cases_count > 0
+              ? AppRoute.DASHBOARD
+              : AppRoute.TEST_CASES,
+            rowData.id
+          )}
         >
           {rowData.identifier}
         </div>
@@ -63,12 +76,18 @@ const AllProjects = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={
+          onClick={handleClickDynamicLink(
             rowData.test_cases_count > 0
-              ? handleClickDynamicLink(AppRoute.DASHBOARD, rowData.id)
-              : handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)
-          }
-          onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+              ? AppRoute.DASHBOARD
+              : AppRoute.TEST_CASES,
+            rowData.id
+          )}
+          onKeyDown={handleClickDynamicLink(
+            rowData.test_cases_count > 0
+              ? AppRoute.DASHBOARD
+              : AppRoute.TEST_CASES,
+            rowData.id
+          )}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">
             <TMTruncateText
@@ -155,25 +174,6 @@ const AllProjects = () => {
         heading="All Projects"
         actions={
           <>
-            <TMButton
-              wrapperClassName="sr-only"
-              onClick={() =>
-                navigate({
-                  pathname: 'projects/import'
-                })
-              }
-            />
-            <TMButton
-              wrapperClassName="sr-only"
-              onClick={() =>
-                navigate({
-                  pathname: '/import/csv',
-                  search: '?project=1&folder=1'
-                })
-              }
-            >
-              Import CSV
-            </TMButton>
             <div className="flex">
               <TMButton
                 variant="primary"

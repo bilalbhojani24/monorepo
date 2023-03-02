@@ -131,7 +131,10 @@ const TestCasesTable = ({
                     delay: 500
                   }}
                 >
-                  {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
+                  {rowData?.folders
+                    ?.map((item) => item.name)
+                    ?.reverse()
+                    ?.join('  >  ')}
                 </TMTruncateText>
               </div>
             </>

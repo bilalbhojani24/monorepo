@@ -70,7 +70,7 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
               </>
             }
           >
-            <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
+            <InfoOutlinedIcon className="ml-1 !h-5 !w-5" />
           </TMTooltip>
         </div>
         <div className="flex items-center">

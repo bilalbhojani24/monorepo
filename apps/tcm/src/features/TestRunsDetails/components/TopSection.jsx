@@ -28,7 +28,8 @@ const TopSection = () => {
     testRunId,
     showIssuesHandler,
     testRunDetails,
-    onDropDownChange
+    onDropDownChange,
+    fetchTestRunDetails
   } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
@@ -97,17 +98,21 @@ const TopSection = () => {
                 wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
+                size="default"
                 onClick={showIssuesHandler}
               >
                 Issues
               </TMButton>
             </Link>
 
-            <TMDropdown
-              triggerVariant="menu-button"
-              options={TR_DROP_OPTIONS}
-              onClick={onDropDownChange}
-            />
+            {testRunDetails?.run_state &&
+              testRunDetails.run_state !== 'closed' && (
+                <TMDropdown
+                  triggerVariant="menu-button"
+                  options={TR_DROP_OPTIONS}
+                  onClick={onDropDownChange}
+                />
+              )}
           </>
         }
         subSection={
@@ -132,7 +137,7 @@ const TopSection = () => {
           </div>
         }
       />
-      <CloseTestRun />
+      <CloseTestRun updateCb={() => fetchTestRunDetails(true)} />
       <DeleteTestRun redirectToDetails />
     </div>
   );
