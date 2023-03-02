@@ -10,6 +10,7 @@ import {
 } from 'features/TestRuns/slices/testRunsSlice';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import {
@@ -74,6 +75,15 @@ export default function useTestRunDetails() {
     }
   };
 
+  const showIssuesHandler = () => {
+    dispatch(
+      logEventHelper('TM_TrPageIssuesTabClicked', {
+        project_id: projectId,
+        testrun_id: testRunId
+      })
+    );
+  };
+
   const resetTestCaseDetailsMeta = () => {
     dispatch(resetTestCaseDetails());
   };
@@ -85,6 +95,7 @@ export default function useTestRunDetails() {
   }, [projectId]);
 
   return {
+    showIssuesHandler,
     isTestRunDetailsLoading,
     testCaseDetails,
     getProgressOptions,

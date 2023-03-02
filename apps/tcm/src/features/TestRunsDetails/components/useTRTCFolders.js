@@ -7,6 +7,7 @@ import {
   getTestRunsTestCasesAPI
 } from 'api/testruns.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   addTestResultItem,
@@ -87,6 +88,13 @@ export default function useTRTCFolders() {
 
   const handleTestCaseViewClick = (testCaseItem) => () => {
     dispatch(
+      logEventHelper('TM_TrDetailsViewTrTc', {
+        project_id: projectId,
+        testrun_id: testRunId,
+        testcase_id: testCaseItem?.id
+      })
+    );
+    dispatch(
       setTestCaseDetails({
         folderId: testCaseItem.test_case_folder_id,
         testCaseId: testCaseItem?.id
@@ -164,6 +172,19 @@ export default function useTRTCFolders() {
   };
 
   const onResultChange = (selectedOption, data, isQuickUpdate) => {
+    dispatch(
+      logEventHelper(
+        isQuickUpdate
+          ? 'TM_AddQuickResultBtnClickedTrTc'
+          : 'TM_AddResultBtnClickedTrTc',
+        {
+          project_id: projectId,
+          testrun_id: testRunId,
+          testcase_id: data.id
+        }
+      )
+    );
+
     dispatch(setSelectedTestCase(data));
     if (isQuickUpdate) {
       addStatusSaveHelper(
@@ -188,6 +209,14 @@ export default function useTRTCFolders() {
     if (addStatusFormData?.issues)
       payload.issues = addStatusFormData?.issues?.map((item) => item.value);
 
+    dispatch(
+      logEventHelper('TM_AddResultCtaClicked', {
+        project_id: projectId,
+        testrun_id: testRunId,
+        testcase_id: selectedTestCase?.id,
+        result_id: testRunId
+      })
+    );
     addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase);
   };
 

@@ -39,18 +39,32 @@ export default function useTestCaseViewDetails() {
   );
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
 
-  const handleTabChange = (value) => {
-    dispatch(
-      logEventHelper(
-        value.name === TABS_ARRAY[1].name
-          ? 'TM_TcDetailIssuesTabClicked'
-          : 'TM_TcDetailResultsTabClicked',
-        {
-          project_id: projectId,
-          testcase_id: testCaseDetails?.id
-        }
-      )
-    );
+  const handleTabChange = (value, isFromTestRun, testRunId) => {
+    if (isFromTestRun) {
+      dispatch(
+        logEventHelper(
+          value.name === TABS_ARRAY[1].name
+            ? 'TM_TcIssuesTabClickedTrTc'
+            : 'TM_TcResultsTabClickedTrTc',
+          {
+            project_id: projectId,
+            testcase_id: testCaseDetails?.id,
+            testrun_id: testRunId
+          }
+        )
+      );
+    } else
+      dispatch(
+        logEventHelper(
+          value.name === TABS_ARRAY[1].name
+            ? 'TM_TcDetailIssuesTabClicked'
+            : 'TM_TcDetailResultsTabClicked',
+          {
+            project_id: projectId,
+            testcase_id: testCaseDetails?.id
+          }
+        )
+      );
     setTab(value);
   };
 
