@@ -3,7 +3,9 @@ import { useAuthRoutes } from '@browserstack/hooks';
 import fetchAuth from 'api/auth';
 import { APP_ROUTES } from 'constants/routes';
 
-const initAPI = async () => fetchAuth();
+const initAPI = async () =>
+  fetchAuth().then((response) => console.log('response: ', response));
+
 const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
