@@ -15,7 +15,8 @@ const ResizableWrapper = ({
   resizeHandles,
   minConstraints,
   maxConstraints,
-  handleSize
+  handleSize,
+  ...rest
 }) => (
   <ResizableBox
     className={className}
@@ -26,6 +27,7 @@ const ResizableWrapper = ({
     resizeHandles={resizeHandles}
     minConstraints={minConstraints}
     maxConstraints={maxConstraints}
+    { ...rest }
   >
     {children}
   </ResizableBox>
