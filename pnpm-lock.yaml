@@ -77,6 +77,67 @@ importers:
       tailwindcss: 3.2.4_postcss@8.4.20
       vite: 3.2.5_sass@1.57.1
 
+  apps/integrations_demo:
+    specifiers:
+      '@browserstack/bifrost': workspace:*
+      '@browserstack/hooks': workspace:*
+      '@browserstack/integrations': workspace:*
+      '@browserstack/stylelint-config': workspace:*
+      '@browserstack/tailwind-config': workspace:*
+      '@browserstack/utils': workspace:*
+      '@browserstack/vite-config': workspace:*
+      '@reduxjs/toolkit': ^1.9.1
+      '@tailwindcss/forms': 0.5.3
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
+      '@types/react': ^18.0.26
+      '@types/react-dom': ^18.0.9
+      '@vitejs/plugin-react': 2.2.0
+      axios: 1.2.2
+      postcss: 8.4.20
+      postcss-preset-env: ^7.8.3
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      react-redux: ^8.0.5
+      react-router-dom: 6.6.1
+      sass: ^1.57.1
+      stylelint: ^14.16.0
+      stylelint-config-prettier: ^9.0.4
+      stylelint-config-standard-scss: latest
+      stylelint-prettier: ^2.0.0
+      stylelint-scss: ^4.3.0
+      tailwindcss: ^3.1.4
+      vite: 3.2.5
+    dependencies:
+      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/hooks': link:../../packages/hooks
+      '@browserstack/integrations': link:../../packages/integrations
+      '@browserstack/utils': link:../../packages/utils
+      '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
+      axios: 1.2.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.5_gm3gubmwja4o7q6fr6adx3fpz4
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+    devDependencies:
+      '@browserstack/stylelint-config': link:../../packages/stylelint-config
+      '@browserstack/tailwind-config': link:../../packages/tailwind-config
+      '@browserstack/vite-config': link:../../packages/vite-config
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.10
+      '@vitejs/plugin-react': 2.2.0_vite@3.2.5
+      postcss: 8.4.20
+      postcss-preset-env: 7.8.3_postcss@8.4.20
+      sass: 1.57.1
+      stylelint: 14.16.1
+      stylelint-config-prettier: 9.0.4_stylelint@14.16.1
+      stylelint-config-standard-scss: 7.0.1_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-prettier: 2.0.0_a2vzj7g2yjl2irgc2yp4zt277e
+      stylelint-scss: 4.4.0_stylelint@14.16.1
+      tailwindcss: 3.2.4_postcss@8.4.20
+      vite: 3.2.5_sass@1.57.1
+
   packages/bifrost:
     specifiers:
       '@browserstack/hooks': workspace:*
@@ -309,14 +370,14 @@ importers:
       '@browserstack/tailwind-config': link:../tailwind-config
       '@browserstack/vite-config': link:../vite-config
       '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
-      '@storybook/addon-essentials': 6.5.16_lz3igiv4dcjw6erpspna4rqvli
+      '@storybook/addon-essentials': 6.5.16_2tzbv5y6zokvngmgfa4itmwd7y
       '@storybook/addon-interactions': 6.5.16_ezwba6lrfsfjf3koi7rmjevpvq
       '@storybook/addon-links': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/builder-webpack4': 6.5.16_o4scbtliisanygemawej7x2d6i
       '@storybook/manager-webpack4': 6.5.16_o4scbtliisanygemawej7x2d6i
       '@storybook/react': 6.5.16_lbrxgcuyhusm2iqx3625dlb4ri
       '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
-      babel-loader: 8.3.0_la66t7xldg4uecmyawueag5wkm
+      babel-loader: 8.3.0_nwtvwtk5tmh22l2urnqucz7kqu
 
   packages/prettier-config:
     specifiers:
@@ -5164,7 +5225,7 @@ packages:
       - webpack-command
     dev: true
 
-  /@storybook/addon-docs/6.5.16_uo3efmxzlo6oik6iaxblvhk4he:
+  /@storybook/addon-docs/6.5.16_4lx4jplxin4nbomn75psx5kqza:
     resolution: {integrity: sha512-QM9WDZG9P02UvbzLu947a8ZngOrQeAKAT8jCibQFM/+RJ39xBlfm8rm+cQy3dm94wgtjmVkA3mKGOV/yrrsddg==}
     peerDependencies:
       '@storybook/mdx2-csf': ^0.0.3
@@ -5196,7 +5257,7 @@ packages:
       '@storybook/source-loader': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/store': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.16_biqbaboplfbrettd7655fr4n2y
-      babel-loader: 8.3.0_la66t7xldg4uecmyawueag5wkm
+      babel-loader: 8.3.0_nwtvwtk5tmh22l2urnqucz7kqu
       core-js: 3.27.1
       fast-deep-equal: 3.1.3
       global: 4.4.0
@@ -5306,7 +5367,7 @@ packages:
       - webpack-command
     dev: true
 
-  /@storybook/addon-essentials/6.5.16_lz3igiv4dcjw6erpspna4rqvli:
+  /@storybook/addon-essentials/6.5.16_2tzbv5y6zokvngmgfa4itmwd7y:
     resolution: {integrity: sha512-TeoMr6tEit4Pe91GH6f8g/oar1P4M0JL9S6oMcFxxrhhtOGO7XkWD5EnfyCx272Ok2VYfE58FNBTGPNBVIqYKQ==}
     peerDependencies:
       '@babel/core': ^7.9.6
@@ -5367,7 +5428,7 @@ packages:
       '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-backgrounds': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-controls': 6.5.16_o4scbtliisanygemawej7x2d6i
-      '@storybook/addon-docs': 6.5.16_uo3efmxzlo6oik6iaxblvhk4he
+      '@storybook/addon-docs': 6.5.16_4lx4jplxin4nbomn75psx5kqza
       '@storybook/addon-measure': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-outline': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-toolbars': 6.5.16_biqbaboplfbrettd7655fr4n2y
@@ -5382,7 +5443,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       regenerator-runtime: 0.13.11
       ts-dedent: 2.2.0
-      webpack: 5.75.0
+      webpack: 4.46.0
     transitivePeerDependencies:
       - '@storybook/mdx2-csf'
       - eslint
