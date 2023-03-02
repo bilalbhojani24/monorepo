@@ -50,7 +50,7 @@ const AddEditTestCase = () => {
     editTestCase,
     isTestCaseEditing,
     showMoreFields,
-    setShowMoreFields,
+    setShowMoreFieldHelper,
     usersArrayMapped,
     updatedMySelfLabelName,
     tagsArray,
@@ -210,7 +210,7 @@ const AddEditTestCase = () => {
         )}
         <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
           <TMButton
-            onClick={() => setShowMoreFields(!showMoreFields)}
+            onClick={() => setShowMoreFieldHelper(!showMoreFields)}
             colors="white"
             variant="rounded"
             wrapperClassName="w-44 relative pr-2 z-[1] bg-white"

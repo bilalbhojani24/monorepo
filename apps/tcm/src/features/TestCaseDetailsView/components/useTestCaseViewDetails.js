@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getJIRAConfigAPI } from 'api/common.api';
 import { editTestCaseAPI } from 'api/testcases.api';
 import { setUserConfig } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
@@ -39,6 +40,17 @@ export default function useTestCaseViewDetails() {
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
 
   const handleTabChange = (value) => {
+    dispatch(
+      logEventHelper(
+        value.name === TABS_ARRAY[1].name
+          ? 'TM_TcDetailIssuesTabClicked'
+          : 'TM_TcDetailResultsTabClicked',
+        {
+          project_id: projectId,
+          testcase_id: testCaseDetails?.id
+        }
+      )
+    );
     setTab(value);
   };
 
@@ -66,6 +78,12 @@ export default function useTestCaseViewDetails() {
   };
 
   const showAddIssuesModal = () => {
+    dispatch(
+      logEventHelper('TM_TcDetailLinkToJiraBtnClicked', {
+        project_id: projectId,
+        testcase_id: testCaseDetails?.id
+      })
+    );
     setIsShowAddIssuesModal(true);
   };
   const hideAddIssuesModal = () => {

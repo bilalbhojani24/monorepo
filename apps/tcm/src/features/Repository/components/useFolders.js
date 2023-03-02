@@ -58,7 +58,7 @@ export default function useFolders() {
     dispatch(
       logEventHelper(
         isEmptyClick
-          ? 'TM_CreateFolderCtaClicked'
+          ? 'TM_CreateFolderBtnClickedEmptyPrj'
           : 'TM_CreateFolderIconClicked',
         {
           project_id: projectId
@@ -201,7 +201,7 @@ export default function useFolders() {
       switch (selectedOption.id) {
         case folderDropOptions[1].id: // sub folder
           dispatch(
-            logEventHelper('TM_CreateSubfolderMenuClickedFolder', {
+            logEventHelper('TM_CreateFolderMenuLinkClicked', {
               project_id: projectId,
               folder_id: folder?.id
             })
@@ -209,7 +209,7 @@ export default function useFolders() {
           break;
         case folderDropOptions[2].id: // move folder
           dispatch(
-            logEventHelper('TM_MoveFolderLinkClickedFolder', {
+            logEventHelper('TM_MoveFolderMenuLinkClicked', {
               project_id: projectId,
               folder_id: folder?.id
             })
@@ -217,7 +217,7 @@ export default function useFolders() {
           break;
         case folderDropOptions[3].id: // edit folder
           dispatch(
-            logEventHelper('TM_EditFolderLinkClickedFolder', {
+            logEventHelper('TM_EditFolderMenuLinkClicked', {
               project_id: projectId,
               folder_id: folder?.id
             })
@@ -225,7 +225,7 @@ export default function useFolders() {
           break;
         case folderDropOptions[4].id: // delete folder
           dispatch(
-            logEventHelper('TM_DeleteFolderLinkClickedFolder', {
+            logEventHelper('TM_DeleteFolderMenuLinkClicked', {
               project_id: projectId,
               folder_id: folder?.id
             })
@@ -269,7 +269,7 @@ export default function useFolders() {
 
   const moveFolderOnOkHandler = (selectedFolder, internalAllFolders) => {
     dispatch(
-      logEventHelper('TM_MoveFolderCtaClickedFolder', {
+      logEventHelper('TM_MoveFolderCtaClicked', {
         project_id: projectId,
         folder_id_src: openedFolderModal?.folder?.id,
         folder_id_dest: selectedFolder?.id || 'root'

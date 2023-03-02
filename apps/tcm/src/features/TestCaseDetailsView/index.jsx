@@ -61,7 +61,7 @@ const TestCaseDetailsView = ({
         heading="TEST CASE DETAILS"
         isBorder
         backgroundColorClass="bg-white"
-        handleDismissClick={hideTestCaseViewDrawer}
+        handleDismissClick={() => hideTestCaseViewDrawer(null, true)}
       />
       <TestCaseView
         actionHandler={actionHandler}
