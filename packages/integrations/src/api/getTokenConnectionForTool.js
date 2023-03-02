@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { URLS } from './constants';
@@ -11,3 +12,8 @@ export const getTokenConnectionForTool = (integrationKey, fieldsData) =>
       auth_info: fieldsData
     }
   }).then((response) => response.data);
+
+export const getTokenConnectionForToolThunk = createAsyncThunk(
+  'getTokenConnectionForTool',
+  getTokenConnectionForTool
+);

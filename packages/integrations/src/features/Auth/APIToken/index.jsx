@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, MdArrowBack, MdArrowForward } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { getTokenConnectionForTool } from '../../../api/getTokenConnectionForTool';
-import BrandLogo from '../../../common/components/BrandLogo';
+import { getTokenConnectionForToolThunk } from '../../../api';
+import { Loader, Logo } from '../../../common/components';
+import { LOADING_STATUS } from '../../slices/constants';
+import { setHasIntegrated } from '../../slices/integrationsSlice';
+import {
+  // toolAuthErrorSelector,
+  toolAuthLoadingSelector
+} from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
 
 import APITokenFormField from './APITokenFormField';
@@ -15,13 +22,23 @@ const APIToken = ({
   apiTokenMeta: { logo_url: logo, title, description, form_fields: fields }
 }) => {
   const [data, setData] = useState({});
+  const dispatch = useDispatch();
+  const isLoading =
+    useSelector(toolAuthLoadingSelector) === LOADING_STATUS.PENDING;
+  // const error = useSelector(toolAuthErrorSelector);
 
   const setDataForField = (fieldKey, dataFromField) => {
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
-    getTokenConnectionForTool(integrationKey, data);
+    dispatch(getTokenConnectionForToolThunk(integrationKey, data)).then(() => {
+      dispatch(setHasIntegrated(integrationKey));
+    });
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -34,9 +51,9 @@ const APIToken = ({
         Back
       </Button>
       <div className="flex items-center justify-center ">
-        <BrandLogo logo={logo} label={label} />
+        <Logo logo={logo} label={label} />
       </div>
-      <div className="border-b py-6 text-center">
+      <div className="border-base-200 border-b py-6 text-center">
         <p className="text-base-900 text-xl">{title}</p>
         <p className="text-base-500 text-sm">{description}</p>
       </div>

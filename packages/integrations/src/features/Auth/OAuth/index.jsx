@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
+  Alerts,
   Button,
   CheckCircleIcon,
   MdArrowForward,
-  MdCancel,
-  MdSwapHoriz,
-  Notifications
+  MdSwapHoriz
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
-import BrandLogo from '../../../common/components/BrandLogo';
+import { Logo } from '../../../common/components';
+import { setHasIntegrated } from '../../slices/integrationsSlice';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
@@ -20,21 +21,23 @@ const OAuth = ({
   showAPIToken,
   hasOAuthFailed,
   setHasOAuthFailed,
-  hideFailedAuthMessage,
   shouldShowFailedAuthMessage
 }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
     const handleMessage = (event) => {
       const message = JSON.parse(event.data);
       if (message.hasError) {
         setHasOAuthFailed(true);
+      } else {
+        dispatch(setHasIntegrated(integrationKey));
       }
     };
     window.addEventListener('message', handleMessage);
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [setHasOAuthFailed]);
+  }, [setHasOAuthFailed, dispatch, integrationKey]);
 
   const handleAPIConnect = () => {
     showAPIToken();
@@ -48,26 +51,24 @@ const OAuth = ({
     <>
       {shouldShowFailedAuthMessage && (
         <div className="pb-6">
-          <Notifications
-            headerIcon={<MdCancel className="text-danger-400 mx-4 text-2xl" />}
+          <Alerts
             title=""
-            wrapperClassName="mb-3 bg-danger-50"
-            description={`There was some problem connecting to ${label} software`}
-            handleClose={hideFailedAuthMessage}
+            description="Something went wrong. Please try again. If the problem persists, you can also connect using API Token."
+            modifier="error"
+            linkText=""
           />
         </div>
       )}
       <div className="flex items-center justify-center ">
-        <BrandLogo logo="/icons/browserstack.png" label="Browserstack" />
-        <MdSwapHoriz className="text-brand-500 mx-4 text-3xl" />
-        <BrandLogo logo={logo} label={label} />
+        <Logo logo="/icons/browserstack.png" label="Browserstack" />
+        <MdSwapHoriz className="text-brand-500 mx-3 text-3xl" />
+        <Logo logo={logo} label={label} />
       </div>
-      <div className="border-b py-6 text-center">
+      <div className="border-base-200 border-b py-6 text-center">
         <p className="text-base-900 text-xl">{title}</p>
         <p className="text-base-500 text-sm">{description}</p>
       </div>
       <div>
-        <p className="text-base-900 py-6">{`Connect ${label} Software`}</p>
         <p className="my-6">
           <ul>
             {features?.map((feature) => (
@@ -109,7 +110,6 @@ OAuth.propTypes = {
   oAuthMeta: PropTypes.shape(OAuthMetaType),
   hasOAuthFailed: PropTypes.bool,
   shouldShowFailedAuthMessage: PropTypes.bool,
-  hideFailedAuthMessage: PropTypes.func.isRequired,
   showAPIToken: PropTypes.func.isRequired,
   setHasOAuthFailed: PropTypes.func.isRequired
 };

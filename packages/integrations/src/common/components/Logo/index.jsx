@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Logo = ({ label, logo }) => (
-  <p className="rounded-xl border p-5">
+  <p className="border-base-300 rounded-xl border p-4">
     <img
       className="h-12 w-12"
       src={`https://integrations.bsstag.com${logo}`}
