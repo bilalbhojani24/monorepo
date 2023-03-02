@@ -143,7 +143,7 @@ export default function useReports() {
       actionType: 'View consolidated report',
       reportCount: selectedReportsLength
     });
-    navigate(`reports/report?${path}`);
+    navigate(`report?${path}`);
   };
 
   const onInputValueChange = debounce((e) => {
