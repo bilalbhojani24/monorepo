@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, MdArrowBack, MdArrowForward } from '@browserstack/bifrost';
+import {
+  Alerts,
+  Button,
+  MdArrowBack,
+  MdArrowForward
+} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { getTokenConnectionForToolThunk } from '../../../api';
 import { Loader, Logo } from '../../../common/components';
 import { LOADING_STATUS } from '../../slices/constants';
-import { setHasIntegrated } from '../../slices/integrationsSlice';
 import {
-  // toolAuthErrorSelector,
+  toolAuthErrorSelector,
   toolAuthLoadingSelector
 } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -25,23 +29,35 @@ const APIToken = ({
   const dispatch = useDispatch();
   const isLoading =
     useSelector(toolAuthLoadingSelector) === LOADING_STATUS.PENDING;
-  // const error = useSelector(toolAuthErrorSelector);
+  const error = useSelector(toolAuthErrorSelector);
 
   const setDataForField = (fieldKey, dataFromField) => {
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
-    dispatch(getTokenConnectionForToolThunk(integrationKey, data)).then(() => {
-      dispatch(setHasIntegrated(integrationKey));
-    });
+    dispatch(getTokenConnectionForToolThunk({ integrationKey, data }));
   };
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader />;
+      </div>
+    );
   }
 
   return (
     <>
+      {error && (
+        <div className="pb-6">
+          <Alerts
+            title=""
+            description="There was some problem connecting to JIRA software"
+            modifier="error"
+            linkText=""
+          />
+        </div>
+      )}
       <Button
         variant="primary"
         colors="white"

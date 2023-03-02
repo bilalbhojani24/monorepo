@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Alerts,
@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
-import { Logo } from '../../../common/components';
+import { Loader, Logo } from '../../../common/components';
 import { setHasIntegrated } from '../../slices/integrationsSlice';
 import { OAuthMetaType } from '../types';
 
@@ -23,10 +23,17 @@ const OAuth = ({
   setHasOAuthFailed,
   shouldShowFailedAuthMessage
 }) => {
+  const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     const handleMessage = (event) => {
-      const message = JSON.parse(event.data);
+      setIsOAuthConnecting(true);
+      let message = {};
+      try {
+        message = JSON.parse(event.data);
+      } finally {
+        setIsOAuthConnecting(false);
+      }
       if (message.hasError) {
         setHasOAuthFailed(true);
       } else {
@@ -47,13 +54,22 @@ const OAuth = ({
       window.open(redirectUri, 'mywindow', { width: '500', height: '500' });
     });
   };
+
+  if (isOAuthConnecting) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader />;
+      </div>
+    );
+  }
+
   return (
     <>
       {shouldShowFailedAuthMessage && (
         <div className="pb-6">
           <Alerts
             title=""
-            description="Something went wrong. Please try again. If the problem persists, you can also connect using API Token."
+            description="There was some problem connecting to JIRA software"
             modifier="error"
             linkText=""
           />

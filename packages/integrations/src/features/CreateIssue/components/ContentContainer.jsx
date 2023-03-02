@@ -31,7 +31,7 @@ const Content = ({ projectId, componentKey }) => {
     dispatch(getIntegrationsThunk({ projectId, componentKey }));
   }, [componentKey, dispatch, projectId]);
 
-  return <div>{getContentToRender(loadingStatus)}</div>;
+  return <div className="h-full">{getContentToRender(loadingStatus)}</div>;
 };
 
 Content.propTypes = {
