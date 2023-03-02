@@ -18,11 +18,11 @@ do
 done
 
 #Generate Product path and run pnpm build 
-export PRODUCT_NAME=$1
-export PRODUCT_PATH="apps/${PRODUCT_NAME}"
+PRODUCT_NAME=$1
+PRODUCT_PATH="apps/${PRODUCT_NAME}"
 
 echo "$PRODUCT_PATH"
 cd "$PRODUCT_PATH"
 pnpm run build
 
-echo "Product projects built!"
+echo "Product built successfully!"
