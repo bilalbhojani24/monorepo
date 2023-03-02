@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "v3.0-tcm-898979",
+  "version": "v4.0-tcm-979678",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
