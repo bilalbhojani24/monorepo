@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useAuthRoutes } from '@browserstack/hooks';
-// import fetchAuth from 'api/auth';
 import initAPICall from 'api/initAPI';
 import { APP_ROUTES } from 'constants/routes';
 import { setUser } from 'features/Dashboard/slices/appSlice';

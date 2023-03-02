@@ -1,5 +1,5 @@
 // NOTE: Don't remove sidebar logic, will add once it required
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,7 +9,8 @@ import {
   MdOutlineHome,
   MdTextSnippet,
   SidebarItem,
-  SidebarNavigation
+  SidebarNavigation,
+  SkipToContent
 } from '@browserstack/bifrost';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
@@ -18,7 +19,7 @@ import { defaultPath } from 'utils';
 import { getSidebarCollapsedStatus } from '../slices/selectors';
 
 export default function Dashboard({ children }) {
-  // const mainRef = useRef(null);
+  const mainRef = useRef(null);
   const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      {/* <SkipToContent target={mainRef}>Skip to main content</SkipToContent> */}
+      <SkipToContent target={mainRef}>Skip to main content</SkipToContent>
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility"
@@ -107,9 +108,7 @@ export default function Dashboard({ children }) {
           options: [
             {
               name: 'Introduction',
-              link: getUrlForHeader(
-                'docs/accessibility/overview/introduction'
-              )
+              link: getUrlForHeader('docs/accessibility/overview/introduction')
             }
           ]
         }}
