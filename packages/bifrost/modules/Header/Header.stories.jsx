@@ -102,6 +102,12 @@ const defaultConfig = {
           link: 'https://app-live.browserstack.com/dashboard'
         }
       ]
+    },
+    planButtonVisible: {
+      defaultValue: true
+    },
+    isFreeUser: {
+      defaultValue: true
     }
   },
   controls: {}

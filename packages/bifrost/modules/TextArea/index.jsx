@@ -35,7 +35,7 @@ const TextArea = (props) => {
           id={id}
           defaultValue={defaultValue}
           className={twClassNames(
-            'border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
+            'min-h-[38px] border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
             {
               'resize-none': !isResizable,
               'opacity-25 cursor-not-allowed': disabled

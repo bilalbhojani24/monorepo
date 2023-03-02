@@ -1,1 +1,1 @@
-export const TINYMCE_API_KEY = import.meta.env.BSTACK_RTE_KEY;
+export const TINYMCE_API_KEY = 'import.meta.env.BSTACK_RTE_KEY';
