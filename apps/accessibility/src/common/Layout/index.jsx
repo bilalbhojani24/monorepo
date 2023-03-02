@@ -10,15 +10,12 @@ const App = () => {
   const dispatch = useDispatch();
 
   const initAPI = async () =>
-    initAPICall().then(
-      (response) =>
-        console.log(response) || dispatch(setUser(response.data.data))
-    );
+    initAPICall().then((response) => dispatch(setUser(response.data.data)));
 
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    'https://accessibility.bsstag.com/api/v1/auth/start-sso'
+    `https://accessibility.bsstag.com/api/v1/auth/start-sso?redirection_url=${window.location.href}`
   );
 
   return <>{Routes}</>;
