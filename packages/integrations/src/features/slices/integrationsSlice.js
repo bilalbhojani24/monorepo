@@ -40,7 +40,7 @@ export const integrationsSlice = createSlice({
     });
     builder.addCase(getIntegrationsThunk.rejected, (state, action) => {
       state.loading = LOADING_STATUS.FAILED;
-      state.error = action.payload;
+      state.error = action.error;
     });
   }
 });
