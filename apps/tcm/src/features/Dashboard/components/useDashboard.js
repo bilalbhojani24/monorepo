@@ -27,6 +27,7 @@ import {
 export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const [isAllDashboadEmpty, setAllDashboadEmpty] = useState(false);
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
   const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
   const [testCasesTrendOptions, setTestCasesTrendOptions] = useState(null);
@@ -39,6 +40,26 @@ export default function useDashboard() {
   const [jiraIssuesOptions, setJiraIssuesOptions] = useState(null);
 
   const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
+
+  useEffect(() => {
+    if (
+      activeTestRunsOptions?.isEmpty &&
+      testCaseTypesOptions?.isEmpty &&
+      testCasesTrendOptions?.isEmpty &&
+      closedTestRunsMonthlyLineOptions?.isEmpty &&
+      closedTestRunsDailyLineOptions?.isEmpty &&
+      jiraIssuesOptions?.isEmpty
+    ) {
+      setAllDashboadEmpty(true);
+    } else setAllDashboadEmpty(false);
+  }, [
+    activeTestRunsOptions,
+    testCaseTypesOptions,
+    testCasesTrendOptions,
+    closedTestRunsMonthlyLineOptions,
+    closedTestRunsDailyLineOptions,
+    jiraIssuesOptions
+  ]);
 
   const projectIdCheck = (key, apiFunction, doAfter) => {
     if (projectId === 'new') {
@@ -56,13 +77,17 @@ export default function useDashboard() {
   };
 
   const fetchActiveTestRuns = () => {
+    const formatPieChartData = (data) =>
+      Object.keys(ACTIVE_TEST_RUNS_COLOR).map((item) => [
+        item,
+        data?.find((dataItem) => dataItem?.name === item)?.y || 0
+      ]);
+
     projectIdCheck('activeTR', getActiveTestRunsAPI, (res) => {
       setActiveTestRunsOptions(
         donutOptionCreator({
-          chartData: res?.empty_data
-            ? []
-            : res?.data?.map((item) => [item.name, item.y]) || [],
-          colors: ACTIVE_TEST_RUNS_COLOR,
+          chartData: res?.empty_data ? [] : formatPieChartData(res?.data),
+          colors: Object.values(ACTIVE_TEST_RUNS_COLOR),
           addOns: {
             isEmpty: res?.empty_data,
             total: res?.data?.reduce((total, item) => item.y + total, 0) || 0
@@ -94,17 +119,19 @@ export default function useDashboard() {
   };
 
   const fetchClosedTestRunsDaily = () => {
+    const formatBarChartData = (data) =>
+      Object.keys(ACTIVE_TEST_RUNS_COLOR).map((item) => ({
+        name: item,
+        data: data?.find((dataItem) => dataItem?.name === item)?.data || [],
+        color: ACTIVE_TEST_RUNS_COLOR[item]
+      }));
+
     projectIdCheck('closedTRDaily', getClosedTestRunsDailyAPI, (res) => {
       setClosedTestRunsDailyLineOptions(
         stackedBarOptionsCreator({
           showLegend: true,
           xAxis: res?.date_list,
-          chartData: res?.empty_data
-            ? []
-            : res?.data?.map((item, index) => ({
-                ...item,
-                color: ACTIVE_TEST_RUNS_COLOR[index]
-              })),
+          chartData: res?.empty_data ? [] : formatBarChartData(res?.data),
           addOns: {
             isEmpty: res?.empty_data
           }
@@ -138,7 +165,7 @@ export default function useDashboard() {
           chartData: res?.empty_data
             ? []
             : Object.keys(res?.data).map((item, index) => ({
-                color: ACTIVE_TEST_RUNS_COLOR[index],
+                color: TEST_CASES_TYPES_COLORS[index],
                 name: item,
                 data: res?.data[item] ? Object.values(res?.data[item]) : []
               })),
@@ -189,6 +216,7 @@ export default function useDashboard() {
   }, [projectId]);
 
   return {
+    isAllDashboadEmpty,
     testCaseTypesOptions,
     closedTestRunsDailyLineOptions,
     jiraIssuesOptions,

@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getJIRAConfigAPI } from 'api/common.api';
+import { editTestCaseAPI } from 'api/testcases.api';
+import { setUserConfig } from 'globalSlice';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
+import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseViewDetails() {
+  const detailsRef = useRef();
+  const { projectId, folderId } = useParams();
+  const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   const [imageLink, setImageLink] = useState(null);
+  const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
+  const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
 
   const isTestCaseViewVisible = useSelector(
     (state) => state.testCaseDetails.isTestCaseViewVisible
@@ -32,6 +42,13 @@ export default function useTestCaseViewDetails() {
     setTab(value);
   };
 
+  const setJiraConfig = useCallback(
+    (value) => {
+      dispatch(setUserConfig({ key: 'jira', value }));
+    },
+    [dispatch]
+  );
+
   const onAttachmentClick = (item) => {
     if (item?.url) {
       if (item.content_type.includes('image/')) {
@@ -48,7 +65,76 @@ export default function useTestCaseViewDetails() {
     }, 400);
   };
 
+  const showAddIssuesModal = () => {
+    setIsShowAddIssuesModal(true);
+  };
+  const hideAddIssuesModal = () => {
+    setIsShowAddIssuesModal(false);
+  };
+
+  const saveAddIssesModal = (newIssuesArray) => {
+    const newTestCaseDetails = { ...testCaseDetails };
+    const updatedIssuesArray = [
+      ...newTestCaseDetails.issues,
+      ...newIssuesArray
+    ];
+    newTestCaseDetails.issues = updatedIssuesArray;
+    editTestCaseAPI({
+      projectId,
+      folderId,
+      testCaseId: newTestCaseDetails.id,
+      payload: { test_case: newTestCaseDetails }
+    }).then((data) => {
+      dispatch(setTestCaseDetails(data?.data?.test_case));
+      hideAddIssuesModal();
+    });
+  };
+
+  const imageClickOpener = (e) => {
+    const imageURL = e?.currentTarget?.getAttribute('src');
+    if (imageURL) {
+      setImageLink(imageURL);
+      setImagePreviewVisibility(true);
+    }
+  };
+
+  const onJiraButtonClick = (jiraID) => {
+    window.open(`${jiraConfig?.data?.host}/browse/${jiraID}`);
+  };
+
+  const testRunButtonClick = (testRunID) => {
+    window.open(
+      `${window.location.href
+        .split('/')
+        .splice(0, 5)
+        .join('/')}/test-runs/${testRunID}`
+    );
+  };
+
+  useEffect(() => {
+    if (detailsRef.current) {
+      const imageElements = detailsRef.current.querySelectorAll('img');
+      if (imageElements) {
+        imageElements.forEach((item) => {
+          item.addEventListener('click', imageClickOpener);
+          // eslint-disable-next-line no-param-reassign
+          item.style.cursor = 'pointer';
+        });
+      }
+    }
+  }, [detailsRef]);
+
+  useEffect(() => {
+    if (!jiraConfig) {
+      getJIRAConfigAPI().then((e) => {
+        setJiraConfig(e?.success ? e : null);
+      });
+    }
+  }, [jiraConfig, setJiraConfig]);
+
   return {
+    projectId,
+    detailsRef,
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
     showImagePreview,
@@ -61,6 +147,12 @@ export default function useTestCaseViewDetails() {
     isTestCaseViewVisible,
     handleTabChange,
     onAttachmentClick,
-    closePreview
+    closePreview,
+    isShowAddIssuesModal,
+    showAddIssuesModal,
+    hideAddIssuesModal,
+    saveAddIssesModal,
+    onJiraButtonClick,
+    testRunButtonClick
   };
 }

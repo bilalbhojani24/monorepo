@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -8,6 +8,7 @@ import {
 import AppRoute from 'const/routes';
 import { setUser } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { SETUP_FORMATS } from '../const/immutableConst';
 import {
@@ -22,6 +23,7 @@ const useOnboarding = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [invalidFields, setInvalidFields] = useState({});
   const userData = useSelector((state) => state.global.user);
   const isProcessing = useSelector((state) => state.onboarding.isProcessing);
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
@@ -44,6 +46,10 @@ const useOnboarding = () => {
   };
 
   const onFormChange = (key, value) => {
+    setInvalidFields({
+      ...invalidFields,
+      [key]: false
+    });
     dispatch(updateFormData({ key, value }));
   };
 
@@ -54,7 +60,13 @@ const useOnboarding = () => {
   };
 
   const continueClickHandler = () => {
-    if (!formData?.role || !formData?.organisation_strength) return;
+    if (!formData?.role || !formData?.organisation_strength) {
+      setInvalidFields({
+        role: !formData?.role,
+        organisation_strength: !formData?.organisation_strength
+      });
+      return;
+    }
     if (!formData?.start_method) return;
 
     dispatch(setIsProcessing(true));
@@ -63,16 +75,21 @@ const useOnboarding = () => {
       dispatch(setIsProcessing(false));
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import
+          dispatch(logEventHelper('TM_QiOptionSelectedOnboarding', {}));
           navigate(AppRoute.IMPORT, {
-            state: { isFromOnboarding: true },
+            state: {
+              isFromOnboarding: true
+            },
             replace: true
           });
           break;
         // case SETUP_FORMATS[1].title: // example_project
+        // dispatch(logEventHelper('TM_ExampleProjectSelectedOnboarding', {}));
         //   // create new project API TODO
         //   navigate(AppRoute.ROOT);
         //   break;
         case SETUP_FORMATS[1].title: // scratch
+          dispatch(logEventHelper('TM_ScratchProjectSelectedOnboarding', {}));
           navigate(
             hasProjects
               ? AppRoute.ROOT
@@ -87,11 +104,13 @@ const useOnboarding = () => {
   };
 
   useEffect(() => {
+    dispatch(logEventHelper('TM_OnboardingPageLoaded', {}));
     initFormData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
+    invalidFields,
     isProcessing,
     formData,
     userData,

@@ -12,7 +12,8 @@ const TestCaseDetailsView = ({
   onDetailsClose,
   isFromTestRun,
   onResultClick,
-  testResultsArray
+  testResultsArray,
+  resultUpdatable
 }) => {
   const {
     initTestCaseDetails,
@@ -30,10 +31,17 @@ const TestCaseDetailsView = ({
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testCaseId]);
+
+  useEffect(
+    () => () => {
+      hideTestCaseViewDrawer(true);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <TMSlideover
@@ -48,7 +56,9 @@ const TestCaseDetailsView = ({
       size="md"
     >
       <TMSlideoverHeader
-        heading="Test Case Details"
+        isEllipsisHeader={false}
+        headingWrapperClassName="text-sm text-base-700 flex justify-center items-center"
+        heading="TEST CASE DETAILS"
         isBorder
         backgroundColorClass="bg-white"
         handleDismissClick={hideTestCaseViewDrawer}
@@ -56,6 +66,7 @@ const TestCaseDetailsView = ({
       <TestCaseView
         actionHandler={actionHandler}
         isFromTestRun={isFromTestRun}
+        resultUpdatable={resultUpdatable}
         onResultClick={onResultClick}
       />
     </TMSlideover>
@@ -68,6 +79,7 @@ TestCaseDetailsView.propTypes = {
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   onDetailsClose: PropTypes.func,
   isFromTestRun: PropTypes.bool,
+  resultUpdatable: PropTypes.bool,
   onResultClick: PropTypes.bool,
   testResultsArray: PropTypes.arrayOf(PropTypes.object)
 };
@@ -78,6 +90,7 @@ TestCaseDetailsView.defaultProps = {
   testCaseId: null,
   onDetailsClose: () => {},
   isFromTestRun: false,
+  resultUpdatable: false,
   onResultClick: () => {},
   testResultsArray: []
 };

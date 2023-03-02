@@ -1,8 +1,14 @@
 // eslint-disable-next-line no-unused-vars
+const chartStyling = {
+  style: {
+    fontFamily: '"Inter", sans-serif'
+  }
+};
 
 export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
   colors,
   chart: {
+    ...chartStyling,
     type: 'pie',
     renderTo: 'container'
   },
@@ -15,12 +21,7 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     y: 100,
     useHTML: true,
     width: '40%',
-    itemMarginBottom: 15,
-    labelFormatter() {
-      return `<div class="width:100%;display: flex; justify-content: space-between;"><span style="">${
-        this.name
-      }: </span><b>${this.y} (${this.percentage.toFixed(1)}%)<br/></div>`;
-    }
+    itemMarginBottom: 15
   },
   title: {
     verticalAlign: 'middle',
@@ -34,6 +35,13 @@ export const donutOptionCreator = ({ chartData, colors, addOns }) => ({
     borderColor: '#00335D',
     style: {
       color: '#fff'
+    },
+    formatter() {
+      return `<span  style="font-size:14px;color:${
+        this.point.color
+      }">\u25CF</span> <span class="whitespace-nowrap">${this.key} ${
+        this.y
+      } (${this.percentage.toFixed(0)}%)</span>`;
     }
   },
   subtitle: {
@@ -88,6 +96,7 @@ export const lineOptionsCreator = ({
   addOns
 }) => ({
   chart: {
+    ...chartStyling,
     type: 'spline'
   },
   tooltip: {
@@ -125,10 +134,16 @@ export const lineOptionsCreator = ({
   yAxis: {
     title: {
       text: null
-    }
+    },
+    gridLineWidth: 1,
+    gridLineDashStyle: 'Dash',
+    gridZIndex: 0
   },
   xAxis: {
-    categories: xAxis
+    categories: xAxis,
+    gridLineWidth: 1,
+    gridZIndex: 0,
+    gridLineDashStyle: 'Dash'
   },
   series: chartData || [
     {
@@ -169,6 +184,7 @@ export const barOptionsCreator = ({
   addOns
 }) => ({
   chart: {
+    ...chartStyling,
     type: 'column'
   },
   title: {
@@ -180,9 +196,15 @@ export const barOptionsCreator = ({
   },
   xAxis: {
     categories: xAxis,
-    crosshair: false
+    crosshair: false,
+    gridLineWidth: 1,
+    gridZIndex: 0,
+    gridLineDashStyle: 'Dash'
   },
   yAxis: {
+    gridLineWidth: 1,
+    gridZIndex: 0,
+    gridLineDashStyle: 'Dash',
     title: {
       text: null
     }
@@ -235,6 +257,7 @@ export const stackedBarOptionsCreator = ({
   addOns
 }) => ({
   chart: {
+    ...chartStyling,
     type: 'column'
   },
   title: {
@@ -248,18 +271,32 @@ export const stackedBarOptionsCreator = ({
     }
   },
   xAxis: {
-    categories: xAxis || []
+    categories: xAxis || [],
+    gridLineWidth: 0,
+    gridZIndex: 0,
+    gridLineDashStyle: 'Dash'
   },
   legend: {
     enabled: showLegend,
+    symbolHeight: 8,
+    symbolWidth: 8,
+    symbolRadius: 8,
     align: 'right',
     verticalAlign: 'top',
     layout: 'vertical',
+    itemMarginBottom: 15,
     x: 0,
     y: 100,
-    itemMarginBottom: 15
+    itemStyle: {
+      color: '#333',
+      fontWeight: 'normal',
+      textTransform: 'capitalize'
+    }
   },
   yAxis: {
+    gridLineWidth: 1,
+    gridZIndex: 0,
+    gridLineDashStyle: 'Dash',
     min: 0,
     title: {
       text: ''
@@ -267,7 +304,7 @@ export const stackedBarOptionsCreator = ({
   },
   plotOptions: {
     column: {
-      stacking: 'percent',
+      stacking: 'normal',
       events: {
         legendItemClick() {
           return false; // <== returning false will cancel the default action

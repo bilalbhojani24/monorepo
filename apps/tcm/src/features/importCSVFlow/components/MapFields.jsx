@@ -40,7 +40,9 @@ const MapFields = () => {
     typeMapper,
     rowRef,
     valueMappings,
+    errorLabelInMapFields,
     mapFieldProceedLoading,
+    showSelectMenuErrorInMapFields,
     setDefaultDropdownValue,
     handleSelectMenuChange,
     handleUpdateClick,
@@ -54,12 +56,25 @@ const MapFields = () => {
   const getMappingForLastCol = (actualName, value, mappingType) => {
     switch (mappingType) {
       case 'field_multi': // dropdown
+        // eslint-disable-next-line no-case-declarations
+        let defaultValue = {
+          label:
+            allowedValueMapper[value]?.allowedValueNameToDisplayMapper[
+              valueMappings[actualName]
+            ],
+          value:
+            allowedValueMapper[value]?.allowedValueNameToDisplayMapper[
+              valueMappings[actualName]
+            ]
+        };
+        if (!defaultValue.label)
+          defaultValue =
+            allowedValueMapper[value]?.allowedValueDisplayOptions[0];
+
         return (
           <TMSelectMenu
             checkPosition="right"
-            defaultValue={
-              allowedValueMapper[value]?.allowedValueDisplayOptions[0]
-            }
+            defaultValue={defaultValue}
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
             onChange={handleValueMappingMenuChange(actualName, value)}
           />
@@ -97,6 +112,7 @@ const MapFields = () => {
           size="xs"
           placementAlign="start"
           placementSide="bottom"
+          alignOffset={-20}
           theme="dark"
           content={
             <>
@@ -133,7 +149,7 @@ const MapFields = () => {
   }, []);
 
   return (
-    <div className="w-4/5">
+    <div className="w-4/5 max-w-7xl">
       {mapFieldsError && (
         <div className="mb-3">
           <TMAlerts
@@ -156,6 +172,7 @@ const MapFields = () => {
               <TMButton
                 variant="primary"
                 onClick={handleMappingProceedClick}
+                isIconOnlyButton={mapFieldProceedLoading}
                 loading={mapFieldProceedLoading}
               >
                 Proceed
@@ -190,6 +207,13 @@ const MapFields = () => {
                 </TableCell>
                 <TableCell wrapperClassName="py-2 px-4 w-auto">
                   <TMSelectMenu
+                    triggerWrapperClassName={
+                      errorLabelInMapFields?.has(
+                        row.mappedField.defaultValue.label
+                      ) && showSelectMenuErrorInMapFields
+                        ? 'border-danger-400'
+                        : ''
+                    }
                     checkPosition="right"
                     options={row.mappedField.displayOptions}
                     dividerIdx={1}

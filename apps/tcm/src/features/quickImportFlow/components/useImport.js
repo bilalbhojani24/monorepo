@@ -5,7 +5,6 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
-  importCleanUp,
   setCheckImportStatusClicked,
   setConfigureToolProceeded,
   setConfigureToolProceedLoading,
@@ -15,6 +14,7 @@ import {
   setCurrentTestManagementTool,
   setErrorForConfigureData,
   setImportStarted,
+  setImportStatusOngoing,
   setImportSteps,
   setJiraConfigurationStatus,
   setProjectForTestManagementImport,
@@ -220,6 +220,8 @@ const useImport = () => {
   };
 
   const handleConfirmImport = () => {
+    // dispatch(startQuickImport(currentTestManagementTool));
+    dispatch(setImportStatusOngoing());
     if (currentTestManagementTool === 'testrails') {
       importProjects('testrail', {
         ...testRailsCred,
@@ -241,7 +243,6 @@ const useImport = () => {
         // console.log('done successfully');
       });
     }
-    dispatch(importCleanUp());
     dispatch(setImportStarted(true));
     dispatch(setCheckImportStatusClicked(false));
     navigate(AppRoute.ROOT);

@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdOutlineDescription, MdSaveAlt } from '@browserstack/bifrost';
 import { SourceOutlinedIcon } from 'assets/icons';
@@ -6,11 +7,14 @@ import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
+
 import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 const BlankPage = forwardRef((props, ref) => {
-  const { projectId } = useTestCases();
+  const { projectId, folderId } = useTestCases();
+  const dispatch = useDispatch();
   return (
     <div className="flex w-full flex-wrap justify-center">
       <TMEmptyState
@@ -39,13 +43,22 @@ const BlankPage = forwardRef((props, ref) => {
               colors="white"
               size="large"
               icon={<MdSaveAlt />}
+              onClick={() => dispatch(setCurrentTestManagementTool(''))}
             >
               &nbsp;Quick Import
             </TMButton>
           </Link>
         </div>
         <div className="flex-1">
-          <Link to={AppRoute.IMPORT_CSV}>
+          <Link
+            to={`${AppRoute.IMPORT_CSV}${
+              projectId
+                ? `?project=${projectId}${
+                    folderId ? `&folder=${folderId}` : ''
+                  }`
+                : ''
+            }`}
+          >
             <TMButton
               wrapperClassName="ml-4 whitespace-nowrap w-64 py-3"
               variant="rounded"
@@ -53,7 +66,7 @@ const BlankPage = forwardRef((props, ref) => {
               size="large"
               icon={<MdOutlineDescription />}
             >
-              &nbsp;Import from CSV / XLS
+              &nbsp;Import from CSV
             </TMButton>
           </Link>
         </div>

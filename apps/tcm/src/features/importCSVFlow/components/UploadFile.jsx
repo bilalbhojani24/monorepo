@@ -44,7 +44,7 @@ const UploadFile = () => {
   };
 
   return (
-    <div className="w-4/5">
+    <div className="w-4/5 max-w-7xl">
       {csvUploadError && (
         <div className="mb-3">
           <TMAlerts
@@ -60,13 +60,14 @@ const UploadFile = () => {
       )}
       <div className="border-base-200 rounded-md border-2 border-solid bg-white p-6">
         <TMSectionHeadings
-          title="Upload CSV/XLS"
+          title="Upload CSV file"
           variant="buttons"
           trailingHeadNode={
             <>
               <TMButton
                 variant="primary"
                 onClick={handleProceedClick}
+                isIconOnlyButton={uploadFileProceedLoading}
                 loading={uploadFileProceedLoading}
               >
                 Proceed
@@ -78,9 +79,9 @@ const UploadFile = () => {
         {!fileConfig?.fileName && (
           <TMFileUpload
             linkText="Upload a file"
-            heading="or drag and drop"
-            subHeading="CSV & XLS format allowed"
-            accept=".csv,.xlsx"
+            heading=""
+            subHeading="CSV format allowed"
+            accept=".csv"
             onChange={handleFileUpload}
           />
         )}

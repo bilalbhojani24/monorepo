@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TMPageHeadings } from 'common/bifrostProxy';
+import { setSelectedProject } from 'globalSlice';
 
 import {
   IMPORT_CSV_STEPS,
@@ -18,7 +20,16 @@ import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const projectId = queryParams.get('project');
   const { currentCSVScreen, importCSVSteps } = useImportCSV();
+
+  const handleBreadcrumbClick = (_, clickedOption) => {
+    const { name } = clickedOption;
+    if (name === 'Test Cases') navigate(-1);
+  };
 
   const getCurrentScreen = () => {
     if (currentCSVScreen === UPLOAD_FILE) return <UploadFile />;
@@ -34,11 +45,18 @@ const ImportCSV = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
+
   return (
     <>
       <TMPageHeadings
-        // breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV/XLS' }]}
-        heading="Import via CSV/XLS"
+        breadcrumbs={[{ name: 'Test Cases' }, { name: 'Import via CSV file' }]}
+        breadcrumbWrapperClassName="cursor-pointer"
+        onBreadcrumbClick={handleBreadcrumbClick}
+        heading="Import via CSV file"
       />
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div

@@ -28,7 +28,7 @@ const Notification = () => {
         <TMNotifications
           isCondensed={notification?.isCondensed || false}
           title={notification?.title}
-          description={notification?.description}
+          description={notification?.description || null}
           actionButtons={null}
           headerIcon={headerIcon(notification?.variant)}
           handleClose={(toastData) => {
@@ -38,8 +38,8 @@ const Notification = () => {
         />,
         {
           position: 'top-right',
-          duration: 4000,
-          autoClose: true,
+          duration: 5000,
+          // autoClose: true,
           id: notification?.id
         }
       );

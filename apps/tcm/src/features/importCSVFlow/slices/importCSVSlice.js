@@ -31,6 +31,7 @@ const initialState = {
   valueMappings: {},
   mapFieldModalConfig: { show: false, field: '', mapped_field: '' },
   usersForDropdown: [],
+  errorLabelInMapFields: new Set(),
   mapFieldsConfig: {
     importId: null,
     customFields: [],
@@ -47,10 +48,14 @@ const initialState = {
   confirmCSVImportNotificationConfig: {
     show: false,
     status: 'ongoing',
-    modalData: ONGOING_IMPORT_MODAL_DATA
+    modalData: ONGOING_IMPORT_MODAL_DATA,
+    csvImportProjectId: null,
+    csvImportFolderId: null
   },
   totalImportedProjectsInPreview: null,
-  mapFieldsProceedLoading: false
+  mapFieldsProceedLoading: false,
+  showSelectMenuErrorInMapFields: false,
+  importCSVSuccessNotificationShown: false
 };
 
 const importCSVSlice = createSlice({
@@ -84,6 +89,12 @@ const importCSVSlice = createSlice({
     },
     setFieldsMapping: (state, { payload }) => {
       state.fieldsMapping[payload.key] = payload.value;
+    },
+    setErrorLabelInMapFields: (state, { payload }) => {
+      state.errorLabelInMapFields = payload;
+    },
+    setShowSelectMenuErrorInMapFields: (state, { payload }) => {
+      state.showSelectMenuErrorInMapFields = payload;
     },
     setValueMappings: (state, { payload }) => {
       if (payload.value === 'delete') {
@@ -124,6 +135,8 @@ const importCSVSlice = createSlice({
       state.uploadFileProceedLoading = true;
     },
     uploadFileFulfilled: (state, { payload }) => {
+      state.fieldsMapping = {};
+      state.valueMappings = {};
       state.fieldsMappingData = payload;
       state.mapFieldsConfig.importId = payload.import_id;
       state.mapFieldsConfig.customFields = payload.fields_available?.custom;
@@ -162,11 +175,10 @@ const importCSVSlice = createSlice({
       if (payload.success) {
         state.confirmCSVImportNotificationConfig.show = false;
         state.confirmCSVImportNotificationConfig.status = 'success';
-      } else if (payload.code === 'ERR_BAD_REQUEST') {
-        state.confirmCSVImportNotificationConfig.show = true;
-        state.confirmCSVImportNotificationConfig.status = 'failed';
-        state.confirmCSVImportNotificationConfig.modalData =
-          FAILED_IMPORT_MODAL_DATA;
+        state.confirmCSVImportNotificationConfig.csvImportProjectId =
+          payload.project_id;
+        state.confirmCSVImportNotificationConfig.csvImportFolderId =
+          payload.folder_id;
       }
     },
     startImportingTestCaseRejected: (state, { payload }) => {
@@ -208,10 +220,13 @@ const importCSVSlice = createSlice({
         return { ...step, status: COMPLETE_STEP };
       });
       state.mapFieldsProceedLoading = false;
+      state.showSelectMenuErrorInMapFields = false;
+      state.errorLabelInMapFields = new Set();
     },
     submitMappingDataRejected: (state, { payload }) => {
       state.mappingFieldsError = payload.response.data.message;
       state.mapFieldsProceedLoading = false;
+      state.showSelectMenuErrorInMapFields = true;
     },
     setRetryImport: (state, { payload }) => {
       state.retryCSVImport = payload;
@@ -223,6 +238,23 @@ const importCSVSlice = createSlice({
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.UPDATEDBY = payload;
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = payload;
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = payload;
+    },
+    setImportCSVSuccessNotificationShown: (state, { payload }) => {
+      state.importCSVSuccessNotificationShown = payload;
+    },
+    importCSVCleanUp: (state, { payload }) => {
+      const {
+        totalImportedProjectsInPreview,
+        confirmCSVImportNotificationConfig,
+        ...restInitialState
+      } = initialState;
+
+      return {
+        totalImportedProjectsInPreview: payload?.totalImportedProjectsInPreview,
+        confirmCSVImportNotificationConfig:
+          payload?.confirmCSVImportNotificationConfig,
+        ...restInitialState
+      };
     }
   }
 });
@@ -244,6 +276,9 @@ export const {
   uploadFilePending,
   uploadFileFulfilled,
   uploadFileRejected,
+  importCSVCleanUp,
+  setErrorLabelInMapFields,
+  setShowSelectMenuErrorInMapFields,
   setCSVConfigurationsFulfilled,
   startImportingTestCasePending,
   startImportingTestCaseFulfilled,
@@ -252,6 +287,7 @@ export const {
   submitMappingDataPending,
   submitMappingDataFulfilled,
   submitMappingDataRejected,
-  setNotificationConfigForConfirmCSVImport
+  setNotificationConfigForConfirmCSVImport,
+  setImportCSVSuccessNotificationShown
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

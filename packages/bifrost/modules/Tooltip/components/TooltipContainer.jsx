@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import PropTypes from 'prop-types';
@@ -37,8 +37,17 @@ const TooltipContainer = (props) => {
     sticky,
     theme,
     triggerWrapperClassName,
+    triggerOnTouch,
+    triggerAriaLabel,
     wrapperClassName
   } = props;
+  const triggerRef = useRef(null);
+  const handlePointerDownOutside = (event) => {
+    if (triggerRef.current.contains(event.target) && triggerOnTouch) {
+      event.preventDefault();
+    }
+    onPointerDownOutside?.();
+  };
 
   return (
     <ThemeContextData.Provider
@@ -52,7 +61,14 @@ const TooltipContainer = (props) => {
           defaultOpen={defaultOpen}
           onOpenChange={onOpenChange}
         >
-          <TooltipPrimitive.Trigger className={triggerWrapperClassName}>
+          <TooltipPrimitive.Trigger
+            className={triggerWrapperClassName}
+            ref={triggerRef}
+            onClick={(event) => {
+              if (triggerOnTouch) event.preventDefault();
+            }}
+            aria-label={triggerAriaLabel}
+          >
             {children}
           </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
@@ -63,7 +79,7 @@ const TooltipContainer = (props) => {
               side={placementSide}
               align={placementAlign}
               onEscapeKeyDown={onEscapeKeyDown}
-              onPointerDownOutside={onPointerDownOutside}
+              onPointerDownOutside={handlePointerDownOutside}
               sideOffset={sideOffset}
               sticky={sticky}
               className={twClassNames(
@@ -129,6 +145,8 @@ export const TooltipPropTypes = {
   show: PropTypes.bool,
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
   triggerWrapperClassName: PropTypes.string,
+  triggerOnTouch: PropTypes.bool,
+  triggerAriaLabel: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
 
@@ -155,6 +173,8 @@ TooltipContainer.defaultProps = {
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
   triggerWrapperClassName: '',
+  triggerOnTouch: false,
+  triggerAriaLabel: '',
   wrapperClassName: ''
 };
 

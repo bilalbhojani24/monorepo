@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import classNames from 'classnames';
-import { TMDataVisualization, TMPageHeadings } from 'common/bifrostProxy';
+import {
+  TMAlerts,
+  TMDataVisualization,
+  TMPageHeadings
+} from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
@@ -14,6 +18,7 @@ variablePie(Highcharts);
 
 const Dashboard = () => {
   const {
+    isAllDashboadEmpty,
     isLoadingStates,
     projectId,
     testCaseTypesOptions,
@@ -34,11 +39,30 @@ const Dashboard = () => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
-        <div className="flex w-full gap-4">
+        <TMAlerts
+          show={isAllDashboadEmpty}
+          title="Currently, there is no data available in this project."
+          linkText={null}
+          modifier="primary"
+        />
+        <div className="mt-4 flex w-full gap-4">
           <div className="relative w-1/2 flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.activeTR || false}
-              headerInfo={false}
+              headerInfo
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This pie chart shows status of test cases in active test
+                    runs.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               title="Active Test Runs"
               wrapperClassName="bg-white relative"
               size="fit-content"
@@ -74,7 +98,20 @@ const Dashboard = () => {
           <div className="w-1/2 flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.closedTRMonthly || false}
-              headerInfo={false}
+              headerInfo
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This trendline shows count of test runs closed in last 12
+                    months.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               title="Closed Test Runs (Last 12 Months)"
               wrapperClassName="bg-white relative"
               size="fit-content"
@@ -107,7 +144,20 @@ const Dashboard = () => {
           <div className="flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.closedTRDaily || false}
-              headerInfo={false}
+              headerInfo
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This bar chart shows distribution of test case results
+                    across closed test runs.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
               title="Closed Test Runs (Last 15 days)"
               wrapperClassName="bg-white relative"
               size="fit-content"
@@ -144,8 +194,7 @@ const Dashboard = () => {
               headerInfoTooltipProps={{
                 content: (
                   <div className="text-base-300 w-60 px-4 text-sm">
-                    Below is the list of the test cases available within the
-                    project. This list shows the top 5 types of test cases.
+                    This pie chart shows type of test cases in the project.
                   </div>
                 ),
                 theme: 'dark',
@@ -162,7 +211,12 @@ const Dashboard = () => {
                     highcharts={Highcharts}
                     options={testCaseTypesOptions}
                   />
-                  <div className="pointer-events-none absolute top-0 left-0 flex h-full w-3/5 flex-col items-center justify-center">
+                  <div
+                    className={classNames(
+                      'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
+                      testCaseTypesOptions?.isEmpty ? 'w-full' : 'w-3/5'
+                    )}
+                  >
                     <div className="text-base-800 text-xl font-bold">
                       {testCaseTypesOptions?.total || ''}
                     </div>
@@ -184,9 +238,8 @@ const Dashboard = () => {
               headerInfoTooltipProps={{
                 content: (
                   <div className="text-base-300 w-60 px-4 text-sm">
-                    Below is the trend of various types of test cases over a
-                    period of one yeart. This list shows the top 5 types of test
-                    cases.
+                    This trendline shows type of test cases in the project over
+                    last 12 months.
                   </div>
                 ),
                 theme: 'dark',
@@ -221,7 +274,12 @@ const Dashboard = () => {
               isLoading={isLoadingStates?.jiraIssues || false}
               headerInfo
               headerInfoTooltipProps={{
-                content: <div className="text-base-300 w-60 px-4 text-sm" />,
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    This bar chart shows distribution of JIRA issues linked with
+                    test runs/results over last 12 months.
+                  </div>
+                ),
                 theme: 'dark',
                 placementAlign: 'center',
                 placementSide: 'bottom',

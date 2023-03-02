@@ -8,7 +8,6 @@ import {
 } from 'assets/icons';
 import classNames from 'classnames';
 import {
-  TMBadge,
   TMButton,
   TMCheckBox,
   TMDropdown,
@@ -20,6 +19,7 @@ import {
   TMTableRow,
   TMTruncateText
 } from 'common/bifrostProxy';
+import ClampedTags from 'common/ClampedTags';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
@@ -131,7 +131,10 @@ const TestCasesTable = ({
                     delay: 500
                   }}
                 >
-                  {rowData?.folders?.map((item) => item.name)?.join('  >  ')}
+                  {rowData?.folders
+                    ?.map((item) => item.name)
+                    ?.reverse()
+                    ?.join('  >  ')}
                 </TMTruncateText>
               </div>
             </>
@@ -174,27 +177,28 @@ const TestCasesTable = ({
       name: 'Tags',
       key: 'tags',
       cell: (rowData) => (
-        <span>
-          {rowData.tags.length > 0 ? (
-            <div className="mt-1 flex gap-1">
-              <TMBadge
-                text={rowData.tags[0]}
-                size="large"
-                key={rowData.tags[0]}
-              />
-              {rowData.tags.length > 1 ? (
-                <TMBadge
-                  text={`+${rowData.tags.length - 1}`}
-                  size="large"
-                  key={`+${rowData.tags.length - 1}`}
-                  onClick={handleTestCaseViewClick(rowData)}
-                />
-              ) : null}
-            </div>
-          ) : (
-            '--'
-          )}
-        </span>
+        <ClampedTags tagsArray={rowData.tags} badgeModifier="base" />
+        // <span>
+        //   {rowData.tags.length > 0 ? (
+        //     <div className="mt-1 flex gap-1">
+        //       <TMBadge
+        //         text={rowData.tags[0]}
+        //         size="large"
+        //         key={rowData.tags[0]}
+        //       />
+        //       {rowData.tags.length > 1 ? (
+        //         <TMBadge
+        //           text={`+${rowData.tags.length - 1}`}
+        //           size="large"
+        //           key={`+${rowData.tags.length - 1}`}
+        //           onClick={handleTestCaseViewClick(rowData)}
+        //         />
+        //       ) : null}
+        //     </div>
+        //   ) : (
+        //     '--'
+        //   )}
+        // </span>
       ),
       class: 'w-[10%]'
     },
@@ -207,7 +211,9 @@ const TestCasesTable = ({
         <TMDropdown
           options={dropDownOptions}
           triggerVariant="meatball-button"
-          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
+          onClick={(selectedOption) =>
+            onDropDownChange(selectedOption, data, true)
+          }
         />
       ),
       class: 'w-[5%]'

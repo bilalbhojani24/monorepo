@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
 import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 
 import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
+import { resetImportCSVState } from '../slices/csvThunk';
 
 import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
@@ -30,10 +32,8 @@ const PreviewAndConfirm = () => {
     previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -60,16 +60,15 @@ const PreviewAndConfirm = () => {
   useEffect(() => {
     if (confirmCSVImportNotificationConfig.status === 'success') {
       navigate({
-        pathname: `/projects/${queryParams.get(
-          'project'
-        )}/folder/${queryParams.get('folder')}/test-cases`
+        pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
       });
+      dispatch(resetImportCSVState());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, confirmCSVImportNotificationConfig]);
 
   return (
-    <div className="border-base-200 m-4 flex h-max w-4/5 flex-col rounded-md border-2 border-solid bg-white p-6">
+    <div className="border-base-200 m-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border-2 border-solid bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"
@@ -88,6 +87,9 @@ const PreviewAndConfirm = () => {
         firstCta="Change Folder"
         secondCta="Upload to Root Folder"
       />
+      <div className="text-base-500 mb-4 text-sm font-normal">
+        This is the folder location where test cases will be imported
+      </div>
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
@@ -119,6 +121,7 @@ const PreviewAndConfirm = () => {
               <TableCell>{formatTemplate(row.templateType)}</TableCell>
               <TableCell>{formatPriority(row.priority)}</TableCell>
               <TableCell>{row.owner}</TableCell>
+              <TableCell>{row.type}</TableCell>
             </TableRow>
           ))}
         </TableBody>

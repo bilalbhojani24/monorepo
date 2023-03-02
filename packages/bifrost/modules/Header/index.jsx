@@ -23,15 +23,18 @@ const Header = ({
   supportLink,
   showTestInsights,
   beamerProductId,
+  beamerOverlayTopProperty,
   headerElementArray,
-  productArray
+  productArray,
+  planButtonVisible,
+  isFreeUser
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
     <nav
       ref={headerRef}
       className={twClassNames(
-        'h-16 w-auto flex flex-row items-center p-0 bg-base-800 gap-4',
+        'h-16 w-full flex flex-row items-center p-0 bg-[#1d2736] gap-4 fixed top-0 z-10',
         wrapperClassName
       )}
       id={headerID || null}
@@ -55,7 +58,10 @@ const Header = ({
           supportLink={supportLink}
           showTestInsights={showTestInsights}
           beamerProductId={beamerProductId}
+          beamerOverlayTopProperty={beamerOverlayTopProperty}
           headerElementArray={headerElementArray}
+          planButtonVisible={planButtonVisible}
+          isFreeUser={isFreeUser}
         />
       </div>
     </nav>
@@ -73,12 +79,15 @@ Header.propTypes = {
   documentationLink: PropTypes.string,
   supportLink: PropTypes.string,
   beamerProductId: PropTypes.string,
+  beamerOverlayTopProperty: PropTypes.number,
   showTestInsights: PropTypes.bool,
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
   headerID: PropTypes.string,
   productArray: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
-  )
+  ),
+  planButtonVisible: PropTypes.bool,
+  isFreeUser: PropTypes.bool
 };
 Header.defaultProps = {
   wrapperClassName: '',
@@ -91,10 +100,13 @@ Header.defaultProps = {
   documentationLink: '',
   supportLink: '',
   beamerProductId: '',
+  beamerOverlayTopProperty: 64,
   showTestInsights: true,
   headerElementArray: [],
   headerID: '',
-  productArray: []
+  productArray: [],
+  planButtonVisible: true,
+  isFreeUser: true
 };
 
 export default Header;

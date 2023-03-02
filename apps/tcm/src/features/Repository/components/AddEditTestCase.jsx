@@ -1,10 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useRef } from 'react';
+import { MdFolderOpen } from '@browserstack/bifrost';
 import {
   ExpandLessOutlinedIcon,
-  ExpandMoreOutlinedIcon,
-  // FolderOpenOutlinedIcon,
-  InfoOutlinedIcon
+  ExpandMoreOutlinedIcon
+  // InfoOutlinedIcon
 } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import AddTagModal from 'common/AddTagModal';
@@ -17,9 +17,10 @@ import {
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTooltip,
-  TMTooltipBody,
-  TMTooltipHeader
+  // TMTooltip,
+  // TMTooltipBody,
+  // TMTooltipHeader,
+  TMTruncateText
 } from 'common/bifrostProxy';
 
 import {
@@ -36,6 +37,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    scheduledFolder,
     projectId,
     isUploadInProgress,
     isAddIssuesModalShown,
@@ -61,7 +63,7 @@ const AddEditTestCase = () => {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper
-  } = useAddEditTestCase();
+  } = useAddEditTestCase({ isAddEditOnly: true });
 
   const { initFormValues } = useTestCases();
   const focusRef = useRef(null);
@@ -94,6 +96,7 @@ const AddEditTestCase = () => {
                 Cancel
               </TMButton>
               <TMButton
+                disabled={isUploadInProgress}
                 wrapperClassName="ml-4 whitespace-nowrap"
                 variant="primary"
                 onClick={() => {
@@ -101,7 +104,7 @@ const AddEditTestCase = () => {
                   else saveTestCase(testCaseFormData);
                 }}
               >
-                {isTestCaseEditing ? 'Update Case' : 'Create'}
+                {isTestCaseEditing ? 'Update Case' : 'Create Case'}
               </TMButton>
             </div>
           }
@@ -123,9 +126,22 @@ const AddEditTestCase = () => {
                 inputError?.name ? "This field can't be left empty" : ''
               }
             />
-            {/* <div className="mt-2.5 flex w-full">
-              <FolderOpenOutlinedIcon className="text-base-500 !h-4 !w-4" />
-            </div> */}
+            {scheduledFolder.length ? (
+              <div className="mt-2.5 flex w-full">
+                <MdFolderOpen className="text-base-500 h-4 !w-4 shrink-0" />
+                <div className="text-base-500 ml-1 break-all text-xs">
+                  <TMTruncateText
+                    hidetooltipTriggerIcon
+                    isFullWidthTooltip
+                    headerTooltipProps={{
+                      delay: 500
+                    }}
+                  >
+                    {scheduledFolder?.map((item) => item?.name).join(' / ')}
+                  </TMTruncateText>
+                </div>
+              </div>
+            ) : null}
           </div>
           <div className="w-1/4">
             <TMSelectMenu
@@ -147,7 +163,7 @@ const AddEditTestCase = () => {
             label="Description"
             id="main-description"
             value={testCaseFormData?.description}
-            height={200}
+            height={160}
             placeholder="Write in brief about this test case"
             onChange={(val) => handleTestCaseFieldChange('description', val)}
             projectId={projectId}
@@ -162,7 +178,7 @@ const AddEditTestCase = () => {
                   id="steps-rte"
                   placeholder="Steps for the test"
                   value={testCaseFormData?.steps?.[0]}
-                  height={200}
+                  height={160}
                   onChange={(val) => handleTestCaseFieldChange('steps', [val])}
                   projectId={projectId}
                 />
@@ -173,7 +189,7 @@ const AddEditTestCase = () => {
                   label="Expected Results"
                   placeholder="Expected result(s) from above steps"
                   value={testCaseFormData?.expected_result}
-                  height={200}
+                  height={160}
                   onChange={(val) =>
                     handleTestCaseFieldChange('expected_result', val)
                   }
@@ -287,7 +303,7 @@ const AddEditTestCase = () => {
                 placeholder="Enter preconditions needed before executing this test"
                 label="Preconditions"
                 value={testCaseFormData?.preconditions}
-                height={200}
+                height={160}
                 onChange={(val) =>
                   handleTestCaseFieldChange('preconditions', val)
                 }
@@ -295,7 +311,7 @@ const AddEditTestCase = () => {
               />
             </div>
             <div className="mt-4 flex gap-4">
-              <div className="flex-1">
+              {/* <div className="flex-1">
                 <TMInputField
                   id="test-case-estimate"
                   value={testCaseFormData?.estimate}
@@ -310,18 +326,23 @@ const AddEditTestCase = () => {
                           <>
                             <TMTooltipHeader>Estimate</TMTooltipHeader>
                             <TMTooltipBody>
-                              <p className="text-sm">
-                                You can define an estimate time you would
-                                require for this test case. Below format types
-                                are permitted:
+                              <p className="pb-5 text-sm">
+                                You can define an estimate of testing time you
+                                would require for this test case. Below format
+                                types are permitted:
                               </p>
-                              <ul className="list-disc pl-5 text-sm">
+                              <ul className="list-disc pl-5 pb-5 text-sm">
                                 <li>Seconds (s)</li>
                                 <li>Minutes (m)</li>
                                 <li>Hours (h)</li>
                                 <li>Minutes:Seconds (m:s)</li>
                                 <li>Hours:Minutes:Seconds (h:m:s)</li>
                               </ul>
+                              <p className="text-sm">
+                                Combination of above options are permitted. Eg:
+                                &quot;2d 3h&quot;, &quot;5m 30s&quot;,
+                                &quot;10m&quot;.
+                              </p>
                             </TMTooltipBody>
                           </>
                         }
@@ -335,7 +356,7 @@ const AddEditTestCase = () => {
                     handleTestCaseFieldChange('estimate', e.currentTarget.value)
                   }
                 />
-              </div>
+              </div> */}
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -358,8 +379,7 @@ const AddEditTestCase = () => {
                   Add / Modify Tag
                 </TMButton>
               </div>
-            </div>
-            <div className="mt-4 flex gap-4">
+
               <div className="flex flex-1 items-end justify-between">
                 <div className="mr-4 flex-1">
                   <TMComboBox
@@ -380,8 +400,10 @@ const AddEditTestCase = () => {
                   Add / Modify Issue
                 </TMButton>
               </div>
-              <div className="flex-1" />
             </div>
+            {/* <div className="mt-4 flex gap-4">
+              <div className="flex-1" />
+            </div> */}
             <div className="mt-4 w-full">
               <div className="flex flex-col">
                 <div className="flex w-full justify-between">

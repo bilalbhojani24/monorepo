@@ -38,8 +38,11 @@ export const imageDialogConfig = (editor, onAssetUpload, containerId) => ({
     try {
       const res = await onAssetUpload(api.getData().dropzone);
 
-      if (typeof res === 'string' && res.length) {
-        editor.execCommand('mceInsertContent', false, `<img src=${res} />`);
+      if (res) {
+        const imgTag = `<img ${Object.entries(res)
+          .map(([attr, value]) => `${attr}="${value}"`)
+          .join(' ')} />`;
+        editor.execCommand('mceInsertContent', false, imgTag);
         api.unblock();
         api.close();
         document

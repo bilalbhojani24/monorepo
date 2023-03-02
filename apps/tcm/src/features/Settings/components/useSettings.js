@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_ISSUE_URL } from 'common/AddIssuesModal/const/addIssueConst';
 
 import { setJiraConfigurations, setSettingsApiKeys } from '../slices/thunk';
 
@@ -17,10 +16,11 @@ export default function useSettings() {
 
   const onIntegrationsButtonClick = () => {
     if (jiraConfiguration?.data?.host)
-      window.open(
-        `${jiraConfiguration?.data?.host}${CREATE_ISSUE_URL}`,
-        'popup'
-      );
+      window.open(`${jiraConfiguration?.integration_url}`, 'popup');
+  };
+
+  const configureJIRAInit = () => {
+    window.open(`${jiraConfiguration?.integration_url}`);
   };
 
   const fetchAPIKey = () => {
@@ -36,6 +36,7 @@ export default function useSettings() {
     settingsApiKeys,
     fetchAPIKey,
     onIntegrationsButtonClick,
-    fetchJiraConfigurations
+    fetchJiraConfigurations,
+    configureJIRAInit
   };
 }

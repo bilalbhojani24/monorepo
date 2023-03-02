@@ -13,10 +13,16 @@ import {
   IGNORE_VALUE_LABEL,
   IGNORE_VALUE_VALUE
 } from '../const/importCSVConstants';
-import { setValueMappingsThunk, submitMappingData } from '../slices/csvThunk';
 import {
+  setFieldsMappingThunk,
+  setValueMappingsThunk,
+  submitMappingData
+} from '../slices/csvThunk';
+import {
+  // setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldModalConfig,
+  setMapFieldsError,
   setValueMappings
 } from '../slices/importCSVSlice';
 
@@ -45,6 +51,12 @@ const useMapFields = () => {
   );
   const mapFieldProceedLoading = useSelector(
     (state) => state.importCSV.mapFieldsProceedLoading
+  );
+  const errorLabelInMapFields = useSelector(
+    (state) => state.importCSV.errorLabelInMapFields
+  );
+  const showSelectMenuErrorInMapFields = useSelector(
+    (state) => state.importCSV.showSelectMenuErrorInMapFields
   );
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
@@ -147,18 +159,25 @@ const useMapFields = () => {
         }),
         {}
       );
+      const allowedValueNameToDisplayMapper = field.allowed_types?.reduce(
+        (obj, item) => ({
+          ...obj,
+          [item.name]: item.display_name
+        }),
+        {}
+      );
       return {
         ...mapObject,
         [name]: {
           allowedValueDisplayOptions,
-          allowedValueDisplayToNameMapper
+          allowedValueDisplayToNameMapper,
+          allowedValueNameToDisplayMapper
         }
       };
     },
     {}
   );
 
-  // if (myFieldMappings && Object.keys(myFieldMappings).length) {
   rowRef.current = mapFieldsConfig.importFields.map((item) => ({
     field: item,
     mappedField: {
@@ -170,7 +189,6 @@ const useMapFields = () => {
     },
     mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
   }));
-  // }
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -201,10 +219,13 @@ const useMapFields = () => {
       );
       return;
     }
+    if (selectedOption.label === 'Title') dispatch(setMapFieldsError('')); // to resolve the title should be mapped error
+
     dispatch(
-      setFieldsMapping({
+      setFieldsMappingThunk({
         key: field,
-        value: mapDisplayToName[selectedOption.label]
+        value: mapDisplayToName[selectedOption.label],
+        mapper: mapNameToDisplay
       })
     );
 
@@ -337,8 +358,8 @@ const useMapFields = () => {
   };
 
   const handleMappingProceedClick = () => {
-    console.log('final paylaod', myFieldMappings, valueMappings);
-    console.log('query params', queryParams.get('project'));
+    // console.log('final paylaod', myFieldMappings, valueMappings);
+    // console.log('query params', queryParams.get('project'));
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
     dispatch(
@@ -352,7 +373,6 @@ const useMapFields = () => {
     );
   };
 
-  console.log('row ref', rowRef.current);
   return {
     mapFieldsError,
     allowedValueMapper,
@@ -363,7 +383,9 @@ const useMapFields = () => {
     myFieldMappings,
     rowRef,
     valueMappings,
+    errorLabelInMapFields,
     mapFieldProceedLoading,
+    showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
     handleSaveClick,
     onModalCloseHandler,

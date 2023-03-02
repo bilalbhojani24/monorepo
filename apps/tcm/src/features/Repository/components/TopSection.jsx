@@ -1,15 +1,28 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { MdOutlineExpandMore } from '@browserstack/bifrost';
 import { TMButton, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 
+import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import { IMPORT_OPTIONS } from '../const/topSectionConst';
 
 import useAddEditTestCase from './useAddEditTestCase';
 
 const TopSection = () => {
-  const { showTestCaseAdditionPage, goToThisURL, isAddTestCasePageVisible } =
-    useAddEditTestCase();
+  const {
+    showTestCaseAdditionPage,
+    goToThisURL,
+    isAddTestCasePageVisible,
+    folderId,
+    projectId
+  } = useAddEditTestCase();
+
+  const dispatch = useDispatch();
+  const handleDropdownOptionClick = (selectedOption) => {
+    if (selectedOption?.route) goToThisURL(selectedOption?.route);
+    dispatch(setCurrentTestManagementTool(''));
+  };
 
   return (
     <div className="w-full">
@@ -32,7 +45,18 @@ const TopSection = () => {
                 size="default"
                 colors="white"
                 // onClick={showAddProjectModal}
-                onClick={() => goToThisURL(AppRoute.IMPORT_CSV)}
+                onClick={() =>
+                  goToThisURL(
+                    `${AppRoute.IMPORT_CSV}${
+                      projectId
+                        ? `?project=${projectId}${
+                            folderId ? `&folder=${folderId}` : ''
+                          }`
+                        : ''
+                    }`,
+                    true
+                  )
+                }
                 wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
               >
                 Import via CSV
@@ -44,11 +68,7 @@ const TopSection = () => {
                 triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 border-l-0 bg-white"
                 triggerVariant="menu-button"
                 options={IMPORT_OPTIONS}
-                onClick={(selectedOption) =>
-                  selectedOption?.route
-                    ? goToThisURL(selectedOption?.route)
-                    : null
-                }
+                onClick={handleDropdownOptionClick}
               />
             </div>
           </>

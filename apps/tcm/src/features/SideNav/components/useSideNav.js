@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   basePrimaryNavLinks,
@@ -13,6 +14,7 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
+  const selectMenuRef = useRef();
   const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,10 +43,21 @@ export default function useSideNav() {
     });
   };
 
+  const onPageChangeLogger = (linkItem) => {
+    if (linkItem?.instrumentKey) {
+      dispatch(
+        logEventHelper(linkItem?.instrumentKey, {
+          project_id: selectedProjectId
+        })
+      );
+    }
+  };
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
     } else {
+      onPageChangeLogger(linkItem);
       navigate(linkItem.path);
     }
   };
@@ -74,6 +87,7 @@ export default function useSideNav() {
 
   const onProjectChange = (project) => {
     if (project.id === allProjectOptionValue) {
+      dispatch(logEventHelper('TM_AllProjectClickedProjectDropDown', {}));
       navigate(AppRoute.ROOT);
     } else
       navigate(
@@ -154,6 +168,8 @@ export default function useSideNav() {
   }, []);
 
   return {
+    hasProjects,
+    selectMenuRef,
     isAllProjectsLoading,
     showAddProject,
     primaryNavs,

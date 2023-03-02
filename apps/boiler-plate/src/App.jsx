@@ -1,15 +1,15 @@
 import React from 'react';
-import { useAuthRoutes } from '@browserstack/hooks';
 import axios from 'axios';
 
 import env from './constants/envConstants';
 import { APP_ROUTES } from './constants/routesConstants';
+import useAuthRoutes from './hooks/useAuthRoutes';
 
 const initAPI = async () => {
   await new Promise((resolve) => {
     setTimeout(() => {
       resolve(false);
-    }, 2000);
+    }, 3000);
   });
 
   // returns status code - 200 (uncomment and test)

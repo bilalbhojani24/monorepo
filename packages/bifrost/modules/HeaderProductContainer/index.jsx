@@ -32,6 +32,7 @@ const HeaderProductContainer = () => {
         'group flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
       )}
       href={productLink}
+      key={productName}
     >
       <span>{productIcon}</span>
       <div className={twClassNames('flex flex-col items-start p-0 w-48 h-10')}>
@@ -202,7 +203,7 @@ const HeaderProductContainer = () => {
             >
               <p
                 className={twClassNames(
-                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1'
+                  'not-italic font-normal text-sm leading-4 text-base-600 w-[460px] h-[18px] flex flex-row gap-1 float-left whitespace-nowrap'
                 )}
               >
                 Use Browserstack with your favourite products. See our
@@ -241,7 +242,9 @@ const HeaderProductContainer = () => {
                   'flex flex-row items-center p-0 w-24 gap-1'
                 )}
               >
-                <MdOutlinePeopleAlt className={twClassNames('w-3 h-3')} />
+                <MdOutlinePeopleAlt
+                  className={twClassNames('w-3 h-3 text-[#666666]')}
+                />
                 <p
                   className={twClassNames(
                     'w-[70px] not-italic font-semibold text-sm leading-4 text-[#666666]'
@@ -259,6 +262,7 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(
@@ -308,6 +312,7 @@ const HeaderProductContainer = () => {
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
+                  key={product.name}
                 >
                   <span
                     className={twClassNames(

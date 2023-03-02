@@ -8,7 +8,7 @@ import {
   getTestRunDetailsAPI
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 
 import {
@@ -80,8 +80,8 @@ const useAddEditTestRun = () => {
     dispatch(setAddTestRunForm(false));
   };
 
-  const hideAddTestRunForm = () => {
-    if (isEditing) {
+  const hideAddTestRunForm = (goBack) => {
+    if (isEditing || goBack) {
       navigate(
         routeFormatter(
           location?.state?.isFromTRDetails
@@ -131,9 +131,12 @@ const useAddEditTestRun = () => {
 
   const addIssuesSaveHelper = (newIssuesArray) => {
     hideAddIssuesModal();
+    const existingIssues = testRunFormData?.test_run?.issues
+      ? testRunFormData.test_run.issues.map((item) => item.value)
+      : [];
     const updatedAllIssues = selectMenuValueMapper([
       ...new Set([
-        ...testRunFormData?.test_run?.issues.map((item) => item.value),
+        ...existingIssues,
         ...issuesArray.map((item) => item.value),
         ...newIssuesArray
       ])
@@ -225,13 +228,13 @@ const useAddEditTestRun = () => {
         dispatch(
           addNotificaton({
             id: `test_run_added${data.data.testrun?.id}`,
-            title: 'Test run added',
-            variant: 'success',
-            description: null
+            title: `${data.data.testrun?.identifier} : Test run created`,
+            variant: 'success'
           })
         );
 
         if (projectId === 'new') {
+          dispatch(addGlobalProject(data.data.project));
           navigate(
             `${routeFormatter(AppRoute.TEST_RUNS, {
               projectId: data.data.testrun?.project_id
@@ -261,6 +264,10 @@ const useAddEditTestRun = () => {
 
   const fetchTestRunDetails = (testRunID) => {
     getTestRunDetailsAPI({ projectId, testRunId: testRunID }).then((data) => {
+      if (data.data.test_run.run_state === 'closed') {
+        // if trying to edit the closed test run go back
+        hideAddTestRunForm(true);
+      }
       dispatch(setTestRunFormData(formDataRetriever(data.data)));
     });
   };

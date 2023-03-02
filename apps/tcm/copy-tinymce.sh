@@ -12,8 +12,9 @@ fi
 
 # Check if the destination folder exists
 if [ -d "$DESTINATION" ]; then
-  echo "Destination folder already exists"
-  exit 0
+  rm -rf "$DESTINATION"
+else 
+  mkdir -p "$DESTINATION"
 fi
 
 # Copy the folder

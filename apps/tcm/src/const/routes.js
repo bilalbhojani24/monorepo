@@ -14,14 +14,14 @@ const AppRoute = {
   RESOURCES: '/resources',
   SETTINGS: '/settings',
   REPORTS: '/reports',
-  IMPORT: '/projects/import',
-  IMPORT_WITH_PROJECTS: '/projects/:projectId/import',
+  IMPORT: '/projects/quick-import',
+  IMPORT_WITH_PROJECTS: '/projects/:projectId/quick-import',
   IMPORT_CSV: '/import/csv',
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
 export const BASE_API_URL = import.meta.env.DEV
-  ? 'https://teststack.bsstag.com'
-  : window.location.origin;
+  ? 'https://api.teststack.bsstag.com'
+  : 'https://api.teststack.bsstag.com';
 
 export default AppRoute;

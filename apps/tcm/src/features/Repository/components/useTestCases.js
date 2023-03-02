@@ -128,9 +128,9 @@ export default function useTestCases() {
     }
   };
 
-  const detailsCloseHandler = () => {
+  const detailsCloseHandler = (isSilentClose) => {
     dispatch(resetTestCaseDetails());
-    if (!isSearchFilterView)
+    if (!isSearchFilterView && !isSilentClose)
       navigate(
         `${routeFormatter(
           AppRoute.TEST_CASES,

@@ -53,6 +53,10 @@ const defaultConfig = {
       type: { summary: 'TEXT', required: true },
       defaultValue: 'XxcUulZf52793'
     },
+    beamerOverlayTopProperty: {
+      control: { type: 'number' },
+      defaultValue: 64
+    },
     showTestInsights: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: true },
@@ -98,6 +102,12 @@ const defaultConfig = {
           link: 'https://app-live.browserstack.com/dashboard'
         }
       ]
+    },
+    planButtonVisible: {
+      defaultValue: true
+    },
+    isFreeUser: {
+      defaultValue: true
     }
   },
   controls: {}

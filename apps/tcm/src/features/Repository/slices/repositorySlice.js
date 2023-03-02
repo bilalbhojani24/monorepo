@@ -67,6 +67,7 @@ const initialState = {
     q: ''
   },
   isSearchFilterView: false,
+  searchInitiatedFromURL: '',
   isLoading: {
     folder: true,
     testCases: true
@@ -195,8 +196,21 @@ export const repositorySlice = createSlice({
     resetFilterSearchMeta: (state) => {
       state.filterSearchMeta = initialState.filterSearchMeta;
     },
+    resetFilterMeta: (state) => {
+      state.filterSearchMeta = {
+        ...initialState.filterSearchMeta,
+        q: state.filterSearchMeta.q
+      };
+    },
     setFilterSearchView: (state, { payload }) => {
       state.isSearchFilterView = payload;
+
+      if (!payload) {
+        state.searchInitiatedFromURL = null;
+      }
+    },
+    setSearchInitiatedURL: (state, { payload }) => {
+      state.searchInitiatedFromURL = payload;
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
@@ -217,11 +231,13 @@ export const repositorySlice = createSlice({
 });
 
 export const {
+  setSearchInitiatedURL,
   setTestCaseDetails,
   resetTestCaseDetails,
   setRecentRquestedAfterUnsaved,
   setUnsavedDataModal,
   setUnsavedDataExists,
+  resetFilterMeta,
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setFolderModalConf,

@@ -1,6 +1,9 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import { addNotificaton } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   deleteTestCase,
@@ -12,6 +15,8 @@ import {
 } from '../slices/repositorySlice';
 
 export default function useDeleteTestCase() {
+  // eslint-disable-next-line no-unused-vars
+  const modalFocusRef = useRef();
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
@@ -50,6 +55,14 @@ export default function useDeleteTestCase() {
   };
 
   const bulkDeleteHandler = () => {
+    dispatch(
+      logEventHelper('TM_DelteAllBtnClicked', {
+        project_id: projectId,
+        folder_id_src: folderId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
+
     deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(() => {
       let updatedTestCases = [];
       const updatedCount = metaPage.count - selectedBulkTCCount;
@@ -69,12 +82,27 @@ export default function useDeleteTestCase() {
         // TC exists but need to fetch, set page to 1
         setSearchParams({});
       } else dispatch(updateAllTestCases(updatedTestCases));
+
+      dispatch(
+        addNotificaton({
+          id: `test_cases_deleted`,
+          title: `${bulkSelection?.ids?.length} Test cases deleted`,
+          variant: 'success'
+        })
+      );
       dispatch(resetBulkSelection());
       hideDeleteTestCaseModal();
     });
   };
 
   const singleItemDeleteHelper = () => {
+    dispatch(
+      logEventHelper('TM_DeleteCaseBtnClicked', {
+        project_id: projectId,
+        testcase_id: selectedTestCase?.id
+      })
+    );
+
     deleteTestCaseAPI({
       projectId,
       folderId,
@@ -95,6 +123,7 @@ export default function useDeleteTestCase() {
   };
 
   return {
+    modalFocusRef,
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
     isBulkUpdate,

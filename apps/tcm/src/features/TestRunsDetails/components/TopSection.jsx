@@ -13,6 +13,7 @@ import {
   TMTooltip,
   TMTooltipBody
 } from 'common/bifrostProxy';
+import ClampedTags from 'common/ClampedTags';
 import AppRoute from 'const/routes';
 import { CloseTestRun, DeleteTestRun } from 'features/TestRuns';
 import { formatTime, routeFormatter } from 'utils/helperFunctions';
@@ -27,7 +28,8 @@ const TopSection = () => {
     testRunId,
     showIssuesHandler,
     testRunDetails,
-    onDropDownChange
+    onDropDownChange,
+    fetchTestRunDetails
   } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
@@ -96,23 +98,29 @@ const TopSection = () => {
                 wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
+                size="default"
                 onClick={showIssuesHandler}
               >
                 Issues
               </TMButton>
             </Link>
 
-            <TMDropdown
-              triggerVariant="menu-button"
-              options={TR_DROP_OPTIONS}
-              onClick={onDropDownChange}
-            />
+            {testRunDetails?.run_state &&
+              testRunDetails.run_state !== 'closed' && (
+                <TMDropdown
+                  triggerVariant="menu-button"
+                  options={TR_DROP_OPTIONS}
+                  onClick={onDropDownChange}
+                />
+              )}
           </>
         }
         subSection={
           <div className="mt-4 flex gap-4">
             <TMMetadata
-              metaDescription={testRunDetails?.assignee?.full_name || '--'}
+              metaDescription={
+                testRunDetails?.assignee?.full_name || 'Unassigned'
+              }
               textColorClass="text-base-500 mt-1"
               icon={<MdPersonOutline className="text-base-500 h-5 w-5" />}
             />
@@ -125,10 +133,11 @@ const TopSection = () => {
               textColorClass="text-base-500 mt-1"
               icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
             />
+            <ClampedTags tagsArray={testRunDetails?.tags || []} />
           </div>
         }
       />
-      <CloseTestRun />
+      <CloseTestRun updateCb={() => fetchTestRunDetails(true)} />
       <DeleteTestRun redirectToDetails />
     </div>
   );

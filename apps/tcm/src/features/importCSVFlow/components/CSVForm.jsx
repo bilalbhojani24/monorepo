@@ -46,7 +46,7 @@ const CSVForm = () => {
         description="block"
         data={{
           label: 'First row has column names',
-          description: 'Select if 1 first row first has column name'
+          description: 'Select if first row has column name'
         }}
         onChange={handleCSVFieldChange('firstRowIsHeader')}
       />

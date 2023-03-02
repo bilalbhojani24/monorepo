@@ -10,7 +10,12 @@ import {
 import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
 
 import {
+  importCSVCleanUp,
   setCSVConfigurationsFulfilled,
+  setErrorLabelInMapFields,
+  setFieldsMapping,
+  setMapFieldsError,
+  setShowSelectMenuErrorInMapFields,
   setSystemTags,
   setSystemUsers,
   setValueMappingThunkFulfilled,
@@ -55,6 +60,43 @@ export const uploadFile = (payload) => async (dispatch) => {
   }
 };
 
+export const setFieldsMappingThunk = (payload) => (dispatch, getState) => {
+  const { mapper } = payload;
+  dispatch(
+    setFieldsMapping({
+      key: payload.key,
+      value: payload.value
+    })
+  );
+  const { fieldsMapping } = getState().importCSV;
+  const allKeysInFieldsMapping = Object.keys(fieldsMapping);
+  const valueCountMap = new Map();
+  const duplicateLabels = new Set();
+  let duplicateValuesFound = false;
+  for (let i = 0; i < allKeysInFieldsMapping.length; i += 1) {
+    const value = fieldsMapping[allKeysInFieldsMapping[i]];
+    if (valueCountMap.get(value) === undefined) {
+      valueCountMap.set(value, 1);
+    } else valueCountMap.set(value, valueCountMap.get(value) + 1);
+  }
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [key, value] of valueCountMap.entries()) {
+    if (value > 1) {
+      duplicateLabels.add(mapper[key]);
+      duplicateValuesFound = true;
+    }
+  }
+
+  if (duplicateValuesFound) {
+    dispatch(setErrorLabelInMapFields(duplicateLabels));
+  }
+  if (!duplicateValuesFound) {
+    dispatch(setMapFieldsError(''));
+    dispatch(setErrorLabelInMapFields(new Set()));
+    dispatch(setShowSelectMenuErrorInMapFields(false));
+  }
+};
+
 export const setValueMappingsThunk =
   ({ importId, field, projectId, mapped_field }) =>
   async (dispatch) => {
@@ -76,6 +118,7 @@ export const submitMappingData =
   async (dispatch) => {
     dispatch(submitMappingDataPending());
     const filteredValueMappings = removeIgnoredValues(valueMappings);
+    const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
 
     try {
       const response = await postMappingData({
@@ -83,7 +126,7 @@ export const submitMappingData =
         payload: {
           project_id: projectId,
           folder_id: folderId,
-          field_mappings: myFieldMappings,
+          field_mappings: filteredFieldMappings,
           value_mappings: filteredValueMappings
         }
       });
@@ -125,14 +168,30 @@ export const startImportingTestCases =
   ({ importId, projectId, folderId, retryImport }) =>
   async (dispatch) => {
     dispatch(startImportingTestCasePending());
+    const payload = {};
+    if (projectId) payload.project_id = projectId;
+    if (folderId) payload.folder_id = folderId;
     try {
       const response = await startCSVImport({
         importId,
         retryImport,
-        payload: { project_id: projectId, folder_id: folderId }
+        payload
       });
+
       dispatch(startImportingTestCaseFulfilled(response));
     } catch (err) {
       dispatch(startImportingTestCaseRejected(err));
     }
   };
+
+export const resetImportCSVState = () => (dispatch, getState) => {
+  const { totalImportedProjectsInPreview, confirmCSVImportNotificationConfig } =
+    getState().importCSV;
+
+  dispatch(
+    importCSVCleanUp({
+      totalImportedProjectsInPreview,
+      confirmCSVImportNotificationConfig
+    })
+  );
+};

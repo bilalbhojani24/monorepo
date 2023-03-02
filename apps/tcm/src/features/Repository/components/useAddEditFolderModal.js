@@ -9,12 +9,14 @@ import {
   renameFolder
 } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   injectFolderToParent,
   replaceFolderHelper
 } from 'utils/folderHelpers';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { requestedSteps } from '../const/unsavedConst';
 import {
@@ -90,6 +92,12 @@ export default function useAddEditFolderModal(prop) {
 
   const deleteFolderHandler = () => {
     if (openedFolderModal && openedFolderModal?.folder?.id) {
+      dispatch(
+        logEventHelper('TM_DeleteFolderCtaClicked', {
+          project_id: projectId,
+          folder_id: openedFolderModal?.folder?.id
+        })
+      );
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
         (item) => {
           if (item?.data?.folder?.id) {
@@ -122,6 +130,12 @@ export default function useAddEditFolderModal(prop) {
   };
 
   const renameFolderHandler = () => {
+    dispatch(
+      logEventHelper('TM_UpdateFolderCtaClicked', {
+        project_id: projectId,
+        folder_id: prop?.folderId
+      })
+    );
     renameFolder({
       projectId,
       folderId: prop?.folderId,
@@ -146,19 +160,35 @@ export default function useAddEditFolderModal(prop) {
   const addFolderHelper = () => {
     const addFolderAPIFunction =
       projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
+    dispatch(
+      logEventHelper('TM_CreateFolderBtnClicked', {
+        project_id: projectId
+      })
+    );
     addFolderAPIFunction({
       projectId,
       payload: filledFormData
     }).then((item) => {
       if (item.data?.folder) updateFolders(item.data.folder);
       noProjectFolderCreationRouteUpdate(item);
+      dispatch(
+        addNotificaton({
+          id: `folder_created${item.data.folder?.id}`,
+          title: `'${item.data.folder?.name}': Folder created`,
+          variant: 'success'
+        })
+      );
+
+      if (projectId === 'new') {
+        dispatch(addGlobalProject(item.data.project));
+      }
       hideFolderModal();
     });
   };
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
-      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+      setFormError({ ...formError, nameError: 'This is a required field' });
     } else if (prop?.isSubFolder && prop?.folderId) {
       addSubFolderHandler();
     } else if (prop?.isEditFolder && prop?.folderId) {

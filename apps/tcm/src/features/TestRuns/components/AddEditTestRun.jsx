@@ -74,13 +74,13 @@ const AddEditTestRun = ({ isEdit }) => {
             { name: 'Test Runs', isHome: true, url: '#' },
             { name: isEditing ? 'Edit' : 'Create' }
           ]}
-          heading={isEditing ? 'Edit Test Run' : 'Create New Test Runs'}
+          heading={isEditing ? 'Edit Test Run' : 'Create New Test Run'}
           actions={
             <>
               <TMButton
                 variant="primary"
                 colors="white"
-                onClick={hideAddTestRunForm}
+                onClick={() => hideAddTestRunForm()}
               >
                 Cancel
               </TMButton>
@@ -135,7 +135,7 @@ const AddEditTestRun = ({ isEdit }) => {
               <TMTextArea
                 label="Description"
                 defaultValue={testRunFormData?.test_run?.description}
-                placeholder="Explaining in brief about the test run description"
+                placeholder="Write in brief about the test run"
                 onChange={(e) => {
                   handleTestRunInputFieldChange(
                     'description',
@@ -149,7 +149,7 @@ const AddEditTestRun = ({ isEdit }) => {
               <div className="w-2/4">
                 <TMComboBox
                   checkPosition="right"
-                  label="Assign To"
+                  label="Assign Run"
                   placeholder="Select from options"
                   value={
                     testRunFormData?.test_run?.owner
@@ -185,7 +185,7 @@ const AddEditTestRun = ({ isEdit }) => {
                     colors="white"
                     onClick={showAddTagsModal}
                   >
-                    Add New Tag
+                    Add / Modify Tag
                   </TMButton>
                 </div>
               </div>
@@ -229,7 +229,7 @@ const AddEditTestRun = ({ isEdit }) => {
                     colors="white"
                     onClick={showAddIssuesModal}
                   >
-                    Add New Issue
+                    Add / Modify Issue
                   </TMButton>
                 </div>
               </div>

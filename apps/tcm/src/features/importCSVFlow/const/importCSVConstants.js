@@ -7,36 +7,21 @@ export const IMPORT_CSV_STEPS = [
   {
     id: 1,
     name: 'UPLOAD FILE',
-    description: 'Pick which tool you want to import from',
+    description: 'Upload CSV with test case data',
     status: CURRENT_STEP
   },
   {
     id: 2,
     name: 'MAP FIELDS',
-    description: 'Configure projects data for import',
+    description: 'Map CSV columns with system parameters',
     status: UPCOMING_STEP
   },
   {
     id: 3,
     name: 'PREVIEW & CONFIRM IMPORT',
-    description: 'Once confirmed, importing will begin',
+    description: 'Preview the entries and confirm import',
     status: UPCOMING_STEP
   }
-];
-
-export const CSV_SEPARATOR = [
-  { label: 'Comma (,)', value: ',' },
-  { label: 'Semicolon (;)', value: ';' },
-  { label: 'Colon (:)', value: ':' },
-  { label: 'Pipe (|)', value: '|' },
-  { label: 'Tab (/t)', value: '/t' }
-];
-
-export const ENCODING = [
-  { label: 'UTF-8', value: 'UTF-8' },
-  { label: 'ISO-8859-1', value: 'ISO-8859-1' },
-  { label: 'ISO-8859-15', value: 'ISO-8859-15' },
-  { label: 'Windows-1252', value: 'Windows-1252' }
 ];
 
 export const MAP_FIELD_COLUMNS = [
@@ -105,24 +90,25 @@ export const VALUE_MAPPING_OPTIONS = {
   STATE: [
     { label: 'Active', value: 'active' },
     { label: 'Draft', value: 'draft' },
-    { label: 'Under Review', value: 'under review' },
+    { label: 'In Review', value: 'in review' },
     { label: 'Rejected', value: 'rejected' },
-    { label: 'Retired', value: 'retired' },
+    { label: 'Outdated', value: 'outdated' },
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS
   ],
   TESTCASETYPE: [
-    { label: 'Acceptance', value: 'Acceptance' },
-    { label: 'Accessibility', value: 'Accessibility' },
-    { label: 'Automated', value: 'Automated' },
-    { label: 'Compatibility', value: 'Compatibility' },
-    { label: 'Destructive', value: 'Destructive' },
-    { label: 'Functional', value: 'Functional' },
-    { label: 'Other', value: 'Other' },
-    { label: 'Performance', value: 'Performance' },
-    { label: 'Regression', value: 'Regression' },
-    { label: 'Security', value: 'Security' },
-    { label: 'Smoke & Sanity', value: 'Smoke & Sanity' },
-    { label: 'Usability', value: 'Usability' },
+    { label: 'Acceptance', value: 'acceptance' },
+    { label: 'Accessibility', value: 'accessibility' },
+    { label: 'Automated', value: 'automated' },
+    { label: 'Compatibility', value: 'compatibility' },
+    { label: 'Destructive', value: 'destructive' },
+    { label: 'Functional', value: 'functional' },
+    { label: 'Other', value: 'other' },
+    { label: 'Performance', value: 'performance' },
+    { label: 'Regression', value: 'regression' },
+    { label: 'Security', value: 'security' },
+    { label: 'Smoke_Sanity', value: 'smoke_sanity' },
+    { label: 'Usability', value: 'usability' },
+    { label: 'Manual', value: 'manual' },
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS
   ]
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import {
   TMPagination,
@@ -18,6 +19,7 @@ import useTRTCFolders from './useTRTCFolders';
 
 const TestCasesTable = () => {
   const {
+    testRunDetails,
     metaPage,
     isTestCasesLoading,
     allTestCases,
@@ -30,7 +32,7 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[5%]',
+      class: 'w-[7%]',
       cell: (rowData) => (
         <div
           role="button"
@@ -72,31 +74,58 @@ const TestCasesTable = () => {
     },
     {
       name: 'STATUS',
-      class: 'w-[16%]',
+      class: 'w-[13%]',
       key: 'status',
-      cell: (rowData) => (
-        <TMSelectMenu
-          options={STATUS_OPTIONS.map((el) => ({
-            label: (
-              <div>
-                <div
-                  className={`${el.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
-                  style={{ backgroundColor: el.color ? el.color : 'auto' }}
-                />
-                <span className="inline-block">{el.label}</span>
-              </div>
-            ),
-            value: el.value
-          }))}
-          value={
-            rowData?.latest_status &&
-            STATUS_OPTIONS.find((item) => item.value === rowData.latest_status)
-          }
-          onChange={(e) => onResultChange(e, rowData)}
-        />
-      ),
+      cell: (rowData) => {
+        const value =
+          rowData?.latest_status &&
+          STATUS_OPTIONS.find((item) => item.value === rowData.latest_status);
+
+        const valueMapped = value
+          ? {
+              label: (
+                <div>
+                  <div
+                    className={`${value.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                    style={{
+                      backgroundColor: value.color ? value.color : 'auto'
+                    }}
+                  />
+                  <span className="inline-block">{value.label}</span>
+                </div>
+              ),
+              value: value.value
+            }
+          : null;
+
+        return testRunDetails?.run_state === 'closed' ? (
+          <div className="capitalize">{rowData?.latest_status}</div>
+        ) : (
+          <TMSelectMenu
+            placeholder="Not Started"
+            checkPosition="right"
+            triggerWrapperClassName={twClassNames(
+              'border-none shadow-none pr-6'
+            )}
+            options={STATUS_OPTIONS.map((el) => ({
+              label: (
+                <div>
+                  <div
+                    className={`${el.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                    style={{ backgroundColor: el.color ? el.color : 'auto' }}
+                  />
+                  <span className="inline-block">{el.label}</span>
+                </div>
+              ),
+              value: el.value
+            }))}
+            value={valueMapped}
+            onChange={(e) => onResultChange(e, rowData)}
+          />
+        );
+      },
       // <span className="capitalize">{rowData.status}</span>,
-      maxWidth: 'max-w-[10%]'
+      maxWidth: 'max-w-[80px]'
     }
   ];
 

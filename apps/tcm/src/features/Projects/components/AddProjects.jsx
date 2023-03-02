@@ -39,8 +39,8 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
         <div className="mb-4">
           <TMInputField
             ref={modalFocusRef}
-            label="Project Name"
-            placeholder="Enter Project Name"
+            label="Project Name *"
+            placeholder="Enter project name"
             value={formData.name}
             errorText={formError.nameError}
             onKeyDown={(e) => onSubmitKeyHandler(e, createProjectHandler)}
@@ -74,7 +74,7 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
         >
-          Add Project
+          Create Project
         </TMButton>
       </TMModalFooter>
     </TMModal>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMBadge,
@@ -7,14 +8,15 @@ import {
   TMDropdown,
   TMEmptyState
 } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import PropTypes from 'prop-types';
-import { formatTime } from 'utils/helperFunctions';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import { RESULTS_DROP_OPTIONS } from '../const/testCaseViewConst';
 
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
+const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
   const { testRunsDetails, testCaseDetails, testResultsArray } =
     useTestCaseViewDetails();
 
@@ -24,7 +26,13 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
       key: 'test_run_id',
       cell: (rowData) => (
         <div className="flex flex-col">
-          <div className="text-base-900 font-medium">{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</div>
+          <Link
+            to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+              projectId: testCaseDetails?.project_id,
+              testRunId: rowData?.test_run_id
+            })}
+            className="text-base-900 font-medium"
+          >{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</Link>
           <div className="text-base-500">
             {formatTime(rowData.created_at, 'time')}
           </div>
@@ -50,7 +58,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
 
   const resultsTRTableColumn = [
     {
-      name: 'Note',
+      name: 'Remarks',
       key: 'id',
       cell: (rowData) => (
         <div className="flex flex-col">
@@ -61,6 +69,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
           <div className="text-base-500">
             {formatTime(rowData.updated_at, 'timeG')}
           </div>
+          <div className="text-base-500">{rowData?.author?.full_name}</div>
         </div>
       )
     },
@@ -88,45 +97,49 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
     <>
       {isFromTestRun ? (
         <div className="w-full pb-8">
-          <div className="mt-8 mb-4 text-sm">
-            You can log results for this test case from the options below:
-          </div>
-          <div className="flex gap-4">
-            <TMButton
-              size="default"
-              variant="secondary"
-              colors="brand"
-              onClick={() => onResultClick(null, testCaseDetails)}
-            >
-              Add Result
-            </TMButton>
+          {resultUpdatable && (
+            <>
+              <div className="mt-8 mb-4 text-sm">
+                You can log results for this test case from the options below:
+              </div>
+              <div className="flex gap-4">
+                <TMButton
+                  size="default"
+                  variant="secondary"
+                  colors="brand"
+                  onClick={() => onResultClick(null, testCaseDetails)}
+                >
+                  Add Result
+                </TMButton>
 
-            <div className="flex">
-              <TMButton
-                onClick={() =>
-                  onResultClick({ value: 'passed' }, testCaseDetails, true)
-                }
-                size="default"
-                variant="primary"
-                colors="white"
-                wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
-              >
-                Add Pass Result
-              </TMButton>
-              <TMDropdown
-                triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
-                triggerVariant="menu-button"
-                options={RESULTS_DROP_OPTIONS}
-                onClick={(selectedOption) =>
-                  onResultClick(
-                    { value: selectedOption.id },
-                    testCaseDetails,
-                    true
-                  )
-                }
-              />
-            </div>
-          </div>
+                <div className="flex">
+                  <TMButton
+                    onClick={() =>
+                      onResultClick({ value: 'passed' }, testCaseDetails, true)
+                    }
+                    size="default"
+                    variant="primary"
+                    colors="white"
+                    wrapperClassName="ml-3 whitespace-nowrap w-full rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10"
+                  >
+                    Add Pass Result
+                  </TMButton>
+                  <TMDropdown
+                    triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
+                    triggerVariant="menu-button"
+                    options={RESULTS_DROP_OPTIONS}
+                    onClick={(selectedOption) =>
+                      onResultClick(
+                        { value: selectedOption.id },
+                        testCaseDetails,
+                        true
+                      )
+                    }
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           {testResultsArray?.length ? (
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
@@ -167,12 +180,14 @@ const TestCaseResults = ({ isFromTestRun, onResultClick }) => {
 };
 
 TestCaseResults.propTypes = {
-  isFromTestRun: PropTypes.func,
-  onResultClick: PropTypes.bool
+  isFromTestRun: PropTypes.bool,
+  onResultClick: PropTypes.func,
+  resultUpdatable: PropTypes.bool
 };
 
 TestCaseResults.defaultProps = {
   isFromTestRun: false,
+  resultUpdatable: false,
   onResultClick: () => {}
 };
 

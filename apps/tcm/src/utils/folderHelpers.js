@@ -148,3 +148,28 @@ export const replaceFolderHelper = (array, toBeReplacedFolder) =>
     }
     return item;
   });
+
+export const findFolderRouted = (thisArray, findFolderId, depth = 0) => {
+  if (!thisArray || !thisArray.length) return false;
+
+  let selectedItem = null;
+  let ancestors = [];
+  thisArray?.every((item) => {
+    if (item.id === findFolderId) {
+      selectedItem = item;
+      return false;
+    }
+    if (item.contents) {
+      const matched = findFolderRouted(item.contents, findFolderId, depth + 1);
+      if (matched.length) {
+        const thisItem = { ...item };
+        delete thisItem.contents;
+        ancestors = [{ ...thisItem, depth }, ...matched];
+        return false;
+      }
+    }
+    return true;
+  });
+
+  return ancestors.length ? ancestors : [{ ...selectedItem, depth }];
+};

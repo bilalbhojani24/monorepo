@@ -15,6 +15,9 @@ const ComboboxOptionGroup = ({ children, wrapperClassName }) => {
         style={{
           width: `${width}px`
         }}
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+        }}
       >
         <Transition
           as={Fragment}

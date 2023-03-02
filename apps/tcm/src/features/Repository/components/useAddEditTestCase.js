@@ -13,8 +13,10 @@ import {
   // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
+import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import { requestedSteps } from '../const/unsavedConst';
@@ -40,7 +42,7 @@ import {
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
 
-export default function useAddEditTestCase() {
+export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ export default function useAddEditTestCase() {
     name: false
   });
   const [isUploadInProgress, setUploadProgress] = useState(false);
+  const [scheduledFolder, setScheduledFolder] = useState([]);
   const [usersArrayMapped, setUsersArray] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
@@ -198,8 +201,68 @@ export default function useAddEditTestCase() {
     return true;
   };
 
-  const saveTestCase = (formData) => {
+  const onSaveTestSuccessHelper = (data) => {
+    const testCaseData = data.data.test_case;
+    const folderData = data.data.folder;
+    const projectData = data.data.project;
+
+    if (projectId === 'new' || !allFolders.length) {
+      // no project/folder
+
+      // if no folders append the data rightaway
+      if (!allFolders.length && folderData) {
+        dispatch(setAllFolders([folderData]));
+        dispatch(updateFoldersLoading(false));
+      }
+
+      if (projectId === 'new') {
+        dispatch(
+          addNotificaton({
+            id: `project_created${testCaseData?.id}`,
+            title: `'New Project': Project created`,
+            variant: 'success'
+          })
+        );
+
+        dispatch(addGlobalProject(projectData));
+      }
+
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: testCaseData.project_id,
+          folderId: testCaseData.test_case_folder_id
+        })
+      );
+    } else if (parseInt(folderId, 10) === testCaseData.test_case_folder_id) {
+      // only if the added test case belong to the opened folder
+      dispatch(addSingleTestCase(testCaseData));
+    }
+
+    setTimeout(() => {
+      // time out to wait for the project notification
+      dispatch(
+        addNotificaton({
+          id: `test_case_added${testCaseData?.id}`,
+          title: `${testCaseData?.identifier} : Test case created`,
+          variant: 'success'
+        })
+      );
+    }, 5);
+    hideTestCaseAddEditPage(null, true);
+  };
+
+  const saveTestCase = (formData, isInlineAddition) => {
     if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper(
+          isInlineAddition
+            ? 'TM_CreateTcBtnClickedQuickAddition'
+            : 'TM_CreateCaseBtnClickedTcForm',
+          {
+            project_id: projectId
+          }
+        )
+      );
       let apiSaveFunction = addTestCaseAPI;
       if (projectId === 'new') {
         // no project
@@ -217,46 +280,17 @@ export default function useAddEditTestCase() {
         projectId,
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
-      }).then((data) => {
-        const testCaseData = data.data.test_case;
-        const folderData = data.data.folder;
-
-        dispatch(
-          addNotificaton({
-            id: `test_case_added${testCaseData?.id}`,
-            title: 'Test case added',
-            variant: 'success',
-            description: null
-          })
-        );
-
-        if (projectId === 'new' || !allFolders.length) {
-          // no project/folder
-
-          // if no folders append the data rightaway
-          if (!allFolders.length && folderData) {
-            dispatch(setAllFolders([folderData]));
-            dispatch(updateFoldersLoading(false));
-          }
-
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId: testCaseData.project_id,
-              folderId: testCaseData.test_case_folder_id
-            })
-          );
-        } else if (
-          parseInt(folderId, 10) === testCaseData.test_case_folder_id
-        ) {
-          // only if the added test case belong to the opened folder
-          dispatch(addSingleTestCase(testCaseData));
-        }
-        hideTestCaseAddEditPage(null, true);
-      });
+      }).then(onSaveTestSuccessHelper);
     }
   };
 
   const saveBulkEditHelper = () => {
+    dispatch(
+      logEventHelper('TM_UpdateAllBtnClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     setBulkEditConfirm(false);
     editTestCasesBulkAPI({
       projectId,
@@ -272,6 +306,13 @@ export default function useAddEditTestCase() {
       //   )
       // );
       fetchAllTestCases();
+      dispatch(
+        addNotificaton({
+          id: `bulk_updated${projectId}${folderId}`,
+          title: `${bulkSelection?.ids?.length} Test cases updated`,
+          variant: 'success'
+        })
+      );
       hideTestCaseAddEditPage(null, true);
       dispatch(resetBulkSelection());
     });
@@ -279,13 +320,28 @@ export default function useAddEditTestCase() {
 
   const editTestCase = (formData) => {
     if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper('TM_UpdateCaseBtnClicked', {
+          project_id: projectId,
+          testcase_id: selectedTestCase.id
+        })
+      );
+
       editTestCaseAPI({
         projectId,
         folderId,
         testCaseId: selectedTestCase.id,
         payload: formDataFormatter(formData)
       }).then((data) => {
-        dispatch(updateTestCase(data));
+        const newData = data;
+        dispatch(updateTestCase(newData?.data?.test_case));
+        dispatch(
+          addNotificaton({
+            id: `test_case_edited${newData?.id}`,
+            title: `${newData.data?.test_case?.identifier} : Test case updated`,
+            variant: 'success'
+          })
+        );
         hideTestCaseAddEditPage(null, true);
       });
     }
@@ -311,18 +367,34 @@ export default function useAddEditTestCase() {
       }
 
       setUploadProgress(true);
-      uploadFilesAPI({ projectId, payload: filesData }).then((item) => {
-        const uploadedFiles = files.filter((thisItem) => thisItem.id);
-        for (let idx = 0; idx < selectedFiles.length; idx += 1) {
-          uploadedFiles.push({
-            name: selectedFiles[idx].name,
-            id: item.generic_attachment[idx]
-          });
-        }
-        // update with id
-        handleTestCaseFieldChange('attachments', uploadedFiles);
-        setUploadProgress(false);
-      });
+      uploadFilesAPI({ projectId, payload: filesData })
+        .then((item) => {
+          const uploadedFiles = files.filter((thisItem) => thisItem.id);
+          for (let idx = 0; idx < selectedFiles.length; idx += 1) {
+            uploadedFiles.push({
+              name: selectedFiles[idx].name,
+              id: item.generic_attachment[idx]
+            });
+          }
+          // update with id
+          handleTestCaseFieldChange('attachments', uploadedFiles);
+          setUploadProgress(false);
+        })
+        .catch((err) => {
+          handleTestCaseFieldChange(
+            'attachments',
+            files.filter((item) => item.id)
+          );
+          setUploadProgress(false);
+          dispatch(
+            addNotificaton({
+              id: `error-upload${Math.random()}`,
+              title: err.response.statusText || 'File upload',
+              variant: 'error',
+              description: null
+            })
+          );
+        });
     }
   };
 
@@ -374,10 +446,24 @@ export default function useAddEditTestCase() {
     handleTestCaseFieldChange('issues', combinedIssues);
   };
 
-  const showTestCaseAdditionPage = (thisFolder) => {
+  const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
     if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
       return;
 
+    if (isFromListTree) {
+      dispatch(
+        logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
+          project_id: projectId,
+          folder_id: thisFolder?.id
+        })
+      );
+    } else {
+      dispatch(
+        logEventHelper('TM_CreateTcBtnClickedTopHeader', {
+          project_id: projectId
+        })
+      );
+    }
     const thisSelectedFolder = thisFolder?.id
       ? thisFolder?.id
       : selectedFolder?.id;
@@ -393,12 +479,25 @@ export default function useAddEditTestCase() {
       );
   };
 
-  const goToThisURL = (url) => {
+  const goToThisURL = (url, dontFormat) => {
     if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
       return;
 
-    navigate(routeFormatter(url, { projectId }));
+    navigate(dontFormat ? url : routeFormatter(url, { projectId }));
   };
+
+  useEffect(() => {
+    if (
+      testCaseFormData?.test_case_folder_id &&
+      isAddTestCasePageVisible &&
+      prop?.isAddEditOnly // to reduce recalculation for other components
+    ) {
+      setScheduledFolder(
+        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
 
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
@@ -426,6 +525,7 @@ export default function useAddEditTestCase() {
   }, [projectId, usersArray]);
 
   return {
+    scheduledFolder,
     isAddTestCasePageVisible,
     showBulkEditConfirmModal,
     isBulkUpdate,
