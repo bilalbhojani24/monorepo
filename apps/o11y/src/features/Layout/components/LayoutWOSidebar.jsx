@@ -14,7 +14,9 @@ export default function LayoutWOSidebar() {
       }
     >
       <O11yHeader />
-      <Outlet />
+      <main className="pt-16">
+        <Outlet />
+      </main>
     </Suspense>
   );
 }

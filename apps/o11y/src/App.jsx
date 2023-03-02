@@ -1,8 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { useAuthRoutes } from '@browserstack/hooks';
 import { getProjectsList } from 'globalSlice';
+import useAuthRoutes from 'hooks/useAuthRoutes';
 
 import { APP_ROUTES } from './constants/routesConstants';
+
+import './App.scss';
 
 const App = () => {
   const dispatch = useDispatch();

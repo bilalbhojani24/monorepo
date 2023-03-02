@@ -1,11 +1,11 @@
 import React from 'react';
 import { Loader } from '@browserstack/bifrost';
-import className from 'classnames';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const O11yLoader = ({ isOverlayed, wrapperClassName, loaderClass }) => (
   <div
-    className={className(
+    className={twClassNames(
       'flex justify-center items-center  w-full min-h-min',
       wrapperClassName,
       {

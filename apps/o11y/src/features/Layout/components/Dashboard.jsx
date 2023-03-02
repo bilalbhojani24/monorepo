@@ -5,11 +5,11 @@ import { arrayOf, node, oneOfType, string } from 'prop-types';
 
 export default function Dashboard({ children }) {
   return (
-    <div>
+    <>
       <O11yHeader />
       <Sidebar />
-      {children}
-    </div>
+      <main className="pt-16">{children}</main>
+    </>
   );
 }
 
