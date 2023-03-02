@@ -207,10 +207,10 @@ export default function SiteScanner() {
     const menuItem = e.id;
     switch (menuItem) {
       case 'newScanRun':
+        setIsLoading(true);
         runInstantScan(rowData.id)
           .then((data) => {
-            console.log(data);
-            setIsLoading(true);
+            setIsLoading(false);
             dispatch(getScanConfigs());
             // alert('Stopped Recurring scan');
           })

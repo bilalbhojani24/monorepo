@@ -41,7 +41,8 @@ const ScanDetails = () => {
     scanRunDataCommon,
     scanOverviewData,
     activeTabIndex,
-    handleNewScanRun
+    handleNewScanRun,
+    handleStopRecurringScan
   } = useScanDetails();
   console.log(scanRunDataCommon, scanRunDataCommon.name, activeTabIndex);
   return (
@@ -105,7 +106,7 @@ const ScanDetails = () => {
             </Button>
             <Button
               colors="white"
-              onClick={() => {}}
+              onClick={handleStopRecurringScan}
               size="small"
               type="subtle"
               wrapperClassName="h-10 mr-2"

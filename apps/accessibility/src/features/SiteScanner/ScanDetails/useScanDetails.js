@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-import { runInstantScan } from '../../../api/siteScannerScanConfigs';
+import {
+  runInstantScan,
+  stopRecurringScans
+} from '../../../api/siteScannerScanConfigs';
 import { getScanOverview, getScanRuns } from '../slices/dataSlice';
 import {
   getScanOverviewData,
@@ -65,6 +68,15 @@ export default function useScanDetails() {
       .catch((err) => console.log(err));
   };
 
+  const handleStopRecurringScan = () => {
+    stopRecurringScans(id)
+      .then((data) => {
+        console.log(data);
+        // alert('Stopped Recurring scan');
+      })
+      .catch((err) => console.log(err));
+  };
+
   return {
     tabChangeHandler,
     activeTab,
@@ -73,6 +85,7 @@ export default function useScanDetails() {
     scanRunDataCommon,
     scanOverviewData,
     activeTabIndex,
-    handleNewScanRun
+    handleNewScanRun,
+    handleStopRecurringScan
   };
 }
