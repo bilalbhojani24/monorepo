@@ -19,22 +19,22 @@ const Layout = (Component) => (
 export const APP_ROUTES = [
   {
     path: ROUTES.reports,
-    // isProtected: true,
+    isProtected: true,
     component: Layout(Reports)
   },
   {
     path: ROUTES.screenReader,
-    // isProtected: true,
+    isProtected: true,
     component: Layout(ScreenReader)
   },
   {
     path: ROUTES.report,
-    // isProtected: true,
+    isProtected: true,
     component: Layout(Report)
   },
   {
     path: ROUTES.root,
-    // isProtected: true,
+    isProtected: true,
     component: <Home />
   }
 ];

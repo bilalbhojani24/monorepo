@@ -1,17 +1,6 @@
 import axios from 'axios';
-import { getConfigByKey, getCookieByKeyName } from 'utils';
+import { getConfigByKey } from 'utils';
 
 axios.defaults.baseURL =
   getConfigByKey('VITE_APP_BACKEND_URL') ||
-  'https://accessibility.bsstag.com/api/v1';
-
-axios.interceptors.request.use(
-  (request) => {
-    // Do something before request is sent
-    console.log('_gid: request', getCookieByKeyName('_authcookie'), request);
-    return request;
-  },
-  (error) =>
-    // Do something with request error
-    Promise.reject(error)
-);
+  'https://accessibility.bsstag.com/api';
