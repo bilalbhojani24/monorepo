@@ -4,7 +4,7 @@ export const getBaseUrl = () => {
   env = env ? `${env}.` : '';
   const splitHost = url.hostname.split('.');
   splitHost.shift();
-  return `${url.protocol}//${env}${splitHost.join()}`;
+  return `${url.protocol}//${env}${splitHost.join('.')}`;
 };
 export const getDocUrl = (path) =>
   `${getBaseUrl()}/docs/test-observability/${path}`;
