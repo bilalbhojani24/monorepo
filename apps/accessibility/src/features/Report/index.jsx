@@ -2,6 +2,7 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
 import {
+  Badge,
   Breadcrumb,
   Button,
   MdDownload,
@@ -85,7 +86,7 @@ export default function Report() {
                       {Object.values(reportMetaData.meta)[0].createdBy.name}
                     </p>
                   </div>
-                  <div className="text-base-500 flex text-sm">
+                  <div className="text-base-500 flex text-sm mr-6">
                     <MdOutlineCalendarToday className="text-xl" />
                     <p className="ml-1.5">
                       {format(
@@ -96,12 +97,28 @@ export default function Report() {
                       )}
                     </p>
                   </div>
+                  <div className="mr-6">
+                    <Badge
+                      hasDot={false}
+                      hasRemoveButton={false}
+                      size="small"
+                      text={Object.values(reportMetaData.meta)[0].scanType}
+                      modifier="base"
+                    />
+                    <Badge
+                      hasDot={false}
+                      hasRemoveButton={false}
+                      size="small"
+                      text={Object.values(reportMetaData.meta)[0].wcagVersion.label}
+                      modifier="base"
+                    />
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center">
                   {Object.values(reportMetaData?.meta).map(
                     ({ name }, index) => (
-                      <div>
+                      <div className="text-base-500 mr-6 flex text-sm">
                         <p title={name}>{name}</p>
                         {index !==
                         Object.values(reportMetaData?.meta).length - 1
