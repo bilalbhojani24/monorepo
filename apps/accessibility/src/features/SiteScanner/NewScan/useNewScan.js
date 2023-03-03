@@ -15,6 +15,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
   const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
     recurring: true,
+    instantRun: true,
     scanData: {
       wcagVersion: wcagVersions[0],
       needsReview: true,
