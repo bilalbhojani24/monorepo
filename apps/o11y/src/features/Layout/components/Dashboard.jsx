@@ -7,9 +7,9 @@ export default function Dashboard({ children }) {
   return (
     <>
       <O11yHeader />
-      <div className="relative top-16 flex">
+      <div className="flex">
         <Sidebar />
-        <main>{children}</main>
+        <main className="min-h-screen flex-1">{children}</main>
       </div>
     </>
   );

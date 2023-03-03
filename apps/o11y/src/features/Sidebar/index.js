@@ -1,3 +1,3 @@
-import Sidebar from './components/Sidebar';
+import Sidebar from './containers/Sidebar';
 
 export default Sidebar;

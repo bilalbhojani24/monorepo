@@ -1,11 +1,10 @@
 import React from 'react';
+import EmptyPage from 'common/EmptyPage';
 import RootPathContainer from 'common/RootPathContainer';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 
 import { ROUTES } from './routes';
-
-const Home = React.lazy(() => import('features/Home'));
 
 export const APP_ROUTES = [
   {
@@ -36,14 +35,46 @@ export const APP_ROUTES = [
     component: <LayoutWSidebar />,
     children: [
       {
-        path: ROUTES.builds,
-        isProtected: true,
-        component: <Home />
-      },
-      {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: <>Testing trends</>
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
+      },
+      {
+        path: ROUTES.build,
+        isProtected: true,
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
+      },
+      {
+        path: ROUTES.builds,
+        isProtected: true,
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
+      },
+      {
+        path: ROUTES.suite_health,
+        isProtected: true,
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
+      },
+      {
+        path: ROUTES.settings_general,
+        isProtected: true,
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
+      },
+      {
+        path: ROUTES.integrations_base,
+        isProtected: true,
+        component: (
+          <EmptyPage isUpComing text="Something awesome is coming soon" />
+        )
       }
     ]
   }

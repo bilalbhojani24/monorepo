@@ -14,7 +14,7 @@ export default function LayoutWOSidebar() {
       }
     >
       <O11yHeader />
-      <main className="relative top-16">
+      <main>
         <Outlet />
       </main>
     </Suspense>

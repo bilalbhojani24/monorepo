@@ -7,5 +7,17 @@ export const getBaseUrl = () => {
   env = env && domain === 'bsstag.com' ? `${env}.` : '';
   return `${protocol}//${env}${domain}`;
 };
-export const getDocUrl = (path) =>
-  `${getBaseUrl()}/docs/test-observability/${path}`;
+export const getDocUrl = ({
+  path,
+  useProdDomain = true,
+  prependO11y = true
+}) => {
+  if (useProdDomain) {
+    return `https://browserstack.com/docs/${
+      prependO11y ? 'test-observability/' : ''
+    }${path}`;
+  }
+  return `${getBaseUrl()}/docs/${
+    prependO11y ? 'test-observability/' : ''
+  }${path}`;
+};

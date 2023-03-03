@@ -53,7 +53,8 @@ export default function ProjectList() {
   }
 
   return (
-    <div className="flex h-screen w-screen justify-center p-12">
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <div className="flex h-[calc(100vh-4rem)] w-screen justify-center p-12">
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border shadow-sm">
         <div className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">
@@ -105,7 +106,7 @@ export default function ProjectList() {
         <div className="flex justify-center bg-white px-5 py-2">
           <O11yHyperlink
             target="_blank"
-            href={getDocUrl(DOC_KEY_MAPPING.introduction)}
+            href={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
             wrapperClassName="text-sm leading-5 font-medium text-base-700 hover:text-brand-700"
           >
             View Documentation

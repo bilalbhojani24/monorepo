@@ -46,8 +46,9 @@ export default function OnboardingFrameworkSelector() {
     );
   }
   return (
-    <div className="flex h-screen w-screen items-center justify-center p-12">
-      <div className="border-base-200 flex w-full max-w-xl flex-col rounded-lg border p-6 shadow-sm">
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <div className="flex h-[calc(100vh-4rem)] w-screen items-center justify-center p-12">
+      <div className="border-base-200 flex w-full max-w-2xl flex-col rounded-lg border p-6 shadow-sm">
         <div className="border-b-base-200 mb-6 border-b pb-6">
           <h1 className="text-lg font-medium leading-6">
             Welcome to Test Observability {projects?.list?.length}
@@ -56,13 +57,13 @@ export default function OnboardingFrameworkSelector() {
             Select a framework to get started
           </h3>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {FRAMEWORKS.map((item) => (
             <GridListWHorizontalLink
               key={item.id}
               title={item.name}
               image={item.logo}
-              subTitle="another random desc"
+              // subTitle="another random desc"
               wrapperClassName="border-0 shadow-none px-2 hover:bg-base-100"
               onClick={() => handleSelectFramework(item.id)}
             />

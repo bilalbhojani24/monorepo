@@ -12,6 +12,7 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 
+import O11yComboBox from './components/O11yComboBox';
 import O11yHeader from './components/O11yHeader';
 
 export const O11yBadge = (props) => <Badge {...props} />;
@@ -32,4 +33,4 @@ export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
 
-export { O11yHeader };
+export { O11yComboBox, O11yHeader };

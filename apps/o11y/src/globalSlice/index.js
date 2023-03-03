@@ -42,7 +42,8 @@ const { actions, reducer } = createSlice({
         name: 'Select a project'
       }
     },
-    buildInfo: null
+    buildInfo: null,
+    activeNav: 'builds'
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -58,6 +59,9 @@ const { actions, reducer } = createSlice({
         PROJECT_NORMALISED_NAME_IDENTIFIER,
         state.projects.active.normalisedName
       );
+    },
+    setActiveNav: (state, { payload }) => {
+      state.activeNav = payload;
     }
   },
   extraReducers: (builder) => {
@@ -105,6 +109,6 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setProjectList, setActiveProject } = actions;
+export const { setProjectList, setActiveProject, setActiveNav } = actions;
 
 export default reducer;

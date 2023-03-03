@@ -72,8 +72,9 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   }, [handleFrameTasks]);
 
   return (
-    <div className="m-auto w-full max-w-screen-xl p-12">
-      <div className="mb-5 flex w-full items-center justify-between">
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <div className="m-auto flex h-[calc(100vh-4rem)] w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0">
+      <div className="mb-5 flex w-full items-center justify-between bg-white pt-12">
         <Button
           variant="minimal"
           icon={<MdArrowBack className="text-xl" />}
@@ -85,24 +86,27 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
       </div>
       {isLoading && (
         <O11yLoader
-          wrapperClassName="h-screen"
+          wrapperClassName="flex-1"
           loaderClass="text-base-200 fill-base-400 w-8 h-8"
         />
       )}
       <iframe
         className={twClassNames('w-full h-0 border-0 rounded', {
-          'h-screen border border-base-200 ': !isLoading
+          'h-full border border-base-200 ': !isLoading
         })}
         title={selectedFramework.name}
         onLoad={onLoad}
-        src={getDocUrl(
-          `$/onboarding/test-observability/${selectedFramework.id}`
-        )}
+        src={getDocUrl({
+          path: `onboarding/test-observability/${selectedFramework.id}`,
+          prependO11y: false
+        })}
       />
       {!isLoading && (
         <O11yLoader
           wrapperClassName="h-10 mt-5"
           loaderClass="text-base-200 fill-base-400 w-8 h-8"
+          text="Waiting for first build to be triggered to view test results"
+          textClass="text-base font-medium"
         />
       )}
     </div>

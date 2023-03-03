@@ -3,7 +3,7 @@ export const ROUTES = {
   build:
     '/projects/:projectNormalisedName/builds/:buildNormalisedName/:buildSerialId',
   buildShort: '/builds/:buildUuid',
-  stability: '/projects/:projectNormalisedName/suite_health',
+  suite_health: '/projects/:projectNormalisedName/suite_health',
   testing_trends: '/projects/:projectNormalisedName/testing_trends',
   dashboard: '/dashboard',
   integrations_base: '/integrations',
