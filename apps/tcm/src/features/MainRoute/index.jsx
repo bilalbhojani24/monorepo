@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthRoutes } from '@browserstack/hooks';
 import classNames from 'classnames';
 import AlphaAccess from 'common/MiscPages/AlphaAccess';
 import NotFound from 'common/MiscPages/NotFound';
@@ -22,6 +21,7 @@ import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 
 import useAuthentication from './components/useAuthentication';
+import useAuthRoutes from './components/useAuthRoutes'; // to be changed to hooks once bifrost clear the issues
 
 const MainRoute = () => {
   const location = useLocation();
