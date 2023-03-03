@@ -11,19 +11,16 @@ export async function fetchScanConfigs() {
   //   return new Promise((resolve) => {
   //     resolve(data.data);
   //   });
-  const response = await axios.get(
-    'https://accessibility-service.bsstag.com/scan_configs',
-    {
-      // ...userInfo,
-      params: {
-        ...userInfo
-      },
-      auth: {
-        username: 'accessibility',
-        password: 'password0'
-      }
-    }
-  );
+  const response = await axios.get('/scan_configs', {
+    // // ...userInfo,
+    // params: {
+    //   ...userInfo
+    // },
+    // auth: {
+    //   username: 'accessibility',
+    //   password: 'password0'
+    // }
+  });
   // const response = await axios.get('/guidelines');
   if (response.data) {
     return response.data;
@@ -33,7 +30,7 @@ export async function fetchScanConfigs() {
 
 export async function fetchScanConfigsById(id) {
   const response = await axios.get(
-    `https://accessibility-service.bsstag.com/scan_configs/${id}`,
+    `https://accessibility.bsstag.com/api/scan_configs/${id}`,
     {
       // ...userInfo,
       params: {
@@ -57,7 +54,7 @@ export async function postNewScanConfig(payload) {
   //     resolve(data.data);
   //   });
   const response = await axios.post(
-    'https://accessibility-service.bsstag.com/scan_configs',
+    'https://accessibility.bsstag.com/api/scan_configs',
     {
       ...userInfo,
       ...payload
@@ -80,7 +77,7 @@ export async function runInstantScan(id) {
   //     resolve(data.data);
   //   });
   const response = await axios.post(
-    `https://accessibility-service.bsstag.com/scan_configs/${id}/new_scan_run`,
+    `https://accessibility.bsstag.com/api/scan_configs/${id}/new_scan_run`,
     {
       ...userInfo
     },
@@ -102,7 +99,7 @@ export async function stopRecurringScans(id) {
   //     resolve(data.data);
   //   });
   const response = await axios.patch(
-    `https://accessibility-service.bsstag.com/scan_configs/${id}`,
+    `https://accessibility.bsstag.com/api/scan_configs/${id}`,
     {
       ...userInfo
     },
