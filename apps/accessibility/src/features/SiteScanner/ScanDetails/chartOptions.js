@@ -24,7 +24,7 @@ export const chartOptionStacked = {
     useHTML: true
   },
   xAxis: {
-    categories: ['Jan 3', 'Jan 10', 'Jan 17', 'Jan 24', 'Jan 31', 'Feb 7']
+    categories: []
   },
   yAxis: {
     gridLineDashStyle: 'longdash',
@@ -52,7 +52,7 @@ export const chartOptionStacked = {
   series: [
     {
       name: 'Minor',
-      data: [10, 2, 6, 3],
+      data: [],
       borderWidth: 0,
       color: '#DFE7E8',
       pointWidth: 12,
@@ -61,21 +61,21 @@ export const chartOptionStacked = {
     },
     {
       name: 'Moderate',
-      data: [0, 2, 6, 3],
+      data: [],
       borderWidth: 0,
       color: '#EAB308',
       pointWidth: 12
     },
     {
       name: 'Severe',
-      data: [14, 8, 8, 12],
+      data: [],
       borderWidth: 0,
       color: '#F97316',
       pointWidth: 12
     },
     {
       name: 'Critical',
-      data: [3, 5, 1, 13],
+      data: [],
       color: '#DC2626',
       pointWidth: 12,
       borderWidth: 0
@@ -100,7 +100,7 @@ export const chartOptionsSpline = {
       enabled: true,
       text: ''
     },
-    categories: ['Jan 3', 'Jan 10', 'Jan 17', 'Jan 24', 'Jan 31', 'Feb 7'],
+    categories: [],
     maxPadding: 0.05,
     showLastLabel: false
   },
@@ -145,17 +145,17 @@ export const chartOptionsSpline = {
   series: [
     {
       name: 'Success',
-      data: [10, 45, 35, 33, 40, 14, 53],
+      data: [],
       color: '#22C55E'
     },
     {
       name: 'Failure',
-      data: [5, 43, 45, 57, 53, 50, 24],
+      data: [],
       color: '#F59E0B'
     },
     {
       name: 'Redirects',
-      data: [0, 4, 21, 30, 34, 25, 13],
+      data: [],
       color: '#EF4444'
     }
   ]
