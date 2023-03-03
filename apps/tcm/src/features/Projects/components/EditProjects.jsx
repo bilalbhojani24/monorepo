@@ -49,6 +49,7 @@ const EditProjects = ({ show }) => {
         <div className="mb-4">
           <TMInputField
             label="Project Name"
+            ref={modalFocusRef}
             placeholder="Project Name 01"
             onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
@@ -79,7 +80,6 @@ const EditProjects = ({ show }) => {
         <TMButton
           variant="primary"
           colors="white"
-          ref={modalFocusRef}
           onClick={hideEditProjectModal}
         >
           Cancel

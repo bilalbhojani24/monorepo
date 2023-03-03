@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CheckOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -13,9 +13,11 @@ import useMiscConnections from './useMiscConnections';
 const CloseTestRun = ({ updateCb }) => {
   const { closeAll, closeTestRunHandler, isCloseTRVisible } =
     useMiscConnections({ updateCb });
+  const closeModalInitialFocus = useRef();
 
   return (
     <TMModal
+      ref={closeModalInitialFocus}
       show={isCloseTRVisible}
       withDismissButton
       onOverlayClick={closeAll}
@@ -37,7 +39,12 @@ const CloseTestRun = ({ updateCb }) => {
         icon={<CheckOutlinedIcon className="text-success-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={closeAll}>
+        <TMButton
+          ref={closeModalInitialFocus}
+          variant="primary"
+          colors="white"
+          onClick={closeAll}
+        >
           Cancel
         </TMButton>
         <TMButton
