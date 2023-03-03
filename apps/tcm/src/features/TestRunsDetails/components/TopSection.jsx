@@ -29,7 +29,8 @@ const TopSection = () => {
     showIssuesHandler,
     testRunDetails,
     onDropDownChange,
-    fetchTestRunDetails
+    fetchTestRunDetails,
+    automationTooltipClicked
   } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
@@ -53,6 +54,9 @@ const TopSection = () => {
                   size="xs"
                   placementSide="bottom"
                   theme="dark"
+                  onOpenChange={(isOpen) => {
+                    if (isOpen) automationTooltipClicked();
+                  }}
                   content={
                     <>
                       <TMTooltipBody>

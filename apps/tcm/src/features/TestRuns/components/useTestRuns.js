@@ -4,6 +4,7 @@ import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestRunsAPI } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 import {
@@ -75,7 +76,18 @@ const useTestRuns = () => {
     setSearchParams(params);
   };
 
-  const showTestRunAddFormHandler = () => {
+  const showTestRunAddFormHandler = (e, isCtaClicked = false) => {
+    if (isCtaClicked) {
+      dispatch(
+        logEventHelper('TM_CreateTrBtnClickedEmptyState', {
+          project_id: projectId
+        })
+      );
+    } else {
+      dispatch(
+        logEventHelper('TM_CreateTrBtnClickedHeader', { project_id: projectId })
+      );
+    }
     dispatch(setAddTestRunForm(true));
   };
   const showTestRunEditForm = () => {

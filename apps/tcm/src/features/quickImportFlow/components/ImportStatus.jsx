@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
 import {
   AccessTimeIcon,
@@ -16,6 +16,7 @@ import {
   TMModalHeader,
   TMTruncateText
 } from 'common/bifrostProxy';
+import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
@@ -46,6 +47,7 @@ const ImportStatus = () => {
     quickImportProjectId,
     checkImportStatusClickHandler
   } = useImportStatus();
+  const { projectId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { fetchProjects } = useProjects();
@@ -97,6 +99,11 @@ const ImportStatus = () => {
   };
 
   const handleFirstButtonClick = (toastData) => () => {
+    dispatch(
+      logEventHelper('TM_QiViewReportLinkClicked', {
+        project_id: projectId
+      })
+    );
     if (
       importStatus === COMPLETED &&
       totalImportProjectsCount > successImportProjectCount
@@ -112,6 +119,11 @@ const ImportStatus = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSecondButtonClick = (toastData) => () => {
+    dispatch(
+      logEventHelper('TM_QiRetryImportLinkClicked', {
+        project_id: projectId
+      })
+    );
     dismissNotification(toastData);
     if (
       importStatus === COMPLETED &&

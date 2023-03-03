@@ -10,6 +10,7 @@ import {
 } from 'features/TestRuns/slices/testRunsSlice';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import {
@@ -33,6 +34,10 @@ export default function useTestRunDetails() {
   const testCaseDetails = useSelector(
     (state) => state.testRunsDetails.testCaseDetails
   );
+
+  const automationTooltipClicked = () => {
+    dispatch(logEventHelper('TM_QiViewReportLinkClicked', {}));
+  };
 
   const fetchTestRunDetails = (forceRefetch = true) => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
@@ -93,6 +98,7 @@ export default function useTestRunDetails() {
     testRunId,
     fetchTestRunDetails,
     onDropDownChange,
-    resetTestCaseDetailsMeta
+    resetTestCaseDetailsMeta,
+    automationTooltipClicked
   };
 }

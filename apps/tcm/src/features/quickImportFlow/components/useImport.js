@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { checkTestManagementConnection, importProjects } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   setCheckImportStatusClicked,
@@ -29,6 +30,7 @@ const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { projectId } = useParams();
 
   const isFromOnboarding = location?.state?.isFromOnboarding;
   // global selector
@@ -121,7 +123,14 @@ const useImport = () => {
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleTestConnection = (decider) => {
+  const handleTestConnection = (decider, logEvent = true) => {
+    if (logEvent && currentScreen === 'configureTool') {
+      dispatch(
+        logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
+          project_id: projectId
+        })
+      );
+    }
     if (
       (testRailsCred.key && testRailsCred.host && testRailsCred.email) ||
       (zephyrCred.jira_key &&
@@ -181,10 +190,19 @@ const useImport = () => {
     }
   };
 
+  const proceedActionEventName = () => {
+    let stepNumber = -1;
+    if (currentScreen === 'configureTool') stepNumber = 1;
+    if (currentScreen === 'configureData') stepNumber = 2;
+    if (currentScreen === 'confirmImport') stepNumber = 3;
+    return `TM_QiStep${stepNumber}ProceedBtnClicked`;
+  };
+
   const handleProceed = () => {
+    dispatch(logEventHelper(proceedActionEventName(), {}));
     if (currentTestManagementTool === 'testrails') {
       if (testRailsCred.key && testRailsCred.host && testRailsCred.email)
-        handleTestConnection('proceed');
+        handleTestConnection('proceed', false);
       else {
         Object.keys(testRailsCredTouched).forEach((key) => {
           dispatch(setTestRailsCredTouched({ key, value: true }));
@@ -195,7 +213,7 @@ const useImport = () => {
         (zephyrCred.jira_key && zephyrCred.host && zephyrCred.email,
         zephyrCred.zephyr_key)
       )
-        handleTestConnection('proceed');
+        handleTestConnection('proceed', false);
       else {
         Object.keys(zephyrCredTouched).forEach((key) => {
           dispatch(setZephyrCredTouched({ key, value: true }));
@@ -205,6 +223,7 @@ const useImport = () => {
   };
 
   const handleConfigureDataProceed = () => {
+    dispatch(logEventHelper(proceedActionEventName(), {}));
     const noProjectSelected = testManagementProjects
       .map((project) => project.checked)
       .every((checked) => checked === false);
@@ -220,6 +239,7 @@ const useImport = () => {
   };
 
   const handleConfirmImport = () => {
+    dispatch(logEventHelper(proceedActionEventName(), {}));
     // dispatch(startQuickImport(currentTestManagementTool));
     dispatch(setImportStatusOngoing());
     if (currentTestManagementTool === 'testrails') {
