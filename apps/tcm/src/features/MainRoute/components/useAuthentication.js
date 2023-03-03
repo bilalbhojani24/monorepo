@@ -30,6 +30,8 @@ const useAuthentication = () => {
     if (res?.response?.status === 412) {
       // alpha no access error
       navigate(AppRoute.NO_ACCESS);
+      document.getElementById('root-loader').style.display = 'none';
+      document.getElementById('root').style.display = 'block';
     }
 
     return Promise.reject(res);
