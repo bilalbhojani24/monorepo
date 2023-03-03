@@ -18,28 +18,28 @@ const DiskIODetails = () => {
           wrapperClassName="p-4"
           metricTitle="Total Read"
           metricText={`${sanitizeValue(
-            sessionData?.aggregated?.memoryUsageMbAvg?.value
+            sessionData?.aggregated?.diskReadMbTotal?.value
           )} MB`}
           MetricIcon={<MdInfoOutline />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.memoryUsageMbAvg?.value,
-            sessionData?.threshold?.memoryUsageMbAvg
+            sessionData?.aggregated?.diskReadMbTotal?.value,
+            sessionData?.threshold?.diskReadMbTotal
           )}
-          triangleDirection={sessionData?.threshold?.memoryUsageMbAvg?.operator}
+          triangleDirection={sessionData?.threshold?.diskReadMbTotal?.operator}
         />
 
         <MetricStat
           wrapperClassName="p-4"
           metricTitle="Total Write"
           metricText={`${sanitizeValue(
-            sessionData?.aggregated?.memoryUsageMbMax?.value
+            sessionData?.aggregated?.diskWriteMbTotal?.value
           )} MB`}
           MetricIcon={<MdInfoOutline />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.memoryUsageMbMax?.value,
-            sessionData?.threshold?.memoryUsageMbMax
+            sessionData?.aggregated?.diskWriteMbTotal?.value,
+            sessionData?.threshold?.diskWriteMbTotal
           )}
-          triangleDirection={sessionData?.threshold?.memoryUsageMbMax?.operator}
+          triangleDirection={sessionData?.threshold?.diskWriteMbTotal?.operator}
         />
       </div>
 
