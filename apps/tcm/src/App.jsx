@@ -47,10 +47,11 @@ function App() {
 
   useMemo(() => {
     const keys = {
-      amplitudeKey:
-        window.location.hostname === 'localhost'
-          ? 'test'
-          : '985eaa9c45d824a94344e64a2a3ca724',
+      amplitudeConfig: {
+        key: '985eaa9c45d824a94344e64a2a3ca724',
+        userData: {},
+        groupData: {}
+      },
       analyticsKey: 'UA-418548-19',
       EDSDetails: {
         userDetails: '12',
