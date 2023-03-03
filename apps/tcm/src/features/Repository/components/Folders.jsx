@@ -90,7 +90,7 @@ export default function Folders() {
             </TMButton>
           </div>
 
-          <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
+          <div className="flex h-full w-full flex-1 shrink flex-col overflow-y-auto">
             {isFoldersLoading ? (
               <Loader wrapperClassName="h-full" />
             ) : (

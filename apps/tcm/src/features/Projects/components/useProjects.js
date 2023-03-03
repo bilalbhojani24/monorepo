@@ -69,11 +69,15 @@ const useProjects = (prop) => {
 
   const fetchProjects = () => {
     dispatch(setLoading(true));
-    getProjectsAPI(searchParams.get('p')).then((res) => {
-      dispatch(setProjects(res.projects));
-      dispatch(setMetaPage(res.info));
-      dispatch(setLoading(false));
-    });
+    getProjectsAPI(searchParams.get('p'))
+      .then((res) => {
+        dispatch(setProjects(res.projects));
+        dispatch(setMetaPage(res.info));
+        dispatch(setLoading(false));
+      })
+      .catch(() => {
+        dispatch(setLoading(false));
+      });
   };
 
   const handleClickDynamicLink = (route, projectId) => (e) => {

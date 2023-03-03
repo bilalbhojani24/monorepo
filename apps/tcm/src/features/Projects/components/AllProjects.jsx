@@ -169,7 +169,6 @@ const AllProjects = () => {
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
-      {/* <ImportStatus /> */}
       <TMPageHeadings
         heading="All Projects"
         actions={

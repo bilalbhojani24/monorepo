@@ -155,17 +155,22 @@ const useFilter = (prop) => {
       getTestCasesSearchFilterAPI({
         projectId,
         props: queryParams
-      }).then((res) => {
-        const testCases = res.test_cases.map((item) => ({
-          ...item,
-          folders: res?.folders?.[item.test_case_folder_id] || null
-        }));
+      })
+        .then((res) => {
+          const testCases = res.test_cases.map((item) => ({
+            ...item,
+            folders: res?.folders?.[item.test_case_folder_id] || null
+          }));
 
-        dispatch(setMetaPage(res.info));
-        dispatch(updateAllTestCases(testCases));
-        dispatch(updateTestCasesListLoading(false));
-        dispatch(updateFoldersLoading(false));
-      });
+          dispatch(setMetaPage(res.info));
+          dispatch(updateAllTestCases(testCases));
+          dispatch(updateTestCasesListLoading(false));
+          dispatch(updateFoldersLoading(false));
+        })
+        .catch(() => {
+          dispatch(updateTestCasesListLoading(false));
+          dispatch(updateFoldersLoading(false));
+        });
     } else if (isSearchFilterView) resetFilterAndSearch(true);
   };
 
