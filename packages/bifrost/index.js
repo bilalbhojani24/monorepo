@@ -23,6 +23,8 @@ import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import FileUpload from './modules/FileUpload/index';
+import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
+import GridListWImage from './modules/GridListWImage/index';
 import Header from './modules/Header/index';
 import HeaderBrand from './modules/HeaderBrand/index';
 import HeaderElements from './modules/HeaderElements/index';
@@ -121,6 +123,8 @@ export {
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   FileUpload,
+  GridListWHorizontalLink,
+  GridListWImage,
   Header,
   HeaderBrand,
   HeaderElements,
