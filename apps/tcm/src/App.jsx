@@ -47,6 +47,7 @@ function App() {
 
   useMemo(() => {
     const keys = {
+      amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
       amplitudeConfig: {
         key: '985eaa9c45d824a94344e64a2a3ca724',
         userData: {},
