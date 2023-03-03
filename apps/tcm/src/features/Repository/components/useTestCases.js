@@ -172,8 +172,9 @@ export default function useTestCases() {
 
   const quickImportButtonClicked = () => {
     dispatch(
-      logEventHelper('TM_QiBtnClickedZeroTc', {
-        project_id: projectId
+      logEventHelper('', {
+        project_id: projectId,
+        folder_id: folderId
       })
     );
     dispatch(setCurrentTestManagementTool(''));
