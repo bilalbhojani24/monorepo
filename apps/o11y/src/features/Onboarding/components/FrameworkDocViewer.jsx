@@ -104,7 +104,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
       {!isLoading && (
         <O11yLoader
           wrapperClassName="h-10 mt-5"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
+          loaderClass="text-base-200 fill-base-400 w-6 h-6"
           text="Waiting for first build to be triggered to view test results"
           textClass="text-base font-medium"
         />
