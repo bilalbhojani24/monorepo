@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Header,
-  MdHome,
+  MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
   MdTextSnippet,
@@ -43,8 +43,8 @@ export default function Dashboard({ children }) {
     {
       id: 'website-scanner',
       label: 'Website Scanner',
-      activeIcon: MdHome,
-      inActiveIcon: MdOutlineHome,
+      activeIcon: MdOutlineDynamicFeed,
+      inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',
       badge: <Badge text="New" />
     }
