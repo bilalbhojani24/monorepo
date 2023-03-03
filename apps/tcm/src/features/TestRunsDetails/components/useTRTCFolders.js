@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
   addTestResultAPI,
   getTestResultsAPI,
@@ -18,6 +18,7 @@ import {
   setIsLoadingProps,
   setIssuesArray,
   setIsVisibleProps,
+  setMetaPage,
   setSelectedFolder,
   setSelectedTestCase,
   setTestCaseDetails,
@@ -29,15 +30,20 @@ import useTestRunDetails from './useTestRunDetails';
 
 export default function useTRTCFolders() {
   const { projectId, testRunId } = useParams();
+  const [searchParams] = useSearchParams();
   const [statusError, setStatusError] = useState(false);
   const { fetchTestRunDetails } = useTestRunDetails();
   const dispatch = useDispatch();
+  const page = searchParams.get('p');
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
   const isFoldersLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.isFoldersLoading
+  );
+  const isTestRunDetailsLoading = useSelector(
+    (state) => state.testRunsDetails.isLoading.testRunDetails
   );
   const isTestCasesLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.isTestCasesLoading
@@ -105,10 +111,16 @@ export default function useTRTCFolders() {
   };
 
   const fetchTestCases = () => {
-    getTestRunsTestCasesAPI({ projectId, testRunId }).then((data) => {
-      dispatch(setAllTestCases(data?.test_cases || []));
-      dispatch(setIsLoadingProps({ key: 'isTestCasesLoading', value: false }));
-    });
+    if (page || !isTestRunDetailsLoading) {
+      dispatch(setIsLoadingProps({ key: 'isTestCasesLoading', value: true }));
+      getTestRunsTestCasesAPI({ projectId, testRunId, page }).then((data) => {
+        dispatch(setAllTestCases(data?.test_cases || []));
+        dispatch(setMetaPage(data?.info));
+        dispatch(
+          setIsLoadingProps({ key: 'isTestCasesLoading', value: false })
+        );
+      });
+    }
   };
 
   const onFolderClick = (thisFolder) => {
@@ -221,6 +233,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    page,
     testRunDetails,
     statusError,
     testResultsArray,
@@ -231,6 +244,7 @@ export default function useTRTCFolders() {
     allTestCases,
     metaPage,
     isTestCasesLoading,
+    isTestRunDetailsLoading,
     allFolders,
     selectedFolder,
     isFoldersLoading,
