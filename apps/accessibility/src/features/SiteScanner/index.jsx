@@ -194,10 +194,12 @@ export default function SiteScanner() {
         <span className="flex items-center">
           <MdOutlineHistory className="mr-0.5" />
           Last scan:{' '}
-          {dateFormat(
-            new Date(row.lastScanDetails.lastScanDate),
-            'mmmm dS, h:MM:ss TT'
-          )}
+          {row?.lastScanDetails?.lastScanDate
+            ? dateFormat(
+                new Date(row.lastScanDetails.lastScanDate),
+                'mmmm dS, h:MM:ss TT'
+              )
+            : null}
         </span>
       </div>
     );
