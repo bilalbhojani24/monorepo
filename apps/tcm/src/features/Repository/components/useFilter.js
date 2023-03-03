@@ -139,7 +139,7 @@ const useFilter = (prop) => {
         if (key === 'q') {
           queryParams[`q[query]`] = value;
           dispatch(
-            logEventHelper('TM_TcSearchDone', {
+            logEventHelper('TM_TcSearchPageLoaded', {
               project_id: projectId,
               keyword: value
             })

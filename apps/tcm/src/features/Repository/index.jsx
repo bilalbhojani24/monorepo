@@ -23,6 +23,7 @@ const Repository = ({ isSearch }) => {
   const { fetchAllFolders } = useFolders();
 
   const {
+    searchKey,
     folderId,
     projectId,
     currentPage,
@@ -94,10 +95,14 @@ const Repository = ({ isSearch }) => {
 
   useEffect(() => {
     dispatch(
-      logEventHelper('TM_TestCasesPageLoaded', {
-        project_id: projectId,
-        folder_id: folderId
-      })
+      logEventHelper(
+        isSearch ? 'TM_TcSearchPageLoaded' : 'TM_TestCasesPageLoaded',
+        {
+          project_id: projectId,
+          folder_id: folderId,
+          keyword: isSearch ? searchKey : null
+        }
+      )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);

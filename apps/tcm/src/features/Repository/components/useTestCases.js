@@ -201,6 +201,7 @@ export default function useTestCases() {
     isBulkUpdate,
     isSearchFilterView,
     currentPage: searchParams.get('p'),
+    searchKey: searchParams.get('q'),
     usersArray,
     selectedFolder,
     allTestCases,

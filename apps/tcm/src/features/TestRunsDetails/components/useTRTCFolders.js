@@ -160,13 +160,23 @@ export default function useTRTCFolders() {
     statusFormChangeHandler('issues', combinedIssues);
   };
 
-  const addStatusSaveHelper = (testCaseId, payload, thisTestCase) => {
+  const addStatusSaveHelper = (testCaseId, payload, thisTestCase, logEvent) => {
     addTestResultAPI({
       projectId,
       testCaseId,
       testRunId,
       payload
     }).then((data) => {
+      if (logEvent)
+        dispatch(
+          logEventHelper('TM_AddResultCtaClicked', {
+            project_id: projectId,
+            testrun_id: testRunId,
+            testcase_id: selectedTestCase?.id,
+            result_id: data?.data?.['test-result']?.id
+          })
+        );
+
       dispatch(
         setAllTestCases(
           allTestCases.map((item) =>
@@ -183,18 +193,17 @@ export default function useTRTCFolders() {
     });
   };
 
-  const onResultChange = (selectedOption, data, isQuickUpdate) => {
+  const onResultChange = (selectedOption, data, isQuickUpdate, isFromTable) => {
+    const eventName = isQuickUpdate
+      ? 'TM_AddQuickResultBtnClickedTrTc'
+      : 'TM_AddResultBtnClickedTrTc';
+
     dispatch(
-      logEventHelper(
-        isQuickUpdate
-          ? 'TM_AddQuickResultBtnClickedTrTc'
-          : 'TM_AddResultBtnClickedTrTc',
-        {
-          project_id: projectId,
-          testrun_id: testRunId,
-          testcase_id: data.id
-        }
-      )
+      logEventHelper(isFromTable ? 'TM_TrTcStatusClicked' : eventName, {
+        project_id: projectId,
+        testrun_id: testRunId,
+        testcase_id: data.id
+      })
     );
 
     dispatch(setSelectedTestCase(data));
@@ -221,15 +230,7 @@ export default function useTRTCFolders() {
     if (addStatusFormData?.issues)
       payload.issues = addStatusFormData?.issues?.map((item) => item.value);
 
-    dispatch(
-      logEventHelper('TM_AddResultCtaClicked', {
-        project_id: projectId,
-        testrun_id: testRunId,
-        testcase_id: selectedTestCase?.id,
-        result_id: testRunId
-      })
-    );
-    addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase);
+    addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase, true);
   };
 
   return {

@@ -257,7 +257,7 @@ export default function useAddEditTestCase(prop) {
         logEventHelper(
           isInlineAddition
             ? 'TM_CreateTcBtnClickedQuickAdd'
-            : 'TM_CreateCaseBtnClickedTcForm',
+            : 'TM_CreateCaseCtaClicked',
           {
             project_id: projectId
           }
