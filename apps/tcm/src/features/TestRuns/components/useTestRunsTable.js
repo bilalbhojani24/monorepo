@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
 
 import {
   CHART_OPTIONS,
   PROGRESS_COLOR_MAP,
+  TABS_ARRAY,
   TR_DROP_OPTIONS
 } from '../const/immutableConst';
 import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
@@ -13,14 +14,18 @@ import { setIsVisibleProps, setSelectedTestRun } from '../slices/testRunsSlice';
 const useTestRuns = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const { projectId } = useParams();
+  const currentTab =
+    searchParams.get('closed') === 'true'
+      ? TABS_ARRAY[1].name
+      : TABS_ARRAY[0].name;
 
   const isTestRunsLoading = useSelector(
     (state) => state.testRuns.isLoading.testRuns
   );
   const metaPage = useSelector((state) => state.testRuns.metaPage);
   const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
-  const currentTab = useSelector((state) => state.testRuns.currentTab);
 
   const isAddTestRunsFormVisible = useSelector(
     (state) => state.testRuns.isVisible.addTestRunsForm

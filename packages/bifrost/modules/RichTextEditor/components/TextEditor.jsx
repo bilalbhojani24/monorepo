@@ -4,7 +4,7 @@ import { useOnClickOutside } from '@browserstack/hooks';
 import { Editor } from '@tinymce/tinymce-react';
 
 import { imageDialogConfig } from '../config/index';
-import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
+// import { TINYMCE_API_KEY } from '../const/richTextEditorConstants';
 
 const TextEditor = forwardRef((props, ref) => {
   const containerRef = useRef();
@@ -58,7 +58,7 @@ const TextEditor = forwardRef((props, ref) => {
     <div id={containerId} ref={containerRef}>
       <Editor
         id={appliedId}
-        apiKey={TINYMCE_API_KEY}
+        apiKey="azjkxiat0yb4v06f0vnmyvjsqvq4kukg88ibkz1zkpxtg1dg"
         onInit={(evt, editor) => {
           if (editorRef) editorRef.current = editor;
         }}

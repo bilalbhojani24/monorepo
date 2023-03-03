@@ -107,7 +107,7 @@ const FolderExplorerModal = ({
           wrapperClassName="ml-3"
           onClick={moveFolderOnOkHandler}
         >
-          {confirmButtonText || 'OK'}
+          {confirmButtonText || 'Move Test Cases'}
         </TMButton>
       </TMModalFooter>
     </TMModal>

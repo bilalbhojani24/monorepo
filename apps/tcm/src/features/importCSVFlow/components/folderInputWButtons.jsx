@@ -22,9 +22,9 @@ const FolderInputWButton = ({
         <span className="cursor-pointer">{secondCta}</span>
       </span> */}
     </div>
-    <div className="text-base-500 text-sm font-normal">
-      Update your folder location where you want to import the test cases
-    </div>
+    {/*<div className="text-base-500 text-sm font-normal">*/}
+    {/*  Update your folder location where you want to import the test cases*/}
+    {/*</div>*/}
   </div>
 );
 

@@ -5,7 +5,7 @@ const useIssues = () => {
     (state) => state.testRunsDetails.fullDetails
   );
   const issuesArray = useSelector(
-    (state) => state.testRunsDetails.fullDetails?.issues || []
+    (state) => state.testRunsDetails.fullDetails?.test_result_issues || []
   );
   const isIssuesLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.testRunDetails

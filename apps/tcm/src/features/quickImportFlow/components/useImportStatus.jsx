@@ -5,6 +5,7 @@ import { Notifications, notify } from '@browserstack/bifrost';
 import { TMButton } from 'common/bifrostProxy';
 
 import { getQuickImportStatus } from '../../../api/import.api';
+import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import {
   COMPLETED,
@@ -56,6 +57,9 @@ const useImportStatus = () => {
   const checkImportStatusClicked = useSelector(
     (state) => state.import.checkImportStatusClicked
   );
+  const quickImportProjectId = useSelector(
+    (state) => state.import.quickImportProjectId
+  );
 
   const dismissNotification = (
     toastData,
@@ -89,7 +93,9 @@ const useImportStatus = () => {
       setRetryImport({ id: importId, testTool: testTool.split('_')[0] })
     );
     dispatch(setShowNotificationModal(false));
-    navigate('/import');
+    if (quickImportProjectId)
+      navigate(`/projects/${quickImportProjectId}/quick-import`);
+    else navigate(AppRoute.IMPORT);
   };
 
   const handleNotificationClose = (currentImportStatus) => (toastData) => {
@@ -223,6 +229,7 @@ const useImportStatus = () => {
     testManagementTool,
     showNotificationModal,
     checkImportStatusClicked,
+    quickImportProjectId,
     checkImportStatusClickHandler
   };
 };

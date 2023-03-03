@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { TMDataTable, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
+import { InfoOutlinedIcon } from 'assets/icons';
+import { TMDataTable, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
+import { formatTime, routeFormatter } from 'utils/helperFunctions';
 
 import useIssues from './useIssues';
 import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
-  const { testRunDetails, isIssuesLoading, issuesArray, onDropDownChange } =
-    useIssues();
+  const { testRunDetails, isIssuesLoading, issuesArray } = useIssues();
   const { projectId, testRunId, fetchTestRunDetails } = useTestRunDetails();
 
   useEffect(() => {
@@ -19,28 +19,29 @@ const Issues = () => {
 
   const issuesColumn = [
     {
-      name: 'ISSUE',
+      name: 'ISSUES',
       key: 'jira_id',
       cell: (data) => <div className="text-black">{data?.jira_id}</div>
     },
     {
-      name: 'TITLE',
-      key: 'title',
-      cell: () => '--'
-    },
-    {
-      name: '',
-      key: '',
-      cell: (data) => (
-        <TMDropdown
-          triggerVariant="meatball-button"
-          dividerRequired
-          options={[]}
-          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
-        />
-      ),
-      class: 'w-[5%]'
+      name: 'LINKED ON',
+      key: 'created_at',
+      cell: (rowData) =>
+        rowData?.created_at ? formatTime(rowData.created_at, 'date') : '--'
     }
+    // {
+    //   name: '',
+    //   key: '',
+    //   cell: (data) => (
+    //     <TMDropdown
+    //       triggerVariant="meatball-button"
+    //       dividerRequired
+    //       options={[]}
+    //       onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
+    //     />
+    //   ),
+    //   class: 'w-[5%]'
+    // }
   ];
 
   return (
@@ -69,17 +70,32 @@ const Issues = () => {
             <Loader wrapperClassName="h-96" />
           ) : (
             <div>
-              <div className="text-base-900 text-sm">
-                List of all the links which are created while testing test cases
-                within this test run:
-              </div>
-              <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-none">
-                <TMDataTable
-                  containerWrapperClass="md:rounded-none"
-                  columns={issuesColumn}
-                  rows={issuesArray}
-                />
-              </div>
+              {issuesArray.length ? (
+                <>
+                  <div className="text-base-900 text-sm">
+                    List of all the links which are created while testing test
+                    cases within this test run:
+                  </div>
+                  <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-none">
+                    <TMDataTable
+                      containerWrapperClass="md:rounded-none"
+                      columns={issuesColumn}
+                      rows={issuesArray}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="flex h-96 w-full items-center justify-center">
+                  <TMEmptyState
+                    title=""
+                    description="No linked issue"
+                    mainIcon={
+                      <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
+                    }
+                    buttonProps={null}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>

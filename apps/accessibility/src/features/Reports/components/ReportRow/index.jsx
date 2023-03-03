@@ -72,7 +72,7 @@ export default function ReportRow({ id }) {
       tabIndex={0}
       role="button"
       onKeyDown={(e) => handleClickByEnterOrSpace(e, () => onReportClick(e))}
-      className="border-base-200 hover:bg-base-50 flex justify-between border-b bg-white"
+      className="border-base-200 hover:bg-base-50 flex w-full justify-between border-b bg-white"
       onClick={onReportClick}
     >
       <div

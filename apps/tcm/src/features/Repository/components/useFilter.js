@@ -11,6 +11,7 @@ import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   resetFilterMeta,
@@ -137,6 +138,12 @@ const useFilter = (prop) => {
       if (value) {
         if (key === 'q') {
           queryParams[`q[query]`] = value;
+          dispatch(
+            logEventHelper('TM_TcSearchDone', {
+              project_id: projectId,
+              keyword: value
+            })
+          );
         } else queryParams[`q[${key}]`] = value;
       }
     });

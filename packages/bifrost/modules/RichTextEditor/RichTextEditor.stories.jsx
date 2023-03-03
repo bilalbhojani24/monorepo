@@ -17,7 +17,7 @@ const onAssetUpload = async (files) => {
   });
   const result = await res.json();
 
-  return result.data.url;
+  return { src: result.data.url };
 };
 
 const defaultConfig = {

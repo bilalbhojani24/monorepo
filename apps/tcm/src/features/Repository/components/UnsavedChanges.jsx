@@ -10,15 +10,17 @@ import PropTypes from 'prop-types';
 
 import useUnsavedChanges from './useUnsavedChanges';
 
-const UnsavedChanges = ({ show }) => {
+const UnsavedChanges = () => {
   const {
     isUnsavedDataModalVisible,
+    modalFocusRef,
     hideUnsavedModal,
     clearUnsavedChangesHandler
   } = useUnsavedChanges();
 
   return (
     <TMModal
+      ref={modalFocusRef}
       show={isUnsavedDataModalVisible}
       withDismissButton
       onOverlayClick={hideUnsavedModal}
@@ -31,7 +33,12 @@ const UnsavedChanges = ({ show }) => {
         icon={<InfoOutlinedIcon className="text-brand-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideUnsavedModal}>
+        <TMButton
+          variant="primary"
+          colors="white"
+          onClick={hideUnsavedModal}
+          ref={modalFocusRef}
+        >
           Go Back
         </TMButton>
         <TMButton
