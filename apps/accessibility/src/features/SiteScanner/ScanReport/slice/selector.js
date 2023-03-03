@@ -28,10 +28,8 @@ export const getIntermediateFilters = (state) =>
   state.accessibility.app.siteScannerReportApp.intermediateFilters;
 
 // data selector
-export const getReportData = (state) => {
-  console.log(state.accessibility);
-  return state.accessibility.data.siteScanner.scanReportsOverview;
-};
+export const getReportData = (state) =>
+  state.accessibility.data.siteScanner.scanReportsOverview;
 
 export const getReportMetaData = (state) =>
   state.accessibility.data.siteScanner.reportOverviewMetaData;

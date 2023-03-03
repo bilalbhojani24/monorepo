@@ -81,7 +81,6 @@ export default function useIssueItem(activeComponentNodes) {
     const result = [];
     if (childNodes.length > 0) {
       childNodes.forEach((item) => {
-        console.log(item);
         if (showHiddenIssues) {
           if (item.hidden) {
             result.push({
