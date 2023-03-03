@@ -57,7 +57,8 @@ const initialState = {
   notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
   showNotificationModal: false,
   checkImportStatusClicked: false,
-  quickImportProjectId: null
+  quickImportProjectId: null,
+  beginImportLoading: false
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -221,6 +222,9 @@ const importSlice = createSlice({
     setImportStatusOngoing: (state) => {
       state.importStatus = ONGOING;
       state.notificationData = WARNING_DATA;
+    },
+    setBeginImportLoading: (state, { payload }) => {
+      state.beginImportLoading = payload;
     }
   },
   extraReducers: (builder) => {
@@ -305,6 +309,7 @@ export const {
   setNotificationProjectConfig,
   setShowNotificationModal,
   setProjectIdForQuickImport,
-  setImportStatusOngoing
+  setImportStatusOngoing,
+  setBeginImportLoading
 } = importSlice.actions;
 export default importSlice.reducer;

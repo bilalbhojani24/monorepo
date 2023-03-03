@@ -5,6 +5,7 @@ import { getTestCaseDetailsAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
@@ -36,6 +37,12 @@ export default function useTestCaseView({
     dispatch(setTestCaseViewVisibility(true));
     dispatch(setMetaIds({ projectId, folderId, testCaseId }));
     if (folderId && testCaseId) {
+      dispatch(
+        logEventHelper('TM_TcDetailViewLoaded', {
+          project_id: projectId,
+          testcase_id: testCaseId
+        })
+      );
       getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
         (data) => {
           dispatch(setTestCaseDetails(data?.data?.test_case || null));
@@ -44,10 +51,19 @@ export default function useTestCaseView({
     }
   };
 
-  const hideTestCaseViewDrawer = (isSilentClose) => {
+  const hideTestCaseViewDrawer = (isSilentClose, isOnCloseIcon) => {
     if (!isTestCaseViewVisible) return;
     dispatch(setTestCaseViewVisibility(false));
     onDetailsClose?.(isSilentClose);
+
+    if (isOnCloseIcon) {
+      dispatch(
+        logEventHelper('TM_TcDetailViewCrossIconClicked', {
+          project_id: projectId,
+          testcase_id: testCaseDetails?.id
+        })
+      );
+    }
   };
 
   const actionHandler = (selectedOption) => {

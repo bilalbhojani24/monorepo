@@ -99,7 +99,6 @@ const TopSection = () => {
               })}
             >
               <TMButton
-                wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
                 size="default"
@@ -112,6 +111,7 @@ const TopSection = () => {
             {testRunDetails?.run_state &&
               testRunDetails.run_state !== 'closed' && (
                 <TMDropdown
+                  wrapperClassName="ml-4"
                   triggerVariant="menu-button"
                   options={TR_DROP_OPTIONS}
                   onClick={onDropDownChange}

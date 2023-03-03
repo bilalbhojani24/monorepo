@@ -18,7 +18,7 @@ const BlankPage = forwardRef((props, ref) => {
   } = useTestCases();
 
   return (
-    <div className="flex w-full flex-wrap justify-center">
+    <div className="flex w-full flex-col flex-wrap items-center justify-center">
       <TMEmptyState
         title={<p className="text-base-800">Add Test Cases</p>}
         description="You can create test cases by entering details below"

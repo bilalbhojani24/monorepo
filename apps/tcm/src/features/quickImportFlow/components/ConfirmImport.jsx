@@ -10,7 +10,7 @@ import useImport from './useImport';
 
 const ConfirmImport = (props) => {
   const { projects } = props;
-  const { handleConfirmImport } = useImport();
+  const { beginImportLoading, handleConfirmImport } = useImport();
 
   const selectedProjects = projects
     .map((project) => (project.checked ? project : null))
@@ -23,7 +23,12 @@ const ConfirmImport = (props) => {
         variant="buttons"
         trailingHeadNode={
           <>
-            <TMButton size="default" onClick={handleConfirmImport}>
+            <TMButton
+              size="default"
+              onClick={handleConfirmImport}
+              loading={beginImportLoading}
+              isIconOnlyButton={beginImportLoading}
+            >
               Begin Import
             </TMButton>
           </>

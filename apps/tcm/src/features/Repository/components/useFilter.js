@@ -212,14 +212,26 @@ const useFilter = (prop) => {
     if (isSearchFilterView) {
       const filterOptions = getFilterOptions(searchParams);
 
-      const count = [
+      const filters = [
         filterOptions.tags,
         filterOptions.owner,
         filterOptions.priority
       ];
+      const filtersCount = filters.filter((item) => item.length).length;
 
       updateFilterSearchMeta(filterOptions);
-      setAppliedFiltersCount(count.filter((item) => item.length).length);
+      setAppliedFiltersCount(filtersCount);
+
+      if (filtersCount)
+        dispatch(
+          logEventHelper('TM_ApplyFiltersBtnClicked', {
+            project_id: projectId,
+            tags: filterOptions.tags,
+            owner: filterOptions.owner,
+            priority: filterOptions.priority
+          })
+        );
+
       fetchFilteredCases(filterOptions, searchParams?.get('p'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -54,7 +54,17 @@ export default function useFolders() {
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
-  const showAddFolderModal = () => {
+  const showAddFolderModal = (isEmptyClick) => {
+    dispatch(
+      logEventHelper(
+        isEmptyClick
+          ? 'TM_CreateFolderBtnClickedEmptyPrj'
+          : 'TM_CreateFolderIconClicked',
+        {
+          project_id: projectId
+        }
+      )
+    );
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
@@ -186,7 +196,45 @@ export default function useFolders() {
   const folderActionsHandler = ({ folder, selectedOption }) => {
     if (selectedOption?.id) {
       const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
+
       dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
+      switch (selectedOption.id) {
+        case folderDropOptions[1].id: // sub folder
+          dispatch(
+            logEventHelper('TM_CreateFolderMenuLinkClicked', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[2].id: // move folder
+          dispatch(
+            logEventHelper('TM_MoveFolderMenuLinkClicked', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[3].id: // edit folder
+          dispatch(
+            logEventHelper('TM_EditFolderMenuLinkClicked', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+        case folderDropOptions[4].id: // delete folder
+          dispatch(
+            logEventHelper('TM_DeleteFolderMenuLinkClicked', {
+              project_id: projectId,
+              folder_id: folder?.id
+            })
+          );
+          break;
+
+        default:
+          break;
+      }
 
       if (isCreateTestCase) {
         // create test case
@@ -220,6 +268,14 @@ export default function useFolders() {
   };
 
   const moveFolderOnOkHandler = (selectedFolder, internalAllFolders) => {
+    dispatch(
+      logEventHelper('TM_MoveFolderCtaClicked', {
+        project_id: projectId,
+        folder_id_src: openedFolderModal?.folder?.id,
+        folder_id_dest: selectedFolder?.id || 'root'
+      })
+    );
+
     moveFolder({
       projectId,
       folderId: openedFolderModal?.folder?.id,

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   deleteTestCase,
@@ -16,6 +17,7 @@ import {
 export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
   const modalFocusRef = useRef();
+  // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
@@ -53,6 +55,14 @@ export default function useDeleteTestCase() {
   };
 
   const bulkDeleteHandler = () => {
+    dispatch(
+      logEventHelper('TM_DelteAllBtnClicked', {
+        project_id: projectId,
+        folder_id_src: folderId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
+
     deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(() => {
       let updatedTestCases = [];
       const updatedCount = metaPage.count - selectedBulkTCCount;
@@ -86,6 +96,13 @@ export default function useDeleteTestCase() {
   };
 
   const singleItemDeleteHelper = () => {
+    dispatch(
+      logEventHelper('TM_DeleteCaseBtnClicked', {
+        project_id: projectId,
+        testcase_id: selectedTestCase?.id
+      })
+    );
+
     deleteTestCaseAPI({
       projectId,
       folderId,

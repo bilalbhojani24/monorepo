@@ -12,7 +12,8 @@ const TestCaseView = ({
   actionHandler,
   isFromTestRun,
   resultUpdatable,
-  onResultClick
+  onResultClick,
+  testRunId
 }) => {
   const { testCaseDetails, testCaseId } = useTestCaseViewDetails();
 
@@ -39,6 +40,7 @@ const TestCaseView = ({
             isFromTestRun={isFromTestRun}
             onResultClick={onResultClick}
             resultUpdatable={resultUpdatable}
+            testRunId={testRunId}
           />
         </div>
         {/* <div className="flex w-full justify-between">
@@ -56,6 +58,7 @@ const TestCaseView = ({
 
 TestCaseView.propTypes = {
   actionHandler: PropTypes.func,
+  testRunId: PropTypes.number,
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
   onResultClick: PropTypes.bool
@@ -63,6 +66,7 @@ TestCaseView.propTypes = {
 
 TestCaseView.defaultProps = {
   actionHandler: () => {},
+  testRunId: null,
   isFromTestRun: false,
   resultUpdatable: false,
   onResultClick: () => {}

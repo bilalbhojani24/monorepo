@@ -84,7 +84,7 @@ export default function Folders() {
               colors="white"
               wrapperClassName="ml-2 p-2"
               size="extra-small"
-              onClick={showAddFolderModal}
+              onClick={() => showAddFolderModal()}
             >
               <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
             </TMButton>
@@ -150,7 +150,7 @@ export default function Folders() {
             }
             buttonProps={{
               children: 'Create Folder',
-              onClick: showAddFolderModal,
+              onClick: () => showAddFolderModal(true),
               colors: 'white'
             }}
           />
