@@ -1,12 +1,29 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  generatePath,
+  matchRoutes,
+  useLocation,
+  useNavigate
+} from 'react-router-dom';
 import { O11yComboBox } from 'common/bifrostProxy';
+import { ROUTES } from 'constants/routes';
 import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
+import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
+
+const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 
 export default function ProjectSelector() {
   const projects = useSelector(getProjects);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [
+    {
+      route: { path }
+    }
+  ] = matchRoutes(ROUTES_ARRAY, location);
 
   const menuOptions = useMemo(
     () =>
@@ -26,6 +43,19 @@ export default function ProjectSelector() {
         normalisedName: item.normalisedName
       })
     );
+    if (isBuildsPage()) {
+      navigate(getProjectBuildsPath(encodeURI(item.normalisedName)), {
+        replace: true
+      });
+    } else {
+      const generatedPath = generatePath(path, {
+        projectNormalisedName: item.normalisedName
+      });
+      navigate({
+        pathname: generatedPath,
+        search: location.search
+      });
+    }
   };
 
   return (
