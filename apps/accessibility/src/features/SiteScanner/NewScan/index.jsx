@@ -238,16 +238,18 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       ref={timeRef}
                     />
                   </div>
-                  <Checkbox
-                    name="instantRun"
-                    onChange={(e) => handleFormData(e, 'instantRun')}
-                    border={false}
-                    data={{
-                      label: 'Run intial scan'
-                    }}
-                    id="recurringRef"
-                    checked={recurringStatus}
-                  />
+                  <div className="mt-4">
+                    <Checkbox
+                      name="instantRun"
+                      onChange={(e) => handleFormData(e, 'instantRun')}
+                      border={false}
+                      data={{
+                        label: 'Run intial scan'
+                      }}
+                      id="recurringRef"
+                      checked={formData.instantRun}
+                    />
+                  </div>
                 </div>
               ) : (
                 ''
