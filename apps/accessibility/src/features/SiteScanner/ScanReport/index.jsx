@@ -12,6 +12,8 @@ import {
   TooltipBody
 } from '@browserstack/bifrost';
 
+import Loader from '../../../common/Loader';
+
 import Issues from './Allissues/Issues';
 import ScanLogs from './ScanLogs';
 import ScanReportSummary from './ScanReportSummary';
@@ -35,7 +37,7 @@ export default function ScanReport() {
   const getTabContent = () => {
     switch (activeTab) {
       case tabsOptions.SUMMARY.id:
-        return reportOverviewData ? <ScanReportSummary /> : 'loading';
+        return reportOverviewData ? <ScanReportSummary /> : <Loader />;
       case tabsOptions.ALLISSUES.id:
         return <Issues />;
       case tabsOptions.SCANLOGS.id:

@@ -19,6 +19,8 @@ import {
 import dateFormat from 'dateformat';
 import PropTypes from 'prop-types';
 
+import Loader from '../../../common/Loader';
+
 import { pageStatus } from './constants';
 
 const columns = [
@@ -40,7 +42,7 @@ const columns = [
 
 const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
   if (isLoading) {
-    return 'Loading';
+    return <Loader />;
   }
   return (
     <div>

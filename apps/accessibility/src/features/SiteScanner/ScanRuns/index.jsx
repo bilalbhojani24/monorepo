@@ -14,6 +14,8 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import Loader from '../../../common/Loader';
+
 // https://run.mocky.io/v3/85ea0a0f-6b1c-4cb6-993e-7b9252837532
 const columns = [
   {
@@ -39,7 +41,7 @@ const columns = [
 const ScanRuns = ({ isLoading, scanRunData }) => {
   const navigate = useNavigate();
   if (isLoading) {
-    return 'Loading';
+    return <Loader />;
   }
   return (
     <div>
