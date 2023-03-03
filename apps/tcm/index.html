@@ -8,9 +8,16 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BrowserStack | Test Management</title>
+    <style>
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" style="display: none"></div>
     <div
       id="root-loader"
       style="
