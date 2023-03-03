@@ -38,7 +38,7 @@ const AllProjects = () => {
   } = useProjects();
 
   useEffect(() => {
-    if (!isLoading) dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
+    dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
   }, [dispatch, isLoading]);
 
   const tableColumns = [
