@@ -30,9 +30,11 @@ const AddStatusModal = () => {
     addIssuesSaveHelper,
     setStatusError
   } = useTRTCFolders();
+  // const statusFocusRef = useRef();
 
   return (
     <TMModal
+      // ref={statusFocusRef}
       show={isAddStatusVisible}
       withDismissButton
       onOverlayClick={closeAll}
@@ -48,6 +50,7 @@ const AddStatusModal = () => {
             <TMSelectMenu
               label="Status"
               checkPosition="right"
+              // ref={statusFocusRef}
               placeholder="Choose from options"
               options={STATUS_OPTIONS.map((el) => ({
                 label: (

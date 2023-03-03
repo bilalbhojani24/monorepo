@@ -22,7 +22,7 @@ const TestCaseView = ({
     parseInt(testCaseId, 10) !== parseInt(testCaseDetails?.id, 10)
   )
     return (
-      <div className="flex h-full flex-col items-stretch px-6 pt-5">
+      <div className="align-center flex h-full flex-col items-stretch justify-center px-6 pt-5">
         <Loader />
       </div>
     );

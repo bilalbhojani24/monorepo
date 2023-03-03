@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   SelectMenu,
   SelectMenuLabel,
@@ -10,43 +10,52 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-const TMSelectMenu = ({
-  placeholder,
-  dividerIdx,
-  label,
-  options,
-  onChange,
-  value,
-  isMulti,
-  defaultValue,
-  triggerWrapperClassName,
-  checkPosition
-}) => (
-  <SelectMenu
-    onChange={onChange}
-    value={value}
-    isMulti={isMulti}
-    defaultValue={defaultValue}
-  >
-    {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
-    <SelectMenuTrigger
-      placeholder={placeholder}
-      wrapperClassName={twClassNames('cursor-pointer', triggerWrapperClassName)}
-    />
-    <SelectMenuOptionGroup>
-      {React.Children.toArray(
-        options.map((item, idx) => (
-          <SelectMenuOptionItem
-            checkPosition={checkPosition}
-            option={item}
-            wrapperClassName={
-              idx === dividerIdx ? 'border-base-100 border-b' : ''
-            }
-          />
-        ))
-      )}
-    </SelectMenuOptionGroup>
-  </SelectMenu>
+const TMSelectMenu = forwardRef(
+  (
+    {
+      placeholder,
+      dividerIdx,
+      label,
+      options,
+      onChange,
+      value,
+      isMulti,
+      defaultValue,
+      triggerWrapperClassName,
+      checkPosition
+    },
+    ref
+  ) => (
+    <SelectMenu
+      onChange={onChange}
+      value={value}
+      isMulti={isMulti}
+      defaultValue={defaultValue}
+      ref={ref}
+    >
+      {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
+      <SelectMenuTrigger
+        placeholder={placeholder}
+        wrapperClassName={twClassNames(
+          'cursor-pointer',
+          triggerWrapperClassName
+        )}
+      />
+      <SelectMenuOptionGroup>
+        {React.Children.toArray(
+          options.map((item, idx) => (
+            <SelectMenuOptionItem
+              checkPosition={checkPosition}
+              option={item}
+              wrapperClassName={
+                idx === dividerIdx ? 'border-base-100 border-b' : ''
+              }
+            />
+          ))
+        )}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
+  )
 );
 
 TMSelectMenu.propTypes = {

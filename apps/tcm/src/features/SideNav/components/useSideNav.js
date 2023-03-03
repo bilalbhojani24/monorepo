@@ -34,6 +34,7 @@ export default function useSideNav() {
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
+  const allFolders = useSelector((state) => state.repository?.allFolders);
 
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
@@ -57,7 +58,9 @@ export default function useSideNav() {
       window.open(linkItem.path);
     } else {
       onPageChangeLogger(linkItem);
-      navigate(linkItem.path);
+      if (linkItem?.label === 'Test Cases' && allFolders?.[0]?.id) {
+        navigate(`${linkItem.path}/${allFolders?.[0]?.id}/test-cases`);
+      } else navigate(linkItem.path);
     }
   };
 
