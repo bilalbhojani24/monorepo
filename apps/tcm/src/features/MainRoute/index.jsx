@@ -44,7 +44,7 @@ const MainRoute = () => {
       component: <Dashboard />
     },
     {
-      path: AppRoute.ONBOARDING, // verify
+      path: AppRoute.ONBOARDING,
       isProtected: true,
       component: <Onboarding />
     },
@@ -108,11 +108,9 @@ const MainRoute = () => {
       isProtected: true,
       component: <ImportCSV />
     },
-
-    // Working heree
     {
-      path: AppRoute.NO_ACCESS, // verify this
-      isProtected: true,
+      path: AppRoute.NO_ACCESS,
+      isProtected: false,
       component: <AlphaAccess />
     },
     {
