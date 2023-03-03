@@ -37,7 +37,7 @@ const useAuthentication = () => {
       if (url) navigate(url);
     }
 
-    return Promise.resolve(res);
+    return true;
   };
 
   const onAuthFailureHandler = (res) => {
@@ -47,7 +47,7 @@ const useAuthentication = () => {
       return true;
     }
 
-    return Promise.reject(res);
+    return false;
   };
 
   const authInit = () =>
