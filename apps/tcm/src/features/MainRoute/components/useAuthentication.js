@@ -9,23 +9,32 @@ const useAuthentication = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const successRedirectURL = (res) => {
+    let redirectURL = null;
+
+    if (location.pathname === AppRoute.NO_ACCESS) {
+      // if in no access page hit, redirect to root page
+      redirectURL = AppRoute.ROOT;
+    }
+
+    if (res.data.user?.onboarded === 0) {
+      // to be onboarded user
+      redirectURL = AppRoute.ONBOARDING;
+    } else if (location.pathname === AppRoute.ONBOARDING) {
+      // if already onboarded user
+      // check if trying to accesss onboard page, if so redirect to ROOT
+      redirectURL = AppRoute.ROOT;
+    }
+
+    return redirectURL;
+  };
+
   const onAuthSuccessHandler = (res) => {
     if (res.data?.user) {
       dispatch(setUser(res.data.user));
 
-      if (res.data.user?.onboarded === 0) {
-        // to be onboarded user
-        navigate(AppRoute.ONBOARDING);
-      } else if (location.pathname === AppRoute.ONBOARDING) {
-        // if already onboarded user
-        // check if trying to accesss onboard page, if so redirect to ROOT
-        navigate(AppRoute.ROOT);
-      }
-
-      if (location.pathname === AppRoute.NO_ACCESS) {
-        // if in no access page hit, redirect to root page
-        navigate(AppRoute.ROOT);
-      }
+      const url = successRedirectURL(res);
+      if (url) navigate(url);
     }
 
     return Promise.resolve(res);
