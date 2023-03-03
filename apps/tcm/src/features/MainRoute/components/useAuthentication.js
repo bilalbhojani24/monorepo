@@ -21,6 +21,11 @@ const useAuthentication = () => {
         // check if trying to accesss onboard page, if so redirect to ROOT
         navigate(AppRoute.ROOT);
       }
+
+      if (location.pathname === AppRoute.NO_ACCESS) {
+        // if in no access page hit, redirect to root page
+        navigate(AppRoute.ROOT);
+      }
     }
 
     return Promise.resolve(res);
