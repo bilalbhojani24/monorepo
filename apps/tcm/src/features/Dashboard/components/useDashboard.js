@@ -69,10 +69,14 @@ export default function useDashboard() {
       });
     } else {
       dispatch(setIsLoadingProps({ key, value: true }));
-      apiFunction(projectId).then((res) => {
-        doAfter?.(res);
-        dispatch(setIsLoadingProps({ key, value: false }));
-      });
+      apiFunction(projectId)
+        .then((res) => {
+          doAfter?.(res);
+          dispatch(setIsLoadingProps({ key, value: false }));
+        })
+        .catch(() => {
+          dispatch(setIsLoadingProps({ key, value: false }));
+        });
     }
   };
 

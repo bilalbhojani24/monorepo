@@ -57,13 +57,15 @@ const useTestRuns = () => {
       } else {
         setTestRunsLoader(true);
         const isClosed = currentTab === TABS_ARRAY[1]?.name;
-        getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
-          (data) => {
+        getTestRunsAPI({ projectId, isClosed, page: currentPage })
+          .then((data) => {
             dispatch(setAllTestRuns(data?.test_runs || []));
             dispatch(setMetaPage(data?.info));
             setTestRunsLoader(false);
-          }
-        );
+          })
+          .catch(() => {
+            setTestRunsLoader(false);
+          });
       }
     } else dispatch(setAllTestRuns([]));
   };
