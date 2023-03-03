@@ -155,6 +155,16 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 id="recurringRef"
                 checked={recurringStatus}
               />
+              <Checkbox
+                name="instantRun"
+                onChange={(e) => handleFormData(e, 'instantRun')}
+                border={false}
+                data={{
+                  label: 'Run intial scan'
+                }}
+                id="recurringRef"
+                checked={recurringStatus}
+              />
               {recurringStatus ? (
                 <div className="flex-col items-center pt-5">
                   <div className="mb-4 flex w-32">
