@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import {
   ChevronDownIcon,
   DataVisualization,
@@ -19,7 +19,7 @@ import {
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
-import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
+// import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   formatComponentIdString,
@@ -48,7 +48,8 @@ export default function Summary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
+  // const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
+  const ISSUE_COUNT = 'Issue Count';
   const dropdownOptions = [
     {
       id: 'char-sort',
@@ -114,7 +115,7 @@ export default function Summary() {
     },
     {
       id: 'issueCount',
-      name: 'Issue Count',
+      name: ISSUE_COUNT,
       key: 'issueCount'
     }
   ];
@@ -132,7 +133,7 @@ export default function Summary() {
     },
     {
       id: 'issueCount',
-      name: 'Issue Count',
+      name: ISSUE_COUNT,
       key: 'issueCount'
     }
   ];
@@ -150,7 +151,7 @@ export default function Summary() {
     },
     {
       id: 'issueCount',
-      name: 'Issue Count',
+      name: ISSUE_COUNT,
       key: 'issueCount'
     }
   ];
@@ -173,7 +174,7 @@ export default function Summary() {
                     <div
                       aria-label={impact}
                       tabIndex={0}
-                      className="border-base-500 mb-4 flex h-6 w-40 cursor-pointer items-center justify-between border-t"
+                      className="border-base-200 mb-4 flex h-6 w-40 cursor-pointer items-center justify-between border-b"
                       onClick={() =>
                         onRowClick(
                           'impact',
@@ -192,14 +193,14 @@ export default function Summary() {
                       }
                       role="button"
                     >
-                      <div className="text-base-800 flex items-center text-sm">
+                      <div className="text-base-800 flex items-center pb-3 text-sm">
                         <div
                           className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
                         />
                         {impact.charAt(0).toUpperCase()}
                         {impact.slice(1, impact.length)}
                       </div>
-                      <p className="text-base-800 flex">
+                      <p className="text-base-800 flex pb-3">
                         {issueSummary[impact]}
                       </p>
                     </div>
