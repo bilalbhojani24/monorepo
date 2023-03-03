@@ -60,6 +60,14 @@ const MediaPlayer = forwardRef(
           videoRef.current.pause();
           setIsPaused(true);
         }
+      },
+      play() {
+        videoRef.current.play();
+        setIsPaused(false);
+      },
+      pause() {
+        videoRef.current.pause();
+        setIsPaused(true);
       }
     }));
 
