@@ -73,9 +73,9 @@ export default function useScanReport() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (scanLogsData?.logs) {
+    if (scanLogsData?.data?.logs) {
       setIsLoading(false);
-      setScanLogsStateData({ ...scanLogsData });
+      setScanLogsStateData({ ...scanLogsData.data });
     }
   }, [scanLogsData]);
 
