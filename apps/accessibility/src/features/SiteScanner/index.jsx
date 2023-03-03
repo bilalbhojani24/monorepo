@@ -187,22 +187,25 @@ export default function SiteScanner() {
         </div>
       );
     }
-
-    return (
-      <div className="flex flex-col font-normal">
-        <span className="text-black">{row.lastScanDetails.issues} issues</span>
-        <span className="flex items-center">
-          <MdOutlineHistory className="mr-0.5" />
-          Last scan:{' '}
-          {row?.lastScanDetails?.lastScanDate
-            ? dateFormat(
-                new Date(row.lastScanDetails.lastScanDate),
-                'mmmm dS, h:MM:ss TT'
-              )
-            : null}
-        </span>
-      </div>
-    );
+    if (row?.lastScanDetails && Object.keys(row.lastScanDetails).length) {
+      return (
+        <div className="flex flex-col font-normal">
+          <span className="text-black">
+            {row.lastScanDetails.issues} issues
+          </span>
+          <span className="flex items-center">
+            <MdOutlineHistory className="mr-0.5" />
+            Last scan:{' '}
+            {row?.lastScanDetails?.lastScanDate
+              ? dateFormat(
+                  new Date(row.lastScanDetails.lastScanDate),
+                  'mmmm dS, h:MM:ss TT'
+                )
+              : null}
+          </span>
+        </div>
+      );
+    }
   };
 
   const handleRowMenuClick = (e, rowData) => {
