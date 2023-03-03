@@ -7,8 +7,10 @@ export default function Dashboard({ children }) {
   return (
     <>
       <O11yHeader />
-      <Sidebar />
-      <main className="pt-16">{children}</main>
+      <div className="relative top-16 flex">
+        <Sidebar />
+        <main>{children}</main>
+      </div>
     </>
   );
 }

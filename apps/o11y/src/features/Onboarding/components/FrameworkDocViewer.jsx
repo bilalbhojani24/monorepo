@@ -1,0 +1,115 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Button, MdArrowBack } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
+import { getProjectsListAPI } from 'api/projectlist';
+import O11yLoader from 'common/O11yLoader';
+import { URL_REGEX } from 'constants/common';
+import { ROUTES } from 'constants/routes';
+import { setProjectList } from 'globalSlice';
+import useRafPolling from 'hooks/useRafPolling';
+import PropTypes from 'prop-types';
+import { getDocUrl } from 'utils/common';
+
+const POLLING_INTERVAL = 10000;
+
+const getDomainName = (hostName) =>
+  hostName.substring(
+    hostName.lastIndexOf('.', hostName.lastIndexOf('.') - 1) + 1
+  );
+
+const allowedOrigin = (origin) => {
+  if (!origin) return {};
+  const domainName = getDomainName(origin);
+  return !!(domainName === 'browserstack.com' || domainName === 'bsstag.com');
+};
+export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLoad = () => {
+    setIsLoading(false);
+  };
+
+  const checkIfProjectsCreated = async () => {
+    if (isLoading) {
+      return;
+    }
+    const res = await getProjectsListAPI();
+    if (res?.data?.length) {
+      dispatch(setProjectList(res.data));
+      navigate(ROUTES.projects);
+    }
+  };
+
+  const endPolling = useRafPolling(checkIfProjectsCreated, POLLING_INTERVAL);
+
+  useEffect(
+    () => () => {
+      endPolling();
+    },
+    [endPolling]
+  );
+
+  const handleFrameTasks = useCallback((message) => {
+    if (!message?.data) return;
+    // Adding check for allowing messages only from browserstack domain
+    if (!allowedOrigin(message?.origin)) return;
+    const { type, payload } = message.data;
+    if (type === 'update_route') {
+      const isValidURL = URL_REGEX.test(payload.url);
+      const sanitizedPayloadUrl = isValidURL ? payload.url : '';
+      if (!sanitizedPayloadUrl) return;
+      window.open(payload.url, payload.blank ? '_blank' : '_self');
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('message', handleFrameTasks);
+    return () => window.removeEventListener('message', handleFrameTasks);
+  }, [handleFrameTasks]);
+
+  return (
+    <div className="m-auto w-full max-w-screen-xl p-12">
+      <div className="mb-5 flex w-full items-center justify-between">
+        <Button
+          variant="minimal"
+          icon={<MdArrowBack className="text-xl" />}
+          onClick={onClickBack}
+        >
+          Back
+        </Button>
+        <p className="text-sm font-medium">{selectedFramework.name}</p>
+      </div>
+      {isLoading && (
+        <O11yLoader
+          wrapperClassName="h-screen"
+          loaderClass="text-base-200 fill-base-400 w-8 h-8"
+        />
+      )}
+      <iframe
+        className={twClassNames('w-full h-0 border-0 rounded', {
+          'h-screen border border-base-200 ': !isLoading
+        })}
+        title={selectedFramework.name}
+        onLoad={onLoad}
+        src={getDocUrl(
+          `$/onboarding/test-observability/${selectedFramework.id}`
+        )}
+      />
+      {!isLoading && (
+        <O11yLoader
+          wrapperClassName="h-10 mt-5"
+          loaderClass="text-base-200 fill-base-400 w-8 h-8"
+        />
+      )}
+    </div>
+  );
+}
+
+FrameworkDocViewer.propTypes = {
+  onClickBack: PropTypes.func.isRequired,
+  selectedFramework: PropTypes.objectOf(PropTypes.any).isRequired
+};

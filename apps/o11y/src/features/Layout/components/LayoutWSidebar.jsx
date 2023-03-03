@@ -18,5 +18,4 @@ const LayoutWSidebar = () => (
     </Dashboard>
   </Suspense>
 );
-
 export default LayoutWSidebar;

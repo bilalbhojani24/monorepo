@@ -6,11 +6,9 @@ export const ROUTES = {
   stability: '/projects/:projectNormalisedName/suite_health',
   testing_trends: '/projects/:projectNormalisedName/testing_trends',
   dashboard: '/dashboard',
-  integrations: {
-    base: '/integrations',
-    jenkins: '/integrations/jenkins',
-    azurePipelines: '/integrations/azure-pipelines'
-  },
+  integrations_base: '/integrations',
+  integrations_jenkins: '/integrations/jenkins',
+  integrations_azurePipelines: '/integrations/azure-pipelines',
   settings: '/settings',
   settings_general: '/settings/general',
   settings_alerts: '/settings/alerts',
@@ -21,5 +19,6 @@ export const ROUTES = {
   test_details: '/test/details/:testRunId',
   projects: '/projects',
   request_access: '/request_access',
+  get_started: '/get-started',
   root: '/'
 };

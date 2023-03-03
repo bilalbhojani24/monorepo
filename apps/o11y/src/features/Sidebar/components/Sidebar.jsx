@@ -9,9 +9,9 @@ import {
 export default function Sidebar() {
   return (
     <SidebarNavigation
-      wrapperClassName="mt-16 bg-white"
+      wrapperClassName="md:sticky h-screen bg-white py-5 px-2 w-64 flex-none"
       sidebarHeader={
-        <div className="w-full p-2">
+        <div className="w-full">
           <p>Sidebar</p>
         </div>
       }

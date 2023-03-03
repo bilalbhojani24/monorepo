@@ -1,29 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
-import {
-  MdClose,
-  MdFolderOpen,
-  MdOutlineOpenInNew,
-  MdSearch
-} from '@browserstack/bifrost';
+import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
 import {
   O11yHyperlink,
   O11yInputField,
   O11yRefTableBody,
   O11yTable,
-  O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
-import { getTestingTrendPath } from 'utils/routeUtils';
+
+import ProjectListItem from '../components/ProjectListItem';
 
 const TableRow = (props) => <O11yTableRow hover {...props} />;
 const Table = (props) => (
@@ -37,21 +30,10 @@ export default function ProjectList() {
   const projects = useSelector(getProjects);
   const [searchText, setSearchText] = useState('');
   const [projectsList, setProjectsList] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setProjectsList(projects.list);
   }, [projects.list]);
-
-  const handleClickProjectLink = ({ id, name, normalisedName }) => {
-    dispatch(
-      setActiveProject({
-        id,
-        name,
-        normalisedName
-      })
-    );
-  };
 
   const handleSearchTextChange = (e) => {
     const val = e.target?.value?.toLowerCase();
@@ -67,11 +49,11 @@ export default function ProjectList() {
   };
 
   if (!projects.isLoading && !projects.list.length) {
-    return <Navigate to={ROUTES.root} />;
+    return <Navigate to={ROUTES.get_started} />;
   }
 
   return (
-    <div className="flex h-[calc(100vh-3rem)] w-screen justify-center p-12">
+    <div className="flex h-screen w-screen justify-center p-12">
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border shadow-sm">
         <div className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">
@@ -115,23 +97,7 @@ export default function ProjectList() {
                 TableBody: O11yRefTableBody
               }}
               itemContent={(index, project) => (
-                <O11yTableCell wrapperClassName="py-0 first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0">
-                  <Link
-                    to={getTestingTrendPath(project.normalisedName)}
-                    onClick={() => {
-                      handleClickProjectLink(project);
-                    }}
-                  >
-                    <div className="flex items-center gap-x-3 py-4 first:pl-1 last:pr-4 sm:first:pl-1 sm:last:pr-6">
-                      <div className="bg-base-100 flex h-[40px] w-[40px] items-center justify-center rounded-full">
-                        <MdFolderOpen className="text-base-400 text-xl" />
-                      </div>
-                      <p className="text-base-900 text-sm font-medium leading-5">
-                        {project.name}
-                      </p>
-                    </div>
-                  </Link>
-                </O11yTableCell>
+                <ProjectListItem project={project} />
               )}
             />
           </div>

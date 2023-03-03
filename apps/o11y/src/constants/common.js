@@ -12,3 +12,7 @@ export const DOC_KEY_MAPPING = {
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
+
+export const URL_REGEX =
+  /* eslint-disable-next-line */
+  /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;

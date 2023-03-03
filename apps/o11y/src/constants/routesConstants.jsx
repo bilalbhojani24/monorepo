@@ -1,7 +1,7 @@
 import React from 'react';
 import RootPathContainer from 'common/RootPathContainer';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
-import { ProjectList } from 'features/Onboarding';
+import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 
 import { ROUTES } from './routes';
 
@@ -22,6 +22,11 @@ export const APP_ROUTES = [
         path: ROUTES.projects,
         isProtected: true,
         component: <ProjectList />
+      },
+      {
+        path: ROUTES.get_started,
+        isProtected: true,
+        component: <OnboardingFrameworkSelector />
       }
     ]
   },
@@ -38,7 +43,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: <Home />
+        component: <>Testing trends</>
       }
     ]
   }

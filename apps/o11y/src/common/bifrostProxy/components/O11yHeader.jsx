@@ -6,7 +6,7 @@ import { getDocUrl } from 'utils/common';
 
 const O11yHeader = () => (
   <Header
-    wrapperClassName="fixed w-full"
+    wrapperClassName="absolute top-0"
     headerID="bstack-header"
     productName="Test Observability"
     productLink={ROUTES.root}
