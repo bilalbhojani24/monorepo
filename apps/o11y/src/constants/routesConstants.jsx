@@ -1,5 +1,7 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import EmptyPage from 'common/EmptyPage';
+import NotFound from 'common/NotFound';
 import RootPathContainer from 'common/RootPathContainer';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
@@ -7,6 +9,16 @@ import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import { ROUTES } from './routes';
 
 export const APP_ROUTES = [
+  {
+    path: ROUTES.all,
+    isProtected: true,
+    component: <Navigate to={ROUTES.not_found} replace />
+  },
+  {
+    path: ROUTES.not_found,
+    isProtected: true,
+    component: <NotFound to={ROUTES.not_found} replace />
+  },
   {
     path: ROUTES.root,
     isProtected: true,
