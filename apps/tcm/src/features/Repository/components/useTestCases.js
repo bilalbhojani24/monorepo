@@ -7,7 +7,9 @@ import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
+import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import {
   resetTestCaseDetails,
   setAddTestCaseVisibility,
@@ -168,6 +170,24 @@ export default function useTestCases() {
     setSearchParams({ ...currentParams, p });
   };
 
+  const quickImportButtonClicked = () => {
+    dispatch(
+      logEventHelper('TM_QiBtnClickedEmptyFolder', {
+        project_id: projectId,
+        folder_id: folderId
+      })
+    );
+    dispatch(setCurrentTestManagementTool(''));
+  };
+
+  const importCSVButtonClicked = () => {
+    dispatch(
+      logEventHelper('TM_ImportCsvBtnClickedEmptyFolder', {
+        project_id: projectId
+      })
+    );
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,6 +218,8 @@ export default function useTestCases() {
     setRepoView,
     detailsCloseHandler,
     initTestCaseDetails,
-    handleFilterPagination
+    handleFilterPagination,
+    quickImportButtonClicked,
+    importCSVButtonClicked
   };
 }

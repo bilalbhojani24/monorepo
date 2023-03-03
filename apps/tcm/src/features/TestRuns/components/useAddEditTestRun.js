@@ -10,6 +10,7 @@ import {
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   addTestRun,
@@ -208,6 +209,12 @@ const useAddEditTestRun = () => {
     if (!testRunFormData.test_run.name) {
       setInputError(true);
     } else if (isEditing) {
+      dispatch(
+        logEventHelper('TM_UpdateTrCtaClicked', {
+          project_id: projectId,
+          testrun_id: testRunFormData?.test_run?.id
+        })
+      );
       editTestRunAPI({
         payload: formDataFormatter(testRunFormData),
         projectId,
@@ -217,6 +224,11 @@ const useAddEditTestRun = () => {
         hideAddTestRunForm();
       });
     } else {
+      dispatch(
+        logEventHelper('TM_CreateTrCtaClicked', {
+          project_id: projectId
+        })
+      );
       const addtestRunAPIFunction =
         projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
       addtestRunAPIFunction({

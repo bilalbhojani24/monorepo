@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import { capitalizeString, routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   CHART_OPTIONS,
@@ -75,6 +76,14 @@ const useTestRuns = () => {
     };
   };
 
+  const paginationAnalytics = () => {
+    dispatch(
+      logEventHelper('TM_TrPaginationClicked', {
+        project_id: projectId
+      })
+    );
+  };
+
   const onDropDownChange = (selectedOption, selectedItem) => {
     dispatch(setSelectedTestRun(selectedItem));
     switch (selectedOption?.id) {
@@ -91,10 +100,22 @@ const useTestRuns = () => {
         break;
       case TR_DROP_OPTIONS[2].id: // close_run
         dispatch(
+          logEventHelper('TM_CloseTrLinkClickedTrList', {
+            project_id: projectId,
+            testrun_id: selectedItem?.id
+          })
+        );
+        dispatch(
           setIsVisibleProps({ key: 'closeRunTestRunModal', value: true })
         );
         break;
       case TR_DROP_OPTIONS[3].id: // delete
+        dispatch(
+          logEventHelper('TM_DeleteTrLinkClickedTrList', {
+            project_id: projectId,
+            testrun_id: selectedItem?.id
+          })
+        );
         dispatch(setIsVisibleProps({ key: 'deleteTestRunModal', value: true }));
         break;
       default:
@@ -110,7 +131,8 @@ const useTestRuns = () => {
     projectId,
     isAddTestRunsFormVisible,
     getProgressOptions,
-    onDropDownChange
+    onDropDownChange,
+    paginationAnalytics
   };
 };
 

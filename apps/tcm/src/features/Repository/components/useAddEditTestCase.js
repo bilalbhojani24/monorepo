@@ -256,7 +256,7 @@ export default function useAddEditTestCase(prop) {
       dispatch(
         logEventHelper(
           isInlineAddition
-            ? 'TM_CreateTcBtnClickedQuickAddition'
+            ? 'TM_CreateTcBtnClickedQuickAdd'
             : 'TM_CreateCaseBtnClickedTcForm',
           {
             project_id: projectId
@@ -486,6 +486,15 @@ export default function useAddEditTestCase(prop) {
     navigate(dontFormat ? url : routeFormatter(url, { projectId }));
   };
 
+  const setShowMoreFieldHelper = (value) => {
+    dispatch(
+      logEventHelper('TM_CreateTcShowMoreBtnClicked', {
+        project_id: projectId
+      })
+    );
+    setShowMoreFields(value);
+  };
+
   useEffect(() => {
     if (
       testCaseFormData?.test_case_folder_id &&
@@ -549,7 +558,7 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
-    setShowMoreFields,
+    setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,

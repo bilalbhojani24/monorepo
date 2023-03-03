@@ -29,7 +29,8 @@ const TopSection = () => {
     showIssuesHandler,
     testRunDetails,
     onDropDownChange,
-    fetchTestRunDetails
+    fetchTestRunDetails,
+    automationTooltipClicked
   } = useTestRunDetails();
   return (
     <div className="border-base-300 w-full border-b pb-4">
@@ -53,6 +54,9 @@ const TopSection = () => {
                   size="xs"
                   placementSide="bottom"
                   theme="dark"
+                  onOpenChange={(isOpen) => {
+                    if (isOpen) automationTooltipClicked();
+                  }}
                   content={
                     <>
                       <TMTooltipBody>
@@ -95,7 +99,6 @@ const TopSection = () => {
               })}
             >
               <TMButton
-                wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
                 size="default"
@@ -108,6 +111,7 @@ const TopSection = () => {
             {testRunDetails?.run_state &&
               testRunDetails.run_state !== 'closed' && (
                 <TMDropdown
+                  wrapperClassName="ml-4"
                   triggerVariant="menu-button"
                   options={TR_DROP_OPTIONS}
                   onClick={onDropDownChange}

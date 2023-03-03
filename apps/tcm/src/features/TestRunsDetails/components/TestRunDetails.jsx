@@ -44,6 +44,7 @@ const TestRunDetails = () => {
         testCaseId={testCaseDetails?.testCaseId}
         onDetailsClose={resetTestCaseDetailsMeta}
         isFromTestRun
+        testRunId={testRunId}
         resultUpdatable={testRunDetails?.run_state !== 'closed'}
         onResultClick={onResultChange}
       />

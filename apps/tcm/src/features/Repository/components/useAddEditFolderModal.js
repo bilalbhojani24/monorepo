@@ -131,7 +131,7 @@ export default function useAddEditFolderModal(prop) {
 
   const renameFolderHandler = () => {
     dispatch(
-      logEventHelper('TM_UpdateFolderCtaClicked', {
+      logEventHelper('TM_EditFolderCtaClicked', {
         project_id: projectId,
         folder_id: prop?.folderId
       })

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@browserstack/bifrost';
 import {
   TMButton,
@@ -9,6 +10,7 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 import { bool, shape, string } from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
 import { cancelImport, downloadReport } from '../../../api/importCSV.api';
 import { AccessTimeIcon } from '../../../assets/icons';
@@ -22,6 +24,8 @@ import {
 
 const ImportCSVModal = ({ data, show, status }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
@@ -53,6 +57,11 @@ const ImportCSVModal = ({ data, show, status }) => {
 
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
+      dispatch(
+        logEventHelper('TM_ImportCsvCancelBtnClicked', {
+          project_id: queryParams.get('project')
+        })
+      );
       detoxNotification();
       cancelImport(mapFieldsConfig.importId);
     }

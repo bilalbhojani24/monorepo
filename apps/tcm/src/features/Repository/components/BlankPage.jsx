@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdOutlineDescription, MdSaveAlt } from '@browserstack/bifrost';
 import { SourceOutlinedIcon } from 'assets/icons';
@@ -7,16 +6,19 @@ import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
-
 import InlineAddTestCase from './InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 const BlankPage = forwardRef((props, ref) => {
-  const { projectId, folderId } = useTestCases();
-  const dispatch = useDispatch();
+  const {
+    projectId,
+    folderId,
+    quickImportButtonClicked,
+    importCSVButtonClicked
+  } = useTestCases();
+
   return (
-    <div className="flex w-full flex-wrap justify-center">
+    <div className="flex w-full flex-col flex-wrap items-center justify-center">
       <TMEmptyState
         title={<p className="text-base-800">Add Test Cases</p>}
         description="You can create test cases by entering details below"
@@ -43,7 +45,7 @@ const BlankPage = forwardRef((props, ref) => {
               colors="white"
               size="large"
               icon={<MdSaveAlt />}
-              onClick={() => dispatch(setCurrentTestManagementTool(''))}
+              onClick={quickImportButtonClicked}
             >
               &nbsp;Quick Import
             </TMButton>
@@ -65,6 +67,7 @@ const BlankPage = forwardRef((props, ref) => {
               colors="white"
               size="large"
               icon={<MdOutlineDescription />}
+              onClick={importCSVButtonClicked}
             >
               &nbsp;Import from CSV
             </TMButton>

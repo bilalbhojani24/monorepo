@@ -14,8 +14,9 @@ const Folders = () => {
   const {
     // projectId,
     // allFolders,
-    isTestCasesLoading,
-    allTestCases
+    isTestRunDetailsLoading,
+    // allTestCases,
+    testRunDetails
     // selectedFolder,
     // isFoldersLoading,
     // onFoldersUpdate,
@@ -30,13 +31,13 @@ const Folders = () => {
         </div> */}
 
         <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
-          {isTestCasesLoading ? (
+          {isTestRunDetailsLoading ? (
             <Loader wrapperClassName="h-full" />
           ) : (
             <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
               <TMEmptyState
                 // title=""
-                title={`${allTestCases.length} test cases in this test run`}
+                title={`${testRunDetails?.test_cases_count} test cases in this test run`}
                 mainIcon={
                   <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
                 }

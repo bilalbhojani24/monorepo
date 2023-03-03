@@ -25,7 +25,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
     path: AppRoute.DASHBOARD,
-    instrumentKey: 'TM_DashboardClickedMenu'
+    instrumentKey: 'TM_DashboardMenuClicked'
   },
   {
     id: AppRoute.TEST_CASES,
@@ -33,7 +33,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
     path: AppRoute.TEST_CASES,
-    instrumentKey: 'TM_TestCasesClickedMenu'
+    instrumentKey: 'TM_TestCasesMenuClicked'
   },
   {
     id: AppRoute.TEST_RUNS,
@@ -41,7 +41,7 @@ export const internalPrimaryNavLinks = [
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
     path: AppRoute.TEST_RUNS,
-    instrumentKey: 'TM_TrClickedMenu'
+    instrumentKey: 'TM_TrMenuClicked'
   }
   // {
   //   id: AppRoute.REPORTS,
