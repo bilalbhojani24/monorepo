@@ -145,28 +145,32 @@ export default function useFolders() {
       dispatch(updateFoldersLoading(false));
     } else if (projectId) {
       dispatch(updateFoldersLoading(true));
-      getFolders({ projectId }).then((data) => {
-        if (!data?.folders?.length) {
-          // if no folders
-          setAllFoldersHelper([]);
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId
-            })
-          );
-        } else {
-          const isParentFolderDefault = data?.folders?.find(
-            (item) => `${item.id}` === folderId
-          );
-          if (folderId && !isParentFolderDefault && data?.folders?.length) {
-            // if the folderId in URL is not a parent level folder
-            fetchFolderSelectedFromParam(data?.folders || []);
-          } else setAllFoldersHelper(data?.folders || []);
+      getFolders({ projectId })
+        .then((data) => {
+          if (!data?.folders?.length) {
+            // if no folders
+            setAllFoldersHelper([]);
+            navigate(
+              routeFormatter(AppRoute.TEST_CASES, {
+                projectId
+              })
+            );
+          } else {
+            const isParentFolderDefault = data?.folders?.find(
+              (item) => `${item.id}` === folderId
+            );
+            if (folderId && !isParentFolderDefault && data?.folders?.length) {
+              // if the folderId in URL is not a parent level folder
+              fetchFolderSelectedFromParam(data?.folders || []);
+            } else setAllFoldersHelper(data?.folders || []);
 
-          selectFolderPerDefault(data?.folders);
-        }
-        dispatch(updateFoldersLoading(false));
-      });
+            selectFolderPerDefault(data?.folders);
+          }
+          dispatch(updateFoldersLoading(false));
+        })
+        .catch(() => {
+          dispatch(updateFoldersLoading(false));
+        });
     } else setAllFoldersHelper([]);
   };
 
