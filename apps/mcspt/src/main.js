@@ -1,48 +1,39 @@
-const { app, protocol, BrowserWindow } = require('electron');
-const { initializeRemoteHandlers } = require('./mainThreadFunctions/index.js');
+const { app, BrowserWindow } = require('electron');
+const {
+  fileExplorerOps,
+  deepLinkingSetup,
+  initializeRemoteHandlers
+} = require('./mainThreadFunctions');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const fileHandler = (req, callback) => {
-  const filePath = `${req.url.slice('securefileprotocol://'.length)}`;
-
-  callback({
-    path: filePath
-  });
+const mainThreadGlobals = {
+  /**
+   * storing globals into object so that they can be
+   * passed by reference to asynchronous handlers
+   */
+  mainWindow: undefined
 };
 
 const createWindow = () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     webPreferences: {
-      // eslint-disable-next-line no-undef
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
     }
   });
 
-  // and load the index.html of the app.
-  // eslint-disable-next-line no-undef
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  protocol.registerFileProtocol('securefileprotocol', fileHandler);
+  fileExplorerOps.initializeProtocolForFileRead();
 };
 
-protocol.registerSchemesAsPrivileged([
-  {
-    scheme: 'securefileprotocol',
-    privileges: {
-      bypassCSP: true
-    }
-  }
-]);
+fileExplorerOps.initializeSchemeForFileRead();
+deepLinkingSetup.initializeDeepLinking(mainThreadGlobals);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

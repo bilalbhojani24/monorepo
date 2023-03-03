@@ -3,10 +3,17 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
+const openSystemFileFromPath = async (path) => {
+  await ipcRenderer.invoke('openSystemFileFromPath', path);
+};
+
+const openUrlInSystemBrowser = async (url) => {
+  await ipcRenderer.invoke('openUrlInSystemBrowser', url);
+};
+
 const remoteThreadFunctions = {
-  openSystemFileFromPath: async (path) => {
-    await ipcRenderer.invoke('openSystemFileFromPath', path);
-  }
+  openSystemFileFromPath,
+  openUrlInSystemBrowser
 };
 
 contextBridge.exposeInMainWorld('remoteThreadFunctions', remoteThreadFunctions);
