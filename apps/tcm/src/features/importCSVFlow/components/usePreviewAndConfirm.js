@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logEventHelper } from 'utils/logEvent';
 
 import { startImportingTestCases } from '../slices/csvThunk';
 
@@ -33,6 +34,11 @@ const usePreviewAndConfirm = () => {
   }));
 
   const handleImportTestCaseClick = () => {
+    dispatch(
+      logEventHelper('TM_ImportCsvStep3ProceedBtnClicked', {
+        project_id: queryParams.get('project')
+      })
+    );
     // make an api call
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');

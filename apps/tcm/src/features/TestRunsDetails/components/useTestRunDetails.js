@@ -38,6 +38,10 @@ export default function useTestRunDetails() {
     (state) => state.testRunsDetails.testCaseDetails
   );
 
+  const automationTooltipClicked = () => {
+    dispatch(logEventHelper('TM_QiViewReportLinkClicked', {}));
+  };
+
   const fetchTestRunDetails = (forceRefetch = true) => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
       dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
@@ -116,6 +120,7 @@ export default function useTestRunDetails() {
     testRunId,
     fetchTestRunDetails,
     onDropDownChange,
-    resetTestCaseDetailsMeta
+    resetTestCaseDetailsMeta,
+    automationTooltipClicked
   };
 }

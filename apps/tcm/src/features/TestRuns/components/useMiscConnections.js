@@ -8,6 +8,7 @@ import {
 } from 'api/testruns.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   closeAllVisibleForms,
@@ -40,6 +41,12 @@ const useMiscConnections = (prop) => {
 
   const deleteTestRunHandler = () => {
     if (selectedTestRun?.id) {
+      dispatch(
+        logEventHelper('TM_DeleteTrCtaClicked', {
+          project_id: projectId,
+          testrun_id: selectedTestRun?.id
+        })
+      );
       deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(
         () => {
           dispatch(deleteTestRun(selectedTestRun));
@@ -55,6 +62,12 @@ const useMiscConnections = (prop) => {
 
   const closeTestRunHandler = () => {
     if (selectedTestRun?.id) {
+      dispatch(
+        logEventHelper('TM_CloseTrCtaClicked', {
+          project_id: projectId,
+          testrun_id: selectedTestRun?.id
+        })
+      );
       closeTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(() => {
         dispatch(deleteTestRun(selectedTestRun));
         closeAll();

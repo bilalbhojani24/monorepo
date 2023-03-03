@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logEventHelper } from 'utils/logEvent';
 
 import { uploadFile } from '../slices/csvThunk';
 import {
@@ -58,6 +59,15 @@ const useImportCSV = () => {
   };
 
   const handleProceedClick = () => {
+    dispatch(
+      logEventHelper('TM_ImportCsvStep1ProceedBtnClicked', {
+        project_id: queryParams.get('project'),
+        csv_separator: csvFormData.separators.value,
+        first_row: csvFormData.row,
+        file_encoding: csvFormData.encodings.value,
+        first_column: csvFormData.firstRowIsHeader
+      })
+    );
     // now create the payload and make the api call
     if (!fileConfig.file) {
       dispatch(setCSVUploadError('Please select a CSV file.'));

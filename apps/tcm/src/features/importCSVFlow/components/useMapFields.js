@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   ADD_FIELD_LABEL,
@@ -358,6 +359,13 @@ const useMapFields = () => {
   };
 
   const handleMappingProceedClick = () => {
+    dispatch(
+      logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
+        project_id: queryParams.get('project'),
+        'column_name[]': Object.keys(myFieldMappings),
+        'field_name[]': Object.keys(valueMappings)
+      })
+    );
     // console.log('final paylaod', myFieldMappings, valueMappings);
     // console.log('query params', queryParams.get('project'));
     const projectId = queryParams.get('project');

@@ -36,7 +36,8 @@ const TestRunsTable = () => {
     isTestRunsLoading,
     metaPage,
     getProgressOptions,
-    onDropDownChange
+    onDropDownChange,
+    paginationAnalytics
   } = useTestRunsTable();
 
   const tableColumns = [
@@ -276,6 +277,9 @@ const TestRunsTable = () => {
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
+          onNextClick={paginationAnalytics}
+          onPreviousClick={paginationAnalytics}
+          onPageNumberClick={paginationAnalytics}
         />
       )}
 
