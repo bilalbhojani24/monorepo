@@ -3,33 +3,36 @@ import { formatComponentIdString } from 'utils/helper';
 
 // app selector
 export const getShowHiddenIssuesState = (state) =>
-  state.accessibility.app.siteScannerReport.showHiddenIssues.hideIssues;
+  state.accessibility.app.siteScannerReportApp.showHiddenIssues.hideIssues;
 export const getActiveViolationId = (state) =>
-  state.accessibility.app.siteScannerReport.activeViolationId;
+  state.accessibility.app.siteScannerReportApp.activeViolationId;
 export const getActiveComponentId = (state) =>
-  state.accessibility.app.siteScannerReport.activeComponentId;
+  state.accessibility.app.siteScannerReportApp.activeComponentId;
 export const getActiveIssueIndex = (state) =>
-  state.accessibility.app.siteScannerReport.activeIssueIndex;
+  state.accessibility.app.siteScannerReportApp.activeIssueIndex;
 export const getIsShowingIssue = (state) =>
-  state.accessibility.app.siteScannerReport.isShowingIssue;
+  state.accessibility.app.siteScannerReportApp.isShowingIssue;
 export const getIsActiveOpen = (state) =>
-  state.accessibility.app.siteScannerReport.isActiveOpen;
+  state.accessibility.app.siteScannerReportApp.isActiveOpen;
 export const getActiveTab = (state) =>
-  state.accessibility.app.siteScannerReport.activeTab;
+  state.accessibility.app.siteScannerReportApp.activeTab;
 export const getActiveSwitch = (state) =>
-  state.accessibility.app.siteScannerReport.activeSwitch;
+  state.accessibility.app.siteScannerReportApp.activeSwitch;
 export const getDefaultIndex = (state) =>
-  state.accessibility.app.siteScannerReport.defaultIndex;
+  state.accessibility.app.siteScannerReportApp.defaultIndex;
 export const getOpenAccordionId = (state) =>
-  state.accessibility.app.siteScannerReport.openAccordionId;
+  state.accessibility.app.siteScannerReportApp.openAccordionId;
 export const getReportFilters = (state) =>
-  state.accessibility.app.siteScannerReport.activeFilters;
+  state.accessibility.app.siteScannerReportApp.activeFilters;
 export const getIntermediateFilters = (state) =>
-  state.accessibility.app.siteScannerReport.intermediateFilters;
+  state.accessibility.app.siteScannerReportApp.intermediateFilters;
 
 // data selector
-export const getReportData = (state) =>
-  state.accessibility.data.siteScanner.scanReportsOverview;
+export const getReportData = (state) => {
+  console.log(state.accessibility);
+  return state.accessibility.data.siteScanner.scanReportsOverview;
+};
+
 export const getReportMetaData = (state) =>
   state.accessibility.data.siteScanner.reportOverviewMetaData;
 export const getCustomData = (state) =>
