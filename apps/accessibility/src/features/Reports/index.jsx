@@ -203,25 +203,22 @@ export default function Reports() {
           width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
         }}
       >
-        {!isLoading && reportList.length === 0 && (
-          <div className="flex h-[calc(100vh_-_166px)] flex-col items-center justify-center">
-            <div className="flex flex-col">
-              <div className="flex items-center justify-center">
-                <img src={NotFound} alt="No reports found" />
-              </div>
-              <p className="text-base-500 mt-4 flex items-center justify-center text-xl">
-                No saved reports for the selected WCAG version.
-              </p>
-            </div>
+        <div
+          className="bg-base-50 mt-12 "
+          style={{ height: 'calc(100vh - 228px)' }}
+        >
+          <div className="mb-5 flex w-full flex-col items-center justify-center">
+            <img src={NotFound} alt="No reports found" className="w-80" />
+            <p className="text-base-500 text-sm">No reports to show</p>
           </div>
-        )}
+        </div>
         <div className="mb-4 shadow-sm">
           {searchFilterList.length > 0 &&
             searchFilterList
               .slice(lastIndex - reportPerPage, lastIndex)
               .map(({ id }) => <ReportRow key={id} id={id} />)}
         </div>
-        {!isLoading && (
+        {!isLoading && searchFilterList.length > 0 && (
           <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
             <p className="text-base-700 text-sm font-medium">
               Showing {lastIndex - reportPerPage + 1} to{' '}

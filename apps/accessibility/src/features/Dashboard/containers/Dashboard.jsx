@@ -7,6 +7,7 @@ import {
   Header,
   MdHome,
   MdOutlineHome,
+  MdOutlineRecordVoiceOver,
   MdTextSnippet,
   SidebarItem,
   SidebarNavigation,
@@ -27,15 +28,15 @@ export default function Dashboard({ children }) {
     {
       id: 'report-listing',
       label: 'All reports',
-      activeIcon: MdHome,
+      activeIcon: MdOutlineHome,
       inActiveIcon: MdOutlineHome,
       path: '/reports'
     },
     {
       id: 'screen-reader',
       label: 'Assistive tech',
-      activeIcon: MdHome,
-      inActiveIcon: MdOutlineHome,
+      activeIcon: MdOutlineRecordVoiceOver,
+      inActiveIcon: MdOutlineRecordVoiceOver,
       path: '/screen-reader',
       badge: <Badge text="New" />
     }

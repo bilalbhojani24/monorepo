@@ -21,7 +21,10 @@ import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
-import { formatComponentIdString } from 'utils/helper';
+import {
+  formatComponentIdString,
+  handleClickByEnterOrSpace
+} from 'utils/helper';
 
 import useSummary from './useSummary';
 
@@ -168,14 +171,26 @@ export default function Summary() {
                 <div>
                   {impactList.map((impact) => (
                     <div
-                      className="mb-4 flex h-6 w-40 items-center justify-between"
+                      aria-label={impact}
+                      tabIndex={0}
+                      className="border-base-500 mb-4 flex h-6 w-40 cursor-pointer items-center justify-between border-t"
                       onClick={() =>
                         onRowClick(
                           'impact',
                           severityOptions.find(({ value }) => value === impact)
                         )
                       }
-                      role="presentation"
+                      onKeyDown={(e) =>
+                        handleClickByEnterOrSpace(e, () =>
+                          onRowClick(
+                            'impact',
+                            severityOptions.find(
+                              ({ value }) => value === impact
+                            )
+                          )
+                        )
+                      }
+                      role="button"
                     >
                       <div className="text-base-800 flex items-center text-sm">
                         <div
