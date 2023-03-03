@@ -48,9 +48,9 @@ export default function useScanReport() {
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getScanLogs());
-
     const reportIDList = searchParams.get('id');
+    dispatch(getScanLogs(reportIDList));
+
     setIsLoading(true);
     Promise.all([fetchCustomData(), fetchConsolidatedData(reportIDList)]).then(
       ([customData, overviewData]) => {

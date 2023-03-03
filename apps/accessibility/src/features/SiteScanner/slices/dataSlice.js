@@ -104,8 +104,8 @@ export const getScanRuns = (id) => async (dispatch) => {
     });
 };
 
-export const getScanLogs = () => async (dispatch) => {
-  fetchScanLogs()
+export const getScanLogs = (id) => async (dispatch) => {
+  fetchScanLogs(id)
     .then((data) => {
       dispatch(setScanLogs(data));
       const commonData = { ...data.data };
