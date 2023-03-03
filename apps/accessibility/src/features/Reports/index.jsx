@@ -203,15 +203,17 @@ export default function Reports() {
           width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
         }}
       >
-        <div
-          className="bg-base-50 mt-12 "
-          style={{ height: 'calc(100vh - 228px)' }}
-        >
-          <div className="mb-5 flex w-full flex-col items-center justify-center">
-            <img src={NotFound} alt="No reports found" className="w-80" />
-            <p className="text-base-500 text-sm">No reports to show</p>
+        {!isLoading && searchFilterList.length === 0 && (
+          <div
+            className="bg-base-50 mt-12 "
+            style={{ height: 'calc(100vh - 228px)' }}
+          >
+            <div className="mb-5 flex w-full flex-col items-center justify-center">
+              <img src={NotFound} alt="No reports found" className="w-80" />
+              <p className="text-base-500 text-sm">No reports to show</p>
+            </div>
           </div>
-        </div>
+        )}
         <div className="mb-4 shadow-sm">
           {searchFilterList.length > 0 &&
             searchFilterList
