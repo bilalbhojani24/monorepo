@@ -1,27 +1,24 @@
 import axios from 'axios';
 
-const userInfo = {
-  user: {
-    groupId: 32,
-    id: 39
-  }
-};
+// const userInfo = {
+//   user: {
+//     groupId: 32,
+//     id: 39
+//   }
+// };
 
 export async function fetchScanOverviewData(id = null) {
-  const response = await axios.get(
-    `https://accessibility-service.bsstag.com/website_scanner_reports/overview/`,
-    {
+  const response = await axios.get(`/website_scanner_reports/overview/`, {
+    // ...userInfo,
+    params: {
       // ...userInfo,
-      params: {
-        ...userInfo,
-        id
-      },
-      auth: {
-        username: 'accessibility',
-        password: 'password0'
-      }
+      id
     }
-  );
+    // auth: {
+    //   username: 'accessibility',
+    //   password: 'password0'
+    // }
+  });
   // const response = await axios.get('/guidelines');
   if (response.data) {
     return response.data;
@@ -30,20 +27,17 @@ export async function fetchScanOverviewData(id = null) {
 }
 
 export async function fetchScanRuns(id = null) {
-  const response = await axios.get(
-    `https://accessibility-service.bsstag.com/website_scanner_reports/`,
-    {
+  const response = await axios.get(`/website_scanner_reports/`, {
+    // ...userInfo,
+    params: {
       // ...userInfo,
-      params: {
-        ...userInfo,
-        id
-      },
-      auth: {
-        username: 'accessibility',
-        password: 'password0'
-      }
+      id
     }
-  );
+    // auth: {
+    //   username: 'accessibility',
+    //   password: 'password0'
+    // }
+  });
   // const response = await axios.get('/guidelines');
   if (response.data) {
     return response.data;
