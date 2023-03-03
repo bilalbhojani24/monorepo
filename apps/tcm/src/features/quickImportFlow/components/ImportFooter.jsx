@@ -19,6 +19,7 @@ const ImportFooter = () => {
         size="default"
         wrapperClassName="mr-3"
         onClick={handleTestConnection}
+        isIconOnlyButton={configureToolTestConnectionLoading}
         loading={configureToolTestConnectionLoading}
       >
         Test Connection
@@ -28,6 +29,7 @@ const ImportFooter = () => {
         variant="primary"
         size="default"
         onClick={handleProceed}
+        isIconOnlyButton={configureToolProceedLoading}
         loading={configureToolProceedLoading}
       >
         Proceed

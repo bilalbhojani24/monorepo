@@ -32,7 +32,7 @@ const ZephyrImportForm = (props) => {
             accentBorder={false}
             linkText={null}
             modifier="success"
-            title="We found your Host Name as per your previous JIRA integration."
+            title="We found JIRA Host Name as per your existing JIRA integration."
           />
         </div>
       )}
@@ -92,9 +92,14 @@ const ZephyrImportForm = (props) => {
                         <TMTooltipBody>
                           <p className="text-sm">
                             API Token can be located here:
-                            <div className="mt-3 cursor-pointer font-medium text-white underline">
+                            <br />
+                            <a
+                              href="https://id.atlassian.com/manage-profile/security/api-tokens"
+                              className="mt-3 block cursor-pointer font-medium text-white underline"
+                              target="new"
+                            >
                               Click here to get API Token
-                            </div>
+                            </a>
                           </p>
                         </TMTooltipBody>
                       </>
@@ -136,19 +141,24 @@ const ZephyrImportForm = (props) => {
               value={zephyrCred.zephyr_key}
               label={
                 <>
-                  Zephyr Scale API Token
+                  Zephyr Scale API Access Token
                   <TMTooltip
                     size="xs"
                     placementSide="right"
                     theme="dark"
                     content={
                       <TMTooltipBody>
-                        <a
-                          href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
-                          className="block cursor-pointer text-white underline"
-                        >
-                          Click here to get API Token
-                        </a>
+                        <p className="text-sm">
+                          Get Zephyr Scale API Access Token using the link
+                          below: <br />
+                          <a
+                            href="https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html"
+                            className="mt-3 block cursor-pointer font-medium text-white underline"
+                            target="new"
+                          >
+                            Zephyr Scale API Access Token
+                          </a>
+                        </p>
                       </TMTooltipBody>
                     }
                   >
@@ -156,7 +166,7 @@ const ZephyrImportForm = (props) => {
                   </TMTooltip>
                 </>
               }
-              placeholder="Enter Zephyr Scale API Token"
+              placeholder="Enter Zephyr Scale API Access Token"
               errorText={
                 !zephyrCred.zephyr_key && zephyrCredTouched.zephyr_key
                   ? INPUT_FIELD_ERROR

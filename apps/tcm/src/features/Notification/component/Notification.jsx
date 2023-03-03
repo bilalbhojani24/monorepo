@@ -28,7 +28,7 @@ const Notification = () => {
         <TMNotifications
           isCondensed={notification?.isCondensed || false}
           title={notification?.title}
-          description={notification?.description}
+          description={notification?.description || null}
           actionButtons={null}
           headerIcon={headerIcon(notification?.variant)}
           handleClose={(toastData) => {

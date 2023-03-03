@@ -12,7 +12,8 @@ const TestCaseDetailsView = ({
   onDetailsClose,
   isFromTestRun,
   onResultClick,
-  testResultsArray
+  testResultsArray,
+  resultUpdatable
 }) => {
   const {
     initTestCaseDetails,
@@ -65,6 +66,7 @@ const TestCaseDetailsView = ({
       <TestCaseView
         actionHandler={actionHandler}
         isFromTestRun={isFromTestRun}
+        resultUpdatable={resultUpdatable}
         onResultClick={onResultClick}
       />
     </TMSlideover>
@@ -77,6 +79,7 @@ TestCaseDetailsView.propTypes = {
   testCaseId: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
   onDetailsClose: PropTypes.func,
   isFromTestRun: PropTypes.bool,
+  resultUpdatable: PropTypes.bool,
   onResultClick: PropTypes.bool,
   testResultsArray: PropTypes.arrayOf(PropTypes.object)
 };
@@ -87,6 +90,7 @@ TestCaseDetailsView.defaultProps = {
   testCaseId: null,
   onDetailsClose: () => {},
   isFromTestRun: false,
+  resultUpdatable: false,
   onResultClick: () => {},
   testResultsArray: []
 };

@@ -11,10 +11,15 @@ import PropTypes from 'prop-types';
 import useAddEditFolderModal from './useAddEditFolderModal';
 
 const DeleteFolder = ({ show }) => {
-  const { hideFolderModal, deleteFolderHandler } = useAddEditFolderModal();
-
+  const { hideFolderModal, deleteFolderHandler, modalFocusRef } =
+    useAddEditFolderModal();
   return (
-    <TMModal show={show} withDismissButton onOverlayClick={hideFolderModal}>
+    <TMModal
+      show={show}
+      withDismissButton
+      ref={modalFocusRef}
+      onOverlayClick={hideFolderModal}
+    >
       <TMModalHeader
         heading="Delete Folder"
         subHeading="Are you sure you want to delete this folder? All the data within this folder will be lost. This action cannot be undone."
@@ -23,7 +28,12 @@ const DeleteFolder = ({ show }) => {
         icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideFolderModal}>
+        <TMButton
+          variant="primary"
+          colors="white"
+          onClick={hideFolderModal}
+          ref={modalFocusRef}
+        >
           Cancel
         </TMButton>
         <TMButton

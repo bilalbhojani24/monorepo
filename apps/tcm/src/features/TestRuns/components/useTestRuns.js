@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
@@ -10,7 +9,6 @@ import { TABS_ARRAY } from '../const/immutableConst';
 import {
   setAddTestRunForm,
   setAllTestRuns,
-  setCurrentTab,
   setEditTestRunForm,
   setLoadedDataProjectId,
   setLoader,
@@ -25,13 +23,13 @@ const useTestRuns = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId } = useParams();
   const currentPage = searchParams.get('p');
-  const closedRuns = searchParams.get('closed');
+  const isClosedTab = searchParams.get('closed') === 'true';
+  const currentTab = isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name;
 
   const loadedDataProjectId = useSelector(
     (state) => state.testRuns.loadedDataProjectId
   );
   const allTestRuns = useSelector((state) => state.testRuns.allTestRuns);
-  const currentTab = useSelector((state) => state.testRuns.currentTab);
   const isTestRunsLoading = useSelector(
     (state) => state.testRuns.isLoading.testRuns
   );
@@ -71,7 +69,7 @@ const useTestRuns = () => {
   };
 
   const handleTabChange = (tabName) => {
-    dispatch(setCurrentTab(tabName.name));
+    // dispatch(setCurrentTab(tabName.name));
     const params = {};
     if (tabName?.id === TABS_ARRAY[1].id) params.closed = true;
     setSearchParams(params);
@@ -115,12 +113,6 @@ const useTestRuns = () => {
       fetchTags();
     }
   };
-
-  useEffect(() => {
-    if (closedRuns) {
-      dispatch(setCurrentTab(TABS_ARRAY[1].name));
-    }
-  }, [closedRuns, dispatch]);
 
   return {
     currentPage,

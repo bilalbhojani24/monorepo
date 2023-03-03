@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ComboBox,
   ComboboxLabel,
@@ -16,17 +16,31 @@ const TMComboBox = ({
   options,
   onChange,
   value
-}) => (
-  <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
-    {label && <ComboboxLabel>{label}</ComboboxLabel>}
-    <ComboboxTrigger placeholder={placeholder} />
-    <ComboboxOptionGroup>
-      {React.Children.toArray(
-        options.map((item) => <ComboboxOptionItem option={item} />)
-      )}
-    </ComboboxOptionGroup>
-  </ComboBox>
-);
+}) => {
+  const [query, setQuery] = useState('');
+
+  const filteredOptions =
+    query === ''
+      ? options
+      : options.filter((opt) =>
+          opt.label.toLowerCase().includes(query.toLowerCase())
+        );
+
+  return (
+    <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
+      {label && <ComboboxLabel>{label}</ComboboxLabel>}
+      <ComboboxTrigger
+        placeholder={placeholder}
+        onInputValueChange={(e) => setQuery(e.target.value)}
+      />
+      <ComboboxOptionGroup>
+        {React.Children.toArray(
+          filteredOptions.map((item) => <ComboboxOptionItem option={item} />)
+        )}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+};
 
 TMComboBox.propTypes = {
   isMulti: PropTypes.bool,

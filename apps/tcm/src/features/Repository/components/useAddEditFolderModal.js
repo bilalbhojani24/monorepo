@@ -9,6 +9,7 @@ import {
   renameFolder
 } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   injectFolderToParent,
@@ -152,13 +153,24 @@ export default function useAddEditFolderModal(prop) {
     }).then((item) => {
       if (item.data?.folder) updateFolders(item.data.folder);
       noProjectFolderCreationRouteUpdate(item);
+      dispatch(
+        addNotificaton({
+          id: `folder_created${item.data.folder?.id}`,
+          title: `'${item.data.folder?.name}': Folder created`,
+          variant: 'success'
+        })
+      );
+
+      if (projectId === 'new') {
+        dispatch(addGlobalProject(item.data.project));
+      }
       hideFolderModal();
     });
   };
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
-      setFormError({ ...formError, nameError: 'Folder Name is not specified' });
+      setFormError({ ...formError, nameError: 'This is a required field' });
     } else if (prop?.isSubFolder && prop?.folderId) {
       addSubFolderHandler();
     } else if (prop?.isEditFolder && prop?.folderId) {

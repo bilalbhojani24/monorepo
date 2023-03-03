@@ -70,6 +70,11 @@ const defaultConfig = {
     ariaLabel: {
       options: { type: 'string' },
       defaultValue: ''
+    },
+    loaderText: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description: 'Text displayed when button is under loading state'
     }
   },
   controls: {}

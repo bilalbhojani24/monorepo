@@ -12,9 +12,9 @@ const PrivateComponent = ({ children, isOnboarding, isForced }) => {
   /// if not logged in, redirect to login
   if (!isAuthenticatedUser) return <Navigate to={AppRoute.LANDING} />;
 
-  // if (isOnboarding && !isToBeOnboarded)
-  //   // if onboarding page hit, and if the user already onboarded go to root
-  //   return <Navigate to={AppRoute.ROOT} />;
+  if (isOnboarding && !isToBeOnboarded)
+    // if onboarding page hit, and if the user already onboarded go to root
+    return <Navigate to={AppRoute.ROOT} />;
 
   // if first time user go to onboarding page else go to which ever page
   return isToBeOnboarded && !isOnboarding && !isForced ? (

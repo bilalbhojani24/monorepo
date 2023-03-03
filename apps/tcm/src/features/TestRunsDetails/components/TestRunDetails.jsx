@@ -12,6 +12,7 @@ const TestRunDetails = () => {
   const {
     projectId,
     testCaseDetails,
+    testRunDetails,
     testRunId,
     fetchTestRunDetails,
     resetTestCaseDetailsMeta
@@ -43,6 +44,7 @@ const TestRunDetails = () => {
         testCaseId={testCaseDetails?.testCaseId}
         onDetailsClose={resetTestCaseDetailsMeta}
         isFromTestRun
+        resultUpdatable={testRunDetails?.run_state !== 'closed'}
         onResultClick={onResultChange}
       />
     </div>
