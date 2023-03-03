@@ -2,10 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
+import { getQuickImportStatus } from 'api/import.api';
 import { TMButton } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
+import { logEventHelper } from 'utils/logEvent';
 
-import { getQuickImportStatus } from '../../../api/import.api';
-import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import {
   COMPLETED,
@@ -180,6 +181,7 @@ const useImportStatus = () => {
   };
 
   const checkImportStatusClickHandler = () => {
+    dispatch(logEventHelper('TM_QiCheckStatusLinkClicked', {}));
     dispatch(setCheckImportStatusClicked(true));
     getQuickImportStatus(importId).then((data) => {
       dispatch(setImportStatus(data.status));
