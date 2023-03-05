@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,13 +9,17 @@ import { hasTokenSelector, setUATUrl } from '../slices/userAuthSlice';
 import WidgetContainer from './components/DraggableResizable';
 import WidgetHeader from './components/WidgetHeader';
 
-const Widget = ({ hasToken = true, children, handleClose }) =>
-  hasToken ? (
-    <WidgetContainer>
-      <WidgetHeader handleClose={handleClose} />
-      <div className="flex-1 bg-white p-6">{children}</div>
+const Widget = ({ hasToken, children, handleClose }) => {
+  const childRef = useRef(null);
+  return hasToken ? (
+    <WidgetContainer childRef={childRef}>
+      <div ref={childRef}>
+        <WidgetHeader handleClose={handleClose} />
+        <div className="bg-white p-6">{children}</div>
+      </div>
     </WidgetContainer>
   ) : null;
+};
 
 Widget.propTypes = {
   children: PropTypes.node,
@@ -24,7 +28,7 @@ Widget.propTypes = {
 };
 Widget.defaultProps = {
   children: null,
-  hasToken: false
+  hasToken: true
 };
 
 const WidgetPortal = ({

@@ -25,10 +25,10 @@ const IntegrationAuth = ({
     setShowFailedAuthMessage(false);
   };
   useEffect(() => {
-    if (hasOAuthFailed) {
+    if (hasOAuthFailed && isOAuthActive) {
       setShowFailedAuthMessage(true);
     }
-  }, [hasOAuthFailed]);
+  }, [hasOAuthFailed, isOAuthActive]);
 
   return isOAuthActive ? (
     <OAuth

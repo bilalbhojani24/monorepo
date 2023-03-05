@@ -9,8 +9,7 @@ const defaultConfig = {
   argTypes: {
     authUrl: {
       option: { type: 'string' },
-      defaultValue:
-        'http://localhost:3000/integrations-service/user-access-token'
+      defaultValue: 'https://integrations.bsstag.com/api/user-access-tokens'
     },
     isOpen: {
       option: { type: 'boolean' },

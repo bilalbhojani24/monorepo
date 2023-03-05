@@ -94,15 +94,17 @@ const APIToken = ({
           )
         )}
       </div>
-      <Button
-        variant="primary"
-        fullWidth
-        icon={<MdArrowForward className="text-xl text-white" />}
-        iconPlacement="end"
-        onClick={handleConnect}
-      >
-        {`Connect to ${label}`}
-      </Button>
+      <div className="sticky bottom-0 mb-1 bg-white pb-2">
+        <Button
+          variant="primary"
+          fullWidth
+          icon={<MdArrowForward className="text-xl text-white" />}
+          iconPlacement="end"
+          onClick={handleConnect}
+        >
+          {`Connect to ${label}`}
+        </Button>
+      </div>
     </>
   );
 };
