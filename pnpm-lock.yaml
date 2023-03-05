@@ -532,6 +532,7 @@ importers:
     specifiers:
       '@babel/core': ^7.20.12
       '@browserstack/bifrost': workspace:*
+      '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
@@ -553,6 +554,7 @@ importers:
       react-redux: ^8.0.5
     dependencies:
       '@browserstack/bifrost': link:../bifrost
+      '@browserstack/hooks': link:../hooks
       '@browserstack/utils': link:../utils
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2

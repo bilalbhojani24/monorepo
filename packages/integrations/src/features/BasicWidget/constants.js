@@ -2,7 +2,7 @@ export const DEFAULT_WIDGET_DIMENSIONS = {
   INITIAL_WIDTH: 450,
   INITIAL_HEIGHT: 680,
   MIN: [450, 400],
-  MAX: [450, 800]
+  MAX: [450, 700]
 };
 
 export const DEFAULT_RESIZE_HANDLE = ['s'];

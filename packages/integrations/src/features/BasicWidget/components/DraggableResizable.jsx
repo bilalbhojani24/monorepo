@@ -1,27 +1,47 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Draggable, Resizable } from '@browserstack/bifrost';
+import { useResizeObserver } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
-import useResizeObserver from './zzz';
 
 import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
 
-const DraggableResizable = ({ children }) => {
+const DraggableResizable = ({ children, childRef }) => {
   const widgetRef = useRef(null);
   const [widgetHeight, setWidgetHeight] = useState(null);
-  const [minHeightConstraint, setMinHeightConstraint] = useState(400);
-  const childrenRef = useRef(null);
-  const windowDimensions = useResizeObserver(childrenRef);
-
+  // const [minHeightConstraint, setMinHeightConstraint] = useState(400);
+  const [containerHeight, setContainerHeight] = useState(widgetHeight);
+  const windowDimensions = useResizeObserver(childRef);
+  const childHeight = childRef?.current?.getBoundingClientRect().height;
+  const t = 12;
   useEffect(() => {
-    if(childrenRef.current && (windowDimensions.inlineSize || windowDimensions.height)) {
-      setWidgetHeight((windowDimensions.inlineSize || windowDimensions.height) + 8);
-      setMinHeightConstraint((windowDimensions.inlineSize || windowDimensions.height) + 8);
+    if (
+      childRef?.current &&
+      (childHeight || windowDimensions.inlineSize || windowDimensions.height)
+    ) {
+      const calcHeight =
+        childHeight || windowDimensions.inlineSize || windowDimensions.height;
+      if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
+        setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
+        setWidgetHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1]);
+      } else {
+        setContainerHeight(calcHeight);
+        setWidgetHeight(calcHeight + t);
+        // setMinHeightConstraint(calcHeight + t);
+      }
     }
-  }, [childrenRef.current, windowDimensions.inlineSize, windowDimensions.height]);
+  }, [
+    childRef,
+    childHeight,
+    windowDimensions.inlineSize,
+    windowDimensions.height
+  ]);
 
-  const onResize = (event, {element, size, handle}) => {
+  const onResize = (__, { size }) => {
     setWidgetHeight(size.height);
+    setContainerHeight(size.height - t);
   };
+
+  // console.log(widgetHeight, windowDimensions.inlineSize, childHeight);
 
   return (
     <Draggable ref={widgetRef} handle=".drag-handle">
@@ -29,8 +49,8 @@ const DraggableResizable = ({ children }) => {
         <Resizable
           className="border-base-200 relative flex flex-col overflow-hidden rounded-md border border-solid"
           handle={(__resizeHandleAxis, ref) => (
-            <span
-              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-20 -translate-x-1/2 -translate-y-1/2 rounded-3xl hover:cursor-s-resize"
+            <div
+              className="bg-base-200 relative bottom-0 left-1/2 mb-1 inline-block h-1 w-20 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
               ref={ref}
             />
           )}
@@ -38,10 +58,10 @@ const DraggableResizable = ({ children }) => {
           height={widgetHeight || 400}
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
-          minConstraints={[450, minHeightConstraint]}
+          minConstraints={[450, 400]}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
-          <div style={{ height: widgetHeight + 'px' }} ref={childrenRef}>{children}</div>
+          <div style={{ height: `${containerHeight}px` }}>{children}</div>
         </Resizable>
       </div>
     </Draggable>
@@ -49,10 +69,17 @@ const DraggableResizable = ({ children }) => {
 };
 
 DraggableResizable.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  childRef: PropTypes.oneOfType([
+    // Either a function
+    PropTypes.func,
+    // Or the instance of a DOM native element (see the note about SSR)
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ])
 };
 DraggableResizable.defaultProps = {
-  children: null
+  children: null,
+  childRef: null
 };
 
 export default DraggableResizable;
