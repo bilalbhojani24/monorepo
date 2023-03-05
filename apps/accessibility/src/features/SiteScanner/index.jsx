@@ -10,6 +10,7 @@ import {
   EllipsisVerticalIcon,
   InputField,
   MdAdd,
+  MdCalendarToday,
   MdCancel,
   MdCheckCircle,
   MdExpandMore,
@@ -271,8 +272,8 @@ export default function SiteScanner() {
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website Scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
-            Select reports to view them. You can select more than one report to
-            consolidate and review reports.
+            Scan multiple pages in one go and schedule periodic scans to monitor
+            your pages for accessibility issues
           </h3>
         </div>
         <Button
@@ -364,7 +365,10 @@ export default function SiteScanner() {
                       </span>{' '}
                       {row?.createdBy?.name}
                     </span>
-                    <span className="mr-2">{row.pageCount} pages</span>
+                    <span className="mr-2">
+                      <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
+                      {row.pageCount} pages
+                    </span>
                     {getRunTypeBadge(row.recurring, row.active)}
                   </div>
                 </div>
