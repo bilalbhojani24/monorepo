@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import Home from 'common/Home';
 import Loader from 'common/Loader';
+import Welcome from 'common/Welcome';
 import { ROUTES } from 'constants';
 import Dashboard from 'features/Dashboard';
 
@@ -20,6 +21,10 @@ const Layout = (Component) => (
 );
 
 export const APP_ROUTES = [
+  {
+    path: ROUTES.welcome,
+    component: <Welcome />
+  },
   {
     path: ROUTES.reports,
     isProtected: true,

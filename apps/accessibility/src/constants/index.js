@@ -8,7 +8,8 @@ export const ROUTES = {
   siteScanner: '/site-scanner',
   scanDetails: '/site-scanner/scan-details/:id',
   scanReports: '/site-scanner/scan-report',
-  root: '/'
+  root: '/',
+  welcome: '/welcome'
 };
 
 const Config = {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Checkbox } from '@browserstack/bifrost';
-import { issueTypes, testTypes } from 'constants';
+import { issueTypes, reportType } from 'constants';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import {
@@ -118,7 +118,7 @@ export default function ReportRow({ id }) {
             hasDot={false}
             hasRemoveButton={false}
             isRounded
-            text={testTypes[testType]}
+            text={reportType.find(({ value }) => value === testType).label}
           />
           <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
         </div>
