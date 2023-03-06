@@ -35,7 +35,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     scanUrlRef,
     fileUploadRef
   } = useNewScan(closeSlideover, preConfigData);
-https://accessibility.bsstag.com/site-scanner/scan-report?tab=SCANLOGS
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
