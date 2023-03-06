@@ -4,6 +4,7 @@ import { useAuthRoutes } from '@browserstack/hooks';
 import initAPICall from 'api/initAPI';
 import { APP_ROUTES } from 'constants/routes';
 import { setUser } from 'features/Dashboard/slices/appSlice';
+import { getEnvUrl } from 'utils';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    `https://accessibility.bsstag.com/api/v1/auth/start-sso?redirection_url=${window.location.href}`
+    `${getEnvUrl}/api/v1/auth/start-sso?redirection_url=${window.location.href}`
   );
 
   return <>{Routes}</>;
