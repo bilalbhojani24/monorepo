@@ -118,11 +118,7 @@ export default function ReportRow({ id }) {
             hasDot={false}
             hasRemoveButton={false}
             isRounded
-            text={
-              reportType.find(
-                ({ testType: reportTestType }) => reportTestType === testType
-              ).label
-            }
+            text={reportType.find(({ value }) => value === testType).label}
           />
           <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
         </div>

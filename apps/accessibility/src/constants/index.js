@@ -5,7 +5,8 @@ export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',
   screenReader: '/screen-reader',
-  root: '/'
+  root: '/',
+  welcome: '/welcome'
 };
 
 const Config = {
