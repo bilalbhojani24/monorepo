@@ -223,9 +223,9 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       case 'cloneScanConfig':
-        setShowNewScan(true);
         fetchScanConfigsById(rowData.id)
           .then((config) => {
+            setShowNewScan(true);
             setPreConfigData(config.data);
           })
           .catch((err) => console.log(err));

@@ -35,6 +35,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     scanUrlRef,
     fileUploadRef
   } = useNewScan(closeSlideover, preConfigData);
+  console.log(show);
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
