@@ -72,7 +72,7 @@ export default function Report() {
               {
                 name: `${
                   isSingleReport
-                    ? Object.keys(reportMetaData.meta).name
+                    ? Object.values(reportMetaData.meta)[0].name
                     : 'Consolidated report'
                 }`,
                 url: '',
@@ -112,6 +112,8 @@ export default function Report() {
                       text={Object.values(reportMetaData.meta)[0].scanType}
                       modifier="base"
                     />
+                  </div>
+                  <div className="mr-6">
                     <Badge
                       hasDot={false}
                       hasRemoveButton={false}
