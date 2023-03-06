@@ -22,7 +22,6 @@ export default function ReportRow({ id }) {
   const dispatch = useDispatch();
   const {
     name,
-    scanType,
     testType,
     createdBy: { name: userName },
     componentCount,
