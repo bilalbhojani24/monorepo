@@ -2,8 +2,10 @@
 import React, { forwardRef } from 'react';
 import {
   Badge,
+  Button,
   EmptyState,
   Hyperlink,
+  InputAddOnTexts,
   InputField,
   StackedListWAvatar,
   Table,
@@ -24,6 +26,8 @@ export const O11yTable = (props) => <Table {...props} />;
 export const O11yRefTableBody = React.forwardRef((props, ref) => (
   <TableBody {...props} ref={ref} />
 ));
+export const O11yInputAddOnTexts = (props) => <InputAddOnTexts {...props} />;
+export const O11yButton = (props) => <Button {...props} />;
 export const O11yTableBody = (props) => <TableBody {...props} />;
 export const O11yTableCell = (props) => <TableCell {...props} />;
 export const O11yTableHead = (props) => <TableHead {...props} />;

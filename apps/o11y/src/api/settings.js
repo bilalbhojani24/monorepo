@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
-/* Failure Categories */
+export const getProjectSettings = async (projectId) =>
+  axios.get(`${versionedBaseRoute()}/projects/${projectId}/`);
+
 export const getProjectFailureCategories = async (projectId) =>
   axios.get(`${versionedBaseRoute()}/projects/${projectId}/settings/`);
-export const getProjectSettingsCall = async (projectId) =>
-  axios.get(`${versionedBaseRoute()}/projects/${projectId}/`);
+
 export const updateProjectSettingsCall = async ({
   projectId,
   attribute,

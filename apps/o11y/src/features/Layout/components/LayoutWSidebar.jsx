@@ -22,12 +22,12 @@ const LayoutWSidebar = () => {
         <Suspense
           fallback={
             <O11yLoader
-              wrapperClassName="h-full"
+              wrapperClassName="h-screen"
               loaderClass="text-base-200 fill-base-400 w-8 h-8"
             />
           }
         >
-          <div className="min-h-screen flex-1">
+          <div className="flex-1">
             <Outlet />
           </div>
         </Suspense>

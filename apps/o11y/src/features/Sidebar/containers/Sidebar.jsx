@@ -11,7 +11,7 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getProjects } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
@@ -108,7 +108,10 @@ export default function Sidebar() {
 
   return (
     <SidebarNavigation
-      wrapperClassName="md:sticky h-[calc(100vh-4rem)] bg-white py-5 px-2 w-64 flex-none md:inset-y-16"
+      wrapperClassName={`
+        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16
+        ${WRAPPER_GAP_CLASS}
+      `}
       sidebarHeader={<ProjectSelector />}
       sidebarPrimaryNavigation={getPrimaryNav({
         projectNormalisedName: projects.active.normalisedName

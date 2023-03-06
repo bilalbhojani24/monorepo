@@ -16,3 +16,5 @@ export const PROJECT_NORMALISED_NAME_IDENTIFIER =
 export const URL_REGEX =
   /* eslint-disable-next-line */
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
+
+export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
