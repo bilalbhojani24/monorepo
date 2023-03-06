@@ -143,6 +143,12 @@ export const activeInitFilters = {
   showNeedsReviewIssues: false
 };
 
+export const testTypes = {
+  ASSISTIVE_TEST: 'assistiveTest',
+  WORKFLOW_SCAN: 'workflowScan',
+  WEBSITE_SCAN: 'websiteScan'
+};
+
 export const issueTypes = [
   { modifier: 'error', type: 'critical' },
   { modifier: 'error', type: 'serious' },
@@ -153,11 +159,11 @@ export const issueTypes = [
 export const reportType = [
   {
     label: 'Workflow scan',
-    value: 'Workflow scan'
+    value: testTypes.WORKFLOW_SCAN
   },
   {
     label: 'Assisted test',
-    value: 'Assisted test'
+    value: testTypes.ASSISTIVE_TEST
   }
 ];
 

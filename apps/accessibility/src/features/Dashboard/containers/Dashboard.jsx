@@ -85,6 +85,8 @@ export default function Dashboard({ children }) {
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility"
+        release="beta"
+        planButtonVisible={false}
         productArray={[
           { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
           {

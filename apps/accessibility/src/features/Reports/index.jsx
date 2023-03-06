@@ -46,13 +46,21 @@ export default function Reports() {
     handleClose
   } = useReports();
 
+  const activeReportsType = selectedReportType.map(({ value }) => value);
+  const filteredReportList =
+    activeReportsType.length > 0
+      ? reportList.filter(({ testType }) =>
+          activeReportsType.includes(testType)
+        )
+      : reportList;
+
   const searchFilterList = searchInput
-    ? reportList.filter(
+    ? filteredReportList.filter(
         ({ name, createdBy: { name: userName } }) =>
           name.toLowerCase().includes(searchInput.toLowerCase()) ||
           userName.toLowerCase().includes(searchInput.toLowerCase())
       )
-    : reportList;
+    : filteredReportList;
 
   const isFirstPage = lastIndex === reportPerPage;
   const isLastPage =
@@ -162,14 +170,6 @@ export default function Reports() {
                   </SelectMenuOptionGroup>
                 </SelectMenu>
               </div>
-              {/* <SelectMenu
-                isMultiSelect
-                onChange={onUpdateSelectedReportType}
-                options={reportType}
-                placeholder="Type"
-                wrapperClassName="w-36"
-                value={selectedReportType}
-              /> */}
             </div>
             <div className="flex items-center">
               {selectedReportsLength > 0 && (
