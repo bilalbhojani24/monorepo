@@ -365,9 +365,9 @@ export default function SiteScanner() {
                       </span>{' '}
                       {row?.createdBy?.name}
                     </span>
-                    <span className="mr-2">
+                    <span className="mr-2 flex items-center">
                       <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
-                      {row.pageCount} pages
+                      {row.pageCount || 0} pages
                     </span>
                     {getRunTypeBadge(row.recurring, row.active)}
                   </div>
