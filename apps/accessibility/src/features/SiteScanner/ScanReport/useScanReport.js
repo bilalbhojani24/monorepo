@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import { fetchConsolidatedData } from 'api/siteScannerScanReports';
 
@@ -38,7 +38,6 @@ export default function useScanReport() {
   const reportMetaData = useSelector(getScanReportMetaData);
 
   const navigate = useNavigate();
-  const { id } = useParams();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -86,7 +85,7 @@ export default function useScanReport() {
   const onTabChange = (tab) => {
     setActiveTab(tab.id);
     navigate({
-      search: `?id=${id}tab=${tab.id}`
+      search: `?id=${searchParams.id}tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
   };
