@@ -1,3 +1,5 @@
+import { ENVS } from 'constants';
+
 export const getConfigByKey = (key) => {
   const envVars = import.meta.env;
   if (!key) {
@@ -31,4 +33,26 @@ export const defaultPath = () => {
     return 'screen-reader';
   }
   return 'report-listing';
+};
+
+export const getCurrentEnv = () => {
+  const { href } = window.location;
+  if (href.includes('bsstag.com')) {
+    return ENVS.STAGING;
+  }
+  if (href.includes('browserstack.com')) {
+    return ENVS.PRODUCTION;
+  }
+  return ENVS.DEVELOPMENT;
+};
+
+export const getEnvUrl = () => {
+  const env = getCurrentEnv();
+  let baseURL = 'https://browserstack.com/accessibility/api';
+  if (env === ENVS.STAGING) {
+    baseURL = 'https://devaccessibility.bsstag.com/accessibility/api';
+  } else if (env === ENVS.PRODUCTION) {
+    baseURL = 'https://browserstack.com/accessibility/api';
+  }
+  return baseURL;
 };

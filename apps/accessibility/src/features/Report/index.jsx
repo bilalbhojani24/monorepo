@@ -68,8 +68,16 @@ export default function Report() {
         <div className="px-6 pt-6">
           <Breadcrumb
             data={[
-              { name: 'All reports', url: '/reports', current: '' },
-              { name: 'Consolidated report', url: '', current: '' }
+              { name: 'All reports', url: '/reports', current: false },
+              {
+                name: `${
+                  isSingleReport
+                    ? Object.keys(reportMetaData.meta).name
+                    : 'Consolidated report'
+                }`,
+                url: '',
+                current: true
+              }
             ]}
             size="default"
           />

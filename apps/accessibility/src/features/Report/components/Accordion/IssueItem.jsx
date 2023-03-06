@@ -31,6 +31,7 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
+import { getEnvUrl } from 'utils';
 import {
   handleClickByEnterOrSpace,
   handleFocusElement,
@@ -246,7 +247,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
+                href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
                 target="_blank"
                 onClick={
                   isGuidelineMode
@@ -264,11 +265,12 @@ export default function IssueItem() {
               </Hyperlink>
             </p>
             {tagList.length > 0 && (
-              <div>
+              <div className="flex items-center">
                 {tagList.map(({ label, value }) => (
                   <div
                     key={label}
                     tabIndex={0}
+                    className="mr-2"
                     onClick={value ? () => onTagClick(value) : () => {}}
                     role="button"
                     aria-label={`Go to ${label}.Link will open in a new tab.`}
