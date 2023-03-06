@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Header,
-  MdHome,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
   MdTextSnippet,
@@ -81,7 +80,9 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <SkipToContent target={mainRef}>Skip to main content</SkipToContent>
+      <SkipToContent target={mainRef} wrapperClassName="z-10">
+        Skip to main content
+      </SkipToContent>
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility"

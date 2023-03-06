@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Checkbox } from '@browserstack/bifrost';
-import { issueTypes } from 'constants';
+import { issueTypes, testTypes } from 'constants';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import {
@@ -23,6 +23,7 @@ export default function ReportRow({ id }) {
   const {
     name,
     scanType,
+    testType,
     createdBy: { name: userName },
     componentCount,
     time,
@@ -118,7 +119,7 @@ export default function ReportRow({ id }) {
             hasDot={false}
             hasRemoveButton={false}
             isRounded
-            text="Workflow scan"
+            text={testTypes[testType]}
           />
           <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
         </div>
