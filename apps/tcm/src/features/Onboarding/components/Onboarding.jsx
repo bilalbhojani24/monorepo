@@ -84,7 +84,7 @@ const Onboarding = () => {
             <p className="text-base-700 text-xs">
               By continuing you agree to our&nbsp;
               <a
-                className="text-brand-500 font-medium"
+                className="font-medium"
                 href="https://www.browserstack.com/terms"
                 target="new"
               >
