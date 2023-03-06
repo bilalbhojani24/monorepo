@@ -80,7 +80,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <SkipToContent target={mainRef} wrapperClassName="z-10">
+      <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
       <Header
