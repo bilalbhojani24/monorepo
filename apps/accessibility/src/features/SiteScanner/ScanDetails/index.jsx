@@ -53,8 +53,12 @@ const ScanDetails = () => {
             <div className="mb-4">
               <Breadcrumb
                 data={[
-                  { name: 'Website scan', url: '/site-scanner', current: '' },
-                  { name: 'Consolidated report', url: '', current: '' }
+                  {
+                    name: 'Website scan',
+                    url: '/site-scanner',
+                    current: false
+                  },
+                  { name: scanRunDataCommon?.name, url: '', current: true }
                 ]}
                 size="default"
               />

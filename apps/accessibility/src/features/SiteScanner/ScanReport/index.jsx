@@ -52,7 +52,7 @@ export default function ScanReport() {
         return reportOverviewData ? <ScanReportSummary /> : 'loading';
     }
   };
-
+  console.log(reportCommonData);
   return (
     <>
       <div className="bg-base-50">
