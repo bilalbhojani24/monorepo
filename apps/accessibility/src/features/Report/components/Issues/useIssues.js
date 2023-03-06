@@ -151,6 +151,8 @@ export default function useIssues() {
         values
       })
     );
+    const updatedPath = updateUrlWithQueryParam({ impact: values });
+    navigate(`?${updatedPath}`);
   };
 
   useEffect(() => {
