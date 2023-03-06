@@ -4,28 +4,32 @@ import { defineConfig } from 'vite';
 
 const { productViteConfig } = require('@browserstack/vite-config');
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  ...productViteConfig,
-  server: {
-    https: {
-      key: fs.readFileSync('./certs/bsstag.com.key'),
-      cert: fs.readFileSync('./certs/bsstag.com.crt')
-    },
-    port: 9000,
-    host: '127.0.0.1'
-  },
-  resolve: {
-    alias: {
-      src: path.resolve(__dirname, 'src'),
-      api: path.resolve(__dirname, 'src/api'),
-      assets: path.resolve(__dirname, 'src/assets'),
-      features: path.resolve(__dirname, 'src/features'),
-      globalSlice: path.resolve(__dirname, 'src/globalSlice'),
-      utils: path.resolve(__dirname, 'src/utils'),
-      common: path.resolve(__dirname, 'src/common'),
-      constants: path.resolve(__dirname, 'src/constants'),
-      hooks: path.resolve(__dirname, 'src/hooks')
+export default defineConfig(({ command }) => {
+  const commonConfig = {
+    ...productViteConfig,
+    resolve: {
+      alias: {
+        src: path.resolve(__dirname, 'src'),
+        api: path.resolve(__dirname, 'src/api'),
+        assets: path.resolve(__dirname, 'src/assets'),
+        features: path.resolve(__dirname, 'src/features'),
+        globalSlice: path.resolve(__dirname, 'src/globalSlice'),
+        utils: path.resolve(__dirname, 'src/utils'),
+        common: path.resolve(__dirname, 'src/common'),
+        constants: path.resolve(__dirname, 'src/constants'),
+        hooks: path.resolve(__dirname, 'src/hooks')
+      }
     }
+  };
+  if (command !== 'build') {
+    commonConfig.server = {
+      https: {
+        key: fs.readFileSync('./certs/bsstag.com.key'),
+        cert: fs.readFileSync('./certs/bsstag.com.crt')
+      },
+      port: 9000,
+      host: '127.0.0.1'
+    };
   }
+  return commonConfig;
 });
