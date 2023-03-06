@@ -32,10 +32,18 @@ import {
 
 const removeIgnoredValues = (valueMappings) =>
   Object.keys(valueMappings).reduce((obj, key) => {
-    if (typeof valueMappings[key] === 'object' && !valueMappings[key].action)
-      return { ...obj, [key]: removeIgnoredValues(valueMappings[key]) };
+    // if (typeof valueMappings[key] === 'object' && !valueMappings[key].action)
+    //   return { ...obj, [key]: removeIgnoredValues(valueMappings[key]) }; // [NOTE: no need of doing this recursively as this is handled on BE]
 
     if (valueMappings[key]?.action === 'ignore') {
+      return { ...obj };
+    }
+    return { ...obj, [key]: valueMappings[key] };
+  }, {});
+
+const removeAddValues = (valueMappings) =>
+  Object.keys(valueMappings).reduce((obj, key) => {
+    if (valueMappings[key]?.action === 'add') {
       return { ...obj };
     }
     return { ...obj, [key]: valueMappings[key] };
@@ -117,8 +125,9 @@ export const submitMappingData =
   ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
   async (dispatch) => {
     dispatch(submitMappingDataPending());
-    const filteredValueMappings = removeIgnoredValues(valueMappings);
     const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
+    const filteredValueMappings = removeIgnoredValues(valueMappings);
+    const overFilteredValueMappings = removeAddValues(filteredValueMappings); // remove Add Values.
 
     try {
       const response = await postMappingData({
@@ -127,7 +136,7 @@ export const submitMappingData =
           project_id: projectId,
           folder_id: folderId,
           field_mappings: filteredFieldMappings,
-          value_mappings: filteredValueMappings
+          value_mappings: overFilteredValueMappings
         }
       });
       dispatch(submitMappingDataFulfilled(response));

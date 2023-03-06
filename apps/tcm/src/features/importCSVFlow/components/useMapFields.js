@@ -96,7 +96,8 @@ const useMapFields = () => {
 
   const mapNameToDisplay = {
     ...defaultNameToDisplayMapper,
-    ...customNameToDisplayMapper
+    ...customNameToDisplayMapper,
+    ...{ add: 'Add New Field' } // this is to map add -> Add new Field in second column (default value)
   }; // maps field name to display name
 
   const defaultDisplayToNameMapper = mapFieldsConfig.defaultFields.reduce(
@@ -184,8 +185,12 @@ const useMapFields = () => {
     mappedField: {
       displayOptions,
       defaultValue: {
-        label: mapNameToDisplay[myFieldMappings?.[item]],
-        value: mapNameToDisplay[myFieldMappings?.[item]]
+        label:
+          mapNameToDisplay[myFieldMappings?.[item]] ||
+          mapNameToDisplay[myFieldMappings?.[item]?.action],
+        value:
+          mapNameToDisplay[myFieldMappings?.[item]] ||
+          mapNameToDisplay[myFieldMappings?.[item]?.action]
       }
     },
     mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
@@ -366,8 +371,6 @@ const useMapFields = () => {
         'field_name[]': Object.keys(valueMappings)
       })
     );
-    // console.log('final paylaod', myFieldMappings, valueMappings);
-    // console.log('query params', queryParams.get('project'));
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
     dispatch(
