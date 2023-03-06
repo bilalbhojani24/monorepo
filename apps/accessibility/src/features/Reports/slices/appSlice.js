@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { reportPerPage, reportType, versions } from 'constants';
+import { reportPerPage, versions } from 'constants';
 
 const { actions, reducer } = createSlice({
   name: 'reportListing',
   initialState: {
     reportList: [],
     activeVersion: versions[0].value,
-    selectedReportType: [reportType[0]],
+    selectedReportType: [],
     lastIndex: reportPerPage
   },
   reducers: {

@@ -89,10 +89,14 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <SkipToContent target={mainRef}>Skip to main content</SkipToContent>
+      <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
+        Skip to main content
+      </SkipToContent>
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility"
+        release="beta"
+        planButtonVisible={false}
         productArray={[
           { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
           {
