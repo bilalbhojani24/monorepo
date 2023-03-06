@@ -76,7 +76,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
   if (!preConfigData) {
     return <Loader />;
   }
-
+  console.log(formData);
   return (
     <div>
       <Slideover
@@ -122,7 +122,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 <Dropdown
                   trigger={
                     <DropdownTrigger>
-                      {formData?.scanData?.wcagVersion.body}
+                      {formData?.scanData?.wcagVersion?.body}
                     </DropdownTrigger>
                   }
                   options={wcagVersions}
@@ -136,7 +136,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 >
                   <div className="flex">
                     <DropdownTrigger>
-                      {formData?.scanData?.wcagVersion.body}
+                      {formData?.scanData?.wcagVersion?.body}
                       <MdExpandMore className="h-5 w-5" aria-hidden="true" />
                     </DropdownTrigger>
                   </div>
