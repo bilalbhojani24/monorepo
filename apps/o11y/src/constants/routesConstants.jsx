@@ -2,12 +2,15 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
-import RootPathContainer from 'common/RootPathContainer';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
+import Settings from 'features/Settings/containers/Settings';
 
 import { ROUTES } from './routes';
 
+const GeneralSettings = React.lazy(() =>
+  import('features/Settings/containers/GeneralSettings')
+);
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -22,7 +25,7 @@ export const APP_ROUTES = [
   {
     path: ROUTES.root,
     isProtected: true,
-    component: <RootPathContainer />
+    component: <Navigate to={ROUTES.projects} replace />
   },
   {
     path: ROUTES.root,
@@ -77,14 +80,34 @@ export const APP_ROUTES = [
       {
         path: ROUTES.settings,
         isProtected: true,
-        component: <Navigate to={ROUTES.settings_general} replace />
-      },
-      {
-        path: ROUTES.settings_general,
-        isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <Settings />,
+        children: [
+          {
+            path: ROUTES.settings_general,
+            isProtected: true,
+            component: <GeneralSettings />
+          },
+          {
+            path: ROUTES.settings_alerts,
+            isProtected: true,
+            component: <GeneralSettings />
+          },
+          {
+            path: ROUTES.settings_auto_analyser,
+            isProtected: true,
+            component: <GeneralSettings />
+          },
+          {
+            path: ROUTES.settings_failure_categories,
+            isProtected: true,
+            component: <GeneralSettings />
+          },
+          {
+            path: ROUTES.settings_re_run,
+            isProtected: true,
+            component: <GeneralSettings />
+          }
+        ]
       },
       {
         path: ROUTES.integrations_base,

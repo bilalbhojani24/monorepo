@@ -34,15 +34,21 @@ const useAuthRoutes = (routes, initAPI, fallbackUrl) => {
       return null;
     };
 
+    const getChildren = (r) => {
+      if (!r.children) return [];
+      return {
+        children: r.children.map((rChild) => ({
+          element: getComponent(rChild),
+          path: rChild.path,
+          ...getChildren(rChild)
+        }))
+      };
+    };
+
     return routes.map((r) => ({
       element: r.component ? getComponent(r) : <Outlet />,
       path: r.path,
-      ...(r.children && {
-        children: r.children.map((rChild) => ({
-          element: getComponent(rChild),
-          path: rChild.path
-        }))
-      })
+      ...getChildren(r)
     }));
   }, [loggedIn, routes]);
 
