@@ -56,7 +56,7 @@ const Dashboard = () => {
     dispatch(
       logEventHelper('TM_DashboardPageLoaded', {
         project_id: projectId,
-        dashboard_id: '1'
+        dashboard_id: '0'
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
