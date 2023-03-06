@@ -16,6 +16,11 @@ const Config = {
 };
 
 export const EDSKey = 'web_events';
+export const ENVS = {
+  STAGING: 'STAGING',
+  PRODUCTION: 'PRODUCTION',
+  DEVELOPMENT: 'DEVELOPMENT'
+};
 
 export const SCREEN_READER_LIVE_URL = Config.generate_url(
   '/screen-reader/start',

@@ -68,8 +68,16 @@ export default function Report() {
         <div className="px-6 pt-6">
           <Breadcrumb
             data={[
-              { name: 'All reports', url: '/reports', current: '' },
-              { name: 'Consolidated report', url: '', current: '' }
+              { name: 'All reports', url: '/reports', current: false },
+              {
+                name: `${
+                  isSingleReport
+                    ? Object.keys(reportMetaData.meta).name
+                    : 'Consolidated report'
+                }`,
+                url: '',
+                current: true
+              }
             ]}
             size="default"
           />
@@ -86,7 +94,7 @@ export default function Report() {
                       {Object.values(reportMetaData.meta)[0].createdBy.name}
                     </p>
                   </div>
-                  <div className="text-base-500 flex text-sm mr-6">
+                  <div className="text-base-500 mr-6 flex text-sm">
                     <MdOutlineCalendarToday className="text-xl" />
                     <p className="ml-1.5">
                       {format(
@@ -101,15 +109,15 @@ export default function Report() {
                     <Badge
                       hasDot={false}
                       hasRemoveButton={false}
-                      size="small"
                       text={Object.values(reportMetaData.meta)[0].scanType}
                       modifier="base"
                     />
                     <Badge
                       hasDot={false}
                       hasRemoveButton={false}
-                      size="small"
-                      text={Object.values(reportMetaData.meta)[0].wcagVersion.label}
+                      text={
+                        Object.values(reportMetaData.meta)[0].wcagVersion.label
+                      }
                       modifier="base"
                     />
                   </div>

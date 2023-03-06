@@ -1,8 +1,11 @@
 import axios from 'axios';
+import { getEnvUrl } from 'utils';
 
 export default async function fetchScreenReaderDevices() {
+  const baseURL = getEnvUrl();
   const response = await axios.get(
-    '/api/screen-readers/supported-combinations',
+    '/screen-readers/supported-combinations',
+    baseURL,
     {
       headers: {
         Accept: 'application/json'
