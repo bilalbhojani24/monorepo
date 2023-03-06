@@ -58,26 +58,26 @@ export default function useNewScan(closeSlideover, preConfigData) {
             verbose: true
           }
         );
-      }
 
-      // Interval from parser
-      const interval = parser.parseExpression(preConfigData.schedulePattern);
-      if (schedulePatternVerbose.includes('every day')) {
-        formDataCpy.type = DAILY;
-        const hours = new Date(interval.next().toString()).getHours();
-        const minutes = addZero(
-          new Date(interval.next().toString()).getMinutes()
-        );
-        formDataCpy.time = `${hours}:${minutes}`;
-      } else {
-        formDataCpy.type = WEEKLY;
-        const day = new Date(interval.next().toString()).getDay();
-        const hours = new Date(interval.next().toString()).getHours();
-        const minutes = addZero(
-          new Date(interval.next().toString()).getMinutes()
-        );
-        formDataCpy.day = dayMap[day];
-        formDataCpy.time = `${hours}:${minutes}`;
+        // Interval from parser
+        const interval = parser.parseExpression(preConfigData.schedulePattern);
+        if (schedulePatternVerbose.includes('every day')) {
+          formDataCpy.type = DAILY;
+          const hours = new Date(interval.next().toString()).getHours();
+          const minutes = addZero(
+            new Date(interval.next().toString()).getMinutes()
+          );
+          formDataCpy.time = `${hours}:${minutes}`;
+        } else {
+          formDataCpy.type = WEEKLY;
+          const day = new Date(interval.next().toString()).getDay();
+          const hours = new Date(interval.next().toString()).getHours();
+          const minutes = addZero(
+            new Date(interval.next().toString()).getMinutes()
+          );
+          formDataCpy.day = dayMap[day];
+          formDataCpy.time = `${hours}:${minutes}`;
+        }
       }
       setFormData(formDataCpy);
       console.log(preConfigData.name, formDataCpy, schedulePatternVerbose);
