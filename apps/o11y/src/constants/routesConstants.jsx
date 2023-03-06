@@ -75,6 +75,11 @@ export const APP_ROUTES = [
         )
       },
       {
+        path: ROUTES.settings,
+        isProtected: true,
+        component: <Navigate to={ROUTES.settings_general} replace />
+      },
+      {
         path: ROUTES.settings_general,
         isProtected: true,
         component: (

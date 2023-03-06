@@ -7,10 +7,10 @@ export default function Dashboard({ children }) {
   return (
     <>
       <O11yHeader />
-      <div className="flex">
+      <main className="flex">
         <Sidebar />
         <main className="min-h-screen flex-1">{children}</main>
-      </div>
+      </main>
     </>
   );
 }

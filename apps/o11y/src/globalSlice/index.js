@@ -85,11 +85,17 @@ const { actions, reducer } = createSlice({
               name: foundProject.name,
               normalisedName: foundProject.normalisedName
             };
-            setStorage(
-              PROJECT_NORMALISED_NAME_IDENTIFIER,
-              state.projects.active.normalisedName
-            );
+          } else {
+            state.projects.active = {
+              id: list[0].id,
+              name: list[0].name,
+              normalisedName: list[0].normalisedName
+            };
           }
+          setStorage(
+            PROJECT_NORMALISED_NAME_IDENTIFIER,
+            state.projects.active.normalisedName
+          );
         }
         state.projects.isLoading = false;
       })

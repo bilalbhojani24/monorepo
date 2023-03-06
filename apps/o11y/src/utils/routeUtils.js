@@ -11,6 +11,9 @@ export const getSuitHealthPath = (projectNormalisedName) =>
 export const getTestingTrendPath = (projectNormalisedName) =>
   `/projects/${projectNormalisedName}/testing_trends`;
 
+export const getSettingsPath = (projectNormalisedName) =>
+  `/projects/${projectNormalisedName}/settings/general`;
+
 // /builds || /build
 export const isBuildsPage = () => /build/.test(window.location.pathname);
 

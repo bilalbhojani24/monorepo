@@ -18,6 +18,7 @@ import { getActiveNav, getProjects } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
 import {
   getProjectBuildsPath,
+  getSettingsPath,
   getSuitHealthPath,
   getTestingTrendPath,
   isBuildsPage,
@@ -56,7 +57,7 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     label: 'Settings',
     activeIcon: MdOutlineSettings,
     inActiveIcon: MdOutlineSettings,
-    path: ROUTES.settings_general
+    path: getSettingsPath(projectNormalisedName)
   }
 ];
 
