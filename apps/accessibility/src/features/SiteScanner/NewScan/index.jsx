@@ -18,6 +18,8 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import Loader from '../../../common/Loader';
+
 import { days, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
 
@@ -70,6 +72,11 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
+
+  if (!preConfigData) {
+    return <Loader />;
+  }
+
   return (
     <div>
       <Slideover

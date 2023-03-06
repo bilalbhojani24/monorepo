@@ -50,10 +50,10 @@ export default function ScanReport() {
           />
         );
       default:
-        return reportOverviewData ? <ScanReportSummary /> : 'loading';
+        return reportOverviewData ? <ScanReportSummary /> : <Loader />;
     }
   };
-  console.log(reportCommonData, reportMetaData);
+  console.log(reportCommonData, Object.values(reportMetaData));
   return (
     <>
       <div className="bg-base-50">

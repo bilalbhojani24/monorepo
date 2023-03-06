@@ -49,13 +49,16 @@ export default function useNewScan(closeSlideover, preConfigData) {
         preConfigData.scanData.wcagVersion
       );
       formDataCpy.scanData.urlSet = preConfigData.scanData.urlSet;
-      const schedulePatternVerbose = cronstrue.toString(
-        preConfigData.schedulePattern,
-        {
-          use24HourTimeFormat: true,
-          verbose: true
-        }
-      );
+      let schedulePatternVerbose = '';
+      if (preConfigData.recurring) {
+        schedulePatternVerbose = cronstrue.toString(
+          preConfigData.schedulePattern,
+          {
+            use24HourTimeFormat: true,
+            verbose: true
+          }
+        );
+      }
 
       // Interval from parser
       const interval = parser.parseExpression(preConfigData.schedulePattern);
