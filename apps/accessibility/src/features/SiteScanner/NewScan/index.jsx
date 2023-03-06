@@ -71,10 +71,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
-
-  if (!preConfigData) {
-    return <Loader />;
-  }
   console.log(formData?.scanData?.wcagVersion);
   return (
     <div>
