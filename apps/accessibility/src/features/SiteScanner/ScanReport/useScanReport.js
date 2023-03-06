@@ -118,6 +118,7 @@ export default function useScanReport() {
     onFilterApplied,
     reportOverviewData,
     isCopied,
-    setIsCopied
+    setIsCopied,
+    reportMetaData
   };
 }

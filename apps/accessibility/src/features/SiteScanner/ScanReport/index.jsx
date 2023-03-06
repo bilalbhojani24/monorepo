@@ -31,7 +31,8 @@ export default function ScanReport() {
     onFilterApplied,
     reportOverviewData,
     isCopied,
-    setIsCopied
+    setIsCopied,
+    reportMetaData
   } = useScanReport();
 
   const getTabContent = () => {
@@ -52,7 +53,7 @@ export default function ScanReport() {
         return reportOverviewData ? <ScanReportSummary /> : 'loading';
     }
   };
-  console.log(reportCommonData);
+  console.log(reportCommonData, reportMetaData);
   return (
     <>
       <div className="bg-base-50">
@@ -68,7 +69,10 @@ export default function ScanReport() {
               />
             </div>
             <div className="flex items-center">
-              <h1 className="mb-2 mr-2 text-2xl font-bold">Main user flow</h1>
+              <h1 className="mb-2 mr-2 text-2xl font-bold">
+                {' '}
+                {reportCommonData?.name || 'N/A'}
+              </h1>
               <Badge
                 text="Website scan report of Feb 2, 2023, 12:00 PM"
                 wrapperClassName="mr-2 h-6"
@@ -78,7 +82,9 @@ export default function ScanReport() {
               <span className="mr-0.5">
                 <MdPerson color="#9CA3AF" />
               </span>{' '}
-              <span className="text-base-500">Kaustubh Saxena</span>
+              <span className="text-base-500">
+                {reportCommonData?.createdBy?.name}
+              </span>
             </span>
           </div>
           <div className="flex items-center">
