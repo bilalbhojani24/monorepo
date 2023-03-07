@@ -48,7 +48,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
       formDataCpy.scanData.needsReview = preConfigData.scanData.needsReview;
       formDataCpy.scanData.bestPractices = preConfigData.scanData.bestPractices;
       formDataCpy.scanData.wcagVersion = getWcagVersionFromVal(
-        preConfigData.scanData.wcagVersion
+        preConfigData.scanData.wcagVersion.value
       );
       formDataCpy.scanData.urlSet = preConfigData.scanData.urlSet;
       let schedulePatternVerbose = '';
@@ -82,7 +82,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
         }
       }
       setFormData(formDataCpy);
-      console.log(preConfigData.name, formDataCpy, schedulePatternVerbose);
+      console.log(preConfigData, formDataCpy, schedulePatternVerbose);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preConfigData]);
@@ -226,7 +226,6 @@ export default function useNewScan(closeSlideover, preConfigData) {
           const selectedWcagVersion = getWcagVersionFromBody(
             formData.scanData.wcagVersion.body
           );
-          console.log(selectedWcagVersion);
           payload.scanData.wcagVersion = {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id

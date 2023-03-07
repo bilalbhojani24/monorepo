@@ -72,7 +72,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
-  console.log(formData?.scanData?.wcagVersion);
+  console.log(formData);
   return (
     <div>
       <Slideover
