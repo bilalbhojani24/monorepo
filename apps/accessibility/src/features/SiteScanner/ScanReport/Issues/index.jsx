@@ -219,7 +219,7 @@ export default function Issues() {
                     'border-brand-500': activeSwitch === value,
                     'rounded-r-none': index === 0,
                     'rounded-l-none border-l-0':
-                      index !== 0 && activeSwitch === value,
+                      index !== 0 && activeSwitch === value
                   })}
                   onClick={() => onTabSelect(value)}
                   colors="white"

@@ -4,6 +4,7 @@ import {
   Badge,
   Breadcrumb,
   Button,
+  MdCalendarToday,
   MdDownload,
   MdPerson,
   MdShare,
@@ -11,6 +12,7 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
+import dateFormat from 'dateformat';
 
 import Loader from '../../../common/Loader';
 
@@ -53,7 +55,9 @@ export default function ScanReport() {
         return reportOverviewData ? <ScanReportSummary /> : <Loader />;
     }
   };
-
+  const metaData = reportMetaData.meta
+    ? Object.values(reportMetaData.meta)[0]
+    : null;
   return (
     <>
       <div className="bg-base-50">
@@ -62,8 +66,23 @@ export default function ScanReport() {
             <div className="mb-4">
               <Breadcrumb
                 data={[
-                  { name: 'Website scan', url: '/site-scanner', current: '' },
-                  { name: 'Consolidated report', url: '', current: '' }
+                  { name: 'All Reports', url: '/reports', current: false },
+                  {
+                    name: 'Website scan',
+                    url: '/site-scanner',
+                    current: false
+                  },
+                  { name: metaData?.name, url: '/', current: false },
+                  {
+                    name: metaData?.time
+                      ? dateFormat(
+                          new Date(new Date(metaData?.time).toLocaleString()),
+                          'mmmm dS, h:MM TT'
+                        )
+                      : '',
+                    url: '/',
+                    current: true
+                  }
                 ]}
                 size="default"
               />
@@ -71,20 +90,31 @@ export default function ScanReport() {
             <div className="flex items-center">
               <h1 className="mb-2 mr-2 text-2xl font-bold">
                 {' '}
-                {reportCommonData?.name || 'N/A'}
+                {metaData?.name || 'N/A'}
               </h1>
-              <Badge
-                text="Website scan report of Feb 2, 2023, 12:00 PM"
-                wrapperClassName="mr-2 h-6"
-              />
             </div>
             <span className="mr-2 flex items-center text-sm">
               <span className="mr-0.5">
                 <MdPerson color="#9CA3AF" />
               </span>{' '}
-              <span className="text-base-500">
-                {reportCommonData?.createdBy?.name}
+              <span className="text-base-500">{metaData?.createdBy?.name}</span>
+              <span className="text-base-500 ml-7 flex items-center text-sm">
+                <span className="mr-0.5">
+                  <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
+                </span>{' '}
+                {metaData?.time
+                  ? dateFormat(
+                      new Date(new Date(metaData?.time).toLocaleString()),
+                      'mmmm dS, h:MM TT'
+                    )
+                  : ''}
               </span>
+              {metaData?.wcagVersion?.label && (
+                <Badge
+                  text={metaData?.wcagVersion}
+                  wrapperClassName="mr-2 h-6"
+                />
+              )}
             </span>
           </div>
           <div className="flex items-center">
@@ -118,7 +148,7 @@ export default function ScanReport() {
               </CopyToClipboard>
             </Tooltip>
 
-            <Button
+            {/* <Button
               onClick={() => {}}
               size="small"
               type="subtle"
@@ -127,7 +157,7 @@ export default function ScanReport() {
               iconPlacement="end"
             >
               Export
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="pl-6">
