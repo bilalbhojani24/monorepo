@@ -17,7 +17,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip
 } from '@browserstack/bifrost';
 
 import O11yComboBox from './components/O11yComboBox';
@@ -49,6 +50,7 @@ export const O11yTableHead = (props) => <TableHead {...props} />;
 export const O11yTableRow = (props) => <TableRow {...props} />;
 export const O11yHyperlink = (props) => <Hyperlink {...props} />;
 export const O11yEmptyState = (props) => <EmptyState {...props} />;
+export const O11yTooltip = (props) => <Tooltip {...props} />;
 
 export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />

@@ -14,8 +14,8 @@ const getCookiePrefix = () => {
 };
 
 axios.interceptors.request.use((config) => {
-  config.baseURL = 'https://localhost:8082/testops';
-  // config.baseURL = 'https://devtestops-api.bsstag.com';
+  // config.baseURL = 'https://localhost:8082/testops';
+  config.baseURL = 'https://devtestops-api.bsstag.com';
   config.withCredentials = false;
   config.headers = config.headers || {};
   config.headers['x-cookie-prefix'] = getCookiePrefix();
