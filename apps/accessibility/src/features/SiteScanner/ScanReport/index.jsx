@@ -42,7 +42,7 @@ export default function ScanReport() {
       case tabsOptions.SUMMARY.id:
         return reportOverviewData ? <ScanReportSummary /> : <Loader />;
       case tabsOptions.ALLISSUES.id:
-        return <Issues />;
+        return reportMetaData.meta ? <Issues /> : <Loader />;
       case tabsOptions.SCANLOGS.id:
         return (
           <ScanLogs
@@ -111,8 +111,8 @@ export default function ScanReport() {
               </span>
               {metaData?.wcagVersion?.label && (
                 <Badge
-                  text={metaData?.wcagVersion}
-                  wrapperClassName="mr-2 h-6"
+                  text={metaData?.wcagVersion.label}
+                  wrapperClassName="ml-2 mr-2 h-6"
                 />
               )}
             </span>

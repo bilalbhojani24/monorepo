@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
+
+import { getUser } from '../Dashboard/slices/selectors';
 
 import { getScanConfigs } from './slices/dataSlice';
 import { getScanConfigData } from './slices/selector';
@@ -12,6 +15,7 @@ export default function useSiteScanner() {
   const [preConfigData, setPreConfigData] = useState(false);
   const dispatch = useDispatch();
   const scanConfigsData = useSelector(getScanConfigData);
+  const userInfo = useSelector(getUser);
   useEffect(() => {
     setIsLoading(true);
     dispatch(getScanConfigs());
@@ -46,15 +50,23 @@ export default function useSiteScanner() {
     /*
         TODO
     */
-    switch (e.id) {
-      case 'yourScans':
-        break;
-      case 'otherScans':
-        break;
-      default:
-        setScanConfigStateData(scanConfigsData);
-        break;
+    if (e.id === 'yourScans') {
+      const filteredScanConfigData = cloneDeep(scanConfigStateData);
+      filteredScanConfigData.data.scanConfigs =
+        filteredScanConfigData.data.scanConfigs.filter(
+          (item) => item.createdBy.id === userInfo.id
+        );
+      setScanConfigStateData(filteredScanConfigData);
+    } else {
+      setScanConfigStateData(scanConfigsData);
     }
+    // switch (e.id) {
+    //   case 'yourScans':
+    //     break;
+    //   default:
+    //     setScanConfigStateData(scanConfigsData);
+    //     break;
+    // }
     setDataFilter(e.id);
   };
 

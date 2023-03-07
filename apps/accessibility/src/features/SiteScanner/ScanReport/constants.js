@@ -1,14 +1,14 @@
 export const pageStatus = [
   {
-    label: 'Success',
+    body: 'Success',
     id: 'success'
   },
   {
-    label: 'Error',
+    body: 'Error',
     id: 'error'
   },
   {
-    label: 'Redirects',
+    body: 'Redirects',
     id: 'redirected'
   }
 ];

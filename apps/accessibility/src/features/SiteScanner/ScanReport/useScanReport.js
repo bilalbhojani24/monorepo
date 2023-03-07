@@ -96,6 +96,7 @@ export default function useScanReport() {
   */
   const onFilterApplied = (e) => {
     let scanLogsStateDataCpy = { ...scanLogsStateData };
+    console.log(scanLogsStateDataCpy);
     if (e.length) {
       e.forEach((option) => {
         scanLogsStateDataCpy.logs = scanLogsStateDataCpy.logs.filter(
