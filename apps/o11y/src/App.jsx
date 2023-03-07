@@ -8,8 +8,6 @@ import useAuthRoutes from 'hooks/useAuthRoutes';
 import { ROUTES } from './constants/routes';
 import { APP_ROUTES } from './constants/routesConstants';
 
-import './App.scss';
-
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 
 const App = () => {

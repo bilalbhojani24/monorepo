@@ -8,6 +8,7 @@ import {
   InputAddOnTexts,
   InputField,
   StackedListWAvatar,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +29,7 @@ export const O11yRefTableBody = React.forwardRef((props, ref) => (
 ));
 export const O11yInputAddOnTexts = (props) => <InputAddOnTexts {...props} />;
 export const O11yButton = (props) => <Button {...props} />;
+export const O11ySwitch = (props) => <Switch {...props} />;
 export const O11yTableBody = (props) => <TableBody {...props} />;
 export const O11yTableCell = (props) => <TableCell {...props} />;
 export const O11yTableHead = (props) => <TableHead {...props} />;

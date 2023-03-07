@@ -3,7 +3,7 @@ import { O11yButton, O11yInputAddOnTexts } from 'common/bifrostProxy';
 
 export default function GeneralSettings() {
   return (
-    <div className="border-base-200  max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
+    <div className="border-base-200 max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
       <div className="p-6">
         <p className="text-lg font-medium leading-6">Inactivity timeout</p>
         <p className="text-base-500 mt-1 text-sm font-normal leading-5">
