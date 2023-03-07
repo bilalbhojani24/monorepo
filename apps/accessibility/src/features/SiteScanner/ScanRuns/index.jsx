@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import dateFormat from 'dateformat';
 import PropTypes from 'prop-types';
 
 import Loader from '../../../common/Loader';
@@ -75,7 +76,10 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
                 <div className="text-base-500 flex items-center font-normal">
                   <MdSchedule />
                   <span className="ml-0.5">
-                    {new Date(row.scanDate).toLocaleString()}
+                    {dateFormat(
+                      new Date(new Date(row.scanDate).toLocaleString()),
+                      'mmmm dS, h:MM TT'
+                    )}
                   </span>
                 </div>
               </TableCell>

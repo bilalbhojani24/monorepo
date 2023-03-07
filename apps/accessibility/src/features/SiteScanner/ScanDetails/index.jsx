@@ -73,7 +73,7 @@ const ScanDetails = () => {
                   scanRunDataCommon.nextScanDate
                     ? dateFormat(
                         new Date(scanRunDataCommon?.nextScanDate),
-                        'mmmm dS, h:MM:ss TT'
+                        'mmmm dS, h:MM TT'
                       )
                     : 'NA'
                 }`}

@@ -1,8 +1,11 @@
 import React from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Dropdown,
+  DropdownOptionGroup,
+  DropdownOptionItem,
   DropdownTrigger,
-  MdContentCopy,
+  MdExpandMore,
   MdOutlineContentCopy,
   Table,
   TableBody,
@@ -30,6 +33,19 @@ const columns = [
   }
 ];
 
+const frequencyOptions = [
+  {
+    id: 4,
+    value: 4,
+    body: 'Last 4 runs'
+  },
+  {
+    id: 8,
+    value: 8,
+    body: 'Last 8 runs'
+  }
+];
+
 const Overview = ({ scanOverviewData }) => {
   const {
     stackedChartData,
@@ -37,11 +53,13 @@ const Overview = ({ scanOverviewData }) => {
     currentRunFilter,
     splineChartOptions,
     handleSplineFilter,
-    currentSplineRunFilter
+    currentSplineRunFilter,
+    isCopied,
+    setIsCopied
   } = useOverview({
     scanOverviewData
   });
-  console.log(scanOverviewData?.data);
+  console.log(currentRunFilter);
   return (
     <div
       className=" flex-col overflow-auto p-4"
@@ -55,27 +73,20 @@ const Overview = ({ scanOverviewData }) => {
         <div className="mx-2 w-6/12 rounded-lg bg-white pt-4 shadow-md">
           <div className="mr-4 flex items-center justify-between">
             <span className="ml-6 font-semibold">Issue History</span>
-            <Dropdown
-              trigger={
-                <DropdownTrigger>
+            <Dropdown onClick={handleStackedFilter} id="stackedChartFilter">
+              <div className="flex">
+                <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
                   {currentRunFilter === 4 ? 'Last 4 runs' : 'Last 8 runs'}
+                  <MdExpandMore className="h-5 w-5" aria-hidden="true" />
                 </DropdownTrigger>
-              }
-              options={[
-                {
-                  id: 4,
-                  value: 4,
-                  body: 'Last 4 runs'
-                },
-                {
-                  id: 8,
-                  value: 8,
-                  body: 'Last 8 runs'
-                }
-              ]}
-              onClick={handleStackedFilter}
-              id="stackedChartFilter"
-            />
+              </div>
+
+              <DropdownOptionGroup>
+                {frequencyOptions.map((opt) => (
+                  <DropdownOptionItem key={opt.id} option={opt} />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
           </div>
           <div className="flex items-center justify-between">
             <div className="m-4 w-full">
@@ -86,27 +97,20 @@ const Overview = ({ scanOverviewData }) => {
         <div className="mx-2 w-6/12 rounded-lg bg-white pt-4 shadow-md">
           <div className="mr-4 flex items-center justify-between">
             <span className="ml-6 font-semibold">Scan Stability</span>
-            <Dropdown
-              trigger={
-                <DropdownTrigger>
+            <Dropdown onClick={handleSplineFilter} id="stackedSplineFilter">
+              <div className="flex">
+                <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
                   {currentSplineRunFilter === 4 ? 'Last 4 runs' : 'Last 8 runs'}
+                  <MdExpandMore className="h-5 w-5" aria-hidden="true" />
                 </DropdownTrigger>
-              }
-              options={[
-                {
-                  id: 4,
-                  value: 4,
-                  body: 'Last 4 runs'
-                },
-                {
-                  id: 8,
-                  value: 8,
-                  body: 'Last 8 runs'
-                }
-              ]}
-              onClick={handleSplineFilter}
-              id="splineChartFilter"
-            />
+              </div>
+
+              <DropdownOptionGroup>
+                {frequencyOptions.map((opt) => (
+                  <DropdownOptionItem key={opt.id} option={opt} />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
           </div>
           <div className="flex items-center justify-between">
             <div className="m-4 w-full">
@@ -151,7 +155,17 @@ const Overview = ({ scanOverviewData }) => {
                     key={row}
                     wrapperClass="flex justify-end cursor-pointer"
                   >
-                    <MdOutlineContentCopy />
+                    <CopyToClipboard
+                      onCopy={() => {
+                        setIsCopied(true);
+                        setTimeout(() => {
+                          setIsCopied(false);
+                        }, 2500);
+                      }}
+                      text={row}
+                    >
+                      <MdOutlineContentCopy />
+                    </CopyToClipboard>
                   </TableCell>
                 </TableRow>
               ))}

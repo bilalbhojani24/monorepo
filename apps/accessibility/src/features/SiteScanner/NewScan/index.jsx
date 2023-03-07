@@ -35,7 +35,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     scanUrlRef,
     fileUploadRef
   } = useNewScan(closeSlideover, preConfigData);
-  console.log(show);
+  console.log(formData, validationError);
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
@@ -261,6 +261,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
+                  openByDefault
                   panelContentNode={getAccordionBody()}
                   triggerContentNode={<div>Additional settings</div>}
                 />
@@ -364,7 +365,10 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               size="small"
               type="subtle"
               wrapperClassName="ml-4"
-              disabled={Object.keys(validationError).length}
+              disabled={
+                Object.keys(validationError).length ||
+                !formData?.scanData?.urlSet?.length
+              }
             >
               Create
             </Button>

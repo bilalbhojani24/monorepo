@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { postNewScanConfig } from 'api/siteScannerScanConfigs';
 import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
 import { addZero, isValidHttpUrl } from '../../../utils/helper';
+import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, wcagVersions } from './constants';
 
@@ -26,7 +28,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     type: WEEKLY
   });
   const [validationError, setValidationError] = useState({});
-
+  const dispatch = useDispatch();
   const scanNameRef = useRef();
   const timeRef = useRef();
   const scanUrlRef = useRef();
@@ -224,14 +226,16 @@ export default function useNewScan(closeSlideover, preConfigData) {
           const selectedWcagVersion = getWcagVersionFromBody(
             formData.scanData.wcagVersion.body
           );
+          console.log(selectedWcagVersion);
           payload.scanData.wcagVersion = {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
 
           postNewScanConfig(payload)
-            .then((data) => {
+            .then(() => {
               handlerCloseOver();
+              dispatch(getScanConfigs());
             })
             .catch((err) => console.log(err));
         } else {

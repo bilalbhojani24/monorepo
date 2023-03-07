@@ -61,8 +61,7 @@ export default function useScanDetails() {
   const handleNewScanRun = () => {
     runInstantScan(id)
       .then((data) => {
-        console.log(data);
-        setIsLoading(true);
+        navigate('/site-scanner');
         // alert('Stopped Recurring scan');
       })
       .catch((err) => console.log(err));
@@ -71,7 +70,7 @@ export default function useScanDetails() {
   const handleStopRecurringScan = () => {
     stopRecurringScans(id)
       .then((data) => {
-        console.log(data);
+        navigate('/site-scanner');
         // alert('Stopped Recurring scan');
       })
       .catch((err) => console.log(err));

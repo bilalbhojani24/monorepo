@@ -83,9 +83,10 @@ export default function useScanReport() {
     Tab Change Handler
   */
   const onTabChange = (tab) => {
+    const reportId = searchParams.get('id');
     setActiveTab(tab.id);
     navigate({
-      search: `?id=${searchParams.id}tab=${tab.id}`
+      search: `?id=${reportId}&tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
   };

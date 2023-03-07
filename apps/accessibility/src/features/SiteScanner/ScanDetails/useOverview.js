@@ -9,6 +9,7 @@ export default function useOverview({ scanOverviewData }) {
   const [currentRunFilter, setRunFilter] = useState(4);
   const [currentSplineRunFilter, setSplineRunFilter] = useState(4);
   const [splineChartData, setSplineChartData] = useState(chartOptionsSpline);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     if (scanOverviewData?.data?.overview?.issueHistory) {
@@ -109,12 +110,12 @@ export default function useOverview({ scanOverviewData }) {
   }, [scanOverviewData, currentRunFilter, currentSplineRunFilter]);
 
   const handleStackedFilter = (e) => {
-    const runFilterVal = e.target.textContent === 'Last 8 runs' ? 8 : 4;
+    const runFilterVal = e.value;
     setRunFilter(runFilterVal);
   };
 
   const handleSplineFilter = (e) => {
-    const runFilterVal = e.target.textContent === 'Last 8 runs' ? 8 : 4;
+    const runFilterVal = e.value;
     setSplineRunFilter(runFilterVal);
   };
 
@@ -127,6 +128,8 @@ export default function useOverview({ scanOverviewData }) {
     currentRunFilter,
     splineChartOptions,
     handleSplineFilter,
-    currentSplineRunFilter
+    currentSplineRunFilter,
+    isCopied,
+    setIsCopied
   };
 }

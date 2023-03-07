@@ -53,7 +53,7 @@ export default function ScanReport() {
         return reportOverviewData ? <ScanReportSummary /> : <Loader />;
     }
   };
-  console.log(reportCommonData, Object.values(reportMetaData));
+
   return (
     <>
       <div className="bg-base-50">

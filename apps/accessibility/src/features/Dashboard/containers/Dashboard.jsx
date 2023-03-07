@@ -41,7 +41,7 @@ export default function Dashboard({ children }) {
       badge: <Badge text="New" />
     },
     {
-      id: 'website-scanner',
+      id: 'site-scanner',
       label: 'Website Scanner',
       activeIcon: MdOutlineDynamicFeed,
       inActiveIcon: MdOutlineDynamicFeed,

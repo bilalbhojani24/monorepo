@@ -73,10 +73,6 @@ const typesScan = [
   {
     body: 'Your Scans',
     id: 'yourScans'
-  },
-  {
-    body: 'Other Scans',
-    id: 'otherScans'
   }
 ];
 
@@ -181,7 +177,7 @@ export default function SiteScanner() {
   };
 
   const getCurrrentStatus = (row) => {
-    if (row.scanStatus === 'ongoing') {
+    if (row?.scanStatus === 'ongoing') {
       return (
         <div className="text-base-500 flex font-normal capitalize">
           <span>Intializing your scan</span>
@@ -199,8 +195,10 @@ export default function SiteScanner() {
             Last scan:{' '}
             {row?.lastScanDetails?.lastScanDate
               ? dateFormat(
-                  new Date(row.lastScanDetails.lastScanDate),
-                  'mmmm dS, h:MM:ss TT'
+                  new Date(
+                    new Date(row.lastScanDetails.lastScanDate).toLocaleString()
+                  ),
+                  'mmmm dS, h:MM TT'
                 )
               : null}
           </span>
@@ -231,9 +229,11 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       case 'stopRecurringScans':
+        setIsLoading(true);
         stopRecurringScans(rowData.id)
           .then((data) => {
-            console.log(data);
+            setIsLoading(false);
+            dispatch(getScanConfigs());
             // alert('Stopped Recurring scan');
           })
           .catch((err) => console.log(err));
@@ -265,6 +265,16 @@ export default function SiteScanner() {
       </div>
     );
   }
+
+  const getRowMenu = (row) => {
+    let rowMenuCpy = [...rowMenu];
+    if (!Object.keys(row.lastScanDetails).length) {
+      rowMenuCpy = rowMenuCpy.slice(0, -1);
+    }
+    return rowMenuCpy.map((opt) => (
+      <DropdownOptionItem key={opt.id} option={opt} />
+    ));
+  };
 
   return (
     <div className="bg-base-50">
@@ -366,7 +376,7 @@ export default function SiteScanner() {
                       {row?.createdBy?.name}
                     </span>
                     <span className="mr-2 flex items-center">
-                      <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
+                      <MdCalendarToday color="#9CA3AF" className="mr-1" />
                       {row.pageCount || 0} pages
                     </span>
                     {getRunTypeBadge(row.recurring, row.active)}
@@ -444,9 +454,7 @@ export default function SiteScanner() {
                       ? singleMenu.map((opt) => (
                           <DropdownOptionItem key={opt.id} option={opt} />
                         ))
-                      : rowMenu.map((opt) => (
-                          <DropdownOptionItem key={opt.id} option={opt} />
-                        ))}
+                      : getRowMenu(row)}
                   </DropdownOptionGroup>
                 </Dropdown>
               </TableCell>

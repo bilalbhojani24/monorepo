@@ -51,7 +51,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
           <Dropdown onClick={onFilterApplied} id="scanFilter">
             <div className="flex">
               <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Page Status
+                Status
                 <MdExpandMore className="h-5 w-5" aria-hidden="true" />
               </DropdownTrigger>
             </div>
@@ -102,7 +102,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
                 <div className="text-base-500 flex items-center font-normal">
                   <MdSchedule />
                   <span className="ml-0.5">
-                    {dateFormat(new Date(row.time), 'mmmm dS, h:MM:ss TT')}
+                    {dateFormat(new Date(row.time), 'mmmm dS, h:MM TT')}
                   </span>
                 </div>
               </TableCell>
