@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, MdArrowBack } from '@browserstack/bifrost';
+import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { getProjectsListAPI } from 'api/projectlist';
+import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { URL_REGEX } from 'constants/common';
+import { URL_REGEX, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setProjectList } from 'globalSlice';
 import useRafPolling from 'hooks/useRafPolling';
@@ -72,16 +73,20 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   }, [handleFrameTasks]);
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="m-auto flex h-[calc(100vh-4rem)] w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0">
+    <div
+      className={twClassNames(
+        'm-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <div className="mb-5 flex w-full items-center justify-between bg-white pt-12">
-        <Button
+        <O11yButton
           variant="minimal"
           icon={<MdArrowBack className="text-xl" />}
           onClick={onClickBack}
         >
           Back
-        </Button>
+        </O11yButton>
         <p className="text-sm font-medium">{selectedFramework.name}</p>
       </div>
       {isLoading && (

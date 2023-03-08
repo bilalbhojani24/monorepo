@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
+import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
@@ -22,16 +23,17 @@ const LayoutWSidebar = () => {
         <Suspense
           fallback={
             <O11yLoader
-              wrapperClassName="h-full"
+              wrapperClassName="h-screen"
               loaderClass="text-base-200 fill-base-400 w-8 h-8"
             />
           }
         >
-          <div className="min-h-screen flex-1">
+          <div className="flex-1">
             <Outlet />
           </div>
         </Suspense>
       </main>
+      <NotificationsContainer />
     </>
   );
 };

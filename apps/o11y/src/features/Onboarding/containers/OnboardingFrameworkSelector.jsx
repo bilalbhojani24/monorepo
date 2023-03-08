@@ -2,6 +2,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GridListWHorizontalLink } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
+import { WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getProjects } from 'globalSlice/selectors';
 
@@ -46,8 +48,12 @@ export default function OnboardingFrameworkSelector() {
     );
   }
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="flex h-[calc(100vh-4rem)] w-screen items-center justify-center p-12">
+    <div
+      className={twClassNames(
+        'flex w-screen items-center justify-center p-12',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <div className="border-base-200 flex w-full max-w-2xl flex-col rounded-lg border p-6 shadow-sm">
         <div className="border-b-base-200 mb-6 border-b pb-6">
           <h1 className="text-lg font-medium leading-6">

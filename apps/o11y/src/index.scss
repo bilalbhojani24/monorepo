@@ -3,3 +3,12 @@
 @tailwind utilities;
 
 @import '@browserstack/tailwind-config/default-theme';
+
+body {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  color: var(--colors-base-900);
+}

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
 import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yHyperlink,
   O11yInputField,
@@ -11,7 +12,7 @@ import {
   O11yTable,
   O11yTableRow
 } from 'common/bifrostProxy';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getProjects } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
@@ -53,8 +54,12 @@ export default function ProjectList() {
   }
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="flex h-[calc(100vh-4rem)] w-screen justify-center p-12">
+    <div
+      className={twClassNames(
+        'flex w-screen justify-center p-12',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border shadow-sm">
         <div className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">

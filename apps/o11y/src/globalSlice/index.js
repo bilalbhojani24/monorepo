@@ -39,7 +39,8 @@ const { actions, reducer } = createSlice({
       list: [],
       active: {
         id: 0,
-        name: 'Select a project'
+        name: 'Select a project',
+        normalisedName: ''
       }
     },
     buildInfo: null

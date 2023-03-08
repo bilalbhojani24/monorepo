@@ -21,3 +21,5 @@ export const getDocUrl = ({
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 };
+
+export const getNumericValue = (value) => +value.replace(/\D/g, '');
