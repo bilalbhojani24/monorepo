@@ -5,25 +5,13 @@ import {
   Button,
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
+  MdWarningAmber,
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
-// import classnames from 'classnames';
 import { twClassNames } from '@browserstack/utils';
 import { NEEDS_REVIEW_BANNER_TEXT } from 'constants';
 import PropTypes from 'prop-types';
-// import Lozenge from 'trike/Lozenge';
-// import Tooltip from 'trike/Tooltip';
-// import {
-//   ArrowDropDownIcon,
-//   ArrowDropUpIcon,
-//   CancelIcon,
-//   CheckCircleIcon,
-//   ChevronLeftIcon,
-//   ChevronRightIcon,
-//   InfoIcon
-// } from 'app/_modules/Icons';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 
 function NodeIssueNavigator({
   nodeNeedsReviewStatus,
@@ -34,15 +22,15 @@ function NodeIssueNavigator({
   const totalItems = nodeNeedsReviewStatus.length;
 
   const showPagination = nodeNeedsReviewStatus.length > 1;
-  const isNextDisabled = currentItemIndex !== totalItems - 1;
-  const isPreviousDisabled = currentItemIndex !== 0;
+  const isNextDisabled = currentItemIndex === totalItems - 1;
+  const isPreviousDisabled = currentItemIndex === 0;
 
   const handlePreviousClick = () => {
-    if (isPreviousDisabled) setCurrentItemIndex((prev) => prev - 1);
+    if (!isPreviousDisabled) setCurrentItemIndex((prev) => prev - 1);
   };
 
   const handleNextClick = () => {
-    if (isNextDisabled) setCurrentItemIndex((prev) => prev + 1);
+    if (!isNextDisabled) setCurrentItemIndex((prev) => prev + 1);
   };
 
   const getReviewTagColor = (confirmed) => {
@@ -59,7 +47,6 @@ function NodeIssueNavigator({
 
   const getReviewStatusInfo = () => {
     if (isConfirmedInAllReports === null && !showHiddenIssues) {
-      console.log(nodeNeedsReviewStatus, currentItemIndex);
       if (showPagination) {
         const modifier = getReviewTagColor(
           nodeNeedsReviewStatus[currentItemIndex].confirmed
@@ -67,27 +54,30 @@ function NodeIssueNavigator({
         const text = getTagText(
           nodeNeedsReviewStatus[currentItemIndex].confirmed
         );
-        const showToolTip =
-          nodeNeedsReviewStatus[currentItemIndex].reportName.length > 20;
+        const showToolTip = nodeNeedsReviewStatus[currentItemIndex]?.reportName
+          ? nodeNeedsReviewStatus[currentItemIndex].reportName.length > 100
+          : false;
 
         return (
-          <div>
+          <div className="flex items-center">
             <p className="text-base-700 text-sm">{`Review status (${
               currentItemIndex + 1
             } of ${totalItems}):`}</p>
             &nbsp;
             <Tooltip
-              show
+              show={showToolTip}
               theme="dark"
               content={
-                <TooltipBody>
+                <TooltipBody wrapperClassName="mb-0">
                   {showToolTip
                     ? nodeNeedsReviewStatus[currentItemIndex].reportName
                     : ''}
                 </TooltipBody>
               }
             >
-              <p>{nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;</p>
+              <p className="text-sm font-medium">
+                {nodeNeedsReviewStatus[currentItemIndex].reportName}&nbsp;
+              </p>
             </Tooltip>
             <Badge
               text={text}
@@ -102,20 +92,15 @@ function NodeIssueNavigator({
       }
 
       return (
-        <div>
-          <p>Reports can be reviewed on the extension by the report author</p>
-        </div>
+        <p className="text-attention-700 ml-5 pl-2 text-sm">
+          Reports can be reviewed on the extension by the report author
+        </p>
       );
     }
     if (isConfirmedInAllReports) {
       return (
-        <div>
-          <p>Review status:</p>
-          {/* <Lozenge
-            wrapperClassName="node-issue-navigator__title-review-lozenge"
-            text="Confirmed as issue"
-            modifier="success"
-          /> */}
+        <div className="ml-7 flex items-center">
+          <p className="text-xs">Review status:</p>&nbsp;
           <Badge
             text="Confirmed as issue"
             modifier="success"
@@ -125,7 +110,7 @@ function NodeIssueNavigator({
             size="small"
           />
           &nbsp;
-          <p>
+          <p className="text-xs">
             {showPagination
               ? 'as issue in all source reports'
               : 'in source report'}
@@ -134,16 +119,19 @@ function NodeIssueNavigator({
       );
     }
     return (
-      <div>
-        <p>Review status:</p>
-        &nbsp;
-        {/* <Lozenge
-          wrapperClassName="node-issue-navigator__title-review-lozenge"
+      <div className="ml-7 flex items-center">
+        <p className="text-xs">Review status:</p>&nbsp;
+        <Badge
           text="Dismissed issue"
           modifier="error"
-        /> */}
+          hasDot={false}
+          hasRemoveButton={false}
+          isRounded={false}
+        />
         &nbsp;
-        <p>{showPagination ? 'in all source reports' : 'in source report'}</p>
+        <p className="text-xs">
+          {showPagination ? 'in all source reports' : 'in source report'}
+        </p>
       </div>
     );
   };
@@ -153,24 +141,6 @@ function NodeIssueNavigator({
       {getReviewStatusInfo()}
       {showPagination ? (
         <div className="flex">
-          {/* <div
-            className={classnames('node-issue-navigator__pagination-icon', {
-              'node-issue-navigator__pagination-icon--disabled':
-                isPreviousDisabled
-            })}
-            tabIndex={0}
-            role="button"
-            onClick={handlePreviousClick}
-            onKeyDown={(e) =>
-              handleClickByEnterOrSpace(e, () => handlePreviousClick())
-            }
-            aria-label="Go to previous issue status"
-            aria-disabled={isPreviousDisabled}
-          >
-            <ChevronLeftIcon />
-            &nbsp;
-            <span>Previous</span>
-          </div> */}
           <Button
             icon={<MdKeyboardArrowLeft className="text-xl" />}
             iconPlacement="end"
@@ -192,22 +162,6 @@ function NodeIssueNavigator({
           >
             Next
           </Button>
-          {/* <div
-            className={classnames('node-issue-navigator__pagination-icon', {
-              'node-issue-navigator__pagination-icon--disabled': isNextDisabled
-            })}
-            tabIndex={0}
-            role="button"
-            aria-disabled={isNextDisabled}
-            onClick={handleNextClick}
-            onKeyDown={(e) =>
-              handleClickByEnterOrSpace(e, () => handleNextClick())
-            }
-            aria-label="Go to next review status"
-          >
-            <span>Next</span>
-            <ChevronRightIcon />
-          </div> */}
         </div>
       ) : null}
     </div>
@@ -229,13 +183,9 @@ function NeedsReviewBanner({
     return NEEDS_REVIEW_BANNER_TEXT.REJECTED;
   };
 
-  // const getLeadingIcon = () => {
-  //   if (isConfirmedInAllReports === null && !showHiddenIssues)
-  //     return <InfoIcon fontSize="small" htmlColor="#917210" />;
-  //   if (isConfirmedInAllReports)
-  //     return <CheckCircleIcon fontSize="small" htmlColor="#0E8A09" />;
-  //   return <CancelIcon fontSize="small" htmlColor="#AE2727" />;
-  // };
+  const isFail =
+    showHiddenIssues ||
+    (isConfirmedInAllReports !== null && !isConfirmedInAllReports);
 
   return (
     <Accordion
@@ -243,9 +193,7 @@ function NeedsReviewBanner({
         'flex w-full bg-white py-3 px-6 bg-attention-50',
         {
           'bg-success-50': isConfirmedInAllReports,
-          'base-error-50':
-            showHiddenIssues ||
-            (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+          'base-error-50': isFail
         }
       )}
       triggerContentNode={
@@ -254,14 +202,6 @@ function NeedsReviewBanner({
             <p className="text-base-900 mr-2 text-sm">
               {getNeedsReviewBannerText()}
             </p>
-            {/* <div>
-              <Badge
-                hasDot={false}
-                hasRemoveButton={false}
-                isRounded
-                text={totalCount}
-              />
-            </div> */}
           </div>
         </div>
       }
@@ -269,12 +209,27 @@ function NeedsReviewBanner({
         <div
           className={twClassNames('px-6 py-2 bg-attention-50', {
             'bg-success-50': isConfirmedInAllReports,
-            'base-error-50':
-              showHiddenIssues ||
-              (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
+            'base-error-50': isFail
           })}
         >
-          <span>{message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}</span>
+          <div className="flex items-start">
+            <div>
+              <MdWarningAmber className="text-attention-500 text-xl" />
+            </div>
+            <div>
+              <p
+                className={twClassNames(
+                  'text-attention-800 text-sm font-medium mb-2 ml-2',
+                  {
+                    'text-success-800': isConfirmedInAllReports,
+                    'text-error-800': isFail
+                  }
+                )}
+              >
+                {message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}
+              </p>
+            </div>
+          </div>
           <NodeIssueNavigator
             nodeNeedsReviewStatus={nodeNeedsReviewStatus}
             isConfirmedInAllReports={isConfirmedInAllReports}
