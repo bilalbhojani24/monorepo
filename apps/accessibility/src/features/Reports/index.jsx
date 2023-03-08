@@ -18,7 +18,6 @@ import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
 import { reportPerPage, reportType } from 'constants';
 
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
 
@@ -196,7 +195,7 @@ export default function Reports() {
         </div>
       </div>
       <div
-        className="fixed overflow-auto "
+        className="fixed overflow-auto"
         style={{
           height: 'calc(100vh - 227px)',
           top: '227px',
@@ -218,7 +217,9 @@ export default function Reports() {
           {searchFilterList.length > 0 &&
             searchFilterList
               .slice(lastIndex - reportPerPage, lastIndex)
-              .map(({ id }) => <ReportRow key={id} id={id} />)}
+              .map(({ uniqueId }) => (
+                <ReportRow key={uniqueId} id={uniqueId} />
+              ))}
         </div>
         {!isLoading && searchFilterList.length > 0 && (
           <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">

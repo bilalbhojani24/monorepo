@@ -1,7 +1,9 @@
 export const getReportList = (state) =>
   state.accessibility.app.reports.reportList;
 export const getReport = (id) => (state) =>
-  state.accessibility.app.reports.reportList.find((report) => report.id === id);
+  state.accessibility.app.reports.reportList.find(
+    (report) => report.uniqueId === id
+  );
 export const getActiveVersion = (state) =>
   state.accessibility.app.reports.activeVersion;
 export const getSelectedReportCount = (state) =>

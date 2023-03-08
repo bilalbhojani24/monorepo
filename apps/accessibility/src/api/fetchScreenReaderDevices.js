@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { getEnvUrl } from 'utils';
+import { getBrowserStackEnvUrl } from 'utils';
 
 export default async function fetchScreenReaderDevices() {
-  const baseURL = getEnvUrl();
+  const baseURL = getBrowserStackEnvUrl();
   const response = await axios.get(
     '/screen-readers/supported-combinations',
     baseURL,
