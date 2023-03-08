@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import BasicWidget from '../BasicWidget';
 import { store } from '../store';
 
-import Content from './components/ContentContainer';
+import ListOfIntegrations from './components/ListOfIntegrations';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];
@@ -27,12 +27,9 @@ export const CreateIssue = ({
     projectId={projectId}
     positionRef={positionRef}
     handleClose={handleClose}
+    componentKey="create-issue"
   >
-    <Content
-      projectId={projectId}
-      options={options}
-      componentKey="create-issue"
-    />
+    <ListOfIntegrations />
   </BasicWidget>
 );
 
