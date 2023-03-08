@@ -1,6 +1,7 @@
 // if folderId exists then it is a subfolder creation
 
 import React, { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
 import {
   TMButton,
   TMInputField,
@@ -11,8 +12,13 @@ import {
   TMTextArea
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
-import { onSubmitKeyHandler } from 'utils/helperFunctions';
+import {
+  // attachEventListener,
+  // detachEventListener,
+  onSubmitKeyHandler
+} from 'utils/helperFunctions';
 
+// import { setFolderModalConf } from '../slices/repositorySlice';
 import useAddEditFolderModal from './useAddEditFolderModal';
 
 const AddEditFolderModal = ({
@@ -33,6 +39,7 @@ const AddEditFolderModal = ({
     hideFolderModal,
     createFolderHandler
   } = useAddEditFolderModal({ folderId, isSubFolder, isEditFolder });
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     if (show)
@@ -50,6 +57,17 @@ const AddEditFolderModal = ({
       });
     }
   }, [currentData, setFormData]);
+
+  // useEffect(() => {
+  //   const handleKeyDown = (e) => {
+  //     if (e.key === 'Escape') dispatch(setFolderModalConf(false));
+  //   };
+  //   if (show) attachEventListener(document, 'keydown', handleKeyDown);
+  //   if (!show) detachEventListener(document, 'keydown', handleKeyDown);
+  //   return () => {
+  //     detachEventListener(document, 'keydown', handleKeyDown);
+  //   };
+  // }, [show, dispatch]);
 
   return (
     <TMModal

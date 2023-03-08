@@ -148,11 +148,9 @@ const useProjects = (prop) => {
         );
 
         navigate(
-          prop?.isFirstProject
-            ? AppRoute.ROOT
-            : routeFormatter(AppRoute.TEST_CASES, {
-                projectId: res.data.project.id
-              })
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId: res.data.project.id
+          })
         );
         hideAddProjectModal();
       });
