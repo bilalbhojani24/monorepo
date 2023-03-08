@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
-import { events } from 'constants';
+import { events, testTypes } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -129,12 +129,22 @@ export default function useReports() {
   const onReportConsolidateButtonClick = () => {
     const selectedReports = reportList
       .filter((report) => report.isSelected)
-      .map(({ id }) => id);
-    const idList = selectedReports.join(',');
+      .map(({ uniqueId }) => uniqueId);
+    const workflowScanList = selectedReports
+      .filter((id) => id.includes(testTypes.workflowScan))
+      .map((id) => id.split(`${testTypes.workflowScan}:`)[1]);
+    const assistiveTestList = selectedReports
+      .filter((id) => id.includes(testTypes.assistiveTest))
+      .map((id) => id.split(`${testTypes.assistiveTest}:`)[1]);
     const params = {
-      ids: idList,
       wcagVersion: activeVersion.split('WCAG ')[1]
     };
+    if (workflowScanList.length) {
+      params.ids = workflowScanList.join(',');
+    }
+    if (assistiveTestList.length) {
+      params.ar_ids = assistiveTestList.join(',');
+    }
     if (window.dashboardUserID) {
       params.dashboardUserID = window.dashboardUserID;
     }

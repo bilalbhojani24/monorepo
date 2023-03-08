@@ -9,21 +9,13 @@ export const ROUTES = {
   welcome: '/welcome'
 };
 
-const Config = {
-  generate_url: () => 'hello'
-};
-
 export const EDSKey = 'web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
-  DEVELOPMENT: 'DEVELOPMENT'
+  DEVELOPMENT: 'DEVELOPMENT',
+  LOCAL: 'LOCAL'
 };
-
-export const SCREEN_READER_LIVE_URL = Config.generate_url(
-  '/screen-reader/start',
-  'accessibility'
-);
 
 export const NEEDS_REVIEW_BANNER_TEXT = {
   ACCEPTED: "This 'Needs Review' instance has been confirmed as an issue",

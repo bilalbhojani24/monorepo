@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
-import { SCREEN_READER_LIVE_URL } from 'constants';
+import { getBrowserStackEnvUrl } from 'utils';
 
 export default function useScreenReader() {
   const [deviceCombinations, setDeviceCombinations] = useState({});
 
   const handleCardClick = (startParams) => {
-    const startLiveSessionUrl = new URL(SCREEN_READER_LIVE_URL);
+    const url = getBrowserStackEnvUrl();
+    const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
     startLiveSessionUrl.searchParams.set(
       'start_element',
       'accessibility_dashboard'

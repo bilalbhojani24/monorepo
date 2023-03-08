@@ -9,22 +9,9 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
-// import classnames from 'classnames';
 import { twClassNames } from '@browserstack/utils';
 import { NEEDS_REVIEW_BANNER_TEXT } from 'constants';
 import PropTypes from 'prop-types';
-// import Lozenge from 'trike/Lozenge';
-// import Tooltip from 'trike/Tooltip';
-// import {
-//   ArrowDropDownIcon,
-//   ArrowDropUpIcon,
-//   CancelIcon,
-//   CheckCircleIcon,
-//   ChevronLeftIcon,
-//   ChevronRightIcon,
-//   InfoIcon
-// } from 'app/_modules/Icons';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 
 function NodeIssueNavigator({
   nodeNeedsReviewStatus,
@@ -35,15 +22,15 @@ function NodeIssueNavigator({
   const totalItems = nodeNeedsReviewStatus.length;
 
   const showPagination = nodeNeedsReviewStatus.length > 1;
-  const isNextDisabled = currentItemIndex !== totalItems - 1;
-  const isPreviousDisabled = currentItemIndex !== 0;
+  const isNextDisabled = currentItemIndex === totalItems - 1;
+  const isPreviousDisabled = currentItemIndex === 0;
 
   const handlePreviousClick = () => {
-    if (isPreviousDisabled) setCurrentItemIndex((prev) => prev - 1);
+    if (!isPreviousDisabled) setCurrentItemIndex((prev) => prev - 1);
   };
 
   const handleNextClick = () => {
-    if (isNextDisabled) setCurrentItemIndex((prev) => prev + 1);
+    if (!isNextDisabled) setCurrentItemIndex((prev) => prev + 1);
   };
 
   const getReviewTagColor = (confirmed) => {
@@ -60,7 +47,7 @@ function NodeIssueNavigator({
 
   const getReviewStatusInfo = () => {
     if (isConfirmedInAllReports === null && !showHiddenIssues) {
-      if (!showPagination) {
+      if (showPagination) {
         const modifier = getReviewTagColor(
           nodeNeedsReviewStatus[currentItemIndex].confirmed
         );
@@ -68,7 +55,7 @@ function NodeIssueNavigator({
           nodeNeedsReviewStatus[currentItemIndex].confirmed
         );
         const showToolTip =
-          nodeNeedsReviewStatus[currentItemIndex].reportName.length > 20;
+          nodeNeedsReviewStatus[currentItemIndex].reportName.length > 100;
 
         return (
           <div className="flex items-center">
@@ -111,13 +98,8 @@ function NodeIssueNavigator({
     }
     if (isConfirmedInAllReports) {
       return (
-        <div>
-          <p>Review status:</p>
-          {/* <Lozenge
-            wrapperClassName="node-issue-navigator__title-review-lozenge"
-            text="Confirmed as issue"
-            modifier="success"
-          /> */}
+        <div className="ml-7 flex items-center">
+          <p className="text-xs">Review status:</p>&nbsp;
           <Badge
             text="Confirmed as issue"
             modifier="success"
@@ -127,7 +109,7 @@ function NodeIssueNavigator({
             size="small"
           />
           &nbsp;
-          <p>
+          <p className="text-xs">
             {showPagination
               ? 'as issue in all source reports'
               : 'in source report'}
@@ -136,16 +118,19 @@ function NodeIssueNavigator({
       );
     }
     return (
-      <div>
-        <p>Review status:</p>
-        &nbsp;
-        {/* <Lozenge
-          wrapperClassName="node-issue-navigator__title-review-lozenge"
+      <div className="ml-7 flex items-center">
+        <p className="text-xs">Review status:</p>&nbsp;
+        <Badge
           text="Dismissed issue"
           modifier="error"
-        /> */}
+          hasDot={false}
+          hasRemoveButton={false}
+          isRounded={false}
+        />
         &nbsp;
-        <p>{showPagination ? 'in all source reports' : 'in source report'}</p>
+        <p className="text-xs">
+          {showPagination ? 'in all source reports' : 'in source report'}
+        </p>
       </div>
     );
   };
@@ -155,24 +140,6 @@ function NodeIssueNavigator({
       {getReviewStatusInfo()}
       {showPagination ? (
         <div className="flex">
-          {/* <div
-            className={classnames('node-issue-navigator__pagination-icon', {
-              'node-issue-navigator__pagination-icon--disabled':
-                isPreviousDisabled
-            })}
-            tabIndex={0}
-            role="button"
-            onClick={handlePreviousClick}
-            onKeyDown={(e) =>
-              handleClickByEnterOrSpace(e, () => handlePreviousClick())
-            }
-            aria-label="Go to previous issue status"
-            aria-disabled={isPreviousDisabled}
-          >
-            <ChevronLeftIcon />
-            &nbsp;
-            <span>Previous</span>
-          </div> */}
           <Button
             icon={<MdKeyboardArrowLeft className="text-xl" />}
             iconPlacement="end"
@@ -194,22 +161,6 @@ function NodeIssueNavigator({
           >
             Next
           </Button>
-          {/* <div
-            className={classnames('node-issue-navigator__pagination-icon', {
-              'node-issue-navigator__pagination-icon--disabled': isNextDisabled
-            })}
-            tabIndex={0}
-            role="button"
-            aria-disabled={isNextDisabled}
-            onClick={handleNextClick}
-            onKeyDown={(e) =>
-              handleClickByEnterOrSpace(e, () => handleNextClick())
-            }
-            aria-label="Go to next review status"
-          >
-            <span>Next</span>
-            <ChevronRightIcon />
-          </div> */}
         </div>
       ) : null}
     </div>
@@ -231,14 +182,6 @@ function NeedsReviewBanner({
     return NEEDS_REVIEW_BANNER_TEXT.REJECTED;
   };
 
-  // const getLeadingIcon = () => {
-  //   if (isConfirmedInAllReports === null && !showHiddenIssues)
-  //     return <InfoIcon fontSize="small" htmlColor="#917210" />;
-  //   if (isConfirmedInAllReports)
-  //     return <CheckCircleIcon fontSize="small" htmlColor="#0E8A09" />;
-  //   return <CancelIcon fontSize="small" htmlColor="#AE2727" />;
-  // };
-
   const isFail =
     showHiddenIssues ||
     (isConfirmedInAllReports !== null && !isConfirmedInAllReports);
@@ -258,14 +201,6 @@ function NeedsReviewBanner({
             <p className="text-base-900 mr-2 text-sm">
               {getNeedsReviewBannerText()}
             </p>
-            {/* <div>
-              <Badge
-                hasDot={false}
-                hasRemoveButton={false}
-                isRounded
-                text={totalCount}
-              />
-            </div> */}
           </div>
         </div>
       }
@@ -305,55 +240,6 @@ function NeedsReviewBanner({
       onChevronClick={() => setShowDetails(!showDetails)}
     />
   );
-
-  // return (
-  //   <div
-  // className={classnames('issue-item__banner-alert', {
-  //   'issue-item__banner-alert-accepted': isConfirmedInAllReports,
-  //   'issue-item__banner-alert-rejected':
-  //     showHiddenIssues ||
-  //     (isConfirmedInAllReports !== null && !isConfirmedInAllReports)
-  // })}
-  //   >
-  //     <div className="issue-item__alert-content-wrapper">
-  //       <div>
-  //         <p className="issue-item__review-message">
-  //           <div className="issue-item__review-title">
-  //             <div className="issue-item__review-title-contents">
-  //               {/* {getLeadingIcon()} */}
-  //               <span className="issue-item__review-title-text">
-  //                 {/* {getNeedsReviewBannerText()} */}
-  //               </span>
-  //             </div>
-  //             <div
-  //               className="issue-item__review-title-contents"
-  //               tabIndex={0}
-  //               role="button"
-  //               onClick={() => setShowDetails(!showDetails)}
-  //             >
-  //               <span className="issue-item__review-title-text">
-  //                 {showDetails ? 'Hide Details' : 'View Details'}
-  //               </span>
-  //               {showDetails ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-  //             </div>
-  //           </div>
-  //           {showDetails && (
-  //             <div className="issue-item__review-message-body">
-  //               <span className="issue-item__review-message-body-text">
-  //                 {message || NEEDS_REVIEW_BANNER_TEXT.DEFAULT_MESSAGE}
-  //               </span>
-  //               <NodeIssueNavigator
-  //                 nodeNeedsReviewStatus={nodeNeedsReviewStatus}
-  //                 isConfirmedInAllReports={isConfirmedInAllReports}
-  //                 showHiddenIssues={showHiddenIssues}
-  //               />
-  //             </div>
-  //           )}
-  //         </p>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 }
 
 NodeIssueNavigator.propTypes = {

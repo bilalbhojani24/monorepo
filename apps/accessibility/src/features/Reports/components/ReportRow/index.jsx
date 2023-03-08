@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Checkbox } from '@browserstack/bifrost';
-import { issueTypes, reportType } from 'constants';
+import { issueTypes, reportType, testTypes } from 'constants';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import {
@@ -53,15 +53,20 @@ export default function ReportRow({ id }) {
         actionType: 'View individual report'
       });
       const params = {
-        ids: id,
         wcagVersion: activeVersion.split('WCAG ')[1]
       };
+      const [, ids] = id.split(':');
+      if (id.includes(testTypes.workflowScan)) {
+        params.ids = ids;
+      }
+      if (id.includes(testTypes.assistiveTest)) {
+        params.ar_ids = ids;
+      }
       if (window.dashboardUserID) {
         params.dashboardUserID = window.dashboardUserID;
       }
       const path = updateUrlWithQueryParam({
-        ids: id,
-        wcagVersion: activeVersion.split('WCAG ')[1]
+        ...params
       });
       navigate(`report?${path}`);
     }
