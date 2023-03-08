@@ -109,7 +109,7 @@ export default function Issues() {
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
     >
-      <div>
+      <div className="fixed" style={{ top: '171px' }}>
         <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
           <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ModalBody>
