@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MdCheckCircle } from '@browserstack/bifrost';
 
+import initAPI from '../../api/initAPI';
+
 export default function Welcome() {
+  useEffect(() => {
+    initAPI().then((data) => {
+      console.log(data);
+    });
+  }, []);
   return (
     <div className="bg-base-50 flex h-screen w-screen items-center justify-center">
       <div className="w-1/2 bg-white shadow">
