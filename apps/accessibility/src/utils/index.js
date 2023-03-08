@@ -50,7 +50,7 @@ export const getEnvUrl = () => {
   const env = getCurrentEnv();
   let baseURL = 'https://accessibility-beta.browserstack.com/api';
   if (env === ENVS.STAGING) {
-    baseURL = 'https://devaccessibility.bsstag.com/accessibility/api';
+    baseURL = 'https://accessibility.bsstag.com/api';
   } else if (env === ENVS.PRODUCTION) {
     baseURL = 'https://accessibility-beta.browserstack.com/api';
   }
@@ -59,11 +59,11 @@ export const getEnvUrl = () => {
 
 export const getBrowserStackEnvUrl = () => {
   const env = getCurrentEnv();
-  let baseURL = 'https://browserstack.com/accessibility/api';
+  let baseURL = 'https://www.browserstack.com/accessibility/api';
   if (env === ENVS.STAGING) {
     baseURL = 'https://devaccessibility.bsstag.com/accessibility/api';
   } else if (env === ENVS.PRODUCTION) {
-    baseURL = 'https://browserstack.com/accessibility/api';
+    baseURL = 'https://www.browserstack.com/accessibility/api';
   }
   return baseURL;
 };
