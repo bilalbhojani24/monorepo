@@ -16,7 +16,8 @@ export const EDSKey = 'web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
-  DEVELOPMENT: 'DEVELOPMENT'
+  DEVELOPMENT: 'DEVELOPMENT',
+  LOCAL: 'LOCAL'
 };
 
 export const NEEDS_REVIEW_BANNER_TEXT = {

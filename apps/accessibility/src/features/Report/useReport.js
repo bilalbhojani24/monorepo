@@ -49,12 +49,17 @@ export default function useReport() {
   };
 
   useEffect(() => {
-    const reportIDList = params.get('ids').split(',');
-    const isConsolidated = reportIDList.length > 1;
+    const reportIDList = params.get('ids')?.split(',');
+    const arReportIDList = params.get('ar_ids')?.split(',');
+    const isConsolidated =
+      reportIDList?.length > 1 || arReportIDList?.length > 1;
     setIsLoading(true);
     Promise.all([
       fetchCustomData(),
-      fetchReport(reportIDList, window.dashboardUserID)
+      fetchReport(
+        { ids: reportIDList, arList: arReportIDList },
+        window.dashboardUserID
+      )
     ]).then(([customData, reportData]) => {
       dispatch(setCustomData(customData.data));
       dispatch(setReportData(reportData));
