@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import BasicWidget from '../BasicWidget';
 import { store } from '../store';
 
-import Content from './components/ContentContainer';
+import ListOfIntegrations from './components/ListOfIntegrations';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];
@@ -18,26 +18,20 @@ export const CreateIssue = ({
   projectId,
   positionRef,
   handleClose
-}) => {
-  console.log(isOpen);
-  return (
-    <BasicWidget
-      isOpen={isOpen}
-      authUrl={authUrl}
-      options={options}
-      position={position}
-      projectId={projectId}
-      positionRef={positionRef}
-      handleClose={handleClose}
-    >
-      <Content
-        projectId={projectId}
-        options={options}
-        componentKey="create-issue"
-      />
-    </BasicWidget>
-  );
-};
+}) => (
+  <BasicWidget
+    isOpen={isOpen}
+    authUrl={authUrl}
+    options={options}
+    position={position}
+    projectId={projectId}
+    positionRef={positionRef}
+    handleClose={handleClose}
+    componentKey="create-issue"
+  >
+    <ListOfIntegrations />
+  </BasicWidget>
+);
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,
