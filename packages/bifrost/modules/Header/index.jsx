@@ -45,7 +45,7 @@ const Header = ({
         release={release}
       />
       <HeaderProducts
-        wrapperClassName="max-[1360px]:hidden"
+        wrapperClassName="[@media(max-width:1360px)]:hidden max-[1360px]:hidden"
         productCount={productsToShow}
         productArray={productArray}
       />
