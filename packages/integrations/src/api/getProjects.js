@@ -3,13 +3,12 @@ import axios from 'axios';
 
 import { URLS } from './constants';
 
-const getProjects = ({ projectId, integrationkey }) =>
+const getProjects = (integrationKey) =>
   axios({
     method: 'get',
-    url: URLS.LIST_INTEGRATIONS,
+    url: URLS.PROJECTS,
     params: {
-      project_id: projectId,
-      integrationkey
+      integrationKey
     }
   }).then((response) => response.data);
 

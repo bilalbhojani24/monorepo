@@ -25,6 +25,7 @@ const OAuth = ({
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
+  let authWindow = null;
   useEffect(() => {
     const handleMessage = (event) => {
       setIsOAuthConnecting(true);
@@ -39,19 +40,20 @@ const OAuth = ({
       } else {
         dispatch(setHasIntegrated(integrationKey));
       }
+      authWindow?.close();
     };
     window.addEventListener('message', handleMessage);
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [setHasOAuthFailed, dispatch, integrationKey]);
+  }, [setHasOAuthFailed, dispatch, integrationKey, authWindow]);
 
   const handleAPIConnect = () => {
     showAPIToken();
   };
   const handleOAuthConnection = () => {
     getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      window.open(redirectUri, 'mywindow', 'height=640,width=960');
+      authWindow = window.open(redirectUri, 'mywindow', 'height=640,width=960');
     });
   };
 

@@ -29,7 +29,7 @@ export const CreateIssue = ({
     handleClose={handleClose}
     componentKey="create-issue"
   >
-    <ListOfIntegrations />
+    <ListOfIntegrations projectId={projectId} />
   </BasicWidget>
 );
 
