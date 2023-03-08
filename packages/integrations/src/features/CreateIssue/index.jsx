@@ -18,23 +18,26 @@ export const CreateIssue = ({
   projectId,
   positionRef,
   handleClose
-}) => (
-  <BasicWidget
-    isOpen={isOpen}
-    authUrl={authUrl}
-    options={options}
-    position={position}
-    projectId={projectId}
-    positionRef={positionRef}
-    handleClose={handleClose}
-  >
-    <Content
-      projectId={projectId}
+}) => {
+  console.log(isOpen);
+  return (
+    <BasicWidget
+      isOpen={isOpen}
+      authUrl={authUrl}
       options={options}
-      componentKey="create-issue"
-    />
-  </BasicWidget>
-);
+      position={position}
+      projectId={projectId}
+      positionRef={positionRef}
+      handleClose={handleClose}
+    >
+      <Content
+        projectId={projectId}
+        options={options}
+        componentKey="create-issue"
+      />
+    </BasicWidget>
+  );
+};
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,
