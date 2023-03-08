@@ -11,6 +11,18 @@ import { ROUTES } from './routes';
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
 );
+const AlertsSettings = React.lazy(() =>
+  import('features/Settings/containers/AlertsSettings')
+);
+const AutoAnalysisSettings = React.lazy(() =>
+  import('features/Settings/containers/AutoAnalysisSettings')
+);
+const FailureCategoriesSettings = React.lazy(() =>
+  import('features/Settings/containers/FailureCategoriesSettings')
+);
+const ReRunSettings = React.lazy(() =>
+  import('features/Settings/containers/ReRunSettings')
+);
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -90,22 +102,22 @@ export const APP_ROUTES = [
           {
             path: ROUTES.settings_alerts,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <AlertsSettings />
           },
           {
             path: ROUTES.settings_auto_analyser,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <AutoAnalysisSettings />
           },
           {
             path: ROUTES.settings_failure_categories,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <FailureCategoriesSettings />
           },
           {
             path: ROUTES.settings_re_run,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <ReRunSettings />
           }
         ]
       },
