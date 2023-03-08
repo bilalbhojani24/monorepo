@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
+  MdInfoOutline,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
   TMButton,
@@ -128,7 +128,7 @@ const MapFields = () => {
             </>
           }
         >
-          <InfoOutlinedIcon fontSize="inherit" className="ml-1" />
+          <MdInfoOutline className="ml-1 h-4 w-4" />
         </TMTooltip>
       );
     return '';
@@ -193,8 +193,10 @@ const MapFields = () => {
                   variant="header"
                   wrapperClassName={index === 2 ? 'px-10' : 'px-4'}
                 >
-                  {col.name}
-                  {getTooltip(index)}
+                  <span className="flex items-center">
+                    {col.name}
+                    {getTooltip(index)}
+                  </span>
                 </TableCell>
               ))}
             </TableRow>
