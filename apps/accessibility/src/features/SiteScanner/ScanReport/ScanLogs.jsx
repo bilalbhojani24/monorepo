@@ -108,16 +108,18 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
               </TableCell>
               <TableCell>
                 <div className="mr-2 flex items-center">
-                  {row.pageStatus === 'success' && (
+                  {row.cumulativeStatus === 'success' && (
                     <MdCheckCircle color="#10B981" />
                   )}
-                  {row.pageStatus === 'redirected' && (
+                  {row.cumulativeStatus === 'redirected' && (
                     <MdOutlineSync
                       color="#FFF"
                       className="bg-attention-500 mr-0.5 rounded-full"
                     />
                   )}
-                  {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
+                  {row.cumulativeStatus === 'error' && (
+                    <MdCancel color="#EF4444" />
+                  )}
                   <span className="ml-2">{row.pageUrl}</span>
                 </div>
               </TableCell>

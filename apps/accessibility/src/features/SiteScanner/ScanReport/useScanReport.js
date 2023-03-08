@@ -95,17 +95,11 @@ export default function useScanReport() {
     Scan Logs Filter Applied
   */
   const onFilterApplied = (e) => {
-    let scanLogsStateDataCpy = { ...scanLogsStateData };
-    console.log(scanLogsStateDataCpy);
-    if (e.length) {
-      e.forEach((option) => {
-        scanLogsStateDataCpy.logs = scanLogsStateDataCpy.logs.filter(
-          (log) => option.value === log.pageStatus
-        );
-      });
-    } else {
-      scanLogsStateDataCpy = { ...scanLogsData };
-    }
+    const scanLogsStateDataCpy = { ...scanLogsData.data };
+    scanLogsStateDataCpy.logs = scanLogsStateDataCpy.logs.filter(
+      (log) => e.id === log.cumulativeStatus
+    );
+
     setScanLogsStateData(scanLogsStateDataCpy);
   };
 

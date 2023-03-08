@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   Button,
@@ -7,15 +7,20 @@ import {
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
+  Hyperlink,
   InputField,
+  MdCheckCircleOutline,
   MdDelete,
   MdExpandMore,
+  Notifications,
+  notify,
   Slideover,
   SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
   Switch
 } from '@browserstack/bifrost';
+import { json2csv } from 'json-2-csv';
 import PropTypes from 'prop-types';
 
 import Loader from '../../../common/Loader';
@@ -33,9 +38,60 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     timeRef,
     scanNameRef,
     scanUrlRef,
-    fileUploadRef
+    fileUploadRef,
+    showToast,
+    setShowToast
   } = useNewScan(closeSlideover, preConfigData);
   console.log(formData, validationError);
+  /*
+    Download Csv
+  */
+  function downloadCsv(name) {
+    json2csv(
+      [
+        {
+          URL: 'https://browserstack.com'
+        }
+      ],
+      (error, csv) => {
+        const downloadLink = document.createElement('a');
+        const blob = new Blob(['\ufeff', csv]);
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = `${name}.csv`;
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+    );
+  }
+
+  useEffect(() => {
+    if (showToast) {
+      notify(
+        <Notifications
+          title="New website scan created"
+          description={showToast}
+          actionButtons={null}
+          headerIcon={
+            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+          }
+          handleClose={(toastData) => {
+            notify.remove(toastData.id);
+            setShowToast(false);
+          }}
+        />,
+        {
+          position: 'top-right',
+          duration: 4000,
+          autoClose: true,
+          id: 'one'
+        }
+      );
+    }
+  }, [setShowToast, showToast]);
+
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
@@ -270,7 +326,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           </div>
           <div className="flex-col">
             <div
-              className={`m-5 flex ${
+              className={`m-5 mb-2 flex ${
                 validationError.url ? 'items-center' : 'items-end'
               }`}
             >
@@ -323,6 +379,25 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 Upload CSV
               </Button>
             </div>
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                downloadCsv('Website Scanner URL List Sample');
+              }}
+              role="button"
+              onKeyDown={(e) =>
+                e.key === 'Enter' || e.key === 'Space'
+                  ? downloadCsv('Website Scanner URL List Sample')
+                  : ''
+              }
+              tabIndex="0"
+              className="text-info-600 ml-6 mb-5 text-sm"
+            >
+              Download Sample CSV
+            </div>
+            {/* <a href="data:text/csv;charset=utf-8" download="assets/sample.csv">
+              download
+            </a> */}
             <div>
               <div className="bg-base-50 text-base-500 py-3 px-6 text-xs">
                 ADDED PAGES ({formData?.scanData?.urlSet?.length || 0})

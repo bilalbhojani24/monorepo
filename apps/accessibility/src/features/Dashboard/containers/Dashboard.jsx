@@ -9,6 +9,7 @@ import {
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
   MdTextSnippet,
+  NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
@@ -149,6 +150,7 @@ export default function Dashboard({ children }) {
       >
         {children}
       </main>
+      <NotificationsContainer />
     </div>
   );
 }

@@ -27,6 +27,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     time: '12:00',
     type: WEEKLY
   });
+  const [showToast, setShowToast] = useState(false);
   const [validationError, setValidationError] = useState({});
   const dispatch = useDispatch();
   const scanNameRef = useRef();
@@ -233,8 +234,9 @@ export default function useNewScan(closeSlideover, preConfigData) {
 
           postNewScanConfig(payload)
             .then(() => {
-              handlerCloseOver();
               dispatch(getScanConfigs());
+              setShowToast(true);
+              handlerCloseOver();
             })
             .catch((err) => console.log(err));
         } else {
@@ -258,6 +260,8 @@ export default function useNewScan(closeSlideover, preConfigData) {
     scanNameRef,
     timeRef,
     scanUrlRef,
-    fileUploadRef
+    fileUploadRef,
+    setShowToast,
+    showToast
   };
 }
