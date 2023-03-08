@@ -1,0 +1,33 @@
+@import '../../_styles/variables.scss';
+.bsa11y-dashboard {
+  display: flex;
+  background-color: $grey-10;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &__main-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: $white;
+    max-width: calc(100% - #{$sidebar-width});
+  }
+
+  &__content-container {
+    background-color: $neutral-color-20;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: scroll;
+  }
+}
+.bsa11y {
+  .custom-modal__container.is-active:before {
+    position: fixed;
+  }
+  .to__flaky-tag {
+    border-color: $warning-color-40;
+    background-color: $warning-color-10;
+    justify-content: center;
+  }
+}
