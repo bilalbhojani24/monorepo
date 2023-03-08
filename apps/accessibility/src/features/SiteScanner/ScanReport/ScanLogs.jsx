@@ -1,6 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
+  ComboBox,
+  ComboboxLabel,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
+  ComboboxTrigger,
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
@@ -40,7 +44,7 @@ const columns = [
   }
 ];
 
-const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
+const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
   if (isLoading) {
     return <Loader />;
   }
@@ -48,7 +52,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
     <div>
       <div className="flex justify-between">
         <div className="w-64 px-6 py-4">
-          <Dropdown onClick={onFilterApplied} id="scanFilter">
+          {/* <Dropdown onClick={onFilterApplied} id="scanFilter">
             <div className="flex">
               <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
                 Status
@@ -61,7 +65,19 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
                 <DropdownOptionItem key={opt.id} option={opt} />
               ))}
             </DropdownOptionGroup>
-          </Dropdown>
+          </Dropdown> */}
+          <ComboBox onChange={onFilterApplied} value={selected} isMulti>
+            <ComboboxTrigger placeholder="Status" />
+            <ComboboxOptionGroup>
+              {pageStatus.map((item) => (
+                <ComboboxOptionItem
+                  key={item.value}
+                  option={item}
+                  wrapperClassName="text-base-500"
+                />
+              ))}
+            </ComboboxOptionGroup>
+          </ComboBox>
         </div>
         {/* <div className="flex text-sm">
           <span className="mr-4 flex items-center">
@@ -147,12 +163,14 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied }) => {
 ScanLogs.defaultProps = {
   isLoading: false,
   logs: {},
-  onFilterApplied: () => {}
+  onFilterApplied: () => {},
+  selected: null
 };
 
 ScanLogs.propTypes = {
   isLoading: PropTypes.bool,
   logs: PropTypes.instanceOf(Object),
+  selected: PropTypes.instanceOf(Object),
   onFilterApplied: PropTypes.func
 };
 export default ScanLogs;

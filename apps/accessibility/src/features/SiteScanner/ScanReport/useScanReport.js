@@ -30,6 +30,8 @@ export default function useScanReport() {
   const [activeTab, setActiveTab] = useState('summary');
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isCopied, setIsCopied] = useState(false);
+  const [selected, setSelected] = useState([]);
+
   // Redux
   const dispatch = useDispatch();
   const scanLogsData = useSelector(getScanLogsData);
@@ -95,10 +97,21 @@ export default function useScanReport() {
     Scan Logs Filter Applied
   */
   const onFilterApplied = (e) => {
+    console.log(e);
+    setSelected(e);
     const scanLogsStateDataCpy = { ...scanLogsData.data };
-    scanLogsStateDataCpy.logs = scanLogsStateDataCpy.logs.filter(
-      (log) => e.id === log.cumulativeStatus
-    );
+
+    if (e.length) {
+      const resultant = [];
+      e.map((item) => {
+        resultant.push(
+          ...scanLogsStateDataCpy.logs.filter(
+            (log) => item.value === log.cumulativeStatus
+          )
+        );
+      });
+      scanLogsStateDataCpy.logs = resultant;
+    }
 
     setScanLogsStateData(scanLogsStateDataCpy);
   };
@@ -115,6 +128,7 @@ export default function useScanReport() {
     reportOverviewData,
     isCopied,
     setIsCopied,
-    reportMetaData
+    reportMetaData,
+    selected
   };
 }

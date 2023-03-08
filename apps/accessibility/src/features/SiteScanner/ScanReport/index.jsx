@@ -34,7 +34,8 @@ export default function ScanReport() {
     reportOverviewData,
     isCopied,
     setIsCopied,
-    reportMetaData
+    reportMetaData,
+    selected
   } = useScanReport();
 
   const getTabContent = () => {
@@ -49,6 +50,7 @@ export default function ScanReport() {
             logs={scanLogsStateData}
             isLoading={isLoading}
             onFilterApplied={onFilterApplied}
+            selected={selected}
           />
         );
       default:

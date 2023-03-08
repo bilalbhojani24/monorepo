@@ -471,7 +471,8 @@ export default function SiteScanner() {
                   </div>
 
                   <DropdownOptionGroup>
-                    {row.scanStatus === 'ongoing'
+                    {row.isProcessing ||
+                    !Object.keys(row.lastScanDetails).length
                       ? singleMenu.map((opt) => (
                           <DropdownOptionItem key={opt.id} option={opt} />
                         ))
