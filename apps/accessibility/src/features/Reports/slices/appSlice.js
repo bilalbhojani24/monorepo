@@ -16,7 +16,7 @@ const { actions, reducer } = createSlice({
     setIsReportSelected: (state, { payload }) => {
       const { id, isSelected } = payload;
       state.reportList.forEach((report) => {
-        if (report.id === id) {
+        if (report.uniqueId === id) {
           report.isSelected = isSelected;
         }
       });

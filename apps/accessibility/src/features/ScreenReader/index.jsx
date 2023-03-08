@@ -21,8 +21,6 @@ function ScreenReaderSection({ title, devices }) {
     return MacImage;
   };
 
-  // console.log('REACT_APP_ENV', import.meta.env.VITE_APP_TITLE, import.meta.env);
-
   return (
     <div className="pl-6">
       <div className="mb-4 flex items-center">
@@ -71,35 +69,6 @@ function ScreenReaderSection({ title, devices }) {
               </div>
             </div>
           </div>
-          // <div
-          //   className="screen-reader-section-card"
-          //   role="button"
-          //   tabIndex={0}
-          //   onClick={() => handleCardClick(item.startParams)}
-          //   aria-label={`Open screen reader in ${
-          //     item.deviceDisplayName || item.osDisplayName
-          //   }${item.browserDisplayName}`}
-          //   onKeyDown={(e) =>
-          //     handleClickByEnterOrSpace(e, () =>
-          //       handleCardClick(item.startParams)
-          //     )
-          //   }
-          // >
-          //   <div className="screen-reader-section-card-logo-section">
-          //     <img
-          //       src={getImage(item.startParams.os)}
-          //       alt={`${item.osDisplayName} logo`}
-          //     />
-          //     <div className="screen-reader-section-card-title-section">
-          //       <p className="screen-reader-section-card-title-section-title">
-          //         {item.deviceDisplayName || item.osDisplayName}
-          //       </p>
-          //       <p className="screen-reader-section-card-title-section-subTitle">
-          //         {item.browserDisplayName}
-          //       </p>
-          //     </div>
-          //   </div>
-          // </div>
         ))}
       </div>
     </div>

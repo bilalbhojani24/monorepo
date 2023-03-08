@@ -168,6 +168,8 @@ export default function Report() {
               </Button>
             </div>
           </div>
+        </div>
+        <div className="pl-6">
           <Tabs
             tabsArray={[
               {
@@ -181,6 +183,7 @@ export default function Report() {
             ]}
             onTabChange={onTabChange}
             defaultIndex={defaultIndex}
+            disableFullWidthBorder={false}
           />
         </div>
       </div>
