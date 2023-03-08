@@ -14,6 +14,7 @@ export const logEventHelper = (eventName, data) => (_, getState) => {
     ...data,
     user_id: state.global?.user?.id,
     product: PRODUCT_NAME,
-    team: TEAM_NAME_EVENTS
+    team: TEAM_NAME_EVENTS,
+    sendToGA: true
   });
 };

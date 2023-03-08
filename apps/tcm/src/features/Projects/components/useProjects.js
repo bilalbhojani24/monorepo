@@ -63,7 +63,12 @@ const useProjects = (prop) => {
   const isLoading = useSelector((state) => state.projects.isLoading);
 
   const showAddProjectModal = () => {
-    dispatch(logEventHelper('TM_CreateProjectBtnClicked', {}));
+    dispatch(
+      logEventHelper('TM_CreateProjectBtnClicked', {
+        team: 'Test_Management',
+        label: 'TM_CreateProjectBtnClicked'
+      })
+    );
     dispatch(setAddProjectModalVisibility(true));
   };
 
