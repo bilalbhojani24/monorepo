@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 
@@ -17,6 +18,7 @@ export default function LayoutWOSidebar() {
       <main>
         <Outlet />
       </main>
+      <NotificationsContainer />
     </Suspense>
   );
 }

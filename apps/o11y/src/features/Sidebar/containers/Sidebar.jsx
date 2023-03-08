@@ -13,7 +13,7 @@ import {
 } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
 import {
   getProjectBuildsPath,
@@ -55,7 +55,7 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     activeIcon: MdOutlineSettings,
     inActiveIcon: MdOutlineSettings,
     path: getSettingsPath(projectNormalisedName, 'general'),
-    pattern: ROUTES.settings_general
+    pattern: `${ROUTES.settings}/*`
   }
 ];
 
@@ -79,7 +79,7 @@ const secondaryNav = [
 ];
 
 export default function Sidebar() {
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
@@ -114,7 +114,7 @@ export default function Sidebar() {
       `}
       sidebarHeader={<ProjectSelector />}
       sidebarPrimaryNavigation={getPrimaryNav({
-        projectNormalisedName: projects.active.normalisedName
+        projectNormalisedName: activeProject.normalisedName
       }).map((item) => (
         <SidebarItem
           key={item.id}

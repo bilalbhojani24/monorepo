@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
+import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
@@ -32,6 +33,7 @@ const LayoutWSidebar = () => {
           </div>
         </Suspense>
       </main>
+      <NotificationsContainer />
     </>
   );
 };

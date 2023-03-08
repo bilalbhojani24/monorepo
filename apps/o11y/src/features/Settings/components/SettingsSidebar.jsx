@@ -2,10 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem } from '@browserstack/bifrost';
-import { getProjects } from 'globalSlice/selectors';
-
-import { ROUTES } from '../../../constants/routes';
-import { getSettingsPath } from '../../../utils/routeUtils';
+import { ROUTES } from 'constants/routes';
+import { getActiveProject } from 'globalSlice/selectors';
+import { getSettingsPath } from 'utils/routeUtils';
 
 const getNav = ({ projectNormalisedName }) => [
   {
@@ -51,7 +50,7 @@ const getNav = ({ projectNormalisedName }) => [
 ];
 
 export default function SettingsSidebar() {
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const navigate = useNavigate();
   const onLinkChange = (item) => {
@@ -60,7 +59,7 @@ export default function SettingsSidebar() {
   };
   return (
     <aside className="sticky top-0 w-72 pr-8">
-      {getNav({ projectNormalisedName: projects.active.normalisedName }).map(
+      {getNav({ projectNormalisedName: activeProject.normalisedName }).map(
         (item) => (
           <SidebarItem
             key={item.id}
