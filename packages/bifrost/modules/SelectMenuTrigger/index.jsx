@@ -5,6 +5,7 @@ import * as Popover from '@radix-ui/react-popover';
 
 import { node, string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
+import useResizeObserver from '../../utils/hooks/useResizeObserver';
 import { ChevronUpDownIcon } from '../Icon';
 import TruncateText from '../TruncateText';
 
@@ -15,10 +16,11 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName, triggerIcon }) => {
   const { isMulti, setWidth, showCount, errorText } = useContext(
     SelectMenuContextData
   );
+  const { width } = useResizeObserver(buttonRef);
 
   useEffect(() => {
-    setWidth(buttonRef.current.offsetWidth);
-  }, [setWidth]);
+    setWidth(width);
+  }, [setWidth, width]);
 
   return (
     <Popover.Trigger asChild>

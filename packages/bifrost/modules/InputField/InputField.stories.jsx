@@ -111,10 +111,13 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <InputField {...args} />;
+
 const Primary = Template.bind({});
+
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
+
 export { Primary };

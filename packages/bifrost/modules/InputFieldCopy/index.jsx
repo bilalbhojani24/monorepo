@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { ExclamationCircleIcon } from '../Icon';
 
-import './styles.scss';
-
 const InputField = forwardRef(
   (
     {
@@ -17,6 +15,7 @@ const InputField = forwardRef(
       errorText,
       id,
       inputRef,
+      isTrailingNodeClickable,
       label,
       onBlur,
       onChange,
@@ -27,8 +26,8 @@ const InputField = forwardRef(
       type,
       value,
       wrapperClassName,
-      startAdornment,
-      endAdornment,
+      leadingIcon,
+      trailingIcon,
       addOnBefore,
       addOnAfter
     },
@@ -50,12 +49,10 @@ const InputField = forwardRef(
         </div>
       )}
       <div className={twClassNames('flex w-full shadow-sm')}>
-        <div className="flex items-center overflow-hidden rounded-l-md">
-          {addOnBefore}
-        </div>
+        {addOnBefore}
         <div
           className={twClassNames(
-            'relative w-full overflow-hidden flex border-1 focus-within:outline border border-base-300 focus-within:outline-1 focus-within:border-brand-500 focus-within:outline-brand-500',
+            'rounded-md w-full flex border-1 border border-base-300 focus:z-10 focus-within:ring-2 focus-within:ring-brand-500',
             wrapperClassName,
             {
               'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
@@ -63,11 +60,13 @@ const InputField = forwardRef(
               'cursor-not-allowed border-base-200 bg-base-50 pointer-events-none':
                 disabled,
               'bg-base-50 bg-clip-padding border-base-300 focus-within:border-brand-600 focus-within:outline-brand-600':
-                readonly
+                readonly,
+              'rounded-l-none': addOnBefore,
+              'rounded-r-none': addOnAfter
             }
           )}
         >
-          <div className="flex items-center pl-3">{startAdornment}</div>
+          <div className="flex items-center pl-3">{leadingIcon}</div>
           <input
             aria-invalid={!!errorText}
             aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
@@ -81,7 +80,8 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={twClassNames(
-              'border-none rounded-none bg-transparent sm:text-sm focus:ring-0 w-full flex-1',
+              'border-none rounded-md bg-transparent sm:text-sm focus:ring-0 w-full flex-1',
+              'block w-full rounded-md border-base-300 shadow-sm sm:text-sm',
               {
                 'text-danger-900': errorText,
                 'disabled:text-base-500': disabled,
@@ -95,8 +95,12 @@ const InputField = forwardRef(
             autoComplete={autoComplete}
           />
 
-          <div className={twClassNames('flex items-center pr-3 gap-1')}>
-            {endAdornment}
+          <div
+            className={twClassNames('flex items-center pr-3 gap-1 ', {
+              'pointer-events-none': !isTrailingNodeClickable
+            })}
+          >
+            {trailingIcon}
             {errorText && (
               <ExclamationCircleIcon
                 className="text-danger-500 h-5 w-5"
@@ -105,9 +109,7 @@ const InputField = forwardRef(
             )}
           </div>
         </div>
-        <div className="flex items-center overflow-hidden rounded-r-md">
-          {addOnAfter}
-        </div>
+        {addOnAfter}
       </div>
 
       {description && (
@@ -134,9 +136,10 @@ InputField.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
+  isTrailingNodeClickable: PropTypes.bool,
   label: PropTypes.string,
-  startAdornment: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  endAdornment: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  leadingIcon: PropTypes.node,
+  trailingIcon: PropTypes.node,
   addOnBefore: PropTypes.node,
   addOnAfter: PropTypes.node,
   onBlur: PropTypes.func,
@@ -158,9 +161,10 @@ InputField.defaultProps = {
   disabled: false,
   errorText: '',
   inputRef: null,
+  isTrailingNodeClickable: false,
   label: '',
-  startAdornment: null,
-  endAdornment: null,
+  leadingIcon: null,
+  trailingIcon: null,
   addOnBefore: null,
   addOnAfter: null,
   onBlur: () => {},
