@@ -54,7 +54,7 @@ export default function useSiteScanner() {
       const filteredScanConfigData = cloneDeep(scanConfigStateData);
       filteredScanConfigData.data.scanConfigs =
         filteredScanConfigData.data.scanConfigs.filter(
-          (item) => item.createdBy.id === userInfo.id
+          (item) => item.createdBy.id === userInfo.attributes['user-id']
         );
       setScanConfigStateData(filteredScanConfigData);
     } else {
