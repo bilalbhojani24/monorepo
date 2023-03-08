@@ -23,6 +23,7 @@ const Layout = (Component) => (
 export const APP_ROUTES = [
   {
     path: ROUTES.welcome,
+    isProtected: true,
     component: <Welcome />
   },
   {
