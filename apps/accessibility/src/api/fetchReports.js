@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default async function fetchReports(dashboardUserID) {
   const response = await axios.get(
-    `/tests?source=extension&dashboardUserID=${dashboardUserID}`,
+    `/tests?source=new-dashboard&dashboardUserID=${dashboardUserID}`,
     {
       headers: {
         Accept: 'application/json'
