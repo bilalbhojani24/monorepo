@@ -5,7 +5,7 @@ const { productViteConfig } = require('@browserstack/vite-config');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  ...productViteConfig.plugins,
+  ...productViteConfig,
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),
