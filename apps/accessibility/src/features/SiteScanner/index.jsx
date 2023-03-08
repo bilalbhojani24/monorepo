@@ -30,7 +30,6 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import contiLoader from 'assets/contiLoader.svg';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
@@ -178,6 +177,12 @@ export default function SiteScanner() {
   };
 
   const getCurrrentStatus = (row) => {
+    if (!row.isProcessing && !Object.keys(row.lastScanDetails).length) {
+      return <div className="font-medium">N/A</div>;
+    }
+    if (row.isProcessing && !Object.keys(row.lastScanDetails).length) {
+      return <div>Initializing Your Scan</div>;
+    }
     if (row?.lastScanDetails && Object.keys(row.lastScanDetails).length) {
       return (
         <div className="flex flex-col font-normal">
@@ -189,11 +194,9 @@ export default function SiteScanner() {
             Last scan:{' '}
             {row?.lastScanDetails?.lastScanDate
               ? dateFormat(
-                  new Date(
-                    new Date(row.lastScanDetails.lastScanDate).toLocaleString()
-                  ),
+                  new Date(row.lastScanDetails.lastScanDate),
                   'mmmm dS, h:MM TT'
-                )
+                ).toLocaleString()
               : null}
           </span>
         </div>
@@ -374,10 +377,10 @@ export default function SiteScanner() {
                         {row.pageCount || 0} pages
                       </span>
                       {getRunTypeBadge(row.recurring, row.active)}
-                      {row.isProcessing ? (
+                      {row.isProcessing &&
+                      Object.keys(row.lastScanDetails).length ? (
                         <div className="flex items-center">
                           Scan Ongoing
-                          {/* <img src={contiLoader} alt="loader" width="20" /> */}
                           <svg
                             aria-hidden="true"
                             className="ml-2"
@@ -400,6 +403,15 @@ export default function SiteScanner() {
                             />
                           </svg>
                         </div>
+                      ) : null}
+                      {!row.isProcessing ? (
+                        <span className="mr-2 flex items-center">
+                          Next:{' '}
+                          {dateFormat(
+                            new Date(row.nextScanDate),
+                            'mmm dS, h:MM TT'
+                          ).toLocaleString()}
+                        </span>
                       ) : null}
                     </div>
                   </div>
