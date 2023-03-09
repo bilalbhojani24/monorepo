@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import { getStorage, initLogger } from '@browserstack/utils';
+import ModalToShow from 'common/ModalToShow';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
 import { ROUTES } from 'constants/routes';
@@ -33,7 +34,7 @@ const App = () => {
       window.initialized = true;
     }
   }, []);
-  return useAuthRoutes(
+  const Routes = useAuthRoutes(
     APP_ROUTES,
     () =>
       dispatch(
@@ -45,6 +46,12 @@ const App = () => {
         })
       ),
     'https://www.browserstack.com/users/sign_in'
+  );
+  return (
+    <>
+      {Routes}
+      <ModalToShow />
+    </>
   );
 };
 
