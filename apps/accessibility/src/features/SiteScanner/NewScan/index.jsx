@@ -148,10 +148,10 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
         />
         <SlideoverBody>
           <div className="border-base-200 flex-col border-b pb-4">
-            <div className="flex items-center">
+            <div className="flex items-start">
               <div
                 className={`m-5 mt-0 w-64 flex-auto ${
-                  validationError.scanName ? 'mt-12' : ''
+                  validationError.scanName ? 'mt-5' : ''
                 }`}
               >
                 <InputField
@@ -164,7 +164,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   ref={scanNameRef}
                 />
               </div>
-              <div className="mr-5 flex-col">
+              <div className="mr-5 mt-0 flex-col">
                 <label
                   className="text-base-700 mb-1 block text-sm font-medium"
                   htmlFor="wcagVersion"

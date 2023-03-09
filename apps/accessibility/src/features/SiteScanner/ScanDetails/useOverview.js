@@ -98,12 +98,12 @@ export default function useOverview({ scanOverviewData }) {
         {
           name: 'Failure',
           data: stability.failure,
-          color: '#F59E0B'
+          color: '#EF4444'
         },
         {
           name: 'Redirects',
           data: stability.redirects,
-          color: '#EF4444'
+          color: '#F59E0B'
         }
       ];
       setSplineChartOptions(currentSplineChartData);

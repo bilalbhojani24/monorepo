@@ -69,19 +69,24 @@ const ScanDetails = () => {
               <h1 className="mb-2 mr-2 text-2xl font-bold">
                 {scanRunDataCommon?.name || 'N/A'}
               </h1>
-              <Badge text="WCAG 2.1 AA" wrapperClassName="mr-2 h-6" />
               <Badge
-                text={`Active, Next scan: ${
-                  scanRunDataCommon.nextScanDate
-                    ? dateFormat(
-                        new Date(scanRunDataCommon?.nextScanDate),
-                        'mmmm dS, h:MM TT'
-                      )
-                    : 'NA'
-                }`}
-                modifier="primary"
-                wrapperClassName="mr-2 h-6"
+                text="WCAG 2.1 AA"
+                wrapperClassName="mr-2 h-6 bg-base-200"
               />
+              {scanRunDataCommon?.nextScanDate ? (
+                <Badge
+                  text={`Active, Next scan: ${
+                    scanRunDataCommon.nextScanDate
+                      ? dateFormat(
+                          new Date(scanRunDataCommon?.nextScanDate),
+                          'mmmm dS, h:MM TT'
+                        )
+                      : 'NA'
+                  }`}
+                  modifier="primary"
+                  wrapperClassName="mr-2 h-6"
+                />
+              ) : null}
             </div>
             <div className="flex">
               <span className="mr-2 flex items-center text-sm">
@@ -112,17 +117,19 @@ const ScanDetails = () => {
             >
               New scan run
             </Button>
-            <Button
-              colors="white"
-              onClick={handleStopRecurringScan}
-              size="small"
-              type="subtle"
-              icon={<MdStop />}
-              iconPlacement="start"
-              wrapperClassName="h-10 mr-2"
-            >
-              Stop recurring
-            </Button>
+            {scanRunDataCommon?.nextScanDate && (
+              <Button
+                colors="white"
+                onClick={handleStopRecurringScan}
+                size="small"
+                type="subtle"
+                icon={<MdStop />}
+                iconPlacement="start"
+                wrapperClassName="h-10 mr-2"
+              >
+                Stop recurring
+              </Button>
+            )}
             <Dropdown
               trigger={
                 <DropdownTrigger
