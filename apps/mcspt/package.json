@@ -1,6 +1,6 @@
 {
   "name": "mcspt",
-  "productName": "mcspt",
+  "productName": "Browserstack App Performance Testing",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",

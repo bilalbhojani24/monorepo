@@ -1,5 +1,12 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    protocols: [
+      {
+        name: 'Browserstack App Performance',
+        schemes: ['bsperf']
+      }
+    ]
+  },
   rebuildConfig: {},
   makers: [
     {

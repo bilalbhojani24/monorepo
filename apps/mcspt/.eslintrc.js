@@ -14,6 +14,8 @@ module.exports = {
     'global-require': 0
   },
   globals: {
-    IS_DEV: 'readonly'
+    IS_DEV: 'readonly',
+    MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: 'readonly',
+    MAIN_WINDOW_WEBPACK_ENTRY: 'readonly'
   }
 };
