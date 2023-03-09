@@ -27,7 +27,7 @@ export default function AutoAnalysisSettings() {
   const [thresholdPercentage, setThresholdPercentage] = useState(0);
 
   const dispatch = useDispatch();
-  const mounted = useRef();
+  const mounted = useRef(false);
 
   useEffect(() => {
     mounted.current = true;
@@ -87,7 +87,7 @@ export default function AutoAnalysisSettings() {
         setThresholdPercentage(data.data.thresholdPercentage);
         notify(
           <Notifications
-            id="update-general-failed"
+            id="update-auto-analyzer-failed"
             title="Failure when updating"
             description="There was an error while updating settings"
             headerIcon={

@@ -136,6 +136,9 @@ export default function useReports() {
     const assistiveTestList = selectedReports
       .filter((id) => id.includes(testTypes.assistiveTest))
       .map((id) => id.split(`${testTypes.assistiveTest}:`)[1]);
+    const websiteScanList = selectedReports
+      .filter((id) => id.includes(testTypes.websiteScan))
+      .map((id) => id.split(`${testTypes.websiteScan}:`)[1]);
     const params = {
       wcagVersion: activeVersion.split('WCAG ')[1]
     };
@@ -144,6 +147,9 @@ export default function useReports() {
     }
     if (assistiveTestList.length) {
       params.ar_ids = assistiveTestList.join(',');
+    }
+    if (websiteScanList.length) {
+      params.wsr_ids = websiteScanList.join(',');
     }
     if (window.dashboardUserID) {
       params.dashboardUserID = window.dashboardUserID;

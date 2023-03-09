@@ -196,6 +196,7 @@ export default function IssueItem() {
             <Tooltip
               show={isCopied}
               theme="dark"
+              placementAlign="end"
               content={
                 <TooltipBody wrapperClassName="mb-0">
                   {isCopied ? 'Link copied' : null}

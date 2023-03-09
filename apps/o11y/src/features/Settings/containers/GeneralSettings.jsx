@@ -18,7 +18,7 @@ export default function GeneralSettings() {
   const [buildTimeoutError, setBuildTimeoutError] = useState('');
 
   const dispatch = useDispatch();
-  const mounted = useRef();
+  const mounted = useRef(false);
 
   useEffect(() => {
     mounted.current = true;
