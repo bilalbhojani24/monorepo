@@ -146,11 +146,10 @@ export default function IssueItem() {
     none,
     confirmed,
     childNodes,
-    needsReview
+    needsReview,
+    testType
   } = issueItem;
 
-  const isPreviousDisabled = activeIssueIndex === 0;
-  const isNextDisabled = activeIssueIndex === activeComponentNodes.length - 1;
   const tagList = tagToView(headerData.tags);
 
   const data = [
@@ -169,7 +168,8 @@ export default function IssueItem() {
   ];
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
-    reportMetaData
+    reportMetaData,
+    testType
   );
   const reportList = needsReviewStatusinReports.map((item) => item.reportName);
   const message = needsReview ? getReviewMessage(data) : '';
@@ -196,7 +196,7 @@ export default function IssueItem() {
             <Tooltip
               show={isCopied}
               theme="dark"
-              placementAlign="end"
+              placementSide="right"
               content={
                 <TooltipBody wrapperClassName="mb-0">
                   {isCopied ? 'Link copied' : null}
