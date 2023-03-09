@@ -10,11 +10,17 @@ export const logEventHelper = (eventName, data) => (_, getState) => {
   //   const { localStorage } = window;
   //   const isFirstSession = localStorage.getItem('isFirstSession');
 
-  logEvent(['EDS'], WEB_EVENT_NAME, eventName, {
-    ...data,
-    user_id: state.global?.user?.id,
-    product: PRODUCT_NAME,
-    team: TEAM_NAME_EVENTS,
-    sendToGA: true
-  });
+  logEvent(
+    ['EDS'],
+    WEB_EVENT_NAME,
+    eventName,
+    {
+      ...data,
+      user_id: state.global?.user?.id,
+      product: PRODUCT_NAME,
+      team: TEAM_NAME_EVENTS
+    },
+    undefined,
+    true
+  );
 };

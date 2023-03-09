@@ -38,6 +38,9 @@ export default function useTestCaseViewDetails() {
     (state) => state.testCaseDetails.testResultsArray || []
   );
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
+  const testObservabilityUrl = useSelector(
+    (state) => state.testCaseDetails.testObservabilityUrl
+  );
 
   const handleTabChange = (value, isFromTestRun, testRunId) => {
     if (isFromTestRun) {
@@ -177,6 +180,7 @@ export default function useTestCaseViewDetails() {
     testCaseDetails,
     testRunsDetails,
     isTestCaseViewVisible,
+    testObservabilityUrl,
     handleTabChange,
     onAttachmentClick,
     closePreview,

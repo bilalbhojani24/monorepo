@@ -38,17 +38,35 @@ const PreviewAndConfirm = () => {
   const formatPriority = (priority) => {
     switch (priority) {
       case 'high':
-        return <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
+        return (
+          <>
+            <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />
+            <span>High</span>
+          </>
+        );
       case 'low':
-        return <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
+        return (
+          <>
+            <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />
+            <span>Low</span>
+          </>
+        );
       case 'critical':
         return (
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
+          <>
+            <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
+            <span>Critical</span>
+          </>
         );
       case 'medium':
-        return <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
+        return (
+          <>
+            <RemoveOutlinedIcon className="text-brand-500 mr-2" />
+            <span>Medium</span>
+          </>
+        );
       default:
-        return '';
+        return priority;
     }
   };
 

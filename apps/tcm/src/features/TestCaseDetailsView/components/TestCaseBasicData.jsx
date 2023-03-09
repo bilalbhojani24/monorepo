@@ -14,6 +14,7 @@ import { templateOptions } from 'features/Repository/const/addTestCaseConst';
 
 import AddIssuesModal from '../../../common/AddIssuesModal/components/AddIssuesModal';
 
+import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseBasicData = () => {
@@ -34,6 +35,7 @@ const TestCaseBasicData = () => {
   return (
     <>
       <div ref={detailsRef}>
+        <StackTrace />
         <DetailsSnippet
           title="Description"
           parseContent

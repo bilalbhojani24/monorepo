@@ -35,6 +35,15 @@ export const editTestCaseAPI = async ({
     payload
   );
 
+export const getNewTestCaseDetailsAPI = async ({
+  projectId,
+  testCaseId,
+  testRunId
+}) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/detail`
+  );
+
 export const getTestCaseDetailsAPI = async ({
   folderId,
   projectId,

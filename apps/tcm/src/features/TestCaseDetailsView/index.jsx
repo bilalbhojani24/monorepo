@@ -24,6 +24,7 @@ const TestCaseDetailsView = ({
   } = useTestCaseView({
     projectId,
     folderId,
+    testRunId,
     testCaseId,
     onDetailsClose,
     testResultsArray

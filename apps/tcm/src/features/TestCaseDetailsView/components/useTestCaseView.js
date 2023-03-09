@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getTestCaseDetailsAPI } from 'api/testcases.api';
+import { getNewTestCaseDetailsAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -12,12 +12,14 @@ import {
   setMetaIds,
   setTestCaseDetails,
   setTestCaseViewVisibility,
+  setTestObservabilityUrl,
   setTestResultsArray
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseView({
   projectId,
   folderId,
+  testRunId,
   testCaseId,
   onDetailsClose,
   testResultsArray
@@ -43,9 +45,12 @@ export default function useTestCaseView({
           testcase_id: testCaseId
         })
       );
-      getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
+      getNewTestCaseDetailsAPI({ projectId, testRunId, testCaseId }).then(
         (data) => {
           dispatch(setTestCaseDetails(data?.data?.test_case || null));
+          dispatch(
+            setTestObservabilityUrl(data?.data?.test?.observability_url)
+          );
         }
       );
     }

@@ -8,7 +8,8 @@ const initialState = {
     folderId: null,
     testCaseId: null
   },
-  testResultsArray: []
+  testResultsArray: [],
+  testObservabilityUrl: null
 };
 
 export const testCaseDetailsSlice = createSlice({
@@ -26,6 +27,9 @@ export const testCaseDetailsSlice = createSlice({
     },
     setTestResultsArray: (state, { payload }) => {
       state.testResultsArray = payload;
+    },
+    setTestObservabilityUrl: (state, { payload }) => {
+      state.testObservabilityUrl = payload;
     }
   }
 });
@@ -34,7 +38,8 @@ export const {
   setTestCaseViewVisibility,
   setTestCaseDetails,
   setMetaIds,
-  setTestResultsArray
+  setTestResultsArray,
+  setTestObservabilityUrl
 } = testCaseDetailsSlice.actions;
 
 export default testCaseDetailsSlice.reducer;
