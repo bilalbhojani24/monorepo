@@ -23,10 +23,12 @@ export default function useScanDetails() {
   const [activeTab, setActiveTab] = useState('Overview');
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStopState, setloadingStopState] = useState(false);
   const dispatch = useDispatch();
   const scanRunData = useSelector(getScanRunData);
   const scanRunDataCommon = useSelector(getScanRunCommonData);
   const scanOverviewData = useSelector(getScanOverviewData);
+  const [showModal, setStopModal] = useState(false);
 
   const [searchParams] = useSearchParams();
   const { id } = useParams();
@@ -68,8 +70,10 @@ export default function useScanDetails() {
   };
 
   const handleStopRecurringScan = () => {
+    setloadingStopState(true);
     stopRecurringScans(id)
       .then((data) => {
+        setloadingStopState(false);
         navigate('/site-scanner');
         // alert('Stopped Recurring scan');
       })
@@ -85,6 +89,9 @@ export default function useScanDetails() {
     scanOverviewData,
     activeTabIndex,
     handleNewScanRun,
-    handleStopRecurringScan
+    handleStopRecurringScan,
+    setStopModal,
+    showModal,
+    loadingStopState
   };
 }
