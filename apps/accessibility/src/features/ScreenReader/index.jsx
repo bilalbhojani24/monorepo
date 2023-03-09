@@ -36,7 +36,7 @@ function ScreenReaderSection({ title, devices }) {
             key={`${item.deviceDisplayName || item.osDisplayName}${
               item.browserDisplayName
             }`}
-            className="border-base-300 focus-within:ring-success-500 hover:border-base-400 relative mr-4 mb-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
+            className="border-base-300 focus-within:ring-brand-500 hover:border-base-400 relative mr-4 mb-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
           >
             <div className="shrink-0">
               <img
