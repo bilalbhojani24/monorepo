@@ -103,7 +103,7 @@ export default function Issues() {
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
     >
-      <div>
+      <div className="mt-5">
         <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
           <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ModalBody>
@@ -233,7 +233,7 @@ export default function Issues() {
               ))}
             </div>
             <div className="flex">
-              <div className="mr-8 w-36">
+              <div className="mr-4 w-36">
                 <SelectMenu
                   onChange={onUpdateImpact}
                   value={reportFilters.impact}

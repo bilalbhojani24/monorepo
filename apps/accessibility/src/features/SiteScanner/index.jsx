@@ -20,6 +20,7 @@ import {
   MdPerson,
   MdSearch,
   MdStop,
+  MdWebAsset,
   Modal,
   ModalBody,
   ModalFooter,
@@ -275,7 +276,7 @@ export default function SiteScanner() {
 
   return (
     <div className="bg-base-50">
-      <div className="flex justify-between p-6">
+      <div className="mb-5 flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website Scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
@@ -295,7 +296,7 @@ export default function SiteScanner() {
           New website scan
         </Button>
       </div>
-      <div className="block p-6">
+      <div className="block p-6 pt-0">
         <div className="flex justify-between">
           <div className="flex items-center">
             <div className="mt-1 mr-4 w-64">
@@ -362,7 +363,7 @@ export default function SiteScanner() {
                 >
                   <div className="flex-col font-normal">
                     <div>
-                      <span className="mr-2">{row.name}</span>
+                      <span className="text-base-700 mr-2">{row.name}</span>
                       <Badge text={row.wcagVersion.label} />
                     </div>
                     <div className="mt-0.5 flex items-center font-light">
@@ -373,7 +374,7 @@ export default function SiteScanner() {
                         {row?.createdBy?.name}
                       </span>
                       <span className="mr-2 flex items-center">
-                        <MdCalendarToday color="#9CA3AF" className="mr-1" />
+                        <MdWebAsset color="#9CA3AF" className="mr-1" />
                         {row.pageCount || 0} pages
                       </span>
                       {getRunTypeBadge(row.recurring, row.active)}

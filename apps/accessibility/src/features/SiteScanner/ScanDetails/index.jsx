@@ -5,11 +5,13 @@ import {
   Button,
   Dropdown,
   DropdownTrigger,
+  MdAdd,
   MdBarChart,
   MdCalendarToday,
   MdOutlineMoreVert,
   MdOutlineTableChart,
   MdPerson,
+  MdStop,
   Tabs
 } from '@browserstack/bifrost';
 import dateFormat from 'dateformat';
@@ -104,6 +106,8 @@ const ScanDetails = () => {
               onClick={handleNewScanRun}
               size="small"
               type="subtle"
+              icon={<MdAdd />}
+              iconPlacement="start"
               wrapperClassName="h-10 mr-2"
             >
               New scan run
@@ -113,6 +117,8 @@ const ScanDetails = () => {
               onClick={handleStopRecurringScan}
               size="small"
               type="subtle"
+              icon={<MdStop />}
+              iconPlacement="start"
               wrapperClassName="h-10 mr-2"
             >
               Stop recurring

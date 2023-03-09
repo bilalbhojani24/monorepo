@@ -28,11 +28,13 @@ export default function useOverview({ scanOverviewData }) {
           severity.critical.push(item.critical);
           severity.severe.push(item.severe);
           severity.moderate.push(item.moderate);
-          categories.push(item.date);
         }
+        categories.push(i + 1);
       }
       const currentStackedChartData = { ...stackedChartData };
+      console.log(categories);
       currentStackedChartData.xAxis.categories = categories;
+      currentStackedChartData.xAxis.max = currentRunFilter - 1;
       currentStackedChartData.series = [
         {
           name: 'Minor',
@@ -81,11 +83,12 @@ export default function useOverview({ scanOverviewData }) {
           stability.redirects.push(item.redirects);
           stability.failure.push(item.failure);
           stability.success.push(item.success);
-          categories.push(item.date);
         }
+        categories.push(i + 1);
       }
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;
+      currentSplineChartData.xAxis.max = currentSplineRunFilter;
       currentSplineChartData.series = [
         {
           name: 'Success',

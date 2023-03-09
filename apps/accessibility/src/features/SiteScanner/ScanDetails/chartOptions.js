@@ -18,6 +18,10 @@ export const chartOptionStacked = {
     itemMarginTop: 10,
     itemMarginBottom: 10
   },
+  tooltip: {
+    headerFormat: '<b>{series.name} : {point.y}</b><br/>',
+    pointFormat: ''
+  },
   title: {
     text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${''}</p><p class="text-xs text-base-500"></p></div>`,
     verticalAlign: 'middle',
@@ -122,8 +126,8 @@ export const chartOptionsSpline = {
     itemMarginBottom: 10
   },
   tooltip: {
-    headerFormat: '<b>{series.name}</b><br/>',
-    pointFormat: '{point.x} {point.y}'
+    headerFormat: '<b>{series.name} : {point.y}</b><br/>',
+    pointFormat: ''
   },
   navigation: {
     buttonOptions: {

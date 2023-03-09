@@ -150,7 +150,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           <div className="border-base-200 flex-col border-b pb-4">
             <div className="flex items-center">
               <div
-                className={`m-5 w-64 flex-auto ${
+                className={`m-5 mt-0 w-64 flex-auto ${
                   validationError.scanName ? 'mt-12' : ''
                 }`}
               >

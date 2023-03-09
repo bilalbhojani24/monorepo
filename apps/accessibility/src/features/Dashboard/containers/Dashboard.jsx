@@ -35,7 +35,7 @@ export default function Dashboard({ children }) {
     },
     {
       id: 'screen-reader',
-      label: 'Assistive tech',
+      label: 'Screen reader',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
       path: '/screen-reader',
@@ -43,7 +43,7 @@ export default function Dashboard({ children }) {
     },
     {
       id: 'site-scanner',
-      label: 'Website Scanner',
+      label: 'Website scanner',
       activeIcon: MdOutlineDynamicFeed,
       inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',

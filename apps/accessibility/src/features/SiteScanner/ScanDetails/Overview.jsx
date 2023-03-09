@@ -153,19 +153,21 @@ const Overview = ({ scanOverviewData }) => {
                   </TableCell>
                   <TableCell
                     key={row}
-                    wrapperClass="flex justify-end cursor-pointer"
+                    wrapperClass="flex justify-end cursor-pointer text-right"
                   >
-                    <CopyToClipboard
-                      onCopy={() => {
-                        setIsCopied(true);
-                        setTimeout(() => {
-                          setIsCopied(false);
-                        }, 2500);
-                      }}
-                      text={row}
-                    >
-                      <MdOutlineContentCopy />
-                    </CopyToClipboard>
+                    <div className="flex justify-end">
+                      <CopyToClipboard
+                        onCopy={() => {
+                          setIsCopied(true);
+                          setTimeout(() => {
+                            setIsCopied(false);
+                          }, 2500);
+                        }}
+                        text={row}
+                      >
+                        <MdOutlineContentCopy />
+                      </CopyToClipboard>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
