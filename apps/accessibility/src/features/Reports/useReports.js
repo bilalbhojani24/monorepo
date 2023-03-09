@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
-import { events, testTypes } from 'constants';
+import { CHROME_EXTENSION_URL, events, testTypes } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -123,7 +123,7 @@ export default function useReports() {
   const onDownloadExtensionClick = () => {
     setIsShowingBanner(false);
     setStorage('showed-extension-banner', true);
-    window.open(window.accessibilityExtensionChromeStoreURL, '_target');
+    window.open(CHROME_EXTENSION_URL, '_target');
   };
 
   const onReportConsolidateButtonClick = () => {
