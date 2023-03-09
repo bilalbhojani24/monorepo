@@ -27,6 +27,9 @@ export const getDocUrl = ({
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
 
 export const logOllyEvent = ({ event, data = {} }) => {
+  if (!window.location.hostname.endsWith('browserstack.com')) {
+    return;
+  }
   const commonData = {
     url: window.location.href,
     screenResolution: {
