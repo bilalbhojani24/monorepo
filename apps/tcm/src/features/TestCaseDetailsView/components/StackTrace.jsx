@@ -33,9 +33,13 @@ const StackTrace = () => {
           </section>
           <section className="mb-4">
             <div className="mb-1 text-sm font-medium">Response</div>
-            <div className="border-base-200 bg-base-50 text-base-500 w-full break-words rounded-md border py-2 px-3 text-sm font-normal shadow-sm">
-              {backTrace || '--'}
-            </div>
+            {backTrace ? (
+              <div className="border-base-200 bg-base-50 text-base-500 w-full break-words rounded-md border py-2 px-3 text-sm font-normal shadow-sm">
+                {backTrace}
+              </div>
+            ) : (
+              '--'
+            )}
           </section>
           {testObservabilityUrl && (
             <div className="mb-4">

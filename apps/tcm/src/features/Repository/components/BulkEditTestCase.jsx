@@ -3,16 +3,16 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
-  TMInputField,
+  // TMInputField,
   TMModal,
   TMModalFooter,
   TMModalHeader,
   TMSectionHeadings,
   TMSelectMenu,
-  TMTextArea,
-  TMTooltip,
-  TMTooltipBody,
-  TMTooltipHeader
+  TMTextArea
+  // TMTooltip,
+  // TMTooltipBody,
+  // TMTooltipHeader
 } from 'common/bifrostProxy';
 
 import {
@@ -140,8 +140,8 @@ const BulkEditTestCase = () => {
             />
           </div>
         </div>
-        <div className="mt-4 flex gap-4">
-          <div className="flex-1">
+        <div className="mt-4 w-1/2 gap-4">
+          {/* <div className="flex-1">
             <TMInputField
               id="test-case-estimate"
               value={testCaseBulkFormData.estimate}
@@ -181,7 +181,7 @@ const BulkEditTestCase = () => {
                 handleTestCaseFieldChange('estimate', e.currentTarget.value)
               }
             />
-          </div>
+          </div> */}
           <div className="flex flex-1 items-end justify-between">
             <div className="mr-4 flex-1">
               <TMSelectMenu
