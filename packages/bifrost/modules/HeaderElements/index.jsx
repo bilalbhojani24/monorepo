@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Transition } from '@headlessui/react';
