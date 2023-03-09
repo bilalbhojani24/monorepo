@@ -6,7 +6,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { node, string } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-const SelectMenuOptionGroup = ({ children, wrapperClassName }) => {
+const SelectMenuOptionGroup = ({ children, wrapperClassName }, ref) => {
   const { width } = useContext(SelectMenuContextData);
 
   return (
@@ -29,6 +29,7 @@ const SelectMenuOptionGroup = ({ children, wrapperClassName }) => {
               'border-base-200 z-50 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none',
               wrapperClassName
             )}
+            ref={ref}
           >
             {children}
           </Listbox.Options>
@@ -47,4 +48,4 @@ SelectMenuOptionGroup.defaultProps = {
   wrapperClassName: ''
 };
 
-export default SelectMenuOptionGroup;
+export default React.forwardRef(SelectMenuOptionGroup);

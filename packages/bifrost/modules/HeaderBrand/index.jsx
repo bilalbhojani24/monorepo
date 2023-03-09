@@ -9,15 +9,22 @@ import BrandLogoWithName from '../Icon/BrandLogoWithName';
 import './styles.scss';
 
 const HeaderBrand = ({ productName, productLink, release }) => (
-  <div id="header-brand">
+  <div
+    id="header-brand"
+    className={twClassNames('flex flex-row items-center p-0 gap-2 pl-8')}
+  >
+    <a
+      href={productLink}
+      className={twClassNames('flex flex-row items-center gap-2 w-fit')}
+      aria-label="Browserstack Logo"
+    >
+      <BrandLogo iconClass="[@media(min-width:1230px)]:hidden min-[1230px]:hidden -mt-0.5" />
+      <BrandLogoWithName iconClass="[@media(max-width:1229px)]:hidden max-[1229px]:hidden -mt-0.5" />
+    </a>
     <Hyperlink
       href={productLink}
-      wrapperClassName={twClassNames(
-        'flex flex-row items-center pl-8 gap-2 w-fit'
-      )}
+      wrapperClassName={twClassNames('flex flex-row items-center gap-2 w-fit')}
     >
-      <BrandLogo iconClass="min-[1230px]:hidden -mt-0.5" />
-      <BrandLogoWithName iconClass="max-[1229px]:hidden -mt-0.5" />
       <p className="float-left whitespace-nowrap font-sans text-lg font-normal not-italic leading-6 text-white">
         {productName}
       </p>
