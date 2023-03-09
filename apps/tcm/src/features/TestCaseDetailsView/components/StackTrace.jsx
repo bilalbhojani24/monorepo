@@ -23,10 +23,12 @@ const StackTrace = () => {
           <section className="my-4 text-sm ">
             <div className="text-base-800 font-medium">Elapsed</div>
             <div className="text-base-700 font-normal">
-              {moment('2015-01-01')
-                .startOf('day')
-                .seconds(elapsedTime)
-                .format('HH:mm:ss')}
+              {elapsedTime
+                ? moment('2015-01-01')
+                    .startOf('day')
+                    ?.seconds(elapsedTime)
+                    ?.format('HH:mm:ss')
+                : '--'}
             </div>
           </section>
           <section className="mb-4">
