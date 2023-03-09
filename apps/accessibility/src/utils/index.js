@@ -32,6 +32,9 @@ export const defaultPath = () => {
   if (link.includes('/screen-reader')) {
     return 'screen-reader';
   }
+  if (link.includes('/site-scanner')) {
+    return 'site-scanner';
+  }
   return 'report-listing';
 };
 

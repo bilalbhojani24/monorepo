@@ -5,6 +5,9 @@ export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',
   screenReader: '/screen-reader',
+  siteScanner: '/site-scanner',
+  scanDetails: '/site-scanner/scan-details/:id',
+  scanReports: '/site-scanner/scan-report',
   root: '/',
   welcome: '/welcome'
 };

@@ -62,7 +62,7 @@ export default function Report() {
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
-        className="bg-base-50 border-base-500 fixed top-16 z-10 border-b"
+        className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
         style={{ width: 'calc(100vw - 256px)' }}
       >
         <div className="px-6 pt-6">

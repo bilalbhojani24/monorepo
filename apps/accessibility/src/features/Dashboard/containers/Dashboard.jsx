@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Header,
+  MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
   MdTextSnippet,
+  NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
@@ -33,10 +35,18 @@ export default function Dashboard({ children }) {
     },
     {
       id: 'screen-reader',
-      label: 'Assistive tech',
+      label: 'Screen reader',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
       path: '/screen-reader',
+      badge: <Badge text="New" />
+    },
+    {
+      id: 'site-scanner',
+      label: 'Website scanner',
+      activeIcon: MdOutlineDynamicFeed,
+      inActiveIcon: MdOutlineDynamicFeed,
+      path: '/site-scanner',
       badge: <Badge text="New" />
     }
   ];
@@ -140,6 +150,7 @@ export default function Dashboard({ children }) {
       >
         {children}
       </main>
+      <NotificationsContainer />
     </div>
   );
 }
