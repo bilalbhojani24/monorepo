@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsSnPErrorDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
@@ -78,9 +78,14 @@ export default function SnP() {
     [dispatch, navigate, removeCommonParams]
   );
   return (
-    <div className={twClassNames('h-full flex flex-col')}>
+    <div
+      className={twClassNames(
+        'flex flex-col overflow-hidden',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <SHHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className={twClassNames('px-8 py-7 flex-1')}>
+      <div className={twClassNames('px-8 py-7 flex-1 overflow-auto')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
         {activeTab.value === TABS.build_performance && (

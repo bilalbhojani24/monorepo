@@ -147,15 +147,14 @@ export default function SnPTests() {
   };
 
   return (
-    <div className={twClassNames('')}>
+    <div className={twClassNames('h-full')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
       {/* <O11yLoader
         wrapperClassName="h-full"
         loaderClass="text-base-200 fill-base-400 w-8 h-8"
       /> */}
       <TableVirtuoso
-        // style={{ height: 600 }}
-        useWindowScroll
+        style={{ height: '100%' }}
         data={tests}
         endReached={loadMoreRows}
         components={{
