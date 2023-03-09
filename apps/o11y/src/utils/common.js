@@ -52,3 +52,53 @@ export const logOllyEvent = ({ event, data = {} }) => {
   };
   logEvent([], 'web_events', event, { ...commonData, ...data });
 };
+
+export const capitalize = (word, upCaseTwo = false) => {
+  let result = word;
+  if (result) {
+    result = word.toLowerCase();
+    if (upCaseTwo && word.length === 2) {
+      result = word.toUpperCase();
+    } else {
+      result = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+  }
+  return result;
+};
+
+export const getShortOSName = (os) => {
+  switch (os) {
+    case 'windows':
+      return 'Win';
+    case 'ios':
+      return 'iOS';
+    case 'macos':
+      return 'mac OS';
+    case 'os x':
+      return 'OS X';
+    default:
+      return capitalize(os);
+  }
+};
+export const getOsIconName = (os) => {
+  if (!os) {
+    return null;
+  }
+  const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
+  const [osType] = formattedOS.split('-');
+  if (osType === 'ios') {
+    return osType;
+  }
+
+  return formattedOS;
+};
+
+export const getIconName = (name = '', device = '') => {
+  if (name) {
+    return `icon-${name.toLowerCase()}`;
+  }
+  if (device) {
+    return `device_icon`;
+  }
+  return '';
+};

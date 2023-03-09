@@ -33,41 +33,42 @@ export function getCustomTimeStamp({
 // export function getTimeStamp(dateString) {
 //   return dayjs(dateString).format('h:mm:ss A');
 // }
-// export function milliSecondsToTime(ms, html) {
-//   if (!ms) {
-//     if (html) {
-//       return '0<span class="timeUnit">ms<span>';
-//     }
-//     return '0ms';
-//   }
-//   const tDuration = dayjs.duration(ms);
-//   const hrs = tDuration.hours();
-//   const mins = tDuration.minutes();
-//   const secs = tDuration.seconds();
-//   let formattedDuration = '';
-//   if (hrs) {
-//     if (html) {
-//       formattedDuration += `${hrs}<span class="timeUnit">h</span> ${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
-//     } else {
-//       formattedDuration += `${hrs}h ${mins}m ${secs}s`;
-//     }
-//   } else if (mins) {
-//     if (html) {
-//       formattedDuration += `${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
-//     } else {
-//       formattedDuration += `${mins}m ${secs}s`;
-//     }
-//   } else if (html) {
-//     formattedDuration += secs
-//       ? `${tDuration.asSeconds().toFixed(2)}<span class="timeUnit">s<s/pan>`
-//       : `${ms.toFixed(2)}<span class="timeUnit">ms</span>`;
-//   } else {
-//     formattedDuration += secs
-//       ? `${tDuration.asSeconds().toFixed(2)}s`
-//       : `${ms.toFixed(2)}ms`;
-//   }
-//   return formattedDuration;
-// }
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export function milliSecondsToTime(ms, html) {
+  if (!ms) {
+    if (html) {
+      return '0<span class="timeUnit">ms<span>';
+    }
+    return '0ms';
+  }
+  const tDuration = dayjs.duration(ms);
+  const hrs = tDuration.hours();
+  const mins = tDuration.minutes();
+  const secs = tDuration.seconds();
+  let formattedDuration = '';
+  if (hrs) {
+    if (html) {
+      formattedDuration += `${hrs}<span class="timeUnit">h</span> ${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
+    } else {
+      formattedDuration += `${hrs}h ${mins}m ${secs}s`;
+    }
+  } else if (mins) {
+    if (html) {
+      formattedDuration += `${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
+    } else {
+      formattedDuration += `${mins}m ${secs}s`;
+    }
+  } else if (html) {
+    formattedDuration += secs
+      ? `${tDuration.asSeconds().toFixed(2)}<span class="timeUnit">s<s/pan>`
+      : `${ms.toFixed(2)}<span class="timeUnit">ms</span>`;
+  } else {
+    formattedDuration += secs
+      ? `${tDuration.asSeconds().toFixed(2)}s`
+      : `${ms.toFixed(2)}ms`;
+  }
+  return formattedDuration;
+}
 // export function millisToMinutesAndSeconds(millis) {
 //   if (!millis) {
 //     return '00:00';

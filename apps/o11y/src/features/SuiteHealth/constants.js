@@ -7,7 +7,6 @@ export const TABS = {
 export const TESTS_HEADER_LABEL_MAPPING = {
   tests: 'Tests',
   platforms: 'Platforms',
-  browsers: 'Browsers',
   totalFailures: 'Failure Count',
   reliability: 'Failure Rate',
   average: 'Avg. Duration'
