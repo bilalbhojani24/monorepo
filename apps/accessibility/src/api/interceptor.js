@@ -5,6 +5,6 @@ axios.defaults.baseURL =
 getConfigByKey('VITE_APP_BACKEND_URL') || `${window.location.origin}/api`;
 
 axios.interceptors.request.use((config) => ({
-  ...config
-  // withCredentials: true
+  ...config,
+  withCredentials: true
 }));
