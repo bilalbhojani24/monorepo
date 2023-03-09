@@ -35,7 +35,7 @@ export const editTestCaseAPI = async ({
     payload
   );
 
-export const getNewTestCaseDetailsAPI = async ({
+export const getTestRunDetailsOfTestCaseAPI = async ({
   projectId,
   testCaseId,
   testRunId

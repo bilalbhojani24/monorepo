@@ -2,7 +2,6 @@ import React from 'react';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
-// import { TMButton } from 'common/bifrostProxy';
 import TestCaseBasicData from './TestCaseBasicData';
 import TestCaseMutliData from './TestCaseMutliData';
 import TestCaseTopBar from './TestCaseTopBar';
@@ -35,7 +34,7 @@ const TestCaseView = ({
             actionHandler={actionHandler}
             isFromTestRun={isFromTestRun}
           />
-          <TestCaseBasicData />
+          <TestCaseBasicData isFromTestRun={isFromTestRun} />
           <TestCaseMutliData
             isFromTestRun={isFromTestRun}
             onResultClick={onResultClick}

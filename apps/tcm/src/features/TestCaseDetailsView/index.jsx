@@ -26,6 +26,7 @@ const TestCaseDetailsView = ({
     folderId,
     testRunId,
     testCaseId,
+    isFromTestRun,
     onDetailsClose,
     testResultsArray
   });

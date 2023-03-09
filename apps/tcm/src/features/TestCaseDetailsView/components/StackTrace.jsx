@@ -9,8 +9,8 @@ const StackTrace = () => {
   const { testResultsArray, testCaseDetails, testObservabilityUrl } =
     useTestCaseViewDetails();
 
-  const elapsedTime = testResultsArray?.[0].time_elapsed;
-  const backTrace = testResultsArray?.[0].backtrace;
+  const elapsedTime = testResultsArray?.[0]?.time_elapsed;
+  const backTrace = testResultsArray?.[0]?.backtrace;
 
   const handleViewMoreDetails = () => {
     window.open(`${testObservabilityUrl}`);

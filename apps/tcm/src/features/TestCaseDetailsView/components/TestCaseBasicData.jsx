@@ -11,13 +11,14 @@ import {
 } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import { templateOptions } from 'features/Repository/const/addTestCaseConst';
+import PropTypes from 'prop-types';
 
 import AddIssuesModal from '../../../common/AddIssuesModal/components/AddIssuesModal';
 
 import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseBasicData = () => {
+const TestCaseBasicData = ({ isFromTestRun }) => {
   const {
     detailsRef,
     showImagePreview,
@@ -35,7 +36,7 @@ const TestCaseBasicData = () => {
   return (
     <>
       <div ref={detailsRef}>
-        <StackTrace />
+        {isFromTestRun && <StackTrace />}
         <DetailsSnippet
           title="Description"
           parseContent
@@ -241,6 +242,14 @@ const TestCaseBasicData = () => {
       </TMModal>
     </>
   );
+};
+
+TestCaseBasicData.propTypes = {
+  isFromTestRun: PropTypes.bool
+};
+
+TestCaseBasicData.defaultProps = {
+  isFromTestRun: false
 };
 
 export default TestCaseBasicData;
