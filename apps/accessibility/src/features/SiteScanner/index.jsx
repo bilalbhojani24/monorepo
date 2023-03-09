@@ -363,10 +363,12 @@ export default function SiteScanner() {
                 >
                   <div className="flex-col font-normal">
                     <div>
-                      <span className="text-base-700 mr-2">{row.name}</span>
+                      <span className="text-base-700 mr-2 font-medium">
+                        {row.name}
+                      </span>
                       <Badge text={row.wcagVersion.label} />
                     </div>
-                    <div className="mt-0.5 flex items-center font-light">
+                    <div className="mt-4 flex items-center font-light">
                       <span className="mr-2 flex items-center">
                         <span>
                           <MdPerson className="mr-0.5" color="#9CA3AF" />
