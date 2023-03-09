@@ -121,7 +121,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     if (timeRef.current) {
       timeRef.current.value = '';
     }
-    scanUrlRef.current.value = '';
+    scanUrlRef.current.value = null;
     setRecurringStatus(true);
     document.querySelector('#recurring').checked = false;
     closeSlideover();
@@ -180,6 +180,8 @@ export default function useNewScan(closeSlideover, preConfigData) {
         if (!formDataObj.scanData.urlSet.includes(formDataObj.url)) {
           formDataObj.scanData.urlSet.push(formDataObj.url);
         }
+        delete formDataObj.url;
+        scanUrlRef.current.value = '';
         break;
       case WEEKLY:
       case DAILY:
