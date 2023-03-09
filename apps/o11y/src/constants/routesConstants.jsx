@@ -5,6 +5,7 @@ import NotFound from 'common/NotFound';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import Settings from 'features/Settings/containers/Settings';
+import SuiteHealth from 'features/SuiteHealth';
 
 import { ROUTES } from './routes';
 
@@ -85,9 +86,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.suite_health,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <SuiteHealth />
       },
       {
         path: ROUTES.settings,
