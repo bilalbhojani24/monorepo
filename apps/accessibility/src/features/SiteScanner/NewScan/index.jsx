@@ -317,7 +317,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
-                  openByDefault
                   panelContentNode={getAccordionBody()}
                   triggerContentNode={<div>Additional settings</div>}
                 />
