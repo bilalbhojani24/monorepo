@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import SelectMenuLabel from '../SelectMenuLabel';
@@ -81,10 +81,11 @@ Primary.parameters = {
 
 export const ControlledSelectMenu = () => {
   const [selected, setSelected] = useState(null);
+  const ref = useRef();
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
-      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuTrigger placeholder="Select.." ref={ref} />
       <SelectMenuOptionGroup>
         {SELECT_OPTIONS.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />

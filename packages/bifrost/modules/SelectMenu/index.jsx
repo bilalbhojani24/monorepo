@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
@@ -14,7 +14,7 @@ import {
 } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-const SelectMenu = forwardRef((props, ref) => {
+const SelectMenu = (props) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
 
@@ -33,7 +33,6 @@ const SelectMenu = forwardRef((props, ref) => {
     >
       <Popover.Root>
         <Listbox
-          ref={ref}
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
@@ -53,7 +52,7 @@ const SelectMenu = forwardRef((props, ref) => {
       </Popover.Root>
     </SelectMenuContextData.Provider>
   );
-});
+};
 
 SelectMenu.propTypes = {
   children: node.isRequired,
