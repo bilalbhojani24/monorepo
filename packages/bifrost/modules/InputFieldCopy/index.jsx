@@ -7,6 +7,8 @@ import { ExclamationCircleIcon } from '../Icon';
 const InputField = forwardRef(
   (
     {
+      addOnBefore,
+      addOnAfter,
       autoComplete,
       cornerHintText,
       defaultValue,
@@ -17,6 +19,7 @@ const InputField = forwardRef(
       inputRef,
       isTrailingNodeClickable,
       label,
+      leadingIcon,
       onBlur,
       onChange,
       onKeyDown,
@@ -24,12 +27,9 @@ const InputField = forwardRef(
       placeholder,
       readonly,
       type,
-      value,
-      wrapperClassName,
-      leadingIcon,
       trailingIcon,
-      addOnBefore,
-      addOnAfter
+      value,
+      wrapperClassName
     },
     ref
   ) => (
@@ -52,7 +52,7 @@ const InputField = forwardRef(
         {addOnBefore}
         <div
           className={twClassNames(
-            'rounded-md w-full flex border-1 border border-base-300 focus:z-10 focus-within:ring-2 focus-within:ring-brand-500',
+            'rounded-md w-full flex border-1 border border-base-300 z-10 focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500',
             wrapperClassName,
             {
               'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
