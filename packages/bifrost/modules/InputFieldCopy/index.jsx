@@ -52,8 +52,7 @@ const InputField = forwardRef(
         {addOnBefore}
         <div
           className={twClassNames(
-            'rounded-md w-full flex border-1 border border-base-300 z-10 focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500',
-            wrapperClassName,
+            'rounded-md w-full flex items-center border-1 border border-base-300 z-10 focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500',
             {
               'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
                 errorText,
@@ -63,10 +62,11 @@ const InputField = forwardRef(
                 readonly,
               'rounded-l-none': addOnBefore,
               'rounded-r-none': addOnAfter
-            }
+            },
+            wrapperClassName
           )}
         >
-          <div className="flex items-center pl-3">{leadingIcon}</div>
+          <div className="pl-3">{leadingIcon}</div>
           <input
             aria-invalid={!!errorText}
             aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
@@ -80,8 +80,7 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={twClassNames(
-              'border-none rounded-md bg-transparent sm:text-sm focus:ring-0 w-full flex-1',
-              'block w-full rounded-md border-base-300 shadow-sm sm:text-sm',
+              'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm',
               {
                 'text-danger-900': errorText,
                 'disabled:text-base-500': disabled,
@@ -96,7 +95,7 @@ const InputField = forwardRef(
           />
 
           <div
-            className={twClassNames('flex items-center pr-3 gap-1 ', {
+            className={twClassNames('flex items-center pr-3 gap-1', {
               'pointer-events-none': !isTrailingNodeClickable
             })}
           >

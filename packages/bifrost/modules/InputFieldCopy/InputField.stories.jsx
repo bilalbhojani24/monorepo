@@ -186,7 +186,7 @@ InputWithDropdown.args = {
         placeholder="Select.."
         wrapperClassName="rounded-r-none  w-max"
       />
-      <SelectMenuOptionGroup>
+      <SelectMenuOptionGroup alignment="start">
         {options.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
         ))}
@@ -199,7 +199,7 @@ InputWithDropdown.args = {
         placeholder="Select.."
         wrapperClassName="rounded-l-none  w-max"
       />
-      <SelectMenuOptionGroup>
+      <SelectMenuOptionGroup alignment="end">
         {options.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
         ))}
