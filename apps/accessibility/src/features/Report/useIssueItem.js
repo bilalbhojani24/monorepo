@@ -76,27 +76,34 @@ export default function useIssueItem(activeComponentNodes) {
     window.open(customData[tagVersion].urls[wcagVersion], '_blank');
   };
 
-  const getNodeNeedsReviewStatusInReports = (childNodes, reportMetaData) => {
+  const getNodeNeedsReviewStatusInReports = (
+    childNodes,
+    reportMetaData,
+    testType
+  ) => {
     const result = [];
     if (childNodes.length > 0) {
       childNodes.forEach((item) => {
         if (showHiddenIssues) {
           if (item.hidden) {
             result.push({
-              reportName: reportMetaData.meta[item.reportId].name,
+              reportName:
+                reportMetaData.meta[`${testType}:${item.reportId}`].name,
               confirmed: false
             });
           }
         } else if (activeFilters.showNeedsReviewIssues) {
           if (item.confirmed === null) {
             result.push({
-              reportName: reportMetaData.meta[item.reportId].name,
+              reportName:
+                reportMetaData.meta[`${testType}:${item.reportId}`].name,
               confirmed: item.confirmed
             });
           }
         } else {
           result.push({
-            reportName: reportMetaData.meta[item.reportId].name,
+            reportName:
+              reportMetaData.meta[`${testType}:${item.reportId}`].name,
             confirmed: item.confirmed
           });
         }

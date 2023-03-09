@@ -36,8 +36,7 @@ export default function Dashboard({ children }) {
       label: 'Assistive tech',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
-      path: '/screen-reader',
-      badge: <Badge text="New" />
+      path: '/screen-reader'
     }
   ];
 
