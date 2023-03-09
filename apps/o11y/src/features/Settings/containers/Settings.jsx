@@ -1,11 +1,17 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { WRAPPER_GAP_CLASS } from 'constants/common';
+import { logOllyEvent } from 'utils/common';
 
 import SettingsSidebar from '../components/SettingsSidebar';
 
 export default function Settings() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    logOllyEvent({ event: 'O11ySettingsPageVisited' });
+  }, [pathname]);
+
   return (
     <div
       className={twClassNames(
