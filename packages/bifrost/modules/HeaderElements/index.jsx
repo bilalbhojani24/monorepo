@@ -165,7 +165,7 @@ const HeaderElements = ({
             >
               <div
                 className={twClassNames(
-                  'relative rounded-md shadow-sm max-[1023px]:w-11/12 min-[1024px]:w-[940px]'
+                  'relative rounded-md shadow-sm w-11/12 lg:w-[940px]'
                 )}
               >
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -387,7 +387,7 @@ const HeaderElements = ({
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
       wrapperClassName={twClassNames(
-        'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1023px]:hidden'
+        'group lg:flex flex-row items-center py-2 px-3 hover:text-base-100 hidden'
       )}
       href={elementOptions.link}
       key={elementOptions.name}
@@ -429,7 +429,7 @@ const HeaderElements = ({
     >
       <div
         className={twClassNames(
-          'group flex flex-row items-center py-2 px-3 hover:text-base-100 max-[1229px]:hidden'
+          'group flex flex-row items-center py-2 px-3 hover:text-base-100 [@media(max-width:1229px)]:hidden max-[1229px]:hidden'
         )}
       >
         <div
@@ -455,7 +455,7 @@ const HeaderElements = ({
       </div>
       <div
         className={twClassNames(
-          'group flex flex-row items-center p-2 hover:text-base-100 min-[1230px]:hidden max-[1023px]:hidden'
+          'group flex-row items-center p-2 hover:text-base-100 hidden lg:flex [@media(min-width:1230px)]:hidden min-[1230px]:hidden'
         )}
       >
         {elementOptions.icon}
@@ -483,9 +483,7 @@ const HeaderElements = ({
           triggerAriaLabel="account popover"
         >
           <div
-            className={twClassNames(
-              'flex flex-row items-center p-2 max-[1023px]:hidden'
-            )}
+            className={twClassNames('lg:flex flex-row items-center p-2 hidden')}
           >
             {element.icon}
           </div>
@@ -495,7 +493,8 @@ const HeaderElements = ({
       temp = (
         <div
           className={twClassNames('flex flex-row items-center p-2', {
-            'max-[1023px]:hidden': element.name === 'notifications'
+            '[@media(max-width:1023px)]:hidden max-[1023px]:hidden':
+              element.name === 'notifications'
           })}
           id={
             element.name === 'notifications' ? 'beamer-notification' : undefined
@@ -531,7 +530,7 @@ const HeaderElements = ({
       id="header-elements"
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
-      <HeaderProducts wrapperClassName="min-[1361px]:hidden max-[1023px]:hidden" />
+      <HeaderProducts wrapperClassName="[@media(min-width:1361px)]:hidden min-[1361px]:hidden" />
       {ELEMENTS_WITH_LABEL?.map((element) =>
         headerElementArray.includes(element.name)
           ? elementRender(element)
@@ -541,7 +540,7 @@ const HeaderElements = ({
       {planButtonVisible && (
         <div
           className={twClassNames(
-            'flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 max-[1023px]:hidden'
+            'lg:flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 hidden'
           )}
         >
           <Hyperlink
