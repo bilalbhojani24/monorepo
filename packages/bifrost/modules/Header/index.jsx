@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -27,7 +28,8 @@ const Header = ({
   headerElementArray,
   productArray,
   planButtonVisible,
-  isFreeUser
+  isFreeUser,
+  onSignoutClick
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -62,6 +64,7 @@ const Header = ({
           headerElementArray={headerElementArray}
           planButtonVisible={planButtonVisible}
           isFreeUser={isFreeUser}
+          onSignoutClick={onSignoutClick}
         />
       </div>
     </nav>
@@ -87,7 +90,8 @@ Header.propTypes = {
     PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
   ),
   planButtonVisible: PropTypes.bool,
-  isFreeUser: PropTypes.bool
+  isFreeUser: PropTypes.bool,
+  onSignoutClick: PropTypes.func
 };
 Header.defaultProps = {
   wrapperClassName: '',
@@ -106,7 +110,8 @@ Header.defaultProps = {
   headerID: '',
   productArray: [],
   planButtonVisible: true,
-  isFreeUser: true
+  isFreeUser: true,
+  onSignoutClick: null
 };
 
 export default Header;
