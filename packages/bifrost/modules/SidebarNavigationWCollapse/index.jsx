@@ -61,9 +61,13 @@ const SidebarNavigationWCollapse = ({
                       </Button>
                     </Tooltip>
                   ) : (
-                    <button
-                      type="button"
+                    <div
+                      role="button"
+                      tabIndex={0}
                       onClick={(e) => handleClick(e, item)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleClick(e, item);
+                      }}
                       className={twClassNames(
                         'w-full text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
                         {
@@ -75,7 +79,7 @@ const SidebarNavigationWCollapse = ({
                       <div className="text-base-900 ml-4 text-sm font-medium leading-5">
                         {item.label}
                       </div>
-                    </button>
+                    </div>
                   )}
                 </div>
               </React.Fragment>
@@ -114,8 +118,12 @@ const SidebarNavigationWCollapse = ({
                     </Button>
                   </Tooltip>
                 ) : (
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleClick(e, item);
+                    }}
                     onClick={(e) => handleClick(e, item)}
                     className={twClassNames(
                       'w-full text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
@@ -128,7 +136,7 @@ const SidebarNavigationWCollapse = ({
                     <div className="text-base-600 ml-4 text-sm font-medium leading-5">
                       {item.label}
                     </div>
-                  </button>
+                  </div>
                 )}
               </div>
             </React.Fragment>
