@@ -42,6 +42,7 @@ export default function useSiteScanner() {
           scanConfigs: [...searchedResults]
         }
       };
+      console.log(completeInfoSet, scanConfigsData);
       setScanConfigStateData(completeInfoSet);
     }
   };
