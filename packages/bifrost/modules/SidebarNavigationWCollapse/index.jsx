@@ -3,6 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import useWindowSize from '../../../hooks/src/useWindowSize';
+import Button from '../Button';
 import Tooltip from '../Tooltip';
 
 const SidebarNavigationWCollapse = ({
@@ -44,25 +45,27 @@ const SidebarNavigationWCollapse = ({
                         </p>
                       }
                     >
-                      <button
+                      <Button
+                        fullWidth
+                        variant="secondary"
+                        colors="white"
                         onClick={(e) => handleClick(e, item)}
-                        type="button"
-                        className={twClassNames(
-                          'w-full text-base-600 hover:bg-base-50 hover:text-base-900 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
+                        wrapperClassName={twClassNames(
+                          'text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
                           {
                             'bg-base-100 text-base-900': item.active
                           }
                         )}
                       >
                         {item.icon}
-                      </button>
+                      </Button>
                     </Tooltip>
                   ) : (
                     <button
-                      onClick={(e) => handleClick(e, item)}
                       type="button"
+                      onClick={(e) => handleClick(e, item)}
                       className={twClassNames(
-                        'w-full text-base-600 hover:bg-base-50 hover:text-base-900 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
+                        'w-full text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
                         {
                           'bg-base-100 text-base-900': item.active
                         }
@@ -95,18 +98,20 @@ const SidebarNavigationWCollapse = ({
                       </p>
                     }
                   >
-                    <button
-                      type="button"
+                    <Button
+                      fullWidth
+                      variant="secondary"
+                      colors="white"
                       onClick={(e) => handleClick(e, item)}
-                      className={twClassNames(
-                        'w-full text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
+                      wrapperClassName={twClassNames(
+                        'text-base-600 flex items-center justify-items-start rounded-md p-2 text-sm font-medium',
                         {
                           'bg-base-100 text-base-900': item.active
                         }
                       )}
                     >
                       {item.icon}
-                    </button>
+                    </Button>
                   </Tooltip>
                 ) : (
                   <button
