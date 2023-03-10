@@ -12,6 +12,31 @@ export const TESTS_HEADER_LABEL_MAPPING = {
   average: 'Avg. Duration'
 };
 
+const ACTION_HEADER_COLUMN_CLASS = 'py-3 text-center';
+
+export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
+  [TESTS_HEADER_LABEL_MAPPING.tests]: {
+    name: TESTS_HEADER_LABEL_MAPPING.tests,
+    defaultClass: 'py-3 pl-6 max-w-[600px] whitespace-normal'
+  },
+  [TESTS_HEADER_LABEL_MAPPING.platforms]: {
+    name: TESTS_HEADER_LABEL_MAPPING.platforms,
+    defaultClass: 'py-3 w-[300px]'
+  },
+  [TESTS_HEADER_LABEL_MAPPING.totalFailures]: {
+    name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
+    defaultClass: ACTION_HEADER_COLUMN_CLASS
+  },
+  [TESTS_HEADER_LABEL_MAPPING.reliability]: {
+    name: TESTS_HEADER_LABEL_MAPPING.reliability,
+    defaultClass: ACTION_HEADER_COLUMN_CLASS
+  },
+  [TESTS_HEADER_LABEL_MAPPING.average]: {
+    name: TESTS_HEADER_LABEL_MAPPING.average,
+    defaultClass: ACTION_HEADER_COLUMN_CLASS
+  }
+};
+
 export const UNIQUE_ERROR_MAIN_HEADER = {
   error: 'Error',
   testCount: 'Impacted tests',

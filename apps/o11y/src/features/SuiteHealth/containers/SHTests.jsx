@@ -24,7 +24,7 @@ import { getProjects } from 'globalSlice/selectors';
 
 import SHTestItem from '../components/TestItem';
 import SHTestsHeader from '../components/TestsHeader';
-import { TESTS_HEADER_LABEL_MAPPING } from '../constants';
+import { SUITE_TESTS_HEADER_LABEL_MAPPING } from '../constants';
 import {
   getSnPTestsData,
   setTestsLoading,
@@ -164,18 +164,25 @@ export default function SnPTests() {
         }}
         fixedHeaderContent={() => (
           <TableRow>
-            {Object.keys(TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
-              if (idx > 2) {
+            {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
+              if (idx > 1) {
                 return (
-                  <O11yTableCell key={key} wrapperClassName="py-3 pl-6">
+                  <O11yTableCell
+                    key={key}
+                    wrapperClassName={twClassNames(
+                      SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
+                    )}
+                  >
                     <button
-                      className="flex items-center gap-1 "
+                      className="flex w-full items-center justify-center gap-1 "
                       onClick={() => handleClickSortBy(key)}
                       disabled={isLoadingMore}
                       type="button"
                     >
                       <span className="text-xs font-medium leading-4">
-                        {TESTS_HEADER_LABEL_MAPPING[key].toUpperCase()}
+                        {SUITE_TESTS_HEADER_LABEL_MAPPING[
+                          key
+                        ].name.toUpperCase()}
                       </span>
                       {sortBy.type === key && (
                         <>
@@ -191,8 +198,15 @@ export default function SnPTests() {
                 );
               }
               return (
-                <O11yTableCell key={key} wrapperClassName="py-3 pl-6">
-                  <div className="">{TESTS_HEADER_LABEL_MAPPING[key]}</div>
+                <O11yTableCell
+                  key={key}
+                  wrapperClassName={twClassNames(
+                    SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
+                  )}
+                >
+                  <div className="text-xs font-medium leading-4">
+                    {SUITE_TESTS_HEADER_LABEL_MAPPING[key].name.toUpperCase()}
+                  </div>
                 </O11yTableCell>
               );
             })}

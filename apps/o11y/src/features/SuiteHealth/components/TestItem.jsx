@@ -1,24 +1,46 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
+import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { milliSecondsToTime } from 'utils/dateTime';
+
+import {
+  SUITE_TESTS_HEADER_LABEL_MAPPING,
+  TESTS_HEADER_LABEL_MAPPING
+} from '../constants';
 
 import Platforms from './Platforms';
 import TestInfo from './TestInfo';
 
 const SnPTestItem = ({ testDetails }) => (
   <>
-    <O11yTableCell wrapperClassName="py-3 pl-6">
+    <O11yTableCell
+      wrapperClassName={twClassNames(
+        SUITE_TESTS_HEADER_LABEL_MAPPING[TESTS_HEADER_LABEL_MAPPING.tests]
+          .defaultClass
+      )}
+    >
       <TestInfo testDetails={testDetails} />
     </O11yTableCell>
-    <O11yTableCell wrapperClassName="py-3 w-[300px]">
+    <O11yTableCell
+      wrapperClassName={twClassNames(
+        SUITE_TESTS_HEADER_LABEL_MAPPING[TESTS_HEADER_LABEL_MAPPING.platforms]
+          .defaultClass
+      )}
+    >
       <Platforms
         platforms={testDetails.platforms}
         browsers={testDetails.browsers}
       />
     </O11yTableCell>
-    <O11yTableCell wrapperClassName="py-3 w-[140px] text-center">
+    <O11yTableCell
+      wrapperClassName={twClassNames(
+        SUITE_TESTS_HEADER_LABEL_MAPPING[
+          TESTS_HEADER_LABEL_MAPPING.totalFailures
+        ].defaultClass
+      )}
+    >
       {testDetails?.totalFailures?.failed === undefined ? (
         '-'
       ) : (
@@ -30,7 +52,12 @@ const SnPTestItem = ({ testDetails }) => (
         </p>
       )}
     </O11yTableCell>
-    <O11yTableCell wrapperClassName="py-3 w-[140px] text-center">
+    <O11yTableCell
+      wrapperClassName={twClassNames(
+        SUITE_TESTS_HEADER_LABEL_MAPPING[TESTS_HEADER_LABEL_MAPPING.reliability]
+          .defaultClass
+      )}
+    >
       {testDetails?.reliability === undefined ? (
         '-'
       ) : (
@@ -40,7 +67,12 @@ const SnPTestItem = ({ testDetails }) => (
         </p>
       )}
     </O11yTableCell>
-    <O11yTableCell wrapperClassName="py-3 w-[140px] text-center">
+    <O11yTableCell
+      wrapperClassName={twClassNames(
+        SUITE_TESTS_HEADER_LABEL_MAPPING[TESTS_HEADER_LABEL_MAPPING.average]
+          .defaultClass
+      )}
+    >
       <div className="text-base-500 text-sm leading-5">
         {ReactHtmlParser(milliSecondsToTime(testDetails.duration, true))}
       </div>

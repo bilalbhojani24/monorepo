@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 export default function TestInfo({ testDetails }) {
   return (
-    <div className="">
+    <>
       <div className="">
         <span className="text-base-900 break-words">{testDetails?.title}</span>
         {/* {testDetails?.jiraUrl && (
@@ -44,7 +44,7 @@ export default function TestInfo({ testDetails }) {
           </span>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
