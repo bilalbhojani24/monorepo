@@ -1,88 +1,105 @@
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import {
+  endOfDay,
+  format,
+  getUnixTime,
+  intervalToDuration,
+  startOfDay,
+  sub
+} from 'date-fns';
 
 import { extractTimezoneAbbr } from './extractTimezoneAbbr';
 
-dayjs.extend(duration);
+export const getUnixStartOfDay = (value) => getUnixTime(startOfDay(value));
+export const getUnixEndOfDay = (value) => getUnixTime(endOfDay(value));
 
-export const getUnixStartOfDay = (value) => dayjs(value).startOf('day').unix();
-export const getUnixEndOfDay = (value) => dayjs(value).endOf('day').unix();
+// Refer this(https://date-fns.org/v2.29.3/docs/format) for date-fns format options
+export const getDateInFormat = (dateString, dateFormat = 'MMM dd, yyyy') =>
+  format(dateString, dateFormat);
 
-export const getSubtractedUnixTime = (value, type = 'day') =>
-  getUnixStartOfDay(dayjs().subtract(value, type));
+/**
+ *
+ * @param {number} value
+ * @param {string} type possible options = ["years","months","weeks","days","hours","minutes","seconds"]
+ * @returns {number} unix number
+ */
+export const getSubtractedUnixTime = (value, type = 'days') =>
+  getUnixStartOfDay(sub(new Date(), { [type]: value }));
 
-export function getCustomTimeStamp({
+export function getCustomTimeStampFns({
   dateString,
   withoutTZ = false,
   withoutTime
 }) {
   const timeZone = extractTimezoneAbbr(new Date(dateString));
   if (withoutTime) {
-    const formattedDate = dayjs(dateString).format('MMM DD, YYYY');
+    const formattedDate = format(dateString, 'MMM dd, yyyy');
     const returnDate = timeZone
       ? `${formattedDate} ( ${timeZone} )`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
-  const formattedDate = dayjs(dateString).format('MMM DD, YYYY | h:mm:ss A');
+  const formattedDate = format(dateString, 'MMM dd, yyyy | h:mm:ss a');
   const returnDate = timeZone
     ? `${formattedDate} ( ${timeZone} )`
     : formattedDate;
   return withoutTZ ? formattedDate : returnDate;
 }
-// export function getTimeStamp(dateString) {
-//   return dayjs(dateString).format('h:mm:ss A');
-// }
-// eslint-disable-next-line sonarjs/cognitive-complexity
-export function milliSecondsToTime(ms, html) {
-  if (!ms) {
-    if (html) {
-      return '0<span class="timeUnit">ms<span>';
-    }
-    return '0ms';
-  }
-  const tDuration = dayjs.duration(ms);
-  const hrs = tDuration.hours();
-  const mins = tDuration.minutes();
-  const secs = tDuration.seconds();
-  let formattedDuration = '';
-  if (hrs) {
-    if (html) {
-      formattedDuration += `${hrs}<span class="timeUnit">h</span> ${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
-    } else {
-      formattedDuration += `${hrs}h ${mins}m ${secs}s`;
-    }
-  } else if (mins) {
-    if (html) {
-      formattedDuration += `${mins}<span class="timeUnit">m</span> ${secs}<span class="timeUnit">s</span>`;
-    } else {
-      formattedDuration += `${mins}m ${secs}s`;
-    }
-  } else if (html) {
-    formattedDuration += secs
-      ? `${tDuration.asSeconds().toFixed(2)}<span class="timeUnit">s<s/pan>`
-      : `${ms.toFixed(2)}<span class="timeUnit">ms</span>`;
-  } else {
-    formattedDuration += secs
-      ? `${tDuration.asSeconds().toFixed(2)}s`
-      : `${ms.toFixed(2)}ms`;
-  }
-  return formattedDuration;
+export function getTimeStamp(dateString) {
+  return format(dateString, 'h:mm:ss a');
 }
-// export function millisToMinutesAndSeconds(millis) {
-//   if (!millis) {
-//     return '00:00';
-//   }
-//   let returnText = '';
-//   if (millis < 0) {
-//     millis = Math.abs(millis);
-//     returnText = '-';
-//   }
-//   const minutes = Math.floor(millis / 60000);
-//   const seconds = ((millis % 60000) / 1000).toFixed(0);
-//   return seconds == 60
-//     ? `${returnText}0${minutes + 1} + ':00'`
-//     : `${returnText}${minutes < 10 ? `0${minutes}` : minutes}:${
-//         seconds < 10 ? `0${seconds}` : seconds
-//       }`;
-// }
+export function milliSecondsToTime(ms, html) {
+  const timeUnit = html ? '<span class="timeUnit">' : '';
+  const timeUnitCloseTag = html ? '</span>' : '';
+
+  if (!ms) {
+    return html ? `0${timeUnit}ms${timeUnitCloseTag}` : '0ms';
+  }
+
+  const tDuration = intervalToDuration({
+    start: 0,
+    end: ms
+  });
+
+  const hrs = tDuration.hours;
+  const mins = tDuration.minutes;
+  const secs = tDuration.seconds;
+
+  switch (true) {
+    case hrs > 0:
+      return html
+        ? `${hrs}${timeUnit}h${timeUnitCloseTag} ${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
+        : `${hrs}h ${mins}m ${secs}s`;
+    case mins > 0:
+      return html
+        ? `${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
+        : `${mins}m ${secs}s`;
+    case secs > 0:
+      return html
+        ? `${(ms / 1000).toFixed(2)}${timeUnit}s${timeUnitCloseTag}`
+        : `${(ms / 1000).toFixed(2)}s`;
+    default:
+      return html
+        ? `${ms.toFixed(2)}${timeUnit}ms${timeUnitCloseTag}`
+        : `${ms.toFixed(2)}ms`;
+  }
+}
+
+export function millisToMinutesAndSeconds(ms) {
+  let millis = ms;
+  if (!millis) {
+    return '00:00';
+  }
+  let returnText = '';
+  if (millis < 0) {
+    millis = Math.abs(millis);
+    returnText = '-';
+  }
+  const minutes = Math.floor(millis / 60000);
+  const seconds = ((millis % 60000) / 1000).toFixed(0);
+  if (seconds === 60) {
+    return `${returnText}0${minutes + 1} + ':00'`;
+  }
+  const minStr = minutes < 10 ? `0${minutes}` : minutes;
+  const secStr = seconds < 10 ? `0${seconds}` : seconds;
+  return `${returnText}${minStr}:${secStr}`;
+}
