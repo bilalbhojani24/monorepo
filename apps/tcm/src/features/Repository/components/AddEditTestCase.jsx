@@ -52,7 +52,6 @@ const AddEditTestCase = () => {
     showMoreFields,
     setShowMoreFieldHelper,
     usersArrayMapped,
-    updatedMySelfLabelName,
     tagsArray,
     issuesArray,
     showAddTagsModal,
@@ -75,10 +74,6 @@ const AddEditTestCase = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const defaultOwnerValue = !isTestCaseEditing
-    ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
-    : { label: '', value: '' };
 
   return (
     <div className="border-base-200 flex w-full  shrink-0 grow flex-col items-start overflow-hidden border-l">
@@ -286,7 +281,7 @@ const AddEditTestCase = () => {
                       ? usersArrayMapped?.find(
                           (item) => item.value === testCaseFormData.owner
                         )
-                      : defaultOwnerValue
+                      : null
                   }
                   isMulti={false}
                   placeholder="Select owner"

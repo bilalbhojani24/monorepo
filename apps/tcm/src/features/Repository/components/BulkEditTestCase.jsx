@@ -98,6 +98,7 @@ const BulkEditTestCase = () => {
             <TMSelectMenu
               checkPosition="right"
               label="Priority*"
+              placeholder="Select from options"
               options={priorityOptions}
               value={
                 testCaseBulkFormData.priority &&
@@ -120,6 +121,7 @@ const BulkEditTestCase = () => {
               }
               checkPosition="right"
               label="State*"
+              placeholder="Select from options"
               options={statusOptions}
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
@@ -186,7 +188,7 @@ const BulkEditTestCase = () => {
             <div className="mr-4 flex-1">
               <TMSelectMenu
                 checkPosition="right"
-                isMultiSelect
+                isMulti
                 placeholder="Select from options"
                 label="Issues"
                 options={issuesArray}

@@ -31,9 +31,9 @@ const initialState = {
   },
   testCaseBulkFormData: {
     case_type: null,
-    priority: priorityOptions[2].value,
+    priority: null,
     owner: null,
-    status: statusOptions[0].value,
+    status: null,
     preconditions: '',
     issues: []
   },

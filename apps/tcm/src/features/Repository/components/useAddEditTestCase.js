@@ -57,7 +57,6 @@ export default function useAddEditTestCase(prop) {
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.global.user);
-  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -510,6 +509,8 @@ export default function useAddEditTestCase(prop) {
 
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
+    else
+      dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing]);
 
@@ -519,7 +520,7 @@ export default function useAddEditTestCase(prop) {
         usersArray.map((item) => {
           if (item.full_name === 'Myself') {
             return {
-              label: updatedMySelfLabelName,
+              label: `Myself (${userData?.full_name})`,
               value: item.id
             };
           }
@@ -545,7 +546,6 @@ export default function useAddEditTestCase(prop) {
     tagsArray,
     issuesArray,
     usersArrayMapped,
-    updatedMySelfLabelName,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
