@@ -66,6 +66,7 @@ export default function useIssueItem(activeComponentNodes) {
       isShowingIssue: false
     });
     navigate(`?${path}`);
+    console.log('herrer');
   };
 
   const onTabChange = (tab) => {

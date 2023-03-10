@@ -19,6 +19,7 @@ import {
   ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
@@ -55,7 +56,18 @@ const ScanDetails = () => {
     showModal,
     loadingStopState
   } = useScanDetails();
-  console.log(showModal);
+  /*
+    Convert back to Local Timezone
+  */
+  const convertToLocale = () => {
+    const interval = parser.parseExpression(scanRunDataCommon.schedulePattern, {
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      iterator: true
+    });
+    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
+
+    return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
+  };
   return (
     <>
       <div className="bg-base-50">
@@ -114,9 +126,7 @@ const ScanDetails = () => {
                 {scanRunDataCommon?.schedulePattern ? (
                   <span className="ml-2 flex items-center">
                     <MdSchedule className="mr-0.5" />
-                    {cronstrue.toString(scanRunDataCommon.schedulePattern, {
-                      verbose: true
-                    })}
+                    {convertToLocale(scanRunDataCommon.schedulePattern)}
                   </span>
                 ) : null}
               </span>

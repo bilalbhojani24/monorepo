@@ -6,7 +6,11 @@ import {
   runInstantScan,
   stopRecurringScans
 } from '../../../api/siteScannerScanConfigs';
-import { getScanOverview, getScanRuns } from '../slices/dataSlice';
+import {
+  clearScanOverviewData,
+  getScanOverview,
+  getScanRuns
+} from '../slices/dataSlice';
 import {
   getScanOverviewData,
   getScanRunCommonData,
@@ -42,6 +46,7 @@ export default function useScanDetails() {
   useEffect(() => {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
+    dispatch(clearScanOverviewData());
     dispatch(getScanOverview(id));
     dispatch(getScanRuns(id));
   }, [dispatch, id]);

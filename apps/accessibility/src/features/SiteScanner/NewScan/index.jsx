@@ -305,7 +305,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       onChange={(e) => handleFormData(e, 'instantRun')}
                       border={false}
                       data={{
-                        label: 'Run intial scan'
+                        label: 'Run initial scan'
                       }}
                       id="recurringRef"
                       checked={formData.instantRun}
@@ -336,7 +336,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   label="Add pages"
                   onChange={(e) => handleFormData(e, 'url')}
                   id="scan-url"
-                  placeholder="www.website.com/home"
+                  placeholder="https://www.website.com/home"
                   value={formData.url}
                   errorText={validationError.url}
                   ref={scanUrlRef}
