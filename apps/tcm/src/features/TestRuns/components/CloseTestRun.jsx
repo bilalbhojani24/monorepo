@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CheckOutlinedIcon } from 'assets/icons';
+import { WarningAmberOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMModal,
@@ -35,8 +35,8 @@ const CloseTestRun = ({ updateCb }) => {
           </>
         }
         handleDismissClick={closeAll}
-        iconWrapperClassname="bg-success-100"
-        icon={<CheckOutlinedIcon className="text-success-600" />}
+        iconWrapperClassname="bg-danger-100"
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
         <TMButton
@@ -49,7 +49,7 @@ const CloseTestRun = ({ updateCb }) => {
         </TMButton>
         <TMButton
           variant="primary"
-          colors="brand"
+          colors="danger"
           wrapperClassName="ml-3"
           onClick={closeTestRunHandler}
         >

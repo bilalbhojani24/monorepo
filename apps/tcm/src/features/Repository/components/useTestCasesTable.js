@@ -7,6 +7,7 @@ import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkSelection,

@@ -8,19 +8,21 @@ import {
   TMModalFooter,
   TMModalHeader,
   TMSectionHeadings,
-  TMSelectMenu,
-  TMTextArea
+  TMSelectMenu
+  // TMTextArea
   // TMTooltip,
   // TMTooltipBody,
   // TMTooltipHeader
 } from 'common/bifrostProxy';
 
+import TMRichTextEditor from '../../../common/bifrostProxy/components/TMRichTextEditor';
 import {
   priorityOptions,
   statusOptions,
   testCaseTypesOptions
 } from '../const/addTestCaseConst';
 
+import UnsavedChanges from './UnsavedChanges';
 import useAddEditTestCase from './useAddEditTestCase';
 import useTestCases from './useTestCases';
 
@@ -85,13 +87,13 @@ const BulkEditTestCase = () => {
               placeholder="Select from options"
               defaultValue={null}
               onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
-              value={
-                testCaseBulkFormData?.case_type
-                  ? testCaseTypesOptions.find(
-                      (item) => item.value === testCaseBulkFormData?.case_type
-                    )
-                  : null
-              }
+              // value={
+              //   testCaseBulkFormData?.case_type
+              //     ? testCaseTypesOptions.find(
+              //         (item) => item.value === testCaseBulkFormData?.case_type
+              //       )
+              //     : null
+              // }
             />
           </div>
           <div className="flex-1">
@@ -100,12 +102,12 @@ const BulkEditTestCase = () => {
               label="Priority*"
               placeholder="Select from options"
               options={priorityOptions}
-              value={
-                testCaseBulkFormData.priority &&
-                priorityOptions.find(
-                  (item) => item.value === testCaseBulkFormData.priority
-                )
-              }
+              // value={
+              //   testCaseBulkFormData.priority &&
+              //   priorityOptions.find(
+              //     (item) => item.value === testCaseBulkFormData.priority
+              //   )
+              // }
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>
@@ -113,12 +115,12 @@ const BulkEditTestCase = () => {
         <div className="mt-4 flex gap-4">
           <div className="flex-1">
             <TMSelectMenu
-              value={
-                testCaseBulkFormData.status &&
-                statusOptions.find(
-                  (item) => item.value === testCaseBulkFormData.status
-                )
-              }
+              // value={
+              //   testCaseBulkFormData.status &&
+              //   statusOptions.find(
+              //     (item) => item.value === testCaseBulkFormData.status
+              //   )
+              // }
               checkPosition="right"
               label="State*"
               placeholder="Select from options"
@@ -128,12 +130,12 @@ const BulkEditTestCase = () => {
           </div>
           <div className="flex-1">
             <TMSelectMenu
-              value={
-                testCaseBulkFormData.owner &&
-                usersArrayMapped?.find(
-                  (item) => item.value === testCaseBulkFormData.owner
-                )
-              }
+              // value={
+              //   testCaseBulkFormData.owner &&
+              //   usersArrayMapped?.find(
+              //     (item) => item.value === testCaseBulkFormData.owner
+              //   )
+              // }
               placeholder="Select owner"
               checkPosition="right"
               label="Owner"
@@ -207,7 +209,7 @@ const BulkEditTestCase = () => {
         </div>
 
         <div className="mt-4">
-          <TMTextArea
+          {/* <TMTextArea
             value={testCaseBulkFormData.preconditions}
             placeholder="Mention preconditions if any needed before executing this test"
             id="test-case-preconditions"
@@ -215,6 +217,14 @@ const BulkEditTestCase = () => {
             onChange={(e) =>
               handleTestCaseFieldChange('preconditions', e.currentTarget.value)
             }
+          /> */}
+          <TMRichTextEditor
+            label="Preconditions"
+            id="test-case-preconditions"
+            // value={testCaseBulkFormData.preconditions}
+            height={160}
+            placeholder="Mention preconditions if any needed before executing this test"
+            onChange={(val) => handleTestCaseFieldChange('preconditions', val)}
           />
         </div>
       </>
@@ -260,6 +270,7 @@ const BulkEditTestCase = () => {
         onClose={hideAddIssueModal}
         onSave={addIssuesSaveHelper}
       />
+      <UnsavedChanges />
     </div>
   );
 };

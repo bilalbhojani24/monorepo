@@ -31,13 +31,14 @@ import {
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
-  setUnsavedDataExists,
+  // setUnsavedDataExists,
   updateBulkTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
   updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import { handleUnsavedData } from '../slices/repositoryThunk';
 
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
@@ -117,8 +118,8 @@ export default function useAddEditTestCase(prop) {
     dispatch(setAddIssuesModal(true));
   };
 
-  const handleTestCaseFieldChange = (key, value) => {
-    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
+  const handleTestCaseFieldChange = (key, value, isRTE) => {
+    if (!isUnsavedDataExists) dispatch(handleUnsavedData({ value, isRTE }));
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
