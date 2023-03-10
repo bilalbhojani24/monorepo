@@ -16,7 +16,7 @@ export default function useOverview({ scanOverviewData }) {
       const severity = {
         minor: [],
         critical: [],
-        severe: [],
+        serious: [],
         moderate: []
       };
 
@@ -26,7 +26,7 @@ export default function useOverview({ scanOverviewData }) {
         if (item) {
           severity.minor.push(item.minor);
           severity.critical.push(item.critical);
-          severity.severe.push(item.severe);
+          severity.serious.push(item.serious);
           severity.moderate.push(item.moderate);
         }
         categories.push(i + 1);
