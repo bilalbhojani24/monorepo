@@ -1,20 +1,23 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
+import JiraTag from 'common/JiraTag';
+import PropagationBlocker from 'common/PropagationBlocker';
 import ScopeLine from 'common/ScopeLine';
 import PropTypes from 'prop-types';
-// import PropagationBlocker from 'testops/components/PropagationBlocker';
-// import JiraTag from 'testops/components/JiraTag/containers/JiraTag';
 
 export default function TestInfo({ testDetails }) {
   return (
     <>
-      <div className="">
+      <div className="flex items-center">
         <span className="text-base-900 break-words">{testDetails?.title}</span>
-        {/* {testDetails?.jiraUrl && (
-          <PropagationBlocker className="d-inline">
-            <JiraTag jiraUrl={testDetails.jiraUrl} wrapperClassName="to-snp-tests__jira-tag" />
+        {testDetails?.jiraUrl && (
+          <PropagationBlocker className="inline">
+            <JiraTag
+              jiraUrl={testDetails.jiraUrl}
+              wrapperClassName="to-snp-tests__jira-tag"
+            />
           </PropagationBlocker>
-        )} */}
+        )}
       </div>
       <div
         className="text-base-500 flex items-center"

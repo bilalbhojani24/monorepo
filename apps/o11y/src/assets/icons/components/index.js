@@ -29,8 +29,9 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
+// Others
 import DeviceIcon from './DeviceIcon';
-// Unknown
+import JiraIcon from './JiraIcon';
 import UnknownIcon from './UnknownIcon';
 
 export {
@@ -70,4 +71,4 @@ export {
   WindowsPhoneIcon
 };
 
-export { DeviceIcon, UnknownIcon };
+export { DeviceIcon, JiraIcon, UnknownIcon };
