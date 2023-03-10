@@ -107,14 +107,14 @@ export default function Report() {
                       </p>
                     </div>
                   ) : null}
-                  <div className="mr-6">
+                  {/* <div className="mr-6">
                     <Badge
                       hasDot={false}
                       hasRemoveButton={false}
                       text={Object.values(reportMetaData.meta)[0].scanType}
                       modifier="base"
                     />
-                  </div>
+                  </div> */}
                   <div className="mr-6">
                     <Badge
                       hasDot={false}
