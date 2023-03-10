@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getBaseUrl } from './utils';
+import { getBaseUrl } from './apiUtils';
 
 export const fetchSessionStatus = async (sessionId) => {
   const response = await axios.get(

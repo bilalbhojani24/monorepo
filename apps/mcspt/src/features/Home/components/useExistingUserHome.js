@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import { SSO_AUTH_URL } from 'constants/mcpConstants';
 import {
   getIsUserLoggedIn,
   logUserOutAndPurgeSessionData
-} from '../../Dashboard';
-import { SSO_AUTH_URL } from '../const/homeConstants';
+} from 'features/Dashboard';
+
 import { extractSessionDetailsById } from '../slices/homeThunks';
 
 const rowSearchCriteria = (row, newValue) => {

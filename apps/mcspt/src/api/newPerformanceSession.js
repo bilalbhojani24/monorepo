@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getBaseUrl } from './utils';
+import { getBaseUrl } from './apiUtils';
 
 export const fetchDevices = async (platformName) => {
   const response = await axios.get(`${getBaseUrl()}/${platformName}/devices`);

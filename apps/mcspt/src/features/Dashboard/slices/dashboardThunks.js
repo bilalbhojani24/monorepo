@@ -2,7 +2,7 @@ import {
   fetchLatestToken,
   fetchUserDetails,
   userLogOut
-} from '../../../api/authentication';
+} from 'api/authentication';
 
 import { getAuthToken, setAuthToken, setUserDetails } from './dashboardSlice';
 

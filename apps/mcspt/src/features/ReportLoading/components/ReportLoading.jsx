@@ -8,8 +8,8 @@ import {
   MdRadioButtonChecked
 } from '@browserstack/bifrost';
 
-import { secondsToMinutes } from '../../../utils';
-import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+import { secondsToMinutes } from 'utils/dateUtils';
+import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 
 import useReportLoading from './useReportLoading';
 

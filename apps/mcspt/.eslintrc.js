@@ -2,6 +2,13 @@ const tailwindConfig = require('./tailwind.config.js');
 
 module.exports = {
   extends: ['@browserstack/eslint-config'],
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: 'webpack.renderer.config.js'
+      }
+    }
+  },
   rules: {
     'tailwindcss/no-custom-classname': [
       2,

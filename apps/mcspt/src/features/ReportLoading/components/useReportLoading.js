@@ -7,7 +7,7 @@ import {
   getSelectedDevice,
   getSessionDetails
 } from '../../NewPerformanceSession';
-import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import {
   getIsSessionStopInProgress,
   getLatestSessionStatus

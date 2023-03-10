@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
-import { getDefaultChartOptions } from '../../../utils';
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,

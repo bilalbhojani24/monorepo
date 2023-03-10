@@ -14,7 +14,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import { formatReportTime } from '../../../utils';
+import { formatReportTime } from 'utils/dateUtils';
 
 import useExistingUserHome from './useExistingUserHome';
 

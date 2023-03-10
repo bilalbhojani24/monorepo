@@ -1,7 +1,7 @@
 import { fetchSessionStatus, stopSession } from '../../../api/reportLoading';
 import { resetSessionSetupData } from '../../NewPerformanceSession';
 import { updateSessionMetrics } from '../../Report';
-import { REPORT_LOADING_STATES } from '../const/reportLoadingConstants';
+import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 
 import {
   setIsSessionStopInProgress,

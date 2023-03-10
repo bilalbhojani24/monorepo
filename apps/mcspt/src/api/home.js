@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getBaseUrl } from './utils';
+import { getBaseUrl } from './apiUtils';
 
 export const fetchSessions = async () => {
   const response = await axios.get(`${getBaseUrl()}/sessions`);

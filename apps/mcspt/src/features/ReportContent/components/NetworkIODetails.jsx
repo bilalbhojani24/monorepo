@@ -3,7 +3,7 @@ import { MdInfoOutline } from '@browserstack/bifrost';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-import { decideIfCriteriaBreached, sanitizeValue } from '../../../utils';
+import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
 import useNetworkIODetails from './useNetworkIODetails';

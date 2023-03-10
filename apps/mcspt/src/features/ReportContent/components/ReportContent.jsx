@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, MdFolderOpen, MdInfoOutline } from '@browserstack/bifrost';
 
-import { decideIfCriteriaBreached, sanitizeValue } from '../../../utils';
+import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import BatteryChart from './BatteryDetails';
 import CpuDetails from './CpuDetails';
