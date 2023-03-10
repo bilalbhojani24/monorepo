@@ -7,16 +7,15 @@ import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsSnPErrorDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
+import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
 import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
-import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/uiSlice';
 import TestDetailsSlideOver from 'features/TestDetails';
 import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
 import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 
 import { TABS } from '../constants';
-import { clearSnPTests } from '../slices/dataSlice';
+import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
-import { setActiveTab } from '../slices/uiSlice';
 
 import SHHeader from './SHHeader';
 import SHTests from './SHTests';

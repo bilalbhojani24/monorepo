@@ -8,12 +8,47 @@ import {
 } from 'api/snp';
 import { getAllSnPTestFilters } from 'features/SuiteHealth/slices/selectors';
 
-const { reducer } = createSlice({
-  name: 'snpErrorDetails',
-  initialState: {},
-  reducers: {},
+const { reducer, actions } = createSlice({
+  name: 'SuiteHealthErrorDetails',
+  initialState: {
+    ui: {
+      isDetailsVisible: false,
+      showDetailsFor: {
+        testId: '',
+        errorId: ''
+      },
+      cbtInfo: {
+        osName: '',
+        osVersion: '',
+        browserName: '',
+        browserVersion: '',
+        osKey: '',
+        browserKey: ''
+      }
+    }
+  },
+  reducers: {
+    setIsSnPErrorDetailsVisible: (state, { payload }) => {
+      state.ui.isDetailsVisible = payload;
+    },
+    setShowSnPErrorDetailsFor: (state, { payload }) => {
+      state.ui.showDetailsFor = {
+        testId: payload.testId,
+        errorId: payload.errorId
+      };
+    },
+    setSnPErrorCbtInfo: (state, { payload }) => {
+      state.ui.cbtInfo = payload;
+    }
+  },
   extraReducers: {}
 });
+
+export const {
+  setIsSnPErrorDetailsVisible,
+  setShowSnPErrorDetailsFor,
+  setSnPErrorCbtInfo
+} = actions;
 
 export const getSnPErrorDetailsInfoData = createAsyncThunk(
   'testlist/getSnPErrorDetailsInfoData',

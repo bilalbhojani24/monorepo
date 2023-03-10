@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import settingsReducer from 'features/Settings/slices/settingsSlice';
-import snpErrorDetailsUIReducer from 'features/SHErrorDetails/slices/uiSlice';
-import snpTestDetailsUIReducer from 'features/SHTestDetails/slices/uiSlice';
-import snpTestsReducer from 'features/SuiteHealth/slices/dataSlice';
-import snpTabsReducer from 'features/SuiteHealth/slices/uiSlice';
+import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
+import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
+import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
 import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import globalReducer from 'globalSlice';
@@ -14,10 +13,9 @@ export const store = configureStore({
   reducer: {
     global: globalReducer,
     settings: settingsReducer,
-    snptests: snpTestsReducer,
-    snpui: snpTabsReducer,
-    snptestdetailsui: snpTestDetailsUIReducer,
-    snperrordetailsui: snpErrorDetailsUIReducer,
+    shTests: shTestsReducer,
+    shTestdetails: shTestDetailsReducer,
+    shErrordetails: shErrorDetailsReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
     modalToShow

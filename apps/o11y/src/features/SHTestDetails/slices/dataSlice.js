@@ -7,12 +7,36 @@ import {
 } from 'api/snp';
 import { getAllSnPTestFilters } from 'features/SuiteHealth/slices/selectors';
 
-const { reducer } = createSlice({
-  name: 'snpDetails',
-  initialState: {},
-  reducers: {},
+const { reducer, actions } = createSlice({
+  name: 'SuiteHealthTestDetails',
+  initialState: {
+    ui: {
+      isDetailsVisible: false,
+      showDetailsFor: '',
+      cbtInfo: {
+        osName: '',
+        osVersion: '',
+        browserName: '',
+        browserVersion: ''
+      }
+    }
+  },
+  reducers: {
+    setIsSnPDetailsVisible: (state, { payload }) => {
+      state.ui.isDetailsVisible = payload;
+    },
+    setShowSnPDetailsFor: (state, { payload }) => {
+      state.ui.showDetailsFor = payload;
+    },
+    setSnPCbtInfo: (state, { payload }) => {
+      state.ui.cbtInfo = payload;
+    }
+  },
   extraReducers: {}
 });
+
+export const { setIsSnPDetailsVisible, setShowSnPDetailsFor, setSnPCbtInfo } =
+  actions;
 
 export const getSnPTestsDetailsInfoData = createAsyncThunk(
   'testlist/getSnPTestsDetailsInfoData',

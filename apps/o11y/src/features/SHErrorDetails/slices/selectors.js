@@ -1,6 +1,6 @@
 // ui selectors
 export const getIsSnPErrorDetailsVisible = (state) =>
-  state.snperrordetailsui.isDetailsVisible;
+  state.shErrordetails.ui.isDetailsVisible;
 export const getShowSnPErrorDetailsFor = (state) =>
-  state.snperrordetailsui.showDetailsFor;
-export const getSnPErrorCbtInfo = (state) => state.snperrordetailsui.cbtInfo;
+  state.shErrordetails.ui.showDetailsFor;
+export const getSnPErrorCbtInfo = (state) => state.shErrordetails.ui.cbtInfo;
