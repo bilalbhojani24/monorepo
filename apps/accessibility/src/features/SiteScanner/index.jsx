@@ -413,12 +413,12 @@ export default function SiteScanner() {
                           </svg>
                         </div>
                       ) : null}
-                      {!row.isProcessing ? (
+                      {!row.isProcessing && row.nextScanDate ? (
                         <span className="mr-2 flex items-center">
                           Next:{' '}
                           {dateFormat(
                             new Date(row.nextScanDate),
-                            'mmm dS, h:MM TT'
+                            'mmmm dS, h:MM TT'
                           ).toLocaleString()}
                         </span>
                       ) : null}

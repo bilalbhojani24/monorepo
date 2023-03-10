@@ -5,10 +5,10 @@ import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
-import { addZero, isValidHttpUrl } from '../../../utils/helper';
+import { addZero } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
-import { dayMap, days, wcagVersions } from './constants';
+import { dayMap, days, urlPattern, wcagVersions } from './constants';
 
 const DAILY = 'daily';
 const WEEKLY = 'weekly';
@@ -99,8 +99,15 @@ export default function useNewScan(closeSlideover, preConfigData) {
       !formData?.scanData?.urlSet?.length ||
       (recurringStatus && (!formData.day || !formData.time))
     ) {
-      validationError.errors = true;
-      setValidationError(true);
+      const validationErrorCpy = {};
+      if (!formData?.scanData?.urlSet?.length) {
+        validationErrorCpy.url = 'Please enter a valid URL';
+      }
+      if (!formData?.name) {
+        validationErrorCpy.scanName = 'Name is not specified.';
+      }
+      console.log(validationErrorCpy);
+      setValidationError({ ...validationErrorCpy });
       return false;
     }
 
@@ -125,6 +132,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     setRecurringStatus(true);
     document.querySelector('#recurring').checked = false;
     closeSlideover();
+    setValidationError({});
   };
 
   const handleFormData = (e, name) => {
@@ -156,13 +164,14 @@ export default function useNewScan(closeSlideover, preConfigData) {
         formDataObj.scanData.bestPractices = e;
         break;
       case 'url':
-        if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
-          validationErrorCpy.url = 'Please enter a valid URL';
-        }
-        if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
-          delete validationErrorCpy.url;
-        }
         formDataObj.url = e.target.value;
+        // if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
+        //   validationErrorCpy.url = 'Please enter a valid URL';
+        // }
+        // if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
+        //   delete validationErrorCpy.url;
+        // }
+
         break;
       case 'day':
         formDataObj.day = e.body;
@@ -171,6 +180,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
         formDataObj.time = e.target.value;
         break;
       case 'addUrl':
+        if (!urlPattern.test(formDataObj.url)) {
+          validationErrorCpy.url = 'Please enter a valid URL';
+          break;
+        }
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
@@ -195,6 +208,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
           formDataObj.scanData.urlSet = [];
         }
         formDataObj.scanData.urlSet.push(...e);
+        formDataObj.scanData.urlSet = Array.from(
+          new Set(formDataObj.scanData.urlSet)
+        );
+        fileUploadRef.current.value = null;
         break;
       case 'deleteUrl':
         formDataObj.scanData.urlSet.splice(
@@ -249,7 +266,9 @@ export default function useNewScan(closeSlideover, preConfigData) {
         break;
     }
     setFormData({ ...formDataObj });
-    setValidationError({ ...validationErrorCpy });
+    if (name !== 'submit') {
+      setValidationError({ ...validationErrorCpy });
+    }
   };
   return {
     recurringStatus,
