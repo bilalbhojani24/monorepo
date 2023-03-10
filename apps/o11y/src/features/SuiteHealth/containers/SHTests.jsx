@@ -9,13 +9,13 @@ import {
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
-// import O11yLoader from 'common/O11yLoader';
+import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
   setIsSnPDetailsVisible,
   setShowSnPDetailsFor,
   setSnPCbtInfo
-} from 'features/SHTestDetails/slices/uiSlice';
+} from 'features/SHTestDetails/slices/dataSlice';
 import {
   setIsDetailsVisible,
   setShowDetailsFor
@@ -149,23 +149,56 @@ export default function SnPTests() {
   return (
     <div className={twClassNames('h-full')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
-      {/* <O11yLoader
-        wrapperClassName="h-full"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      /> */}
-      <TableVirtuoso
-        style={{ height: '100%' }}
-        data={tests}
-        endReached={loadMoreRows}
-        components={{
-          Table: VTable,
-          TableRow,
-          TableBody: O11yRefTableBody
-        }}
-        fixedHeaderContent={() => (
-          <TableRow>
-            {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
-              if (idx > 1) {
+      {isLoadingTests ? (
+        <O11yLoader
+          wrapperClassName="h-full"
+          loaderClass="text-base-200 fill-base-400 w-8 h-8"
+        />
+      ) : (
+        <TableVirtuoso
+          style={{ height: '100%' }}
+          data={tests}
+          endReached={loadMoreRows}
+          components={{
+            Table: VTable,
+            TableRow,
+            TableBody: O11yRefTableBody
+          }}
+          fixedHeaderContent={() => (
+            <TableRow>
+              {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
+                if (idx > 1) {
+                  return (
+                    <O11yTableCell
+                      key={key}
+                      wrapperClassName={twClassNames(
+                        SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
+                      )}
+                    >
+                      <button
+                        className="flex w-full items-center justify-center gap-1 "
+                        onClick={() => handleClickSortBy(key)}
+                        disabled={isLoadingMore}
+                        type="button"
+                      >
+                        <span className="text-xs font-medium leading-4">
+                          {SUITE_TESTS_HEADER_LABEL_MAPPING[
+                            key
+                          ].name.toUpperCase()}
+                        </span>
+                        {sortBy.type === key && (
+                          <>
+                            {sortBy.status === 'asc' ? (
+                              <ArrowUpIcon className="text-brand-500 inline-block h-4 w-4" />
+                            ) : (
+                              <ArrowDownIcon className="text-brand-500 inline-block h-4 w-4" />
+                            )}
+                          </>
+                        )}
+                      </button>
+                    </O11yTableCell>
+                  );
+                }
                 return (
                   <O11yTableCell
                     key={key}
@@ -173,49 +206,19 @@ export default function SnPTests() {
                       SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
                     )}
                   >
-                    <button
-                      className="flex w-full items-center justify-center gap-1 "
-                      onClick={() => handleClickSortBy(key)}
-                      disabled={isLoadingMore}
-                      type="button"
-                    >
-                      <span className="text-xs font-medium leading-4">
-                        {SUITE_TESTS_HEADER_LABEL_MAPPING[
-                          key
-                        ].name.toUpperCase()}
-                      </span>
-                      {sortBy.type === key && (
-                        <>
-                          {sortBy.status === 'asc' ? (
-                            <ArrowUpIcon className="text-brand-500 inline-block h-4 w-4" />
-                          ) : (
-                            <ArrowDownIcon className="text-brand-500 inline-block h-4 w-4" />
-                          )}
-                        </>
-                      )}
-                    </button>
+                    <div className="text-xs font-medium leading-4">
+                      {SUITE_TESTS_HEADER_LABEL_MAPPING[key].name.toUpperCase()}
+                    </div>
                   </O11yTableCell>
                 );
-              }
-              return (
-                <O11yTableCell
-                  key={key}
-                  wrapperClassName={twClassNames(
-                    SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
-                  )}
-                >
-                  <div className="text-xs font-medium leading-4">
-                    {SUITE_TESTS_HEADER_LABEL_MAPPING[key].name.toUpperCase()}
-                  </div>
-                </O11yTableCell>
-              );
-            })}
-          </TableRow>
-        )}
-        itemContent={(index, testData) => (
-          <SHTestItem key={testData.id} testDetails={testData} />
-        )}
-      />
+              })}
+            </TableRow>
+          )}
+          itemContent={(index, testData) => (
+            <SHTestItem key={testData.id} testDetails={testData} />
+          )}
+        />
+      )}
     </div>
   );
 }
