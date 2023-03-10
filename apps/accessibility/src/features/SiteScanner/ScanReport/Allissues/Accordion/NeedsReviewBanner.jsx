@@ -112,22 +112,23 @@ function NodeIssueNavigator({
         </div>
       );
     }
-    return (
-      <div className="ml-7 flex items-center">
-        <p className="text-xs">Review status:</p>&nbsp;
-        <Badge
-          text="Dismissed issue"
-          modifier="error"
-          hasDot={false}
-          hasRemoveButton={false}
-          isRounded={false}
-        />
-        &nbsp;
-        <p className="text-xs">
-          {showPagination ? 'in all source reports' : 'in source report'}
-        </p>
-      </div>
-    );
+    return <div />;
+    // return (
+    //   <div className="ml-7 flex items-center">
+    //     <p className="text-xs">Review status:</p>&nbsp;
+    //     <Badge
+    //       text="Dismissed issue"
+    //       modifier="error"
+    //       hasDot={false}
+    //       hasRemoveButton={false}
+    //       isRounded={false}
+    //     />
+    //     &nbsp;
+    //     <p className="text-xs">
+    //       {showPagination ? 'in all source reports' : 'in source report'}
+    //     </p>
+    //   </div>
+    // );
   };
 
   return (
