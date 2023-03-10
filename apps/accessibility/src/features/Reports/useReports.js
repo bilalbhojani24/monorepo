@@ -139,6 +139,7 @@ export default function useReports() {
     const websiteScanList = selectedReports
       .filter((id) => id.includes(testTypes.websiteScan))
       .map((id) => id.split(`${testTypes.websiteScan}:`)[1]);
+
     const params = {
       wcagVersion: activeVersion.split('WCAG ')[1]
     };
