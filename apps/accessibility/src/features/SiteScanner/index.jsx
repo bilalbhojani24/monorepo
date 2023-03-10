@@ -34,6 +34,7 @@ import {
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
+import { logEvent } from '../../../../../packages/utils/src/logger';
 import {
   fetchScanConfigsById,
   runInstantScan,
@@ -287,6 +288,15 @@ export default function SiteScanner() {
         <Button
           modifier="primary"
           onClick={() => {
+            logEvent(
+              ['EDS'],
+              'accessibility_dashboard_web_events',
+              'InteractedWithWSHomepage',
+              {
+                actionType: 'Configure new scan',
+                action: 'Open new website scan slide over'
+              }
+            );
             setShowNewScan(true);
           }}
           size="small"
