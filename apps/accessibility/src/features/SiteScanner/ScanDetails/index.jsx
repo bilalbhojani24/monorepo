@@ -27,6 +27,7 @@ import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
+import Loader from '../../../common/Loader';
 
 export const tabsArray = [
   {
@@ -68,6 +69,9 @@ const ScanDetails = () => {
 
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
+  if(isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="bg-base-50">
