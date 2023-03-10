@@ -3,6 +3,8 @@ import {
   Button,
   InputField,
   MdAddCircle,
+  MdLogin,
+  MdLogout,
   MdSearch,
   Table,
   TableBody,
@@ -79,13 +81,16 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
     performSearch,
     sortRows,
     currentSortDir,
-    sessionSelected
+    sessionSelected,
+    loginViaSSO,
+    isUserLoggedIn,
+    logOutUser
   } = useExistingUserHome(previousUserSessions);
 
   return (
     <div className="flex flex-col">
       <div id="existingScreenHeader">
-        <div id="buttonContainer" className="p-3">
+        <div id="buttonContainer" className="flex justify-between p-3">
           <Button
             icon={
               <div className="mr-3">
@@ -100,6 +105,40 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
           >
             New Test
           </Button>
+
+          {!isUserLoggedIn && (
+            <Button
+              icon={
+                <div className="mr-3">
+                  <MdLogin />
+                </div>
+              }
+              iconPlacement="start"
+              size="large"
+              colors="brand"
+              variant="primary"
+              onClick={loginViaSSO}
+            >
+              Login
+            </Button>
+          )}
+
+          {isUserLoggedIn && (
+            <Button
+              icon={
+                <div className="mr-3">
+                  <MdLogout />
+                </div>
+              }
+              iconPlacement="start"
+              size="large"
+              colors="brand"
+              variant="primary"
+              onClick={logOutUser}
+            >
+              Logout
+            </Button>
+          )}
         </div>
 
         <div id="searchContainer" className="bg-base-100 py-2.5 px-4">

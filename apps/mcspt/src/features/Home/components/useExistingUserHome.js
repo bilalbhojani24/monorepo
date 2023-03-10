@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  getIsUserLoggedIn,
+  logUserOutAndPurgeSessionData
+} from '../../Dashboard';
+import { SSO_AUTH_URL } from '../const/homeConstants';
 import { extractSessionDetailsById } from '../slices/homeThunks';
 
 const rowSearchCriteria = (row, newValue) => {
@@ -24,6 +29,8 @@ const useExistingUserHome = (previousUserSessions) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tableRows, setTableRows] = useState(previousUserSessions);
   const [currentSortDir, setCurrentSortDir] = useState('asc');
+
+  const isUserLoggedIn = useSelector(getIsUserLoggedIn);
 
   const navigateToPath = useNavigate();
 
@@ -64,6 +71,14 @@ const useExistingUserHome = (previousUserSessions) => {
     dispatch(extractSessionDetailsById(row?.uuid, navigateToPath));
   };
 
+  const loginViaSSO = () => {
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+  };
+
+  const logOutUser = () => {
+    dispatch(logUserOutAndPurgeSessionData());
+  };
+
   useEffect(() => {
     setSearchTerm('');
     setTableRows(previousUserSessions);
@@ -75,7 +90,10 @@ const useExistingUserHome = (previousUserSessions) => {
     performSearch,
     sortRows,
     currentSortDir,
-    sessionSelected
+    sessionSelected,
+    loginViaSSO,
+    isUserLoggedIn,
+    logOutUser
   };
 };
 

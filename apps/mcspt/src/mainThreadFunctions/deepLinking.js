@@ -18,7 +18,7 @@ const initializeDeepLinking = (mainThreadGlobals) => {
     app.quit();
   } else {
     // registering deep-link for windows
-    app.on('second-instance', () => {
+    app.on('second-instance', (event, commandLine) => {
       // Someone tried to run a second instance, we should focus our window.
       if (mainThreadGlobals.mainWindow) {
         if (mainThreadGlobals.mainWindow.isMinimized()) {
@@ -26,12 +26,20 @@ const initializeDeepLinking = (mainThreadGlobals) => {
         }
         mainThreadGlobals.mainWindow.focus();
       }
-      // call deep-link query-param-handler with this arg : ${commandLine.pop().slice(0, -1)}
+
+      mainThreadGlobals.mainWindow.webContents.send(
+        'save-auth-token',
+        commandLine.pop().slice(0, -1)
+      );
     });
 
     // registering deep-link for mac
     app.on('open-url', (event, url) => {
-      //  call deep-link query-param-handler with this arg : ${url}
+      if (mainThreadGlobals.mainWindow) {
+        mainThreadGlobals.mainWindow.focus();
+      }
+
+      mainThreadGlobals.mainWindow.webContents.send('save-auth-token', url);
     });
   }
 };

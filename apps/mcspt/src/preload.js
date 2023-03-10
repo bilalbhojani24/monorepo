@@ -11,9 +11,13 @@ const openUrlInSystemBrowser = async (url) => {
   await ipcRenderer.invoke('openUrlInSystemBrowser', url);
 };
 
+const registerCallbackForSavingAuthToken = (callback) =>
+  ipcRenderer.on('save-auth-token', callback);
+
 const remoteThreadFunctions = {
   openSystemFileFromPath,
-  openUrlInSystemBrowser
+  openUrlInSystemBrowser,
+  registerCallbackForSavingAuthToken
 };
 
 contextBridge.exposeInMainWorld('remoteThreadFunctions', remoteThreadFunctions);
