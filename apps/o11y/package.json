@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite serve --host 127.0.0.1",
+    "dev": "vite serve",
     "build": "vite build",
     "preview": "vite preview",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
