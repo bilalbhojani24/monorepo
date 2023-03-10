@@ -202,7 +202,6 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
-      // {...props}
     >
       {effectiveChildren}
     </button>
