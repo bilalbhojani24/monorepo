@@ -67,8 +67,6 @@ export default function Reports() {
     Math.ceil(searchFilterList.length / reportPerPage) ===
     Math.ceil(lastIndex / reportPerPage);
 
-  console.log(lastIndex);
-
   return (
     <div className="bg-base-50">
       <Modal show={isOpen} size="lg">
@@ -111,7 +109,7 @@ export default function Reports() {
         style={{ width: 'calc(100vw - 256px)' }}
       >
         {isShowingBanner ? (
-          <div className="fixed inset-x-0 top-0 z-10">
+          <div className="flex justify-between fixed inset-x-0 top-0 z-10">
             <Banner
               description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
               isDismissButton
@@ -128,8 +126,10 @@ export default function Reports() {
                   onClick={onDownloadExtensionClick}
                   size="small"
                   colors="white"
+                  icon={<MdOpenInNew />}
+                  iconPlacement="end"
                 >
-                  Download now
+                  Download extension
                 </Button>
               }
               onDismissClick={onCloseClick}

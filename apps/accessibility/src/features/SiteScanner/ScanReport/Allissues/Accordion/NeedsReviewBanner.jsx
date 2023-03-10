@@ -90,12 +90,6 @@ function NodeIssueNavigator({
           </div>
         );
       }
-
-      return (
-        <p className="text-attention-700 ml-5 pl-2 text-sm">
-          Reports can be reviewed on the extension by the report author
-        </p>
-      );
     }
     if (isConfirmedInAllReports) {
       return (
