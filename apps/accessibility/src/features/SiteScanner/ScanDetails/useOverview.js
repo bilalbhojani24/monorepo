@@ -22,7 +22,7 @@ export default function useOverview({ scanOverviewData }) {
 
       const categories = [];
       for (let i = 0; i < currentRunFilter; i += 1) {
-        const item = scanOverviewData?.data?.overview?.issueHistory[i];
+        const item = currentRunFilter === 4 ? scanOverviewData?.data?.overview?.issueHistory.slice(-currentRunFilter)[i]:scanOverviewData?.data?.overview?.issueHistory[i];
         if (item) {
           severity.minor.push(item.minor);
           severity.critical.push(item.critical);
@@ -32,7 +32,6 @@ export default function useOverview({ scanOverviewData }) {
         categories.push(i + 1);
       }
       const currentStackedChartData = { ...stackedChartData };
-      console.log(categories);
       currentStackedChartData.xAxis.categories = categories;
       currentStackedChartData.xAxis.max = currentRunFilter - 1;
       currentStackedChartData.series = [
@@ -71,7 +70,7 @@ export default function useOverview({ scanOverviewData }) {
     }
     if (scanOverviewData?.data?.overview?.scanStability) {
       const stability = {
-        redirects: [],
+        redirect: [],
         success: [],
         failure: []
       };
@@ -80,7 +79,7 @@ export default function useOverview({ scanOverviewData }) {
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
         const item = scanOverviewData.data.overview.scanStability[i];
         if (item) {
-          stability.redirects.push(item.redirects);
+          stability.redirect.push(item.redirect);
           stability.failure.push(item.failure);
           stability.success.push(item.success);
         }
@@ -102,7 +101,7 @@ export default function useOverview({ scanOverviewData }) {
         },
         {
           name: 'Redirects',
-          data: stability.redirects,
+          data: stability.redirect,
           color: '#F59E0B'
         }
       ];

@@ -176,13 +176,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
         break;
       case 'url':
         formDataObj.url = e.target.value;
-        // if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
-        //   validationErrorCpy.url = 'Please enter a valid URL';
-        // }
-        // if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
-        //   delete validationErrorCpy.url;
-        // }
-
+        delete validationErrorCpy.url;
         break;
       case 'day':
         formDataObj.day = e.body;
