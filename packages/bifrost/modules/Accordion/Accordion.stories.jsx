@@ -53,7 +53,7 @@ const AccordionBasicTemplate = (args) => (
         </p>
       </div>
     }
-    onTriggerClick={(e) => {
+    onTriggerClick={() => {
       // eslint-disable-next-line no-console
       console.log('onTriggerClick!');
     }}
