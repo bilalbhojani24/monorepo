@@ -128,7 +128,7 @@ export default function Report() {
                 <div className="flex items-center">
                   {Object.values(reportMetaData?.meta).map(
                     ({ name }, index) => (
-                      <div className="text-base-500 mr-6 flex text-sm">
+                      <div className="text-base-500 mr-4 flex text-sm">
                         <p title={name}>{name}</p>
                         {index !==
                         Object.values(reportMetaData?.meta).length - 1
@@ -183,7 +183,7 @@ export default function Report() {
             ]}
             onTabChange={onTabChange}
             defaultIndex={defaultIndex}
-            disableFullWidthBorder={false}
+            disableFullWidthBorder
           />
         </div>
       </div>
