@@ -55,7 +55,7 @@ export default function IssueItem() {
   const activeNodes = useSelector(getActiveComponentNodes);
   const activeViolationId = useSelector(getActiveViolationId);
   const activeIssueSection = useSelector(getActiveViolation);
-  const activeIssueIndex = useSelector(getActiveIssueIndex);
+  // const activeIssueIndex = useSelector(getActiveIssueIndex);
   const activeComponentId = useSelector(getActiveComponentId);
   const activeReportFilters = useSelector(getReportFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
@@ -68,6 +68,28 @@ export default function IssueItem() {
   };
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
+  console.log(isGuidelineMode, activeSwitch);
+
+  const activeViolation = isGuidelineMode
+    ? activeViolationItem
+    : activeIssueSection;
+  let activeComponentNodes = isGuidelineMode ? activeSectionNodes : activeNodes;
+  const {
+    activeTab,
+    isCopied,
+    onTabChange,
+    onNextClick,
+    onPreviousClick,
+    activeIssueIndex,
+    onFirstPageClick,
+    onLastPageClick,
+    onCloseClick,
+    onTagClick,
+    setIsCopied,
+    getNodeNeedsReviewStatusInReports,
+    getReviewMessage
+  } = useIssueItem(activeComponentNodes);
+
   if (isGuidelineMode) {
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
@@ -90,17 +112,16 @@ export default function IssueItem() {
     activeIssueItem = activeViolationItem.nodes.filter(
       ({ componentId }) => componentId === activeComponentId
     )[activeIssueIndex];
+    console.log({
+      ans: activeViolationItem.nodes.filter(
+        ({ componentId }) => componentId === activeComponentId
+      ),
+      activeIssueIndex
+    });
     activeSectionNodes = activeViolationItem.nodes.filter(
       (node) => node.componentId === activeComponentId
     );
   }
-
-  const issueItem = isGuidelineMode ? activeIssueItem : issueNode;
-  const activeViolation = isGuidelineMode
-    ? activeViolationItem
-    : activeIssueSection;
-  let activeComponentNodes = isGuidelineMode ? activeSectionNodes : activeNodes;
-
   // NOTE: Node filter logic for the right panel
   if (activeReportFilters.page.length) {
     activeComponentNodes = activeComponentNodes.filter((node) =>
@@ -122,21 +143,8 @@ export default function IssueItem() {
     help: activeViolation.help,
     description: activeViolation.description
   };
+  const issueItem = isGuidelineMode ? activeIssueItem : issueNode;
 
-  const {
-    activeTab,
-    isCopied,
-    onTabChange,
-    onNextClick,
-    onPreviousClick,
-    onFirstPageClick,
-    onLastPageClick,
-    onCloseClick,
-    onTagClick,
-    setIsCopied,
-    getNodeNeedsReviewStatusInReports,
-    getReviewMessage
-  } = useIssueItem(activeComponentNodes);
   const {
     page: { url },
     html,
@@ -214,8 +222,8 @@ export default function IssueItem() {
             </Tooltip>
           </div>
           <p className="text-base-500">
-            Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}{' '}
-            issues
+            Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}
+            &nbsp; issues
           </p>
         </div>
         <MdClose

@@ -30,6 +30,7 @@ export default function useIssueItem(activeComponentNodes) {
 
   const maxLimit = activeComponentNodes.length - 1;
   const onNextClick = () => {
+    // console.log({ activeComponentNodes, activeIssueIndex });
     if (activeIssueIndex < maxLimit) {
       const newIndex = activeIssueIndex + 1;
       dispatch(setActiveIssueIndex(newIndex));
@@ -85,7 +86,7 @@ export default function useIssueItem(activeComponentNodes) {
           if (item.hidden) {
             result.push({
               reportName:
-                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+                reportMetaData.meta[`websiteScan:${item.reportId}`].name,
               confirmed: false
             });
           }
@@ -93,14 +94,14 @@ export default function useIssueItem(activeComponentNodes) {
           if (item.confirmed === null) {
             result.push({
               reportName:
-                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+                reportMetaData.meta[`websiteScan:${item.reportId}`].name,
               confirmed: item.confirmed
             });
           }
         } else {
           result.push({
             reportName:
-              reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+              reportMetaData.meta[`websiteScan:${item.reportId}`].name,
             confirmed: item.confirmed
           });
         }
