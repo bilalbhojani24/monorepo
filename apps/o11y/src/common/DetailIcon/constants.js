@@ -61,3 +61,13 @@ export const ICON_LIST = {
   'icon-realme': RealmeIcon,
   device_icon: DeviceIcon
 };
+
+export const BROWSERS_ICON_LIST = [
+  'icon-chrome',
+  'icon-edge',
+  'icon-firefox',
+  'icon-ie',
+  'icon-opera',
+  'icon-safari',
+  'icon-yandex'
+];

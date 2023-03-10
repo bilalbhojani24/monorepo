@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { BROWSERS_ICON_LIST } from '../constants';
+
 import IconWithText from './IconWithText';
 
 const DetailIcon = ({ icon, text, forSpecInfo, size }) => {
   const getIconClass = () => {
     let iconClass = '';
-    if (text && icon !== 'device_icon') {
+    if (text && icon !== 'device_icon' && !BROWSERS_ICON_LIST.includes(icon)) {
       if (text.toLowerCase().indexOf('samsung') !== -1)
         iconClass = 'w-[42px] h-5';
       else if (
