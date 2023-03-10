@@ -449,7 +449,7 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="text-base-700 truncate w-3/5 mr-2 font-medium"
+                        className="text-base-700 truncate max-w-xs mr-2 font-medium"
                       >
                         {row.name}
                       </div>
