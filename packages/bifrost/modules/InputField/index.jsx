@@ -66,7 +66,7 @@ const InputField = forwardRef(
             wrapperClassName
           )}
         >
-          <div className="pl-3">{leadingIcon}</div>
+          {leadingIcon && <div className="pl-3">{leadingIcon}</div>}
           <input
             aria-invalid={!!errorText}
             aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
@@ -94,19 +94,21 @@ const InputField = forwardRef(
             autoComplete={autoComplete}
           />
 
-          <div
-            className={twClassNames('flex items-center pr-3 gap-1', {
-              'pointer-events-none': !isTrailingNodeClickable
-            })}
-          >
-            {trailingIcon}
-            {errorText && (
-              <ExclamationCircleIcon
-                className="text-danger-500 h-5 w-5"
-                aria-hidden="true"
-              />
-            )}
-          </div>
+          {(trailingIcon || errorText) && (
+            <div
+              className={twClassNames('flex items-center pr-3 gap-1', {
+                'pointer-events-none': !isTrailingNodeClickable
+              })}
+            >
+              {trailingIcon}
+              {errorText && (
+                <ExclamationCircleIcon
+                  className="text-danger-500 h-5 w-5"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+          )}
         </div>
         {addOnAfter}
       </div>
