@@ -55,7 +55,7 @@ export default function IssueItem() {
   const activeNodes = useSelector(getActiveComponentNodes);
   const activeViolationId = useSelector(getActiveViolationId);
   const activeIssueSection = useSelector(getActiveViolation);
-  // const activeIssueIndex = useSelector(getActiveIssueIndex);
+  const activeIssueIndex = useSelector(getActiveIssueIndex);
   const activeComponentId = useSelector(getActiveComponentId);
   const activeReportFilters = useSelector(getReportFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
@@ -68,7 +68,6 @@ export default function IssueItem() {
   };
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
-  console.log(isGuidelineMode, activeSwitch);
 
   const activeViolation = isGuidelineMode
     ? activeViolationItem
@@ -80,7 +79,6 @@ export default function IssueItem() {
     onTabChange,
     onNextClick,
     onPreviousClick,
-    activeIssueIndex,
     onFirstPageClick,
     onLastPageClick,
     onCloseClick,
@@ -112,12 +110,6 @@ export default function IssueItem() {
     activeIssueItem = activeViolationItem.nodes.filter(
       ({ componentId }) => componentId === activeComponentId
     )[activeIssueIndex];
-    console.log({
-      ans: activeViolationItem.nodes.filter(
-        ({ componentId }) => componentId === activeComponentId
-      ),
-      activeIssueIndex
-    });
     activeSectionNodes = activeViolationItem.nodes.filter(
       (node) => node.componentId === activeComponentId
     );

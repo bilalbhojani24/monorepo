@@ -3,17 +3,15 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ISSUE_DETAILS_TAB } from 'constants';
-import {
-  setActiveIssueIndex,
-  setIsShowingIssue
-} from 'features/Report/slice/appSlice';
+import { updateUrlWithQueryParam } from 'utils/helper';
+
+import { setActiveIssueIndex, setIsShowingIssue } from './slice/appSlice';
 import {
   getActiveIssueIndex,
   getCustomData,
   getReportFilters,
   getShowHiddenIssuesState
-} from 'features/Report/slice/selector';
-import { updateUrlWithQueryParam } from 'utils/helper';
+} from './slice/selector';
 
 export default function useIssueItem(activeComponentNodes) {
   const dispatch = useDispatch();
