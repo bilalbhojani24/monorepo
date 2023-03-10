@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postNewScanConfig } from 'api/siteScannerScanConfigs';
@@ -5,14 +6,22 @@ import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
-import { addZero, isValidHttpUrl } from '../../../utils/helper';
+import { addZero, getWcagVersionFromVal } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
-import { dayMap, days, wcagVersions } from './constants';
+import { dayMap, days, urlPattern, wcagVersions } from './constants';
 
 const DAILY = 'daily';
 const WEEKLY = 'weekly';
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value);
+}
+function toHoursAndMinutes(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return { hours, minutes };
+}
 export default function useNewScan(closeSlideover, preConfigData) {
   const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
@@ -46,6 +55,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     if (preConfigData) {
       formDataCpy.name = preConfigData.name;
       setRecurringStatus(preConfigData.recurring);
+      formDataCpy.recurring = preConfigData.recurring;
       formDataCpy.scanData.needsReview = preConfigData.scanData.needsReview;
       formDataCpy.scanData.bestPractices = preConfigData.scanData.bestPractices;
       formDataCpy.scanData.wcagVersion = getWcagVersionFromVal(
@@ -99,8 +109,15 @@ export default function useNewScan(closeSlideover, preConfigData) {
       !formData?.scanData?.urlSet?.length ||
       (recurringStatus && (!formData.day || !formData.time))
     ) {
-      validationError.errors = true;
-      setValidationError(true);
+      const validationErrorCpy = {};
+      if (!formData?.scanData?.urlSet?.length) {
+        validationErrorCpy.url = 'Please enter a valid URL';
+      }
+      if (!formData?.name) {
+        validationErrorCpy.scanName = 'Name is not specified.';
+      }
+      console.log(validationErrorCpy);
+      setValidationError({ ...validationErrorCpy });
       return false;
     }
 
@@ -111,8 +128,9 @@ export default function useNewScan(closeSlideover, preConfigData) {
       scanData: {
         wcagVersion: wcagVersions[0],
         needsReview: true,
-        bestPractices: true
+        bestPractices: false
       },
+      recurring: true,
       day: days[0].body,
       time: '12:00',
       type: WEEKLY
@@ -125,6 +143,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
     setRecurringStatus(true);
     document.querySelector('#recurring').checked = false;
     closeSlideover();
+    setValidationError({});
   };
 
   const handleFormData = (e, name) => {
@@ -156,13 +175,14 @@ export default function useNewScan(closeSlideover, preConfigData) {
         formDataObj.scanData.bestPractices = e;
         break;
       case 'url':
-        if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
-          validationErrorCpy.url = 'Please enter a valid URL';
-        }
-        if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
-          delete validationErrorCpy.url;
-        }
         formDataObj.url = e.target.value;
+        // if (!isValidHttpUrl(`https://${formDataObj.url}`)) {
+        //   validationErrorCpy.url = 'Please enter a valid URL';
+        // }
+        // if (!e.target.value || isValidHttpUrl(`https://${formDataObj.url}`)) {
+        //   delete validationErrorCpy.url;
+        // }
+
         break;
       case 'day':
         formDataObj.day = e.body;
@@ -171,6 +191,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
         formDataObj.time = e.target.value;
         break;
       case 'addUrl':
+        if (!urlPattern.test(formDataObj.url)) {
+          validationErrorCpy.url = 'Please enter a valid URL';
+          break;
+        }
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
@@ -195,6 +219,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
           formDataObj.scanData.urlSet = [];
         }
         formDataObj.scanData.urlSet.push(...e);
+        formDataObj.scanData.urlSet = Array.from(
+          new Set(formDataObj.scanData.urlSet)
+        );
+        fileUploadRef.current.value = null;
         break;
       case 'deleteUrl':
         formDataObj.scanData.urlSet.splice(
@@ -210,30 +238,50 @@ export default function useNewScan(closeSlideover, preConfigData) {
       case 'submit':
         if (checkForValidation()) {
           const payload = { ...formData };
-          const time = formData.time.split(':');
+          /* Time zone offset cron logic */
+          const timezoneOffset = new Date().getTimezoneOffset();
+          const timeval = formData.time.split(':');
+          // eslint-disable-next-line radix
+          const minutes = parseInt(timeval[0]) * 60 + parseInt(timeval[1]);
+          console.log({ timeval, minutes });
+
+          const diff = minutes + timezoneOffset;
+          let finalUTCValue = null;
+          let dayVal = formData.day;
+          if (diff < 0) {
+            dayVal = dayMap[getKeyByValue(dayMap, formData.day) - 1];
+            finalUTCValue = toHoursAndMinutes(1440 + diff);
+          }
+          if (diff > 1439) {
+            dayVal = dayMap[getKeyByValue(dayMap, formData.day) + 1];
+            finalUTCValue = toHoursAndMinutes(diff - 1440);
+          }
+
           if (formData.recurring) {
             if (formData.type === WEEKLY) {
               payload.schedulePattern = cronTime.onSpecificDaysAt(
-                [formData.day.toLowerCase()],
-                time[0],
-                time[1]
+                [dayVal.toLowerCase()],
+                finalUTCValue.hours,
+                finalUTCValue.minutes
               );
             } else {
-              payload.schedulePattern = cronTime.everyDayAt(time[0], time[1]);
+              payload.schedulePattern = cronTime.everyDayAt(
+                finalUTCValue.hours,
+                finalUTCValue.minutes
+              );
             }
           }
           delete payload.day;
           delete payload.time;
           delete payload.url;
           delete payload.type;
-          const selectedWcagVersion = getWcagVersionFromBody(
-            formData.scanData.wcagVersion.body
-          );
+          const selectedWcagVersion = formData.scanData.wcagVersion.body
+            ? getWcagVersionFromBody(formData.scanData.wcagVersion.body)
+            : getWcagVersionFromVal(formData.scanData.wcagVersion.value);
           payload.scanData.wcagVersion = {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
-
           postNewScanConfig(payload)
             .then(() => {
               dispatch(getScanConfigs());
@@ -249,7 +297,9 @@ export default function useNewScan(closeSlideover, preConfigData) {
         break;
     }
     setFormData({ ...formDataObj });
-    setValidationError({ ...validationErrorCpy });
+    if (name !== 'submit') {
+      setValidationError({ ...validationErrorCpy });
+    }
   };
   return {
     recurringStatus,

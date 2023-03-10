@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ISSUE_DETAILS_TAB } from 'constants';
 import {
-  setActiveIssueIndex,
-  setIsShowingIssue
-} from 'features/Report/slice/appSlice';
-import {
   getActiveIssueIndex,
   getCustomData,
   getReportFilters,
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
+import {
+  setActiveIssueIndex,
+  setIsShowingIssue
+} from 'features/SiteScanner/ScanReport/slice/appSlice';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useIssueItem(activeComponentNodes) {
@@ -67,6 +67,7 @@ export default function useIssueItem(activeComponentNodes) {
       isShowingIssue: false
     });
     navigate(`?${path}`);
+    console.log('herrer');
   };
 
   const onTabChange = (tab) => {
