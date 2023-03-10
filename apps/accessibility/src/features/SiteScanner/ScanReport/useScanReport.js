@@ -52,7 +52,6 @@ export default function useScanReport() {
     setIsLoading(true);
     const reportIDList = searchParams.get('id');
     dispatch(getScanLogs(reportIDList));
-
     setIsLoading(true);
     Promise.all([fetchCustomData(), fetchConsolidatedData(reportIDList)]).then(
       ([customData, overviewData]) => {

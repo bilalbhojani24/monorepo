@@ -3,17 +3,15 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ISSUE_DETAILS_TAB } from 'constants';
+import { updateUrlWithQueryParam } from 'utils/helper';
+
+import { setActiveIssueIndex, setIsShowingIssue } from './slice/appSlice';
 import {
   getActiveIssueIndex,
   getCustomData,
   getReportFilters,
   getShowHiddenIssuesState
-} from 'features/Report/slice/selector';
-import {
-  setActiveIssueIndex,
-  setIsShowingIssue
-} from 'features/SiteScanner/ScanReport/slice/appSlice';
-import { updateUrlWithQueryParam } from 'utils/helper';
+} from './slice/selector';
 
 export default function useIssueItem(activeComponentNodes) {
   const dispatch = useDispatch();
@@ -30,6 +28,7 @@ export default function useIssueItem(activeComponentNodes) {
 
   const maxLimit = activeComponentNodes.length - 1;
   const onNextClick = () => {
+    // console.log({ activeComponentNodes, activeIssueIndex });
     if (activeIssueIndex < maxLimit) {
       const newIndex = activeIssueIndex + 1;
       dispatch(setActiveIssueIndex(newIndex));
@@ -86,7 +85,7 @@ export default function useIssueItem(activeComponentNodes) {
           if (item.hidden) {
             result.push({
               reportName:
-                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+                reportMetaData.meta[`websiteScan:${item.reportId}`].name,
               confirmed: false
             });
           }
@@ -94,14 +93,14 @@ export default function useIssueItem(activeComponentNodes) {
           if (item.confirmed === null) {
             result.push({
               reportName:
-                reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+                reportMetaData.meta[`websiteScan:${item.reportId}`].name,
               confirmed: item.confirmed
             });
           }
         } else {
           result.push({
             reportName:
-              reportMetaData.meta[`websiteScannerTest:${item.reportId}`].name,
+              reportMetaData.meta[`websiteScan:${item.reportId}`].name,
             confirmed: item.confirmed
           });
         }
