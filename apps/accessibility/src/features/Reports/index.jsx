@@ -56,10 +56,9 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(
-        ({ name, createdBy: { name: userName } }) =>
-          name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
+        // name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        userName.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
@@ -67,6 +66,8 @@ export default function Reports() {
   const isLastPage =
     Math.ceil(searchFilterList.length / reportPerPage) ===
     Math.ceil(lastIndex / reportPerPage);
+
+  console.log(lastIndex);
 
   return (
     <div className="bg-base-50">
@@ -112,8 +113,7 @@ export default function Reports() {
         {isShowingBanner ? (
           <div className="fixed inset-x-0 top-0 z-10">
             <Banner
-              description="Download the Accessibility Toolkit extension from Chrome Web Store
-          to scan your workflows for accessibility issues."
+              description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
               isDismissButton
               bannerIcon={
                 <img

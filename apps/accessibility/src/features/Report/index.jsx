@@ -94,17 +94,17 @@ export default function Report() {
                       {Object.values(reportMetaData.meta)[0].createdBy.name}
                     </p>
                   </div>
-                  <div className="text-base-500 mr-6 flex text-sm">
-                    <MdOutlineCalendarToday className="text-xl" />
-                    <p className="ml-1.5">
-                      {format(
-                        new Date(
-                          Object.values(reportMetaData.meta)[0].startTimestamp
-                        ),
-                        'MMM dd, yyyy'
-                      )}
-                    </p>
-                  </div>
+                  {reportMetaData.meta !== null ? (
+                    <div className="text-base-500 mr-6 flex text-sm">
+                      <MdOutlineCalendarToday className="text-xl" />
+                      <p className="ml-1.5">
+                        {format(
+                          new Date(Object.values(reportMetaData.meta)[0].time),
+                          'MMM dd, yyyy'
+                        )}
+                      </p>
+                    </div>
+                  ) : null}
                   <div className="mr-6">
                     <Badge
                       hasDot={false}
