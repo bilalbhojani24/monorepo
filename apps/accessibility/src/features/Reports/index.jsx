@@ -56,10 +56,9 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(
-        ({ name, createdBy: { name: userName } }) =>
-          name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
+        // name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        userName.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
@@ -67,6 +66,8 @@ export default function Reports() {
   const isLastPage =
     Math.ceil(searchFilterList.length / reportPerPage) ===
     Math.ceil(lastIndex / reportPerPage);
+
+  console.log(lastIndex);
 
   return (
     <div className="bg-base-50">

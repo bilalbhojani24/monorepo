@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
-import { CHROME_EXTENSION_URL, events, testTypes } from 'constants';
+import {
+  CHROME_EXTENSION_URL,
+  events,
+  reportPerPage,
+  testTypes
+} from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -163,16 +168,18 @@ export default function useReports() {
     navigate(`report?${path}`);
   };
 
-  const onInputValueChange = debounce((e) => {
-    setSearchInput(e.target.value);
-  }, 250);
-
   const updateLastIndex = (index) => {
     dispatch(setLastIndex(index));
   };
 
+  const onInputValueChange = debounce((e) => {
+    setSearchInput(e.target.value);
+    updateLastIndex(reportPerPage);
+  }, 250);
+
   const onUpdateSelectedReportType = (value) => {
     dispatch(setSelectedReportType(value));
+    updateLastIndex(reportPerPage);
   };
 
   return {
