@@ -17,7 +17,8 @@ const WEEKLY = 'weekly';
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
-function (totalMinutes) {
+
+function toHoursAndMinutes(totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return { hours, minutes };

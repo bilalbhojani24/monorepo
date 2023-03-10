@@ -155,7 +155,8 @@ export default function SiteScanner() {
     handleSearchFilter,
     dataFilter,
     setIsLoading,
-    dispatch
+    dispatch,
+    userInfo
   } = useSiteScanner();
   const navigate = useNavigate();
   /*
@@ -268,6 +269,27 @@ export default function SiteScanner() {
     let rowMenuCpy = [...rowMenu];
     if (!Object.keys(row.lastScanDetails).length) {
       rowMenuCpy = rowMenuCpy.slice(0, -1);
+    }
+    console.log(row.createdBy.id, userInfo);
+    if(row.createdBy.id !== userInfo.user_id) {
+      rowMenuCpy = [{
+          id: 'cloneScanConfig',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineContentCopy />
+              <span className="ml-2">Clone Scan Configuration</span>
+            </div>
+          )
+        },
+        {
+          id: 'lastScanRun',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineHistory />
+              <span className="ml-2">View last scan run</span>
+            </div>
+          )
+        }];
     }
     return rowMenuCpy.map((opt) => (
       <DropdownOptionItem key={opt.id} option={opt} />
