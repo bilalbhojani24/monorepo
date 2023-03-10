@@ -271,8 +271,9 @@ export default function SiteScanner() {
       rowMenuCpy = rowMenuCpy.slice(0, -1);
     }
     console.log(row.createdBy.id, userInfo);
-    if(row.createdBy.id !== userInfo.user_id) {
-      rowMenuCpy = [{
+    if (row.createdBy.id !== userInfo.user_id) {
+      rowMenuCpy = [
+        {
           id: 'cloneScanConfig',
           body: (
             <div className="flex items-center">
@@ -289,7 +290,8 @@ export default function SiteScanner() {
               <span className="ml-2">View last scan run</span>
             </div>
           )
-        }];
+        }
+      ];
     }
     return rowMenuCpy.map((opt) => (
       <DropdownOptionItem key={opt.id} option={opt} />
@@ -390,10 +392,13 @@ export default function SiteScanner() {
                   wrapperClass="font-medium text-base-900 first:pr-3 last:pl-3 p-5"
                 >
                   <div className="flex-col font-normal">
-                    <div>
-                      <span className="text-base-700 mr-2 font-medium">
+                    <div className="flex">
+                      <div
+                        title={row.name}
+                        className="text-base-700 truncate w-3/5 mr-2 font-medium"
+                      >
                         {row.name}
-                      </span>
+                      </div>
                       <Badge text={row.wcagVersion.label} />
                     </div>
                     <div className="mt-4 flex items-center font-light">
