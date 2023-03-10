@@ -74,13 +74,17 @@ export default function ScanReport() {
                     url: '/site-scanner',
                     current: false
                   },
-                  { name: metaData?.name, url: '/', current: false },
+                  {
+                    name: metaData?.name,
+                    url: `/site-scanner/scan-details/${metaData?.reportId}`,
+                    current: false
+                  },
                   {
                     name: metaData?.time
                       ? dateFormat(
-                          new Date(new Date(metaData?.time).toLocaleString()),
+                          new Date(new Date(metaData?.time)),
                           'mmmm dS, h:MM TT'
-                        )
+                        ).toLocaleString()
                       : '',
                     url: '/',
                     current: true
@@ -106,9 +110,9 @@ export default function ScanReport() {
                 </span>{' '}
                 {metaData?.time
                   ? dateFormat(
-                      new Date(new Date(metaData?.time).toLocaleString()),
+                      new Date(new Date(metaData?.time)),
                       'mmmm dS, h:MM TT'
-                    )
+                    ).toLocaleString()
                   : ''}
               </span>
               {metaData?.wcagVersion?.label && (

@@ -77,9 +77,9 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
                   <MdSchedule />
                   <span className="ml-0.5">
                     {dateFormat(
-                      new Date(new Date(row.scanDate).toLocaleString()),
+                      new Date(new Date(row.scanDate)),
                       'mmmm dS, h:MM TT'
-                    )}
+                    ).toLocaleString()}
                   </span>
                 </div>
               </TableCell>
@@ -90,7 +90,7 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
                 <div className="text-base-500 font-normal">
                   <span>{row.issues} issues</span>
                   <br />
-                  <span>in {row.components} components</span>
+                  <span>in {row.componentCount} components</span>
                 </div>
               </TableCell>
               <TableCell
