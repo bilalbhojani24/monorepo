@@ -4,6 +4,7 @@ import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 
+import SettingsCard from '../components/SettingsCard';
 import { getReRunSettingsState } from '../slices/selectors';
 import { getReRunSettings, updateReRunSettings } from '../slices/settingsSlice';
 
@@ -113,7 +114,7 @@ export default function ReRunSettings() {
     });
   };
   return (
-    <div className="border-base-200 max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
+    <SettingsCard>
       <section className="p-6">
         <h2 className="text-lg font-medium leading-6">
           Re-run your builds using BrowserStack
@@ -156,6 +157,6 @@ export default function ReRunSettings() {
           />
         </div>
       </section>
-    </div>
+    </SettingsCard>
   );
 }

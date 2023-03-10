@@ -5,6 +5,7 @@ import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue } from 'utils/common';
 
+import SettingsCard from '../components/SettingsCard';
 import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 import {
   getAutoAnalyserSettingsData,
@@ -131,7 +132,7 @@ export default function AutoAnalysisSettings() {
   };
 
   return (
-    <div className="border-base-200 max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
+    <SettingsCard>
       <section className="border-b-base-200 border-b p-6">
         <h2 className="text-lg font-medium leading-6">Auto Failure Analysis</h2>
         <p className="text-base-500 mt-1 text-sm leading-5">
@@ -207,6 +208,6 @@ export default function AutoAnalysisSettings() {
           Save Changes
         </O11yButton>
       </div>
-    </div>
+    </SettingsCard>
   );
 }

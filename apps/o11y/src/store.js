@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import settingsReducer from 'features/Settings/slices/settingsSlice';
 import snpErrorDetailsUIReducer from 'features/SHErrorDetails/slices/uiSlice';
 import snpTestDetailsUIReducer from 'features/SHTestDetails/slices/uiSlice';
@@ -18,7 +19,8 @@ export const store = configureStore({
     snptestdetailsui: snpTestDetailsUIReducer,
     snperrordetailsui: snpErrorDetailsUIReducer,
     testdetails: testDetailsDataReducer,
-    testdetailsui: testDetailsUIReducer
+    testdetailsui: testDetailsUIReducer,
+    modalToShow
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });

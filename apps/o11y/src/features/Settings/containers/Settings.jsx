@@ -13,13 +13,8 @@ export default function Settings() {
   }, [pathname]);
 
   return (
-    <div
-      className={twClassNames(
-        'bg-white flex h-screen flex-col',
-        WRAPPER_GAP_CLASS
-      )}
-    >
-      <header className="border-b-base-200 sticky top-16 border-b bg-white py-6 px-8">
+    <div className={twClassNames('flex h-screen flex-col', WRAPPER_GAP_CLASS)}>
+      <header className="border-b-base-200 sticky top-16 border-b py-6 px-8">
         <h1 className="text-2xl font-bold leading-7">Settings</h1>
       </header>
       <section className="flex flex-1 items-start overflow-auto p-8">
