@@ -2,7 +2,7 @@ import {
   fetchDeviceApplications,
   fetchDevices,
   startSession
-} from '../../../api/newPerformanceSession';
+} from 'api/newPerformanceSession';
 
 import {
   setAreApplicationsStillLoading,

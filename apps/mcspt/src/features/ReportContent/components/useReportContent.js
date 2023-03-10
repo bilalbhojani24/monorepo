@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { getSessionMetrics } from '../../Report';
+import { getSessionMetrics } from 'features/Report';
 
 const useReportContent = () => {
   const sessionData = useSelector(getSessionMetrics);

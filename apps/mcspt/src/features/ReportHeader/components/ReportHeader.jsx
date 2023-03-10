@@ -7,7 +7,7 @@ import {
   MdOutlineCalendarToday
 } from '@browserstack/bifrost';
 
-import { formatReportTime } from '../../../utils/dateUtils';
+import { formatReportTime } from 'utils/dateUtils';
 
 import useReportHeader from './useReportHeader';
 

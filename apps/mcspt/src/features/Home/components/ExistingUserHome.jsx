@@ -4,7 +4,7 @@ import {
   InputField,
   MdAddCircle,
   MdLogin,
-  MdLogout,
+  MdOutlineWavingHand,
   MdSearch,
   Table,
   TableBody,
@@ -127,7 +127,7 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
             <Button
               icon={
                 <div className="mr-3">
-                  <MdLogout />
+                  <MdOutlineWavingHand />
                 </div>
               }
               iconPlacement="start"

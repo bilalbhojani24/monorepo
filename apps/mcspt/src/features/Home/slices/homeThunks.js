@@ -1,5 +1,5 @@
-import { fetchSessionById, fetchSessions } from '../../../api/home';
-import { updateSessionMetrics } from '../../Report';
+import { fetchSessionById, fetchSessions } from 'api/home';
+import { updateSessionMetrics } from 'features/Report';
 
 import { setPreviousUserSessions } from './homeSlice';
 

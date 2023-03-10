@@ -1,6 +1,6 @@
-import { fetchSessionStatus, stopSession } from '../../../api/reportLoading';
-import { resetSessionSetupData } from '../../NewPerformanceSession';
-import { updateSessionMetrics } from '../../Report';
+import { fetchSessionStatus, stopSession } from 'api/reportLoading';
+import { resetSessionSetupData } from 'features/NewPerformanceSession';
+import { updateSessionMetrics } from 'features/Report';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 
 import {

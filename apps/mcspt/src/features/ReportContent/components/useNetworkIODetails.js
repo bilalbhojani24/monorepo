@@ -6,7 +6,7 @@ import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
-} from '../../Report';
+} from 'features/Report';
 
 const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();

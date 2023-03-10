@@ -6,7 +6,7 @@ import {
   getSelectedApplication,
   getSelectedDevice,
   getSessionDetails
-} from '../../NewPerformanceSession';
+} from 'features/NewPerformanceSession';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import {
   getIsSessionStopInProgress,

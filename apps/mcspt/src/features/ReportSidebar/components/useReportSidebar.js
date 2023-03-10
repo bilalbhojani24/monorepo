@@ -4,7 +4,7 @@ import {
   getLatestSeekTimeInSeconds,
   getSessionMetrics,
   updateLatestVideoCurrentTimeInSeconds
-} from '../../Report';
+} from 'features/Report';
 
 const useReportSidebar = () => {
   const sessionData = useSelector(getSessionMetrics);

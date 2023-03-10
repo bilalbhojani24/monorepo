@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NewPerformanceSessionModal } from '../../NewPerformanceSession';
+import { NewPerformanceSessionModal } from 'features/NewPerformanceSession';
 
 import ExistingUserHome from './ExistingUserHome';
 import NewUserHome from './NewUserHome';

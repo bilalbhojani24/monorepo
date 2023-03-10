@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ReportContent from '../../ReportContent';
-import ReportHeader from '../../ReportHeader';
-import ReportSidebar from '../../ReportSidebar';
+import ReportContent from 'features/ReportContent';
+import ReportHeader from 'features/ReportHeader';
+import ReportSidebar from 'features/ReportSidebar';
 
 const Report = () => (
   <div id="reportContainer" className="flex min-h-screen flex-col">
