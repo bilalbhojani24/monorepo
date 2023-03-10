@@ -17,7 +17,7 @@ const WEEKLY = 'weekly';
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
-function toHoursAndMinutes(totalMinutes) {
+function (totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return { hours, minutes };
@@ -240,8 +240,9 @@ export default function useNewScan(closeSlideover, preConfigData) {
           console.log({ timeval, minutes });
 
           const diff = minutes + timezoneOffset;
-          let finalUTCValue = null;
+          let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;
+          console.log(diff);
           if (diff < 0) {
             dayVal = dayMap[getKeyByValue(dayMap, formData.day) - 1];
             finalUTCValue = toHoursAndMinutes(1440 + diff);
