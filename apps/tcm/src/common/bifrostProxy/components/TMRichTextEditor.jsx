@@ -14,7 +14,9 @@ const TMRichTextEditor = (props) => {
       {...props}
       onAssetUpload={imageUploadRTEHelper}
       assetsURL={
-        import.meta.env.DEV ? '/dist/assets/css' : '/assets/css/texteditorSkin'
+        import.meta.env.DEV
+          ? '/dist/assets/css/texteditorSkin'
+          : '/assets/css/texteditorSkin'
       }
     />
   );
