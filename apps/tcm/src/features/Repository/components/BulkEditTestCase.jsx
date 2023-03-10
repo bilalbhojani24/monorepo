@@ -8,14 +8,14 @@ import {
   TMModalFooter,
   TMModalHeader,
   TMSectionHeadings,
-  TMSelectMenu
-  // TMTextArea
+  TMSelectMenu,
+  TMTextArea
   // TMTooltip,
   // TMTooltipBody,
   // TMTooltipHeader
 } from 'common/bifrostProxy';
 
-import TMRichTextEditor from '../../../common/bifrostProxy/components/TMRichTextEditor';
+// import TMRichTextEditor from '../../../common/bifrostProxy/components/TMRichTextEditor';
 import {
   priorityOptions,
   statusOptions,
@@ -209,23 +209,23 @@ const BulkEditTestCase = () => {
         </div>
 
         <div className="mt-4">
-          {/* <TMTextArea
-            value={testCaseBulkFormData.preconditions}
+          <TMTextArea
+            // value={testCaseBulkFormData.preconditions}
             placeholder="Mention preconditions if any needed before executing this test"
             id="test-case-preconditions"
             label="Preconditions"
             onChange={(e) =>
               handleTestCaseFieldChange('preconditions', e.currentTarget.value)
             }
-          /> */}
-          <TMRichTextEditor
+          />
+          {/* <TMRichTextEditor
             label="Preconditions"
             id="test-case-preconditions"
             // value={testCaseBulkFormData.preconditions}
             height={160}
             placeholder="Mention preconditions if any needed before executing this test"
             onChange={(val) => handleTestCaseFieldChange('preconditions', val)}
-          />
+          /> */}
         </div>
       </>
       <TMModal
