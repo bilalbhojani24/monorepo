@@ -65,8 +65,9 @@ const ScanDetails = () => {
       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
       iterator: true
     });
-    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
 
+    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
+        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
   if(isLoading) {
