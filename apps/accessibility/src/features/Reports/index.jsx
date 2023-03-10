@@ -112,8 +112,7 @@ export default function Reports() {
         {isShowingBanner ? (
           <div className="fixed inset-x-0 top-0 z-10">
             <Banner
-              description="Download the Accessibility Toolkit extension from Chrome Web Store
-          to scan your workflows for accessibility issues."
+              description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
               isDismissButton
               bannerIcon={
                 <img
