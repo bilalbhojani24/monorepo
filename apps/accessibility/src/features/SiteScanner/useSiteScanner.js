@@ -83,6 +83,7 @@ export default function useSiteScanner() {
     handleSearchFilter,
     dataFilter,
     setIsLoading,
-    dispatch
+    dispatch,
+    userInfo
   };
 }
