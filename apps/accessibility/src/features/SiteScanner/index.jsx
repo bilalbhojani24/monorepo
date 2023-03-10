@@ -278,7 +278,7 @@ export default function SiteScanner() {
     <div className="bg-base-50">
       <div className="flex justify-between p-6 pb-0">
         <div>
-          <h1 className="mb-2 text-2xl font-bold">Website Scanner</h1>
+          <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
             Scan multiple pages in one go and schedule periodic scans to monitor
             your pages for accessibility issues
