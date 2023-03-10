@@ -55,7 +55,8 @@ const ScanDetails = () => {
     handleStopRecurringScan,
     setStopModal,
     showModal,
-    loadingStopState
+    loadingStopState,
+    userInfo
   } = useScanDetails();
   /*
     Convert back to Local Timezone
@@ -150,7 +151,7 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && (
+            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
               <Button
                 colors="white"
                 onClick={() => setStopModal(true)}
