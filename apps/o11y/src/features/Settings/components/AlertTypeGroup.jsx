@@ -38,7 +38,7 @@ export default function AlertTypeGroup({ type }) {
         </O11yTableCell>
       </O11yTableRow>
       {alerts.map((alert) => (
-        <O11yTableRow>
+        <O11yTableRow key={alert.id}>
           <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal max-w-xs">
             {alert.name}
           </O11yTableCell>
