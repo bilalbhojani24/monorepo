@@ -77,6 +77,12 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           </span>
         </div> */}
       </div>
+      <div
+        className="fixed overflow-y-auto"
+        style={{
+          height: 'calc(100vh - 228px)',
+          width: 'calc(100vw - 256px)'
+        }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -136,6 +142,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 };
