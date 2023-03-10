@@ -83,9 +83,9 @@ export default function ScanReport() {
                     current: false
                   },
                   {
-                    name: metaData?.time
+                    name: metaData?.startTimestamp
                       ? dateFormat(
-                          new Date(new Date(metaData?.time)),
+                          new Date(new Date(metaData?.startTimestamp)),
                           'mmmm dS, h:MM TT'
                         ).toLocaleString()
                       : '',
@@ -111,9 +111,9 @@ export default function ScanReport() {
                 <span className="mr-0.5">
                   <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
                 </span>{' '}
-                {metaData?.time
+                {metaData?.startTimestamp
                   ? dateFormat(
-                      new Date(new Date(metaData?.time)),
+                      new Date(new Date(metaData?.startTimestamp)),
                       'mmmm dS, h:MM TT'
                     ).toLocaleString()
                   : ''}
