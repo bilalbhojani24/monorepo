@@ -54,7 +54,7 @@ export default function OnboardingFrameworkSelector() {
         WRAPPER_GAP_CLASS
       )}
     >
-      <div className="border-base-200 flex w-full max-w-2xl flex-col rounded-lg border p-6 shadow-sm">
+      <div className="border-base-200 flex w-full max-w-2xl flex-col rounded-lg border bg-white p-6 shadow-sm">
         <div className="border-b-base-200 mb-6 border-b pb-6">
           <h1 className="text-lg font-medium leading-6">
             Welcome to Test Observability {projects?.list?.length}
