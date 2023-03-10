@@ -58,7 +58,7 @@ export default function Report() {
   const reportName = isSingleReport
     ? Object.values(reportMetaData.meta)[0].name
     : `Consolidated report across ${reportsLength} reports`;
-
+  
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
@@ -99,7 +99,9 @@ export default function Report() {
                       <MdOutlineCalendarToday className="text-xl" />
                       <p className="ml-1.5">
                         {format(
-                          new Date(Object.values(reportMetaData.meta)[0].time),
+                          new Date(
+                            Object.values(reportMetaData.meta)[0].startTimestamp
+                          ),
                           'MMM dd, yyyy'
                         )}
                       </p>
