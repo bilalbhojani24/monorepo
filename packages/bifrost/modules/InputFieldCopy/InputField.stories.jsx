@@ -11,7 +11,7 @@ import SelectMenuTrigger from '../SelectMenuTrigger';
 import InputField from './index';
 
 const defaultConfig = {
-  title: 'Application/Components/InputFieldCopy',
+  title: 'Application/Components/InputField',
   component: InputField,
   parameters: {
     docs: {
