@@ -6,6 +6,7 @@ import {
   runInstantScan,
   stopRecurringScans
 } from '../../../api/siteScannerScanConfigs';
+import { getUser } from '../../Dashboard/slices/selectors';
 import {
   clearScanOverviewData,
   getScanOverview,
@@ -32,8 +33,8 @@ export default function useScanDetails() {
   const scanRunData = useSelector(getScanRunData);
   const scanRunDataCommon = useSelector(getScanRunCommonData);
   const scanOverviewData = useSelector(getScanOverviewData);
+  const userInfo = useSelector(getUser);
   const [showModal, setStopModal] = useState(false);
-
   const [searchParams] = useSearchParams();
   const { id } = useParams();
 
@@ -97,6 +98,7 @@ export default function useScanDetails() {
     handleStopRecurringScan,
     setStopModal,
     showModal,
-    loadingStopState
+    loadingStopState,
+    userInfo
   };
 }

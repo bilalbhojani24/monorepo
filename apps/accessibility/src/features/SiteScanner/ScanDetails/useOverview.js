@@ -77,7 +77,8 @@ export default function useOverview({ scanOverviewData }) {
 
       const categories = [];
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
-        const item = scanOverviewData.data.overview.scanStability[i];
+        // const item = scanOverviewData.data.overview.scanStability[i];
+        const item = currentRunFilter === 4 ? scanOverviewData?.data?.overview?.scanStability.slice(-currentRunFilter)[i]:scanOverviewData?.data?.overview?.scanStability[i];
         if (item) {
           stability.redirect.push(item.redirect);
           stability.failure.push(item.failure);

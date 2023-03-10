@@ -55,7 +55,8 @@ const ScanDetails = () => {
     handleStopRecurringScan,
     setStopModal,
     showModal,
-    loadingStopState
+    loadingStopState,
+    userInfo
   } = useScanDetails();
   /*
     Convert back to Local Timezone
@@ -65,8 +66,9 @@ const ScanDetails = () => {
       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
       iterator: true
     });
-    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
 
+    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
+        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
   if(isLoading) {
@@ -149,7 +151,7 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && (
+            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
               <Button
                 colors="white"
                 onClick={() => setStopModal(true)}

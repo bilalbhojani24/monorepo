@@ -63,6 +63,7 @@ export default function ScanReport() {
     if(isLoading) {
       return <Loader />
     }
+    console.log(metaData);
   return (
     <>
       <div className="bg-base-50">
