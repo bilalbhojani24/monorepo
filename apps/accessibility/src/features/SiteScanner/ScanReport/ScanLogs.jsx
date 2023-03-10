@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import {
-  ComboBox,
-  ComboboxLabel,
-  ComboboxOptionGroup,
-  ComboboxOptionItem,
-  ComboboxTrigger,
-  Dropdown,
-  DropdownOptionGroup,
-  DropdownOptionItem,
-  DropdownTrigger,
   MdCancel,
   MdCheckCircle,
-  MdExpandMore,
   MdOutlineSync,
   MdSchedule,
+  SelectMenu,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger,
   Table,
   TableBody,
   TableCell,
@@ -52,32 +46,18 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
     <div>
       <div className="flex justify-between">
         <div className="w-64 px-6 py-4">
-          {/* <Dropdown onClick={onFilterApplied} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Status
-                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
-
-            <DropdownOptionGroup>
-              {pageStatus.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown> */}
-          <ComboBox onChange={onFilterApplied} value={selected} isMulti>
-            <ComboboxTrigger placeholder="Status" />
-            <ComboboxOptionGroup>
+          <SelectMenu onChange={onFilterApplied} value={selected} isMulti>
+            <SelectMenuTrigger placeholder="Status" />
+            <SelectMenuOptionGroup>
               {pageStatus.map((item) => (
-                <ComboboxOptionItem
+                <SelectMenuOptionItem
                   key={item.value}
                   option={item}
-                  wrapperClassName="text-base-500"
+                  wrapperClassName="text-sm font-semibold text-base-900"
                 />
               ))}
-            </ComboboxOptionGroup>
-          </ComboBox>
+            </SelectMenuOptionGroup>
+          </SelectMenu>
         </div>
         {/* <div className="flex text-sm">
           <span className="mr-4 flex items-center">

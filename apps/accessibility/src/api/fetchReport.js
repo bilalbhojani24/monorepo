@@ -6,10 +6,10 @@ export default async function fetchReport({ ids, arList, websiteScanList }) {
     params += `ids=${ids}`;
   }
   if (arList) {
-    params += `&ar_ids=${arList}`;
+    params += `${ids ? '&' : ''}ar_ids=${arList}`;
   }
   if (websiteScanList) {
-    params += `&wsr_ids=${websiteScanList}`;
+    params += `${arList || ids ? '&' : ''}wsr_ids=${websiteScanList}`;
   }
   const response = await axios.get(`/tests/consolidate?${params}`, {
     headers: {

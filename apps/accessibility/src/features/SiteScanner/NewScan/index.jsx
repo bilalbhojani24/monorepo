@@ -155,7 +155,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 }`}
               >
                 <InputField
-                  label="Scan Name"
+                  label="Scan name"
                   onChange={(e) => handleFormData(e, 'scanName')}
                   id="scan-name"
                   placeholder="Scan Name"
@@ -169,7 +169,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   className="text-base-700 mb-1 block text-sm font-medium"
                   htmlFor="wcagVersion"
                 >
-                  WCAG Version
+                  WCAG version
                 </label>
                 <Dropdown
                   trigger={
@@ -206,8 +206,9 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 name="recurring"
                 onChange={(e) => handleFormData(e, 'recurring')}
                 border={false}
+                description="You can schedule periodic scans for the added pages"
                 data={{
-                  label: 'Make Recurring',
+                  label: 'Make recurring',
                   description:
                     'You can schedule periodic scans for the added pages'
                 }}
@@ -317,7 +318,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
-                  openByDefault
                   panelContentNode={getAccordionBody()}
                   triggerContentNode={<div>Additional settings</div>}
                 />
@@ -335,7 +335,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   label="Add pages"
                   onChange={(e) => handleFormData(e, 'url')}
                   id="scan-url"
-                  placeholder="Sampleurl.com/home"
+                  placeholder="www.website.com/home"
                   value={formData.url}
                   errorText={validationError.url}
                   ref={scanUrlRef}
