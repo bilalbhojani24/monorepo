@@ -163,7 +163,7 @@ export default function SnPTests() {
           TableBody: O11yRefTableBody
         }}
         fixedHeaderContent={() => (
-          <O11yTableRow>
+          <TableRow>
             {Object.keys(TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
               if (idx > 2) {
                 return (
@@ -196,7 +196,7 @@ export default function SnPTests() {
                 </O11yTableCell>
               );
             })}
-          </O11yTableRow>
+          </TableRow>
         )}
         itemContent={(index, testData) => (
           <SHTestItem key={testData.id} testDetails={testData} />
