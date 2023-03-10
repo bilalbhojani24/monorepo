@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
 
 import {
+  getAlertsState,
   getAutoAnalyzerSettingsState,
   getGeneralSettingsState,
   getReRunSettingsState
@@ -114,6 +115,26 @@ export const updateReRunSettings = createAsyncThunk(
   }
 );
 
+// Alerts Settings
+export const getAlertsSettings = createAsyncThunk(
+  `${SLICE_NAME}/getAlertsSettings`,
+  async (data, { rejectWithValue, getState }) => {
+    const currentState = getAlertsState(getState());
+    if (currentState.project === data.projectNormalisedName) {
+      return currentState;
+    }
+    try {
+      const response = await getSettingsByKey('alerts', { ...data });
+      return {
+        data: response.data?.data || null,
+        project: data?.projectNormalisedName
+      };
+    } catch (err) {
+      return rejectWithValue({ err, data });
+    }
+  }
+);
+
 const { reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -138,6 +159,11 @@ const { reducer } = createSlice({
         reRunViaCli: false,
         reRunViaDashboard: false
       }
+    },
+    alerts: {
+      isLoading: true,
+      project: '',
+      data: null
     }
   },
   reducers: {},
@@ -246,6 +272,24 @@ const { reducer } = createSlice({
             ...payload.data
           },
           isLoading: false
+        };
+      })
+      // Alerts Settings
+      .addCase(getAlertsSettings.pending, (state) => {
+        state.alerts.isLoading = true;
+      })
+      .addCase(getAlertsSettings.fulfilled, (state, { payload }) => {
+        state.alerts = {
+          ...state.alerts,
+          ...payload,
+          isLoading: false
+        };
+      })
+      .addCase(getAlertsSettings.rejected, (state) => {
+        state.alerts = {
+          isLoading: false,
+          project: '',
+          data: {}
         };
       });
   }
