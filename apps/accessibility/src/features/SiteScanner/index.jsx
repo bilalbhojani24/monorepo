@@ -72,7 +72,7 @@ const typesScan = [
     id: 'allScans'
   },
   {
-    body: 'Your Scans',
+    body: 'My scans',
     id: 'yourScans'
   }
 ];
@@ -182,7 +182,7 @@ export default function SiteScanner() {
       return <div className="font-medium">N/A</div>;
     }
     if (row.isProcessing && !Object.keys(row.lastScanDetails).length) {
-      return <div>Initializing Your Scan</div>;
+      return <div>Initializing your scan</div>;
     }
     if (row?.lastScanDetails && Object.keys(row.lastScanDetails).length) {
       return (
@@ -276,7 +276,7 @@ export default function SiteScanner() {
 
   return (
     <div className="bg-base-50">
-      <div className="mb-5 flex justify-between p-6 pb-0">
+      <div className="flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website Scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
@@ -334,7 +334,13 @@ export default function SiteScanner() {
           </div>
         </div>
       </div>
-      <div className="overflow-auto">
+      <div
+        className="fixed overflow-auto"
+        style={{
+          height: 'calc(100vh - 228px)',
+          width: 'calc(100vw - 256px)'
+        }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -407,12 +413,12 @@ export default function SiteScanner() {
                           </svg>
                         </div>
                       ) : null}
-                      {!row.isProcessing ? (
+                      {!row.isProcessing && row.nextScanDate ? (
                         <span className="mr-2 flex items-center">
                           Next:{' '}
                           {dateFormat(
                             new Date(row.nextScanDate),
-                            'mmm dS, h:MM TT'
+                            'mmmm dS, h:MM TT'
                           ).toLocaleString()}
                         </span>
                       ) : null}

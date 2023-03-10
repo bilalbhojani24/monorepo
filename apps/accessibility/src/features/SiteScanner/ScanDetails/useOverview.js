@@ -53,8 +53,8 @@ export default function useOverview({ scanOverviewData }) {
           pointWidth: 12
         },
         {
-          name: 'Severe',
-          data: severity.severe,
+          name: 'Serious',
+          data: severity.serious,
           borderWidth: 0,
           color: '#F97316',
           pointWidth: 12

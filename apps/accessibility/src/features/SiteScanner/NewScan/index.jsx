@@ -12,6 +12,7 @@ import {
   MdCheckCircleOutline,
   MdDelete,
   MdExpandMore,
+  MdOutlineClose,
   Notifications,
   notify,
   Slideover,
@@ -25,7 +26,7 @@ import PropTypes from 'prop-types';
 
 import Loader from '../../../common/Loader';
 
-import { days, wcagVersions } from './constants';
+import { days, urlPattern, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
 
 const NewScan = ({ show, closeSlideover, preConfigData }) => {
@@ -128,7 +129,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
-  console.log(formData);
+  console.log(formData, validationError);
   return (
     <div>
       <Slideover
@@ -155,7 +156,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 }`}
               >
                 <InputField
-                  label="Scan Name"
+                  label="Scan name"
                   onChange={(e) => handleFormData(e, 'scanName')}
                   id="scan-name"
                   placeholder="Scan Name"
@@ -169,7 +170,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   className="text-base-700 mb-1 block text-sm font-medium"
                   htmlFor="wcagVersion"
                 >
-                  WCAG Version
+                  WCAG version
                 </label>
                 <Dropdown
                   trigger={
@@ -206,8 +207,9 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 name="recurring"
                 onChange={(e) => handleFormData(e, 'recurring')}
                 border={false}
+                description="You can schedule periodic scans for the added pages"
                 data={{
-                  label: 'Make Recurring',
+                  label: 'Make recurring',
                   description:
                     'You can schedule periodic scans for the added pages'
                 }}
@@ -334,7 +336,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   label="Add pages"
                   onChange={(e) => handleFormData(e, 'url')}
                   id="scan-url"
-                  placeholder="Sampleurl.com/home"
+                  placeholder="www.website.com/home"
                   value={formData.url}
                   errorText={validationError.url}
                   ref={scanUrlRef}
@@ -361,7 +363,61 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       .replaceAll('\r', '')
                       .split('\n');
                     arr.shift();
-                    handleFormData(Array.from(new Set(arr)), 'csvUpload');
+                    const invalidUrls = [];
+                    const validUrls = [];
+                    const uniqArr = Array.from(new Set(arr));
+                    uniqArr.map((url) => {
+                      if (urlPattern.test(url)) {
+                        validUrls.push(url);
+                      } else {
+                        invalidUrls.push(url);
+                      }
+                    });
+                    if (validUrls.length) {
+                      notify(
+                        <Notifications
+                          title={`${validUrls.length} pages added from CSV file`}
+                          description={`${invalidUrls.length} invalid URLs were ignored.`}
+                          actionButtons={null}
+                          headerIcon={
+                            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+                          }
+                          handleClose={(toastData) => {
+                            notify.remove(toastData.id);
+                            setShowToast(false);
+                          }}
+                        />,
+                        {
+                          position: 'top-right',
+                          duration: 4000,
+                          autoClose: true,
+                          id: 'one'
+                        }
+                      );
+                    } else {
+                      notify(
+                        <Notifications
+                          title={`${validUrls.length} pages added from CSV file`}
+                          description={`${invalidUrls.length} invalid URLs were ignored.`}
+                          actionButtons={null}
+                          headerIcon={
+                            <MdOutlineClose className="text-danger-400 h-6 w-6" />
+                          }
+                          handleClose={(toastData) => {
+                            notify.remove(toastData.id);
+                            setShowToast(false);
+                          }}
+                        />,
+                        {
+                          position: 'top-right',
+                          duration: 4000,
+                          autoClose: true,
+                          id: 'one'
+                        }
+                      );
+                    }
+
+                    handleFormData(validUrls, 'csvUpload');
                     // Continue processing...
                   };
 
