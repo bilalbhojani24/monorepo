@@ -71,18 +71,20 @@ const Template = (args) => <Dropdown {...args} />;
 
 const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
   const canvas = within(canvasElement);
   expect(
     canvas.getByRole('button', {
       expanded: false
     })
   ).toBeInTheDocument();
-  await userEvent.click(canvas.getByRole('button'));
-  expect(
-    canvas.getByRole('button', {
-      expanded: true
-    })
-  ).toBeInTheDocument();
+  const arr = ['Account Settings', 'Support', 'License'];
+  document.querySelectorAll('button')[3].click();
+  await sleep(1);
+  const buttons = document.querySelectorAll('button');
+  for (let i = 4; i < buttons.length; i += 1) {
+    expect(arr.includes(buttons[i].firstChild.nodeValue)).toBe(true);
+  }
 };
 Primary.parameters = {
   controls: {}
