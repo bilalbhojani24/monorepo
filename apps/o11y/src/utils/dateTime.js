@@ -48,7 +48,7 @@ export function getTimeStamp(dateString) {
   return format(dateString, 'h:mm:ss a');
 }
 export function milliSecondsToTime(ms, html) {
-  const timeUnit = html ? '<span class="timeUnit">' : '';
+  const timeUnit = html ? '<span class="text-base-500">' : '';
   const timeUnitCloseTag = html ? '</span>' : '';
 
   if (!ms) {
