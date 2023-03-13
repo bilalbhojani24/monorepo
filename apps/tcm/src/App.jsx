@@ -28,8 +28,8 @@ function App() {
       amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
       amplitudeConfig: {
         key: '985eaa9c45d824a94344e64a2a3ca724',
-        userData: {},
-        groupData: {}
+        userData: { user_id: userData?.id },
+        groupData: { group_id: userData?.group_id }
       },
       analyticsKey: 'UA-418548-19',
       EDSDetails: {
@@ -41,11 +41,11 @@ function App() {
         }
       }
     };
-    if (window.initialized === false) {
+    if (window.initialized === false && userData?.id && userData?.group_id) {
       initLogger(keys);
       window.initialized = true;
     }
-  }, []);
+  }, [userData]);
 
   return (
     <>

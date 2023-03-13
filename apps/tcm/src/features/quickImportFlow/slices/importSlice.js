@@ -237,28 +237,21 @@ const importSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(setJiraConfigurationStatus.fulfilled, (state, action) => {
-      if (action.payload.code === 'ERR_BAD_REQUEST')
-        state.isJiraConfiguredForZephyr = false;
-      if (state.latestImportTool === 'zephyr') {
-        state.isJiraConfiguredForZephyr = true;
-      } else {
+      if (!action.payload.success) state.isJiraConfiguredForZephyr = false;
+      else if (action.payload.success) {
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
         state.zephyrCred.jira_key = action.payload.data.key;
       }
-    });
-    builder.addCase(setJiraConfigurationStatus.rejected, (state) => {
-      state.isJiraConfiguredForZephyr = false;
+      if (state.latestImportTool === 'zephyr') {
+        state.isJiraConfiguredForZephyr = true;
+      }
     });
     builder.addCase(setImportConfigurations.fulfilled, (state, { payload }) => {
       state.importId = payload.import_id;
       state.importStatus = payload.status;
       state.isDismissed = payload.is_dismissed;
-      // state.currentTestManagementTool =
-      //   payload.import_type.split('_')[0] === 'testrail'
-      //     ? `${payload.import_type.split('_')[0]}s`
-      //     : payload.import_type.split('_')[0];
     });
     builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
       if (payload.status === ONGOING) {
