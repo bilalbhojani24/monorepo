@@ -244,7 +244,7 @@ const importSlice = createSlice({
         state.zephyrCred.host = action.payload.data.host;
         state.zephyrCred.jira_key = action.payload.data.key;
       }
-      if (state.latestImportTool === 'zephyr') {
+      if (state.latestImportTool === 'zephyr' && action.payload.success) {
         state.isJiraConfiguredForZephyr = true;
       }
     });
