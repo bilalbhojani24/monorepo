@@ -24,6 +24,7 @@ import {
   setImportStatusOngoing,
   setImportSteps,
   setJiraConfigurationStatus,
+  setLatestImportTool,
   setProjectForTestManagementImport,
   setRetryImport,
   setSelectedRadioIdMap,
@@ -323,6 +324,9 @@ const useImport = () => {
     getLatestQuickImportConfig()
       .then((response) => {
         const testTool = response.import_type.split('_')[0];
+        dispatch(
+          setLatestImportTool(testTool === 'testrail' ? 'testrails' : testTool)
+        );
         dispatch(
           setCurrentTestManagementTool(
             testTool === 'testrail' ? 'testrails' : testTool

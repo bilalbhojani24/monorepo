@@ -59,7 +59,8 @@ const initialState = {
   checkImportStatusClicked: false,
   quickImportProjectId: null,
   beginImportLoading: false,
-  configureToolPageLoading: true
+  configureToolPageLoading: true,
+  latestImportTool: null
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -229,13 +230,18 @@ const importSlice = createSlice({
     },
     setBeginImportLoading: (state, { payload }) => {
       state.beginImportLoading = payload;
+    },
+    setLatestImportTool: (state, { payload }) => {
+      state.latestImportTool = payload;
     }
   },
   extraReducers: (builder) => {
     builder.addCase(setJiraConfigurationStatus.fulfilled, (state, action) => {
       if (action.payload.code === 'ERR_BAD_REQUEST')
         state.isJiraConfiguredForZephyr = false;
-      else {
+      if (state.latestImportTool === 'zephyr') {
+        state.isJiraConfiguredForZephyr = true;
+      } else {
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
@@ -320,6 +326,7 @@ export const {
   setProjectIdForQuickImport,
   setImportStatusOngoing,
   setBeginImportLoading,
-  setConfigureToolPageLoading
+  setConfigureToolPageLoading,
+  setLatestImportTool
 } = importSlice.actions;
 export default importSlice.reducer;
