@@ -238,7 +238,7 @@ const importSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(setJiraConfigurationStatus.fulfilled, (state, action) => {
       if (!action.payload.success) state.isJiraConfiguredForZephyr = false;
-      else if (action.payload.success) {
+      if (action.payload.success && state.latestImportTool !== 'zephyr') {
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
