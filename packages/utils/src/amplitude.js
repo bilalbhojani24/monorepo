@@ -22,21 +22,19 @@ export const initAmplitude = (config) => {
     }
   }
 
-  if (config?.groupData) {
-    const amplitudeClient = amplitude.getInstance();
-    amplitudeClient.setGroup('Group', `${config.groupData.groupId}`);
-    const identify = new amplitude.Identify();
+  const amplitudeClient = amplitude.getInstance();
+  amplitudeClient.setGroup('Group', `${config.groupData.groupId}`);
+  const identify = new amplitude.Identify();
 
-    Object.keys(config.groupData).forEach((configItem) => {
-      identify.set(configItem, config.groupData[configItem]);
-    });
+  Object.keys(config.groupData).forEach((configItem) => {
+    identify.set(configItem, config.groupData[configItem]);
+  });
 
-    amplitudeClient.groupIdentify(
-      'Group',
-      `${config.groupData.groupId}`,
-      identify
-    );
-  }
+  amplitudeClient.groupIdentify(
+    'Group',
+    `${config.groupData.groupId}`,
+    identify
+  );
 };
 
 export const LogAmplitudeEvent = (key, data, cb) => {
