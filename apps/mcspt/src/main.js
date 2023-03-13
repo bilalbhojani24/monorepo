@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { resolve } = require('path');
+const path = require('path');
 
 const {
   fileExplorerOps,
@@ -25,9 +25,6 @@ const createWindow = () => {
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
-    webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-    },
     show: false
   });
 
@@ -35,17 +32,20 @@ const createWindow = () => {
     width: 640,
     height: 320,
     frame: false,
+    transparent: true,
     alwaysOnTop: true
   });
 
-  splashScreen.loadURL(resolve(__dirname, '../renderer/splash/index.html'));
+  splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
 
-  // mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // if main window is ready to show, then destroy the splashScreen window and show up the main window
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
-    // splashScreen.destroy();
-    // mainThreadGlobals.mainWindow.show();
+    setTimeout(() => {
+      splashScreen.destroy();
+      mainThreadGlobals.mainWindow.show();
+    }, 2000);
   });
 
   fileExplorerOps.initializeProtocolForFileRead();
