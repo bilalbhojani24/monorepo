@@ -60,7 +60,7 @@ export default function ProjectList() {
         WRAPPER_GAP_CLASS
       )}
     >
-      <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border shadow-sm">
+      <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border bg-white shadow-sm">
         <div className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">
             Welcome to Test Observability

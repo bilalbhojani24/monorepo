@@ -51,6 +51,33 @@ export default function AutoAnalysisSettings() {
             });
             setThresholdPercentage(res.data.thresholdPercentage);
           }
+        })
+        .catch(() => {
+          setFailureCategoryDetectionEnabled((prev) => ({
+            state: prev.state,
+            loading: false
+          }));
+          setUniqueErrorDetectionEnabled((prev) => ({
+            state: prev.state,
+            loading: false
+          }));
+          notify(
+            <Notifications
+              id="update-auto-analyzer-failed"
+              title="Failure when updating"
+              description="There was an error while loading settings"
+              headerIcon={
+                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 3000
+            }
+          );
         });
     }
     return () => {

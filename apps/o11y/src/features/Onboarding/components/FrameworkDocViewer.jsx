@@ -79,7 +79,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
         WRAPPER_GAP_CLASS
       )}
     >
-      <div className="mb-5 flex w-full items-center justify-between bg-white pt-12">
+      <div className="mb-5 flex w-full items-center justify-between pt-12">
         <O11yButton
           variant="minimal"
           icon={<MdArrowBack className="text-xl" />}
