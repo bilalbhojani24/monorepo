@@ -60,6 +60,10 @@ export default function ScanReport() {
   const metaData = reportMetaData.meta
     ? Object.values(reportMetaData.meta)[0]
     : null;
+    if(isLoading) {
+      return <Loader />
+    }
+    console.log(metaData);
   return (
     <>
       <div className="bg-base-50">
@@ -74,13 +78,17 @@ export default function ScanReport() {
                     url: '/site-scanner',
                     current: false
                   },
-                  { name: metaData?.name, url: '/', current: false },
                   {
-                    name: metaData?.time
+                    name: metaData?.name,
+                    url: `/site-scanner/scan-details/${metaData?.reportId}`,
+                    current: false
+                  },
+                  {
+                    name: metaData?.startTimestamp
                       ? dateFormat(
-                          new Date(new Date(metaData?.time).toLocaleString()),
+                          new Date(new Date(metaData?.startTimestamp)),
                           'mmmm dS, h:MM TT'
-                        )
+                        ).toLocaleString()
                       : '',
                     url: '/',
                     current: true
@@ -104,11 +112,11 @@ export default function ScanReport() {
                 <span className="mr-0.5">
                   <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
                 </span>{' '}
-                {metaData?.time
+                {metaData?.startTimestamp
                   ? dateFormat(
-                      new Date(new Date(metaData?.time).toLocaleString()),
+                      new Date(new Date(metaData?.startTimestamp)),
                       'mmmm dS, h:MM TT'
-                    )
+                    ).toLocaleString()
                   : ''}
               </span>
               {metaData?.wcagVersion?.label && (

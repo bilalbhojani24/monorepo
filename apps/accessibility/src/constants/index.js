@@ -1,6 +1,8 @@
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
+export const CHROME_EXTENSION_URL =
+  'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
 export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',

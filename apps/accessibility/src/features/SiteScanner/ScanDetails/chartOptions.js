@@ -23,7 +23,7 @@ export const chartOptionStacked = {
     pointFormat: ''
   },
   title: {
-    text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${''}</p><p class="text-xs text-base-500"></p></div>`,
+    text: `<div stySle="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${''}</p><p class="text-xs text-base-500"></p></div>`,
     verticalAlign: 'middle',
     useHTML: true
   },
@@ -71,7 +71,7 @@ export const chartOptionStacked = {
       pointWidth: 12
     },
     {
-      name: 'Severe',
+      name: 'Serious',
       data: [],
       borderWidth: 0,
       color: '#F97316',
