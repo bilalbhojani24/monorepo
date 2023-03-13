@@ -58,7 +58,8 @@ const initialState = {
   showNotificationModal: false,
   checkImportStatusClicked: false,
   quickImportProjectId: null,
-  beginImportLoading: false
+  beginImportLoading: false,
+  configureToolPageLoading: true
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -122,6 +123,9 @@ const importSlice = createSlice({
   reducers: {
     setConfigureToolProceedLoading: (state, { payload }) => {
       state.configureToolProceedLoading = payload;
+    },
+    setConfigureToolPageLoading: (state, { payload }) => {
+      state.configureToolPageLoading = payload;
     },
     setConfigureToolTestConnectionLoading: (state, { payload }) => {
       state.configureToolTestConnectionLoading = payload;
@@ -245,6 +249,10 @@ const importSlice = createSlice({
       state.importId = payload.import_id;
       state.importStatus = payload.status;
       state.isDismissed = payload.is_dismissed;
+      // state.currentTestManagementTool =
+      //   payload.import_type.split('_')[0] === 'testrail'
+      //     ? `${payload.import_type.split('_')[0]}s`
+      //     : payload.import_type.split('_')[0];
     });
     builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
       if (payload.status === ONGOING) {
@@ -277,6 +285,7 @@ const importSlice = createSlice({
         state.zephyrCred.jira_key = payload.credentials.jira_key;
         state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
       }
+      state.configureToolPageLoading = false;
     });
     builder.addCase(setNotificationDismissed.fulfilled, (state) => {
       state.isDismissed = true;
@@ -310,6 +319,7 @@ export const {
   setShowNotificationModal,
   setProjectIdForQuickImport,
   setImportStatusOngoing,
-  setBeginImportLoading
+  setBeginImportLoading,
+  setConfigureToolPageLoading
 } = importSlice.actions;
 export default importSlice.reducer;

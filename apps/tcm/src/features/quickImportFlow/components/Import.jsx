@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import { setSelectedProject } from 'globalSlice';
 
 import AppRoute from '../../../const/routes';
@@ -29,8 +30,15 @@ const Import = () => {
     testManagementProjects,
     allImportSteps,
     importStatus,
-    onCancelClickHandler
+    configureToolPageLoading,
+    onCancelClickHandler,
+    populateQuickImportCredentials
   } = useImport();
+
+  useLayoutEffect(() => {
+    populateQuickImportCredentials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(setNotificationData(null));
@@ -62,8 +70,9 @@ const Import = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
+  if (configureToolPageLoading) return <Loader wrapperClassName="grow" />;
   if (
-    (!importStatus || importStatus === 'ongoing') &&
+    importStatus === 'ongoing' &&
     !beginImportLoading &&
     currentScreen === 'configureTool'
   )

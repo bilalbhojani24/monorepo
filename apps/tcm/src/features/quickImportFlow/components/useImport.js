@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { checkTestManagementConnection, importProjects } from 'api/import.api';
+import {
+  checkTestManagementConnection,
+  getLatestQuickImportConfig,
+  importProjects
+} from 'api/import.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
@@ -8,6 +12,7 @@ import { logEventHelper } from 'utils/logEvent';
 import {
   setBeginImportLoading,
   setCheckImportStatusClicked,
+  setConfigureToolPageLoading,
   setConfigureToolProceeded,
   setConfigureToolProceedLoading,
   setConfigureToolTestConnectionLoading,
@@ -20,6 +25,7 @@ import {
   setImportSteps,
   setJiraConfigurationStatus,
   setProjectForTestManagementImport,
+  setRetryImport,
   setSelectedRadioIdMap,
   setTestRailsCred,
   setTestRailsCredTouched,
@@ -52,6 +58,9 @@ const useImport = () => {
     (state) => state.import.currentTestManagementTool
   );
   const importStatus = useSelector((state) => state.import.importStatus);
+  const configureToolPageLoading = useSelector(
+    (state) => state.import.configureToolPageLoading
+  );
   const selectedRadioIdMap = useSelector(
     (state) => state.import.selectedRadioIdMap
   );
@@ -308,6 +317,24 @@ const useImport = () => {
     } else navigate(-1);
   };
 
+  const populateQuickImportCredentials = () => {
+    dispatch(setConfigureToolPageLoading(true));
+
+    getLatestQuickImportConfig()
+      .then((response) => {
+        const testTool = response.import_type.split('_')[0];
+        dispatch(
+          setCurrentTestManagementTool(
+            testTool === 'testrail' ? 'testrails' : testTool
+          )
+        );
+        dispatch(setRetryImport({ id: response.import_id, testTool }));
+      })
+      .catch(() => {
+        dispatch(setConfigureToolPageLoading(false));
+      });
+  };
+
   return {
     isFromOnboarding,
     allImportSteps,
@@ -336,7 +363,9 @@ const useImport = () => {
     zephyrCredTouched,
     configureToolTestConnectionLoading,
     configureToolProceedLoading,
-    onCancelClickHandler
+    configureToolPageLoading,
+    onCancelClickHandler,
+    populateQuickImportCredentials
   };
 };
 
