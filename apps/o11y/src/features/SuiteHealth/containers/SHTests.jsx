@@ -20,7 +20,8 @@ import {
   setIsDetailsVisible,
   setShowDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject, getProjects } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import SHTestItem from '../components/TestItem';
 import SHTestsHeader from '../components/TestsHeader';
@@ -61,6 +62,17 @@ export default function SnPTests() {
   const isLoadingTests = useSelector(getSnpTestsLoading);
   const pagingParams = useSelector(getSnpTestsPaging);
   const sortBy = useSelector(getSnpTestsSortBy);
+  const activeProject = useSelector(getActiveProject);
+
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11ySuiteHealthTestsVisited',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id
+      }
+    });
+  }, [activeProject]);
 
   const loadMoreRows = () => {
     if (!isLoadingTests && tests.length && pagingParams?.hasNext) {
