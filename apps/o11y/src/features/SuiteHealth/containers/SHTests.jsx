@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
 import { ArrowDownIcon, ArrowUpIcon } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -39,8 +40,36 @@ import {
   getSnpTestsSortBy
 } from '../slices/selectors';
 
-// eslint-disable-next-line react/jsx-props-no-spreading
-const TableRow = (props) => <O11yTableRow hover {...props} />;
+const TableRow = (props) => {
+  const dispatch = useDispatch();
+  const tests = useSelector(getSnpTests);
+  const navigate = useNavigate();
+
+  const handleClickTestItem = (event) => {
+    const { index } = event.currentTarget.dataset;
+    const activeRow = tests[index];
+    if (activeRow) {
+      dispatch(
+        setSnPCbtInfo({
+          osName: '',
+          osVersion: '',
+          browserName: '',
+          browserVersion: '',
+          deviceName: ''
+        })
+      );
+      dispatch(setIsDetailsVisible(false));
+      dispatch(setShowSnPDetailsFor(activeRow.id));
+      dispatch(setIsSnPDetailsVisible(true));
+      const searchParams = new URLSearchParams(window?.location?.search);
+      searchParams.delete('details');
+      searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
+      navigate({ search: searchParams.toString() });
+    }
+  };
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <O11yTableRow {...props} hover onRowClick={handleClickTestItem} />;
+};
 
 const VTable = (props) => (
   <O11yTable

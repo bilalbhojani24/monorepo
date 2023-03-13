@@ -11,6 +11,9 @@ import {
   Hyperlink,
   InputAddOnTexts,
   InputField,
+  Slideover,
+  SlideoverBody,
+  SlideoverHeader,
   StackedListWAvatar,
   Switch,
   Table,
@@ -18,7 +21,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Tabs
+  Tabs,
+  TruncateText
 } from '@browserstack/bifrost';
 
 import O11yComboBox from './components/O11yComboBox';
@@ -56,5 +60,15 @@ export const O11yTabs = (props) => <Tabs {...props} />;
 export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
+
+export const O11ySlideover = (props) => {
+  const topMarginElementId = 'bstack-header';
+
+  return <Slideover {...props} topMarginElementId={topMarginElementId} />;
+};
+export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
+export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
+
+export const O11yTruncateText = TruncateText;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };
