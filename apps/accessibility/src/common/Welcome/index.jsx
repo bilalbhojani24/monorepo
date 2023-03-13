@@ -25,8 +25,7 @@ export default function Welcome() {
           <div className="flex flex-col items-center justify-center pt-12 pb-8">
             <MdCheckCircle className="text-success-700 mb-4 text-5xl" />
             <p className="text-base-900 w-96 text-center text-base">
-              You have successfully signed in. This window will auto-close in a
-              few seconds.
+              You have successfully signed in. You can close this tab now.
             </p>
           </div>
         </div>
