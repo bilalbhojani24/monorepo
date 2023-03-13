@@ -23,6 +23,7 @@ module.exports = {
   globals: {
     IS_DEV: 'readonly',
     MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: 'readonly',
-    MAIN_WINDOW_WEBPACK_ENTRY: 'readonly'
+    MAIN_WINDOW_WEBPACK_ENTRY: 'readonly',
+    SPLASH_WEBPACK_ENTRY: 'readonly'
   }
 };

@@ -1,6 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const path = require('path');
 
 const {
   fileExplorerOps,
@@ -40,7 +38,6 @@ const createWindow = () => {
 
   mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // if main window is ready to show, then destroy the splashScreen window and show up the main window
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
     setTimeout(() => {
       splashScreen.destroy();
