@@ -11,6 +11,11 @@ import {
   Hyperlink,
   InputAddOnTexts,
   InputField,
+  SelectMenu,
+  SelectMenuLabel,
+  SelectMenuOptionGroup,
+  SelectMenuOptionItem,
+  SelectMenuTrigger,
   Slideover,
   SlideoverBody,
   SlideoverHeader,
@@ -70,5 +75,17 @@ export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 
 export const O11yTruncateText = TruncateText;
+
+export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
+export const O11ySelectMenuLabel = (props) => <SelectMenuLabel {...props} />;
+export const O11ySelectMenuTrigger = (props) => (
+  <SelectMenuTrigger {...props} />
+);
+export const O11ySelectMenuOptionGroup = (props) => (
+  <SelectMenuOptionGroup {...props} />
+);
+export const O11ySelectMenuOptionItem = (props) => (
+  <SelectMenuOptionItem {...props} />
+);
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

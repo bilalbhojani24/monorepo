@@ -7,36 +7,7 @@ import {
 } from 'api/snp';
 import { getAllSnPTestFilters } from 'features/SuiteHealth/slices/selectors';
 
-const { reducer, actions } = createSlice({
-  name: 'SuiteHealthTestDetails',
-  initialState: {
-    ui: {
-      isDetailsVisible: false,
-      showDetailsFor: '',
-      cbtInfo: {
-        osName: '',
-        osVersion: '',
-        browserName: '',
-        browserVersion: ''
-      }
-    }
-  },
-  reducers: {
-    setIsSnPDetailsVisible: (state, { payload }) => {
-      state.ui.isDetailsVisible = payload;
-    },
-    setShowSnPDetailsFor: (state, { payload }) => {
-      state.ui.showDetailsFor = payload;
-    },
-    setSnPCbtInfo: (state, { payload }) => {
-      state.ui.cbtInfo = payload;
-    }
-  },
-  extraReducers: {}
-});
-
-export const { setIsSnPDetailsVisible, setShowSnPDetailsFor, setSnPCbtInfo } =
-  actions;
+import { TABS } from '../constants';
 
 export const getSnPTestsDetailsInfoData = createAsyncThunk(
   'testlist/getSnPTestsDetailsInfoData',
@@ -50,6 +21,83 @@ export const getSnPTestsDetailsInfoData = createAsyncThunk(
     }
   }
 );
+
+const { reducer, actions } = createSlice({
+  name: 'SuiteHealthTestDetails',
+  initialState: {
+    data: {
+      testDetailsInfo: {
+        isLoading: false,
+        data: null
+      }
+    },
+    ui: {
+      isDetailsVisible: false,
+      showDetailsFor: '',
+      cbtInfo: {
+        osName: '',
+        osVersion: '',
+        browserName: '',
+        browserVersion: ''
+      },
+      chartBounds: {
+        lower: null,
+        upper: null
+      },
+      activeTab: {
+        idx: 1,
+        value: TABS.runs
+      }
+    }
+  },
+  reducers: {
+    setIsSnPDetailsVisible: (state, { payload }) => {
+      state.ui.isDetailsVisible = payload;
+    },
+    setShowSnPDetailsFor: (state, { payload }) => {
+      state.ui.showDetailsFor = payload;
+    },
+    setSnPCbtInfo: (state, { payload }) => {
+      state.ui.cbtInfo = payload;
+    },
+    setSHTestDetailsChartBounds: (state, { payload }) => {
+      state.ui.chartBounds = payload;
+    },
+    setSHTestDetailsActiveTab: (state, { payload }) => {
+      state.ui.activeTab = payload;
+    },
+    clearTestDetailsInfo: (state) => {
+      state.data.testDetailsInfo.isLoading = false;
+      state.data.testDetailsInfo.data = null;
+    },
+    resetActiveTab: (state) => {
+      state.ui.activeTab = { idx: 1, value: TABS.runs };
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSnPTestsDetailsInfoData.pending, (state) => {
+        state.data.testDetailsInfo.isLoading = true;
+      })
+      .addCase(getSnPTestsDetailsInfoData.fulfilled, (state, { payload }) => {
+        state.data.testDetailsInfo.data = payload;
+        state.data.testDetailsInfo.isLoading = false;
+      })
+      .addCase(getSnPTestsDetailsInfoData.rejected, (state) => {
+        state.data.testDetailsInfo.isLoading = false;
+      });
+  }
+});
+
+export const {
+  setIsSnPDetailsVisible,
+  setShowSnPDetailsFor,
+  setSnPCbtInfo,
+  setSHTestDetailsChartBounds,
+  setSHTestDetailsActiveTab,
+  clearTestDetailsInfo,
+  resetActiveTab
+} = actions;
 
 export const getSnPDetailsStatsData = createAsyncThunk(
   'testlist/getSnPDetailsStatsData',
