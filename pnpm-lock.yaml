@@ -182,6 +182,7 @@ importers:
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
       classnames: 2.2.6
+      date-fns: 2.29.3
       lodash: 4.17.21
       postcss: 8.4.20
       postcss-preset-env: ^7.8.3
@@ -208,6 +209,7 @@ importers:
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
       classnames: 2.2.6
+      date-fns: 2.29.3
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
