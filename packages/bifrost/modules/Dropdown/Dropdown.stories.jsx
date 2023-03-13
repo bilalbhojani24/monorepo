@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import DropdownOptionGroup from '../DropdownOptionGroup';
@@ -68,7 +70,20 @@ const defaultConfig = {
 const Template = (args) => <Dropdown {...args} />;
 
 const Primary = Template.bind({});
-
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  expect(
+    canvas.getByRole('button', {
+      expanded: false
+    })
+  ).toBeInTheDocument();
+  await userEvent.click(canvas.getByRole('button'));
+  expect(
+    canvas.getByRole('button', {
+      expanded: true
+    })
+  ).toBeInTheDocument();
+};
 Primary.parameters = {
   controls: {}
 };
