@@ -1,4 +1,7 @@
 const { app, BrowserWindow } = require('electron');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { resolve } = require('path');
+
 const {
   fileExplorerOps,
   deepLinkingSetup,
@@ -24,10 +27,26 @@ const createWindow = () => {
     height: 720,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-    }
+    },
+    show: false
   });
 
-  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  const splashScreen = new BrowserWindow({
+    width: 640,
+    height: 320,
+    frame: false,
+    alwaysOnTop: true
+  });
+
+  splashScreen.loadURL(resolve(__dirname, '../renderer/splash/index.html'));
+
+  // mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  // if main window is ready to show, then destroy the splashScreen window and show up the main window
+  mainThreadGlobals.mainWindow.once('ready-to-show', () => {
+    // splashScreen.destroy();
+    // mainThreadGlobals.mainWindow.show();
+  });
 
   fileExplorerOps.initializeProtocolForFileRead();
 };

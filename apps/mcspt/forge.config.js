@@ -41,6 +41,11 @@ module.exports = {
               preload: {
                 js: './src/preload.js'
               }
+            },
+            {
+              html: './src/splash.html',
+              js: './src/splashScreen.js',
+              name: 'splash'
             }
           ]
         },
