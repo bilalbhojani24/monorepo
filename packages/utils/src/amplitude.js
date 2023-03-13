@@ -13,7 +13,7 @@ export const initAmplitude = (config) => {
   initialized = true;
   amplitude.getInstance().init(config.key);
 
-  if (config?.userData) {
+  if (config?.userData?.userId) {
     try {
       amplitude.getInstance().setUserId(config.userData.userId);
       amplitude.getInstance().setUserProperties(config.userData);
@@ -22,19 +22,21 @@ export const initAmplitude = (config) => {
     }
   }
 
-  const amplitudeClient = amplitude.getInstance();
-  amplitudeClient.setGroup('Group', `${config.groupData.groupId}`);
-  const identify = new amplitude.Identify();
+  if (config?.groupData?.groupId) {
+    const amplitudeClient = amplitude.getInstance();
+    amplitudeClient.setGroup('Group', `${config.groupData.groupId}`);
+    const identify = new amplitude.Identify();
 
-  Object.keys(config.groupData).forEach((configItem) => {
-    identify.set(configItem, config.groupData[configItem]);
-  });
+    Object.keys(config.groupData).forEach((configItem) => {
+      identify.set(configItem, config.groupData[configItem]);
+    });
 
-  amplitudeClient.groupIdentify(
-    'Group',
-    `${config.groupData.groupId}`,
-    identify
-  );
+    amplitudeClient.groupIdentify(
+      'Group',
+      `${config.groupData.groupId}`,
+      identify
+    );
+  }
 };
 
 export const LogAmplitudeEvent = (key, data, cb) => {
