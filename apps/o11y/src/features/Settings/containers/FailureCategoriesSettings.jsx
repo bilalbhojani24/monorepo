@@ -1,9 +1,11 @@
 import React from 'react';
 
+import SettingsCard from '../components/SettingsCard';
+
 export default function FailureCategoriesSettings() {
   return (
-    <div className="border-base-200 max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
+    <SettingsCard>
       <div className="p-6">FailureCategoriesSettings Settings</div>
-    </div>
+    </SettingsCard>
   );
 }

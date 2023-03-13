@@ -62,12 +62,13 @@ export default function ReportRow({ id }) {
       if (id.includes(testTypes.assistiveTest)) {
         params.ar_ids = ids;
       }
+      if (id.includes(testTypes.websiteScan)) {
+        params.wsr_ids = ids;
+      }
       if (window.dashboardUserID) {
         params.dashboardUserID = window.dashboardUserID;
       }
-      const path = updateUrlWithQueryParam({
-        ...params
-      });
+      const path = updateUrlWithQueryParam(params);
       navigate(`report?${path}`);
     }
   };

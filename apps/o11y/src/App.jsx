@@ -1,12 +1,14 @@
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { matchRoutes, useLocation } from 'react-router-dom';
-import { getStorage } from '@browserstack/utils';
+import { getStorage, initLogger } from '@browserstack/utils';
+import ModalToShow from 'common/ModalToShow';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
+import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
+import { ROUTES } from 'constants/routes';
+import { APP_ROUTES } from 'constants/routesConstants';
 import { getProjectsList } from 'globalSlice';
 import useAuthRoutes from 'hooks/useAuthRoutes';
-
-import { ROUTES } from './constants/routes';
-import { APP_ROUTES } from './constants/routesConstants';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 
@@ -14,7 +16,25 @@ const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
-  return useAuthRoutes(
+  useMemo(() => {
+    const keys = {
+      amplitudeKey: AMPLITUDE_KEY,
+      analyticsKey: ANALYTICS_KEY,
+      EDSDetails: {
+        userDetails: '12',
+        config: {
+          server: 'eds.browserstack.com',
+          port: '443',
+          api: EDS_API_KEY
+        }
+      }
+    };
+    if (!window.initialized) {
+      initLogger(keys);
+      window.initialized = true;
+    }
+  }, []);
+  const Routes = useAuthRoutes(
     APP_ROUTES,
     () =>
       dispatch(
@@ -26,6 +46,12 @@ const App = () => {
         })
       ),
     'https://www.browserstack.com/users/sign_in'
+  );
+  return (
+    <>
+      {Routes}
+      <ModalToShow />
+    </>
   );
 };
 

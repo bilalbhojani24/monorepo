@@ -5,6 +5,7 @@ import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue } from 'utils/common';
 
+import SettingsCard from '../components/SettingsCard';
 import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 import {
   getAutoAnalyserSettingsData,
@@ -27,7 +28,7 @@ export default function AutoAnalysisSettings() {
   const [thresholdPercentage, setThresholdPercentage] = useState(0);
 
   const dispatch = useDispatch();
-  const mounted = useRef();
+  const mounted = useRef(false);
 
   useEffect(() => {
     mounted.current = true;
@@ -50,6 +51,33 @@ export default function AutoAnalysisSettings() {
             });
             setThresholdPercentage(res.data.thresholdPercentage);
           }
+        })
+        .catch(() => {
+          setFailureCategoryDetectionEnabled((prev) => ({
+            state: prev.state,
+            loading: false
+          }));
+          setUniqueErrorDetectionEnabled((prev) => ({
+            state: prev.state,
+            loading: false
+          }));
+          notify(
+            <Notifications
+              id="update-auto-analyzer-failed"
+              title="Failure when updating"
+              description="There was an error while loading settings"
+              headerIcon={
+                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 3000
+            }
+          );
         });
     }
     return () => {
@@ -87,7 +115,7 @@ export default function AutoAnalysisSettings() {
         setThresholdPercentage(data.data.thresholdPercentage);
         notify(
           <Notifications
-            id="update-general-failed"
+            id="update-auto-analyzer-failed"
             title="Failure when updating"
             description="There was an error while updating settings"
             headerIcon={
@@ -131,7 +159,7 @@ export default function AutoAnalysisSettings() {
   };
 
   return (
-    <div className="border-base-200 max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow">
+    <SettingsCard>
       <section className="border-b-base-200 border-b p-6">
         <h2 className="text-lg font-medium leading-6">Auto Failure Analysis</h2>
         <p className="text-base-500 mt-1 text-sm leading-5">
@@ -207,6 +235,6 @@ export default function AutoAnalysisSettings() {
           Save Changes
         </O11yButton>
       </div>
-    </div>
+    </SettingsCard>
   );
 }

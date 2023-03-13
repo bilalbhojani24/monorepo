@@ -1,3 +1,5 @@
+import { logEvent } from '@browserstack/utils';
+
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
   const hostnameParts = hostname.split('.');
@@ -23,3 +25,30 @@ export const getDocUrl = ({
 };
 
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
+
+export const logOllyEvent = ({ event, data = {} }) => {
+  if (!window.location.hostname.endsWith('browserstack.com')) {
+    return;
+  }
+  const commonData = {
+    url: window.location.href,
+    screenResolution: {
+      availHeight: window?.screen?.availHeight,
+      availWidth: window?.screen?.availWidth,
+      height: window?.screen?.height,
+      width: window?.screen?.width
+    },
+    browserResolution: {
+      width: window.innerWidth,
+      height: window.innerHeight
+    },
+    product: 'observability',
+    team: 'observability',
+    referrer: document.referrer,
+    domain:
+      window.location.hostname.split('.').length >= 3
+        ? window.location.hostname.split('.').slice(1, 3).join('.')
+        : window.location.hostname
+  };
+  logEvent([], 'web_events', event, { ...commonData, ...data });
+};
