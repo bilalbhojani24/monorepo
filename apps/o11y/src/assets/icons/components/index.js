@@ -35,40 +35,35 @@ import JiraIcon from './JiraIcon';
 import UnknownIcon from './UnknownIcon';
 
 export {
+  AmazonIcon,
+  AndroidIcon,
+  AppleIcon,
   ChromeIcon,
+  DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
-  IEIcon,
-  OperaIcon,
-  SafariIcon,
-  YandexIcon
-};
-
-export {
-  AmazonIcon,
-  AppleIcon,
   GoogleIcon,
   HTCIcon,
   HuaweiIcon,
+  IEIcon,
+  IOSIcon,
+  JiraIcon,
   LgIcon,
+  MacOSIcon,
   MotorolaIcon,
   NokiaIcon,
   OneplusIcon,
+  OperaIcon,
   OppoIcon,
+  OSXIcon,
   RealmeIcon,
+  SafariIcon,
   SamsungIcon,
   SonyIcon,
+  UnknownIcon,
   VivoIcon,
-  XiaomiIcon
-};
-
-export {
-  AndroidIcon,
-  IOSIcon,
-  MacOSIcon,
-  OSXIcon,
   WindowsIcon,
-  WindowsPhoneIcon
+  WindowsPhoneIcon,
+  XiaomiIcon,
+  YandexIcon
 };
-
-export { DeviceIcon, JiraIcon, UnknownIcon };
