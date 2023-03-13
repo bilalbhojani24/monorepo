@@ -81,10 +81,24 @@ Primary.play = async ({ canvasElement }) => {
   const arr = ['Account Settings', 'Support', 'License'];
   document.querySelectorAll('button')[3].click();
   await sleep(1);
+  expect(
+    canvas.getByRole('button', {
+      Name: 'Options',
+      expanded: true
+    })
+  ).toBeInTheDocument();
+  await sleep(1);
   const buttons = document.querySelectorAll('button');
   for (let i = 4; i < buttons.length; i += 1) {
     expect(arr.includes(buttons[i].firstChild.nodeValue)).toBe(true);
   }
+  document.querySelectorAll('button')[3].click();
+  await sleep(1);
+  expect(
+    canvas.getByRole('button', {
+      expanded: false
+    })
+  ).toBeInTheDocument();
 };
 Primary.parameters = {
   controls: {}
