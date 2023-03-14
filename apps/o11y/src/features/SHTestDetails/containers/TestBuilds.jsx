@@ -1,14 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TableVirtuoso } from 'react-virtuoso';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yRefTableBody,
-  O11yTable,
-  O11yTableCell,
-  O11yTableRow
-} from 'common/bifrostProxy';
+import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import VirtualisedTable from 'common/VirtualisedTable';
 import { getActiveProject } from 'globalSlice/selectors';
 
 import BuildRow from '../components/BuildRow';
@@ -22,14 +17,6 @@ import {
 
 // eslint-disable-next-line react/jsx-props-no-spreading
 const TableRow = (props) => <O11yTableRow {...props} hover />;
-const VTable = (props) => (
-  <O11yTable
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-    style={{ borderCollapse: 'separate' }}
-    containerWrapperClass="border border-solid border-base-200 rounded-lg"
-  />
-);
 
 export default function TestBuilds() {
   const dispatch = useDispatch();
@@ -121,15 +108,10 @@ export default function TestBuilds() {
           loaderClass="text-base-200 fill-base-400 w-8 h-8"
         />
       ) : (
-        <TableVirtuoso
+        <VirtualisedTable
           style={{ height: '100%' }}
           data={buildsData.builds}
           endReached={loadMore}
-          components={{
-            Table: VTable,
-            TableRow,
-            TableBody: O11yRefTableBody
-          }}
           fixedHeaderContent={() => (
             <TableRow>
               {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
@@ -147,6 +129,8 @@ export default function TestBuilds() {
             </TableRow>
           )}
           itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
+          TableRow={TableRow}
+          showFixedFooter={isLoadingMore}
         />
       )}
     </div>

@@ -74,7 +74,7 @@ VirtualisedTable.propTypes = {
   fixedFooterContent: PropTypes.func,
   overscan: PropTypes.number,
   style: PropTypes.shape(PropTypes.object),
-  TableRow: PropTypes.node
+  TableRow: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 };
 
 VirtualisedTable.defaultProps = {

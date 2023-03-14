@@ -1,16 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TableVirtuoso } from 'react-virtuoso';
 import { ArrowDownIcon, ArrowUpIcon } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yRefTableBody,
-  O11yTable,
-  O11yTableCell,
-  O11yTableRow
-} from 'common/bifrostProxy';
+import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
   setIsSnPDetailsVisible,
@@ -47,7 +42,7 @@ const TableRow = (props) => {
 
   const handleClickTestItem = (event) => {
     const { index } = event.currentTarget.dataset;
-    const activeRow = tests[index];
+    const activeRow = tests?.[index];
     if (activeRow) {
       dispatch(
         setSnPCbtInfo({
@@ -70,15 +65,6 @@ const TableRow = (props) => {
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <O11yTableRow {...props} hover onRowClick={handleClickTestItem} />;
 };
-
-const VTable = (props) => (
-  <O11yTable
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-    style={{ borderCollapse: 'separate' }}
-    containerWrapperClass="border border-solid border-base-200 rounded-lg"
-  />
-);
 
 export default function SnPTests() {
   const mounted = useRef(null);
@@ -196,15 +182,10 @@ export default function SnPTests() {
           loaderClass="text-base-200 fill-base-400 w-8 h-8"
         />
       ) : (
-        <TableVirtuoso
+        <VirtualisedTable
           style={{ height: '100%' }}
           data={tests}
           endReached={loadMoreRows}
-          components={{
-            Table: VTable,
-            TableRow,
-            TableBody: O11yRefTableBody
-          }}
           fixedHeaderContent={() => (
             <TableRow>
               {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
@@ -258,6 +239,8 @@ export default function SnPTests() {
           itemContent={(index, testData) => (
             <SHTestItem key={testData.id} testDetails={testData} />
           )}
+          TableRow={TableRow}
+          showFixedFooter={isLoadingMore}
         />
       )}
     </div>

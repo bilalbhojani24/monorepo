@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TableVirtuoso } from 'react-virtuoso';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yRefTableBody,
-  O11yTable,
-  O11yTableCell,
-  O11yTableRow
-} from 'common/bifrostProxy';
+import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import VirtualisedTable from 'common/VirtualisedTable';
 import { getSnPTestsBreakdownData } from 'features/SuiteHealth/slices/dataSlice';
 import {
   getAllSnPTestFilters,
@@ -28,7 +23,7 @@ const TableRow = (props) => {
   const dispatch = useDispatch();
   const handleClickItem = (event) => {
     const { index } = event.currentTarget.dataset;
-    const activeRow = props.data[index];
+    const activeRow = props.data?.[index];
     if (activeRow) {
       dispatch(
         setSnPCbtInfo({
@@ -51,15 +46,6 @@ const TableRow = (props) => {
 TableRow.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any).isRequired
 };
-
-const VTable = (props) => (
-  <O11yTable
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-    style={{ borderCollapse: 'separate' }}
-    containerWrapperClass="border border-solid border-base-200 rounded-lg"
-  />
-);
 
 const PlatformsTab = () => {
   const testId = useSelector(getShowSnPDetailsFor);
@@ -114,20 +100,9 @@ const PlatformsTab = () => {
           loaderClass="text-base-200 fill-base-400 w-8 h-8"
         />
       ) : (
-        <TableVirtuoso
+        <VirtualisedTable
           style={{ height: '100%' }}
           data={breakDownData}
-          components={{
-            Table: VTable,
-            TableRow: (props) => (
-              <TableRow
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...props}
-                data={breakDownData}
-              />
-            ),
-            TableBody: O11yRefTableBody
-          }}
           fixedHeaderContent={() => (
             <TableRow>
               {Object.keys(PLATFORM_HEADER_CELLS_MAPPING).map((key) => (
@@ -147,6 +122,14 @@ const PlatformsTab = () => {
           itemContent={(index, buildData) => (
             <PlatformRow buildData={buildData} />
           )}
+          TableRow={(props) => (
+            <TableRow
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...props}
+              data={breakDownData}
+            />
+          )}
+          showFixedFooter={false}
         />
       )}
     </div>
