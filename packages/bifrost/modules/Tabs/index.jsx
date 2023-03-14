@@ -16,7 +16,8 @@ const Tabs = ({
   onTabChange,
   shape,
   tabsArray,
-  disableFullWidthBorder
+  disableFullWidthBorder,
+  wrapperClassName
 }) => {
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
@@ -39,7 +40,7 @@ const Tabs = ({
   return (
     <>
       {tabsArray?.length && (
-        <div className="w-full">
+        <div className={twClassNames('w-full', wrapperClassName)}>
           <div className="sm:hidden">
             {label && (
               <label htmlFor={id} className="sr-only">
@@ -110,7 +111,8 @@ Tabs.propTypes = {
       count: PropTypes.string
     })
   ).isRequired,
-  disableFullWidthBorder: PropTypes.bool
+  disableFullWidthBorder: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 
 Tabs.defaultProps = {
@@ -121,7 +123,8 @@ Tabs.defaultProps = {
   label: '',
   onTabChange: () => {},
   shape: TAB_SHAPE[0],
-  disableFullWidthBorder: false
+  disableFullWidthBorder: false,
+  wrapperClassName: ''
 };
 
 export default Tabs;
