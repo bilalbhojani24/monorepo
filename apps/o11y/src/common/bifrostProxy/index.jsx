@@ -23,6 +23,7 @@ import {
 
 import O11yComboBox from './components/O11yComboBox';
 import O11yHeader from './components/O11yHeader';
+import O11yMetaData from './components/O11yMetaData';
 import O11ySwitcher from './components/O11ySwitcher';
 
 export const O11yBadge = (props) => <Badge {...props} />;
@@ -56,4 +57,4 @@ export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
 
-export { O11yComboBox, O11yHeader, O11ySwitcher };
+export { O11yComboBox, O11yHeader, O11yMetaData, O11ySwitcher };

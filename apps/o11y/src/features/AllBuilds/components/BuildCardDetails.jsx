@@ -9,8 +9,12 @@ import {
   MdOutlineAutoFixHigh,
   MdRemoveCircle
 } from '@browserstack/bifrost';
-import { O11yBadge, O11yTableCell, O11yTooltip } from 'common/bifrostProxy';
-import MetaData from 'common/MetaData';
+import {
+  O11yBadge,
+  O11yMetaData,
+  O11yTableCell,
+  O11yTooltip
+} from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
@@ -64,9 +68,12 @@ const BuildCardDetails = ({ data }) => {
           <div className="ml-4">
             <div className="flex">
               <p className="text-base-900 text-sm font-medium leading-5">
-                <MetaData label={data.originalName} title="Build Name" />
+                {data.originalName}
                 {` `}
-                <MetaData label={`#${data.buildNumber}`} title="Build Number" />
+                <O11yMetaData
+                  label={`#${data.buildNumber}`}
+                  title="Build Number"
+                />
                 {` `}
                 {data.isAutoDetectedName && (
                   <O11yTooltip
@@ -94,24 +101,19 @@ const BuildCardDetails = ({ data }) => {
                 )}
               </p>
               {data.tags.map((singleTag) => (
-                <MetaData
+                <O11yBadge
                   key={singleTag}
-                  label={
-                    <O11yBadge
-                      wrapperClassName="mx-1"
-                      hasRemoveButton={false}
-                      modifier="base"
-                      hasDot={false}
-                      text={singleTag}
-                    />
-                  }
-                  title="Build Tags"
+                  wrapperClassName="mx-1"
+                  hasRemoveButton={false}
+                  modifier="base"
+                  hasDot={false}
+                  text={singleTag}
                 />
               ))}
             </div>
             <p className="text-base-500 text-sm">
-              Ran by <MetaData label={data.user} title="Triggered By" /> on{' '}
-              <MetaData
+              Ran by <O11yMetaData label={data.user} title="Triggered By" /> on{' '}
+              <O11yMetaData
                 label={getCustomTimeStamp({
                   dateString: new Date(data.startedAt)
                 })}
@@ -121,7 +123,7 @@ const BuildCardDetails = ({ data }) => {
                 <MdAllInclusive className="text-base-600 inline-block" />
               </span>
               <a target="_new" href={data.versionControlInfo.url}>
-                <MetaData
+                <O11yMetaData
                   label={data.versionControlInfo.commitId.slice(0, 8)}
                   title="Commit ID"
                 />
@@ -131,58 +133,36 @@ const BuildCardDetails = ({ data }) => {
         </div>
       </O11yTableCell>
       <O11yTableCell>
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="success"
-              hasDot={false}
-              text={data.statusStats.passed}
-            />
-          }
-          title="Cases Passed"
+        <O11yBadge
+          wrapperClassName="mx-1"
+          hasRemoveButton={false}
+          modifier="success"
+          hasDot={false}
+          text={data.statusStats.passed}
         />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="error"
-              hasDot={false}
-              text={data.statusStats.failed}
-            />
-          }
-          title="Cases Failed"
+        <O11yBadge
+          wrapperClassName="mx-1"
+          hasRemoveButton={false}
+          modifier="error"
+          hasDot={false}
+          text={data.statusStats.failed}
         />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="base"
-              hasDot={false}
-              text={data.statusStats.skipped}
-            />
-          }
-          title="Cases Skipped"
+        <O11yBadge
+          wrapperClassName="mx-1"
+          hasRemoveButton={false}
+          modifier="base"
+          hasDot={false}
+          text={data.statusStats.skipped}
         />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="warn"
-              hasDot={false}
-              text={data.statusStats.timeout}
-            />
-          }
-          title="Cases Timeout"
+        <O11yBadge
+          wrapperClassName="mx-1"
+          hasRemoveButton={false}
+          modifier="warn"
+          hasDot={false}
+          text={data.statusStats.timeout}
         />
       </O11yTableCell>
-      <O11yTableCell>
-        <MetaData label={milliSecondsToTime(data.duration)} title="Duration" />
-      </O11yTableCell>
+      <O11yTableCell>{milliSecondsToTime(data.duration)}</O11yTableCell>
       <O11yTableCell>
         <div className="flex overflow-hidden rounded-xl">
           {Object.keys(data.issueTypeAggregate).map((item) =>
@@ -232,35 +212,17 @@ const BuildCardDetails = ({ data }) => {
         <ul>
           {data.historyAggregate?.isNewFailure > 0 && (
             <li className="text-danger-600">
-              <MetaData
-                label={`New Failures (${data.historyAggregate?.isNewFailure})`}
-                title="New Failures"
-              />
+              {`New Failures (${data.historyAggregate?.isNewFailure})`}
             </li>
           )}
           {data.historyAggregate?.isFlaky > 0 && (
-            <li>
-              <MetaData
-                label={`Flaky (${data.historyAggregate?.isFlaky})`}
-                title="Flaky"
-              />
-            </li>
+            <li>{`Flaky (${data.historyAggregate?.isFlaky})`}</li>
           )}
           {data.historyAggregate?.isAlwaysFailing > 0 && (
-            <li>
-              <MetaData
-                label={`Always Failing (${data.historyAggregate?.isAlwaysFailing})`}
-                title="Always Failing"
-              />
-            </li>
+            <li>{`Always Failing (${data.historyAggregate?.isAlwaysFailing})`}</li>
           )}
           {data.historyAggregate?.isPerformanceAnomaly > 0 && (
-            <li>
-              <MetaData
-                label={`Performance Anomaly (${data.historyAggregate?.isPerformanceAnomaly})`}
-                title="Performance Anomaly"
-              />
-            </li>
+            <li>{`Performance Anomaly (${data.historyAggregate?.isPerformanceAnomaly})`}</li>
           )}
         </ul>
       </O11yTableCell>
