@@ -33,23 +33,23 @@ const Badge = ({
         {
           'px-2.5 py-0.5 text-xs': size === BADGE_SIZE[0],
           'px-3 py-0.5 text-sm': size === BADGE_SIZE[1],
-          'bg-base-100 text-base-800 hover:bg-base-200':
-            modifier === BADGE_MODIFIER[0],
-          'bg-brand-100 text-brand-800 hover:bg-brand-200':
-            modifier === BADGE_MODIFIER[1],
-          'bg-success-100 text-success-800 hover:bg-success-200':
-            modifier === BADGE_MODIFIER[2],
-          'bg-danger-100 text-danger-800 hover:bg-danger-200':
-            modifier === BADGE_MODIFIER[3],
-          'bg-attention-100 text-attention-800 hover:bg-attention-200':
-            modifier === BADGE_MODIFIER[4],
-          'bg-info-100 text-info-800 hover:bg-info-200':
-            modifier === BADGE_MODIFIER[5],
+          'bg-base-100 text-base-800': modifier === BADGE_MODIFIER[0],
+          'bg-brand-100 text-brand-800': modifier === BADGE_MODIFIER[1],
+          'bg-success-100 text-success-800': modifier === BADGE_MODIFIER[2],
+          'bg-danger-100 text-danger-800': modifier === BADGE_MODIFIER[3],
+          'bg-attention-100 text-attention-800': modifier === BADGE_MODIFIER[4],
+          'bg-info-100 text-info-800': modifier === BADGE_MODIFIER[5],
           'rounded-full': isRounded,
           'rounded ': !isRounded,
           'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
           'pr-1': hasRemoveButton && size === BADGE_SIZE[1],
-          'cursor-not-allowed': disabled
+          'cursor-not-allowed': disabled,
+          'hover:bg-base-200': modifier === BADGE_MODIFIER[0] && !disabled,
+          'hover:bg-brand-200': modifier === BADGE_MODIFIER[1] && !disabled,
+          'hover:bg-success-200': modifier === BADGE_MODIFIER[2] && !disabled,
+          'hover:bg-danger-200': modifier === BADGE_MODIFIER[3] && !disabled,
+          'hover:bg-attention-200': modifier === BADGE_MODIFIER[4] && !disabled,
+          'hover:bg-info-200': modifier === BADGE_MODIFIER[5] && !disabled
         },
         wrapperClassName
       )}
@@ -82,19 +82,29 @@ const Badge = ({
           className={twClassNames(
             'ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus:text-white focus:outline-none',
             {
-              'hover:bg-base-200 hover:text-base-500 focus:bg-base-500 text-base-400':
-                modifier === BADGE_MODIFIER[0],
-              'hover:bg-brand-200 hover:text-brand-500 focus:bg-brand-500 text-brand-400':
+              'focus:bg-base-500 text-base-400': modifier === BADGE_MODIFIER[0],
+              'focus:bg-brand-500 text-brand-400':
                 modifier === BADGE_MODIFIER[1],
-              'hover:bg-success-200 hover:text-success-500 focus:bg-success-500 text-success-400':
+              'focus:bg-success-500 text-success-400':
                 modifier === BADGE_MODIFIER[2],
-              'hover:bg-danger-200 hover:text-danger-500 focus:bg-danger-500 text-danger-400':
+              'focus:bg-danger-500 text-danger-400':
                 modifier === BADGE_MODIFIER[3],
-              'hover:bg-attention-200 hover:text-attention-500 focus:bg-attention-500 text-attention-400':
+              'focus:bg-attention-500 text-attention-400':
                 modifier === BADGE_MODIFIER[4],
-              'hover:bg-info-200 hover:text-info-500 focus:bg-info-500 text-info-400':
-                modifier === BADGE_MODIFIER[5],
-              'cursor-not-allowed': disabled
+              'focus:bg-info-500 text-info-400': modifier === BADGE_MODIFIER[5],
+              'cursor-not-allowed': disabled,
+              'hover:text-base-500 hover:bg-base-200':
+                modifier === BADGE_MODIFIER[0] && !disabled,
+              'hover:bg-brand-200 hover:text-brand-500':
+                modifier === BADGE_MODIFIER[1] && !disabled,
+              'hover:bg-success-200 hover:text-success-500':
+                modifier === BADGE_MODIFIER[2] && !disabled,
+              'hover:bg-danger-200 hover:text-danger-500':
+                modifier === BADGE_MODIFIER[3] && !disabled,
+              'hover:bg-attention-200 hover:text-attention-500':
+                modifier === BADGE_MODIFIER[4] && !disabled,
+              'hover:bg-info-200 hover:text-info-500':
+                modifier === BADGE_MODIFIER[5] && !disabled
             }
           )}
         >
