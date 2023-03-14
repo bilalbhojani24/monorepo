@@ -11,15 +11,23 @@ import {
   MdOutlineMoreVert,
   MdOutlineTableChart,
   MdPerson,
+  MdSchedule,
   MdStop,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import parser from 'cron-parser';
+import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
 import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
+import Loader from '../../../common/Loader';
 
 export const tabsArray = [
   {
@@ -44,9 +52,28 @@ const ScanDetails = () => {
     scanOverviewData,
     activeTabIndex,
     handleNewScanRun,
-    handleStopRecurringScan
+    handleStopRecurringScan,
+    setStopModal,
+    showModal,
+    loadingStopState,
+    userInfo
   } = useScanDetails();
-  console.log(scanRunDataCommon, scanRunDataCommon.name, activeTabIndex);
+  /*
+    Convert back to Local Timezone
+  */
+  const convertToLocale = () => {
+    const interval = parser.parseExpression(scanRunDataCommon.schedulePattern, {
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      iterator: true
+    });
+
+    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
+        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
+    return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
+  };
+  if(isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="bg-base-50">
@@ -75,7 +102,7 @@ const ScanDetails = () => {
               />
               {scanRunDataCommon?.nextScanDate ? (
                 <Badge
-                  text={`Active, Next scan: ${
+                  text={`Recurring, Next scan: ${
                     scanRunDataCommon.nextScanDate
                       ? dateFormat(
                           new Date(scanRunDataCommon?.nextScanDate),
@@ -97,11 +124,17 @@ const ScanDetails = () => {
                   {scanRunDataCommon?.createdBy?.name || 'NA'}
                 </span>
               </span>
-              <span className="text-base-500 ml-7 flex items-center text-sm">
+              <span className="text-base-500 ml-2 flex items-center text-sm">
                 <span className="mr-0.5">
                   <MdCalendarToday color="#9CA3AF" className="mr-0.5" />
                 </span>{' '}
                 {scanRunDataCommon?.pageCount || '0'} pages
+                {scanRunDataCommon?.schedulePattern ? (
+                  <span className="ml-2 flex items-center">
+                    <MdSchedule className="mr-0.5" />
+                    {convertToLocale(scanRunDataCommon.schedulePattern)}
+                  </span>
+                ) : null}
               </span>
             </div>
           </div>
@@ -117,10 +150,11 @@ const ScanDetails = () => {
             >
               New scan run
             </Button>
-            {scanRunDataCommon?.nextScanDate && (
+            {/* handleStopRecurringScan */}
+            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
               <Button
                 colors="white"
-                onClick={handleStopRecurringScan}
+                onClick={() => setStopModal(true)}
                 size="small"
                 type="subtle"
                 icon={<MdStop />}
@@ -161,6 +195,45 @@ const ScanDetails = () => {
           <ScanRuns scanRunData={scanRunData} isLoading={isLoading} />
         )}
       </div>
+      {showModal ? (
+        <div>
+          <Modal
+            show={showModal}
+            size="lg"
+            onOverlayClick={() => {
+              setStopModal(false);
+            }}
+          >
+            <ModalHeader
+              handleDismissClick={() => {
+                setStopModal(false);
+              }}
+              heading="Stop recurring scans"
+              subHeading="Are you sure you want to stop recurring scans for this configuration. This action cannot be undone."
+            />
+            <ModalFooter position="right">
+              <Button
+                onClick={() => {
+                  setStopModal(false);
+                }}
+                colors="white"
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  handleStopRecurringScan();
+                }}
+                variant="primary"
+                colors="danger"
+                disabled={loadingStopState}
+              >
+                {loadingStopState ? 'Loading' : 'Stop scans'}
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      ) : null}
     </>
   );
 };

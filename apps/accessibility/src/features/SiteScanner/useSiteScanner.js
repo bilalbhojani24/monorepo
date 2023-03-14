@@ -47,6 +47,7 @@ export default function useSiteScanner() {
           scanConfigs: [...searchedResults]
         }
       };
+      console.log(completeInfoSet, scanConfigsData);
       setScanConfigStateData(completeInfoSet);
     }
   };
@@ -56,10 +57,11 @@ export default function useSiteScanner() {
         TODO
     */
     if (e.id === 'yourScans') {
+      console.log(userInfo);
       const filteredScanConfigData = cloneDeep(scanConfigStateData);
       filteredScanConfigData.data.scanConfigs =
         filteredScanConfigData.data.scanConfigs.filter(
-          (item) => item.createdBy.id === userInfo.attributes['user-id']
+          (item) => item.createdBy.id === userInfo.user_id
         );
       setScanConfigStateData(filteredScanConfigData);
     } else {
@@ -86,6 +88,7 @@ export default function useSiteScanner() {
     handleSearchFilter,
     dataFilter,
     setIsLoading,
-    dispatch
+    dispatch,
+    userInfo
   };
 }

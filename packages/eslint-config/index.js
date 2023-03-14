@@ -68,12 +68,6 @@ module.exports = {
     {
       files: ['*.stories.jsx'],
       rules: {
-        'react/jsx-props-no-spreading': 0
-      }
-    },
-    {
-      files: ['*.stories.jsx'],
-      rules: {
         'no-console': 0
       }
     }
@@ -100,6 +94,7 @@ module.exports = {
     // This is good for accessibility
     'jsx-a11y/click-events-have-key-events': 2,
     'func-names': 0,
+    'react/jsx-props-no-spreading': 0,
     'import/no-cycle': 0,
     'import/no-extraneous-dependencies': [2, { devDependencies: true }],
     'simple-import-sort/imports': 2,

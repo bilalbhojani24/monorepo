@@ -16,23 +16,22 @@ export default function useOverview({ scanOverviewData }) {
       const severity = {
         minor: [],
         critical: [],
-        severe: [],
+        serious: [],
         moderate: []
       };
 
       const categories = [];
       for (let i = 0; i < currentRunFilter; i += 1) {
-        const item = scanOverviewData?.data?.overview?.issueHistory[i];
+        const item = currentRunFilter === 4 ? scanOverviewData?.data?.overview?.issueHistory.slice(-currentRunFilter)[i]:scanOverviewData?.data?.overview?.issueHistory[i];
         if (item) {
           severity.minor.push(item.minor);
           severity.critical.push(item.critical);
-          severity.severe.push(item.severe);
+          severity.serious.push(item.serious);
           severity.moderate.push(item.moderate);
         }
         categories.push(i + 1);
       }
       const currentStackedChartData = { ...stackedChartData };
-      console.log(categories);
       currentStackedChartData.xAxis.categories = categories;
       currentStackedChartData.xAxis.max = currentRunFilter - 1;
       currentStackedChartData.series = [
@@ -53,8 +52,8 @@ export default function useOverview({ scanOverviewData }) {
           pointWidth: 12
         },
         {
-          name: 'Severe',
-          data: severity.severe,
+          name: 'Serious',
+          data: severity.serious,
           borderWidth: 0,
           color: '#F97316',
           pointWidth: 12
@@ -71,16 +70,17 @@ export default function useOverview({ scanOverviewData }) {
     }
     if (scanOverviewData?.data?.overview?.scanStability) {
       const stability = {
-        redirects: [],
+        redirect: [],
         success: [],
         failure: []
       };
 
       const categories = [];
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
-        const item = scanOverviewData.data.overview.scanStability[i];
+        // const item = scanOverviewData.data.overview.scanStability[i];
+        const item = currentSplineRunFilter === 4 ? scanOverviewData?.data?.overview?.scanStability.slice(-currentSplineRunFilter)[i]:scanOverviewData?.data?.overview?.scanStability[i];
         if (item) {
-          stability.redirects.push(item.redirects);
+          stability.redirect.push(item.redirect);
           stability.failure.push(item.failure);
           stability.success.push(item.success);
         }
@@ -102,7 +102,7 @@ export default function useOverview({ scanOverviewData }) {
         },
         {
           name: 'Redirects',
-          data: stability.redirects,
+          data: stability.redirect,
           color: '#F59E0B'
         }
       ];

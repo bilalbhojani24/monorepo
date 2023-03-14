@@ -3,9 +3,20 @@ import { defineConfig } from 'vite';
 
 const { productViteConfig } = require('@browserstack/vite-config');
 
+console.log(productViteConfig);
 // https://vitejs.dev/config/
 export default defineConfig({
   ...productViteConfig,
+  build: {
+    ...productViteConfig.build,
+    minify: 'terser', // <-- add
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),
