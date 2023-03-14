@@ -6,25 +6,25 @@ export const initAmplitude = (config) => {
   //  amplitudeConfig: {
   //  key: string
   //  userData: object
-  //    -userId:string (optional key to be passed)
+  //    -user_id:string (optional key to be passed)
   //  groupData: object
-  //    -groupId:string (optional key to be passed)
+  //    -group_id:string (optional key to be passed)
   // }
   initialized = true;
   amplitude.getInstance().init(config.key);
 
-  if (config?.userData?.userId) {
+  if (config.userData?.user_id) {
     try {
-      amplitude.getInstance().setUserId(config.userData.userId);
+      amplitude.getInstance().setUserId(config.userData.user_id);
       amplitude.getInstance().setUserProperties(config.userData);
     } catch (error) {
       throw new Error(`Amplitude failed to setup user data ${error}`);
     }
   }
 
-  if (config?.groupData?.groupId) {
+  if (config.groupData?.group_id) {
     const amplitudeClient = amplitude.getInstance();
-    amplitudeClient.setGroup('Group', `${config.groupData.groupId}`);
+    amplitudeClient.setGroup('Group', `${config.groupData.group_id}`);
     const identify = new amplitude.Identify();
 
     Object.keys(config.groupData).forEach((configItem) => {
@@ -33,7 +33,7 @@ export const initAmplitude = (config) => {
 
     amplitudeClient.groupIdentify(
       'Group',
-      `${config.groupData.groupId}`,
+      `${config.groupData.group_id}`,
       identify
     );
   }
