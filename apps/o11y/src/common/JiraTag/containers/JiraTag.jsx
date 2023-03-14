@@ -1,29 +1,24 @@
 import React from 'react';
-import { twClassNames } from '@browserstack/utils';
 import { JiraIcon } from 'assets/icons/components';
+import TagsComponent from 'common/TagsComponent';
 import PropTypes from 'prop-types';
 
 const generatedIssueName = (url) => url.split('/').pop();
 
 function JiraTag({ jiraUrl, tagClickCb, wrapperClassName, iconOnly }) {
   const handleJiraLinkClick = () => {
+    if (!jiraUrl) return;
     window.open(jiraUrl, '_blank', 'noopener,noreferrer');
     tagClickCb();
   };
   return (
-    <button
-      className={twClassNames(
-        'border border-base-300 px-1 flex items-center rounded',
-        wrapperClassName
-      )}
-      onClick={handleJiraLinkClick}
-      type="button"
-    >
-      <JiraIcon className="h-4 w-4" />
-      <span className="text-xs font-semibold">
-        {iconOnly ? '' : generatedIssueName(jiraUrl)}
-      </span>
-    </button>
+    <TagsComponent
+      wrapperClassName={wrapperClassName}
+      tagClickCb={handleJiraLinkClick}
+      iconOnly={iconOnly}
+      text={generatedIssueName(jiraUrl)}
+      icon={<JiraIcon className="h-4 w-4" />}
+    />
   );
 }
 

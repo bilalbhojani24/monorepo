@@ -58,3 +58,14 @@ export const SNP_DATE_RANGE = {
     }
   }
 };
+
+export const TEST_STATUS = {
+  PASS: 'passed',
+  FAIL: 'failed',
+  PENDING: 'pending',
+  SKIPPED: 'skipped',
+  TIMEOUT: 'timeout',
+  FINISHED: 'finished',
+  STARTED: 'started',
+  UNKNOWN: 'unknown'
+};

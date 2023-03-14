@@ -2,13 +2,15 @@ import React from 'react';
 
 import CombinationsMenu from '../components/CombinationsMenu';
 
+import TestBuilds from './TestBuilds';
 import TestStats from './TestStats';
 
 const RunsTab = () => (
-  <div>
+  <>
     <CombinationsMenu />
     <TestStats />
-  </div>
+    <TestBuilds />
+  </>
 );
 
 export default RunsTab;

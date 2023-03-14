@@ -10,3 +10,5 @@ export const getShowSnPDetailsFor = (state) =>
 export const getSnPCbtInfo = (state) => state.shTestdetails.ui.cbtInfo;
 export const getTestDetailsActiveTab = (state) =>
   state.shTestdetails.ui.activeTab;
+export const getTestDetailsChartBounds = (state) =>
+  state.shTestdetails.ui.chartBounds;

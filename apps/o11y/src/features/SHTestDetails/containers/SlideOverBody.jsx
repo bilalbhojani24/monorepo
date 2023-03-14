@@ -34,13 +34,13 @@ const SlideOverBody = () => {
   };
 
   return (
-    <O11ySlideoverBody wrapperClassName="py-0 px-6">
+    <O11ySlideoverBody wrapperClassName="py-0 px-6 flex flex-col">
       <O11yTabs
         defaultIndex={activeTab.idx}
         tabsArray={tabsList}
         onTabChange={onTabChange}
       />
-      <div className="pt-6">
+      <div className="flex flex-1 flex-col pt-6">
         {activeTab.value === TABS.platforms && <span>Platforms component</span>}
         {activeTab.value === TABS.runs && <RunsTab />}
       </div>

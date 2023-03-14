@@ -56,11 +56,11 @@ export const logOllyEvent = ({ event, data = {} }) => {
 export const capitalize = (word, upCaseTwo = false) => {
   let result = word;
   if (result) {
-    result = word.toLowerCase();
-    if (upCaseTwo && word.length === 2) {
-      result = word.toUpperCase();
+    result = result.toLowerCase();
+    if (upCaseTwo && result.length === 2) {
+      result = result.toUpperCase();
     } else {
-      result = word.charAt(0).toUpperCase() + word.slice(1);
+      result = result.charAt(0).toUpperCase() + result.slice(1);
     }
   }
   return result;
@@ -76,13 +76,17 @@ export const getShortOSName = (os) => {
       return 'mac OS';
     case 'os x':
       return 'OS X';
+    // case 'ipados':
+    //   return 'iPadOs';
+    // case 'linux':
+    //   return 'linux';
     default:
       return capitalize(os);
   }
 };
 export const getOsIconName = (os) => {
   if (!os) {
-    return null;
+    return 'unknown';
   }
   const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
   const [osType] = formattedOS.split('-');

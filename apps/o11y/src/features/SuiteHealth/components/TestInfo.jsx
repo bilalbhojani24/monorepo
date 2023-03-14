@@ -12,10 +12,7 @@ export default function TestInfo({ testDetails }) {
         <span className="text-base-900 break-words">{testDetails?.title}</span>
         {testDetails?.jiraUrl && (
           <PropagationBlocker className="inline">
-            <JiraTag
-              jiraUrl={testDetails.jiraUrl}
-              wrapperClassName="to-snp-tests__jira-tag"
-            />
+            <JiraTag jiraUrl={testDetails.jiraUrl} />
           </PropagationBlocker>
         )}
       </div>
