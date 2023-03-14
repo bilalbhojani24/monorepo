@@ -11,6 +11,7 @@ import {
   getSnPTestFilterByKey
 } from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import PlatformRow from '../components/PlatformsRow';
 import { PLATFORM_HEADER_CELLS_MAPPING } from '../constants';
@@ -78,6 +79,14 @@ const PlatformsTab = () => {
       const searchParams = new URLSearchParams(window?.location?.search);
       dispatch(resetActiveTab());
       navigate({ search: searchParams.toString() });
+      logOllyEvent({
+        event: 'O11ySuiteHealthTestsTimelineInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction: 'filter'
+        }
+      });
     }
   };
 

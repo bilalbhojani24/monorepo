@@ -5,6 +5,7 @@ import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import BuildRow from '../components/BuildRow';
 import { BUILDS_HEADER_COLUMN_STYLE_MAPPING } from '../constants';
@@ -93,7 +94,16 @@ export default function TestBuilds() {
     }
   };
 
-  const handleRowClick = () => {};
+  const handleRowClick = () => {
+    logOllyEvent({
+      event: 'O11ySuiteHealthTestsTimelineInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'test_details_opened'
+      }
+    });
+  };
 
   if (!buildsData.builds.length) {
     return null;

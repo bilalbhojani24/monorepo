@@ -44,6 +44,7 @@ export const ICON_LIST = {
   'icon-macos': MacOSIcon,
   'icon-windows': WindowsIcon,
   'icon-winphone': WindowsPhoneIcon,
+  'icon-linux': null, // #TODO: linux icon
   'icon-amazon': AmazonIcon,
   'icon-apple': AppleIcon,
   'icon-google': GoogleIcon,

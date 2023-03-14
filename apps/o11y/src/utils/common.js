@@ -77,10 +77,8 @@ export const getShortOSName = (os) => {
       return 'mac OS';
     case 'os x':
       return 'OS X';
-    // case 'ipados':
-    //   return 'iPadOs';
-    // case 'linux':
-    //   return 'linux';
+    case 'winphone':
+      return 'WinPhone';
     default:
       return capitalize(os);
   }

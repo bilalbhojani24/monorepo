@@ -9,8 +9,9 @@ import {
   O11ySelectMenuTrigger
 } from 'common/bifrostProxy';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { capitalize, getShortOSName } from 'utils/common';
+import { capitalize, getShortOSName, logOllyEvent } from 'utils/common';
 
 import {
   setSHTestDetailsChartBounds,
@@ -28,6 +29,7 @@ const CombinationsMenu = () => {
   const testDetailsInfo = useSelector(getTestDetailsInfo);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const testId = useSelector(getShowSnPDetailsFor);
+  const activeProject = useSelector(getActiveProject);
 
   const updatedMenuOptions = useMemo(() => {
     const menuOptions = [
@@ -98,6 +100,14 @@ const CombinationsMenu = () => {
     );
     searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, testId);
     navigate({ search: searchParams.toString() });
+    logOllyEvent({
+      event: 'O11ySuiteHealthTestsTimelineInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'filter'
+      }
+    });
   };
 
   return (

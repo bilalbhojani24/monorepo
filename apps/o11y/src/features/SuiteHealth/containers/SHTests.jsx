@@ -16,7 +16,7 @@ import {
   setIsDetailsVisible,
   setShowDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
-import { getActiveProject, getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import SHTestItem from '../components/TestItem';
@@ -39,7 +39,6 @@ export default function SnPTests() {
   const mounted = useRef(null);
 
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const projects = useSelector(getProjects);
   const dispatch = useDispatch();
   const filters = useSelector(getAllSnPTestFilters);
   const tests = useSelector(getSnpTests);
@@ -57,14 +56,14 @@ export default function SnPTests() {
         project_id: activeProject.id
       }
     });
-  }, [activeProject]);
+  }, [activeProject.name, activeProject.id]);
 
   const loadMoreRows = () => {
     if (!isLoadingTests && tests.length && pagingParams?.hasNext) {
       setIsLoadingMore(true);
       dispatch(
         getSnPTestsData({
-          normalisedName: projects.active?.normalisedName,
+          normalisedName: activeProject?.normalisedName,
           pagingParams,
           sortOptions: sortBy,
           filters,
@@ -80,11 +79,11 @@ export default function SnPTests() {
 
   useEffect(() => {
     mounted.current = true;
-    if (projects.active?.normalisedName) {
+    if (activeProject?.normalisedName) {
       dispatch(setTestsLoading(true));
       dispatch(
         getSnPTestsData({
-          normalisedName: projects.active?.normalisedName,
+          normalisedName: activeProject?.normalisedName,
           sortOptions: sortBy,
           filters
         })
@@ -97,7 +96,7 @@ export default function SnPTests() {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch, filters, projects.active?.normalisedName, sortBy]);
+  }, [dispatch, filters, activeProject?.normalisedName, sortBy]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
