@@ -10,7 +10,9 @@ import {
   O11yTableHead,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -35,6 +37,10 @@ export default function AlertsSettings() {
     }
   }, [activeProject.normalisedName, dispatch]);
 
+  const handleClickAddAlert = () => {
+    dispatch(toggleModal({ version: MODAL_TYPES.add_alert }));
+  };
+
   if (data?.isLoading) {
     return (
       <SettingsCard>
@@ -56,7 +62,7 @@ export default function AlertsSettings() {
           <Initiator
             btnText="Create Alert"
             desc="Alerts allow you to define thresholds for different build criteria, such as build performance, stability, etc and monitor the overall health of your builds or projects."
-            onClick={() => {}}
+            onClick={handleClickAddAlert}
             title="Configure alerts"
             illustration={createAlertSvg}
           />
@@ -77,7 +83,7 @@ export default function AlertsSettings() {
           </div>
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
-            // onClick={onClick}
+            onClick={handleClickAddAlert}
           >
             Add alert
           </O11yButton>

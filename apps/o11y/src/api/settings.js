@@ -14,3 +14,8 @@ export const updateSettingsByKey = async (
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/${key}`,
     payload
   );
+
+export const getBuildNames = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/buildNames`
+  );

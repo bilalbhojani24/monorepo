@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
+import {
+  getBuildNames,
+  getSettingsByKey,
+  updateSettingsByKey
+} from 'api/settings';
 
 import {
   getAlertsState,
   getAutoAnalyzerSettingsState,
+  getBuildNamesState,
   getGeneralSettingsState,
   getReRunSettingsState
 } from './selectors';
@@ -135,9 +140,33 @@ export const getAlertsSettings = createAsyncThunk(
   }
 );
 
+// Build Names
+export const getBuildNamesData = createAsyncThunk(
+  `${SLICE_NAME}/getBuildNamesData`,
+  async (data, { rejectWithValue, getState }) => {
+    const currentState = getBuildNamesState(getState());
+    if (currentState.project === data.projectNormalisedName) {
+      return currentState;
+    }
+    try {
+      const response = await getBuildNames({ ...data });
+      return {
+        data: response.data || null,
+        project: data?.projectNormalisedName
+      };
+    } catch (err) {
+      return rejectWithValue({ err, data });
+    }
+  }
+);
 const { reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    buildNames: {
+      isLoading: false,
+      project: '',
+      data: []
+    },
     general: {
       isLoading: false,
       project: '',
@@ -290,6 +319,24 @@ const { reducer } = createSlice({
           isLoading: false,
           project: '',
           data: {}
+        };
+      })
+      // Build Names
+      .addCase(getBuildNamesData.pending, (state) => {
+        state.buildNames.isLoading = true;
+      })
+      .addCase(getBuildNamesData.fulfilled, (state, { payload }) => {
+        state.buildNames = {
+          ...state.buildNames,
+          ...payload,
+          isLoading: false
+        };
+      })
+      .addCase(getBuildNamesData.rejected, (state) => {
+        state.buildNames = {
+          isLoading: false,
+          project: '',
+          data: []
         };
       });
   }
