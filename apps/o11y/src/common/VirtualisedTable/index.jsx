@@ -45,7 +45,7 @@ const VirtualisedTable = ({
   fixedHeaderContent
 }) => (
   <TableVirtuoso
-    style={{ height: '-webkit-fill-available', width: '100%', ...style }}
+    style={{ height: '100%', width: '100%', ...style }}
     data={data}
     endReached={endReached}
     overscan={overscan}

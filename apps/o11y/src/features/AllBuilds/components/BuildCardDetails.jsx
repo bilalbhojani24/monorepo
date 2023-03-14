@@ -13,6 +13,7 @@ import MetaData from 'common/MetaData';
 import O11yLoader from 'common/O11yLoader';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
+import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 // PRATIK_TODO : renderStatusIcon pending color
 // TEST_STATUS.PENDING,
@@ -114,9 +115,13 @@ const BuildCardDetails = ({ data }) => {
               ))}
             </div>
             <p className="text-base-500 text-sm">
-              {/* PRATIK_TODO : handle Date */}
               Ran by <MetaData label={data.user} title="Triggered By" /> on{' '}
-              <MetaData label={data.startedAt} title="Started At" />{' '}
+              <MetaData
+                label={getCustomTimeStamp({
+                  dateString: new Date(data.startedAt)
+                })}
+                title="Started At"
+              />{' '}
               <span className="mx-2">
                 <MdCancel className="text-danger-600 inline-block" />
                 {/* PRATIK_TODO :JENKINS PHOTO MISSING */}
@@ -181,9 +186,8 @@ const BuildCardDetails = ({ data }) => {
           title="Cases Timeout"
         />
       </O11yTableCell>
-      {/* PRATIK_TODO : handle duration */}
       <O11yTableCell>
-        <MetaData label={data.duration} title="Duration" />
+        <MetaData label={milliSecondsToTime(data.duration)} title="Duration" />
       </O11yTableCell>
       <O11yTableCell>
         {/* PRATIK_TODO : tooltip width issue */}

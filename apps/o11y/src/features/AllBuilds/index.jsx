@@ -2,9 +2,9 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import EmptyPage from 'common/EmptyPage';
+import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
-
-import VirtualisedTable from '../../common/VirtualisedTable';
 
 import BuildCardDetails from './components/BuildCardDetails';
 import { getBuildsData, setBuilds } from './slices/dataSlice';
@@ -46,17 +46,17 @@ const AllBuildsPage = () => {
   }, [dispatch, projectNormalisedName]);
 
   return (
-    <>
+    <div className="flex h-full flex-col">
       <div className="border-base-300 border-b px-8 py-5">
         <h1 className="text-2xl font-bold leading-6">All builds</h1>
       </div>
 
       <div className="flex flex-1 flex-col py-6 px-8">
-        {/* PRATIK_TODO: toast style */}
         {buildsApiStatus === API_STATUSES.FAILED && (
-          <p heading="Unable to fetch data" modifier="error">
-            Something went wrong while fetching builds data
-          </p>
+          <EmptyPage
+            heading="Unable to fetch data"
+            text="Something went wrong while fetching builds data"
+          />
         )}
         {!!buildsData.length && (
           <VirtualisedTable
@@ -81,7 +81,7 @@ const AllBuildsPage = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
