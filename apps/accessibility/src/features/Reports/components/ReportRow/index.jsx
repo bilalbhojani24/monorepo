@@ -62,12 +62,13 @@ export default function ReportRow({ id }) {
       if (id.includes(testTypes.assistiveTest)) {
         params.ar_ids = ids;
       }
+      if (id.includes(testTypes.websiteScan)) {
+        params.wsr_ids = ids;
+      }
       if (window.dashboardUserID) {
         params.dashboardUserID = window.dashboardUserID;
       }
-      const path = updateUrlWithQueryParam({
-        ...params
-      });
+      const path = updateUrlWithQueryParam(params);
       navigate(`report?${path}`);
     }
   };
@@ -143,6 +144,9 @@ export default function ReportRow({ id }) {
           {issueTypes.map(({ modifier, type }) => (
             <div className="mr-2" key={type}>
               <Badge
+                // wrapperClassName={
+                //   type === 'serious' ? 'bg-danger-500 text-danger-50' : ''
+                // }
                 hasDot={false}
                 hasRemoveButton={false}
                 isRounded

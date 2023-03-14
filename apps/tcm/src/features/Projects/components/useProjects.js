@@ -74,6 +74,7 @@ const useProjects = (prop) => {
 
   const fetchProjects = () => {
     dispatch(setLoading(true));
+
     getProjectsAPI(searchParams.get('p'))
       .then((res) => {
         dispatch(setProjects(res.projects));

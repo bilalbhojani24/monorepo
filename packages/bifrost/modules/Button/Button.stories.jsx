@@ -8,6 +8,7 @@ import {
   BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
+  BUTTON_TYPES,
   BUTTON_VARIANTS
 } from './const/buttonConstants';
 import Button from './index';
@@ -75,6 +76,11 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Text displayed when button is under loading state'
+    },
+    type: {
+      options: BUTTON_TYPES,
+      control: { type: 'inline-radio' },
+      defaultValue: BUTTON_TYPES[0]
     }
   },
   controls: {}
@@ -92,5 +98,105 @@ Default.parameters = {
   size: 'primary'
 };
 
+const IconOnly = Template.bind({});
+IconOnly.parameters = {
+  size: 'primary'
+};
+
+IconOnly.args = {
+  isIconOnlyButton: true
+};
+
+const Primary = Template.bind({});
+Primary.parameters = {
+  size: 'primary'
+};
+
+Primary.args = {
+  variant: BUTTON_VARIANTS[0]
+};
+
+const Secondary = Template.bind({});
+Secondary.parameters = {
+  size: 'primary'
+};
+
+Secondary.args = {
+  variant: BUTTON_VARIANTS[1]
+};
+
+const Rounded = Template.bind({});
+Rounded.parameters = {
+  size: 'primary'
+};
+
+Rounded.args = {
+  variant: BUTTON_VARIANTS[2]
+};
+
+const Minimal = Template.bind({});
+Minimal.parameters = {
+  size: 'primary'
+};
+
+Minimal.args = {
+  variant: BUTTON_VARIANTS[3]
+};
+
+const FullWidth = Template.bind({});
+FullWidth.parameters = {
+  size: 'primary'
+};
+
+FullWidth.args = {
+  fullWidth: true
+};
+
+const LoadingWithText = Template.bind({});
+LoadingWithText.parameters = {
+  size: 'primary'
+};
+
+LoadingWithText.args = {
+  loaderText: 'Loading...',
+  loading: true
+};
+
+const LoadingWithoutText = Template.bind({});
+LoadingWithoutText.parameters = {
+  size: 'primary'
+};
+
+LoadingWithoutText.args = {
+  loading: true,
+  isIconOnlyButton: true
+};
+
+const Disabled = Template.bind({});
+Disabled.parameters = {
+  size: 'primary'
+};
+
+Disabled.args = {
+  disabled: true
+};
+
+const CustomButtonType = Template.bind({});
+CustomButtonType.args = {
+  type: 'submit'
+};
+
 export default defaultConfig;
-export { Default };
+export {
+  CustomButtonType,
+  Default,
+  Disabled,
+  FullWidth,
+  IconOnly,
+  LoadingWithoutText,
+  LoadingWithText,
+  Minimal,
+  Primary,
+  Rounded,
+  Secondary
+};

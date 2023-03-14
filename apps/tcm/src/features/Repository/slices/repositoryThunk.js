@@ -9,8 +9,8 @@ export const handleUnsavedData =
 
     if (
       isRTE &&
-      value.replace(/<[^>]*>/g, '').trim() ===
-        description.replace(/<[^>]*>/g, '').trim()
+      value?.replace(/<[^>]*>/g, '')?.trim() ===
+        description?.replace(/<[^>]*>/g, '')?.trim()
     ) {
       // something may come up here
     } else dispatch(setUnsavedDataExists(true));

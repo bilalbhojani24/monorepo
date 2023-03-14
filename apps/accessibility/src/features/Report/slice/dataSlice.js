@@ -13,11 +13,11 @@ const { actions, reducer } = createSlice({
   },
   reducers: {
     setReportData: (state, { payload }) => {
-      const { reportData, issueSummary, meta, chartData } = payload;
+      const { reportData, issueSummary, meta_v2: metaV2, chartData } = payload;
       state.reportData = reportData;
       state.reportMetaData = {
         issueSummary,
-        meta,
+        meta: metaV2,
         chartData
       };
     },
