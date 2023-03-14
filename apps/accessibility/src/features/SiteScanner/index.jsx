@@ -206,8 +206,35 @@ export default function SiteScanner() {
     }
   };
 
+  const getActionForAnalytics = (val) => {
+    switch (val) {
+      case 'newScanRun':
+        return 'Trigger an on-demand scan run';
+      case 'stopRecurringScans':
+        return 'Open stop recurring scans modal';
+      case 'cloneScanConfig':
+        return 'Clone and open new scan run slide over';
+      case 'lastScanRun':
+        return 'View latest scan run report';
+      case 'scanDetails':
+        return 'View scan details';
+      default:
+        break;
+    }
+  };
+
   const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.id;
+    logEvent(
+      ['EDS'],
+      'accessibility_dashboard_web_events',
+      'InteractedWithWSHomepage',
+      {
+        actionType: 'Scan changes',
+        action: getActionForAnalytics(menuItem),
+        recurring: rowData.recurring
+      }
+    );
     switch (menuItem) {
       case 'newScanRun':
         setIsLoading(true);
@@ -363,7 +390,17 @@ export default function SiteScanner() {
             {scanConfigStateData?.data?.scanConfigs?.map((row) => (
               <TableRow
                 key={row.id}
-                onRowClick={(e) => {
+                onRowClick={() => {
+                  logEvent(
+                    ['EDS'],
+                    'accessibility_dashboard_web_events',
+                    'InteractedWithWSHomepage',
+                    {
+                      actionType: 'Open Scan',
+                      recurring: row.recurring,
+                      scanName: row.name
+                    }
+                  );
                   navigate(`/site-scanner/scan-details/${row.id}`);
                 }}
               >

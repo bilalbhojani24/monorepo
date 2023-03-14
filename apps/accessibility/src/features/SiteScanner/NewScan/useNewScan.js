@@ -5,6 +5,7 @@ import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
+import { logEvent } from '../../../../../../packages/utils/src/logger';
 import { addZero, isValidHttpUrl } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
@@ -107,6 +108,22 @@ export default function useNewScan(closeSlideover, preConfigData) {
     return true;
   };
   const handlerCloseOver = () => {
+    logEvent(
+      ['EDS'],
+      'accessibility_dashboard_web_events',
+      'InteractedWithWSHomepage',
+      {
+        actionType: 'Scan changes',
+        action: 'Cancel Scan',
+        scanFrequency: formData.type,
+        scanType: recurringStatus,
+        scanTime: formData.time,
+        wcagVersion: formData.scanData.wcagVersion.label,
+        day: formData.day,
+        bestPractices: formData.scanData.bestPractices,
+        needsReview: formData.scanData.needsReview
+      }
+    );
     setFormData({
       scanData: {
         wcagVersion: wcagVersions[0],
@@ -231,6 +248,22 @@ export default function useNewScan(closeSlideover, preConfigData) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
+          logEvent(
+            ['EDS'],
+            'accessibility_dashboard_web_events',
+            'InteractedWithWSHomepage',
+            {
+              actionType: 'Scan changes',
+              action: 'Create Scan',
+              scanFrequency: formData.type,
+              scanType: recurringStatus,
+              scanTime: formData.time,
+              wcagVersion: formData.scanData.wcagVersion.label,
+              day: formData.day,
+              bestPractices: formData.scanData.bestPractices,
+              needsReview: formData.scanData.needsReview
+            }
+          );
 
           postNewScanConfig(payload)
             .then(() => {
@@ -240,7 +273,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
             })
             .catch((err) => console.log(err));
         } else {
-          console.log(validationError, formData);
+          // console.log(validationError, formData);
         }
         break;
       default:

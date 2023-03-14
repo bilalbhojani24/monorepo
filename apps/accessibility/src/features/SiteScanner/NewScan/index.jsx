@@ -128,7 +128,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
-  console.log(formData);
   return (
     <div>
       <Slideover
