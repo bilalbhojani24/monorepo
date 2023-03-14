@@ -60,7 +60,7 @@ const BuildInfo = ({ buildDetails }) => (
       {(buildDetails?.os?.name ||
         buildDetails?.device ||
         buildDetails?.browser?.name) && (
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {buildDetails?.os?.name && (
             <DetailIcon
               icon={`icon-${getOsIconName(buildDetails?.os.name)}`}

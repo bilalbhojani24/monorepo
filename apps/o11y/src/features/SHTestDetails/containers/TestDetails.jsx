@@ -11,7 +11,7 @@ const TestDetails = () => {
   const isVisible = useSelector(getIsSnPDetailsVisible);
 
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="4xl">
+    <O11ySlideover show={isVisible} backgroundOverlay={false} size="5xl">
       <SlideOverHeader />
       <SlideOverBody />
     </O11ySlideover>
