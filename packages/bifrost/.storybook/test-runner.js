@@ -26,7 +26,7 @@ module.exports = {
     // Write violations to file
     await new Promise((resolve, reject) => {
       fs.appendFile(
-        process.cwd() + `/accessibility_results/test_results.json`,
+        process.cwd() + `/accessibility_results/a11y_test_results.json`,
         JSON.stringify(violations, null, 2),
         (err) => {
           if (err) reject(err);
