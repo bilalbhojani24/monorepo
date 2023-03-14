@@ -39,12 +39,12 @@ const BuildCardDetails = ({ data }) => {
     if (TEST_STATUS.PASS === status)
       return <MdCheckCircle className="text-success-600 h-8 w-8 self-center" />;
     if (TEST_STATUS.UNKNOWN === status)
-      return <MdHelp className="text-base-600 h-8 w-8 self-center p-1" />;
+      return <MdHelp className="text-attention-600 h-8 w-8 self-center p-1" />;
     if (TEST_STATUS.SKIPPED === status)
       return (
         <MdRemoveCircle className="text-base-500 h-8 w-8 self-center p-1" />
       );
-    return <MdHelp className="text-base-500 h-8 w-8 self-center p-1" />;
+    return <MdHelp className="text-attention-500 h-8 w-8 self-center p-1" />;
   };
 
   const handleChartClick = () => {
