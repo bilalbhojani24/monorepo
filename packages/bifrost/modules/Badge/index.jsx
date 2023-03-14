@@ -15,7 +15,8 @@ const Badge = ({
   size,
   text,
   wrapperClassName,
-  onClick
+  onClick,
+  disabled
 }) => {
   const handleClick = (e) => {
     onClick(e);
@@ -47,7 +48,8 @@ const Badge = ({
           'rounded-full': isRounded,
           'rounded ': !isRounded,
           'pr-0.5': hasRemoveButton && size === BADGE_SIZE[0],
-          'pr-1': hasRemoveButton && size === BADGE_SIZE[1]
+          'pr-1': hasRemoveButton && size === BADGE_SIZE[1],
+          'cursor-not-allowed': disabled
         },
         wrapperClassName
       )}
@@ -76,6 +78,7 @@ const Badge = ({
             onClose(e);
           }}
           type="button"
+          disabled={disabled}
           className={twClassNames(
             'ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus:text-white focus:outline-none',
             {
@@ -90,7 +93,8 @@ const Badge = ({
               'hover:bg-attention-200 hover:text-attention-500 focus:bg-attention-500 text-attention-400':
                 modifier === BADGE_MODIFIER[4],
               'hover:bg-info-200 hover:text-info-500 focus:bg-info-500 text-info-400':
-                modifier === BADGE_MODIFIER[5]
+                modifier === BADGE_MODIFIER[5],
+              'cursor-not-allowed': disabled
             }
           )}
         >
@@ -122,7 +126,8 @@ Badge.propTypes = {
   size: PropTypes.string,
   text: PropTypes.string,
   wrapperClassName: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 Badge.defaultProps = {
@@ -134,7 +139,8 @@ Badge.defaultProps = {
   size: BADGE_SIZE[0],
   text: '',
   wrapperClassName: '',
-  onClick: () => {}
+  onClick: () => {},
+  disabled: false
 };
 
 export default Badge;
