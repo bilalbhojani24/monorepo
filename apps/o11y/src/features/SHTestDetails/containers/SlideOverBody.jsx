@@ -6,6 +6,7 @@ import { TABS } from '../constants';
 import { setSHTestDetailsActiveTab } from '../slices/dataSlice';
 import { getTestDetailsActiveTab } from '../slices/selectors';
 
+import PlatformsTab from './PlatformsTab';
 import RunsTab from './RunsTab';
 
 const tabsList = Object.keys(TABS).map((key) => ({
@@ -41,7 +42,7 @@ const SlideOverBody = () => {
         onTabChange={onTabChange}
       />
       <div className="flex flex-1 flex-col pt-6">
-        {activeTab.value === TABS.platforms && <span>Platforms component</span>}
+        {activeTab.value === TABS.platforms && <PlatformsTab />}
         {activeTab.value === TABS.runs && <RunsTab />}
       </div>
     </O11ySlideoverBody>

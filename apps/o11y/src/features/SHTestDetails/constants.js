@@ -28,3 +28,29 @@ export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
     defaultClass: 'py-3'
   }
 };
+
+export const PLATFORM_HEADER_LABEL_MAPPING = {
+  platforms_combinations: 'Platforms combinations',
+  totalFailures: 'Failure Count',
+  reliability: 'Failure Rate',
+  average: 'Avg. Duration'
+};
+
+export const PLATFORM_HEADER_CELLS_MAPPING = {
+  [PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations]: {
+    name: PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations,
+    defaultClass: 'w-[500px] whitespace-normal py-3'
+  },
+  [PLATFORM_HEADER_LABEL_MAPPING.totalFailures]: {
+    name: PLATFORM_HEADER_LABEL_MAPPING.totalFailures,
+    defaultClass: 'py-3'
+  },
+  [PLATFORM_HEADER_LABEL_MAPPING.reliability]: {
+    name: PLATFORM_HEADER_LABEL_MAPPING.reliability,
+    defaultClass: 'py-3'
+  },
+  [PLATFORM_HEADER_LABEL_MAPPING.average]: {
+    name: PLATFORM_HEADER_LABEL_MAPPING.average,
+    defaultClass: 'py-3'
+  }
+};
