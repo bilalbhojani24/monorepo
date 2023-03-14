@@ -78,7 +78,8 @@ const initialState = {
   testCaseDetails: {
     folderId: null,
     testCaseId: null
-  }
+  },
+  currentEditedTestCaseData: null
 };
 
 export const repositorySlice = createSlice({
@@ -113,6 +114,9 @@ export const repositorySlice = createSlice({
       state.allTestCases = state.allTestCases.map((item) =>
         item.id === payload.id ? payload : item
       );
+    },
+    setCurrentEditedTestCaseData: (state, { payload }) => {
+      state.currentEditedTestCaseData = payload;
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
@@ -270,6 +274,7 @@ export const {
   setMetaPage,
   setFilterSearchView,
   updateLoader,
+  setCurrentEditedTestCaseData,
   setAddTestCaseFromSearch
 } = repositorySlice.actions;
 

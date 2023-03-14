@@ -5,6 +5,7 @@ import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import { setSelectedProject } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
 import {
@@ -59,7 +60,7 @@ const Import = () => {
 
   useEffect(() => {
     dispatch(setNotificationData(null));
-
+    dispatch(logEventHelper('TM_QiPageLoaded', {}));
     return () => {
       dispatch(resetQuickImport());
     };

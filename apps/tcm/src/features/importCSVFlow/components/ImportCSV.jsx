@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TMPageHeadings } from 'common/bifrostProxy';
 import { setSelectedProject } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   IMPORT_CSV_STEPS,
@@ -42,6 +43,11 @@ const ImportCSV = () => {
 
   useEffect(() => {
     dispatch(setCSVConfigurations());
+    dispatch(
+      logEventHelper('TM_ImportCsvPageLoaded', {
+        project_id: projectId
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
