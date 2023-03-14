@@ -63,7 +63,7 @@ export default function useReport() {
     Promise.all([
       fetchCustomData(),
       fetchReport(
-        { ids: reportIDList, arList: arReportIDList },
+        { ids: reportIDList, arList: arReportIDList, websiteScanList },
         window.dashboardUserID
       )
     ]).then(([customData, reportData]) => {

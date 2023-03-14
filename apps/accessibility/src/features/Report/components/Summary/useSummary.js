@@ -118,7 +118,7 @@ export default function useSummary() {
     },
     plotOptions: {
       pie: {
-        innerSize: '60%',
+        innerSize: '70%',
         allowPointSelect: true,
         cursor: 'pointer',
         dataLabels: {

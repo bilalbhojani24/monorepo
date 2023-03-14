@@ -1,4 +1,5 @@
 import { logEvent } from '@browserstack/utils';
+import { TEST_STATUS } from 'constants/common';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -51,4 +52,42 @@ export const logOllyEvent = ({ event, data = {} }) => {
         : window.location.hostname
   };
   logEvent([], 'web_events', event, { ...commonData, ...data });
+};
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
+  if (!buildStatus || buildStatus === TEST_STATUS.STARTED) {
+    return TEST_STATUS.PENDING;
+  }
+  if (buildStatus === TEST_STATUS.TIMEOUT) {
+    if (statusAgg.failed) {
+      return TEST_STATUS.FAIL;
+    }
+    if (statusAgg.timeout) {
+      return TEST_STATUS.UNKNOWN;
+    }
+    if (statusAgg.passed) {
+      return TEST_STATUS.PASS;
+    }
+    if (statusAgg.skipped) {
+      return TEST_STATUS.SKIPPED;
+    }
+    return TEST_STATUS.UNKNOWN;
+  }
+  if (buildStatus === TEST_STATUS.FINISHED) {
+    if (statusAgg.failed) {
+      return TEST_STATUS.FAIL;
+    }
+    if (statusAgg.passed) {
+      return TEST_STATUS.PASS;
+    }
+    if (statusAgg.skipped) {
+      return TEST_STATUS.SKIPPED;
+    }
+    if (statusAgg.timeout) {
+      return TEST_STATUS.UNKNOWN;
+    }
+    return TEST_STATUS.SKIPPED;
+  }
+  return TEST_STATUS.UNKNOWN;
 };
