@@ -39,7 +39,8 @@ const HeaderElements = ({
   beamerOverlayTopProperty,
   headerElementArray,
   planButtonVisible,
-  isFreeUser
+  isFreeUser,
+  onSignoutClick
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -370,6 +371,9 @@ const HeaderElements = ({
           <Hyperlink
             wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
             href="https://www.browserstack.com/users/sign_out"
+            onClick={(e) => {
+              onSignoutClick?.(e);
+            }}
           >
             <p
               className={twClassNames(
@@ -580,7 +584,8 @@ HeaderElements.propTypes = {
   showTestInsights: PropTypes.bool,
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
   planButtonVisible: PropTypes.bool,
-  isFreeUser: PropTypes.bool
+  isFreeUser: PropTypes.bool,
+  onSignoutClick: PropTypes.func
 };
 HeaderElements.defaultProps = {
   documentation: null,
@@ -593,7 +598,8 @@ HeaderElements.defaultProps = {
   showTestInsights: true,
   headerElementArray: [],
   planButtonVisible: true,
-  isFreeUser: true
+  isFreeUser: true,
+  onSignoutClick: null
 };
 
 export default HeaderElements;
