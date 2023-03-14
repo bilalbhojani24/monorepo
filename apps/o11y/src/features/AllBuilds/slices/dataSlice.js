@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuilds } from 'api/builds';
-
-import { API_STATUSES } from '../../../constants/common';
+import { API_STATUSES } from 'constants/common';
 
 export const getBuildsData = createAsyncThunk(
   'buildsList/getBuilds',

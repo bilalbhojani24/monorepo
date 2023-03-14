@@ -2,6 +2,7 @@
 import React from 'react';
 // import { twClassNames } from '@browserstack/utils';
 import {
+  MdAllInclusive,
   MdCancel,
   MdCheckCircle,
   MdHelp,
@@ -15,13 +16,6 @@ import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
-// PRATIK_TODO : renderStatusIcon pending color
-// TEST_STATUS.PENDING,
-// TEST_STATUS.SKIPPED,
-// TEST_STATUS.default,
-
-// PRATIK_TODO: update links
-
 const aggregateColors = {
   'Automation Bug': '#8D51C2', // purple
   'Environment Issue': '#DBBD29', // yellow
@@ -33,23 +27,24 @@ const aggregateColors = {
 const BuildCardDetails = ({ data }) => {
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
-    if (TEST_STATUS.PENDING === status)
-      return <MdHelp className="text-base-600 h-8 w-8 self-center p-1" />;
-    if (TEST_STATUS.FAIL === status)
-      return <MdCancel className="text-danger-600 h-8 w-8 self-center" />;
-    if (TEST_STATUS.PASS === status)
-      return <MdCheckCircle className="text-success-600 h-8 w-8 self-center" />;
-    if (TEST_STATUS.UNKNOWN === status)
+    if (TEST_STATUS.PENDING === status) {
       return (
         <div className="h-8 w-8">
           <O11yLoader loaderClass="text-base-600 h-8 w-8 self-center p-1" />
         </div>
       );
+    }
+    if (TEST_STATUS.FAIL === status)
+      return <MdCancel className="text-danger-600 h-8 w-8 self-center" />;
+    if (TEST_STATUS.PASS === status)
+      return <MdCheckCircle className="text-success-600 h-8 w-8 self-center" />;
+    if (TEST_STATUS.UNKNOWN === status)
+      return <MdHelp className="text-base-600 h-8 w-8 self-center p-1" />;
     if (TEST_STATUS.SKIPPED === status)
       return (
-        <MdRemoveCircle className="text-base-600 h-8 w-8 self-center p-1" />
+        <MdRemoveCircle className="text-base-500 h-8 w-8 self-center p-1" />
       );
-    return <MdHelp className="text-base-600 h-8 w-8 self-center p-1" />;
+    return <MdHelp className="text-base-500 h-8 w-8 self-center p-1" />;
   };
 
   const handleChartClick = () => {
@@ -123,8 +118,7 @@ const BuildCardDetails = ({ data }) => {
                 title="Started At"
               />{' '}
               <span className="mx-2">
-                <MdCancel className="text-danger-600 inline-block" />
-                {/* PRATIK_TODO :JENKINS PHOTO MISSING */}
+                <MdAllInclusive className="text-base-600 inline-block" />
               </span>
               <a target="_new" href={data.versionControlInfo.url}>
                 <MetaData
@@ -190,7 +184,6 @@ const BuildCardDetails = ({ data }) => {
         <MetaData label={milliSecondsToTime(data.duration)} title="Duration" />
       </O11yTableCell>
       <O11yTableCell>
-        {/* PRATIK_TODO : tooltip width issue */}
         <div className="flex overflow-hidden rounded-xl">
           {Object.keys(data.issueTypeAggregate).map((item) =>
             data.issueTypeAggregate[item] ? (
