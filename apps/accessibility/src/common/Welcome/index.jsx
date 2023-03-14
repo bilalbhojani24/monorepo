@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdCheckCircle } from '@browserstack/bifrost';
 import { getStorage, setStorage } from '@browserstack/utils';
+import fetchReports from 'api/fetchReports';
 
 export default function Welcome() {
   const isReloaded = getStorage('reloaded');
+  const [reportList, setReportList] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (!isReloaded) {
-      window.location.reload();
-      setStorage('reloaded', true);
-    }
-  }, []);
+    fetchReports(window.dashboardUserID).then((response) => {
+      setReportList(
+          response.map((report) => ({
+            ...report,
+            isSelected: false
+          }))
+        )
+    });
+  }, [dispatch]);
 
   return (
-    isReloaded && (
-      <div className="bg-base-50 flex h-screen w-screen items-center justify-center">
+      reportList && <div className="bg-base-50 flex h-screen w-screen items-center justify-center">
         <div className="w-1/2 bg-white shadow">
           <div className="border-base-200 flex items-center justify-center border-b py-6">
             <img
@@ -31,6 +38,5 @@ export default function Welcome() {
           </div>
         </div>
       </div>
-    )
   );
 }

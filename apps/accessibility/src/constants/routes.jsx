@@ -24,7 +24,7 @@ export const APP_ROUTES = [
   {
     path: ROUTES.welcome,
     isProtected: true,
-    component: Layout(Welcome)
+    component: <Welcome />
   },
   {
     path: ROUTES.reports,
