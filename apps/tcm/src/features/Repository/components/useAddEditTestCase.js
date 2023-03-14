@@ -28,17 +28,17 @@ import {
   setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
   setAllFolders,
+  setCurrentEditedTestCaseData,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
-  // setUnsavedDataExists,
+  setUnsavedDataExists,
   updateBulkTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
   updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
-import { handleUnsavedData } from '../slices/repositoryThunk';
 
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
@@ -108,6 +108,9 @@ export default function useAddEditTestCase(prop) {
 
   const usersArray = useSelector((state) => state.repository.usersArray);
 
+  const currentEditedTestCaseData = useSelector(
+    (state) => state.repository.currentEditedTestCaseData
+  );
   const hideTestCaseAddEditPage = (e, isForced) => {
     isOkToExitForm(isForced);
   };
@@ -118,8 +121,28 @@ export default function useAddEditTestCase(prop) {
     dispatch(setAddIssuesModal(true));
   };
 
-  const handleTestCaseFieldChange = (key, value, isRTE) => {
-    if (!isUnsavedDataExists) dispatch(handleUnsavedData({ value, isRTE }));
+  const beforeEditingIsEqualAfterEditing = (beforeEditing, afterEditing) => {
+    const allKeys = Object.keys(beforeEditing);
+
+    for (let i = 0; i < allKeys.length; i += 1) {
+      if (beforeEditing[allKeys[i]] !== afterEditing[allKeys[i]]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleTestCaseFieldChange = (key, value) => {
+    if (
+      !beforeEditingIsEqualAfterEditing(
+        currentEditedTestCaseData,
+        testCaseFormData
+      ) &&
+      !isUnsavedDataExists
+    ) {
+      dispatch(setUnsavedDataExists(true));
+    }
+
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -168,6 +191,7 @@ export default function useAddEditTestCase(prop) {
         testCaseId: selectedTestCase.id
       }).then((data) => {
         const formattedData = formDataRetriever(data?.data?.test_case);
+        dispatch(setCurrentEditedTestCaseData(formattedData));
         dispatch(setTestCaseFormData(formattedData));
         if (formattedData.issues)
           dispatch(setIssuesArray(formattedData.issues));

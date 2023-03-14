@@ -160,9 +160,7 @@ const AddEditTestCase = () => {
             value={testCaseFormData?.description}
             height={160}
             placeholder="Write in brief about this test case"
-            onChange={(val) =>
-              handleTestCaseFieldChange('description', val, true)
-            }
+            onChange={(val) => handleTestCaseFieldChange('description', val)}
             projectId={projectId}
           />
         </div>
@@ -176,9 +174,7 @@ const AddEditTestCase = () => {
                   placeholder="Steps for the test"
                   value={testCaseFormData?.steps?.[0]}
                   height={160}
-                  onChange={(val) =>
-                    handleTestCaseFieldChange('steps', [val], true)
-                  }
+                  onChange={(val) => handleTestCaseFieldChange('steps', [val])}
                   projectId={projectId}
                 />
               </div>
@@ -190,7 +186,7 @@ const AddEditTestCase = () => {
                   value={testCaseFormData?.expected_result}
                   height={160}
                   onChange={(val) =>
-                    handleTestCaseFieldChange('expected_result', val, true)
+                    handleTestCaseFieldChange('expected_result', val)
                   }
                   projectId={projectId}
                 />
@@ -304,7 +300,7 @@ const AddEditTestCase = () => {
                 value={testCaseFormData?.preconditions}
                 height={160}
                 onChange={(val) =>
-                  handleTestCaseFieldChange('preconditions', val, true)
+                  handleTestCaseFieldChange('preconditions', val)
                 }
                 projectId={projectId}
               />
