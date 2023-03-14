@@ -32,6 +32,9 @@ export const defaultPath = () => {
   if (link.includes('/screen-reader')) {
     return 'screen-reader';
   }
+  if (link.includes('/site-scanner')) {
+    return 'site-scanner';
+  }
   return 'report-listing';
 };
 
@@ -51,13 +54,13 @@ export const getCurrentEnv = () => {
 
 export const getEnvUrl = () => {
   const env = getCurrentEnv();
-  let baseURL = 'https://accessibility-beta.browserstack.com/api';
+  let baseURL = 'https://accessibility.browserstack.com/api';
   if (env === ENVS.LOCAL) {
     baseURL = 'https://accessibility.bsstag.com/api';
   } else if (env === ENVS.STAGING) {
     baseURL = 'https://accessibility.bsstag.com/api';
   } else if (env === ENVS.PRODUCTION) {
-    baseURL = 'https://accessibility-beta.browserstack.com/api';
+    baseURL = 'https://accessibility.browserstack.com/api';
   }
   return baseURL;
 };

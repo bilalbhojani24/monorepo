@@ -51,13 +51,19 @@ export default function useReport() {
   useEffect(() => {
     const reportIDList = params.get('ids')?.split(',');
     const arReportIDList = params.get('ar_ids')?.split(',');
+    const websiteScanList = params.get('wsr_ids')?.split(',');
+    const idLength = reportIDList?.length || 0;
+    const arReportIDLength = arReportIDList?.length || 0;
+    const websiteScanIDLength = websiteScanList?.length || 0;
     const isConsolidated =
-      reportIDList?.length > 1 || arReportIDList?.length > 1;
+      reportIDList?.length > 1 ||
+      arReportIDList?.length > 1 ||
+      websiteScanList?.length > 1;
     setIsLoading(true);
     Promise.all([
       fetchCustomData(),
       fetchReport(
-        { ids: reportIDList, arList: arReportIDList },
+        { ids: reportIDList, arList: arReportIDList, websiteScanList },
         window.dashboardUserID
       )
     ]).then(([customData, reportData]) => {
@@ -70,7 +76,8 @@ export default function useReport() {
         componentCount: reportData.issueSummary.componentCount
       };
       if (isConsolidated) {
-        dataObject.reportCount = reportIDList.length;
+        dataObject.reportCount =
+          idLength + arReportIDLength + websiteScanIDLength;
       }
       logEvent('OnADReportView', dataObject);
       setIsLoading(false);
