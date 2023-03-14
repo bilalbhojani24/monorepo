@@ -126,6 +126,14 @@ export default function useAddEditTestCase(prop) {
 
     for (let i = 0; i < allKeys.length; i += 1) {
       if (beforeEditing[allKeys[i]] !== afterEditing[allKeys[i]]) {
+        console.log(
+          'inside',
+          allKeys[i],
+          '------------------------',
+          beforeEditing[allKeys[i]],
+          '-------------------------',
+          afterEditing[allKeys[i]]
+        );
         return false;
       }
     }
