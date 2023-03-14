@@ -60,6 +60,7 @@ export const O11yTableHead = (props) => <TableHead {...props} />;
 export const O11yTableRow = (props) => <TableRow {...props} />;
 export const O11yHyperlink = (props) => <Hyperlink {...props} />;
 export const O11yEmptyState = (props) => <EmptyState {...props} />;
+export const O11yTooltip = (props) => <Tooltip {...props} />;
 
 export const O11yTabs = (props) => <Tabs {...props} />;
 
@@ -88,7 +89,5 @@ export const O11ySelectMenuOptionGroup = (props) => (
 export const O11ySelectMenuOptionItem = (props) => (
   <SelectMenuOptionItem {...props} />
 );
-
-export const O11yTooltip = (props) => <Tooltip {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

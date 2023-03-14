@@ -4,6 +4,8 @@ import {
   Button,
   InputField,
   MdClose,
+  MdKeyboardArrowDown,
+  MdOpenInNew,
   MdOutlineArrowForward,
   MdSearch,
   Modal,
@@ -16,7 +18,7 @@ import {
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
-import { reportPerPage, reportType } from 'constants';
+import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
 
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
@@ -54,10 +56,9 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(
-        ({ name, createdBy: { name: userName } }) =>
-          name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
+        // name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        userName.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
@@ -68,18 +69,18 @@ export default function Reports() {
 
   return (
     <div className="bg-base-50">
-      <Modal show={isOpen} size="lg" onOverlayClick={onCloseClick}>
+      <Modal show={isOpen} size="lg">
         <ModalBody>
           <div className="mb-5 mt-6 flex w-full items-center justify-center">
             <img src={Logo} alt="extension-images" className="h-12 w-12" />
           </div>
           <p className="text-base-900 mb-2 text-center text-lg font-medium">
-            Welcome to Accessibility
+            Welcome to BrowserStack Accessibility!
           </p>
           <p className="text-base-500 mb-2 text-center text-sm">
-            To get started with Accessibility testing, download our browser
-            extension to scan your workflows and automatically find issues
-            across different pages.
+            To get started, download our browser extension and automatically
+            find basic issues with our Workflow scanner or find advanced issues
+            using our Assisted tests and Screen readers.
           </p>
         </ModalBody>
         <ModalFooter position="center">
@@ -91,11 +92,10 @@ export default function Reports() {
             I’ll do it later
           </Button>
           <Button
+            iconPlacement="end"
+            icon={<MdOpenInNew />}
             onClick={() => {
-              window.open(
-                window.accessibilityExtensionChromeStoreURL,
-                '_target'
-              );
+              window.open(CHROME_EXTENSION_URL, '_target');
               handleClose({ action: 'download-extension' });
             }}
             fullWidth
@@ -109,10 +109,9 @@ export default function Reports() {
         style={{ width: 'calc(100vw - 256px)' }}
       >
         {isShowingBanner ? (
-          <div className="fixed inset-x-0 top-0 z-10">
+          <div className="flex justify-between fixed inset-x-0 top-0 z-10">
             <Banner
-              description="Download the Accessibility Toolkit extension from Chrome Web Store
-          to scan your workflows for accessibility issues."
+              description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
               isDismissButton
               bannerIcon={
                 <img
@@ -127,8 +126,10 @@ export default function Reports() {
                   onClick={onDownloadExtensionClick}
                   size="small"
                   colors="white"
+                  icon={<MdOpenInNew />}
+                  iconPlacement="end"
                 >
-                  Download now
+                  Download extension
                 </Button>
               }
               onDismissClick={onCloseClick}
@@ -147,7 +148,7 @@ export default function Reports() {
                 <InputField
                   id="search-report"
                   leadingIcon={<MdSearch />}
-                  placeholder="Search for name or error..."
+                  placeholder="Search for report name or user..."
                   onChange={onInputValueChange}
                 />
               </div>
@@ -157,7 +158,10 @@ export default function Reports() {
                   value={selectedReportType}
                   isMulti
                 >
-                  <SelectMenuTrigger placeholder="Type" />
+                  <SelectMenuTrigger
+                    placeholder="Type"
+                    triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
+                  />
                   <SelectMenuOptionGroup>
                     {reportType.map((item) => (
                       <SelectMenuOptionItem
@@ -182,7 +186,6 @@ export default function Reports() {
                 </Button>
               )}
               <Button
-                variant="primary"
                 iconPlacement="end"
                 icon={<MdOutlineArrowForward className="text-xl" />}
                 onClick={onReportConsolidateButtonClick}

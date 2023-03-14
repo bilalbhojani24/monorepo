@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
+import buildsReducer from 'features/AllBuilds/slices/dataSlice';
 import settingsReducer from 'features/Settings/slices/settingsSlice';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
@@ -18,6 +19,7 @@ export const store = configureStore({
     shErrordetails: shErrorDetailsReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
+    buildsData: buildsReducer,
     modalToShow
   },
   middleware: (getDefaultMiddleware) => {

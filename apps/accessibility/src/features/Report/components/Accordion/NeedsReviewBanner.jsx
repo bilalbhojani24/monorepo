@@ -25,6 +25,9 @@ function NodeIssueNavigator({
   const isNextDisabled = currentItemIndex === totalItems - 1;
   const isPreviousDisabled = currentItemIndex === 0;
 
+  const params = new URLSearchParams(window.location.search);
+  const wsrIds = params.get('wsr_ids');
+
   const handlePreviousClick = () => {
     if (!isPreviousDisabled) setCurrentItemIndex((prev) => prev - 1);
   };
@@ -90,11 +93,11 @@ function NodeIssueNavigator({
         );
       }
 
-      return (
+      return !wsrIds ? (
         <p className="text-attention-700 ml-5 pl-2 text-sm">
           Reports can be reviewed on the extension by the report author
         </p>
-      );
+      ) : null;
     }
     if (isConfirmedInAllReports) {
       return (

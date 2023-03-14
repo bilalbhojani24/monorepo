@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
+import AllBuilds from 'features/AllBuilds';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import Settings from 'features/Settings/containers/Settings';
@@ -79,9 +80,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.builds,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <AllBuilds />
       },
       {
         path: ROUTES.suite_health,

@@ -144,6 +144,9 @@ export default function ReportRow({ id }) {
           {issueTypes.map(({ modifier, type }) => (
             <div className="mr-2" key={type}>
               <Badge
+                // wrapperClassName={
+                //   type === 'serious' ? 'bg-danger-500 text-danger-50' : ''
+                // }
                 hasDot={false}
                 hasRemoveButton={false}
                 isRounded
