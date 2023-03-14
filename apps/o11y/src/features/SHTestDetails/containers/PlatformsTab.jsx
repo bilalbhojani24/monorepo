@@ -11,41 +11,11 @@ import {
   getSnPTestFilterByKey
 } from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import PropTypes from 'prop-types';
 
 import PlatformRow from '../components/PlatformsRow';
 import { PLATFORM_HEADER_CELLS_MAPPING } from '../constants';
 import { resetActiveTab, setSnPCbtInfo } from '../slices/dataSlice';
 import { getShowSnPDetailsFor } from '../slices/selectors';
-
-const TableRow = (props) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const handleClickItem = (event) => {
-    const { index } = event.currentTarget.dataset;
-    const activeRow = props.data?.[index];
-    if (activeRow) {
-      dispatch(
-        setSnPCbtInfo({
-          osName: activeRow?.os?.name || '',
-          osVersion: activeRow?.os?.version || '',
-          browserName: activeRow?.browser?.name || '',
-          browserVersion: activeRow?.browser?.version || '',
-          deviceName: activeRow?.browser?.device || ''
-        })
-      );
-      const searchParams = new URLSearchParams(window?.location?.search);
-      dispatch(resetActiveTab());
-      navigate({ search: searchParams.toString() });
-    }
-  };
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <O11yTableRow {...props} hover onRowClick={handleClickItem} />;
-};
-
-TableRow.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired
-};
 
 const PlatformsTab = () => {
   const testId = useSelector(getShowSnPDetailsFor);
@@ -59,6 +29,7 @@ const PlatformsTab = () => {
   const activeProject = useSelector(getActiveProject);
   const [breakDownData, setBreakDownData] = useState([]);
   const [isLoadingBD, setIsLoadingBD] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     mounted.current = true;
@@ -92,6 +63,24 @@ const PlatformsTab = () => {
     testId
   ]);
 
+  const handleClickItem = (currentIndex) => {
+    const activeRow = breakDownData?.[currentIndex];
+    if (activeRow) {
+      dispatch(
+        setSnPCbtInfo({
+          osName: activeRow?.os?.name || '',
+          osVersion: activeRow?.os?.version || '',
+          browserName: activeRow?.browser?.name || '',
+          browserVersion: activeRow?.browser?.version || '',
+          deviceName: activeRow?.browser?.device || ''
+        })
+      );
+      const searchParams = new URLSearchParams(window?.location?.search);
+      dispatch(resetActiveTab());
+      navigate({ search: searchParams.toString() });
+    }
+  };
+
   return (
     <div className={twClassNames('flex-1')}>
       {isLoadingBD ? (
@@ -104,7 +93,7 @@ const PlatformsTab = () => {
           style={{ height: '100%' }}
           data={breakDownData}
           fixedHeaderContent={() => (
-            <TableRow>
+            <O11yTableRow>
               {Object.keys(PLATFORM_HEADER_CELLS_MAPPING).map((key) => (
                 <O11yTableCell
                   key={key}
@@ -117,18 +106,12 @@ const PlatformsTab = () => {
                   </div>
                 </O11yTableCell>
               ))}
-            </TableRow>
+            </O11yTableRow>
           )}
           itemContent={(index, buildData) => (
             <PlatformRow buildData={buildData} />
           )}
-          TableRow={(props) => (
-            <TableRow
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...props}
-              data={breakDownData}
-            />
-          )}
+          handleRowClick={handleClickItem}
           showFixedFooter={false}
         />
       )}

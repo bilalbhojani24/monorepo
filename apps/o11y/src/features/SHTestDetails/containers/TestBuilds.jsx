@@ -15,9 +15,6 @@ import {
   getTestDetailsChartBounds
 } from '../slices/selectors';
 
-// eslint-disable-next-line react/jsx-props-no-spreading
-const TableRow = (props) => <O11yTableRow {...props} hover />;
-
 export default function TestBuilds() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
@@ -96,6 +93,8 @@ export default function TestBuilds() {
     }
   };
 
+  const handleRowClick = () => {};
+
   if (!buildsData.builds.length) {
     return null;
   }
@@ -113,7 +112,7 @@ export default function TestBuilds() {
           data={buildsData.builds}
           endReached={loadMore}
           fixedHeaderContent={() => (
-            <TableRow>
+            <O11yTableRow>
               {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
                 <O11yTableCell
                   key={key}
@@ -126,11 +125,11 @@ export default function TestBuilds() {
                   </div>
                 </O11yTableCell>
               ))}
-            </TableRow>
+            </O11yTableRow>
           )}
           itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
-          TableRow={TableRow}
           showFixedFooter={isLoadingMore}
+          handleRowClick={handleRowClick}
         />
       )}
     </div>

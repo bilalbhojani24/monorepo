@@ -35,37 +35,6 @@ import {
   getSnpTestsSortBy
 } from '../slices/selectors';
 
-const TableRow = (props) => {
-  const dispatch = useDispatch();
-  const tests = useSelector(getSnpTests);
-  const navigate = useNavigate();
-
-  const handleClickTestItem = (event) => {
-    const { index } = event.currentTarget.dataset;
-    const activeRow = tests?.[index];
-    if (activeRow) {
-      dispatch(
-        setSnPCbtInfo({
-          osName: '',
-          osVersion: '',
-          browserName: '',
-          browserVersion: '',
-          deviceName: ''
-        })
-      );
-      dispatch(setIsDetailsVisible(false));
-      dispatch(setShowSnPDetailsFor(activeRow.id));
-      dispatch(setIsSnPDetailsVisible(true));
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.delete('details');
-      searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
-      navigate({ search: searchParams.toString() });
-    }
-  };
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <O11yTableRow {...props} hover onRowClick={handleClickTestItem} />;
-};
-
 export default function SnPTests() {
   const mounted = useRef(null);
 
@@ -78,6 +47,7 @@ export default function SnPTests() {
   const pagingParams = useSelector(getSnpTestsPaging);
   const sortBy = useSelector(getSnpTestsSortBy);
   const activeProject = useSelector(getActiveProject);
+  const navigate = useNavigate();
 
   useEffect(() => {
     logOllyEvent({
@@ -173,6 +143,28 @@ export default function SnPTests() {
     dispatch(setTestsSortBy(updatedData));
   };
 
+  const handleClickTestItem = (currentIndex) => {
+    const activeRow = tests?.[currentIndex];
+    if (activeRow) {
+      dispatch(
+        setSnPCbtInfo({
+          osName: '',
+          osVersion: '',
+          browserName: '',
+          browserVersion: '',
+          deviceName: ''
+        })
+      );
+      dispatch(setIsDetailsVisible(false));
+      dispatch(setShowSnPDetailsFor(activeRow.id));
+      dispatch(setIsSnPDetailsVisible(true));
+      const searchParams = new URLSearchParams(window?.location?.search);
+      searchParams.delete('details');
+      searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
+      navigate({ search: searchParams.toString() });
+    }
+  };
+
   return (
     <div className={twClassNames('h-full')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
@@ -187,7 +179,7 @@ export default function SnPTests() {
           data={tests}
           endReached={loadMoreRows}
           fixedHeaderContent={() => (
-            <TableRow>
+            <O11yTableRow>
               {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map((key, idx) => {
                 if (idx > 1) {
                   return (
@@ -234,13 +226,13 @@ export default function SnPTests() {
                   </O11yTableCell>
                 );
               })}
-            </TableRow>
+            </O11yTableRow>
           )}
           itemContent={(index, testData) => (
             <SHTestItem key={testData.id} testDetails={testData} />
           )}
-          TableRow={TableRow}
           showFixedFooter={isLoadingMore}
+          handleRowClick={handleClickTestItem}
         />
       )}
     </div>
