@@ -30,16 +30,16 @@ export function getCustomTimeStamp({
   withoutTZ = false,
   withoutTime
 }) {
-  const dateObj = new Date(dateString);
-  const timeZone = extractTimezoneAbbr(dateObj);
+  const dateObject = new Date(dateString);
+  const timeZone = extractTimezoneAbbr(dateObject);
   if (withoutTime) {
-    const formattedDate = format(dateObj, 'MMM dd, yyyy');
+    const formattedDate = format(dateObject, 'MMM dd, yyyy');
     const returnDate = timeZone
       ? `${formattedDate} ( ${timeZone} )`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
-  const formattedDate = format(dateObj, 'MMM dd, yyyy | h:mm:ss a');
+  const formattedDate = format(dateObject, 'MMM dd, yyyy | h:mm:ss a');
   const returnDate = timeZone
     ? `${formattedDate} ( ${timeZone} )`
     : formattedDate;
