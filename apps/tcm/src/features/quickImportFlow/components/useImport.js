@@ -298,6 +298,11 @@ const useImport = () => {
   };
 
   const setTestManagementTool = (tool) => {
+    dispatch(
+      logEventHelper('TM_QiToolSelected', {
+        tool_selected: tool
+      })
+    );
     dispatch(setCurrentTestManagementTool(tool));
   };
 
