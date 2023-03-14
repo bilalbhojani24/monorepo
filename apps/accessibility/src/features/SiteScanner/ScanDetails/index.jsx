@@ -68,10 +68,13 @@ const ScanDetails = () => {
     });
 
     const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
-        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
+    console.log(
+      scanRunDataCommon.schedulePattern,
+      cronstrue.toString(parser.fieldsToExpression(fields).stringify())
+    );
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
-  if(isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
   return (
@@ -151,19 +154,20 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
-              <Button
-                colors="white"
-                onClick={() => setStopModal(true)}
-                size="small"
-                type="subtle"
-                icon={<MdStop />}
-                iconPlacement="start"
-                wrapperClassName="h-10 mr-2"
-              >
-                Stop recurring
-              </Button>
-            )}
+            {scanRunDataCommon?.nextScanDate &&
+              userInfo.user_id === scanRunDataCommon.createdBy.id && (
+                <Button
+                  colors="white"
+                  onClick={() => setStopModal(true)}
+                  size="small"
+                  type="subtle"
+                  icon={<MdStop />}
+                  iconPlacement="start"
+                  wrapperClassName="h-10 mr-2"
+                >
+                  Stop recurring
+                </Button>
+              )}
             <Dropdown
               trigger={
                 <DropdownTrigger
