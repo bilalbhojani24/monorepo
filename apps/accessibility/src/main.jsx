@@ -19,15 +19,14 @@ const keys = {
     userData: {},
     groupData: {}
   },
-  analyticsKey: 'UA-418548-19'
-  // EDSDetails: {
-  //   userDetails: '12',
-  //   config: {
-  //     server: 'eds.browserstack.com',
-  //     port: '443',
-  //     api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
-  //   }
-  // }
+  analyticsKey: 'UA-418548-19',
+  EDSDetails: {
+    config: {
+      server: 'eds.browserstack.com',
+      port: '443',
+      api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+    }
+  }
 };
 
 initLogger(keys);
