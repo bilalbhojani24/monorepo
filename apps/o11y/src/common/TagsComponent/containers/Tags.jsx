@@ -29,10 +29,11 @@ TagsComponent.propTypes = {
   tagClickCb: PropTypes.func,
   wrapperClassName: PropTypes.string,
   iconOnly: PropTypes.bool,
-  icon: PropTypes.node.isRequired
+  icon: PropTypes.node
 };
 
 TagsComponent.defaultProps = {
+  icon: null,
   text: '',
   tagClickCb: () => {},
   wrapperClassName: '',

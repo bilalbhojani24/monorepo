@@ -27,6 +27,7 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  Tooltip,
   TruncateText
 } from '@browserstack/bifrost';
 
@@ -87,5 +88,7 @@ export const O11ySelectMenuOptionGroup = (props) => (
 export const O11ySelectMenuOptionItem = (props) => (
   <SelectMenuOptionItem {...props} />
 );
+
+export const O11yTooltip = (props) => <Tooltip {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

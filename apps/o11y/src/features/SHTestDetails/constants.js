@@ -13,7 +13,7 @@ export const TABS = {
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   [BUILDS_HEADER_LABEL_MAPPING.buildName]: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
-    defaultClass: 'w-[500px] py-3'
+    defaultClass: 'w-[500px] py-3 whitespace-normal'
   },
   [BUILDS_HEADER_LABEL_MAPPING.testStatus]: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,

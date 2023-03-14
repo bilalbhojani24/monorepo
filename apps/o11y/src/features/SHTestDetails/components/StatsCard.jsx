@@ -12,7 +12,7 @@ const StatsCard = ({ title, data }) => (
 
 StatsCard.propTypes = {
   title: PropTypes.string.isRequired,
-  data: PropTypes.oneOf([PropTypes.node, PropTypes.string]).isRequired
+  data: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired
 };
 
 export default StatsCard;

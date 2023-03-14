@@ -1,25 +1,60 @@
 import React from 'react';
+import {
+  MdOutlineAccessTime,
+  MdOutlineAutoFixHigh
+} from '@browserstack/bifrost';
+import { O11yBadge, O11yTooltip } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
+import MetaData from 'common/MetaData';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import PropTypes from 'prop-types';
 import {
   capitalize,
-  getIconName,
+  getDocUrl,
   getOsIconName,
   getShortOSName
 } from 'utils/common';
+import { getCustomTimeStamp } from 'utils/dateTime';
 
 const BuildInfo = ({ buildDetails }) => (
-  <div>
-    <div className="">
+  <div className="flex flex-col gap-1">
+    <div className="flex gap-2">
       <p className="text-base-900 text-sm font-medium leading-5">
         {buildDetails?.isAutoDetectedName
           ? buildDetails?.originalName
           : buildDetails?.name}
       </p>
-      {buildDetails?.isAutoDetectedName && (
-        // <BuildDerivedNameTooltip derivedName={buildDetails?.name} />
-        <span>tooltip</span>
+
+      {buildDetails.isAutoDetectedName && (
+        <O11yTooltip
+          placementSide="right"
+          theme="dark"
+          content={
+            <div className="mx-4">
+              <p className="text-base-300">
+                Static build name automatically detected:
+                {buildDetails.name}
+              </p>
+              <a
+                target="_new"
+                href={getDocUrl({
+                  path: DOC_KEY_MAPPING.automation_build
+                })}
+                className="text-base-50 mt-2 block underline"
+              >
+                Learn More
+              </a>
+            </div>
+          }
+        >
+          <MdOutlineAutoFixHigh className="text-base-500 inline-block" />
+        </O11yTooltip>
       )}
+      <div className="flex gap-1">
+        {buildDetails?.tags?.map((tag) => (
+          <O11yBadge key={tag} text={tag} />
+        ))}
+      </div>
     </div>
     <div className="flex gap-2">
       {(buildDetails?.os?.name ||
@@ -36,7 +71,11 @@ const BuildInfo = ({ buildDetails }) => (
           )}
           {buildDetails?.device ? (
             <DetailIcon
-              icon={getIconName(buildDetails?.browser?.name)}
+              icon={
+                buildDetails?.browser?.name
+                  ? `icon-${buildDetails?.browser?.name.toLowerCase()}`
+                  : 'device_icon'
+              }
               text={buildDetails?.device}
             />
           ) : (
@@ -54,15 +93,14 @@ const BuildInfo = ({ buildDetails }) => (
         </div>
       )}
       {!!buildDetails?.startedAt && (
-        // <MetabuildDetails
-        //   label={`${getCustomTimeStamp({
-        //     dateString: buildDetails.startedAt
-        //   })}`}
-        //   icon={<AccessTimeIcon />}
-        //   title="Started at"
-        //   hasDot={false}
-        // />
-        <span>meta info</span>
+        <MetaData
+          label={`${getCustomTimeStamp({
+            dateString: buildDetails.startedAt
+          })}`}
+          icon={<MdOutlineAccessTime />}
+          title="Started at"
+          hasDot={false}
+        />
       )}
     </div>
   </div>
