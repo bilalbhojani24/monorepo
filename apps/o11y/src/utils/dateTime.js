@@ -14,7 +14,7 @@ export const getUnixEndOfDay = (value) => getUnixTime(endOfDay(value));
 
 // Refer this(https://date-fns.org/v2.29.3/docs/format) for date-fns format options
 export const getDateInFormat = (dateString, dateFormat = 'MMM dd, yyyy') =>
-  format(dateString, dateFormat);
+  format(new Date(dateString), dateFormat);
 
 /**
  *
@@ -25,27 +25,28 @@ export const getDateInFormat = (dateString, dateFormat = 'MMM dd, yyyy') =>
 export const getSubtractedUnixTime = (value, type = 'days') =>
   getUnixStartOfDay(sub(new Date(), { [type]: value }));
 
-export function getCustomTimeStampFns({
+export function getCustomTimeStamp({
   dateString,
   withoutTZ = false,
   withoutTime
 }) {
-  const timeZone = extractTimezoneAbbr(new Date(dateString));
+  const dateObj = new Date(dateString);
+  const timeZone = extractTimezoneAbbr(dateObj);
   if (withoutTime) {
-    const formattedDate = format(dateString, 'MMM dd, yyyy');
+    const formattedDate = format(dateObj, 'MMM dd, yyyy');
     const returnDate = timeZone
       ? `${formattedDate} ( ${timeZone} )`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
-  const formattedDate = format(dateString, 'MMM dd, yyyy | h:mm:ss a');
+  const formattedDate = format(dateObj, 'MMM dd, yyyy | h:mm:ss a');
   const returnDate = timeZone
     ? `${formattedDate} ( ${timeZone} )`
     : formattedDate;
   return withoutTZ ? formattedDate : returnDate;
 }
 export function getTimeStamp(dateString) {
-  return format(dateString, 'h:mm:ss a');
+  return format(new Date(dateString), 'h:mm:ss a');
 }
 export function milliSecondsToTime(ms, html) {
   const timeUnit = html ? '<span class="text-base-500">' : '';
