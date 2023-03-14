@@ -113,21 +113,25 @@ const BuildCardDetails = ({ data }) => {
             </div>
             <p className="text-base-500 text-sm">
               Ran by <O11yMetaData label={data.user} title="Triggered By" /> on{' '}
-              <O11yMetaData
-                label={getCustomTimeStamp({
-                  dateString: new Date(data.startedAt)
-                })}
-                title="Started At"
-              />{' '}
+              {data.startedAt ? (
+                <O11yMetaData
+                  label={getCustomTimeStamp({
+                    dateString: new Date(data.startedAt)
+                  })}
+                  title="Started At"
+                />
+              ) : null}{' '}
               <span className="mx-2">
                 <MdAllInclusive className="text-base-600 inline-block" />
               </span>
-              <a target="_new" href={data.versionControlInfo.url}>
-                <O11yMetaData
-                  label={data.versionControlInfo.commitId.slice(0, 8)}
-                  title="Commit ID"
-                />
-              </a>
+              {data.versionControlInfo ? (
+                <a target="_new" href={data?.versionControlInfo?.url}>
+                  <O11yMetaData
+                    label={data?.versionControlInfo?.commitId.slice(0, 8)}
+                    title="Commit ID"
+                  />
+                </a>
+              ) : null}
             </p>
           </div>
         </div>
@@ -138,50 +142,57 @@ const BuildCardDetails = ({ data }) => {
           hasRemoveButton={false}
           modifier="success"
           hasDot={false}
-          text={data.statusStats.passed}
+          text={data.statusStats.passed || 0}
         />
         <O11yBadge
           wrapperClassName="mx-1"
           hasRemoveButton={false}
           modifier="error"
           hasDot={false}
-          text={data.statusStats.failed}
+          text={data.statusStats.failed || 0}
         />
         <O11yBadge
           wrapperClassName="mx-1"
           hasRemoveButton={false}
           modifier="base"
           hasDot={false}
-          text={data.statusStats.skipped}
+          text={data.statusStats.skipped || 0}
         />
         <O11yBadge
           wrapperClassName="mx-1"
           hasRemoveButton={false}
           modifier="warn"
           hasDot={false}
-          text={data.statusStats.timeout}
+          text={data.statusStats.timeout || 0}
         />
       </O11yTableCell>
       <O11yTableCell>{milliSecondsToTime(data.duration)}</O11yTableCell>
       <O11yTableCell>
         <div className="flex overflow-hidden rounded-xl">
-          {Object.keys(data.issueTypeAggregate).map((item) =>
+          {/* PRATIK_TODO : TO BE INVESTIGATED */}
+          {Object.keys(data?.issueTypeAggregate)?.map((item) =>
             data.issueTypeAggregate[item] ? (
               // <O11yTooltip
               //   key={item}
               //   placementSide="top"
-              //   triggerWrapperClassName={twClassNames(`w-[${(data.issueTypeAggregate[item] * 100) / totalDefects}%]`)}
+              //   triggerWrapperClassName={twClassNames(
+              //     `w-[${(data.issueTypeAggregate[item] * 100) / totalDefects}%]`
+              //   )}
               //   content={
               //     <div className="">
-              //       <span className="" style={{ backgroundColor: aggregateColors[item] }} />
+              //       <span
+              //         className=""
+              //         style={{ backgroundColor: aggregateColors[item] }}
+              //       />
               //       <span className="">{item}:</span>
               //       <span className="">
-              //         {((data.issueTypeAggregate[item] * 100) / totalDefects)}
+              //         {(data.issueTypeAggregate[item] * 100) / totalDefects}
               //       </span>
               //     </div>
               //   }
               // >
               <div
+                title={item}
                 key={item}
                 label={item}
                 className="h-3"

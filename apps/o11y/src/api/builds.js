@@ -3,13 +3,34 @@ import { versionedBaseRoute } from 'constants/common';
 
 export const getBuilds = async ({
   projectNormalisedName,
-  currentPagingParams
+  currentPagingParams,
+  filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/?`;
+  const endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/?`;
+  const paramsObject = {};
   if (currentPagingParams?.searchAfter?.length) {
-    endpoint += `searchAfter=${currentPagingParams.searchAfter}`;
+    paramsObject.searchAfter = currentPagingParams.searchAfter;
   }
-  return axios.get(endpoint);
+  Object.keys(filters).forEach((singleItem) => {
+    const targetValue = filters[singleItem];
+    if (
+      singleItem === 'dateRange' &&
+      targetValue.lowerBound &&
+      targetValue.upperBound
+    ) {
+      paramsObject[
+        singleItem
+      ] = `${targetValue.lowerBound},${targetValue.upperBound}`;
+    } else if (singleItem === 'searchText' && targetValue.length) {
+      paramsObject.search = targetValue;
+    } else if (
+      ['tags', 'users', 'status'].includes(singleItem) &&
+      targetValue.length
+    ) {
+      paramsObject[singleItem] = targetValue.join(','); // PRATIK_TODO : replace , to %2C
+    }
+  });
+  return axios.get(endpoint, { params: paramsObject });
 };
 
 export const getBuildMetaDataAPI = async (buildId) =>
