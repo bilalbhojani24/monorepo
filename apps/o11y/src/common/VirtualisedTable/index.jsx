@@ -11,7 +11,7 @@ import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
-const TableRow = (props) => <O11yTableRow hover {...props} />;
+const VTableRow = (props) => <O11yTableRow hover {...props} />;
 
 const TableHead = forwardRef((props, ref) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
@@ -42,7 +42,8 @@ const VirtualisedTable = ({
   itemContent,
   overscan,
   style,
-  fixedHeaderContent
+  fixedHeaderContent,
+  TableRow
 }) => (
   <TableVirtuoso
     style={{ height: '100%', width: '100%', ...style }}
@@ -72,13 +73,15 @@ VirtualisedTable.propTypes = {
   fixedHeaderContent: PropTypes.func.isRequired,
   fixedFooterContent: PropTypes.func,
   overscan: PropTypes.number,
-  style: PropTypes.shape(PropTypes.object)
+  style: PropTypes.shape(PropTypes.object),
+  TableRow: PropTypes.node
 };
 
 VirtualisedTable.defaultProps = {
   fixedFooterContent: undefined,
   overscan: 20,
-  style: {}
+  style: {},
+  TableRow: VTableRow
 };
 
 export default VirtualisedTable;
