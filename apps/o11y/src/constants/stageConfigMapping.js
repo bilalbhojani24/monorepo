@@ -8,7 +8,7 @@ const STAGING_CONFIG = (envName) => ({
 
 export default {
   local: {
-    cookiePrefix: 'development__',
+    cookiePrefix: `development${COOKIE_SEPARATOR}`,
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     apiUrl: 'https://localhost:8082/testops',
     withCredentials: false
