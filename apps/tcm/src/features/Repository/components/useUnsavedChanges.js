@@ -8,6 +8,7 @@ import {
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
   setCurrentEditedTestCaseData,
+  setDummyTestCaseFormData,
   setEditTestCasePageVisibility,
   setRecentRquestedAfterUnsaved,
   setTestCaseFormData,
@@ -38,6 +39,7 @@ const useUnsavedChanges = () => {
   };
 
   const clearForm = () => {
+    dispatch(setDummyTestCaseFormData(null));
     dispatch(setCurrentEditedTestCaseData(null)); // [NOTE: RTE fix]
     dispatch(setTestCaseFormData(null));
     dispatch(setUnsavedDataExists(false));

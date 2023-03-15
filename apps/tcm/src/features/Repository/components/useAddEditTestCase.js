@@ -29,11 +29,13 @@ import {
   setAddTestCaseVisibility,
   setAllFolders,
   setCurrentEditedTestCaseData,
+  setDummyTestCaseFormData,
   setEditTestCasePageVisibility,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
   updateBulkTestCaseFormData,
+  updateDummyTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
   updateTestCaseFormData,
@@ -128,12 +130,19 @@ export default function useAddEditTestCase(prop) {
 
       if (key === 'template') {
         dispatch(
+          updateDummyTestCaseFormData({
+            key: 'steps',
+            value: value === templateOptions[1].value ? [stepTemplate] : ['']
+          })
+        );
+        dispatch(
           updateTestCaseFormData({
             key: 'steps',
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
       }
+      dispatch(updateDummyTestCaseFormData({ key, value }));
       dispatch(updateTestCaseFormData({ key, value }));
       if (!isUnsavedDataExists) dispatch(handleUnsavedData());
     }
@@ -169,6 +178,7 @@ export default function useAddEditTestCase(prop) {
         testCaseId: selectedTestCase.id
       }).then((data) => {
         const formattedData = formDataRetriever(data?.data?.test_case);
+        dispatch(setDummyTestCaseFormData(formattedData));
         dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
         dispatch(setTestCaseFormData(formattedData));
         if (formattedData.issues)
@@ -534,8 +544,12 @@ export default function useAddEditTestCase(prop) {
 
   useEffect(() => {
     if (isTestCaseEditing) fetchTestCaseDetails();
-    else
+    else {
+      dispatch(
+        updateDummyTestCaseFormData({ key: 'owner', value: userData?.id })
+      );
       dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing]);
 

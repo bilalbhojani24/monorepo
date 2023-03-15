@@ -63,12 +63,12 @@ const beforeEditingIsEqualAfterEditing = (
 
 export const handleUnsavedData = () => (dispatch, getState) => {
   const { repository } = getState();
-  const { currentEditedTestCaseData, testCaseFormData } = repository;
+  const { currentEditedTestCaseData, dummyTestCaseFormData } = repository;
 
   if (
     !beforeEditingIsEqualAfterEditing(
       currentEditedTestCaseData,
-      testCaseFormData,
+      dummyTestCaseFormData,
       currentEditedTestCaseData?.template
     )
   ) {
