@@ -79,7 +79,7 @@ const VirtualisedTable = ({
 
 VirtualisedTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
-  endReached: PropTypes.func.isRequired,
+  endReached: PropTypes.func,
   showFixedFooter: PropTypes.bool.isRequired,
   itemContent: PropTypes.func.isRequired,
   fixedHeaderContent: PropTypes.func.isRequired,
@@ -90,6 +90,7 @@ VirtualisedTable.propTypes = {
 };
 
 VirtualisedTable.defaultProps = {
+  endReached: () => {},
   fixedFooterContent: undefined,
   overscan: 20,
   style: {},
