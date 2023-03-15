@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import axios from 'axios';
 
 const getCookiePrefix = () => {
@@ -13,7 +12,8 @@ const getCookiePrefix = () => {
   return '';
 };
 
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use((cfg) => {
+  const config = cfg;
   // config.baseURL = 'https://localhost:8082/testops';
   config.baseURL = 'https://devtestops-api.bsstag.com';
   config.withCredentials = false;
