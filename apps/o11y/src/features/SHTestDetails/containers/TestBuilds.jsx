@@ -115,6 +115,10 @@ export default function TestBuilds() {
     );
   }
 
+  if (!buildsData.builds.length) {
+    return null;
+  }
+
   return (
     <div className={twClassNames('flex-1')}>
       <VirtualisedTable

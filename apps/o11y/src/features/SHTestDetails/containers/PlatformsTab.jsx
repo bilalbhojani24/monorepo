@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getSnPTestsBreakdownData } from 'features/SuiteHealth/slices/dataSlice';
@@ -11,6 +12,7 @@ import {
   getSnPTestFilterByKey
 } from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
 import PlatformRow from '../components/PlatformsRow';
@@ -96,6 +98,14 @@ const PlatformsTab = () => {
         wrapperClassName="py-6"
         loaderClass="text-base-200 fill-base-400 w-8 h-8"
       />
+    );
+  }
+
+  if (isEmpty(breakDownData)) {
+    return (
+      <div className={twClassNames('flex items-center justify-center flex-1')}>
+        <EmptyPage text="No data found" />
+      </div>
     );
   }
 
