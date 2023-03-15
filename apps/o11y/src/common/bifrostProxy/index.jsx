@@ -26,7 +26,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip
 } from '@browserstack/bifrost';
 
 import O11yComboBox from './components/O11yComboBox';
@@ -73,6 +74,7 @@ export const O11ySelectMenuOptionItem = (props) => (
 export const O11ySelectMenuTrigger = (props) => (
   <SelectMenuTrigger {...props} />
 );
+export const O11yTooltip = (props) => <Tooltip {...props} />;
 
 export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />

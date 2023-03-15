@@ -1,4 +1,6 @@
 import { logEvent } from '@browserstack/utils';
+import { TEST_STATUS } from 'constants/common';
+import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -22,6 +24,23 @@ export const getDocUrl = ({
   return `${getBaseUrl()}/docs/${
     prependO11y ? 'test-observability/' : ''
   }${path}`;
+};
+export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
+  if (!stage) {
+    let guessedStage = '';
+    if (window.location.hostname.endsWith('browserstack.com')) {
+      guessedStage = 'production';
+    } else if (window.location.hostname.includes('local')) {
+      guessedStage = 'local';
+    } else if (window.location.hostname.includes('preprod')) {
+      guessedStage = 'preprod';
+    } else {
+      guessedStage = 'staging';
+    }
+    return stageConfigMapping[guessedStage];
+  }
+  // TODO: Keeping  default  stage to staging for now, until production env is ready
+  return stageConfigMapping[stage] || stageConfigMapping.staging;
 };
 
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
@@ -51,4 +70,42 @@ export const logOllyEvent = ({ event, data = {} }) => {
         : window.location.hostname
   };
   logEvent([], 'web_events', event, { ...commonData, ...data });
+};
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
+  if (!buildStatus || buildStatus === TEST_STATUS.STARTED) {
+    return TEST_STATUS.PENDING;
+  }
+  if (buildStatus === TEST_STATUS.TIMEOUT) {
+    if (statusAgg.failed) {
+      return TEST_STATUS.FAIL;
+    }
+    if (statusAgg.timeout) {
+      return TEST_STATUS.UNKNOWN;
+    }
+    if (statusAgg.passed) {
+      return TEST_STATUS.PASS;
+    }
+    if (statusAgg.skipped) {
+      return TEST_STATUS.SKIPPED;
+    }
+    return TEST_STATUS.UNKNOWN;
+  }
+  if (buildStatus === TEST_STATUS.FINISHED) {
+    if (statusAgg.failed) {
+      return TEST_STATUS.FAIL;
+    }
+    if (statusAgg.passed) {
+      return TEST_STATUS.PASS;
+    }
+    if (statusAgg.skipped) {
+      return TEST_STATUS.SKIPPED;
+    }
+    if (statusAgg.timeout) {
+      return TEST_STATUS.UNKNOWN;
+    }
+    return TEST_STATUS.SKIPPED;
+  }
+  return TEST_STATUS.UNKNOWN;
 };
