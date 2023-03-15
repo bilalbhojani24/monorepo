@@ -1,23 +1,11 @@
 import axios from 'axios';
+import { getEnvConfig } from 'utils/common';
 
-const getCookiePrefix = () => {
-  const url = new URL(window.location);
-
-  if (url.hostname.includes('bsstag')) {
-    if (url.hostname.includes('-local')) {
-      return 'development__';
-    }
-    return `${url.hostname.split('.')[0].split('-').slice(1).join('-')}__`;
-  }
-  return '';
-};
-
-axios.interceptors.request.use((cfg) => {
-  const config = cfg;
-  // config.baseURL = 'https://localhost:8082/testops';
-  config.baseURL = 'https://devtestops-api.bsstag.com';
-  config.withCredentials = false;
-  config.headers = config.headers || {};
-  config.headers['x-cookie-prefix'] = getCookiePrefix();
-  return config;
+axios.interceptors.request.use((config) => {
+  const updatedConfig = config;
+  updatedConfig.baseURL = getEnvConfig().apiUrl;
+  updatedConfig.withCredentials = false;
+  updatedConfig.headers = updatedConfig.headers || {};
+  updatedConfig.headers['x-cookie-prefix'] = getEnvConfig().cookiePrefix;
+  return updatedConfig;
 });

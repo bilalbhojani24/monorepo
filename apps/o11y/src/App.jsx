@@ -9,6 +9,7 @@ import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { getProjectsList } from 'globalSlice';
 import useAuthRoutes from 'hooks/useAuthRoutes';
+import { getEnvConfig } from 'utils/common';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 
@@ -45,7 +46,7 @@ const App = () => {
           )
         })
       ),
-    'https://www.browserstack.com/users/sign_in'
+    getEnvConfig().signInUrl
   );
   return (
     <>

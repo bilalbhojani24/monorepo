@@ -1,5 +1,6 @@
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS } from 'constants/common';
+import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -23,6 +24,23 @@ export const getDocUrl = ({
   return `${getBaseUrl()}/docs/${
     prependO11y ? 'test-observability/' : ''
   }${path}`;
+};
+export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
+  if (!stage) {
+    let guessedStage = '';
+    if (window.location.hostname.endsWith('browserstack.com')) {
+      guessedStage = 'production';
+    } else if (window.location.hostname.includes('local')) {
+      guessedStage = 'local';
+    } else if (window.location.hostname.includes('preprod')) {
+      guessedStage = 'preprod';
+    } else {
+      guessedStage = 'staging';
+    }
+    return stageConfigMapping[guessedStage];
+  }
+  // TODO: Keeping  default  stage to staging for now, until production env is ready
+  return stageConfigMapping[stage] || stageConfigMapping.staging;
 };
 
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
