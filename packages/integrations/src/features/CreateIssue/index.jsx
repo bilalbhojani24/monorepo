@@ -1,8 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
+import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import BasicWidget from '../BasicWidget';
+import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
 import ListOfIntegrations from './components/ListOfIntegrations';
@@ -18,20 +20,42 @@ export const CreateIssue = ({
   projectId,
   positionRef,
   handleClose
-}) => (
-  <BasicWidget
-    isOpen={isOpen}
-    authUrl={authUrl}
-    options={options}
-    position={position}
-    projectId={projectId}
-    positionRef={positionRef}
-    handleClose={handleClose}
-    componentKey="create-issue"
-  >
-    <ListOfIntegrations projectId={projectId} />
-  </BasicWidget>
-);
+}) => {
+  const integrations = useSelector(integrationsSelector);
+  const hasAtLeastOneIntegrationSetup = integrations?.some(
+    ({ setup_completed: integrated }) => integrated
+  );
+
+  return (
+    <BasicWidget
+      isOpen={isOpen}
+      authUrl={authUrl}
+      options={options}
+      position={position}
+      projectId={projectId}
+      positionRef={positionRef}
+      handleClose={handleClose}
+      componentKey="create-issue"
+    >
+      <div
+        className={'bg-white p-6 overflow-auto'.concat(
+          hasAtLeastOneIntegrationSetup ? ' p-6' : ''
+        )}
+        style={{ maxHeight: '650px' }}
+      >
+        <ListOfIntegrations projectId={projectId} options={options} />
+      </div>
+      {/* {hasAtLeastOneIntegrationSetup && (
+        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
+          <Button wrapperClassName="mr-4" colors="white">
+            Cancel
+          </Button>
+          <Button>Create Issue</Button>
+        </div>
+      )} */}
+    </BasicWidget>
+  );
+};
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,

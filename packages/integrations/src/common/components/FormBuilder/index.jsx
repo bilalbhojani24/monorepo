@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 
-import Label from '../Label';
-
 import FormFieldMap from './FormFieldMapper';
 import { FormBuilderType } from './types';
 
-const FormBuilder = ({ fields, handleSubmit }) => {
+const FormBuilder = ({ fields, handleSubmit, metaData }) => {
   // const initialState = fi
   const [fieldsData, setFieldsData] = useState({});
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
     if (typeof handleSubmit === 'function') {
       handleSubmit(fieldsData);
     }
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form id="form-builder" onSubmit={handleFormSubmit}>
       {fields.map(
         ({
           key,
@@ -25,28 +24,30 @@ const FormBuilder = ({ fields, handleSubmit }) => {
           options,
           required,
           searchUrl,
-          optionsUrl,
+          optionsPath,
           placeholder,
           validations,
-          defaultValue
+          defaultValue,
+          description
         }) => {
           const Field = FormFieldMap[schema?.field];
           if (Field) {
             return (
-              <div className="my-3">
-                <Label required={required} label={label} />
+              <div className="py-3">
                 <Field
-                  fieldKey={key}
                   label={label}
+                  fieldKey={key}
                   schema={schema}
                   options={options}
+                  metaData={metaData}
                   required={required}
                   searchUrl={searchUrl}
-                  optionsUrl={optionsUrl}
+                  fieldsData={fieldsData}
+                  optionsPath={optionsPath}
                   placeholder={placeholder}
                   validations={validations}
+                  description={description}
                   defaultValue={defaultValue}
-                  fieldsData={fieldsData}
                   setFieldsData={setFieldsData}
                 />
               </div>

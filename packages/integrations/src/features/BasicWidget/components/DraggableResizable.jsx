@@ -18,8 +18,11 @@ const DraggableResizable = ({ children, childRef }) => {
       childRef?.current &&
       (childHeight || windowDimensions.inlineSize || windowDimensions.height)
     ) {
-      const calcHeight =
+      let calcHeight =
         childHeight || windowDimensions.inlineSize || windowDimensions.height;
+      if (calcHeight < 400) {
+        calcHeight = 400;
+      }
       if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
         setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
         setWidgetHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1]);
@@ -47,10 +50,10 @@ const DraggableResizable = ({ children, childRef }) => {
     <Draggable ref={widgetRef} handle=".drag-handle">
       <div ref={widgetRef} className="absolute">
         <Resizable
-          className="border-base-200 relative flex flex-col overflow-hidden rounded-md border border-solid"
+          className="border-base-200 relative flex flex-col items-center overflow-hidden rounded-md border border-solid"
           handle={(__resizeHandleAxis, ref) => (
             <div
-              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-20 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
+              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-8 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
               ref={ref}
             />
           )}
@@ -61,7 +64,9 @@ const DraggableResizable = ({ children, childRef }) => {
           minConstraints={[450, 400]}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
-          <div style={{ height: `${containerHeight}px` }}>{children}</div>
+          <div className="w-full" style={{ height: `${containerHeight}px` }}>
+            {children}
+          </div>
         </Resizable>
       </div>
     </Draggable>

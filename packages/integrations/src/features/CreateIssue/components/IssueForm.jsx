@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   SelectMenu,
   SelectMenuLabel,
@@ -9,14 +9,24 @@ import {
   Tabs
 } from '@browserstack/bifrost';
 
-import { getProjectsThunk } from '../../../api';
+import { createIssue, getCreateMeta, getProjectsThunk } from '../../../api';
+import { FormBuilder } from '../../../common/components';
 import SingleFixedSelect from '../../../common/components/SingleFixedSelect';
+import { LOADING_STATUS } from '../../slices/constants';
+import {
+  projectsLoadingSelector,
+  projectsSelector
+} from '../../slices/projectsSlice';
 
-const IssueForm = ({ integrations }) => {
+import { FIELD_KEYS, TABS } from './constants';
+
+const IssueForm = ({ integrations, options }) => {
   const dispatch = useDispatch();
-
-  // console.log(integrations);
-  const options = integrations.reduce((acc, curr) => {
+  const projects = useSelector(projectsSelector);
+  const [fields, setFields] = useState([]);
+  const projectsLoadingStatus = useSelector(projectsLoadingSelector);
+  const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
+  const toolOptions = integrations.reduce((acc, curr) => {
     const { key, label, icon } = curr;
     acc.push({
       value: key,
@@ -26,90 +36,151 @@ const IssueForm = ({ integrations }) => {
     return acc;
   }, []);
 
-  const COMBOBOX_OPTIONS = [
-    {
-      value: 1,
-      label: 'Design (DES)',
-      image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      ticketTypes: [
-        {
-          value: 'story',
-          label: 'Story',
-          image:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        },
-        {
-          value: 'bug',
-          label: 'Bug',
-          image:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        }
-      ]
-    },
-    {
-      value: 2,
-      label: 'Arlene Mccoy',
-      image:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      ticketTypes: [
-        {
-          value: 'story',
-          label: 'Story',
-          image:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        }
-      ]
-    }
-  ];
+  const cleanIssueType = ({ label, id, icon } = {}) => ({
+    label,
+    value: id,
+    image: icon
+  });
 
-  const [selected, setSelected] = useState(options[0]);
-  const [projectSelected, setProjectSelected] = useState(COMBOBOX_OPTIONS[0]);
-  const [issueTypeSelected, setIssueTypeSelected] = useState(
-    projectSelected.ticketTypes[0]
+  const [fieldsData, setFieldsData] = useState({
+    [FIELD_KEYS.INTEGRATON_TOOL]: toolOptions[0],
+    [FIELD_KEYS.PROJECT]: [],
+    [FIELD_KEYS.ISSUE_TYPE]: []
+  });
+  const integrationToolFieldData = fieldsData[FIELD_KEYS.INTEGRATON_TOOL];
+  const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
+  const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
+  const metaData = options.metaData[integrationToolFieldData.value];
+
+  const selectTool = (item) => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
+  };
+
+  const cleanedIssueTypes = useMemo(
+    () =>
+      (projectFieldData?.ticketTypes ?? []).map((issueType) =>
+        cleanIssueType(issueType)
+      ),
+    [projectFieldData]
   );
 
+  const helper = ({ $type, $items, $properties, $const }, fieldData) => {
+    let val = null;
+    switch ($type) {
+      case 'string':
+        if (typeof fieldData === 'string') val = fieldData;
+        else val = fieldData.value;
+        break;
+      case 'array':
+        val = fieldData.map((fieldItem) => helper($items, fieldItem));
+        break;
+      case 'object':
+        val = Object.entries($properties).reduce((acc, curr) => {
+          const [currItemKey, currItemVal] = curr;
+          // eslint-disable-next-line no-param-reassign
+          acc[currItemKey] = helper(currItemVal, fieldData);
+          return acc;
+        }, {});
+        break;
+      default:
+        if ($const) {
+          val = $const;
+        } else {
+          val = fieldData;
+        }
+    }
+    // console.log('rajeev', item, fieldData);
+    return val;
+  };
+
+  const handleSubmit = (formData) => {
+    const data = { ...fieldsData, ...formData };
+    const parsed = fields.reduce((acc, curr) => {
+      if (curr.key in data) {
+        // eslint-disable-next-line no-param-reassign
+        acc[curr.key] = helper(curr.schema['data-format'], data[curr.key]);
+      }
+      return acc;
+    }, {});
+    parsed.projectId = projectFieldData.value;
+    parsed.ticketTypeId = issueTypeFieldData.value;
+    createIssue('jira', parsed);
+  };
+
   useEffect(() => {
-    dispatch(getProjectsThunk(selected.value));
-  }, [dispatch, selected.value]);
+    dispatch(getProjectsThunk(integrationToolFieldData.value));
+  }, [dispatch, integrationToolFieldData]);
+
+  useEffect(() => {
+    if (
+      areProjectsLoaded &&
+      integrationToolFieldData &&
+      projectFieldData &&
+      issueTypeFieldData
+    ) {
+      getCreateMeta(
+        integrationToolFieldData.value,
+        projectFieldData.value,
+        issueTypeFieldData.value
+      ).then((responseFields) => setFields(responseFields.fields));
+    }
+  }, [
+    areProjectsLoaded,
+    integrationToolFieldData,
+    projectFieldData,
+    issueTypeFieldData
+  ]);
 
   return (
     <div>
-      <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
+      <SelectMenu
+        onChange={(val) => selectTool(val)}
+        value={integrationToolFieldData}
+      >
         <div className="flex items-center">
           <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit">
             CREATE A:
           </SelectMenuLabel>
-          <SelectMenuTrigger />
+          <SelectMenuTrigger placeholder="Select tool" />
         </div>
         <SelectMenuOptionGroup>
-          {options.map((item) => (
+          {toolOptions.map((item) => (
             <SelectMenuOptionItem key={item.value} option={item} />
           ))}
         </SelectMenuOptionGroup>
       </SelectMenu>
-      <SingleFixedSelect
-        value={projectSelected}
-        setValue={setProjectSelected}
-        label="Project"
-        required
-        options={COMBOBOX_OPTIONS}
-        wrapperClassName="my-3"
+      <div className="py-3">
+        <SingleFixedSelect
+          fieldsData={fieldsData}
+          fieldKey={FIELD_KEYS.PROJECT}
+          setFieldsData={setFieldsData}
+          label="Project"
+          required
+          placeholder="Select project"
+          options={projects}
+        />
+      </div>
+      <Tabs tabsArray={TABS} />
+      <div className="py-3">
+        <SingleFixedSelect
+          fieldsData={fieldsData}
+          fieldKey={FIELD_KEYS.ISSUE_TYPE}
+          setFieldsData={setFieldsData}
+          label="Issue type"
+          placeholder="Select issue"
+          required
+          options={cleanedIssueTypes}
+        />
+      </div>
+
+      <FormBuilder
+        fields={fields}
+        handleSubmit={handleSubmit}
+        metaData={metaData}
       />
-      <Tabs
-        tabsArray={[
-          { name: 'Create issue' },
-          { name: 'Update existing issue' }
-        ]}
-      />
-      <SingleFixedSelect
-        value={issueTypeSelected}
-        setValue={setIssueTypeSelected}
-        label="Issue type"
-        required
-        options={projectSelected.ticketTypes}
-        wrapperClassName="my-3"
-      />
+      <button type="submit" form="form-builder">
+        submit
+      </button>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { fetchTokenThunk, getIntegrationsThunk } from '../../api/index';
@@ -27,9 +28,9 @@ const Widget = ({
   if (hasAtLeastOneIntegrationSetup) {
     return (
       <DraggableResizableContainer childRef={childRef}>
-        <div ref={childRef}>
+        <div ref={childRef} className="relative">
           <WidgetHeader handleClose={handleClose} />
-          <div className="bg-white p-6">{children}</div>
+          {children}
         </div>
       </DraggableResizableContainer>
     );

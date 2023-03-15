@@ -22,7 +22,7 @@ const renderAuth = ({
   />
 );
 
-const ListOfIntegrations = ({ projectId }) => {
+const ListOfIntegrations = ({ options }) => {
   const integrations = useSelector(integrationsSelector);
   // user has single integration available
   if (integrations.length === 1) {
@@ -30,7 +30,7 @@ const ListOfIntegrations = ({ projectId }) => {
     // user doesn't have the single integration set up
     if (!integration.setup_completed) return renderAuth(integration);
     // user has the single integration set up
-    return <IssueForm integrations={integrations} projectId={projectId} />;
+    return <IssueForm integrations={integrations} options={options} />;
   }
   // user has multiple integrations available
   return null;

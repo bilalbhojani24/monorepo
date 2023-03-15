@@ -10,6 +10,6 @@ const getProjects = (integrationKey) =>
     params: {
       integrationKey
     }
-  }).then((response) => response.data);
+  }).then((response) => response.data.data.projects);
 
 export const getProjectsThunk = createAsyncThunk('getProjects', getProjects);

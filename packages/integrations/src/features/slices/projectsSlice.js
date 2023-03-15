@@ -5,7 +5,7 @@ import { getProjectsThunk } from '../../api';
 import { LOADING_STATUS } from './constants';
 
 const initialState = {
-  projects: [],
+  listOfProjects: [],
   loading: LOADING_STATUS.IDLE,
   error: null
 };
@@ -21,7 +21,13 @@ export const projectsSlice = createSlice({
     });
     builder.addCase(getProjectsThunk.fulfilled, (state, action) => {
       state.loading = LOADING_STATUS.SUCCEEDED;
-      state.loading = action.payload;
+      const cleanedProjects = action.payload.reduce((acc, currProject) => {
+        const { icon } = currProject;
+        const image = Object.values(icon)[0];
+        acc.push({ ...currProject, image });
+        return acc;
+      }, []);
+      state.listOfProjects = cleanedProjects;
     });
     builder.addCase(getProjectsThunk.rejected, (state, action) => {
       state.loading = LOADING_STATUS.FAILED;
@@ -32,5 +38,6 @@ export const projectsSlice = createSlice({
 
 export default projectsSlice.reducer;
 
-export const toolAuthLoadingSelector = (state) => state.projects.loading;
-export const toolAuthErrorSelector = (state) => state.projects.error;
+export const projectsSelector = (state) => state.projects.listOfProjects;
+export const projectsLoadingSelector = (state) => state.projects.loading;
+export const projectsErrorSelector = (state) => state.projects.error;

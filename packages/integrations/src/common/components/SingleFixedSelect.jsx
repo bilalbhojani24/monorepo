@@ -1,51 +1,78 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
+  // Loader,
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import Label from './Label';
 
-const SingleValueSelect = ({
-  value,
-  setValue,
-  placeholder,
-  options,
+const SingleFixedSelect = ({
   label,
+  options,
   required,
+  fieldKey = '',
+  fieldsData = {},
+  setFieldsData,
+  placeholder,
   wrapperClassName
 }) => {
+  const previousOptions = usePrevious(options);
+  const cleanedOptions = useMemo(
+    () =>
+      options.map((option) => ({
+        image: option.image || option.icon,
+        label: option.label,
+        value: option.value || option.id || option.key,
+        ticketTypes: option.ticketTypes
+      })),
+    [options]
+  );
+
+  useEffect(() => {
+    if (
+      (typeof setFieldsData === 'function' &&
+        !fieldsData?.[fieldKey]?.length < 1) ||
+      options !== previousOptions
+    ) {
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedOptions[0] });
+    }
+  }, [
+    cleanedOptions,
+    options,
+    previousOptions,
+    fieldKey,
+    fieldsData,
+    setFieldsData
+  ]);
+
   const handleChange = (val) => {
-    setValue(val);
+    if (typeof setFieldsData === 'function') {
+      setFieldsData({ ...fieldsData, [fieldKey]: val });
+    }
   };
-  if (options.length < 1) return null;
 
   return (
-    <SelectMenu onChange={handleChange} value={value}>
+    <SelectMenu onChange={handleChange} value={fieldsData?.[fieldKey]}>
       <Label label={label} required={required} />
       <SelectMenuTrigger
         placeholder={placeholder}
         wrapperClassName={wrapperClassName}
       />
       <SelectMenuOptionGroup>
-        {options.map((item) => (
-          <SelectMenuOptionItem
-            key={item.value}
-            option={item}
-            wrapperClassName="text-base-500"
-          />
+        {cleanedOptions.map((item) => (
+          <SelectMenuOptionItem key={item.id} option={item} />
         ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
   );
 };
 
-SingleValueSelect.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func.isRequired,
+SingleFixedSelect.propTypes = {
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(),
   label: PropTypes.string.isRequired,
@@ -53,12 +80,11 @@ SingleValueSelect.propTypes = {
   wrapperClassName: PropTypes.string
 };
 
-SingleValueSelect.defaultProps = {
-  value: '',
+SingleFixedSelect.defaultProps = {
   placeholder: null,
   options: [],
   required: false,
   wrapperClassName: ''
 };
 
-export default SingleValueSelect;
+export default SingleFixedSelect;

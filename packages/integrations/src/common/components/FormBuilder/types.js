@@ -29,6 +29,7 @@ export const FieldType = {
     ])
   }).isRequired,
   placeholder: PropTypes.string,
+  description: PropTypes.string,
   validations: PropTypes.arrayOf(PropTypes.shape(ValidationType)),
   options: PropTypes.arrayOf(
     PropTypes.shape({ ...OptionType, children: PropTypes.arrayOf(OptionType) })

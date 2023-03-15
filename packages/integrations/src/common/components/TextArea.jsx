@@ -2,19 +2,39 @@ import React from 'react';
 import { TextArea } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const TextAreaField = ({ value, setValue, placeholder }) => {
+import Label from './Label';
+
+const TextAreaField = ({
+  fieldsData,
+  setFieldsData,
+  fieldKey,
+  placeholder,
+  required,
+  label
+}) => {
   const handleChange = (e) => {
-    setValue(e.target.value);
+    const fieldValue = e.target.value;
+    setFieldsData({ ...fieldsData, [fieldKey]: fieldValue });
   };
+
   return (
-    <TextArea onChange={handleChange} value={value} placeholder={placeholder} />
+    <>
+      <Label required={required} label={label} />
+      <TextArea
+        onChange={handleChange}
+        value={fieldsData[fieldKey]}
+        placeholder={placeholder}
+      />
+    </>
   );
 };
 
 TextAreaField.propTypes = {
   value: PropTypes.string,
   setValue: PropTypes.func.isRequired,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  required: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired
 };
 
 TextAreaField.defaultProps = {
