@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
@@ -46,9 +47,6 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
 
 export const logOllyEvent = ({ event, data = {} }) => {
-  if (!window.location.hostname.endsWith('browserstack.com')) {
-    return;
-  }
   const commonData = {
     url: window.location.href,
     screenResolution: {
@@ -69,7 +67,13 @@ export const logOllyEvent = ({ event, data = {} }) => {
         ? window.location.hostname.split('.').slice(1, 3).join('.')
         : window.location.hostname
   };
-  logEvent([], 'web_events', event, { ...commonData, ...data });
+  if (window.SHOW_BSTACK_ANALYTICS_EVENTS) {
+    console.log('Event Name:', event);
+    console.table({ ...commonData, ...data });
+  }
+  if (window.location.hostname.endsWith('browserstack.com')) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
+  }
 };
 
 export const capitalize = (word, upCaseTwo = false) => {
