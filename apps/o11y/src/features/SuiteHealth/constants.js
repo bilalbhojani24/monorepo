@@ -17,11 +17,11 @@ const ACTION_HEADER_COLUMN_CLASS = 'py-3 text-center';
 export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   [TESTS_HEADER_LABEL_MAPPING.tests]: {
     name: TESTS_HEADER_LABEL_MAPPING.tests,
-    defaultClass: 'py-3 pl-6 max-w-[600px] whitespace-normal'
+    defaultClass: 'py-3 pl-6 w-2/4 whitespace-normal'
   },
   [TESTS_HEADER_LABEL_MAPPING.platforms]: {
     name: TESTS_HEADER_LABEL_MAPPING.platforms,
-    defaultClass: 'py-3 w-[300px]'
+    defaultClass: 'py-3 w-1/5'
   },
   [TESTS_HEADER_LABEL_MAPPING.totalFailures]: {
     name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
