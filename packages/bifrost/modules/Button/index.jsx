@@ -205,7 +205,7 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
-      form={form || null}
+      form={form}
     >
       {effectiveChildren}
     </button>
