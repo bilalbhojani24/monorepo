@@ -36,6 +36,4 @@ const TestDetails = () => {
   );
 };
 
-TestDetails.propTypes = {};
-
 export default TestDetails;

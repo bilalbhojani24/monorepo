@@ -19,10 +19,11 @@ import { resetActiveTab, setSnPCbtInfo } from '../slices/dataSlice';
 import { getShowSnPDetailsFor } from '../slices/selectors';
 
 const PlatformsTab = () => {
-  const testId = useSelector(getShowSnPDetailsFor);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const mounted = useRef();
+  const testId = useSelector(getShowSnPDetailsFor);
   const filters = useSelector(getAllSnPTestFilters);
   const activeBuild = useSelector((state) =>
     getSnPTestFilterByKey(state, 'buildName')
@@ -30,7 +31,6 @@ const PlatformsTab = () => {
   const activeProject = useSelector(getActiveProject);
   const [breakDownData, setBreakDownData] = useState([]);
   const [isLoadingBD, setIsLoadingBD] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     mounted.current = true;
@@ -90,40 +90,42 @@ const PlatformsTab = () => {
     }
   };
 
+  if (isLoadingBD) {
+    return (
+      <O11yLoader
+        wrapperClassName="py-6"
+        loaderClass="text-base-200 fill-base-400 w-8 h-8"
+      />
+    );
+  }
+
   return (
     <div className={twClassNames('flex-1')}>
-      {isLoadingBD ? (
-        <O11yLoader
-          wrapperClassName="h-full"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
-      ) : (
-        <VirtualisedTable
-          style={{ height: '100%' }}
-          data={breakDownData}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              {Object.keys(PLATFORM_HEADER_CELLS_MAPPING).map((key) => (
-                <O11yTableCell
-                  key={key}
-                  wrapperClassName={twClassNames(
-                    PLATFORM_HEADER_CELLS_MAPPING[key].defaultClass
-                  )}
-                >
-                  <div className="text-xs font-medium leading-4">
-                    {PLATFORM_HEADER_CELLS_MAPPING[key].name}
-                  </div>
-                </O11yTableCell>
-              ))}
-            </O11yTableRow>
-          )}
-          itemContent={(index, buildData) => (
-            <PlatformRow buildData={buildData} />
-          )}
-          handleRowClick={handleClickItem}
-          showFixedFooter={false}
-        />
-      )}
+      <VirtualisedTable
+        style={{ height: '100%' }}
+        data={breakDownData}
+        fixedHeaderContent={() => (
+          <O11yTableRow>
+            {Object.keys(PLATFORM_HEADER_CELLS_MAPPING).map((key) => (
+              <O11yTableCell
+                key={key}
+                wrapperClassName={twClassNames(
+                  PLATFORM_HEADER_CELLS_MAPPING[key].defaultClass
+                )}
+              >
+                <div className="text-xs font-medium leading-4">
+                  {PLATFORM_HEADER_CELLS_MAPPING[key].name}
+                </div>
+              </O11yTableCell>
+            ))}
+          </O11yTableRow>
+        )}
+        itemContent={(index, buildData) => (
+          <PlatformRow buildData={buildData} />
+        )}
+        handleRowClick={handleClickItem}
+        showFixedFooter={false}
+      />
     </div>
   );
 };

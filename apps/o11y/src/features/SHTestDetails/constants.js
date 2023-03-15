@@ -13,7 +13,7 @@ export const TABS = {
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   [BUILDS_HEADER_LABEL_MAPPING.buildName]: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
-    defaultClass: 'w-[500px] py-3 whitespace-normal'
+    defaultClass: 'w-7/12 py-3 whitespace-normal'
   },
   [BUILDS_HEADER_LABEL_MAPPING.testStatus]: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,
@@ -39,7 +39,7 @@ export const PLATFORM_HEADER_LABEL_MAPPING = {
 export const PLATFORM_HEADER_CELLS_MAPPING = {
   [PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations]: {
     name: PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations,
-    defaultClass: 'w-[500px] whitespace-normal py-3'
+    defaultClass: 'w-7/12 whitespace-normal py-3'
   },
   [PLATFORM_HEADER_LABEL_MAPPING.totalFailures]: {
     name: PLATFORM_HEADER_LABEL_MAPPING.totalFailures,

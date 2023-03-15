@@ -7,7 +7,7 @@ import TestStats from './TestStats';
 import TestTrend from './TestTrend';
 
 const RunsTab = () => (
-  <div className="flex-1">
+  <div className="flex flex-1 flex-col">
     <CombinationsMenu />
     <TestStats />
     <TestTrend />

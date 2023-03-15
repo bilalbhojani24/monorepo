@@ -18,6 +18,7 @@ import {
 
 export default function TestBuilds() {
   const dispatch = useDispatch();
+
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowSnPDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
@@ -115,7 +116,7 @@ export default function TestBuilds() {
   }
 
   return (
-    <div className={twClassNames('h-full')}>
+    <div className={twClassNames('flex-1')}>
       <VirtualisedTable
         style={{ height: '100%' }}
         data={buildsData.builds}

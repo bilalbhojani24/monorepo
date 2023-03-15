@@ -18,9 +18,7 @@ const TagsComponent = ({
     type="button"
   >
     {icon}
-    {iconOnly === false && text && (
-      <span className="text-xs font-semibold">{text}</span>
-    )}
+    {!iconOnly && <span className="text-xs font-semibold">{text}</span>}
   </button>
 );
 

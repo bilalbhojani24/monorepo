@@ -19,7 +19,6 @@ const TestDetailsHeader = () => {
   const navigate = useNavigate();
 
   const testId = useSelector(getShowSnPDetailsFor);
-
   const activeProject = useSelector(getActiveProject);
   const testDetailsInfo = useSelector(getTestDetailsInfo);
   const mounted = useRef(null);
@@ -40,7 +39,6 @@ const TestDetailsHeader = () => {
   }, [dispatch, testId, activeProject?.normalisedName]);
 
   const handleCloseDetails = () => {
-    /* RESET data */
     dispatch(setIsSnPDetailsVisible(false));
     dispatch(setShowSnPDetailsFor(''));
     dispatch(clearTestDetailsInfo());
