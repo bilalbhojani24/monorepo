@@ -250,6 +250,8 @@ InputWithAddOnInline.args = {
 
 InputWithInlineTrailingLeading.args = {
   label: 'Price',
+  type: 'number',
+
   placeholder: '0.00',
   leadingIcon: <span className="text-base-500">$</span>,
   trailingIcon: <span className="text-base-500">USD</span>
@@ -271,13 +273,14 @@ const options = [
 ];
 
 InputWithInlineLeadingDropdown.args = {
+  type: 'number',
   label: 'Phone Number',
   placeholder: '+1 (555) 987-6543',
   addOnBefore: (
     <SelectMenu>
       <SelectMenuTrigger
         placeholder="Select.."
-        wrapperClassName="rounded-l-none w-max"
+        wrapperClassName="rounded-r-none w-max"
       />
       <SelectMenuOptionGroup alignment="start">
         {options.map((item) => (
@@ -290,6 +293,7 @@ InputWithInlineLeadingDropdown.args = {
 
 InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
   label: 'Price',
+  type: 'number',
   placeholder: '0.00',
   leadingIcon: <span className="text-base-500">$</span>,
   addOnAfter: (
@@ -298,7 +302,7 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
         placeholder="Select.."
         wrapperClassName="rounded-l-none w-max"
       />
-      <SelectMenuOptionGroup alignment="start">
+      <SelectMenuOptionGroup alignment="end">
         {options.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
         ))}
@@ -309,6 +313,7 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
 
 InputWithLeadingIconAndTrailingButton.args = {
   label: 'Price',
+  type: 'number',
   placeholder: '0.00',
   leadingIcon: <UserIcon className="text-base-400 h-5 w-5" />,
   addOnAfter: (

@@ -18,6 +18,7 @@ const InputField = forwardRef(
       id,
       inputRef,
       isTrailingNodeClickable,
+      isMandatory,
       label,
       leadingIcon,
       onBlur,
@@ -42,6 +43,7 @@ const InputField = forwardRef(
             className="text-base-700 block text-sm font-medium"
           >
             {label}
+            {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
           </label>
           {cornerHintText && (
             <span className="text-base-500 text-sm">{cornerHintText}</span>
@@ -138,6 +140,7 @@ InputField.propTypes = {
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
   isTrailingNodeClickable: PropTypes.bool,
+  isMandatory: PropTypes.bool,
   label: PropTypes.string,
   leadingIcon: PropTypes.node,
   trailingIcon: PropTypes.node,
@@ -163,6 +166,7 @@ InputField.defaultProps = {
   errorText: '',
   inputRef: null,
   isTrailingNodeClickable: false,
+  isMandatory: false,
   label: '',
   leadingIcon: null,
   trailingIcon: null,

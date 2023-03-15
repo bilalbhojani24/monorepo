@@ -29,11 +29,7 @@ import HeaderElements from './modules/HeaderElements/index';
 import HeaderProductContainer from './modules/HeaderProductContainer/index';
 import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
-import InputAddOnTexts from './modules/InputAddOnTexts/index';
 import InputField from './modules/InputField/index';
-import InputWButton from './modules/InputWButton/index';
-import InputWDropdown from './modules/InputWDropdown/index';
-import InputWKB from './modules/InputWKB/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -129,11 +125,7 @@ export {
   HeaderProductContainer,
   HeaderProducts,
   Hyperlink,
-  InputAddOnTexts,
   InputField,
-  InputWButton,
-  InputWDropdown,
-  InputWKB,
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
