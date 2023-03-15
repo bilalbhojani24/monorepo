@@ -1,4 +1,5 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
 
@@ -139,7 +140,6 @@ const defaultConfig = {
   },
   controls: {}
 };
-
 const Template = (args) => <SidebarNavigation {...args} />;
 const SidebarwithBrandImageTemplate = (args) => <SidebarNavigation {...args} />;
 const SidebarwithSelectTemplate = (args) => <SidebarNavigation {...args} />;
@@ -184,7 +184,6 @@ SidebarwithBrandImage.play = async ({ canvasElement }) => {
 
 const SidebarwithSelect = SidebarwithSelectTemplate.bind({});
 SidebarwithSelect.play = async ({ canvasElement }) => {
-  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
   const sidebarWSecondaryItems = [
     'Dashboard',
     'Team',
@@ -218,15 +217,15 @@ SidebarwithSelect.play = async ({ canvasElement }) => {
     await expect(canvas.queryByText(subItem)).not.toBeVisble();
   });
   await userEvent.click(canvas.getByText('Select..'));
-  await sleep(1);
+  await delay(1);
   const selectItems = document.querySelectorAll('[role="option"]');
-  for (let i = 0; i < selectItems.length; i += 1) {
-    expect(
-      selectMenuItems.includes(selectItems[i].firstChild.textContent)
-    ).toBe(true);
-  }
+  selectItems.forEach(async (item) => {
+    await expect(selectMenuItems.includes(item.firstChild.textContent)).toBe(
+      true
+    );
+  });
   selectItems[0].click();
-  await sleep(1);
+  await delay(1);
   await expect(canvas.getByText('Project 1')).toBeInTheDocument();
 };
 
