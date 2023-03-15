@@ -1,4 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
@@ -74,7 +77,7 @@ const primaryNavs = [
     path: '/reports',
     childrens: [
       { id: 'report__finance', label: 'Finance', path: '/finance' },
-      { id: 'report__team', label: 'Team', path: '/team' }
+      { id: 'report__team', label: 'Teams', path: '/team' }
     ]
   }
 ];
@@ -137,7 +140,6 @@ const defaultConfig = {
   },
   controls: {}
 };
-
 const Template = (args) => <SidebarNavigation {...args} />;
 const SidebarwithBrandImageTemplate = (args) => <SidebarNavigation {...args} />;
 const SidebarwithSelectTemplate = (args) => <SidebarNavigation {...args} />;
@@ -147,8 +149,123 @@ const SidebarwithSecondaryNavigation = (args) => (
 
 const Primary = Template.bind({});
 const SidebarwithBrandImage = SidebarwithBrandImageTemplate.bind({});
+SidebarwithBrandImage.play = async ({ canvasElement }) => {
+  const sidebarItems = [
+    'Dashboard',
+    'Team',
+    'Projects',
+    'Calendar',
+    'Documents',
+    'Reports'
+  ];
+  const sidebarDocsSubItems = ['Adhar', 'Pancard'];
+  const sidebarReportsSubItems = ['Finance', 'Teams'];
+  const canvas = within(canvasElement);
+  sidebarItems.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach((subItem) => {
+    expect(canvas.getByText(subItem)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach(async (subItem) => {
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.getByText(subItem)).toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+};
+
 const SidebarwithSelect = SidebarwithSelectTemplate.bind({});
+SidebarwithSelect.play = async ({ canvasElement }) => {
+  const sidebarWSecondaryItems = [
+    'Dashboard',
+    'Team',
+    'Projects',
+    'Calendar',
+    'Documents',
+    'Reports'
+  ];
+  const selectMenuItems = ['Project 1', 'Project 2', 'Project 3'];
+  const sidebarDocsSubItems = ['Adhar', 'Pancard'];
+  const sidebarReportsSubItems = ['Finance', 'Teams'];
+  const canvas = within(canvasElement);
+  sidebarWSecondaryItems.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach((subItem) => {
+    expect(canvas.getByText(subItem)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach(async (subItem) => {
+    console.log(canvas.queryByText(subItem));
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.getByText(subItem)).toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Select..'));
+  await delay(1);
+  const selectItems = document.querySelectorAll('[role="option"]');
+  selectItems.forEach(async (item) => {
+    await expect(selectMenuItems.includes(item.firstChild.textContent)).toBe(
+      true
+    );
+  });
+  selectItems[0].click();
+  await delay(1);
+  await expect(canvas.getByText('Project 1')).toBeInTheDocument();
+};
+
 const SidebarwithSecondary = SidebarwithSecondaryNavigation.bind({});
+SidebarwithSecondary.play = async ({ canvasElement }) => {
+  const sidebarWSecondaryItems = [
+    'Dashboard',
+    'Team',
+    'Projects',
+    'Calendar',
+    'Documents',
+    'Reports',
+    'Settings',
+    'Integration',
+    'Documentation'
+  ];
+  const sidebarDocsSubItems = ['Adhar', 'Pancard'];
+  const sidebarReportsSubItems = ['Finance', 'Teams'];
+  const canvas = within(canvasElement);
+  sidebarWSecondaryItems.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach((subItem) => {
+    expect(canvas.getByText(subItem)).toBeVisible();
+  });
+  await userEvent.click(canvas.getByText('Documents'));
+  sidebarDocsSubItems.forEach(async (subItem) => {
+    console.log(canvas.queryByText(subItem));
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.getByText(subItem)).toBeVisble();
+  });
+  await userEvent.click(canvas.getByText('Reports'));
+  sidebarReportsSubItems.forEach(async (subItem) => {
+    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+  });
+};
 
 Primary.parameters = {
   controls: {}
