@@ -8,7 +8,10 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import BuildRow from '../components/BuildRow';
-import { BUILDS_HEADER_COLUMN_STYLE_MAPPING } from '../constants';
+import {
+  BUILDS_HEADER_COLUMN_STYLE_MAPPING,
+  SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID
+} from '../constants';
 import { getSnPDetailsBuildsData } from '../slices/dataSlice';
 import {
   getShowSnPDetailsFor,
@@ -120,31 +123,32 @@ export default function TestBuilds() {
   }
 
   return (
-    <div className={twClassNames('flex-1')}>
-      <VirtualisedTable
-        style={{ height: '100%' }}
-        data={buildsData.builds}
-        endReached={loadMore}
-        fixedHeaderContent={() => (
-          <O11yTableRow>
-            {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
-              <O11yTableCell
-                key={key}
-                wrapperClassName={twClassNames(
-                  BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
-                )}
-              >
-                <div className="text-xs font-medium leading-4">
-                  {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
-                </div>
-              </O11yTableCell>
-            ))}
-          </O11yTableRow>
-        )}
-        itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
-        showFixedFooter={isLoadingMore}
-        handleRowClick={handleRowClick}
-      />
-    </div>
+    <VirtualisedTable
+      useWindowScroll
+      customScrollParent={document.getElementById(
+        SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID
+      )}
+      data={buildsData.builds}
+      endReached={loadMore}
+      fixedHeaderContent={() => (
+        <O11yTableRow>
+          {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
+            <O11yTableCell
+              key={key}
+              wrapperClassName={twClassNames(
+                BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
+              )}
+            >
+              <div className="text-xs font-medium leading-4">
+                {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
+              </div>
+            </O11yTableCell>
+          ))}
+        </O11yTableRow>
+      )}
+      itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
+      showFixedFooter={isLoadingMore}
+      handleRowClick={handleRowClick}
+    />
   );
 }

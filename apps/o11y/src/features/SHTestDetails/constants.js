@@ -54,3 +54,6 @@ export const PLATFORM_HEADER_CELLS_MAPPING = {
     defaultClass: 'py-3'
   }
 };
+
+export const SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID =
+  'sh-test-details-scroll-parent';

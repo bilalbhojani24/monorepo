@@ -53,29 +53,43 @@ const VirtualisedTable = ({
   overscan,
   style,
   fixedHeaderContent,
-  handleRowClick
-}) => (
-  <TableVirtuoso
-    style={{ height: '100%', width: '100%', ...style }}
-    data={data}
-    endReached={endReached}
-    overscan={overscan}
-    itemContent={itemContent}
-    fixedHeaderContent={fixedHeaderContent}
-    fixedFooterContent={
-      fixedFooterContent ||
-      (() => (showFixedFooter ? <LoadingFooter /> : <></>))
+  handleRowClick,
+  useWindowScroll,
+  customScrollParent
+}) => {
+  const getStyles = () => {
+    if (useWindowScroll) {
+      return {
+        useWindowScroll: true,
+        ...(customScrollParent && { customScrollParent })
+      };
     }
-    components={{
-      Table,
-      TableHead,
-      TableBody: O11yRefTableBody,
-      TableRow: (props) => (
-        <TableRow {...props} handleRowClick={handleRowClick} />
-      )
-    }}
-  />
-);
+    return { style: { height: '100%', width: '100%', ...style } };
+  };
+
+  return (
+    <TableVirtuoso
+      {...getStyles()}
+      data={data}
+      endReached={endReached}
+      overscan={overscan}
+      itemContent={itemContent}
+      fixedHeaderContent={fixedHeaderContent}
+      fixedFooterContent={
+        fixedFooterContent ||
+        (() => (showFixedFooter ? <LoadingFooter /> : <></>))
+      }
+      components={{
+        Table,
+        TableHead,
+        TableBody: O11yRefTableBody,
+        TableRow: (props) => (
+          <TableRow {...props} handleRowClick={handleRowClick} />
+        )
+      }}
+    />
+  );
+};
 
 VirtualisedTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
@@ -86,7 +100,9 @@ VirtualisedTable.propTypes = {
   fixedFooterContent: PropTypes.func,
   overscan: PropTypes.number,
   style: PropTypes.shape(PropTypes.object),
-  handleRowClick: PropTypes.func
+  handleRowClick: PropTypes.func,
+  useWindowScroll: PropTypes.bool,
+  customScrollParent: PropTypes.instanceOf(Element)
 };
 
 VirtualisedTable.defaultProps = {
@@ -94,7 +110,9 @@ VirtualisedTable.defaultProps = {
   fixedFooterContent: undefined,
   overscan: 20,
   style: {},
-  handleRowClick: () => {}
+  handleRowClick: () => {},
+  useWindowScroll: false,
+  customScrollParent: null
 };
 
 export default VirtualisedTable;
