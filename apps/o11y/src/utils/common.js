@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
