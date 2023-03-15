@@ -74,6 +74,7 @@ const SelectWithPlaceholderTemplate = (args) => <SelectMenu {...args} />;
 const Primary = Template.bind({});
 const MultiSelect = MultiSelectTemplate.bind({});
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
+const DisabledSelectMenu = Template.bind({});
 
 Primary.parameters = {
   controls: {}
@@ -129,7 +130,7 @@ export const CustomSelectMenu = () => {
 };
 
 export default defaultConfig;
-export { MultiSelect, Primary, SelectWithPlaceholder };
+export { DisabledSelectMenu, MultiSelect, Primary, SelectWithPlaceholder };
 
 MultiSelect.args = {
   defaultValue: [SELECT_OPTIONS[0], SELECT_OPTIONS[1]],
@@ -141,4 +142,8 @@ SelectWithPlaceholder.args = {
   placeholder: 'Placeholder text...',
   value: null,
   defaultValue: null
+};
+
+DisabledSelectMenu.args = {
+  disabled: true
 };
