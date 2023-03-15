@@ -43,19 +43,24 @@ const BuildRow = ({ buildData }) => (
         BUILDS_HEADER_COLUMN_STYLE_MAPPING.tags.defaultClass
       )}
     >
-      {!buildData.jiraUrl && !buildData?.historyAggregate?.isFlaky && '-'}
-      {buildData?.jiraUrl && (
-        <PropagationBlocker className="inline">
-          <JiraTag jiraUrl={buildData.jiraUrl || ''} />
-        </PropagationBlocker>
-      )}
-      {buildData?.historyAggregate?.isFlaky && (
-        <PropagationBlocker className="inline">
-          <TagsComponent
-            text="Flaky"
-            wrapperClassName="pointer-events-none border-attention-200 bg-attention-50"
-          />
-        </PropagationBlocker>
+      {!buildData.jiraUrl && !buildData?.historyAggregate?.isFlaky ? (
+        <span>-</span>
+      ) : (
+        <div className="flex flex-wrap gap-1">
+          {buildData?.jiraUrl && (
+            <PropagationBlocker className="inline">
+              <JiraTag jiraUrl={buildData.jiraUrl || ''} />
+            </PropagationBlocker>
+          )}
+          {buildData?.historyAggregate?.isFlaky && (
+            <PropagationBlocker className="inline">
+              <TagsComponent
+                text="Flaky"
+                wrapperClassName="pointer-events-none border-attention-200 bg-attention-50"
+              />
+            </PropagationBlocker>
+          )}
+        </div>
       )}
     </O11yTableCell>
   </>
