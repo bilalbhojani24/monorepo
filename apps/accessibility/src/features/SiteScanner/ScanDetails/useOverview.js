@@ -22,7 +22,12 @@ export default function useOverview({ scanOverviewData }) {
 
       const categories = [];
       for (let i = 0; i < currentRunFilter; i += 1) {
-        const item = currentRunFilter === 4 ? scanOverviewData?.data?.overview?.issueHistory.slice(-currentRunFilter)[i]:scanOverviewData?.data?.overview?.issueHistory[i];
+        const item =
+          currentRunFilter === 4
+            ? scanOverviewData?.data?.overview?.issueHistory.slice(
+                -currentRunFilter
+              )[i]
+            : scanOverviewData?.data?.overview?.issueHistory[i];
         if (item) {
           severity.minor.push(item.minor);
           severity.critical.push(item.critical);
@@ -66,6 +71,10 @@ export default function useOverview({ scanOverviewData }) {
           borderWidth: 0
         }
       ];
+      currentStackedChartData.chart = {
+        animation: false,
+        zooming: { type: 'x' }
+      };
       setStackedChartData(currentStackedChartData);
     }
     if (scanOverviewData?.data?.overview?.scanStability) {
@@ -78,7 +87,12 @@ export default function useOverview({ scanOverviewData }) {
       const categories = [];
       for (let i = 0; i < currentSplineRunFilter; i += 1) {
         // const item = scanOverviewData.data.overview.scanStability[i];
-        const item = currentSplineRunFilter === 4 ? scanOverviewData?.data?.overview?.scanStability.slice(-currentSplineRunFilter)[i]:scanOverviewData?.data?.overview?.scanStability[i];
+        const item =
+          currentSplineRunFilter === 4
+            ? scanOverviewData?.data?.overview?.scanStability.slice(
+                -currentSplineRunFilter
+              )[i]
+            : scanOverviewData?.data?.overview?.scanStability[i];
         if (item) {
           stability.redirect.push(item.redirect);
           stability.failure.push(item.failure);
@@ -89,6 +103,10 @@ export default function useOverview({ scanOverviewData }) {
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;
       currentSplineChartData.xAxis.max = currentSplineRunFilter;
+      currentSplineChartData.chart = {
+        animation: false,
+        zooming: { type: 'xy' }
+      };
       currentSplineChartData.series = [
         {
           name: 'Success',

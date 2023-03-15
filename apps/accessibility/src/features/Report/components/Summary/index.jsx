@@ -96,10 +96,10 @@ export default function Summary() {
   ];
 
   const impactColorMap = {
-    critical: 'bg-danger-500',
-    serious: 'bg-danger-500',
-    moderate: 'bg-attention-500',
-    minor: 'bg-base-500'
+    critical: 'bg-[#F95D6A]',
+    serious: 'bg-[#F472B6]',
+    moderate: 'bg-[#E3C500]',
+    minor: 'bg-[#C5D1D8]'
   };
 
   const componentColumns = [
