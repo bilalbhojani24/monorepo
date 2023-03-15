@@ -42,6 +42,7 @@ function AddAlertModal() {
   const buildNames = useSelector(getBuildNamesState);
   const activeProject = useSelector(getActiveProject);
   const [selectedTypeOfAlert, setSelectedTypeOfAlert] = useState('');
+  const [alertName, setAlertName] = useState('');
   const [selectedApplicableTo, setSelectedApplicableTo] = useState(
     APPLICABLE_TO.all
   );
@@ -131,6 +132,32 @@ function AddAlertModal() {
     setCriticalValue(val);
   };
 
+  const handleChangeAlertName = ({ target: { value } }) => {
+    setAlertName(value);
+  };
+
+  const isFormValid = useMemo(() => {
+    if (
+      !selectedTypeOfAlert ||
+      !alertName ||
+      !criticalValue ||
+      warningErrorText
+    ) {
+      return false;
+    }
+    return !(
+      selectedApplicableTo === APPLICABLE_TO.selective &&
+      selectedBuilds.length === 0
+    );
+  }, [
+    alertName,
+    criticalValue,
+    selectedApplicableTo,
+    selectedBuilds.length,
+    selectedTypeOfAlert,
+    warningErrorText
+  ]);
+
   return (
     <O11yModal show size="xl">
       <O11yModalHeader
@@ -155,6 +182,7 @@ function AddAlertModal() {
             <O11ySelectMenuOptionGroup>
               {Object.keys(ALERT_TYPES).map((key) => (
                 <O11ySelectMenuOptionItem
+                  checkPosition="right"
                   key={key}
                   option={{
                     label: ALERT_TYPES_INFO[key].label,
@@ -172,6 +200,8 @@ function AddAlertModal() {
             <O11yInputField
               label="Alert name *"
               placeholder="Enter alert name"
+              value={alertName}
+              onChange={handleChangeAlertName}
             />
           </div>
           <p className="text-base-700 mt-4 flex gap-1 text-sm font-medium leading-5">
@@ -299,7 +329,9 @@ function AddAlertModal() {
         <O11yButton colors="white" onClick={handleCloseModal}>
           Cancel
         </O11yButton>
-        <O11yButton onClick={handleCloseModal}>Save Changes</O11yButton>
+        <O11yButton onClick={handleCloseModal} disabled={!isFormValid}>
+          Save Changes
+        </O11yButton>
       </O11yModalFooter>
     </O11yModal>
   );
