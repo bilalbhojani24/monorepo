@@ -52,7 +52,7 @@ const TestStats = () => {
   if (isLoadingData) {
     return (
       <O11yLoader
-        wrapperClassName="h-full py-6"
+        wrapperClassName="py-6"
         loaderClass="text-base-200 fill-base-400 w-8 h-8"
       />
     );

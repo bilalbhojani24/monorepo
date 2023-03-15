@@ -77,3 +77,12 @@ export const SNP_DATE_RANGE = {
     }
   }
 };
+
+export const TOOLTIP_STYLES = {
+  backgroundColor: '#00335D',
+  borderColor: 'transparent',
+  style: {
+    color: '#fff',
+    textTransform: 'capitalize'
+  }
+};

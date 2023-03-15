@@ -105,43 +105,41 @@ export default function TestBuilds() {
     });
   };
 
-  if (!buildsData.builds.length) {
-    return null;
+  if (isLoadingData) {
+    return (
+      <O11yLoader
+        wrapperClassName="py-6"
+        loaderClass="text-base-200 fill-base-400 w-8 h-8"
+      />
+    );
   }
 
   return (
-    <div className={twClassNames('flex-1')}>
-      {isLoadingData ? (
-        <O11yLoader
-          wrapperClassName="h-full"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
-      ) : (
-        <VirtualisedTable
-          style={{ height: '100%' }}
-          data={buildsData.builds}
-          endReached={loadMore}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
-                <O11yTableCell
-                  key={key}
-                  wrapperClassName={twClassNames(
-                    BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
-                  )}
-                >
-                  <div className="text-xs font-medium leading-4">
-                    {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
-                  </div>
-                </O11yTableCell>
-              ))}
-            </O11yTableRow>
-          )}
-          itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
-          showFixedFooter={isLoadingMore}
-          handleRowClick={handleRowClick}
-        />
-      )}
+    <div className={twClassNames('h-full')}>
+      <VirtualisedTable
+        style={{ height: '100%' }}
+        data={buildsData.builds}
+        endReached={loadMore}
+        fixedHeaderContent={() => (
+          <O11yTableRow>
+            {Object.keys(BUILDS_HEADER_COLUMN_STYLE_MAPPING).map((key) => (
+              <O11yTableCell
+                key={key}
+                wrapperClassName={twClassNames(
+                  BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
+                )}
+              >
+                <div className="text-xs font-medium leading-4">
+                  {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
+                </div>
+              </O11yTableCell>
+            ))}
+          </O11yTableRow>
+        )}
+        itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
+        showFixedFooter={isLoadingMore}
+        handleRowClick={handleRowClick}
+      />
     </div>
   );
 }
