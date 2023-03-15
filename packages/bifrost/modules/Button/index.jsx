@@ -33,7 +33,8 @@ const Button = (
     colors,
     loaderText,
     ariaLabel,
-    type
+    type,
+    form
   },
   ref
 ) => {
@@ -204,6 +205,7 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
+      form={form || null}
     >
       {effectiveChildren}
     </button>
@@ -225,7 +227,8 @@ const buttonProps = {
   isIconOnlyButton: PropTypes.bool,
   ariaLabel: PropTypes.string,
   loaderText: PropTypes.string,
-  type: PropTypes.oneOf(BUTTON_TYPES)
+  type: PropTypes.oneOf(BUTTON_TYPES),
+  form: PropTypes.string
 };
 
 const defaultProps = {
@@ -243,7 +246,8 @@ const defaultProps = {
   isIconOnlyButton: false,
   ariaLabel: '',
   loaderText: 'Loading',
-  type: 'button'
+  type: 'button',
+  form: ''
 };
 
 const WrappedButton = forwardRef(Button);
