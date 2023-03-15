@@ -80,6 +80,58 @@ export const logOllyEvent = ({ event, data = {} }) => {
   }
 };
 
+export const capitalize = (word, upCaseTwo = false) => {
+  let result = word;
+  if (result) {
+    result = result.toLowerCase();
+    if (upCaseTwo && result.length === 2) {
+      result = result.toUpperCase();
+    } else {
+      result = result.charAt(0).toUpperCase() + result.slice(1);
+    }
+  }
+  return result;
+};
+
+export const getShortOSName = (os) => {
+  switch (os) {
+    case 'windows':
+      return 'Win';
+    case 'ios':
+      return 'iOS';
+    case 'macos':
+      return 'mac OS';
+    case 'os x':
+      return 'OS X';
+    case 'winphone':
+      return 'WinPhone';
+    default:
+      return capitalize(os);
+  }
+};
+export const getOsIconName = (os) => {
+  if (!os) {
+    return 'unknown';
+  }
+  const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
+  const [osType] = formattedOS.split('-');
+  if (osType === 'ios') {
+    return osType;
+  }
+
+  return formattedOS;
+};
+
+export const getIconName = (name = '', device = '') => {
+  if (name) {
+    return `icon-${name.toLowerCase()}`;
+  }
+  if (device) {
+    return `device_icon`;
+  }
+  return '';
+};
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
   if (!buildStatus || buildStatus === TEST_STATUS.STARTED) {

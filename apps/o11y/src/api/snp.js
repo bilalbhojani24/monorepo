@@ -47,10 +47,20 @@ export const getSnPTestsBreakdown = async ({
   return axios.get(endpoint);
 };
 
-export const getSnPTestsDetailsInfo = async ({ normalisedName, testId }) =>
-  axios.get(`
-  ${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/info
-  `);
+export const getSnPTestsDetailsInfo = async ({
+  normalisedName,
+  testId,
+  filters
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/info?isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
+  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
+    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
 export const getSnPDetailsStats = async ({
   normalisedName,
   testId,

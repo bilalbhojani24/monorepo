@@ -6,6 +6,11 @@ import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSe
 import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
 import generalSettingsReducer from 'features/Settings/slices/generalSettings';
 import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
+import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
+import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
+import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
+import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
+import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import globalReducer from 'globalSlice';
 import { createLogger } from 'redux-logger';
 
@@ -17,6 +22,11 @@ export const store = configureStore({
     autoAnalyserSettings: autoAnalyserSettingsReducer,
     failureCategoriesSettings: failureCategoriesSettingsReducer,
     reRunSettings: reRunSettingsReducer,
+    shTests: shTestsReducer,
+    shTestdetails: shTestDetailsReducer,
+    shErrordetails: shErrorDetailsReducer,
+    testdetails: testDetailsDataReducer,
+    testdetailsui: testDetailsUIReducer,
     buildsData: buildsReducer,
     modalToShow
   },
