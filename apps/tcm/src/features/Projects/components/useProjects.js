@@ -137,6 +137,11 @@ const useProjects = (prop) => {
   };
 
   const createProjectHandler = () => {
+    // dispatch(
+    //   logEventHelper('TM_CreateProjectCtaClicked', {
+    //     project_id: selectedProject?.id
+    //   })
+    // );
     if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Name is not specified' });
     } else

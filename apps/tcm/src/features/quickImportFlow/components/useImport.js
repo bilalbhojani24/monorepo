@@ -141,7 +141,8 @@ const useImport = () => {
     if (logEvent && currentScreen === 'configureTool') {
       dispatch(
         logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
-          project_id: projectId
+          project_id: projectId,
+          tool_selected: currentTestManagementTool
         })
       );
     }
@@ -213,7 +214,11 @@ const useImport = () => {
   };
 
   const handleProceed = () => {
-    dispatch(logEventHelper(proceedActionEventName(), {}));
+    dispatch(
+      logEventHelper(proceedActionEventName(), {
+        tool_selected: currentTestManagementTool
+      })
+    );
     if (currentTestManagementTool === 'testrails') {
       if (testRailsCred.key && testRailsCred.host && testRailsCred.email)
         handleTestConnection('proceed', false);

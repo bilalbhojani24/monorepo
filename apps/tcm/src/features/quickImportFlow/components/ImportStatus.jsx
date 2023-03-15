@@ -99,15 +99,15 @@ const ImportStatus = () => {
   };
 
   const handleFirstButtonClick = (toastData) => () => {
-    dispatch(
-      logEventHelper('TM_QiViewReportLinkClicked', {
-        project_id: projectId
-      })
-    );
     if (
       importStatus === COMPLETED &&
       totalImportProjectsCount > successImportProjectCount
     ) {
+      dispatch(
+        logEventHelper('TM_QiViewReportLinkClicked', {
+          tool_selected: testManagementTool
+        })
+      );
       dispatch(setShowNotificationModal(true));
       dismissNotification(toastData, 'showModal');
     } else {
@@ -128,8 +128,14 @@ const ImportStatus = () => {
     if (
       importStatus === COMPLETED &&
       totalImportProjectsCount > successImportProjectCount
-    )
+    ) {
+      dispatch(
+        logEventHelper('TM_QiRetryImportLinkClicked', {
+          tool_selected: testManagementTool
+        })
+      );
       retryImportFn();
+    }
   };
 
   // only works on refresh and if banner does not comes.

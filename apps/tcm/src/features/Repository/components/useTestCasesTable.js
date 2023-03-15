@@ -16,6 +16,7 @@ import {
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
+  setCurrentEditedTestCaseData,
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
   setSelectedTestCase,
@@ -163,6 +164,7 @@ const useTestCasesTable = (prop) => {
       // edit
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
+      dispatch(setCurrentEditedTestCaseData(selectedItem));
       dispatch(setTestCaseFormData(selectedItem));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete

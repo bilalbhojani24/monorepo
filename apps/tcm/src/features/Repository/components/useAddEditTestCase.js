@@ -32,13 +32,13 @@ import {
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
-  setUnsavedDataExists,
   updateBulkTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
   updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import { handleUnsavedData } from '../slices/repositoryThunk';
 
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
@@ -108,11 +108,9 @@ export default function useAddEditTestCase(prop) {
 
   const usersArray = useSelector((state) => state.repository.usersArray);
 
-  const currentEditedTestCaseData = useSelector(
-    (state) => state.repository.currentEditedTestCaseData
-  );
   const hideTestCaseAddEditPage = (e, isForced) => {
     isOkToExitForm(isForced);
+    dispatch(setCurrentEditedTestCaseData(null));
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -121,36 +119,7 @@ export default function useAddEditTestCase(prop) {
     dispatch(setAddIssuesModal(true));
   };
 
-  const beforeEditingIsEqualAfterEditing = (beforeEditing, afterEditing) => {
-    const allKeys = Object.keys(beforeEditing);
-
-    for (let i = 0; i < allKeys.length; i += 1) {
-      if (beforeEditing[allKeys[i]] !== afterEditing[allKeys[i]]) {
-        console.log(
-          'inside',
-          allKeys[i],
-          '------------------------',
-          beforeEditing[allKeys[i]],
-          '-------------------------',
-          afterEditing[allKeys[i]]
-        );
-        return false;
-      }
-    }
-    return true;
-  };
-
   const handleTestCaseFieldChange = (key, value) => {
-    if (
-      !beforeEditingIsEqualAfterEditing(
-        currentEditedTestCaseData,
-        testCaseFormData
-      ) &&
-      !isUnsavedDataExists
-    ) {
-      dispatch(setUnsavedDataExists(true));
-    }
-
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -166,6 +135,7 @@ export default function useAddEditTestCase(prop) {
         );
       }
       dispatch(updateTestCaseFormData({ key, value }));
+      if (!isUnsavedDataExists) dispatch(handleUnsavedData());
     }
   };
 

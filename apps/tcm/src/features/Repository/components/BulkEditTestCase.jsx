@@ -100,7 +100,7 @@ const BulkEditTestCase = () => {
           <div className="flex-1">
             <TMSelectMenu
               checkPosition="right"
-              label="Priority*"
+              label="Priority"
               placeholder="Select from options"
               options={priorityOptions}
               // value={
@@ -123,7 +123,7 @@ const BulkEditTestCase = () => {
               //   )
               // }
               checkPosition="right"
-              label="State*"
+              label="State"
               placeholder="Select from options"
               options={statusOptions}
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}

@@ -107,6 +107,12 @@ const useImportStatus = () => {
   const handleFirstButtonClick =
     (toastData, currentImportStatus, totalCount, successCount) => () => {
       if (currentImportStatus === COMPLETED && totalCount > successCount) {
+        // failure
+        dispatch(
+          logEventHelper('TM_QiViewReportLinkClicked', {
+            tool_selected: testManagementTool
+          })
+        );
         dispatch(setShowNotificationModal(true));
         dismissNotification(toastData, currentImportStatus, 'showModal');
       } else {
@@ -120,8 +126,14 @@ const useImportStatus = () => {
     (toastData, currentImportStatus, totalCount, successCount, importType) =>
     () => {
       dismissNotification(toastData, currentImportStatus);
-      if (currentImportStatus === COMPLETED && totalCount > successCount)
+      if (currentImportStatus === COMPLETED && totalCount > successCount) {
+        dispatch(
+          logEventHelper('TM_QiRetryImportLinkClicked', {
+            tool_selected: testManagementTool
+          })
+        );
         retryImportFn(importType);
+      }
     };
 
   const showNotification = (
@@ -181,7 +193,11 @@ const useImportStatus = () => {
   };
 
   const checkImportStatusClickHandler = () => {
-    dispatch(logEventHelper('TM_QiCheckStatusLinkClicked', {}));
+    dispatch(
+      logEventHelper('TM_QiCheckStatusLinkClicked', {
+        tool_selected: testManagementTool
+      })
+    );
     dispatch(setCheckImportStatusClicked(true));
     getQuickImportStatus(importId).then((data) => {
       dispatch(setImportStatus(data.status));

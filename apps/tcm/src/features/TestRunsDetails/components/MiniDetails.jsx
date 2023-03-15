@@ -42,15 +42,16 @@ const MiniDetails = () => {
                 </span>
                 {!isTestRunDetailsLoading && (
                   <>
-                    {(isPassed ||
-                      testRunDetails?.overall_progress?.failed > 0) && (
+                    {(isPassed && testRunDetails?.test_cases_count > 0) ||
+                    testRunDetails?.overall_progress?.failed > 0 ? (
                       <TMBadge
                         wrapperClassName="ml-1 pointer-events-none"
                         text={isPassed ? 'Passed' : 'Failed'}
                         modifier={isPassed ? 'success' : 'error'}
                         size="large"
-                        // key={rowData.tags[0]}
                       />
+                    ) : (
+                      <span className="ml-1">--</span>
                     )}
                   </>
                 )}

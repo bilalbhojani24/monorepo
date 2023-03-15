@@ -123,6 +123,7 @@ export default function useTestCases() {
         .catch(() => {
           // if page error, reset p=1
           setSearchParams({});
+          dispatch(updateTestCasesListLoading(false));
         });
     } else {
       dispatch(updateAllTestCases([]));
