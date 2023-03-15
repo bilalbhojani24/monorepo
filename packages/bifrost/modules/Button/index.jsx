@@ -247,7 +247,7 @@ const defaultProps = {
   ariaLabel: '',
   loaderText: 'Loading',
   type: 'button',
-  form: ''
+  form: null
 };
 
 const WrappedButton = forwardRef(Button);
