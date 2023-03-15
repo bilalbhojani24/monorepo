@@ -1,5 +1,6 @@
+const COOKIE_SEPARATOR = '___';
 const STAGING_CONFIG = (envName) => ({
-  cookiePrefix: `${envName}__`,
+  cookiePrefix: `${envName}${COOKIE_SEPARATOR}`,
   signInUrl: `https://${envName}.bsstag.com/users/sign_in`,
   apiUrl: 'https://devtestops-api.bsstag.com',
   withCredentials: true
@@ -13,7 +14,7 @@ export default {
     withCredentials: false
   },
   'local-staging': {
-    cookiePrefix: 'development__',
+    cookiePrefix: `development${COOKIE_SEPARATOR}`,
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     apiUrl: STAGING_CONFIG('').apiUrl,
     withCredentials: true
@@ -28,7 +29,7 @@ export default {
     ...STAGING_CONFIG('devtestops')
   },
   preprod: {
-    cookiePrefix: 'preprod__',
+    cookiePrefix: `preprod${COOKIE_SEPARATOR}`,
     signInUrl: 'https://preprod.bsstag.com/users/sign_in',
     apiUrl: 'https://api-observability-preprod.bsstag.com',
     withCredentials: true
