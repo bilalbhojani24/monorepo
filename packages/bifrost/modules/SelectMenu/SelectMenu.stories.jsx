@@ -154,6 +154,19 @@ SelectWithPlaceholder.play = async ({ canvasElement }) => {
 };
 
 const DisabledSelectMenu = Template.bind({});
+DisabledSelectMenu.play = async ({ canvasElement }) => {
+  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByText(selectMenuOptions[0])).toBeVisible();
+  await userEvent.click(canvas.getByText(selectMenuOptions[0]));
+  await sleep(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  await sleep(1);
+  expect(selectItems.length).toBe(0);
+  await sleep(1);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
 
 Primary.parameters = {
   controls: {}
