@@ -10,7 +10,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const initAPI = async () =>
-    initAPICall().then((response) => dispatch(setUser(response.data.data)));
+    initAPICall().then((response) => dispatch(setUser(response.data)));
 
   const Routes = useAuthRoutes(
     APP_ROUTES,
