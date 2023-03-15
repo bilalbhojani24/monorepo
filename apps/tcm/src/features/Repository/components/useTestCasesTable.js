@@ -164,7 +164,7 @@ const useTestCasesTable = (prop) => {
       // edit
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
-      dispatch(setCurrentEditedTestCaseData(selectedItem));
+      dispatch(setCurrentEditedTestCaseData(selectedItem)); // [NOTE: RTE fix]
       dispatch(setTestCaseFormData(selectedItem));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete

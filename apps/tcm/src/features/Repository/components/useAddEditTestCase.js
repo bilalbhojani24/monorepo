@@ -29,6 +29,7 @@ import {
   setAddTestCaseVisibility,
   setAllFolders,
   setCurrentEditedTestCaseData,
+  setEditTestCasePageVisibility,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
@@ -110,7 +111,6 @@ export default function useAddEditTestCase(prop) {
 
   const hideTestCaseAddEditPage = (e, isForced) => {
     isOkToExitForm(isForced);
-    dispatch(setCurrentEditedTestCaseData(null));
   };
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
@@ -169,7 +169,7 @@ export default function useAddEditTestCase(prop) {
         testCaseId: selectedTestCase.id
       }).then((data) => {
         const formattedData = formDataRetriever(data?.data?.test_case);
-        dispatch(setCurrentEditedTestCaseData(formattedData));
+        dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
         dispatch(setTestCaseFormData(formattedData));
         if (formattedData.issues)
           dispatch(setIssuesArray(formattedData.issues));
@@ -339,7 +339,7 @@ export default function useAddEditTestCase(prop) {
         dispatch(updateTestCase(newData?.data?.test_case));
         dispatch(
           addNotificaton({
-            id: `test_case_edited${newData?.id}`,
+            id: `test_case_edited${newData?.data?.test_case?.id}`,
             title: `${newData.data?.test_case?.identifier} : Test case updated`,
             variant: 'success'
           })
@@ -470,6 +470,7 @@ export default function useAddEditTestCase(prop) {
       ? thisFolder?.id
       : selectedFolder?.id;
 
+    dispatch(setEditTestCasePageVisibility(!(thisSelectedFolder || true))); // [NOTE: we were not able to move from Add to Edit when clicked from folders]
     dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
     if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
     if (!folderId)

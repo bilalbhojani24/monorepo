@@ -116,13 +116,20 @@ export const repositorySlice = createSlice({
       );
     },
     setCurrentEditedTestCaseData: (state, { payload }) => {
-      state.currentEditedTestCaseData = payload;
+      // [NOTE: RTE fix]
+      state.currentEditedTestCaseData =
+        payload || initialState.testCaseFormData;
     },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
       if (payload) {
         // reset form data
         state.testCaseFormData = {
+          ...initialState.testCaseFormData,
+          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+        };
+        state.currentEditedTestCaseData = {
+          // [NOTE: RTE fix]
           ...initialState.testCaseFormData,
           test_case_folder_id: !Number.isNaN(payload) ? payload : null
         };
