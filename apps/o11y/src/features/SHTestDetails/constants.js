@@ -11,19 +11,19 @@ export const TABS = {
 };
 
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
-  [BUILDS_HEADER_LABEL_MAPPING.buildName]: {
+  buildName: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
     defaultClass: 'w-7/12 py-3 whitespace-normal'
   },
-  [BUILDS_HEADER_LABEL_MAPPING.testStatus]: {
+  testStatus: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,
     defaultClass: 'py-3'
   },
-  [BUILDS_HEADER_LABEL_MAPPING.testDuration]: {
+  testDuration: {
     name: BUILDS_HEADER_LABEL_MAPPING.testDuration,
     defaultClass: 'py-3'
   },
-  [BUILDS_HEADER_LABEL_MAPPING.tags]: {
+  tags: {
     name: BUILDS_HEADER_LABEL_MAPPING.tags,
     defaultClass: 'py-3'
   }
@@ -37,19 +37,19 @@ export const PLATFORM_HEADER_LABEL_MAPPING = {
 };
 
 export const PLATFORM_HEADER_CELLS_MAPPING = {
-  [PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations]: {
+  platforms_combinations: {
     name: PLATFORM_HEADER_LABEL_MAPPING.platforms_combinations,
     defaultClass: 'w-7/12 whitespace-normal py-3'
   },
-  [PLATFORM_HEADER_LABEL_MAPPING.totalFailures]: {
+  totalFailures: {
     name: PLATFORM_HEADER_LABEL_MAPPING.totalFailures,
     defaultClass: 'py-3'
   },
-  [PLATFORM_HEADER_LABEL_MAPPING.reliability]: {
+  reliability: {
     name: PLATFORM_HEADER_LABEL_MAPPING.reliability,
     defaultClass: 'py-3'
   },
-  [PLATFORM_HEADER_LABEL_MAPPING.average]: {
+  average: {
     name: PLATFORM_HEADER_LABEL_MAPPING.average,
     defaultClass: 'py-3'
   }
