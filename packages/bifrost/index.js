@@ -70,6 +70,7 @@ import SelectMenuTrigger from './modules/SelectMenuTrigger/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
+import SkipToContent from './modules/SkipToContent/index';
 import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
@@ -170,6 +171,7 @@ export {
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
+  SkipToContent,
   Slideover,
   SlideoverBody,
   SlideoverFooter,
