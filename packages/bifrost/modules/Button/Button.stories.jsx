@@ -8,6 +8,7 @@ import {
   BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
   BUTTON_SIZES,
+  BUTTON_TYPES,
   BUTTON_VARIANTS
 } from './const/buttonConstants';
 import Button from './index';
@@ -75,6 +76,11 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Text displayed when button is under loading state'
+    },
+    type: {
+      options: BUTTON_TYPES,
+      control: { type: 'inline-radio' },
+      defaultValue: BUTTON_TYPES[0]
     }
   },
   controls: {}
@@ -175,8 +181,14 @@ Disabled.args = {
   disabled: true
 };
 
+const CustomButtonType = Template.bind({});
+CustomButtonType.args = {
+  type: 'submit'
+};
+
 export default defaultConfig;
 export {
+  CustomButtonType,
   Default,
   Disabled,
   FullWidth,

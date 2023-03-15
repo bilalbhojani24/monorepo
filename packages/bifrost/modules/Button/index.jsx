@@ -11,6 +11,7 @@ import {
   BUTTON_LOADER_CLASSES,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
+  BUTTON_TYPES,
   BUTTON_VARIANTS
 } from './const/buttonConstants';
 
@@ -31,7 +32,8 @@ const Button = (
     isIconOnlyButton,
     colors,
     loaderText,
-    ariaLabel
+    ariaLabel,
+    type
   },
   ref
 ) => {
@@ -189,7 +191,7 @@ const Button = (
   return (
     <button
       {...getConditionalProps()}
-      type="button"
+      type={type === 'submit' ? 'submit' : 'button'}
       ref={ref || buttonRef}
       aria-disabled={disabled}
       className={twClassNames(
@@ -222,7 +224,8 @@ const buttonProps = {
   colors: PropTypes.oneOf(BUTTON_COLORS),
   isIconOnlyButton: PropTypes.bool,
   ariaLabel: PropTypes.string,
-  loaderText: PropTypes.string
+  loaderText: PropTypes.string,
+  type: PropTypes.oneOf(BUTTON_TYPES)
 };
 
 const defaultProps = {
@@ -239,7 +242,8 @@ const defaultProps = {
   colors: BUTTON_COLORS[0],
   isIconOnlyButton: false,
   ariaLabel: '',
-  loaderText: 'Loading'
+  loaderText: 'Loading',
+  type: 'button'
 };
 
 const WrappedButton = forwardRef(Button);
