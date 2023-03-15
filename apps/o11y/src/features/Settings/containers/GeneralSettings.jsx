@@ -6,11 +6,11 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
-import { getGeneralSettingsState } from '../slices/selectors';
 import {
   getGeneralSettingsData,
   submitGeneralSettingsChanges
-} from '../slices/settingsSlice';
+} from '../slices/generalSettings';
+import { getGeneralSettingsState } from '../slices/selectors';
 
 export default function GeneralSettings() {
   const data = useSelector(getGeneralSettingsState);

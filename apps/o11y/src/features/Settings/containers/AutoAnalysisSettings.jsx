@@ -6,11 +6,11 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
-import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 import {
   getAutoAnalyserSettingsData,
   updateAutoAnalyserSettingsData
-} from '../slices/settingsSlice';
+} from '../slices/autoAnalyserSettings';
+import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 
 export default function AutoAnalysisSettings() {
   const data = useSelector(getAutoAnalyzerSettingsState);

@@ -38,12 +38,12 @@ import {
   ALERT_TYPES_INFO,
   APPLICABLE_TO
 } from '../constants';
-import { getBuildNamesState } from '../slices/selectors';
 import {
   getBuildNamesData,
   submitNewAlert,
   updateAlert
-} from '../slices/settingsSlice';
+} from '../slices/alertsSettings';
+import { getBuildNamesState } from '../slices/selectors';
 import { getWarningInputError } from '../utils';
 
 import AlertStaticBlock from './AlertStaticBlock';

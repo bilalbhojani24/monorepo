@@ -6,8 +6,8 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
+import { getReRunSettings, updateReRunSettings } from '../slices/reRunSettings';
 import { getReRunSettingsState } from '../slices/selectors';
-import { getReRunSettings, updateReRunSettings } from '../slices/settingsSlice';
 
 export default function ReRunSettings() {
   const data = useSelector(getReRunSettingsState);

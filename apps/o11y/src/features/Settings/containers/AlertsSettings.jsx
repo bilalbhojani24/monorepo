@@ -20,8 +20,8 @@ import AlertTypeGroup from '../components/AlertTypeGroup';
 import Initiator from '../components/Initiator';
 import SettingsCard from '../components/SettingsCard';
 import { ALERT_TYPES } from '../constants';
+import { getAlertsSettings } from '../slices/alertsSettings';
 import { getAlertsState } from '../slices/selectors';
-import { getAlertsSettings } from '../slices/settingsSlice';
 
 export default function AlertsSettings() {
   const data = useSelector(getAlertsState);

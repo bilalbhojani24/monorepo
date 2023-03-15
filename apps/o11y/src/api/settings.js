@@ -25,3 +25,13 @@ export const createNewAlert = async ({ projectNormalisedName, payload }) =>
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/alerts`,
     payload
   );
+
+export const getAvailableCategoriesData = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/categories`
+  );
+
+export const getAvailableSubCategories = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/sub-categories`
+  );
