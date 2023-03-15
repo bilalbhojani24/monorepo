@@ -17,7 +17,8 @@ const Tabs = ({
   shape,
   tabsArray,
   disableFullWidthBorder,
-  wrapperClassName
+  wrapperClassName,
+  containerClassName
 }) => {
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
@@ -41,7 +42,7 @@ const Tabs = ({
     <>
       {tabsArray?.length && (
         <div className={twClassNames('w-full', wrapperClassName)}>
-          <div className="sm:hidden">
+          <div className={twClassNames('sm:hidden', containerClassName)}>
             {label && (
               <label htmlFor={id} className="sr-only">
                 {label}
@@ -59,36 +60,38 @@ const Tabs = ({
               ))}
             </select>
           </div>
-          <div className="hidden sm:block">
-            <div
-              className={twClassNames({
+          <div
+            className={twClassNames(
+              {
                 'border-base-200 border-b': !disableFullWidthBorder
+              },
+              'hidden sm:block',
+              containerClassName
+            )}
+          >
+            <nav
+              className={twClassNames('-mb-px flex', {
+                'space-x-8': !isFullWidth,
+                'border-0': isFullWidth,
+                'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
+                  isContained
               })}
+              aria-label="Tabs"
             >
-              <nav
-                className={twClassNames('-mb-px flex', {
-                  'space-x-8': !isFullWidth,
-                  'border-0': isFullWidth,
-                  'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
-                    isContained
-                })}
-                aria-label="Tabs"
-              >
-                {tabsArray?.map((tab, index) => (
-                  <Tab
-                    tab={tab}
-                    key={tab.name}
-                    isCurrent={selectedTab?.name === tab.name}
-                    onTabClick={onTabClickHandler}
-                    shape={shape}
-                    isContained={isContained}
-                    isFullWidth={isFullWidth}
-                    totalTabs={tabsArray.length}
-                    tabIdx={index}
-                  />
-                ))}
-              </nav>
-            </div>
+              {tabsArray?.map((tab, index) => (
+                <Tab
+                  tab={tab}
+                  key={tab.name}
+                  isCurrent={selectedTab?.name === tab.name}
+                  onTabClick={onTabClickHandler}
+                  shape={shape}
+                  isContained={isContained}
+                  isFullWidth={isFullWidth}
+                  totalTabs={tabsArray.length}
+                  tabIdx={index}
+                />
+              ))}
+            </nav>
           </div>
         </div>
       )}
@@ -112,7 +115,8 @@ Tabs.propTypes = {
     })
   ).isRequired,
   disableFullWidthBorder: PropTypes.bool,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  containerClassName: PropTypes.string
 };
 
 Tabs.defaultProps = {
@@ -124,7 +128,8 @@ Tabs.defaultProps = {
   onTabChange: () => {},
   shape: TAB_SHAPE[0],
   disableFullWidthBorder: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  containerClassName: ''
 };
 
 export default Tabs;
