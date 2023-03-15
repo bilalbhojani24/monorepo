@@ -18,8 +18,8 @@ const HeaderBrand = ({ productName, productLink, release }) => (
       className={twClassNames('flex flex-row items-center gap-2 w-fit')}
       aria-label="Browserstack Logo"
     >
-      <BrandLogo iconClass="min-[1230px]:hidden -mt-0.5" />
-      <BrandLogoWithName iconClass="max-[1229px]:hidden -mt-0.5" />
+      <BrandLogo iconClass="[@media(min-width:1230px)]:hidden min-[1230px]:hidden -mt-0.5" />
+      <BrandLogoWithName iconClass="[@media(max-width:1229px)]:hidden max-[1229px]:hidden -mt-0.5" />
     </a>
     <Hyperlink
       href={productLink}
