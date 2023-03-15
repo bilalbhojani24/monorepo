@@ -448,7 +448,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               tabIndex="0"
               className="text-info-600 ml-6 mb-5 text-sm"
             >
-              Download Sample CSV
+              Download sample CSV
             </div>
             {/* <a href="data:text/csv;charset=utf-8" download="assets/sample.csv">
               download
