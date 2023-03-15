@@ -47,4 +47,3 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
   platforms: 'Platforms',
   browsers: 'Browsers'
 };
-export const SUITE_HEALTH_TESTS_COLS = 6;
