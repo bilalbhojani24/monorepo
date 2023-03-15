@@ -18,7 +18,15 @@ const SelectMenu = forwardRef((props, ref) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
 
-  const { children, errorText, onChange, isMulti, defaultValue, value } = props;
+  const {
+    children,
+    errorText,
+    onChange,
+    isMulti,
+    defaultValue,
+    value,
+    disabled
+  } = props;
 
   return (
     <SelectMenuContextData.Provider
@@ -28,7 +36,8 @@ const SelectMenu = forwardRef((props, ref) => {
         width,
         showCount,
         setShowCount,
-        errorText
+        errorText,
+        disabled
       }}
     >
       <Popover.Root>
@@ -44,6 +53,7 @@ const SelectMenu = forwardRef((props, ref) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
+          disabled={disabled}
         >
           {children}
         </Listbox>
@@ -87,7 +97,8 @@ SelectMenu.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  disabled: bool
 };
 
 SelectMenu.defaultProps = {
@@ -95,7 +106,8 @@ SelectMenu.defaultProps = {
   errorText: '',
   isMulti: false,
   onChange: () => {},
-  value: null
+  value: null,
+  disabled: false
 };
 
 export default SelectMenu;
