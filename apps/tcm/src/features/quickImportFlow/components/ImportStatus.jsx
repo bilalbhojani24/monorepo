@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
 import {
   AccessTimeIcon,
@@ -47,7 +47,7 @@ const ImportStatus = () => {
     quickImportProjectId,
     checkImportStatusClickHandler
   } = useImportStatus();
-  const { projectId } = useParams();
+  // const { projectId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { fetchProjects } = useProjects();
@@ -119,11 +119,6 @@ const ImportStatus = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSecondButtonClick = (toastData) => () => {
-    dispatch(
-      logEventHelper('TM_QiRetryImportLinkClicked', {
-        project_id: projectId
-      })
-    );
     dismissNotification(toastData);
     if (
       importStatus === COMPLETED &&

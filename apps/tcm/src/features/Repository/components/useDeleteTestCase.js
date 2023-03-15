@@ -108,6 +108,13 @@ export default function useDeleteTestCase() {
       folderId,
       testCaseId: selectedTestCase.id
     }).then(() => {
+      dispatch(
+        logEventHelper('TM_TestCaseDeletedNotification', {
+          project_id: projectId,
+          testcase_id: selectedTestCase?.id
+        })
+      );
+
       dispatch(deleteTestCase([selectedTestCase.id]));
       setMetaCount(metaPage.count - 1);
       hideDeleteTestCaseModal();
@@ -116,6 +123,13 @@ export default function useDeleteTestCase() {
 
   const deleteTestCaseHandler = () => {
     if (isBulkUpdate) {
+      dispatch(
+        logEventHelper('TM_DeleteAllCtaClicked', {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids,
+          folder_id_src: folderId
+        })
+      );
       bulkDeleteHandler();
     } else if (selectedTestCase) {
       singleItemDeleteHelper();

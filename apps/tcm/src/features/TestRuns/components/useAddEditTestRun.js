@@ -220,6 +220,12 @@ const useAddEditTestRun = () => {
         projectId,
         testRunId: testRunFormData?.test_run?.id
       }).then((data) => {
+        dispatch(
+          logEventHelper('TM_TestRunUpdatedNotification', {
+            project_id: projectId,
+            testrun_id: testRunFormData?.test_run?.id
+          })
+        );
         dispatch(updateTestRun(data.data.testrun || []));
         hideAddTestRunForm();
       });
@@ -236,7 +242,12 @@ const useAddEditTestRun = () => {
         projectId
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
-
+        dispatch(
+          logEventHelper('TM_TestRunCreatedNotification', {
+            project_id: projectId,
+            testrun_id: data.data.testrun?.id
+          })
+        );
         dispatch(
           addNotificaton({
             id: `test_run_added${data.data.testrun?.id}`,

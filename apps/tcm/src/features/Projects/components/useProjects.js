@@ -98,8 +98,10 @@ const useProjects = (prop) => {
 
   const onDropDownChange = (selectedOption, selectedItem) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
+      dispatch(logEventHelper('TM_EditProjectLinkClicked', {}));
       dispatch(setEditProjectModalVisibility(true));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
+      dispatch(logEventHelper('TM_EditProjectLinkClicked', {}));
       dispatch(setDeleteProjectModalVisibility(true));
     }
     dispatch(setSelectedProject(selectedItem));
@@ -137,11 +139,12 @@ const useProjects = (prop) => {
   };
 
   const createProjectHandler = () => {
-    // dispatch(
-    //   logEventHelper('TM_CreateProjectCtaClicked', {
-    //     project_id: selectedProject?.id
-    //   })
-    // );
+    dispatch(
+      logEventHelper('TM_CreateProjectCtaClicked', {
+        project_id: selectedProject?.id,
+        project_name: selectedProject?.name
+      })
+    );
     if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Name is not specified' });
     } else

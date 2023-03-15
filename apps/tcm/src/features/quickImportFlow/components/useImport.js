@@ -316,6 +316,11 @@ const useImport = () => {
   };
 
   const onCancelClickHandler = () => {
+    dispatch(
+      logEventHelper('TM_QiCancelClicked', {
+        tool_selected: currentTestManagementTool
+      })
+    );
     if (isFromOnboarding) {
       navigate(
         hasProjects
@@ -349,6 +354,14 @@ const useImport = () => {
       });
   };
 
+  const handleChangeSetup = () => {
+    dispatch(
+      logEventHelper('TM_QiChangeSetupClicked', {
+        tool_selected: currentTestManagementTool
+      })
+    );
+  };
+
   return {
     isFromOnboarding,
     allImportSteps,
@@ -379,6 +392,7 @@ const useImport = () => {
     configureToolProceedLoading,
     configureToolPageLoading,
     onCancelClickHandler,
+    handleChangeSetup,
     populateQuickImportCredentials
   };
 };

@@ -49,6 +49,12 @@ const useMiscConnections = (prop) => {
       );
       deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(
         () => {
+          dispatch(
+            logEventHelper('TM_TestRunDeletedNotification', {
+              project_id: projectId,
+              testrun_id: selectedTestRun?.id
+            })
+          );
           dispatch(deleteTestRun(selectedTestRun));
           if (prop?.redirectToDetails) {
             // move to test runs list page if in detaiils page
@@ -69,6 +75,12 @@ const useMiscConnections = (prop) => {
         })
       );
       closeTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(() => {
+        dispatch(
+          logEventHelper('TM_TestRunClosedNotification', {
+            project_id: projectId,
+            testrun_id: selectedTestRun?.id
+          })
+        );
         dispatch(deleteTestRun(selectedTestRun));
         closeAll();
         prop?.updateCb();

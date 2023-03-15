@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import AppRoute from 'const/routes';
-import { setUser } from 'globalSlice';
+import { setUser, setUserAndGroupConfig } from 'globalSlice';
 
 const useAuthentication = () => {
   const dispatch = useDispatch();
@@ -32,6 +32,14 @@ const useAuthentication = () => {
   const onAuthSuccessHandler = (res) => {
     if (res.data?.user) {
       dispatch(setUser(res.data.user));
+      dispatch(
+        setUserAndGroupConfig({
+          tmUserId: res?.data?.user?.id,
+          bsUserId: res?.data?.user?.browserstack_user_id,
+          tmGroupId: res?.data?.group?.id,
+          bsGroupId: res?.data?.group?.browserstack_group_id
+        })
+      );
 
       const url = successRedirectURL(res);
       if (url) navigate(url);

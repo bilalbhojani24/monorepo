@@ -239,7 +239,12 @@ export default function useAddEditTestCase(prop) {
       // only if the added test case belong to the opened folder
       dispatch(addSingleTestCase(testCaseData));
     }
-
+    dispatch(
+      logEventHelper('TM_TcCreatedNotification', {
+        project_id: projectId,
+        testcase_id: testCaseData?.id
+      })
+    );
     setTimeout(() => {
       // time out to wait for the project notification
       dispatch(
@@ -288,7 +293,7 @@ export default function useAddEditTestCase(prop) {
 
   const saveBulkEditHelper = () => {
     dispatch(
-      logEventHelper('TM_UpdateAllBtnClicked', {
+      logEventHelper('TM_UpdateAllCtaClicked', {
         project_id: projectId,
         testcase_id: bulkSelection?.ids
       })
@@ -337,6 +342,12 @@ export default function useAddEditTestCase(prop) {
       }).then((data) => {
         const newData = data;
         dispatch(updateTestCase(newData?.data?.test_case));
+        dispatch(
+          logEventHelper('TM_TcUpdatedNotification', {
+            project_id: projectId,
+            testcase_id: newData?.data?.test_case?.id
+          })
+        );
         dispatch(
           addNotificaton({
             id: `test_case_edited${newData?.data?.test_case?.id}`,
@@ -497,6 +508,16 @@ export default function useAddEditTestCase(prop) {
     );
     setShowMoreFields(value);
   };
+
+  // const handleUpdateAllClicked = () => {
+  //   console.log(selectedTestCase);
+  //   dispatch(
+  //     logEventHelper('TM_UpdateAllCtaClicked', {
+  //       project_id: projectId
+  //     })
+  //   );
+  //   setBulkEditConfirm(true);
+  // };
 
   useEffect(() => {
     if (

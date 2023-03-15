@@ -20,6 +20,9 @@ function App() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.global.user);
   const importStatus = useSelector((state) => state.import.importStatus);
+  const userAndGroupConfig = useSelector(
+    (state) => state.global.userAndGroupConfig
+  );
 
   setupInterceptors(navigate, dispatch);
 
@@ -28,8 +31,14 @@ function App() {
       amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
       amplitudeConfig: {
         key: '985eaa9c45d824a94344e64a2a3ca724',
-        userData: { user_id: userData?.id },
-        groupData: { group_id: userData?.group_id }
+        userData: {
+          user_id: userAndGroupConfig?.bsUserId,
+          tm_user_id: userAndGroupConfig?.tmUserId
+        },
+        groupData: {
+          group_id: userAndGroupConfig?.bsGroupId,
+          tm_group_id: userAndGroupConfig?.tmGroupId
+        }
       },
       analyticsKey: 'UA-418548-19',
       EDSDetails: {
@@ -41,11 +50,17 @@ function App() {
         }
       }
     };
-    if (window.initialized === false && userData?.id && userData?.group_id) {
+    if (
+      window.initialized === false &&
+      userAndGroupConfig?.bsUserId &&
+      userAndGroupConfig?.tmUserId &&
+      userAndGroupConfig?.bsGroupId &&
+      userAndGroupConfig?.tmGroupId
+    ) {
       initLogger(keys);
       window.initialized = true;
     }
-  }, [userData]);
+  }, [userAndGroupConfig]);
 
   return (
     <>

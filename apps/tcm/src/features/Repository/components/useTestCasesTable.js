@@ -132,7 +132,7 @@ const useTestCasesTable = (prop) => {
   const moveTestCasesHandler = (selectedFolder) => {
     if (selectedFolder?.id) {
       dispatch(
-        logEventHelper('TM_TcMoveBtnClicked', {
+        logEventHelper('TM_TcMoveAllCtaClicked', {
           project_id: projectId,
           folder_id_src: folderId,
           folder_id_dest: selectedFolder.id,

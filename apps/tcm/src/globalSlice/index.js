@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: null,
+  userAndGroupConfig: null,
   allProjects: [],
   selectedProjectId: null,
   userConfig: {
@@ -51,6 +52,10 @@ export const globalSlice = createSlice({
     },
     setIsLoadingProps: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
+    },
+    setUserAndGroupConfig: (state, { payload }) => {
+      // for amplitude
+      state.userAndGroupConfig = payload;
     }
   }
 });
@@ -65,7 +70,8 @@ export const {
   setSelectedProject,
   addGlobalProject,
   updateGlobalProject,
-  deleteGlobalProject
+  deleteGlobalProject,
+  setUserAndGroupConfig
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

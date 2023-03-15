@@ -32,6 +32,7 @@ const Import = () => {
     allImportSteps,
     importStatus,
     configureToolPageLoading,
+    handleChangeSetup,
     onCancelClickHandler,
     populateQuickImportCredentials
   } = useImport();
@@ -114,6 +115,7 @@ const Import = () => {
                   variant="primary"
                   colors="white"
                   wrapperClassName="mr-4"
+                  onClick={handleChangeSetup}
                 >
                   Change Setup
                 </TMButton>

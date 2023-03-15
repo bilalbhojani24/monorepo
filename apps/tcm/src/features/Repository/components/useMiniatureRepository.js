@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   getTestCasesAPI,
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
+import { logEventHelper } from 'utils/logEvent';
 
 const useMiniatureRepository = ({ projectId }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
@@ -14,7 +16,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const [filterOptions, setFilterOptions] = useState({});
   const [allTestCases, setAllTestCases] = useState(null);
   const [allFolders, setAllFolders] = useState(null);
-
+  const dispatch = useDispatch();
   const onFoldersUpdate = (data) => {
     setAllFolders(data);
 
@@ -78,6 +80,13 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const onPaginationClick = ({ p }) => {
+    console.log('on pagination click');
+    dispatch(
+      logEventHelper('TM_TcPaginationClicked', {
+        project_id: projectId,
+        folder_id: selectedFolder
+      })
+    );
     setCurrentPage(p || 1);
   };
 
