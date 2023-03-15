@@ -76,10 +76,9 @@ export const logOllyEvent = ({ event, data = {} }) => {
     // eslint-disable-next-line no-console
     console.table({ ...commonData, ...data });
   }
-  if (!window.location.hostname.endsWith('browserstack.com')) {
-    return;
+  if (window.location.hostname.endsWith('browserstack.com')) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
   }
-  logEvent([], 'web_events', event, { ...commonData, ...data });
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
