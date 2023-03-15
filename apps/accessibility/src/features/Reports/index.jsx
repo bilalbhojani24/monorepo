@@ -56,10 +56,9 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(
-        ({ name, createdBy: { name: userName } }) =>
-          name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
+        // name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        userName.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
@@ -110,10 +109,9 @@ export default function Reports() {
         style={{ width: 'calc(100vw - 256px)' }}
       >
         {isShowingBanner ? (
-          <div className="fixed inset-x-0 top-0 z-10">
+          <div className="flex justify-between fixed inset-x-0 top-0 z-10">
             <Banner
-              description="Download the Accessibility Toolkit extension from Chrome Web Store
-          to scan your workflows for accessibility issues."
+              description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
               isDismissButton
               bannerIcon={
                 <img
@@ -128,8 +126,10 @@ export default function Reports() {
                   onClick={onDownloadExtensionClick}
                   size="small"
                   colors="white"
+                  icon={<MdOpenInNew />}
+                  iconPlacement="end"
                 >
-                  Download now
+                  Download extension
                 </Button>
               }
               onDismissClick={onCloseClick}

@@ -512,3 +512,5 @@ export const BUTTON_STYLE_CLASSES = {
   'extra-large-white-rounded-loading':
     'leading-6 rounded-full text-base py-3 px-6 shadow-sm text-base-700 border border-base-300 bg-base-50 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
 };
+
+export const BUTTON_TYPES = ['button', 'submit'];

@@ -77,6 +77,12 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           </span>
         </div> */}
       </div>
+      <div
+        className="fixed overflow-y-auto"
+        style={{
+          height: 'calc(100vh - 228px)',
+          width: 'calc(100vw - 256px)'
+        }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -107,13 +113,13 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
                   {row.cumulativeStatus === 'success' && (
                     <MdCheckCircle color="#10B981" />
                   )}
-                  {row.cumulativeStatus === 'redirected' && (
+                  {row.cumulativeStatus === 'redirect' && (
                     <MdOutlineSync
                       color="#FFF"
                       className="bg-attention-500 mr-0.5 rounded-full"
                     />
                   )}
-                  {row.cumulativeStatus === 'error' && (
+                  {row.cumulativeStatus === 'failure' && (
                     <MdCancel color="#EF4444" />
                   )}
                   <span className="ml-2">{row.pageUrl}</span>
@@ -136,6 +142,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           ))}
         </TableBody>
       </Table>
+      </div>
     </div>
   );
 };

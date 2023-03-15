@@ -137,3 +137,7 @@ export const getScanOverview = (id) => async (dispatch) => {
       // dispatch(setScanConfigsError(err));
     });
 };
+
+export const clearScanOverviewData = () => async (dispatch) => {
+  dispatch(setScanOverview({}));
+};

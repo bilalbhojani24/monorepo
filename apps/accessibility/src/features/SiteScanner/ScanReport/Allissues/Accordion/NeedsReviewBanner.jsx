@@ -90,12 +90,6 @@ function NodeIssueNavigator({
           </div>
         );
       }
-
-      return (
-        <p className="text-attention-700 ml-5 pl-2 text-sm">
-          Reports can be reviewed on the extension by the report author
-        </p>
-      );
     }
     if (isConfirmedInAllReports) {
       return (
@@ -118,22 +112,23 @@ function NodeIssueNavigator({
         </div>
       );
     }
-    return (
-      <div className="ml-7 flex items-center">
-        <p className="text-xs">Review status:</p>&nbsp;
-        <Badge
-          text="Dismissed issue"
-          modifier="error"
-          hasDot={false}
-          hasRemoveButton={false}
-          isRounded={false}
-        />
-        &nbsp;
-        <p className="text-xs">
-          {showPagination ? 'in all source reports' : 'in source report'}
-        </p>
-      </div>
-    );
+    return <div />;
+    // return (
+    //   <div className="ml-7 flex items-center">
+    //     <p className="text-xs">Review status:</p>&nbsp;
+    //     <Badge
+    //       text="Dismissed issue"
+    //       modifier="error"
+    //       hasDot={false}
+    //       hasRemoveButton={false}
+    //       isRounded={false}
+    //     />
+    //     &nbsp;
+    //     <p className="text-xs">
+    //       {showPagination ? 'in all source reports' : 'in source report'}
+    //     </p>
+    //   </div>
+    // );
   };
 
   return (

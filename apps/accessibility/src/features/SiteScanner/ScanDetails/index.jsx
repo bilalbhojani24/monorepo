@@ -19,6 +19,7 @@ import {
   ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
@@ -26,6 +27,7 @@ import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
+import Loader from '../../../common/Loader';
 
 export const tabsArray = [
   {
@@ -53,9 +55,25 @@ const ScanDetails = () => {
     handleStopRecurringScan,
     setStopModal,
     showModal,
-    loadingStopState
+    loadingStopState,
+    userInfo
   } = useScanDetails();
-  console.log(showModal);
+  /*
+    Convert back to Local Timezone
+  */
+  const convertToLocale = () => {
+    const interval = parser.parseExpression(scanRunDataCommon.schedulePattern, {
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      iterator: true
+    });
+
+    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
+        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
+    return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
+  };
+  if(isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="bg-base-50">
@@ -114,9 +132,7 @@ const ScanDetails = () => {
                 {scanRunDataCommon?.schedulePattern ? (
                   <span className="ml-2 flex items-center">
                     <MdSchedule className="mr-0.5" />
-                    {cronstrue.toString(scanRunDataCommon.schedulePattern, {
-                      verbose: true
-                    })}
+                    {convertToLocale(scanRunDataCommon.schedulePattern)}
                   </span>
                 ) : null}
               </span>
@@ -135,7 +151,7 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && (
+            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
               <Button
                 colors="white"
                 onClick={() => setStopModal(true)}

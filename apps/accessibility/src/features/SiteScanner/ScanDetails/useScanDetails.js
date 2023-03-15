@@ -6,7 +6,12 @@ import {
   runInstantScan,
   stopRecurringScans
 } from '../../../api/siteScannerScanConfigs';
-import { getScanOverview, getScanRuns } from '../slices/dataSlice';
+import { getUser } from '../../Dashboard/slices/selectors';
+import {
+  clearScanOverviewData,
+  getScanOverview,
+  getScanRuns
+} from '../slices/dataSlice';
 import {
   getScanOverviewData,
   getScanRunCommonData,
@@ -28,8 +33,8 @@ export default function useScanDetails() {
   const scanRunData = useSelector(getScanRunData);
   const scanRunDataCommon = useSelector(getScanRunCommonData);
   const scanOverviewData = useSelector(getScanOverviewData);
+  const userInfo = useSelector(getUser);
   const [showModal, setStopModal] = useState(false);
-
   const [searchParams] = useSearchParams();
   const { id } = useParams();
 
@@ -42,6 +47,7 @@ export default function useScanDetails() {
   useEffect(() => {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
+    dispatch(clearScanOverviewData());
     dispatch(getScanOverview(id));
     dispatch(getScanRuns(id));
   }, [dispatch, id]);
@@ -92,6 +98,7 @@ export default function useScanDetails() {
     handleStopRecurringScan,
     setStopModal,
     showModal,
-    loadingStopState
+    loadingStopState,
+    userInfo
   };
 }
