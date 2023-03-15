@@ -19,3 +19,9 @@ export const getBuildNames = async ({ projectNormalisedName }) =>
   axios.get(
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/buildNames`
   );
+
+export const createNewAlert = async ({ projectNormalisedName, payload }) =>
+  axios.post(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/alerts`,
+    payload
+  );

@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   MdArrowBackIos,
   MdArrowForwardIos,
+  MdErrorOutline,
   MdInfoOutline,
-  MdWarningAmber
+  MdWarningAmber,
+  Notifications,
+  notify
 } from '@browserstack/bifrost';
 import {
   O11yButton,
@@ -22,23 +25,31 @@ import {
   O11ySelectMenuTrigger
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getNumericValue } from 'utils/common';
+import isEmpty from 'lodash/isEmpty';
+import { getNumericValue, logOllyEvent } from 'utils/common';
 
 import {
   ALERT_CONDITION_KEYS,
   ALERT_CONDITION_MAP,
+  ALERT_LEVELS,
   ALERT_TYPES,
   ALERT_TYPES_INFO,
   APPLICABLE_TO
 } from '../constants';
 import { getBuildNamesState } from '../slices/selectors';
-import { getBuildNamesData } from '../slices/settingsSlice';
+import {
+  getBuildNamesData,
+  submitNewAlert,
+  updateAlert
+} from '../slices/settingsSlice';
 import { getWarningInputError } from '../utils';
 
 import AlertStaticBlock from './AlertStaticBlock';
 
-function AddAlertModal() {
+function AddEditAlertModal() {
+  const modalData = useSelector(getModalData);
   const buildNames = useSelector(getBuildNamesState);
   const activeProject = useSelector(getActiveProject);
   const [selectedTypeOfAlert, setSelectedTypeOfAlert] = useState('');
@@ -50,8 +61,33 @@ function AddAlertModal() {
   const [warningValue, setWarningValue] = useState('');
   const [criticalValue, setCriticalValue] = useState('');
   const [warningErrorText, setWarningErrorText] = useState('');
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isEmpty(modalData?.alertData)) {
+      const { alertData } = modalData;
+      setAlertName(alertData.name);
+      setSelectedTypeOfAlert({
+        label: ALERT_TYPES_INFO[alertData.alertType].label,
+        value: alertData.alertType
+      });
+      setSelectedApplicableTo(
+        alertData.buildNames.length
+          ? APPLICABLE_TO.selective
+          : APPLICABLE_TO.all
+      );
+      setSelectedBuilds(
+        alertData.buildNames.map((item) => ({
+          label: item,
+          value: item
+        }))
+      );
+      setWarningValue(alertData.alertRules[ALERT_LEVELS.WARNING].value);
+      setCriticalValue(alertData.alertRules[ALERT_LEVELS.CRITICAL].value);
+    }
+  }, [modalData]);
 
   useEffect(() => {
     if (activeProject.normalisedName) {
@@ -158,6 +194,80 @@ function AddAlertModal() {
     warningErrorText
   ]);
 
+  const handleSubmitChanges = () => {
+    if (isFormValid && !isSubmittingData) {
+      const payload = {
+        name: alertName,
+        alertType: selectedTypeOfAlert.value,
+        alertRules: {
+          [ALERT_LEVELS.WARNING]: {
+            value: warningValue,
+            condition: ALERT_TYPES_INFO[selectedTypeOfAlert?.value].condition
+          },
+          [ALERT_LEVELS.CRITICAL]: {
+            value: criticalValue,
+            condition: ALERT_TYPES_INFO[selectedTypeOfAlert?.value].condition
+          }
+        },
+        buildNames:
+          selectedApplicableTo === APPLICABLE_TO.all
+            ? []
+            : selectedBuilds.map((item) => item.value)
+      };
+
+      setIsSubmittingData(true);
+      dispatch(
+        modalData?.action === 'edit'
+          ? updateAlert({
+              projectNormalisedName: activeProject.normalisedName,
+              payload: { ...payload, id: modalData.alertData.id }
+            })
+          : submitNewAlert({
+              projectNormalisedName: activeProject.normalisedName,
+              payload
+            })
+      )
+        .unwrap()
+        .then(() => {
+          logOllyEvent({
+            event: 'O11ySettingsPageInteracted',
+            data: {
+              project_name: activeProject.name,
+              project_id: activeProject.id,
+              interaction:
+                modalData?.action === 'edit' ? 'alert_edited' : 'alert_created'
+            }
+          });
+          handleCloseModal();
+        })
+        .catch(() => {
+          notify(
+            <Notifications
+              id="update-alerts-failed"
+              title="Something went wrong!"
+              description={`There was an error while ${
+                modalData.action === 'edit'
+                  ? 'updating alert'
+                  : 'creating new alert'
+              }`}
+              headerIcon={
+                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 3000
+            }
+          );
+        })
+        .finally(() => {
+          setIsSubmittingData(false);
+        });
+    }
+  };
   return (
     <O11yModal show size="xl">
       <O11yModalHeader
@@ -165,12 +275,13 @@ function AddAlertModal() {
         heading="Add Alert"
         handleDismissClick={handleCloseModal}
       />
+
       <O11yModalBody>
         <form>
           <O11ySelectMenu
             onChange={handleSelectAlertType}
             value={selectedTypeOfAlert}
-            disabled
+            disabled={modalData?.action === 'edit'}
           >
             <O11ySelectMenuLabel>
               <p className="flex gap-1 text-sm font-medium leading-5">
@@ -309,27 +420,35 @@ function AddAlertModal() {
                     )
                   }
                 />
-                <O11yInputField
-                  label={`${
-                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                      .placeholder_text
-                  }`}
-                  placeholder="Enter numeric value"
-                  value={warningValue}
-                  onChange={handleChangeWarningValue}
-                  errorText={warningErrorText}
-                  wrapperClassName="w-48"
-                />
+                <div className="w-48">
+                  <O11yInputField
+                    label={`${
+                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
+                        .placeholder_text
+                    }`}
+                    placeholder="Enter numeric value"
+                    value={warningValue}
+                    onChange={handleChangeWarningValue}
+                    errorText={warningErrorText}
+                  />
+                </div>
               </div>
             </>
           )}
         </form>
       </O11yModalBody>
+
       <O11yModalFooter position="right">
         <O11yButton colors="white" onClick={handleCloseModal}>
           Cancel
         </O11yButton>
-        <O11yButton onClick={handleCloseModal} disabled={!isFormValid}>
+        <O11yButton
+          disabled={!isFormValid}
+          loading={isSubmittingData}
+          isIconOnlyButton={isSubmittingData}
+          onClick={handleSubmitChanges}
+          type="submit"
+        >
           Save Changes
         </O11yButton>
       </O11yModalFooter>
@@ -337,4 +456,4 @@ function AddAlertModal() {
   );
 }
 
-export default AddAlertModal;
+export default AddEditAlertModal;

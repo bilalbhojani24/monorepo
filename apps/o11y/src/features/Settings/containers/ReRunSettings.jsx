@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
 import { getReRunSettingsState } from '../slices/selectors';
@@ -55,7 +56,7 @@ export default function ReRunSettings() {
           notify(
             <Notifications
               id="update-re-run-failed"
-              title="Failure when updating"
+              title="Something went wrong!"
               description="There was an error while loading settings"
               headerIcon={
                 <MdErrorOutline className="text-danger-500 text-lg leading-5" />
@@ -93,6 +94,14 @@ export default function ReRunSettings() {
           state: prev.state,
           loading: false
         }));
+        logOllyEvent({
+          event: 'O11ySettingsPageInteracted',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            interaction: 'rerun_config_changed'
+          }
+        });
       })
       .catch(() => {
         setReRunViaCli({
@@ -106,7 +115,7 @@ export default function ReRunSettings() {
         notify(
           <Notifications
             id="update-rerun-failed"
-            title="Failure when updating"
+            title="Something went wrong!"
             description="There was an error while updating settings"
             headerIcon={
               <MdErrorOutline className="text-danger-500 text-lg leading-5" />

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+  createNewAlert,
   getBuildNames,
   getSettingsByKey,
   updateSettingsByKey
@@ -131,8 +132,36 @@ export const getAlertsSettings = createAsyncThunk(
     try {
       const response = await getSettingsByKey('alerts', { ...data });
       return {
-        data: response.data?.data || null,
+        data: response.data?.data || {},
         project: data?.projectNormalisedName
+      };
+    } catch (err) {
+      return rejectWithValue({ err, data });
+    }
+  }
+);
+
+export const submitNewAlert = createAsyncThunk(
+  `${SLICE_NAME}/submitNewAlert`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await createNewAlert({ ...data });
+      return {
+        alertId: response.data?.id,
+        alertData: data.payload || {}
+      };
+    } catch (err) {
+      return rejectWithValue({ err, data });
+    }
+  }
+);
+export const updateAlert = createAsyncThunk(
+  `${SLICE_NAME}/updateAlert`,
+  async (data, { rejectWithValue }) => {
+    try {
+      await updateSettingsByKey('alerts', { ...data });
+      return {
+        alertData: data.payload || {}
       };
     } catch (err) {
       return rejectWithValue({ err, data });
@@ -159,6 +188,7 @@ export const getBuildNamesData = createAsyncThunk(
     }
   }
 );
+
 const { reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -192,7 +222,7 @@ const { reducer } = createSlice({
     alerts: {
       isLoading: true,
       project: '',
-      data: null
+      data: {}
     }
   },
   reducers: {},
@@ -320,6 +350,31 @@ const { reducer } = createSlice({
           project: '',
           data: {}
         };
+      })
+      .addCase(submitNewAlert.fulfilled, (state, { payload }) => {
+        let updatedData = [
+          {
+            id: payload.alertId,
+            ...payload.alertData
+          }
+        ];
+
+        if (state.alerts.data?.[payload.alertData.alertType]?.length) {
+          updatedData = [
+            ...updatedData,
+            ...state.alerts.data[payload.alertData.alertType]
+          ];
+        }
+        state.alerts.data[payload.alertData.alertType] = updatedData;
+      })
+      .addCase(updateAlert.fulfilled, (state, { payload }) => {
+        const foundAlertIdx = state.alerts.data[
+          payload.alertData.alertType
+        ].findIndex((item) => item.id === payload.alertData.id);
+        if (foundAlertIdx !== -1) {
+          state.alerts.data[payload.alertData.alertType][foundAlertIdx] =
+            payload.alertData;
+        }
       })
       // Build Names
       .addCase(getBuildNamesData.pending, (state) => {

@@ -43,6 +43,7 @@ export const ALERT_TYPES_INFO = {
     suffix: ' seconds',
     placeholder_text: 'Build duration (in s)',
     condition: ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL,
+    criticalWarnRelation: ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL,
     alert_condition_text:
       "Specify the build duration (in seconds) threshold over which you'd like to be alerted. We recommend you to set both the critical and warning thresholds."
   },

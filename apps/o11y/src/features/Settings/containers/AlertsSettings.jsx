@@ -38,7 +38,7 @@ export default function AlertsSettings() {
   }, [activeProject.normalisedName, dispatch]);
 
   const handleClickAddAlert = () => {
-    dispatch(toggleModal({ version: MODAL_TYPES.add_alert }));
+    dispatch(toggleModal({ version: MODAL_TYPES.add_edit_alert, data: {} }));
   };
 
   if (data?.isLoading) {

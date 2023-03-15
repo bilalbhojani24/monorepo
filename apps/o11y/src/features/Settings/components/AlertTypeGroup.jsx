@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EllipsisVerticalIcon } from '@browserstack/bifrost';
 import {
   O11yDropdown,
@@ -9,6 +9,8 @@ import {
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
@@ -20,11 +22,30 @@ import {
 import { getAlertDataByType } from '../slices/selectors';
 
 export default function AlertTypeGroup({ type }) {
+  const dispatch = useDispatch();
   const alerts = useSelector(getAlertDataByType(type));
 
   if (isEmpty(alerts)) {
     return null;
   }
+
+  const handleClickEditAlert = (alert) => {
+    dispatch(
+      toggleModal({
+        version: MODAL_TYPES.add_edit_alert,
+        data: {
+          action: 'edit',
+          alertData: alert
+        }
+      })
+    );
+  };
+
+  const handleClickMeatBall = (value, alert) => {
+    if (value.id === 'edit') {
+      handleClickEditAlert(alert);
+    }
+  };
 
   return (
     <>
@@ -43,19 +64,23 @@ export default function AlertTypeGroup({ type }) {
             {alert.name}
           </O11yTableCell>
           <O11yTableCell>
-            <p className="flex gap-1">
-              <span>
-                {
-                  ALERT_CONDITION_MAP?.[
-                    alert?.alertRules?.[ALERT_LEVELS.WARNING]?.condition
-                  ].tableText
-                }
-              </span>
-              <span>
-                {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value}
-                {ALERT_TYPES_INFO[type].suffix}
-              </span>
-            </p>
+            {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value ? (
+              <p className="flex gap-1">
+                <span>
+                  {
+                    ALERT_CONDITION_MAP?.[
+                      alert?.alertRules?.[ALERT_LEVELS.WARNING]?.condition
+                    ].tableText
+                  }
+                </span>
+                <span>
+                  {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value}
+                  {ALERT_TYPES_INFO[type].suffix}
+                </span>
+              </p>
+            ) : (
+              <p className="pl-1">-</p>
+            )}
           </O11yTableCell>
           <O11yTableCell>
             <p className="flex gap-1">
@@ -74,14 +99,14 @@ export default function AlertTypeGroup({ type }) {
           </O11yTableCell>
           <O11yTableCell>
             <div className="flex justify-between">
-              {alert?.buildName?.length
-                ? `${alert.buildName.length} builds`
+              {alert?.buildNames?.length
+                ? `${alert.buildNames.length} build${
+                    alert.buildNames.length > 1 ? 's' : ''
+                  }`
                 : 'All builds'}
 
               <O11yDropdown
-              // onClick={(value) => {
-              //   console.log(value);
-              // }}
+                onClick={(value) => handleClickMeatBall(value, alert)}
               >
                 <div className="flex">
                   <O11yDropdownTrigger wrapperClassName="p-0 border-0 shadow-none">

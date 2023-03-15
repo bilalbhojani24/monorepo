@@ -1,17 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import AddAlertModal from 'features/Settings/components/AddAlertModal';
+import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 
 import { getModalVersion } from '../slices/selectors';
 
 export default function ModalToShow() {
   const modalToShow = useSelector(getModalVersion);
   switch (modalToShow) {
-    case MODAL_TYPES.add_alert:
-      return <AddAlertModal />;
-    case MODAL_TYPES.edit_alert:
-      return <>Edit Alert</>;
+    case MODAL_TYPES.add_edit_alert:
+      return <AddEditAlertModal />;
+    case MODAL_TYPES.dummy:
+      return <>Dummy</>;
     default:
       return null;
   }
