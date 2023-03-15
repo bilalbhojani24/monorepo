@@ -1,23 +1,11 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
-
-const getCookiePrefix = () => {
-  const url = new URL(window.location);
-
-  if (url.hostname.includes('bsstag')) {
-    if (url.hostname.includes('-local')) {
-      return 'development__';
-    }
-    return `${url.hostname.split('.')[0].split('-').slice(1).join('-')}__`;
-  }
-  return '';
-};
+import { getEnvConfig } from 'utils/common';
 
 axios.interceptors.request.use((config) => {
-  config.baseURL = 'https://localhost:8082/testops';
-  // config.baseURL = 'https://devtestops-api.bsstag.com';
+  config.baseURL = getEnvConfig().apiUrl;
   config.withCredentials = false;
   config.headers = config.headers || {};
-  config.headers['x-cookie-prefix'] = getCookiePrefix();
+  config.headers['x-cookie-prefix'] = getEnvConfig().cookiePrefix;
   return config;
 });

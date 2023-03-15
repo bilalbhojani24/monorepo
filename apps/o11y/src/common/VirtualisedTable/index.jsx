@@ -10,8 +10,18 @@ import {
 import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/jsx-props-no-spreading
-const TableRow = (props) => <O11yTableRow hover {...props} />;
+const TableRow = ({ handleRowClick, ...restProps }) => {
+  const onRowClick = (event) => {
+    const { index } = event.currentTarget.dataset;
+    if (index) {
+      handleRowClick(index);
+    }
+  };
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <O11yTableRow hover {...restProps} onRowClick={onRowClick} />;
+};
+
+TableRow.propTypes = { handleRowClick: PropTypes.func.isRequired };
 
 const TableHead = forwardRef((props, ref) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
@@ -42,7 +52,8 @@ const VirtualisedTable = ({
   itemContent,
   overscan,
   style,
-  fixedHeaderContent
+  fixedHeaderContent,
+  handleRowClick
 }) => (
   <TableVirtuoso
     style={{ height: '100%', width: '100%', ...style }}
@@ -59,7 +70,9 @@ const VirtualisedTable = ({
       Table,
       TableHead,
       TableBody: O11yRefTableBody,
-      TableRow
+      TableRow: (props) => (
+        <TableRow {...props} handleRowClick={handleRowClick} />
+      )
     }}
   />
 );
@@ -72,13 +85,15 @@ VirtualisedTable.propTypes = {
   fixedHeaderContent: PropTypes.func.isRequired,
   fixedFooterContent: PropTypes.func,
   overscan: PropTypes.number,
-  style: PropTypes.shape(PropTypes.object)
+  style: PropTypes.shape(PropTypes.object),
+  handleRowClick: PropTypes.func
 };
 
 VirtualisedTable.defaultProps = {
   fixedFooterContent: undefined,
   overscan: 20,
-  style: {}
+  style: {},
+  handleRowClick: () => {}
 };
 
 export default VirtualisedTable;
