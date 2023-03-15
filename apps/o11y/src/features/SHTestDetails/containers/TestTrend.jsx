@@ -160,12 +160,14 @@ export default function TestTrend() {
     mounted.current = true;
     return () => {
       mounted.current = false;
-      setSHTestDetailsChartBounds({
-        lower: null,
-        upper: null
-      });
+      dispatch(
+        setSHTestDetailsChartBounds({
+          lower: null,
+          upper: null
+        })
+      );
     };
-  }, []);
+  }, [dispatch]);
 
   const afterSetExtremes = useCallback(
     (e) => {
