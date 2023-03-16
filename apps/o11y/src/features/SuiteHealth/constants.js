@@ -15,23 +15,23 @@ export const TESTS_HEADER_LABEL_MAPPING = {
 const ACTION_HEADER_COLUMN_CLASS = 'py-3 text-center';
 
 export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
-  [TESTS_HEADER_LABEL_MAPPING.tests]: {
+  tests: {
     name: TESTS_HEADER_LABEL_MAPPING.tests,
     defaultClass: 'py-3 pl-6 w-2/4 whitespace-normal'
   },
-  [TESTS_HEADER_LABEL_MAPPING.platforms]: {
+  platforms: {
     name: TESTS_HEADER_LABEL_MAPPING.platforms,
     defaultClass: 'py-3 w-1/5'
   },
-  [TESTS_HEADER_LABEL_MAPPING.totalFailures]: {
+  totalFailures: {
     name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
     defaultClass: ACTION_HEADER_COLUMN_CLASS
   },
-  [TESTS_HEADER_LABEL_MAPPING.reliability]: {
+  reliability: {
     name: TESTS_HEADER_LABEL_MAPPING.reliability,
     defaultClass: ACTION_HEADER_COLUMN_CLASS
   },
-  [TESTS_HEADER_LABEL_MAPPING.average]: {
+  average: {
     name: TESTS_HEADER_LABEL_MAPPING.average,
     defaultClass: ACTION_HEADER_COLUMN_CLASS
   }

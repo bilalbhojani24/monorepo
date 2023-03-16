@@ -75,7 +75,7 @@ const { reducer, actions } = createSlice({
         pagingParams: {},
         isLoading: true,
         sortBy: {
-          type: Object.keys(TESTS_HEADER_LABEL_MAPPING)[4],
+          type: Object.keys(TESTS_HEADER_LABEL_MAPPING)[3],
           status: 'desc'
         }
       },
