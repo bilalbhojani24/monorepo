@@ -68,8 +68,9 @@ const TooltipContainer = (props) => {
               if (triggerOnTouch) event.preventDefault();
             }}
             aria-label={triggerAriaLabel}
+            asChild
           >
-            {children}
+            <div className="inline-block">{children}</div>
           </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content

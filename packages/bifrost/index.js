@@ -69,6 +69,7 @@ import SelectMenuTrigger from './modules/SelectMenuTrigger/index';
 import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
+import SidebarNavigationWCollapse from './modules/SidebarNavigationWCollapse';
 import SkipToContent from './modules/SkipToContent/index';
 import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
@@ -169,6 +170,7 @@ export {
   SidebarHeader,
   SidebarItem,
   SidebarNavigation,
+  SidebarNavigationWCollapse,
   SkipToContent,
   Slideover,
   SlideoverBody,
