@@ -14,21 +14,24 @@ const SelectMenuTrigger = forwardRef(
   ({ placeholder, wrapperClassName, triggerIcon }, ref) => {
     const buttonRef = useRef();
     const appliedRef = ref || buttonRef;
-    const { isMulti, setWidth, showCount, errorText } = useContext(
+    const { isMulti, setWidth, showCount, errorText, open } = useContext(
       SelectMenuContextData
     );
 
     useEffect(() => {
-      setWidth(appliedRef.current.offsetWidth);
-    }, [setWidth, appliedRef]);
+      if (open) setWidth(appliedRef.current.offsetWidth);
+    }, [setWidth, appliedRef, open]);
 
     return (
       <Popover.Trigger asChild>
         <Listbox.Button
           ref={appliedRef}
           className={twClassNames(
-            'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full rounded-md border bg-white py-2 pl-3 pr-14 text-left shadow-sm focus:ring-1 sm:text-sm cursor-pointer',
-            { 'border-danger-600': errorText },
+            'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full rounded-md border bg-white py-2 pl-3 pr-7 text-left shadow-sm focus:ring-1 sm:text-sm cursor-pointer',
+            {
+              'border-danger-600': errorText,
+              'pr-14': isMulti && showCount
+            },
             wrapperClassName
           )}
         >
