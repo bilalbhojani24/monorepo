@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { CalendarIcon, FolderIcon, HomeIcon, UsersIcon } from '../Icon';
@@ -69,6 +71,24 @@ const defaultConfig = {
 
 const Template = (args) => <SidebarNavigationWCollapse {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const sidebarItems = [
+    'Dashboard',
+    'Team',
+    'Projects',
+    'Calendar',
+    'John Doe'
+  ];
+  const canvas = within(canvasElement);
+  sidebarItems.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+  // After collapse expect to not be visible
+  // add logic to collapse
+  sidebarItems.forEach(async (item) => {
+    await expect(canvas.queryByText(item)).toBe(null);
+  });
+};
 Primary.parameters = {
   controls: {}
 };
