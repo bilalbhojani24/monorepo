@@ -43,7 +43,7 @@ const O11yComboBox = ({
             <ComboboxOptionItem
               option={item}
               checkPosition={checkPosition}
-              wrapperClassName="text-sm"
+              wrapperClassName="text-xs"
             />
           )}
         />
