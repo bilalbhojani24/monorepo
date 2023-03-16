@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-
 import {
   arrayOf,
   bool,
@@ -11,7 +10,8 @@ import {
   oneOfType,
   shape,
   string
-} from '../../shared/proptypesConstants';
+} from 'prop-types';
+
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
 import RenderChildren from './components/RenderChildren';
@@ -27,7 +27,8 @@ const SelectMenu = (props) => {
     isMulti,
     defaultValue,
     value,
-    onOpenChange
+    onOpenChange,
+    disabled
   } = props;
 
   return (
@@ -40,7 +41,8 @@ const SelectMenu = (props) => {
         setShowCount,
         errorText,
         open,
-        setOpen
+        setOpen,
+        disabled
       }}
     >
       <Popover.Root open={open}>
@@ -104,7 +106,8 @@ SelectMenu.propTypes = {
       image: string
     })
   ]),
-  onOpenChange: func
+  onOpenChange: func,
+  disabled: bool
 };
 
 SelectMenu.defaultProps = {
@@ -113,7 +116,8 @@ SelectMenu.defaultProps = {
   isMulti: false,
   onChange: () => {},
   value: null,
-  onOpenChange: null
+  onOpenChange: null,
+  disabled: false
 };
 
 export default SelectMenu;
