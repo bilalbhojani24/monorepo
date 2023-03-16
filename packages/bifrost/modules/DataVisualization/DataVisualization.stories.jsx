@@ -121,7 +121,8 @@ const defaultConfig = {
       defaultValue: {
         description: 'Subtext or supplementary info here',
         linkText: 'Learn more',
-        linkTo: '#'
+        linkTo: '#',
+        onClick: () => {}
       }
     },
     KpiProps: {
