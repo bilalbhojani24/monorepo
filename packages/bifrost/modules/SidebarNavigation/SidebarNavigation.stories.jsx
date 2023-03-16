@@ -170,15 +170,15 @@ SidebarwithBrandImage.play = async ({ canvasElement }) => {
   });
   await userEvent.click(canvas.getByText('Documents'));
   sidebarDocsSubItems.forEach(async (subItem) => {
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.getByText(subItem)).toBeVisble();
+    await expect(canvas.getByText(subItem)).toBeVisible();
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
 };
 
@@ -206,15 +206,15 @@ SidebarwithSelect.play = async ({ canvasElement }) => {
   await userEvent.click(canvas.getByText('Documents'));
   sidebarDocsSubItems.forEach(async (subItem) => {
     console.log(canvas.queryByText(subItem));
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.getByText(subItem)).toBeVisble();
+    await expect(canvas.getByText(subItem)).toBeVisible();
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
   await userEvent.click(canvas.getByText('Select..'));
   await delay(1);
@@ -254,16 +254,15 @@ SidebarwithSecondary.play = async ({ canvasElement }) => {
   });
   await userEvent.click(canvas.getByText('Documents'));
   sidebarDocsSubItems.forEach(async (subItem) => {
-    console.log(canvas.queryByText(subItem));
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.getByText(subItem)).toBeVisble();
+    await expect(canvas.getByText(subItem)).toBeVisible();
   });
   await userEvent.click(canvas.getByText('Reports'));
   sidebarReportsSubItems.forEach(async (subItem) => {
-    await expect(canvas.queryByText(subItem)).not.toBeVisble();
+    await expect(canvas.queryByText(subItem)).toBe(null);
   });
 };
 
