@@ -240,7 +240,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
+                href={`https://accessibility.browserstack.com/api/more-info/4.4/${activeViolation.id}`}
                 target="_blank"
                 onClick={
                   isGuidelineMode
