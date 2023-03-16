@@ -33,7 +33,8 @@ const Button = (
     colors,
     loaderText,
     ariaLabel,
-    type
+    type,
+    ...props
   },
   ref
 ) => {
@@ -204,6 +205,7 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
+      {...props}
     >
       {effectiveChildren}
     </button>
