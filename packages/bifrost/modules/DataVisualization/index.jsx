@@ -190,7 +190,9 @@ DataVisualization.defaultProps = {
   desc: '',
   descPosition: DATA_VISUALIZATION_DESC_POSITION[0],
   analytics: null,
-  footerProps: {},
+  footerProps: {
+    onClick: () => {}
+  },
   KpiProps: [],
   otherOptions: null,
   filterDropdown: null,
