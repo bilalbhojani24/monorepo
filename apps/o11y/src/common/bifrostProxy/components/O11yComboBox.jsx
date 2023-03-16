@@ -17,7 +17,9 @@ const O11yComboBox = ({
   options,
   onChange,
   value,
-  checkPosition
+  checkPosition,
+  virtuosoWidth,
+  optionsListWrapperClassName
 }) => {
   const [query, setQuery] = useState('');
 
@@ -28,6 +30,11 @@ const O11yComboBox = ({
           opt.label.toLowerCase().includes(query.toLowerCase())
         );
 
+  const virtuosoStyles = { height: 238 };
+  if (virtuosoWidth) {
+    virtuosoStyles.width = virtuosoWidth;
+  }
+
   return (
     <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
@@ -35,9 +42,9 @@ const O11yComboBox = ({
         placeholder={placeholder}
         onInputValueChange={(e) => setQuery(e.target.value)}
       />
-      <ComboboxOptionGroup>
+      <ComboboxOptionGroup wrapperClassName={optionsListWrapperClassName}>
         <Virtuoso
-          style={{ height: 238 }}
+          style={virtuosoStyles}
           data={filteredOptions || []}
           overscan={50}
           itemContent={(_, item) => (
@@ -71,7 +78,9 @@ O11yComboBox.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     image: PropTypes.string
-  })
+  }),
+  virtuosoWidth: PropTypes.string,
+  optionsListWrapperClassName: PropTypes.string
 };
 
 O11yComboBox.defaultProps = {
@@ -81,6 +90,8 @@ O11yComboBox.defaultProps = {
   label: '',
   options: [],
   onChange: () => {},
-  value: null
+  value: null,
+  virtuosoWidth: '',
+  optionsListWrapperClassName: ''
 };
 export default O11yComboBox;

@@ -1,7 +1,8 @@
 export const EMPTY_SELECTED_FILTERS = {
-  status: [],
+  statuses: [],
   users: [],
   tags: [],
+  frameworks: [],
   dateRange: {
     lowerBound: '',
     upperBound: ''

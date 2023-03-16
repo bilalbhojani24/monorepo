@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-// import { twClassNames } from '@browserstack/utils';
+import React, { useEffect, useRef } from 'react';
 import {
   MdAllInclusive,
   MdCancel,
@@ -11,6 +10,7 @@ import {
 } from '@browserstack/bifrost';
 import {
   O11yBadge,
+  O11yHyperlink,
   O11yMetaData,
   O11yTableCell,
   O11yTooltip
@@ -28,27 +28,41 @@ const aggregateColors = {
   'To be Investigated': '#C47631' // brown
 };
 
+const FailureCategoriesTooltip = ({
+  children,
+  content,
+  triggerWrapperClassName
+}) => (
+  <O11yTooltip
+    theme="dark"
+    placementSide="top"
+    triggerWrapperClassName={triggerWrapperClassName}
+    content={content}
+  >
+    {children}
+  </O11yTooltip>
+);
+
 const BuildCardDetails = ({ data }) => {
+  const widthAdjustmentRef = useRef([]);
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
     if (TEST_STATUS.PENDING === status) {
       return (
         <div className="h-8 w-8">
-          <O11yLoader loaderClass="text-base-600 h-8 w-8 self-center p-1" />
+          <O11yLoader loaderClass="text-base-500 h-8 w-8 self-center p-1" />
         </div>
       );
     }
     if (TEST_STATUS.FAIL === status)
-      return <MdCancel className="text-danger-600 h-8 w-8 self-center" />;
+      return <MdCancel className="text-danger-500 h-8 w-8 self-center" />;
     if (TEST_STATUS.PASS === status)
-      return <MdCheckCircle className="text-success-600 h-8 w-8 self-center" />;
+      return <MdCheckCircle className="text-success-500 h-8 w-8 self-center" />;
     if (TEST_STATUS.UNKNOWN === status)
-      return <MdHelp className="text-attention-600 h-8 w-8 self-center p-1" />;
+      return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
     if (TEST_STATUS.SKIPPED === status)
-      return (
-        <MdRemoveCircle className="text-base-500 h-8 w-8 self-center p-1" />
-      );
-    return <MdHelp className="text-attention-500 h-8 w-8 self-center p-1" />;
+      return <MdRemoveCircle className="text-base-500 h-8 w-8 self-center" />;
+    return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
   };
 
   const handleChartClick = () => {
@@ -59,6 +73,14 @@ const BuildCardDetails = ({ data }) => {
     (accumulator, currentValue) => accumulator + currentValue,
     0
   );
+
+  useEffect(() => {
+    widthAdjustmentRef.current.forEach((singleItem) => {
+      const targetItem = singleItem;
+      const { parentwidth } = targetItem.dataset;
+      targetItem.parentNode.style.width = parentwidth;
+    });
+  });
 
   return (
     <>
@@ -75,7 +97,7 @@ const BuildCardDetails = ({ data }) => {
                   title="Build Number"
                 />
                 {` `}
-                {data.isAutoDetectedName && (
+                {data?.isAutoDetectedName && (
                   <O11yTooltip
                     theme="dark"
                     content={
@@ -100,7 +122,7 @@ const BuildCardDetails = ({ data }) => {
                   </O11yTooltip>
                 )}
               </p>
-              {data.tags.map((singleTag) => (
+              {data?.tags.map((singleTag) => (
                 <O11yBadge
                   key={singleTag}
                   wrapperClassName="mx-1"
@@ -112,8 +134,8 @@ const BuildCardDetails = ({ data }) => {
               ))}
             </div>
             <p className="text-base-500 text-sm">
-              Ran by <O11yMetaData label={data.user} title="Triggered By" /> on{' '}
-              {data.startedAt ? (
+              Ran by <O11yMetaData label={data?.user} title="Triggered By" /> on{' '}
+              {data?.startedAt ? (
                 <O11yMetaData
                   label={getCustomTimeStamp({
                     dateString: new Date(data.startedAt)
@@ -125,115 +147,212 @@ const BuildCardDetails = ({ data }) => {
                 <MdAllInclusive className="text-base-600 inline-block" />
               </span>
               {data.versionControlInfo ? (
-                <a target="_new" href={data?.versionControlInfo?.url}>
+                <O11yHyperlink
+                  target="_new"
+                  wrapperClassName="inline-block"
+                  href={data?.versionControlInfo?.url}
+                >
                   <O11yMetaData
-                    label={data?.versionControlInfo?.commitId.slice(0, 8)}
+                    label={`#
+                    ${data?.versionControlInfo?.commitId?.slice(0, 8)}
+                    `}
+                    wrapperClassName="hover:text-brand-600 underline"
                     title="Commit ID"
                   />
-                </a>
+                </O11yHyperlink>
               ) : null}
             </p>
           </div>
         </div>
       </O11yTableCell>
       <O11yTableCell>
-        <O11yBadge
-          wrapperClassName="mx-1"
-          hasRemoveButton={false}
-          modifier="success"
-          hasDot={false}
-          text={data.statusStats.passed || 0}
-        />
-        <O11yBadge
-          wrapperClassName="mx-1"
-          hasRemoveButton={false}
-          modifier="error"
-          hasDot={false}
-          text={data.statusStats.failed || 0}
-        />
-        <O11yBadge
-          wrapperClassName="mx-1"
-          hasRemoveButton={false}
-          modifier="base"
-          hasDot={false}
-          text={data.statusStats.skipped || 0}
-        />
-        <O11yBadge
-          wrapperClassName="mx-1"
-          hasRemoveButton={false}
-          modifier="warn"
-          hasDot={false}
-          text={data.statusStats.timeout || 0}
-        />
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          content={
+            <div className="text-base-100 mx-4">
+              <p>Passed</p>
+            </div>
+          }
+        >
+          <O11yBadge
+            wrapperClassName="mx-1"
+            hasRemoveButton={false}
+            modifier="success"
+            hasDot={false}
+            size="large"
+            text={data?.statusStats?.passed || 0}
+          />
+        </O11yTooltip>
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          content={
+            <div className="text-base-100 mx-4">
+              <p>Failed</p>
+            </div>
+          }
+        >
+          <O11yBadge
+            wrapperClassName="mx-1"
+            hasRemoveButton={false}
+            modifier="error"
+            hasDot={false}
+            size="large"
+            text={data?.statusStats?.failed || 0}
+          />
+        </O11yTooltip>
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          content={
+            <div className="text-base-100 mx-4">
+              <p>Skipped</p>
+            </div>
+          }
+        >
+          <O11yBadge
+            wrapperClassName="mx-1"
+            hasRemoveButton={false}
+            modifier="base"
+            hasDot={false}
+            size="large"
+            text={data?.statusStats?.skipped || 0}
+          />
+        </O11yTooltip>
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          content={
+            <div className="text-base-100 mx-4">
+              <p>Timeout</p>
+            </div>
+          }
+        >
+          <O11yBadge
+            wrapperClassName="mx-1"
+            hasRemoveButton={false}
+            modifier="warn"
+            hasDot={false}
+            size="large"
+            text={data?.statusStats?.timeout || 0}
+          />
+        </O11yTooltip>
       </O11yTableCell>
       <O11yTableCell>{milliSecondsToTime(data.duration)}</O11yTableCell>
       <O11yTableCell>
         <div className="flex overflow-hidden rounded-xl">
-          {/* PRATIK_TODO : TO BE INVESTIGATED */}
-          {Object.keys(data?.issueTypeAggregate)?.map((item) =>
-            data.issueTypeAggregate[item] ? (
-              // <O11yTooltip
-              //   key={item}
-              //   placementSide="top"
-              //   triggerWrapperClassName={twClassNames(
-              //     `w-[${(data.issueTypeAggregate[item] * 100) / totalDefects}%]`
-              //   )}
-              //   content={
-              //     <div className="">
-              //       <span
-              //         className=""
-              //         style={{ backgroundColor: aggregateColors[item] }}
-              //       />
-              //       <span className="">{item}:</span>
-              //       <span className="">
-              //         {(data.issueTypeAggregate[item] * 100) / totalDefects}
-              //       </span>
-              //     </div>
-              //   }
-              // >
+          {Object.entries(data?.issueTypeAggregate)?.every(
+            (item) =>
+              (item[1] === 0 && item[0] !== 'To be Investigated') ||
+              (item[1] !== 0 && item[0] === 'To be Investigated')
+          ) ? (
+            <O11yTooltip
+              theme="dark"
+              content={
+                <div className="mx-4">
+                  <p className="text-base-50 mb-2 text-sm font-medium">
+                    Manual investigation yet to start
+                  </p>
+                  <p className="text-base-300 mb-2 text-sm">
+                    Start tagging failures manually for Auto Analysis to kick-in
+                  </p>
+                  <O11yHyperlink
+                    wrapperClassName="text-base-50 text-sm font-medium underline"
+                    target="_new"
+                    href={getDocUrl({ path: DOC_KEY_MAPPING.auto_analyser })}
+                  >
+                    Learn more
+                  </O11yHyperlink>
+                </div>
+              }
+            >
+              <p className="flex w-full justify-start">
+                Investigation required
+              </p>
+            </O11yTooltip>
+          ) : (
+            Object.keys(data?.issueTypeAggregate)?.map((item, index) =>
+              data?.issueTypeAggregate[item] ? (
+                <FailureCategoriesTooltip
+                  key={item}
+                  triggerWrapperClassName=""
+                  content={
+                    <p className="text-base-100 px-2">
+                      {item}:{' '}
+                      {(
+                        (data.issueTypeAggregate[item] * 100) /
+                        totalDefects
+                      ).toFixed(0)}
+                      %
+                    </p>
+                  }
+                >
+                  <div
+                    title={item}
+                    label={item}
+                    className="h-3"
+                    tabIndex={0}
+                    role="button"
+                    data-parentwidth={`${
+                      (data?.issueTypeAggregate[item] * 100) / totalDefects
+                    }%`}
+                    ref={(el) => {
+                      widthAdjustmentRef.current[index] = el;
+                      return null;
+                    }}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (e.key === ' ' && e.key === 'Enter') {
+                        handleChartClick(item);
+                      }
+                    }}
+                    onClick={() => handleChartClick(item)}
+                    style={{
+                      backgroundColor: aggregateColors[item]
+                    }}
+                  />
+                </FailureCategoriesTooltip>
+              ) : null
+            )
+          )}
+          {Object.values(data?.issueTypeAggregate)?.every(
+            (item) => item === 0
+          ) && (
+            <FailureCategoriesTooltip
+              triggerWrapperClassName="w-full"
+              content={<p className="text-base-100 px-2">No Failures Found</p>}
+            >
               <div
-                title={item}
-                key={item}
-                label={item}
-                className="h-3"
+                id="pratik"
+                label="No Failures Found"
+                className="bg-base-200 h-3 w-full"
                 tabIndex={0}
                 role="button"
-                onKeyDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (e.key === ' ' && e.key === 'Enter') {
-                    handleChartClick(item);
-                  }
-                }}
-                onClick={() => handleChartClick(item)}
-                style={{
-                  backgroundColor: aggregateColors[item],
-                  color: 'white',
-                  width: `${
-                    (data.issueTypeAggregate[item] * 100) / totalDefects
-                  }%`
-                }}
               />
-            ) : // </O11yTooltip>
-            null
+            </FailureCategoriesTooltip>
           )}
         </div>
       </O11yTableCell>
       <O11yTableCell>
         <ul>
-          {data.historyAggregate?.isNewFailure > 0 && (
+          {data?.historyAggregate?.isNewFailure > 0 && (
             <li className="text-danger-600">
-              {`New Failures (${data.historyAggregate?.isNewFailure})`}
+              {`New Failures (${data?.historyAggregate?.isNewFailure})`}
             </li>
           )}
-          {data.historyAggregate?.isFlaky > 0 && (
-            <li>{`Flaky (${data.historyAggregate?.isFlaky})`}</li>
+          {data?.historyAggregate?.isFlaky > 0 && (
+            <li>{`Flaky (${data?.historyAggregate?.isFlaky})`}</li>
           )}
-          {data.historyAggregate?.isAlwaysFailing > 0 && (
-            <li>{`Always Failing (${data.historyAggregate?.isAlwaysFailing})`}</li>
+          {data?.historyAggregate?.isAlwaysFailing > 0 && (
+            <li>{`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}</li>
           )}
-          {data.historyAggregate?.isPerformanceAnomaly > 0 && (
-            <li>{`Performance Anomaly (${data.historyAggregate?.isPerformanceAnomaly})`}</li>
+          {data?.historyAggregate?.isPerformanceAnomaly > 0 && (
+            <li>{`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}</li>
+          )}
+          {Object.values(data?.historyAggregate).every((el) => el === 0) && (
+            <li className="text-left">-</li>
           )}
         </ul>
       </O11yTableCell>

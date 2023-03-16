@@ -11,6 +11,10 @@ import {
   Hyperlink,
   InputAddOnTexts,
   InputField,
+  Slideover,
+  SlideoverBody,
+  SlideoverFooter,
+  SlideoverHeader,
   StackedListWAvatar,
   Switch,
   Table,
@@ -45,6 +49,11 @@ export const O11yDropdownTrigger = (props) => <DropdownTrigger {...props} />;
 export const O11yDropdownOptionItem = (props) => (
   <DropdownOptionItem {...props} />
 );
+export const O11ySlideover = (props) => <Slideover {...props} />;
+export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
+export const O11ySlideoverFooter = (props) => <SlideoverFooter {...props} />;
+export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
+
 export const O11yTableBody = (props) => <TableBody {...props} />;
 export const O11yTableCell = (props) => <TableCell {...props} />;
 export const O11yTableHead = (props) => <TableHead {...props} />;

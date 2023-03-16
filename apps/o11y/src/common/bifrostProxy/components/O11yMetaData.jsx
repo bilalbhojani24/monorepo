@@ -8,7 +8,10 @@ const O11yMetaData = ({ icon, label, title, wrapperClassName }) => (
     icon={icon}
     metaDescription={label}
     metaTitle={title}
-    textColorClass={twClassNames(`text-base-500 inline-flex`, wrapperClassName)}
+    textColorClass={twClassNames(
+      `text-base-500 inline-flex text-sm`,
+      wrapperClassName
+    )}
   />
 );
 

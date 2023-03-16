@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
@@ -9,6 +9,8 @@ import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
 
 import BuildCardDetails from './components/BuildCardDetails';
+import Filters from './components/Filters';
+import FilterTags from './components/FilterTags';
 import SearchBuilds from './components/SearchBuilds';
 import {
   getBuildsData,
@@ -17,23 +19,55 @@ import {
   setSelectedFilters
 } from './slices/dataSlice';
 import {
+  getAppliedFilters,
   getBuilds,
   getBuildsApiState,
   getBuildsPagingParams
 } from './slices/selectors';
+import { getParamsFromFiltersObject } from './utils/common';
 import { EMPTY_APPLIED_FILTERS, EMPTY_SELECTED_FILTERS } from './constants';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
   const { projectNormalisedName } = useParams();
+  const [, setSearchParams] = useSearchParams();
   const buildsData = useSelector(getBuilds);
+  const appliedFilters = useSelector(getAppliedFilters);
   const buildsPagingParamsData = useSelector(getBuildsPagingParams);
   const { status: buildsApiStatus } = useSelector(getBuildsApiState);
 
-  const viewAllBuilds = () => {
-    // PRATIK_TODO : remove applied filters
-  };
-  const loadBuildsData = useCallback(() => {
+  const resetReduxStore = useCallback(
+    (itemsToReset) => {
+      if (itemsToReset.includes('selected'))
+        dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
+      if (itemsToReset.includes('applied'))
+        dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
+      if (itemsToReset.includes('buildsData'))
+        dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
+    },
+    [dispatch]
+  );
+
+  const viewAllBuilds = useCallback(() => {
+    resetReduxStore(['selected', 'applied', 'buildsData']);
+    dispatch(
+      getBuildsData({
+        projectNormalisedName,
+        currentPagingParams: {}
+      })
+    );
+  }, [dispatch, projectNormalisedName, resetReduxStore]);
+
+  const loadFreshBuildsData = useCallback(() => {
+    dispatch(
+      getBuildsData({
+        projectNormalisedName,
+        currentPagingParams: {}
+      })
+    );
+  }, [dispatch, projectNormalisedName]);
+
+  const loadBuildsData = () => {
     if (buildsPagingParamsData.hasNext) {
       dispatch(
         getBuildsData({
@@ -42,22 +76,28 @@ const AllBuildsPage = () => {
         })
       );
     }
-  }, [dispatch, buildsPagingParamsData, projectNormalisedName]);
+  };
 
   useEffect(() => {
-    dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
-      })
-    );
+    loadFreshBuildsData();
     return () => {
       // Clean builds on project change
-      dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
-      dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
-      dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
+      resetReduxStore(['selected', 'applied', 'buildsData']);
     };
-  }, [dispatch, projectNormalisedName]);
+  }, [dispatch, loadFreshBuildsData, resetReduxStore]);
+
+  useEffect(() => {
+    const filtersParams = getParamsFromFiltersObject(appliedFilters);
+    setSearchParams(filtersParams);
+    dispatch(
+      setSelectedFilters({
+        ...appliedFilters
+      })
+    );
+    resetReduxStore(['buildsData']);
+    loadFreshBuildsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appliedFilters]);
 
   return (
     <div className="flex h-full flex-col">
@@ -66,8 +106,12 @@ const AllBuildsPage = () => {
       </div>
 
       <div className="flex flex-1 flex-col py-6 px-8">
-        <div className="pb-6">
+        <div className="mb-2 flex justify-between">
           <SearchBuilds />
+          <Filters />
+        </div>
+        <div className="mb-4">
+          <FilterTags viewAllBuilds={viewAllBuilds} />
         </div>
         {buildsApiStatus === API_STATUSES.FAILED && (
           <EmptyPage
@@ -86,7 +130,6 @@ const AllBuildsPage = () => {
             <p className="text-base-500 text-center">
               We couldn&apos;t find the results you were looking for.
             </p>
-            {/* PRATIK_TODO : show only when filters applied */}
             <O11yButton
               wrapperClassName="mx-auto mt-6 block"
               onClick={viewAllBuilds}
@@ -108,11 +151,15 @@ const AllBuildsPage = () => {
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell>BUILD</O11yTableCell>
-                <O11yTableCell>TESTS</O11yTableCell>
-                <O11yTableCell>DURATION</O11yTableCell>
-                <O11yTableCell>FAILURE CATEGORIES</O11yTableCell>
-                <O11yTableCell>SMART TAGS</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">BUILD</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">TESTS</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">DURATION</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">
+                  FAILURE CATEGORIES
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">
+                  SMART TAGS
+                </O11yTableCell>
               </O11yTableRow>
             )}
           />

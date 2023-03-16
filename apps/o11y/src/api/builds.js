@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
+import { getParamsFromFiltersObject } from '../features/AllBuilds/utils/common';
+
 export const getBuilds = async ({
   projectNormalisedName,
   currentPagingParams,
@@ -11,26 +13,8 @@ export const getBuilds = async ({
   if (currentPagingParams?.searchAfter?.length) {
     paramsObject.searchAfter = currentPagingParams.searchAfter;
   }
-  Object.keys(filters).forEach((singleItem) => {
-    const targetValue = filters[singleItem];
-    if (
-      singleItem === 'dateRange' &&
-      targetValue.lowerBound &&
-      targetValue.upperBound
-    ) {
-      paramsObject[
-        singleItem
-      ] = `${targetValue.lowerBound},${targetValue.upperBound}`;
-    } else if (singleItem === 'searchText' && targetValue.length) {
-      paramsObject.search = targetValue;
-    } else if (
-      ['tags', 'users', 'status'].includes(singleItem) &&
-      targetValue.length
-    ) {
-      paramsObject[singleItem] = targetValue.join(','); // PRATIK_TODO : replace , to %2C
-    }
-  });
-  return axios.get(endpoint, { params: paramsObject });
+  const filtersObject = getParamsFromFiltersObject(filters);
+  return axios.get(endpoint, { params: { ...filtersObject, ...paramsObject } });
 };
 
 export const getBuildMetaDataAPI = async (buildId) =>
@@ -53,3 +37,19 @@ export const getBuildIdFromBuildInfoApi = async (
 
 export const getBuildInfoFromUuidApi = async (uuid) =>
   axios.get(`${versionedBaseRoute()}/builds/getBuildInfoFromUuid/${uuid}`);
+
+export const getBuildTags = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/tags`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getUserNames = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/users`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};

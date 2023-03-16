@@ -91,3 +91,20 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
   }
   return TEST_STATUS.UNKNOWN;
 };
+
+export const getParametersFromUrl = () => {
+  const params = {};
+  if (window.location.search) {
+    const parts = window.location.search.substring(1).split('&');
+    parts.forEach((singleItem) => {
+      const nv = singleItem.split('=');
+      if (nv[0]) {
+        params[nv[0]] = nv[1] || true;
+      }
+    });
+  }
+  return params;
+};
+
+export const capitalizeFirstLetter = (inputString) =>
+  inputString.charAt(0).toUpperCase() + inputString.slice(1);

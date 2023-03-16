@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getBuilds } from 'api/builds';
+import { getBuilds, getBuildTags, getUserNames } from 'api/builds';
 import { API_STATUSES } from 'constants/common';
 
+import { getParametersFromUrl } from '../../../utils/common';
 import { EMPTY_APPLIED_FILTERS, EMPTY_SELECTED_FILTERS } from '../constants';
 
 import { getAppliedFilters } from './selectors';
@@ -20,12 +21,39 @@ export const getBuildsData = createAsyncThunk(
   }
 );
 
+const getBuildsFilters = (item) => {
+  const data = getParametersFromUrl();
+  Object.keys(data).forEach((key) => {
+    if (key === 'search') {
+      data.searchText = data.search;
+      delete data.search;
+    }
+    if (key === 'dateRange') {
+      const [startDate, endDate] = data.dateRange.split('%2C');
+      data.dateRange = {
+        lowerBound: parseInt(startDate, 10),
+        upperBound: parseInt(endDate, 10)
+      };
+    }
+    if (['statuses', 'users', 'tags', 'frameworks'].includes(key)) {
+      data[key] = data[key].split('%2C');
+    }
+  });
+  if (item === 'selected') {
+    return { ...EMPTY_SELECTED_FILTERS, ...data };
+  }
+  if (item === 'applied') {
+    return { ...EMPTY_APPLIED_FILTERS, ...data };
+  }
+  return { ...data };
+};
+
 const { actions, reducer } = createSlice({
   name: 'buildsList',
   initialState: {
     builds: [],
-    selectedFilters: EMPTY_SELECTED_FILTERS,
-    appliedFilters: EMPTY_APPLIED_FILTERS,
+    selectedFilters: getBuildsFilters('selected'),
+    appliedFilters: getBuildsFilters('applied'),
     apiState: { status: API_STATUSES.IDLE, details: {} },
     buildsPagingParams: {},
     activeBuild: {}
@@ -52,7 +80,7 @@ const { actions, reducer } = createSlice({
       .addCase(getBuildsData.fulfilled, (state, { payload }) => {
         const newBuilds = [...state.builds, ...payload.builds];
         state.builds = newBuilds;
-        state.appliedFilters.searchText = payload.filters.searchText
+        state.appliedFilters.searchText = payload?.filters?.searchText
           ? payload.filters.searchText
           : '';
         state.apiState = { status: API_STATUSES.FULFILLED, details: {} };
@@ -68,3 +96,26 @@ const { actions, reducer } = createSlice({
 export const { setBuilds, setAppliedFilters, setSelectedFilters } = actions;
 
 export default reducer;
+
+export const getBuildTagsData = createAsyncThunk(
+  'buildsList/getBuildTags',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getBuildTags({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+export const getUserNamesData = createAsyncThunk(
+  'buildsList/getUserNames',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getUserNames({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
