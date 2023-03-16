@@ -1,5 +1,6 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yRefTableBody,
   O11yTable,
@@ -10,7 +11,7 @@ import {
 import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
-const TableRow = ({ handleRowClick, ...restProps }) => {
+const TableRow = ({ handleRowClick, wrapperClassName, ...restProps }) => {
   const onRowClick = (event) => {
     const { index } = event.currentTarget.dataset;
     if (index) {
@@ -18,23 +19,40 @@ const TableRow = ({ handleRowClick, ...restProps }) => {
     }
   };
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <O11yTableRow hover {...restProps} onRowClick={onRowClick} />;
+  return (
+    <O11yTableRow
+      hover
+      {...restProps}
+      onRowClick={onRowClick}
+      wrapperClassName={wrapperClassName}
+    />
+  );
 };
 
-TableRow.propTypes = { handleRowClick: PropTypes.func.isRequired };
+TableRow.propTypes = {
+  handleRowClick: PropTypes.func.isRequired,
+  wrapperClassName: PropTypes.string.isRequired
+};
 
-const TableHead = forwardRef((props, ref) => (
+const TableHead = ({ wrapperClassName, ...restProps }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <O11yTableHead {...props} ref={ref} />
-));
+  <O11yTableHead {...restProps} wrapperClassName={wrapperClassName} />
+);
 
-const Table = (props) => (
+TableHead.propTypes = { wrapperClassName: PropTypes.string.isRequired };
+
+const Table = ({ wrapperClassName, ...restProps }) => (
   <O11yTable
-    containerWrapperClass="border border-base-300"
     // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
+    {...restProps}
+    containerWrapperClass={twClassNames(
+      'border border-base-300',
+      wrapperClassName
+    )}
   />
 );
+
+Table.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 
 const LoadingFooter = () => (
   <O11yTableRow>
@@ -55,7 +73,10 @@ const VirtualisedTable = ({
   fixedHeaderContent,
   handleRowClick,
   useWindowScroll,
-  customScrollParent
+  customScrollParent,
+  tableWrapperClassName,
+  tableHeaderWrapperClassName,
+  tableRowWrapperClassName
 }) => {
   const getScrollProps = () => {
     if (customScrollParent) {
@@ -85,11 +106,22 @@ const VirtualisedTable = ({
         (() => (showFixedFooter ? <LoadingFooter /> : <></>))
       }
       components={{
-        Table,
-        TableHead,
+        Table: (props) => (
+          <Table {...props} wrapperClassName={tableWrapperClassName} />
+        ),
+        TableHead: (props) => (
+          <TableHead
+            {...props}
+            wrapperClassName={tableHeaderWrapperClassName}
+          />
+        ),
         TableBody: O11yRefTableBody,
         TableRow: (props) => (
-          <TableRow {...props} handleRowClick={handleRowClick} />
+          <TableRow
+            {...props}
+            handleRowClick={handleRowClick}
+            wrapperClassName={tableRowWrapperClassName}
+          />
         )
       }}
     />
@@ -107,7 +139,10 @@ VirtualisedTable.propTypes = {
   style: PropTypes.shape(PropTypes.object),
   handleRowClick: PropTypes.func,
   useWindowScroll: PropTypes.bool,
-  customScrollParent: PropTypes.instanceOf(Element)
+  customScrollParent: PropTypes.instanceOf(Element),
+  tableWrapperClassName: PropTypes.string,
+  tableHeaderWrapperClassName: PropTypes.string,
+  tableRowWrapperClassName: PropTypes.string
 };
 
 VirtualisedTable.defaultProps = {
@@ -117,7 +152,10 @@ VirtualisedTable.defaultProps = {
   style: {},
   handleRowClick: () => {},
   useWindowScroll: false,
-  customScrollParent: null
+  customScrollParent: null,
+  tableWrapperClassName: '',
+  tableHeaderWrapperClassName: '',
+  tableRowWrapperClassName: ''
 };
 
 export default VirtualisedTable;

@@ -25,8 +25,8 @@ const SnPTestItem = ({ testDetails }) => (
       )}
     >
       <Platforms
-        platforms={testDetails.platforms}
-        browsers={testDetails.browsers}
+        platforms={testDetails.platformList}
+        browsers={testDetails.browserList}
       />
     </O11yTableCell>
     <O11yTableCell
