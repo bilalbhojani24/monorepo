@@ -28,14 +28,14 @@ const PlatformRow = ({ buildData }) => (
         />
         <DetailIcon
           icon={getIconName(
-            buildData?.browser?.name,
-            buildData?.browser?.device
+            buildData?.browserDevice?.name,
+            buildData?.browserDevice?.device.name
           )}
           text={
-            buildData?.browser.device
-              ? buildData?.browser.device
-              : `${capitalize(buildData?.browser.name)} ${
-                  buildData?.browser.version
+            buildData?.browserDevice.device.name
+              ? buildData?.browserDevice.device.name
+              : `${capitalize(buildData?.browserDevice.name)} ${
+                  buildData?.browserDevice.version
                 }`
           }
           size="large"

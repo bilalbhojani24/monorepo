@@ -153,7 +153,10 @@ export default function SnPTests() {
           osVersion: '',
           browserName: '',
           browserVersion: '',
-          deviceName: ''
+          deviceName: '',
+          osKey: '',
+          browserKey: '',
+          deviceKey: ''
         })
       );
       dispatch(setIsDetailsVisible(false));

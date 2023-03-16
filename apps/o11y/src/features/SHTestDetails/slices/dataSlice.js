@@ -38,7 +38,10 @@ const { reducer, actions } = createSlice({
         osName: '',
         osVersion: '',
         browserName: '',
-        browserVersion: ''
+        browserVersion: '',
+        osKey: '',
+        browserKey: '',
+        deviceKey: ''
       },
       chartBounds: {
         lower: null,
