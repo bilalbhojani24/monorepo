@@ -346,7 +346,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 onClick={(e) => handleFormData(e, 'addUrl')}
                 size="small"
                 type="subtle"
-                wrapperClassName="ml-4"
+                wrapperClassName="ml-4 px-3 py-2"
               >
                 Add
               </Button>
@@ -429,7 +429,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 onClick={() => fileUploadRef.current.click()}
                 size="small"
                 type="subtle"
-                wrapperClassName="ml-4 w-36"
+                wrapperClassName="ml-4 w-36 px-3 py-2"
               >
                 Upload CSV
               </Button>

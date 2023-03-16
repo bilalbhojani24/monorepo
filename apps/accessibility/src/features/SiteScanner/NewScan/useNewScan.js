@@ -23,7 +23,7 @@ function toHoursAndMinutes(totalMinutes) {
   const minutes = totalMinutes % 60;
   return { hours, minutes };
 }
-export default function useNewScan(closeSlideover, preConfigData) {
+export default function useNewScan(closeSlideover, preConfigData, show) {
   const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
     recurring: true,
@@ -50,7 +50,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
 
   const getWcagVersionFromVal = (val) =>
     wcagVersions.filter((version) => version.id === val)[0];
-
+  
   useEffect(() => {
     const formDataCpy = { ...formData };
     if (preConfigData) {

@@ -12,7 +12,7 @@ export default function Welcome() {
     fetchReports(window.dashboardUserID).then((response) => {
       setReportList(
           response.map((report) => ({
-            ...report,
+          ...report,
             isSelected: false
           }))
         )
