@@ -109,8 +109,8 @@ function AddEditAlertModal() {
     [buildNames.data]
   );
 
-  const handleCloseModal = () => {
-    if (hasUnsavedChanges) {
+  const handleCloseModal = ({ skipCheck = false }) => {
+    if (hasUnsavedChanges && !skipCheck) {
       setShowAbruptModal(true);
       return;
     }
@@ -261,7 +261,7 @@ function AddEditAlertModal() {
             description: `Alert was ${descText} successfully`,
             type: 'success'
           });
-          handleCloseModal();
+          handleCloseModal({ skipCheck: true });
         })
         .catch(() => {
           o11yNotify({
@@ -285,7 +285,7 @@ function AddEditAlertModal() {
   };
   const handleDiscard = () => {
     setShowAbruptModal(false);
-    dispatch(toggleModal({ version: '', data: {} }));
+    handleCloseModal({ skipCheck: true });
   };
 
   return (
