@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
-import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
@@ -109,16 +108,7 @@ export default function TestBuilds() {
     });
   };
 
-  if (isLoadingData) {
-    return (
-      <O11yLoader
-        wrapperClassName="py-6"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      />
-    );
-  }
-
-  if (!buildsData.builds.length) {
+  if (!isLoadingData && !buildsData.builds.length) {
     return null;
   }
 
