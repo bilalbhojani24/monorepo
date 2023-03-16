@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import AbruptExitModal from 'common/AbruptExitModal';
 import {
   O11yButton,
   O11yInputField,
@@ -35,6 +36,8 @@ function AddEditSubCategoryModal() {
   const [selectedCategoryType, setSelectedCategoryType] = useState('');
   const [isSubmittingData, setIsSubmittingData] = useState(false);
   const [subCategoryName, setSubCategoryName] = useState('');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showAbruptModal, setShowAbruptModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -50,10 +53,21 @@ function AddEditSubCategoryModal() {
   }, [modalData]);
 
   const handleCloseModal = () => {
+    if (hasUnsavedChanges) {
+      setShowAbruptModal(true);
+      return;
+    }
     dispatch(toggleModal({ version: '', data: {} }));
   };
 
+  const setDirtyState = () => {
+    if (!hasUnsavedChanges) {
+      setHasUnsavedChanges(true);
+    }
+  };
+
   const handleSelectFailureCategory = (item) => {
+    setDirtyState();
     setSelectedCategoryType(item);
   };
 
@@ -61,6 +75,7 @@ function AddEditSubCategoryModal() {
     if (value.length > 32) {
       return;
     }
+    setDirtyState();
     setSubCategoryName(value);
   };
 
@@ -119,73 +134,87 @@ function AddEditSubCategoryModal() {
         });
     }
   };
+  const handleGoBack = () => {
+    setShowAbruptModal(false);
+  };
+  const handleDiscard = () => {
+    setShowAbruptModal(false);
+    dispatch(toggleModal({ version: '', data: {} }));
+  };
   return (
-    <O11yModal show size="md" onClose={handleCloseModal}>
-      <O11yModalHeader
-        dismissButton
-        heading={
-          modalData?.action === 'edit'
-            ? 'Edit failure category'
-            : 'Create failure category'
-        }
-        handleDismissClick={handleCloseModal}
-      />
+    <>
+      <O11yModal show size="md" onClose={handleCloseModal}>
+        <O11yModalHeader
+          dismissButton
+          heading={
+            modalData?.action === 'edit'
+              ? 'Edit failure category'
+              : 'Create failure category'
+          }
+          handleDismissClick={handleCloseModal}
+        />
 
-      <O11yModalBody>
-        <form className="max-w-xs">
-          <O11ySelectMenu
-            onChange={handleSelectFailureCategory}
-            value={selectedCategoryType}
-            disabled={modalData?.action === 'edit'}
-          >
-            <O11ySelectMenuLabel>
-              <p className="flex gap-1 text-sm font-medium leading-5">
-                <span>Failure category</span>
-                <span className="text-danger-600">*</span>
+        <O11yModalBody>
+          <form className="max-w-xs">
+            <O11ySelectMenu
+              onChange={handleSelectFailureCategory}
+              value={selectedCategoryType}
+              disabled={modalData?.action === 'edit'}
+            >
+              <O11ySelectMenuLabel>
+                <p className="flex gap-1 text-sm font-medium leading-5">
+                  <span>Failure category</span>
+                  <span className="text-danger-600">*</span>
+                </p>
+              </O11ySelectMenuLabel>
+              <O11ySelectMenuTrigger placeholder="Select.." value="" />
+              <O11ySelectMenuOptionGroup>
+                {Object.keys(FAILURE_CATEGORIES_TYPES).map((key) => (
+                  <O11ySelectMenuOptionItem
+                    checkPosition="right"
+                    key={key}
+                    wrapperClassName="text-sm"
+                    option={{
+                      label: FAILURE_CATEGORIES_INFO[key].label,
+                      value: key
+                    }}
+                  />
+                ))}
+              </O11ySelectMenuOptionGroup>
+            </O11ySelectMenu>
+            <div className="mt-4">
+              <O11yInputField
+                label="Category Name*"
+                placeholder="Custom category"
+                value={subCategoryName}
+                onChange={handleChangeSubCategoryName}
+              />
+              <p className="text-base-500 mt-2 text-sm font-normal leading-5">
+                Max-characters - 32
               </p>
-            </O11ySelectMenuLabel>
-            <O11ySelectMenuTrigger placeholder="Select.." value="" />
-            <O11ySelectMenuOptionGroup>
-              {Object.keys(FAILURE_CATEGORIES_TYPES).map((key) => (
-                <O11ySelectMenuOptionItem
-                  checkPosition="right"
-                  key={key}
-                  wrapperClassName="text-sm"
-                  option={{
-                    label: FAILURE_CATEGORIES_INFO[key].label,
-                    value: key
-                  }}
-                />
-              ))}
-            </O11ySelectMenuOptionGroup>
-          </O11ySelectMenu>
-          <div className="mt-4">
-            <O11yInputField
-              label="Category Name*"
-              placeholder="Custom category"
-              value={subCategoryName}
-              onChange={handleChangeSubCategoryName}
-            />
-            <p className="text-base-500 mt-2 text-sm font-normal leading-5">
-              Max-characters - 32
-            </p>
-          </div>
-        </form>
-      </O11yModalBody>
-      <O11yModalFooter position="right">
-        <O11yButton colors="white" onClick={handleCloseModal}>
-          Cancel
-        </O11yButton>
-        <O11yButton
-          loading={isSubmittingData}
-          isIconOnlyButton={isSubmittingData}
-          onClick={handleSubmitChanges}
-          type="submit"
-        >
-          Save Changes
-        </O11yButton>
-      </O11yModalFooter>
-    </O11yModal>
+            </div>
+          </form>
+        </O11yModalBody>
+        <O11yModalFooter position="right">
+          <O11yButton colors="white" onClick={handleCloseModal}>
+            Cancel
+          </O11yButton>
+          <O11yButton
+            loading={isSubmittingData}
+            isIconOnlyButton={isSubmittingData}
+            onClick={handleSubmitChanges}
+            type="submit"
+          >
+            Save Changes
+          </O11yButton>
+        </O11yModalFooter>
+      </O11yModal>
+      <AbruptExitModal
+        isAbruptModalOpen={showAbruptModal}
+        onDiscard={handleDiscard}
+        onGoBack={handleGoBack}
+      />
+    </>
   );
 }
 
