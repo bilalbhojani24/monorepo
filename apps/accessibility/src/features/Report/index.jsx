@@ -58,7 +58,7 @@ export default function Report() {
   const reportName = isSingleReport
     ? Object.values(reportMetaData.meta)[0].name
     : `Consolidated report across ${reportsLength} reports`;
-  
+
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
