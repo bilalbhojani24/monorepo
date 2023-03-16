@@ -114,7 +114,6 @@ export default function TestBuilds() {
 
   return (
     <VirtualisedTable
-      useWindowScroll
       customScrollParent={document.getElementById(
         SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID
       )}
