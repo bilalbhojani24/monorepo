@@ -57,21 +57,24 @@ const VirtualisedTable = ({
   useWindowScroll,
   customScrollParent
 }) => {
-  const getStyles = () => {
+  const getScrollProps = () => {
     if (customScrollParent) {
-      return { customScrollParent };
+      return {
+        customScrollParent
+      };
     }
     if (useWindowScroll) {
       return {
         useWindowScroll: true
       };
     }
-    return { style: { height: '100%', width: '100%', ...style } };
+    return {};
   };
 
   return (
     <TableVirtuoso
-      {...getStyles()}
+      {...getScrollProps()}
+      style={{ height: '100%', width: '100%', ...style }}
       data={data}
       endReached={endReached}
       overscan={overscan}
