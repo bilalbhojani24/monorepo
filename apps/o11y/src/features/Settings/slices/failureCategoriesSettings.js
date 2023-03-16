@@ -51,7 +51,7 @@ export const updateSubCat = createAsyncThunk(
         ...data
       });
       return {
-        subCat: data.payload || {}
+        subCatData: data.payload || {}
       };
     } catch (err) {
       return rejectWithValue({ err, data });
@@ -120,6 +120,22 @@ const { reducer } = createSlice({
         }
         state.failureSubCategories.data[payload.subCatData.category] =
           updatedData;
+      })
+      .addCase(updateSubCat.fulfilled, (state, { payload }) => {
+        const foundAlertIdx = state.failureSubCategories.data[
+          payload.subCatData.category
+        ].findIndex((item) => item.id === payload.subCatData.id);
+        if (foundAlertIdx !== -1) {
+          state.failureSubCategories.data[payload.subCatData.category][
+            foundAlertIdx
+          ] = payload.subCatData;
+        }
+      })
+      .addCase(deleteSubCatById.fulfilled, (state, { payload }) => {
+        state.failureSubCategories.data[payload.category] =
+          state.failureSubCategories.data[payload.category].filter(
+            (item) => item.id !== payload.subCatId
+          );
       });
   }
 });
