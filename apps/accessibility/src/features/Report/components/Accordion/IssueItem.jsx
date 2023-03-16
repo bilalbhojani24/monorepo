@@ -307,7 +307,7 @@ export default function IssueItem() {
                 <div className="mr-2 w-full">
                   <InputField id={url} value={url} readonly />
                 </div>
-                <CopyButton text={window.location.href} />
+                <CopyButton text={url} />
               </div>
             </div>
           </div>
