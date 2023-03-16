@@ -13,7 +13,7 @@ import RenderButtonChildren from './components/RenderButtonChildren';
 
 const SelectMenuTrigger = ({ placeholder, wrapperClassName, triggerIcon }) => {
   const buttonRef = useRef();
-  const { isMulti, setWidth, showCount, errorText } = useContext(
+  const { isMulti, setWidth, showCount, errorText, disabled } = useContext(
     SelectMenuContextData
   );
   const { width } = useResizeObserver(buttonRef);
@@ -27,12 +27,13 @@ const SelectMenuTrigger = ({ placeholder, wrapperClassName, triggerIcon }) => {
       <Listbox.Button
         ref={buttonRef}
         className={twClassNames(
-          'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full rounded-md border bg-white py-2 pl-3 pr-7 text-left shadow-sm focus:ring-1 sm:text-sm cursor-pointer',
+          'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full rounded-md border bg-white py-2 pl-3 pr-14 text-left shadow-sm focus:ring-1 sm:text-sm cursor-pointer',
+          { 'border-danger-600': errorText },
+          wrapperClassName,
           {
-            'border-danger-600': errorText,
-            'pr-14': isMulti && showCount
-          },
-          wrapperClassName
+            'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
+              disabled
+          }
         )}
       >
         {({ value }) => (

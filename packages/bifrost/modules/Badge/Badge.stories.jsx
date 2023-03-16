@@ -73,9 +73,14 @@ const defaultConfig = {
 };
 const Template = (args) => <Badge {...args} />;
 const Primary = Template.bind({});
+const DisabledBadge = Template.bind({});
+
 Primary.parameters = {
   controls: {}
 };
+DisabledBadge.args = {
+  disabled: true
+};
 
 export default defaultConfig;
-export { Primary };
+export { DisabledBadge, Primary };

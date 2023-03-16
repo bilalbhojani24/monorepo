@@ -1,6 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
-import { userEvent, within } from '@storybook/testing-library';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import DropdownOptionGroup from '../DropdownOptionGroup';
@@ -71,7 +72,6 @@ const Template = (args) => <Dropdown {...args} />;
 
 const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
-  const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
   const canvas = within(canvasElement);
   expect(
     canvas.getByRole('button', {
@@ -80,20 +80,23 @@ Primary.play = async ({ canvasElement }) => {
   ).toBeInTheDocument();
   const arr = ['Account Settings', 'Support', 'License'];
   document.querySelectorAll('button')[3].click();
-  await sleep(1);
+  await delay(1);
   expect(
     canvas.getByRole('button', {
       Name: 'Options',
       expanded: true
     })
   ).toBeInTheDocument();
-  await sleep(1);
+  await delay(1);
   const buttons = document.querySelectorAll('button');
-  for (let i = 4; i < buttons.length; i += 1) {
-    expect(arr.includes(buttons[i].firstChild.nodeValue)).toBe(true);
-  }
+  await delay(1);
+  buttons.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(buttons, item) > 3) {
+      await expect(arr.includes(item.firstChild.nodeValue)).toBe(true);
+    }
+  });
   document.querySelectorAll('button')[3].click();
-  await sleep(1);
+  await delay(1);
   expect(
     canvas.getByRole('button', {
       expanded: false
