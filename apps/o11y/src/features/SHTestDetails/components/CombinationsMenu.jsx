@@ -124,7 +124,11 @@ const CombinationsMenu = () => {
         />
         <O11ySelectMenuOptionGroup>
           {updatedMenuOptions.map((item) => (
-            <O11ySelectMenuOptionItem key={item.value} option={item} />
+            <O11ySelectMenuOptionItem
+              key={item.value}
+              option={item}
+              wrapperClassName="text-xs"
+            />
           ))}
         </O11ySelectMenuOptionGroup>
       </O11ySelectMenu>
