@@ -6,7 +6,12 @@ import {
   runInstantScan,
   stopRecurringScans
 } from '../../../api/siteScannerScanConfigs';
-import { getScanOverview, getScanRuns } from '../slices/dataSlice';
+import { getUser } from '../../Dashboard/slices/selectors';
+import {
+  clearScanOverviewData,
+  getScanOverview,
+  getScanRuns
+} from '../slices/dataSlice';
 import {
   getScanOverviewData,
   getScanRunCommonData,
@@ -23,11 +28,13 @@ export default function useScanDetails() {
   const [activeTab, setActiveTab] = useState('Overview');
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStopState, setloadingStopState] = useState(false);
   const dispatch = useDispatch();
   const scanRunData = useSelector(getScanRunData);
   const scanRunDataCommon = useSelector(getScanRunCommonData);
   const scanOverviewData = useSelector(getScanOverviewData);
-
+  const userInfo = useSelector(getUser);
+  const [showModal, setStopModal] = useState(false);
   const [searchParams] = useSearchParams();
   const { id } = useParams();
 
@@ -40,6 +47,7 @@ export default function useScanDetails() {
   useEffect(() => {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
+    dispatch(clearScanOverviewData());
     dispatch(getScanOverview(id));
     dispatch(getScanRuns(id));
   }, [dispatch, id]);
@@ -68,8 +76,10 @@ export default function useScanDetails() {
   };
 
   const handleStopRecurringScan = () => {
+    setloadingStopState(true);
     stopRecurringScans(id)
       .then((data) => {
+        setloadingStopState(false);
         navigate('/site-scanner');
         // alert('Stopped Recurring scan');
       })
@@ -85,6 +95,10 @@ export default function useScanDetails() {
     scanOverviewData,
     activeTabIndex,
     handleNewScanRun,
-    handleStopRecurringScan
+    handleStopRecurringScan,
+    setStopModal,
+    showModal,
+    loadingStopState,
+    userInfo
   };
 }

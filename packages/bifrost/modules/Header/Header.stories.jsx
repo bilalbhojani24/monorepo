@@ -108,6 +108,11 @@ const defaultConfig = {
     },
     isFreeUser: {
       defaultValue: true
+    },
+    onSignoutClick: {
+      defaultValue: (e) => {
+        e.preventDefault();
+      }
     }
   },
   controls: {}

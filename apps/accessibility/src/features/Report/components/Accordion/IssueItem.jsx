@@ -166,6 +166,8 @@ export default function IssueItem() {
       nodeList: none
     }
   ];
+
+  console.log({ testType });
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
     reportMetaData,
