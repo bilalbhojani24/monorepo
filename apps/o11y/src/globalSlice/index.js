@@ -6,7 +6,7 @@ import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 
 export const getProjectsList = createAsyncThunk(
   'sidebar/getProjectsList',
-  async (data, { rejectWithValue }) => {
+  async (data) => {
     try {
       const response = await getProjectsListAPI();
       return {
@@ -14,7 +14,7 @@ export const getProjectsList = createAsyncThunk(
         projectNormalisedName: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return null;
     }
   }
 );
