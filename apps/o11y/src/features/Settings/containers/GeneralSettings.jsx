@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getNumericValue } from 'utils/common';
+import { getNumericValue, logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
-import { getGeneralSettingsState } from '../slices/selectors';
 import {
   getGeneralSettingsData,
   submitGeneralSettingsChanges
-} from '../slices/settingsSlice';
+} from '../slices/generalSettings';
+import { getGeneralSettingsState } from '../slices/selectors';
 
 export default function GeneralSettings() {
   const data = useSelector(getGeneralSettingsState);
@@ -34,6 +34,25 @@ export default function GeneralSettings() {
           if (res?.data?.buildTimeout && mounted.current) {
             setBuildTimeout(res.data.buildTimeout);
           }
+        })
+        .catch(() => {
+          notify(
+            <Notifications
+              id="update-general-failed"
+              title="Something went wrong!"
+              description="There was an error while loading settings"
+              headerIcon={
+                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
+              }
+              handleClose={(toastData) => {
+                notify.remove(toastData.id);
+              }}
+            />,
+            {
+              position: 'top-right',
+              duration: 3000
+            }
+          );
         });
     }
     return () => {
@@ -61,12 +80,22 @@ export default function GeneralSettings() {
       })
     )
       .unwrap()
+      .then(() => {
+        logOllyEvent({
+          event: 'O11ySettingsPageInteracted',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            interaction: 'timeout_value_changed'
+          }
+        });
+      })
       .catch(() => {
         setBuildTimeout(data?.data?.buildTimeout);
         notify(
           <Notifications
             id="update-general-failed"
-            title="Failure when updating"
+            title="Something went wrong!"
             description="There was an error while updating settings"
             headerIcon={
               <MdErrorOutline className="text-danger-500 text-lg leading-5" />

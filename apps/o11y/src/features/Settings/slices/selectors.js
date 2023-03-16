@@ -1,7 +1,13 @@
-export const getGeneralSettingsState = (state) => state.settings.general;
+export const getGeneralSettingsState = (state) => state.generalSettings.general;
 export const getAutoAnalyzerSettingsState = (state) =>
-  state.settings.autoFailureAnalysis;
-export const getReRunSettingsState = (state) => state.settings.reRun;
-export const getAlertsState = (state) => state.settings.alerts;
+  state.autoAnalyserSettings.autoFailureAnalysis;
+export const getReRunSettingsState = (state) => state.reRunSettings.reRun;
+export const getBuildNamesState = (state) => state.alertSettings.buildNames;
+export const getAlertsState = (state) => state.alertSettings.alerts;
 export const getAlertDataByType = (type) => (state) =>
-  state.settings.alerts.data?.[type];
+  state.alertSettings.alerts.data?.[type];
+
+export const getFailureCategoriesState = (state) =>
+  state.failureCategoriesSettings.failureCategories;
+export const getFailureSubCategoriesState = (state) =>
+  state.failureCategoriesSettings.failureSubCategories;

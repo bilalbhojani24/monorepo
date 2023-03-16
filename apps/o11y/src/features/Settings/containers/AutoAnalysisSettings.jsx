@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getNumericValue } from 'utils/common';
+import { getNumericValue, logOllyEvent } from 'utils/common';
 
 import SettingsCard from '../components/SettingsCard';
-import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 import {
   getAutoAnalyserSettingsData,
   updateAutoAnalyserSettingsData
-} from '../slices/settingsSlice';
+} from '../slices/autoAnalyserSettings';
+import { getAutoAnalyzerSettingsState } from '../slices/selectors';
 
 export default function AutoAnalysisSettings() {
   const data = useSelector(getAutoAnalyzerSettingsState);
@@ -64,7 +64,7 @@ export default function AutoAnalysisSettings() {
           notify(
             <Notifications
               id="update-auto-analyzer-failed"
-              title="Failure when updating"
+              title="Something went wrong!"
               description="There was an error while loading settings"
               headerIcon={
                 <MdErrorOutline className="text-danger-500 text-lg leading-5" />
@@ -102,6 +102,14 @@ export default function AutoAnalysisSettings() {
           state: prev.state,
           loading: false
         }));
+        logOllyEvent({
+          event: 'O11ySettingsPageInteracted',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            interaction: 'auto_failure_analysis_config_changed'
+          }
+        });
       })
       .catch(() => {
         setFailureCategoryDetectionEnabled({
@@ -116,7 +124,7 @@ export default function AutoAnalysisSettings() {
         notify(
           <Notifications
             id="update-auto-analyzer-failed"
-            title="Failure when updating"
+            title="Something went wrong!"
             description="There was an error while updating settings"
             headerIcon={
               <MdErrorOutline className="text-danger-500 text-lg leading-5" />

@@ -14,3 +14,29 @@ export const updateSettingsByKey = async (
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/${key}`,
     payload
   );
+
+export const getBuildNames = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/buildNames`
+  );
+
+export const createNewAlert = async ({ projectNormalisedName, payload }) =>
+  axios.post(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/alerts`,
+    payload
+  );
+
+export const deleteAlert = async ({ projectNormalisedName, alertId }) =>
+  axios.delete(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/alerts/${alertId}`
+  );
+
+export const getAvailableCategoriesData = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/categories`
+  );
+
+export const getAvailableSubCategories = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/sub-categories`
+  );

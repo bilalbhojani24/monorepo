@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
@@ -65,10 +64,15 @@ export const logOllyEvent = ({ event, data = {} }) => {
     domain:
       window.location.hostname.split('.').length >= 3
         ? window.location.hostname.split('.').slice(1, 3).join('.')
-        : window.location.hostname
+        : window.location.hostname,
+    is_dark_mode:
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
   };
   if (window.SHOW_BSTACK_ANALYTICS_EVENTS) {
+    // eslint-disable-next-line no-console
     console.log('Event Name:', event);
+    // eslint-disable-next-line no-console
     console.table({ ...commonData, ...data });
   }
   if (window.location.hostname.endsWith('browserstack.com')) {
