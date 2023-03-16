@@ -14,11 +14,21 @@ import {
 } from '../../shared/proptypesConstants';
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
+import RenderChildren from './components/RenderChildren';
+
 const SelectMenu = (props) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
-
-  const { children, errorText, onChange, isMulti, defaultValue, value } = props;
+  const [open, setOpen] = useState(false);
+  const {
+    children,
+    errorText,
+    onChange,
+    isMulti,
+    defaultValue,
+    value,
+    onOpenChange
+  } = props;
 
   return (
     <SelectMenuContextData.Provider
@@ -28,10 +38,12 @@ const SelectMenu = (props) => {
         width,
         showCount,
         setShowCount,
-        errorText
+        errorText,
+        open,
+        setOpen
       }}
     >
-      <Popover.Root>
+      <Popover.Root open={open}>
         <Listbox
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
@@ -44,7 +56,11 @@ const SelectMenu = (props) => {
             return null;
           }}
         >
-          {children}
+          {({ open: dropdownOpen }) => (
+            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
+              {children}
+            </RenderChildren>
+          )}
         </Listbox>
         {errorText && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -86,7 +102,8 @@ SelectMenu.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  onOpenChange: func
 };
 
 SelectMenu.defaultProps = {
@@ -94,7 +111,8 @@ SelectMenu.defaultProps = {
   errorText: '',
   isMulti: false,
   onChange: () => {},
-  value: null
+  value: null,
+  onOpenChange: null
 };
 
 export default SelectMenu;

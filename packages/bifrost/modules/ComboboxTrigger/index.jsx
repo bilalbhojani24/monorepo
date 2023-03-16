@@ -12,11 +12,12 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
-  const { isMulti, setWidth, errorText } = useContext(ComboboxContextData);
+  const { isMulti, setWidth, errorText, open } =
+    useContext(ComboboxContextData);
 
   useEffect(() => {
-    setWidth(buttonRef.current.offsetWidth);
-  }, [setWidth]);
+    if (open) setWidth(buttonRef.current.offsetWidth);
+  }, [setWidth, open]);
 
   return (
     <Popover.Trigger asChild ref={buttonRef}>

@@ -14,10 +14,21 @@ import {
   string
 } from '../../shared/proptypesConstants';
 
+import RenderChildren from './components/RenderChildren';
+
 const ComboBox = forwardRef((props, ref) => {
+  const [open, setOpen] = useState(false);
   const [width, setWidth] = useState(0);
 
-  const { children, defaultValue, errorText, onChange, isMulti, value } = props;
+  const {
+    children,
+    defaultValue,
+    errorText,
+    onChange,
+    isMulti,
+    value,
+    onOpenChange
+  } = props;
 
   return (
     <ComboboxContextData.Provider
@@ -26,10 +37,12 @@ const ComboBox = forwardRef((props, ref) => {
         width,
         setWidth,
         errorText,
-        value
+        value,
+        open,
+        setOpen
       }}
     >
-      <Popover.Root>
+      <Popover.Root open={open}>
         <Combobox
           ref={ref}
           as="div"
@@ -44,7 +57,11 @@ const ComboBox = forwardRef((props, ref) => {
             return null;
           }}
         >
-          {children}
+          {({ open: dropdownOpen }) => (
+            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
+              {children}
+            </RenderChildren>
+          )}
         </Combobox>
         {errorText && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -86,7 +103,8 @@ ComboBox.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  onOpenChange: func
 };
 
 ComboBox.defaultProps = {
@@ -94,7 +112,8 @@ ComboBox.defaultProps = {
   errorText: '',
   isMulti: false,
   onChange: () => {},
-  value: null
+  value: null,
+  onOpenChange: null
 };
 
 export default ComboBox;

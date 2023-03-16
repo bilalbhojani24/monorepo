@@ -10,7 +10,7 @@ const SelectMenuOptionGroup = ({ children, wrapperClassName }, ref) => {
   const { width } = useContext(SelectMenuContextData);
 
   return (
-    <Popover.Portal forceMount>
+    <Popover.Portal>
       <Popover.Content
         asChild
         style={{
