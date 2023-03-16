@@ -9,6 +9,8 @@ import {
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import PropTypes from 'prop-types';
 
 import { FAILURE_CATEGORIES_INFO } from '../constants';
@@ -19,39 +21,32 @@ function CategoryGroup({ type }) {
   const subcategories = useSelector(getFailureSubCategoryByType(type));
 
   const handleClickMeatBall = (value, subcategory) => {
-    // eslint-disable-next-line no-console
-    console.log(
-      'dispatch, value, subcategory :>> ',
-      dispatch,
-      value,
-      subcategory
-    );
-    // switch (value.id) {
-    //   case 'edit':
-    //     dispatch(
-    //       toggleModal({
-    //         version: MODAL_TYPES.add_edit_alert,
-    //         data: {
-    //           action: 'edit',
-    //           alertData: alert
-    //         }
-    //       })
-    //     );
-    //     break;
-    //   case 'delete':
-    //     dispatch(
-    //       toggleModal({
-    //         version: MODAL_TYPES.delete_alert,
-    //         data: {
-    //           alertId: alert.id,
-    //           alertType: alert.alertType
-    //         }
-    //       })
-    //     );
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (value.id) {
+      case 'edit':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.add_edit_sub_category,
+            data: {
+              action: 'edit',
+              subCatData: subcategory
+            }
+          })
+        );
+        break;
+      case 'delete':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.delete_sub_cat,
+            data: {
+              subCatId: subcategory.id,
+              category: subcategory.category
+            }
+          })
+        );
+        break;
+      default:
+        break;
+    }
   };
 
   return (

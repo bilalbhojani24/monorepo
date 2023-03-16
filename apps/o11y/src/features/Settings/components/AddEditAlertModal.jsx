@@ -272,7 +272,7 @@ function AddEditAlertModal() {
     <O11yModal show size="xl">
       <O11yModalHeader
         dismissButton
-        heading="Add Alert"
+        heading={modalData?.action === 'edit' ? 'Edit Alert' : 'Add Alert'}
         handleDismissClick={handleCloseModal}
       />
 
@@ -294,6 +294,7 @@ function AddEditAlertModal() {
               {Object.keys(ALERT_TYPES).map((key) => (
                 <O11ySelectMenuOptionItem
                   checkPosition="right"
+                  wrapperClassName="text-sm"
                   key={key}
                   option={{
                     label: ALERT_TYPES_INFO[key].label,

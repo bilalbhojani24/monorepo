@@ -10,7 +10,9 @@ import {
   O11yTableHead,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -34,6 +36,15 @@ export default function FailureCategoriesSettings() {
       );
     }
   }, [activeProject.normalisedName, dispatch]);
+
+  const handleClickAddSubCategory = () => {
+    dispatch(
+      toggleModal({
+        version: MODAL_TYPES.add_edit_sub_category
+      })
+    );
+  };
+
   if (data?.isLoading) {
     return (
       <SettingsCard>
@@ -55,7 +66,7 @@ export default function FailureCategoriesSettings() {
           <Initiator
             btnText="Create sub-category"
             desc="Failure categories help group issues that result from similar mode of test failures."
-            onClick={() => {}}
+            onClick={handleClickAddSubCategory}
             title="Configure failure categories"
             illustration={createSubCatSvg}
           />
@@ -75,7 +86,7 @@ export default function FailureCategoriesSettings() {
           </div>
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
-            // onClick={handleClickAddAlert}
+            onClick={handleClickAddSubCategory}
           >
             Create sub-category
           </O11yButton>
