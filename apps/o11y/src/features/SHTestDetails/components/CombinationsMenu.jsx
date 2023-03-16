@@ -96,7 +96,7 @@ const CombinationsMenu = () => {
         osVersion: selected?.os?.version || '',
         browserName: selected?.browser?.name || '',
         browserVersion: selected?.browser?.version || '',
-        deviceName: selected?.browser?.device.name || '',
+        deviceName: selected?.browser?.device?.name || '',
         osKey: selected?.os?.key || '',
         browserKey: selected?.browser?.key || '',
         deviceKey: selected?.browser?.device?.key || ''

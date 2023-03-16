@@ -73,9 +73,12 @@ const PlatformsTab = () => {
         setSnPCbtInfo({
           osName: activeRow?.os?.name || '',
           osVersion: activeRow?.os?.version || '',
-          browserName: activeRow?.browser?.name || '',
-          browserVersion: activeRow?.browser?.version || '',
-          deviceName: activeRow?.browser?.device || ''
+          browserName: activeRow?.browserDevice?.name || '',
+          browserVersion: activeRow?.browserDevice?.version || '',
+          deviceName: activeRow?.browserDevice?.device?.name || '',
+          osKey: activeRow?.os?.key || '',
+          browserKey: activeRow?.browserDevice?.key || '',
+          deviceKey: activeRow?.browserDevice?.device?.key || ''
         })
       );
       const searchParams = new URLSearchParams(window?.location?.search);

@@ -123,7 +123,10 @@ export default function SnPTests() {
           browserName:
             searchParams.get(SNP_PARAMS_MAPPING.snpBrowserName) || '',
           browserVersion:
-            searchParams.get(SNP_PARAMS_MAPPING.snpBrowserVersion) || ''
+            searchParams.get(SNP_PARAMS_MAPPING.snpBrowserVersion) || '',
+          osKey: searchParams.get(SNP_PARAMS_MAPPING.snpOsKey) || '',
+          browserKey: searchParams.get(SNP_PARAMS_MAPPING.snpBrowserKey) || '',
+          deviceKey: searchParams.get(SNP_PARAMS_MAPPING.snpDeviceKeys) || ''
         })
       );
       dispatch(setIsSnPDetailsVisible(true));
