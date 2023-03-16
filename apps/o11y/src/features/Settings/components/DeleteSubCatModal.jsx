@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  MdCheckCircleOutline,
-  MdErrorOutline,
-  Notifications,
-  notify
-} from '@browserstack/bifrost';
-import {
   O11yButton,
   O11yModal,
   O11yModalBody,
@@ -16,6 +10,7 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import { o11yNotify } from 'utils/notification';
 
 import { deleteSubCatById } from '../slices/failureCategoriesSettings';
 
@@ -41,41 +36,19 @@ function DeleteSubCatModal() {
     )
       .unwrap()
       .then(() => {
-        notify(
-          <Notifications
-            id="delete-category-success"
-            title="Successfully deleted"
-            description="Category was deleted successfully"
-            headerIcon={<MdCheckCircleOutline className="text-success-500" />}
-            handleClose={(toastData) => {
-              notify.remove(toastData.id);
-            }}
-          />,
-          {
-            position: 'top-right',
-            duration: 3000
-          }
-        );
+        o11yNotify({
+          title: 'Successfully deleted',
+          description: 'Category was deleted successfully',
+          type: 'success'
+        });
         handleCloseModal();
       })
       .catch(() => {
-        notify(
-          <Notifications
-            id="delete-category-failed"
-            title="Something went wrong!"
-            description="There was an error while deleting category"
-            headerIcon={
-              <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-            }
-            handleClose={(toastData) => {
-              notify.remove(toastData.id);
-            }}
-          />,
-          {
-            position: 'top-right',
-            duration: 3000
-          }
-        );
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while deleting category',
+          type: 'error'
+        });
       })
       .finally(() => {
         setIsDeletingCategory(false);

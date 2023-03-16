@@ -5,6 +5,7 @@ import { MdFolderOpen } from '@browserstack/bifrost';
 import { O11yTableCell } from 'common/bifrostProxy';
 import { setActiveProject } from 'globalSlice';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 import { getTestingTrendPath } from 'utils/routeUtils';
 
 export default function ProjectListItem({ project }) {
@@ -17,6 +18,13 @@ export default function ProjectListItem({ project }) {
         normalisedName
       })
     );
+    logOllyEvent({
+      event: 'O11yProjectListingProjectClicked',
+      data: {
+        project_name: name,
+        project_id: id
+      }
+    });
   };
   return (
     <O11yTableCell wrapperClassName="py-0 first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0">

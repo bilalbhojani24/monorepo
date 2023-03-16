@@ -93,10 +93,10 @@ export default function AlertsSettings() {
             <O11yTableHead wrapperClassName="bg-white sticky top-0">
               <O11yTableRow>
                 <O11yTableCell
-                  wrapperClassName="md:rounded-lg"
+                  wrapperClassName="md:rounded-lg  w-2/5"
                   variant="header"
                 >
-                  Alert name
+                  Alert
                 </O11yTableCell>
                 <O11yTableCell
                   wrapperClassName="md:rounded-lg"

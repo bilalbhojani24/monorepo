@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
 import {
@@ -61,23 +61,11 @@ export default function AutoAnalysisSettings() {
             state: prev.state,
             loading: false
           }));
-          notify(
-            <Notifications
-              id="update-auto-analyzer-failed"
-              title="Something went wrong!"
-              description="There was an error while loading settings"
-              headerIcon={
-                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-              }
-              handleClose={(toastData) => {
-                notify.remove(toastData.id);
-              }}
-            />,
-            {
-              position: 'top-right',
-              duration: 3000
-            }
-          );
+          o11yNotify({
+            title: 'Something went wrong!',
+            description: 'There was an error while loading settings',
+            type: 'error'
+          });
         });
     }
     return () => {
@@ -110,6 +98,11 @@ export default function AutoAnalysisSettings() {
             interaction: 'auto_failure_analysis_config_changed'
           }
         });
+        o11yNotify({
+          title: 'Successfully updated!',
+          description: 'Analyser settings were updated successfully',
+          type: 'success'
+        });
       })
       .catch(() => {
         setFailureCategoryDetectionEnabled({
@@ -121,23 +114,11 @@ export default function AutoAnalysisSettings() {
           loading: false
         });
         setThresholdPercentage(data.data.thresholdPercentage);
-        notify(
-          <Notifications
-            id="update-auto-analyzer-failed"
-            title="Something went wrong!"
-            description="There was an error while updating settings"
-            headerIcon={
-              <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-            }
-            handleClose={(toastData) => {
-              notify.remove(toastData.id);
-            }}
-          />,
-          {
-            position: 'top-right',
-            duration: 3000
-          }
-        );
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating settings',
+          type: 'error'
+        });
       });
   };
   const handleChangeFailureCatSwitch = (checked) => {

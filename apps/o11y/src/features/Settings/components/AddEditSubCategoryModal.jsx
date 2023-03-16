@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import {
   O11yButton,
   O11yInputField,
@@ -19,6 +18,7 @@ import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 import {
   FAILURE_CATEGORIES_INFO,
@@ -95,30 +95,24 @@ function AddEditSubCategoryModal() {
                   : 'failure_subcategory_created'
             }
           });
+          const descText = modalData?.action === 'edit' ? 'updated' : 'created';
+          o11yNotify({
+            title: `Successfully ${descText}!`,
+            description: `Category was ${descText} successfully`,
+            type: 'success'
+          });
           handleCloseModal();
         })
         .catch(() => {
-          notify(
-            <Notifications
-              id="update-alerts-failed"
-              title="Something went wrong!"
-              description={`There was an error while ${
-                modalData.action === 'edit'
-                  ? 'updating alert'
-                  : 'creating new alert'
-              }`}
-              headerIcon={
-                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-              }
-              handleClose={(toastData) => {
-                notify.remove(toastData.id);
-              }}
-            />,
-            {
-              position: 'top-right',
-              duration: 3000
-            }
-          );
+          o11yNotify({
+            title: 'Something went wrong!',
+            description: `There was an error while ${
+              modalData.action === 'edit'
+                ? 'updating category'
+                : 'creating new category'
+            }`,
+            type: 'error'
+          });
         })
         .finally(() => {
           setIsSubmittingData(false);

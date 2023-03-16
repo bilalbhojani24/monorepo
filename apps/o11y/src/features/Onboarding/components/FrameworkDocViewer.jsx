@@ -11,7 +11,7 @@ import { ROUTES } from 'constants/routes';
 import { setProjectList } from 'globalSlice';
 import useRafPolling from 'hooks/useRafPolling';
 import PropTypes from 'prop-types';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, logOllyEvent } from 'utils/common';
 
 const POLLING_INTERVAL = 10000;
 
@@ -53,6 +53,17 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     },
     [endPolling]
   );
+
+  useEffect(() => {
+    if (selectedFramework.name) {
+      logOllyEvent({
+        event: 'O11yOnboardingVisited',
+        data: {
+          language_framework: selectedFramework.name
+        }
+      });
+    }
+  }, [selectedFramework.name]);
 
   const handleFrameTasks = useCallback((message) => {
     if (!message?.data) return;

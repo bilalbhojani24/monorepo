@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   MdArrowBackIos,
   MdArrowForwardIos,
-  MdErrorOutline,
   MdInfoOutline,
-  MdWarningAmber,
-  Notifications,
-  notify
+  MdWarningAmber
 } from '@browserstack/bifrost';
 import {
   O11yButton,
@@ -29,6 +26,7 @@ import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { getNumericValue, logOllyEvent } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 import {
   ALERT_CONDITION_KEYS,
@@ -238,30 +236,24 @@ function AddEditAlertModal() {
                 modalData?.action === 'edit' ? 'alert_edited' : 'alert_created'
             }
           });
+          const descText = modalData?.action === 'edit' ? 'updated' : 'created';
+          o11yNotify({
+            title: `Successfully ${descText}!`,
+            description: `Alert was ${descText} successfully`,
+            type: 'success'
+          });
           handleCloseModal();
         })
         .catch(() => {
-          notify(
-            <Notifications
-              id="update-alerts-failed"
-              title="Something went wrong!"
-              description={`There was an error while ${
-                modalData.action === 'edit'
-                  ? 'updating alert'
-                  : 'creating new alert'
-              }`}
-              headerIcon={
-                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-              }
-              handleClose={(toastData) => {
-                notify.remove(toastData.id);
-              }}
-            />,
-            {
-              position: 'top-right',
-              duration: 3000
-            }
-          );
+          o11yNotify({
+            title: 'Something went wrong!',
+            description: `There was an error while ${
+              modalData.action === 'edit'
+                ? 'updating alert'
+                : 'creating new alert'
+            }`,
+            type: 'error'
+          });
         })
         .finally(() => {
           setIsSubmittingData(false);
