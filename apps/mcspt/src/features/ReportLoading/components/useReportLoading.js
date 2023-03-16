@@ -49,6 +49,12 @@ const generateTestDataDescriptionList = (deviceDetails) => [
   }
 ];
 
+const cycledTipMessages = [
+  '21% decrease in Android app startup time led to 5% increase in driver sessions for Lyft.',
+  'Reducing Jank issues led to 50% increase in user interaction for Swiggy',
+  'Lowering ANRs led to 40% reduction in user complaints for MyJio app'
+];
+
 const useReportLoading = () => {
   const sessionState = useSelector(getLatestSessionStatus);
   const sessionDetails = useSelector(getSessionDetails);
@@ -58,6 +64,8 @@ const useReportLoading = () => {
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const [testDataDescriptionList, setTestDataDescriptionList] = useState(null);
+
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const [showGenerateReportPrompt, setShowGenerateReportPrompt] =
     useState(false);
@@ -111,6 +119,16 @@ const useReportLoading = () => {
     dispatch(checkSessionStatus());
   }, [dispatch]);
 
+  useEffect(() => {
+    const localTimeoutId = setInterval(() => {
+      setCurrentTipIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
+    }, 5000);
+
+    return () => {
+      clearTimeout(localTimeoutId);
+    };
+  }, []);
+
   useEffect(
     () => () => {
       clearInterval(timerIntervalId);
@@ -128,7 +146,8 @@ const useReportLoading = () => {
     isSessionStopInProgress,
     showGenerateReportPrompt,
     setShowGenerateReportPrompt,
-    testDataDescriptionList
+    testDataDescriptionList,
+    selectedTipMsg: cycledTipMessages[currentTipIndex]
   };
 };
 

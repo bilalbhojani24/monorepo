@@ -34,7 +34,7 @@ export const checkAuthAndSaveUserDetails =
 
       if (userDetailsResponse) {
         if (userDetailsResponse?.status === 200) {
-          dispatch(setUserDetails(userDetailsResponse?.data?.data));
+          dispatch(setUserDetails(userDetailsResponse?.data));
         } else {
           throw userDetailsResponse;
         }

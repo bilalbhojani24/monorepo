@@ -71,8 +71,8 @@ const TestHistory = () => {
     useTestHistory();
 
   return (
-    <div className="w-full">
-      <Table containerWrapperClass="w-full md:rounded-none ring-0">
+    <div className="relative w-full">
+      <Table containerWrapperClass="w-full md:rounded-none ring-0 absolute">
         <TableHead>
           <TableRow>
             {columns.map((col) => (

@@ -4,7 +4,8 @@ import {
   DescriptionList,
   MdChevronLeft,
   MdEdit,
-  MdOutlineAnalytics
+  MdOutlineAnalytics,
+  MdTipsAndUpdates
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
@@ -24,7 +25,8 @@ const ReportLoading = () => {
     isSessionStopInProgress,
     showGenerateReportPrompt,
     setShowGenerateReportPrompt,
-    testDataDescriptionList
+    testDataDescriptionList,
+    selectedTipMsg
   } = useReportLoading();
 
   return (
@@ -86,20 +88,39 @@ const ReportLoading = () => {
             />
           )}
 
-          <div className="mt-6">
-            <Button
-              loading={isSessionStopInProgress}
-              icon={<MdOutlineAnalytics />}
-              variant="primary"
-              colors="brand"
-              size="extra-large"
-              onClick={() => {
-                setShowGenerateReportPrompt(true);
-              }}
-            >
-              Generate Performance Report
-            </Button>
-          </div>
+          {sessionState !== REPORT_LOADING_STATES.STOPPING && (
+            <div className="mt-6">
+              <Button
+                loading={isSessionStopInProgress}
+                icon={<MdOutlineAnalytics />}
+                variant="primary"
+                colors="brand"
+                size="extra-large"
+                onClick={() => {
+                  setShowGenerateReportPrompt(true);
+                }}
+              >
+                Generate Performance Report
+              </Button>
+            </div>
+          )}
+
+          {sessionState === REPORT_LOADING_STATES.STOPPING && (
+            <div className="bg-info-50 mt-2 flex rounded-md p-4">
+              <div className="text-info-400 mr-3 text-xl">
+                <MdTipsAndUpdates />
+              </div>
+
+              <div className="">
+                <div className="text-info-800 mb-2 text-sm font-medium leading-5">
+                  Did you know?
+                </div>
+                <div className="text-info-700 text-sm font-normal leading-5">
+                  {selectedTipMsg}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
