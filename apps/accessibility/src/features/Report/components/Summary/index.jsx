@@ -18,7 +18,6 @@ import {
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
-// import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   formatComponentIdString,
@@ -47,7 +46,6 @@ export default function Summary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  // const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const ISSUE_COUNT = 'Issue Count';
   const dropdownOptions = [
     {
@@ -164,11 +162,11 @@ export default function Summary() {
             headerInfo={null}
             size="fit-content"
             analytics={
-              <div className="flex items-center justify-between">
-                <div className="w-80">
+              <div className="flex w-full items-center justify-between">
+                <div className="w-3/5">
                   <Chart options={chartOption} />
                 </div>
-                <div>
+                <div className="flex w-2/5 flex-col items-end">
                   {impactList.map((impact) => (
                     <div
                       aria-label={impact}
@@ -261,7 +259,7 @@ export default function Summary() {
                             >
                               {colIndex === 0 ? index + 1 : ''}
                               {colIndex === 1 ? (
-                                <div className="overflow-hidden truncate">
+                                <div className="w-80 overflow-hidden truncate">
                                   {formatComponentIdString(componentId)}
                                 </div>
                               ) : (
