@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { dashboardReducer } from './features/Dashboard';
-import { homeReducer } from './features/Home';
 import {
   loadingStateForNewPerformanceSessionReducer,
   newPerformanceSessionReducer
-} from './features/NewPerformanceSession';
+} from './features/Home';
 import { reportReducer } from './features/Report';
 import { reportLoadingReducer } from './features/ReportLoading';
+import { testHistoryReducer } from './features/TestHistory';
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +15,7 @@ export const store = configureStore({
     loadingStateForNewPerformanceSession:
       loadingStateForNewPerformanceSessionReducer,
     newPerformanceSession: newPerformanceSessionReducer,
-    home: homeReducer,
+    testHistory: testHistoryReducer,
     reportLoading: reportLoadingReducer,
     report: reportReducer
   }
@@ -26,7 +26,7 @@ if (IS_DEV) {
   window.mcpDevRefs = {
     store,
     redirectToPath: (path) => {
-      window.location.href = `http://localhost:2099/${path || 'main_window'}`;
+      window.location.href = `http://localhost:2099/main_window/${path || ''}`;
     }
   };
 }

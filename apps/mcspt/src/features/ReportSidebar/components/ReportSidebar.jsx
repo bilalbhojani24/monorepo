@@ -13,7 +13,7 @@ const ReportSidebar = () => {
         wrapperClassName="rounded-lg overflow-hidden sticky top-2 z-20"
         url={`securefileprotocol://${sessionData?.metadata?.video}`}
         controlPanelStickToBottom
-        controlPanelClassName="fixed z-20 -ml-2"
+        controlPanelClassName="fixed z-20 -ml-2 bottom-8"
         showRewindForwardControls={false}
         seekToTimeStamp={latestSeekTimeInSeconds}
         timeUpdateCallBack={updateChartSeekerPosition}

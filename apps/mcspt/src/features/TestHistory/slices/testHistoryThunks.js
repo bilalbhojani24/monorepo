@@ -1,7 +1,7 @@
-import { fetchSessionById, fetchSessions } from 'api/home';
+import { fetchSessionById, fetchSessions } from 'api/testHistory';
 import { updateSessionMetrics } from 'features/Report';
 
-import { setPreviousUserSessions } from './homeSlice';
+import { setPreviousUserSessions } from './testHistorySlice';
 
 export const checkForPreviousUserSessions = () => async (dispatch) => {
   try {

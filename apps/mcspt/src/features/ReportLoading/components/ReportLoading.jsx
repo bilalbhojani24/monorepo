@@ -1,141 +1,113 @@
 import React from 'react';
 import {
   Button,
-  MdApps,
-  MdClose,
-  MdOutlineStopCircle,
-  MdPhoneAndroid,
-  MdRadioButtonChecked
+  DescriptionList,
+  MdChevronLeft,
+  MdEdit,
+  MdOutlineAnalytics
 } from '@browserstack/bifrost';
-
-import { secondsToMinutes } from 'utils/dateUtils';
+import { twClassNames } from '@browserstack/utils';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import { secondsToMinutes } from 'utils/dateUtils';
 
+import GenerateReportPrompt from './GenerateReportPrompt';
 import useReportLoading from './useReportLoading';
-
-const sessionStateIconMap = {
-  [REPORT_LOADING_STATES.CONNECTING]: <MdPhoneAndroid />,
-  [REPORT_LOADING_STATES.LAUNCHING]: <MdApps />,
-  [REPORT_LOADING_STATES.RECORDING]: (
-    <MdRadioButtonChecked className="text-danger-600" />
-  )
-};
 
 const ReportLoading = () => {
   const {
     sessionState,
     sessionDetails,
-    selectedDevice,
-    sesstionTextMap,
-    selectedApplication,
+    sessionStateTextMap,
     onCancelClicked,
     stopSessionClicked,
     secondsElapsed,
-    isSessionStopInProgress
+    isSessionStopInProgress,
+    showGenerateReportPrompt,
+    setShowGenerateReportPrompt,
+    testDataDescriptionList
   } = useReportLoading();
 
   return (
-    <div className="flex flex-col">
-      <div className="border-base-300 flex items-center justify-between border-b p-5">
-        <div className="">
-          <div className="max-w-2xl text-2xl font-bold leading-8">
-            {sessionDetails?.sessionName}
-          </div>
-          <div className="text-base-500 text-sm font-medium leading-5">
-            Testing in Progress
-          </div>
+    <div className="flex w-full flex-col">
+      <div className="border-base-300 text-base-500 flex items-center border-b p-4">
+        <div className="text-xl">
+          <MdChevronLeft onClick={onCancelClicked} />
         </div>
 
-        <div className="flex min-w-[320px] justify-end">
-          {sessionState !== REPORT_LOADING_STATES.RECORDING && (
-            <Button
-              icon={
-                <div className="mr-3">
-                  <MdClose />
+        <div className="mx-2 text-sm font-medium leading-5">
+          {sessionDetails.sessionName}
+        </div>
+
+        <div className="text-xl">
+          <MdEdit />
+        </div>
+      </div>
+
+      <div className="bg-base-50 flex flex-1">
+        <div className="border-base-300 w-64 border-r p-2">
+          <div
+            className={twClassNames('', {
+              'rounded-xl border-2 border-danger-600 bg-danger-50':
+                sessionState === REPORT_LOADING_STATES.RECORDING
+            })}
+          >
+            {sessionState === REPORT_LOADING_STATES.RECORDING && (
+              <div className="bg-danger-50 m-2 flex items-center justify-center rounded-md">
+                <div className="text-danger-900 text-3xl font-semibold leading-9">
+                  {secondsToMinutes(secondsElapsed)}
                 </div>
-              }
-              iconPlacement="start"
-              size="large"
-              colors="white"
-              variant="primary"
-              onClick={onCancelClicked}
-            >
-              Cancel
-            </Button>
-          )}
-
-          {sessionState === REPORT_LOADING_STATES.RECORDING && (
-            <div className="bg-danger-50 flex items-center justify-between rounded-md p-2">
-              <div className="text-danger-900 mr-10 ml-4 text-3xl font-semibold leading-9">
-                {secondsToMinutes(secondsElapsed)}
               </div>
+            )}
 
-              <Button
-                icon={
-                  <div className="mr-3">
-                    <MdOutlineStopCircle />
-                  </div>
+            <div
+              className={twClassNames(
+                'p-3 text-center text-base font-medium leading-6 whitespace-pre-line',
+                {
+                  'text-danger-900':
+                    sessionState === REPORT_LOADING_STATES.RECORDING,
+                  'text-base-900':
+                    sessionState !== REPORT_LOADING_STATES.RECORDING
                 }
-                iconPlacement="start"
-                size="large"
-                colors="danger"
-                variant="primary"
-                onClick={stopSessionClicked}
-                loading={isSessionStopInProgress}
-              >
-                Stop Test
-              </Button>
+              )}
+            >
+              {sessionStateTextMap[sessionState]}
             </div>
+            <div className="border-base-900 m-3 mt-1.5 h-[432px] rounded-lg border-8">
+              &nbsp;
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 px-4 py-2">
+          {testDataDescriptionList?.length > 0 && (
+            <DescriptionList
+              descriptions={testDataDescriptionList}
+              alignment="two-column"
+            />
           )}
-        </div>
-      </div>
 
-      <div className="flex flex-1 flex-col p-9">
-        <div className="mb-16 flex items-center">
-          <div className="text-base-500 mr-3 text-4xl">
-            {sessionStateIconMap?.[sessionState]}
-          </div>
-
-          <div className="">
-            <div className="text-2xl font-bold leading-8">
-              {sesstionTextMap?.[sessionState]}
-            </div>
-            <div className="text-base-700 text-xl font-medium leading-7">
-              Please ensure that the device is connected & unlocked
-            </div>
-          </div>
-        </div>
-
-        <div className="border-base-300 mb-4 flex items-center rounded-lg border p-6">
-          <div className="bg-brand-500 mr-5 flex h-12 w-12 items-center justify-center rounded-md text-2xl text-white">
-            <MdPhoneAndroid />
-          </div>
-
-          <div className="">
-            <div className="text-2xl font-semibold leading-8">
-              {`${selectedDevice?.manufacturer} ${selectedDevice?.model}`}
-            </div>
-            <div className="text-base-500 text-sm font-medium leading-5">
-              {`${selectedDevice?.os} ${selectedDevice?.osVersion}`}
-            </div>
-          </div>
-        </div>
-
-        <div className="border-base-300 mb-4 flex items-center rounded-lg border p-6">
-          <div className="bg-brand-500 mr-5 flex h-12 w-12 items-center justify-center rounded-md text-2xl text-white">
-            <MdApps />
-          </div>
-
-          <div className="">
-            <div className="text-2xl font-semibold leading-8">
-              {`${selectedApplication?.name}-v${selectedApplication?.version}`}
-            </div>
-            <div className="text-base-500 text-sm font-medium leading-5">
-              Application
-            </div>
+          <div className="mt-6">
+            <Button
+              loading={isSessionStopInProgress}
+              icon={<MdOutlineAnalytics />}
+              variant="primary"
+              colors="brand"
+              size="extra-large"
+              onClick={() => {
+                setShowGenerateReportPrompt(true);
+              }}
+            >
+              Generate Performance Report
+            </Button>
           </div>
         </div>
       </div>
+
+      <GenerateReportPrompt
+        showGenerateReportPrompt={showGenerateReportPrompt}
+        setShowGenerateReportPrompt={setShowGenerateReportPrompt}
+        stopSessionClicked={stopSessionClicked}
+      />
     </div>
   );
 };

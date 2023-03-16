@@ -12,31 +12,10 @@ import {
 import {
   setListOfApplications,
   setListOfDevices,
+  setSelectedApplication,
+  setSelectedDevice,
   setSessionDetails
 } from './newPerformanceSessionSlice';
-
-export const fetchConnectedDevices = () => async (dispatch) => {
-  let resultSet = [];
-
-  try {
-    dispatch(setAreDevicesStillLoading(true));
-
-    const responseAndroid = await fetchDevices('android');
-
-    resultSet = resultSet.concat(responseAndroid);
-
-    const responseIos = await fetchDevices('ios');
-
-    resultSet = resultSet.concat(responseIos);
-  } catch (error) {
-    if (error?.response?.status !== 460) {
-      throw error;
-    }
-  } finally {
-    dispatch(setListOfDevices(resultSet));
-    dispatch(setAreDevicesStillLoading(false));
-  }
-};
 
 export const fetchApplicationsFromSelectedDevice =
   () => async (dispatch, getState) => {
@@ -51,6 +30,10 @@ export const fetchApplicationsFromSelectedDevice =
       );
 
       dispatch(setListOfApplications(response?.apps));
+
+      if (response?.apps?.length > 0) {
+        dispatch(setSelectedApplication(response?.apps[0]));
+      }
     } catch (error) {
       if (error?.response?.status !== 461) {
         throw error;
@@ -59,6 +42,35 @@ export const fetchApplicationsFromSelectedDevice =
       dispatch(setAreApplicationsStillLoading(false));
     }
   };
+
+export const fetchConnectedDevices = () => async (dispatch) => {
+  try {
+    dispatch(setAreDevicesStillLoading(true));
+
+    const allDeviceResponses = await Promise.allSettled([
+      fetchDevices('android'),
+      fetchDevices('ios')
+    ]);
+
+    const resultSet = allDeviceResponses
+      .filter((apiRes) => apiRes.status === 'fulfilled')
+      .map((promiseWrapper) => promiseWrapper?.value)
+      .flat();
+
+    if (resultSet.length > 0) {
+      dispatch(setSelectedDevice(resultSet[0]));
+    }
+
+    dispatch(setListOfDevices(resultSet));
+    dispatch(fetchApplicationsFromSelectedDevice());
+  } catch (error) {
+    if (error?.response?.status !== 460) {
+      throw error;
+    }
+  } finally {
+    dispatch(setAreDevicesStillLoading(false));
+  }
+};
 
 export const triggerSession =
   (navigatorCallback, sessionName) => async (dispatch, getState) => {

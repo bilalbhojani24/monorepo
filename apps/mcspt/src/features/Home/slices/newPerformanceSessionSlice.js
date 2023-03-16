@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentSetupStep: 1,
-  selectedDevice: null,
-  selectedApplication: null,
+  selectedDevice: {},
+  selectedApplication: {},
   listOfDevices: [],
   lisOfApplications: [],
   sessionDetails: {

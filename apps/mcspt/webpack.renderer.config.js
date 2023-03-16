@@ -1,12 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { resolve } = require('path');
 const { DefinePlugin } = require('webpack');
-const rules = require('./webpack.rules');
+const commonRules = require('./webpack.rules');
 
-rules.push({
+commonRules.push({
   test: /\.(scss|css)$/,
   use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
 });
+
+commonRules.push({ test: /\.(png|jpg|gif)$/i, type: 'asset/resource' });
 
 module.exports = {
   // Put your normal webpack config below here
@@ -16,11 +18,15 @@ module.exports = {
       api: resolve(__dirname, 'src/api/'),
       features: resolve(__dirname, 'src/features/'),
       utils: resolve(__dirname, 'src/utils/'),
-      constants: resolve(__dirname, 'src/constants/')
+      constants: resolve(__dirname, 'src/constants/'),
+      assets: resolve(__dirname, 'src/assets/')
     }
   },
+  output: {
+    assetModuleFilename: 'images/[hash][ext][query]'
+  },
   module: {
-    rules
+    rules: commonRules
   },
   plugins: [
     new DefinePlugin({

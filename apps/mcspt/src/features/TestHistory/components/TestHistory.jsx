@@ -1,22 +1,14 @@
 import React from 'react';
 import {
-  Button,
-  InputField,
-  MdAddCircle,
-  MdLogin,
-  MdOutlineWavingHand,
-  MdSearch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
-
 import { formatReportTime } from 'utils/dateUtils';
 
-import useExistingUserHome from './useExistingUserHome';
+import useTestHistory from './useTestHistory';
 
 const columns = [
   {
@@ -74,89 +66,13 @@ const columns = [
   }
 ];
 
-const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
-  const {
-    searchTerm,
-    tableRows,
-    performSearch,
-    sortRows,
-    currentSortDir,
-    sessionSelected,
-    loginViaSSO,
-    isUserLoggedIn,
-    logOutUser
-  } = useExistingUserHome(previousUserSessions);
+const TestHistory = () => {
+  const { tableRows, sortRows, currentSortDir, sessionSelected } =
+    useTestHistory();
 
   return (
-    <div className="flex flex-col">
-      <div id="existingScreenHeader">
-        <div id="buttonContainer" className="flex justify-between p-3">
-          <Button
-            icon={
-              <div className="mr-3">
-                <MdAddCircle />
-              </div>
-            }
-            iconPlacement="start"
-            size="large"
-            colors="brand"
-            variant="primary"
-            onClick={newTestClickHandler}
-          >
-            New Test
-          </Button>
-
-          {!isUserLoggedIn && (
-            <Button
-              icon={
-                <div className="mr-3">
-                  <MdLogin />
-                </div>
-              }
-              iconPlacement="start"
-              size="large"
-              colors="brand"
-              variant="primary"
-              onClick={loginViaSSO}
-            >
-              Login
-            </Button>
-          )}
-
-          {isUserLoggedIn && (
-            <Button
-              icon={
-                <div className="mr-3">
-                  <MdOutlineWavingHand />
-                </div>
-              }
-              iconPlacement="start"
-              size="large"
-              colors="brand"
-              variant="primary"
-              onClick={logOutUser}
-            >
-              Logout
-            </Button>
-          )}
-        </div>
-
-        <div id="searchContainer" className="bg-base-100 py-2.5 px-4">
-          <InputField
-            leadingIcon={
-              <div className="text-base-400">
-                <MdSearch />
-              </div>
-            }
-            value={searchTerm}
-            onChange={performSearch}
-            id="existingUserSessionSearch"
-            placeholder="Search Tests"
-          />
-        </div>
-      </div>
-
-      <Table containerWrapperClass="w-full">
+    <div className="w-full">
+      <Table containerWrapperClass="w-full md:rounded-none ring-0">
         <TableHead>
           <TableRow>
             {columns.map((col) => (
@@ -200,14 +116,8 @@ const ExistingUserHome = ({ newTestClickHandler, previousUserSessions }) => {
   );
 };
 
-ExistingUserHome.propTypes = {
-  newTestClickHandler: PropTypes.func,
-  previousUserSessions: PropTypes.arrayOf(PropTypes.object)
-};
+TestHistory.propTypes = {};
 
-ExistingUserHome.defaultProps = {
-  newTestClickHandler: () => {},
-  previousUserSessions: []
-};
+TestHistory.defaultProps = {};
 
-export default ExistingUserHome;
+export default TestHistory;

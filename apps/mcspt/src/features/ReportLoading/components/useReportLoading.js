@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import {
-  getSelectedApplication,
-  getSelectedDevice,
-  getSessionDetails
-} from 'features/NewPerformanceSession';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import { getSelectedDevice, getSessionDetails } from 'features/Home';
+
 import {
   getIsSessionStopInProgress,
   getLatestSessionStatus
@@ -17,25 +13,54 @@ import {
   stopRecordingSession
 } from '../slices/reportLoadingThunks';
 
-const generateSessionTextMap = (device, application) => ({
-  [REPORT_LOADING_STATES.CONNECTING]: `Connecting to the ${device?.manufacturer} ${device?.model}...`,
-  [REPORT_LOADING_STATES.LAUNCHING]: `Launching the ${application?.name} app...`,
+const sessionStateTextMap = {
+  [REPORT_LOADING_STATES.CONNECTING]: `AppBench is warming up...`,
+  [REPORT_LOADING_STATES.LAUNCHING]: `AppBench is warming up...`,
   [REPORT_LOADING_STATES.RECORDING]:
-    'Performance Data is being recorded from your device'
-});
+    'Recording started.\nTraverse through critical app flows on the connected device.',
+  [REPORT_LOADING_STATES.STOPPING]:
+    'Performance report is being generated.\nDo not unlug your device.'
+};
+
+const generateTestDataDescriptionList = (deviceDetails) => [
+  {
+    title: 'Device Model',
+    description: deviceDetails?.model || 'N.A'
+  },
+  {
+    title: 'OS Version',
+    description: deviceDetails?.osVersion || 'N.A'
+  },
+  {
+    title: 'Resolution',
+    description: deviceDetails?.resolution || 'N.A'
+  },
+  {
+    title: 'CPU Details',
+    description: deviceDetails?.cpu || 'N.A'
+  },
+  {
+    title: 'RAM Details',
+    description: deviceDetails?.ram || 'N.A'
+  },
+  {
+    title: 'Wifi/Cellular',
+    description: 'N.A'
+  }
+];
 
 const useReportLoading = () => {
   const sessionState = useSelector(getLatestSessionStatus);
-
   const sessionDetails = useSelector(getSessionDetails);
-  const selectedDevice = useSelector(getSelectedDevice);
-  const selectedApplication = useSelector(getSelectedApplication);
-
   const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
+  const selectedDevice = useSelector(getSelectedDevice);
 
-  const [sesstionTextMap, setSessionTextMap] = useState(null);
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
+  const [testDataDescriptionList, setTestDataDescriptionList] = useState(null);
+
+  const [showGenerateReportPrompt, setShowGenerateReportPrompt] =
+    useState(false);
 
   const dispatch = useDispatch();
 
@@ -51,8 +76,24 @@ const useReportLoading = () => {
   };
 
   useEffect(() => {
-    dispatch(checkSessionStatus());
-  }, [dispatch]);
+    setTestDataDescriptionList(generateTestDataDescriptionList(selectedDevice));
+  }, [selectedDevice]);
+
+  useEffect(() => {
+    if (sessionDetails?.cellular) {
+      setTestDataDescriptionList((existingList) => {
+        if (existingList?.length > 0) {
+          const updatedVal = [...existingList];
+
+          updatedVal[updatedVal.length - 1].description =
+            sessionDetails?.cellular;
+
+          return updatedVal;
+        }
+        return existingList;
+      });
+    }
+  }, [sessionDetails]);
 
   useEffect(() => {
     if (sessionState === REPORT_LOADING_STATES.RECORDING) {
@@ -67,10 +108,8 @@ const useReportLoading = () => {
   }, [sessionState]);
 
   useEffect(() => {
-    setSessionTextMap(
-      generateSessionTextMap(selectedDevice, selectedApplication)
-    );
-  }, [selectedApplication, selectedDevice]);
+    dispatch(checkSessionStatus());
+  }, [dispatch]);
 
   useEffect(
     () => () => {
@@ -82,13 +121,14 @@ const useReportLoading = () => {
   return {
     sessionState,
     sessionDetails,
-    selectedDevice,
-    sesstionTextMap,
-    selectedApplication,
+    sessionStateTextMap,
     onCancelClicked,
     stopSessionClicked,
     secondsElapsed,
-    isSessionStopInProgress
+    isSessionStopInProgress,
+    showGenerateReportPrompt,
+    setShowGenerateReportPrompt,
+    testDataDescriptionList
   };
 };
 

@@ -1,11 +1,13 @@
 const tailwindConfig = require('./tailwind.config.js');
+const webpackConfig = require('./webpack.renderer.config');
 
 module.exports = {
+  root: true,
   extends: ['@browserstack/eslint-config'],
   settings: {
     'import/resolver': {
       webpack: {
-        config: 'webpack.renderer.config.js'
+        config: webpackConfig
       }
     }
   },

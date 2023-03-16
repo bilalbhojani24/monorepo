@@ -1,6 +1,19 @@
 import Home from './components/Home';
-import homeReducer from './slices/homeSlice';
+import loadingStateForNewPerformanceSessionReducer from './slices/loadingStateForNewPerformanceSession';
+import newPerformanceSessionReducer, {
+  getListOfDevices,
+  getSelectedDevice,
+  getSessionDetails,
+  resetSessionSetupData
+} from './slices/newPerformanceSessionSlice';
 
-export { homeReducer };
+export {
+  getListOfDevices,
+  getSelectedDevice,
+  getSessionDetails,
+  loadingStateForNewPerformanceSessionReducer,
+  newPerformanceSessionReducer,
+  resetSessionSetupData
+};
 
 export default Home;

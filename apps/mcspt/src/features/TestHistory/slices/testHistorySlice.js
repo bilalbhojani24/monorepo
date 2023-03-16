@@ -4,8 +4,8 @@ const initialState = {
   previousUserSessions: []
 };
 
-export const homeSlice = createSlice({
-  name: 'home',
+export const testHistorySlice = createSlice({
+  name: 'testHistory',
   initialState,
   reducers: {
     setPreviousUserSessions: (state, action) => {
@@ -16,9 +16,9 @@ export const homeSlice = createSlice({
 
 // reducers
 export const getPreviousUserSessions = (state) =>
-  state.home.previousUserSessions;
+  state.testHistory.previousUserSessions;
 
 // Action creators are generated for each case reducer function
-export const { setPreviousUserSessions } = homeSlice.actions;
+export const { setPreviousUserSessions } = testHistorySlice.actions;
 
-export default homeSlice.reducer;
+export default testHistorySlice.reducer;

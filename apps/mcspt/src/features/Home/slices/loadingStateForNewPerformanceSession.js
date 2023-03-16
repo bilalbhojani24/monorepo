@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   areDevicesStillLoading: true,
   areApplicationsStillLoading: true,
-  isSessionApiLoading: false
+  isSessionApiLoading: false,
+  dependencyErrorExists: false
 };
 
 export const loadingStateForNewPerformanceSession = createSlice({
@@ -20,6 +21,10 @@ export const loadingStateForNewPerformanceSession = createSlice({
 
     setIsSessionApiLoading: (state, action) => {
       state.isSessionApiLoading = action.payload;
+    },
+
+    setDependencyErrorExists: (state, action) => {
+      state.isSessionApiLoading = action.payload;
     }
   }
 });
@@ -33,15 +38,15 @@ export const getAreApplicationsStillLoading = (state) =>
 export const getIsSessionApiLoading = (state) =>
   state.loadingStateForNewPerformanceSession.isSessionApiLoading;
 
+export const getDependencyErrorExists = (state) =>
+  state.loadingStateForNewPerformanceSession.dependencyErrorExists;
+
 // Action creators are generated for each case reducer function
 export const {
-  areDevicesStillLoading,
-  areApplicationsStillLoading,
-  isSessionApiLoading,
   setAreDevicesStillLoading,
   setAreApplicationsStillLoading,
   setIsSessionApiLoading,
-  setIsSessionStopApiLoading
+  setDependencyErrorExists
 } = loadingStateForNewPerformanceSession.actions;
 
 export default loadingStateForNewPerformanceSession.reducer;
