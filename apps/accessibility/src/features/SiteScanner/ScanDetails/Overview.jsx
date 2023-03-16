@@ -59,7 +59,6 @@ const Overview = ({ scanOverviewData }) => {
   } = useOverview({
     scanOverviewData
   });
-  console.log(currentRunFilter);
   return (
     <div
       className=" flex-col overflow-auto p-4"

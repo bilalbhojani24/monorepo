@@ -1,80 +1,35 @@
 // NOTE: Don't remove sidebar logic, will add once it required
-import React, { useRef, useState } from 'react';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import {
-  Badge,
+  Banner,
+  Button,
   Header,
-  MdOutlineDynamicFeed,
-  MdOutlineHome,
-  MdOutlineRecordVoiceOver,
-  MdTextSnippet,
+  MdOpenInNew,
   NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
+import Logo from 'assets/accessibility_logo.png';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
-import { defaultPath } from 'utils';
 
-import { getSidebarCollapsedStatus } from '../slices/selectors';
+import useDashboard from './useDashboard';
 
 export default function Dashboard({ children }) {
-  const mainRef = useRef(null);
-  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
-  const [currentPath, setCurrentPath] = useState(defaultPath());
-  const navigate = useNavigate();
-  const primaryNav = [
-    {
-      id: 'report-listing',
-      label: 'All reports',
-      activeIcon: MdOutlineHome,
-      inActiveIcon: MdOutlineHome,
-      path: '/reports'
-    },
-    {
-      id: 'screen-reader',
-      label: 'Screen reader',
-      activeIcon: MdOutlineRecordVoiceOver,
-      inActiveIcon: MdOutlineRecordVoiceOver,
-      path: '/screen-reader'
-    },
-    {
-      id: 'site-scanner',
-      label: 'Website scanner',
-      activeIcon: MdOutlineDynamicFeed,
-      inActiveIcon: MdOutlineDynamicFeed,
-      path: '/site-scanner',
-      badge:
-        localStorage.getItem('newSiteScannerBadge') === 'true' ? (
-          <Badge text="New" />
-        ) : null
-    }
-  ];
+  const {
+    mainRef,
+    isShowingBanner,
+    primaryNav,
+    currentPath,
+    secondaryNav,
+    handleNavigationClick,
+    onDownloadExtensionClick,
+    onCloseClick
+  } = useDashboard();
 
-  const secondaryNav = [
-    {
-      id: 'doc',
-      label: 'View documentation',
-      activeIcon: MdTextSnippet,
-      inActiveIcon: MdTextSnippet,
-      path: '/reports',
-      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction'
-    }
-  ];
-
-  const handleNavigationClick = (nav) => {
-    if (nav.id === 'site-scanner') {
-      localStorage.setItem('newSiteScannerBadge', 'false');
-    }
-    if (nav.id === 'doc') {
-      window.open(nav.link, '_target');
-    }
-    navigate(nav.path);
-    setCurrentPath(nav.id);
-  };
+  const isReportListing = window.location.pathname === '/reports';
+  const isShowingReportListingBanner = isReportListing && isShowingBanner;
 
   const SWBSidebarPri = primaryNav.map((item) => (
     <SidebarItem
@@ -93,12 +48,6 @@ export default function Dashboard({ children }) {
       handleNavigationClick={handleNavigationClick}
     />
   ));
-
-  useEffect(() => {
-    if (localStorage.getItem('newSiteScannerBadge') !== 'false') {
-      localStorage.setItem('newSiteScannerBadge', true);
-    }
-  }, []);
 
   return (
     <div>
@@ -149,17 +98,37 @@ export default function Dashboard({ children }) {
           'docs/accessibility/overview/introduction'
         )}
       />
+      {isShowingReportListingBanner ? (
+        <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
+          <Banner
+            description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
+            isDismissButton
+            bannerIcon={
+              <img src={Logo} alt="accessibility logo" height={24} width={24} />
+            }
+            ctaButton={
+              <Button
+                onClick={onDownloadExtensionClick}
+                size="small"
+                colors="white"
+                icon={<MdOpenInNew />}
+                iconPlacement="end"
+              >
+                Download extension
+              </Button>
+            }
+            onDismissClick={onCloseClick}
+          />
+        </div>
+      ) : null}
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName="bg-white pt-16 mt-5"
+        wrapperClassName={`bg-white mt-5 ${
+          isShowingReportListingBanner ? 'pt-32' : 'pt-16'
+        }`}
       />
-      <main
-        // ref={mainRef}
-        className={`${
-          isSidebarCollapsed ? 'pl-0' : 'pl-64'
-        } bg-base-50 mt-16 h-full`}
-      >
+      <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
         {children}
       </main>
       <NotificationsContainer />

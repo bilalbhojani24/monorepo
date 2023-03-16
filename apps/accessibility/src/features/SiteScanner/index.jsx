@@ -216,7 +216,7 @@ export default function SiteScanner() {
           <span className="text-black">
             {row.lastScanDetails.issues} issues
           </span>
-          <span className="flex items-center mt-2">
+          <span className="mt-2 flex items-center">
             <MdOutlineHistory className="mr-0.5" />
             Last scan:{' '}
             {row?.lastScanDetails?.lastScanDate
@@ -321,33 +321,33 @@ export default function SiteScanner() {
     console.log(row);
     if(!row.recurring || !row.active) {
       rowMenuCpy = [{
-    id: 'newScanRun',
-    value: 'newScanRun',
-    body: (
-      <div className="flex items-center">
-        <MdAdd />
-        <span className="ml-2">New Scan</span>
-      </div>
-    )
-  },
-  {
-    id: 'cloneScanConfig',
-    body: (
-      <div className="flex items-center">
-        <MdOutlineContentCopy />
-        <span className="ml-2">Clone Scan Configuration</span>
-      </div>
-    )
-  },
-  {
-    id: 'lastScanRun',
-    body: (
-      <div className="flex items-center">
-        <MdOutlineHistory />
-        <span className="ml-2">View last scan run</span>
-      </div>
-    )
-  }]
+          id: 'newScanRun',
+          value: 'newScanRun',
+          body: (
+            <div className="flex items-center">
+              <MdAdd />
+              <span className="ml-2">New Scan</span>
+            </div>
+          )
+        },
+        {
+          id: 'cloneScanConfig',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineContentCopy />
+              <span className="ml-2">Clone Scan Configuration</span>
+            </div>
+          )
+        },
+        {
+          id: 'lastScanRun',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineHistory />
+              <span className="ml-2">View last scan run</span>
+            </div>
+          )
+        }]
     }
     return rowMenuCpy.map((opt) => (
       <DropdownOptionItem key={opt.id} option={opt} />
@@ -383,7 +383,7 @@ export default function SiteScanner() {
               <InputField
                 onChange={handleSearch}
                 id="search-scan"
-                placeholder="Search for name or user..."
+                placeholder="Search for scan name or user..."
                 leadingIcon={<MdSearch />}
               />
             </div>
@@ -453,7 +453,7 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="text-base-700 truncate max-w-xs mr-2 font-medium"
+                        className="text-base-700 mr-2 max-w-xs truncate font-medium"
                       >
                         {row.name}
                       </div>
