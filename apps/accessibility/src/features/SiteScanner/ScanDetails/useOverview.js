@@ -47,34 +47,50 @@ export default function useOverview({ scanOverviewData }) {
           color: '#DFE7E8',
           pointWidth: 12,
           borderRadiusTopLeft: '10px',
-          borderRadiusTopRight: '10px'
+          borderRadiusTopRight: '10px',
+          events: {
+            click(event) {
+              console.log('Hi', event.point.index);
+            }
+          }
         },
         {
           name: 'Moderate',
           data: severity.moderate,
           borderWidth: 0,
           color: '#EAB308',
-          pointWidth: 12
+          pointWidth: 12,
+          events: {
+            click(event) {
+              console.log('Hi', event.point.index);
+            }
+          }
         },
         {
           name: 'Serious',
           data: severity.serious,
           borderWidth: 0,
           color: '#F97316',
-          pointWidth: 12
+          pointWidth: 12,
+          events: {
+            click(event) {
+              console.log('Hi', event.point.index);
+            }
+          }
         },
         {
           name: 'Critical',
           data: severity.critical,
           color: '#DC2626',
           pointWidth: 12,
-          borderWidth: 0
+          borderWidth: 0,
+          events: {
+            click(event) {
+              console.log('Hi', event.point.index);
+            }
+          }
         }
       ];
-      currentStackedChartData.chart = {
-        animation: false,
-        zooming: { type: 'x' }
-      };
       setStackedChartData(currentStackedChartData);
     }
     if (scanOverviewData?.data?.overview?.scanStability) {
@@ -103,10 +119,6 @@ export default function useOverview({ scanOverviewData }) {
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;
       currentSplineChartData.xAxis.max = currentSplineRunFilter;
-      currentSplineChartData.chart = {
-        animation: false,
-        zooming: { type: 'xy' }
-      };
       currentSplineChartData.series = [
         {
           name: 'Success',
