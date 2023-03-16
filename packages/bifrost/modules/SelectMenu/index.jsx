@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-
 import {
   arrayOf,
   bool,
@@ -11,7 +10,8 @@ import {
   oneOfType,
   shape,
   string
-} from '../../shared/proptypesConstants';
+} from 'prop-types';
+
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
 import RenderChildren from './components/RenderChildren';
@@ -20,6 +20,7 @@ const SelectMenu = (props) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
   const [open, setOpen] = useState(false);
+
   const {
     children,
     errorText,
@@ -27,7 +28,8 @@ const SelectMenu = (props) => {
     isMulti,
     defaultValue,
     value,
-    onOpenChange
+    onOpenChange,
+    disabled
   } = props;
 
   return (
@@ -40,7 +42,8 @@ const SelectMenu = (props) => {
         setShowCount,
         errorText,
         open,
-        setOpen
+        setOpen,
+        disabled
       }}
     >
       <Popover.Root open={open}>
@@ -55,6 +58,7 @@ const SelectMenu = (props) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
+          disabled={disabled}
         >
           {({ open: dropdownOpen }) => (
             <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
@@ -103,7 +107,8 @@ SelectMenu.propTypes = {
       image: string
     })
   ]),
-  onOpenChange: func
+  onOpenChange: func,
+  disabled: bool
 };
 
 SelectMenu.defaultProps = {
@@ -112,7 +117,8 @@ SelectMenu.defaultProps = {
   isMulti: false,
   onChange: () => {},
   value: null,
-  onOpenChange: null
+  onOpenChange: null,
+  disabled: false
 };
 
 export default SelectMenu;
