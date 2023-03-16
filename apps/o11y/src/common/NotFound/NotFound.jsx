@@ -18,7 +18,7 @@ const NotFound = () => {
           title="Page Not Found"
           description="We couldn’t find the page you were looking for. "
           mainIcon={
-            <MdNotInterested className="text-base-500 inline-block !h-12 !w-12" />
+            <MdNotInterested className="text-danger-600 inline-block !h-12 !w-12" />
           }
           buttonProps={{
             children: 'Back to Projects',

@@ -69,7 +69,7 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  if (window.SHOW_BSTACK_ANALYTICS_EVENTS) {
+  if (!getEnvConfig().enableLogging) {
     // eslint-disable-next-line no-console
     console.log('Event Name:', event);
     // eslint-disable-next-line no-console
