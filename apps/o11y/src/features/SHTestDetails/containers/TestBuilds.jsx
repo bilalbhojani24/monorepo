@@ -108,7 +108,7 @@ export default function TestBuilds() {
     });
   };
 
-  if (!isLoadingData && !buildsData.builds.length) {
+  if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {
     return null;
   }
 
