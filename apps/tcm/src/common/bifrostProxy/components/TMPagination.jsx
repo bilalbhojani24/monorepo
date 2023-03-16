@@ -12,9 +12,9 @@ const TMPagination = (props) => {
   const { projectId, folderId } = useParams();
 
   const handlerPaginatedLoad = (toBeLoadedPage) => {
-    if (props?.source === 'Test Case') {
+    if (props?.amplitudeEvent) {
       dispatch(
-        logEventHelper('TM_TcPaginationClicked', {
+        logEventHelper(props?.amplitudeEvent, {
           project_id: projectId,
           folder_id: folderId
         })
@@ -42,14 +42,14 @@ const TMPagination = (props) => {
 };
 
 TMPagination.propTypes = {
-  source: PropTypes.string,
+  amplitudeEvent: PropTypes.string,
   attachments: PropTypes.arrayOf(PropTypes.object),
   onActionClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 
 TMPagination.defaultProps = {
-  source: '',
+  amplitudeEvent: '',
   attachments: [],
   wrapperClassName: '',
   onActionClick: null

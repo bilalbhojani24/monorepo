@@ -139,7 +139,9 @@ const PreviewAndConfirm = () => {
               <TableCell>{formatTemplate(row.templateType)}</TableCell>
               <TableCell>{formatPriority(row.priority)}</TableCell>
               <TableCell>{row.owner}</TableCell>
-              <TableCell>{row.type}</TableCell>
+              <TableCell>
+                {row.type === 'smoke_sanity' ? 'smoke & sanity' : row.type}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -32,7 +32,7 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[7%]',
+      class: 'w-[9%]',
       cell: (rowData) => (
         <div
           role="button"
@@ -41,7 +41,16 @@ const TestCasesTable = () => {
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          {`${rowData?.identifier}`}
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {`${rowData?.identifier}`}
+          </TMTruncateText>
         </div>
       )
       // cell: (rowData) =>

@@ -265,6 +265,7 @@ const useMapFields = () => {
       );
     } else {
       // agar hame mappedValue nahi milta hai toh
+      // when we do not have any value mapping, we delete the key
       dispatch(
         setValueMappings({
           key: field,
@@ -320,10 +321,10 @@ const useMapFields = () => {
       currentSelectedModalField.current &&
       currentSelectedModalOption.current
     ) {
-      const selectedLabel =
-        currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
-          ? currentSelectedModalOption.current.label.toLowerCase()
-          : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
+      const selectedLabel = currentSelectedModalOption.current.value;
+      // currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
+      //   ? currentSelectedModalOption.current.label.toLowerCase()
+      //   : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
 
       if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
         dispatch(
@@ -373,15 +374,15 @@ const useMapFields = () => {
     );
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
-    dispatch(
-      submitMappingData({
-        importId: mapFieldsConfig.importId,
-        projectId,
-        folderId,
-        myFieldMappings,
-        valueMappings
-      })
-    );
+    const mappingData = {
+      importId: mapFieldsConfig.importId,
+      myFieldMappings,
+      valueMappings
+    };
+
+    if (projectId) mappingData.projectId = projectId;
+    if (folderId) mappingData.folderId = folderId;
+    dispatch(submitMappingData(mappingData));
   };
 
   return {

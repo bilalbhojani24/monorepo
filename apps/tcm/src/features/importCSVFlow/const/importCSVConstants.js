@@ -106,7 +106,7 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Performance', value: 'performance' },
     { label: 'Regression', value: 'regression' },
     { label: 'Security', value: 'security' },
-    { label: 'Smoke_Sanity', value: 'smoke_sanity' },
+    { label: 'Smoke & Sanity', value: 'smoke_sanity' },
     { label: 'Usability', value: 'usability' },
     { label: 'Manual', value: 'manual' },
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS

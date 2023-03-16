@@ -87,15 +87,24 @@ const TestCasesTable = ({
       cell: (rowData) => (
         <div
           role="button"
-          className="hover:text-brand-600 cursor-pointer"
+          className="hover:text-brand-600 mb-0 cursor-pointer pb-0"
           tabIndex={0}
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
         >
-          {`${rowData?.identifier}`}
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {`${rowData?.identifier}`}
+          </TMTruncateText>
         </div>
       ),
-      class: 'w-[10%]'
+      class: 'w-[11%]'
     },
     {
       name: 'TITLE',
@@ -355,6 +364,7 @@ const TestCasesTable = ({
                         key={column.id}
                         wrapperClassName={classNames(column?.class, {
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          // 'pb-[3px]': column.key === 'identifier',
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
                             column.isSticky &&
@@ -380,7 +390,7 @@ const TestCasesTable = ({
       ) : null}
       {metaPage?.count > metaPage?.page_size && (
         <TMPagination
-          source="Test Case"
+          amplitudeEvent="TM_TcSearchPageLoaded"
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
