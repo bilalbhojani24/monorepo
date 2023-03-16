@@ -175,8 +175,11 @@ const Pagination = (props) => {
           <span className="font-medium">
             {currentPage * pageSize - pageSize + 1}
           </span>{' '}
-          to <span className="font-medium">{currentPage * pageSize}</span> of{' '}
-          <span className="font-medium">{count}</span> results{' '}
+          to{' '}
+          <span className="font-medium">
+            {totalPages.length === currentPage ? count : currentPage * pageSize}
+          </span>{' '}
+          of <span className="font-medium">{count}</span> results{' '}
         </p>
       </div>
       {renderNextPrev()}

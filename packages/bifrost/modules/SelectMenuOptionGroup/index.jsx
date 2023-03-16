@@ -11,8 +11,9 @@ import { OPTION_GROUP_ALIGNMENT } from './const/selectMenuOptionGroupConstants';
 const SelectMenuOptionGroup = forwardRef(
   ({ alignment, children, wrapperClassName }, ref) => {
     const { width } = useContext(SelectMenuContextData);
+
     return (
-      <Popover.Portal forceMount>
+      <Popover.Portal>
         <Popover.Content
           asChild
           style={{
