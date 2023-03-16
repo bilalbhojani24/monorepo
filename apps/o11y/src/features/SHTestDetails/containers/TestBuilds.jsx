@@ -108,13 +108,12 @@ export default function TestBuilds() {
     });
   };
 
-  if (!isLoadingData && !buildsData.builds.length) {
+  if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {
     return null;
   }
 
   return (
     <VirtualisedTable
-      useWindowScroll
       customScrollParent={document.getElementById(
         SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID
       )}
