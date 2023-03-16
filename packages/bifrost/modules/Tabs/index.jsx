@@ -18,7 +18,7 @@ const Tabs = ({
   tabsArray,
   disableFullWidthBorder,
   wrapperClassName,
-  containerClassName
+  navigationClassName
 }) => {
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
@@ -42,7 +42,7 @@ const Tabs = ({
     <>
       {tabsArray?.length && (
         <div className={twClassNames('w-full', wrapperClassName)}>
-          <div className={twClassNames('sm:hidden', containerClassName)}>
+          <div className={twClassNames('sm:hidden', navigationClassName)}>
             {label && (
               <label htmlFor={id} className="sr-only">
                 {label}
@@ -65,17 +65,20 @@ const Tabs = ({
               {
                 'border-base-200 border-b': !disableFullWidthBorder
               },
-              'hidden sm:block',
-              containerClassName
+              'hidden sm:block'
             )}
           >
             <nav
-              className={twClassNames('-mb-px flex', {
-                'space-x-8': !isFullWidth,
-                'border-0': isFullWidth,
-                'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
-                  isContained
-              })}
+              className={twClassNames(
+                '-mb-px flex',
+                {
+                  'space-x-8': !isFullWidth,
+                  'border-0': isFullWidth,
+                  'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
+                    isContained
+                },
+                navigationClassName
+              )}
               aria-label="Tabs"
             >
               {tabsArray?.map((tab, index) => (
@@ -116,7 +119,7 @@ Tabs.propTypes = {
   ).isRequired,
   disableFullWidthBorder: PropTypes.bool,
   wrapperClassName: PropTypes.string,
-  containerClassName: PropTypes.string
+  navigationClassName: PropTypes.string
 };
 
 Tabs.defaultProps = {
@@ -129,7 +132,7 @@ Tabs.defaultProps = {
   shape: TAB_SHAPE[0],
   disableFullWidthBorder: false,
   wrapperClassName: '',
-  containerClassName: ''
+  navigationClassName: ''
 };
 
 export default Tabs;
