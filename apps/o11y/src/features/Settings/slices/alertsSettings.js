@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   createNewAlert,
+  deleteAlert,
   getBuildNames,
   getSettingsByKey,
   updateSettingsByKey
@@ -49,6 +50,20 @@ export const updateAlert = createAsyncThunk(
       await updateSettingsByKey('alerts', { ...data });
       return {
         alertData: data.payload || {}
+      };
+    } catch (err) {
+      return rejectWithValue({ err, data });
+    }
+  }
+);
+export const deleteAlertById = createAsyncThunk(
+  `${SLICE_NAME}/deleteAlertById`,
+  async (data, { rejectWithValue }) => {
+    try {
+      await deleteAlert({ ...data });
+      return {
+        alertId: data.alertId,
+        alertType: data.alertType
       };
     } catch (err) {
       return rejectWithValue({ err, data });
@@ -134,6 +149,11 @@ const { reducer } = createSlice({
           state.alerts.data[payload.alertData.alertType][foundAlertIdx] =
             payload.alertData;
         }
+      })
+      .addCase(deleteAlertById.fulfilled, (state, { payload }) => {
+        state.alerts.data[payload.alertType] = state.alerts.data[
+          payload.alertType
+        ].filter((item) => item.id !== payload.alertId);
       })
       // Build Names
       .addCase(getBuildNamesData.pending, (state) => {

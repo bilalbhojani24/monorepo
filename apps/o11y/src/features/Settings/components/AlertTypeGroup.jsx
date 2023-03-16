@@ -29,21 +29,33 @@ export default function AlertTypeGroup({ type }) {
     return null;
   }
 
-  const handleClickEditAlert = (alert) => {
-    dispatch(
-      toggleModal({
-        version: MODAL_TYPES.add_edit_alert,
-        data: {
-          action: 'edit',
-          alertData: alert
-        }
-      })
-    );
-  };
-
   const handleClickMeatBall = (value, alert) => {
-    if (value.id === 'edit') {
-      handleClickEditAlert(alert);
+    switch (value.id) {
+      case 'edit':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.add_edit_alert,
+            data: {
+              action: 'edit',
+              alertData: alert
+            }
+          })
+        );
+        break;
+      case 'delete':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.delete_alert,
+            data: {
+              alertId: alert.id,
+              alertType: alert.alertType
+            }
+          })
+        );
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -117,9 +129,13 @@ export default function AlertTypeGroup({ type }) {
                   </O11yDropdownTrigger>
                 </div>
 
-                <O11yDropdownOptionGroup>
+                <O11yDropdownOptionGroup wrapperClassName="w-32">
                   <O11yDropdownOptionItem
-                    option={{ body: 'Edit Alert', id: 'edit' }}
+                    option={{ body: 'Edit', id: 'edit' }}
+                  />
+                  <O11yDropdownOptionItem
+                    option={{ body: 'Delete', id: 'delete' }}
+                    wrapperClassName="text-danger-600"
                   />
                 </O11yDropdownOptionGroup>
               </O11yDropdown>
