@@ -1,4 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import DropdownOptionGroup from '../DropdownOptionGroup';
@@ -68,7 +71,38 @@ const defaultConfig = {
 const Template = (args) => <Dropdown {...args} />;
 
 const Primary = Template.bind({});
-
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  expect(
+    canvas.getByRole('button', {
+      expanded: false
+    })
+  ).toBeInTheDocument();
+  const arr = ['Account Settings', 'Support', 'License'];
+  document.querySelectorAll('button')[3].click();
+  await delay(1);
+  expect(
+    canvas.getByRole('button', {
+      Name: 'Options',
+      expanded: true
+    })
+  ).toBeInTheDocument();
+  await delay(1);
+  const buttons = document.querySelectorAll('button');
+  await delay(1);
+  buttons.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(buttons, item) > 3) {
+      await expect(arr.includes(item.firstChild.nodeValue)).toBe(true);
+    }
+  });
+  document.querySelectorAll('button')[3].click();
+  await delay(1);
+  expect(
+    canvas.getByRole('button', {
+      expanded: false
+    })
+  ).toBeInTheDocument();
+};
 Primary.parameters = {
   controls: {}
 };

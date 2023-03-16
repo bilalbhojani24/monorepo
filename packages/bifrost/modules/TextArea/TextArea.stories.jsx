@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -59,6 +61,17 @@ const Template = (args) => <TextArea {...args} />;
 const UncontrolledTextareaTemplate = (args) => <TextArea {...args} />;
 const Primary = Template.bind({});
 const UncontrolledTextarea = UncontrolledTextareaTemplate.bind({});
+UncontrolledTextarea.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const defValue = 'I am default value';
+  const userVal = 'Test Generated Value';
+  await expect(canvas.getByDisplayValue(defValue)).toBeInTheDocument();
+  await userEvent.click(canvas.getByDisplayValue(defValue));
+  await userEvent.clear(canvas.getByDisplayValue(defValue));
+  await expect(canvas.getByRole('textbox')).not.toContain(defValue);
+  await userEvent.type(canvas.getByRole('textbox'), userVal);
+  await expect(canvas.getByDisplayValue(userVal)).toBeInTheDocument();
+};
 Primary.parameters = {
   controls: {}
 };
