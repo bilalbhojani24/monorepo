@@ -15,8 +15,15 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
 
-  const { isMulti, setWidth, errorText, loading, open } =
-    useContext(ComboboxContextData);
+  const {
+    isMulti,
+    setWidth,
+    errorText,
+    isLoading,
+    open,
+    disabled,
+    loadingText
+  } = useContext(ComboboxContextData);
 
   useEffect(() => {
     if (open) setWidth(buttonRef.current.offsetWidth);
@@ -26,27 +33,33 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
     <Popover.Trigger asChild ref={buttonRef}>
       <div className="relative">
         <Combobox.Input
-          placeholder={loading ? null : placeholder}
+          key={loadingText + isLoading}
+          placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pr-14 pl-3 shadow-sm focus:outline-none focus:ring-1 sm:text-sm text-ellipsis',
+            'border-base-300 focus:border-brand-500 focus:ring-brand-500 w-full rounded-md border bg-white py-2 pr-7 pl-3 shadow-sm focus:outline-none focus:ring-1 sm:text-sm text-ellipsis',
             {
-              'border-danger-600': errorText
+              'pr-14': isMulti,
+              'pr-12': errorText,
+              'border-danger-600': errorText,
+              'pl-10': isLoading,
+              'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
+                disabled
             }
           )}
           onChange={onInputValueChange}
           displayValue={(dv) => {
-            if (loading) return null;
+            if (isLoading) return null;
             return isMulti && Array.isArray(dv)
               ? renderMultiOptions(dv)
               : renderSingleOptions(dv);
           }}
           ref={comboInputRef}
-          readOnly={loading}
+          readOnly={isLoading}
         />
-        {loading && (
-          <span className="absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
+        {isLoading && (
+          <span className="text-base-500 absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
             <Loader wrapperStyle="text-base-200 fill-base-400 " />
-            <span>Loading...</span>
+            <span>{loadingText}</span>
           </span>
         )}
         {errorText && (
