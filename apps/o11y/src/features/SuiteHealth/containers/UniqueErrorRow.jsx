@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDownIcon, ChevronRightIcon } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTooltip } from 'common/bifrostProxy';
+import MiniLineChart from 'common/MiniLineChart';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import PropTypes from 'prop-types';
 
@@ -28,10 +29,14 @@ export default function UniqueErrorRow({ data }) {
             'gap-2 flex items-center'
           )}
         >
-          {showBreakDown ? (
-            <ChevronDownIcon className="text-base-600 h-4 w-4" />
-          ) : (
-            <ChevronRightIcon className="text-base-400 h-4 w-4" />
+          {!!data?.impactedTests && (
+            <>
+              {showBreakDown ? (
+                <ChevronDownIcon className="text-base-600 h-4 w-4" />
+              ) : (
+                <ChevronRightIcon className="text-base-400 h-4 w-4" />
+              )}
+            </>
           )}
           <div className="flex-1 truncate">
             <O11yTooltip
@@ -57,18 +62,17 @@ export default function UniqueErrorRow({ data }) {
           </div>
         </div>
         <div className={twClassNames(UNIQUE_ERROR_MAIN_ROW_STYLES.testCount)}>
-          {data?.impactedTests === undefined ? (
-            '-'
-          ) : (
-            <p className={twClassNames()}>{data.impactedTests}</p>
-          )}
+          <p className="text-base-500 text-sm leading-5">
+            {data.impactedTests ? data.impactedTests : '-'}
+          </p>
         </div>
         <div className={twClassNames(UNIQUE_ERROR_MAIN_ROW_STYLES.errorCount)}>
-          {data?.errorCount === undefined ? (
-            '-'
-          ) : (
-            <p className={twClassNames()}>{data.errorCount}</p>
-          )}
+          <div className="mr-3 h-5 w-12">
+            <MiniLineChart data={data.chartData} />
+          </div>
+          <p className="text-base-500 text-sm leading-5">
+            {data.errorCount ? data.errorCount : '-'}
+          </p>
         </div>
       </div>
       {showBreakDown && <div className="bg-base-50">sub row</div>}
