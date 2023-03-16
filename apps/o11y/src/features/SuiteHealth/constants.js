@@ -43,18 +43,6 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
   errorCount: 'Error count'
 };
 
-export const UNIQUE_ERROR_MAIN_HEADER_STYLES = {
-  error: 'py-3 basis-3/4 pl-4 sm:pl-6',
-  testCount: 'py-3 flex-1 flex justify-center',
-  errorCount: 'py-3 pl-3 pr-4 sm:pr-6 flex-1 flex justify-center'
-};
-
-export const UNIQUE_ERROR_MAIN_ROW_STYLES = {
-  error: 'py-3 w-3/4 text-left',
-  testCount: 'py-3 flex-1 flex justify-center',
-  errorCount: 'py-3 pl-3 flex-1 flex justify-center'
-};
-
 export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
   platforms: 'Platforms',
   browsers: 'Browsers'
