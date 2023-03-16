@@ -108,7 +108,7 @@ export default function ProjectList() {
             />
           </div>
         )}
-        <div className="flex justify-center bg-white px-5 py-2">
+        <div className="flex justify-center bg-white px-6 pb-6 pt-4">
           <O11yHyperlink
             target="_blank"
             href={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
