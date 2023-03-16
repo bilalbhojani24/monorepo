@@ -38,6 +38,7 @@ export default {
     cookiePrefix: '',
     signInUrl: 'https://browserstack.com/users/sign_in',
     apiUrl: 'https://api-observability.browserstack.com',
-    withCredentials: true
+    withCredentials: true,
+    enableAnalytics: true
   }
 };
