@@ -58,10 +58,12 @@ const VirtualisedTable = ({
   customScrollParent
 }) => {
   const getStyles = () => {
+    if (customScrollParent) {
+      return { customScrollParent };
+    }
     if (useWindowScroll) {
       return {
-        useWindowScroll: true,
-        ...(customScrollParent && { customScrollParent })
+        useWindowScroll: true
       };
     }
     return { style: { height: '100%', width: '100%', ...style } };
