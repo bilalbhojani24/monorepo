@@ -10,6 +10,17 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
+  COMPLETE_STEP,
+  CONFIGURE_DATA,
+  CONFIGURE_TOOL,
+  CONFIRM_IMPORT,
+  CURRENT_STEP,
+  SCREEN_1,
+  SCREEN_2,
+  SCREEN_3,
+  UPCOMING_STEP
+} from '../const/importSteps';
+import {
   setBeginImportLoading,
   setCheckImportStatusClicked,
   setConfigureToolPageLoading,
@@ -105,12 +116,10 @@ const useImport = () => {
 
   const handleStepChange = (prevStep, currentStep) =>
     allImportSteps.map((step) => {
-      if (step.name.toLowerCase() === prevStep)
-        return { ...step, status: 'complete' };
-      if (step.name.toLowerCase() === currentStep)
-        return { ...step, status: 'current' };
-      if (step.name.toLowerCase() === 'confirm import')
-        return { ...step, status: 'upcoming' };
+      if (step.name === prevStep) return { ...step, status: COMPLETE_STEP };
+      if (step.name === currentStep) return { ...step, status: CURRENT_STEP };
+      if (step.name === CONFIRM_IMPORT)
+        return { ...step, status: UPCOMING_STEP };
       return step;
     });
 
@@ -124,10 +133,8 @@ const useImport = () => {
       )
     );
     dispatch(setConfigureToolProceeded(true));
-    dispatch(
-      setImportSteps(handleStepChange('configure tool', 'configure data'))
-    );
-    dispatch(setCurrentScreen('configureData'));
+    dispatch(setImportSteps(handleStepChange(CONFIGURE_TOOL, CONFIGURE_DATA)));
+    dispatch(setCurrentScreen(SCREEN_2));
     dispatch(setConfigureToolProceedLoading(false));
   };
 
@@ -138,7 +145,7 @@ const useImport = () => {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleTestConnection = (decider, logEvent = true) => {
-    if (logEvent && currentScreen === 'configureTool') {
+    if (logEvent && currentScreen === SCREEN_1) {
       dispatch(
         logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
           project_id: projectId,
@@ -207,9 +214,9 @@ const useImport = () => {
 
   const proceedActionEventName = () => {
     let stepNumber = -1;
-    if (currentScreen === 'configureTool') stepNumber = 1;
-    if (currentScreen === 'configureData') stepNumber = 2;
-    if (currentScreen === 'confirmImport') stepNumber = 3;
+    if (currentScreen === SCREEN_1) stepNumber = 1;
+    if (currentScreen === SCREEN_2) stepNumber = 2;
+    if (currentScreen === SCREEN_3) stepNumber = 3;
     return `TM_QiStep${stepNumber}ProceedBtnClicked`;
   };
 
@@ -249,9 +256,9 @@ const useImport = () => {
 
     if (!noProjectSelected) {
       dispatch(
-        setImportSteps(handleStepChange('configure data', 'confirm import'))
+        setImportSteps(handleStepChange(CONFIGURE_DATA, CONFIRM_IMPORT))
       );
-      dispatch(setCurrentScreen('confirmImport'));
+      dispatch(setCurrentScreen(SCREEN_3));
     } else {
       dispatch(setErrorForConfigureData(true));
     }

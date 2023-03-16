@@ -14,7 +14,7 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
-import { IMPORT_STEPS } from '../const/importSteps';
+import { IMPORT_STEPS, SCREEN_1 } from '../const/importSteps';
 
 const initialState = {
   configureToolTestConnectionLoading: false,
@@ -39,7 +39,7 @@ const initialState = {
     zephyr: 'import-from-tool'
   },
   projectsForTestManagementImport: [],
-  currentScreen: 'configureTool',
+  currentScreen: SCREEN_1,
   importSteps: IMPORT_STEPS,
   currentTestManagementTool: '',
   testRailsCredTouched: { email: false, host: false, key: false },

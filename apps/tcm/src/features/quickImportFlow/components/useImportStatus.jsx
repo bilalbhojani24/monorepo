@@ -16,6 +16,7 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
+import { SCREEN_1 } from '../const/importSteps';
 import {
   setCheckImportStatusClicked,
   setCurrentScreen,
@@ -76,7 +77,7 @@ const useImportStatus = () => {
   };
 
   const retryImportFn = (testTool) => {
-    dispatch(setCurrentScreen('configureTool'));
+    dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
     const currentTestManagementTool =

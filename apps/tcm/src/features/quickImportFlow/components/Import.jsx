@@ -8,6 +8,7 @@ import { setSelectedProject } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
+import { SCREEN_1, SCREEN_2, SCREEN_3 } from '../const/importSteps';
 import {
   setNotificationData,
   setProjectIdForQuickImport
@@ -51,10 +52,10 @@ const Import = () => {
   }, [projectId, dispatch]);
 
   const getCurrentScreen = () => {
-    if (currentScreen === 'configureTool') return <ConfigureTool />;
-    if (currentScreen === 'configureData')
+    if (currentScreen === SCREEN_1) return <ConfigureTool />;
+    if (currentScreen === SCREEN_2)
       return <ConfigureData projects={testManagementProjects} />;
-    if (currentScreen === 'confirmImport')
+    if (currentScreen === SCREEN_3)
       return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
@@ -76,7 +77,7 @@ const Import = () => {
   if (
     importStatus === 'ongoing' &&
     !beginImportLoading &&
-    currentScreen === 'configureTool'
+    currentScreen === SCREEN_1
   )
     return (
       <div className="flex h-full w-full flex-col items-stretch justify-center p-16">

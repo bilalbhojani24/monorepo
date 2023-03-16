@@ -21,6 +21,7 @@ import { logEventHelper } from 'utils/logEvent';
 import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import { COMPLETED, FAILURE, INFINITY, ONGOING } from '../const/importConst';
+import { SCREEN_1 } from '../const/importSteps';
 import {
   setCurrentScreen,
   setImportStarted,
@@ -62,7 +63,7 @@ const ImportStatus = () => {
   };
 
   const retryImportFn = () => {
-    dispatch(setCurrentScreen('configureTool'));
+    dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
     const currentTestManagementTool =
