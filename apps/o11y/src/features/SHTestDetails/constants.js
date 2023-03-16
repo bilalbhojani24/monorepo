@@ -13,7 +13,7 @@ export const TABS = {
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   buildName: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
-    defaultClass: 'w-7/12 py-3 whitespace-normal'
+    defaultClass: 'w-7/12 py-3 whitespace-normal !pl-0'
   },
   testStatus: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,
@@ -25,7 +25,7 @@ export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   },
   tags: {
     name: BUILDS_HEADER_LABEL_MAPPING.tags,
-    defaultClass: 'py-3'
+    defaultClass: 'py-3 !pr-0'
   }
 };
 

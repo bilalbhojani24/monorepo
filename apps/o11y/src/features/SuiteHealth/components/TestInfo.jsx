@@ -21,25 +21,24 @@ export default function TestInfo({ testDetails }) {
         title={testDetails?.filePath}
       >
         {testDetails?.vcFileUrl ? (
-          <a
-            href={testDetails?.vcFileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap"
-            style={{ direction: 'rtl' }}
-          >
-            {testDetails?.filePath}
-          </a>
+          <PropagationBlocker className="max-w-[150px] truncate">
+            <a
+              href={testDetails?.vcFileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="max-w-[150px] truncate"
+              style={{ direction: 'rtl' }}
+            >
+              {testDetails?.filePath}
+            </a>
+          </PropagationBlocker>
         ) : (
-          <span
-            className="max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap"
-            style={{ direction: 'rtl' }}
-          >
+          <span className="max-w-[150px] truncate" style={{ direction: 'rtl' }}>
             {testDetails?.filePath}
           </span>
         )}
         {testDetails?.scopeList?.length > 0 && (
-          <span className="border-base-300 ml-1 max-w-[400px] overflow-hidden text-ellipsis whitespace-nowrap border-l pl-1">
+          <span className="border-base-300 ml-1 max-w-[400px] truncate border-l pl-1">
             <ScopeLine scopes={testDetails?.scopeList} />
           </span>
         )}
