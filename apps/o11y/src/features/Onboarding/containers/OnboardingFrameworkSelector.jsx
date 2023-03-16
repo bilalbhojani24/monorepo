@@ -6,6 +6,7 @@ import { twClassNames } from '@browserstack/utils';
 import { WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getProjects } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import FrameworkDocViewer from '../components/FrameworkDocViewer';
 import { FRAMEWORK_IDS, FRAMEWORKS } from '../constants';
@@ -25,6 +26,10 @@ export default function OnboardingFrameworkSelector() {
       setSelectedFramework(
         FRAMEWORKS.find((item) => item.id === searchFramework)
       );
+    } else {
+      logOllyEvent({
+        event: 'O11yFrameworkSelectionVisited'
+      });
     }
   }, []);
 

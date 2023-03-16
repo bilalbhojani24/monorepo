@@ -7,7 +7,9 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
+import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
 import {
@@ -259,9 +261,15 @@ export default function TestTrend() {
       />
     );
   }
-  if (!isLoadingData && isEmpty(trendData.data)) {
-    return <p className="py-6 text-center">No data found</p>;
+
+  if (isEmpty(trendData.data)) {
+    return (
+      <div className={twClassNames('flex items-center justify-center flex-1')}>
+        <EmptyPage text="No data found" />
+      </div>
+    );
   }
+
   return (
     <div className="mb-10">
       <p className="text-base-900 mb-6 text-lg font-medium leading-6">

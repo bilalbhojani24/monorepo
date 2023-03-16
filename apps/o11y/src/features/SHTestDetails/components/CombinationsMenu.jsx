@@ -37,8 +37,9 @@ const CombinationsMenu = () => {
         label: 'All Combinations',
         value: 'all',
         data: {
-          os: { name: '', version: '' },
-          browser: { name: '', version: '' }
+          os: { name: '', version: '', key: '' },
+          browser: { name: '', version: '', key: '' },
+          device: { name: '', key: '' }
         }
       }
     ];
@@ -47,7 +48,7 @@ const CombinationsMenu = () => {
       combinations.forEach((item) => {
         const combination = `${getShortOSName(item?.os?.name)} ${
           item?.os?.version
-        } ${item?.browser?.device || capitalize(item?.browser?.name)} ${
+        } ${item?.browser?.device?.name || capitalize(item?.browser?.name)} ${
           item?.browser?.version
         }`;
         menuOptions.push({
@@ -95,7 +96,10 @@ const CombinationsMenu = () => {
         osVersion: selected?.os?.version || '',
         browserName: selected?.browser?.name || '',
         browserVersion: selected?.browser?.version || '',
-        deviceName: selected?.browser?.device || ''
+        deviceName: selected?.browser?.device?.name || '',
+        osKey: selected?.os?.key || '',
+        browserKey: selected?.browser?.key || '',
+        deviceKey: selected?.browser?.device?.key || ''
       })
     );
     searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, testId);
@@ -124,7 +128,11 @@ const CombinationsMenu = () => {
         />
         <O11ySelectMenuOptionGroup>
           {updatedMenuOptions.map((item) => (
-            <O11ySelectMenuOptionItem key={item.value} option={item} />
+            <O11ySelectMenuOptionItem
+              key={item.value}
+              option={item}
+              wrapperClassName="text-xs"
+            />
           ))}
         </O11ySelectMenuOptionGroup>
       </O11ySelectMenu>

@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import buildsReducer from 'features/AllBuilds/slices/dataSlice';
-import settingsReducer from 'features/Settings/slices/settingsSlice';
+import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
+import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
+import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
+import generalSettingsReducer from 'features/Settings/slices/generalSettings';
+import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
 import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
@@ -13,7 +17,11 @@ import { createLogger } from 'redux-logger';
 export const store = configureStore({
   reducer: {
     global: globalReducer,
-    settings: settingsReducer,
+    generalSettings: generalSettingsReducer,
+    alertSettings: alertsSettingsReducer,
+    autoAnalyserSettings: autoAnalyserSettingsReducer,
+    failureCategoriesSettings: failureCategoriesSettingsReducer,
+    reRunSettings: reRunSettingsReducer,
     shTests: shTestsReducer,
     shTestdetails: shTestDetailsReducer,
     shErrordetails: shErrorDetailsReducer,

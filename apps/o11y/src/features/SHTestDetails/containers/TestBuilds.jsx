@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
-import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
@@ -109,22 +108,12 @@ export default function TestBuilds() {
     });
   };
 
-  if (isLoadingData) {
-    return (
-      <O11yLoader
-        wrapperClassName="py-6"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      />
-    );
-  }
-
-  if (!buildsData.builds.length) {
+  if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {
     return null;
   }
 
   return (
     <VirtualisedTable
-      useWindowScroll
       customScrollParent={document.getElementById(
         SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID
       )}
@@ -149,6 +138,8 @@ export default function TestBuilds() {
       itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
       showFixedFooter={isLoadingMore}
       handleRowClick={handleRowClick}
+      tableWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none border-b"
+      tableHeaderWrapperClassName="bg-white"
     />
   );
 }

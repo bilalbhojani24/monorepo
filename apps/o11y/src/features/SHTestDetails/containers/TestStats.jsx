@@ -62,7 +62,7 @@ const TestStats = () => {
   }
 
   return (
-    <div className="flex gap-3 py-6">
+    <div className="flex flex-wrap gap-3 py-6">
       {stats?.failureOccurrence?.failed !== undefined && (
         <StatsCard
           title="Failure Occurrence"

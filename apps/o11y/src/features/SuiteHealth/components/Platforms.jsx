@@ -14,7 +14,7 @@ export default function SnPPlatforms({ platforms, browsers }) {
 
   const getIcon = (item) => {
     if (item?.device || item?.device === '') {
-      return getIconName(item?.name, item?.device);
+      return getIconName(item?.name, item?.device?.name || item?.device);
     }
     return `icon-${getOsIconName(item.name)}`;
   };
