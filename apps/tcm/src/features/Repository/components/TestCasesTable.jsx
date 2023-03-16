@@ -380,6 +380,7 @@ const TestCasesTable = ({
       ) : null}
       {metaPage?.count > metaPage?.page_size && (
         <TMPagination
+          source="Test Case"
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
