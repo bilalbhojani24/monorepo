@@ -99,3 +99,29 @@ export const ALERT_TYPES_INFO = {
     alert_condition_text: `Set the number of acceptable "Always failing" tests beyond which you'd like to be alerted. Always failing tests are tests that have not passed since the last 5 runs.`
   }
 };
+
+export const FAILURE_CATEGORIES_TYPES = {
+  environmentIssue: 'environmentIssue',
+  noDefect: 'noDefect',
+  toBeInvestigated: 'toBeInvestigated',
+  automationBug: 'automationBug',
+  productBug: 'productBug'
+};
+
+export const FAILURE_CATEGORIES_INFO = {
+  [FAILURE_CATEGORIES_TYPES.environmentIssue]: {
+    label: 'Environment Issue'
+  },
+  [FAILURE_CATEGORIES_TYPES.noDefect]: {
+    label: 'No Defect'
+  },
+  [FAILURE_CATEGORIES_TYPES.toBeInvestigated]: {
+    label: 'To be Investigated'
+  },
+  [FAILURE_CATEGORIES_TYPES.automationBug]: {
+    label: 'Automation Bug'
+  },
+  [FAILURE_CATEGORIES_TYPES.productBug]: {
+    label: 'Product Bug'
+  }
+};

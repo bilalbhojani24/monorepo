@@ -31,12 +31,17 @@ export const deleteAlert = async ({ projectNormalisedName, alertId }) =>
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/alerts/${alertId}`
   );
 
-export const getAvailableCategoriesData = async ({ projectNormalisedName }) =>
-  axios.get(
-    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/categories`
-  );
-
 export const getAvailableSubCategories = async ({ projectNormalisedName }) =>
   axios.get(
-    `${versionedBaseRoute()}/projects/${projectNormalisedName}/failure-categories/sub-categories`
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/failure-categories/sub-categories`
+  );
+
+export const createNewSubCat = async ({ projectNormalisedName, payload }) =>
+  axios.post(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/failure-categories/sub-categories`,
+    payload
+  );
+export const deleteSubCat = async ({ projectNormalisedName, subCatId }) =>
+  axios.delete(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/failure-categories/sub-categories/${subCatId}`
   );

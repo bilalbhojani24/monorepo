@@ -12,12 +12,12 @@ import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import { o11yNotify } from 'utils/notification';
 
-import { deleteAlertById } from '../slices/alertsSettings';
+import { deleteSubCatById } from '../slices/failureCategoriesSettings';
 
-function DeleteAlertModal() {
+function DeleteSubCatModal() {
   const modalData = useSelector(getModalData);
   const activeProject = useSelector(getActiveProject);
-  const [isDeletingAlert, setIsDeletingAlert] = useState(false);
+  const [isDeletingCategory, setIsDeletingCategory] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,19 +26,19 @@ function DeleteAlertModal() {
   };
 
   const handleSubmitChanges = () => {
-    setIsDeletingAlert(true);
+    setIsDeletingCategory(true);
     dispatch(
-      deleteAlertById({
-        alertId: modalData.alertId,
-        alertType: modalData.alertType,
+      deleteSubCatById({
+        subCatId: modalData.subCatId,
+        category: modalData.category,
         projectNormalisedName: activeProject.normalisedName
       })
     )
       .unwrap()
       .then(() => {
         o11yNotify({
-          title: 'Successfully deleted!',
-          description: 'Alert was deleted successfully',
+          title: 'Successfully deleted',
+          description: 'Category was deleted successfully',
           type: 'success'
         });
         handleCloseModal();
@@ -46,25 +46,25 @@ function DeleteAlertModal() {
       .catch(() => {
         o11yNotify({
           title: 'Something went wrong!',
-          description: 'There was an error while deleting alert',
+          description: 'There was an error while deleting category',
           type: 'error'
         });
       })
       .finally(() => {
-        setIsDeletingAlert(false);
+        setIsDeletingCategory(false);
       });
   };
   return (
     <O11yModal show size="sm" onClose={handleCloseModal}>
       <O11yModalHeader
         dismissButton
-        heading="Delete Alert"
+        heading="Delete Category"
         handleDismissClick={handleCloseModal}
       />
 
       <O11yModalBody>
         <p className="flex gap-1 text-sm font-medium leading-5">
-          Are you sure you want to delete the alert?
+          Are you sure you want to delete this category?
         </p>
       </O11yModalBody>
 
@@ -74,8 +74,8 @@ function DeleteAlertModal() {
         </O11yButton>
         <O11yButton
           colors="danger"
-          loading={isDeletingAlert}
-          isIconOnlyButton={isDeletingAlert}
+          loading={isDeletingCategory}
+          isIconOnlyButton={isDeletingCategory}
           onClick={handleSubmitChanges}
           type="submit"
         >
@@ -86,4 +86,4 @@ function DeleteAlertModal() {
   );
 }
 
-export default DeleteAlertModal;
+export default DeleteSubCatModal;
