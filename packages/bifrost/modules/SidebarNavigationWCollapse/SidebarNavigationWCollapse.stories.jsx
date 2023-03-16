@@ -89,14 +89,6 @@ cutOffVariant.play = async ({ canvasElement }) => {
   buttons.forEach(async (button) => {
     if (Array.prototype.indexOf.call(buttons, button) > 2) {
       await userEvent.hover(button);
-      // await delay(1);
-      // const tooltip = document.querySelectorAll('[role="tooltip"]');
-      // console.log(tooltip)
-      // await expect(
-      //   sidebarItems.includes(
-      //     document.querySelectorAll('[role="tooltip"]')[0].innerText
-      //   )
-      // ).toBe(true);
     }
   });
 };
