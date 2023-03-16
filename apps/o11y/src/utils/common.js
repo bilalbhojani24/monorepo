@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
+import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS } from 'constants/common';
+import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
@@ -164,4 +165,22 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
     return TEST_STATUS.SKIPPED;
   }
   return TEST_STATUS.UNKNOWN;
+};
+
+export const transformUnsupportedTags = (node, index) => {
+  const updatedNode = node;
+  if (
+    updatedNode.type === 'tag' &&
+    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+  ) {
+    updatedNode.children = [
+      {
+        data: `<${updatedNode.name}>`,
+        type: 'text'
+      },
+      ...updatedNode.children
+    ];
+    updatedNode.name = 'span';
+  }
+  return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
 };
