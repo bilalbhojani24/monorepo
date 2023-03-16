@@ -22,6 +22,7 @@ import {
   addProject,
   deleteProject,
   setAddProjectModalVisibility,
+  setCurrentProjectName,
   setDeleteProjectModalVisibility,
   setEditProjectModalVisibility,
   setLoading,
@@ -86,9 +87,10 @@ const useProjects = (prop) => {
       });
   };
 
-  const handleClickDynamicLink = (route, projectId) => (e) => {
+  const handleClickDynamicLink = (route, projectId, projectName) => (e) => {
     if (e.type === 'keydown' && e?.code !== 'Space') return;
 
+    dispatch(setCurrentProjectName(projectName));
     navigate(
       routeFormatter(route, {
         projectId

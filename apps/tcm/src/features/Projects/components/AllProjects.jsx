@@ -80,13 +80,15 @@ const AllProjects = () => {
             rowData.test_cases_count > 0
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
-            rowData.id
+            rowData.id,
+            rowData.name
           )}
           onKeyDown={handleClickDynamicLink(
             rowData.test_cases_count > 0
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
-            rowData.id
+            rowData.id,
+            rowData.name
           )}
         >
           <div className="text-base-900 hover:text-brand-600 font-medium ">

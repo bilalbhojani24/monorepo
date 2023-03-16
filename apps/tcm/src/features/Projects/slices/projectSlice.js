@@ -12,7 +12,8 @@ const initialState = {
     prev: null,
     count: null
   },
-  isLoading: true
+  isLoading: true,
+  currentSelectedProjectName: null
 };
 
 const projectSlice = createSlice({
@@ -54,6 +55,9 @@ const projectSlice = createSlice({
     },
     setLoading: (state, { payload }) => {
       state.isLoading = payload;
+    },
+    setCurrentProjectName: (state, { payload }) => {
+      state.currentSelectedProjectName = payload;
     }
   }
 });
@@ -68,6 +72,7 @@ export const {
   setEditProjectModalVisibility,
   setDeleteProjectModalVisibility,
   setSelectedProject,
-  setMetaPage
+  setMetaPage,
+  setCurrentProjectName
 } = projectSlice.actions;
 export default projectSlice.reducer;

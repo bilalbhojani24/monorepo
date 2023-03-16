@@ -29,7 +29,8 @@ const Dashboard = () => {
     jiraIssuesOptions,
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
-    fetchAllChartData
+    fetchAllChartData,
+    logTheEvent
   } = useDashboard();
   const dispatch = useDispatch();
 
@@ -95,7 +96,8 @@ const Dashboard = () => {
               size="fit-content"
               footerProps={{
                 linkText: 'View All Active Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
+                onClick: () => logTheEvent('TM_DashboardActiveRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -147,7 +149,9 @@ const Dashboard = () => {
                 linkTo:
                   `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
-                  })}?closed=true` || ''
+                  })}?closed=true` || '',
+                onClick: () =>
+                  logTheEvent('TM_DashboardMonthsClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -192,7 +196,9 @@ const Dashboard = () => {
                 linkText: 'View All Closed Runs',
                 linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                   projectId
-                })}?closed=true`
+                })}?closed=true`,
+                onClick: () =>
+                  logTheEvent('TM_Dashboard15DaysClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
