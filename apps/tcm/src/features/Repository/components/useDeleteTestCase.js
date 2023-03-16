@@ -84,6 +84,12 @@ export default function useDeleteTestCase() {
       } else dispatch(updateAllTestCases(updatedTestCases));
 
       dispatch(
+        logEventHelper('TM_TcBulkDeleteNotification', {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        })
+      );
+      dispatch(
         addNotificaton({
           id: `test_cases_deleted`,
           title: `${bulkSelection?.ids?.length} Test cases deleted`,
@@ -109,7 +115,7 @@ export default function useDeleteTestCase() {
       testCaseId: selectedTestCase.id
     }).then(() => {
       dispatch(
-        logEventHelper('TM_TestCaseDeletedNotification', {
+        logEventHelper('TM_TcDeletedNotification', {
           project_id: projectId,
           testcase_id: selectedTestCase?.id
         })

@@ -104,6 +104,15 @@ export default function useTestRunDetails() {
     dispatch(resetTestCaseDetails());
   };
 
+  const sendPageLoadingLog = () => {
+    dispatch(
+      logEventHelper('TM_TrDetailPageLoaded', {
+        project_id: projectId,
+        testrun_id: testRunId
+      })
+    );
+  };
+
   useEffect(() => {
     resetTestCaseDetailsMeta();
     dispatch(setSelectedProject(projectId));
@@ -120,6 +129,7 @@ export default function useTestRunDetails() {
     testRunId,
     fetchTestRunDetails,
     onDropDownChange,
+    sendPageLoadingLog,
     resetTestCaseDetailsMeta,
     automationTooltipClicked
   };

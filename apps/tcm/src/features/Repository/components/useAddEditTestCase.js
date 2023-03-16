@@ -315,6 +315,12 @@ export default function useAddEditTestCase(prop) {
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
     }).then(() => {
+      dispatch(
+        logEventHelper('TM_TcBulkUpdatedNotification', {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        })
+      );
       // dispatch(
       //   updateAllTestCases(
       //     allTestCases.map(

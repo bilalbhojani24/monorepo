@@ -293,6 +293,12 @@ export default function useFolders() {
             internalAllFolders
           );
           dispatch(
+            logEventHelper('TM_FolderMovedNotification', {
+              project_id: projectId,
+              folder_id: openedFolderModal?.folder?.id
+            })
+          );
+          dispatch(
             addNotificaton({
               id: `folder_moved${data.data.folder?.id}`,
               title: `'${data.data.folder?.name}' moved to new location`,

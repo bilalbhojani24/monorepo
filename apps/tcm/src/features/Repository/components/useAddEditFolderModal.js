@@ -100,6 +100,12 @@ export default function useAddEditFolderModal(prop) {
       );
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id }).then(
         (item) => {
+          dispatch(
+            logEventHelper('TM_FolderDeletedNotification', {
+              project_id: projectId,
+              folder_id: openedFolderModal?.folder?.id
+            })
+          );
           if (item?.data?.folder?.id) {
             const newFoldersArray = deleteFolderFromArray(
               allFolders,
@@ -141,6 +147,12 @@ export default function useAddEditFolderModal(prop) {
       folderId: prop?.folderId,
       payload: filledFormData
     }).then((item) => {
+      dispatch(
+        logEventHelper('TM_FolderUpdatedNotification', {
+          project_id: projectId,
+          folder_id: prop?.folderId
+        })
+      );
       if (item.data?.folder) renameFolderHelper(item.data.folder);
       hideFolderModal();
     });
@@ -161,7 +173,7 @@ export default function useAddEditFolderModal(prop) {
     const addFolderAPIFunction =
       projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
     dispatch(
-      logEventHelper('TM_CreateFolderBtnClicked', {
+      logEventHelper('TM_CreateFolderCtaClicked', {
         project_id: projectId
       })
     );
@@ -171,6 +183,12 @@ export default function useAddEditFolderModal(prop) {
     }).then((item) => {
       if (item.data?.folder) updateFolders(item.data.folder);
       noProjectFolderCreationRouteUpdate(item);
+      dispatch(
+        logEventHelper('TM_FolderCreatedNotification', {
+          project_id: projectId,
+          folder_id: item.data.folder?.id
+        })
+      );
       dispatch(
         addNotificaton({
           id: `folder_created${item.data.folder?.id}`,

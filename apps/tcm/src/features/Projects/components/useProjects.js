@@ -101,7 +101,7 @@ const useProjects = (prop) => {
       dispatch(logEventHelper('TM_EditProjectLinkClicked', {}));
       dispatch(setEditProjectModalVisibility(true));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
-      dispatch(logEventHelper('TM_EditProjectLinkClicked', {}));
+      dispatch(logEventHelper('TM_DeleteProjectLinkClicked', {}));
       dispatch(setDeleteProjectModalVisibility(true));
     }
     dispatch(setSelectedProject(selectedItem));
@@ -139,19 +139,18 @@ const useProjects = (prop) => {
   };
 
   const createProjectHandler = () => {
-    dispatch(
-      logEventHelper('TM_CreateProjectCtaClicked', {
-        project_id: selectedProject?.id,
-        project_name: selectedProject?.name
-      })
-    );
+    dispatch(logEventHelper('TM_CreateProjectCtaClicked', {}));
     if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Name is not specified' });
     } else
       addProjectsAPI(formData).then((res) => {
         dispatch(addProject(res.data.project));
         dispatch(addGlobalProject(res.data.project));
-
+        dispatch(
+          logEventHelper('TM_ProjectCreatedNotification', {
+            project_id: res.data.project?.id
+          })
+        );
         dispatch(
           addNotificaton({
             id: `project_added${res.data.project?.id}`,
@@ -184,6 +183,11 @@ const useProjects = (prop) => {
     editProjectAPI(selectedProject.id, {
       project: formData
     }).then((res) => {
+      dispatch(
+        logEventHelper('TM_ProjectUpdatedNotification', {
+          project_id: res.data.project?.id
+        })
+      );
       dispatch(updateProject(res.data.project));
       dispatch(updateGlobalProject(res.data.project));
       hideEditProjectModal();

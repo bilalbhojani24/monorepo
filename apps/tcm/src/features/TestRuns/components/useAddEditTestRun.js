@@ -221,7 +221,7 @@ const useAddEditTestRun = () => {
         testRunId: testRunFormData?.test_run?.id
       }).then((data) => {
         dispatch(
-          logEventHelper('TM_TestRunUpdatedNotification', {
+          logEventHelper('TM_TrUpdatedNotification', {
             project_id: projectId,
             testrun_id: testRunFormData?.test_run?.id
           })
@@ -243,7 +243,7 @@ const useAddEditTestRun = () => {
       }).then((data) => {
         dispatch(addTestRun(data.data.testrun || []));
         dispatch(
-          logEventHelper('TM_TestRunCreatedNotification', {
+          logEventHelper('TM_TrCreatedNotification', {
             project_id: projectId,
             testrun_id: data.data.testrun?.id
           })

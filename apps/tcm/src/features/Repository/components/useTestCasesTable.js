@@ -149,6 +149,12 @@ const useTestCasesTable = (prop) => {
         dispatch(updateAllTestCases(data?.test_cases || []));
         dispatch(resetBulkSelection());
         dispatch(
+          logEventHelper('TM_TcMovedNotification', {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids
+          })
+        );
+        dispatch(
           addNotificaton({
             id: `test_cases_moved`,
             title: `${bulkSelection?.ids?.length} Test cases moved to new location`,

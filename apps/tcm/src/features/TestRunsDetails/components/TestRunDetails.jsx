@@ -15,12 +15,14 @@ const TestRunDetails = () => {
     testRunDetails,
     testRunId,
     fetchTestRunDetails,
+    sendPageLoadingLog,
     resetTestCaseDetailsMeta
   } = useTestRunDetails();
 
   const { onResultChange, testResultsArray } = useTRTCFolders();
 
   useEffect(() => {
+    sendPageLoadingLog();
     fetchTestRunDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, testRunId]);

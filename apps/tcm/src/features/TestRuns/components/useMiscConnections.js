@@ -50,7 +50,7 @@ const useMiscConnections = (prop) => {
       deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(
         () => {
           dispatch(
-            logEventHelper('TM_TestRunDeletedNotification', {
+            logEventHelper('TM_TrDeletedNotification', {
               project_id: projectId,
               testrun_id: selectedTestRun?.id
             })
@@ -76,7 +76,7 @@ const useMiscConnections = (prop) => {
       );
       closeTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(() => {
         dispatch(
-          logEventHelper('TM_TestRunClosedNotification', {
+          logEventHelper('TM_TrClosedNotification', {
             project_id: projectId,
             testrun_id: selectedTestRun?.id
           })
