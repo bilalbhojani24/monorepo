@@ -43,12 +43,17 @@ const defaultConfig = {
       defaultValue: COMBOBOX_OPTIONS[0]
     },
     errorText: {
-      controls: { type: 'string' },
+      option: { type: 'string' },
       defaultValue: ''
     },
     isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
+      defaultValue: false
+    },
+    disabled: {
+      option: { type: 'boolean' },
+      description: 'Disable button or not',
       defaultValue: false
     },
     onChange: {

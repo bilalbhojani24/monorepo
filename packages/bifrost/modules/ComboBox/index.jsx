@@ -27,7 +27,9 @@ const ComboBox = forwardRef((props, ref) => {
     onChange,
     isMulti,
     value,
-    onOpenChange
+    onOpenChange,
+    loading,
+    disabled
   } = props;
 
   return (
@@ -39,7 +41,8 @@ const ComboBox = forwardRef((props, ref) => {
         errorText,
         value,
         open,
-        setOpen
+        setOpen,
+        loading
       }}
     >
       <Popover.Root open={open}>
@@ -56,6 +59,7 @@ const ComboBox = forwardRef((props, ref) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
+          disabled={disabled}
         >
           {({ open: dropdownOpen }) => (
             <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
@@ -87,6 +91,8 @@ ComboBox.propTypes = {
       image: string
     })
   ]),
+  disabled: bool,
+  loading: bool,
   errorText: string,
   isMulti: bool,
   onChange: func,
@@ -109,6 +115,8 @@ ComboBox.propTypes = {
 
 ComboBox.defaultProps = {
   defaultValue: null,
+  disabled: false,
+  loading: false,
   errorText: '',
   isMulti: false,
   onChange: () => {},
