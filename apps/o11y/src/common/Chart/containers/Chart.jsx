@@ -25,7 +25,6 @@ highchartsTreemap(Highcharts);
 
 const HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE =
   '[&_div[data-highcharts-chart]]:absolute [&_div[data-highcharts-chart]]:h-full [&_div[data-highcharts-chart]]:w-full';
-
 const Chart = ({ options, chartRef }) => (
   <div
     className={twClassNames(
