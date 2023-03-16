@@ -52,8 +52,8 @@ function AddEditSubCategoryModal() {
     }
   }, [modalData]);
 
-  const handleCloseModal = () => {
-    if (hasUnsavedChanges) {
+  const handleCloseModal = ({ skipCheck = false }) => {
+    if (hasUnsavedChanges && !skipCheck) {
       setShowAbruptModal(true);
       return;
     }
@@ -116,7 +116,7 @@ function AddEditSubCategoryModal() {
             description: `Category was ${descText} successfully`,
             type: 'success'
           });
-          handleCloseModal();
+          handleCloseModal({ skipCheck: true });
         })
         .catch(() => {
           o11yNotify({
@@ -139,7 +139,7 @@ function AddEditSubCategoryModal() {
   };
   const handleDiscard = () => {
     setShowAbruptModal(false);
-    dispatch(toggleModal({ version: '', data: {} }));
+    handleCloseModal({ skipCheck: true });
   };
   return (
     <>
