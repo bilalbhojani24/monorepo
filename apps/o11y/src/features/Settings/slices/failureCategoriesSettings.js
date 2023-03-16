@@ -1,34 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  getAvailableCategoriesData,
-  getAvailableSubCategories
-} from 'api/settings';
+import { getAvailableSubCategories } from 'api/settings';
 
-import {
-  getFailureCategoriesState,
-  getFailureSubCategoriesState
-} from './selectors';
+import { getFailureSubCategoriesState } from './selectors';
 
 const SLICE_NAME = 'failureCategoriesSettings';
 
-export const getFailureCategories = createAsyncThunk(
-  `${SLICE_NAME}/getFailureCategories`,
-  async (data, { rejectWithValue, getState }) => {
-    const currentState = getFailureCategoriesState(getState());
-    if (currentState.project === data.projectNormalisedName) {
-      return currentState;
-    }
-    try {
-      const response = await getAvailableCategoriesData({ ...data });
-      return {
-        data: response.data?.data || [],
-        project: data?.projectNormalisedName
-      };
-    } catch (err) {
-      return rejectWithValue({ err, data });
-    }
-  }
-);
 export const getFailureSubCategories = createAsyncThunk(
   `${SLICE_NAME}/getFailureSubCategories`,
   async (data, { rejectWithValue, getState }) => {
@@ -51,19 +27,33 @@ export const getFailureSubCategories = createAsyncThunk(
 const { reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
-    failureCategories: {
-      isLoading: false,
-      project: '',
-      data: []
-    },
     failureSubCategories: {
       isLoading: false,
       project: '',
-      data: []
+      data: {}
     }
   },
   reducers: {},
-  extraReducers: {}
+  extraReducers: (builder) => {
+    builder
+      .addCase(getFailureSubCategories.pending, (state) => {
+        state.failureSubCategories.isLoading = true;
+      })
+      .addCase(getFailureSubCategories.fulfilled, (state, { payload }) => {
+        state.failureSubCategories = {
+          ...state.failureSubCategories,
+          ...payload,
+          isLoading: false
+        };
+      })
+      .addCase(getFailureSubCategories.rejected, (state) => {
+        state.failureSubCategories = {
+          isLoading: false,
+          project: '',
+          data: {}
+        };
+      });
+  }
 });
 
 export default reducer;

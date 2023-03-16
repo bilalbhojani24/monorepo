@@ -89,13 +89,33 @@ export default function AlertsSettings() {
           </O11yButton>
         </div>
         <div className="mt-6">
-          <O11yTable containerWrapperClass="overflow-visible overflow-x-visible md:rounded-none">
+          <O11yTable containerWrapperClass="overflow-visible overflow-x-visible">
             <O11yTableHead wrapperClassName="bg-white sticky top-0">
               <O11yTableRow>
-                <O11yTableCell variant="header">Alert name</O11yTableCell>
-                <O11yTableCell variant="header">Warning</O11yTableCell>
-                <O11yTableCell variant="header">Critical</O11yTableCell>
-                <O11yTableCell variant="header">Applicable to</O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Alert name
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Warning
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Critical
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Applicable to
+                </O11yTableCell>
               </O11yTableRow>
             </O11yTableHead>
             <O11yTableBody>

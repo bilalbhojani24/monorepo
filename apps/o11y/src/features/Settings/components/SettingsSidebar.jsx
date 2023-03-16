@@ -58,7 +58,7 @@ export default function SettingsSidebar() {
     window.scrollTo(0, 0);
   };
   return (
-    <aside className="sticky top-0 w-72 pr-8">
+    <aside className="sticky top-0 max-w-xs flex-1 pr-8">
       {getNav({ projectNormalisedName: activeProject.normalisedName }).map(
         (item) => (
           <SidebarItem
