@@ -14,11 +14,11 @@ import {
   MdSchedule,
   MdStop,
   Modal,
-  ModalBody,
   ModalFooter,
   ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import Loader from 'common/Loader';
 import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
@@ -27,7 +27,6 @@ import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
-import Loader from '../../../common/Loader';
 
 export const tabsArray = [
   {
