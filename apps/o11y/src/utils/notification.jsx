@@ -21,12 +21,7 @@ const getIcon = (type) => {
   }
 };
 
-export const o11yNotify = ({
-  // id = '',
-  type = '',
-  title = '',
-  description = ''
-}) => {
+export const o11yNotify = ({ type = '', title = '', description = '' }) => {
   notify(
     <Notifications
       title={title}
