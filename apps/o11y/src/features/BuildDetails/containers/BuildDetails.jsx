@@ -1,31 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
-import {
-  BitBucketIcon,
-  BuildKiteIcon,
-  GithubIcon,
-  GitIcon,
-  GitLabIcon,
-  JenkinsIcon,
-  JiraIcon
-} from 'assets/icons/components';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
+import { TABS } from '../constants';
 import {
   clearBuildUUID,
-  getBuildIdFromBuildInfo
+  getBuildIdFromBuildInfo,
+  setActiveTab
 } from '../slices/buildDetailsSlice';
-import { getBuildUUID } from '../slices/selectors';
+import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
     setLoadError(false);
     const normalisedData = {
@@ -48,8 +43,23 @@ function BuildDetails() {
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
-
   useEffect(() => () => dispatch(clearBuildUUID()), [dispatch]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.get('tab')) {
+      const tabValue = searchParams.get('tab');
+      const activeIndex = Object.keys(TABS).findIndex(
+        (item) => item === tabValue
+      );
+      dispatch(
+        setActiveTab({
+          id: tabValue,
+          idx: activeIndex
+        })
+      );
+    }
+  }, [dispatch, location.search]);
 
   if (!buildUUID) {
     return (
@@ -83,15 +93,12 @@ function BuildDetails() {
     <>
       <BuildDetailsHeader />
       <div className="px-8">
-        <div className="py-4">
-          <JiraIcon className="h-6 w-6" />
-          <JenkinsIcon className="h-6 w-6" />
-          <GithubIcon className="h-6 w-6" />
-          <GitLabIcon className="h-6 w-6" />
-          <BuildKiteIcon className="h-6 w-6" />
-          <BitBucketIcon className="h-6 w-6" />
-          <GitIcon className="h-6 w-6" color="#F05133" />
-        </div>
+        {activeTab.id === TABS.insights.id && (
+          <div className="py-4">Build Insights</div>
+        )}
+        {activeTab.id === TABS.tests.id && (
+          <div className="py-4">Test Listing</div>
+        )}
       </div>
     </>
   );

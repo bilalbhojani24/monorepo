@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildIdFromBuildInfoApi, getBuildMetaDataAPI } from 'api/builds';
 
+import { TABS } from '../constants';
+
 const SLICE_NAME = 'buildDetails';
 
 export const getBuildIdFromBuildInfo = createAsyncThunk(
@@ -34,7 +36,11 @@ const { reducer, actions } = createSlice({
       isLoading: false,
       data: {}
     },
-    buildUUID: ''
+    buildUUID: '',
+    activeTab: {
+      idx: 0,
+      id: TABS.insights.id
+    }
   },
   reducers: {
     clearBuildUUID: (state) => {
@@ -43,6 +49,9 @@ const { reducer, actions } = createSlice({
     clearBuildMeta: (state) => {
       state.buildMeta.isLoading = false;
       state.buildMeta.data = {};
+    },
+    setActiveTab: (state, { payload }) => {
+      state.activeTab = payload;
     }
   },
   extraReducers: (builder) => {
@@ -64,6 +73,6 @@ const { reducer, actions } = createSlice({
   }
 });
 
-export const { clearBuildMeta, clearBuildUUID } = actions;
+export const { clearBuildMeta, clearBuildUUID, setActiveTab } = actions;
 
 export default reducer;

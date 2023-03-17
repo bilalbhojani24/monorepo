@@ -2,6 +2,7 @@
 /* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Hyperlink,
   MdCancel,
@@ -23,22 +24,33 @@ import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
+import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
-import { clearBuildMeta, getBuildMetaData } from '../slices/buildDetailsSlice';
-import { getBuildMeta, getBuildUUID } from '../slices/selectors';
+import {
+  clearBuildMeta,
+  getBuildMetaData,
+  setActiveTab
+} from '../slices/buildDetailsSlice';
+import {
+  getBuildDetailsActiveTab,
+  getBuildMeta,
+  getBuildUUID
+} from '../slices/selectors';
 
 const tabsList = Object.keys(TABS).map((key) => ({
   name: TABS[key].name,
-  value: key,
+  value: TABS[key].id,
   icon: TABS[key].icon
 }));
 
 function BuildDetailsHeader() {
+  const getActiveTab = useSelector(getBuildDetailsActiveTab);
+  const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
   const dispatch = useDispatch();
   const buildUUID = useSelector(getBuildUUID);
@@ -50,6 +62,21 @@ function BuildDetailsHeader() {
       dispatch(clearBuildMeta());
     };
   }, [buildUUID, dispatch]);
+
+  const onTabChange = (tabInfo) => {
+    const searchParams = new URLSearchParams(window?.location?.search);
+    const activeIndex = Object.keys(TABS).findIndex(
+      (item) => item === tabInfo.value
+    );
+    dispatch(
+      setActiveTab({
+        id: tabInfo.value,
+        idx: activeIndex
+      })
+    );
+    searchParams.set('tab', tabInfo.value);
+    navigate({ search: searchParams.toString() });
+  };
 
   if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
     return (
@@ -235,15 +262,16 @@ function BuildDetailsHeader() {
           <O11yMetadata
             icon={<MdOutlineTimer className="h-5 w-5" />}
             metaDescription={milliSecondsToTime(duration)}
-            textColorClass="text-base-500 hover:text-brand-700"
+            textColorClass="text-base-500"
           />
         )}
+        <ViewMetaPopOver data={buildMeta.data || {}} />
       </div>
       <div className="-mb-[1px] flex justify-between">
         <O11yTabs
-          defaultIndex={0}
+          defaultIndex={getActiveTab.idx}
           tabsArray={tabsList}
-          // onTabChange={onTabChange}
+          onTabChange={onTabChange}
         />
         <StatusBadges statusStats={statusStats} />
       </div>
