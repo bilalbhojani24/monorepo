@@ -473,7 +473,7 @@ function AddEditAlertModal() {
             onClick={handleSubmitChanges}
             type="submit"
           >
-            Save Changes
+            {modalData?.action === 'edit' ? 'Save Changes' : 'Create'}
           </O11yButton>
         </O11yModalFooter>
       </O11yModal>
