@@ -14,7 +14,6 @@ const TextField = ({
   schema,
   validations
 }) => {
-  console.log(validations);
   const [error, setError] = useState(null);
   const handleChange = (e) => {
     const fieldValue = e.target.value;
@@ -22,6 +21,7 @@ const TextField = ({
       schema?.field === 'multi-text' && fieldValue
         ? fieldValue.split(',').map((str) => str.trim())
         : fieldValue;
+
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
   const valueToRender = Array.isArray(fieldsData[fieldKey])
@@ -73,6 +73,7 @@ const TextField = ({
         placeholder={placeholder}
         onBlur={validateInput}
         errorText={error}
+        type={schema?.field === 'numeric' ? 'number' : 'text'}
       />
     </>
   );

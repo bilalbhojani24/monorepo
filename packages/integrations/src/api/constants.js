@@ -6,5 +6,5 @@ export const URLS = {
   PROJECTS: 'https://integrations.bsstag.com/api/pm-tools/v1/projects',
   CREATE_META:
     'https://integrations.bsstag.com/api/pm-tools/v1/tickets/meta-create',
-  CREATE: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets/create'
+  CREATE: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets'
 };

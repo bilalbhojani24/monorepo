@@ -17,10 +17,18 @@ import {
   projectsLoadingSelector,
   projectsSelector
 } from '../../slices/projectsSlice';
+import { parseFieldsForCreate } from '../helpers';
 
 import { FIELD_KEYS, TABS } from './constants';
+import DiscardIssue from './DiscardIssue';
 
-const IssueForm = ({ integrations, options }) => {
+const IssueForm = ({
+  integrations,
+  options,
+  isBeingDiscarded,
+  continueEditing,
+  closeWidget
+}) => {
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
   const [fields, setFields] = useState([]);
@@ -64,47 +72,43 @@ const IssueForm = ({ integrations, options }) => {
     [projectFieldData]
   );
 
-  const helper = ({ $type, $items, $properties, $const }, fieldData) => {
-    let val = null;
-    switch ($type) {
-      case 'string':
-        if (typeof fieldData === 'string') val = fieldData;
-        else val = fieldData.value;
-        break;
-      case 'array':
-        val = fieldData.map((fieldItem) => helper($items, fieldItem));
-        break;
-      case 'object':
-        val = Object.entries($properties).reduce((acc, curr) => {
-          const [currItemKey, currItemVal] = curr;
-          // eslint-disable-next-line no-param-reassign
-          acc[currItemKey] = helper(currItemVal, fieldData);
-          return acc;
-        }, {});
-        break;
-      default:
-        if ($const) {
-          val = $const;
-        } else {
-          val = fieldData;
-        }
-    }
-    // console.log('rajeev', item, fieldData);
-    return val;
-  };
+  // const allRequiredFields = useMemo(
+  //   () =>
+  //     fields.reduce((acc, curr) => {
+  //       if (curr.required) acc.push(curr.key);
+  //       return acc;
+  //     }, []),
+  //   [fields]
+  // );
+
+  // const areAllRequiredFieldsNonEmptyHelper = (stateValue) => {
+  //   if (Array.isArray(stateValue)) return Boolean(stateValue.length);
+  //   if (typeof stateValue === 'string') return Boolean(stateValue);
+  //   if (typeof stateValue === 'object') return Boolean(stateValue.value);
+  //   return false;
+  // };
+
+  // const areAllRequiredFieldsNonEmpty = (requiredFields, stateOfFields) =>
+  //   requiredFields.some((requiredField) => {
+  //     if (!(requiredField in stateOfFields)) return false;
+  //     const stateValue = stateOfFields[requiredField];
+  //     return areAllRequiredFieldsNonEmptyHelper(stateValue);
+  //   });
 
   const handleSubmit = (formData) => {
+    // if (!areAllRequiredFieldsNonEmpty(allRequiredFields, formData)) {
+    //   return;
+    // }
     const data = { ...fieldsData, ...formData };
-    const parsed = fields.reduce((acc, curr) => {
-      if (curr.key in data) {
-        // eslint-disable-next-line no-param-reassign
-        acc[curr.key] = helper(curr.schema['data-format'], data[curr.key]);
-      }
-      return acc;
-    }, {});
+    if (metaData.description) {
+      data.description =
+        (data.description ? `${data.description}\n` : '') +
+        metaData.description;
+    }
+    const parsed = parseFieldsForCreate(fields, data);
     parsed.projectId = projectFieldData.value;
     parsed.ticketTypeId = issueTypeFieldData.value;
-    createIssue('jira', parsed);
+    createIssue(integrationToolFieldData?.value, parsed);
   };
 
   useEffect(() => {
@@ -122,7 +126,9 @@ const IssueForm = ({ integrations, options }) => {
         integrationToolFieldData.value,
         projectFieldData.value,
         issueTypeFieldData.value
-      ).then((responseFields) => setFields(responseFields.fields));
+      ).then((responseFields) => {
+        setFields(responseFields.fields);
+      });
     }
   }, [
     areProjectsLoaded,
@@ -132,58 +138,62 @@ const IssueForm = ({ integrations, options }) => {
   ]);
 
   return (
-    <div>
-      <SelectMenu
-        onChange={(val) => selectTool(val)}
-        value={integrationToolFieldData}
-      >
-        <div className="flex items-center">
-          <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit">
-            CREATE A:
-          </SelectMenuLabel>
-          <SelectMenuTrigger placeholder="Select tool" />
+    <>
+      {isBeingDiscarded && (
+        <DiscardIssue
+          continueEditing={continueEditing}
+          closeWidget={closeWidget}
+        />
+      )}
+      <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
+        <SelectMenu
+          onChange={(val) => selectTool(val)}
+          value={integrationToolFieldData}
+        >
+          <div className="flex items-center">
+            <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit">
+              CREATE A:
+            </SelectMenuLabel>
+            <SelectMenuTrigger placeholder="Select tool" />
+          </div>
+          <SelectMenuOptionGroup>
+            {toolOptions.map((item) => (
+              <SelectMenuOptionItem key={item.value} option={item} />
+            ))}
+          </SelectMenuOptionGroup>
+        </SelectMenu>
+        <div className="py-3">
+          <SingleValueSelect
+            fieldsData={fieldsData}
+            fieldKey={FIELD_KEYS.PROJECT}
+            setFieldsData={setFieldsData}
+            label="Project"
+            required
+            placeholder="Select project"
+            options={projects}
+            selectFirstByDefault
+          />
         </div>
-        <SelectMenuOptionGroup>
-          {toolOptions.map((item) => (
-            <SelectMenuOptionItem key={item.value} option={item} />
-          ))}
-        </SelectMenuOptionGroup>
-      </SelectMenu>
-      <div className="py-3">
-        <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.PROJECT}
-          setFieldsData={setFieldsData}
-          label="Project"
-          required
-          placeholder="Select project"
-          options={projects}
-          selectFirstByDefault
+        <Tabs tabsArray={TABS} />
+        <div className="py-3">
+          <SingleValueSelect
+            fieldsData={fieldsData}
+            fieldKey={FIELD_KEYS.ISSUE_TYPE}
+            setFieldsData={setFieldsData}
+            label="Issue type"
+            placeholder="Select issue"
+            required
+            options={cleanedIssueTypes}
+            selectFirstByDefault
+          />
+        </div>
+        <FormBuilder
+          fields={fields}
+          handleSubmit={handleSubmit}
+          metaData={metaData}
         />
       </div>
-      <Tabs tabsArray={TABS} />
-      <div className="py-3">
-        <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.ISSUE_TYPE}
-          setFieldsData={setFieldsData}
-          label="Issue type"
-          placeholder="Select issue"
-          required
-          options={cleanedIssueTypes}
-          selectFirstByDefault
-        />
-      </div>
-
-      <FormBuilder
-        fields={fields}
-        handleSubmit={handleSubmit}
-        metaData={metaData}
-      />
-      <button type="submit" form="form-builder">
-        submit
-      </button>
-    </div>
+    </>
   );
 };
 

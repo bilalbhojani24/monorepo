@@ -27,7 +27,7 @@ export const CreateIssue = ({
     ({ setup_completed: integrated }) => integrated
   );
 
-  const [mode, setMode] = useState('create');
+  // const [mode, setMode] = useState('create');
 
   const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
 
@@ -56,32 +56,25 @@ export const CreateIssue = ({
         )}
         style={{ maxHeight: '650px' }}
       >
-        {!isBeingDiscarded && (
-          <ListOfIntegrations
-            projectId={projectId}
-            options={options}
-            mode={mode}
-          />
-        )}
-        {isBeingDiscarded && (
-          <DiscardIssue
-            continueEditing={continueEditing}
-            closeWidget={handleClose}
-          />
-        )}
-        {!isBeingDiscarded && (
+        <ListOfIntegrations
+          projectId={projectId}
+          options={options}
+          // mode={mode}
+          isBeingDiscarded={isBeingDiscarded}
+          continueEditing={continueEditing}
+          closeWidget={handleClose}
+        />
+      </div>
+      {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
+        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>
-        )}
-      </div>
-      {/* {hasAtLeastOneIntegrationSetup && (
-        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
           <Button type="submit" form="form-builder">
             Create Issue
           </Button>
         </div>
-      )} */}
+      )}
     </BasicWidget>
   );
 };

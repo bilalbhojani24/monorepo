@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, MdSave } from '@browserstack/bifrost';
 
 const DiscardIssue = ({ continueEditing, closeWidget }) => (
-  <div className="flex flex-col items-center">
+  <div className="flex h-full flex-col items-center">
     <p className="bg-brand-100 w-fit rounded-full p-6">
       <MdSave className="text-brand-500 text-3xl" />
     </p>

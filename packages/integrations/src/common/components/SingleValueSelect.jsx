@@ -24,7 +24,8 @@ const SingleDynamicSelect = ({
   searchPath,
   optionsPath,
   options,
-  selectFirstByDefault = false
+  selectFirstByDefault = false,
+  schema
 }) => {
   const cleanOptions = (data) =>
     data.reduce((acc, currOption) => {
@@ -44,6 +45,7 @@ const SingleDynamicSelect = ({
     }, []);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
+  const [dynamicOptions, setDynamicOptions] = useState(null);
   const [inputText, setInputText] = useState('');
   const previousOptions = usePrevious(optionsToRender);
 
@@ -52,6 +54,7 @@ const SingleDynamicSelect = ({
       fetchOptions(optionsPath).then((optionsData) => {
         const cleanedOptions = cleanOptions(optionsData);
         setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
       });
     }
   }, [optionsPath]);
@@ -84,39 +87,39 @@ const SingleDynamicSelect = ({
   };
 
   const fetchQuery = (query) => {
-    fetchOptions(searchPath + query);
+    fetchOptions(searchPath + query).then((optionsData) => {
+      const cleanedOptions = cleanOptions(optionsData);
+      setOptionsToRender(cleanedOptions);
+      setDynamicOptions(cleanedOptions);
+    });
   };
 
   const searchInOptions = useCallback(
     (query) => {
-      const cleanedOptions = cleanOptions(options);
-      const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
-        optionLabel.toLowerCase().startsWith(query.toLowerCase())
-      );
+      const cleanedOptions = optionsPath
+        ? dynamicOptions
+        : cleanOptions(options);
+      const filtered = cleanedOptions?.filter(({ label: optionLabel }) => {
+        return optionLabel.toLowerCase().includes(query.toLowerCase());
+      });
       setOptionsToRender(filtered);
     },
-    [options]
+    [options, dynamicOptions, fetchQuery]
   );
 
-  const debouncedFetchQuery = useCallback(() => {
-    makeDebounce(fetchQuery, 400);
-  }, []);
+  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
 
   const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
-
-  useEffect(() => {
-    const query = inputText.trim();
+    const query = e.target.value?.trim();
+    if (searchPath) {
+      debouncedFetchQuery(query);
+    }
     if (query) {
-      if (searchPath) {
-        debouncedFetchQuery(query);
-      }
       searchInOptions(query);
     } else {
-      setOptionsToRender(cleanOptions(options));
+      setOptionsToRender(optionsPath ? dynamicOptions : cleanOptions(options));
     }
-  }, [debouncedFetchQuery, searchPath, inputText, options, searchInOptions]);
+  };
 
   return (
     <ComboBox onChange={handleChange} value={fieldsData[fieldKey]}>
