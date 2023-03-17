@@ -19,6 +19,7 @@ module.exports = {
     ],
     'simple-import-sort/imports': 1,
     'tailwindcss/no-arbitrary-value': 0,
+    'import/no-extraneous-dependencies': 0,
     'global-require': 0
   },
   globals: {

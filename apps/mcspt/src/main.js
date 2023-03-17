@@ -3,7 +3,8 @@ const { app, BrowserWindow } = require('electron');
 const {
   fileExplorerOps,
   deepLinkingSetup,
-  initializeRemoteHandlers
+  initializeRemoteHandlers,
+  backendServerOps
 } = require('./mainThreadFunctions');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -40,6 +41,9 @@ const createWindow = () => {
   splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
 
   mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  // order is important for this one
+  backendServerOps.initializeBackendServer();
 
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
     setTimeout(() => {
