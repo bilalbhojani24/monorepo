@@ -134,10 +134,8 @@ SidebarItem.propTypes = {
     id: PropTypes.string,
     label: PropTypes.string,
     path: PropTypes.string,
-    // eslint-disable-next-line react/forbid-prop-types
-    activeIcon: PropTypes.object,
-    // eslint-disable-next-line react/forbid-prop-types
-    inActiveIcon: PropTypes.object,
+    activeIcon: PropTypes.node,
+    inActiveIcon: PropTypes.node,
     badge: PropTypes.node,
     childrens: PropTypes.arrayOf(
       PropTypes.shape({
