@@ -74,7 +74,7 @@ const DependencyChecker = () => {
           <div className="flex flex-col items-center justify-center p-14">
             <img src={dependencyLoader} alt="loading..." className="w-24" />
             <div className="text-2xl font-bold leading-7">
-              Checking dependencies...
+              Checking for connected devices
             </div>
           </div>
         )}

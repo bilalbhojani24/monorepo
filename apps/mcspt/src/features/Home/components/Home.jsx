@@ -98,7 +98,9 @@ const HomeTable = () => (
       {rows.map((row) => (
         <TableRow key={row.application}>
           {columns.map((column) => (
-            <TableCell key={column.key}>{column.cell(row)}</TableCell>
+            <TableCell wrapperClassName="p-2" key={column.key}>
+              {column.cell(row)}
+            </TableCell>
           ))}
         </TableRow>
       ))}
@@ -112,6 +114,10 @@ const Home = () => (
       <DependencyChecker />
 
       <div className="border-base-300 bg-base-50 flex-1 border-t py-10 px-12">
+        <div className="text-xl font-semibold leading-7">
+          Explore sample reports of popular apps
+        </div>
+
         <HomeTable />
       </div>
     </div>

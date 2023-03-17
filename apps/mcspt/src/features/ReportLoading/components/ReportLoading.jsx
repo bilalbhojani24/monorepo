@@ -94,6 +94,8 @@ const ReportLoading = () => {
         <div className="flex-1 px-4 py-2">
           {testDataDescriptionList?.length > 0 && (
             <DescriptionList
+              heading={sessionDetails?.sessionName}
+              subHeading={sessionDetails?.package?.bundleId}
               descriptions={testDataDescriptionList}
               alignment="two-column"
             />
@@ -113,6 +115,10 @@ const ReportLoading = () => {
               >
                 Generate Performance Report
               </Button>
+
+              <div className="text-base-600 mt-2 text-sm font-medium leading-5">
+                Test recording will be stopped
+              </div>
             </div>
           )}
 
