@@ -60,9 +60,11 @@ export default function ScanReport() {
   const metaData = reportMetaData.meta
     ? Object.values(reportMetaData.meta)[0]
     : null;
-  if (isLoading) {
+
+  if (isLoading || !reportOverviewData) {
     return <Loader />;
   }
+
   return (
     <>
       <div className="bg-base-50">

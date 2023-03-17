@@ -48,17 +48,18 @@ const frequencyOptions = [
 
 const Overview = ({ scanOverviewData }) => {
   const {
-    stackedChartData,
     handleStackedFilter,
     currentRunFilter,
-    splineChartOptions,
     handleSplineFilter,
     currentSplineRunFilter,
     isCopied,
-    setIsCopied
+    setIsCopied,
+    getStackedChartData,
+    getSplineChartData
   } = useOverview({
     scanOverviewData
   });
+  console.log(getStackedChartData);
   return (
     <div
       className=" flex-col overflow-auto p-4"
@@ -89,7 +90,7 @@ const Overview = ({ scanOverviewData }) => {
           </div>
           <div className="flex items-center justify-between">
             <div className="m-4 w-full">
-              <Chart options={stackedChartData} />
+              <Chart options={getStackedChartData} />
             </div>
           </div>
         </div>
@@ -113,7 +114,7 @@ const Overview = ({ scanOverviewData }) => {
           </div>
           <div className="flex items-center justify-between">
             <div className="m-4 w-full">
-              <Chart options={splineChartOptions} />
+              <Chart options={getSplineChartData} />
             </div>
           </div>
         </div>
