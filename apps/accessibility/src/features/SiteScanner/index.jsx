@@ -179,7 +179,7 @@ export default function SiteScanner() {
     if (recurring && !active) {
       return <Badge text="Recurring: OFF" wrapperClassName="mr-2" />;
     }
-    return <Badge text="On Demand" wrapperClassName="mr-2" />;
+    return <Badge text="On-demand" wrapperClassName="mr-2" />;
   };
 
   const getCurrrentStatus = (row) => {
