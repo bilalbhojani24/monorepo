@@ -15,7 +15,10 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
-import { getBuildIdFromBuildInfo } from '../slices/buildDetailsSlice';
+import {
+  clearBuildUUID,
+  getBuildIdFromBuildInfo
+} from '../slices/buildDetailsSlice';
 import { getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
@@ -45,6 +48,8 @@ function BuildDetails() {
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
+
+  useEffect(() => () => dispatch(clearBuildUUID()), [dispatch]);
 
   if (!buildUUID) {
     return (
