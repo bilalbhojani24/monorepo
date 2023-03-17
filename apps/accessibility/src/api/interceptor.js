@@ -7,6 +7,6 @@ axios.defaults.baseURL =
   `${window.location.origin}/api`;
 
 axios.interceptors.request.use((config) => ({
-  ...config,
-  withCredentials: true
+  ...config
+  // withCredentials: true
 }));

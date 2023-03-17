@@ -1,4 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { CalendarIcon, FolderIcon, HomeIcon, UsersIcon } from '../Icon';
@@ -66,9 +69,33 @@ const defaultConfig = {
   },
   controls: {}
 };
+const sidebarItems = ['Dashboard', 'Team', 'Projects', 'Calendar', 'John Doe'];
 
 const Template = (args) => <SidebarNavigationWCollapse {...args} />;
+const cutOffTemplate = (args) => <SidebarNavigationWCollapse {...args} />;
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  sidebarItems.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+};
+
+const cutOffVariant = cutOffTemplate.bind({});
+cutOffVariant.play = async ({ canvasElement }) => {
+  await delay(1);
+  const buttons = document.querySelectorAll('button');
+  buttons.forEach(async (button) => {
+    if (Array.prototype.indexOf.call(buttons, button) > 2) {
+      await userEvent.hover(button);
+    }
+  });
+};
+cutOffVariant.parameters = {
+  controls: {}
+};
+
 Primary.parameters = {
   controls: {}
 };
@@ -78,5 +105,11 @@ Primary.args = {
   sidebarSecondaryNavigation: secondaryNavs
 };
 
+cutOffVariant.args = {
+  sidebarPrimaryNavigation: primaryNavs,
+  sidebarSecondaryNavigation: secondaryNavs,
+  collapsedCutoff: 9000
+};
+
 export default defaultConfig;
-export { Primary };
+export { cutOffVariant, Primary };

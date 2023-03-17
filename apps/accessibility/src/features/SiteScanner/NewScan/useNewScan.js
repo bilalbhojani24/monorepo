@@ -6,7 +6,8 @@ import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
 
-import { addZero, getWcagVersionFromVal } from '../../../utils/helper';
+import { logEvent } from '../../../../../../packages/utils/src/logger';
+import { addZero, isValidHttpUrl } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, urlPattern, wcagVersions } from './constants';
@@ -243,7 +244,6 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           const diff = minutes + timezoneOffset;
           let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;
-          console.log(diff);
           if (diff < 0) {
             dayVal = dayMap[getKeyByValue(dayMap, formData.day) - 1];
             finalUTCValue = toHoursAndMinutes(1440 + diff);
@@ -278,6 +278,27 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
+          logEvent(
+            ['EDS'],
+            'accessibility_dashboard_web_events',
+            'InteractedWithWSNewWebsiteScanSlideOver',
+            {
+              actionType: 'Scan changes',
+              action: 'Create Scan',
+              scanFrequency: recurringStatus ? formData.type : null,
+              scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+              scanTime: recurringStatus
+                ? formData.time
+                : new Date().toLocaleTimeString(),
+              wcagVersion: formData.scanData.wcagVersion.label,
+              day: recurringStatus
+                ? formData.day
+                : new Date().toLocaleDateString(),
+              bestPractices: formData.scanData.bestPractices,
+              needsReview: formData.scanData.needsReview
+            }
+          );
+
           postNewScanConfig(payload)
             .then(() => {
               dispatch(getScanConfigs());
@@ -286,7 +307,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             })
             .catch((err) => console.log(err));
         } else {
-          console.log(validationError, formData);
+          // console.log(validationError, formData);
         }
         break;
       default:
