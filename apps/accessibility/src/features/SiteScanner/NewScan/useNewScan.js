@@ -244,7 +244,6 @@ export default function useNewScan(closeSlideover, preConfigData) {
           const diff = minutes + timezoneOffset;
           let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;
-          console.log(diff);
           if (diff < 0) {
             dayVal = dayMap[getKeyByValue(dayMap, formData.day) - 1];
             finalUTCValue = toHoursAndMinutes(1440 + diff);
@@ -286,11 +285,15 @@ export default function useNewScan(closeSlideover, preConfigData) {
             {
               actionType: 'Scan changes',
               action: 'Create Scan',
-              scanFrequency: formData.type,
+              scanFrequency: recurringStatus ? formData.type : null,
               scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-              scanTime: formData.time,
+              scanTime: recurringStatus
+                ? formData.time
+                : new Date().toLocaleTimeString(),
               wcagVersion: formData.scanData.wcagVersion.label,
-              day: formData.day,
+              day: recurringStatus
+                ? formData.day
+                : new Date().toLocaleDateString(),
               bestPractices: formData.scanData.bestPractices,
               needsReview: formData.scanData.needsReview
             }

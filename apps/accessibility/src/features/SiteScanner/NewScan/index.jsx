@@ -100,11 +100,12 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       {
         actionType: 'Scan changes',
         action: 'Cancel Scan',
-        scanFrequency: formData.type,
         scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-        scanTime: formData.time,
+        scanTime: recurringStatus
+          ? formData.time
+          : new Date().toLocaleTimeString(),
         wcagVersion: formData.scanData.wcagVersion.label,
-        day: formData.day,
+        day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
         bestPractices: formData.scanData.bestPractices,
         needsReview: formData.scanData.needsReview
       }
