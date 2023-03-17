@@ -34,7 +34,8 @@ const Button = (
     loaderText,
     ariaLabel,
     type,
-    form
+    form,
+    ...props
   },
   ref
 ) => {
@@ -207,6 +208,7 @@ const Button = (
       )}
       onClick={handleClick}
       form={form}
+      {...props}
     >
       {effectiveChildren}
     </button>

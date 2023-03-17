@@ -103,7 +103,7 @@ export default function useSummary() {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
-      height: '342px'
+      height: '100%'
     },
     exporting: {
       enabled: false
@@ -153,7 +153,7 @@ export default function useSummary() {
           {
             name: 'Serious',
             y: serious,
-            color: '#FF9933'
+            color: '#F472B6'
           },
           {
             name: 'Moderate',

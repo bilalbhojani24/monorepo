@@ -43,12 +43,17 @@ const defaultConfig = {
       defaultValue: COMBOBOX_OPTIONS[0]
     },
     errorText: {
-      controls: { type: 'string' },
+      option: { type: 'string' },
       defaultValue: ''
     },
     isMulti: {
       option: { type: 'boolean' },
       description: 'Multiple select enable or not',
+      defaultValue: false
+    },
+    disabled: {
+      option: { type: 'boolean' },
+      description: 'Disable button or not',
       defaultValue: false
     },
     onChange: {
@@ -85,14 +90,35 @@ export const ControlledCombobox = () => {
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
         {COMBOBOX_OPTIONS.map((item) => (
-          <ComboboxOptionItem
-            key={item.value}
-            option={item}
-            wrapperClassName="text-base-500"
-          />
+          <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>
     </ComboBox>
+  );
+};
+
+export const LoadingCombobox = () => {
+  const [loading, setLoading] = useState('');
+
+  return (
+    <>
+      <ComboBox isLoading={loading}>
+        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxTrigger placeholder="Placeholder" />
+        <ComboboxOptionGroup>
+          {COMBOBOX_OPTIONS.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+
+      <button type="button" onClick={() => setLoading('Loading...')}>
+        Enable Loader
+      </button>
+      <button type="button" onClick={() => setLoading(undefined)}>
+        Disable Loader
+      </button>
+    </>
   );
 };
 
