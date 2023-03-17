@@ -8,6 +8,7 @@ import {
   ComboboxTrigger,
   MdDeviceUnknown,
   MdOutlineAutorenew,
+  MdPlayArrow,
   MdReportGmailerrorred,
   SelectMenu,
   SelectMenuLabel,
@@ -157,6 +158,7 @@ const DependencyChecker = () => {
                 </div>
 
                 <Button
+                  icon={<MdPlayArrow />}
                   variant="primary"
                   colors="brand"
                   size="large"
