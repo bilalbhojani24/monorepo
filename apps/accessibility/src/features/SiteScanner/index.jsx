@@ -351,14 +351,8 @@ export default function SiteScanner() {
       ];
     }
     console.log(row);
-<<<<<<< HEAD
     if(!row.recurring || !row.active) {
       rowMenuCpy = [{
-=======
-    if (!row.recurring) {
-      rowMenuCpy = [
-        {
->>>>>>> 36f72644891fe332596a18fa927360bdd6613ebf
           id: 'newScanRun',
           value: 'newScanRun',
           body: (
@@ -385,12 +379,7 @@ export default function SiteScanner() {
               <span className="ml-2">View last scan run</span>
             </div>
           )
-<<<<<<< HEAD
         }]
-=======
-        }
-      ];
->>>>>>> 36f72644891fe332596a18fa927360bdd6613ebf
     }
     return rowMenuCpy.map((opt) => (
       <DropdownOptionItem key={opt.id} option={opt} />
@@ -491,12 +480,6 @@ export default function SiteScanner() {
             {scanConfigStateData?.data?.scanConfigs?.map((row) => (
               <TableRow
                 key={row.id}
-<<<<<<< HEAD
-                onRowClick={(e) => {
-                  if (Object.keys(row.lastScanDetails).length) {
-                    navigate(`/site-scanner/scan-details/${row.id}`);
-                  }
-=======
                 onRowClick={() => {
                   logEvent(
                     ['EDS'],
@@ -511,7 +494,6 @@ export default function SiteScanner() {
                     }
                   );
                   navigate(`/site-scanner/scan-details/${row.id}`);
->>>>>>> 36f72644891fe332596a18fa927360bdd6613ebf
                 }}
               >
                 <TableCell
