@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
+import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
 import { getBuildsData, setBuilds } from './slices/dataSlice';
@@ -16,6 +17,8 @@ import {
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { projectNormalisedName } = useParams();
   const buildsData = useSelector(getBuilds);
   const buildsPagingParamsData = useSelector(getBuildsPagingParams);
@@ -44,6 +47,17 @@ const AllBuildsPage = () => {
       dispatch(setBuilds({ builds: [] }));
     };
   }, [dispatch, projectNormalisedName]);
+
+  const handleClickBuildItem = (currentIdx) => {
+    const build = buildsData[currentIdx];
+    navigate(
+      getBuildPath(
+        projectNormalisedName,
+        build?.normalisedName,
+        build?.buildNumber
+      )
+    );
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -78,6 +92,7 @@ const AllBuildsPage = () => {
                 <O11yTableCell>SMART TAGS</O11yTableCell>
               </O11yTableRow>
             )}
+            handleRowClick={handleClickBuildItem}
           />
         )}
       </div>
