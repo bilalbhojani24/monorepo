@@ -203,7 +203,7 @@ function BuildDetailsHeader() {
         {ciBuildData?.buildNumber && (
           <O11yTooltip
             theme="dark"
-            placementSide="top"
+            placementSide="bottom"
             wrapperClassName="py-2"
             content={
               <>
@@ -225,7 +225,7 @@ function BuildDetailsHeader() {
                     iconProps={{ className: 'h-5 w-5' }}
                   />
                 }
-                metaDescription={`${ciBuildData?.name}-${ciBuildData?.buildNumber}`}
+                metaDescription={`CI build ${ciBuildData?.buildNumber}`}
                 textColorClass="text-base-500 hover:text-brand-700"
               />
             </Hyperlink>
