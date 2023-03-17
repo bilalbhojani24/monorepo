@@ -69,9 +69,10 @@ const ScanDetails = () => {
     const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
-  if (isLoading) {
+  if (isLoading || !scanOverviewData) {
     return <Loader />;
   }
+
   return (
     <>
       <div className="bg-base-50">
