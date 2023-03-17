@@ -2,15 +2,34 @@
 /* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineAutoFixHigh } from '@browserstack/bifrost';
-import { O11yBadge, O11yTabs, O11yTooltip } from 'common/bifrostProxy';
+import {
+  Hyperlink,
+  MdCancel,
+  MdCheckCircle,
+  MdContactSupport,
+  MdOutlineAutoFixHigh,
+  MdOutlineTimer,
+  MdPerson,
+  MdRemoveCircle,
+  MdSchedule
+} from '@browserstack/bifrost';
+import {
+  O11yBadge,
+  O11yMetadata,
+  O11yTabs,
+  O11yTooltip
+} from 'common/bifrostProxy';
+import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import StatusBadges from 'common/StatusBadges';
-import { DOC_KEY_MAPPING } from 'constants/common';
-import { getDocUrl } from 'utils/common';
+import VCIcon from 'common/VCIcon';
+import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import isEmpty from 'lodash/isEmpty';
+import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
+import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
-import { getBuildMetaData } from '../slices/buildDetailsSlice';
+import { clearBuildMeta, getBuildMetaData } from '../slices/buildDetailsSlice';
 import { getBuildMeta, getBuildUUID } from '../slices/selectors';
 
 const tabsList = Object.keys(TABS).map((key) => ({
@@ -27,9 +46,12 @@ function BuildDetailsHeader() {
     if (buildUUID) {
       dispatch(getBuildMetaData({ buildUUID }));
     }
+    return () => {
+      dispatch(clearBuildMeta());
+    };
   }, [buildUUID, dispatch]);
 
-  if (buildMeta.isLoading) {
+  if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
     return (
       <div className="border-base-200 border-b px-8 py-6">
         <O11yLoader loaderClass="text-base-200 fill-base-400 w-8 h-8" />
@@ -37,13 +59,73 @@ function BuildDetailsHeader() {
     );
   }
 
+  const renderStatusIcon = () => {
+    const status = getBuildMarkedStatus(
+      buildMeta.data.status,
+      buildMeta.data.statusStats
+    );
+    if (TEST_STATUS.PENDING === status) {
+      return (
+        <O11yMetadata
+          icon={<O11yLoader loaderClass="text-brand-600 h-4 w-4" />}
+          metaDescription="Running"
+          textColorClass="text-brand-600"
+        />
+      );
+    }
+    if (TEST_STATUS.FAIL === status)
+      return (
+        <O11yMetadata
+          icon={<MdCancel className="h-5 w-5" />}
+          metaDescription="Failed"
+          textColorClass="text-danger-600"
+        />
+      );
+    if (TEST_STATUS.PASS === status)
+      return (
+        <O11yMetadata
+          icon={<MdCheckCircle className="h-5 w-5" />}
+          metaDescription="Passed"
+          textColorClass="text-success-600"
+        />
+      );
+    if (TEST_STATUS.UNKNOWN === status)
+      return (
+        <O11yMetadata
+          icon={<MdContactSupport className="h-5 w-5" />}
+          metaDescription="Unknown"
+          textColorClass="text-attention-500"
+        />
+      );
+    if (TEST_STATUS.SKIPPED === status)
+      return (
+        <O11yMetadata
+          icon={<MdRemoveCircle className="h-5 w-5" />}
+          metaDescription="Skipped"
+          textColorClass="text-base-500"
+        />
+      );
+    return (
+      <O11yMetadata
+        icon={<MdContactSupport className="h-5 w-5" />}
+        metaDescription="Unknown"
+        textColorClass="text-attention-500"
+      />
+    );
+  };
+
   const {
     isAutoDetectedName,
     originalName,
     name,
     buildNumber,
     tags,
-    statusStats
+    statusStats,
+    user,
+    startedAt,
+    versionControlInfo,
+    ciBuildData,
+    duration
   } = buildMeta.data;
 
   return (
@@ -77,8 +159,9 @@ function BuildDetailsHeader() {
             </O11yTooltip>
           )}
         </div>
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <O11yBadge
+            key={tag}
             wrapperClassName="mx-2 text-sm leading-5 font-medium"
             hasRemoveButton={false}
             modifier="base"
@@ -87,6 +170,75 @@ function BuildDetailsHeader() {
           />
         ))}
       </h1>
+      <div className="mt-2 flex flex-wrap items-center gap-4">
+        {renderStatusIcon()}
+        <O11yMetadata
+          icon={<MdPerson className="h-5 w-5" />}
+          metaDescription={user}
+          textColorClass="text-base-500"
+        />
+        {startedAt && (
+          <O11yMetadata
+            icon={<MdSchedule className="h-5 w-5" />}
+            metaDescription={getCustomTimeStamp({
+              dateString: new Date(startedAt)
+            })}
+            textColorClass="text-base-500"
+          />
+        )}
+        {versionControlInfo?.commitId && (
+          <Hyperlink href={versionControlInfo?.url}>
+            <O11yMetadata
+              icon={
+                <VCIcon
+                  url={versionControlInfo?.url}
+                  iconProps={{ className: 'h-5 w-5' }}
+                />
+              }
+              metaDescription={versionControlInfo.commitId.slice(0, 8)}
+              textColorClass="text-base-500 hover:text-brand-700"
+            />
+          </Hyperlink>
+        )}
+        {ciBuildData?.buildNumber && (
+          <O11yTooltip
+            theme="dark"
+            placementSide="bottom"
+            wrapperClassName="py-2"
+            content={
+              <>
+                {ciBuildData?.jobName ? (
+                  <div className="mx-4">
+                    <p className="text-base-300 text-sm">
+                      Job name: {ciBuildData.jobName}
+                    </p>
+                  </div>
+                ) : null}
+              </>
+            }
+          >
+            <Hyperlink href={versionControlInfo?.url}>
+              <O11yMetadata
+                icon={
+                  <CiIcon
+                    name={ciBuildData?.name}
+                    iconProps={{ className: 'h-5 w-5' }}
+                  />
+                }
+                metaDescription={`CI build ${ciBuildData?.buildNumber}`}
+                textColorClass="text-base-500 hover:text-brand-700"
+              />
+            </Hyperlink>
+          </O11yTooltip>
+        )}
+        {duration && (
+          <O11yMetadata
+            icon={<MdOutlineTimer className="h-5 w-5" />}
+            metaDescription={milliSecondsToTime(duration)}
+            textColorClass="text-base-500 hover:text-brand-700"
+          />
+        )}
+      </div>
       <div className="-mb-[1px] flex justify-between">
         <O11yTabs
           defaultIndex={0}

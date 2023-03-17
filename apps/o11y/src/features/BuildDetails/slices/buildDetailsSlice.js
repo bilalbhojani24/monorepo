@@ -27,7 +27,7 @@ export const getBuildMetaData = createAsyncThunk(
   }
 );
 
-const { reducer } = createSlice({
+const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState: {
     buildMeta: {
@@ -36,7 +36,15 @@ const { reducer } = createSlice({
     },
     buildUUID: ''
   },
-  reducers: {},
+  reducers: {
+    clearBuildUUID: (state) => {
+      state.buildUUID = '';
+    },
+    clearBuildMeta: (state) => {
+      state.buildMeta.isLoading = false;
+      state.buildMeta.data = {};
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getBuildIdFromBuildInfo.pending, (state) => {
@@ -55,5 +63,7 @@ const { reducer } = createSlice({
       });
   }
 });
+
+export const { clearBuildMeta, clearBuildUUID } = actions;
 
 export default reducer;

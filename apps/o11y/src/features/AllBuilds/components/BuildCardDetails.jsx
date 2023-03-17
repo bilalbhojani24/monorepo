@@ -122,7 +122,7 @@ const BuildCardDetails = ({ data }) => {
               </span>
               <a target="_new" href={data.versionControlInfo.url}>
                 <MetaData
-                  label={data.versionControlInfo.commitId.slice(0, 8)}
+                  label={data.versionControlInfo?.commitId?.slice(0, 8)}
                   title="Commit ID"
                 />
               </a>
