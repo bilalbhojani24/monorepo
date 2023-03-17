@@ -30,7 +30,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   }, [setWidth, open]);
 
   return (
-    <Popover.Trigger ref={buttonRef}>
+    <Popover.Trigger ref={buttonRef} asChild>
       <div className="relative">
         <Combobox.Input
           key={loadingText + isLoading}
