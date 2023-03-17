@@ -126,22 +126,6 @@ export default function useNewScan(closeSlideover, preConfigData) {
     return true;
   };
   const handlerCloseOver = () => {
-    logEvent(
-      ['EDS'],
-      'accessibility_dashboard_web_events',
-      'InteractedWithWSHomepage',
-      {
-        actionType: 'Scan changes',
-        action: 'Cancel Scan',
-        scanFrequency: formData.type,
-        scanType: recurringStatus,
-        scanTime: formData.time,
-        wcagVersion: formData.scanData.wcagVersion.label,
-        day: formData.day,
-        bestPractices: formData.scanData.bestPractices,
-        needsReview: formData.scanData.needsReview
-      }
-    );
     setFormData({
       scanData: {
         wcagVersion: wcagVersions[0],
@@ -298,12 +282,12 @@ export default function useNewScan(closeSlideover, preConfigData) {
           logEvent(
             ['EDS'],
             'accessibility_dashboard_web_events',
-            'InteractedWithWSHomepage',
+            'InteractedWithWSNewWebsiteScanSlideOver',
             {
               actionType: 'Scan changes',
               action: 'Create Scan',
               scanFrequency: formData.type,
-              scanType: recurringStatus,
+              scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
               scanTime: formData.time,
               wcagVersion: formData.scanData.wcagVersion.label,
               day: formData.day,

@@ -258,7 +258,7 @@ export default function SiteScanner() {
       {
         actionType: 'Scan changes',
         action: getActionForAnalytics(menuItem),
-        recurring: rowData.recurring
+        scanType: rowData.recurring ? 'Recurring scan' : 'On-demand scan'
       }
     );
     switch (menuItem) {
@@ -485,7 +485,9 @@ export default function SiteScanner() {
                     'InteractedWithWSHomepage',
                     {
                       actionType: 'Open Scan',
-                      recurring: row.recurring,
+                      scanType: row.recurring
+                        ? 'Recurring scan'
+                        : 'On-demand scan',
                       scanName: row.name
                     }
                   );
