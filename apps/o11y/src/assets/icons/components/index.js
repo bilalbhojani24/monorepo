@@ -29,8 +29,13 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
+import BuildKiteIcon from './BuildKiteIcon';
 // Others
 import DeviceIcon from './DeviceIcon';
+import GithubIcon from './GithubIcon';
+import GitIcon from './GitIcon';
+import GitLabIcon from './GitLabIcon';
+import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
 import UnknownIcon from './UnknownIcon';
 
@@ -38,15 +43,20 @@ export {
   AmazonIcon,
   AndroidIcon,
   AppleIcon,
+  BuildKiteIcon,
   ChromeIcon,
   DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
+  GithubIcon,
+  GitIcon,
+  GitLabIcon,
   GoogleIcon,
   HTCIcon,
   HuaweiIcon,
   IEIcon,
   IOSIcon,
+  JenkinsIcon,
   JiraIcon,
   LgIcon,
   MacOSIcon,
