@@ -7,7 +7,7 @@ export const createIssue = (integrationKey, fields) =>
     method: 'post',
     url: URLS.CREATE,
     params: {
-      integrationKey
+      integration_key: integrationKey
     },
     data: {
       fields

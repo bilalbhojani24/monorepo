@@ -1,15 +1,13 @@
 import Checkbox from '../Checkbox';
-import Description from '../Description';
 import MultiValueSelect from '../MultiValueSelect';
 import NestedSingleValueSelect from '../NestedSingleValueSelect';
+import Paragraph from '../Paragraph';
 import SingleValueSelect from '../SingleValueSelect';
-import TextArea from '../TextArea';
 import TextInput from '../TextInput';
 
 const FormFieldMap = {
   text: TextInput,
-  paragraph: TextArea,
-  description: Description,
+  paragraph: Paragraph,
   // data: TextInput,
   // datetime: TextInput,
   // numeric: TextInput,

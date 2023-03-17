@@ -11,7 +11,7 @@ import {
 
 import { createIssue, getCreateMeta, getProjectsThunk } from '../../../api';
 import { FormBuilder } from '../../../common/components';
-import SingleFixedSelect from '../../../common/components/SingleFixedSelect';
+import SingleValueSelect from '../../../common/components/SingleValueSelect';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
   projectsLoadingSelector,
@@ -50,7 +50,7 @@ const IssueForm = ({ integrations, options }) => {
   const integrationToolFieldData = fieldsData[FIELD_KEYS.INTEGRATON_TOOL];
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
-  const metaData = options.metaData[integrationToolFieldData.value];
+  const metaData = options.metaData[integrationToolFieldData?.value];
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
@@ -108,7 +108,7 @@ const IssueForm = ({ integrations, options }) => {
   };
 
   useEffect(() => {
-    dispatch(getProjectsThunk(integrationToolFieldData.value));
+    dispatch(getProjectsThunk(integrationToolFieldData?.value));
   }, [dispatch, integrationToolFieldData]);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const IssueForm = ({ integrations, options }) => {
         </SelectMenuOptionGroup>
       </SelectMenu>
       <div className="py-3">
-        <SingleFixedSelect
+        <SingleValueSelect
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.PROJECT}
           setFieldsData={setFieldsData}
@@ -158,11 +158,12 @@ const IssueForm = ({ integrations, options }) => {
           required
           placeholder="Select project"
           options={projects}
+          selectFirstByDefault
         />
       </div>
       <Tabs tabsArray={TABS} />
       <div className="py-3">
-        <SingleFixedSelect
+        <SingleValueSelect
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.ISSUE_TYPE}
           setFieldsData={setFieldsData}
@@ -170,6 +171,7 @@ const IssueForm = ({ integrations, options }) => {
           placeholder="Select issue"
           required
           options={cleanedIssueTypes}
+          selectFirstByDefault
         />
       </div>
 

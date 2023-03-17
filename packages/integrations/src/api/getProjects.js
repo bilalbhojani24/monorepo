@@ -8,7 +8,7 @@ const getProjects = (integrationKey) =>
     method: 'get',
     url: URLS.PROJECTS,
     params: {
-      integrationKey
+      integration_key: integrationKey
     }
   }).then((response) => response.data.data.projects);
 

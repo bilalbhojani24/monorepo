@@ -1,14 +1,9 @@
 import axios from 'axios';
 
-export const fetchOptions = (path, query) => {
+export const fetchOptions = (path) => {
   const axiosOptions = {
     method: 'get',
-    url: `https://integrations.bsstag.com${path}`
+    url: `https://integrations.bsstag.com/${path}`
   };
-  if (query) {
-    axiosOptions.params = {
-      query
-    };
-  }
   return axios(axiosOptions).then((response) => response.data.data.options);
 };

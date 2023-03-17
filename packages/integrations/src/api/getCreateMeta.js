@@ -7,8 +7,8 @@ export const getCreateMeta = (integrationKey, projectId, ticketTypeId) =>
     method: 'get',
     url: URLS.CREATE_META,
     params: {
-      integrationKey,
-      projectId,
-      ticketTypeId
+      integration_key: integrationKey,
+      project_id: projectId,
+      ticket_type_id: ticketTypeId
     }
   }).then((response) => response.data.data);

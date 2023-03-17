@@ -28,7 +28,7 @@ const SingleFixedSelect = ({
         image: option.image || option.icon,
         label: option.label,
         value: option.value || option.id || option.key,
-        ticketTypes: option.ticketTypes
+        ticketTypes: option.ticket_types
       })),
     [options]
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
+import DiscardIssue from './components/DiscardIssue';
 import ListOfIntegrations from './components/ListOfIntegrations';
 import { CreateIssueOptionsType } from './types';
 
@@ -26,6 +27,18 @@ export const CreateIssue = ({
     ({ setup_completed: integrated }) => integrated
   );
 
+  const [mode, setMode] = useState('create');
+
+  const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
+
+  const continueEditing = () => {
+    setIsBeingDiscarded(false);
+  };
+
+  const discardIssue = () => {
+    setIsBeingDiscarded(true);
+  };
+
   return (
     <BasicWidget
       isOpen={isOpen}
@@ -38,19 +51,35 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
-        className={'bg-white p-6 overflow-auto'.concat(
+        className={'bg-white overflow-auto'.concat(
           hasAtLeastOneIntegrationSetup ? ' p-6' : ''
         )}
         style={{ maxHeight: '650px' }}
       >
-        <ListOfIntegrations projectId={projectId} options={options} />
+        {!isBeingDiscarded && (
+          <ListOfIntegrations
+            projectId={projectId}
+            options={options}
+            mode={mode}
+          />
+        )}
+        {isBeingDiscarded && (
+          <DiscardIssue
+            continueEditing={continueEditing}
+            closeWidget={handleClose}
+          />
+        )}
+        {!isBeingDiscarded && (
+          <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
+            Cancel
+          </Button>
+        )}
       </div>
       {/* {hasAtLeastOneIntegrationSetup && (
         <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
-          <Button wrapperClassName="mr-4" colors="white">
-            Cancel
+          <Button type="submit" form="form-builder">
+            Create Issue
           </Button>
-          <Button>Create Issue</Button>
         </div>
       )} */}
     </BasicWidget>
