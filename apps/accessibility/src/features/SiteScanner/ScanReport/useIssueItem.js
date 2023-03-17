@@ -26,7 +26,7 @@ export default function useIssueItem(activeComponentNodes) {
   const wcagVersion = params.get('wcagVersion');
   const reportIds = params.get('ids');
 
-  const maxLimit = activeComponentNodes.length - 1;
+  const maxLimit = activeComponentNodes?.length - 1;
   const onNextClick = () => {
     // console.log({ activeComponentNodes, activeIssueIndex });
     if (activeIssueIndex < maxLimit) {
