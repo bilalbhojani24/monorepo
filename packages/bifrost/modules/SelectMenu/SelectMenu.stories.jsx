@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import SelectMenuLabel from '../SelectMenuLabel';
@@ -71,10 +74,92 @@ const Template = (args) => <SelectMenu {...args} />;
 const MultiSelectTemplate = (args) => <SelectMenu {...args} />;
 const SelectWithPlaceholderTemplate = (args) => <SelectMenu {...args} />;
 
+const selectMenuOptions = [
+  'Wade Cooper',
+  'Arlene Mccoy',
+  'Devon Webb',
+  'Tom Cook',
+  'Tanya Fox'
+];
+const assignedTo = 'Assigned to';
+const selectMenuOptionsSelector = '[role="option"]';
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByText(selectMenuOptions[0])).toBeVisible();
+  await userEvent.click(canvas.getByText(selectMenuOptions[0]));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  selectItems[1].click();
+  await delay(1);
+  await expect(canvas.getByText(selectMenuOptions[1])).toBeVisible();
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
+
 const MultiSelect = MultiSelectTemplate.bind({});
+MultiSelect.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByText(`${selectMenuOptions[0]} ,`)).toBeVisible();
+  await expect(canvas.getByText(selectMenuOptions[1])).toBeVisible();
+  await userEvent.click(canvas.getByText(`${selectMenuOptions[0]} ,`));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  selectItems.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(selectItems, item) > 1) {
+      await delay(1);
+      item.click();
+    }
+  });
+  await userEvent.click(canvas.getByText(`${selectMenuOptions[0]} ,`));
+  selectMenuOptions.forEach(async (item) => {
+    if (selectMenuOptions.indexOf(item) !== selectMenuOptions.length - 1) {
+      await delay(1);
+      await expect(canvas.getByText(`${item} ,`)).toBeVisible();
+    } else {
+      await delay(1);
+      await expect(canvas.getByText(item)).toBeVisible();
+    }
+  });
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
+
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
+SelectWithPlaceholder.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const placeholder = 'Select..';
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByText(placeholder)).toBeVisible();
+  await userEvent.click(canvas.getByText(placeholder));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  selectItems[1].click();
+  await delay(1);
+  await expect(canvas.getByText(selectMenuOptions[1])).toBeVisible();
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
+
 const DisabledSelectMenu = Template.bind({});
+DisabledSelectMenu.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByText(selectMenuOptions[0])).toBeVisible();
+  await userEvent.click(canvas.getByText(selectMenuOptions[0]));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  await delay(1);
+  expect(selectItems.length).toBe(0);
+  await delay(1);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
 
 Primary.parameters = {
   controls: {}
