@@ -70,3 +70,28 @@ export const stopRecordingSession =
       dispatch(setIsSessionStopInProgress(false));
     }
   };
+
+export const cancelRecordingSession =
+  (navigationCallback, closeModalCallback) => async (dispatch, getState) => {
+    try {
+      const currentSessionId =
+        getState()?.newPerformanceSession?.sessionDetails?.sessionID;
+
+      dispatch(setIsSessionStopInProgress(true));
+
+      dispatch(
+        updateSessionStatus({ status: REPORT_LOADING_STATES.NOT_STARTED })
+      );
+
+      await stopSession(currentSessionId);
+    } catch (error) {
+      if (error?.response?.status === 500) {
+        throw error;
+      }
+    } finally {
+      closeModalCallback();
+      navigationCallback('/');
+      dispatch(setIsSessionStopInProgress(false));
+      dispatch(resetSessionSetupData());
+    }
+  };

@@ -13,6 +13,7 @@ import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { secondsToMinutes } from 'utils/dateUtils';
 
 import GenerateReportPrompt from './GenerateReportPrompt';
+import QuitTestingPrompt from './QuitTestingPrompt';
 import useReportLoading from './useReportLoading';
 
 const ReportLoading = () => {
@@ -20,12 +21,14 @@ const ReportLoading = () => {
     sessionState,
     sessionDetails,
     sessionStateTextMap,
-    onCancelClicked,
+    quitTestConfirmed,
     stopSessionClicked,
     secondsElapsed,
     isSessionStopInProgress,
     showGenerateReportPrompt,
     setShowGenerateReportPrompt,
+    showQuitTestingPrompt,
+    setShowQuitTestingPrompt,
     testDataDescriptionList,
     selectedTipMsg
   } = useReportLoading();
@@ -34,7 +37,11 @@ const ReportLoading = () => {
     <div className="flex w-full flex-col">
       <div className="border-base-300 text-base-500 flex items-center border-b p-4">
         <div className="text-xl">
-          <MdChevronLeft onClick={onCancelClicked} />
+          <MdChevronLeft
+            onClick={() => {
+              setShowQuitTestingPrompt(true);
+            }}
+          />
         </div>
 
         <div className="mx-2 text-sm font-medium leading-5">
@@ -145,6 +152,12 @@ const ReportLoading = () => {
         showGenerateReportPrompt={showGenerateReportPrompt}
         setShowGenerateReportPrompt={setShowGenerateReportPrompt}
         stopSessionClicked={stopSessionClicked}
+      />
+
+      <QuitTestingPrompt
+        showQuitTestingPrompt={showQuitTestingPrompt}
+        setShowQuitTestingPrompt={setShowQuitTestingPrompt}
+        quitTestConfirmed={quitTestConfirmed}
       />
     </div>
   );

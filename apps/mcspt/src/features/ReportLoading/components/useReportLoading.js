@@ -9,6 +9,7 @@ import {
   getLatestSessionStatus
 } from '../slices/reportLoadingSlice';
 import {
+  cancelRecordingSession,
   checkSessionStatus,
   stopRecordingSession
 } from '../slices/reportLoadingThunks';
@@ -70,12 +71,20 @@ const useReportLoading = () => {
   const [showGenerateReportPrompt, setShowGenerateReportPrompt] =
     useState(false);
 
+  const [showQuitTestingPrompt, setShowQuitTestingPrompt] = useState(false);
+
   const dispatch = useDispatch();
 
   const navigateToPath = useNavigate();
 
-  const onCancelClicked = () => {
-    navigateToPath('/');
+  const quitTestConfirmed = () => {
+    clearInterval(timerIntervalId);
+
+    dispatch(
+      cancelRecordingSession(navigateToPath, () => {
+        setShowQuitTestingPrompt(false);
+      })
+    );
   };
 
   const stopSessionClicked = () => {
@@ -141,12 +150,14 @@ const useReportLoading = () => {
     sessionState,
     sessionDetails,
     sessionStateTextMap,
-    onCancelClicked,
+    quitTestConfirmed,
     stopSessionClicked,
     secondsElapsed,
     isSessionStopInProgress,
     showGenerateReportPrompt,
     setShowGenerateReportPrompt,
+    showQuitTestingPrompt,
+    setShowQuitTestingPrompt,
     testDataDescriptionList,
     selectedTipMsg: cycledTipMessages[currentTipIndex]
   };
