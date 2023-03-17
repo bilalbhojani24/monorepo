@@ -46,8 +46,8 @@ export default function useScanReport() {
     const tab = searchParams.get('tab');
     setActiveTab(tab);
     setActiveTabIndex(tabsOptions[tab]?.index || 0);
-    dispatch(setCustomData(null));
-    dispatch(setOverviewData({}));
+    // dispatch(setCustomData(null));
+    // dispatch(setOverviewData({}));
   }, [searchParams]);
 
   useEffect(() => {

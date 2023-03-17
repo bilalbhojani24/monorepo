@@ -29,7 +29,7 @@ export default function useIssueItem(activeComponentNodes) {
   const reportIds = params.get('ids');
   const wcagVersion = activeVersion.split('WCAG ')[1];
 
-  const maxLimit = activeComponentNodes.length - 1;
+  const maxLimit = activeComponentNodes?.length - 1;
   const onNextClick = () => {
     // console.log({ activeComponentNodes, activeIssueIndex });
     if (activeIssueIndex < maxLimit) {
