@@ -87,7 +87,7 @@ const TestCasesTable = ({
       cell: (rowData) => (
         <div
           role="button"
-          className="hover:text-brand-600 mb-0 cursor-pointer pb-0"
+          className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleTestCaseViewClick(rowData)}
           onKeyDown={handleTestCaseViewClick(rowData)}
