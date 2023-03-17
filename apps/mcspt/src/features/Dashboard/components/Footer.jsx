@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  MdCheckCircleOutline,
-  MdMobileFriendly,
-  MdOutlineFeedback
-} from '@browserstack/bifrost';
+import { MdCheckCircleOutline, MdOutlineFeedback } from '@browserstack/bifrost';
 
 const Footer = () => (
   <div
@@ -36,22 +32,6 @@ const Footer = () => (
     </div>
 
     <div className="flex items-center">
-      <div className="text-base-600 flex items-center">
-        {/* <div className="text-xl">
-          <MdDeviceUnknown />
-        </div> */}
-
-        <div className="text-success-600 text-xl">
-          <MdMobileFriendly />
-        </div>
-
-        <div className="ml-1 text-xs font-medium leading-4 ">
-          Device Connected
-        </div>
-      </div>
-
-      <div className="mx-2">&bull;</div>
-
       <div className="text-base-600 flex items-center">
         <div className="text-xl">
           <MdOutlineFeedback />

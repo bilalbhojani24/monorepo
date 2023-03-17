@@ -17,7 +17,9 @@ const columns = [
     isSortable: true,
     cell: (row) => (
       <>
-        <div className="text-sm font-medium leading-5">{row.name}</div>
+        <div className="whitespace-normal text-sm font-medium leading-5">
+          {row.name}
+        </div>
       </>
     )
   },
