@@ -29,8 +29,9 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
-import BuildKiteIcon from './BuildKiteIcon';
 // Others
+import BitBucketIcon from './BitBucketIcon';
+import BuildKiteIcon from './BuildKiteIcon';
 import DeviceIcon from './DeviceIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
@@ -43,6 +44,7 @@ export {
   AmazonIcon,
   AndroidIcon,
   AppleIcon,
+  BitBucketIcon,
   BuildKiteIcon,
   ChromeIcon,
   DeviceIcon,
