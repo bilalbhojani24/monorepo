@@ -61,7 +61,7 @@ export default function ScanReport() {
     ? Object.values(reportMetaData.meta)[0]
     : null;
 
-  if (isLoading || !reportOverviewData) {
+  if (isLoading || !metaData) {
     return <Loader />;
   }
 
@@ -181,6 +181,7 @@ export default function ScanReport() {
               tabsOptions.ALLISSUES,
               tabsOptions.SCANLOGS
             ]}
+            disableFullWidthBorder
           />
         </div>
       </div>
