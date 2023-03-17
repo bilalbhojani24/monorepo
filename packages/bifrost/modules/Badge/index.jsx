@@ -16,7 +16,8 @@ const Badge = ({
   text,
   wrapperClassName,
   onClick,
-  disabled
+  disabled,
+  ...props
 }) => {
   const handleClick = (e) => {
     onClick(e);
@@ -53,6 +54,7 @@ const Badge = ({
         },
         wrapperClassName
       )}
+      {...props}
     >
       {hasDot && (
         <svg
