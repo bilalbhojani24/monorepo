@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
-import { events, testTypes } from 'constants';
+import {
+  CHROME_EXTENSION_URL,
+  events,
+  reportPerPage,
+  testTypes
+} from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -123,7 +128,7 @@ export default function useReports() {
   const onDownloadExtensionClick = () => {
     setIsShowingBanner(false);
     setStorage('showed-extension-banner', true);
-    window.open(window.accessibilityExtensionChromeStoreURL, '_target');
+    window.open(CHROME_EXTENSION_URL, '_target');
   };
 
   const onReportConsolidateButtonClick = () => {
@@ -136,6 +141,10 @@ export default function useReports() {
     const assistiveTestList = selectedReports
       .filter((id) => id.includes(testTypes.assistiveTest))
       .map((id) => id.split(`${testTypes.assistiveTest}:`)[1]);
+    const websiteScanList = selectedReports
+      .filter((id) => id.includes(testTypes.websiteScan))
+      .map((id) => id.split(`${testTypes.websiteScan}:`)[1]);
+
     const params = {
       wcagVersion: activeVersion.split('WCAG ')[1]
     };
@@ -144,6 +153,9 @@ export default function useReports() {
     }
     if (assistiveTestList.length) {
       params.ar_ids = assistiveTestList.join(',');
+    }
+    if (websiteScanList.length) {
+      params.wsr_ids = websiteScanList.join(',');
     }
     if (window.dashboardUserID) {
       params.dashboardUserID = window.dashboardUserID;
@@ -156,16 +168,18 @@ export default function useReports() {
     navigate(`report?${path}`);
   };
 
-  const onInputValueChange = debounce((e) => {
-    setSearchInput(e.target.value);
-  }, 250);
-
   const updateLastIndex = (index) => {
     dispatch(setLastIndex(index));
   };
 
+  const onInputValueChange = debounce((e) => {
+    setSearchInput(e.target.value);
+    updateLastIndex(reportPerPage);
+  }, 250);
+
   const onUpdateSelectedReportType = (value) => {
     dispatch(setSelectedReportType(value));
+    updateLastIndex(reportPerPage);
   };
 
   return {

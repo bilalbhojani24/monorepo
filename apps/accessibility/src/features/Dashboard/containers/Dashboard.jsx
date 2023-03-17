@@ -1,13 +1,16 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React, { useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Header,
+  MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
   MdTextSnippet,
+  NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
@@ -33,11 +36,21 @@ export default function Dashboard({ children }) {
     },
     {
       id: 'screen-reader',
-      label: 'Assistive tech',
+      label: 'Screen reader',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
-      path: '/screen-reader',
-      badge: <Badge text="New" />
+      path: '/screen-reader'
+    },
+    {
+      id: 'site-scanner',
+      label: 'Website scanner',
+      activeIcon: MdOutlineDynamicFeed,
+      inActiveIcon: MdOutlineDynamicFeed,
+      path: '/site-scanner',
+      badge:
+        localStorage.getItem('newSiteScannerBadge') === 'true' ? (
+          <Badge text="New" />
+        ) : null
     }
   ];
 
@@ -53,6 +66,9 @@ export default function Dashboard({ children }) {
   ];
 
   const handleNavigationClick = (nav) => {
+    if (nav.id === 'site-scanner') {
+      localStorage.setItem('newSiteScannerBadge', 'false');
+    }
     if (nav.id === 'doc') {
       window.open(nav.link, '_target');
     }
@@ -77,6 +93,12 @@ export default function Dashboard({ children }) {
       handleNavigationClick={handleNavigationClick}
     />
   ));
+
+  useEffect(() => {
+    if (localStorage.getItem('newSiteScannerBadge') !== 'false') {
+      localStorage.setItem('newSiteScannerBadge', true);
+    }
+  }, []);
 
   return (
     <div>
@@ -140,6 +162,7 @@ export default function Dashboard({ children }) {
       >
         {children}
       </main>
+      <NotificationsContainer />
     </div>
   );
 }

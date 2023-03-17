@@ -1,5 +1,7 @@
 import { json2csv } from 'json-2-csv';
 
+import { wcagVersions } from '../features/SiteScanner/NewScan/constants';
+
 const BEST_PRACTICE_TAG = 'best-practice';
 
 export const tagToView = (tags) =>
@@ -151,3 +153,24 @@ export const formatComponentIdString = (componentId) =>
   `${componentId.split('#')[0].toLowerCase()}${
     componentId.split('#')[1] ? `.${componentId.split('#')[1]}` : ''
   }`;
+
+export const isValidHttpUrl = (string) => {
+  let url;
+  try {
+    url = new URL(string);
+    return url;
+  } catch (_) {
+    return false;
+  }
+};
+
+export const addZero = (i) => {
+  let newMins = i;
+  if (i < 10) {
+    newMins = `0${newMins}`;
+  }
+  return newMins;
+};
+
+export const getWcagVersionFromVal = (val) =>
+  wcagVersions.filter((version) => version.id === val)[0];
