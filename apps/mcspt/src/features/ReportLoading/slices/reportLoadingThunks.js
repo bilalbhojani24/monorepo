@@ -53,6 +53,8 @@ export const stopRecordingSession =
 
       dispatch(setIsSessionStopInProgress(true));
 
+      dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
+
       const response = await stopSession(currentSessionId);
 
       dispatch(updateSessionMetrics(response));

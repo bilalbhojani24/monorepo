@@ -6,7 +6,6 @@ import {
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
-  MdAndroid,
   MdDeviceUnknown,
   MdOutlineAutorenew,
   MdReportGmailerrorred,
@@ -17,6 +16,8 @@ import {
   SelectMenuTrigger
 } from '@browserstack/bifrost';
 import dependencyLoader from 'assets/dependencyLoader.gif';
+import selectMenuAndroidIcon from 'assets/selectMenuAndroidIcon.png';
+import selectMenuIosIcon from 'assets/selectMenuIosIcon.png';
 
 import useDependencyChecker from './useDependencyChecker';
 
@@ -24,8 +25,15 @@ const generateDeviceOptions = (deviceList) =>
   deviceList.map((device) => ({
     label: (
       <div className="flex items-center">
-        <div className="mr-3 text-xl">
-          <MdAndroid />
+        <div className="mr-3 h-5 w-5">
+          <img
+            src={
+              device?.os === 'android'
+                ? selectMenuAndroidIcon
+                : selectMenuIosIcon
+            }
+            alt={device?.os}
+          />
         </div>
         <div className="mr-1 text-sm font-medium leading-5">
           {device?.model}

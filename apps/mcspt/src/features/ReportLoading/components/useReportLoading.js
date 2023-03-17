@@ -80,6 +80,7 @@ const useReportLoading = () => {
 
   const stopSessionClicked = () => {
     clearInterval(timerIntervalId);
+    setShowGenerateReportPrompt(false);
     dispatch(stopRecordingSession(navigateToPath));
   };
 

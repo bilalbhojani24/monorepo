@@ -8,6 +8,7 @@ import {
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import reportLoadingAnimation from 'assets/reportLoadingAnimation.gif';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { secondsToMinutes } from 'utils/dateUtils';
 
@@ -46,7 +47,7 @@ const ReportLoading = () => {
       </div>
 
       <div className="bg-base-50 flex flex-1">
-        <div className="border-base-300 w-64 border-r p-2">
+        <div className="border-base-300 border-r p-2 sm:w-64 xl:w-[360px]">
           <div
             className={twClassNames('', {
               'rounded-xl border-2 border-danger-600 bg-danger-50':
@@ -74,8 +75,18 @@ const ReportLoading = () => {
             >
               {sessionStateTextMap[sessionState]}
             </div>
-            <div className="border-base-900 m-3 mt-1.5 h-[432px] rounded-lg border-8">
-              &nbsp;
+
+            <div
+              className="
+            border-base-900 bg-base-50 my-3 mx-auto mt-1.5 flex h-[432px] w-52 flex-1 
+            items-center justify-center rounded-lg border-8 px-5
+            "
+            >
+              <img
+                src={reportLoadingAnimation}
+                className="w-full max-w-[192px]"
+                alt="reportInProgress"
+              />
             </div>
           </div>
         </div>
