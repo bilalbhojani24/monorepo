@@ -37,3 +37,67 @@ export const URL_REGEX =
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
 
 export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
+
+export const COMMON_CHART_CONFIGS = {
+  title: {
+    text: null
+  },
+  exporting: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
+  },
+  time: {
+    timezoneOffset: new Date().getTimezoneOffset()
+  },
+  legend: {
+    symbolHeight: 8,
+    symbolWidth: 8,
+    symbolRadius: 8,
+    align: 'left',
+    verticalAlign: 'top',
+    x: -10,
+    itemStyle: {
+      color: '#333',
+      fontWeight: 'normal',
+      textTransform: 'capitalize'
+    }
+  }
+};
+
+export const COMMON_CHART_STYLES = {
+  panning: true,
+  panKey: 'shift',
+  resetZoomButton: {
+    position: {
+      x: 0,
+      y: -10
+    },
+    theme: {
+      fill: 'white',
+      stroke: 'silver',
+      r: 3,
+      states: {
+        hover: {
+          fill: '#0067dd',
+          style: {
+            color: 'white'
+          }
+        }
+      }
+    }
+  },
+  style: {
+    fontFamily: '"Inter", sans-serif'
+  }
+};
+
+export const TOOLTIP_STYLES = {
+  backgroundColor: '#00335D',
+  borderColor: 'transparent',
+  style: {
+    color: '#fff',
+    textTransform: 'capitalize'
+  }
+};

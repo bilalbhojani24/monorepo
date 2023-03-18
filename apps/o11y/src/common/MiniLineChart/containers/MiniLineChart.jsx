@@ -80,7 +80,7 @@ export default function MiniLineChart({ data, color, lineColor }) {
   }
 
   return (
-    <div className="">
+    <div className="h-96">
       <Chart options={chartData} />
     </div>
   );

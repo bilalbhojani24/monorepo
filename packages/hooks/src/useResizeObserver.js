@@ -22,7 +22,10 @@ const useResizeObserver = (ref) => {
         // contentRect may be deprecated in the future
         const contentBoxSizeProperties = entries[0].contentBoxSize?.[0];
         const properties = contentBoxSizeProperties
-          ? { blockSize: contentBoxSizeProperties.blockSize, inlineSize: contentBoxSizeProperties.inlineSize }
+          ? {
+              blockSize: contentBoxSizeProperties.blockSize,
+              inlineSize: contentBoxSizeProperties.inlineSize
+            }
           : {
               height: entries[0].contentRect.height,
               width: entries[0].contentRect.width

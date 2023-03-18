@@ -6,6 +6,7 @@ import AllBuilds from 'features/AllBuilds';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import Settings from 'features/Settings/containers/Settings';
+import TestingTrends from 'features/TestingTrends';
 
 import { ROUTES } from './routes';
 
@@ -65,9 +66,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <TestingTrends />
       },
       {
         path: ROUTES.build,

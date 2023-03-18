@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import Highcharts from 'highcharts/highstock';
 import highchartsIndicators from 'highcharts/indicators/indicators';
 import highchartsTrendline from 'highcharts/indicators/trendline';
@@ -21,8 +22,16 @@ highchartsBorderRadius(Highcharts);
 highchartsDrilldown(Highcharts);
 highchartsHeatmap(Highcharts);
 highchartsTreemap(Highcharts);
+
+const HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE =
+  '[&_div[data-highcharts-chart]]:absolute [&_div[data-highcharts-chart]]:h-full [&_div[data-highcharts-chart]]:w-full';
 const Chart = ({ options, chartRef }) => (
-  <div className="">
+  <div
+    className={twClassNames(
+      'relative h-full overflow-hidden',
+      HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE
+    )}
+  >
     <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
   </div>
 );

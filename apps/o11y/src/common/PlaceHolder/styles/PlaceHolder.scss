@@ -1,0 +1,67 @@
+@import 'testops/_styles/fonts.scss';
+
+.ti-placeholder {
+  padding: 0 $spacing-20;
+  $self: &;
+
+  display: flex;
+  &--default {
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+  }
+  &__illustration {
+    width: 100px;
+    height: 100px;
+  }
+  &__content {
+    @include flex-align-center;
+
+    flex-direction: column;
+    margin-top: $spacing-16;
+  }
+  &__content-text {
+    @include font-primary-xs;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__title {
+    font-weight: $font-weight-semibold;
+  }
+  &__content-btn {
+    margin-top: $spacing-4;
+    .base-btn__text--small {
+      color: $brand-color-70;
+      @include font-primary-2xs;
+
+      font-weight: $font-weight-semibold;
+    }
+  }
+  &__meta .to-anchor {
+    font-weight: $font-weight-semibold;
+  }
+  &--small {
+    gap: $spacing-8;
+    padding: $spacing-4 $spacing-20;
+    align-items: center;
+    #{$self}__illustration {
+      width: 50px;
+      height: 50px;
+    }
+    #{$self}__content {
+      margin-top: $spacing-4;
+      align-items: flex-start;
+    }
+    #{$self}__content-btn {
+      margin-top: 0;
+      padding: 0;
+      height: auto;
+    }
+  }
+  .layout-loader {
+    min-height: auto;
+  }
+}
