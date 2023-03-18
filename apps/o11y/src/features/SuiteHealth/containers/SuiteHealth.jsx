@@ -13,11 +13,11 @@ import TestDetailsSlideOver from 'features/TestDetails';
 import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
 import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 
+import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
 import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
 
-import SHHeader from './SHHeader';
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';
 
@@ -95,9 +95,7 @@ export default function SnP() {
           </div>
         )}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
-        {isSnPErrorDetailsVisible && (
-          <SHErrorDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
-        )}
+        {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
         {isDetailsVisible && (
           <TestDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
         )}

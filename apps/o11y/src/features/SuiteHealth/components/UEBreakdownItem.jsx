@@ -16,7 +16,7 @@ import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
 import SnPPlatforms from './Platforms';
 import TestInfo from './TestInfo';
 
-const ErrorBreakDownItem = ({ item, errorId, isLast }) => {
+const UEBreakdownItem = ({ item, errorId, isLast }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClickItem = () => {
@@ -43,6 +43,7 @@ const ErrorBreakDownItem = ({ item, errorId, isLast }) => {
     searchParams.set(SNP_PARAMS_MAPPING.snpErrorTestId, item.id);
     navigate({ search: searchParams.toString() });
   };
+
   return (
     <div
       className={twClassNames('flex w-full items-center', {
@@ -69,10 +70,10 @@ const ErrorBreakDownItem = ({ item, errorId, isLast }) => {
   );
 };
 
-ErrorBreakDownItem.propTypes = {
+UEBreakdownItem.propTypes = {
   item: PropTypes.objectOf(PropTypes.any).isRequired,
   isLast: PropTypes.bool.isRequired,
   errorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };
 
-export default ErrorBreakDownItem;
+export default UEBreakdownItem;

@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 
 import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
 
-import ErrorBreakDownItem from './ErrorBreakdownItem';
+import UEBreakdownItem from './UEBreakdownItem';
 
-export default function SnpErrorBreakdown({ errorId, isLoading, data }) {
+export default function UEBreakdown({ errorId, isLoading, data }) {
   if (isLoading) {
     return (
       <O11yLoader
@@ -51,7 +51,7 @@ export default function SnpErrorBreakdown({ errorId, isLoading, data }) {
               style={{ height: 300 }}
               data={data}
               itemContent={(index, item) => (
-                <ErrorBreakDownItem
+                <UEBreakdownItem
                   item={item}
                   key={item.id}
                   isLast={index === data.length - 1}
@@ -63,7 +63,7 @@ export default function SnpErrorBreakdown({ errorId, isLoading, data }) {
         ) : (
           <>
             {data.map((item, index) => (
-              <ErrorBreakDownItem
+              <UEBreakdownItem
                 item={item}
                 key={item.id}
                 isLast={index === data.length - 1}
@@ -77,7 +77,7 @@ export default function SnpErrorBreakdown({ errorId, isLoading, data }) {
   );
 }
 
-SnpErrorBreakdown.propTypes = {
+UEBreakdown.propTypes = {
   errorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   isLoading: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired

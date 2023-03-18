@@ -1,7 +1,6 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
-// import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
@@ -33,7 +32,7 @@ import {
   getSnpErrorsSortBy
 } from '../slices/selectors';
 
-import UniqueErrorRow from './UniqueErrorRow';
+import UERow from './UERow';
 
 const LoadingFooter = () => (
   <div className="flex w-full justify-center py-2">
@@ -122,16 +121,6 @@ const SnPUniqueErrors = () => {
     const snpErrorTestId = searchParams.get(SNP_PARAMS_MAPPING.snpErrorTestId);
 
     if (snpErrorId && snpErrorTestId) {
-      // dispatch(
-      //   setSnPCbtInfo({
-      //     osName: searchParams.get(SNP_PARAMS_MAPPING.snpOsName) || '',
-      //     osVersion: searchParams.get(SNP_PARAMS_MAPPING.snpOsVersion) || '',
-      //     browserName:
-      //       searchParams.get(SNP_PARAMS_MAPPING.snpBrowserName) || '',
-      //     browserVersion:
-      //       searchParams.get(SNP_PARAMS_MAPPING.snpBrowserVersion) || ''
-      //   })
-      // );
       dispatch(setIsSnPErrorDetailsVisible(true));
       dispatch(
         setShowSnPErrorDetailsFor({
@@ -155,27 +144,6 @@ const SnPUniqueErrors = () => {
     dispatch(setErrorsSortBy(updatedData));
   };
 
-  // const handleClickTestItem = (currentIndex) => {
-  //   const activeRow = errors?.[currentIndex];
-  //   if (activeRow) {
-  //     dispatch(
-  //       setSnPCbtInfo({
-  //         osName: '',
-  //         osVersion: '',
-  //         browserName: '',
-  //         browserVersion: '',
-  //         deviceName: ''
-  //       })
-  //     );
-  //     dispatch(setIsSnPErrorDetailsVisible(false));
-  //     dispatch(setShowSnPErrorDetailsFor(activeRow.id));
-  //     dispatch(setIsDetailsVisible(true));
-  //     const searchParams = new URLSearchParams(window?.location?.search);
-  //     searchParams.delete('details');
-  //     searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
-  //     navigate({ search: searchParams.toString() });
-  //   }
-  // };
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <ErrorsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
@@ -207,7 +175,7 @@ const SnPUniqueErrors = () => {
                   data={errors}
                   overscan={200}
                   endReached={loadMoreRows}
-                  itemContent={(index, data) => <UniqueErrorRow data={data} />}
+                  itemContent={(index, data) => <UERow data={data} />}
                   components={{
                     Footer: isLoadingMore ? LoadingFooter : null,
                     List: forwardRef((props, ref) => (

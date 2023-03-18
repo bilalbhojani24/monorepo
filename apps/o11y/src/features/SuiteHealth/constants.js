@@ -70,14 +70,14 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'platforms',
     label: 'Impacted tests',
     headerClass:
-      'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3',
-    bodyClass: 'w-[300px] py-4'
+      'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
+    bodyClass: 'w-[300px] py-4 pl-6'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3',
-    bodyClass: 'w-[140px] py-4'
+      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
+    bodyClass: 'w-[140px] py-4 pl-6'
   }
 };

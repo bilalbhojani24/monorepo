@@ -186,7 +186,7 @@ export default function TestTrend() {
         data: {
           project_name: activeProject.name,
           project_id: activeProject.id,
-          interaction: 'test_details_opened'
+          interaction: 'zoom'
         }
       });
     },

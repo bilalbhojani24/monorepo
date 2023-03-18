@@ -1,3 +1,3 @@
-import ErrorDetailsSlideOver from './containers/ErrorDetailsSlideOver';
+import ErrorDetails from './containers/ErrorDetails';
 
-export default ErrorDetailsSlideOver;
+export default ErrorDetails;
