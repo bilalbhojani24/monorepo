@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { forwardRef } from 'react';
 import {
+  Accordion,
   Badge,
   Button,
   Dropdown,
@@ -96,5 +97,6 @@ export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 
 export const O11yTruncateText = TruncateText;
+export const O11yAccordian = (props) => <Accordion {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

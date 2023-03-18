@@ -173,7 +173,7 @@ export default function SnPTests() {
   };
 
   return (
-    <div className={twClassNames('flex flex-col h-full')}>
+    <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
       {isLoadingTests ? (
         <O11yLoader
@@ -191,7 +191,7 @@ export default function SnPTests() {
               <EmptyPage text="No data found" />
             </div>
           ) : (
-            <div className="flex-1">
+            <div className="flex-1 overflow-auto px-8">
               <VirtualisedTable
                 style={{ height: '100%' }}
                 data={tests}

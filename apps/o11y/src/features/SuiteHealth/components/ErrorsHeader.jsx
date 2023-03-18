@@ -4,12 +4,12 @@ import { twClassNames } from '@browserstack/utils';
 // import PropTypes from 'prop-types';
 import SnPTestsFilter from './TestsFilter';
 
-const SnPTestsHeader = () => (
+const ErrorsHeader = () => (
   <div className={twClassNames('mb-4 px-8 pt-7')}>
     <SnPTestsFilter />
   </div>
 );
 
-SnPTestsHeader.propTypes = {};
+ErrorsHeader.propTypes = {};
 
-export default SnPTestsHeader;
+export default ErrorsHeader;

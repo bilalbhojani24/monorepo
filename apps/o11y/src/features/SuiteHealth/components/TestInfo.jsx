@@ -9,10 +9,12 @@ export default function TestInfo({ testDetails }) {
   return (
     <>
       <div className="flex items-center gap-2">
-        <span className="text-base-900 break-words">{testDetails?.title}</span>
+        <span className="text-base-900 break-words text-sm">
+          {testDetails?.title}
+        </span>
         {testDetails?.jiraUrl && (
           <PropagationBlocker className="inline">
-            <JiraTag jiraUrl={testDetails.jiraUrl} />
+            <JiraTag jiraUrl={testDetails.jiraUrl} wrapperClassName="text-sm" />
           </PropagationBlocker>
         )}
       </div>
@@ -33,12 +35,15 @@ export default function TestInfo({ testDetails }) {
             </a>
           </PropagationBlocker>
         ) : (
-          <span className="max-w-[150px] truncate" style={{ direction: 'rtl' }}>
+          <span
+            className="max-w-[150px] truncate text-sm"
+            style={{ direction: 'rtl' }}
+          >
             {testDetails?.filePath}
           </span>
         )}
         {testDetails?.scopeList?.length > 0 && (
-          <span className="border-base-300 ml-1 max-w-[400px] truncate border-l pl-1">
+          <span className="border-base-300 ml-1 max-w-[400px] truncate border-l pl-1 text-sm">
             <ScopeLine scopes={testDetails?.scopeList} />
           </span>
         )}

@@ -84,7 +84,7 @@ export default function SnP() {
       )}
     >
       <SHHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className={twClassNames('px-8 py-7 flex-1 overflow-auto')}>
+      <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
         {activeTab.value === TABS.build_performance && (

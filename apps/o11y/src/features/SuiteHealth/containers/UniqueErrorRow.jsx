@@ -1,82 +1,127 @@
 import React, { useState } from 'react';
-import { ChevronDownIcon, ChevronRightIcon } from '@browserstack/bifrost';
+import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
-import { O11yTableCell, O11yTooltip } from 'common/bifrostProxy';
-import MiniLineChart from 'common/MiniLineChart';
+import { O11yAccordian, O11yTooltip } from 'common/bifrostProxy';
+import MiniChart from 'common/MiniChart';
 import StackTraceTooltip from 'common/StackTraceTooltip';
+import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
-import { UNIQUE_ERROR_MAIN_ROW_STYLES } from '../constants';
+import SnpErrorBreakdown from '../components/ErrorBreakdown';
+import { UNIQUE_ERROR_MAIN_HEADER } from '../constants';
+import { getSnPUEBreakdownData } from '../slices/dataSlice';
+import {
+  getAllSnPTestFilters,
+  getSnpErrorsSortBy,
+  getSnPTestFilterByKey
+} from '../slices/selectors';
 
 export default function UniqueErrorRow({ data }) {
-  const [showBreakDown, setShowBreakDown] = useState(false);
+  const dispatch = useDispatch();
+  const activeProject = useSelector(getActiveProject);
+  const activeBuild = useSelector((state) =>
+    getSnPTestFilterByKey(state, 'buildName')
+  );
+  const [breakDownData, setBreakDownData] = useState([]);
+  const [isLoadingBD, setIsLoadingBD] = useState(true);
+  const filters = useSelector(getAllSnPTestFilters);
+  const sortBy = useSelector(getSnpErrorsSortBy);
 
-  const handleClickAccordion = () => {
-    setShowBreakDown((t) => !t);
+  const fetchBreakDownData = () => {
+    setIsLoadingBD(true);
+    dispatch(
+      getSnPUEBreakdownData({
+        normalisedName: activeProject?.normalisedName,
+        errorId: data.id,
+        activeBuild: activeBuild.value,
+        filters,
+        sortOptions: sortBy
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        setBreakDownData(res);
+      })
+      .finally(() => {
+        setIsLoadingBD(false);
+      });
   };
+
   return (
-    <O11yTableCell wrapperClassName="p-0 first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0">
-      <div
-        className="flex w-full items-center px-4 sm:px-6 "
-        onClick={handleClickAccordion}
-        role="button"
-        onKeyDown={() => {}}
-        tabIndex={0}
-      >
-        <div
-          className={twClassNames(
-            UNIQUE_ERROR_MAIN_ROW_STYLES.error,
-            'gap-2 flex items-center'
-          )}
-        >
-          {!!data?.impactedTests && (
-            <>
-              {showBreakDown ? (
-                <ChevronDownIcon className="text-base-600 h-4 w-4" />
-              ) : (
-                <ChevronRightIcon className="text-base-400 h-4 w-4" />
+    <>
+      <O11yAccordian
+        triggerClassName="pl-5 pt-0 bg-white flex items-center hover:bg-brand-50 rounded-b-md"
+        triggerContentNode={
+          <>
+            <div
+              className={twClassNames(
+                UNIQUE_ERROR_MAIN_HEADER.error.bodyClass,
+                'pl-1 pr-4'
               )}
-            </>
-          )}
-          <div className="flex-1 truncate">
-            <O11yTooltip
-              triggerWrapperClassName="max-w-full truncate"
-              content={
-                <StackTraceTooltip
-                  traceLines={data?.error || []}
-                  copyText={data?.error?.join('\n')}
-                />
-              }
-              wrapperClassName="p-1 shadow-lg"
-              placementSide="bottom"
-              placementAlign="start"
-              size="lg"
-              arrowWidth={0}
-              arrowHeight={0}
-              sideOffset={2}
             >
-              <span className="text-base-900 text-sm font-medium leading-5">
-                {data?.error?.[0]}
-              </span>
-            </O11yTooltip>
+              <div className="flex-1 truncate">
+                <O11yTooltip
+                  triggerWrapperClassName="max-w-full truncate"
+                  content={
+                    <StackTraceTooltip
+                      traceLines={data?.error || []}
+                      copyText={data?.error?.join('\n')}
+                    />
+                  }
+                  wrapperClassName="p-1 shadow-lg"
+                  placementSide="bottom"
+                  placementAlign="start"
+                  size="lg"
+                  arrowWidth={0}
+                  arrowHeight={0}
+                  sideOffset={2}
+                >
+                  <span className="text-base-900 text-sm font-medium leading-5">
+                    {data?.error?.[0]}
+                  </span>
+                </O11yTooltip>
+              </div>
+            </div>
+            <div
+              className={twClassNames(
+                UNIQUE_ERROR_MAIN_HEADER.testCount.bodyClass
+              )}
+            >
+              <p className="text-base-500 text-sm leading-5">
+                {data.impactedTests ? data.impactedTests : '-'}
+              </p>
+            </div>
+            <div
+              className={twClassNames(
+                UNIQUE_ERROR_MAIN_HEADER.errorCount.bodyClass,
+                'flex items-center gap-4'
+              )}
+            >
+              <div className="mr-3 h-5 w-12">
+                <MiniChart data={data.chartData} chartType="area" />
+              </div>
+              <p className="text-base-500 text-sm leading-5">
+                {data.errorCount ? data.errorCount : '-'}
+              </p>
+            </div>
+          </>
+        }
+        panelContentNode={
+          <div className="overflow-hidden rounded-b-md">
+            <SnpErrorBreakdown
+              errorId={data.id}
+              isLoading={isLoadingBD}
+              data={breakDownData}
+            />
           </div>
-        </div>
-        <div className={twClassNames(UNIQUE_ERROR_MAIN_ROW_STYLES.testCount)}>
-          <p className="text-base-500 text-sm leading-5">
-            {data.impactedTests ? data.impactedTests : '-'}
-          </p>
-        </div>
-        <div className={twClassNames(UNIQUE_ERROR_MAIN_ROW_STYLES.errorCount)}>
-          <div className="mr-3 h-5 w-12">
-            <MiniLineChart data={data.chartData} />
-          </div>
-          <p className="text-base-500 text-sm leading-5">
-            {data.errorCount ? data.errorCount : '-'}
-          </p>
-        </div>
-      </div>
-      {showBreakDown && <div className="bg-base-50">sub row</div>}
-    </O11yTableCell>
+        }
+        onTriggerClick={() => {
+          if (!breakDownData.length) {
+            fetchBreakDownData();
+          }
+        }}
+      />
+    </>
   );
 }
 

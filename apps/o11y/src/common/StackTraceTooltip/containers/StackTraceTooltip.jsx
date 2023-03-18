@@ -8,12 +8,13 @@ import { transformUnsupportedTags } from 'utils/common';
 
 export default function StackTraceTooltip({ traceLines, copyText }) {
   return (
-    <PropagationBlocker className="inline">
+    <PropagationBlocker>
       <div className="bg-base-100 flex items-center justify-between">
         <p className="px-3 text-xs">Stack trace</p>
         <Copy2Clipboard text={copyText} showBtnText />
       </div>
-      <pre className="text-danger-500 overflow-auto p-3">
+
+      <pre className="text-danger-500 max-h-[250px] overflow-auto p-3">
         {traceLines.map((item, idx) => (
           // eslint-disable-next-line react/no-array-index-key
           <p className="text-xs" key={`${item}-${idx}`}>

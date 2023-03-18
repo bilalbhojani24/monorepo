@@ -38,12 +38,46 @@ export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
 };
 
 export const UNIQUE_ERROR_MAIN_HEADER = {
-  error: 'Error',
-  testCount: 'Impacted tests',
-  errorCount: 'Error count'
+  error: {
+    key: 'error',
+    label: 'Error',
+    headerClass: 'py-2 flex-1 min-w-[460px]',
+    bodyClass: 'py-3 min-w-[460px] flex-1'
+  },
+  testCount: {
+    key: 'testCount',
+    label: 'Impacted tests',
+    headerClass: 'py-2 pl-4 hover:bg-base-200 w-[150px]',
+    bodyClass: 'py-3 pl-4 pr-4 sm:pr-6 w-[150px]'
+  },
+  errorCount: {
+    key: 'errorCount',
+    label: 'Error count',
+    headerClass: 'py-2 pr-4 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
+    bodyClass: 'py-3 pr-4 sm:pr-6 pl-4 w-[150px]'
+  }
 };
 
 export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
-  platforms: 'Platforms',
-  browsers: 'Browsers'
+  tests: {
+    key: 'tests',
+    label: 'Tests',
+    headerClass:
+      'uppercase flex-1 min-w-[460px] text-base-500 text-xs font-medium leading-4 py-3',
+    bodyClass: 'min-w-[460px] flex-1 py-4'
+  },
+  platforms: {
+    key: 'platforms',
+    label: 'Impacted tests',
+    headerClass:
+      'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3',
+    bodyClass: 'w-[300px] py-4'
+  },
+  errorCount: {
+    key: 'errorCount',
+    label: 'Error count',
+    headerClass:
+      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3',
+    bodyClass: 'w-[140px] py-4'
+  }
 };
