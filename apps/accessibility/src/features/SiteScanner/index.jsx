@@ -43,7 +43,6 @@ import Loader from '../../common/Loader/index';
 import { getWcagVersionFromVal } from '../../utils/helper';
 
 import { getScanConfigs } from './slices/dataSlice';
-// import { rowMenu } from './constants';
 import NewScan from './NewScan';
 import useSiteScanner from './useSiteScanner';
 
@@ -146,6 +145,8 @@ const scanDetailsColumn = [
 
 export default function SiteScanner() {
   const [showNewScan, setShowNewScan] = useState(false);
+  const [showStopRecurringModal, setShowStopRecurringModal] = useState(false);
+  const [activeRowId, setActiveRowId] = useState(false);
   const [viewScanDetails, setViewScanDetails] = useState(false);
   const [currentScanDetails, setCurrentScanDetails] = useState(false);
   const {
@@ -231,6 +232,19 @@ export default function SiteScanner() {
     }
   };
 
+  const handleStopRecurringScan = (activeRowId) => {
+    console.log(activeRowId);
+    setIsLoading(true);
+    stopRecurringScans(activeRowId.id)
+      .then((data) => {
+        setIsLoading(false);
+        dispatch(getScanConfigs());
+        setShowStopRecurringModal(false);
+        // alert('Stopped Recurring scan');
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.id;
     switch (menuItem) {
@@ -253,14 +267,8 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       case 'stopRecurringScans':
-        setIsLoading(true);
-        stopRecurringScans(rowData.id)
-          .then((data) => {
-            setIsLoading(false);
-            dispatch(getScanConfigs());
-            // alert('Stopped Recurring scan');
-          })
-          .catch((err) => console.log(err));
+        setShowStopRecurringModal(true);
+        setActiveRowId(rowData);
         break;
       case 'lastScanRun':
         navigate(
@@ -544,7 +552,6 @@ export default function SiteScanner() {
                       handleRowMenuClick(val, row);
                     }}
                     id="scanFilter"
-                   
                   >
                     <div className="flex">
                       <DropdownTrigger
@@ -682,6 +689,46 @@ export default function SiteScanner() {
           </Button>
         </ModalFooter>
       </Modal>
+
+      {showStopRecurringModal ? (
+        <div>
+          <Modal
+            show={showStopRecurringModal}
+            size="lg"
+            onOverlayClick={() => {
+              setShowStopRecurringModal(false);
+            }}
+          >
+            <ModalHeader
+              handleDismissClick={() => {
+                setShowStopRecurringModal(false);
+              }}
+              heading="Stop recurring scans"
+              subHeading="Are you sure you want to stop recurring scans for this configuration. This action cannot be undone."
+            />
+            <ModalFooter position="right">
+              <Button
+                onClick={() => {
+                  setShowStopRecurringModal(false);
+                }}
+                colors="white"
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  handleStopRecurringScan(activeRowId);
+                }}
+                variant="primary"
+                colors="danger"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Loading' : 'Stop scans'}
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -81,9 +81,7 @@ const ScanDetails = () => {
           ? dayMap[0]
           : dayMap[getKeyByValue(dayMap, day) + 1];
     }
-    console.log(finalUTCVal, dayVal);
     const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
-    console.log(adjustedCronExpression);
     
     return cronstrue.toString(adjustedCronExpression);
   };
