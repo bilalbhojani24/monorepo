@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdErrorOutline, Notifications, notify } from '@browserstack/bifrost';
 import { O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
+import { getReRunSettings, updateReRunSettings } from '../slices/reRunSettings';
 import { getReRunSettingsState } from '../slices/selectors';
-import { getReRunSettings, updateReRunSettings } from '../slices/settingsSlice';
 
 export default function ReRunSettings() {
   const data = useSelector(getReRunSettingsState);
@@ -52,23 +53,11 @@ export default function ReRunSettings() {
             state: prev.state,
             loading: false
           }));
-          notify(
-            <Notifications
-              id="update-re-run-failed"
-              title="Failure when updating"
-              description="There was an error while loading settings"
-              headerIcon={
-                <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-              }
-              handleClose={(toastData) => {
-                notify.remove(toastData.id);
-              }}
-            />,
-            {
-              position: 'top-right',
-              duration: 3000
-            }
-          );
+          o11yNotify({
+            title: 'Something went wrong!',
+            description: 'There was an error while loading settings',
+            type: 'error'
+          });
         });
     }
     return () => {
@@ -93,6 +82,19 @@ export default function ReRunSettings() {
           state: prev.state,
           loading: false
         }));
+        logOllyEvent({
+          event: 'O11ySettingsPageInteracted',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            interaction: 'rerun_config_changed'
+          }
+        });
+        o11yNotify({
+          title: 'Successfully updated!',
+          description: 'Re-run settings were updated successfully',
+          type: 'success'
+        });
       })
       .catch(() => {
         setReRunViaCli({
@@ -103,23 +105,11 @@ export default function ReRunSettings() {
           state: data.data.reRunViaDashboard,
           loading: false
         });
-        notify(
-          <Notifications
-            id="update-rerun-failed"
-            title="Failure when updating"
-            description="There was an error while updating settings"
-            headerIcon={
-              <MdErrorOutline className="text-danger-500 text-lg leading-5" />
-            }
-            handleClose={(toastData) => {
-              notify.remove(toastData.id);
-            }}
-          />,
-          {
-            position: 'top-right',
-            duration: 3000
-          }
-        );
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating settings',
+          type: 'error'
+        });
       });
   };
   const handleChangeReRunCli = (checked) => {

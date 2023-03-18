@@ -12,6 +12,7 @@ import {
 import { O11yBadge, O11yTableCell, O11yTooltip } from 'common/bifrostProxy';
 import MetaData from 'common/MetaData';
 import O11yLoader from 'common/O11yLoader';
+import StatusBadges from 'common/StatusBadges';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
@@ -73,16 +74,15 @@ const BuildCardDetails = ({ data }) => {
                     theme="dark"
                     content={
                       <div className="mx-4">
-                        <p className="text-base-300">
-                          Static build name automatically detected:
-                          {data.name}
+                        <p className="text-base-300 text-sm leading-5">
+                          Static build name automatically detected: {data.name}
                         </p>
                         <a
                           target="_new"
                           href={getDocUrl({
                             path: DOC_KEY_MAPPING.automation_build
                           })}
-                          className="text-base-50 mt-2 block underline"
+                          className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
                         >
                           Learn More
                         </a>
@@ -122,7 +122,7 @@ const BuildCardDetails = ({ data }) => {
               </span>
               <a target="_new" href={data.versionControlInfo.url}>
                 <MetaData
-                  label={data.versionControlInfo.commitId.slice(0, 8)}
+                  label={data.versionControlInfo?.commitId?.slice(0, 8)}
                   title="Commit ID"
                 />
               </a>
@@ -131,54 +131,7 @@ const BuildCardDetails = ({ data }) => {
         </div>
       </O11yTableCell>
       <O11yTableCell>
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="success"
-              hasDot={false}
-              text={data.statusStats.passed}
-            />
-          }
-          title="Cases Passed"
-        />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="error"
-              hasDot={false}
-              text={data.statusStats.failed}
-            />
-          }
-          title="Cases Failed"
-        />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="base"
-              hasDot={false}
-              text={data.statusStats.skipped}
-            />
-          }
-          title="Cases Skipped"
-        />
-        <MetaData
-          label={
-            <O11yBadge
-              wrapperClassName="mx-1"
-              hasRemoveButton={false}
-              modifier="warn"
-              hasDot={false}
-              text={data.statusStats.timeout}
-            />
-          }
-          title="Cases Timeout"
-        />
+        <StatusBadges statusStats={data.statusStats} />
       </O11yTableCell>
       <O11yTableCell>
         <MetaData label={milliSecondsToTime(data.duration)} title="Duration" />

@@ -33,7 +33,8 @@ const Button = (
     colors,
     loaderText,
     ariaLabel,
-    type
+    type,
+    form
   },
   ref
 ) => {
@@ -59,6 +60,7 @@ const Button = (
   };
 
   const effectiveChildrenClasses = twClassNames({
+    'flex items-center justify-center gap-2.5 mx-auto': loading,
     'mx-auto grid w-fit items-center gap-2.5': icon !== null,
     'grid-cols-[16px,2fr]':
       iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
@@ -204,6 +206,7 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
+      form={form}
     >
       {effectiveChildren}
     </button>
@@ -225,7 +228,8 @@ const buttonProps = {
   isIconOnlyButton: PropTypes.bool,
   ariaLabel: PropTypes.string,
   loaderText: PropTypes.string,
-  type: PropTypes.oneOf(BUTTON_TYPES)
+  type: PropTypes.oneOf(BUTTON_TYPES),
+  form: PropTypes.string
 };
 
 const defaultProps = {
@@ -243,7 +247,8 @@ const defaultProps = {
   isIconOnlyButton: false,
   ariaLabel: '',
   loaderText: 'Loading',
-  type: 'button'
+  type: 'button',
+  form: null
 };
 
 const WrappedButton = forwardRef(Button);
