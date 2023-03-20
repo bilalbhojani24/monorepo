@@ -10,13 +10,17 @@ export const getTokenConnectionForTool = (
   { dispatch }
 ) =>
   axios
-    .post({
-      url: URLS.TOOL_API_TOKEN_CONNECTION,
-      data: {
-        integration_key: integrationKey,
+    .post(
+      URLS.TOOL_API_TOKEN_CONNECTION,
+      {
         auth_info: fieldsData
+      },
+      {
+        params: {
+          integration_key: integrationKey
+        }
       }
-    })
+    )
     .then((response) => {
       dispatch(setHasIntegrated(integrationKey));
       return response.data;
