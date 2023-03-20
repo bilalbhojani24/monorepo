@@ -19,12 +19,17 @@ export const getFieldMapping = async ({
   projectId,
   // eslint-disable-next-line camelcase
   mapped_field
-}) =>
-  // eslint-disable-next-line no-return-await
-  await fetchGet(
+}) => {
+  if (projectId)
+    return fetchGet(
+      // eslint-disable-next-line camelcase
+      `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`
+    );
+  return fetchGet(
     // eslint-disable-next-line camelcase
-    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`
+    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}`
   );
+};
 
 export const getUsers = async (projectId) =>
   // eslint-disable-next-line no-return-await
