@@ -5,8 +5,7 @@ import { URLS } from './constants';
 
 const getIntegrations = ({ projectId, componentKey }) =>
   axios
-    .get({
-      url: URLS.LIST_INTEGRATIONS,
+    .get(URLS.LIST_INTEGRATIONS, {
       params: {
         project_id: projectId,
         ui_component_key: componentKey

@@ -9,6 +9,9 @@ import IssueForm from './IssueForm';
 const renderAuth = ({
   key: integrationKey,
   label,
+  auth_meta: {
+    api_token: { fields }
+  },
   static_content: {
     oauth_screen: oAuthMeta,
     api_token_screen: apiTokenMeta
@@ -18,7 +21,7 @@ const renderAuth = ({
     integrationKey={integrationKey}
     label={label}
     oAuthMeta={oAuthMeta}
-    apiTokenMeta={apiTokenMeta}
+    apiTokenMeta={{ ...apiTokenMeta, fields }}
   />
 );
 

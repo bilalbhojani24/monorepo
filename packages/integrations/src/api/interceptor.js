@@ -30,7 +30,7 @@ export const responseInterceptor = axios.interceptors.response.use(
   (error) => {
     // Do something with response error
     const { status, data } = error.response;
-    if (status === 401 && data.message.name === 'TokenExpiredError') {
+    if (status === 401 && data.error_message.name === 'TokenExpiredError') {
       // token has expired
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
       return store.dispatch(fetchTokenThunk()).then(() => {
