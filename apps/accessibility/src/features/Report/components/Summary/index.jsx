@@ -224,13 +224,14 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <Table>
+                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                   <TableHead>
                     <TableRow>
                       {componentColumns.map((col, index) => (
                         <TableCell
                           key={col.key}
                           variant="header"
+                          isSticky
                           textTransform="uppercase"
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
@@ -243,39 +244,37 @@ export default function Summary() {
                       ))}
                     </TableRow>
                   </TableHead>
-                  <TableBody wrapperClassName="h-[222px] overflow">
-                    {componentList
-                      .slice(0, 6)
-                      .map(({ componentId, count }, index) => (
-                        <TableRow
-                          wrapperClassName="cursor-pointer"
-                          onRowClick={() =>
-                            onRowClick('component', {
-                              label: formatComponentIdString(componentId),
-                              value: componentId
-                            })
-                          }
-                        >
-                          {componentColumns.map((column, colIndex) => (
-                            <TableCell
-                              key={column.id}
-                              wrapperClassName={`px-3 py-2 ${
-                                colIndex === 0 ? 'w-14' : ''
-                              }`}
-                            >
-                              {colIndex === 0 ? index + 1 : ''}
-                              {colIndex === 1 ? (
-                                <div className="w-80 overflow-hidden truncate">
-                                  {formatComponentIdString(componentId)}
-                                </div>
-                              ) : (
-                                ''
-                              )}
-                              {colIndex === 2 ? count : ''}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
+                  <TableBody>
+                    {componentList.map(({ componentId, count }, index) => (
+                      <TableRow
+                        wrapperClassName="cursor-pointer"
+                        onRowClick={() =>
+                          onRowClick('component', {
+                            label: formatComponentIdString(componentId),
+                            value: componentId
+                          })
+                        }
+                      >
+                        {componentColumns.map((column, colIndex) => (
+                          <TableCell
+                            key={column.id}
+                            wrapperClassName={`px-3 py-2 ${
+                              colIndex === 0 ? 'w-14' : ''
+                            }`}
+                          >
+                            {colIndex === 0 ? index + 1 : ''}
+                            {colIndex === 1 ? (
+                              <div className="w-80 overflow-hidden truncate">
+                                {formatComponentIdString(componentId)}
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                            {colIndex === 2 ? count : ''}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </div>
@@ -293,7 +292,7 @@ export default function Summary() {
               <div>
                 <p className="text-base-500 mr-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
-                  {componentList.length}
+                  {categoryList.length}
                 </p>
                 <Table>
                   <TableHead>
@@ -409,13 +408,14 @@ export default function Summary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <Table>
+                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                     <TableHead>
                       <TableRow>
                         {urlColumns.map((col, index) => (
                           <TableCell
                             key={col.key}
                             variant="header"
+                            isSticky
                             textTransform="uppercase"
                             wrapperClassName={`text-xs text-base-500 ${
                               index === 0 ? 'w-14' : ''
@@ -429,7 +429,7 @@ export default function Summary() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {urlList.slice(0, 6).map(({ url, count }, index) => (
+                      {urlList.map(({ url, count }, index) => (
                         <TableRow
                           wrapperClassName="cursor-pointer"
                           onRowClick={() =>
