@@ -2,29 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PlatformsTable from 'common/PlatformsTable';
-import { getSnPTestsBreakdownData } from 'features/SuiteHealth/slices/dataSlice';
-import {
-  getAllSnPTestFilters,
-  getSnPTestFilterByKey
-} from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import FixedPlatformHeader from '../components/FixedHeader';
-import PlatformRow from '../components/PlatformsRow';
-import { resetActiveTab, setSnPCbtInfo } from '../slices/dataSlice';
-import { getShowSnPDetailsFor } from '../slices/selectors';
+import PlatformRow from '../components/PlatformRow';
+import {
+  getSnPErrorDetailsPlatformsData,
+  resetUEDetailsActiveTab,
+  setUECbtInfo
+} from '../slices/dataSlice';
+import { getShowUEDetailsFor } from '../slices/selectors';
 
 const PlatformsTab = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const mounted = useRef();
-  const testId = useSelector(getShowSnPDetailsFor);
-  const filters = useSelector(getAllSnPTestFilters);
-  const activeBuild = useSelector((state) =>
-    getSnPTestFilterByKey(state, 'buildName')
-  );
+  const { testId, errorId } = useSelector(getShowUEDetailsFor);
   const activeProject = useSelector(getActiveProject);
   const [platforms, setPlatforms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,18 +27,22 @@ const PlatformsTab = () => {
   useEffect(() => {
     mounted.current = true;
     setIsLoading(true);
-    if (testId) {
+    if (testId && errorId) {
       dispatch(
-        getSnPTestsBreakdownData({
+        getSnPErrorDetailsPlatformsData({
           normalisedName: activeProject?.normalisedName,
           testId,
-          buildName: activeBuild.value,
-          filters
+          errorId
         })
       )
         .unwrap()
         .then((res) => {
           setPlatforms(res);
+        })
+        .catch(() => {
+          if (mounted.current) {
+            setPlatforms([]);
+          }
         })
         .finally(() => {
           setIsLoading(false);
@@ -53,19 +52,13 @@ const PlatformsTab = () => {
     return () => {
       mounted.current = false;
     };
-  }, [
-    activeBuild.value,
-    dispatch,
-    filters,
-    activeProject?.normalisedName,
-    testId
-  ]);
+  }, [dispatch, activeProject?.normalisedName, testId, errorId]);
 
   const handleClickItem = (currentIndex) => {
     const activeRow = platforms?.[currentIndex];
     if (activeRow) {
       dispatch(
-        setSnPCbtInfo({
+        setUECbtInfo({
           osName: activeRow?.os?.name || '',
           osVersion: activeRow?.os?.version || '',
           browserName: activeRow?.browserDevice?.name || '',
@@ -77,10 +70,10 @@ const PlatformsTab = () => {
         })
       );
       const searchParams = new URLSearchParams(window?.location?.search);
-      dispatch(resetActiveTab());
+      dispatch(resetUEDetailsActiveTab());
       navigate({ search: searchParams.toString() });
       logOllyEvent({
-        event: 'O11ySuiteHealthTestsTimelineInteracted',
+        event: 'O11ySuiteHealthErrorsTimelineInteracted',
         data: {
           project_name: activeProject.name,
           project_id: activeProject.id,

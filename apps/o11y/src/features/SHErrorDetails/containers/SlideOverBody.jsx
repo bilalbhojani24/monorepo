@@ -6,8 +6,8 @@ import { SH_UE_DETAILS_CUSTOM_SCROLL_PARENT_ID, TABS } from '../constants';
 import { setUEDetailsActiveTab } from '../slices/dataSlice';
 import { getUEActiveTab } from '../slices/selectors';
 
-// import PlatformsTab from './PlatformsTab';
-// import RunsTab from './RunsTab';
+import PlatformsTab from './PlatformsTab';
+import RunsTab from './RunsTab';
 
 const tabsList = Object.keys(TABS).map((key) => ({
   name: TABS[key],
@@ -47,8 +47,8 @@ const SlideOverBody = () => {
         className="flex flex-1 flex-col overflow-auto px-6 pt-6 pb-0"
         id={SH_UE_DETAILS_CUSTOM_SCROLL_PARENT_ID}
       >
-        {activeTab.value === TABS.platforms && <div>Platforms</div>}
-        {activeTab.value === TABS.runs && <div>Runs</div>}
+        {activeTab.value === TABS.platforms && <PlatformsTab />}
+        {activeTab.value === TABS.runs && <RunsTab />}
       </div>
     </O11ySlideoverBody>
   );
