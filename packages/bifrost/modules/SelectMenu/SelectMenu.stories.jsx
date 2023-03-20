@@ -112,7 +112,6 @@ MultiSelect.play = async ({ canvasElement }) => {
   const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
   selectItems.forEach(async (item) => {
     if (Array.prototype.indexOf.call(selectItems, item) > 1) {
-      await delay(1);
       item.click();
     }
   });

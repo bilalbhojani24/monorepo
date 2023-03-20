@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import ComboboxLabel from '../ComboboxLabel';
@@ -74,9 +77,76 @@ const Template = (args) => <ComboBox {...args} />;
 const MultiSelectTemplate = (args) => <ComboBox {...args} />;
 const PlaceholderTemplate = (args) => <ComboBox {...args} />;
 
+const selectMenuOptions = [
+  'Wade Cooper',
+  'Arlene Mccoy',
+  'Devon Webb',
+  'Tom Cook',
+  'Tanya Fox'
+];
+const assignedTo = 'Assigned to';
+const selectMenuOptionsSelector = '[role="option"]';
+const placeholder = 'Placeholder';
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByRole('combobox')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  // verify options
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  // verify selection
+  selectItems[1].click();
+  // verify typing
+  await userEvent.type(canvas.getByRole('combobox'), `, VERIFY TYPE TEXT`);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
+
 const MultiSelect = MultiSelectTemplate.bind({});
+MultiSelect.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholder)).toBeVisible();
+  await expect(canvas.getByRole('combobox')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  selectItems.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(selectItems, item) > 1) {
+      delay(1);
+      item.click();
+    }
+  });
+  await userEvent.click(canvas.getByRole('button'));
+  // verify typing
+  await userEvent.type(canvas.getByRole('combobox'), `, VERIFY TYPE TEXT`);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
+
 const Placeholder = PlaceholderTemplate.bind({});
+Placeholder.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByPlaceholderText(placeholder)).toBeVisible();
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+  await expect(canvas.getByRole('combobox')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+  await delay(1);
+  const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
+  // verify options
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  // verify selection
+  selectItems[1].click();
+  // verify typing
+  await userEvent.type(canvas.getByRole('combobox'), `, VERIFY TYPE TEXT`);
+  await expect(canvas.getByText(assignedTo)).toBeVisible();
+};
 
 Primary.parameters = {
   controls: {}
@@ -128,7 +198,7 @@ export { MultiSelect, Placeholder, Primary };
 MultiSelect.args = {
   value: null,
   isMulti: true,
-  defaultValue: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[4]]
+  defaultValue: [COMBOBOX_OPTIONS[0], COMBOBOX_OPTIONS[1]]
 };
 
 Placeholder.args = {
