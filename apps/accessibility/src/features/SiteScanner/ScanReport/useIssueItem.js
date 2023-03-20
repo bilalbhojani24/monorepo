@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { ISSUE_DETAILS_TAB } from 'constants';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
+import { getActiveVersion } from '../../Reports/slices/selector';
+
 import { setActiveIssueIndex, setIsShowingIssue } from './slice/appSlice';
 import {
   getActiveIssueIndex,
@@ -23,8 +25,9 @@ export default function useIssueItem(activeComponentNodes) {
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
   const activeFilters = useSelector(getReportFilters);
   const params = new URLSearchParams(window.location.search);
-  const wcagVersion = params.get('wcagVersion');
+  const activeVersion = useSelector(getActiveVersion);
   const reportIds = params.get('ids');
+  const wcagVersion = activeVersion.split('WCAG ')[1];
 
   const maxLimit = activeComponentNodes?.length - 1;
   const onNextClick = () => {

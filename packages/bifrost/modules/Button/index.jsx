@@ -34,7 +34,8 @@ const Button = (
     loaderText,
     ariaLabel,
     type,
-    form
+    form,
+    ...props
   },
   ref
 ) => {
@@ -60,6 +61,7 @@ const Button = (
   };
 
   const effectiveChildrenClasses = twClassNames({
+    'flex items-center justify-center gap-2.5 mx-auto': loading,
     'mx-auto grid w-fit items-center gap-2.5': icon !== null,
     'grid-cols-[16px,2fr]':
       iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
@@ -206,6 +208,7 @@ const Button = (
       )}
       onClick={handleClick}
       form={form}
+      {...props}
     >
       {effectiveChildren}
     </button>
