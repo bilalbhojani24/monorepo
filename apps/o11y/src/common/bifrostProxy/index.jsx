@@ -11,10 +11,12 @@ import {
   EmptyState,
   Hyperlink,
   InputField,
+  Metadata,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Popover,
   RadioGroup,
   SelectMenu,
   SelectMenuLabel,
@@ -64,10 +66,12 @@ export const O11yTableHead = (props) => <TableHead {...props} />;
 export const O11yTableRow = (props) => <TableRow {...props} />;
 export const O11yHyperlink = (props) => <Hyperlink {...props} />;
 export const O11yEmptyState = (props) => <EmptyState {...props} />;
+export const O11yMetadata = (props) => <Metadata {...props} />;
 export const O11yModal = (props) => <Modal {...props} />;
 export const O11yModalBody = (props) => <ModalBody {...props} />;
 export const O11yModalHeader = (props) => <ModalHeader {...props} />;
 export const O11yModalFooter = (props) => <ModalFooter {...props} />;
+export const O11yPopover = (props) => <Popover {...props} />;
 export const O11yRadioGroup = (props) => <RadioGroup {...props} />;
 export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
 export const O11ySelectMenuLabel = (props) => <SelectMenuLabel {...props} />;
