@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
@@ -7,7 +7,7 @@ import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
-import DiscardIssue from './components/DiscardIssue';
+import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
 import { CreateIssueOptionsType } from './types';
 
@@ -27,16 +27,37 @@ export const CreateIssue = ({
     ({ setup_completed: integrated }) => integrated
   );
 
-  // const [mode, setMode] = useState('create');
-
   const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
+  const [mode, setMode] = useState(ISSUE_MODES.CREATION);
+  const previousModeRef = useRef(null);
 
   const continueEditing = () => {
+    if (previousModeRef.current) {
+      setMode(previousModeRef.current);
+      previousModeRef.current = null;
+    }
     setIsBeingDiscarded(false);
   };
 
   const discardIssue = () => {
     setIsBeingDiscarded(true);
+  };
+
+  const changeModeTo = (nextMode) => {
+    // do some validation
+    discardIssue();
+    previousModeRef.current = mode;
+    setMode(nextMode);
+  };
+
+  const confirmIssueDiscard = () => {
+    if (previousModeRef.current) {
+      // setMode(previousModeRef.current);
+      previousModeRef.current = null;
+    } else {
+      handleClose();
+    }
+    setIsBeingDiscarded(false);
   };
 
   return (
@@ -57,12 +78,13 @@ export const CreateIssue = ({
         style={{ maxHeight: '650px' }}
       >
         <ListOfIntegrations
-          projectId={projectId}
+          mode={mode}
           options={options}
-          // mode={mode}
-          isBeingDiscarded={isBeingDiscarded}
+          projectId={projectId}
+          changeModeTo={changeModeTo}
           continueEditing={continueEditing}
-          closeWidget={handleClose}
+          isBeingDiscarded={isBeingDiscarded}
+          confirmIssueDiscard={confirmIssueDiscard}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (

@@ -34,7 +34,7 @@ const parseFieldsForCreateHelper = (
   return val;
 };
 export const parseFieldsForCreate = (createMeta, fieldData) =>
-  createMeta.reduce((parsedFields, currentMetaField) => {
+  createMeta?.reduce((parsedFields, currentMetaField) => {
     if (currentMetaField.key in fieldData) {
       // eslint-disable-next-line no-param-reassign
       parsedFields[currentMetaField.key] = parseFieldsForCreateHelper(

@@ -4,7 +4,12 @@ export const FIELD_KEYS = {
   INTEGRATON_TOOL: 'integration_tool'
 };
 
+export const ISSUE_MODES = {
+  CREATION: 'create',
+  UPDATION: 'update'
+};
+
 export const TABS = [
-  { name: 'Create issue' },
-  { name: 'Update existing issue' }
+  { name: 'Create issue', mode: ISSUE_MODES.CREATION },
+  { name: 'Update existing issue', mode: ISSUE_MODES.UPDATION }
 ];

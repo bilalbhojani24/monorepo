@@ -9,7 +9,7 @@ import {
   Tabs
 } from '@browserstack/bifrost';
 
-import { createIssue, getCreateMeta, getProjectsThunk } from '../../../api';
+import { getCreateMeta, getProjectsThunk } from '../../../api';
 import { FormBuilder } from '../../../common/components';
 import SingleValueSelect from '../../../common/components/SingleValueSelect';
 import { LOADING_STATUS } from '../../slices/constants';
@@ -17,17 +17,20 @@ import {
   projectsLoadingSelector,
   projectsSelector
 } from '../../slices/projectsSlice';
-import { parseFieldsForCreate } from '../helpers';
 
-import { FIELD_KEYS, TABS } from './constants';
+import { FIELD_KEYS, ISSUE_MODES, TABS } from './constants';
+import CreateIssueForm from './CreateIssueForm';
 import DiscardIssue from './DiscardIssue';
+import UpdateIssueForm from './UpdateIssueForm';
 
 const IssueForm = ({
-  integrations,
+  mode,
   options,
+  changeModeTo,
+  integrations,
   isBeingDiscarded,
   continueEditing,
-  closeWidget
+  confirmIssueDiscard
 }) => {
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
@@ -95,22 +98,6 @@ const IssueForm = ({
   //     return areAllRequiredFieldsNonEmptyHelper(stateValue);
   //   });
 
-  const handleSubmit = (formData) => {
-    // if (!areAllRequiredFieldsNonEmpty(allRequiredFields, formData)) {
-    //   return;
-    // }
-    const data = { ...fieldsData, ...formData };
-    if (metaData.description) {
-      data.description =
-        (data.description ? `${data.description}\n` : '') +
-        metaData.description;
-    }
-    const parsed = parseFieldsForCreate(fields, data);
-    parsed.projectId = projectFieldData.value;
-    parsed.ticketTypeId = issueTypeFieldData.value;
-    createIssue(integrationToolFieldData?.value, parsed);
-  };
-
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
   }, [dispatch, integrationToolFieldData]);
@@ -137,12 +124,18 @@ const IssueForm = ({
     issueTypeFieldData
   ]);
 
+  const handleIssueTabChange = (tabSelected) => {
+    if (tabSelected.mode !== mode) {
+      changeModeTo(tabSelected.mode);
+    }
+  };
+
   return (
     <>
       {isBeingDiscarded && (
         <DiscardIssue
           continueEditing={continueEditing}
-          closeWidget={closeWidget}
+          confirmIssueDiscard={confirmIssueDiscard}
         />
       )}
       <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
@@ -174,7 +167,11 @@ const IssueForm = ({
             selectFirstByDefault
           />
         </div>
-        <Tabs tabsArray={TABS} />
+        <Tabs
+          tabsArray={TABS}
+          onTabChange={handleIssueTabChange}
+          defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
+        />
         <div className="py-3">
           <SingleValueSelect
             fieldsData={fieldsData}
@@ -187,11 +184,18 @@ const IssueForm = ({
             selectFirstByDefault
           />
         </div>
-        <FormBuilder
-          fields={fields}
-          handleSubmit={handleSubmit}
-          metaData={metaData}
-        />
+        {mode === ISSUE_MODES.CREATION ? (
+          <CreateIssueForm
+            fields={fields}
+            metaData={metaData}
+            fieldsData={fieldsData}
+            projectFieldData={projectFieldData}
+            issueTypeFieldData={issueTypeFieldData}
+            integrationToolFieldData={integrationToolFieldData}
+          />
+        ) : (
+          <UpdateIssueForm />
+        )}
       </div>
     </>
   );

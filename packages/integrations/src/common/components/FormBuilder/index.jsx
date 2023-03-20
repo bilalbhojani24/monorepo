@@ -16,7 +16,7 @@ const FormBuilder = ({ fields, handleSubmit, metaData }) => {
   };
   const [fieldsToShowAtTop, requiredFields, optionalFields] = useMemo(
     () =>
-      fields.reduce((accumulator, field) => {
+      fields?.reduce((accumulator, field) => {
         const buckets = accumulator;
         const SHOW_AT_TOP_BUCKET = 0;
         const REQUIRED_BUCKET = 1;
