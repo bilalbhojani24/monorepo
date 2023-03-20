@@ -23,7 +23,6 @@ import {
   ModalFooter,
   ModalHeader,
   Notifications,
-  PageHeadings,
   RadioGroup,
   SectionHeadings,
   Slideover,
@@ -49,17 +48,13 @@ import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
+import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-export const TMPageHeadings = (props) => (
-  <PageHeadings
-    wrapperClassName="px-4 py-6 border-b border-base-300 bg-transparent"
-    {...props}
-  />
-);
+
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
@@ -130,6 +125,7 @@ export {
   TMDataVisualization,
   TMDropdown,
   TMHeader,
+  TMPageHeadings,
   TMPagination,
   TMRichTextEditor,
   TMSelectMenu

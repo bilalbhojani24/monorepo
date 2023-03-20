@@ -71,7 +71,7 @@ const AddEditTestRun = ({ isEdit }) => {
           breadcrumbWrapperClassName=""
           onBreadcrumbClick={onBreadcrumbClick}
           breadcrumbs={[
-            { name: 'Test Runs', isHome: true, url: '#' },
+            { name: 'Test Runs', isHome: true },
             { name: isEditing ? 'Edit' : 'Create' }
           ]}
           heading={isEditing ? 'Edit Test Run' : 'Create New Test Run'}

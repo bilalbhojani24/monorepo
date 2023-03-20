@@ -67,7 +67,7 @@ const ImportCSV = () => {
       <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div
         id="current-import-csv-screen"
-        className="flex flex-col items-center overflow-auto pt-4"
+        className="mb-4 flex flex-col items-center overflow-auto pt-4"
       >
         {getCurrentScreen()}
       </div>
