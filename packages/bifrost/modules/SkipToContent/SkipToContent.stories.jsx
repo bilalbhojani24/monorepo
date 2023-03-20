@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -29,6 +31,10 @@ const Template = (args) => (
   <SkipToContent {...args}>Skip to main content</SkipToContent>
 );
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  expect(canvas.getByText('Skip to main content')).toBeInTheDocument();
+};
 Primary.parameters = {
   controls: {}
 };
