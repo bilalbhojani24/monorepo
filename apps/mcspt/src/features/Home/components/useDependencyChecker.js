@@ -17,14 +17,18 @@ import {
   setSelectedDevice
 } from '../slices/newPerformanceSessionSlice';
 import {
+  fetchApplicationsFromSelectedDevice,
   fetchConnectedDevices,
   triggerSession
 } from '../slices/newPerformanceSessionThunks';
+import {
+  generateAppOptions,
+  generateDeviceOptions,
+  getDefaultAutoGenerateName,
+  INCOMPATIBLE_DEVICE_MSG
+} from '../utils/dependencyUtils';
 
-const getDefaultAutoGenerateName = (selectedDevice, selectedApp) =>
-  `${selectedApp?.name} v${selectedApp?.version} on ${selectedDevice?.model} ${selectedDevice?.os} ${selectedDevice?.osVersion}`;
-
-const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
+const useDependencyChecker = () => {
   const areDevicesStillLoading = useSelector(getAreDevicesStillLoading);
   const areApplicationsStillLoading = useSelector(
     getAreApplicationsStillLoading
@@ -43,6 +47,8 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
   const [deviceOptionList, setDeviceOptionList] = useState([]);
   const [applicationOptionList, setApplicationOptionList] = useState([]);
 
+  const [deviceSelectionError, setDeviceSelectionError] = useState('');
+
   const dispatch = useDispatch();
 
   const navigateToPath = useNavigate();
@@ -52,7 +58,13 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
       (device) => selection?.value === device?.deviceId
     );
 
-    dispatch(setSelectedDevice(ogDeviceObj));
+    if (!ogDeviceObj?.compatible) {
+      setDeviceSelectionError(INCOMPATIBLE_DEVICE_MSG);
+    } else {
+      setDeviceSelectionError('');
+
+      dispatch(setSelectedDevice(ogDeviceObj));
+    }
   };
 
   const applicationSelected = (selection) => {
@@ -72,23 +84,29 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
     );
   };
 
-  const refetchDevicesAndApps = useCallback(() => {
+  const refetchDevices = useCallback(() => {
     dispatch(fetchConnectedDevices());
   }, [dispatch]);
 
   useEffect(() => {
     setDeviceOptionList(generateDeviceOptions(listOfDevices));
-  }, [generateDeviceOptions, listOfDevices]);
+  }, [listOfDevices]);
 
   useEffect(() => {
     if (lisOfApplications) {
       setApplicationOptionList(generateAppOptions(lisOfApplications));
     }
-  }, [generateAppOptions, lisOfApplications]);
+  }, [lisOfApplications]);
 
   useEffect(() => {
-    refetchDevicesAndApps();
-  }, [refetchDevicesAndApps]);
+    if (selectedDevice.deviceId) {
+      dispatch(fetchApplicationsFromSelectedDevice());
+    }
+  }, [dispatch, selectedDevice.deviceId]);
+
+  useEffect(() => {
+    refetchDevices();
+  }, [refetchDevices]);
 
   return {
     areDevicesStillLoading,
@@ -102,7 +120,8 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
     selectedApplication,
     startTestSession,
     isSessionApiLoading,
-    refetchDevicesAndApps
+    refetchDevices,
+    deviceSelectionError
   };
 };
 

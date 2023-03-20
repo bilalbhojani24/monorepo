@@ -15,42 +15,9 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
-import selectMenuAndroidIcon from 'assets/selectMenuAndroidIcon.png';
-import selectMenuIosIcon from 'assets/selectMenuIosIcon.png';
 import dependencyLoader from 'assets/tripleDots.gif';
 
 import useDependencyChecker from './useDependencyChecker';
-
-const generateDeviceOptions = (deviceList) =>
-  deviceList.map((device) => ({
-    label: (
-      <div className="flex items-center">
-        <div className="mr-3 h-5 w-5">
-          <img
-            src={
-              device?.os === 'android'
-                ? selectMenuAndroidIcon
-                : selectMenuIosIcon
-            }
-            alt={device?.os}
-          />
-        </div>
-        <div className="mr-1 text-sm font-medium leading-5">
-          {device?.model}
-        </div>
-        <div className="text-base-500 text-sm font-normal leading-5">
-          {`${device?.os} ${device?.osVersion}`}
-        </div>
-      </div>
-    ),
-    value: device?.deviceId
-  }));
-
-const generateAppOptions = (appList) =>
-  appList.map((app) => ({
-    label: app?.name,
-    value: app?.packageName
-  }));
 
 const DependencyChecker = () => {
   const {
@@ -65,8 +32,9 @@ const DependencyChecker = () => {
     selectedApplication,
     startTestSession,
     isSessionApiLoading,
-    refetchDevicesAndApps
-  } = useDependencyChecker(generateDeviceOptions, generateAppOptions);
+    refetchDevices,
+    deviceSelectionError
+  } = useDependencyChecker();
 
   return (
     <div className="bg-base-50 p-14">
@@ -91,7 +59,7 @@ const DependencyChecker = () => {
                 icon={<MdOutlineAutorenew />}
                 variant="primary"
                 colors="white"
-                onClick={refetchDevicesAndApps}
+                onClick={refetchDevices}
               >
                 Refresh
               </Button>
@@ -109,13 +77,16 @@ const DependencyChecker = () => {
                         )}
                         isMulti={false}
                         disabled={areApplicationsStillLoading}
+                        errorText={deviceSelectionError}
                       >
                         <SelectMenuLabel>Device</SelectMenuLabel>
-                        <SelectMenuTrigger placeholder="Select.." />
+                        <SelectMenuTrigger placeholder="Select Device" />
                         <SelectMenuOptionGroup>
                           {deviceOptionList.map((item) => (
                             <SelectMenuOptionItem
                               key={item.value}
+                              checkPosition="right"
+                              wrapperClassName="flex-1"
                               option={item}
                             />
                           ))}
@@ -135,12 +106,13 @@ const DependencyChecker = () => {
                       loadingText="Loading applications"
                       disabled={
                         areApplicationsStillLoading ||
-                        applicationOptionList?.length === 0
+                        applicationOptionList?.length === 0 ||
+                        !selectedDevice?.compatible
                       }
                       errorText={errorOnApplicationFetch}
                     >
                       <ComboboxLabel>Application</ComboboxLabel>
-                      <ComboboxTrigger placeholder="Placeholder" />
+                      <ComboboxTrigger placeholder=" " />
                       <ComboboxOptionGroup>
                         {applicationOptionList.map((item) => (
                           <ComboboxOptionItem key={item.value} option={item} />
@@ -156,7 +128,9 @@ const DependencyChecker = () => {
                       Applied Thresholds:
                     </div>
                     <div className="text-sm font-normal leading-5">
-                      Android Preset
+                      {`${
+                        selectedDevice.os === 'android' ? 'Android ' : 'iOS '
+                      } Preset`}
                     </div>
                   </div>
 

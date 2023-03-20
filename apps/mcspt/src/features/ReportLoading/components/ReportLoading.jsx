@@ -3,7 +3,6 @@ import {
   Button,
   DescriptionList,
   MdChevronLeft,
-  MdEdit,
   MdOutlineAnalytics,
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
@@ -47,10 +46,6 @@ const ReportLoading = () => {
 
         <div className="mx-2 text-sm font-medium leading-5">
           {sessionDetails.sessionName}
-        </div>
-
-        <div className="text-xl">
-          <MdEdit />
         </div>
       </div>
 

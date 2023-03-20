@@ -11,6 +11,7 @@ import {
   setIsSessionApiLoading
 } from './loadingStateForNewPerformanceSession';
 import {
+  getSelectedDevice,
   setListOfApplications,
   setListOfDevices,
   setSelectedApplication,
@@ -21,7 +22,7 @@ import {
 export const fetchApplicationsFromSelectedDevice =
   () => async (dispatch, getState) => {
     try {
-      const selectedDevice = getState()?.newPerformanceSession?.selectedDevice;
+      const selectedDevice = getSelectedDevice(getState());
 
       dispatch(setAreApplicationsStillLoading(true));
 
@@ -46,8 +47,10 @@ export const fetchApplicationsFromSelectedDevice =
     }
   };
 
-export const fetchConnectedDevices = () => async (dispatch) => {
+export const fetchConnectedDevices = () => async (dispatch, getState) => {
   try {
+    const currentlyDelectedDevice = getSelectedDevice(getState());
+
     dispatch(setAreDevicesStillLoading(true));
 
     const allDeviceResponses = await Promise.allSettled([
@@ -60,12 +63,11 @@ export const fetchConnectedDevices = () => async (dispatch) => {
       .map((promiseWrapper) => promiseWrapper?.value)
       .flat();
 
-    if (resultSet.length > 0) {
+    if (!currentlyDelectedDevice?.deviceId && resultSet.length > 0) {
       dispatch(setSelectedDevice(resultSet[0]));
     }
 
     dispatch(setListOfDevices(resultSet));
-    dispatch(fetchApplicationsFromSelectedDevice());
   } catch (error) {
     if (error?.response?.status !== 460) {
       throw error;
