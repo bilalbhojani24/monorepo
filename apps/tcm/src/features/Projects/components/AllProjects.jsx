@@ -1,19 +1,23 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
+import { CheckCircleRoundedIcon, InfoOutlinedIcon } from 'assets/icons';
 import {
+  TMAlerts,
   TMButton,
   TMDataTable,
   TMDropdown,
   TMEmptyState,
   TMPageHeadings,
   TMPagination,
+  TMTooltip,
+  TMTooltipBody,
   TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
+import { COMPLETED } from '../../quickImportFlow/const/importConst';
 import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -30,11 +34,19 @@ const AllProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
+    latestImportId,
+    importStatus,
+    showNewProjectBanner,
+    countOfProjectsImported,
+    currentTestManagementTool,
+    isNewProjectBannerDismissed,
     dispatch,
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
-    showAddProjectModal
+    showAddProjectModal,
+    dismissImportProjectAlert,
+    getStatusOfNewImportedProjects
   } = useProjects();
 
   useEffect(() => {
@@ -91,20 +103,47 @@ const AllProjects = () => {
             rowData.name
           )}
         >
-          <div className="text-base-900 hover:text-brand-600 font-medium ">
-            <TMTruncateText
-              truncateUsingClamp={false}
-              hidetooltipTriggerIcon
-              isFullWidthTooltip
-              headerTooltipProps={{
-                delay: 500
-              }}
-            >
-              {rowData.name}
-            </TMTruncateText>
+          <div className="flex items-center">
+            <div className="text-base-900 hover:text-brand-600 max-w-full font-medium">
+              <TMTruncateText
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+                headerTooltipProps={{
+                  delay: 500
+                }}
+              >
+                {rowData.name}
+              </TMTruncateText>
+            </div>
+            {importStatus === COMPLETED &&
+              !isNewProjectBannerDismissed &&
+              latestImportId === rowData.import_id && (
+                <div className="ml-2">
+                  <TMTooltip
+                    size="xs"
+                    placementSide="bottom"
+                    theme="dark"
+                    content={
+                      <>
+                        <TMTooltipBody>
+                          <p className="text-sm">
+                            Successfully imported from{' '}
+                            {currentTestManagementTool === 'zephyr'
+                              ? 'Zephyr Scale'
+                              : 'TestRail'}
+                          </p>
+                        </TMTooltipBody>
+                      </>
+                    }
+                  >
+                    <CheckCircleRoundedIcon className="text-success-600" />
+                  </TMTooltip>
+                </div>
+              )}
           </div>
           {rowData.description && (
-            <div className="text-base-500">
+            <div className="text-base-500 inline">
               <TMTruncateText
                 truncateUsingClamp={false}
                 hidetooltipTriggerIcon
@@ -165,6 +204,11 @@ const AllProjects = () => {
   ];
 
   useEffect(() => {
+    getStatusOfNewImportedProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     fetchProjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
@@ -189,6 +233,24 @@ const AllProjects = () => {
         }
       />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+        {countOfProjectsImported > 0 &&
+          showNewProjectBanner &&
+          importStatus === COMPLETED &&
+          !isNewProjectBannerDismissed && (
+            <div className="mb-4">
+              <TMAlerts
+                modifier="success"
+                title={`${countOfProjectsImported} Projects imported from ${
+                  currentTestManagementTool === 'zephyr'
+                    ? 'Zephyr Scale'
+                    : 'TestRail'
+                } successfully`}
+                linkText={null}
+                dismissButton
+                dismissButtonFn={dismissImportProjectAlert}
+              />
+            </div>
+          )}
         <div className="border-base-200 flex grow flex-col justify-start rounded-md border bg-white">
           {isLoading ? (
             <Loader wrapperClassName="grow" />
