@@ -19,8 +19,7 @@ export const fetchToken = (_, { getState, dispatch }) => {
   }
 
   return axios
-    .get({
-      url,
+    .get(url, {
       timeout: REQUEST_TIMOUT,
       timeoutErrorMessage: 'Request timed out',
       headers: {
