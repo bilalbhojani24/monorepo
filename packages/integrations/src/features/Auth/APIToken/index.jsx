@@ -23,7 +23,7 @@ const APIToken = ({
   integrationKey,
   label,
   showOAuth,
-  apiTokenMeta: { logo_url: logo, title, description, form_fields: fields }
+  apiTokenMeta: { logo_url: logo, title, description, fields }
 }) => {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
