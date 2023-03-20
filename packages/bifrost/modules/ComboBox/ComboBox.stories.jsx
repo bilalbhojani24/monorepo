@@ -117,8 +117,9 @@ MultiSelect.play = async ({ canvasElement }) => {
   await delay(1);
   const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
   selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
     if (Array.prototype.indexOf.call(selectItems, item) > 1) {
-      delay(1);
+      await delay(1);
       item.click();
     }
   });
@@ -144,6 +145,7 @@ Placeholder.play = async ({ canvasElement }) => {
   // verify selection
   selectItems[1].click();
   // verify typing
+  await delay(1);
   await userEvent.type(canvas.getByRole('combobox'), `, VERIFY TYPE TEXT`);
   await expect(canvas.getByText(assignedTo)).toBeVisible();
 };
