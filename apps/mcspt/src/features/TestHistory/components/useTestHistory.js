@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { getPreviousUserSessions } from '../slices/testHistorySlice';
-import {
-  checkForPreviousUserSessions,
-  extractSessionDetailsById
-} from '../slices/testHistoryThunks';
+import { extractSessionDetailsById } from '../slices/testHistoryThunks';
 
 const useExistingUserHome = () => {
   const [tableRows, setTableRows] = useState([]);
@@ -45,10 +42,6 @@ const useExistingUserHome = () => {
   useEffect(() => {
     setTableRows(previousUserSessions);
   }, [previousUserSessions]);
-
-  useEffect(() => {
-    dispatch(checkForPreviousUserSessions());
-  }, [dispatch]);
 
   return {
     tableRows,

@@ -83,8 +83,8 @@ const ReportLoading = () => {
 
             <div
               className={twClassNames(
-                'mx-auto max-w-full',
-                'flex flex-1 items-center justify-center',
+                'mx-auto flex aspect-[9/16]',
+                'items-center justify-center',
                 'rounded-lg border-8 border-base-900 px-5',
                 {
                   'bg-base-50':

@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import {
+  getIsUserLoggedIn,
+  getTotalAllowedSessions,
+  getTotalCompletedSessions
+} from 'features/Dashboard/slices/dashboardSlice';
 
 import {
   getAreApplicationsStillLoading,
@@ -38,11 +43,12 @@ const useDependencyChecker = () => {
 
   const listOfDevices = useSelector(getListOfDevices);
   const selectedDevice = useSelector(getSelectedDevice);
-
   const lisOfApplications = useSelector(getListOfApplications);
   const selectedApplication = useSelector(getSelectedApplication);
-
   const errorOnApplicationFetch = useSelector(getErrorOnApplicationFetch);
+  const totalAllowedSessions = useSelector(getTotalAllowedSessions);
+  const totalCompletedSessions = useSelector(getTotalCompletedSessions);
+  const isUserLoggedIn = useSelector(getIsUserLoggedIn);
 
   const [deviceOptionList, setDeviceOptionList] = useState([]);
   const [applicationOptionList, setApplicationOptionList] = useState([]);
@@ -121,7 +127,9 @@ const useDependencyChecker = () => {
     startTestSession,
     isSessionApiLoading,
     refetchDevices,
-    deviceSelectionError
+    deviceSelectionError,
+    disableTestTrigger:
+      !isUserLoggedIn && totalAllowedSessions === totalCompletedSessions
   };
 };
 

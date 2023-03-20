@@ -1,4 +1,5 @@
 import { fetchSessionById, fetchSessions } from 'api/testHistory';
+import { setSessionAuthMetaData } from 'features/Dashboard/slices/dashboardSlice';
 import { updateSessionMetrics } from 'features/Report';
 
 import { setPreviousUserSessions } from './testHistorySlice';
@@ -9,6 +10,7 @@ export const checkForPreviousUserSessions = () => async (dispatch) => {
 
     if (response.status === 'success') {
       dispatch(setPreviousUserSessions(response.sessions));
+      dispatch(setSessionAuthMetaData(response.metadata));
     } else {
       throw response;
     }

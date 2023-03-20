@@ -33,7 +33,8 @@ const DependencyChecker = () => {
     startTestSession,
     isSessionApiLoading,
     refetchDevices,
-    deviceSelectionError
+    deviceSelectionError,
+    disableTestTrigger
   } = useDependencyChecker();
 
   return (
@@ -52,7 +53,9 @@ const DependencyChecker = () => {
           <div className="py-6 px-4">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold leading-7">
-                Conduct your first performance test
+                {deviceOptionList?.length > 0
+                  ? 'Conduct your first performance test'
+                  : 'No devices connected'}
               </div>
 
               <Button
@@ -142,6 +145,7 @@ const DependencyChecker = () => {
                     onClick={startTestSession}
                     loading={isSessionApiLoading}
                     loaderText="Starting Test"
+                    disabled={disableTestTrigger}
                   >
                     Start Test
                   </Button>

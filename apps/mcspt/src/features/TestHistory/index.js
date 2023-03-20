@@ -1,6 +1,15 @@
 import TestHistory from './components/TestHistory';
-import testHistoryReducer from './slices/testHistorySlice';
+import useTestHistory from './components/useTestHistory';
+import testHistoryReducer, {
+  getPreviousUserSessions
+} from './slices/testHistorySlice';
+import { checkForPreviousUserSessions } from './slices/testHistoryThunks';
 
-export { testHistoryReducer };
+export {
+  checkForPreviousUserSessions,
+  getPreviousUserSessions,
+  testHistoryReducer,
+  useTestHistory
+};
 
 export default TestHistory;
