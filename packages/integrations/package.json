@@ -9,9 +9,12 @@
     "react-dom": "18.2.0"
   },
   "dependencies": {
-    "@browserstack/utils": "workspace:*",
     "@browserstack/bifrost": "workspace:*",
-    "axios": "1.2.2"
+    "@browserstack/hooks": "workspace:*",
+    "@browserstack/utils": "workspace:*",
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "1.2.2",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
