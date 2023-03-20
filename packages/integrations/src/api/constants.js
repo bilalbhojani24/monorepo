@@ -8,3 +8,5 @@ export const URLS = {
     'https://integrations.bsstag.com/api/pm-tools/v1/tickets/meta-create',
   CREATE: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets'
 };
+
+export const REQUEST_TIMOUT = 15000;
