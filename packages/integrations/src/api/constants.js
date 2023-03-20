@@ -4,3 +4,5 @@ export const URLS = {
   TOOL_API_TOKEN_CONNECTION:
     'https://integrations.bsstag.com/api/save-api-token'
 };
+
+export const REQUEST_TIMOUT = 15000;

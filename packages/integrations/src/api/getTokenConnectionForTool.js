@@ -9,17 +9,18 @@ export const getTokenConnectionForTool = (
   { integrationKey, data: fieldsData },
   { dispatch }
 ) =>
-  axios({
-    method: 'post',
-    url: URLS.TOOL_API_TOKEN_CONNECTION,
-    data: {
-      integration_key: integrationKey,
-      auth_info: fieldsData
-    }
-  }).then((response) => {
-    dispatch(setHasIntegrated(integrationKey));
-    return response.data;
-  });
+  axios
+    .post({
+      url: URLS.TOOL_API_TOKEN_CONNECTION,
+      data: {
+        integration_key: integrationKey,
+        auth_info: fieldsData
+      }
+    })
+    .then((response) => {
+      dispatch(setHasIntegrated(integrationKey));
+      return response.data;
+    });
 
 export const getTokenConnectionForToolThunk = createAsyncThunk(
   'getTokenConnectionForTool',

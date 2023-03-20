@@ -8,7 +8,6 @@ import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
 const DraggableResizable = ({ children, childRef }) => {
   const widgetRef = useRef(null);
   const [widgetHeight, setWidgetHeight] = useState(null);
-  // const [minHeightConstraint, setMinHeightConstraint] = useState(400);
   const [containerHeight, setContainerHeight] = useState(widgetHeight);
   const windowDimensions = useResizeObserver(childRef);
   const childHeight = childRef?.current?.getBoundingClientRect().height;
@@ -26,7 +25,6 @@ const DraggableResizable = ({ children, childRef }) => {
       } else {
         setContainerHeight(calcHeight);
         setWidgetHeight(calcHeight + t);
-        // setMinHeightConstraint(calcHeight + t);
       }
     }
   }, [
@@ -40,8 +38,6 @@ const DraggableResizable = ({ children, childRef }) => {
     setWidgetHeight(size.height);
     setContainerHeight(size.height - t);
   };
-
-  // console.log(widgetHeight, windowDimensions.inlineSize, childHeight);
 
   return (
     <Draggable ref={widgetRef} handle=".drag-handle">
@@ -71,9 +67,7 @@ const DraggableResizable = ({ children, childRef }) => {
 DraggableResizable.propTypes = {
   children: PropTypes.node,
   childRef: PropTypes.oneOfType([
-    // Either a function
     PropTypes.func,
-    // Or the instance of a DOM native element (see the note about SSR)
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ])
 };

@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import {
-  //   getOAuthUrlForToolThunk,
-  getTokenConnectionForToolThunk
-} from '../../api';
+import { getTokenConnectionForToolThunk } from '../../api';
 
 import { LOADING_STATUS } from './constants';
 
@@ -34,10 +31,7 @@ export const toolAuthSlice = createSlice({
   }
 });
 
-// export const { setUATUrl, setHasToken } = authSlice.actions;
-
 export default toolAuthSlice.reducer;
 
-// export const uatUrlSelector = (state) => state.auth.uatUrl;
 export const toolAuthLoadingSelector = (state) => state.toolAuth.loading;
 export const toolAuthErrorSelector = (state) => state.toolAuth.error;

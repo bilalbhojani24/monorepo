@@ -8,7 +8,7 @@ import { fetchTokenThunk } from './fetchToken';
 const cookie = new Cookie();
 export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
-    const token = cookie.read('UAT');
+    const token = cookie.read('integrations_UAT');
     if (token) {
       // eslint-disable-next-line no-param-reassign
       config.headers.Authorization = `Bearer ${token}`;
@@ -30,10 +30,10 @@ export const responseInterceptor = axios.interceptors.response.use(
     const { status, data } = error.response;
     if (status === 401 && data.message.name === 'TokenExpiredError') {
       // token has expired
-      cookie.erase('UAT'); // remove cookie
+      cookie.erase('integrations_UAT'); // remove cookie
       return store.dispatch(fetchTokenThunk()).then(() => {
         // new UAT has been issued and stored in cookie
-        const token = cookie.read('UAT');
+        const token = cookie.read('integrations_UAT');
         const configShallowCopy = error.config;
         if (token) {
           // update the original request config with new token
