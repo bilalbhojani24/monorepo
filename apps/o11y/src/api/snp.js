@@ -12,13 +12,13 @@ export const getSnPTests = async ({
   sortOptions,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/?orderKey=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/?orderKey=${
     sortOptions.type
   }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
     filters.isFlaky
   }`;
-  if (pagingParams?.offset && pagingParams?.start) {
-    endpoint = `${endpoint}&start=${pagingParams.start}&offset=${pagingParams.offset}`;
+  if (pagingParams?.pageNumber) {
+    endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
   }
   if (filters.buildName && filters?.buildName?.value !== 'all') {
     endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
@@ -35,7 +35,7 @@ export const getSnPTestsBreakdown = async ({
   buildName,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/breakdown?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/breakdown?`;
 
   if (buildName && buildName !== 'all') {
     endpoint = `${endpoint}&buildName=${buildName}`;
@@ -47,21 +47,31 @@ export const getSnPTestsBreakdown = async ({
   return axios.get(endpoint);
 };
 
-export const getSnPTestsDetailsInfo = async ({ normalisedName, testId }) =>
-  axios.get(`
-  ${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/info
-  `);
+export const getSnPTestsDetailsInfo = async ({
+  normalisedName,
+  testId,
+  filters
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/info?isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
+  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
+    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
 export const getSnPDetailsStats = async ({
   normalisedName,
   testId,
   cbtInfo,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/stats?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/stats?browser=${
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
   if (filters.buildName && filters?.buildName?.value !== 'all') {
     endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
   }
@@ -76,11 +86,11 @@ export const getSnPDetailsTrend = async ({
   cbtInfo,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/trend?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/trend?browser=${
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
   if (filters.buildName && filters?.buildName?.value !== 'all') {
     endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
   }
@@ -98,10 +108,10 @@ export const getSnPDetailsBuilds = async ({
   filters
 }) => {
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/builds?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
   if (pagingParams?.offset && pagingParams?.start) {
     endpoint = `${endpoint}&start=${pagingParams.start}&offset=${pagingParams.offset}`;
   }

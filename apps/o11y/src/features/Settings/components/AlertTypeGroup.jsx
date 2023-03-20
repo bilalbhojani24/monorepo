@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EllipsisVerticalIcon } from '@browserstack/bifrost';
 import {
   O11yDropdown,
@@ -9,6 +9,8 @@ import {
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
@@ -20,11 +22,42 @@ import {
 import { getAlertDataByType } from '../slices/selectors';
 
 export default function AlertTypeGroup({ type }) {
+  const dispatch = useDispatch();
   const alerts = useSelector(getAlertDataByType(type));
 
   if (isEmpty(alerts)) {
     return null;
   }
+
+  const handleClickMeatBall = (value, alert) => {
+    switch (value.id) {
+      case 'edit':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.add_edit_alert,
+            data: {
+              action: 'edit',
+              alertData: alert
+            }
+          })
+        );
+        break;
+      case 'delete':
+        dispatch(
+          toggleModal({
+            version: MODAL_TYPES.delete_alert,
+            data: {
+              alertId: alert.id,
+              alertType: alert.alertType
+            }
+          })
+        );
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -39,23 +72,27 @@ export default function AlertTypeGroup({ type }) {
       </O11yTableRow>
       {alerts.map((alert) => (
         <O11yTableRow key={alert.id}>
-          <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal max-w-xs">
+          <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal">
             {alert.name}
           </O11yTableCell>
           <O11yTableCell>
-            <p className="flex gap-1">
-              <span>
-                {
-                  ALERT_CONDITION_MAP?.[
-                    alert?.alertRules?.[ALERT_LEVELS.WARNING]?.condition
-                  ].tableText
-                }
-              </span>
-              <span>
-                {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value}
-                {ALERT_TYPES_INFO[type].suffix}
-              </span>
-            </p>
+            {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value ? (
+              <p className="flex gap-1">
+                <span>
+                  {
+                    ALERT_CONDITION_MAP?.[
+                      alert?.alertRules?.[ALERT_LEVELS.WARNING]?.condition
+                    ].tableText
+                  }
+                </span>
+                <span>
+                  {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value}
+                  {ALERT_TYPES_INFO[type].suffix}
+                </span>
+              </p>
+            ) : (
+              <p className="pl-1">-</p>
+            )}
           </O11yTableCell>
           <O11yTableCell>
             <p className="flex gap-1">
@@ -74,14 +111,14 @@ export default function AlertTypeGroup({ type }) {
           </O11yTableCell>
           <O11yTableCell>
             <div className="flex justify-between">
-              {alert?.buildName?.length
-                ? `${alert.buildName.length} builds`
+              {alert?.buildNames?.length
+                ? `${alert.buildNames.length} build${
+                    alert.buildNames.length > 1 ? 's' : ''
+                  }`
                 : 'All builds'}
 
               <O11yDropdown
-              // onClick={(value) => {
-              //   console.log(value);
-              // }}
+                onClick={(value) => handleClickMeatBall(value, alert)}
               >
                 <div className="flex">
                   <O11yDropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
@@ -92,9 +129,13 @@ export default function AlertTypeGroup({ type }) {
                   </O11yDropdownTrigger>
                 </div>
 
-                <O11yDropdownOptionGroup>
+                <O11yDropdownOptionGroup wrapperClassName="w-32">
                   <O11yDropdownOptionItem
-                    option={{ body: 'Edit Alert', id: 'edit' }}
+                    option={{ body: 'Edit', id: 'edit' }}
+                  />
+                  <O11yDropdownOptionItem
+                    option={{ body: 'Delete', id: 'delete' }}
+                    wrapperClassName="text-danger-600"
                   />
                 </O11yDropdownOptionGroup>
               </O11yDropdown>

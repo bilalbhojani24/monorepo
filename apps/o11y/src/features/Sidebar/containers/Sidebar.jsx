@@ -31,7 +31,7 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     activeIcon: MdOutlineBuildCircle,
     inActiveIcon: MdOutlineBuildCircle,
     path: getProjectBuildsPath(projectNormalisedName),
-    pattern: ROUTES.builds
+    pattern: `${ROUTES.builds}/*`
   },
   {
     id: 'suite_health',

@@ -17,14 +17,14 @@ export const getBuilds = async ({
   return axios.get(endpoint, { params: { ...filtersObject, ...paramsObject } });
 };
 
-export const getBuildMetaDataAPI = async (buildId) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}`);
+export const getBuildMetaDataAPI = async ({ buildUUID }) =>
+  axios.get(`${versionedBaseRoute()}/builds/${buildUUID}`);
 
-export const getBuildIdFromBuildInfoApi = async (
+export const getBuildIdFromBuildInfoApi = async ({
   projectNormalisedName,
   buildNormalisedName,
   buildSerialId
-) => {
+}) => {
   const searchParams = new URLSearchParams();
   searchParams.append('projectNormalisedName', projectNormalisedName);
   searchParams.append('buildNormalisedName', buildNormalisedName);

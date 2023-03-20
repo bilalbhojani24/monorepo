@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import {

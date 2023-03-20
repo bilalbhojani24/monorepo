@@ -144,6 +144,7 @@ const DataVisualization = ({
             <a
               href={footerProps.linkTo}
               className="text-brand-600 text-sm font-medium leading-5"
+              onClick={(e) => footerProps?.onClick?.(e)}
             >
               {footerProps.linkText}
               <span aria-hidden="true"> &rarr;</span>
@@ -164,7 +165,8 @@ DataVisualization.propTypes = {
   footerProps: PropTypes.shape({
     linkTo: PropTypes.string,
     linkText: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    onClick: PropTypes.func
   }),
   KpiProps: PropTypes.arrayOf({
     title: PropTypes.string,

@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
+import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
 import Filters from './components/Filters';
@@ -29,6 +30,8 @@ import { EMPTY_APPLIED_FILTERS, EMPTY_SELECTED_FILTERS } from './constants';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { projectNormalisedName } = useParams();
   const [, setSearchParams] = useSearchParams();
   const buildsData = useSelector(getBuilds);
@@ -99,6 +102,17 @@ const AllBuildsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appliedFilters]);
 
+  const handleClickBuildItem = (currentIdx) => {
+    const build = buildsData[currentIdx];
+    navigate(
+      getBuildPath(
+        projectNormalisedName,
+        build?.normalisedName,
+        build?.buildNumber
+      )
+    );
+  };
+
   return (
     <div className="flex h-full flex-col">
       <div className="border-base-300 border-b px-8 py-5">
@@ -162,6 +176,7 @@ const AllBuildsPage = () => {
                 </O11yTableCell>
               </O11yTableRow>
             )}
+            handleRowClick={handleClickBuildItem}
           />
         )}
       </div>

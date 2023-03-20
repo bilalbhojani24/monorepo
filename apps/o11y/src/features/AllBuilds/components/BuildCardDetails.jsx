@@ -16,6 +16,7 @@ import {
   O11yTooltip
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import StatusBadges from 'common/StatusBadges';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
@@ -102,16 +103,15 @@ const BuildCardDetails = ({ data }) => {
                     theme="dark"
                     content={
                       <div className="mx-4">
-                        <p className="text-base-300">
-                          Static build name automatically detected:
-                          {data.name}
+                        <p className="text-base-300 text-sm leading-5">
+                          Static build name automatically detected: {data.name}
                         </p>
                         <a
                           target="_new"
                           href={getDocUrl({
                             path: DOC_KEY_MAPPING.automation_build
                           })}
-                          className="text-base-50 mt-2 block underline"
+                          className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
                         >
                           Learn More
                         </a>
@@ -146,7 +146,7 @@ const BuildCardDetails = ({ data }) => {
               <span className="mx-2">
                 <MdAllInclusive className="text-base-600 inline-block" />
               </span>
-              {data.versionControlInfo ? (
+              {data?.versionControlInfo ? (
                 <O11yHyperlink
                   target="_new"
                   wrapperClassName="inline-block"
@@ -166,80 +166,14 @@ const BuildCardDetails = ({ data }) => {
         </div>
       </O11yTableCell>
       <O11yTableCell>
-        <O11yTooltip
-          theme="dark"
-          placementSide="top"
-          content={
-            <div className="text-base-100 mx-4">
-              <p>Passed</p>
-            </div>
-          }
-        >
-          <O11yBadge
-            wrapperClassName="mx-1"
-            hasRemoveButton={false}
-            modifier="success"
-            hasDot={false}
-            size="large"
-            text={data?.statusStats?.passed || 0}
-          />
-        </O11yTooltip>
-        <O11yTooltip
-          theme="dark"
-          placementSide="top"
-          content={
-            <div className="text-base-100 mx-4">
-              <p>Failed</p>
-            </div>
-          }
-        >
-          <O11yBadge
-            wrapperClassName="mx-1"
-            hasRemoveButton={false}
-            modifier="error"
-            hasDot={false}
-            size="large"
-            text={data?.statusStats?.failed || 0}
-          />
-        </O11yTooltip>
-        <O11yTooltip
-          theme="dark"
-          placementSide="top"
-          content={
-            <div className="text-base-100 mx-4">
-              <p>Skipped</p>
-            </div>
-          }
-        >
-          <O11yBadge
-            wrapperClassName="mx-1"
-            hasRemoveButton={false}
-            modifier="base"
-            hasDot={false}
-            size="large"
-            text={data?.statusStats?.skipped || 0}
-          />
-        </O11yTooltip>
-        <O11yTooltip
-          theme="dark"
-          placementSide="top"
-          content={
-            <div className="text-base-100 mx-4">
-              <p>Timeout</p>
-            </div>
-          }
-        >
-          <O11yBadge
-            wrapperClassName="mx-1"
-            hasRemoveButton={false}
-            modifier="warn"
-            hasDot={false}
-            size="large"
-            text={data?.statusStats?.timeout || 0}
-          />
-        </O11yTooltip>
+        <StatusBadges statusStats={data.statusStats} />
       </O11yTableCell>
-      <O11yTableCell>{milliSecondsToTime(data.duration)}</O11yTableCell>
+      <O11yTableCell>
+        <O11yMetaData
+          label={milliSecondsToTime(data.duration)}
+          title="Duration"
+        />
+      </O11yTableCell>
       <O11yTableCell>
         <div className="flex overflow-hidden rounded-xl">
           {Object.entries(data?.issueTypeAggregate)?.every(
