@@ -6,3 +6,4 @@ export const URLS = {
 };
 
 export const REQUEST_TIMOUT = 15000;
+export const UAT_COOKIE_NAME = 'integrations_UAT';

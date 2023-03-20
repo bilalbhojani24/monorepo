@@ -4,12 +4,12 @@ import axios from 'axios';
 
 import { setHasToken, uatUrlSelector } from '../features/slices/userAuthSlice';
 
-import { REQUEST_TIMOUT } from './constants';
+import { REQUEST_TIMOUT, UAT_COOKIE_NAME } from './constants';
 
 export const fetchToken = (_, { getState, dispatch }) => {
   const url = uatUrlSelector(getState());
   const cookie = new Cookie();
-  const integrationsToken = cookie.read('integrations_UAT');
+  const integrationsToken = cookie.read(UAT_COOKIE_NAME);
   const hasToken = Boolean(integrationsToken);
   if (hasToken) {
     // cookie with token exists, update state
@@ -32,7 +32,7 @@ export const fetchToken = (_, { getState, dispatch }) => {
       }
     })
     .then((response) => {
-      cookie.create('UAT', response.data.access_token);
+      cookie.create(UAT_COOKIE_NAME, response.data.access_token);
       dispatch(setHasToken(true));
       return response;
     });
