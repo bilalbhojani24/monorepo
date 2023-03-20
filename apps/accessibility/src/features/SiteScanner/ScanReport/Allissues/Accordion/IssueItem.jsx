@@ -240,7 +240,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`https://accessibility.browserstack.com/more-info/4.4/${activeViolation.id}`}
+                href={`https://accessibility.browserstack.com/api/more-info/4.4/${activeViolation.id}`}
                 target="_blank"
                 onClick={
                   isGuidelineMode
@@ -298,7 +298,7 @@ export default function IssueItem() {
                 <div className="mr-2 w-full">
                   <InputField id={url} value={url} readonly />
                 </div>
-                <CopyButton text={window.location.href} />
+                <CopyButton text={url} />
               </div>
             </div>
           </div>
