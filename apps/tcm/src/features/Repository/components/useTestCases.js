@@ -13,15 +13,19 @@ import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/impor
 import {
   resetTestCaseDetails,
   setAddTestCaseVisibility,
+  setCurrentEditedTestCaseData,
+  setDummyTestCaseFormData,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
   setTagsArray,
   setTestCaseDetails,
+  setTestCaseFormData,
   setUsers,
   updateAllTestCases,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import { formDataRetriever } from '../utils/sharedFunctions';
 
 export default function useTestCases() {
   const navigate = useNavigate();
@@ -95,6 +99,13 @@ export default function useTestCases() {
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);
       dispatch(setTagsArray(mappedTags));
+
+      if (selectedTestCase) {
+        const formattedData = formDataRetriever(mappedTags, selectedTestCase);
+        dispatch(setDummyTestCaseFormData(formattedData));
+        dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
+        dispatch(setTestCaseFormData(formattedData));
+      }
       // handleTestCaseFieldChange('tags', mappedTags);
     });
   };

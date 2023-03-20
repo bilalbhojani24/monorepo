@@ -20,11 +20,13 @@ import {
   setDeleteTestCaseModalVisibility,
   setDummyTestCaseFormData,
   setEditTestCasePageVisibility,
+  setIssuesArray,
   setSelectedTestCase,
   setTestCaseDetails,
   setTestCaseFormData,
   updateAllTestCases
 } from '../slices/repositorySlice';
+import { formDataRetriever } from '../utils/sharedFunctions';
 
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ const useTestCasesTable = (prop) => {
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.ids
   );
+  const tagsArray = useSelector((state) => state.repository.tagsArray);
   const deSelectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.de_selected_ids
   );
@@ -169,11 +172,13 @@ const useTestCasesTable = (prop) => {
   const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
+      const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
-      dispatch(setDummyTestCaseFormData(selectedItem));
-      dispatch(setCurrentEditedTestCaseData(selectedItem)); // [NOTE: RTE fix]
-      dispatch(setTestCaseFormData(selectedItem));
+      dispatch(setDummyTestCaseFormData(formattedData));
+      dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
+      dispatch(setTestCaseFormData(formattedData));
+      if (formattedData.issues) dispatch(setIssuesArray(formattedData.issues));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete
       dispatch(setDeleteTestCaseModalVisibility(true));

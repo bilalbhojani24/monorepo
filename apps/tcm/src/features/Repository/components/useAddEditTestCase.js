@@ -42,6 +42,7 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 import { handleUnsavedData } from '../slices/repositoryThunk';
+import { formDataRetriever } from '../utils/sharedFunctions';
 
 import useTestCases from './useTestCases';
 import useUnsavedChanges from './useUnsavedChanges';
@@ -164,12 +165,6 @@ export default function useAddEditTestCase(prop) {
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
 
-  const formDataRetriever = (formData) => ({
-    ...formData,
-    tags: tagsArray.filter((item) => formData?.tags.includes(item.value)),
-    issues: selectMenuValueMapper(formData?.issues?.map((item) => item.jira_id))
-  });
-
   const fetchTestCaseDetails = () => {
     if (folderId && selectedTestCase?.id) {
       getTestCaseDetailsAPI({
@@ -177,7 +172,10 @@ export default function useAddEditTestCase(prop) {
         folderId,
         testCaseId: selectedTestCase.id
       }).then((data) => {
-        const formattedData = formDataRetriever(data?.data?.test_case);
+        const formattedData = formDataRetriever(
+          tagsArray,
+          data?.data?.test_case
+        );
         dispatch(setDummyTestCaseFormData(formattedData));
         dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
         dispatch(setTestCaseFormData(formattedData));
