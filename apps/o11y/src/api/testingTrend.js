@@ -11,17 +11,17 @@ const getCommonFilterQuery = (filters) => {
   }
   return queryString;
 };
-export const getBuildNames = async ({ normalizedName }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/buildNames`;
+export const getBuildNames = async ({ normalisedName }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/buildNames`;
   return axios.get(endpoint);
 };
 
 export const getTrendStability = async ({
-  normalizedName,
+  normalisedName,
   filters,
   currentPagingParams
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/stability?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/stability?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   if (currentPagingParams?.pageNumber) {
     endpoint += `&pageNumber=${currentPagingParams.pageNumber}`;
@@ -29,20 +29,20 @@ export const getTrendStability = async ({
   return axios.get(endpoint);
 };
 export const getTrendStabilityChart = async ({
-  normalizedName,
+  normalisedName,
   buildId,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/stability/${buildId}/chart?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/stability/${buildId}/chart?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   return axios.get(endpoint);
 };
 export const getTrendPerformance = async ({
-  normalizedName,
+  normalisedName,
   filters,
   currentPagingParams
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/performance?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/performance?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   if (currentPagingParams?.pageNumber) {
     endpoint += `&pageNumber=${currentPagingParams.pageNumber}`;
@@ -50,39 +50,39 @@ export const getTrendPerformance = async ({
   return axios.get(endpoint);
 };
 export const getTrendPerformanceChart = async ({
-  normalizedName,
+  normalisedName,
   buildId,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/performance/${buildId}/chart?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/performance/${buildId}/chart?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   return axios.get(endpoint);
 };
 export const getTrendUniqueBuilds = async ({
-  normalizedName,
+  normalisedName,
   pagingParams
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/uniqueRuns?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/uniqueRuns?`;
   if (pagingParams?.pageNumber !== undefined) {
     endpoint += `pageNumber=${pagingParams.pageNumber}`;
   }
   return axios.get(endpoint);
 };
 export const getTrendFailureCategories = async ({
-  normalizedName,
+  normalisedName,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/failureCategories?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/failureCategories?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   return axios.get(endpoint);
 };
-export const getTrendBuildFrequency = async ({ normalizedName, filters }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/buildFrequency?`;
+export const getTrendBuildFrequency = async ({ normalisedName, filters }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/buildFrequency?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   return axios.get(endpoint);
 };
-export const getTrendsDataAPI = async ({ normalizedName, filters, key }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalizedName}/testingTrends/${key}?`;
+export const getTrendsDataAPI = async ({ normalisedName, filters, key }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/${key}?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
   return axios.get(endpoint);
 };

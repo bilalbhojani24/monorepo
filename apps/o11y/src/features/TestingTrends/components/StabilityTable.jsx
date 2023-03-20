@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
-import classNames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
+import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import MiniChart from 'common/MiniChart';
-import O11yLoader from 'common/O11yLoader/components/O11yLoader';
+import VirtualisedTable from 'common/VirtualisedTable';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendStabilityData } from 'features/TestingTrends/slices/testingTrendsSlice';
@@ -11,30 +11,21 @@ import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-const LoadingFooter = () => (
-  <div className="">
-    <O11yLoader />
-  </div>
-);
-
-const StabilityTableItem = React.memo(
-  ({ item, index, handleBuildSelect, selectedBuild }) => (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
-      className={classNames(
-        'flex items-center text-sm border-b border-base-300 h-12 p-2 font-medium',
-        {
-          'to-trend-stability-table__item--active': selectedBuild === item.id,
-          'to-trend-stability-table__item--greyBg': index % 2 !== 0
-        }
-      )}
-      key={item.id}
-      role="button"
-      tabIndex={0}
-      onClick={() => handleBuildSelect(item.id)}
+const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
+  <>
+    <O11yTableCell
+      wrapperClassName={twClassNames({
+        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+      })}
     >
-      <div className="flex-1">{item.buildName}</div>
-      <div className="flex h-full flex-1">
+      {item?.buildName}
+    </O11yTableCell>
+    <O11yTableCell
+      wrapperClassName={twClassNames({
+        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+      })}
+    >
+      <div className="flex items-center">
         <MiniChart
           data={item.chartData || []}
           lineColor="#376D98"
@@ -43,9 +34,9 @@ const StabilityTableItem = React.memo(
         />
         <p className="pl-2">{item.percentage}%</p>
       </div>
-    </div>
-  )
-);
+    </O11yTableCell>
+  </>
+));
 
 export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
   const filters = useSelector(getAllTTFilters);
@@ -56,7 +47,6 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
   const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector(getProjects);
-  const containerRef = useRef(null);
 
   const fetchData = useCallback(
     ({ newPage = false, currentPagingParams }) => {
@@ -116,6 +106,11 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
     }
   };
 
+  const handleClickBuildItem = (id) => {
+    const selectedId = stabilityData?.data[id]?.id;
+    handleBuildSelect(selectedId);
+  };
+
   return (
     <TrendStatesWrapper
       isLoading={isLoading}
@@ -124,32 +119,26 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
       onClickCTA={loadInitialData}
       showTitle={false}
     >
-      <div className="flex h-96 flex-1 flex-col overflow-y-scroll px-4 pb-4 pt-0 text-sm">
-        <div className="border-base-300 flex items-center border-b p-2 font-semibold">
-          <div className="flex-1">BUILD NAME</div>
-          <div className="flex-1">STABILITY</div>
-        </div>
-        <div className="relative h-96" ref={containerRef}>
-          {!!stabilityData?.data?.length && (
-            <Virtuoso
-              customScrollParent={containerRef.current}
-              data={stabilityData.data}
-              overscan={100}
-              endReached={loadMoreRows}
-              itemContent={(index, item) => (
-                <StabilityTableItem
-                  item={item}
-                  index={index}
-                  handleBuildSelect={handleBuildSelect}
-                  selectedBuild={selectedBuild}
-                />
-              )}
-              components={{
-                Footer: isLoadingMore ? LoadingFooter : null
-              }}
+      <div className="h-96 flex-1 p-4">
+        <VirtualisedTable
+          data={stabilityData?.data}
+          endReached={loadMoreRows}
+          showFixedFooter={isLoadingMore}
+          tableRowWrapperClassName="shadow-none"
+          itemContent={(index, singleBuildData) => (
+            <StabilityTableItem
+              item={singleBuildData}
+              selectedBuild={selectedBuild}
             />
           )}
-        </div>
+          fixedHeaderContent={() => (
+            <O11yTableRow>
+              <O11yTableCell>BUILD NAME</O11yTableCell>
+              <O11yTableCell>STABILITY</O11yTableCell>
+            </O11yTableRow>
+          )}
+          handleRowClick={handleClickBuildItem}
+        />
       </div>
     </TrendStatesWrapper>
   );
@@ -163,9 +152,7 @@ StabilityTable.defaultProps = {
   selectedBuild: ''
 };
 StabilityTableItem.propTypes = {
-  index: PropTypes.number.isRequired,
   item: PropTypes.objectOf(PropTypes.any).isRequired,
-  handleBuildSelect: PropTypes.func.isRequired,
   selectedBuild: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 StabilityTableItem.defaultProps = {
