@@ -75,6 +75,7 @@ import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
+import StackedList from './modules/StackedList';
 import StackedListWAvatar from './modules/StackedListWAvatar/index';
 import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
 import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
@@ -176,6 +177,7 @@ export {
   SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
+  StackedList,
   StackedListWAvatar,
   StackedListWSingleColumn,
   StackedListWStickyHeadings,

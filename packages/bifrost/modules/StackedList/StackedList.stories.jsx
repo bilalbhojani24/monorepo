@@ -346,8 +346,116 @@ TwoColumnsWithAsideContent.args = {
   )
 };
 
+const ContentLinksWithAction = Template.bind({});
+ContentLinksWithAction.args = {
+  footer: (
+    <div className="bg-white py-3 text-center">
+      <button
+        className="border-base-300 w-full rounded-md border py-1"
+        type="button"
+      >
+        Action
+      </button>
+    </div>
+  ),
+  children: (
+    <StackedListGroup>
+      <StackedListItem>
+        <StackedListCommon
+          title={
+            <a className="hover:underline" href="#/">
+              Velit placeat sit ducimus non sed
+            </a>
+          }
+          subTitle={
+            <p className="text-base-600 mt-1 whitespace-normal text-sm">
+              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
+              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
+              laudantium sed id dolores omnis in. Eos reiciendis deserunt
+              maiores et accusamus quod dolor.
+            </p>
+          }
+        />
+      </StackedListItem>
+      <StackedListItem>
+        <StackedListCommon
+          title={
+            <a className="hover:underline" href="#/">
+              Velit placeat sit ducimus non sed
+            </a>
+          }
+          subTitle={
+            <p className="text-base-600 mt-1 whitespace-normal text-sm">
+              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
+              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
+              laudantium sed id dolores omnis in. Eos reiciendis deserunt
+              maiores et accusamus quod dolor.
+            </p>
+          }
+        />
+      </StackedListItem>
+    </StackedListGroup>
+  )
+};
+
+const ContentLinksWithAsideContent = Template.bind({});
+ContentLinksWithAsideContent.args = {
+  footer: (
+    <div className="bg-white py-3 text-center">
+      <button
+        className="border-base-300 w-full rounded-md border py-1"
+        type="button"
+      >
+        Action
+      </button>
+    </div>
+  ),
+  children: (
+    <StackedListGroup>
+      <StackedListItem>
+        <StackedListCommon
+          title={
+            <a className="hover:underline" href="#/">
+              Velit placeat sit ducimus non sed
+            </a>
+          }
+          contentAside={<span className="text-base-500 text-sm">1d ago</span>}
+          subTitle={
+            <p className="text-base-600 mt-1 whitespace-normal text-sm">
+              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
+              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
+              laudantium sed id dolores omnis in. Eos reiciendis deserunt
+              maiores et accusamus quod dolor.
+            </p>
+          }
+        />
+      </StackedListItem>
+      <StackedListItem>
+        <StackedListCommon
+          title={
+            <a className="hover:underline" href="#/">
+              Velit placeat sit ducimus non sed
+            </a>
+          }
+          contentAside={<span className="text-base-500 text-sm">1d ago</span>}
+          subTitle={
+            <p className="text-base-600 mt-1 whitespace-normal text-sm">
+              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
+              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
+              laudantium sed id dolores omnis in. Eos reiciendis deserunt
+              maiores et accusamus quod dolor.
+            </p>
+          }
+        />
+      </StackedListItem>
+    </StackedListGroup>
+  )
+};
+
 export default defaultConfig;
 export {
+  ContentLinksWithAction,
+  ContentLinksWithAsideContent,
   Primary,
   TwoColumnsWithAsideContent,
   TwoColumnsWithAvatar,
