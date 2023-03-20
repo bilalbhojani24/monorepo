@@ -117,6 +117,7 @@ export default function useAddEditFolderModal(prop) {
             } else {
               // no folder, remove all test cases
               dispatch(updateAllTestCases([]));
+              navigate(`/projects/${projectId}/folder`);
             }
           }
 
