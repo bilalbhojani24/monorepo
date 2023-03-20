@@ -18,9 +18,9 @@ export default function TestingTrends() {
     const { title } = TREND_CARDS[key];
     switch (key) {
       case 'stability':
-        return <StabilityTrend />;
+        return <StabilityTrend title={title} />;
       case 'performance':
-        return <PerformanceTrend />;
+        return <PerformanceTrend title={title} />;
       case 'testGrowthOverTime':
         return (
           <TrendsCard

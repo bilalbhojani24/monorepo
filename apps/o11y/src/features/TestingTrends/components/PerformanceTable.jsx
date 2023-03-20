@@ -135,7 +135,7 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
       onClickCTA={loadInitialData}
       showTitle={false}
     >
-      <div className="flex flex-col px-5 pt-0 pb-5">
+      <div className="flex h-96 flex-col overflow-y-scroll px-5 pt-0 pb-5">
         <div className="border-base-300 flex items-center rounded-sm border-b p-2 text-sm">
           <div className="flex-1 font-medium">BUILD NAME</div>
           <div className="flex-1 font-medium">TESTS</div>

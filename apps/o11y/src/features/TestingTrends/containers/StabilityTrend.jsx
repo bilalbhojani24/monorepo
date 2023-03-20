@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { Button, MdDragIndicator } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import CardHeader from 'features/TestingTrends/components/CardHeader';
 import StabilityLineGraph from 'features/TestingTrends/components/StabilityLineGraph';
 import StabilityTable from 'features/TestingTrends/components/StabilityTable';
+import PropTypes from 'prop-types';
 
-import { TREND_CARDS } from '../constants';
-
-export default function StabilityTrend() {
+export default function StabilityTrend({ title }) {
   const [selectedBuild, setSelectedBuild] = useState('');
   const handleBuildSelect = useCallback((id) => {
     setSelectedBuild(id);
@@ -19,17 +18,7 @@ export default function StabilityTrend() {
           'w-full': !selectedBuild
         })}
       >
-        <p className="flex items-center justify-between bg-white px-5 pt-5 pb-4">
-          {TREND_CARDS.stability.title}
-          <Button
-            colors="white"
-            onClick={() => {}}
-            icon={<MdDragIndicator />}
-            isIconOnlyButton
-            size="small"
-            wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible"
-          />
-        </p>
+        <CardHeader title={title} />
         <StabilityTable
           handleBuildSelect={handleBuildSelect}
           selectedBuild={selectedBuild}
@@ -43,3 +32,7 @@ export default function StabilityTrend() {
     </div>
   );
 }
+
+StabilityTrend.propTypes = {
+  title: PropTypes.string.isRequired
+};

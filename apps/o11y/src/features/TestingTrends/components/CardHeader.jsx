@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function CardHeader({ title }) {
   return (
     <div className="flex justify-between px-6 pt-3">
-      <p className="text-lg">{title}</p>
+      <p className="text-lg font-semibold">{title}</p>
       <Button
         colors="white"
         onClick={() => {}}

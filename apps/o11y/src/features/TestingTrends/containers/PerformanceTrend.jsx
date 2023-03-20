@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { Button, MdDragIndicator } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import CardHeader from 'features/TestingTrends/components/CardHeader';
 import PerformanceGraph from 'features/TestingTrends/components/PerformanceGraph';
+import PropTypes from 'prop-types';
 
 import PerformanceTable from '../components/PerformanceTable';
-import { TREND_CARDS } from '../constants';
 
-export default function PerformanceTrend() {
+export default function PerformanceTrend({ title }) {
   const [selectedBuild, setSelectedBuild] = useState('');
   const handleBuildSelect = useCallback((id) => {
     setSelectedBuild(id);
@@ -19,17 +19,7 @@ export default function PerformanceTrend() {
           'w-full': !selectedBuild
         })}
       >
-        <p className="flex items-center justify-between bg-white px-5 pt-5 pb-4">
-          {TREND_CARDS.performance.title}
-          <Button
-            colors="white"
-            onClick={() => {}}
-            icon={<MdDragIndicator />}
-            isIconOnlyButton
-            size="small"
-            wrapperClassName="border-none to-test-trend__dragHandler hidden group-hover:block"
-          />
-        </p>
+        <CardHeader title={title} />
         <PerformanceTable
           handleBuildSelect={handleBuildSelect}
           selectedBuild={selectedBuild}
@@ -43,3 +33,7 @@ export default function PerformanceTrend() {
     </div>
   );
 }
+
+PerformanceTrend.propTypes = {
+  title: PropTypes.string.isRequired
+};

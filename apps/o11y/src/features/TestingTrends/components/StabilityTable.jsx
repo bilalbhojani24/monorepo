@@ -22,7 +22,7 @@ const StabilityTableItem = React.memo(
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       className={classNames(
-        'flex items-center text-xs border-b border-base-300 h-12 p-2',
+        'flex items-center text-sm border-b border-base-300 h-12 p-2 font-medium',
         {
           'to-trend-stability-table__item--active': selectedBuild === item.id,
           'to-trend-stability-table__item--greyBg': index % 2 !== 0
