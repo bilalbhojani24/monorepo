@@ -87,6 +87,7 @@ export default function useIssueItem(activeComponentNodes) {
         if (showHiddenIssues) {
           if (item.hidden) {
             result.push({
+              id: `${testType}:${item.reportId}`,
               reportName:
                 reportMetaData.meta[`${testType}:${item.reportId}`].name,
               confirmed: false
@@ -95,6 +96,7 @@ export default function useIssueItem(activeComponentNodes) {
         } else if (activeFilters.showNeedsReviewIssues) {
           if (item.confirmed === null) {
             result.push({
+              id: `${testType}:${item.reportId}`,
               reportName:
                 reportMetaData.meta[`${testType}:${item.reportId}`].name,
               confirmed: item.confirmed
@@ -102,6 +104,7 @@ export default function useIssueItem(activeComponentNodes) {
           }
         } else {
           result.push({
+            id: `${testType}:${item.reportId}`,
             reportName:
               reportMetaData.meta[`${testType}:${item.reportId}`].name,
             confirmed: item.confirmed
