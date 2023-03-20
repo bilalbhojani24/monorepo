@@ -22,10 +22,13 @@ const StackedListItem = ({
       : children;
   return (
     <li
-      className={twClassNames('px-4 py-4 sm:px-6 flex items-center truncate', {
-        'shadow px-6 hover:bg-base-50 cursor-pointer rounded-md':
-          variant === 'card'
-      })}
+      className={twClassNames(
+        'relative px-4 py-4 sm:px-6 flex items-center truncate',
+        {
+          'shadow px-6 hover:bg-base-50 cursor-pointer rounded-md':
+            variant === 'card'
+        }
+      )}
     >
       <span className="block flex-1 justify-between gap-3 md:flex">
         {effectiveChildren}

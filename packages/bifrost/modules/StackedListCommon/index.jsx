@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const StackedListCommon = ({
@@ -6,31 +7,42 @@ const StackedListCommon = ({
   subTitle,
   actions,
   contentAside,
-  icon
+  icon,
+  align
 }) => (
-  <div className="grow">
+  <div
+    className={twClassNames('grow flex items-center', {
+      'md:flex md:justify-end md:text-right': align === 'right',
+      'md:pt-7': contentAside
+    })}
+  >
     {icon && <span className="float-left mr-3">{icon}</span>}
     <span className="text-sm">
       <p className="text-base-900 truncate font-medium">{title}</p>
       <p className="truncate">{subTitle}</p>
     </span>
-    {contentAside && <span>{contentAside}</span>}
+    {contentAside && (
+      <span className="absolute top-3 right-4">{contentAside}</span>
+    )}
     {actions}
   </div>
 );
 
 StackedListCommon.propTypes = {
-  title: PropTypes.node.isRequired,
+  title: PropTypes.node,
   subTitle: PropTypes.node,
   actions: PropTypes.node,
   contentAside: PropTypes.node,
-  icon: PropTypes.node
+  icon: PropTypes.node,
+  align: PropTypes.oneOf(['left', 'right'])
 };
 StackedListCommon.defaultProps = {
   subTitle: null,
   actions: null,
   contentAside: null,
-  icon: null
+  icon: null,
+  title: null,
+  align: 'left'
 };
 
 export default StackedListCommon;

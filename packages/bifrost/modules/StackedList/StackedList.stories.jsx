@@ -1,7 +1,12 @@
 import React from 'react';
-import { ChevronRightIcon, EnvelopeIcon } from '@heroicons/react/20/solid';
+import {
+  CheckCircleIcon,
+  ChevronRightIcon,
+  EnvelopeIcon
+} from '@heroicons/react/20/solid';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Badge from '../Badge';
 import StackedListCommon from '../StackedListCommon';
 import StackedListGroup from '../StackedListGroup';
 import StackedListItem from '../StackedListItem';
@@ -268,6 +273,9 @@ WithStickyHeadings.args = {
     </>
   )
 };
+WithStickyHeadings.parameters = {
+  controls: {}
+};
 
 const TwoColumnsWithAvatar = Template.bind({});
 TwoColumnsWithAvatar.args = {
@@ -308,5 +316,40 @@ TwoColumnsWithAvatar.args = {
   )
 };
 
+const TwoColumnsWithAsideContent = Template.bind({});
+TwoColumnsWithAsideContent.args = {
+  children: (
+    <StackedListGroup>
+      <StackedListItem variant="card">
+        <StackedListCommon
+          icon={
+            <img
+              alt="Person One"
+              className="h-12 w-12 rounded-full"
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            />
+          }
+          title={<span className="text-brand-600">Ricardo Cooper</span>}
+        />
+        <StackedListCommon
+          subTitle={
+            <span className="text-base-500 mt-1 flex text-sm">
+              <CheckCircleIcon className="fill-success-500 h-5 w-5" />
+              <span className="ml-2 ">I am a subtitle</span>
+            </span>
+          }
+          align="right"
+          contentAside={<Badge modifier="primary" text="Aside content" />}
+        />
+      </StackedListItem>
+    </StackedListGroup>
+  )
+};
+
 export default defaultConfig;
-export { Primary, TwoColumnsWithAvatar, WithStickyHeadings };
+export {
+  Primary,
+  TwoColumnsWithAsideContent,
+  TwoColumnsWithAvatar,
+  WithStickyHeadings
+};
