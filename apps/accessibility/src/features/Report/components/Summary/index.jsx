@@ -160,48 +160,53 @@ export default function Summary() {
           <DataVisualization
             title="Issue Summary"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div className="flex w-full items-center justify-between">
-                <div className="w-3/5">
+                <div className="w-2/4">
                   <Chart options={chartOption} />
                 </div>
-                <div className="flex w-2/5 flex-col items-end">
-                  {impactList.map((impact) => (
-                    <div
-                      aria-label={impact}
-                      tabIndex={0}
-                      className="border-base-200 mb-4 flex h-6 w-40 cursor-pointer items-center justify-between border-b"
-                      onClick={() =>
-                        onRowClick(
-                          'impact',
-                          severityOptions.find(({ value }) => value === impact)
-                        )
-                      }
-                      onKeyDown={(e) =>
-                        handleClickByEnterOrSpace(e, () =>
+                <div className="flex w-2/4 flex-col items-center px-6">
+                  <div className="w-full">
+                    {impactList.map((impact) => (
+                      <div
+                        aria-label={impact}
+                        tabIndex={0}
+                        className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
+                        onClick={() =>
                           onRowClick(
                             'impact',
                             severityOptions.find(
                               ({ value }) => value === impact
                             )
                           )
-                        )
-                      }
-                      role="button"
-                    >
-                      <div className="text-base-800 flex items-center pb-3 text-sm">
-                        <div
-                          className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
-                        />
-                        {impact.charAt(0).toUpperCase()}
-                        {impact.slice(1, impact.length)}
+                        }
+                        onKeyDown={(e) =>
+                          handleClickByEnterOrSpace(e, () =>
+                            onRowClick(
+                              'impact',
+                              severityOptions.find(
+                                ({ value }) => value === impact
+                              )
+                            )
+                          )
+                        }
+                        role="button"
+                      >
+                        <div className="text-base-800 flex items-center pb-3 text-sm">
+                          <div
+                            className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
+                          />
+                          {impact.charAt(0).toUpperCase()}
+                          {impact.slice(1, impact.length)}
+                        </div>
+                        <p className="text-base-800 flex pb-3 text-sm">
+                          {issueSummary[impact]}
+                        </p>
                       </div>
-                      <p className="text-base-800 flex pb-3 text-sm">
-                        {issueSummary[impact]}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             }
@@ -211,6 +216,7 @@ export default function Summary() {
           <DataVisualization
             title="Affected Components"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div>
@@ -237,7 +243,7 @@ export default function Summary() {
                       ))}
                     </TableRow>
                   </TableHead>
-                  <TableBody>
+                  <TableBody wrapperClassName="h-[222px] overflow">
                     {componentList
                       .slice(0, 6)
                       .map(({ componentId, count }, index) => (
@@ -390,11 +396,12 @@ export default function Summary() {
             }
           />
         </div>
-        <div className="mr-4 w-6/12 ">
+        <div className="mr-4 w-6/12">
           <div className="bg-white">
             <DataVisualization
               title="Affected Pages"
               headerInfo={null}
+              wrapperClassName="h-[440px]"
               size="fit-content"
               analytics={
                 <div>
@@ -410,14 +417,13 @@ export default function Summary() {
                             key={col.key}
                             variant="header"
                             textTransform="uppercase"
+                            wrapperClassName={`text-xs text-base-500 ${
+                              index === 0 ? 'w-14' : ''
+                            } ${index === 1 ? 'w-80' : ''} ${
+                              index === 2 ? 'w-32' : ''
+                            }`}
                           >
-                            <div
-                              className={`text-base-500 text-xs ${
-                                index === 1 ? 'w-80' : ''
-                              } ${index === 2 ? 'w-36' : ''}`}
-                            >
-                              {col.name}
-                            </div>
+                            {col.name}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -438,7 +444,7 @@ export default function Summary() {
                               key={column.id}
                               wrapperClassName={`px-3 py-2 text-ellipsis overflow-hidden ${
                                 colIndex === 0 ? 'w-14' : ''
-                              } ${colIndex === 2 ? 'w-36' : ''}`}
+                              } ${colIndex === 2 ? 'w-32' : ''}`}
                             >
                               {colIndex === 0 ? index + 1 : ''}
                               {colIndex === 1 && (
