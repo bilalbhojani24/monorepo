@@ -252,7 +252,7 @@ function BuildDetailsHeader() {
                     iconProps={{ className: 'h-5 w-5' }}
                   />
                 }
-                metaDescription={`CI build ${ciBuildData?.buildNumber}`}
+                metaDescription={`${ciBuildData.name} ${ciBuildData?.buildNumber}`}
                 textColorClass="text-base-500 hover:text-brand-700"
               />
             </Hyperlink>
