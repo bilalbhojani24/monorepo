@@ -54,9 +54,7 @@ const SearchBuilds = () => {
   };
 
   useEffect(() => {
-    if (searchTextRedux.length) {
-      setSearchText(searchTextRedux);
-    }
+    setSearchText(searchTextRedux);
   }, [searchTextRedux]);
 
   return (

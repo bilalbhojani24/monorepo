@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { API_STATUSES } from 'constants/common';
 
 import { getUserNamesData } from '../../slices/dataSlice';
 
@@ -8,14 +9,14 @@ function useFetchUser(allowFetchingData) {
   const dispatch = useDispatch();
   const { projectNormalisedName } = useParams();
   const [allUsersData, setAllUsersData] = useState({
-    isLoading: false,
+    status: false,
     data: []
   });
 
   const fetchUsersData = useCallback(
     (query = '') => {
       if (!projectNormalisedName) return;
-      setAllUsersData({ isLoading: false, data: [] });
+      setAllUsersData({ status: API_STATUSES.PENDING, data: [] });
       dispatch(
         getUserNamesData({
           projectNormalisedName,
@@ -24,10 +25,13 @@ function useFetchUser(allowFetchingData) {
       )
         .unwrap()
         .then((res) => {
-          setAllUsersData({ isLoading: false, data: res.data });
+          setAllUsersData({
+            status: API_STATUSES.FULFILLED,
+            data: res.data
+          });
         })
         .catch(() => {
-          setAllUsersData({ isLoading: false, data: [] });
+          setAllUsersData({ status: false, data: [] });
         });
     },
     [dispatch, projectNormalisedName]

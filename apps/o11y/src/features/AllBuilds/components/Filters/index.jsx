@@ -160,7 +160,7 @@ const Filters = () => {
         variant="primary"
         colors="white"
         wrapperClassName="rounded"
-        icon={<MdFilterAlt className="h-5 w-5" />}
+        icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
         onClick={showSlideover}
       >
         Filters

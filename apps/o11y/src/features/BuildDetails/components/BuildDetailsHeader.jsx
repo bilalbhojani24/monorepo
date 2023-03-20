@@ -16,7 +16,7 @@ import {
 } from '@browserstack/bifrost';
 import {
   O11yBadge,
-  O11yMetadata,
+  O11yMetaData,
   O11yTabs,
   O11yTooltip
 } from 'common/bifrostProxy';
@@ -93,7 +93,7 @@ function BuildDetailsHeader() {
     );
     if (TEST_STATUS.PENDING === status) {
       return (
-        <O11yMetadata
+        <O11yMetaData
           icon={<O11yLoader loaderClass="text-brand-600 h-4 w-4" />}
           metaDescription="Running"
           textColorClass="text-brand-600"
@@ -102,7 +102,7 @@ function BuildDetailsHeader() {
     }
     if (TEST_STATUS.FAIL === status)
       return (
-        <O11yMetadata
+        <O11yMetaData
           icon={<MdCancel className="h-5 w-5" />}
           metaDescription="Failed"
           textColorClass="text-danger-600"
@@ -110,7 +110,7 @@ function BuildDetailsHeader() {
       );
     if (TEST_STATUS.PASS === status)
       return (
-        <O11yMetadata
+        <O11yMetaData
           icon={<MdCheckCircle className="h-5 w-5" />}
           metaDescription="Passed"
           textColorClass="text-success-600"
@@ -118,7 +118,7 @@ function BuildDetailsHeader() {
       );
     if (TEST_STATUS.UNKNOWN === status)
       return (
-        <O11yMetadata
+        <O11yMetaData
           icon={<MdContactSupport className="h-5 w-5" />}
           metaDescription="Unknown"
           textColorClass="text-attention-500"
@@ -126,14 +126,14 @@ function BuildDetailsHeader() {
       );
     if (TEST_STATUS.SKIPPED === status)
       return (
-        <O11yMetadata
+        <O11yMetaData
           icon={<MdRemoveCircle className="h-5 w-5" />}
           metaDescription="Skipped"
           textColorClass="text-base-500"
         />
       );
     return (
-      <O11yMetadata
+      <O11yMetaData
         icon={<MdContactSupport className="h-5 w-5" />}
         metaDescription="Unknown"
         textColorClass="text-attention-500"
@@ -199,13 +199,13 @@ function BuildDetailsHeader() {
       </h1>
       <div className="mt-2 flex flex-wrap items-center gap-4">
         {renderStatusIcon()}
-        <O11yMetadata
+        <O11yMetaData
           icon={<MdPerson className="h-5 w-5" />}
           metaDescription={user}
           textColorClass="text-base-500"
         />
         {startedAt && (
-          <O11yMetadata
+          <O11yMetaData
             icon={<MdSchedule className="h-5 w-5" />}
             metaDescription={getCustomTimeStamp({
               dateString: new Date(startedAt)
@@ -215,7 +215,7 @@ function BuildDetailsHeader() {
         )}
         {versionControlInfo?.commitId && (
           <Hyperlink href={versionControlInfo?.url}>
-            <O11yMetadata
+            <O11yMetaData
               icon={
                 <VCIcon
                   url={versionControlInfo?.url}
@@ -245,7 +245,7 @@ function BuildDetailsHeader() {
             }
           >
             <Hyperlink href={versionControlInfo?.url}>
-              <O11yMetadata
+              <O11yMetaData
                 icon={
                   <CiIcon
                     name={ciBuildData?.name}
@@ -259,7 +259,7 @@ function BuildDetailsHeader() {
           </O11yTooltip>
         )}
         {duration && (
-          <O11yMetadata
+          <O11yMetaData
             icon={<MdOutlineTimer className="h-5 w-5" />}
             metaDescription={milliSecondsToTime(duration)}
             textColorClass="text-base-500"

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
+import { API_STATUSES } from 'constants/common';
 import PropTypes from 'prop-types';
 import { capitalizeFirstLetter } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
@@ -30,7 +31,7 @@ const FilterTags = ({ viewAllBuilds }) => {
   const { projectNormalisedName } = useParams();
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
-  const allUsersData = useFetchUser(true);
+  const { status: userApiStatus, data: allUsersData } = useFetchUser(true);
 
   const removeFilter = (filterCategory, targetValue) => {
     if (filterCategory === 'searchText') {
@@ -101,7 +102,7 @@ const FilterTags = ({ viewAllBuilds }) => {
         return targetValue.map((singleTag) => {
           const singleTagName =
             singleFilterType === 'users'
-              ? allUsersData.data?.filter(
+              ? allUsersData?.filter(
                   (el) => el.id === parseInt(singleTag, 10)
                 )[0]?.name
               : singleTag;
@@ -120,20 +121,29 @@ const FilterTags = ({ viewAllBuilds }) => {
 
   return (
     <>
-      <div className="flex gap-x-4">
-        {!!itemsArray.length && (
-          <>
-            <div className="border-base-300 my-auto h-5 border-l" />
-            <p>Filters</p>
-          </>
-        )}
-        {itemsArray}
-        {!!itemsArray.length && (
-          <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
-            Clear All
-          </O11yButton>
-        )}
-      </div>
+      {!!(
+        userApiStatus === API_STATUSES.FULFILLED ||
+        userApiStatus === API_STATUSES.FAILED
+      ) && (
+        <div className="flex gap-x-4">
+          {!!itemsArray.length && (
+            <>
+              <div className="border-base-300 my-auto h-5 border-l" />
+              <p>Filters</p>
+            </>
+          )}
+          {itemsArray}
+          {!!itemsArray.length && (
+            <O11yButton
+              variant="minimal"
+              colors="white"
+              onClick={viewAllBuilds}
+            >
+              Clear All
+            </O11yButton>
+          )}
+        </div>
+      )}
     </>
   );
 };

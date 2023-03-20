@@ -9,8 +9,8 @@ import useFetchUser from './useFetchUser';
 
 const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
   const { users } = useSelector(getSelectedFilters);
-  const allUsersData = useFetchUser(allowFetchingData);
-  const allUsersDataOptions = allUsersData.data.map((el) => ({
+  const { data: allUsersData } = useFetchUser(allowFetchingData);
+  const allUsersDataOptions = allUsersData.map((el) => ({
     value: el.id,
     label: el.name
   }));

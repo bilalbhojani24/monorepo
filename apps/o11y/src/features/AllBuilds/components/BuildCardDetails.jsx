@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import {
   MdAllInclusive,
   MdCancel,
@@ -21,31 +21,11 @@ import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
-const aggregateColors = {
-  'Automation Bug': '#8D51C2', // purple
-  'Environment Issue': '#DBBD29', // yellow
-  'No Defect': '#E25092', // pink
-  'Product Bug': '#5C9EEB', // blue
-  'To be Investigated': '#C47631' // brown
-};
+import { aggregateColors } from '../constants';
 
-const FailureCategoriesTooltip = ({
-  children,
-  content,
-  triggerWrapperClassName
-}) => (
-  <O11yTooltip
-    theme="dark"
-    placementSide="top"
-    triggerWrapperClassName={triggerWrapperClassName}
-    content={content}
-  >
-    {children}
-  </O11yTooltip>
-);
+import DividedPill from './DividedPill';
 
 const BuildCardDetails = ({ data }) => {
-  const widthAdjustmentRef = useRef([]);
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
     if (TEST_STATUS.PENDING === status) {
@@ -65,23 +45,6 @@ const BuildCardDetails = ({ data }) => {
       return <MdRemoveCircle className="text-base-500 h-8 w-8 self-center" />;
     return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
   };
-
-  const handleChartClick = () => {
-    // console.log(item)
-  };
-
-  const totalDefects = Object.values(data.issueTypeAggregate).reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0
-  );
-
-  useEffect(() => {
-    widthAdjustmentRef.current.forEach((singleItem) => {
-      const targetItem = singleItem;
-      const { parentwidth } = targetItem.dataset;
-      targetItem.parentNode.style.width = parentwidth;
-    });
-  });
 
   return (
     <>
@@ -175,7 +138,7 @@ const BuildCardDetails = ({ data }) => {
         />
       </O11yTableCell>
       <O11yTableCell>
-        <div className="flex overflow-hidden rounded-xl">
+        <div>
           {Object.entries(data?.issueTypeAggregate)?.every(
             (item) =>
               (item[1] === 0 && item[0] !== 'To be Investigated') ||
@@ -206,66 +169,60 @@ const BuildCardDetails = ({ data }) => {
               </p>
             </O11yTooltip>
           ) : (
-            Object.keys(data?.issueTypeAggregate)?.map((item, index) =>
-              data?.issueTypeAggregate[item] ? (
-                <FailureCategoriesTooltip
-                  key={item}
-                  triggerWrapperClassName=""
-                  content={
-                    <p className="text-base-100 px-2">
-                      {item}:{' '}
-                      {(
-                        (data.issueTypeAggregate[item] * 100) /
-                        totalDefects
-                      ).toFixed(0)}
-                      %
-                    </p>
-                  }
-                >
-                  <div
-                    title={item}
-                    label={item}
-                    className="h-3"
-                    tabIndex={0}
-                    role="button"
-                    data-parentwidth={`${
-                      (data?.issueTypeAggregate[item] * 100) / totalDefects
-                    }%`}
-                    ref={(el) => {
-                      widthAdjustmentRef.current[index] = el;
-                      return null;
-                    }}
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (e.key === ' ' && e.key === 'Enter') {
-                        handleChartClick(item);
-                      }
-                    }}
-                    onClick={() => handleChartClick(item)}
-                    style={{
-                      backgroundColor: aggregateColors[item]
-                    }}
-                  />
-                </FailureCategoriesTooltip>
-              ) : null
-            )
+            <O11yTooltip
+              size="lg"
+              theme="light"
+              placementSide="top"
+              triggerWrapperClassName="flex overflow-hidden rounded-xl w-28"
+              content={
+                <div className="mx-4 w-96">
+                  <div className="mb-2 flex overflow-hidden rounded-xl">
+                    <DividedPill data={data} />
+                  </div>
+                  <ul>
+                    {Object.keys(data?.issueTypeAggregate)?.map(
+                      (item) =>
+                        !!data?.issueTypeAggregate[item] && (
+                          <li key={item}>
+                            <span
+                              className="mr-2 inline-block h-2 w-2 rounded-full"
+                              style={{
+                                backgroundColor: aggregateColors[item]
+                              }}
+                              data-d={data?.issueTypeAggregate[item]}
+                            />
+                            <span>{item}</span>
+                          </li>
+                        )
+                    )}
+                  </ul>
+                </div>
+              }
+            >
+              <DividedPill data={data} />
+            </O11yTooltip>
           )}
           {Object.values(data?.issueTypeAggregate)?.every(
             (item) => item === 0
           ) && (
-            <FailureCategoriesTooltip
-              triggerWrapperClassName="w-full"
-              content={<p className="text-base-100 px-2">No Failures Found</p>}
-            >
-              <div
-                id="pratik"
-                label="No Failures Found"
-                className="bg-base-200 h-3 w-full"
-                tabIndex={0}
-                role="button"
-              />
-            </FailureCategoriesTooltip>
+            <div className="flex overflow-hidden rounded-xl">
+              <O11yTooltip
+                theme="dark"
+                placementSide="top"
+                triggerWrapperClassName="w-full"
+                content={
+                  <p className="text-base-100 px-2">No Failures Found</p>
+                }
+              >
+                <div
+                  id="pratik"
+                  label="No Failures Found"
+                  className="bg-base-200 h-3 w-full"
+                  tabIndex={0}
+                  role="button"
+                />
+              </O11yTooltip>
+            </div>
           )}
         </div>
       </O11yTableCell>
