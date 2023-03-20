@@ -1,7 +1,10 @@
 import React from 'react';
 import { MdAllInclusive } from '@browserstack/bifrost';
 import {
+  AzurePipelinesIcon,
   BuildKiteIcon,
+  CircleCIIcon,
+  GithubActionsIcon,
   GitLabIcon,
   JenkinsIcon
 } from 'assets/icons/components';
@@ -15,6 +18,12 @@ function CiIcon({ name, iconProps }) {
       return <BuildKiteIcon {...iconProps} />;
     case 'gitlab':
       return <GitLabIcon {...iconProps} />;
+    case 'circleci':
+      return <CircleCIIcon {...iconProps} />;
+    case 'githubactions':
+      return <GithubActionsIcon {...iconProps} />;
+    case 'azurepipelines':
+      return <AzurePipelinesIcon {...iconProps} />;
     default:
       return <MdAllInclusive {...iconProps} />;
   }
