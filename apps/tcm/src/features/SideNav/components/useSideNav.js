@@ -87,9 +87,12 @@ export default function useSideNav() {
       navigate(AppRoute.ROOT);
     } else
       navigate(
-        routeFormatter(activeRoute.id, {
-          projectId: project?.id
-        })
+        routeFormatter(
+          project?.hasTestCases ? AppRoute.DASHBOARD : AppRoute.TEST_CASES,
+          {
+            projectId: project?.id
+          }
+        )
       );
   };
 
@@ -147,7 +150,8 @@ export default function useSideNav() {
       ...allProjects.map((item) => ({
         ...item,
         label: item.name,
-        value: item.id
+        value: item.id,
+        hasTestCases: false
       })),
       {
         label: 'View All Projects',
