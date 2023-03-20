@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -119,6 +121,30 @@ const defaultConfig = {
 };
 const Template = (args) => <Header {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const headerTextElements = [
+    'App Automate',
+    'alpha',
+    // 'Live',
+    // 'Automate',
+    'Invite my Team',
+    'Plans & Pricing',
+    // 'Get Help',
+    'Buy a Plan'
+  ];
+
+  await expect(canvas.getByLabelText('Browserstack Logo')).toBeVisible();
+  await expect(canvas.getByLabelText('Notification button')).toBeVisible();
+  await expect(canvas.getByLabelText('Search button')).toBeVisible();
+  headerTextElements.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+  await userEvent.hover(canvas.getByLabelText('help popover'));
+  await userEvent.hover(canvas.getByLabelText('account popover'));
+  const productPopover = await canvas.getAllByLabelText('product popover');
+  await userEvent.hover(productPopover[0]);
+};
 Primary.parameters = {
   controls: {}
 };

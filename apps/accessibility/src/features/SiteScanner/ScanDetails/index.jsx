@@ -14,11 +14,11 @@ import {
   MdSchedule,
   MdStop,
   Modal,
-  ModalBody,
   ModalFooter,
   ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import Loader from 'common/Loader';
 import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
@@ -27,7 +27,6 @@ import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
-import Loader from '../../../common/Loader';
 
 export const tabsArray = [
   {
@@ -68,12 +67,12 @@ const ScanDetails = () => {
     });
 
     const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
-        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
     return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
   };
-  if(isLoading) {
+  if (isLoading || !scanOverviewData) {
     return <Loader />;
   }
+
   return (
     <>
       <div className="bg-base-50">
@@ -151,19 +150,20 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
-              <Button
-                colors="white"
-                onClick={() => setStopModal(true)}
-                size="small"
-                type="subtle"
-                icon={<MdStop />}
-                iconPlacement="start"
-                wrapperClassName="h-10 mr-2"
-              >
-                Stop recurring
-              </Button>
-            )}
+            {scanRunDataCommon?.nextScanDate &&
+              userInfo.user_id === scanRunDataCommon.createdBy.id && (
+                <Button
+                  colors="white"
+                  onClick={() => setStopModal(true)}
+                  size="small"
+                  type="subtle"
+                  icon={<MdStop />}
+                  iconPlacement="start"
+                  wrapperClassName="h-10 mr-2"
+                >
+                  Stop recurring
+                </Button>
+              )}
             <Dropdown
               trigger={
                 <DropdownTrigger

@@ -139,5 +139,10 @@ export const getScanOverview = (id) => async (dispatch) => {
 };
 
 export const clearScanOverviewData = () => async (dispatch) => {
-  dispatch(setScanOverview({}));
+  dispatch(setScanOverview(null));
+};
+
+export const clearCommonData = () => async (dispatch) => {
+  dispatch(setScanRunCommonData(null));
+  dispatch(setScanReportCommonData(null));
 };

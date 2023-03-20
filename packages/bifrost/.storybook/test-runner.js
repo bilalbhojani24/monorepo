@@ -1,4 +1,4 @@
-const { injectAxe, checkA11y , getViolations } = require('axe-playwright');
+const { injectAxe, checkA11y, getViolations } = require('axe-playwright');
 const fs = require('fs');
 const { getStoryContext } = require('@storybook/test-runner');
 
@@ -17,11 +17,12 @@ module.exports = {
   },
   async postRender(page, context) {
     const violations = await getViolations(page, '#root', {
-      detailedReport: true,
+      detailedReport: true
     });
 
     const storyContext = await getStoryContext(page, context);
-    if(violations[0] && violations.length > 0 ) violations[0].component_name = storyContext.name
+    if (violations[0] && violations.length > 0)
+      violations[0].component_name = storyContext.name;
 
     // Write violations to file
     await new Promise((resolve, reject) => {
@@ -38,8 +39,8 @@ module.exports = {
     await checkA11y(page, '#root', {
       detailedReport: true,
       detailedReportOptions: {
-        html: true,
-      },
+        html: true
+      }
     });
-  },
+  }
 };

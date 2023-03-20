@@ -82,50 +82,51 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
         style={{
           height: 'calc(100vh - 228px)',
           width: 'calc(100vw - 256px)'
-        }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((col) => (
-              <TableCell
-                key={col.key}
-                variant="header"
-                wrapperClass="first:pr-3 last:pl-3 px-2"
-              >
-                {col.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {logs?.logs.map((row, idx) => (
-            <TableRow key={idx} tabIndex="0">
-              <TableCell wrapperClass="font-medium text-base-900 border-l-4 border-success-500 first:pr-3 last:pl-3 p-5">
-                <div className="text-base-500 flex items-center font-normal">
-                  <MdSchedule />
-                  <span className="ml-0.5">
-                    {dateFormat(new Date(row.time), 'mmmm dS, h:MM TT')}
-                  </span>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="mr-2 flex items-center">
-                  {row.cumulativeStatus === 'success' && (
-                    <MdCheckCircle color="#10B981" />
-                  )}
-                  {row.cumulativeStatus === 'redirect' && (
-                    <MdOutlineSync
-                      color="#FFF"
-                      className="bg-attention-500 mr-0.5 rounded-full"
-                    />
-                  )}
-                  {row.cumulativeStatus === 'failure' && (
-                    <MdCancel color="#EF4444" />
-                  )}
-                  <span className="ml-2">{row.pageUrl}</span>
-                </div>
-              </TableCell>
-              {/* <TableCell>
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columns.map((col) => (
+                <TableCell
+                  key={col.key}
+                  variant="header"
+                  wrapperClass="first:pr-3 last:pl-3 px-2"
+                >
+                  {col.name}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {logs?.logs.map((row, idx) => (
+              <TableRow key={idx} tabIndex="0">
+                <TableCell wrapperClass="font-medium text-base-900 border-l-4 border-success-500 first:pr-3 last:pl-3 p-5">
+                  <div className="text-base-500 flex items-center font-normal">
+                    <MdSchedule />
+                    <span className="ml-0.5">
+                      {dateFormat(new Date(row.time), 'mmmm dS, h:MM TT')}
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="mr-2 flex items-center">
+                    {row.cumulativeStatus === 'success' && (
+                      <MdCheckCircle color="#10B981" />
+                    )}
+                    {row.cumulativeStatus === 'redirect' && (
+                      <MdOutlineSync
+                        color="#FFF"
+                        className="bg-attention-500 mr-0.5 rounded-full"
+                      />
+                    )}
+                    {row.cumulativeStatus === 'failure' && (
+                      <MdCancel color="#EF4444" />
+                    )}
+                    <span className="ml-2">{row.pageUrl}</span>
+                  </div>
+                </TableCell>
+                {/* <TableCell>
                 {row.pageStatus === 'success' && (
                   <MdCheckCircle color="#10B981" />
                 )}
@@ -137,11 +138,11 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
                 )}
                 {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
               </TableCell> */}
-              <TableCell>{row.description}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                <TableCell>{row.description}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

@@ -107,6 +107,7 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
                   <span className="mr-0.5">
                     <Badge
                       text={`${row?.issueSummary?.serious || 0} Serious`}
+                      wrapperClassName="bg-[#FCE7F3] text-[#9D174D]"
                     />
                   </span>
                   <span className="mr-0.5">

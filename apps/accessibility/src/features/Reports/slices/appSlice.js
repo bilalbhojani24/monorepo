@@ -1,3 +1,4 @@
+import { getStorage } from '@browserstack/utils';
 import { createSlice } from '@reduxjs/toolkit';
 import { reportPerPage, versions } from 'constants';
 
@@ -7,7 +8,8 @@ const { actions, reducer } = createSlice({
     reportList: [],
     activeVersion: versions[0].value,
     selectedReportType: [],
-    lastIndex: reportPerPage
+    lastIndex: reportPerPage,
+    isShowingBanner: !getStorage('showed-extension-banner')
   },
   reducers: {
     setReportList: (state, { payload }) => {
@@ -41,6 +43,9 @@ const { actions, reducer } = createSlice({
     },
     setSelectedReportType: (state, { payload }) => {
       state.selectedReportType = payload;
+    },
+    setIsShowingBanner: (state, { payload }) => {
+      state.isShowingBanner = payload;
     }
   }
 });
@@ -52,7 +57,8 @@ export const {
   resetReportSelection,
   resetReportApp,
   setLastIndex,
-  setSelectedReportType
+  setSelectedReportType,
+  setIsShowingBanner
 } = actions;
 
 export default reducer;
