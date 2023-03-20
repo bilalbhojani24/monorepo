@@ -64,20 +64,20 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     label: 'Tests',
     headerClass:
       'uppercase flex-1 min-w-[460px] text-base-500 text-xs font-medium leading-4 py-3',
-    bodyClass: 'min-w-[460px] flex-1 py-4'
+    bodyClass: 'min-w-[460px] flex-1 py-4 text-sm'
   },
   platforms: {
     key: 'platforms',
     label: 'Impacted tests',
     headerClass:
       'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[300px] py-4 pl-6'
+    bodyClass: 'w-[300px] py-4 pl-6 text-sm'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
       'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[140px] py-4 pl-6'
+    bodyClass: 'w-[140px] py-4 pl-6 text-sm'
   }
 };

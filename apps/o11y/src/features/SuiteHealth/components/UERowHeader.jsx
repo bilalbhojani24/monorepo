@@ -49,7 +49,7 @@ const UERowHeader = ({ data }) => (
         'flex items-center gap-4'
       )}
     >
-      <div className="mr-3 h-5 w-12">
+      <div className="h-5 w-12">
         <MiniChart data={data.chartData} chartType="area" />
       </div>
       <p className="text-base-500 text-sm leading-5">

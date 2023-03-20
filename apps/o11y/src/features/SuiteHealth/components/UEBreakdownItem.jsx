@@ -5,9 +5,9 @@ import { twClassNames } from '@browserstack/utils';
 import MiniChart from 'common/MiniChart';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
-  setIsSnPErrorDetailsVisible,
-  setShowSnPErrorDetailsFor,
-  setSnPErrorCbtInfo
+  setIsUEDetailsVisible,
+  setShowUEDetailsFor,
+  setUECbtInfo
 } from 'features/SHErrorDetails/slices/dataSlice';
 import PropTypes from 'prop-types';
 
@@ -21,7 +21,7 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
   const dispatch = useDispatch();
   const handleClickItem = () => {
     dispatch(
-      setSnPErrorCbtInfo({
+      setUECbtInfo({
         osName: '',
         osVersion: '',
         browserName: '',
@@ -32,12 +32,12 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
       })
     );
     dispatch(
-      setShowSnPErrorDetailsFor({
+      setShowUEDetailsFor({
         testId: item.id,
         errorId
       })
     );
-    dispatch(setIsSnPErrorDetailsVisible(true));
+    dispatch(setIsUEDetailsVisible(true));
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set(SNP_PARAMS_MAPPING.snpErrorId, errorId);
     searchParams.set(SNP_PARAMS_MAPPING.snpErrorTestId, item.id);
@@ -46,7 +46,7 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
 
   return (
     <div
-      className={twClassNames('flex w-full items-center', {
+      className={twClassNames('flex w-full items-center hover:bg-brand-50', {
         'border-b border-base-300': !isLast
       })}
       role="button"
@@ -60,11 +60,16 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
       <div className={UNIQUE_ERROR_BREAKDOWN_HEADER.platforms.bodyClass}>
         <SnPPlatforms browsers={item.browsers} platforms={item.platforms} />
       </div>
-      <div className={UNIQUE_ERROR_BREAKDOWN_HEADER.errorCount.bodyClass}>
-        <div className="">
-          <MiniChart data={item.chartData} />
-          <p className="">{item.errorCount}</p>
+      <div
+        className={twClassNames(
+          UNIQUE_ERROR_BREAKDOWN_HEADER.errorCount.bodyClass,
+          'flex items-center gap-4'
+        )}
+      >
+        <div className="h-5 w-12">
+          <MiniChart data={item.chartData} chartType="area" />
         </div>
+        <p className="">{item.errorCount}</p>
       </div>
     </div>
   );

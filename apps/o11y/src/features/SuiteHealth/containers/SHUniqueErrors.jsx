@@ -6,8 +6,8 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
-  setIsSnPErrorDetailsVisible,
-  setShowSnPErrorDetailsFor
+  setIsUEDetailsVisible,
+  setShowUEDetailsFor
 } from 'features/SHErrorDetails/slices/dataSlice';
 import {
   setIsDetailsVisible,
@@ -121,16 +121,16 @@ const SnPUniqueErrors = () => {
     const snpErrorTestId = searchParams.get(SNP_PARAMS_MAPPING.snpErrorTestId);
 
     if (snpErrorId && snpErrorTestId) {
-      dispatch(setIsSnPErrorDetailsVisible(true));
+      dispatch(setIsUEDetailsVisible(true));
       dispatch(
-        setShowSnPErrorDetailsFor({
+        setShowUEDetailsFor({
           errorId: snpErrorId,
           testId: snpErrorTestId
         })
       );
     }
     return () => {
-      dispatch(setIsSnPErrorDetailsVisible(false));
+      dispatch(setIsUEDetailsVisible(false));
     };
   }, [dispatch]);
 

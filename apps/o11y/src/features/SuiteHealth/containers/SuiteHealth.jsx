@@ -5,7 +5,7 @@ import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
 import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
-import { getIsSnPErrorDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
+import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
 import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
 import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
@@ -23,7 +23,7 @@ import SHUniqueErrors from './SHUniqueErrors';
 
 export default function SnP() {
   const dispatch = useDispatch();
-  const isSnPErrorDetailsVisible = useSelector(getIsSnPErrorDetailsVisible);
+  const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
   const isDetailsVisible = useSelector(getIsDetailsVisible);
   const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);

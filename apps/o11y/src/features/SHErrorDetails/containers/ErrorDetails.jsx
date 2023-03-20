@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { O11ySlideover, O11ySlideoverHeader } from 'common/bifrostProxy';
+import { O11ySlideover } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import {
-  getIsSnPErrorDetailsVisible,
-  getShowSnPErrorDetailsFor
+  getIsUEDetailsVisible,
+  getShowUEDetailsFor
 } from '../slices/selectors';
 
+import SlideOverBody from './SlideOverBody';
+import SlideOverHeader from './SlideOverHeader';
+
 const ErrorDetails = () => {
-  const isVisible = useSelector(getIsSnPErrorDetailsVisible);
+  const isVisible = useSelector(getIsUEDetailsVisible);
   const activeProject = useSelector(getActiveProject);
-  const { testId } = useSelector(getShowSnPErrorDetailsFor);
+  const { testId } = useSelector(getShowUEDetailsFor);
 
   useEffect(() => {
     logOllyEvent({
@@ -27,8 +30,8 @@ const ErrorDetails = () => {
 
   return (
     <O11ySlideover show={isVisible} backgroundOverlay={false} size="5xl">
-      <O11ySlideoverHeader>Header</O11ySlideoverHeader>
-      Error details
+      <SlideOverHeader />
+      <SlideOverBody />
     </O11ySlideover>
   );
 };
