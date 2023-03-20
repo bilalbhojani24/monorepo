@@ -9,7 +9,7 @@ function useFetchUser(allowFetchingData) {
   const dispatch = useDispatch();
   const { projectNormalisedName } = useParams();
   const [allUsersData, setAllUsersData] = useState({
-    status: false,
+    status: API_STATUSES.IDLE,
     data: []
   });
 

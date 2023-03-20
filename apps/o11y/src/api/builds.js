@@ -53,3 +53,9 @@ export const getUserNames = async ({ projectNormalisedName, query }) => {
   }
   return axios.get(endpoint);
 };
+
+export const getBuildFilterDetails = async ({ projectNormalisedName }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/filters`;
+  endpoint += window.location.search;
+  return axios.get(endpoint);
+};

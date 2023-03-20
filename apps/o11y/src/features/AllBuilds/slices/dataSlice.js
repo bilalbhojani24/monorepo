@@ -1,9 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getBuilds, getBuildTags, getUserNames } from 'api/builds';
+import {
+  getBuildFilterDetails,
+  getBuilds,
+  getBuildTags,
+  getUserNames
+} from 'api/builds';
 import { API_STATUSES } from 'constants/common';
 
 import { getParametersFromUrl } from '../../../utils/common';
-import { EMPTY_APPLIED_FILTERS, EMPTY_SELECTED_FILTERS } from '../constants';
+import {
+  EMPTY_APPLIED_FILTERS,
+  EMPTY_METADATA_FILTERS,
+  EMPTY_SELECTED_FILTERS
+} from '../constants';
 
 import { getAppliedFilters } from './selectors';
 
@@ -54,6 +63,7 @@ const { actions, reducer } = createSlice({
     builds: [],
     selectedFilters: getBuildsFilters('selected'),
     appliedFilters: getBuildsFilters('applied'),
+    filtersMetaData: { ...EMPTY_METADATA_FILTERS },
     apiState: { status: API_STATUSES.IDLE, details: {} },
     buildsPagingParams: {},
     activeBuild: {}
@@ -70,6 +80,9 @@ const { actions, reducer } = createSlice({
     },
     setAppliedFilters: (state, { payload }) => {
       state.appliedFilters = { ...state.appliedFilters, ...payload };
+    },
+    setFiltersMetaData: (state, { payload }) => {
+      state.filtersMetaData = { ...state.filtersMetaData, ...payload };
     }
   },
   extraReducers: (builder) => {
@@ -93,7 +106,12 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setBuilds, setAppliedFilters, setSelectedFilters } = actions;
+export const {
+  setBuilds,
+  setAppliedFilters,
+  setSelectedFilters,
+  setFiltersMetaData
+} = actions;
 
 export default reducer;
 
@@ -113,6 +131,18 @@ export const getUserNamesData = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await getUserNames({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getBuildFilterDetailsData = createAsyncThunk(
+  'buildsList/getFilterDetails',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getBuildFilterDetails({ ...data });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

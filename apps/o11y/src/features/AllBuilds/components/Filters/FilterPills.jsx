@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import { API_STATUSES } from 'constants/common';
 import PropTypes from 'prop-types';
-import { capitalizeFirstLetter } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
+import { capitalizeFirstLetter } from 'utils/stringUtils';
 
 import {
   getBuildsData,
   setAppliedFilters,
+  setFiltersMetaData,
   setSelectedFilters
-} from '../slices/dataSlice';
-import { getAppliedFilters } from '../slices/selectors';
+} from '../../slices/dataSlice';
+import {
+  getAllUsersDataFilters,
+  getAppliedFilters
+} from '../../slices/selectors';
 
-import useFetchUser from './Filters/useFetchUser';
+import useBuildFilterDetails from './useBuildFilterDetails';
 
 const FilterBadge = ({ text, onClose }) => (
   <O11yBadge
@@ -23,16 +27,16 @@ const FilterBadge = ({ text, onClose }) => (
     modifier="base"
     text={text}
     onClose={onClose}
-    wrapperClassName="bg-base-50 text-base-900 hover:line-through font-bold"
+    wrapperClassName="bg-base-50 text-base-900 font-bold"
   />
 );
 
-const FilterTags = ({ viewAllBuilds }) => {
+const FilterPills = ({ viewAllBuilds }) => {
   const { projectNormalisedName } = useParams();
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
-  const { status: userApiStatus, data: allUsersData } = useFetchUser(true);
-
+  const { filterDetailsApiStatus, filterDetailsData } = useBuildFilterDetails();
+  const allUsersData = useSelector(getAllUsersDataFilters);
   const removeFilter = (filterCategory, targetValue) => {
     if (filterCategory === 'searchText') {
       dispatch(setSelectedFilters({ searchText: '' }));
@@ -70,6 +74,26 @@ const FilterTags = ({ viewAllBuilds }) => {
     );
   };
 
+  useEffect(() => {
+    dispatch(
+      setFiltersMetaData({
+        staticFilters: filterDetailsData?.staticFilters || []
+      })
+    );
+  }, [dispatch, filterDetailsData]);
+
+  const getUserNameById = (userId) => {
+    let refreshData = filterDetailsData?.applied?.users?.filter(
+      (el) => el.id === parseInt(userId, 10)
+    )[0]?.name;
+    if (!refreshData) {
+      refreshData = allUsersData?.filter(
+        (el) => el.id === parseInt(userId, 10)
+      )[0]?.name;
+    }
+    return refreshData;
+  };
+
   const itemsArray = Object.keys(appliedFilters)
     .map((singleFilterType) => {
       const targetValue = appliedFilters[singleFilterType];
@@ -102,9 +126,7 @@ const FilterTags = ({ viewAllBuilds }) => {
         return targetValue.map((singleTag) => {
           const singleTagName =
             singleFilterType === 'users'
-              ? allUsersData?.filter(
-                  (el) => el.id === parseInt(singleTag, 10)
-                )[0]?.name
+              ? getUserNameById(singleTag)
               : singleTag;
           return (
             <FilterBadge
@@ -121,15 +143,12 @@ const FilterTags = ({ viewAllBuilds }) => {
 
   return (
     <>
-      {!!(
-        userApiStatus === API_STATUSES.FULFILLED ||
-        userApiStatus === API_STATUSES.FAILED
-      ) && (
+      {filterDetailsApiStatus === API_STATUSES.FULFILLED && (
         <div className="flex gap-x-4">
           {!!itemsArray.length && (
             <>
-              <div className="border-base-300 my-auto h-5 border-l" />
               <p>Filters</p>
+              <div className="border-base-300 my-auto h-5 border-l" />
             </>
           )}
           {itemsArray}
@@ -148,9 +167,9 @@ const FilterTags = ({ viewAllBuilds }) => {
   );
 };
 
-export default FilterTags;
+export default FilterPills;
 
-FilterTags.propTypes = {
+FilterPills.propTypes = {
   viewAllBuilds: PropTypes.func.isRequired
 };
 

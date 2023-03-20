@@ -11,12 +11,13 @@ import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
 import Filters from './components/Filters';
-import FilterTags from './components/FilterTags';
+import FilterPills from './components/Filters/FilterPills';
 import SearchBuilds from './components/SearchBuilds';
 import {
   getBuildsData,
   setAppliedFilters,
   setBuilds,
+  setFiltersMetaData,
   setSelectedFilters
 } from './slices/dataSlice';
 import {
@@ -26,7 +27,11 @@ import {
   getBuildsPagingParams
 } from './slices/selectors';
 import { getParamsFromFiltersObject } from './utils/common';
-import { EMPTY_APPLIED_FILTERS, EMPTY_SELECTED_FILTERS } from './constants';
+import {
+  EMPTY_APPLIED_FILTERS,
+  EMPTY_METADATA_FILTERS,
+  EMPTY_SELECTED_FILTERS
+} from './constants';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
@@ -47,6 +52,9 @@ const AllBuildsPage = () => {
         dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
       if (itemsToReset.includes('buildsData'))
         dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
+      if (itemsToReset.includes('metaData')) {
+        dispatch(setFiltersMetaData(EMPTY_METADATA_FILTERS));
+      }
     },
     [dispatch]
   );
@@ -85,7 +93,7 @@ const AllBuildsPage = () => {
     loadFreshBuildsData();
     return () => {
       // Clean builds on project change
-      resetReduxStore(['selected', 'applied', 'buildsData']);
+      resetReduxStore(['selected', 'applied', 'buildsData', 'metaData']);
     };
   }, [dispatch, loadFreshBuildsData, resetReduxStore]);
 
@@ -125,7 +133,7 @@ const AllBuildsPage = () => {
           <Filters />
         </div>
         <div className="mb-4">
-          <FilterTags viewAllBuilds={viewAllBuilds} />
+          <FilterPills viewAllBuilds={viewAllBuilds} />
         </div>
         {buildsApiStatus === API_STATUSES.FAILED && (
           <EmptyPage
@@ -134,7 +142,7 @@ const AllBuildsPage = () => {
           />
         )}
         {buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING ? (
-          <O11yLoader loaderClass="text-base-600 h-9 w-9 self-center p-1 my-5" />
+          <O11yLoader loaderClass="h-9 w-9 self-center p-1 my-5" />
         ) : null}
         {buildsData.length === 0 &&
         buildsApiStatus === API_STATUSES.FULFILLED ? (

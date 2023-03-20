@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   MdAllInclusive,
   MdCancel,
@@ -16,16 +18,25 @@ import {
   O11yTooltip
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { aggregateColors } from '../constants';
+import { setAppliedFilters } from '../slices/dataSlice';
+import { getAppliedFilters } from '../slices/selectors';
 
 import DividedPill from './DividedPill';
 
 const BuildCardDetails = ({ data }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { projectNormalisedName } = useParams();
+  const selectedFilters = useSelector(getAppliedFilters);
+  const { tags } = selectedFilters;
+
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
     if (TEST_STATUS.PENDING === status) {
@@ -46,6 +57,22 @@ const BuildCardDetails = ({ data }) => {
     return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
   };
 
+  const addFilterTag = (item) => {
+    if (!tags.includes(item)) {
+      dispatch(
+        setAppliedFilters({
+          tags: [...tags, item]
+        })
+      );
+    }
+  };
+
+  const navigateToTestPage = (itemCategory, clickData) => {
+    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
+    endpoint += `&${itemCategory}=${clickData.itemClicked}`;
+    navigate(endpoint);
+  };
+
   return (
     <>
       <O11yTableCell>
@@ -54,7 +81,7 @@ const BuildCardDetails = ({ data }) => {
           <div className="ml-4">
             <div className="flex">
               <p className="text-base-900 text-sm font-medium leading-5">
-                {data.originalName}
+                {data?.isAutoDetectedName ? data?.originalName : data?.name}
                 {` `}
                 <O11yMetaData
                   label={`#${data.buildNumber}`}
@@ -86,14 +113,16 @@ const BuildCardDetails = ({ data }) => {
                 )}
               </p>
               {data?.tags.map((singleTag) => (
-                <O11yBadge
-                  key={singleTag}
-                  wrapperClassName="mx-1"
-                  hasRemoveButton={false}
-                  modifier="base"
-                  hasDot={false}
-                  text={singleTag}
-                />
+                <PropagationBlocker key={singleTag}>
+                  <O11yBadge
+                    wrapperClassName="mx-1"
+                    hasRemoveButton={false}
+                    onClick={() => addFilterTag(singleTag)}
+                    modifier="base"
+                    hasDot={false}
+                    text={singleTag}
+                  />
+                </PropagationBlocker>
               ))}
             </div>
             <p className="text-base-500 text-sm">
@@ -129,7 +158,14 @@ const BuildCardDetails = ({ data }) => {
         </div>
       </O11yTableCell>
       <O11yTableCell>
-        <StatusBadges statusStats={data.statusStats} />
+        <PropagationBlocker>
+          <StatusBadges
+            statusStats={data.statusStats}
+            onClickHandler={(clickData) =>
+              navigateToTestPage('status', clickData)
+            }
+          />
+        </PropagationBlocker>
       </O11yTableCell>
       <O11yTableCell>
         <O11yMetaData
@@ -205,7 +241,7 @@ const BuildCardDetails = ({ data }) => {
           {Object.values(data?.issueTypeAggregate)?.every(
             (item) => item === 0
           ) && (
-            <div className="flex overflow-hidden rounded-xl">
+            <div className="flex w-28 overflow-hidden rounded-xl">
               <O11yTooltip
                 theme="dark"
                 placementSide="top"
@@ -229,18 +265,47 @@ const BuildCardDetails = ({ data }) => {
       <O11yTableCell>
         <ul>
           {data?.historyAggregate?.isNewFailure > 0 && (
-            <li className="text-danger-600">
+            <PropagationBlocker
+              onClick={(e) =>
+                navigateToTestPage('smartTags', {
+                  eventData: e,
+                  itemClicked: 'New Failure'
+                })
+              }
+              className="text-danger-600"
+            >
               {`New Failures (${data?.historyAggregate?.isNewFailure})`}
-            </li>
+            </PropagationBlocker>
           )}
           {data?.historyAggregate?.isFlaky > 0 && (
-            <li>{`Flaky (${data?.historyAggregate?.isFlaky})`}</li>
+            <PropagationBlocker
+              onClick={(e) =>
+                navigateToTestPage('smartTags', {
+                  eventData: e,
+                  itemClicked: 'Flaky'
+                })
+              }
+            >{`Flaky (${data?.historyAggregate?.isFlaky})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isAlwaysFailing > 0 && (
-            <li>{`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}</li>
+            <PropagationBlocker
+              onClick={(e) =>
+                navigateToTestPage('smartTags', {
+                  eventData: e,
+                  itemClicked: 'Always Failing'
+                })
+              }
+            >{`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isPerformanceAnomaly > 0 && (
-            <li>{`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}</li>
+            <PropagationBlocker
+              onClick={(e) =>
+                navigateToTestPage('smartTags', {
+                  eventData: e,
+                  itemClicked: 'Performance Anomaly'
+                })
+              }
+            >{`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}</PropagationBlocker>
           )}
           {Object.values(data?.historyAggregate).every((el) => el === 0) && (
             <li className="text-left">-</li>

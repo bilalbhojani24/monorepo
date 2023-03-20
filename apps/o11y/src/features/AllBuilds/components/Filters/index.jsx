@@ -9,12 +9,12 @@ import {
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
-import { TEST_STATUS } from 'constants/common';
-import { capitalizeFirstLetter } from 'utils/common';
+import O11yLoader from 'common/O11yLoader';
 import { getCustomTimeStamp } from 'utils/dateTime';
+import { capitalizeFirstLetter } from 'utils/stringUtils';
 
 import { setAppliedFilters, setSelectedFilters } from '../../slices/dataSlice';
-import { getSelectedFilters } from '../../slices/selectors';
+import { getSelectedFilters, getStaticFilters } from '../../slices/selectors';
 
 import TagsFilters from './TagsFilter';
 import UsersFilters from './UsersFilter';
@@ -23,6 +23,7 @@ const Filters = () => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
   const selectedFilters = useSelector(getSelectedFilters);
+  const staticFilters = useSelector(getStaticFilters);
   const { statuses, users, tags, dateRange } = selectedFilters;
 
   const showSlideover = () => {
@@ -62,10 +63,12 @@ const Filters = () => {
       })
     );
   };
-  const statusOptions = Object.values(TEST_STATUS).map((el) => ({
-    value: el,
-    label: capitalizeFirstLetter(el)
-  }));
+  const statusOptions = staticFilters?.statuses
+    ? Object.values(staticFilters?.statuses).map((el) => ({
+        value: el,
+        label: capitalizeFirstLetter(el)
+      }))
+    : [];
 
   return (
     <>
@@ -75,80 +78,87 @@ const Filters = () => {
           handleDismissClick={hideSlideover}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
-          <div className="flex flex-col gap-6 px-4">
-            <O11yComboBox
-              isMulti
-              placeholder="Select"
-              label="Status"
-              options={statusOptions}
-              onChange={(selectedValues) => {
-                onChangeArrayFilter(selectedValues, 'statuses');
-              }}
-              value={statusOptions.filter((el) => statuses.includes(el.value))}
-              checkPosition
-              virtuosoWidth="480px"
-              optionsListWrapperClassName="min-w-max overflow-hidden"
-            />
-            <UsersFilters
-              onChangeArrayFilter={onChangeArrayFilter}
-              allowFetchingData={isSlideoverVisible}
-            />
-            <TagsFilters
-              onChangeArrayFilter={onChangeArrayFilter}
-              allowFetchingData={isSlideoverVisible}
-            />
-            <div>
-              <label
-                className="text-base-700 text-sm"
-                htmlFor="start-date-filter"
-              >
-                Start Date
-              </label>
-              <input
-                className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                id="start-date-filter"
-                type="date"
-                value={
-                  dateRange.lowerBound
-                    ? getCustomTimeStamp({
-                        dateString: new Date(dateRange.lowerBound),
-                        withoutTZ: true,
-                        withoutTime: true,
-                        dateFormat: 'yyyy-MM-dd'
-                      })
-                    : '00-00-0000'
-                }
-                onChange={(e) => onChangeUpperLowerBound(e, 'lowerBound')}
-                placeholder="Start Date"
+          {staticFilters?.statuses ? (
+            <div className="flex flex-col gap-6 px-4">
+              <O11yComboBox
+                isMulti
+                placeholder="Select"
+                label="Status"
+                options={statusOptions}
+                onChange={(selectedValues) => {
+                  onChangeArrayFilter(selectedValues, 'statuses');
+                }}
+                value={statusOptions.filter((el) =>
+                  statuses.includes(el.value)
+                )}
+                checkPosition
+                virtuosoWidth="480px"
+                optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
               />
-            </div>
-            <div>
-              <label
-                className="text-base-700 text-sm"
-                htmlFor="end-date-filter"
-              >
-                End Date
-              </label>
-              <input
-                className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                id="end-date-filter"
-                value={
-                  dateRange.upperBound
-                    ? getCustomTimeStamp({
-                        dateString: new Date(dateRange.upperBound),
-                        withoutTZ: true,
-                        withoutTime: true,
-                        dateFormat: 'yyyy-MM-dd'
-                      })
-                    : '00-00-0000'
-                }
-                onChange={(e) => onChangeUpperLowerBound(e, 'upperBound')}
-                type="date"
-                placeholder="End Date"
+              <UsersFilters
+                onChangeArrayFilter={onChangeArrayFilter}
+                allowFetchingData={isSlideoverVisible}
               />
+              <TagsFilters
+                onChangeArrayFilter={onChangeArrayFilter}
+                allowFetchingData={isSlideoverVisible}
+              />
+              <div>
+                <label
+                  className="text-base-700 text-sm"
+                  htmlFor="start-date-filter"
+                >
+                  Start Date
+                </label>
+                <input
+                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
+                  id="start-date-filter"
+                  type="date"
+                  value={
+                    dateRange.lowerBound
+                      ? getCustomTimeStamp({
+                          dateString: new Date(dateRange.lowerBound),
+                          withoutTZ: true,
+                          withoutTime: true,
+                          dateFormat: 'yyyy-MM-dd'
+                        })
+                      : '00-00-0000'
+                  }
+                  onChange={(e) => onChangeUpperLowerBound(e, 'lowerBound')}
+                  placeholder="Start Date"
+                />
+              </div>
+              <div>
+                <label
+                  className="text-base-700 text-sm"
+                  htmlFor="end-date-filter"
+                >
+                  End Date
+                </label>
+                <input
+                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
+                  id="end-date-filter"
+                  value={
+                    dateRange.upperBound
+                      ? getCustomTimeStamp({
+                          dateString: new Date(dateRange.upperBound),
+                          withoutTZ: true,
+                          withoutTime: true,
+                          dateFormat: 'yyyy-MM-dd'
+                        })
+                      : '00-00-0000'
+                  }
+                  onChange={(e) => onChangeUpperLowerBound(e, 'upperBound')}
+                  type="date"
+                  placeholder="End Date"
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <O11yLoader loaderClass="text-base-500 h-8 w-8 self-center p-1" />
+          )}
         </O11ySlideoverBody>
+
         <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
           <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
             Cancel

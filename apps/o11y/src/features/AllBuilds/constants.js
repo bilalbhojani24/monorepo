@@ -14,6 +14,11 @@ export const EMPTY_APPLIED_FILTERS = {
   searchText: ''
 };
 
+export const EMPTY_METADATA_FILTERS = {
+  allUsers: [],
+  staticFilters: []
+};
+
 export const aggregateColors = {
   'Automation Bug': '#8D51C2', // purple
   'Environment Issue': '#DBBD29', // yellow

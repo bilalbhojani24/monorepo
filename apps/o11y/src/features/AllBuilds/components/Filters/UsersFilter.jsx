@@ -1,6 +1,7 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { O11yComboBox } from 'common/bifrostProxy';
+import { setFiltersMetaData } from 'features/AllBuilds/slices/dataSlice';
 import { PropTypes } from 'prop-types';
 
 import { getSelectedFilters } from '../../slices/selectors';
@@ -8,17 +9,26 @@ import { getSelectedFilters } from '../../slices/selectors';
 import useFetchUser from './useFetchUser';
 
 const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
+  const dispatch = useDispatch();
   const { users } = useSelector(getSelectedFilters);
   const { data: allUsersData } = useFetchUser(allowFetchingData);
   const allUsersDataOptions = allUsersData.map((el) => ({
-    value: el.id,
+    value: el.id.toString(),
     label: el.name
   }));
   const selectedUserOptions = allUsersDataOptions.filter((el) =>
-    users.includes(parseInt(el.value, 10))
+    users.includes(el.value.toString())
   );
 
-  return (
+  useEffect(() => {
+    dispatch(
+      setFiltersMetaData({
+        allUsers: allUsersData
+      })
+    );
+  }, [allUsersData, dispatch]);
+
+  return allUsersData && users ? (
     <O11yComboBox
       isMulti
       placeholder="Select"
@@ -32,7 +42,7 @@ const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
       virtuosoWidth="480px"
       optionsListWrapperClassName="min-w-max overflow-hidden"
     />
-  );
+  ) : null;
 };
 
 UsersFilters.propTypes = {

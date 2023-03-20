@@ -1,11 +1,17 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropagationBlocker from 'common/PropagationBlocker';
 
 import { aggregateColors } from '../constants';
 
 function DividedPill({ data }) {
-  const handleChartClick = () => {
-    // console.log(item);
+  const navigate = useNavigate();
+  const { projectNormalisedName } = useParams();
+
+  const handleChartClick = (itemClicked) => {
+    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
+    endpoint += `&issueTypeGroup=${itemClicked}`;
+    navigate(endpoint);
   };
 
   const totalDefects = Object.values(data.issueTypeAggregate).reduce(
@@ -30,7 +36,7 @@ function DividedPill({ data }) {
             handleChartClick(item);
           }
         }}
-        onClick={(e) => handleChartClick(e, item)}
+        onClick={() => handleChartClick(item)}
       />
     ) : null
   );
