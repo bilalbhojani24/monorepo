@@ -24,6 +24,8 @@ const createWindow = () => {
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
+    'min-height': 1024,
+    'min-width': 720,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
     },
@@ -42,8 +44,10 @@ const createWindow = () => {
 
   mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // order is important for this one
-  backendServerOps.initializeBackendServer();
+  if (!IS_DEV) {
+    // order is important for this one
+    backendServerOps.initializeBackendServer();
+  }
 
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
     setTimeout(() => {

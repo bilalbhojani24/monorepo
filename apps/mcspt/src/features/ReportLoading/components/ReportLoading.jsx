@@ -8,7 +8,8 @@ import {
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import reportLoadingAnimation from 'assets/reportLoadingAnimation.gif';
+import reportRunningAnimation from 'assets/reportRunningAnimation.gif';
+import reportLoadingAnimation from 'assets/tripleDots.gif';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { secondsToMinutes } from 'utils/dateUtils';
 
@@ -54,15 +55,17 @@ const ReportLoading = () => {
       </div>
 
       <div className="bg-base-50 flex flex-1">
-        <div className="border-base-300 border-r p-2 sm:w-64 xl:w-[360px]">
+        <div className="border-base-300 flex flex-col border-r px-2 py-4 sm:w-64 xl:w-[360px]">
           <div
-            className={twClassNames('', {
-              'rounded-xl border-2 border-danger-600 bg-danger-50':
-                sessionState === REPORT_LOADING_STATES.RECORDING
+            className={twClassNames('flex flex-col flex-1 px-3 py-4 border-2', {
+              'rounded-xl border-danger-600 bg-danger-50':
+                sessionState === REPORT_LOADING_STATES.RECORDING,
+              'border-transparent':
+                sessionState !== REPORT_LOADING_STATES.RECORDING
             })}
           >
             {sessionState === REPORT_LOADING_STATES.RECORDING && (
-              <div className="bg-danger-50 m-2 flex items-center justify-center rounded-md">
+              <div className="bg-danger-50 flex items-center justify-center rounded-md px-1">
                 <div className="text-danger-900 text-3xl font-semibold leading-9">
                   {secondsToMinutes(secondsElapsed)}
                 </div>
@@ -84,16 +87,32 @@ const ReportLoading = () => {
             </div>
 
             <div
-              className="
-            border-base-900 bg-base-50 my-3 mx-auto mt-1.5 flex h-[432px] w-52 flex-1 
-            items-center justify-center rounded-lg border-8 px-5
-            "
+              className={twClassNames(
+                'mx-auto max-w-full',
+                'flex flex-1 items-center justify-center',
+                'rounded-lg border-8 border-base-900 px-5',
+                {
+                  'bg-base-50':
+                    sessionState === REPORT_LOADING_STATES.RECORDING,
+                  'bg-white': sessionState !== REPORT_LOADING_STATES.RECORDING
+                }
+              )}
             >
-              <img
-                src={reportLoadingAnimation}
-                className="w-full max-w-[192px]"
-                alt="reportInProgress"
-              />
+              {sessionState !== REPORT_LOADING_STATES.RECORDING && (
+                <img
+                  src={reportLoadingAnimation}
+                  className="w-full max-w-[192px]"
+                  alt="reportInProgress"
+                />
+              )}
+
+              {sessionState === REPORT_LOADING_STATES.RECORDING && (
+                <img
+                  src={reportRunningAnimation}
+                  className="w-full max-w-[192px]"
+                  alt="reportInProgress"
+                />
+              )}
             </div>
           </div>
         </div>

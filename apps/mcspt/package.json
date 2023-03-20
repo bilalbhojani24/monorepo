@@ -53,6 +53,7 @@
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
     "electron-squirrel-startup": "^1.0.0",
+    "get-port": "6.1.2",
     "highcharts": "^10.3.3",
     "highcharts-react-official": "^3.1.0",
     "prop-types": "^15.8.1",

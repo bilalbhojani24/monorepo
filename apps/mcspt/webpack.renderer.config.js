@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { resolve } = require('path');
 const { DefinePlugin } = require('webpack');
 const commonRules = require('./webpack.rules');

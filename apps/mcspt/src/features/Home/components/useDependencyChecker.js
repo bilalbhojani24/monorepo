@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import {
   getAreApplicationsStillLoading,
   getAreDevicesStillLoading,
+  getErrorOnApplicationFetch,
   getIsSessionApiLoading
 } from '../slices/loadingStateForNewPerformanceSession';
 import {
@@ -36,6 +37,8 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
 
   const lisOfApplications = useSelector(getListOfApplications);
   const selectedApplication = useSelector(getSelectedApplication);
+
+  const errorOnApplicationFetch = useSelector(getErrorOnApplicationFetch);
 
   const [deviceOptionList, setDeviceOptionList] = useState([]);
   const [applicationOptionList, setApplicationOptionList] = useState([]);
@@ -69,26 +72,28 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
     );
   };
 
+  const refetchDevicesAndApps = useCallback(() => {
+    dispatch(fetchConnectedDevices());
+  }, [dispatch]);
+
   useEffect(() => {
     setDeviceOptionList(generateDeviceOptions(listOfDevices));
   }, [generateDeviceOptions, listOfDevices]);
 
   useEffect(() => {
-    setApplicationOptionList(generateAppOptions(lisOfApplications));
+    if (lisOfApplications) {
+      setApplicationOptionList(generateAppOptions(lisOfApplications));
+    }
   }, [generateAppOptions, lisOfApplications]);
 
   useEffect(() => {
-    dispatch(fetchConnectedDevices());
-  }, [dispatch]);
+    refetchDevicesAndApps();
+  }, [refetchDevicesAndApps]);
 
   return {
-    isCheckingDependencies:
-      areDevicesStillLoading || areApplicationsStillLoading,
-    dependenciesFetchedSuccessfully:
-      listOfDevices.length > 0 && lisOfApplications.length > 0,
-    noDevicesFound:
-      !(areDevicesStillLoading || areApplicationsStillLoading) &&
-      listOfDevices.length === 0,
+    areDevicesStillLoading,
+    areApplicationsStillLoading,
+    errorOnApplicationFetch,
     deviceSelected,
     applicationSelected,
     deviceOptionList,
@@ -96,7 +101,8 @@ const useDependencyChecker = (generateDeviceOptions, generateAppOptions) => {
     selectedDevice,
     selectedApplication,
     startTestSession,
-    isSessionApiLoading
+    isSessionApiLoading,
+    refetchDevicesAndApps
   };
 };
 

@@ -9,16 +9,15 @@ import {
   MdDeviceUnknown,
   MdOutlineAutorenew,
   MdPlayArrow,
-  MdReportGmailerrorred,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
-import dependencyLoader from 'assets/dependencyLoader.gif';
 import selectMenuAndroidIcon from 'assets/selectMenuAndroidIcon.png';
 import selectMenuIosIcon from 'assets/selectMenuIosIcon.png';
+import dependencyLoader from 'assets/tripleDots.gif';
 
 import useDependencyChecker from './useDependencyChecker';
 
@@ -55,9 +54,9 @@ const generateAppOptions = (appList) =>
 
 const DependencyChecker = () => {
   const {
-    isCheckingDependencies,
-    dependenciesFetchedSuccessfully,
-    noDevicesFound,
+    areDevicesStillLoading,
+    areApplicationsStillLoading,
+    errorOnApplicationFetch,
     deviceSelected,
     applicationSelected,
     deviceOptionList,
@@ -65,13 +64,14 @@ const DependencyChecker = () => {
     selectedDevice,
     selectedApplication,
     startTestSession,
-    isSessionApiLoading
+    isSessionApiLoading,
+    refetchDevicesAndApps
   } = useDependencyChecker(generateDeviceOptions, generateAppOptions);
 
   return (
     <div className="bg-base-50 p-14">
       <div className="mx-auto rounded-xl bg-white shadow-md">
-        {isCheckingDependencies && (
+        {areDevicesStillLoading && (
           <div className="flex flex-col items-center justify-center p-14">
             <img src={dependencyLoader} alt="loading..." className="w-24" />
             <div className="text-2xl font-bold leading-7">
@@ -80,8 +80,8 @@ const DependencyChecker = () => {
           </div>
         )}
 
-        <div className="py-6 px-4">
-          {!isCheckingDependencies && (
+        {!areDevicesStillLoading && (
+          <div className="py-6 px-4">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold leading-7">
                 Conduct your first performance test
@@ -91,88 +91,93 @@ const DependencyChecker = () => {
                 icon={<MdOutlineAutorenew />}
                 variant="primary"
                 colors="white"
+                onClick={refetchDevicesAndApps}
               >
                 Refresh
               </Button>
             </div>
-          )}
 
-          {dependenciesFetchedSuccessfully && (
-            <>
-              <div className="mt-4 flex justify-between">
-                <div className="mr-1.5 flex-1">
-                  {deviceOptionList.length > 0 && (
-                    <SelectMenu
-                      onChange={deviceSelected}
-                      value={deviceOptionList.find(
-                        (device) => selectedDevice?.deviceId === device?.value
-                      )}
-                      isMulti={false}
-                    >
-                      <SelectMenuLabel>Device</SelectMenuLabel>
-                      <SelectMenuTrigger placeholder="Select.." />
-                      <SelectMenuOptionGroup>
-                        {deviceOptionList.map((item) => (
-                          <SelectMenuOptionItem
-                            key={item.value}
-                            option={item}
-                          />
-                        ))}
-                      </SelectMenuOptionGroup>
-                    </SelectMenu>
-                  )}
-                </div>
+            {deviceOptionList?.length > 0 && (
+              <>
+                <div className="mt-4 flex justify-between">
+                  <div className="mr-1.5 flex-1">
+                    {deviceOptionList?.length > 0 && (
+                      <SelectMenu
+                        onChange={deviceSelected}
+                        value={deviceOptionList.find(
+                          (device) => selectedDevice?.deviceId === device?.value
+                        )}
+                        isMulti={false}
+                        disabled={areApplicationsStillLoading}
+                      >
+                        <SelectMenuLabel>Device</SelectMenuLabel>
+                        <SelectMenuTrigger placeholder="Select.." />
+                        <SelectMenuOptionGroup>
+                          {deviceOptionList.map((item) => (
+                            <SelectMenuOptionItem
+                              key={item.value}
+                              option={item}
+                            />
+                          ))}
+                        </SelectMenuOptionGroup>
+                      </SelectMenu>
+                    )}
+                  </div>
 
-                <div className="ml-1.5 flex-1">
-                  {applicationOptionList?.length > 0 && (
+                  <div className="ml-1.5 flex-1">
                     <ComboBox
                       onChange={applicationSelected}
                       value={applicationOptionList.find(
                         (app) => selectedApplication?.packageName === app?.value
                       )}
                       isMulti={false}
+                      isLoading={areApplicationsStillLoading}
+                      loadingText="Loading applications"
+                      disabled={
+                        areApplicationsStillLoading ||
+                        applicationOptionList?.length === 0
+                      }
+                      errorText={errorOnApplicationFetch}
                     >
                       <ComboboxLabel>Application</ComboboxLabel>
-                      <ComboboxTrigger
-                        placeholder="Placeholder"
-                        onInputValueChange={() => {}}
-                      />
+                      <ComboboxTrigger placeholder="Placeholder" />
                       <ComboboxOptionGroup>
                         {applicationOptionList.map((item) => (
                           <ComboboxOptionItem key={item.value} option={item} />
                         ))}
                       </ComboboxOptionGroup>
                     </ComboBox>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-9 flex items-center justify-between">
-                <div className="">
-                  <div className="text-base-500 text-sm font-medium leading-5">
-                    Applied Thresholds:
-                  </div>
-                  <div className="text-sm font-normal leading-5">
-                    Android Preset
                   </div>
                 </div>
 
-                <Button
-                  icon={<MdPlayArrow />}
-                  variant="primary"
-                  colors="brand"
-                  size="large"
-                  onClick={startTestSession}
-                  loading={isSessionApiLoading}
-                >
-                  Starting Test
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+                <div className="mt-9 flex items-center justify-between">
+                  <div className="">
+                    <div className="text-base-500 text-sm font-medium leading-5">
+                      Applied Thresholds:
+                    </div>
+                    <div className="text-sm font-normal leading-5">
+                      Android Preset
+                    </div>
+                  </div>
 
-        {noDevicesFound && (
+                  <Button
+                    icon={<MdPlayArrow />}
+                    variant="primary"
+                    colors="brand"
+                    size="large"
+                    onClick={startTestSession}
+                    loading={isSessionApiLoading}
+                    loaderText="Starting Test"
+                  >
+                    Start Test
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {!areDevicesStillLoading && deviceOptionList?.length === 0 && (
           <div className="flex items-center justify-center px-28 py-12">
             <div
               className="bg-base-50 text-base-500 flex min-h-[72px] min-w-[72px] 
@@ -185,23 +190,6 @@ const DependencyChecker = () => {
               Please connect your mobile device to start
               <br />
               performance session or check troubleshooting docs
-            </div>
-          </div>
-        )}
-
-        {false === 0 && (
-          <div className="flex items-center justify-center px-28 py-12">
-            <div
-              className="bg-danger-50 text-danger-600 flex min-h-[72px] min-w-[72px] 
-                items-center justify-center rounded-full text-5xl"
-            >
-              <MdReportGmailerrorred />
-            </div>
-
-            <div className="text-danger-900 ml-3 text-lg font-normal leading-7">
-              To start testing please resolve
-              <br />
-              dependencies using setup doctor
             </div>
           </div>
         )}

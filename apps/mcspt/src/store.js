@@ -26,7 +26,7 @@ if (IS_DEV) {
   window.mcpDevRefs = {
     store,
     redirectToPath: (path) => {
-      window.location.href = `http://localhost:2099/main_window/${path || ''}`;
+      window.location.href = `http://localhost:2099/main_window/#${path || ''}`;
     }
   };
 }

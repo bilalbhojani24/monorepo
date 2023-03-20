@@ -4,7 +4,7 @@ const initialState = {
   areDevicesStillLoading: true,
   areApplicationsStillLoading: true,
   isSessionApiLoading: false,
-  dependencyErrorExists: false
+  errorOnApplicationFetch: null
 };
 
 export const loadingStateForNewPerformanceSession = createSlice({
@@ -23,8 +23,8 @@ export const loadingStateForNewPerformanceSession = createSlice({
       state.isSessionApiLoading = action.payload;
     },
 
-    setDependencyErrorExists: (state, action) => {
-      state.isSessionApiLoading = action.payload;
+    setErrorOnApplicationFetch: (state, action) => {
+      state.errorOnApplicationFetch = action.payload;
     }
   }
 });
@@ -41,12 +41,16 @@ export const getIsSessionApiLoading = (state) =>
 export const getDependencyErrorExists = (state) =>
   state.loadingStateForNewPerformanceSession.dependencyErrorExists;
 
+export const getErrorOnApplicationFetch = (state) =>
+  state.loadingStateForNewPerformanceSession.errorOnApplicationFetch;
+
 // Action creators are generated for each case reducer function
 export const {
   setAreDevicesStillLoading,
   setAreApplicationsStillLoading,
   setIsSessionApiLoading,
-  setDependencyErrorExists
+  setDependencyErrorExists,
+  setErrorOnApplicationFetch
 } = loadingStateForNewPerformanceSession.actions;
 
 export default loadingStateForNewPerformanceSession.reducer;

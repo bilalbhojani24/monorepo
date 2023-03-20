@@ -7,6 +7,7 @@ import {
 import {
   setAreApplicationsStillLoading,
   setAreDevicesStillLoading,
+  setErrorOnApplicationFetch,
   setIsSessionApiLoading
 } from './loadingStateForNewPerformanceSession';
 import {
@@ -35,8 +36,10 @@ export const fetchApplicationsFromSelectedDevice =
         dispatch(setSelectedApplication(response?.apps[0]));
       }
     } catch (error) {
-      if (error?.response?.status !== 461) {
+      if (error?.response?.status !== 460) {
         throw error;
+      } else {
+        dispatch(setErrorOnApplicationFetch(error?.response?.data?.status));
       }
     } finally {
       dispatch(setAreApplicationsStillLoading(false));
