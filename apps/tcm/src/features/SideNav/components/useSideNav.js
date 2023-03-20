@@ -151,7 +151,7 @@ export default function useSideNav() {
         ...item,
         label: item.name,
         value: item.id,
-        hasTestCases: false
+        hasTestCases: true
       })),
       {
         label: 'View All Projects',
