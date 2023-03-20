@@ -81,16 +81,7 @@ export default function ReportRow({ id }) {
       className="border-base-200 hover:bg-base-50 flex w-full justify-between border-b bg-white"
       onClick={onReportClick}
     >
-      <div
-        className="flex"
-        style={{
-          width: `${
-            window.innerWidth < 1280
-              ? 'calc(100% - 374px)'
-              : 'calc(100% - 801px)'
-          } `
-        }}
-      >
+      <div className="xl:w-[calc(100% - 374px)] w-[calc(100% - 801px)] flex">
         <Checkbox
           data={{ value: name }}
           border={false}
@@ -144,9 +135,9 @@ export default function ReportRow({ id }) {
           {issueTypes.map(({ modifier, type }) => (
             <div className="mr-2" key={type}>
               <Badge
-                // wrapperClassName={
-                //   type === 'serious' ? 'bg-danger-500 text-danger-50' : ''
-                // }
+                wrapperClassName={
+                  type === 'serious' ? 'bg-[#FCE7F3] text-[#9D174D]' : ''
+                }
                 hasDot={false}
                 hasRemoveButton={false}
                 isRounded

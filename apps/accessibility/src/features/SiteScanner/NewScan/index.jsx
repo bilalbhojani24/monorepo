@@ -24,7 +24,7 @@ import {
 import { json2csv } from 'json-2-csv';
 import PropTypes from 'prop-types';
 
-import Loader from '../../../common/Loader';
+import { logEvent } from '../../../../../../packages/utils/src/logger';
 
 import { days, urlPattern, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
@@ -43,7 +43,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     showToast,
     setShowToast
   } = useNewScan(closeSlideover, preConfigData);
-  console.log(formData, validationError);
   /*
     Download Csv
   */
@@ -93,6 +92,27 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     }
   }, [setShowToast, showToast]);
 
+  const handleCloseWithLogEvent = () => {
+    logEvent(
+      ['EDS'],
+      'accessibility_dashboard_web_events',
+      'InteractedWithWSNewWebsiteScanSlideOver',
+      {
+        actionType: 'Scan changes',
+        action: 'Cancel Scan',
+        scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+        scanTime: recurringStatus
+          ? formData.time
+          : new Date().toLocaleTimeString(),
+        wcagVersion: formData.scanData.wcagVersion.label,
+        day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
+        bestPractices: formData.scanData.bestPractices,
+        needsReview: formData.scanData.needsReview
+      }
+    );
+    handlerCloseOver();
+  };
+
   const getAccordionBody = () => (
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
@@ -129,20 +149,19 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       </div>
     </div>
   );
-  console.log(formData, validationError);
   return (
     <div>
       <Slideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"
-        onOverlayClick={handlerCloseOver}
+        onOverlayClick={handleCloseWithLogEvent}
         backgroundOverlay
-        onClose={handlerCloseOver}
+        onClose={handleCloseWithLogEvent}
         size="2xl"
       >
         <SlideoverHeader
           dismissButton
-          handleDismissClick={handlerCloseOver}
+          handleDismissClick={handleCloseWithLogEvent}
           heading="New website scan"
           subHeading="Setup your new website scan"
           backgroundColorClass="bg-base-50"
@@ -346,7 +365,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 onClick={(e) => handleFormData(e, 'addUrl')}
                 size="small"
                 type="subtle"
-                wrapperClassName="ml-4"
+                wrapperClassName="ml-4 px-3 py-2"
               >
                 Add
               </Button>
@@ -429,7 +448,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 onClick={() => fileUploadRef.current.click()}
                 size="small"
                 type="subtle"
-                wrapperClassName="ml-4 w-36"
+                wrapperClassName="ml-4 w-36 px-3 py-2"
               >
                 Upload CSV
               </Button>
@@ -448,7 +467,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               tabIndex="0"
               className="text-info-600 ml-6 mb-5 text-sm"
             >
-              Download Sample CSV
+              Download sample CSV
             </div>
             {/* <a href="data:text/csv;charset=utf-8" download="assets/sample.csv">
               download
@@ -482,7 +501,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
         <SlideoverFooter position="right" isBorder>
           <div className="flex w-full justify-end bg-white">
             <Button
-              onClick={handlerCloseOver}
+              onClick={handleCloseWithLogEvent}
               size="small"
               type="subtle"
               wrapperClassName="ml-4"

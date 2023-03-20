@@ -378,10 +378,10 @@ export default function Issues() {
               <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <div className="flex overflow-auto h-full">
+            <div className="flex h-full overflow-auto">
               <div
                 className={twClassNames(
-                  'w-full border-r border-base-200 mb-2 overflow-auto',
+                  'w-full border-r border-base-200 overflow-auto pb-20',
                   {
                     'w-2/4': isHalfView && sectionData
                   }
