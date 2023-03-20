@@ -350,7 +350,7 @@ export default function useAddEditTestCase(prop) {
 
       editTestCaseAPI({
         projectId,
-        folderId,
+        folderId: selectedTestCase?.test_case_folder_id || folderId,
         testCaseId: selectedTestCase.id,
         payload: formDataFormatter(formData)
       }).then((data) => {
