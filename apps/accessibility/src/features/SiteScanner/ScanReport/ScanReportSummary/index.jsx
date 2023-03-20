@@ -148,7 +148,7 @@ export default function ScanReportSummary() {
       key: 'issueCount'
     }
   ];
-  console.log(categoryList);
+
   return (
     <div className="bg-base-50 relative mt-4">
       <div className="flex items-start">
