@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
@@ -112,7 +112,6 @@ MultiSelect.play = async ({ canvasElement }) => {
   const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
   selectItems.forEach(async (item) => {
     if (Array.prototype.indexOf.call(selectItems, item) > 1) {
-      await delay(1);
       item.click();
     }
   });
@@ -167,10 +166,11 @@ Primary.parameters = {
 
 export const ControlledSelectMenu = () => {
   const [selected, setSelected] = useState(null);
+  const ref = useRef();
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
-      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuTrigger placeholder="Select.." ref={ref} />
       <SelectMenuOptionGroup>
         {SELECT_OPTIONS.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
