@@ -1,6 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -56,10 +59,10 @@ const rows = [
     role: 'Admin'
   },
   {
-    name: 'Courtney Henry',
-    title: 'Designer',
-    email: 'courtney.henry@example.com',
-    role: 'Admin'
+    name: 'Dan Adams',
+    title: 'Back-end Developer',
+    email: 'dan.adams@example.com',
+    role: 'Supervisor'
   }
 ];
 
@@ -144,17 +147,258 @@ const SelectableTableTemplate = (args) => <Table {...args} />;
 const SortableTableTemplate = (args) => <Table {...args} />;
 const CondensedTableTemplate = (args) => <Table {...args} />;
 
+const Headings = ['Name', 'Title', 'Email', 'Role'];
+const Names = ['Lindsay Walton', 'Courtney Henry', 'Dan Adams'];
+const Titles = ['Front-end Developer', 'Back-end Developer', 'Designer'];
+const Emails = [
+  'lindsay.walton@example.com',
+  'courtney.henry@example.com',
+  'dan.adams@example.com'
+];
+const Roles = ['Member', 'Admin', 'Supervisor'];
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const FullWidthTable = FullWidthTableTemplate.bind({});
+FullWidthTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const StripedTable = StripedTableTemplate.bind({});
+StripedTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const UppercaseHeadingTable = UppercaseHeadingTableTemplate.bind({});
+UppercaseHeadingTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const WhiteBackgroundTable = WhiteBackgroundTableTemplate.bind({});
+WhiteBackgroundTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const MultiLineContentTable = MultiLineContentTableTemplate.bind({});
+MultiLineContentTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(Names[0]).length).toBe(3);
+  await expect(canvas.queryAllByText(Titles[0]).length).toBe(3);
+  await expect(canvas.getByText('Status')).toBeVisible();
+  await expect(canvas.queryAllByText('Active').length).toBe(3);
+  await expect(canvas.queryAllByText(Roles[0]).length).toBe(3);
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const GroupedRowsTable = GroupedRowsTableTemplate.bind({});
+GroupedRowsTable.play = async ({ canvasElement }) => {
+  const groupedNames = [
+    'Lindsay Walton',
+    'Courtney Henry',
+    'Tom cook',
+    'Whitney Francis'
+  ];
+  const groupedTitles = ['Front-end Developer', 'Designer'];
+  const groupedRoles = ['Member', 'Admin'];
+  const groupedEmails = [
+    'lindsay.walton@example.com',
+    'courtney.henry@example.com',
+    'tom.cook@example.com',
+    'whitney.francis@example.com'
+  ];
+  const groupedLocations = ['Edinburgh', 'London'];
+
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  groupedLocations.forEach(async (location) => {
+    await expect(canvas.getByText(location)).toBeVisible();
+  });
+  groupedNames.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  groupedTitles.forEach(async (title) => {
+    await expect(canvas.queryAllByText(title).length).toBe(2);
+  });
+  groupedEmails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  groupedRoles.forEach(async (role) => {
+    await expect(canvas.queryAllByText(role).length).toBe(2);
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(4);
+};
+
 const StickyHeaderTable = StickyHeaderTableTemplate.bind({});
+StickyHeaderTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.queryAllByText(name).length).toBe(5);
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.queryAllByText(title).length).toBe(5);
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.queryAllByText(email).length).toBe(5);
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.queryAllByText(role).length).toBe(5);
+  });
+};
+
 const SelectableTable = SelectableTableTemplate.bind({});
+SelectableTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await delay(1);
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(async (input) => {
+    input.click();
+  });
+};
+
 const SortableTable = SortableTableTemplate.bind({});
+SortableTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
+
 const CondensedTable = CondensedTableTemplate.bind({});
+CondensedTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  Headings.forEach(async (heading) => {
+    await expect(canvas.getByText(heading)).toBeVisible();
+  });
+  Names.forEach(async (name) => {
+    await expect(canvas.getByText(name)).toBeVisible();
+  });
+  Titles.forEach(async (title) => {
+    await expect(canvas.getByText(title)).toBeVisible();
+  });
+  Emails.forEach(async (email) => {
+    await expect(canvas.getByText(email)).toBeVisible();
+  });
+  Roles.forEach(async (role) => {
+    await expect(canvas.getByText(role)).toBeVisible();
+  });
+  await expect(canvas.queryAllByText('Edit').length).toBe(3);
+};
 
 Primary.parameters = {
   controls: {}
@@ -272,7 +516,7 @@ const GRTColumns = [
   },
   {
     name: 'Email',
-    key: 'role'
+    key: 'email'
   },
   {
     name: 'Role',
@@ -312,13 +556,13 @@ const GRTRows = [
       {
         name: 'Tom cook',
         title: 'Front-end Developer',
-        email: 'lindsay.walton@example.com',
+        email: 'tom.cook@example.com',
         role: 'Member'
       },
       {
         name: 'Whitney Francis',
         title: 'Designer',
-        email: 'courtney.henry@example.com',
+        email: 'whitney.francis@example.com',
         role: 'Admin'
       }
     ]
