@@ -53,6 +53,8 @@ const initialState = {
   importId: null,
   importStatus: COMPLETED,
   isDismissed: true,
+  showNewProjectBanner: false,
+  isNewProjectBannerDismissed: true,
   notificationData: null,
   notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
   showNotificationModal: false,
@@ -60,7 +62,8 @@ const initialState = {
   quickImportProjectId: null,
   beginImportLoading: false,
   configureToolPageLoading: true,
-  latestImportTool: null
+  latestImportTool: null,
+  successfulImportedProjects: 0
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -193,6 +196,7 @@ const importSlice = createSlice({
         checkImportStatusClicked,
         quickImportProjectId,
         currentTestManagementTool,
+        successfulImportedProjects,
         ...restInitialState
       } = initialState;
 
@@ -207,6 +211,7 @@ const importSlice = createSlice({
         checkImportStatusClicked: payload?.checkImportStatusClicked,
         quickImportProjectId: payload?.quickImportProjectId,
         currentTestManagementTool: payload?.currentTestManagementTool,
+        successfulImportedProjects: payload?.successfulImportedProjects,
         ...restInitialState
       };
     },
@@ -216,6 +221,8 @@ const importSlice = createSlice({
     setNotificationProjectConfig: (state, { payload }) => {
       Object.keys(payload).forEach((key) => {
         state.notificationProjectConfig[key] = payload[key];
+        if (key === 'successCount')
+          state.successfulImportedProjects = payload[key];
       });
     },
     setShowNotificationModal: (state, { payload }) => {
@@ -233,6 +240,15 @@ const importSlice = createSlice({
     },
     setLatestImportTool: (state, { payload }) => {
       state.latestImportTool = payload;
+    },
+    setNewProjectBannerDismiss: (state, { payload }) => {
+      state.isNewProjectBannerDismissed = payload;
+    },
+    setShowNewProjectBanner: (state, { payload }) => {
+      state.showNewProjectBanner = payload;
+    },
+    setImportedProjectCount: (state, { payload }) => {
+      state.successfulImportedProjects = payload;
     }
   },
   extraReducers: (builder) => {
@@ -252,6 +268,7 @@ const importSlice = createSlice({
       state.importId = payload.import_id;
       state.importStatus = payload.status;
       state.isDismissed = payload.is_dismissed;
+      state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
     builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
       if (payload.status === ONGOING) {
@@ -266,6 +283,7 @@ const importSlice = createSlice({
         state.notificationProjectConfig.projects = payload.projects;
         state.notificationProjectConfig.totalCount = payload.total;
         state.notificationProjectConfig.successCount = payload.success_count;
+        state.successfulImportedProjects = payload.success_count;
         state.importStatus = COMPLETED;
         state.currentTestManagementTool =
           payload.import_type.split('_')[0] === 'testrail'
@@ -320,6 +338,9 @@ export const {
   setImportStatusOngoing,
   setBeginImportLoading,
   setConfigureToolPageLoading,
-  setLatestImportTool
+  setLatestImportTool,
+  setShowNewProjectBanner,
+  setNewProjectBannerDismiss,
+  setImportedProjectCount
 } = importSlice.actions;
 export default importSlice.reducer;

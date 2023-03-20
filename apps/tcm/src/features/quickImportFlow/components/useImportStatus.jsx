@@ -21,6 +21,7 @@ import {
   setCheckImportStatusClicked,
   setCurrentScreen,
   setCurrentTestManagementTool,
+  setImportedProjectCount,
   setImportStarted,
   setImportStatus,
   setNotificationData,
@@ -28,6 +29,7 @@ import {
   setNotificationProjectConfig,
   setRetryImport,
   setSelectedRadioIdMap,
+  setShowNewProjectBanner,
   setShowNotificationModal
 } from '../slices/importSlice';
 
@@ -119,6 +121,7 @@ const useImportStatus = () => {
       } else {
         dismissNotification(toastData, currentImportStatus);
         fetchProjects();
+        dispatch(setShowNewProjectBanner(true));
         navigate('/');
       }
     };
@@ -231,6 +234,7 @@ const useImportStatus = () => {
           );
         } else {
           dispatch(setNotificationData(SUCCESS_DATA));
+          dispatch(setImportedProjectCount(data.success_count));
           showNotification(SUCCESS_DATA, data.status);
         }
       }

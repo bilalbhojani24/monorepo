@@ -28,6 +28,7 @@ import {
   setNotificationDismissed,
   setRetryImport,
   setSelectedRadioIdMap,
+  setShowNewProjectBanner,
   setShowNotificationModal
 } from '../slices/importSlice';
 
@@ -114,6 +115,7 @@ const ImportStatus = () => {
     } else {
       dismissNotification(toastData);
       fetchProjects();
+      dispatch(setShowNewProjectBanner(true));
       navigate('/');
     }
   };
@@ -177,6 +179,7 @@ const ImportStatus = () => {
           duration: INFINITY
         }
       );
+      dispatch(setShowNewProjectBanner(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData, importStatus]);
