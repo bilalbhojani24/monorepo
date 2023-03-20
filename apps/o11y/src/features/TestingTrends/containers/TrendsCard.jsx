@@ -68,7 +68,7 @@ export default function TrendsCard({
           <div className="flex items-end gap-4 px-5 pt-2">
             {chartData?.insights?.count !== undefined && (
               <>
-                <p className="px-5 pt-2 pb-0 text-5xl font-semibold">
+                <p className="px-5 pt-2 pb-0 text-3xl font-semibold">
                   {config?.abbrNumber
                     ? abbrNumber(chartData?.insights?.count)
                     : chartData?.insights?.count}
@@ -85,7 +85,7 @@ export default function TrendsCard({
         )}
         {!isEmpty(chartData.data) && (
           <div
-            className={twClassNames('flex px-5 pt-2 pb-2 min-h-0 h-full', {
+            className={twClassNames('px-5 pt-2 pb-2 h-80', {
               // 'max-h-[calc(100%_-_100px)]': !isEmpty(chartData?.insights)
             })}
           >

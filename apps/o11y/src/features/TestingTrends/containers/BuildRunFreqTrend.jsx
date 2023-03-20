@@ -16,27 +16,34 @@ const BuildRunsList = React.memo(({ handleBottomChange, builds }) => {
   const containerRef = useRef(null);
   const maxRunCount = max(builds?.data?.map(({ runs }) => runs));
   return (
-    <div className="flex-1 pt-3 font-medium" ref={containerRef}>
+    <div className="h-80 text-sm" ref={containerRef}>
       <Virtuoso
         customScrollParent={containerRef.current}
         data={[...builds?.data, { spacer: true }]}
         atBottomStateChange={handleBottomChange}
+        style={{ height: '300px' }}
         itemContent={(idx, item) => {
           if (item.spacer) {
             return <div className="block h-3" />;
           }
           return (
             <div
-              className={classNames('flex items-center py-1 px-0', {
-                'bg-gray-10': idx % 2 !== 0
-              })}
+              className={classNames(
+                'flex items-center py-1 px-0 h-12 border border-base-300',
+                {
+                  'bg-gray-10': idx % 2 !== 0
+                }
+              )}
               key={item.id}
             >
-              <div className="p-2">{item.buildName}</div>
-              <div className="p-2">
+              <div className="flex-1 p-2">{item.buildName}</div>
+              <div className="flex flex-1 p-2">
                 <div
-                  className="mr-3 h-3 rounded-r-lg"
-                  style={{ width: `${(item.runs / maxRunCount) * 100}%` }}
+                  className="text-attention-500 mr-3 h-3 rounded-r-lg"
+                  style={{
+                    width: `${(item.runs / maxRunCount) * 100}%`,
+                    backgroundColor: '#865CC1'
+                  }}
                 />
                 <p className="">{abbrNumber(item.runs)}</p>
               </div>
@@ -96,12 +103,12 @@ export default function BuildRunFreqTrend({ title }) {
       onClickCTA={fetchData}
       title={title}
     >
-      <div className="flex h-full flex-col overflow-auto">
+      <div className="flex flex-col">
         <CardHeader title={title} />
-        <div className="flex h-full flex-col overflow-auto py-0 px-3">
-          <div className="flex items-center border bg-white pt-5 font-medium">
-            <div className="p-2">Build Name</div>
-            <div className="p-2">Runs</div>
+        <div className="flex flex-col p-3">
+          <div className="border-base-300 bg-base-100 flex h-12 items-center rounded-t border text-xs font-medium">
+            <div className="flex-1 p-2">Build Name</div>
+            <div className="flex-1 p-2">Runs</div>
           </div>
           <BuildRunsList
             handleBottomChange={handleBottomChange}

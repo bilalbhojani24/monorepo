@@ -190,11 +190,11 @@ export default function CbtTrends() {
           {!!chartData.data?.length && (
             <Chart options={getOptions} chartRef={chart} />
           )}
-          <div className="overflow-auto">
+          <div className="h-96 overflow-y-scroll">
             {activeSeriesData.map((item, idx) => (
               <Button
                 wrapperClassName={classNames(
-                  'w-full flex justify-between items-center px-2 py-1 text-sm text-left gap-2 [&:not(:last-child)]:border',
+                  'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-2 [&:not(:last-child)]:border',
                   {
                     '[&:not(:last-child)]:border': !item.drilldown
                   }

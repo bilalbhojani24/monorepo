@@ -6,13 +6,13 @@ import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import Settings from 'features/Settings/containers/Settings';
 import SuiteHealth from 'features/SuiteHealth';
-import TestingTrends from 'features/TestingTrends';
 
 import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
+const TestingTrends = React.lazy(() => import('features/TestingTrends'));
 
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')

@@ -12,8 +12,6 @@ import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import UniqueBuildItem from '../components/UniqueBuildItem';
 import { TREND_CARDS } from '../constants';
 
-// import '../styles/UniqueBuildRuns.scss';
-
 const LoadingFooter = () => (
   <div className="flex items-center py-6 px-0">
     <O11yLoader />

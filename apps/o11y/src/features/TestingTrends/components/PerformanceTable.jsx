@@ -26,7 +26,7 @@ const PerformanceTableItem = React.memo(
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       className={twClassNames(
-        'flex items-center text-xs cursor-pointer h-2.5',
+        'flex h-full text-sm items-center cursor-pointer h-12 p-2 border-b border-base-300',
         {
           'to-trend-perf-table__item--active': selectedBuild === item.id,
           'to-trend-perf-table__item--greyBg': index % 2 !== 0
@@ -37,23 +37,23 @@ const PerformanceTableItem = React.memo(
       tabIndex={0}
       onClick={() => handleBuildSelect(item.id)}
     >
-      <div className="">{item.buildName}</div>
-      <div className="h-full">
+      <div className="flex-1 ">{item.buildName}</div>
+      <div className="flex flex-1">
         <MiniChart
           data={item.lineChartData || []}
           lineColor="#376D98"
           color="#E5EEF8"
-          type="area"
+          type="areaspline"
         />
-        <p className="">{abbrNumber(item.testCount)}</p>
+        <p className="pl-2">{abbrNumber(item.testCount)}</p>
       </div>
-      <div className="h-full">
+      <div className="flex flex-1">
         <MiniChart
           data={item.barChartData || []}
           color="#9DD0CA"
           type="column"
         />
-        <p className="">{milliSecondsToTime(item.avgDuration)}</p>
+        <p className="pl-2">{milliSecondsToTime(item.avgDuration)}</p>
       </div>
     </div>
   )
@@ -135,17 +135,18 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
       onClickCTA={loadInitialData}
       showTitle={false}
     >
-      <div className="px-5 pt-0 pb-5">
-        <div className="flex items-center rounded-sm border">
-          <div className="flex-1 p-3 font-medium">BUILD NAME</div>
-          <div className="w-32 p-3 font-medium">TESTS</div>
-          <div className="w-32 p-3 font-medium">AVG. DURATION</div>
+      <div className="flex flex-col px-5 pt-0 pb-5">
+        <div className="border-base-300 flex items-center rounded-sm border-b p-2 text-sm">
+          <div className="flex-1 font-medium">BUILD NAME</div>
+          <div className="flex-1 font-medium">TESTS</div>
+          <div className="flex-1 font-medium">AVG. DURATION</div>
         </div>
-        <div className="" ref={containerRef}>
+        <div className="relative" ref={containerRef}>
           {!!performanceData?.data?.length && (
             <Virtuoso
               customScrollParent={containerRef.current}
               data={performanceData.data}
+              style={{ height: 300 }}
               overscan={100}
               endReached={loadMoreRows}
               itemContent={(index, item) => (

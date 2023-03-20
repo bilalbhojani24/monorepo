@@ -71,7 +71,7 @@ export default function TrendsGenericChart({
   }, [afterSetExtremes, chartType, config, data, seriesOptions]);
 
   return (
-    <div className="h-96">
+    <div className="h-full">
       <Chart
         options={options}
         key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}

@@ -141,7 +141,7 @@ export default function TestingTrends() {
         >
           {Object.keys(TREND_CARDS).map((key) => (
             <div
-              className="group rounded-lg bg-white border-base-200 relative h-full max-h-full flex-1 overflow-auto border shadow"
+              className="border-base-200 group relative h-full max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow"
               key={key}
               data-grid={TREND_CARDS[key]}
             >

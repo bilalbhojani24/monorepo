@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { TT_PARAMS_MAPPING } from 'features/TestingTrends/constants';
 import { setTTFilters } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getUnixEndOfDay, getUnixStartOfDay } from 'utils/dateTime';
 
 const useChartActions = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const navigate = useNavigate();
   const afterSetExtremes = useCallback(
     (e) => {
       if (e.trigger) {
@@ -19,7 +19,7 @@ const useChartActions = () => {
         searchParams.set(TT_PARAMS_MAPPING.ttDateRange, 'custom');
         searchParams.set(TT_PARAMS_MAPPING.ttToDate, toTime);
         searchParams.set(TT_PARAMS_MAPPING.ttFromDate, fromTime);
-        // history.push({ search: searchParams.toString() });
+        navigate({ search: searchParams.toString() });
         dispatch(
           setTTFilters({
             dateRange: {
@@ -31,7 +31,7 @@ const useChartActions = () => {
         );
       }
     },
-    [dispatch]
+    [dispatch, navigate]
   );
 
   return {

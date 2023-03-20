@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, MdDragIndicator } from '@browserstack/bifrost';
+// import { Button, MdDragIndicator } from '@browserstack/bifrost';
 import TrendsGenericChart from 'features/TestingTrends/components/TrendsGenericChart';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
@@ -53,19 +53,13 @@ export default function StabilityLineGraph({ buildId }) {
       onClickCTA={fetchData}
       showTitle={false}
     >
-      <Button
+      {/* <Button
         icon={<MdDragIndicator />}
         isIconOnlyButton
         size="small"
         wrapperClassName="ml-3"
-      />
-      {/* <IconButton
-        icon={<DragIndicatorIcon fontSize="inherit" />}
-        type="subtle"
-        className="to-test-trend__dragHandler to-test-trend__dragHandler-abs"
-        size="small"
       /> */}
-      <div className="">
+      <div className="h-96">
         {!isEmpty(chartData.data) && (
           <TrendsGenericChart
             data={chartData.data}
