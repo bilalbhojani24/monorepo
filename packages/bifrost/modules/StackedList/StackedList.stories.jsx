@@ -37,7 +37,49 @@ const defaultConfig = {
       )
     }
   },
-  argTypes: {},
+  argTypes: {
+    children: {
+      defaultValue: (
+        <StackedListGroup>
+          {People.map(({ email, name, image }) => (
+            <StackedListItem key={email}>
+              <StackedListCommon
+                icon={
+                  <img
+                    alt={name}
+                    className="h-10 w-10 rounded-full"
+                    src={image}
+                  />
+                }
+                title={name}
+                subTitle={
+                  <span className="text-base-500 text-sm">{email}</span>
+                }
+              />
+            </StackedListItem>
+          ))}
+        </StackedListGroup>
+      ),
+      option: {
+        type: null
+      }
+    },
+    footer: {
+      default: (
+        <div className="bg-white py-3 text-center">
+          <button
+            className="border-base-300 w-full rounded-md border py-1"
+            type="button"
+          >
+            View all
+          </button>
+        </div>
+      ),
+      option: {
+        type: null
+      }
+    }
+  },
   controls: {}
 };
 
