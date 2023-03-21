@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Alerts,
   Loader,
   SelectMenu,
   SelectMenuLabel,
@@ -43,7 +44,7 @@ const renderChild = ({
   integrationToolFieldData
 }) => {
   if (areProjectsLoading) {
-    return <Loader />;
+    return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
   }
   if (projectsHaveError) {
     return (
@@ -124,7 +125,8 @@ const IssueForm = ({
     acc.push({
       value: key,
       label: `${label} issue`,
-      image: `https://integrations.bsstag.com${icon}`
+      image: `https://integrations.bsstag.com${icon}`,
+      title: label
     });
     return acc;
   }, []);
@@ -202,9 +204,20 @@ const IssueForm = ({
         />
       )}
       <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
+        {areProjectsLoaded && (projects ?? []).length === 0 && (
+          <div className="pb-6">
+            <Alerts
+              title=""
+              description={`Create a project in your ${integrationToolFieldData?.title} in order to continue`}
+              modifier="error"
+              linkText=""
+            />
+          </div>
+        )}
         <SelectMenu
           onChange={(val) => selectTool(val)}
           value={integrationToolFieldData}
+          disabled={!((toolOptions ?? []).length > 1)}
         >
           <div className="flex items-center">
             <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit">
@@ -218,23 +231,31 @@ const IssueForm = ({
             ))}
           </SelectMenuOptionGroup>
         </SelectMenu>
-        {renderChild({
-          mode,
-          fields,
-          metaData,
-          projects,
-          fieldsData,
-          setFieldsData,
-          handleTryAgain,
-          projectFieldData,
-          projectsHaveError,
-          cleanedIssueTypes,
-          areProjectsLoading,
-          issueTypeFieldData,
-          setIsWorkInProgress,
-          handleIssueTabChange,
-          integrationToolFieldData
-        })}
+        <div
+          className={''.concat(
+            areProjectsLoading || projectsHaveError
+              ? 'flex justify-center items-center h-full flex-1'
+              : ''
+          )}
+        >
+          {renderChild({
+            mode,
+            fields,
+            metaData,
+            projects,
+            fieldsData,
+            setFieldsData,
+            handleTryAgain,
+            projectFieldData,
+            projectsHaveError,
+            cleanedIssueTypes,
+            areProjectsLoading,
+            issueTypeFieldData,
+            setIsWorkInProgress,
+            handleIssueTabChange,
+            integrationToolFieldData
+          })}
+        </div>
       </div>
     </>
   );
