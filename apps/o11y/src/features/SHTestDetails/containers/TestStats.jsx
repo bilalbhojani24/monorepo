@@ -50,12 +50,7 @@ const TestStats = () => {
   }, [dispatch, testId, activeProject?.normalisedName, cbtInfo]);
 
   if (isLoadingData) {
-    return (
-      <O11yLoader
-        wrapperClassName="py-6"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      />
-    );
+    return <O11yLoader wrapperClassName="py-6" />;
   }
   if (!isLoadingData && isEmpty(stats)) {
     return <p className="py-6 text-center">No data found</p>;

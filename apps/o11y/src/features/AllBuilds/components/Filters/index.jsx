@@ -155,7 +155,7 @@ const Filters = () => {
               </div>
             </div>
           ) : (
-            <O11yLoader loaderClass="text-base-500 h-8 w-8 self-center p-1" />
+            <O11yLoader loaderClass="h-8 w-8 self-center p-1" />
           )}
         </O11ySlideoverBody>
 

@@ -81,7 +81,7 @@ function BuildDetailsHeader() {
   if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
     return (
       <div className="border-base-200 border-b px-8 py-6">
-        <O11yLoader loaderClass="text-base-200 fill-base-400 w-8 h-8" />
+        <O11yLoader />
       </div>
     );
   }

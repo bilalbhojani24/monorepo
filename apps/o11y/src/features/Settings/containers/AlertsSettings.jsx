@@ -47,7 +47,6 @@ export default function AlertsSettings() {
         <div className="m-auto flex h-72 w-72 flex-col items-center justify-center p-6">
           <O11yLoader
             wrapperClassName="flex-1"
-            loaderClass="text-base-200 fill-base-400 w-8 h-8"
             text="Fetching alerts"
             textClass="text-sm"
           />

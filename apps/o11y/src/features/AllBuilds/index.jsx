@@ -142,7 +142,7 @@ const AllBuildsPage = () => {
           />
         )}
         {buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING ? (
-          <O11yLoader loaderClass="h-9 w-9 self-center p-1 my-5" />
+          <O11yLoader loaderClass="self-center p-1 my-5" />
         ) : null}
         {buildsData.length === 0 &&
         buildsApiStatus === API_STATUSES.FULFILLED ? (
