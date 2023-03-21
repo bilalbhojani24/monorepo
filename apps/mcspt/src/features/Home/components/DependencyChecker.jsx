@@ -165,9 +165,9 @@ const DependencyChecker = () => {
             </div>
 
             <div className="text-base-600 ml-3 text-lg font-normal leading-7">
-              Please connect your mobile device to start
-              <br />
-              performance session or check troubleshooting docs
+              To begin a performance profiling session, connect your mobile
+              device and click refresh. For more details, check our device
+              troubleshooting docs or contact us.
             </div>
           </div>
         )}

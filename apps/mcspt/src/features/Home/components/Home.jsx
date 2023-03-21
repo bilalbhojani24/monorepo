@@ -24,7 +24,7 @@ const Home = () => {
           isDismissButton={false}
           ctaButton={
             <Button variant="primary" colors="white">
-              Login
+              Login Now
             </Button>
           }
           description={buildBannerMsg(

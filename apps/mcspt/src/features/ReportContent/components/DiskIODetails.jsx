@@ -2,7 +2,6 @@ import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
@@ -16,7 +15,7 @@ const DiskIODetails = () => {
       <div className="flex">
         <MetricStat
           wrapperClassName="p-4"
-          metricTitle="Total Read"
+          metricTitle="Total Disk Read"
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.diskReadMbTotal?.value
           )} MB`}
@@ -30,7 +29,7 @@ const DiskIODetails = () => {
 
         <MetricStat
           wrapperClassName="p-4"
-          metricTitle="Total Write"
+          metricTitle="Total Disk Write"
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.diskWriteMbTotal?.value
           )} MB`}

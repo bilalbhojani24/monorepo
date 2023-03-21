@@ -3,7 +3,7 @@ import { formatReportTime } from 'utils/dateUtils';
 
 export const testHistoryTableColumns = [
   {
-    name: 'Test Session Name',
+    name: 'TEST SESSION NAME',
     key: 'testSessionName',
     isSortable: true,
     cell: (row) => (
@@ -16,7 +16,7 @@ export const testHistoryTableColumns = [
   },
 
   {
-    name: 'Test Conducted',
+    name: 'TEST CONDUCTED',
     key: 'testStartDate',
     cell: (row) => (
       <div className="flex flex-col">
@@ -30,7 +30,7 @@ export const testHistoryTableColumns = [
     )
   },
   {
-    name: 'Application',
+    name: 'APPLICATION',
     key: 'application',
     cell: (row) => (
       <div className="flex flex-col">
@@ -44,7 +44,7 @@ export const testHistoryTableColumns = [
     )
   },
   {
-    name: 'Device',
+    name: 'DEVICE',
     key: 'device',
     cell: (row) => (
       <>

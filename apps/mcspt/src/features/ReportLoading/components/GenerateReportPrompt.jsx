@@ -23,10 +23,10 @@ const GenerateReportPrompt = ({
           </div>
 
           <div className="mb-2 mt-5 text-lg font-medium leading-6">
-            Generate performance report?
+            Generate Performance Report
           </div>
           <div className="text-base-500 text-sm font-normal leading-5">
-            The current test session will be stopped
+            Current test session will be stopped
           </div>
         </div>
 

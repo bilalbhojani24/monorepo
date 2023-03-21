@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, MdFolderOpen, MdInfoOutline } from '@browserstack/bifrost';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import BatteryChart from './BatteryDetails';
@@ -41,20 +40,22 @@ const ReportContent = () => {
       </div>
 
       <div className="w-full">
-        <div className="mb-4 text-lg font-medium leading-6">UI Rendering</div>
+        <div className="mb-4 text-lg font-medium leading-6">
+          UI Rendering Performance
+        </div>
 
         <UIRenderingCard />
       </div>
 
       <div className="flex flex-wrap">
         <div className="w-full pr-0 lg:w-1/2 lg:pr-1">
-          <div className="mb-4 text-lg font-medium leading-6">Memory</div>
+          <div className="mb-4 text-lg font-medium leading-6">Memory Usage</div>
 
           <MemoryDetails />
         </div>
 
         <div className="w-full pl-0 lg:w-1/2 lg:pl-1">
-          <div className="mb-4 text-lg font-medium leading-6">CPU</div>
+          <div className="mb-4 text-lg font-medium leading-6">CPU Usage</div>
 
           <CpuDetails />
         </div>
@@ -62,7 +63,7 @@ const ReportContent = () => {
 
       <div className="flex flex-col">
         <div className="mb-4 text-lg font-medium leading-6">
-          Screen Load Time
+          Activity Load Time
         </div>
 
         <div className="mb-8 flex flex-col rounded-lg bg-white shadow">
@@ -72,7 +73,9 @@ const ReportContent = () => {
 
       {sessionData?.device?.os === 'android' && (
         <div className="flex flex-col">
-          <div className="mb-4 text-lg font-medium leading-6">Battery</div>
+          <div className="mb-4 text-lg font-medium leading-6">
+            Battery & Power Usage
+          </div>
 
           <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow">
             <BatteryChart />
@@ -82,7 +85,7 @@ const ReportContent = () => {
 
       <div id="diskAndNetworkIO" className="flex flex-wrap">
         <div className="w-full pr-0 md:w-1/2 md:pr-1">
-          <div className="mb-4 text-lg font-medium leading-6">Disk I/O</div>
+          <div className="mb-4 text-lg font-medium leading-6">Disk Usage</div>
 
           <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow">
             <DiskIODetails />
@@ -90,7 +93,9 @@ const ReportContent = () => {
         </div>
 
         <div className="w-full pl-0 md:w-1/2 md:pl-1">
-          <div className="mb-4 text-lg font-medium leading-6">Network I/O</div>
+          <div className="mb-4 text-lg font-medium leading-6">
+            Network Data Usage
+          </div>
 
           <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow">
             <NetworkIODetails />
@@ -104,9 +109,9 @@ const ReportContent = () => {
         </div>
         <div className="mb-8 flex flex-col rounded-lg bg-white p-6 shadow">
           <div className="text-base-700 mb-5 text-base font-normal leading-6">
-            View logs for: Power usage, test logs, test idjson, test
-            instrumentation, test instrumentation time, indicators summary,
-            storage, application PID log , threads process information
+            AppBench helps in troubleshooting performance issues by recording
+            session data such as Logcat, Crash, and ANR logs. It also provides
+            performance and resource usage data in easy-to-analyze .csv files.
           </div>
 
           <div>
@@ -122,7 +127,7 @@ const ReportContent = () => {
               }
               onClick={openDiagnosticFolder}
             >
-              Open the Diagnostic Logs folder
+              View Diagnostic Logs
             </Button>
           </div>
         </div>

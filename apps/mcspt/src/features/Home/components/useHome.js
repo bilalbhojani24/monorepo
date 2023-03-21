@@ -12,7 +12,9 @@ import {
 import { EXISTIN_REPORTS_SAMPLE_SWITCH } from '../utils/homeUiConstants';
 
 const buildBannerMsg = (completed, allowed) =>
-  `You have run ${completed} out of ${allowed} tests as a guest. Login to run more tests`;
+  completed !== allowed
+    ? `Kudos! You have run ${completed} tests already. Guest users can run up to ${allowed} tests. Login now for unlimited test runs.`
+    : `Guest users can run up to ${allowed} tests. Login now for unlimited test runs.`;
 
 const useHome = () => {
   const dispatch = useDispatch();

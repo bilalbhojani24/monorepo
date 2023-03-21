@@ -36,7 +36,7 @@ const ReportHeader = () => {
           icon={<MdFolderOpen />}
           onClick={openDiagnosticFolder}
         >
-          Diagnostics
+          View Diagnostic Logs
         </Button>
       </div>
     </div>

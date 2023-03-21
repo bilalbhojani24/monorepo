@@ -14,7 +14,7 @@ const BatteryChart = () => {
     <div className="flex">
       <div className="flex w-[275px] shrink-0 grow-0 flex-col">
         <MetricStat
-          metricTitle=" Total Battery Consumed"
+          metricTitle="Total Power Drawn"
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.totalBatteryConsumedPercent?.value
           )} %`}

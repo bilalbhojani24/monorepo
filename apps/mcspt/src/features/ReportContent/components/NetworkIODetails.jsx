@@ -2,7 +2,6 @@ import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
@@ -16,7 +15,7 @@ const NetworkIODetails = () => {
       <div className="flex">
         <MetricStat
           wrapperClassName="p-4"
-          metricTitle="Total Upload"
+          metricTitle="Total Data Uploaded"
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.networkReadKbTotal?.value
           )} Kb`}
@@ -32,7 +31,7 @@ const NetworkIODetails = () => {
 
         <MetricStat
           wrapperClassName="p-4"
-          metricTitle="Total Download"
+          metricTitle="Total Data Downloaded"
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.networkWriteKbTotal?.value
           )} Kb`}

@@ -23,11 +23,11 @@ const QuitTestingPrompt = ({
           </div>
 
           <div className="mb-2 mt-5 text-lg font-medium leading-6">
-            Quit Testing?
+            Quitting current session?
           </div>
           <div className="text-base-500 text-sm font-normal leading-5">
-            The current test session will be stopped and the performance report
-            won&apos;t be generated.
+            Current test current session will be stopped without generating your
+            performance report!
           </div>
         </div>
 
@@ -50,7 +50,7 @@ const QuitTestingPrompt = ({
             size="default"
             loading={isSessionStopInProgress}
           >
-            Quit Testing?
+            Quit Session
           </Button>
         </div>
       </div>

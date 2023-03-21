@@ -2,7 +2,6 @@ import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
@@ -63,7 +62,7 @@ const UIRenderingCard = () => {
 
           <MetricStat
             wrapperClassName="p-4"
-            metricTitle="ANRs Detected"
+            metricTitle="No. of ANRs detected"
             metricText={`${sanitizeValue(
               sessionData?.aggregated?.anrCount?.value
             )}`}
