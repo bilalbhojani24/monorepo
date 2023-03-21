@@ -28,21 +28,18 @@ import {
   setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
   setAllFolders,
-  setCurrentEditedTestCaseData,
-  setDummyTestCaseFormData,
   setEditTestCasePageVisibility,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
+  setUnsavedDataExists,
   updateBulkTestCaseFormData,
   updateCtaLoading,
-  updateDummyTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
   updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
-import { handleUnsavedData } from '../slices/repositoryThunk';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
 import useTestCases from './useTestCases';
@@ -132,7 +129,38 @@ export default function useAddEditTestCase(prop) {
     dispatch(setAddIssuesModal(true));
   };
 
-  const handleTestCaseFieldChange = (key, value) => {
+  const htmlEquator = (sourceTxt, dstTxt) =>
+    new DOMParser().parseFromString(sourceTxt, 'text/html').documentElement
+      .textContent !==
+    new DOMParser().parseFromString(dstTxt, 'text/html').documentElement
+      .textContent;
+
+  const isThereAChange = (key, value, checkRTE) => {
+    if (checkRTE) {
+      // check html parse value only
+      if (Array.isArray(value)) {
+        if (templateOptions[0].value === testCaseFormData.template) {
+          return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
+        }
+        // if array of values
+        const extngValue = testCaseFormData[key];
+        if (!extngValue) return true;
+        const misMatchedStep = value.find((item, iDx) => {
+          const values = Object.values(item);
+          const existingValues = Object.values(extngValue[iDx]);
+          return values.find((thisItem, index) =>
+            htmlEquator(thisItem, existingValues[index])
+          );
+        });
+
+        return !!misMatchedStep;
+      }
+      return htmlEquator(value, testCaseFormData[key]);
+    }
+    return true;
+  };
+
+  const handleTestCaseFieldChange = (key, value, checkRTE) => {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -141,21 +169,15 @@ export default function useAddEditTestCase(prop) {
 
       if (key === 'template') {
         dispatch(
-          updateDummyTestCaseFormData({
-            key: 'steps',
-            value: value === templateOptions[1].value ? [stepTemplate] : ['']
-          })
-        );
-        dispatch(
           updateTestCaseFormData({
             key: 'steps',
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
       }
-      dispatch(updateDummyTestCaseFormData({ key, value }));
       dispatch(updateTestCaseFormData({ key, value }));
-      if (!isUnsavedDataExists) dispatch(handleUnsavedData());
+      if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
+        dispatch(setUnsavedDataExists(true));
     }
   };
 
@@ -188,8 +210,6 @@ export default function useAddEditTestCase(prop) {
           tagsArray,
           data?.data?.test_case
         );
-        dispatch(setDummyTestCaseFormData(formattedData));
-        dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
         dispatch(setTestCaseFormData(formattedData));
         if (formattedData.issues)
           dispatch(setIssuesArray(formattedData.issues));
@@ -565,9 +585,6 @@ export default function useAddEditTestCase(prop) {
   const testCaseEditingInit = () => {
     if (isTestCaseEditing) fetchTestCaseDetails();
     else {
-      dispatch(
-        updateDummyTestCaseFormData({ key: 'owner', value: userData?.id })
-      );
       dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
     }
   };

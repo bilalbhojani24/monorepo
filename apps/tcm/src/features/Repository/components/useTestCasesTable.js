@@ -16,9 +16,7 @@ import {
   setBulkDeSelectedtestCaseIDs,
   setBulkSelectedtestCaseIDs,
   setBulkUpdateProgress,
-  setCurrentEditedTestCaseData,
   setDeleteTestCaseModalVisibility,
-  setDummyTestCaseFormData,
   setEditTestCasePageVisibility,
   setIssuesArray,
   setSelectedTestCase,
@@ -190,8 +188,6 @@ const useTestCasesTable = (prop) => {
       const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
-      dispatch(setDummyTestCaseFormData(formattedData));
-      dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
       dispatch(setTestCaseFormData(formattedData));
       if (formattedData.issues) dispatch(setIssuesArray(formattedData.issues));
     } else if (selectedOption?.id === dropDownOptions[1].id) {

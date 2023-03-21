@@ -13,8 +13,6 @@ import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/impor
 import {
   resetTestCaseDetails,
   setAddTestCaseVisibility,
-  setCurrentEditedTestCaseData,
-  setDummyTestCaseFormData,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
@@ -102,8 +100,6 @@ export default function useTestCases() {
 
       if (selectedTestCase) {
         const formattedData = formDataRetriever(mappedTags, selectedTestCase);
-        dispatch(setDummyTestCaseFormData(formattedData));
-        dispatch(setCurrentEditedTestCaseData(formattedData)); // [NOTE: RTE fix]
         dispatch(setTestCaseFormData(formattedData));
       }
       // handleTestCaseFieldChange('tags', mappedTags);

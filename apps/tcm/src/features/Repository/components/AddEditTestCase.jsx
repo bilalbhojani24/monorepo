@@ -179,7 +179,9 @@ const AddEditTestCase = () => {
             value={testCaseFormData?.description}
             height={160}
             placeholder="Write in brief about this test case"
-            onChange={(val) => handleTestCaseFieldChange('description', val)}
+            onChange={(val) =>
+              handleTestCaseFieldChange('description', val, true)
+            }
             projectId={projectId}
           />
         </div>
@@ -193,7 +195,9 @@ const AddEditTestCase = () => {
                   placeholder="Steps for the test"
                   value={testCaseFormData?.steps?.[0]}
                   height={160}
-                  onChange={(val) => handleTestCaseFieldChange('steps', [val])}
+                  onChange={(val) =>
+                    handleTestCaseFieldChange('steps', [val], true)
+                  }
                   projectId={projectId}
                 />
               </div>
@@ -205,7 +209,7 @@ const AddEditTestCase = () => {
                   value={testCaseFormData?.expected_result}
                   height={160}
                   onChange={(val) =>
-                    handleTestCaseFieldChange('expected_result', val)
+                    handleTestCaseFieldChange('expected_result', val, true)
                   }
                   projectId={projectId}
                 />
@@ -218,7 +222,7 @@ const AddEditTestCase = () => {
               inputError?.steps ? "This field can't be left empty" : ''
             }
             data={testCaseFormData.steps}
-            onChange={(data) => handleTestCaseFieldChange('steps', data)}
+            onChange={(data) => handleTestCaseFieldChange('steps', data, true)}
             projectId={projectId}
           />
         )}
@@ -319,7 +323,7 @@ const AddEditTestCase = () => {
                 value={testCaseFormData?.preconditions}
                 height={160}
                 onChange={(val) =>
-                  handleTestCaseFieldChange('preconditions', val)
+                  handleTestCaseFieldChange('preconditions', val, true)
                 }
                 projectId={projectId}
               />

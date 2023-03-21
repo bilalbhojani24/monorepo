@@ -91,23 +91,6 @@ const initialState = {
   testCaseDetails: {
     folderId: null,
     testCaseId: null
-  },
-  currentEditedTestCaseData: null,
-  dummyTestCaseFormData: {
-    name: '',
-    description: '',
-    estimate: '',
-    case_type: testCaseTypesOptions[7].value,
-    priority: priorityOptions[2].value,
-    owner: null,
-    status: statusOptions[0].value,
-    preconditions: '',
-    template: templateOptions[0].value,
-    steps: [''],
-    attachments: [],
-    issues: [],
-    tags: [],
-    test_case_folder_id: null // RTE fix
   }
 };
 
@@ -117,9 +100,6 @@ export const repositorySlice = createSlice({
   reducers: {
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
-    },
-    updateDummyTestCaseFormData: (state, { payload }) => {
-      state.dummyTestCaseFormData[payload.key] = payload.value;
     },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
@@ -147,30 +127,11 @@ export const repositorySlice = createSlice({
         item.id === payload.id ? payload : item
       );
     },
-    setDummyTestCaseFormData: (state, { payload }) => {
-      // [NOTE: RTE fix]
-      state.dummyTestCaseFormData = payload || initialState.testCaseFormData;
-    },
-    setCurrentEditedTestCaseData: (state, { payload }) => {
-      // [NOTE: RTE fix]
-      state.currentEditedTestCaseData =
-        payload || initialState.testCaseFormData;
-    },
     setAddTestCaseVisibility: (state, { payload }) => {
       state.isAddTestCasePageVisible = payload;
       if (payload) {
         // reset form data
         state.testCaseFormData = {
-          ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
-        };
-        state.currentEditedTestCaseData = {
-          // [NOTE: RTE fix]
-          ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
-        };
-        state.dummyTestCaseFormData = {
-          // [NOTE: RTE fix]
           ...initialState.testCaseFormData,
           test_case_folder_id: !Number.isNaN(payload) ? payload : null
         };
@@ -325,9 +286,6 @@ export const {
   setMetaPage,
   setFilterSearchView,
   updateLoader,
-  updateDummyTestCaseFormData,
-  setDummyTestCaseFormData,
-  setCurrentEditedTestCaseData,
   setAddTestCaseFromSearch,
   updateCtaLoading
 } = repositorySlice.actions;
