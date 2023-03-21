@@ -1,12 +1,12 @@
 import React from 'react';
+
+import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
   BuildingOfficeIcon,
   CreditCardIcon,
   UserIcon,
   UsersIcon
-} from '@heroicons/react/20/solid';
-
-import DocPageTemplate from '../../.storybook/DocPageTemplate';
+} from '../Icon';
 
 import { TAB_SHAPE } from './const/tabsConstants';
 import Tabs from './index';
