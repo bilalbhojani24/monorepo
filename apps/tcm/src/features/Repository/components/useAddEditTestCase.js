@@ -161,7 +161,9 @@ export default function useAddEditTestCase(prop) {
       testCase.issues = formData?.issues?.map((item) => item.value);
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
-
+    if (!formData.owner) {
+      testCase.owner = userData?.id;
+    }
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
 
