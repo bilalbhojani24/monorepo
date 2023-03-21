@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
-  const { modalFocusRef, hideDeleteProjectModal, deleteProjectHandler } =
-    useProjects();
+  const {
+    modalFocusRef,
+    deleteProjectCtaLoading,
+    hideDeleteProjectModal,
+    deleteProjectHandler
+  } = useProjects();
 
   return (
     <TMModal
@@ -41,6 +45,8 @@ const DeleteProjects = ({ show }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteProjectHandler}
+          isIconOnlyButton={deleteProjectCtaLoading}
+          loading={deleteProjectCtaLoading}
         >
           Delete Project
         </TMButton>

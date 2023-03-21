@@ -15,7 +15,12 @@ const initialState = {
     closeRunTestRunModal: false
   },
   isLoading: {
-    testRuns: true
+    testRuns: true,
+    createTestRunCta: false,
+    editTestRunCta: false,
+    assignTestRunCta: false,
+    closeTestRunCta: false,
+    deleteTestRunCta: false
   },
   selectedTestRun: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
@@ -116,6 +121,9 @@ const testRunslice = createSlice({
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
+    },
+    updateTestRunsCtaLoading: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
@@ -138,6 +146,7 @@ export const {
   setAllTestRuns,
   setAddTestRunForm,
   setMetaPage,
-  deleteTestRun
+  deleteTestRun,
+  updateTestRunsCtaLoading
 } = testRunslice.actions;
 export default testRunslice.reducer;

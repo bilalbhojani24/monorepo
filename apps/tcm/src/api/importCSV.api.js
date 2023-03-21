@@ -20,7 +20,7 @@ export const getFieldMapping = async ({
   // eslint-disable-next-line camelcase
   mapped_field
 }) => {
-  if (projectId)
+  if (projectId && projectId !== 'new')
     return fetchGet(
       // eslint-disable-next-line camelcase
       `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`

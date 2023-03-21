@@ -33,6 +33,7 @@ import {
   addProject,
   deleteProject,
   setAddProjectModalVisibility,
+  setButtonLoaders,
   setCurrentProjectName,
   setDeleteProjectModalVisibility,
   setEditProjectModalVisibility,
@@ -73,7 +74,15 @@ const useProjects = (prop) => {
   );
   const metaPage = useSelector((state) => state.projects.metaPage);
   const isLoading = useSelector((state) => state.projects.isLoading);
-
+  const createProjectCtaLoading = useSelector(
+    (state) => state.projects.buttonLoader.createProjectCtaLoading
+  );
+  const editProjectCtaLoading = useSelector(
+    (state) => state.projects.buttonLoader.editProjectCtaLoading
+  );
+  const deleteProjectCtaLoading = useSelector(
+    (state) => state.projects.buttonLoader.deleteProjectCtaLoading
+  );
   // fields from import
   const isNewProjectBannerDismissed = useSelector(
     (state) => state.import.isNewProjectBannerDismissed
@@ -148,17 +157,29 @@ const useProjects = (prop) => {
           project_name: selectedProject?.name
         })
       );
-      deleteProjectAPI(selectedProject.id).then((res) => {
-        dispatch(deleteProject(res.data.project));
-        dispatch(deleteGlobalProject(res.data.project));
-        dispatch(
-          setMetaPage({
-            ...metaPage,
-            count: metaPage.count - 1
-          })
-        );
-        hideDeleteProjectModal();
-      });
+      dispatch(
+        setButtonLoaders({ key: 'deleteProjectCtaLoading', value: true })
+      );
+      deleteProjectAPI(selectedProject.id)
+        .then((res) => {
+          dispatch(
+            setButtonLoaders({ key: 'deleteProjectCtaLoading', value: false })
+          );
+          dispatch(deleteProject(res.data.project));
+          dispatch(deleteGlobalProject(res.data.project));
+          dispatch(
+            setMetaPage({
+              ...metaPage,
+              count: metaPage.count - 1
+            })
+          );
+          hideDeleteProjectModal();
+        })
+        .catch(() => {
+          dispatch(
+            setButtonLoaders({ key: 'deleteProjectCtaLoading', value: false })
+          );
+        });
     }
   };
 
@@ -171,31 +192,44 @@ const useProjects = (prop) => {
     dispatch(logEventHelper('TM_CreateProjectCtaClicked', {}));
     if (formData.name.length === 0) {
       setFormError({ ...formError, nameError: 'Name is not specified' });
-    } else
-      addProjectsAPI(formData).then((res) => {
-        dispatch(addProject(res.data.project));
-        dispatch(addGlobalProject(res.data.project));
-        dispatch(
-          logEventHelper('TM_ProjectCreatedNotification', {
-            project_id: res.data.project?.id
-          })
-        );
-        dispatch(
-          addNotificaton({
-            id: `project_added${res.data.project?.id}`,
-            title: `${res.data.project?.identifier} : Project created`,
-            description: null,
-            variant: 'success'
-          })
-        );
+    } else {
+      dispatch(
+        setButtonLoaders({ key: 'createProjectCtaLoading', value: true })
+      );
+      addProjectsAPI(formData)
+        .then((res) => {
+          dispatch(
+            setButtonLoaders({ key: 'createProjectCtaLoading', value: false })
+          );
+          dispatch(addProject(res.data.project));
+          dispatch(addGlobalProject(res.data.project));
+          dispatch(
+            logEventHelper('TM_ProjectCreatedNotification', {
+              project_id: res.data.project?.id
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `project_added${res.data.project?.id}`,
+              title: `${res.data.project?.identifier} : Project created`,
+              description: null,
+              variant: 'success'
+            })
+          );
 
-        navigate(
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId: res.data.project.id
-          })
-        );
-        hideAddProjectModal();
-      });
+          navigate(
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId: res.data.project.id
+            })
+          );
+          hideAddProjectModal();
+        })
+        .catch(() => {
+          dispatch(
+            setButtonLoaders({ key: 'createProjectCtaLoading', value: false })
+          );
+        });
+    }
   };
 
   const hideEditProjectModal = () => {
@@ -209,18 +243,28 @@ const useProjects = (prop) => {
         project_name: selectedProject?.name
       })
     );
+    dispatch(setButtonLoaders({ key: 'editProjectCtaLoading', value: true }));
     editProjectAPI(selectedProject.id, {
       project: formData
-    }).then((res) => {
-      dispatch(
-        logEventHelper('TM_ProjectUpdatedNotification', {
-          project_id: res.data.project?.id
-        })
-      );
-      dispatch(updateProject(res.data.project));
-      dispatch(updateGlobalProject(res.data.project));
-      hideEditProjectModal();
-    });
+    })
+      .then((res) => {
+        dispatch(
+          setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
+        );
+        dispatch(
+          logEventHelper('TM_ProjectUpdatedNotification', {
+            project_id: res.data.project?.id
+          })
+        );
+        dispatch(updateProject(res.data.project));
+        dispatch(updateGlobalProject(res.data.project));
+        hideEditProjectModal();
+      })
+      .catch(() => {
+        dispatch(
+          setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
+        );
+      });
   };
 
   const getStatusOfNewImportedProjects = async () => {
@@ -283,6 +327,9 @@ const useProjects = (prop) => {
     setFormData,
     formError,
     setFormError,
+    createProjectCtaLoading,
+    editProjectCtaLoading,
+    deleteProjectCtaLoading,
     getStatusOfNewImportedProjects,
     editProjectHandler,
     hideEditProjectModal,

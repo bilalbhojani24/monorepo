@@ -11,7 +11,8 @@ import {
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
   setMetaPage,
-  updateAllTestCases
+  updateAllTestCases,
+  updateCtaLoading
 } from '../slices/repositorySlice';
 
 export default function useDeleteTestCase() {
@@ -31,6 +32,12 @@ export default function useDeleteTestCase() {
 
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
+  );
+  const deleteTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.deleteTestCaseCta
+  );
+  const bulkDeleteTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.bulkDeleteTestCaseCta
   );
 
   const selectedBulkTCCount = bulkSelection.select_all
@@ -62,43 +69,54 @@ export default function useDeleteTestCase() {
         testcase_id: bulkSelection?.ids
       })
     );
+    dispatch(updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: true }));
 
-    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection }).then(() => {
-      let updatedTestCases = [];
-      const updatedCount = metaPage.count - selectedBulkTCCount;
-
-      if (bulkSelection.select_all) {
-        updatedTestCases = allTestCases.filter((item) =>
-          bulkSelection.de_selected_ids.includes(item.id)
+    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection })
+      .then(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: false })
         );
-      } else {
-        updatedTestCases = allTestCases.filter(
-          (item) => !bulkSelection.ids.includes(item.id)
+
+        let updatedTestCases = [];
+        const updatedCount = metaPage.count - selectedBulkTCCount;
+
+        if (bulkSelection.select_all) {
+          updatedTestCases = allTestCases.filter((item) =>
+            bulkSelection.de_selected_ids.includes(item.id)
+          );
+        } else {
+          updatedTestCases = allTestCases.filter(
+            (item) => !bulkSelection.ids.includes(item.id)
+          );
+        }
+
+        setMetaCount(updatedCount);
+        if (updatedTestCases.length === 0 && updatedCount > 0) {
+          // TC exists but need to fetch, set page to 1
+          setSearchParams({});
+        } else dispatch(updateAllTestCases(updatedTestCases));
+
+        dispatch(
+          logEventHelper('TM_TcBulkDeleteNotification', {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids
+          })
         );
-      }
-
-      setMetaCount(updatedCount);
-      if (updatedTestCases.length === 0 && updatedCount > 0) {
-        // TC exists but need to fetch, set page to 1
-        setSearchParams({});
-      } else dispatch(updateAllTestCases(updatedTestCases));
-
-      dispatch(
-        logEventHelper('TM_TcBulkDeleteNotification', {
-          project_id: projectId,
-          testcase_id: bulkSelection?.ids
-        })
-      );
-      dispatch(
-        addNotificaton({
-          id: `test_cases_deleted`,
-          title: `${bulkSelection?.ids?.length} Test cases deleted`,
-          variant: 'success'
-        })
-      );
-      dispatch(resetBulkSelection());
-      hideDeleteTestCaseModal();
-    });
+        dispatch(
+          addNotificaton({
+            id: `test_cases_deleted`,
+            title: `${bulkSelection?.ids?.length} Test cases deleted`,
+            variant: 'success'
+          })
+        );
+        dispatch(resetBulkSelection());
+        hideDeleteTestCaseModal();
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: false })
+        );
+      });
   };
 
   const singleItemDeleteHelper = () => {
@@ -109,22 +127,29 @@ export default function useDeleteTestCase() {
       })
     );
 
+    dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: true }));
     deleteTestCaseAPI({
       projectId,
       folderId,
       testCaseId: selectedTestCase.id
-    }).then(() => {
-      dispatch(
-        logEventHelper('TM_TcDeletedNotification', {
-          project_id: projectId,
-          testcase_id: selectedTestCase?.id
-        })
-      );
+    })
+      .then(() => {
+        dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: true }));
 
-      dispatch(deleteTestCase([selectedTestCase.id]));
-      setMetaCount(metaPage.count - 1);
-      hideDeleteTestCaseModal();
-    });
+        dispatch(
+          logEventHelper('TM_TcDeletedNotification', {
+            project_id: projectId,
+            testcase_id: selectedTestCase?.id
+          })
+        );
+
+        dispatch(deleteTestCase([selectedTestCase.id]));
+        setMetaCount(metaPage.count - 1);
+        hideDeleteTestCaseModal();
+      })
+      .catch(() => {
+        dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: false }));
+      });
   };
 
   const deleteTestCaseHandler = () => {
@@ -147,6 +172,8 @@ export default function useDeleteTestCase() {
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
     isBulkUpdate,
-    selectedBulkTCCount
+    selectedBulkTCCount,
+    deleteTestCaseCtaLoading,
+    bulkDeleteTestCaseCtaLoading
   };
 }

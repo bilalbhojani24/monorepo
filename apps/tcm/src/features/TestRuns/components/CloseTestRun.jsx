@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useMiscConnections from './useMiscConnections';
 
 const CloseTestRun = ({ updateCb }) => {
-  const { closeAll, closeTestRunHandler, isCloseTRVisible } =
-    useMiscConnections({ updateCb });
+  const {
+    closeAll,
+    closeTestRunHandler,
+    closeTestRunCtaLoading,
+    isCloseTRVisible
+  } = useMiscConnections({ updateCb });
   const closeModalInitialFocus = useRef();
 
   return (
@@ -52,6 +56,8 @@ const CloseTestRun = ({ updateCb }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={closeTestRunHandler}
+          loading={closeTestRunCtaLoading}
+          isIconOnlyButton={closeTestRunCtaLoading}
         >
           Close Run
         </TMButton>

@@ -21,6 +21,7 @@ import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Folders() {
   const {
     isFoldersLoading,
@@ -32,6 +33,7 @@ export default function Folders() {
     folderId,
     allFolders,
     isMoveToRootAvailable,
+    moveFolderCtaLoading,
     showAddFolderModal,
     updateRouteHelper,
     folderUpdateHandler,
@@ -62,6 +64,7 @@ export default function Folders() {
         isRootAvailable={isMoveToRootAvailable}
         confirmButtonText="Move Folder"
         disabledFolders={[openedFolderModal?.folder?.id]}
+        loading={moveFolderCtaLoading}
       />
       <AddEditFolderModal
         isEditFolder

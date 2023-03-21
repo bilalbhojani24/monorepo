@@ -18,6 +18,7 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
+  updateCtaLoading,
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
@@ -50,6 +51,9 @@ export default function useFolders() {
   );
   const testCasesCount =
     useSelector((state) => state.repository.metaPage?.count) || 0;
+  const moveFolderCtaLoading = useSelector(
+    (state) => state.repository.isLoading.moveFolderCta
+  );
 
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
@@ -280,12 +284,14 @@ export default function useFolders() {
       })
     );
 
+    dispatch(updateCtaLoading({ key: 'moveFolderCta', value: true }));
     moveFolder({
       projectId,
       folderId: openedFolderModal?.folder?.id,
       newParentFolderId: selectedFolder?.id || null // move to root
     })
       .then((data) => {
+        dispatch(updateCtaLoading({ key: 'moveFolderCta', value: false }));
         if (data?.data?.success) {
           moveFolderHelper(
             data.data.folder?.id,
@@ -309,6 +315,7 @@ export default function useFolders() {
         }
       })
       .catch(() => {
+        dispatch(updateCtaLoading({ key: 'moveFolderCta', value: false }));
         // TODO: give proper info
         // eslint-dsable no-console
         // console.log(error.response.data.errors[0].title);
@@ -345,6 +352,7 @@ export default function useFolders() {
     projectId,
     folderId,
     allFolders,
+    moveFolderCtaLoading,
     showAddFolderModal,
     fetchAllFolders,
     updateRouteHelper,

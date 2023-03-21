@@ -380,7 +380,7 @@ const useMapFields = () => {
       valueMappings
     };
 
-    if (projectId) mappingData.projectId = projectId;
+    if (projectId && projectId !== 'new') mappingData.projectId = projectId;
     if (folderId) mappingData.folderId = folderId;
     dispatch(submitMappingData(mappingData));
   };

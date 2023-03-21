@@ -21,7 +21,8 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
     setFormData,
     createProjectHandler,
     hideAddProjectModal,
-    setFormError
+    setFormError,
+    createProjectCtaLoading
   } = useProjects({ isFirstProject, onClose });
 
   return (
@@ -73,6 +74,8 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
           variant="primary"
           wrapperClassName="ml-3"
           onClick={createProjectHandler}
+          isIconOnlyButton={createProjectCtaLoading}
+          loading={createProjectCtaLoading}
         >
           Create Project
         </TMButton>
