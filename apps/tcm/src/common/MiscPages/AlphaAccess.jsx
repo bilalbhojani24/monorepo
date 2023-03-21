@@ -35,16 +35,15 @@ const AlphaAccess = () => {
           );
       })
       .catch((err) => {
-        if (err.error)
+        if (err?.response?.data?.error)
           dispatch(
             addNotificaton({
               id: 'access_requested',
-              title: 'Access has been requested',
-              description: 'Access already requested, please wait for approval',
+              title: 'Access alredy requested',
+              description: err?.response?.data?.error,
               variant: 'success'
             })
           );
-        debugger;
       });
   };
 
