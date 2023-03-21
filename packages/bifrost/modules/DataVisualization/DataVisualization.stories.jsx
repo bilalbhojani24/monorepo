@@ -121,7 +121,7 @@ const defaultConfig = {
       defaultValue: {
         description: 'Subtext or supplementary info here',
         linkText: 'Learn more',
-        linkTo: '#'
+        linkTo: 'https://www.google.com'
       }
     },
     KpiProps: {
@@ -203,9 +203,26 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <DataVisualization {...args} />;
+const DataVizWithFooterOnClickTemplate = (args) => (
+  <DataVisualization {...args} />
+);
+
 const Primary = Template.bind({});
+const DataVizWithFooterOnClick = DataVizWithFooterOnClickTemplate.bind({});
+
 Primary.parameters = {
   controls: {}
+};
+
+DataVizWithFooterOnClick.args = {
+  footerProps: {
+    description: 'Subtext or supplementary info here',
+    linkText: 'Learn more',
+    linkTo: '#',
+    onClick: (e) => {
+      e.preventDefault();
+    }
+  }
 };
 
 const DataVisualizationDetail = (args) => (
@@ -261,4 +278,4 @@ const DataVisualizationDetail = (args) => (
 );
 
 export default defaultConfig;
-export { DataVisualizationDetail, Primary };
+export { DataVisualizationDetail, DataVizWithFooterOnClick, Primary };

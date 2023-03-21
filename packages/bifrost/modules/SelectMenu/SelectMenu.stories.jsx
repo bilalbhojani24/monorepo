@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
@@ -116,13 +116,15 @@ MultiSelect.play = async ({ canvasElement }) => {
       item.click();
     }
   });
-  await userEvent.click(canvas.getByText(`${selectMenuOptions[0]} ,`));
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  await delay(1);
+  await userEvent.click(canvas.getByRole('button'));
   selectMenuOptions.forEach(async (item) => {
     if (selectMenuOptions.indexOf(item) !== selectMenuOptions.length - 1) {
-      await delay(1);
       await expect(canvas.getByText(`${item} ,`)).toBeVisible();
     } else {
-      await delay(1);
       await expect(canvas.getByText(item)).toBeVisible();
     }
   });
@@ -167,10 +169,11 @@ Primary.parameters = {
 
 export const ControlledSelectMenu = () => {
   const [selected, setSelected] = useState(null);
+  const ref = useRef();
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
       <SelectMenuLabel>Assigned to</SelectMenuLabel>
-      <SelectMenuTrigger placeholder="Select.." />
+      <SelectMenuTrigger placeholder="Select.." ref={ref} />
       <SelectMenuOptionGroup>
         {SELECT_OPTIONS.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />

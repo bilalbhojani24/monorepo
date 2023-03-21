@@ -6,6 +6,7 @@ import { oneOf } from 'prop-types';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import {
   bool,
+  node,
   number,
   oneOfType,
   shape,
@@ -89,7 +90,7 @@ const ComboboxOptionItem = forwardRef(
                   readOnly
                 />
                 <label htmlFor={option.name} className="cursor-pointer">
-                  {option.label}
+                  {option?.visualLabel || option.label}
                 </label>
               </div>
             )}
@@ -106,7 +107,8 @@ ComboboxOptionItem.propTypes = {
   option: shape({
     value: oneOfType([string, number]).isRequired,
     label: string.isRequired,
-    image: string
+    image: string,
+    visualLabel: node
   }).isRequired,
   wrapperClassName: string
 };

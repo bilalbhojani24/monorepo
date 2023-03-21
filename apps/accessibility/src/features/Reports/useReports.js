@@ -3,12 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
-import {
-  CHROME_EXTENSION_URL,
-  events,
-  reportPerPage,
-  testTypes
-} from 'constants';
+import { events, reportPerPage, testTypes } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -23,6 +18,7 @@ import {
 } from './slices/appSlice';
 import {
   getActiveVersion,
+  getIsShowingBanner,
   getLastIndex,
   getReportList,
   getSelectedReportType
@@ -41,13 +37,10 @@ export default function useReports() {
   ).length;
   const isMergeDisabled = selectedReportsLength < 2;
   const isShowingModalByDefault = getStorage('showed-extension-modal');
-  const isShowingBannerByDefault = getStorage('showed-extension-banner');
   const isLandingFirstTime = getStorage('is-landing-first-time');
   const [isOpen, setIsOpen] = useState(!isShowingModalByDefault);
   const [searchInput, setSearchInput] = useState('');
-  const [isShowingBanner, setIsShowingBanner] = useState(
-    !isShowingBannerByDefault
-  );
+  const isShowingBanner = useSelector(getIsShowingBanner);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = ({ action }) => {
@@ -118,19 +111,6 @@ export default function useReports() {
     });
   };
 
-  const onCloseClick = () => {
-    setIsShowingBanner(false);
-    logEvent('InteractedWithADHomepage', {
-      actionType: events.CLOSE_BANNER
-    });
-  };
-
-  const onDownloadExtensionClick = () => {
-    setIsShowingBanner(false);
-    setStorage('showed-extension-banner', true);
-    window.open(CHROME_EXTENSION_URL, '_target');
-  };
-
   const onReportConsolidateButtonClick = () => {
     const selectedReports = reportList
       .filter((report) => report.isSelected)
@@ -195,8 +175,6 @@ export default function useReports() {
     searchInput,
     selectedReportType,
     resetSelection,
-    onCloseClick,
-    onDownloadExtensionClick,
     onUpdateSelectedReportType,
     onInputValueChange,
     updateLastIndex,
