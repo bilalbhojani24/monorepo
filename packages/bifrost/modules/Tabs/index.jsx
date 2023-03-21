@@ -16,7 +16,9 @@ const Tabs = ({
   onTabChange,
   shape,
   tabsArray,
-  disableFullWidthBorder
+  disableFullWidthBorder,
+  wrapperClassName,
+  navigationClassName
 }) => {
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
@@ -39,8 +41,8 @@ const Tabs = ({
   return (
     <>
       {tabsArray?.length && (
-        <div className="w-full">
-          <div className="sm:hidden">
+        <div className={twClassNames('w-full', wrapperClassName)}>
+          <div className={twClassNames('sm:hidden', navigationClassName)}>
             {label && (
               <label htmlFor={id} className="sr-only">
                 {label}
@@ -58,36 +60,41 @@ const Tabs = ({
               ))}
             </select>
           </div>
-          <div className="hidden sm:block">
-            <div
-              className={twClassNames({
+          <div
+            className={twClassNames(
+              {
                 'border-base-200 border-b': !disableFullWidthBorder
-              })}
-            >
-              <nav
-                className={twClassNames('-mb-px flex', {
+              },
+              'hidden sm:block'
+            )}
+          >
+            <nav
+              className={twClassNames(
+                '-mb-px flex',
+                {
                   'space-x-8': !isFullWidth,
                   'border-0': isFullWidth,
                   'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
                     isContained
-                })}
-                aria-label="Tabs"
-              >
-                {tabsArray?.map((tab, index) => (
-                  <Tab
-                    tab={tab}
-                    key={tab.name}
-                    isCurrent={selectedTab?.name === tab.name}
-                    onTabClick={onTabClickHandler}
-                    shape={shape}
-                    isContained={isContained}
-                    isFullWidth={isFullWidth}
-                    totalTabs={tabsArray.length}
-                    tabIdx={index}
-                  />
-                ))}
-              </nav>
-            </div>
+                },
+                navigationClassName
+              )}
+              aria-label="Tabs"
+            >
+              {tabsArray?.map((tab, index) => (
+                <Tab
+                  tab={tab}
+                  key={tab.name}
+                  isCurrent={selectedTab?.name === tab.name}
+                  onTabClick={onTabClickHandler}
+                  shape={shape}
+                  isContained={isContained}
+                  isFullWidth={isFullWidth}
+                  totalTabs={tabsArray.length}
+                  tabIdx={index}
+                />
+              ))}
+            </nav>
           </div>
         </div>
       )}
@@ -110,7 +117,9 @@ Tabs.propTypes = {
       count: PropTypes.string
     })
   ).isRequired,
-  disableFullWidthBorder: PropTypes.bool
+  disableFullWidthBorder: PropTypes.bool,
+  wrapperClassName: PropTypes.string,
+  navigationClassName: PropTypes.string
 };
 
 Tabs.defaultProps = {
@@ -121,7 +130,9 @@ Tabs.defaultProps = {
   label: '',
   onTabChange: () => {},
   shape: TAB_SHAPE[0],
-  disableFullWidthBorder: false
+  disableFullWidthBorder: false,
+  wrapperClassName: '',
+  navigationClassName: ''
 };
 
 export default Tabs;

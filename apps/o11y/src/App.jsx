@@ -21,6 +21,11 @@ const App = () => {
     const keys = {
       amplitudeKey: AMPLITUDE_KEY,
       analyticsKey: ANALYTICS_KEY,
+      amplitudeConfig: {
+        key: AMPLITUDE_KEY,
+        userData: {},
+        groupData: {}
+      },
       EDSDetails: {
         userDetails: '12',
         config: {
