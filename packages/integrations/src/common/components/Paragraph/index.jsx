@@ -10,20 +10,20 @@ import PropTypes from 'prop-types';
 import TextAreaField from '../TextArea';
 
 const Paragraph = ({
+  key,
   fieldsData,
   setFieldsData,
   fieldKey,
   placeholder,
   required,
   label,
-  metaData,
-  schema: { system_type: systemType }
+  metaData
 }) => {
   const [shouldShowMetaSection, setShouldShowMetaSection] = useState(false);
   const toggleMetaSectionVisibility = () => {
     setShouldShowMetaSection(!shouldShowMetaSection);
   };
-  const isDescription = systemType === 'description';
+  const isDescription = fieldKey === 'description';
 
   return (
     <>
