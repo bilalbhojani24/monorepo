@@ -76,6 +76,7 @@ export default function useFolders() {
         }
       )
     );
+    closeTCDetailsSlide();
     dispatch(setFolderModalConf({ modal: addFolderModalKey }));
   };
 
