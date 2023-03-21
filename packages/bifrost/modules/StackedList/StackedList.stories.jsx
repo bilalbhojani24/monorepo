@@ -62,7 +62,9 @@ const defaultConfig = {
       ),
       option: {
         type: null
-      }
+      },
+      description:
+        'Should provide the content of list items that written using `StackedListGroup`, `StackedLisItem` and `StackedListCommon` components'
     },
     footer: {
       default: (
@@ -77,7 +79,9 @@ const defaultConfig = {
       ),
       option: {
         type: null
-      }
+      },
+      description:
+        'For displaying a sticky footer to render buttons or any custom nodes'
     }
   },
   controls: {}
@@ -317,7 +321,7 @@ AvatarGroupsWithActions.args = {
               <img alt={name} className="h-10 w-10 rounded-full" src={image} />
             }
             title={name}
-            subTitle={<span className="text-base-400">{username}</span>}
+            subTitle={<span className="text-base-500">{username}</span>}
           />
         </StackedListItem>
       ))}
