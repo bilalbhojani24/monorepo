@@ -72,7 +72,7 @@ const columns = [
 
 const typesScan = [
   {
-    body: 'All Scans',
+    body: 'All scans',
     id: 'allScans'
   },
   {

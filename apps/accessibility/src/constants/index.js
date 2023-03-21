@@ -23,9 +23,9 @@ export const ENVS = {
 };
 
 export const NEEDS_REVIEW_BANNER_TEXT = {
-  ACCEPTED: "This 'Needs Review' instance has been confirmed as an issue",
-  REJECTED: "This 'Needs Review' instance has been dismissed as not an issue",
-  DEFAULT_TITLE: 'Issue Needs Review',
+  ACCEPTED: "This 'needs review' instance has been confirmed as an issue",
+  REJECTED: "This 'needs review' instance has been dismissed as not an issue",
+  DEFAULT_TITLE: 'Issue needs review',
   DEFAULT_MESSAGE:
     'This issue requires manual inspection to confirm its validity.'
 };

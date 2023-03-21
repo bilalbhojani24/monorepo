@@ -73,7 +73,7 @@ const Overview = ({ scanOverviewData }) => {
       <div className="mt-4 flex items-start">
         <div className="mx-2 w-6/12 rounded-lg bg-white pt-4 shadow-md">
           <div className="mr-4 flex items-center justify-between">
-            <span className="ml-6 font-semibold">Issue History</span>
+            <span className="ml-6 font-semibold">Issue history</span>
             <Dropdown onClick={handleStackedFilter} id="stackedChartFilter">
               <div className="flex">
                 <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">

@@ -112,16 +112,19 @@ MultiSelect.play = async ({ canvasElement }) => {
   const selectItems = document.querySelectorAll(selectMenuOptionsSelector);
   selectItems.forEach(async (item) => {
     if (Array.prototype.indexOf.call(selectItems, item) > 1) {
+      await delay(1);
       item.click();
     }
   });
-  await userEvent.click(canvas.getByText(`${selectMenuOptions[0]} ,`));
+  selectItems.forEach(async (item) => {
+    expect(selectMenuOptions.includes(item.firstChild.textContent)).toBe(true);
+  });
+  await delay(1);
+  await userEvent.click(canvas.getByRole('button'));
   selectMenuOptions.forEach(async (item) => {
     if (selectMenuOptions.indexOf(item) !== selectMenuOptions.length - 1) {
-      await delay(1);
       await expect(canvas.getByText(`${item} ,`)).toBeVisible();
     } else {
-      await delay(1);
       await expect(canvas.getByText(item)).toBeVisible();
     }
   });
