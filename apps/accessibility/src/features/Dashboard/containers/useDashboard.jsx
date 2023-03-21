@@ -14,6 +14,7 @@ import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath } from 'utils';
 import { logEvent } from 'utils/logEvent';
+import { getTimeDiffInDays } from '../../../utils/helper';
 
 // import { getSidebarCollapsedStatus } from '../slices/selectors';
 
@@ -23,6 +24,16 @@ export default function useDashboard() {
   const isShowingBanner = useSelector(getIsShowingBanner);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
+  const shouldShowNewBadge = () => {
+    const lastTimeSaved = new Date(
+      parseInt(localStorage.getItem('newSiteScannerBadge'))
+    );
+    if (lastTimeSaved) {
+      const currentTime = new Date().getTime();
+      return getTimeDiffInDays(currentTime, lastTimeSaved) <= 14;
+    }
+    return true;
+  };
   const primaryNav = [
     {
       id: 'report-listing',
@@ -44,10 +55,7 @@ export default function useDashboard() {
       activeIcon: MdOutlineDynamicFeed,
       inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',
-      badge:
-        localStorage.getItem('newSiteScannerBadge') === 'true' ? (
-          <Badge text="New" />
-        ) : null
+      badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }
   ];
 
@@ -63,9 +71,6 @@ export default function useDashboard() {
   ];
 
   const handleNavigationClick = (nav) => {
-    if (nav.id === 'site-scanner') {
-      localStorage.setItem('newSiteScannerBadge', 'false');
-    }
     if (nav.id === 'doc') {
       window.open(nav.link, '_target');
     }
@@ -87,8 +92,9 @@ export default function useDashboard() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('newSiteScannerBadge') !== 'false') {
-      localStorage.setItem('newSiteScannerBadge', true);
+    if (!localStorage.getItem('newSiteScannerBadge')) {
+      console.log('hello');
+      localStorage.setItem('newSiteScannerBadge', new Date().getTime());
     }
   }, []);
 

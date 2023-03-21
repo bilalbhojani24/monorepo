@@ -192,4 +192,9 @@ export const toHoursAndMinutes = (totalMinutes) => {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return { hours, minutes };
-}
+};
+
+export const getTimeDiffInDays = (d1, d2) => {
+  const diff = Math.abs(d1 - d2) / 1000; // divide by 1000 to get seconds
+  return Math.floor(diff / 86400); // divide by 86400 to get days
+};
