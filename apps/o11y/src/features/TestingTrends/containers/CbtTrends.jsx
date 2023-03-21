@@ -6,7 +6,6 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@browserstack/bifrost';
 import classNames from 'classnames';
 import Chart from 'common/Chart';
 import {
@@ -190,32 +189,34 @@ export default function CbtTrends() {
           {!!chartData.data?.length && (
             <Chart options={getOptions} chartRef={chart} />
           )}
-          <div className="h-96 overflow-y-scroll">
+          <div className="h-96 overflow-y-scroll p-3">
             {activeSeriesData.map((item, idx) => (
-              <Button
-                wrapperClassName={classNames(
-                  'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-2 [&:not(:last-child)]:border',
+              <div
+                className={classNames(
+                  'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-1 text-[#333333] border-b border-[#EEEEEE] last:border-b-0',
                   {
                     '[&:not(:last-child)]:border': !item.drilldown
                   }
                 )}
-                variant="minimal"
                 key={item.name}
+                role="button"
+                tabIndex={0}
+                onKeyDown={() => {
+                  handleDrillDown(item, idx);
+                }}
                 onClick={() => {
                   handleDrillDown(item, idx);
                 }}
               >
-                <div className="flex justify-between">
-                  <p className="flex items-start">
-                    <span
-                      className="mr-2 mt-1 inline-block h-2 w-2 rounded"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span>{item.name}</span>
-                  </p>
-                  <p className="font-medium">{item.percentage}%</p>
-                </div>
-              </Button>
+                <p className="flex items-start">
+                  <span
+                    className="mr-2 mt-1 inline-block h-2 w-2 rounded"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span>{item.name}</span>
+                </p>
+                <p className="font-medium">{item.percentage}%</p>
+              </div>
             ))}
           </div>
         </div>

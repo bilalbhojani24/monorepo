@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
-import classNames from 'classnames';
+import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import VirtualisedTable from 'common/VirtualisedTable';
 import { getTrendBuildFrequencyData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty, max } from 'lodash';
@@ -12,48 +12,23 @@ import CardHeader from '../components/CardHeader';
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { getAllTTFilters } from '../slices/selectors';
 
-const BuildRunsList = React.memo(({ handleBottomChange, builds }) => {
-  const containerRef = useRef(null);
-  const maxRunCount = max(builds?.data?.map(({ runs }) => runs));
-  return (
-    <div className="h-80 text-sm" ref={containerRef}>
-      <Virtuoso
-        customScrollParent={containerRef.current}
-        data={[...builds?.data, { spacer: true }]}
-        atBottomStateChange={handleBottomChange}
-        style={{ height: '300px' }}
-        itemContent={(idx, item) => {
-          if (item.spacer) {
-            return <div className="block h-3" />;
-          }
-          return (
-            <div
-              className={classNames(
-                'flex items-center py-1 px-0 h-12 border border-base-300',
-                {
-                  'bg-gray-10': idx % 2 !== 0
-                }
-              )}
-              key={item.id}
-            >
-              <div className="flex-1 p-2">{item.buildName}</div>
-              <div className="flex flex-1 p-2">
-                <div
-                  className="text-attention-500 mr-3 h-3 rounded-r-lg"
-                  style={{
-                    width: `${(item.runs / maxRunCount) * 100}%`,
-                    backgroundColor: '#865CC1'
-                  }}
-                />
-                <p className="">{abbrNumber(item.runs)}</p>
-              </div>
-            </div>
-          );
-        }}
-      />
-    </div>
-  );
-});
+const BuildRunsList = React.memo(({ item, maxRunCount }) => (
+  <>
+    <O11yTableCell>{item.buildName}</O11yTableCell>
+    <O11yTableCell>
+      <div className="flex">
+        <div
+          className="mr-3 h-3 rounded-r-lg"
+          style={{
+            width: `${(item.runs / maxRunCount) * 100}%`,
+            backgroundColor: '#865CC1'
+          }}
+        />
+        <p className="pl-2">{abbrNumber(item.runs)}</p>
+      </div>
+    </O11yTableCell>
+  </>
+));
 
 export default function BuildRunFreqTrend({ title }) {
   const filters = useSelector(getAllTTFilters);
@@ -95,6 +70,9 @@ export default function BuildRunFreqTrend({ title }) {
     setIsAtBottom(state);
   }, []);
 
+  const containerRef = useRef(null);
+  const maxRunCount = max(buildData?.data?.map(({ runs }) => runs));
+
   return (
     <TrendStatesWrapper
       isLoading={isLoading}
@@ -103,29 +81,33 @@ export default function BuildRunFreqTrend({ title }) {
       onClickCTA={fetchData}
       title={title}
     >
-      <div className="flex flex-col">
-        <CardHeader title={title} />
-        <div className="flex flex-col p-3">
-          <div className="border-base-300 bg-base-100 flex h-12 items-center rounded-t border text-xs font-medium">
-            <div className="flex-1 p-2">Build Name</div>
-            <div className="flex-1 p-2">Runs</div>
-          </div>
-          <BuildRunsList
-            handleBottomChange={handleBottomChange}
-            builds={buildData}
-          />
-          {!isAtBottom && (
-            <div className="absolute left-0 bottom-0 w-full py-2 text-center" />
+      <CardHeader title={title} />
+      <div className="h-96 flex-1 p-4">
+        <VirtualisedTable
+          data={buildData?.data}
+          // endReached={loadMoreRows}
+          showFixedFooter={isAtBottom}
+          tableRowWrapperClassName="shadow-none"
+          customScrollParent={containerRef.current}
+          itemContent={(index, singleBuildData) => (
+            <BuildRunsList item={singleBuildData} maxRunCount={maxRunCount} />
           )}
-        </div>
+          fixedHeaderContent={() => (
+            <O11yTableRow>
+              <O11yTableCell>BUILD NAME</O11yTableCell>
+              <O11yTableCell>RUNS</O11yTableCell>
+            </O11yTableRow>
+          )}
+          handleRowClick={handleBottomChange}
+        />
       </div>
     </TrendStatesWrapper>
   );
 }
 
 BuildRunsList.propTypes = {
-  handleBottomChange: PropTypes.func.isRequired,
-  builds: PropTypes.objectOf(PropTypes.any).isRequired
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  maxRunCount: PropTypes.number.isRequired
 };
 
 BuildRunFreqTrend.propTypes = {
