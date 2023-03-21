@@ -66,6 +66,10 @@ export const capitalizeString = (phrase) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
+export const getMappedValue = (mapArray, value) => {
+  const match = mapArray.find((item) => item.value === value);
+  return match?.label ? match.label : '--';
+};
 // export const attachEventListener = (target, event, cbFunction) => {
 //   target?.addEventListener(event, cbFunction);
 // };

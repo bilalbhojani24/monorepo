@@ -1,5 +1,6 @@
 import React from 'react';
 import { SiJirasoftware } from '@browserstack/bifrost';
+import AddIssuesModal from 'common/AddIssuesModal/components/AddIssuesModal';
 import {
   TMAttachments,
   TMBadge,
@@ -10,10 +11,13 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
-import { templateOptions } from 'features/Repository/const/addTestCaseConst';
+import {
+  statusOptions,
+  templateOptions,
+  testCaseTypesOptions
+} from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
-
-import AddIssuesModal from '../../../common/AddIssuesModal/components/AddIssuesModal';
+import { getMappedValue } from 'utils/helperFunctions';
 
 import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
@@ -94,7 +98,9 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
               <DetailsSnippet
                 title="Template"
                 value={
-                  testCaseDetails?.template?.replace('test_case_', '') || '--'
+                  testCaseDetails?.template
+                    ? getMappedValue(templateOptions, testCaseDetails.template)
+                    : '--'
                 }
               />
             </div>
@@ -107,14 +113,23 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={testCaseDetails?.status?.split('_')?.[0] || '--'}
+                value={
+                  testCaseDetails?.status
+                    ? getMappedValue(statusOptions, testCaseDetails.status)
+                    : '--'
+                }
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
                 value={
-                  testCaseDetails?.case_type?.split('_')?.join(' ') || '--'
+                  testCaseDetails?.case_type
+                    ? getMappedValue(
+                        testCaseTypesOptions,
+                        testCaseDetails.case_type
+                      )
+                    : '--'
                 }
               />
             </div>
