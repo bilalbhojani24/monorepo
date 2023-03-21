@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
 import {
   ChevronDownIcon,
   DataVisualization,
@@ -19,7 +18,6 @@ import {
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
-// import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   formatComponentIdString,
@@ -48,7 +46,6 @@ export default function Summary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  // const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
   const ISSUE_COUNT = 'Issue Count';
   const dropdownOptions = [
     {
@@ -96,10 +93,10 @@ export default function Summary() {
   ];
 
   const impactColorMap = {
-    critical: 'bg-danger-500',
-    serious: 'bg-danger-500',
-    moderate: 'bg-attention-500',
-    minor: 'bg-base-500'
+    critical: 'bg-[#F95D6A]',
+    serious: 'bg-[#F472B6]',
+    moderate: 'bg-[#E3C500]',
+    minor: 'bg-[#C5D1D8]'
   };
 
   const componentColumns = [
@@ -165,11 +162,11 @@ export default function Summary() {
             headerInfo={null}
             size="fit-content"
             analytics={
-              <div className="flex items-center justify-between">
-                <div className="w-80">
+              <div className="flex w-full items-center justify-between">
+                <div className="w-3/5">
                   <Chart options={chartOption} />
                 </div>
-                <div>
+                <div className="flex w-2/5 flex-col items-end">
                   {impactList.map((impact) => (
                     <div
                       aria-label={impact}
@@ -200,7 +197,7 @@ export default function Summary() {
                         {impact.charAt(0).toUpperCase()}
                         {impact.slice(1, impact.length)}
                       </div>
-                      <p className="text-base-800 flex pb-3">
+                      <p className="text-base-800 flex pb-3 text-sm">
                         {issueSummary[impact]}
                       </p>
                     </div>
@@ -231,7 +228,9 @@ export default function Summary() {
                           textTransform="uppercase"
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
-                          } ${index === 2 ? 'w-32' : ''}`}
+                          } ${index === 1 ? 'w-80' : ''} ${
+                            index === 2 ? 'w-32' : ''
+                          }`}
                         >
                           {col.name}
                         </TableCell>
@@ -259,9 +258,13 @@ export default function Summary() {
                               }`}
                             >
                               {colIndex === 0 ? index + 1 : ''}
-                              {colIndex === 1
-                                ? formatComponentIdString(componentId)
-                                : ''}
+                              {colIndex === 1 ? (
+                                <div className="w-80 overflow-hidden truncate">
+                                  {formatComponentIdString(componentId)}
+                                </div>
+                              ) : (
+                                ''
+                              )}
                               {colIndex === 2 ? count : ''}
                             </TableCell>
                           ))}
@@ -384,55 +387,9 @@ export default function Summary() {
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
-              // <Dropdown
-              //   trigger={
-              //     <div className="border-base-300 text-base-700 hover:bg-base-50 focus:ring-brand-500 focus:ring-offset-base-100 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-              //       Sort
-              //       <ChevronDownIcon
-              //         className="-mr-1 ml-2 h-5 w-5"
-              //         aria-hidden="true"
-              //       />
-              //     </div>
-              //   }
-              //   onClick={onMenuChange}
-              // options={}
-              // />
             }
           />
         </div>
-        {/* <Dropdown
-          icon={<SortIcon />}
-          triggerAriaLabel="Sort Issue category by options"
-          menuOptions={[
-            {
-              label: 'A to Z',
-              value: 'char-sort',
-              icon: <SortByAlphaIcon />
-            },
-            {
-              label: 'Descending',
-              value: 'desc',
-              icon: <ArrowDownwardIcon />
-            },
-            {
-              label: 'Ascending',
-              value: 'asc',
-              icon: <ArrowUpwardIcon />
-            }
-          ]}
-          style={{
-            maxMenuHeight: 200,
-            menuAlignment: 'auto',
-            menuPlacement: 'auto',
-            minMenuHeight: 50,
-            minWidth: 100
-          }}
-          title="Action"
-          variant="icon-button"
-          type="outline-button"
-          chevronRequired={false}
-          onChange={onMenuChange}
-        /> */}
         <div className="mr-4 w-6/12 ">
           <div className="bg-white">
             <DataVisualization
@@ -456,7 +413,7 @@ export default function Summary() {
                           >
                             <div
                               className={`text-base-500 text-xs ${
-                                index === 1 ? 'w-64' : ''
+                                index === 1 ? 'w-80' : ''
                               } ${index === 2 ? 'w-36' : ''}`}
                             >
                               {col.name}
@@ -485,7 +442,7 @@ export default function Summary() {
                             >
                               {colIndex === 0 ? index + 1 : ''}
                               {colIndex === 1 && (
-                                <div className="w-64 overflow-hidden truncate">
+                                <div className="w-80 overflow-hidden truncate">
                                   {url || ''}
                                 </div>
                               )}
@@ -500,74 +457,12 @@ export default function Summary() {
               }
             />
           </div>
-          {/* <Card height={3} width={3}>
-            <p className="summary-card__title">Affected Pages</p>
-            <p className="summary-card__count">{urlList.length}</p>
-            <div className="summary-card__table">
-              <div className="summary-card__table-header">
-                <p className="summary-card__table-header-number">#</p>
-                <p className="summary-card__table-header-name">Affected URL</p>
-                <p className="summary-card__table-header-count">Issues Count</p>
-              </div>
-              <div className="summary-card__table-rows">
-                {urlList.map(({ url, count }, index) => (
-                  <div
-                    className="summary-card__table-row"
-                    role="presentation"
-                    onClick={() => onRowClick('page', url)}
-                  >
-                    <p className="summary-card__table-row-number">
-                      {index + 1}
-                    </p>
-                    <p className="summary-card__table-row-name" title={url}>
-                      {url}
-                    </p>
-                    <p className="summary-card__table-row-count">{count}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card> */}
           <div className="mt-4 flex">
             {options.map((option) => (
               <div className="mr-4 w-2/4">
                 <Stats option={option} />
               </div>
             ))}
-            {/* <Card height={1} width={1} className="m-20">
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={() => onRowClick('showNeedsReviewIssues', true, true)}
-                aria-label={`${needsReviewIssues} Needs Review Issues`}
-              >
-                <div className="summary-card__header-row">
-                  <p className="summary-card__title">Needs Review</p>
-                  <ErrorIcon />
-                </div>
-                <span className="summary-card__hidden-review-count">
-                  {' '}
-                  {needsReviewIssues}{' '}
-                </span>
-              </div>
-            </Card>
-            <Card height={1} width={1} className="mt-20">
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={onHiddenIssueClick}
-                aria-label={`${hiddenIssues} Hidden Issues`}
-              >
-                <div className="summary-card__header-row">
-                  <p className="summary-card__title-fade">Hidden Issues</p>
-                  <HideSource />
-                </div>
-                <span className="summary-card__needs-review-count">
-                  {' '}
-                  {hiddenIssues}{' '}
-                </span>
-              </div>
-            </Card> */}
           </div>
         </div>
       </div>

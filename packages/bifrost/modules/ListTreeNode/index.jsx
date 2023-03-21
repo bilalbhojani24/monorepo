@@ -112,7 +112,7 @@ const ListTreeNode = forwardRef(
 ListTreeNode.propTypes = {
   isFocused: PropTypes.bool,
   hideArrowIcon: PropTypes.bool,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   description: PropTypes.string,
   nodeLabelClassName: PropTypes.string,
   onTrailingIconClick: PropTypes.func,
@@ -126,8 +126,7 @@ ListTreeNode.propTypes = {
 ListTreeNode.defaultProps = {
   isFocused: false,
   hideArrowIcon: false,
-  label: 'Folder Name',
-  description: '(762)',
+  description: '',
   nodeLabelClassName: '',
   onTrailingIconClick: () => {},
   onNodeClick: () => {},

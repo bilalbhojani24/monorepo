@@ -1,8 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-
-import { ComboboxContextData } from '../../shared/comboboxContext';
 import {
   arrayOf,
   bool,
@@ -12,7 +10,9 @@ import {
   oneOfType,
   shape,
   string
-} from '../../shared/proptypesConstants';
+} from 'prop-types';
+
+import { ComboboxContextData } from '../../shared/comboboxContext';
 
 import RenderChildren from './components/RenderChildren';
 
@@ -28,7 +28,8 @@ const ComboBox = forwardRef((props, ref) => {
     isMulti,
     value,
     onOpenChange,
-    loading,
+    isLoading,
+    loadingText,
     disabled
   } = props;
 
@@ -42,7 +43,9 @@ const ComboBox = forwardRef((props, ref) => {
         value,
         open,
         setOpen,
-        loading
+        isLoading,
+        loadingText,
+        disabled
       }}
     >
       <Popover.Root open={open}>
@@ -59,7 +62,7 @@ const ComboBox = forwardRef((props, ref) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
-          disabled={disabled}
+          disabled={disabled || isLoading}
         >
           {({ open: dropdownOpen }) => (
             <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
@@ -92,7 +95,8 @@ ComboBox.propTypes = {
     })
   ]),
   disabled: bool,
-  loading: bool,
+  isLoading: bool,
+  loadingText: string,
   errorText: string,
   isMulti: bool,
   onChange: func,
@@ -116,7 +120,8 @@ ComboBox.propTypes = {
 ComboBox.defaultProps = {
   defaultValue: null,
   disabled: false,
-  loading: false,
+  isLoading: false,
+  loadingText: 'Loading',
   errorText: '',
   isMulti: false,
   onChange: () => {},

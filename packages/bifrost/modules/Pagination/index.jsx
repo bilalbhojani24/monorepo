@@ -81,7 +81,7 @@ const Pagination = (props) => {
 
   const renderNextPrev = () => (
     <div
-      className={twClassNames('justify-between sm:justify-end', {
+      className={twClassNames('flex flex-1 justify-between sm:justify-end', {
         'sm:hidden': withNumber,
         block: !withNumber
       })}
@@ -120,12 +120,13 @@ const Pagination = (props) => {
   );
 
   const centeredPagination = () => (
-    <nav className="border-base-200 flex items-center justify-between border-t px-4 sm:px-0">
+    <nav className="border-base-200 flex items-center justify-between border-t px-0">
       <div className="-mt-px flex w-0 flex-1">
         <a
           href="/"
           className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium"
           onClick={prevClick}
+          disabled={currentPage === 1}
         >
           <ArrowLongLeftIcon
             className="text-base-400 mr-3 h-5 w-5"
@@ -145,6 +146,7 @@ const Pagination = (props) => {
           href="/"
           className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium"
           onClick={nextClick}
+          disabled={currentPage === totalPages[totalPages.length - 1]}
         >
           Next
           <ArrowLongRightIcon
@@ -162,7 +164,7 @@ const Pagination = (props) => {
 
   return (
     <div
-      className="border-base-200 flex items-center justify-between border-t  px-4 py-3 sm:px-6"
+      className="border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6"
       aria-label="Pagination"
     >
       <div className="hidden sm:block">

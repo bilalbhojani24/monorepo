@@ -33,12 +33,12 @@ import {
 } from 'features/Report/slice/selector';
 import { getEnvUrl } from 'utils';
 import {
+  generateReportUrl,
   handleClickByEnterOrSpace,
   handleFocusElement,
   tagToView
 } from 'utils/helper';
 
-// import CopyCode from '../../../CopyCode';
 import useIssueItem from '../../useIssueItem';
 
 import NeedsReviewBanner from './NeedsReviewBanner';
@@ -167,13 +167,13 @@ export default function IssueItem() {
     }
   ];
 
-  console.log({ testType });
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
     reportMetaData,
     testType
   );
-  const reportList = needsReviewStatusinReports.map((item) => item.reportName);
+
+  // const reportList = needsReviewStatusinReports.map((item) => item.reportName);
   const message = needsReview ? getReviewMessage(data) : '';
 
   useEffect(() => {
@@ -188,7 +188,7 @@ export default function IssueItem() {
     <div className="relative">
       <div className="border-base-200 sticky top-0 z-10 flex w-full items-start justify-between border-b bg-white py-4 pr-4 pl-6">
         <div>
-          <div className="flex">
+          <div className="flex items-center">
             <p
               className="text-base-900 mb-1 mr-2 max-w-md overflow-hidden truncate text-lg font-medium"
               title={title}
@@ -214,7 +214,12 @@ export default function IssueItem() {
                 }}
                 text={window.location.href}
               >
-                <MdLink className="text-xl" />
+                <Button
+                  icon={<MdLink className="cursor-pointer text-xl" />}
+                  isIconOnlyButton
+                  colors="white"
+                  variant="minimal"
+                />
               </CopyToClipboard>
             </Tooltip>
           </div>
@@ -262,7 +267,7 @@ export default function IssueItem() {
                       }
                     : () => {}
                 }
-                wrapperClassName="font-semibold inline-flex ml-1"
+                wrapperClassName="font-semibold inline-flex ml-1 font-normal"
               >
                 Learn more
               </Hyperlink>
@@ -293,14 +298,25 @@ export default function IssueItem() {
                 ))}
               </div>
             )}
-            {reportList.length > 0 && (
+            {needsReviewStatusinReports.length > 0 && (
               <div className="mt-4 flex text-sm font-medium">
-                <p className="text-base-500 text-sm font-medium">
+                <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
                   Source report(s):
                 </p>
-                <p className="text-base-900 ml-1 flex">
-                  {reportList.join(', ')}
-                </p>
+                {needsReviewStatusinReports.map(({ reportName, id }, index) => (
+                  <div className="flex items-center">
+                    <Hyperlink
+                      href={generateReportUrl(id)}
+                      wrapperClassName="font-normal text-sm"
+                      target="_blank"
+                    >
+                      {reportName}
+                    </Hyperlink>
+                    {index !== needsReviewStatusinReports.length - 1
+                      ? ', '
+                      : ''}
+                  </div>
+                ))}
               </div>
             )}
             <div className="mt-4">
@@ -309,7 +325,7 @@ export default function IssueItem() {
                 <div className="mr-2 w-full">
                   <InputField id={url} value={url} readonly />
                 </div>
-                <CopyButton text={window.location.href} />
+                <CopyButton text={url} />
               </div>
             </div>
           </div>
@@ -411,7 +427,7 @@ export default function IssueItem() {
                                         {targetNode}
                                       </SyntaxHighlighter>
                                     </div>
-                                    <CopyButton text={sanitizeValue(html)} />
+                                    <CopyButton text={targetNode} />
                                   </div>
                                 );
                               })
