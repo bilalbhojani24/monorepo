@@ -70,7 +70,20 @@ const initialState = {
   searchInitiatedFromURL: '',
   isLoading: {
     folder: true,
-    testCases: true
+    testCases: true,
+    // folder cta's
+    addFolderCta: false,
+    editFolderCta: false,
+    addSubFolderCta: false,
+    deleteFolderCta: false,
+    moveFolderCta: false,
+    // test case cta's
+    createTestCaseCta: false,
+    editTestCaseCta: false,
+    deleteTestCaseCta: false,
+    bulkEditTestCaseCta: false,
+    bulkDeleteTestCaseCta: false,
+    bulkMoveTestCaseCta: false
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
@@ -265,6 +278,9 @@ export const repositorySlice = createSlice({
     },
     resetTestCaseDetails: (state) => {
       state.testCaseDetails = initialState.testCaseDetails;
+    },
+    updateCtaLoading: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
@@ -312,7 +328,8 @@ export const {
   updateDummyTestCaseFormData,
   setDummyTestCaseFormData,
   setCurrentEditedTestCaseData,
-  setAddTestCaseFromSearch
+  setAddTestCaseFromSearch,
+  updateCtaLoading
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

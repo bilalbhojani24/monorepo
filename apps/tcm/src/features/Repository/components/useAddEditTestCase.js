@@ -35,6 +35,7 @@ import {
   setTagsArray,
   setTestCaseFormData,
   updateBulkTestCaseFormData,
+  updateCtaLoading,
   updateDummyTestCaseFormData,
   updateFoldersLoading,
   updateTestCase,
@@ -111,6 +112,15 @@ export default function useAddEditTestCase(prop) {
   const issuesArray = useSelector((state) => state.repository.issuesArray);
 
   const usersArray = useSelector((state) => state.repository.usersArray);
+  const createTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.createTestCaseCta
+  );
+  const editTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.editTestCaseCta
+  );
+  const bulkEditTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.bulkEditTestCaseCta
+  );
 
   const hideTestCaseAddEditPage = (e, isForced) => {
     isOkToExitForm(isForced);
@@ -218,6 +228,7 @@ export default function useAddEditTestCase(prop) {
     const folderData = data.data.folder;
     const projectData = data.data.project;
 
+    dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: false }));
     if (projectId === 'new' || !allFolders.length) {
       // no project/folder
 
@@ -293,11 +304,18 @@ export default function useAddEditTestCase(prop) {
         apiSaveFunction = addTestCaseWithoutFolderAPI;
       }
 
+      dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: true }));
       apiSaveFunction({
         projectId,
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
-      }).then(onSaveTestSuccessHelper);
+      })
+        .then(onSaveTestSuccessHelper)
+        .catch(() => {
+          dispatch(
+            updateCtaLoading({ key: 'createTestCaseCta', value: false })
+          );
+        });
     }
   };
 
@@ -309,36 +327,48 @@ export default function useAddEditTestCase(prop) {
       })
     );
     setBulkEditConfirm(false);
+    dispatch(updateCtaLoading({ key: 'bulkEditTestCaseCta', value: true }));
+
     editTestCasesBulkAPI({
       projectId,
       folderId,
       bulkSelection,
       data: formDataFormatter(testCaseBulkFormData).test_case
-    }).then(() => {
-      dispatch(
-        logEventHelper('TM_TcBulkUpdatedNotification', {
-          project_id: projectId,
-          testcase_id: bulkSelection?.ids
-        })
-      );
-      // dispatch(
-      //   updateAllTestCases(
-      //     allTestCases.map(
-      //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-      //     )
-      //   )
-      // );
-      fetchAllTestCases();
-      dispatch(
-        addNotificaton({
-          id: `bulk_updated${projectId}${folderId}`,
-          title: `${bulkSelection?.ids?.length} Test cases updated`,
-          variant: 'success'
-        })
-      );
-      hideTestCaseAddEditPage(null, true);
-      dispatch(resetBulkSelection());
-    });
+    })
+      .then(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+
+        dispatch(
+          logEventHelper('TM_TcBulkUpdatedNotification', {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids
+          })
+        );
+        // dispatch(
+        //   updateAllTestCases(
+        //     allTestCases.map(
+        //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
+        //     )
+        //   )
+        // );
+        fetchAllTestCases();
+        dispatch(
+          addNotificaton({
+            id: `bulk_updated${projectId}${folderId}`,
+            title: `${bulkSelection?.ids?.length} Test cases updated`,
+            variant: 'success'
+          })
+        );
+        hideTestCaseAddEditPage(null, true);
+        dispatch(resetBulkSelection());
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+      });
   };
 
   const editTestCase = (formData) => {
@@ -349,30 +379,37 @@ export default function useAddEditTestCase(prop) {
           testcase_id: selectedTestCase.id
         })
       );
+      dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: true }));
 
       editTestCaseAPI({
         projectId,
         folderId: selectedTestCase?.test_case_folder_id || folderId,
         testCaseId: selectedTestCase.id,
         payload: formDataFormatter(formData)
-      }).then((data) => {
-        const newData = data;
-        dispatch(updateTestCase(newData?.data?.test_case));
-        dispatch(
-          logEventHelper('TM_TcUpdatedNotification', {
-            project_id: projectId,
-            testcase_id: newData?.data?.test_case?.id
-          })
-        );
-        dispatch(
-          addNotificaton({
-            id: `test_case_edited${newData?.data?.test_case?.id}`,
-            title: `${newData.data?.test_case?.identifier} : Test case updated`,
-            variant: 'success'
-          })
-        );
-        hideTestCaseAddEditPage(null, true);
-      });
+      })
+        .then((data) => {
+          dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
+
+          const newData = data;
+          dispatch(updateTestCase(newData?.data?.test_case));
+          dispatch(
+            logEventHelper('TM_TcUpdatedNotification', {
+              project_id: projectId,
+              testcase_id: newData?.data?.test_case?.id
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `test_case_edited${newData?.data?.test_case?.id}`,
+              title: `${newData.data?.test_case?.identifier} : Test case updated`,
+              variant: 'success'
+            })
+          );
+          hideTestCaseAddEditPage(null, true);
+        })
+        .catch(() => {
+          dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
+        });
     }
   };
 
@@ -590,6 +627,9 @@ export default function useAddEditTestCase(prop) {
     tagsArray,
     issuesArray,
     usersArrayMapped,
+    createTestCaseCtaLoading,
+    editTestCaseCtaLoading,
+    bulkEditTestCaseCtaLoading,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,

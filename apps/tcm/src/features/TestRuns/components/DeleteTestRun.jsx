@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useMiscConnections from './useMiscConnections';
 
 const DeleteTestRun = ({ redirectToDetails }) => {
-  const { closeAll, deleteTestRunHandler, isDeleteModalVisible } =
-    useMiscConnections({ redirectToDetails });
+  const {
+    closeAll,
+    deleteTestRunHandler,
+    deleteTestRunCtaLoading,
+    isDeleteModalVisible
+  } = useMiscConnections({ redirectToDetails });
   const deleteModalInitialFocus = useRef();
 
   return (
@@ -43,6 +47,8 @@ const DeleteTestRun = ({ redirectToDetails }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteTestRunHandler}
+          loading={deleteTestRunCtaLoading}
+          isIconOnlyButton={deleteTestRunCtaLoading}
         >
           Delete
         </TMButton>

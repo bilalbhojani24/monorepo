@@ -47,6 +47,7 @@ const TestCasesTable = ({
     isAllSelected,
     isAllChecked,
     isIndeterminate,
+    bulkMoveTestCaseCtaLoading,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -404,6 +405,7 @@ const TestCasesTable = ({
         alertText="The selected test cases will be moved from the current location to the above selected folder."
         onOK={moveTestCasesHandler}
         onClose={hideFolderModal}
+        loading={bulkMoveTestCaseCtaLoading}
       />
     </>
   );

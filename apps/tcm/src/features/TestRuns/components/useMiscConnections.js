@@ -13,7 +13,8 @@ import { logEventHelper } from 'utils/logEvent';
 import {
   closeAllVisibleForms,
   deleteTestRun,
-  updateTestRun
+  updateTestRun,
+  updateTestRunsCtaLoading
 } from '../slices/testRunsSlice';
 
 const useMiscConnections = (prop) => {
@@ -34,6 +35,15 @@ const useMiscConnections = (prop) => {
   const isAssignTestVisible = useSelector(
     (state) => state.testRuns.isVisible.assignTestRunModal
   );
+  const assignTestRunCtaLoading = useSelector(
+    (state) => state.testRuns.isLoading.assignTestRunCta
+  );
+  const closeTestRunCtaLoading = useSelector(
+    (state) => state.testRuns.isLoading.closeTestRunCta
+  );
+  const deleteTestRunCtaLoading = useSelector(
+    (state) => state.testRuns.isLoading.deleteTestRunCta
+  );
 
   const closeAll = () => {
     dispatch(closeAllVisibleForms());
@@ -42,13 +52,19 @@ const useMiscConnections = (prop) => {
   const deleteTestRunHandler = () => {
     if (selectedTestRun?.id) {
       dispatch(
+        updateTestRunsCtaLoading({ key: 'deleteTestRunCta', value: true })
+      );
+      dispatch(
         logEventHelper('TM_DeleteTrCtaClicked', {
           project_id: projectId,
           testrun_id: selectedTestRun?.id
         })
       );
-      deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(
-        () => {
+      deleteTestRunAPI({ projectId, testRunId: selectedTestRun.id })
+        .then(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'deleteTestRunCta', value: false })
+          );
           dispatch(
             logEventHelper('TM_TrDeletedNotification', {
               project_id: projectId,
@@ -61,49 +77,80 @@ const useMiscConnections = (prop) => {
             navigate(routeFormatter(AppRoute.TEST_RUNS, { projectId }));
           }
           closeAll();
-        }
-      );
+        })
+        .catch(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'deleteTestRunCta', value: false })
+          );
+        });
     }
   };
 
   const closeTestRunHandler = () => {
     if (selectedTestRun?.id) {
       dispatch(
+        updateTestRunsCtaLoading({ key: 'closeTestRunCta', value: true })
+      );
+      dispatch(
         logEventHelper('TM_CloseTrCtaClicked', {
           project_id: projectId,
           testrun_id: selectedTestRun?.id
         })
       );
-      closeTestRunAPI({ projectId, testRunId: selectedTestRun.id }).then(() => {
-        dispatch(
-          logEventHelper('TM_TrClosedNotification', {
-            project_id: projectId,
-            testrun_id: selectedTestRun?.id
-          })
-        );
-        dispatch(deleteTestRun(selectedTestRun));
-        closeAll();
-        prop?.updateCb();
-      });
+      closeTestRunAPI({ projectId, testRunId: selectedTestRun.id })
+        .then(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'closeTestRunCta', value: false })
+          );
+          dispatch(
+            logEventHelper('TM_TrClosedNotification', {
+              project_id: projectId,
+              testrun_id: selectedTestRun?.id
+            })
+          );
+          dispatch(deleteTestRun(selectedTestRun));
+          closeAll();
+          prop?.updateCb();
+        })
+        .catch(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'closeTestRunCta', value: false })
+          );
+        });
     }
   };
 
   const assignTestRunHandler = () => {
     if (selectedTestRun?.id && selectedAssignee?.value) {
+      dispatch(
+        updateTestRunsCtaLoading({ key: 'assignTestRunCta', value: true })
+      );
       assignTestRunAPI({
         projectId,
         testRunId: selectedTestRun.id,
         ownerId: selectedAssignee.value
-      }).then(() => {
-        dispatch(
-          updateTestRun({
-            ...selectedTestRun,
-            assignee: { ...selectedAssignee, full_name: selectedAssignee.label }
-          })
-        );
-        setAssignee(null);
-        closeAll();
-      });
+      })
+        .then(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'assignTestRunCta', value: false })
+          );
+          dispatch(
+            updateTestRun({
+              ...selectedTestRun,
+              assignee: {
+                ...selectedAssignee,
+                full_name: selectedAssignee.label
+              }
+            })
+          );
+          setAssignee(null);
+          closeAll();
+        })
+        .catch(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'assignTestRunCta', value: false })
+          );
+        });
     }
   };
 
@@ -113,6 +160,9 @@ const useMiscConnections = (prop) => {
     isCloseTRVisible,
     isDeleteModalVisible,
     selectedAssignee,
+    assignTestRunCtaLoading,
+    closeTestRunCtaLoading,
+    deleteTestRunCtaLoading,
     setAssignee,
     closeAll,
     deleteTestRunHandler,

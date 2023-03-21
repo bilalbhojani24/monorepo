@@ -13,7 +13,12 @@ const initialState = {
     count: null
   },
   isLoading: true,
-  currentSelectedProjectName: null
+  currentSelectedProjectName: null,
+  buttonLoader: {
+    createProjectCtaLoading: false,
+    editProjectCtaLoading: false,
+    deleteProjectCtaLoading: false
+  }
 };
 
 const projectSlice = createSlice({
@@ -58,6 +63,9 @@ const projectSlice = createSlice({
     },
     setCurrentProjectName: (state, { payload }) => {
       state.currentSelectedProjectName = payload;
+    },
+    setButtonLoaders: (state, { payload }) => {
+      state.buttonLoader[payload.key] = payload.value;
     }
   }
 });
@@ -68,6 +76,7 @@ export const {
   addProject,
   updateProject,
   deleteProject,
+  setButtonLoaders,
   setAddProjectModalVisibility,
   setEditProjectModalVisibility,
   setDeleteProjectModalVisibility,

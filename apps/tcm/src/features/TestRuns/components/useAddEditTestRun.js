@@ -22,7 +22,8 @@ import {
   setTestRunFormData,
   setUnsavedDataExists,
   updateTestRun,
-  updateTestRunFormData
+  updateTestRunFormData,
+  updateTestRunsCtaLoading
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
@@ -62,6 +63,12 @@ const useAddEditTestRun = () => {
   );
   const testRunFormData = useSelector(
     (state) => state.testRuns.testRunFormData
+  );
+  const createTestRunsCtaLoading = useSelector(
+    (state) => state.testRuns.isLoading.createTestRunCta
+  );
+  const editTestRunsCtaLoading = useSelector(
+    (state) => state.testRuns.isLoading.editTestRunCta
   );
 
   const handleTestRunInputFieldChange = (key, value) => {
@@ -215,20 +222,32 @@ const useAddEditTestRun = () => {
           testrun_id: testRunFormData?.test_run?.id
         })
       );
+      dispatch(
+        updateTestRunsCtaLoading({ key: 'editTestRunCta', value: true })
+      );
       editTestRunAPI({
         payload: formDataFormatter(testRunFormData),
         projectId,
         testRunId: testRunFormData?.test_run?.id
-      }).then((data) => {
-        dispatch(
-          logEventHelper('TM_TrUpdatedNotification', {
-            project_id: projectId,
-            testrun_id: testRunFormData?.test_run?.id
-          })
-        );
-        dispatch(updateTestRun(data.data.testrun || []));
-        hideAddTestRunForm();
-      });
+      })
+        .then((data) => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
+          );
+          dispatch(
+            logEventHelper('TM_TrUpdatedNotification', {
+              project_id: projectId,
+              testrun_id: testRunFormData?.test_run?.id
+            })
+          );
+          dispatch(updateTestRun(data.data.testrun || []));
+          hideAddTestRunForm();
+        })
+        .catch(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
+          );
+        });
     } else {
       dispatch(
         logEventHelper('TM_CreateTrCtaClicked', {
@@ -237,36 +256,48 @@ const useAddEditTestRun = () => {
       );
       const addtestRunAPIFunction =
         projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
+      dispatch(
+        updateTestRunsCtaLoading({ key: 'createTestRunCta', value: true })
+      );
       addtestRunAPIFunction({
         payload: formDataFormatter(testRunFormData),
         projectId
-      }).then((data) => {
-        dispatch(addTestRun(data.data.testrun || []));
-        dispatch(
-          logEventHelper('TM_TrCreatedNotification', {
-            project_id: projectId,
-            testrun_id: data.data.testrun?.id
-          })
-        );
-        dispatch(
-          addNotificaton({
-            id: `test_run_added${data.data.testrun?.id}`,
-            title: `${data.data.testrun?.identifier} : Test run created`,
-            variant: 'success'
-          })
-        );
-
-        if (projectId === 'new') {
-          dispatch(addGlobalProject(data.data.project));
-          navigate(
-            `${routeFormatter(AppRoute.TEST_RUNS, {
-              projectId: data.data.testrun?.project_id
-            })}`
+      })
+        .then((data) => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
           );
-        }
+          dispatch(addTestRun(data.data.testrun || []));
+          dispatch(
+            logEventHelper('TM_TrCreatedNotification', {
+              project_id: projectId,
+              testrun_id: data.data.testrun?.id
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `test_run_added${data.data.testrun?.id}`,
+              title: `${data.data.testrun?.identifier} : Test run created`,
+              variant: 'success'
+            })
+          );
 
-        hideAddTestRunForm();
-      });
+          if (projectId === 'new') {
+            dispatch(addGlobalProject(data.data.project));
+            navigate(
+              `${routeFormatter(AppRoute.TEST_RUNS, {
+                projectId: data.data.testrun?.project_id
+              })}`
+            );
+          }
+
+          hideAddTestRunForm();
+        })
+        .catch(() => {
+          dispatch(
+            updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
+          );
+        });
     }
   };
 
@@ -351,6 +382,8 @@ const useAddEditTestRun = () => {
     testRunFormData,
     tagsArray,
     issuesArray,
+    createTestRunsCtaLoading,
+    editTestRunsCtaLoading,
     showTestCasesModal,
     handleTestRunInputFieldChange,
     showAddTagsModal,
