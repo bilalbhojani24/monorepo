@@ -1,16 +1,32 @@
 import React from 'react';
 import { MdAllInclusive } from '@browserstack/bifrost';
-import { BuildKiteIcon, JenkinsIcon } from 'assets/icons/components';
+import {
+  AzurePipelinesIcon,
+  BuildKiteIcon,
+  CircleCIIcon,
+  GithubActionsIcon,
+  GitLabIcon,
+  JenkinsIcon
+} from 'assets/icons/components';
 import PropTypes from 'prop-types';
 
 function CiIcon({ name, iconProps }) {
-  if (name?.toLowerCase() === 'jenkins') {
-    return <JenkinsIcon {...iconProps} />;
+  switch (name?.toLowerCase()) {
+    case 'jenkins':
+      return <JenkinsIcon {...iconProps} />;
+    case 'buildkite':
+      return <BuildKiteIcon {...iconProps} />;
+    case 'gitlab':
+      return <GitLabIcon {...iconProps} />;
+    case 'circleci':
+      return <CircleCIIcon {...iconProps} />;
+    case 'githubactions':
+      return <GithubActionsIcon {...iconProps} />;
+    case 'azurepipelines':
+      return <AzurePipelinesIcon {...iconProps} />;
+    default:
+      return <MdAllInclusive {...iconProps} />;
   }
-  if (name?.toLowerCase() === 'buildkite') {
-    return <BuildKiteIcon {...iconProps} />;
-  }
-  return <MdAllInclusive {...iconProps} />;
 }
 
 CiIcon.propTypes = {

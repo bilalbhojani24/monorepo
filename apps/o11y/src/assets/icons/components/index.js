@@ -30,9 +30,12 @@ import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
 // Others
+import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
+import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
+import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
@@ -44,12 +47,15 @@ export {
   AmazonIcon,
   AndroidIcon,
   AppleIcon,
+  AzurePipelinesIcon,
   BitBucketIcon,
   BuildKiteIcon,
   ChromeIcon,
+  CircleCIIcon,
   DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
+  GithubActionsIcon,
   GithubIcon,
   GitIcon,
   GitLabIcon,
