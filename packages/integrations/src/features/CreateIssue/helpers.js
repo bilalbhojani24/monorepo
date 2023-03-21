@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const parseFieldsForCreateHelper = (
   { $type, $items, $properties, $const },
   fieldData
@@ -19,7 +20,6 @@ const parseFieldsForCreateHelper = (
     case 'object':
       val = Object.entries($properties).reduce((acc, curr) => {
         const [currItemKey, currItemVal] = curr;
-        // eslint-disable-next-line no-param-reassign
         acc[currItemKey] = parseFieldsForCreateHelper(currItemVal, fieldData);
         return acc;
       }, {});
@@ -36,11 +36,18 @@ const parseFieldsForCreateHelper = (
 export const parseFieldsForCreate = (createMeta, fieldData) =>
   createMeta?.reduce((parsedFields, currentMetaField) => {
     if (currentMetaField.key in fieldData) {
-      // eslint-disable-next-line no-param-reassign
-      parsedFields[currentMetaField.key] = parseFieldsForCreateHelper(
-        currentMetaField.schema.data_format,
-        fieldData[currentMetaField.key]
-      );
+      if (currentMetaField.schema.system_field) {
+        parsedFields[currentMetaField.key] = parseFieldsForCreateHelper(
+          currentMetaField.schema.data_format,
+          fieldData[currentMetaField.key]
+        );
+      } else {
+        if (!parsedFields.custom) parsedFields.custom = {};
+        parsedFields.custom[currentMetaField.key] = parseFieldsForCreateHelper(
+          currentMetaField.schema.data_format,
+          fieldData[currentMetaField.key]
+        );
+      }
     }
     return parsedFields;
   }, {});

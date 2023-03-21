@@ -24,8 +24,8 @@ const CreateIssueForm = ({
         metaData.description;
     }
     const parsed = parseFieldsForCreate(fields, data);
-    parsed.projectId = projectFieldData.value;
-    parsed.ticketTypeId = issueTypeFieldData.value;
+    parsed.project_id = projectFieldData.value;
+    parsed.ticket_type_id = issueTypeFieldData.value;
     createIssue(integrationToolFieldData?.value, parsed);
   };
 
