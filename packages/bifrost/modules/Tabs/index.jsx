@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 import Tab from './components/Tab';
 import { TAB_SHAPE } from './const/tabsConstants';
 
+import './styles.scss';
+
 const Tabs = ({
-  activeIndex,
+  defaultIndex,
   id,
   isContained,
   isFullWidth,
@@ -31,10 +33,10 @@ const Tabs = ({
   };
 
   useEffect(() => {
-    if (tabsArray?.length && tabsArray[activeIndex]) {
-      setSelectedTab(tabsArray[activeIndex]);
-    }
-  }, [activeIndex, tabsArray]);
+    if (defaultIndex && tabsArray?.length && tabsArray[defaultIndex])
+      setSelectedTab(tabsArray[defaultIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultIndex]);
 
   return (
     <>
@@ -101,7 +103,7 @@ const Tabs = ({
 };
 
 Tabs.propTypes = {
-  activeIndex: PropTypes.number,
+  defaultIndex: PropTypes.number,
   id: PropTypes.string,
   isContained: PropTypes.bool,
   isFullWidth: PropTypes.bool,
@@ -121,7 +123,7 @@ Tabs.propTypes = {
 };
 
 Tabs.defaultProps = {
-  activeIndex: 0,
+  defaultIndex: 0,
   id: '',
   isContained: false,
   isFullWidth: false,
