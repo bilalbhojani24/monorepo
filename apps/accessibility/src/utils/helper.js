@@ -9,17 +9,13 @@ export const tagToView = (tags) =>
     .map((tag) => tag.toLowerCase())
     .filter(
       (tag) =>
-        (tag.includes('section508') ||
-          tag.includes('wcag') ||
-          tag.includes(BEST_PRACTICE_TAG)) &&
-        tag !== 'wcag' &&
-        tag !== 'section508'
+        (tag.includes('wcag') || tag.includes(BEST_PRACTICE_TAG)) &&
+        tag !== 'wcag'
     )
     .filter((tag) => {
       const regExp = /[a-zA-Z]/g;
       return (
         (tag.includes('wcag') && !regExp.test(tag.split('wcag'))) ||
-        tag.includes('section508') ||
         tag.includes(BEST_PRACTICE_TAG)
       );
     })
@@ -31,15 +27,6 @@ export const tagToView = (tags) =>
             2,
             number.length
           )}`,
-          value: tag
-        };
-      }
-      if (tag.includes('section508')) {
-        const [, ...rest] = tag.split('.');
-        return {
-          label: `Section 508 ${
-            rest ? rest.map((value) => value.toUpperCase()).join('.') : ''
-          }`,
           value: tag
         };
       }
@@ -192,4 +179,4 @@ export const toHoursAndMinutes = (totalMinutes) => {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return { hours, minutes };
-}
+};
