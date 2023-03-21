@@ -22,6 +22,7 @@ const AssignTestRun = () => {
     assignTestRunHandler,
     isAssignTestVisible,
     selectedAssignee,
+    assignTestRunCtaLoading,
     setAssignee,
     closeAll
   } = useMiscConnections();
@@ -76,6 +77,8 @@ const AssignTestRun = () => {
           colors="brand"
           wrapperClassName="ml-3"
           onClick={assignTestRunHandler}
+          loading={assignTestRunCtaLoading}
+          isIconOnlyButton={assignTestRunCtaLoading}
         >
           Assign
         </TMButton>

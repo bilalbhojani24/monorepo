@@ -42,6 +42,8 @@ const AddEditTestCase = () => {
     isUploadInProgress,
     isAddIssuesModalShown,
     isAddTagModalShown,
+    createTestCaseCtaLoading,
+    editTestCaseCtaLoading,
     handleTestCaseFieldChange,
     inputError,
     testCaseFormData,
@@ -105,6 +107,16 @@ const AddEditTestCase = () => {
                   if (isTestCaseEditing) editTestCase(testCaseFormData);
                   else saveTestCase(testCaseFormData);
                 }}
+                isIconOnlyButton={
+                  isTestCaseEditing
+                    ? editTestCaseCtaLoading
+                    : createTestCaseCtaLoading
+                }
+                loading={
+                  isTestCaseEditing
+                    ? editTestCaseCtaLoading
+                    : createTestCaseCtaLoading
+                }
               >
                 {isTestCaseEditing ? 'Update Case' : 'Create Case'}
               </TMButton>

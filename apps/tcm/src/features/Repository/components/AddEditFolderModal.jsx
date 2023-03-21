@@ -34,6 +34,9 @@ const AddEditFolderModal = ({
     modalFocusRef,
     filledFormData,
     formError,
+    getLoader,
+    // addFolderCtaLoading,
+    // addSubFolderCtaLoading,
     setFormError,
     setFormData,
     hideFolderModal,
@@ -120,6 +123,8 @@ const AddEditFolderModal = ({
           variant="primary"
           wrapperClassName="ml-3"
           onClick={createFolderHandler}
+          isIconOnlyButton={getLoader()}
+          loading={getLoader()}
         >
           {isSubFolder
             ? `${functionName} Sub Folder`

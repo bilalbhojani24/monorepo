@@ -22,7 +22,8 @@ const EditProjects = ({ show }) => {
     editProjectHandler,
     formData,
     setFormData,
-    hideEditProjectModal
+    hideEditProjectModal,
+    editProjectCtaLoading
   } = useProjects();
 
   useEffect(() => {
@@ -88,6 +89,8 @@ const EditProjects = ({ show }) => {
           variant="primary"
           wrapperClassName="ml-3"
           onClick={editProjectHandler}
+          isIconOnlyButton={editProjectCtaLoading}
+          loading={editProjectCtaLoading}
         >
           Update Project
         </TMButton>

@@ -24,7 +24,8 @@ import {
   setSelectedTestCase,
   setTestCaseDetails,
   setTestCaseFormData,
-  updateAllTestCases
+  updateAllTestCases,
+  updateCtaLoading
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
@@ -62,6 +63,9 @@ const useTestCasesTable = (prop) => {
     (state) => state.repository.bulkSelection.select_all // logic when all the items through out all the pages were selected, currently this isnt in place.
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
+  const bulkMoveTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.bulkMoveTestCaseCta
+  );
 
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
@@ -135,6 +139,8 @@ const useTestCasesTable = (prop) => {
 
   const moveTestCasesHandler = (selectedFolder) => {
     if (selectedFolder?.id) {
+      dispatch(updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: true }));
+
       dispatch(
         logEventHelper('TM_TcMoveAllCtaClicked', {
           project_id: projectId,
@@ -148,24 +154,33 @@ const useTestCasesTable = (prop) => {
         folderId,
         newParentFolderId: selectedFolder.id,
         bulkSelection
-      }).then((data) => {
-        dispatch(updateAllTestCases(data?.test_cases || []));
-        dispatch(resetBulkSelection());
-        dispatch(
-          logEventHelper('TM_TcMovedNotification', {
-            project_id: projectId,
-            testcase_id: bulkSelection?.ids
-          })
-        );
-        dispatch(
-          addNotificaton({
-            id: `test_cases_moved`,
-            title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
-            variant: 'success'
-          })
-        );
-        hideFolderModal();
-      });
+      })
+        .then((data) => {
+          dispatch(
+            updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+          );
+          dispatch(updateAllTestCases(data?.test_cases || []));
+          dispatch(resetBulkSelection());
+          dispatch(
+            logEventHelper('TM_TcMovedNotification', {
+              project_id: projectId,
+              testcase_id: bulkSelection?.ids
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `test_cases_moved`,
+              title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
+              variant: 'success'
+            })
+          );
+          hideFolderModal();
+        })
+        .catch(() => {
+          dispatch(
+            updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+          );
+        });
     }
   };
 
@@ -264,6 +279,7 @@ const useTestCasesTable = (prop) => {
     isAllSelected,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
+    bulkMoveTestCaseCtaLoading,
     selectAll,
     updateSelection,
     initBulkMove,

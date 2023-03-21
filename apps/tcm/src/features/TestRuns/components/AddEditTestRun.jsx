@@ -42,7 +42,9 @@ const AddEditTestRun = ({ isEdit }) => {
     cleanupActivities,
     onBreadcrumbClick,
     initTestRunFormData,
-    updatedMySelfLabelName
+    updatedMySelfLabelName,
+    createTestRunsCtaLoading,
+    editTestRunsCtaLoading
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -89,6 +91,12 @@ const AddEditTestRun = ({ isEdit }) => {
                 variant="primary"
                 colors="brand"
                 onClick={createTestRunHandler}
+                loading={
+                  isEditing ? editTestRunsCtaLoading : createTestRunsCtaLoading
+                }
+                isIconOnlyButton={
+                  isEditing ? editTestRunsCtaLoading : createTestRunsCtaLoading
+                }
               >
                 {isEditing ? 'Update Run' : 'Create Run'}
               </TMButton>

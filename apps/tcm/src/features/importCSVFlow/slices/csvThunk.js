@@ -147,7 +147,9 @@ export const submitMappingData =
 
 export const setTags = (projectId) => async (dispatch) => {
   try {
-    const response = await getSystemTags(projectId);
+    let response;
+    if (projectId && projectId !== 'new')
+      response = await getSystemTags(projectId);
     const options = response.tags.map((item) => ({
       label: item,
       value: item
@@ -161,7 +163,8 @@ export const setTags = (projectId) => async (dispatch) => {
 
 export const setUsers = (projectId) => async (dispatch) => {
   try {
-    const response = await getUsers(projectId);
+    let response;
+    if (projectId && projectId !== 'new') response = await getUsers(projectId);
     const options = response.users.map((item) => ({
       label: item.full_name,
       value: item.full_name
@@ -178,7 +181,7 @@ export const startImportingTestCases =
   async (dispatch) => {
     dispatch(startImportingTestCasePending());
     const payload = {};
-    if (projectId) payload.project_id = projectId;
+    if (projectId && projectId !== 'new') payload.project_id = projectId;
     if (folderId) payload.folder_id = folderId;
     try {
       const response = await startCSVImport({

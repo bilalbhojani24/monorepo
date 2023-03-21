@@ -85,7 +85,7 @@ const useImportCSV = () => {
         filesData.append('encoding', csvFormData[key].label);
     });
     // add projectId and folderId
-    if (queryParams.get('project'))
+    if (queryParams.get('project') && queryParams.get('project') !== 'new')
       filesData.append('project_id', queryParams.get('project'));
     if (queryParams.get('folder'))
       filesData.append('folder_id', queryParams.get('folder'));

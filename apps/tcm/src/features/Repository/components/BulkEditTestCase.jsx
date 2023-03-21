@@ -30,6 +30,7 @@ const BulkEditTestCase = () => {
   const {
     showBulkEditConfirmModal,
     isAddIssuesModalShown,
+    bulkEditTestCaseCtaLoading,
     handleTestCaseFieldChange,
     testCaseBulkFormData,
     hideTestCaseAddEditPage,
@@ -67,6 +68,8 @@ const BulkEditTestCase = () => {
               wrapperClassName="whitespace-nowrap ml-4"
               variant="primary"
               onClick={() => setBulkEditConfirm(true)}
+              loading={bulkEditTestCaseCtaLoading}
+              isIconOnlyButton={bulkEditTestCaseCtaLoading}
             >
               Update All
             </TMButton>
