@@ -12,27 +12,40 @@ const AlphaAccess = () => {
   const dispatch = useDispatch();
 
   const requestAccess = () => {
-    requestAccessAPI().then((data) => {
-      if (data.message === 'Already Accessible') {
-        dispatch(
-          addNotificaton({
-            id: 'access_requested_done',
-            title: data.message,
-            description: 'Redirecting you to the main page'
-          })
-        );
-        navigate(AppRoute.ROOT);
-      } else
-        dispatch(
-          addNotificaton({
-            id: 'access_requested',
-            title: 'Access has been requested',
-            description:
-              "You've requested access for Test Management. Check email for updates.",
-            variant: 'success'
-          })
-        );
-    });
+    requestAccessAPI()
+      .then((data) => {
+        if (data.message === 'Already Accessible') {
+          dispatch(
+            addNotificaton({
+              id: 'access_requested_done',
+              title: data.message,
+              description: 'Redirecting you to the main page'
+            })
+          );
+          navigate(AppRoute.ROOT);
+        } else
+          dispatch(
+            addNotificaton({
+              id: 'access_requested',
+              title: 'Access has been requested',
+              description:
+                "You've requested access for Test Management. Check email for updates.",
+              variant: 'success'
+            })
+          );
+      })
+      .catch((err) => {
+        if (err.error)
+          dispatch(
+            addNotificaton({
+              id: 'access_requested',
+              title: 'Access has been requested',
+              description: 'Access already requested, please wait for approval',
+              variant: 'success'
+            })
+          );
+        debugger;
+      });
   };
 
   return (
