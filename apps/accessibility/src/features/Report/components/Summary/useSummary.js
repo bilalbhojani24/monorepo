@@ -103,7 +103,7 @@ export default function useSummary() {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
-      height: '100%'
+      height: '312px'
     },
     exporting: {
       enabled: false
