@@ -11,6 +11,7 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import {
+  cleanUpValues,
   resetTestCaseDetails,
   setAddTestCaseVisibility,
   setFilterSearchView,
@@ -200,12 +201,7 @@ export default function useTestCases() {
   };
 
   const cleanUpRepository = () => {
-    dispatch(
-      setTestCaseDetails({
-        folderId: null,
-        testCaseId: null
-      })
-    );
+    dispatch(cleanUpValues());
   };
 
   useEffect(() => {

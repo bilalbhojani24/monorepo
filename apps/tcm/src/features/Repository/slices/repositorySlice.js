@@ -243,11 +243,16 @@ export const repositorySlice = createSlice({
     },
     updateCtaLoading: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
+    },
+    cleanUpValues: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
+      state.allFolders = initialState.allFolders;
     }
   }
 });
 
 export const {
+  cleanUpValues,
   setSearchInitiatedURL,
   setTestCaseDetails,
   resetTestCaseDetails,
