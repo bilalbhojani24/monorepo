@@ -50,7 +50,7 @@ const TestCaseDetailsView = ({
     <TMSlideover
       onEscPress={hideTestCaseViewDrawer}
       key={testCaseId}
-      show={isTestCaseViewVisible}
+      show={!!(isTestCaseViewVisible && projectId)}
       onClose={hideTestCaseViewDrawer}
       onOverlayClick={hideTestCaseViewDrawer}
       closeButtonOutside={false}
