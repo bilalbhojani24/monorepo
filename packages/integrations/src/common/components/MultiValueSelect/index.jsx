@@ -8,21 +8,22 @@ import {
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { fetchOptions } from '../../api';
-
-import Label from './Label';
+import { fetchOptions } from '../../../api';
+import useRequiredFieldError from '../../hooks/useRequiredFieldError';
+import Label from '../Label';
 
 const MultiSelect = ({
-  fieldKey,
-  fieldsData,
-  setFieldsData,
-  placeholder,
-  options,
   label,
+  options,
   required,
-  wrapperClassName,
+  fieldKey,
+  searchPath,
+  fieldsData,
+  placeholder,
   optionsPath,
-  searchPath
+  setFieldsData,
+  wrapperClassName,
+  areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (options) =>
     options.map((option) => ({
@@ -35,6 +36,11 @@ const MultiSelect = ({
   };
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
+  const requiredFieldError = useRequiredFieldError(
+    required,
+    fieldsData[fieldKey],
+    areSomeRequiredFieldsEmpty
+  );
 
   useEffect(() => {
     if (optionsPath) {
@@ -88,7 +94,12 @@ const MultiSelect = ({
 
   return (
     <>
-      <ComboBox onChange={handleChange} value={fieldsData[fieldKey]} isMulti>
+      <ComboBox
+        onChange={handleChange}
+        value={fieldsData[fieldKey]}
+        isMulti
+        errorText={requiredFieldError}
+      >
         <Label label={label} required={required} />
         <ComboboxTrigger
           placeholder={placeholder}

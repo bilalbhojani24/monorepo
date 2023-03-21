@@ -7,7 +7,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import TextAreaField from './TextArea';
+import TextAreaField from '../TextArea';
 
 const Paragraph = ({
   fieldsData,

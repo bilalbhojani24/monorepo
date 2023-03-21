@@ -1,3 +1,11 @@
 export { default as FormBuilder } from './FormBuilder';
+export { default as GenericError } from './GenericError';
+export { default as Label } from './Label';
 export { default as Loader } from './Loader';
 export { default as Logo } from './Logo';
+export { default as MultiValueSelect } from './MultiValueSelect';
+export { default as NestedSingleValueSelect } from './NestedSingleValueSelect';
+export { default as Paragraph } from './Paragraph';
+export { default as SingleValueSelect } from './SingleValueSelect';
+export { default as TextArea } from './TextArea';
+export { default as TextInput } from './TextInput';

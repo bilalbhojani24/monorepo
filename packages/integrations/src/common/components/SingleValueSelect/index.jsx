@@ -9,23 +9,23 @@ import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { fetchOptions } from '../../api';
-
-import Label from './Label';
+import { fetchOptions } from '../../../api';
+import useRequiredFieldError from '../../hooks/useRequiredFieldError';
+import Label from '../Label';
 
 const SingleDynamicSelect = ({
   label,
+  options,
   fieldKey,
   required,
-  fieldsData,
-  setFieldsData,
-  placeholder,
-  wrapperClassName,
   searchPath,
+  fieldsData,
   optionsPath,
-  options,
+  placeholder,
+  setFieldsData,
+  wrapperClassName,
   selectFirstByDefault = false,
-  schema
+  areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (data) =>
     data.reduce((acc, currOption) => {
@@ -46,8 +46,12 @@ const SingleDynamicSelect = ({
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
-  const [inputText, setInputText] = useState('');
   const previousOptions = usePrevious(optionsToRender);
+  const requiredFieldError = useRequiredFieldError(
+    required,
+    fieldsData[fieldKey],
+    areSomeRequiredFieldsEmpty
+  );
 
   useEffect(() => {
     if (optionsPath) {
@@ -68,12 +72,11 @@ const SingleDynamicSelect = ({
       selectFirstByDefault &&
       typeof setFieldsData === 'function' &&
       (!fieldsData?.[fieldKey]?.length < 1 ||
-        (optionsToRender !== previousOptions && !inputText.trim()))
+        optionsToRender !== previousOptions)
     ) {
       setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
     }
   }, [
-    inputText,
     selectFirstByDefault,
     optionsToRender,
     previousOptions,
@@ -99,9 +102,9 @@ const SingleDynamicSelect = ({
       const cleanedOptions = optionsPath
         ? dynamicOptions
         : cleanOptions(options);
-      const filtered = cleanedOptions?.filter(({ label: optionLabel }) => {
-        return optionLabel.toLowerCase().includes(query.toLowerCase());
-      });
+      const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
+        optionLabel.toLowerCase().includes(query.toLowerCase())
+      );
       setOptionsToRender(filtered);
     },
     [options, dynamicOptions, fetchQuery]
@@ -122,7 +125,11 @@ const SingleDynamicSelect = ({
   };
 
   return (
-    <ComboBox onChange={handleChange} value={fieldsData[fieldKey]}>
+    <ComboBox
+      onChange={handleChange}
+      value={fieldsData[fieldKey]}
+      errorText={requiredFieldError}
+    >
       <Label label={label} required={required} />
       <ComboboxTrigger
         placeholder={placeholder}
@@ -130,7 +137,7 @@ const SingleDynamicSelect = ({
         onInputValueChange={handleInputChange}
       />
       <ComboboxOptionGroup>
-        {optionsToRender.map((item) => (
+        {optionsToRender?.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>

@@ -32,7 +32,8 @@ const ListOfIntegrations = ({
   isBeingDiscarded,
   continueEditing,
   setReadyToSubmit,
-  confirmIssueDiscard
+  confirmIssueDiscard,
+  setIsWorkInProgress
 }) => {
   const integrations = useSelector(integrationsSelector);
   // user has single integration available
@@ -51,6 +52,7 @@ const ListOfIntegrations = ({
         isBeingDiscarded={isBeingDiscarded}
         setReadyToSubmit={setReadyToSubmit}
         confirmIssueDiscard={confirmIssueDiscard}
+        setIsWorkInProgress={setIsWorkInProgress}
       />
     );
   }

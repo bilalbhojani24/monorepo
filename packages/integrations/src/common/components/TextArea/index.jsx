@@ -2,16 +2,23 @@ import React from 'react';
 import { TextArea } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import Label from './Label';
+import useRequiredFieldError from '../../hooks/useRequiredFieldError';
+import Label from '../Label';
 
 const TextAreaField = ({
-  fieldsData,
-  setFieldsData,
+  label,
   fieldKey,
-  placeholder,
   required,
-  label
+  fieldsData,
+  placeholder,
+  setFieldsData,
+  areSomeRequiredFieldsEmpty
 }) => {
+  const requiredFieldError = useRequiredFieldError(
+    required,
+    fieldsData[fieldKey],
+    areSomeRequiredFieldsEmpty
+  );
   const handleChange = (e) => {
     const fieldValue = e.target.value;
     setFieldsData({ ...fieldsData, [fieldKey]: fieldValue });
@@ -24,6 +31,7 @@ const TextAreaField = ({
         onChange={handleChange}
         value={fieldsData[fieldKey]}
         placeholder={placeholder}
+        errorText={requiredFieldError}
       />
     </>
   );

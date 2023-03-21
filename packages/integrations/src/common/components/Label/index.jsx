@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Label = ({ label, required }) => (
-  <span className="text-base-700 mb-1 text-sm font-medium">
+  <p className="text-base-700 mb-1 text-sm font-medium">
     {label}
     {required ? <span className="text-danger-500">*</span> : null}
-  </span>
+  </p>
 );
 
 Label.propTypes = {

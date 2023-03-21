@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputField } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import Label from './Label';
+import useRequiredFieldError from '../../hooks/useRequiredFieldError';
+import Label from '../Label';
 
 const TextField = ({
   fieldsData,
@@ -12,9 +13,11 @@ const TextField = ({
   label,
   fieldKey,
   schema,
-  validations
+  validations,
+  areSomeRequiredFieldsEmpty
 }) => {
   const [error, setError] = useState(null);
+  const requiredFieldError = useRequiredFieldError(required);
   const handleChange = (e) => {
     const fieldValue = e.target.value;
     const val =
@@ -31,6 +34,10 @@ const TextField = ({
   const clearError = () => {
     setError(null);
   };
+
+  useEffect(() => {
+    setError(requiredFieldError);
+  }, [requiredFieldError]);
 
   const validateInput = (e) => {
     const input = e.target.value.trim();

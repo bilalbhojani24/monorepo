@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Loader,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
@@ -10,10 +11,11 @@ import {
 } from '@browserstack/bifrost';
 
 import { getCreateMeta, getProjectsThunk } from '../../../api';
-import { FormBuilder } from '../../../common/components';
+import { GenericError } from '../../../common/components';
 import SingleValueSelect from '../../../common/components/SingleValueSelect';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
+  projectsErrorSelector,
   projectsLoadingSelector,
   projectsSelector
 } from '../../slices/projectsSlice';
@@ -23,19 +25,99 @@ import CreateIssueForm from './CreateIssueForm';
 import DiscardIssue from './DiscardIssue';
 import UpdateIssueForm from './UpdateIssueForm';
 
+const renderChild = ({
+  mode,
+  fields,
+  metaData,
+  projects,
+  fieldsData,
+  setFieldsData,
+  handleTryAgain,
+  projectFieldData,
+  projectsHaveError,
+  cleanedIssueTypes,
+  areProjectsLoading,
+  issueTypeFieldData,
+  setIsWorkInProgress,
+  handleIssueTabChange,
+  integrationToolFieldData
+}) => {
+  if (areProjectsLoading) {
+    return <Loader />;
+  }
+  if (projectsHaveError) {
+    return (
+      <GenericError
+        errorMessage="Error loading projects"
+        handleTryAgain={handleTryAgain}
+      />
+    );
+  }
+
+  return (
+    <>
+      <div className="py-3">
+        <SingleValueSelect
+          fieldsData={fieldsData}
+          fieldKey={FIELD_KEYS.PROJECT}
+          setFieldsData={setFieldsData}
+          label="Project"
+          required
+          placeholder="Select project"
+          options={projects}
+          selectFirstByDefault
+        />
+      </div>
+      <Tabs
+        tabsArray={TABS}
+        onTabChange={handleIssueTabChange}
+        defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
+      />
+      <div className="py-3">
+        <SingleValueSelect
+          fieldsData={fieldsData}
+          fieldKey={FIELD_KEYS.ISSUE_TYPE}
+          setFieldsData={setFieldsData}
+          label="Issue type"
+          placeholder="Select issue"
+          required
+          options={cleanedIssueTypes}
+          selectFirstByDefault
+        />
+      </div>
+      {mode === ISSUE_MODES.CREATION ? (
+        <CreateIssueForm
+          fields={fields}
+          metaData={metaData}
+          fieldsData={fieldsData}
+          projectFieldData={projectFieldData}
+          issueTypeFieldData={issueTypeFieldData}
+          setIsWorkInProgress={setIsWorkInProgress}
+          integrationToolFieldData={integrationToolFieldData}
+        />
+      ) : (
+        <UpdateIssueForm />
+      )}
+    </>
+  );
+};
+
 const IssueForm = ({
   mode,
   options,
   changeModeTo,
   integrations,
-  isBeingDiscarded,
   continueEditing,
-  confirmIssueDiscard
+  isBeingDiscarded,
+  confirmIssueDiscard,
+  setIsWorkInProgress
 }) => {
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
   const [fields, setFields] = useState([]);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
+  const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
+  const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
   const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
   const toolOptions = integrations.reduce((acc, curr) => {
     const { key, label, icon } = curr;
@@ -75,29 +157,6 @@ const IssueForm = ({
     [projectFieldData]
   );
 
-  // const allRequiredFields = useMemo(
-  //   () =>
-  //     fields.reduce((acc, curr) => {
-  //       if (curr.required) acc.push(curr.key);
-  //       return acc;
-  //     }, []),
-  //   [fields]
-  // );
-
-  // const areAllRequiredFieldsNonEmptyHelper = (stateValue) => {
-  //   if (Array.isArray(stateValue)) return Boolean(stateValue.length);
-  //   if (typeof stateValue === 'string') return Boolean(stateValue);
-  //   if (typeof stateValue === 'object') return Boolean(stateValue.value);
-  //   return false;
-  // };
-
-  // const areAllRequiredFieldsNonEmpty = (requiredFields, stateOfFields) =>
-  //   requiredFields.some((requiredField) => {
-  //     if (!(requiredField in stateOfFields)) return false;
-  //     const stateValue = stateOfFields[requiredField];
-  //     return areAllRequiredFieldsNonEmptyHelper(stateValue);
-  //   });
-
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
   }, [dispatch, integrationToolFieldData]);
@@ -130,6 +189,10 @@ const IssueForm = ({
     }
   };
 
+  const handleTryAgain = () => {
+    dispatch(getProjectsThunk(integrationToolFieldData?.value));
+  };
+
   return (
     <>
       {isBeingDiscarded && (
@@ -155,47 +218,23 @@ const IssueForm = ({
             ))}
           </SelectMenuOptionGroup>
         </SelectMenu>
-        <div className="py-3">
-          <SingleValueSelect
-            fieldsData={fieldsData}
-            fieldKey={FIELD_KEYS.PROJECT}
-            setFieldsData={setFieldsData}
-            label="Project"
-            required
-            placeholder="Select project"
-            options={projects}
-            selectFirstByDefault
-          />
-        </div>
-        <Tabs
-          tabsArray={TABS}
-          onTabChange={handleIssueTabChange}
-          defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
-        />
-        <div className="py-3">
-          <SingleValueSelect
-            fieldsData={fieldsData}
-            fieldKey={FIELD_KEYS.ISSUE_TYPE}
-            setFieldsData={setFieldsData}
-            label="Issue type"
-            placeholder="Select issue"
-            required
-            options={cleanedIssueTypes}
-            selectFirstByDefault
-          />
-        </div>
-        {mode === ISSUE_MODES.CREATION ? (
-          <CreateIssueForm
-            fields={fields}
-            metaData={metaData}
-            fieldsData={fieldsData}
-            projectFieldData={projectFieldData}
-            issueTypeFieldData={issueTypeFieldData}
-            integrationToolFieldData={integrationToolFieldData}
-          />
-        ) : (
-          <UpdateIssueForm />
-        )}
+        {renderChild({
+          mode,
+          fields,
+          metaData,
+          projects,
+          fieldsData,
+          setFieldsData,
+          handleTryAgain,
+          projectFieldData,
+          projectsHaveError,
+          cleanedIssueTypes,
+          areProjectsLoading,
+          issueTypeFieldData,
+          setIsWorkInProgress,
+          handleIssueTabChange,
+          integrationToolFieldData
+        })}
       </div>
     </>
   );

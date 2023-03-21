@@ -1,10 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, ChevronDownIcon, ChevronUpIcon } from '@browserstack/bifrost';
 
-import FormFieldMap from './FormFieldMapper';
+import FormFieldMap from './FormFieldMap';
+import { splitFields } from './helpers';
 import { FormBuilderType } from './types';
 
-const FormBuilder = ({ fields, handleSubmit, metaData }) => {
+const FormBuilder = ({
+  fields,
+  handleSubmit,
+  metaData,
+  setIsWorkInProgress
+}) => {
   const [fieldsData, setFieldsData] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
@@ -14,45 +20,20 @@ const FormBuilder = ({ fields, handleSubmit, metaData }) => {
   const toggleOptionalFieldsVisibility = () => {
     setShouldShowOptionalFields(!shouldShowOptionalFields);
   };
+  const [areSomeRequiredFieldsEmpty, setAreSomeRequiredFieldsEmpty] =
+    useState(false);
   const [fieldsToShowAtTop, requiredFields, optionalFields] = useMemo(
-    () =>
-      fields?.reduce((accumulator, field) => {
-        const buckets = accumulator;
-        const SHOW_AT_TOP_BUCKET = 0;
-        const REQUIRED_BUCKET = 1;
-        const OPTIONAL_BUCKET = 2;
-        const FIELDS_KEYS_TO_SHOW_AT_TOP = [
-          'assignee',
-          'summary',
-          'description'
-        ];
-        const {
-          schema: { system_type: key }
-        } = field;
-        const keyIdx = FIELDS_KEYS_TO_SHOW_AT_TOP.indexOf(key);
-        if (keyIdx !== -1) {
-          if (!buckets[SHOW_AT_TOP_BUCKET]) {
-            buckets[SHOW_AT_TOP_BUCKET] = new Array(
-              FIELDS_KEYS_TO_SHOW_AT_TOP.length
-            );
-          }
-          buckets[SHOW_AT_TOP_BUCKET][keyIdx] = field;
-          return buckets;
-        }
-
-        const { required } = field;
-
-        const bucketIdx = required ? REQUIRED_BUCKET : OPTIONAL_BUCKET;
-
-        if (!buckets[bucketIdx]) {
-          buckets[bucketIdx] = [];
-        }
-        buckets[bucketIdx].push(field);
-
-        return buckets;
-      }, []),
+    () => splitFields(fields),
     [fields]
   );
+
+  useEffect(() => {
+    const isWIP = Object.values(fieldsData).some((field) => {
+      if (Array.isArray(field) && field.length) return true;
+      return Boolean(field);
+    });
+    setIsWorkInProgress(isWIP);
+  }, [fieldsData, setIsWorkInProgress]);
 
   const renderFields = (fieldsToRender) =>
     fieldsToRender?.map(
@@ -88,6 +69,7 @@ const FormBuilder = ({ fields, handleSubmit, metaData }) => {
                 description={description}
                 defaultValue={defaultValue}
                 setFieldsData={setFieldsData}
+                areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
               />
             </div>
           );
@@ -99,7 +81,16 @@ const FormBuilder = ({ fields, handleSubmit, metaData }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (typeof handleSubmit === 'function') {
-      handleSubmit(fieldsData);
+      const hasSomeEmptyRequiredFields = requiredFields.some((field) => {
+        const stateValue = fieldsData[field.key];
+        if (Array.isArray(stateValue) && stateValue.length === 0) return true;
+        return !stateValue;
+      });
+      if (hasSomeEmptyRequiredFields) {
+        setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
+      } else {
+        handleSubmit(fieldsData);
+      }
     }
   };
 

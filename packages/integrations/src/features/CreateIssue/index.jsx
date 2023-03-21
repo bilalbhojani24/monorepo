@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
@@ -28,6 +28,7 @@ export const CreateIssue = ({
   );
 
   const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
+  const [isWorkInProgress, setIsWorkInProgress] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const previousModeRef = useRef(null);
 
@@ -42,22 +43,28 @@ export const CreateIssue = ({
   const discardIssue = () => {
     setIsBeingDiscarded(true);
   };
-
-  const changeModeTo = (nextMode) => {
-    // do some validation
-    discardIssue();
-    previousModeRef.current = mode;
-    setMode(nextMode);
-  };
-
-  const confirmIssueDiscard = () => {
+  const confirmIssueDiscard = useCallback(() => {
     if (previousModeRef.current) {
-      // setMode(previousModeRef.current);
       previousModeRef.current = null;
     } else {
       handleClose();
     }
     setIsBeingDiscarded(false);
+    setIsWorkInProgress(false);
+  }, [handleClose]);
+
+  useEffect(() => {
+    if (isBeingDiscarded && !isWorkInProgress) {
+      confirmIssueDiscard();
+    }
+  }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
+
+  const changeModeTo = (nextMode) => {
+    if (isWorkInProgress) {
+      discardIssue();
+      previousModeRef.current = mode;
+    }
+    setMode(nextMode);
   };
 
   return (
@@ -68,7 +75,7 @@ export const CreateIssue = ({
       position={position}
       projectId={projectId}
       positionRef={positionRef}
-      handleClose={handleClose}
+      handleClose={discardIssue}
       componentKey="create-issue"
     >
       <div
@@ -85,6 +92,7 @@ export const CreateIssue = ({
           continueEditing={continueEditing}
           isBeingDiscarded={isBeingDiscarded}
           confirmIssueDiscard={confirmIssueDiscard}
+          setIsWorkInProgress={setIsWorkInProgress}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (

@@ -10,6 +10,7 @@ const CreateIssueForm = ({
   fieldsData,
   projectFieldData,
   issueTypeFieldData,
+  setIsWorkInProgress,
   integrationToolFieldData
 }) => {
   const handleSubmit = (formData) => {
@@ -31,8 +32,9 @@ const CreateIssueForm = ({
   return (
     <FormBuilder
       fields={fields}
-      handleSubmit={handleSubmit}
       metaData={metaData}
+      handleSubmit={handleSubmit}
+      setIsWorkInProgress={setIsWorkInProgress}
     />
   );
 };
