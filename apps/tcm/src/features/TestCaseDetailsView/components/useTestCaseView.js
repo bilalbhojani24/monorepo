@@ -102,15 +102,6 @@ export default function useTestCaseView({
     } else onDropDownChange(selectedOption, testCaseDetails);
   };
 
-  const closeSlideOver = () => {
-    dispatch(setTestCaseViewVisibility(false));
-
-    // NOTE: remove timeout incase the close delay is causing route issues
-    setTimeout(() => {
-      hideTestCaseViewDrawer(null, true);
-    }, 400);
-  };
-
   useEffect(() => {
     // getting this from parent component as there are updates happening inside the parent component
     dispatch(setTestResultsArray(testResultsArray));
@@ -122,7 +113,6 @@ export default function useTestCaseView({
     isTestCaseViewVisible,
     hideTestCaseViewDrawer,
     initTestCaseDetails,
-    actionHandler,
-    closeSlideOver
+    actionHandler
   };
 }

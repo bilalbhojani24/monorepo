@@ -20,7 +20,6 @@ const TestCaseDetailsView = ({
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
-    closeSlideOver,
     isTestCaseViewVisible
   } = useTestCaseView({
     projectId,
@@ -49,8 +48,8 @@ const TestCaseDetailsView = ({
 
   return (
     <TMSlideover
-      onEscPress={closeSlideOver}
-      key={testCaseId}
+      onEscPress={hideTestCaseViewDrawer}
+      // key={testCaseId}
       show={!!(isTestCaseViewVisible && testCaseId)}
       onClose={hideTestCaseViewDrawer}
       onOverlayClick={hideTestCaseViewDrawer}
@@ -65,7 +64,7 @@ const TestCaseDetailsView = ({
         heading="TEST CASE DETAILS"
         isBorder
         backgroundColorClass="bg-white"
-        handleDismissClick={closeSlideOver}
+        handleDismissClick={() => hideTestCaseViewDrawer(null, true)}
       />
       <TestCaseView
         actionHandler={actionHandler}
