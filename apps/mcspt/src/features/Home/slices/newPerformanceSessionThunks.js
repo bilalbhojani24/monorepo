@@ -47,10 +47,8 @@ export const fetchApplicationsFromSelectedDevice =
     }
   };
 
-export const fetchConnectedDevices = () => async (dispatch, getState) => {
+export const fetchConnectedDevices = () => async (dispatch) => {
   try {
-    const currentlyDelectedDevice = getSelectedDevice(getState());
-
     dispatch(setAreDevicesStillLoading(true));
 
     const allDeviceResponses = await Promise.allSettled([
@@ -63,7 +61,7 @@ export const fetchConnectedDevices = () => async (dispatch, getState) => {
       .map((promiseWrapper) => promiseWrapper?.value)
       .flat();
 
-    if (!currentlyDelectedDevice?.deviceId && resultSet.length > 0) {
+    if (resultSet.length > 0) {
       dispatch(setSelectedDevice(resultSet[0]));
     }
 

@@ -6,6 +6,7 @@ import {
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
+  Hyperlink,
   MdDeviceUnknown,
   MdOutlineAutorenew,
   MdPlayArrow,
@@ -165,9 +166,26 @@ const DependencyChecker = () => {
             </div>
 
             <div className="text-base-600 ml-3 text-lg font-normal leading-7">
-              To begin a performance profiling session, connect your mobile
-              device and click refresh. For more details, check our device
-              troubleshooting docs or contact us.
+              <span>
+                {`To begin a performance profiling session, connect your mobile
+                device and click refresh. For more details, check our `}
+              </span>
+
+              <Hyperlink
+                wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
+                onClick={() => {}}
+              >
+                device troubleshooting docs
+              </Hyperlink>
+
+              <span>{' or '}</span>
+
+              <Hyperlink
+                wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
+                onClick={() => {}}
+              >
+                contact us.
+              </Hyperlink>
             </div>
           </div>
         )}
