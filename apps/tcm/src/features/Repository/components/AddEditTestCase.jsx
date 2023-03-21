@@ -37,6 +37,7 @@ import useTestCases from './useTestCases';
 
 const AddEditTestCase = () => {
   const {
+    isTagsLoading,
     scheduledFolder,
     projectId,
     isUploadInProgress,
@@ -80,9 +81,9 @@ const AddEditTestCase = () => {
   }, []);
 
   useEffect(() => {
-    testCaseEditingInit();
+    if (!isTagsLoading) testCaseEditingInit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTestCaseEditing]);
+  }, [isTestCaseEditing, isTagsLoading]);
 
   return (
     <div className="border-base-200 flex w-full shrink-0 grow flex-col items-start overflow-hidden border-l">

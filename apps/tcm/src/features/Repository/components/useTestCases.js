@@ -21,6 +21,7 @@ import {
   setTestCaseFormData,
   setUsers,
   updateAllTestCases,
+  updateCtaLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
@@ -94,6 +95,7 @@ export default function useTestCases() {
     });
   };
   const fetchTags = () => {
+    dispatch(updateCtaLoading({ key: 'tags', value: true }));
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);
       dispatch(setTagsArray(mappedTags));
@@ -102,6 +104,7 @@ export default function useTestCases() {
         const formattedData = formDataRetriever(mappedTags, selectedTestCase);
         dispatch(setTestCaseFormData(formattedData));
       }
+      dispatch(updateCtaLoading({ key: 'tags', value: false }));
       // handleTestCaseFieldChange('tags', mappedTags);
     });
   };

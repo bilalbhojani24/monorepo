@@ -78,6 +78,9 @@ export default function useAddEditTestCase(prop) {
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm
   );
+  const isTagsLoading = useSelector(
+    (state) => state.repository.isLoading?.tags
+  );
   const isUnsavedDataExists = useSelector(
     (state) => state.repository.isUnsavedDataExists
   );
@@ -633,6 +636,7 @@ export default function useAddEditTestCase(prop) {
   }, [projectId, usersArray]);
 
   return {
+    isTagsLoading,
     scheduledFolder,
     isAddTestCasePageVisible,
     showBulkEditConfirmModal,
