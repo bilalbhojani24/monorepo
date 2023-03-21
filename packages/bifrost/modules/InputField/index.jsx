@@ -114,14 +114,13 @@ const InputField = forwardRef(
         </div>
         {addOnAfter}
       </div>
-
-      {description && (
-        <p className="text-base-500 mt-2 text-sm">{description}</p>
-      )}
       {errorText && (
         <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
           {errorText}
         </p>
+      )}
+      {description && (
+        <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
     </div>
   )
