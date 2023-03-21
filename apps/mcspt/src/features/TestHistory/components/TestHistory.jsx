@@ -36,22 +36,19 @@ const TestHistory = () => {
         <TableBody>
           {tableRows.map((row) => (
             <TableRow
-              key={row?.name}
+              key={row?.uuid}
               onRowClick={() => {
                 sessionSelected(row);
               }}
             >
-              {testHistoryTableColumns.map((column) => {
-                const value = row[column.key];
-                return (
-                  <TableCell
-                    key={column.key + column.id}
-                    wrapperClassName="text-base-900"
-                  >
-                    {column.cell ? <>{column.cell(row)}</> : value}
-                  </TableCell>
-                );
-              })}
+              {testHistoryTableColumns.map((column) => (
+                <TableCell
+                  key={column.key + row.uuid}
+                  wrapperClassName="text-base-900"
+                >
+                  {column.cell(row)}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

@@ -39,6 +39,8 @@ export const getLatestSeekTimeInSeconds = (state) =>
   state.report.latestSeekTimeInSeconds;
 export const getLatestVideoCurrentTimeInSeconds = (state) =>
   state.report.latestVideoCurrentTimeInSeconds;
+export const getDevicePlatform = (state) =>
+  state.report?.sessionData?.device?.os;
 
 // Action creators are generated for each case reducer function
 export const {

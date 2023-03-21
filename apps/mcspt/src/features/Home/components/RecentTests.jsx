@@ -6,16 +6,14 @@ import {
   TableCell,
   TableRow
 } from '@browserstack/bifrost';
-import { useTestHistory } from 'features/TestHistory';
 
 import { recentTestsColumns } from '../utils/recentTestsColumns';
 
 import useRecentTests from './useRecentTests';
 
 const TestHistory = () => {
-  const { navigateToTestHistory } = useRecentTests();
-
-  const { tableRows, sessionSelected } = useTestHistory();
+  const { navigateToTestHistory, recentTestRows, sessionSelected } =
+    useRecentTests();
 
   return (
     <>
@@ -33,9 +31,9 @@ const TestHistory = () => {
 
       <Table containerWrapperClass="w-full bg-transparent ring-0 shadow-none md:rounded-none border-b border-base-200">
         <TableBody>
-          {tableRows.map((row) => (
+          {recentTestRows.map((row) => (
             <TableRow
-              key={row?.name}
+              key={row?.uuid}
               onRowClick={() => {
                 sessionSelected(row);
               }}

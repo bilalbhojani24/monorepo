@@ -1,5 +1,4 @@
-export const SSO_AUTH_URL =
-  'https://3f9d-27-57-191-236.ngrok.io/api/v1/auth/start-sso';
+export const SSO_AUTH_URL = 'https://cspt-api.bsstag.com/api/v1/auth/start-sso';
 
 export const REPORT_LOADING_STATES = {
   NOT_STARTED: 'not_started',

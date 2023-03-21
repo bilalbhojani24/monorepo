@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
+import { REPORT_METRIC_LABELS } from 'constants/reportMetricLabels';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
@@ -8,28 +9,15 @@ import MetricStat from './MetricStat';
 import useUIRenderingCard from './useUIRenderingCard';
 
 const UIRenderingCard = () => {
-  const { sessionData, frameChartOptions } = useUIRenderingCard();
+  const { sessionData, frameChartOptions, devicePlatform } =
+    useUIRenderingCard();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white shadow">
       <div className="flex">
         <MetricStat
           wrapperClassName="p-4"
-          metricTitle="Avg FPS"
-          metricText={`${sanitizeValue(
-            sessionData?.aggregated?.fpsAvg?.value
-          )}`}
-          MetricIcon={<MdInfoOutline />}
-          criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.fpsAvg?.value,
-            sessionData?.threshold?.fpsAvg
-          )}
-          triangleDirection={sessionData?.threshold?.fpsAvg?.operator}
-        />
-
-        <MetricStat
-          wrapperClassName="p-4"
-          metricTitle="Slow Frame Rate"
+          metricTitle={REPORT_METRIC_LABELS?.SLOW_FRAME_RATE?.[devicePlatform]}
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.slowFramePercent?.value
           )} %`}
