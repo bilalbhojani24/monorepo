@@ -9,10 +9,10 @@ export default function CardHeader({ title }) {
       <Button
         colors="white"
         onClick={() => {}}
-        icon={<MdDragIndicator />}
+        icon={<MdDragIndicator className="ml-1" />}
         isIconOnlyButton
         size="small"
-        wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible"
+        wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:bg-none"
       />
     </div>
   );

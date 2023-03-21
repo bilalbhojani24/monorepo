@@ -33,17 +33,17 @@ export default function TrendStatesWrapper({
     return (
       <div className="flex h-full flex-col">
         {showTitle && <CardHeader title={title} />}
-        <div className="">
+        <div className="flex flex-1 items-center justify-center">
           <PlaceHolder type="empty" text="No data found" />
         </div>
       </div>
     );
   }
   return (
-    <div className="">
+    <div className="relative h-full">
       {children}
       {isLoading && (
-        <div className="">
+        <div className="top-0 z-10 flex h-full w-full items-center justify-center bg-white opacity-70">
           <PlaceHolder type="loading" />
         </div>
       )}

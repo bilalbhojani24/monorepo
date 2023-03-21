@@ -1,5 +1,6 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import PlaceHolder from 'common/PlaceHolder';
 import BuildRunFreqTrend from 'features/TestingTrends/containers/BuildRunFreqTrend';
 import CbtTrends from 'features/TestingTrends/containers/CbtTrends';
 import FailureCategoryTrend from 'features/TestingTrends/containers/FailureCategoryTrend';
@@ -106,24 +107,21 @@ export default function TestingTrends() {
       case 'cbt':
         return <CbtTrends />;
       default:
-        return 'default';
-      // return (
-      //   <div className="to-test-trend__placeholder">
-      //     <p className="to-test-trend__card-title">
-      //       {TREND_CARDS[key].title}
-      //     </p>
-      //     <div className="to-test-trend__placeholder-body">
-      //       <PlaceHolder type="empty" text="No data found" />
-      //     </div>
-      //   </div>
-      // );
+        return (
+          <div className="flex h-full flex-col">
+            <p className="text-lg font-semibold">{TREND_CARDS[key].title}</p>
+            <div className="flex flex-1 items-center justify-center">
+              <PlaceHolder type="empty" text="No data found" />
+            </div>
+          </div>
+        );
     }
   };
 
   return (
-    <div className="flex flex-col p-9">
+    <div className="flex flex-col">
       <TestingTrendsHeader />
-      <div className="mt-1 p-2">
+      <div className="p-4">
         <ResponsiveReactGridLayout
           className="relative"
           draggableHandle=".to-test-trend__dragHandler"
