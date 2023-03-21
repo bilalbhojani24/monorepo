@@ -12,6 +12,8 @@ import SelectMenu from '../SelectMenu';
 import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
 import SelectMenuOptionItem from '../SelectMenuOptionItem';
 import SelectMenuTrigger from '../SelectMenuTrigger';
+import Tooltip from '../Tooltip';
+import TooltipBody from '../TooltipBody';
 
 import InputField from './index';
 
@@ -151,6 +153,8 @@ const InputWithInlineLeadingDropdownTemplate = (args) => (
 const InputWithInlineLeadingAddOnAndTrailingDropdownTemplate = (args) => (
   <InputField {...args} />
 );
+const InputWithTooltipTemplate = (args) => <InputField {...args} />;
+const InputWithTrailingClickableTemplate = (args) => <InputField {...args} />;
 
 const Primary = Template.bind({});
 const InputWithLeadingIconAndTrailingButton =
@@ -170,6 +174,8 @@ const InputWithInlineLeadingDropdown =
   InputWithInlineLeadingDropdownTemplate.bind({});
 const InputWithInlineLeadingAddOnAndTrailingDropdown =
   InputWithInlineLeadingAddOnAndTrailingDropdownTemplate.bind({});
+const InputWithTooltip = InputWithTooltipTemplate.bind({});
+const InputWithTrailingClickable = InputWithTrailingClickableTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
@@ -188,6 +194,8 @@ export {
   InputWithLabelAndHelpText,
   InputWithLeadingIcon,
   InputWithLeadingIconAndTrailingButton,
+  InputWithTooltip,
+  InputWithTrailingClickable,
   InputWithTrailingIcon,
   InputWithValidationError,
   Primary
@@ -327,4 +335,29 @@ InputWithLeadingIconAndTrailingButton.args = {
       </span>
     </Button>
   )
+};
+
+InputWithTooltip.args = {
+  label: 'Account number',
+  placeholder: '000-00-0000',
+  trailingIcon: (
+    <Tooltip
+      theme="dark"
+      content={<TooltipBody>I am tooltip body</TooltipBody>}
+    >
+      <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
+    </Tooltip>
+  ),
+  isTrailingNodeClickable: true
+};
+
+InputWithTrailingClickable.args = {
+  label: 'Account holder',
+  placeholder: 'Devon Mccoy',
+  trailingIcon: (
+    <Button variant="minimal" onClick={() => console.log('I am clicked')}>
+      <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
+    </Button>
+  ),
+  isTrailingNodeClickable: true
 };
