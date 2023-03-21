@@ -27,6 +27,10 @@ const FormBuilder = ({
     [fields]
   );
 
+  const resetFieldsData = () => {
+    setFieldsData({});
+  };
+
   useEffect(() => {
     const isWIP = Object.values(fieldsData).some((field) => {
       if (Array.isArray(field) && field.length) return true;
@@ -89,10 +93,16 @@ const FormBuilder = ({
       if (hasSomeEmptyRequiredFields) {
         setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
       } else {
-        handleSubmit(fieldsData);
+        handleSubmit(fieldsData).then((response) => {
+          if (response?.success) {
+            resetFieldsData();
+          }
+        });
       }
     }
   };
+
+  console.log(fieldsData);
 
   return (
     <form id="form-builder" onSubmit={handleFormSubmit}>

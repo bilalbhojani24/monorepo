@@ -20,7 +20,10 @@ const parseFieldsForCreateHelper = (
     case 'object':
       val = Object.entries($properties).reduce((acc, curr) => {
         const [currItemKey, currItemVal] = curr;
-        acc[currItemKey] = parseFieldsForCreateHelper(currItemVal, fieldData);
+        acc[currItemKey] = parseFieldsForCreateHelper(
+          currItemVal,
+          currItemVal.$type === 'object' ? fieldData[currItemKey] : fieldData
+        );
         return acc;
       }, {});
       break;

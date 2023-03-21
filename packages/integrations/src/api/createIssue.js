@@ -12,4 +12,4 @@ export const createIssue = (integrationKey, fields) =>
     data: {
       fields
     }
-  }).then((response) => response);
+  }).then((response) => response.data);

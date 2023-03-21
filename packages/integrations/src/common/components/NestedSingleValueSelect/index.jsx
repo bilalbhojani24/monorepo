@@ -127,7 +127,7 @@ const NestedSingleValueSelect = ({
     <>
       <ComboBox
         onChange={handleChange}
-        value={fieldsData[fieldKey]}
+        value={fieldsData[fieldKey] ?? {}}
         errorText={requiredFieldError}
       >
         <Label label={label} required={required} />
@@ -146,7 +146,7 @@ const NestedSingleValueSelect = ({
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
-            value={fieldsData[fieldKey].child}
+            value={fieldsData[fieldKey].child ?? {}}
           >
             <ComboboxTrigger />
             <ComboboxOptionGroup>

@@ -34,8 +34,10 @@ const renderChild = ({
   fieldsData,
   setFieldsData,
   handleTryAgain,
+  setErrorMessage,
   projectFieldData,
   projectsHaveError,
+  clearErrorMessage,
   cleanedIssueTypes,
   areProjectsLoading,
   issueTypeFieldData,
@@ -91,7 +93,9 @@ const renderChild = ({
           fields={fields}
           metaData={metaData}
           fieldsData={fieldsData}
+          setErrorMessage={setErrorMessage}
           projectFieldData={projectFieldData}
+          clearErrorMessage={clearErrorMessage}
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
           integrationToolFieldData={integrationToolFieldData}
@@ -120,6 +124,10 @@ const IssueForm = ({
   const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
   const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
   const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
+  const [errorMessage, setErrorMessage] = useState(null);
+  const clearErrorMessage = () => {
+    setErrorMessage(null);
+  };
   const toolOptions = integrations.reduce((acc, curr) => {
     const { key, label, icon } = curr;
     acc.push({
@@ -195,6 +203,14 @@ const IssueForm = ({
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
   };
 
+  useEffect(() => {
+    if (areProjectsLoaded && (projects ?? []).length === 0) {
+      setErrorMessage(
+        `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+      );
+    }
+  }, [areProjectsLoaded, projects, integrationToolFieldData]);
+
   return (
     <>
       {isBeingDiscarded && (
@@ -204,11 +220,11 @@ const IssueForm = ({
         />
       )}
       <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
-        {areProjectsLoaded && (projects ?? []).length === 0 && (
+        {errorMessage && (
           <div className="pb-6">
             <Alerts
               title=""
-              description={`Create a project in your ${integrationToolFieldData?.title} in order to continue`}
+              description={errorMessage}
               modifier="error"
               linkText=""
             />
@@ -246,9 +262,11 @@ const IssueForm = ({
             fieldsData,
             setFieldsData,
             handleTryAgain,
+            setErrorMessage,
             projectFieldData,
             projectsHaveError,
             cleanedIssueTypes,
+            clearErrorMessage,
             areProjectsLoading,
             issueTypeFieldData,
             setIsWorkInProgress,

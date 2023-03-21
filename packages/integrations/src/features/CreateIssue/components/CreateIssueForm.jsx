@@ -8,15 +8,14 @@ const CreateIssueForm = ({
   fields,
   metaData,
   fieldsData,
+  setErrorMessage,
   projectFieldData,
+  clearErrorMessage,
   issueTypeFieldData,
   setIsWorkInProgress,
   integrationToolFieldData
 }) => {
   const handleSubmit = (formData) => {
-    // if (!areAllRequiredFieldsNonEmpty(allRequiredFields, formData)) {
-    //   return;
-    // }
     const data = { ...fieldsData, ...formData };
     if (metaData.description) {
       data.description =
@@ -26,7 +25,17 @@ const CreateIssueForm = ({
     const parsed = parseFieldsForCreate(fields, data);
     parsed.project_id = projectFieldData.value;
     parsed.ticket_type_id = issueTypeFieldData.value;
-    createIssue(integrationToolFieldData?.value, parsed);
+    return createIssue(integrationToolFieldData?.value, parsed)
+      .then((response) => {
+        if (response?.success) {
+          clearErrorMessage();
+        }
+        return response;
+      })
+      .catch((res) => {
+        setErrorMessage('Error creating issue');
+        return res;
+      });
   };
 
   return (

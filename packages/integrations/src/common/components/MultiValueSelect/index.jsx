@@ -96,7 +96,7 @@ const MultiSelect = ({
     <>
       <ComboBox
         onChange={handleChange}
-        value={fieldsData[fieldKey]}
+        value={fieldsData[fieldKey] ?? []}
         isMulti
         errorText={requiredFieldError}
       >

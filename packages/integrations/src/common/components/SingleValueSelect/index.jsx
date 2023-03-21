@@ -127,7 +127,7 @@ const SingleDynamicSelect = ({
   return (
     <ComboBox
       onChange={handleChange}
-      value={fieldsData[fieldKey]}
+      value={fieldsData[fieldKey] ?? {}}
       errorText={requiredFieldError}
       disabled={!(optionsToRender ?? []).length}
     >

@@ -17,7 +17,6 @@ const TextField = ({
   areSomeRequiredFieldsEmpty
 }) => {
   const [error, setError] = useState(null);
-  const requiredFieldError = useRequiredFieldError(required);
   const handleChange = (e) => {
     const fieldValue = e.target.value;
     const val =
@@ -29,7 +28,13 @@ const TextField = ({
   };
   const valueToRender = Array.isArray(fieldsData[fieldKey])
     ? fieldsData[fieldKey].join(',')
-    : fieldsData[fieldKey];
+    : fieldsData[fieldKey] ?? '';
+
+  const requiredFieldError = useRequiredFieldError(
+    required,
+    valueToRender,
+    areSomeRequiredFieldsEmpty
+  );
 
   const clearError = () => {
     setError(null);

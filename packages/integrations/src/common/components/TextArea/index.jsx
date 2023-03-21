@@ -29,7 +29,7 @@ const TextAreaField = ({
       <Label required={required} label={label} />
       <TextArea
         onChange={handleChange}
-        value={fieldsData[fieldKey]}
+        value={fieldsData[fieldKey] ?? ''}
         placeholder={placeholder}
         errorText={requiredFieldError}
       />
