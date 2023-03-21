@@ -14,16 +14,9 @@ import {
   setActiveViolationId,
   setIsShowingIssue
 } from 'features/SiteScanner/ScanReport/slice/appSlice';
-import {
-  getActiveComponentId,
-  getIsShowingIssue
-} from 'features/SiteScanner/ScanReport/slice/selector';
+import { getActiveComponentId } from 'features/SiteScanner/ScanReport/slice/selector';
 import PropTypes from 'prop-types';
-import {
-  // formatComponentIdString,
-  // handleClickByEnterOrSpace,
-  updateUrlWithQueryParam
-} from 'utils/helper';
+import { updateUrlWithQueryParam } from 'utils/helper';
 
 import { SectionsDataContext } from '../../context/SectionsDataContext';
 
@@ -32,7 +25,6 @@ export default function ComponentList({ nodes, violationId }) {
   const navigate = useNavigate();
   const { isHalfView } = useContext(SectionsDataContext);
   const activeComponentId = useSelector(getActiveComponentId);
-  const isShowingIssue = useSelector(getIsShowingIssue);
   const onRowClick = (key) => {
     dispatch(setActiveViolationId(violationId));
     dispatch(setActiveComponentId(key));
@@ -118,20 +110,8 @@ export default function ComponentList({ nodes, violationId }) {
         <TableBody>
           {tableData.map(({ id, isActive, ...rest }) => (
             <TableRow
-              // className={classNames('component-list__row', {
-              //   'component-list__row--active': isActive
-              // })}
               wrapperClassName="cursor-pointer"
               onRowClick={() => onRowClick(id)}
-              // role="button"
-              // tabIndex={0}
-              // onKeyDown={(e) =>
-              //   handleClickByEnterOrSpace(
-              //     e,
-              //     () => onRowClick(id),
-              //     'firstPageIcon'
-              //   )
-              // }
             >
               {columns.map((column, index) => (
                 <TableCell
