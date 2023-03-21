@@ -29,7 +29,7 @@ const AlphaAccess = () => {
               id: 'access_requested',
               title: 'Access has been requested',
               description:
-                "You've requested access for Test Management. Check email for updates.",
+                'Your request for access has been received. We will reach out to you soon.',
               variant: 'success'
             })
           );
