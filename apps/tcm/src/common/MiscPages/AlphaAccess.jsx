@@ -38,8 +38,8 @@ const AlphaAccess = () => {
         if (err?.response?.data?.error)
           dispatch(
             addNotificaton({
-              id: 'access_requested',
-              title: 'Access already requested',
+              id: 'access_requested_already',
+              title: null,
               description: err.response.data.error,
               variant: 'success'
             })
