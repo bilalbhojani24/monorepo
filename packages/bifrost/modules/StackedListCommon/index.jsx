@@ -11,13 +11,13 @@ const StackedListCommon = ({
   align
 }) => (
   <div
-    className={twClassNames('grow flex items-center', {
+    className={twClassNames('md:min-w-[50%] flex items-center', {
       'md:flex md:justify-end md:text-right': align === 'right',
-      'md:pt-7': contentAside
+      'md:pt-7': contentAside && !title
     })}
   >
-    {icon && <span className="float-left mr-3">{icon}</span>}
-    <span className="text-sm">
+    {icon && <span className="float-left mr-3 shrink-0">{icon}</span>}
+    <span className="truncate text-sm">
       <p className="text-base-900 truncate font-medium">{title}</p>
       <p className="truncate">{subTitle}</p>
     </span>

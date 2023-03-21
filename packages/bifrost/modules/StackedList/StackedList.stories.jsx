@@ -1,8 +1,11 @@
 import React from 'react';
 import {
+  CalendarIcon,
   CheckCircleIcon,
   ChevronRightIcon,
-  EnvelopeIcon
+  EnvelopeIcon,
+  MapPinIcon,
+  UsersIcon
 } from '@heroicons/react/20/solid';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -11,6 +14,15 @@ import StackedListCommon from '../StackedListCommon';
 import StackedListGroup from '../StackedListGroup';
 import StackedListItem from '../StackedListItem';
 
+import {
+  AvatarGroupPeople,
+  contentLinks,
+  contentList,
+  GroupedPeople,
+  JobTitles,
+  People,
+  PeopleWithTwoCols
+} from './const/people';
 import StackedList from './index';
 
 const defaultConfig = {
@@ -31,247 +43,49 @@ const defaultConfig = {
 
 const Template = (args) => <StackedList {...args} />;
 
-const Primary = Template.bind({});
-Primary.parameters = {
+const NarrowWithAvatarGroup = Template.bind({});
+NarrowWithAvatarGroup.parameters = {
   controls: {}
 };
-Primary.args = {
+NarrowWithAvatarGroup.args = {
   children: (
     <StackedListGroup>
-      <StackedListItem>
-        <StackedListCommon
-          icon={
-            <img
-              alt="Person One"
-              className="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            />
-          }
-          title="Velit placeat sit ducimus non sed"
-          subTitle={
-            <span className="text-base-500 text-sm">Gloria Roberston</span>
-          }
-        />
-      </StackedListItem>
-      <StackedListItem>
-        <StackedListCommon
-          icon={
-            <img
-              alt="Person"
-              className="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            />
-          }
-          title="Velit placeat sit ducimus non sed"
-          subTitle={
-            <span className="text-base-500 text-sm">Gloria Roberston</span>
-          }
-        />
-      </StackedListItem>
+      {People.map(({ email, name, image }) => (
+        <StackedListItem key={email}>
+          <StackedListCommon
+            icon={
+              <img alt={name} className="h-10 w-10 rounded-full" src={image} />
+            }
+            title={name}
+            subTitle={<span className="text-base-500 text-sm">{email}</span>}
+          />
+        </StackedListItem>
+      ))}
     </StackedListGroup>
   )
 };
 
 const WithStickyHeadings = Template.bind({});
 WithStickyHeadings.args = {
-  footer: (
-    <div className="border-base-100 border-t-2 bg-white py-3 text-center">
-      <button
-        className="rounded-md bg-black px-4 py-2 text-white "
-        type="button"
-      >
-        My Button
-      </button>
-    </div>
-  ),
-  children: (
-    <>
-      <StackedListGroup heading="A">
+  children: GroupedPeople.map(({ title, people }) => (
+    <StackedListGroup key={title} heading={title}>
+      {people.map(({ name, image, info }) => (
         <StackedListItem>
           <StackedListCommon
             icon={
               <img
                 alt="Person One"
                 className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src={image}
               />
             }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
+            title={name}
+            subTitle={<span className="text-base-500 text-sm">{info}</span>}
           />
         </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person One"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person One"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-      </StackedListGroup>
-      <StackedListGroup heading="B">
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person One"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person One"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-        <StackedListItem>
-          <StackedListCommon
-            icon={
-              <img
-                alt="Person One"
-                className="h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              />
-            }
-            title="Velit placeat sit ducimus non sed"
-            subTitle={
-              <span className="text-base-500 text-sm">Gloria Roberston</span>
-            }
-          />
-        </StackedListItem>
-      </StackedListGroup>
-    </>
-  )
+      ))}
+    </StackedListGroup>
+  ))
 };
 WithStickyHeadings.parameters = {
   controls: {}
@@ -280,68 +94,83 @@ WithStickyHeadings.parameters = {
 const TwoColumnsWithAvatar = Template.bind({});
 TwoColumnsWithAvatar.args = {
   children: (
-    <StackedListGroup>
-      <StackedListItem
-        variant="card"
-        actions={<ChevronRightIcon className="fill-base-500 h-6 w-6" />}
-        hideContentInSmallWidth
-      >
-        <StackedListCommon
-          icon={
-            <img
-              alt="Person One"
-              className="h-12 w-12 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            />
-          }
-          title="Ricardo Cooper"
-          subTitle={
-            <span className="text-base-500 mt-1 flex text-sm">
-              <EnvelopeIcon
-                className="text-base-400 mr-1.5 h-5 w-5 shrink-0 "
-                aria-hidden="true"
+    <StackedListGroup wrapperClassName="shadow rounded-md">
+      {PeopleWithTwoCols.map(({ email, name, image, statusText, info }) => (
+        <StackedListItem
+          variant="card"
+          actions={<ChevronRightIcon className="fill-base-500 h-6 w-6" />}
+          hideContentInSmallWidth
+          key={email}
+        >
+          <StackedListCommon
+            icon={
+              <img
+                alt="Person One"
+                className="h-12 w-12 rounded-full"
+                src={image}
               />
-              <span className="truncate">ricardo.cooper@example.com</span>
-            </span>
-          }
-        />
-        <StackedListCommon
-          title="Velit placeat sit ducimus non sed"
-          subTitle={
-            <span className="text-base-500 text-sm">Gloria Roberston</span>
-          }
-        />
-      </StackedListItem>
+            }
+            title={<span className="text-brand-600">{name}</span>}
+            subTitle={
+              <span className="text-base-500 mt-2 flex text-sm">
+                <EnvelopeIcon
+                  className="text-base-400 mr-1.5 h-5 w-5 shrink-0 "
+                  aria-hidden="true"
+                />
+                <span className="truncate">{email}</span>
+              </span>
+            }
+          />
+          <StackedListCommon
+            title={info}
+            subTitle={
+              <span className="text-base-500 mt-2 flex text-sm">
+                <CheckCircleIcon className="fill-success-400 mr-2 h-5 w-5" />
+                {statusText}
+              </span>
+            }
+          />
+        </StackedListItem>
+      ))}
     </StackedListGroup>
   )
 };
 
-const TwoColumnsWithAsideContent = Template.bind({});
-TwoColumnsWithAsideContent.args = {
+const WithRightJustifiedSecondColumn = Template.bind({});
+WithRightJustifiedSecondColumn.args = {
   children: (
     <StackedListGroup>
-      <StackedListItem variant="card">
-        <StackedListCommon
-          icon={
-            <img
-              alt="Person One"
-              className="h-12 w-12 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            />
-          }
-          title={<span className="text-brand-600">Ricardo Cooper</span>}
-        />
-        <StackedListCommon
-          subTitle={
-            <span className="text-base-500 mt-1 flex text-sm">
-              <CheckCircleIcon className="fill-success-500 h-5 w-5" />
-              <span className="ml-2 ">I am a subtitle</span>
-            </span>
-          }
-          align="right"
-          contentAside={<Badge modifier="primary" text="Aside content" />}
-        />
-      </StackedListItem>
+      {JobTitles.map((job, index) => (
+        <StackedListItem key={job} variant="card">
+          <StackedListCommon
+            title={<span className="text-brand-600">{job}</span>}
+            subTitle={
+              <div className="mt-2 flex">
+                <span className="text-base-500 mr-4 flex">
+                  <UsersIcon className="fill-base-400 mr-2 h-5 w-5" />
+                  {index === 2 ? 'Design' : 'Engineering'}
+                </span>
+                <span className="text-base-500 flex">
+                  <MapPinIcon className="fill-base-400 mr-2 h-5 w-5" />
+                  Remote
+                </span>
+              </div>
+            }
+          />
+          <StackedListCommon
+            subTitle={
+              <span className="text-base-500 mt-1 flex text-sm">
+                <CalendarIcon className="fill-base-400 h-5 w-5" />
+                <span className="ml-2 ">
+                  Closing on January {index === 2 ? 14 : 7}, 2020
+                </span>
+              </span>
+            }
+            align="right"
+            contentAside={<Badge modifier="success" text="Full-time" />}
+          />
+        </StackedListItem>
+      ))}
     </StackedListGroup>
   )
 };
@@ -354,52 +183,34 @@ ContentLinksWithAction.args = {
         className="border-base-300 w-full rounded-md border py-1"
         type="button"
       >
-        Action
+        View all
       </button>
     </div>
   ),
   children: (
     <StackedListGroup>
-      <StackedListItem>
-        <StackedListCommon
-          title={
-            <a className="hover:underline" href="#/">
-              Velit placeat sit ducimus non sed
-            </a>
-          }
-          subTitle={
-            <p className="text-base-600 mt-1 whitespace-normal text-sm">
-              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
-              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
-              laudantium sed id dolores omnis in. Eos reiciendis deserunt
-              maiores et accusamus quod dolor.
-            </p>
-          }
-        />
-      </StackedListItem>
-      <StackedListItem>
-        <StackedListCommon
-          title={
-            <a className="hover:underline" href="#/">
-              Velit placeat sit ducimus non sed
-            </a>
-          }
-          subTitle={
-            <p className="text-base-600 mt-1 whitespace-normal text-sm">
-              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
-              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
-              laudantium sed id dolores omnis in. Eos reiciendis deserunt
-              maiores et accusamus quod dolor.
-            </p>
-          }
-        />
-      </StackedListItem>
+      {contentList.map(({ title, content }) => (
+        <StackedListItem>
+          <StackedListCommon
+            title={
+              <a className="hover:underline" href="#/">
+                {title}
+              </a>
+            }
+            subTitle={
+              <p className="line-clamp-2 text-base-600 mt-1 whitespace-normal text-sm">
+                {content}
+              </p>
+            }
+          />
+        </StackedListItem>
+      ))}
     </StackedListGroup>
   )
 };
 
-const ContentLinksWithAsideContent = Template.bind({});
-ContentLinksWithAsideContent.args = {
+const WithTruncatedContentPreview = Template.bind({});
+WithTruncatedContentPreview.args = {
   footer: (
     <div className="bg-white py-3 text-center">
       <button
@@ -412,52 +223,73 @@ ContentLinksWithAsideContent.args = {
   ),
   children: (
     <StackedListGroup>
-      <StackedListItem>
-        <StackedListCommon
-          title={
-            <a className="hover:underline" href="#/">
-              Velit placeat sit ducimus non sed
-            </a>
+      {contentLinks.map(({ time, title, subTitle, content }) => (
+        <StackedListItem>
+          <StackedListCommon
+            title={
+              <a className="hover:underline" href="#/">
+                {title}
+              </a>
+            }
+            contentAside={<span className="text-base-500 text-sm">{time}</span>}
+            subTitle={
+              <span>
+                <p className="truncate">{subTitle}</p>
+                <p className="text-base-600 line-clamp-2 mt-1 whitespace-normal text-sm">
+                  {content}
+                </p>
+              </span>
+            }
+          />
+        </StackedListItem>
+      ))}
+    </StackedListGroup>
+  )
+};
+
+const AvatarGroupsWithActions = Template.bind({});
+AvatarGroupsWithActions.args = {
+  footer: (
+    <button
+      type="button"
+      className="hover:bg-base-50 text-base-600 border-base-200 w-full rounded-md border-2 px-3  py-2 font-semibold"
+    >
+      View all
+    </button>
+  ),
+  children: (
+    <StackedListGroup>
+      {AvatarGroupPeople.map(({ image, name, username }) => (
+        <StackedListItem
+          actions={
+            <button
+              type="button"
+              className="hover:bg-base-50 text-base-600 border-base-400 rounded-2xl border px-3  py-1 text-sm font-semibold"
+            >
+              View
+            </button>
           }
-          contentAside={<span className="text-base-500 text-sm">1d ago</span>}
-          subTitle={
-            <p className="text-base-600 mt-1 whitespace-normal text-sm">
-              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
-              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
-              laudantium sed id dolores omnis in. Eos reiciendis deserunt
-              maiores et accusamus quod dolor.
-            </p>
-          }
-        />
-      </StackedListItem>
-      <StackedListItem>
-        <StackedListCommon
-          title={
-            <a className="hover:underline" href="#/">
-              Velit placeat sit ducimus non sed
-            </a>
-          }
-          contentAside={<span className="text-base-500 text-sm">1d ago</span>}
-          subTitle={
-            <p className="text-base-600 mt-1 whitespace-normal text-sm">
-              Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in
-              a rerum natus facere. Enim rerum eaque qui facilis. Numquam
-              laudantium sed id dolores omnis in. Eos reiciendis deserunt
-              maiores et accusamus quod dolor.
-            </p>
-          }
-        />
-      </StackedListItem>
+        >
+          <StackedListCommon
+            icon={
+              <img alt={name} className="h-10 w-10 rounded-full" src={image} />
+            }
+            title={name}
+            subTitle={<span className="text-base-400">{username}</span>}
+          />
+        </StackedListItem>
+      ))}
     </StackedListGroup>
   )
 };
 
 export default defaultConfig;
 export {
+  AvatarGroupsWithActions,
   ContentLinksWithAction,
-  ContentLinksWithAsideContent,
-  Primary,
-  TwoColumnsWithAsideContent,
+  NarrowWithAvatarGroup,
   TwoColumnsWithAvatar,
-  WithStickyHeadings
+  WithRightJustifiedSecondColumn,
+  WithStickyHeadings,
+  WithTruncatedContentPreview
 };

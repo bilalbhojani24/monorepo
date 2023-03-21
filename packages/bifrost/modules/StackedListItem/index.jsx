@@ -25,12 +25,11 @@ const StackedListItem = ({
       className={twClassNames(
         'relative px-4 py-4 sm:px-6 flex items-center truncate',
         {
-          'shadow px-6 hover:bg-base-50 cursor-pointer rounded-md':
-            variant === 'card'
+          'px-6 hover:bg-base-50 cursor-pointer rounded-md': variant === 'card'
         }
       )}
     >
-      <span className="block flex-1 justify-between gap-3 md:flex">
+      <span className=" block  max-w-full flex-1 justify-between gap-3 md:flex ">
         {effectiveChildren}
       </span>
       {actions && <div className="shrink-0 pl-3">{actions}</div>}
