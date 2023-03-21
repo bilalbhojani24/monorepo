@@ -27,6 +27,8 @@ const TestRunDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, testRunId]);
 
+  useEffect(() => () => resetTestCaseDetailsMeta(), [resetTestCaseDetailsMeta]);
+
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TopSection />
