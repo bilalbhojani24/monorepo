@@ -112,7 +112,7 @@ export const getShortOSName = (os) => {
 };
 export const getOsIconName = (os) => {
   if (!os) {
-    return 'unknown';
+    return 'default_os';
   }
   const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
   const [osType] = formattedOS.split('-');
@@ -130,7 +130,7 @@ export const getIconName = (name = '', device = '') => {
   if (device) {
     return `device_icon`;
   }
-  return '';
+  return 'icon-default_browser';
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
