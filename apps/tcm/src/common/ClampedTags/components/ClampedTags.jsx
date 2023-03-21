@@ -74,7 +74,9 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
             </TMModalFooter>
           </TMModal>
         </div>
-      ) : null}
+      ) : (
+        '--'
+      )}
     </>
   );
 };
