@@ -7,8 +7,7 @@ import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { setOpenAccordionId } from 'features/SiteScanner/ScanReport/slice/appSlice';
 import {
   getActiveComponentId,
-  getIsShowingIssue,
-  getOpenAccordionId
+  getIsShowingIssue
 } from 'features/SiteScanner/ScanReport/slice/selector';
 import PropTypes from 'prop-types';
 
@@ -19,8 +18,6 @@ export default function Violation({ violation, index }) {
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
-  const openAccordionId = useSelector(getOpenAccordionId);
-  const isOpen = openAccordionId === violation.id;
 
   const isHalfView = activeComponentId && isShowingIssue;
 
@@ -30,11 +27,7 @@ export default function Violation({ violation, index }) {
     violation.impact.slice(1, violation.impact.length);
 
   const updateOpenViolation = () => {
-    if (isOpen) {
-      dispatch(setOpenAccordionId(''));
-    } else {
-      dispatch(setOpenAccordionId(violation.id));
-    }
+    dispatch(setOpenAccordionId(violation.id));
   };
 
   const maxWidthForFullView = isSidebarCollapsed
@@ -71,14 +64,19 @@ export default function Violation({ violation, index }) {
           </div>
           {impact && (
             <Badge
+              wrapperClassName={
+                violation.impact === 'serious'
+                  ? 'bg-[#FCE7F3] text-[#9D174D]'
+                  : ''
+              }
               hasDot={false}
               hasRemoveButton={false}
               isRounded
-              text={impact}
               modifier={
                 issueTypes.find(({ type }) => type === violation.impact)
                   .modifier
               }
+              text={impact}
             />
           )}
         </div>

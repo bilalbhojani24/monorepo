@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import Tab from './components/Tab';
 import { TAB_SHAPE } from './const/tabsConstants';
 
-import './styles.scss';
-
 const Tabs = ({
   defaultIndex,
   id,
@@ -33,10 +31,9 @@ const Tabs = ({
   };
 
   useEffect(() => {
-    if (defaultIndex && tabsArray?.length && tabsArray[defaultIndex])
+    if (tabsArray?.length && tabsArray[defaultIndex])
       setSelectedTab(tabsArray[defaultIndex]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultIndex]);
+  }, [defaultIndex, tabsArray]);
 
   return (
     <>

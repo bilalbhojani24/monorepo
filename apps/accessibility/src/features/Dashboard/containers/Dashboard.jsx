@@ -55,7 +55,7 @@ export default function Dashboard({ children }) {
         Skip to main content
       </SkipToContent>
       <Header
-        wrapperClassName="fixed top-0 z-10 w-full"
+        wrapperClassName="fixed top-0 z-20 w-full"
         productName="Accessibility"
         release="Beta"
         planButtonVisible={false}

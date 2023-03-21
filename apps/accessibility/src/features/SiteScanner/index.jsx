@@ -44,7 +44,6 @@ import Loader from '../../common/Loader/index';
 import { getWcagVersionFromVal } from '../../utils/helper';
 
 import { getScanConfigs } from './slices/dataSlice';
-// import { rowMenu } from './constants';
 import NewScan from './NewScan';
 import useSiteScanner from './useSiteScanner';
 
@@ -147,6 +146,8 @@ const scanDetailsColumn = [
 
 export default function SiteScanner() {
   const [showNewScan, setShowNewScan] = useState(false);
+  const [showStopRecurringModal, setShowStopRecurringModal] = useState(false);
+  const [activeRowId, setActiveRowId] = useState(false);
   const [viewScanDetails, setViewScanDetails] = useState(false);
   const [currentScanDetails, setCurrentScanDetails] = useState(false);
   const {
@@ -174,7 +175,11 @@ export default function SiteScanner() {
   const getRunTypeBadge = (recurring, active) => {
     if (recurring && active) {
       return (
-        <Badge text="Recurring: ON" wrapperClassName="mr-2" modifier="primary" />
+        <Badge
+          text="Recurring: ON"
+          wrapperClassName="mr-2"
+          modifier="primary"
+        />
       );
     }
     if (recurring && !active) {
@@ -236,6 +241,18 @@ export default function SiteScanner() {
     }
   };
 
+  const handleStopRecurringScan = (activeRowId) => {
+    console.log(activeRowId);
+    setIsLoading(true);
+    stopRecurringScans(activeRowId.id)
+      .then((data) => {
+        setIsLoading(false);
+        dispatch(getScanConfigs());
+        setShowStopRecurringModal(false);
+        // alert('Stopped Recurring scan');
+      })
+      .catch((err) => console.log(err));
+    }
   const getActionForAnalytics = (val) => {
     switch (val) {
       case 'newScanRun':
@@ -285,14 +302,8 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       case 'stopRecurringScans':
-        setIsLoading(true);
-        stopRecurringScans(rowData.id)
-          .then((data) => {
-            setIsLoading(false);
-            dispatch(getScanConfigs());
-            // alert('Stopped Recurring scan');
-          })
-          .catch((err) => console.log(err));
+        setShowStopRecurringModal(true);
+        setActiveRowId(rowData);
         break;
       case 'lastScanRun':
         navigate(
@@ -300,6 +311,7 @@ export default function SiteScanner() {
         );
         break;
       case 'scanDetails':
+        setPreConfigData();
         setViewScanDetails(true);
         setCurrentScanDetails(rowData);
         fetchScanConfigsById(rowData.id)
@@ -351,8 +363,9 @@ export default function SiteScanner() {
       ];
     }
     console.log(row);
-    if(!row.recurring || !row.active) {
-      rowMenuCpy = [{
+    if (!row.recurring || !row.active) {
+      rowMenuCpy = [
+        {
           id: 'newScanRun',
           value: 'newScanRun',
           body: (
@@ -379,7 +392,8 @@ export default function SiteScanner() {
               <span className="ml-2">View last scan run</span>
             </div>
           )
-        }]
+        }
+      ];
     }
     return rowMenuCpy.map((opt) => (
       <DropdownOptionItem key={opt.id} option={opt} />
@@ -595,7 +609,6 @@ export default function SiteScanner() {
                       handleRowMenuClick(val, row);
                     }}
                     id="scanFilter"
-                   
                   >
                     <div className="flex">
                       <DropdownTrigger
@@ -648,7 +661,7 @@ export default function SiteScanner() {
           }}
           heading={currentScanDetails?.name || ''}
           subHeading={`Scan schedule: ${
-            preConfigData.schedulePattern
+            preConfigData?.schedulePattern
               ? cronstrue.toString(preConfigData?.schedulePattern, {
                   verbose: true
                 })
@@ -656,70 +669,80 @@ export default function SiteScanner() {
           }`}
         />
         <ModalBody>
-          <div className="my-4">
-            <span className="mr-2 flex items-center text-sm">
-              <span className="mr-0.5 flex items-center">
-                <MdPerson color="#9CA3AF" className="mr-2" />
-                <span className="text-base-500 mr-2">
-                  {currentScanDetails?.createdBy?.name}
+          {!preConfigData ? (
+            <p>Loading..</p>
+          ) : (
+            <>
+              <div className="my-4">
+                <span className="mr-2 flex items-center text-sm">
+                  <span className="mr-0.5 flex items-center">
+                    <MdPerson color="#9CA3AF" className="mr-2" />
+                    <span className="text-base-500 mr-2">
+                      {currentScanDetails?.createdBy?.name}
+                    </span>
+                  </span>{' '}
+                  {/* <span className="text-base-500">{preConfigData?.urlSet}</span> */}
+                  {preConfigData?.scanData?.wcagVersion && (
+                    <Badge
+                      text={
+                        getWcagVersionFromVal(
+                          preConfigData?.scanData?.wcagVersion
+                        )?.body
+                      }
+                      wrapperClassName="mr-2"
+                    />
+                  )}
+                  {preConfigData?.scanData?.bestPractices && (
+                    <Badge
+                      text="Best practices enabled"
+                      wrapperClassName="mr-2"
+                    />
+                  )}
                 </span>
-              </span>{' '}
-              {/* <span className="text-base-500">{preConfigData?.urlSet}</span> */}
-              {preConfigData?.scanData?.wcagVersion && (
-                <Badge
-                  text={
-                    getWcagVersionFromVal(preConfigData?.scanData?.wcagVersion)
-                      ?.body
-                  }
-                  wrapperClassName="mr-2"
-                />
-              )}
-              {preConfigData?.scanData?.bestPractices && (
-                <Badge text="Best practices enabled" wrapperClassName="mr-2" />
-              )}
-            </span>
-          </div>
-          <div className="my-4">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {scanDetailsColumn.map((col) => (
-                    <TableCell
-                      key={col.key}
-                      variant="header"
-                      wrapperClass="first:pr-3 last:pl-3 px-2"
-                    >
-                      {col.name}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {preConfigData?.scanData?.urlSet.map((row, idx) => (
-                  <TableRow
-                    key={idx}
-                    onRowClick={() => {
-                      // navigate('/site-scanner/scan-report/12');
-                    }}
-                    tabIndex="0"
-                  >
-                    <TableCell
-                      key={row}
-                      wrapperClass="first:pr-3 last:pl-3 p-5"
-                    >
-                      {idx + 1}
-                    </TableCell>
-                    <TableCell
-                      key={row}
-                      wrapperClass="first:pr-3 last:pl-3 p-5"
-                    >
-                      {row}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              </div>
+              <div className="my-4">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {scanDetailsColumn.map((col) => (
+                        <TableCell
+                          key={col.key}
+                          variant="header"
+                          wrapperClass="first:pr-3 last:pl-3 px-2"
+                        >
+                          {col.name}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {preConfigData?.scanData?.urlSet.map((row, idx) => (
+                      <TableRow
+                        key={idx}
+                        onRowClick={() => {
+                          // navigate('/site-scanner/scan-report/12');
+                        }}
+                        tabIndex="0"
+                      >
+                        <TableCell
+                          key={row}
+                          wrapperClass="first:pr-3 last:pl-3 p-5"
+                        >
+                          {idx + 1}
+                        </TableCell>
+                        <TableCell
+                          key={row}
+                          wrapperClass="first:pr-3 last:pl-3 p-5"
+                        >
+                          {row}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
+          )}
         </ModalBody>
         <ModalFooter position="right">
           <Button
@@ -733,6 +756,46 @@ export default function SiteScanner() {
           </Button>
         </ModalFooter>
       </Modal>
+
+      {showStopRecurringModal ? (
+        <div>
+          <Modal
+            show={showStopRecurringModal}
+            size="lg"
+            onOverlayClick={() => {
+              setShowStopRecurringModal(false);
+            }}
+          >
+            <ModalHeader
+              handleDismissClick={() => {
+                setShowStopRecurringModal(false);
+              }}
+              heading="Stop recurring scans"
+              subHeading="Are you sure you want to stop recurring scans for this configuration. This action cannot be undone."
+            />
+            <ModalFooter position="right">
+              <Button
+                onClick={() => {
+                  setShowStopRecurringModal(false);
+                }}
+                colors="white"
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  handleStopRecurringScan(activeRowId);
+                }}
+                variant="primary"
+                colors="danger"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Loading' : 'Stop scans'}
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      ) : null}
     </div>
   );
 }
