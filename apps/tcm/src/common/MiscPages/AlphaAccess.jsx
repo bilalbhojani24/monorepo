@@ -39,8 +39,8 @@ const AlphaAccess = () => {
           dispatch(
             addNotificaton({
               id: 'access_requested',
-              title: 'Access alredy requested',
-              description: err?.response?.data?.error,
+              title: 'Access already requested',
+              description: err.response.data.error,
               variant: 'success'
             })
           );
