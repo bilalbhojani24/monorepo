@@ -129,6 +129,7 @@ const SingleDynamicSelect = ({
       onChange={handleChange}
       value={fieldsData[fieldKey]}
       errorText={requiredFieldError}
+      disabled={!(optionsToRender ?? []).length}
     >
       <Label label={label} required={required} />
       <ComboboxTrigger
