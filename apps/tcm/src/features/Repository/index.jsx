@@ -31,7 +31,8 @@ const Repository = ({ isSearch }) => {
     detailsCloseHandler,
     initTestCaseDetails,
     fetchAllTestCases,
-    setRepoView
+    setRepoView,
+    cleanUpRepository
   } = useTestCases();
   const confirmCSVImportNotificationConfig = useSelector(
     (state) => state.importCSV.confirmCSVImportNotificationConfig
@@ -90,6 +91,8 @@ const Repository = ({ isSearch }) => {
   useEffect(() => {
     // onload set the testcase details IDs
     initTestCaseDetails();
+
+    return () => cleanUpRepository();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

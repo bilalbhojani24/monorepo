@@ -200,6 +200,15 @@ export default function useTestCases() {
     );
   };
 
+  const cleanUpRepository = () => {
+    dispatch(
+      setTestCaseDetails({
+        folderId: null,
+        testCaseId: null
+      })
+    );
+  };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -233,6 +242,7 @@ export default function useTestCases() {
     initTestCaseDetails,
     handleFilterPagination,
     quickImportButtonClicked,
-    importCSVButtonClicked
+    importCSVButtonClicked,
+    cleanUpRepository
   };
 }

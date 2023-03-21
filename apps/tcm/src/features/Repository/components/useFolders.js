@@ -18,6 +18,7 @@ import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
+  setTestCaseDetails,
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
@@ -54,6 +55,16 @@ export default function useFolders() {
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
+
+  const closeTCDetailsSlide = () => {
+    dispatch(
+      setTestCaseDetails({
+        folderId: null,
+        testCaseId: null
+      })
+    );
+  };
+
   const showAddFolderModal = (isEmptyClick) => {
     dispatch(
       logEventHelper(
@@ -175,13 +186,6 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
-    dispatch(
-      logEventHelper('TM_FolderClicked', {
-        project_id: projectId,
-        folder_id: selectedFolder.id
-      })
-    );
-
     const route = routeFormatter(AppRoute.TEST_CASES, {
       projectId,
       folderId: selectedFolder.id
@@ -194,6 +198,14 @@ export default function useFolders() {
     )
       return;
 
+    closeTCDetailsSlide();
+    dispatch(
+      logEventHelper('TM_FolderClicked', {
+        project_id: projectId,
+        folder_id: selectedFolder.id
+      })
+    );
+
     navigate(route);
   };
 
@@ -201,6 +213,7 @@ export default function useFolders() {
     if (selectedOption?.id) {
       const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
 
+      closeTCDetailsSlide();
       dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
       switch (selectedOption.id) {
         case folderDropOptions[1].id: // sub folder
