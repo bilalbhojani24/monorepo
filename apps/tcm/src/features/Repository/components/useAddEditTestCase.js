@@ -57,7 +57,7 @@ export default function useAddEditTestCase(prop) {
   });
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [scheduledFolder, setScheduledFolder] = useState([]);
-  const [usersArrayMapped, setUsersArray] = useState([]);
+  const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
@@ -523,6 +523,16 @@ export default function useAddEditTestCase(prop) {
     setShowMoreFields(value);
   };
 
+  const testCaseEditingInit = () => {
+    if (isTestCaseEditing) fetchTestCaseDetails();
+    else {
+      dispatch(
+        updateDummyTestCaseFormData({ key: 'owner', value: userData?.id })
+      );
+      dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
+    }
+  };
+
   // const handleUpdateAllClicked = () => {
   //   console.log(selectedTestCase);
   //   dispatch(
@@ -547,19 +557,8 @@ export default function useAddEditTestCase(prop) {
   }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
 
   useEffect(() => {
-    if (isTestCaseEditing) fetchTestCaseDetails();
-    else {
-      dispatch(
-        updateDummyTestCaseFormData({ key: 'owner', value: userData?.id })
-      );
-      dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTestCaseEditing]);
-
-  useEffect(() => {
     if (projectId === loadedDataProjectId) {
-      setUsersArray(
+      setUsersArrayMapped(
         usersArray.map((item) => {
           if (item.full_name === 'Myself') {
             return {
@@ -571,7 +570,7 @@ export default function useAddEditTestCase(prop) {
         })
       );
     } else {
-      setUsersArray([]);
+      setUsersArrayMapped([]);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -613,6 +612,7 @@ export default function useAddEditTestCase(prop) {
     saveBulkEditHelper,
     setBulkEditConfirm,
     showTestCaseAdditionPage,
-    goToThisURL
+    goToThisURL,
+    testCaseEditingInit
   };
 }

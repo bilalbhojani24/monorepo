@@ -61,11 +61,13 @@ const AddEditTestCase = () => {
     // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
-    addIssuesSaveHelper
+    addIssuesSaveHelper,
+    testCaseEditingInit
   } = useAddEditTestCase({ isAddEditOnly: true });
 
   const { initFormValues } = useTestCases();
   const focusRef = useRef(null);
+
   useEffect(() => {
     initFormValues();
     focusRef?.current?.focus();
@@ -74,6 +76,11 @@ const AddEditTestCase = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    testCaseEditingInit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTestCaseEditing]);
 
   return (
     <div className="border-base-200 flex w-full shrink-0 grow flex-col items-start overflow-hidden border-l">
