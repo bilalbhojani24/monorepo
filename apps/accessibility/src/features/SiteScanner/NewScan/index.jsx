@@ -150,7 +150,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     </div>
   );
   return (
-    <div>
+    <div className="relative z-20">
       <Slideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"

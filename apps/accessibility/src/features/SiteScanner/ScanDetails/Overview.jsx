@@ -14,6 +14,7 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
+import CopyButton from 'common/CopyButton';
 import PropTypes from 'prop-types';
 
 import useOverview from './useOverview';
@@ -143,7 +144,6 @@ const Overview = ({ scanOverviewData }) => {
                   onRowClick={() => {
                     // navigate('/site-scanner/scan-report/12');
                   }}
-                  tabIndex="0"
                 >
                   <TableCell key={row} wrapperClass="first:pr-3 last:pl-3 p-5">
                     {idx + 1}
@@ -156,17 +156,7 @@ const Overview = ({ scanOverviewData }) => {
                     wrapperClass="flex justify-end cursor-pointer text-right"
                   >
                     <div className="flex justify-end">
-                      <CopyToClipboard
-                        onCopy={() => {
-                          setIsCopied(true);
-                          setTimeout(() => {
-                            setIsCopied(false);
-                          }, 2500);
-                        }}
-                        text={row}
-                      >
-                        <MdOutlineContentCopy />
-                      </CopyToClipboard>
+                      <CopyButton text={row} hasBorder={false} />
                     </div>
                   </TableCell>
                 </TableRow>

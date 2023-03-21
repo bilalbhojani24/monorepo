@@ -107,7 +107,7 @@ export default function Summary() {
     },
     {
       id: 'affectedComponents',
-      name: 'Top Affected Components',
+      name: 'Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -125,7 +125,7 @@ export default function Summary() {
     },
     {
       id: 'affectedUrls',
-      name: 'Top Affected URLs',
+      name: 'Affected URLs',
       key: 'affectedUrls'
     },
     {

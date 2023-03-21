@@ -103,7 +103,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'affectedComponents',
-      name: 'Top Affected Components',
+      name: 'Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -121,7 +121,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'affectedUrls',
-      name: 'Top Affected URLs',
+      name: 'Affected URLs',
       key: 'affectedUrls'
     },
     {

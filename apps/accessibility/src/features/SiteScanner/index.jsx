@@ -252,7 +252,7 @@ export default function SiteScanner() {
         // alert('Stopped Recurring scan');
       })
       .catch((err) => console.log(err));
-    }
+  };
   const getActionForAnalytics = (val) => {
     switch (val) {
       case 'newScanRun':
@@ -543,7 +543,7 @@ export default function SiteScanner() {
                     {getRunTypeBadge(row.recurring, row.active)}
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
-                      <div className="flex items-center mt-2">
+                      <div className="mt-2 flex items-center">
                         Scan Ongoing
                         <svg
                           aria-hidden="true"
@@ -569,7 +569,7 @@ export default function SiteScanner() {
                       </div>
                     ) : null}
                     {!row.isProcessing && row.nextScanDate ? (
-                      <span className="mr-2 flex items-center mt-2">
+                      <span className="mr-2 mt-2 flex items-center">
                         Next:{' '}
                         {dateFormat(
                           new Date(row.nextScanDate),
