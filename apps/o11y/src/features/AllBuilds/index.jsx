@@ -89,13 +89,13 @@ const AllBuildsPage = () => {
     }
   };
 
-  useEffect(() => {
-    loadFreshBuildsData();
-    return () => {
+  useEffect(
+    () => () => {
       // Clean builds on project change
       resetReduxStore(['selected', 'applied', 'buildsData', 'metaData']);
-    };
-  }, [dispatch, loadFreshBuildsData, resetReduxStore]);
+    },
+    [dispatch, resetReduxStore]
+  );
 
   useEffect(() => {
     const filtersParams = getParamsFromFiltersObject(appliedFilters);

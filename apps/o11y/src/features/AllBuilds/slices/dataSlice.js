@@ -7,7 +7,6 @@ import {
 } from 'api/builds';
 import { API_STATUSES } from 'constants/common';
 
-import { getParametersFromUrl } from '../../../utils/common';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_METADATA_FILTERS,
@@ -31,23 +30,23 @@ export const getBuildsData = createAsyncThunk(
 );
 
 const getBuildsFilters = (item) => {
-  const data = getParametersFromUrl();
-  Object.keys(data).forEach((key) => {
-    if (key === 'search') {
-      data.searchText = data.search;
-      delete data.search;
-    }
-    if (key === 'dateRange') {
-      const [startDate, endDate] = data.dateRange.split('%2C');
-      data.dateRange = {
-        lowerBound: parseInt(startDate, 10),
-        upperBound: parseInt(endDate, 10)
-      };
-    }
-    if (['statuses', 'users', 'tags', 'frameworks'].includes(key)) {
-      data[key] = data[key].split('%2C');
+  const data = {};
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.get('search')) {
+    data.searchText = searchParams.get('search');
+  }
+  ['statuses', 'users', 'tags', 'frameworks'].forEach((key) => {
+    if (searchParams.get(key)) {
+      data[key] = searchParams.get(key).split(',');
     }
   });
+  if (searchParams.get('dateRange')) {
+    const [startDate, endDate] = searchParams.get('dateRange').split(',');
+    data.dateRange = {
+      lowerBound: parseInt(startDate, 10),
+      upperBound: parseInt(endDate, 10)
+    };
+  }
   if (item === 'selected') {
     return { ...EMPTY_SELECTED_FILTERS, ...data };
   }

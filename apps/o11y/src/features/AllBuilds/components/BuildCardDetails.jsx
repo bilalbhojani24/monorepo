@@ -3,7 +3,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  MdAllInclusive,
   MdCancel,
   MdCheckCircle,
   MdHelp,
@@ -20,6 +19,7 @@ import {
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
+import VCIcon from 'common/VCIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
@@ -84,7 +84,8 @@ const BuildCardDetails = ({ data }) => {
                 {data?.isAutoDetectedName ? data?.originalName : data?.name}
                 {` `}
                 <O11yMetaData
-                  label={`#${data.buildNumber}`}
+                  textColorClass="text-base-500 inline-flex text-sm"
+                  metaDescription={`#${data.buildNumber}`}
                   title="Build Number"
                 />
                 {` `}
@@ -96,15 +97,15 @@ const BuildCardDetails = ({ data }) => {
                         <p className="text-base-300 text-sm leading-5">
                           Static build name automatically detected: {data.name}
                         </p>
-                        <a
-                          target="_new"
+                        <O11yHyperlink
+                          target="_blank"
                           href={getDocUrl({
                             path: DOC_KEY_MAPPING.automation_build
                           })}
                           className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
                         >
                           Learn More
-                        </a>
+                        </O11yHyperlink>
                       </div>
                     }
                   >
@@ -126,29 +127,40 @@ const BuildCardDetails = ({ data }) => {
               ))}
             </div>
             <p className="text-base-500 text-sm">
-              Ran by <O11yMetaData label={data?.user} title="Triggered By" /> on{' '}
+              Ran by{' '}
+              <O11yMetaData
+                textColorClass="text-base-500 inline-flex text-sm"
+                metaDescription={data?.user}
+                title="Triggered By"
+              />{' '}
+              on{' '}
               {data?.startedAt ? (
                 <O11yMetaData
-                  label={getCustomTimeStamp({
+                  textColorClass="text-base-500 inline-flex text-sm"
+                  metaDescription={getCustomTimeStamp({
                     dateString: new Date(data.startedAt)
                   })}
                   title="Started At"
                 />
               ) : null}{' '}
-              <span className="mx-2">
-                <MdAllInclusive className="text-base-600 inline-block" />
-              </span>
+              <span className="mx-2" />
               {data?.versionControlInfo ? (
                 <O11yHyperlink
-                  target="_new"
+                  target="_blank"
                   wrapperClassName="inline-block"
                   href={data?.versionControlInfo?.url}
                 >
                   <O11yMetaData
-                    label={`#
+                    icon={
+                      <VCIcon
+                        url={data?.versionControlInfo?.url}
+                        iconProps={{ className: 'h-5 w-5' }}
+                      />
+                    }
+                    textColorClass="hover:text-brand-600 text-base-500 inline-flex text-sm underline"
+                    metaDescription={`#
                     ${data?.versionControlInfo?.commitId?.slice(0, 8)}
                     `}
-                    wrapperClassName="hover:text-brand-600 underline"
                     title="Commit ID"
                   />
                 </O11yHyperlink>
@@ -169,7 +181,8 @@ const BuildCardDetails = ({ data }) => {
       </O11yTableCell>
       <O11yTableCell>
         <O11yMetaData
-          label={milliSecondsToTime(data.duration)}
+          textColorClass="text-base-500 inline-flex text-sm"
+          metaDescription={milliSecondsToTime(data.duration)}
           title="Duration"
         />
       </O11yTableCell>
@@ -192,7 +205,7 @@ const BuildCardDetails = ({ data }) => {
                   </p>
                   <O11yHyperlink
                     wrapperClassName="text-base-50 text-sm font-medium underline"
-                    target="_new"
+                    target="_blank"
                     href={getDocUrl({ path: DOC_KEY_MAPPING.auto_analyser })}
                   >
                     Learn more
@@ -266,6 +279,8 @@ const BuildCardDetails = ({ data }) => {
         <ul>
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker
+              variant="li"
+              role="button"
               onClick={(e) =>
                 navigateToTestPage('smartTags', {
                   eventData: e,
@@ -279,6 +294,8 @@ const BuildCardDetails = ({ data }) => {
           )}
           {data?.historyAggregate?.isFlaky > 0 && (
             <PropagationBlocker
+              variant="li"
+              role="button"
               onClick={(e) =>
                 navigateToTestPage('smartTags', {
                   eventData: e,
@@ -289,6 +306,8 @@ const BuildCardDetails = ({ data }) => {
           )}
           {data?.historyAggregate?.isAlwaysFailing > 0 && (
             <PropagationBlocker
+              variant="li"
+              role="button"
               onClick={(e) =>
                 navigateToTestPage('smartTags', {
                   eventData: e,
@@ -299,6 +318,8 @@ const BuildCardDetails = ({ data }) => {
           )}
           {data?.historyAggregate?.isPerformanceAnomaly > 0 && (
             <PropagationBlocker
+              variant="li"
+              role="button"
               onClick={(e) =>
                 navigateToTestPage('smartTags', {
                   eventData: e,

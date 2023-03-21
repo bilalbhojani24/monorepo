@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { O11yInputField } from 'common/bifrostProxy';
 
-import {
-  getBuildsData,
-  setAppliedFilters,
-  setBuilds
-} from '../slices/dataSlice';
+import { setAppliedFilters } from '../slices/dataSlice';
 import { getSearchTextFilters } from '../slices/selectors';
 
 const SearchBuilds = () => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
-  const { projectNormalisedName } = useParams();
   const searchTextRedux = useSelector(getSearchTextFilters);
   const handleOnChange = (e) => {
     const newValue = e.target.value;
@@ -23,16 +17,9 @@ const SearchBuilds = () => {
   const handleSearchTextChange = (e) => {
     const newValue = e.target.value;
     if (newValue.length && e.key === 'Enter') {
-      dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
       dispatch(
         setAppliedFilters({
-          searchText: newValue.toLowerCase()
-        })
-      );
-      dispatch(
-        getBuildsData({
-          projectNormalisedName,
-          currentPagingParams: {}
+          searchText: newValue
         })
       );
     }
@@ -42,13 +29,6 @@ const SearchBuilds = () => {
     dispatch(
       setAppliedFilters({
         searchText: ''
-      })
-    );
-    dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
-    dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
       })
     );
   };

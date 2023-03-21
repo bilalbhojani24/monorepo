@@ -1,20 +1,18 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
-import { getParamsFromFiltersObject } from '../features/AllBuilds/utils/common';
-
 export const getBuilds = async ({
   projectNormalisedName,
-  currentPagingParams,
-  filters
+  currentPagingParams
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/?`;
-  const paramsObject = {};
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/`;
+  const searchParams = window.location.search || '?';
+  endpoint += searchParams;
   if (currentPagingParams?.searchAfter?.length) {
-    paramsObject.searchAfter = currentPagingParams.searchAfter;
+    if (searchParams) endpoint += '&';
+    endpoint += `searchAfter=${currentPagingParams.searchAfter}`;
   }
-  const filtersObject = getParamsFromFiltersObject(filters);
-  return axios.get(endpoint, { params: { ...filtersObject, ...paramsObject } });
+  return axios.get(endpoint);
 };
 
 export const getBuildMetaDataAPI = async ({ buildUUID }) =>
