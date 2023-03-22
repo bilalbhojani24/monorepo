@@ -284,11 +284,12 @@ InputWithInlineLeadingDropdown.args = {
   type: 'number',
   label: 'Phone Number',
   placeholder: '+1 (555) 987-6543',
-  addOnBefore: (
+  leadingIconWrapperClassName: 'pl-0',
+  leadingIcon: (
     <SelectMenu>
       <SelectMenuTrigger
         placeholder="Select.."
-        wrapperClassName="rounded-r-none w-max"
+        wrapperClassName="border-0 w-max focus:ring-0  shadow-none"
       />
       <SelectMenuOptionGroup alignment="start">
         {options.map((item) => (
@@ -304,11 +305,12 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
   type: 'number',
   placeholder: '0.00',
   leadingIcon: <span className="text-base-500">$</span>,
-  addOnAfter: (
+  trailingIconWrapperClassName: 'pr-0',
+  trailingIcon: (
     <SelectMenu>
       <SelectMenuTrigger
         placeholder="Select.."
-        wrapperClassName="rounded-l-none w-max"
+        wrapperClassName="border-0 w-max focus:ring-0  shadow-none"
       />
       <SelectMenuOptionGroup alignment="end">
         {options.map((item) => (
@@ -316,7 +318,8 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
         ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
-  )
+  ),
+  isTrailingNodeClickable: true
 };
 
 InputWithLeadingIconAndTrailingButton.args = {
@@ -327,7 +330,7 @@ InputWithLeadingIconAndTrailingButton.args = {
   addOnAfter: (
     <Button
       variant="minimal"
-      wrapperClassName="rounded-l-none border border-base-300"
+      wrapperClassName="rounded-l-none border border-base-300 border-l-0"
     >
       <span className="text-base-500 flex space-x-1.5 px-3">
         <BarsArrowUpIcon className="text-base-500 h-5 w-5" aria-hidden="true" />

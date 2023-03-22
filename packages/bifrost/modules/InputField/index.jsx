@@ -30,7 +30,9 @@ const InputField = forwardRef(
       type,
       trailingIcon,
       value,
-      wrapperClassName
+      wrapperClassName,
+      leadingIconWrapperClassName,
+      trailingIconWrapperClassName
     },
     ref
   ) => (
@@ -54,12 +56,13 @@ const InputField = forwardRef(
         {addOnBefore}
         <div
           className={twClassNames(
-            'rounded-md w-full flex items-center border-1 border border-base-300 z-10 focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500',
+            'rounded-md w-full flex items-center border-1 border border-base-300 z-10 ',
             {
               'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
                 errorText,
-              'cursor-not-allowed border-base-200 bg-base-50 pointer-events-none':
-                disabled,
+              'focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500':
+                !errorText,
+              'border-base-200 bg-base-50': disabled,
               'bg-base-50 bg-clip-padding border-base-300 focus-within:border-brand-600 focus-within:outline-brand-600':
                 readonly,
               'rounded-l-none': addOnBefore,
@@ -68,7 +71,11 @@ const InputField = forwardRef(
             wrapperClassName
           )}
         >
-          {leadingIcon && <div className="pl-3">{leadingIcon}</div>}
+          {leadingIcon && (
+            <div className={twClassNames('pl-3', leadingIconWrapperClassName)}>
+              {leadingIcon}
+            </div>
+          )}
           <input
             aria-invalid={!!errorText}
             aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
@@ -82,7 +89,7 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={twClassNames(
-              'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm',
+              'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm disabled:cursor-not-allowed',
               {
                 'text-danger-900': errorText,
                 'disabled:text-base-500': disabled,
@@ -98,9 +105,13 @@ const InputField = forwardRef(
 
           {(trailingIcon || errorText) && (
             <div
-              className={twClassNames('flex items-center pr-3 gap-1', {
-                'pointer-events-none': !isTrailingNodeClickable
-              })}
+              className={twClassNames(
+                'flex items-center pr-3 gap-1',
+                {
+                  'pointer-events-none': !isTrailingNodeClickable
+                },
+                trailingIconWrapperClassName
+              )}
             >
               {trailingIcon}
               {errorText && (
@@ -153,7 +164,9 @@ InputField.propTypes = {
   readonly: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  leadingIconWrapperClassName: PropTypes.string,
+  trailingIconWrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
@@ -179,7 +192,9 @@ InputField.defaultProps = {
   readonly: false,
   type: 'text',
   value: undefined,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  leadingIconWrapperClassName: '',
+  trailingIconWrapperClassName: ''
 };
 
 export default InputField;
