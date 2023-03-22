@@ -2,10 +2,12 @@ module.exports = {
   packagerConfig: {
     protocols: [
       {
-        name: 'Browserstack App Performance',
+        name: 'AppBench',
         schemes: ['bsperf']
       }
-    ]
+    ],
+    extraResource: ['./nodeBE'],
+    icon: './appIcon.icns'
   },
   rebuildConfig: {},
   makers: [
@@ -14,7 +16,10 @@ module.exports = {
       config: {}
     },
     {
-      name: '@electron-forge/maker-zip',
+      name: '@electron-forge/maker-dmg',
+      config: {
+        icon: './appIcon.icns'
+      },
       platforms: ['darwin']
     },
     {

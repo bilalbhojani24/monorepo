@@ -17,10 +17,20 @@ const mainThreadGlobals = {
    * storing globals into object so that they can be
    * passed by reference to asynchronous handlers
    */
-  mainWindow: undefined
+  mainWindow: undefined,
+  splashScreen: undefined
 };
 
-const createWindow = () => {
+const closeSplashAndLoadMainWindow = () => {
+  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  mainThreadGlobals.mainWindow.once('ready-to-show', () => {
+    mainThreadGlobals.splashScreen.destroy();
+    mainThreadGlobals.mainWindow.show();
+  });
+};
+
+const createWindow = async () => {
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
@@ -32,29 +42,28 @@ const createWindow = () => {
     show: false
   });
 
-  const splashScreen = new BrowserWindow({
+  mainThreadGlobals.splashScreen = new BrowserWindow({
     width: 640,
     height: 320,
     frame: false,
     transparent: true,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    resizable: false
   });
 
-  splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
-
-  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainThreadGlobals.splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
 
   if (!IS_DEV) {
     // order is important for this one
-    backendServerOps.initializeBackendServer(mainThreadGlobals);
-  }
 
-  mainThreadGlobals.mainWindow.once('ready-to-show', () => {
-    setTimeout(() => {
-      splashScreen.destroy();
-      mainThreadGlobals.mainWindow.show();
-    }, 2000);
-  });
+    await backendServerOps.initializeBackendServer(mainThreadGlobals);
+
+    await backendServerOps.checkServerAvailability(
+      closeSplashAndLoadMainWindow
+    );
+  } else {
+    closeSplashAndLoadMainWindow();
+  }
 
   fileExplorerOps.initializeProtocolForFileRead();
 };
