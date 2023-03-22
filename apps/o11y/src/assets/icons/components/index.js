@@ -37,6 +37,7 @@ import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
+import DangerIcon from './DangerIcon';
 import DeviceIcon from './DeviceIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
@@ -55,6 +56,7 @@ export {
   BuildKiteIcon,
   ChromeIcon,
   CircleCIIcon,
+  DangerIcon,
   DefaultBrowserIcon,
   DefaultOSIcon,
   DeviceIcon,

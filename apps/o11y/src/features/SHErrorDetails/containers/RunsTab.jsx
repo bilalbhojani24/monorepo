@@ -1,18 +1,17 @@
 import React from 'react';
 
-// import CombinationsMenu from '../components/CombinationsMenu';
+import CombinationsMenu from '../components/CombinationsMenu';
+import ErrorInfo from '../components/ErrorInfo';
 
-// import TestBuilds from './TestBuilds';
-// import TestStats from './TestStats';
-// import TestTrend from './TestTrend';
+import ErrorBuilds from './ErrorBuilds';
+import ErrorTrend from './ErrorTrend';
 
 const RunsTab = () => (
   <>
-    {/* <CombinationsMenu />
-    <TestStats />
-    <TestTrend />
-    <TestBuilds /> */}
-    Runs Tab
+    <CombinationsMenu />
+    <ErrorInfo />
+    <ErrorTrend />
+    <ErrorBuilds />
   </>
 );
 

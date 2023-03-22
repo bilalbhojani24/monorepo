@@ -10,3 +10,5 @@ export const getShowUEDetailsFor = (state) =>
 export const getUECbtInfo = (state) => state.shErrordetails.ui.cbtInfo;
 export const getUEActiveTab = (state) => state.shErrordetails.ui.activeTab;
 export const getUEChartBounds = (state) => state.shErrordetails.ui.chartBounds;
+export const getUEShowAllBuilds = (state) =>
+  state.shErrordetails.ui.showAllBuilds;

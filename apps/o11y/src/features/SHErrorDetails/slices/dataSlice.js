@@ -54,7 +54,8 @@ const { reducer, actions } = createSlice({
       activeTab: {
         idx: 1,
         value: TABS.runs
-      }
+      },
+      showAllBuilds: false
     }
   },
   reducers: {
@@ -75,6 +76,9 @@ const { reducer, actions } = createSlice({
     },
     setUEDetailsActiveTab: (state, { payload }) => {
       state.ui.activeTab = payload;
+    },
+    setShowAllBuilds: (state, { payload }) => {
+      state.ui.showAllBuilds = payload;
     },
     clearUEDetailsInfo: (state) => {
       state.data.errorDetailsInfo.isLoading = false;
@@ -106,7 +110,8 @@ export const {
   setUEDetailsChartBounds,
   setUEDetailsActiveTab,
   clearUEDetailsInfo,
-  resetUEDetailsActiveTab
+  resetUEDetailsActiveTab,
+  setShowAllBuilds
 } = actions;
 
 export const getSnPErrorDetailsTrendData = createAsyncThunk(
