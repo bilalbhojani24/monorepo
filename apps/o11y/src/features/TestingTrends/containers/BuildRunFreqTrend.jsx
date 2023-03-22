@@ -8,7 +8,6 @@ import { isEmpty, max } from 'lodash';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
 
-import CardHeader from '../components/CardHeader';
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { getAllTTFilters } from '../slices/selectors';
 
@@ -30,7 +29,7 @@ const BuildRunsList = React.memo(({ item, maxRunCount }) => (
   </>
 ));
 
-export default function BuildRunFreqTrend({ title }) {
+export default function BuildRunFreqTrend() {
   const filters = useSelector(getAllTTFilters);
   const [buildData, setBuildData] = useState({ data: [] });
   const dispatch = useDispatch();
@@ -79,10 +78,8 @@ export default function BuildRunFreqTrend({ title }) {
       isEmpty={isEmpty(buildData?.data)}
       hasError={hasError}
       onClickCTA={fetchData}
-      title={title}
     >
-      <CardHeader title={title} />
-      <div className="h-96 flex-1 p-4">
+      <div className="h-96 flex-1">
         <VirtualisedTable
           data={buildData?.data}
           // endReached={loadMoreRows}
@@ -108,8 +105,4 @@ export default function BuildRunFreqTrend({ title }) {
 BuildRunsList.propTypes = {
   item: PropTypes.objectOf(PropTypes.any).isRequired,
   maxRunCount: PropTypes.number.isRequired
-};
-
-BuildRunFreqTrend.propTypes = {
-  title: PropTypes.string.isRequired
 };

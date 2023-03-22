@@ -1,5 +1,11 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import {
+  Button,
+  DataVisualization,
+  MdDragIndicator,
+  MdInfoOutline
+} from '@browserstack/bifrost';
 import PlaceHolder from 'common/PlaceHolder';
 import BuildRunFreqTrend from 'features/TestingTrends/containers/BuildRunFreqTrend';
 import CbtTrends from 'features/TestingTrends/containers/CbtTrends';
@@ -21,12 +27,11 @@ export default function TestingTrends() {
     TREND_CARDS
   } = useTestingTrends();
   const renderDashboardCard = (key) => {
-    const { title } = TREND_CARDS[key];
     switch (key) {
       case 'stability':
-        return <StabilityTrend title={title} />;
+        return <StabilityTrend />;
       case 'performance':
-        return <PerformanceTrend title={title} />;
+        return <PerformanceTrend />;
       case 'testGrowthOverTime':
         return (
           <TrendsCard
@@ -96,9 +101,9 @@ export default function TestingTrends() {
           />
         );
       case 'failureCategories':
-        return <FailureCategoryTrend title={title} />;
+        return <FailureCategoryTrend />;
       case 'buildRunFrequency':
-        return <BuildRunFreqTrend title={title} />;
+        return <BuildRunFreqTrend />;
       case 'testExecutions':
         return (
           <TrendsCard
@@ -181,11 +186,40 @@ export default function TestingTrends() {
         >
           {Object.keys(TREND_CARDS).map((key) => (
             <div
-              className="border-base-200 group relative h-full max-h-full flex-1 overflow-auto rounded-lg border bg-white shadow"
+              className="border-base-200 group relative h-96 max-h-full flex-1"
               key={key}
               data-grid={TREND_CARDS[key]}
             >
-              {renderDashboardCard(key)}
+              <DataVisualization
+                analytics={renderDashboardCard(key)}
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      {TREND_CARDS[key].title}
+                    </div>
+                  ),
+                  children: <MdInfoOutline className="h-5 w-5" />,
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  theme: 'dark'
+                }}
+                isLoading
+                filterDropdown={
+                  <Button
+                    colors="white"
+                    onClick={() => {}}
+                    icon={<MdDragIndicator className="ml-1" />}
+                    isIconOnlyButton
+                    size="small"
+                    wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:shadow-none"
+                  />
+                }
+                size="fit-content"
+                title={TREND_CARDS[key].title}
+                wrapperClassName="bg-white relative h-full"
+              />
             </div>
           ))}
         </ResponsiveReactGridLayout>

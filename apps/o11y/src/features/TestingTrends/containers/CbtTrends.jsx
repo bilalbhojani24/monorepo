@@ -13,14 +13,12 @@ import {
   COMMON_CHART_STYLES,
   TOOLTIP_STYLES
 } from 'constants/common';
-import CardHeader from 'features/TestingTrends/components/CardHeader';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import { logOllyEvent } from 'utils/common';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
-import { TREND_CARDS } from '../constants';
 import { getAllTTFilters } from '../slices/selectors';
 
 const getChartOptions = () => ({
@@ -196,15 +194,13 @@ export default function CbtTrends() {
       }
       hasError={hasError}
       onClickCTA={fetchData}
-      title={TREND_CARDS.cbt.title}
     >
       <div className="flex h-full flex-col">
-        <CardHeader title={TREND_CARDS.cbt.title} />
         <div className="grid h-96 flex-1 grid-cols-2 gap-8">
           {!!chartData.data?.length && (
             <Chart options={getOptions} chartRef={chart} />
           )}
-          <div className="h-96 overflow-y-scroll p-3">
+          <div className="h-96 overflow-y-auto p-3">
             {activeSeriesData.map((item, idx) => (
               <div
                 className={classNames(

@@ -1,11 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
-import CardHeader from 'features/TestingTrends/components/CardHeader';
 import StabilityLineGraph from 'features/TestingTrends/components/StabilityLineGraph';
 import StabilityTable from 'features/TestingTrends/components/StabilityTable';
-import PropTypes from 'prop-types';
 
-export default function StabilityTrend({ title }) {
+export default function StabilityTrend() {
   const [selectedBuild, setSelectedBuild] = useState('');
   const handleBuildSelect = useCallback((id) => {
     setSelectedBuild(id);
@@ -18,21 +16,16 @@ export default function StabilityTrend({ title }) {
           'w-full': !selectedBuild
         })}
       >
-        <CardHeader title={title} />
         <StabilityTable
           handleBuildSelect={handleBuildSelect}
           selectedBuild={selectedBuild}
         />
       </div>
       {!!selectedBuild && (
-        <div className="flex-1 p-5">
+        <div className="flex-1 px-5">
           <StabilityLineGraph buildId={selectedBuild} key={selectedBuild} />
         </div>
       )}
     </div>
   );
 }
-
-StabilityTrend.propTypes = {
-  title: PropTypes.string.isRequired
-};

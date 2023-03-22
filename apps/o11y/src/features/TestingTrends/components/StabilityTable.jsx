@@ -128,9 +128,8 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
       isEmpty={isEmpty(stabilityData?.data)}
       hasError={hasError}
       onClickCTA={loadInitialData}
-      showTitle={false}
     >
-      <div className="h-96 flex-1 p-4">
+      <div className="h-96 flex-1">
         <VirtualisedTable
           data={stabilityData?.data}
           endReached={loadMoreRows}

@@ -6,7 +6,7 @@ const getCommonFilterQuery = (filters) => {
   if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
     queryString = `${queryString}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
   }
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
+  if (filters?.buildName?.value !== 'all') {
     queryString = `${queryString}&buildName=${filters.buildName.value}`;
   }
   return queryString;

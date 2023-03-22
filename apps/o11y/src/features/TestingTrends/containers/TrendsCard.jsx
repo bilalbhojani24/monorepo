@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
-import CardHeader from 'features/TestingTrends/components/CardHeader';
 import TrendsGenericChart from 'features/TestingTrends/components/TrendsGenericChart';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
-import { TREND_CARDS } from 'features/TestingTrends/constants';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
@@ -13,7 +11,6 @@ import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
 
 export default function TrendsCard({
-  cardKey,
   insightsSuffix,
   apiKey,
   config,
@@ -60,31 +57,32 @@ export default function TrendsCard({
       isEmpty={isEmpty(chartData?.data) && !isLoading}
       hasError={hasError}
       onClickCTA={fetchData}
-      title={TREND_CARDS[cardKey].title}
     >
       <div className="flex flex-col">
-        <CardHeader title={TREND_CARDS[cardKey].title} />
         {!isEmpty(chartData.insights) && (
-          <div className="flex items-end gap-4 px-5 pt-2">
+          <div className="flex flex-col">
             {chartData?.insights?.count !== undefined && (
               <>
-                <p className="px-5 pt-2 pb-0 text-3xl font-semibold">
-                  {config?.abbrNumber
-                    ? abbrNumber(chartData?.insights?.count)
-                    : chartData?.insights?.count}
-                  {insightsSuffix}
-                </p>
-                {(!!chartData?.insights?.meta || !!config.metaText) && (
-                  <p className="pb-1">
-                    {chartData?.insights?.meta || config.metaText}
+                <p className="text-base-500 text-sm font-medium">Total</p>
+                <div className="flex">
+                  <p className="pr-2 pb-0 text-3xl font-semibold">
+                    {config?.abbrNumber
+                      ? abbrNumber(chartData?.insights?.count)
+                      : chartData?.insights?.count}
+                    {insightsSuffix}
                   </p>
-                )}
+                  {(!!chartData?.insights?.meta || !!config.metaText) && (
+                    <p className="text-base-500 self-end pb-1 text-sm font-medium">
+                      {chartData?.insights?.meta || config.metaText}
+                    </p>
+                  )}
+                </div>
               </>
             )}
           </div>
         )}
         {!isEmpty(chartData.data) && (
-          <div className={twClassNames('px-5 pt-2 pb-2 h-80')}>
+          <div className={twClassNames('pt-2 pb-2 h-80')}>
             <TrendsGenericChart
               data={chartData.data}
               config={config}
@@ -99,7 +97,6 @@ export default function TrendsCard({
 }
 
 TrendsCard.propTypes = {
-  cardKey: PropTypes.string.isRequired,
   apiKey: PropTypes.string.isRequired,
   insightsSuffix: PropTypes.string,
   config: PropTypes.shape({

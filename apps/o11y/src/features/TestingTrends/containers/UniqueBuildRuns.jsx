@@ -7,10 +7,8 @@ import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-import CardHeader from '../components/CardHeader';
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import UniqueBuildItem from '../components/UniqueBuildItem';
-import { TREND_CARDS } from '../constants';
 
 const LoadingFooter = () => (
   <div className="flex items-center py-6 px-0">
@@ -115,10 +113,8 @@ export default function UniqueBuildRuns() {
       isEmpty={isEmpty(builds?.data)}
       hasError={hasError}
       onClickCTA={() => fetchData({})}
-      title={TREND_CARDS.latestUniqueBuildRuns.title}
     >
       <div className="relative flex h-full flex-col px-5 pt-5 pb-0">
-        <CardHeader title={TREND_CARDS.latestUniqueBuildRuns.title} />
         {!!builds?.data?.length && (
           <UniqueBuildRunsList
             handleBottomChange={handleBottomChange}

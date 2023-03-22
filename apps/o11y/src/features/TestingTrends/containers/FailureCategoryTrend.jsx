@@ -6,7 +6,6 @@ import {
   COMMON_CHART_STYLES,
   TOOLTIP_STYLES
 } from 'constants/common';
-import CardHeader from 'features/TestingTrends/components/CardHeader';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import useChartActions from 'features/TestingTrends/hooks/useChartActions';
 import {
@@ -16,7 +15,6 @@ import {
 import { getTrendFailureCategoriesData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
-import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
@@ -103,7 +101,7 @@ function getChartOptions({ afterSetExtremes, activeProject }) {
   };
 }
 
-export default function FailureCategoryTrend({ title }) {
+export default function FailureCategoryTrend() {
   const filters = useSelector(getAllTTFilters);
   const activeDateRange = useSelector((state) =>
     getTTFilterByKey(state, 'dateRange')
@@ -156,14 +154,12 @@ export default function FailureCategoryTrend({ title }) {
       isEmpty={isEmpty(chartData?.data)}
       hasError={hasError}
       onClickCTA={fetchData}
-      title={title}
     >
       <div className="flex h-full flex-col">
-        <CardHeader title={title} />
         {chartData?.percentage !== undefined && (
           <p className="">{chartData?.percentage}%</p>
         )}
-        <div className="h-96 py-5 px-4 pt-1">
+        <div className="h-96">
           <Chart
             options={options}
             key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
@@ -173,7 +169,3 @@ export default function FailureCategoryTrend({ title }) {
     </TrendStatesWrapper>
   );
 }
-
-FailureCategoryTrend.propTypes = {
-  title: PropTypes.string.isRequired
-};

@@ -51,7 +51,6 @@ export default function StabilityLineGraph({ buildId }) {
       isEmpty={isEmpty(chartData?.data)}
       hasError={hasError}
       onClickCTA={fetchData}
-      showTitle={false}
     >
       <div className="h-96">
         {!isEmpty(chartData.data) && (

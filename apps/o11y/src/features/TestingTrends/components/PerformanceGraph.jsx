@@ -219,7 +219,6 @@ export default function PerformanceGraph({ buildId }) {
       isEmpty={isEmpty(chartData?.lineData) && isEmpty(chartData?.barData)}
       hasError={hasError}
       onClickCTA={fetchData}
-      showTitle={false}
     >
       <div className="h-96">
         <Chart

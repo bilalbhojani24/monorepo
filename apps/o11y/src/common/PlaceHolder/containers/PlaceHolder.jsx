@@ -17,7 +17,7 @@ export default function PlaceHolder({
   onClickCTA
 }) {
   return (
-    <div className="flex flex-col py-0 px-5">
+    <div className="flex flex-col items-center py-0 px-5">
       {type === 'error' && (
         <div className="h-28 w-28 rounded-full">
           <MdOutlineErrorOutline className="text-danger-300 bg-danger-100 ml-2 h-16 w-16" />{' '}

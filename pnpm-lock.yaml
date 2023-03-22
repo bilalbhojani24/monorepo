@@ -201,7 +201,7 @@ importers:
       react: 18.2.0
       react-copy-to-clipboard: 5.1.0
       react-dom: 18.2.0
-      react-grid-layout: ^1.3.4
+      react-grid-layout: 1.3.4
       react-html-parser: 2.0.2
       react-redux: 8.0.5
       react-router-dom: 6.6.1
@@ -5648,7 +5648,7 @@ packages:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_xsftmjzvfioxqs4ify53ibh7ay
       '@storybook/node-logger': 6.5.16
       '@storybook/react': 6.5.16_nsojkcuzyxevfv6vk2xlte3i2q
-      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.cd77847.0_hhrrucqyg4eysmfpujvov2ym5u
+      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.630821.0_hhrrucqyg4eysmfpujvov2ym5u
       '@types/babel__core': 7.20.0
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0_typescript@4.9.5
@@ -5712,8 +5712,8 @@ packages:
       - supports-color
     dev: true
 
-  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.cd77847.0_hhrrucqyg4eysmfpujvov2ym5u:
-    resolution: {integrity: sha512-I4oBYmnUCX5IsrZhg+ST72dubSIV4wdwY+SfqJiJ3NHvDpdb240ZjdHAmjIy/yJh5rh42Fl4jbG8Tr4SzwV53Q==}
+  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.630821.0_hhrrucqyg4eysmfpujvov2ym5u:
+    resolution: {integrity: sha512-adrUdN/hb/bzRBmSJtHBEwoPpZzmMbr9WIEp83As69j0hkSa2Rp/Fvp+f97A2FyEx0+skiSX8ENLnwuup+5yuA==}
     peerDependencies:
       typescript: '>= 4.x'
       webpack: '>= 4'
@@ -8518,7 +8518,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -18503,6 +18503,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
     dev: true
 
   /promise.allsettled/1.0.6:

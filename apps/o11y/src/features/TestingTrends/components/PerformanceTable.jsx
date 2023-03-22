@@ -144,9 +144,8 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
       isEmpty={isEmpty(performanceData?.data)}
       hasError={hasError}
       onClickCTA={loadInitialData}
-      showTitle={false}
     >
-      <div className="flex h-96 flex-col p-5">
+      <div className="flex h-96 flex-col">
         <VirtualisedTable
           data={performanceData?.data}
           endReached={loadMoreRows}
