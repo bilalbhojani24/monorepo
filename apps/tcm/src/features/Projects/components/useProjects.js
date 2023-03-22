@@ -231,7 +231,7 @@ const useProjects = (prop) => {
                   value: false
                 })
               );
-            }, 100);
+            }, 500);
           })
           .catch(() => {
             dispatch(

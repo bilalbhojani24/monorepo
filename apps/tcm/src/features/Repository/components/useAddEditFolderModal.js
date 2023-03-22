@@ -179,7 +179,7 @@ export default function useAddEditFolderModal(prop) {
         hideFolderModal();
         setTimeout(() => {
           dispatch(updateCtaLoading({ key: 'editFolderCta', value: false }));
-        }, 100);
+        }, 500);
       })
       .catch(() => {
         dispatch(updateCtaLoading({ key: 'editFolderCta', value: false }));
@@ -199,7 +199,7 @@ export default function useAddEditFolderModal(prop) {
         hideFolderModal();
         setTimeout(() => {
           dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
-        }, 100);
+        }, 500);
       })
       .catch(() => {
         dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
@@ -244,7 +244,7 @@ export default function useAddEditFolderModal(prop) {
         hideFolderModal();
         setTimeout(() => {
           dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
-        }, 100);
+        }, 500);
       })
       .catch(() => {
         dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
