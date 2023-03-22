@@ -80,7 +80,7 @@ const SideNav = (props) => {
                       placeholder="Select.."
                       wrapperClassName="cursor-pointer"
                     />
-                    <SelectMenuOptionGroup>
+                    <SelectMenuOptionGroup wrapperClassName="max-w-full">
                       {/* <Virtuoso
                         customScrollParent={
                           selectMenuRef.current || document.body
