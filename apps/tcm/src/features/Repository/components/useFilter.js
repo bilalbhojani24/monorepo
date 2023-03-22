@@ -113,16 +113,20 @@ const useFilter = (prop) => {
     }
 
     if (isFilterInvoke) {
+      // Filter apply clicked
       // only consider the filters in the redux state
       thisFilterSearchMeta = { ...workingMetaData, q: existingFilterOptions.q };
+    } else if (isClearFitlers) {
+      // clear filter button clicked
+      // clear filter and maintain only existing search key
+      thisFilterSearchMeta = { q: existingFilterOptions.q };
     } else {
+      // serch enter clicked
       // only consider the search value in the redux state
 
       if (workingMetaData.q === '' && existingFilterOptions.q === '') return; // only consider empty search key to clear existing searchkey
 
-      thisFilterSearchMeta = isClearFitlers
-        ? { q: workingMetaData.q }
-        : { ...existingFilterOptions, q: workingMetaData.q };
+      thisFilterSearchMeta = { ...existingFilterOptions, q: workingMetaData.q };
     }
 
     const { searchParamsTemp } = getCalcQueryParams(thisFilterSearchMeta);
