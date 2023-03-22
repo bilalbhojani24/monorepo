@@ -123,7 +123,7 @@ const Repository = ({ isSearch }) => {
         <div className="flex flex-1 shrink-0 grow  items-stretch justify-center  overflow-hidden bg-white">
           <main className="w-full min-w-0 shrink-0 grow overflow-hidden lg:flex">
             <aside className="lg:order-first lg:block lg:shrink-0">
-              <div className="relative flex h-full w-72 flex-col overflow-hidden">
+              <div className="relative flex h-full flex-col overflow-hidden lg:w-72">
                 <Folders />
               </div>
             </aside>
