@@ -83,7 +83,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           <TableBody wrapperClassName="w-full">
             {logs?.logs.map((row, idx) => (
               <TableRow key={idx} tabIndex="0" wrapperClassName="w-full">
-                <TableCell wrapperClassName="w-1/5 truncate font-medium text-base-900 border-l-4 border-success-500 first:pr-3 last:pl-3 p-5">
+                <TableCell wrapperClassName="w-1/5 truncate">
                   <div className="text-base-500 flex w-full items-center truncate font-normal">
                     <MdSchedule />
                     <span className="ml-0.5">
