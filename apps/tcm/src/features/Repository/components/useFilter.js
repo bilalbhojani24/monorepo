@@ -72,6 +72,33 @@ const useFilter = (prop) => {
     };
   };
 
+  const proceedWithLocalFilter = (searchParamsTemp) => {
+    prop?.onFilterChange(searchParamsTemp);
+    const count = [
+      searchParamsTemp.tags,
+      searchParamsTemp.owner,
+      searchParamsTemp.priority
+    ];
+    setAppliedFiltersCount(count.filter((item) => item).length);
+  };
+
+  const getCalcQueryParams = (thisFilterSearchMeta) => {
+    const queryParams = {};
+    const searchParamsTemp = {};
+    Object.keys(thisFilterSearchMeta).forEach((key) => {
+      const value = Array.isArray(thisFilterSearchMeta[key])
+        ? thisFilterSearchMeta[key].join(',')
+        : thisFilterSearchMeta[key];
+
+      if (value) {
+        searchParamsTemp[key] = value;
+        queryParams[`q[${key}]`] = value;
+      }
+    });
+
+    return { queryParams, searchParamsTemp };
+  };
+
   const applyFilterHandler = (metaData, isFilterInvoke, isClearFitlers) => {
     let thisFilterSearchMeta = {};
     const workingMetaData = metaData || filterSearchMeta;
@@ -90,32 +117,18 @@ const useFilter = (prop) => {
       thisFilterSearchMeta = { ...workingMetaData, q: existingFilterOptions.q };
     } else {
       // only consider the search value in the redux state
+
+      if (workingMetaData.q === '' && existingFilterOptions.q === '') return; // only consider empty search key to clear existing searchkey
+
       thisFilterSearchMeta = isClearFitlers
         ? { q: workingMetaData.q }
         : { ...existingFilterOptions, q: workingMetaData.q };
     }
 
-    const queryParams = {};
-    const searchParamsTemp = {};
-    Object.keys(thisFilterSearchMeta).forEach((key) => {
-      const value = Array.isArray(thisFilterSearchMeta[key])
-        ? thisFilterSearchMeta[key].join(',')
-        : thisFilterSearchMeta[key];
-
-      if (value) {
-        searchParamsTemp[key] = value;
-        queryParams[`q[${key}]`] = value;
-      }
-    });
+    const { searchParamsTemp } = getCalcQueryParams(thisFilterSearchMeta);
 
     if (prop?.onFilterChange) {
-      prop?.onFilterChange(searchParamsTemp);
-      const count = [
-        searchParamsTemp.tags,
-        searchParamsTemp.owner,
-        searchParamsTemp.priority
-      ];
-      setAppliedFiltersCount(count.filter((item) => item).length);
+      proceedWithLocalFilter(searchParamsTemp);
     } else {
       if (!isSearchFilterView) {
         // if initial filter/search cache the current URL;
