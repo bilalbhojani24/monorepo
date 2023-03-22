@@ -225,7 +225,8 @@ export default function useAddEditTestCase(prop) {
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
     // name validation
-    if (!formData.name) {
+    if (!formData.name.trim()) {
+      dispatch(updateTestCaseFormData({ key: 'name', value: '' }));
       inputErrorsFound.name = true;
     }
 
