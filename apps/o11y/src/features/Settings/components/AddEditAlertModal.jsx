@@ -331,7 +331,8 @@ function AddEditAlertModal() {
             </p>
             <div className="mt-4">
               <O11yInputField
-                label="Alert name *"
+                label="Alert name"
+                isMandatory
                 placeholder="Enter alert name"
                 value={alertName}
                 onChange={handleChangeAlertName}
@@ -409,7 +410,8 @@ function AddEditAlertModal() {
                     label={`${
                       ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
                         .placeholder_text
-                    } *`}
+                    }`}
+                    isMandatory
                     placeholder="Enter numeric value"
                     value={criticalValue}
                     onChange={handleChangeCriticalValue}
