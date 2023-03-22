@@ -12,6 +12,8 @@ import reportLoadingAnimation from 'assets/tripleDots.gif';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { secondsToMinutes } from 'utils/dateUtils';
 
+import { sessionStateTextMap } from '../utils/reportLoadingUtils';
+
 import GenerateReportPrompt from './GenerateReportPrompt';
 import QuitTestingPrompt from './QuitTestingPrompt';
 import useReportLoading from './useReportLoading';
@@ -20,7 +22,6 @@ const ReportLoading = () => {
   const {
     sessionState,
     sessionDetails,
-    sessionStateTextMap,
     quitTestConfirmed,
     stopSessionClicked,
     secondsElapsed,

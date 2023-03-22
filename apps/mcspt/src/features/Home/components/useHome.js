@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  getIsUserLoggedIn,
   getTotalAllowedSessions,
   getTotalCompletedSessions
 } from 'features/Dashboard/slices/dashboardSlice';
@@ -9,7 +10,10 @@ import {
   getPreviousUserSessions
 } from 'features/TestHistory';
 
-import { EXISTIN_REPORTS_SAMPLE_SWITCH } from '../utils/homeUiConstants';
+import {
+  EXISTIN_REPORTS_SAMPLE_SWITCH,
+  SESSIONS_ALLOWED_BERFOR_WARNING
+} from '../utils/homeUiConstants';
 
 const buildBannerMsg = (completed, allowed) =>
   completed !== allowed
@@ -19,6 +23,7 @@ const buildBannerMsg = (completed, allowed) =>
 const useHome = () => {
   const dispatch = useDispatch();
 
+  const isUserLoggedIn = useSelector(getIsUserLoggedIn);
   const totalAllowedSessions = useSelector(getTotalAllowedSessions);
   const totalCompletedSessions = useSelector(getTotalCompletedSessions);
   const previousUserSessions = useSelector(getPreviousUserSessions);
@@ -32,7 +37,10 @@ const useHome = () => {
     totalAllowedSessions,
     buildBannerMsg,
     shouldShowExistingSessionsTable:
-      previousUserSessions?.length > EXISTIN_REPORTS_SAMPLE_SWITCH
+      previousUserSessions?.length > EXISTIN_REPORTS_SAMPLE_SWITCH,
+    showAuthBanner:
+      !isUserLoggedIn &&
+      totalCompletedSessions > SESSIONS_ALLOWED_BERFOR_WARNING
   };
 };
 

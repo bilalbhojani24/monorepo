@@ -1,8 +1,6 @@
 import React from 'react';
 import { Banner, Button } from '@browserstack/bifrost';
 
-import { SESSIONS_ALLOWED_BERFOR_WARNING } from '../utils/homeUiConstants';
-
 import DependencyChecker from './DependencyChecker';
 import ExistingSessionsTable from './RecentTests';
 import SampleReportsTable from './SampleReports';
@@ -13,12 +11,13 @@ const Home = () => {
     totalCompletedSessions,
     totalAllowedSessions,
     buildBannerMsg,
-    shouldShowExistingSessionsTable
+    shouldShowExistingSessionsTable,
+    showAuthBanner
   } = useHome();
 
   return (
     <div id="home-container" className="flex w-full flex-col">
-      {totalCompletedSessions > SESSIONS_ALLOWED_BERFOR_WARNING && (
+      {showAuthBanner && (
         <Banner
           align="centered"
           isDismissButton={false}
