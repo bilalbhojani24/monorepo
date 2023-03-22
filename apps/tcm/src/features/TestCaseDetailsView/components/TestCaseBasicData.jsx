@@ -200,6 +200,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           </div>
         </div>
         <DetailsSnippet
+          dontCapitalize
           title="Attachments"
           value={
             testCaseDetails?.attachments?.length ? (
