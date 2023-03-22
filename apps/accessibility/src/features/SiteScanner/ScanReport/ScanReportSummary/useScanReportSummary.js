@@ -156,7 +156,7 @@ export default function useScanReportSummary() {
           {
             name: 'Serious',
             y: serious,
-            color: '#FF9933'
+            color: '#F472B6'
           },
           {
             name: 'Moderate',

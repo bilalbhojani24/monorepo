@@ -52,8 +52,10 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
-        userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(
+        ({ name, createdBy: { name: userName } }) =>
+          userName.toLowerCase().includes(searchInput.toLowerCase()) ||
+          name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
