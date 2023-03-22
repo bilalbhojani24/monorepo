@@ -20,4 +20,8 @@ const remoteThreadFunctions = {
   registerCallbackForSavingAuthToken
 };
 
+ipcRenderer.on('save-bs-perf-port', (event, data) => {
+  contextBridge.exposeInMainWorld('BS_PERF_API_PORT', data);
+});
+
 contextBridge.exposeInMainWorld('remoteThreadFunctions', remoteThreadFunctions);

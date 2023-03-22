@@ -9,20 +9,26 @@ const processPaths = {
     '/Applications/BrowserstackCSPT.app/Contents/Resources/nodeBE/mobile-performance/bs-perf-tool'
 };
 
-export const initializeBackendServer = () => {
+export const initializeBackendServer = async (mainThreadGlobals) => {
   try {
-    const firstAvailablePort = getPort({ port: 8000 });
+    const firstAvailablePort = await getPort({ port: 8000 });
 
-    spawn(processPaths.pyIos, [firstAvailablePort]);
+    await spawn(processPaths.pyIos, [firstAvailablePort]);
 
-    const secondAvailablePort = getPort({ port: 3000 });
+    const secondAvailablePort = await getPort({ port: 3000 });
 
-    spawn(processPaths.bsPerf, [
+    await spawn(processPaths.bsPerf, [
+      'server',
       '-p',
       secondAvailablePort,
       '-pi',
       firstAvailablePort
     ]);
+
+    mainThreadGlobals.mainWindow.webContents.send(
+      'save-bs-perf-port',
+      secondAvailablePort
+    );
   } catch (e) {
     // No mechanism at BE to handle logs as of now
   }

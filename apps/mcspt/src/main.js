@@ -24,8 +24,8 @@ const createWindow = () => {
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
-    'min-height': 1024,
-    'min-width': 720,
+    minWidth: 1024,
+    minHeight: 720,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
     },
@@ -46,7 +46,7 @@ const createWindow = () => {
 
   if (!IS_DEV) {
     // order is important for this one
-    backendServerOps.initializeBackendServer();
+    backendServerOps.initializeBackendServer(mainThreadGlobals);
   }
 
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
