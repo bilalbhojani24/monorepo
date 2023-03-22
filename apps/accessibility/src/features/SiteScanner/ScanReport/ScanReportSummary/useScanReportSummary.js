@@ -90,7 +90,6 @@ export default function useScanReportSummary() {
   };
 
   const onHiddenIssueClick = () => {
-    console.log('hidden click');
     dispatch(setShowHiddenIssues({ hideIssues: true }));
     dispatch(resetFilters());
     dispatch(resetIntermediateFilters());
@@ -135,7 +134,7 @@ export default function useScanReportSummary() {
         point: {
           events: {
             click: (value) => {
-              onRowClick('impact', value?.point?.options?.name.toLowerCase());
+              // onRowClick('impact', value?.point?.options?.name.toLowerCase());
             },
             mouseOver: (value) => {
               // logEvent('OnADReportView', {
