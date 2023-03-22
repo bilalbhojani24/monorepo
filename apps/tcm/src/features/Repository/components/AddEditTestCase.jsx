@@ -81,6 +81,7 @@ const AddEditTestCase = () => {
   }, []);
 
   useEffect(() => {
+    // only initiate test case details fetch if the tags are already loaded, else wait
     if (!isTagsLoading) testCaseEditingInit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing, isTagsLoading]);
