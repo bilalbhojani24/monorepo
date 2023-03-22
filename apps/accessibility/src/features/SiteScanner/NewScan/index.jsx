@@ -23,8 +23,7 @@ import {
 } from '@browserstack/bifrost';
 import { json2csv } from 'json-2-csv';
 import PropTypes from 'prop-types';
-
-import { logEvent } from '../../../../../../packages/utils/src/logger';
+import { logEvent } from 'utils/logEvent';
 
 import { days, urlPattern, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
@@ -75,7 +74,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           description={showToast}
           actionButtons={null}
           headerIcon={
-            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+            <MdCheckCircleOutline className="h-6 w-6 text-success-400" />
           }
           handleClose={(toastData) => {
             notify.remove(toastData.id);
@@ -93,23 +92,18 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
   }, [setShowToast, showToast]);
 
   const handleCloseWithLogEvent = () => {
-    logEvent(
-      ['EDS'],
-      'accessibility_dashboard_web_events',
-      'InteractedWithWSNewWebsiteScanSlideOver',
-      {
-        actionType: 'Scan changes',
-        action: 'Cancel Scan',
-        scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-        scanTime: recurringStatus
-          ? formData.time
-          : new Date().toLocaleTimeString(),
-        wcagVersion: formData.scanData.wcagVersion.label,
-        day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
-        bestPractices: formData.scanData.bestPractices,
-        needsReview: formData.scanData.needsReview
-      }
-    );
+    logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
+      actionType: 'Scan changes',
+      action: 'Cancel Scan',
+      scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+      scanTime: recurringStatus
+        ? formData.time
+        : new Date().toLocaleTimeString(),
+      wcagVersion: formData.scanData.wcagVersion.label,
+      day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
+      bestPractices: formData.scanData.bestPractices,
+      needsReview: formData.scanData.needsReview
+    });
     handlerCloseOver();
   };
 
@@ -117,10 +111,10 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     <div className="px-2 pt-2">
       <div className="flex items-center justify-between">
         <div className="flex grow flex-col">
-          <span className="text-base-900 text-sm font-medium">
+          <span className="text-sm font-medium text-base-900">
             Include Needs Review issues
           </span>
-          <span className="text-base-500 text-sm">
+          <span className="text-sm text-base-500">
             Issues marked as Needs Review needs manual inspection to confirm
             it’s validity.
           </span>
@@ -133,10 +127,10 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
 
       <div className="mt-2 flex items-center justify-between">
         <div className="flex grow flex-col">
-          <span className="text-base-900 text-sm font-medium">
+          <span className="text-sm font-medium text-base-900">
             Include Best Practices issues
           </span>
-          <span className="text-base-500 text-sm">
+          <span className="text-sm text-base-500">
             {`Issues marked as Best practices aren't Accessibility guideline
             violations, but resolving them will improve the overall user
             experience.`}
@@ -150,7 +144,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     </div>
   );
   return (
-    <div>
+    <div className="relative z-20">
       <Slideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"
@@ -167,7 +161,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           backgroundColorClass="bg-base-50"
         />
         <SlideoverBody>
-          <div className="border-base-200 flex-col border-b pb-4">
+          <div className="flex-col border-b border-base-200 pb-4">
             <div className="flex items-start">
               <div
                 className={`m-5 mt-0 w-64 flex-auto ${
@@ -186,7 +180,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               </div>
               <div className="mr-5 mt-0 flex-col">
                 <label
-                  className="text-base-700 mb-1 block text-sm font-medium"
+                  className="mb-1 block text-sm font-medium text-base-700"
                   htmlFor="wcagVersion"
                 >
                   WCAG version
@@ -399,7 +393,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                           description={`${invalidUrls.length} invalid URLs were ignored.`}
                           actionButtons={null}
                           headerIcon={
-                            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+                            <MdCheckCircleOutline className="h-6 w-6 text-success-400" />
                           }
                           handleClose={(toastData) => {
                             notify.remove(toastData.id);
@@ -420,7 +414,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                           description={`${invalidUrls.length} invalid URLs were ignored.`}
                           actionButtons={null}
                           headerIcon={
-                            <MdOutlineClose className="text-danger-400 h-6 w-6" />
+                            <MdOutlineClose className="h-6 w-6 text-danger-400" />
                           }
                           handleClose={(toastData) => {
                             notify.remove(toastData.id);
@@ -465,7 +459,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   : ''
               }
               tabIndex="0"
-              className="text-info-600 ml-6 mb-5 text-sm"
+              className="ml-6 mb-5 text-sm text-info-600"
             >
               Download sample CSV
             </div>
@@ -473,13 +467,13 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               download
             </a> */}
             <div>
-              <div className="bg-base-50 text-base-500 py-3 px-6 text-xs">
+              <div className="bg-base-50 py-3 px-6 text-xs text-base-500">
                 ADDED PAGES ({formData?.scanData?.urlSet?.length || 0})
               </div>
               {formData?.scanData?.urlSet?.length
                 ? formData.scanData.urlSet.map((url) => (
-                    <div className="border-base-200 flex justify-between border-y px-6 py-4">
-                      <span className="text-base-900 w-6/12 truncate text-sm">
+                    <div className="flex justify-between border-y border-base-200 px-6 py-4">
+                      <span className="w-6/12 truncate text-sm text-base-900">
                         {url}
                       </span>
                       <div

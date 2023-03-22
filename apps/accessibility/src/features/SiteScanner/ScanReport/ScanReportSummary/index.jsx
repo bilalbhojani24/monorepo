@@ -103,7 +103,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'affectedComponents',
-      name: 'Top Affected Components',
+      name: 'Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -121,7 +121,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'affectedUrls',
-      name: 'Top Affected URLs',
+      name: 'Affected URLs',
       key: 'affectedUrls'
     },
     {
@@ -441,9 +441,9 @@ export default function ScanReportSummary() {
             />
           </div>
           <div className="mt-4 flex">
-            {options.map(({ name, id, stat }) => (
+            {options.map((option) => (
               <div className="mr-4 w-2/4">
-                <Stats option={{ name, id, stat }} />
+                <Stats option={option} />
               </div>
             ))}
           </div>
