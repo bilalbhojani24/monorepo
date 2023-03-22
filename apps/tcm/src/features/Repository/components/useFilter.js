@@ -72,7 +72,7 @@ const useFilter = (prop) => {
     };
   };
 
-  const applyFilterHandler = (metaData, isFilterInvoke) => {
+  const applyFilterHandler = (metaData, isFilterInvoke, isClearFitlers) => {
     let thisFilterSearchMeta = {};
     const workingMetaData = metaData || filterSearchMeta;
     const existingFilterOptions = { ...getFilterOptions(searchParams) };
@@ -90,7 +90,9 @@ const useFilter = (prop) => {
       thisFilterSearchMeta = { ...workingMetaData, q: existingFilterOptions.q };
     } else {
       // only consider the search value in the redux state
-      thisFilterSearchMeta = { ...existingFilterOptions, q: workingMetaData.q };
+      thisFilterSearchMeta = isClearFitlers
+        ? { q: workingMetaData.q }
+        : { ...existingFilterOptions, q: workingMetaData.q };
     }
 
     const queryParams = {};
@@ -144,7 +146,7 @@ const useFilter = (prop) => {
     } else {
       // clear only filter
       dispatch(resetFilterMeta());
-      applyFilterHandler({ q: filterSearchMeta?.q });
+      applyFilterHandler({ q: filterSearchMeta?.q }, false, true);
     }
 
     if (prop?.onFilterChange) {
