@@ -95,9 +95,7 @@ const Filter = ({ isMini, onFilterChange }) => {
           placeholder="Search by Test Case name or Test Case ID"
           value={filterSearchMeta?.q}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
-          onKeyDown={(e) =>
-            onSubmitKeyHandler(e, () => applyFilterHandler(), true)
-          }
+          onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
           leadingIcon={<SearchIcon className="text-base-400" />}
           isTrailingNodeClickable
           trailingIcon={

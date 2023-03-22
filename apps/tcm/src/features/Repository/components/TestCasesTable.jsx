@@ -168,7 +168,7 @@ const TestCasesTable = ({
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="capitalize">
+        <span className="flex items-center capitalize">
           {formatPriority(rowData.priority)}
           {rowData.priority}
         </span>
