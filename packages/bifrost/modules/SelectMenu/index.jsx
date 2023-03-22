@@ -1,7 +1,6 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-
 import {
   arrayOf,
   bool,
@@ -11,12 +10,16 @@ import {
   oneOfType,
   shape,
   string
-} from '../../shared/proptypesConstants';
+} from 'prop-types';
+
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-const SelectMenu = forwardRef((props, ref) => {
+import RenderChildren from './components/RenderChildren';
+
+const SelectMenu = (props) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const {
     children,
@@ -25,6 +28,7 @@ const SelectMenu = forwardRef((props, ref) => {
     isMulti,
     defaultValue,
     value,
+    onOpenChange,
     disabled
   } = props;
 
@@ -37,12 +41,13 @@ const SelectMenu = forwardRef((props, ref) => {
         showCount,
         setShowCount,
         errorText,
+        open,
+        setOpen,
         disabled
       }}
     >
-      <Popover.Root>
+      <Popover.Root open={open}>
         <Listbox
-          ref={ref}
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
@@ -55,7 +60,11 @@ const SelectMenu = forwardRef((props, ref) => {
           }}
           disabled={disabled}
         >
-          {children}
+          {({ open: dropdownOpen }) => (
+            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
+              {children}
+            </RenderChildren>
+          )}
         </Listbox>
         {errorText && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -63,7 +72,7 @@ const SelectMenu = forwardRef((props, ref) => {
       </Popover.Root>
     </SelectMenuContextData.Provider>
   );
-});
+};
 
 SelectMenu.propTypes = {
   children: node.isRequired,
@@ -98,6 +107,7 @@ SelectMenu.propTypes = {
       image: string
     })
   ]),
+  onOpenChange: func,
   disabled: bool
 };
 
@@ -107,6 +117,7 @@ SelectMenu.defaultProps = {
   isMulti: false,
   onChange: () => {},
   value: null,
+  onOpenChange: null,
   disabled: false
 };
 

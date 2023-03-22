@@ -5,6 +5,7 @@ import {
   Badge,
   Breadcrumb,
   Button,
+  Hyperlink,
   MdDownload,
   MdOutlineCalendarToday,
   MdPerson,
@@ -15,7 +16,7 @@ import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
-import { downloadCsv } from 'utils/helper';
+import { downloadCsv, generateReportUrl } from 'utils/helper';
 
 import Issues from './components/Issues';
 import Summary from './components/Summary';
@@ -58,11 +59,11 @@ export default function Report() {
   const reportName = isSingleReport
     ? Object.values(reportMetaData.meta)[0].name
     : `Consolidated report across ${reportsLength} reports`;
-  
+
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
-        className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
+        className="bg-base-50 border-base-200 fixed top-16 z-20 border-b"
         style={{ width: 'calc(100vw - 256px)' }}
       >
         <div className="px-6 pt-6">
@@ -107,14 +108,6 @@ export default function Report() {
                       </p>
                     </div>
                   ) : null}
-                  {/* <div className="mr-6">
-                    <Badge
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      text={Object.values(reportMetaData.meta)[0].scanType}
-                      modifier="base"
-                    />
-                  </div> */}
                   <div className="mr-6">
                     <Badge
                       hasDot={false}
@@ -130,7 +123,7 @@ export default function Report() {
                 <div className="flex items-center">
                   {Object.values(reportMetaData?.meta).map(
                     ({ name }, index) => (
-                      <div className="text-base-500 mr-4 flex text-sm">
+                      <div className="mr-4 flex text-sm">
                         <p title={name}>{name}</p>
                         {index !==
                         Object.values(reportMetaData?.meta).length - 1

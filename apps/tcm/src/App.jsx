@@ -33,11 +33,11 @@ function App() {
         key: '985eaa9c45d824a94344e64a2a3ca724',
         userData: {
           user_id: userAndGroupConfig?.bsUserId,
-          tm_user_id: userAndGroupConfig?.tmUserId
+          tm_user_id: userAndGroupConfig?.tmUserId,
+          tm_group_id: userAndGroupConfig?.tmGroupId
         },
         groupData: {
-          group_id: userAndGroupConfig?.bsGroupId,
-          tm_group_id: userAndGroupConfig?.tmGroupId
+          group_id: userAndGroupConfig?.bsGroupId
         }
       },
       analyticsKey: 'UA-418548-19',

@@ -60,6 +60,13 @@ const { actions, reducer } = createSlice({
     },
     setNewScanData: (state, { payload }) => {
       state.scanOverviewData = payload;
+    },
+    resetReportOverviewMetaData: (state) => {
+      state.reportOverviewMetaData = {
+        issueSummary: null,
+        meta: null,
+        chartData: null
+      };
     }
   }
 });
@@ -72,7 +79,8 @@ export const {
   setScanReportCommonData,
   setOverviewData,
   setCustomData,
-  setScanOverview
+  setScanOverview,
+  resetReportOverviewMetaData
 } = actions;
 
 export default reducer;
@@ -139,5 +147,10 @@ export const getScanOverview = (id) => async (dispatch) => {
 };
 
 export const clearScanOverviewData = () => async (dispatch) => {
-  dispatch(setScanOverview({}));
+  dispatch(setScanOverview(null));
+};
+
+export const clearCommonData = () => async (dispatch) => {
+  dispatch(setScanRunCommonData(null));
+  dispatch(setScanReportCommonData(null));
 };
