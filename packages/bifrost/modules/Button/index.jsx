@@ -149,7 +149,7 @@ const Button = (
   };
 
   const handleClick = (e) => {
-    if (disabled) return;
+    if (disabled || loading) return;
     onClick(e);
   };
 

@@ -5,9 +5,9 @@ import { postNewScanConfig } from 'api/siteScannerScanConfigs';
 import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
+import { addZero } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
 
-import { addZero, isValidHttpUrl } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, urlPattern, wcagVersions } from './constants';
