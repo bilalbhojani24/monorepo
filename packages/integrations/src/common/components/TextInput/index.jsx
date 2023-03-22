@@ -19,10 +19,14 @@ const TextField = ({
   const [error, setError] = useState(null);
   const handleChange = (e) => {
     const fieldValue = e.target.value;
+
     const val =
       schema?.field === 'multi-text' && fieldValue
-        ? fieldValue.split(',').map((str) => str.trim())
-        : fieldValue;
+        ? // field is a multi-text, split the text on comma to build
+          //  array of options and trim individual field value
+          fieldValue.split(',').map((str) => str.trim())
+        : // single text, simply pass it
+          fieldValue;
 
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };

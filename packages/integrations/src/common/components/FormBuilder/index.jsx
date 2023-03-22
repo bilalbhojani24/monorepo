@@ -102,8 +102,6 @@ const FormBuilder = ({
     }
   };
 
-  console.log(fieldsData);
-
   return (
     <form id="form-builder" onSubmit={handleFormSubmit}>
       {renderFields(fieldsToShowAtTop)}

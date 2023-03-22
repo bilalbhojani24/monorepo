@@ -29,12 +29,17 @@ const SingleDynamicSelect = ({
 }) => {
   const cleanOptions = (data) =>
     data.reduce((acc, currOption) => {
+      // pick image url from icons -  which is either an object
+      // or a single value
       const image =
         typeof currOption.icon === 'object'
           ? Object.values(currOption.icon)[0]
           : currOption.image || currOption.icon;
+
+      // option can have value in 3 possible keys
       const value = currOption.value || currOption.id || currOption.key;
 
+      // map them to support UI comp and also create post call
       acc.push({
         value,
         image,

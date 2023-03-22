@@ -30,11 +30,7 @@ export const responseInterceptor = axios.interceptors.response.use(
   (error) => {
     // Do something with response error
     const { status, data } = error.response;
-    if (
-      status === 401 &&
-      typeof data.error_message === 'object' &&
-      data.error_message.refresh_token
-    ) {
+    if (status === 401 && data.error?.refresh_token) {
       // run refresh token flow
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
       return store.dispatch(fetchTokenThunk()).then(() => {
