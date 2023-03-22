@@ -246,11 +246,11 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           heading="Image Preview"
           handleDismissClick={closePreview}
         />
-        <TMModalBody className="block">
+        <TMModalBody className=" flex justify-center">
           <img
             src={imageLink}
             alt={imageLink}
-            className="h-full max-h-full w-full object-contain"
+            className="h-full max-h-full max-w-full object-contain"
           />
         </TMModalBody>
         <TMModalFooter position="right" />
