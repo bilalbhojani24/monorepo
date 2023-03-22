@@ -45,15 +45,9 @@ const getInitialBuild = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const snpActiveBuild = searchParams.get(SNP_PARAMS_MAPPING.snpActiveBuild);
   if (snpActiveBuild && snpActiveBuild !== 'all') {
-    return {
-      label: snpActiveBuild,
-      value: snpActiveBuild
-    };
+    return snpActiveBuild.split(',').map((build) => build);
   }
-  return {
-    label: 'All Builds',
-    value: 'all'
-  };
+  return [];
 };
 const getInitialMuted = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -108,7 +102,7 @@ const { reducer, actions } = createSlice({
     },
     setSnPTestFilters: (state, { payload }) => {
       state.ui.snpTestFilters = {
-        ...state.snpTestFilters,
+        ...state.ui.snpTestFilters,
         ...payload
       };
     },
