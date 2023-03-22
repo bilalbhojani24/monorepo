@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
 import { getQuickImportStatus } from 'api/import.api';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import { TMButton } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
+import { setAllProjects } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
 import useProjects from '../../Projects/components/useProjects';
@@ -65,6 +67,12 @@ const useImportStatus = () => {
     (state) => state.import.quickImportProjectId
   );
 
+  const refreshMinifiedProjects = () => {
+    getProjectsMinifiedAPI().then((res) => {
+      dispatch(setAllProjects(res.projects));
+    });
+  };
+
   const dismissNotification = (
     toastData,
     currentImportStatus,
@@ -120,6 +128,7 @@ const useImportStatus = () => {
         dismissNotification(toastData, currentImportStatus, 'showModal');
       } else {
         dismissNotification(toastData, currentImportStatus);
+        refreshMinifiedProjects();
         fetchProjects();
         dispatch(setShowNewProjectBanner(true));
         navigate('/');
