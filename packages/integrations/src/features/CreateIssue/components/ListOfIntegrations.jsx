@@ -25,7 +25,16 @@ const renderAuth = ({
   />
 );
 
-const ListOfIntegrations = () => {
+const ListOfIntegrations = ({
+  mode,
+  options,
+  changeModeTo,
+  isBeingDiscarded,
+  continueEditing,
+  setReadyToSubmit,
+  confirmIssueDiscard,
+  setIsWorkInProgress
+}) => {
   const integrations = useSelector(integrationsSelector);
   // user has single integration available
   if (integrations.length === 1) {
@@ -33,7 +42,19 @@ const ListOfIntegrations = () => {
     // user doesn't have the single integration set up
     if (!integration.setup_completed) return renderAuth(integration);
     // user has the single integration set up
-    return <IssueForm />;
+    return (
+      <IssueForm
+        mode={mode}
+        options={options}
+        integrations={integrations}
+        changeModeTo={changeModeTo}
+        continueEditing={continueEditing}
+        isBeingDiscarded={isBeingDiscarded}
+        setReadyToSubmit={setReadyToSubmit}
+        confirmIssueDiscard={confirmIssueDiscard}
+        setIsWorkInProgress={setIsWorkInProgress}
+      />
+    );
   }
   // user has multiple integrations available
   return null;

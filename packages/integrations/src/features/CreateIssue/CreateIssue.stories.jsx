@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { CreateIssue } from '.';
+import CreateIssueWithProvider from '.';
 
 const defaultConfig = {
   title: 'CreateIssue',
-  component: CreateIssue,
+  component: CreateIssueWithProvider,
   argTypes: {
     authUrl: {
       option: { type: 'string' },
@@ -21,7 +21,7 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <CreateIssue {...args} />;
+const Template = (args) => <CreateIssueWithProvider {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}

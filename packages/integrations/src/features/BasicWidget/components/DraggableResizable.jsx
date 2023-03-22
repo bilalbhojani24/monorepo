@@ -17,8 +17,12 @@ const DraggableResizable = ({ children, childRef }) => {
       childRef?.current &&
       (childHeight || windowDimensions.inlineSize || windowDimensions.height)
     ) {
-      const calcHeight =
+      let calcHeight =
         childHeight || windowDimensions.inlineSize || windowDimensions.height;
+      if (calcHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
+        const [, minHeight] = DEFAULT_WIDGET_DIMENSIONS.MIN;
+        calcHeight = minHeight;
+      }
       if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
         setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
         setWidgetHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1]);
@@ -43,21 +47,23 @@ const DraggableResizable = ({ children, childRef }) => {
     <Draggable ref={widgetRef} handle=".drag-handle">
       <div ref={widgetRef} className="absolute">
         <Resizable
-          className="border-base-200 relative flex flex-col overflow-hidden rounded-md border border-solid"
+          className="border-base-200 relative flex flex-col items-center overflow-hidden rounded-md border border-solid"
           handle={(__resizeHandleAxis, ref) => (
             <div
-              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-20 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
+              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-8 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
               ref={ref}
             />
           )}
           width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
-          height={widgetHeight || 400}
+          height={widgetHeight || DEFAULT_WIDGET_DIMENSIONS.MIN[1]}
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
-          minConstraints={[450, 400]}
+          minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
-          <div style={{ height: `${containerHeight}px` }}>{children}</div>
+          <div className="w-full" style={{ height: `${containerHeight}px` }}>
+            {children}
+          </div>
         </Resizable>
       </div>
     </Draggable>

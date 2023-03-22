@@ -1,10 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Provider, useSelector } from 'react-redux';
+import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import BasicWidget from '../BasicWidget';
+import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
+import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
 import { CreateIssueOptionsType } from './types';
 
@@ -18,20 +21,93 @@ export const CreateIssue = ({
   projectId,
   positionRef,
   handleClose
-}) => (
-  <BasicWidget
-    isOpen={isOpen}
-    authUrl={authUrl}
-    options={options}
-    position={position}
-    projectId={projectId}
-    positionRef={positionRef}
-    handleClose={handleClose}
-    componentKey="create-issue"
-  >
-    <ListOfIntegrations />
-  </BasicWidget>
-);
+}) => {
+  const integrations = useSelector(integrationsSelector);
+  const hasAtLeastOneIntegrationSetup = integrations?.some(
+    ({ setup_completed: integrated }) => integrated
+  );
+
+  const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
+  const [isWorkInProgress, setIsWorkInProgress] = useState(false);
+  const [mode, setMode] = useState(ISSUE_MODES.CREATION);
+  const previousModeRef = useRef(null);
+
+  const continueEditing = () => {
+    if (previousModeRef.current) {
+      setMode(previousModeRef.current);
+      previousModeRef.current = null;
+    }
+    setIsBeingDiscarded(false);
+  };
+
+  const discardIssue = () => {
+    setIsBeingDiscarded(true);
+  };
+  const confirmIssueDiscard = useCallback(() => {
+    if (previousModeRef.current) {
+      previousModeRef.current = null;
+    } else {
+      handleClose();
+    }
+    setIsBeingDiscarded(false);
+    setIsWorkInProgress(false);
+  }, [handleClose]);
+
+  useEffect(() => {
+    if (isBeingDiscarded && !isWorkInProgress) {
+      confirmIssueDiscard();
+    }
+  }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
+
+  const changeModeTo = (nextMode) => {
+    if (isWorkInProgress) {
+      discardIssue();
+      previousModeRef.current = mode;
+    }
+    setMode(nextMode);
+  };
+
+  return (
+    <BasicWidget
+      isOpen={isOpen}
+      authUrl={authUrl}
+      options={options}
+      position={position}
+      projectId={projectId}
+      positionRef={positionRef}
+      handleClose={discardIssue}
+      componentKey="create-issue"
+    >
+      <div
+        className={'bg-white overflow-auto'.concat(
+          hasAtLeastOneIntegrationSetup ? ' p-6' : ''
+        )}
+        style={{ maxHeight: '650px' }}
+      >
+        <ListOfIntegrations
+          mode={mode}
+          options={options}
+          projectId={projectId}
+          changeModeTo={changeModeTo}
+          continueEditing={continueEditing}
+          isBeingDiscarded={isBeingDiscarded}
+          confirmIssueDiscard={confirmIssueDiscard}
+          setIsWorkInProgress={setIsWorkInProgress}
+        />
+      </div>
+      {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
+        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
+          <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
+            Cancel
+          </Button>
+          <Button type="submit" form="form-builder">
+            Create Issue
+          </Button>
+        </div>
+      )}
+    </BasicWidget>
+  );
+};
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,
