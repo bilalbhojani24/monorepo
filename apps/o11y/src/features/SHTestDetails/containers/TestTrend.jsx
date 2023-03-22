@@ -254,12 +254,7 @@ export default function TestTrend() {
   );
 
   if (isLoadingData) {
-    return (
-      <O11yLoader
-        wrapperClassName="py-6"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      />
-    );
+    return <O11yLoader wrapperClassName="py-6" />;
   }
 
   if (isEmpty(trendData.data)) {

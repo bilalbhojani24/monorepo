@@ -28,10 +28,18 @@ export const getSubtractedUnixTime = (value, type = 'days') =>
 export function getCustomTimeStamp({
   dateString,
   withoutTZ = false,
-  withoutTime
+  withoutTime,
+  dateFormat
 }) {
   const dateObject = new Date(dateString);
   const timeZone = extractTimezoneAbbr(dateObject);
+  if (dateFormat) {
+    const formattedDate = format(dateObject, dateFormat);
+    const returnDate = timeZone
+      ? `${formattedDate} ( ${timeZone} )`
+      : formattedDate;
+    return withoutTZ ? formattedDate : returnDate;
+  }
   if (withoutTime) {
     const formattedDate = format(dateObject, 'MMM dd, yyyy');
     const returnDate = timeZone

@@ -174,10 +174,7 @@ export default function SnPTests() {
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
       {isLoadingTests ? (
-        <O11yLoader
-          wrapperClassName="flex-1"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
+        <O11yLoader wrapperClassName="flex-1" />
       ) : (
         <>
           {isEmpty(tests) ? (

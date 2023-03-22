@@ -19,7 +19,12 @@ const O11yLoader = ({
       }
     )}
   >
-    <Loader wrapperStyle={loaderClass} />
+    <Loader
+      wrapperStyle={twClassNames(
+        'text-base-200 fill-base-400 w-8 h-8',
+        loaderClass
+      )}
+    />
     {text && <p className={twClassNames('text-lg', textClass)}>{text}</p>}
   </div>
 );

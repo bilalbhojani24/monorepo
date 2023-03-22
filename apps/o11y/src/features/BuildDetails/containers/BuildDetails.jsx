@@ -6,6 +6,7 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
+import TestList from '../components/TestList';
 import { TABS } from '../constants';
 import {
   clearBuildUUID,
@@ -80,10 +81,7 @@ function BuildDetails() {
             />
           </div>
         ) : (
-          <O11yLoader
-            loaderClass="text-base-200 fill-base-400 w-8 h-8"
-            text="Loading details"
-          />
+          <O11yLoader text="Loading details" />
         )}
       </div>
     );
@@ -92,13 +90,11 @@ function BuildDetails() {
   return (
     <>
       <BuildDetailsHeader />
-      <div className="px-8">
+      <div className="h-full">
         {activeTab.id === TABS.insights.id && (
-          <div className="py-4">Build Insights</div>
+          <div className="px-8 py-4">Build Insights</div>
         )}
-        {activeTab.id === TABS.tests.id && (
-          <div className="py-4">Test Listing</div>
-        )}
+        {activeTab.id === TABS.tests.id && <TestList />}
       </div>
     </>
   );
