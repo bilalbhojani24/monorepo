@@ -66,6 +66,7 @@ const initialState = {
     priority: [],
     q: ''
   },
+  isSearchFilterDoneOnce: false,
   isSearchFilterView: false,
   searchInitiatedFromURL: '',
   isLoading: {
@@ -206,6 +207,8 @@ export const repositorySlice = createSlice({
     },
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
+
+      if (!state.isSearchFilterDoneOnce) state.isSearchFilterDoneOnce = true;
     },
     resetFilterSearchMeta: (state) => {
       state.filterSearchMeta = initialState.filterSearchMeta;

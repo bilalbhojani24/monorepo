@@ -45,6 +45,9 @@ const useFilter = (prop) => {
     (state) => state.repository.searchInitiatedFromURL
   );
   const tagsArray = useSelector((state) => state.repository.tagsArray);
+  const isSearchFilterDoneOnce = useSelector(
+    (state) => state.repository.isSearchFilterDoneOnce
+  );
   const filterSearchMeta = useSelector(
     (state) => state.repository.filterSearchMeta
   );
@@ -56,15 +59,38 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const applyFilterHandler = (metaData, confirmFiltersToProceed) => {
-    const thisFilterSearchMeta = metaData || filterSearchMeta;
+  const getFilterOptions = (thisParams) => {
+    const tags = thisParams.get('tags');
+    const owner = thisParams.get('owner');
+    const priority = thisParams.get('priority');
+    const q = thisParams.get('q');
+    return {
+      tags: tags?.split(',') || [],
+      owner: owner?.split(',') || [],
+      priority: priority?.split(',') || [],
+      q: q || ''
+    };
+  };
+
+  const applyFilterHandler = (metaData, isFilterInvoke) => {
+    let thisFilterSearchMeta = {};
+    const workingMetaData = metaData || filterSearchMeta;
+    const existingFilterOptions = { ...getFilterOptions(searchParams) };
 
     if (
-      confirmFiltersToProceed &&
-      !Object.values(thisFilterSearchMeta).find((item) => item.length)
+      isFilterInvoke &&
+      !Object.values(workingMetaData).find((item) => item.length)
     ) {
       // if not filter/search values then do not continue
       return;
+    }
+
+    if (isFilterInvoke) {
+      // only consider the filters in the redux state
+      thisFilterSearchMeta = { ...workingMetaData, q: existingFilterOptions.q };
+    } else {
+      // only consider the search value in the redux state
+      thisFilterSearchMeta = { ...existingFilterOptions, q: workingMetaData.q };
     }
 
     const queryParams = {};
@@ -87,7 +113,6 @@ const useFilter = (prop) => {
         searchParamsTemp.owner,
         searchParamsTemp.priority
       ];
-      // updateFilterSearchMeta(filterOptions);
       setAppliedFiltersCount(count.filter((item) => item).length);
     } else {
       if (!isSearchFilterView) {
@@ -174,19 +199,6 @@ const useFilter = (prop) => {
     } else if (isSearchFilterView) resetFilterAndSearch(true);
   };
 
-  const getFilterOptions = (thisParams) => {
-    const tags = thisParams.get('tags');
-    const owner = thisParams.get('owner');
-    const priority = thisParams.get('priority');
-    const q = thisParams.get('q');
-    return {
-      tags: tags?.split(',') || [],
-      owner: owner?.split(',') || [],
-      priority: priority?.split(',') || [],
-      q: q || ''
-    };
-  };
-
   const filterChangeHandler = (filterType, data) => {
     const isSelected = filterSearchMeta?.[filterType]?.includes(
       `${data.value}`
@@ -224,7 +236,11 @@ const useFilter = (prop) => {
       ];
       const filtersCount = filters.filter((item) => item.length).length;
 
-      updateFilterSearchMeta(filterOptions);
+      if (!isSearchFilterDoneOnce) {
+        // only set this for the initial page load with filters from URL
+        // why? else search without filter set will casuse loss in store values
+        updateFilterSearchMeta(filterOptions);
+      }
       setAppliedFiltersCount(filtersCount);
 
       if (filtersCount)
