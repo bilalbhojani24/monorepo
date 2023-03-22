@@ -2,14 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { events } from 'constants';
-import {
-  resetFilters,
-  resetIntermediateFilters,
-  resetIssueItem,
-  setIntermediateReportFiltersKey,
-  setReportFiltersKey,
-  setShowHiddenIssues
-} from 'features/Report/slice/appSlice';
 import cloneDeep from 'lodash/cloneDeep';
 import max from 'lodash/max';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -18,6 +10,14 @@ import {
   getScanReportMetaData,
   getScanReportOverviewData
 } from '../../slices/selector';
+import {
+  resetFilters,
+  resetIntermediateFilters,
+  resetIssueItem,
+  setIntermediateReportFiltersKey,
+  setReportFiltersKey,
+  setShowHiddenIssues
+} from '../slice/appSlice';
 // import { logEvent } from 'utils/logEvent';
 
 export default function useScanReportSummary() {
@@ -77,7 +77,6 @@ export default function useScanReportSummary() {
 
   const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
     const values = shouldShowNeedsReviewIssues || [value];
-    // console.log('Hii');
     dispatch(resetFilters());
     dispatch(setShowHiddenIssues({ hideIssues: false }));
     dispatch(resetIntermediateFilters());
@@ -91,6 +90,7 @@ export default function useScanReportSummary() {
   };
 
   const onHiddenIssueClick = () => {
+    console.log('hidden click');
     dispatch(setShowHiddenIssues({ hideIssues: true }));
     dispatch(resetFilters());
     dispatch(resetIntermediateFilters());
