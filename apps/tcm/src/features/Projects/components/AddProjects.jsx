@@ -8,6 +8,7 @@ import {
   TMModalHeader,
   TMTextArea
 } from 'common/bifrostProxy';
+import _debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
@@ -44,7 +45,10 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
             placeholder="Enter project name"
             value={formData.name}
             errorText={formError.nameError}
-            onKeyDown={(e) => onSubmitKeyHandler(e, createProjectHandler)}
+            onKeyDown={_debounce(
+              (e) => onSubmitKeyHandler(e, createProjectHandler),
+              500
+            )}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
                 setFormError({ ...formError, nameError: '' });
@@ -73,7 +77,7 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
         <TMButton
           variant="primary"
           wrapperClassName="ml-3"
-          onClick={createProjectHandler}
+          onClick={_debounce(createProjectHandler, 500)}
           isIconOnlyButton={createProjectCtaLoading}
           loading={createProjectCtaLoading}
         >

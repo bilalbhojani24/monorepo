@@ -11,6 +11,7 @@ import {
   TMModalHeader,
   TMTextArea
 } from 'common/bifrostProxy';
+import _debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import {
   // attachEventListener,
@@ -35,14 +36,11 @@ const AddEditFolderModal = ({
     filledFormData,
     formError,
     getLoader,
-    // addFolderCtaLoading,
-    // addSubFolderCtaLoading,
     setFormError,
     setFormData,
     hideFolderModal,
     createFolderHandler
   } = useAddEditFolderModal({ folderId, isSubFolder, isEditFolder });
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     if (show)
@@ -94,7 +92,10 @@ const AddEditFolderModal = ({
             value={filledFormData.name}
             errorText={formError.nameError}
             ref={modalFocusRef}
-            onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}
+            onKeyDown={_debounce(
+              (e) => onSubmitKeyHandler(e, createFolderHandler),
+              500
+            )}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
                 setFormError({ ...formError, nameError: '' });
@@ -122,7 +123,7 @@ const AddEditFolderModal = ({
         <TMButton
           variant="primary"
           wrapperClassName="ml-3"
-          onClick={createFolderHandler}
+          onClick={_debounce(createFolderHandler, 500)}
           isIconOnlyButton={getLoader()}
           loading={getLoader()}
         >

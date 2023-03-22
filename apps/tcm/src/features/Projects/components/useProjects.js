@@ -185,50 +185,60 @@ const useProjects = (prop) => {
 
   const hideAddProjectModal = () => {
     dispatch(setAddProjectModalVisibility(false));
+    setFormError({ ...formError, nameError: '' });
     prop?.onClose?.();
   };
 
   const createProjectHandler = () => {
-    dispatch(logEventHelper('TM_CreateProjectCtaClicked', {}));
-    if (formData.name.length === 0) {
-      setFormError({ ...formError, nameError: 'Name is not specified' });
-    } else {
-      dispatch(
-        setButtonLoaders({ key: 'createProjectCtaLoading', value: true })
-      );
-      addProjectsAPI(formData)
-        .then((res) => {
-          dispatch(
-            setButtonLoaders({ key: 'createProjectCtaLoading', value: false })
-          );
-          dispatch(addProject(res.data.project));
-          dispatch(addGlobalProject(res.data.project));
-          dispatch(
-            logEventHelper('TM_ProjectCreatedNotification', {
-              project_id: res.data.project?.id
-            })
-          );
-          dispatch(
-            addNotificaton({
-              id: `project_added${res.data.project?.id}`,
-              title: `${res.data.project?.identifier} : Project created`,
-              description: null,
-              variant: 'success'
-            })
-          );
+    if (!createProjectCtaLoading) {
+      dispatch(logEventHelper('TM_CreateProjectCtaClicked', {}));
+      if (formData.name.trim().length === 0) {
+        setFormError({ ...formError, nameError: 'Name is not specified' });
+        setFormData({ ...formData, name: '' });
+      } else {
+        dispatch(
+          setButtonLoaders({ key: 'createProjectCtaLoading', value: true })
+        );
+        addProjectsAPI(formData)
+          .then((res) => {
+            dispatch(addProject(res.data.project));
+            dispatch(addGlobalProject(res.data.project));
+            dispatch(
+              logEventHelper('TM_ProjectCreatedNotification', {
+                project_id: res.data.project?.id
+              })
+            );
+            dispatch(
+              addNotificaton({
+                id: `project_added${res.data.project?.id}`,
+                title: `${res.data.project?.identifier} : Project created`,
+                description: null,
+                variant: 'success'
+              })
+            );
 
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId: res.data.project.id
-            })
-          );
-          hideAddProjectModal();
-        })
-        .catch(() => {
-          dispatch(
-            setButtonLoaders({ key: 'createProjectCtaLoading', value: false })
-          );
-        });
+            navigate(
+              routeFormatter(AppRoute.TEST_CASES, {
+                projectId: res.data.project.id
+              })
+            );
+            hideAddProjectModal();
+            dispatch(
+              setButtonLoaders({
+                key: 'createProjectCtaLoading',
+                value: false
+              })
+            );
+          })
+          .catch(() => {
+            dispatch(
+              setButtonLoaders({
+                key: 'createProjectCtaLoading',
+                value: false
+              })
+            );
+          });
+      }
     }
   };
 
