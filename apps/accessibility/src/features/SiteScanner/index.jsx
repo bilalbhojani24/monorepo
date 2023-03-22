@@ -485,14 +485,16 @@ export default function SiteScanner() {
               <TableRow
                 key={row.id}
                 onRowClick={() => {
-                  logEvent('InteractedWithWSHomepage', {
-                    actionType: 'Open Scan',
-                    scanType: row.recurring
-                      ? 'Recurring scan'
-                      : 'On-demand scan',
-                    scanName: row.name
-                  });
-                  navigate(`/site-scanner/scan-details/${row.id}`);
+                  if (Object.keys(row.lastScanDetails).length) {
+                    logEvent('InteractedWithWSHomepage', {
+                      actionType: 'Open Scan',
+                      scanType: row.recurring
+                        ? 'Recurring scan'
+                        : 'On-demand scan',
+                      scanName: row.name
+                    });
+                    navigate(`/site-scanner/scan-details/${row.id}`);
+                  }
                 }}
               >
                 <TableCell
