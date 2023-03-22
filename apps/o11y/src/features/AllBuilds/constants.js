@@ -26,8 +26,3 @@ export const aggregateColors = {
   'Product Bug': '#5C9EEB', // blue
   'To be Investigated': '#C47631' // brown
 };
-
-// "users:13,15"
-// "dateRange:1678645800000,1679077799000"
-// "tags:regression,daily"
-// "statuses:passed,failed"

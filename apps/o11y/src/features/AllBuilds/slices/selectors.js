@@ -2,6 +2,10 @@
 export const getBuilds = (state) => state.buildsData.builds;
 export const getSelectedFilters = (state) => state.buildsData.selectedFilters;
 export const getAppliedFilters = (state) => state.buildsData.appliedFilters;
+export const getAppliedFilterTags = (state) =>
+  state.buildsData.appliedFilters.tags;
+export const getAppliedFilterUsers = (state) =>
+  state.buildsData.appliedFilters.users;
 export const getSearchTextFilters = (state) =>
   state.buildsData.appliedFilters.searchText;
 export const getBuildsApiState = (state) => state.buildsData.apiState;

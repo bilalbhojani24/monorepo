@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import { API_STATUSES } from 'constants/common';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
-import {
-  getBuildsData,
-  setAppliedFilters,
-  setFiltersMetaData,
-  setSelectedFilters
-} from '../../slices/dataSlice';
+import { setAppliedFilters, setFiltersMetaData } from '../../slices/dataSlice';
 import {
   getAllUsersDataFilters,
   getAppliedFilters
@@ -27,19 +21,17 @@ const FilterBadge = ({ text, onClose }) => (
     modifier="base"
     text={text}
     onClose={onClose}
-    wrapperClassName="bg-base-50 text-base-900 font-bold bg-white"
+    wrapperClassName="bg-base-50 text-base-900 font-bold bg-white ml-4"
   />
 );
 
 const FilterPills = ({ viewAllBuilds }) => {
-  const { projectNormalisedName } = useParams();
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
   const { filterDetailsApiStatus, filterDetailsData } = useBuildFilterDetails();
   const allUsersData = useSelector(getAllUsersDataFilters);
   const removeFilter = (filterCategory, targetValue) => {
     if (filterCategory === 'searchText') {
-      dispatch(setSelectedFilters({ searchText: '' }));
       dispatch(setAppliedFilters({ searchText: '' }));
     }
     if (filterCategory === 'dateRange') {
@@ -47,17 +39,9 @@ const FilterPills = ({ viewAllBuilds }) => {
         upperBound: '',
         lowerBound: ''
       };
-      dispatch(setSelectedFilters({ dateRange: newDateRange }));
       dispatch(setAppliedFilters({ dateRange: newDateRange }));
     }
     if (['tags', 'users', 'statuses'].includes(filterCategory)) {
-      dispatch(
-        setSelectedFilters({
-          [filterCategory]: appliedFilters[filterCategory].filter(
-            (el) => el !== targetValue
-          )
-        })
-      );
       dispatch(
         setAppliedFilters({
           [filterCategory]: appliedFilters[filterCategory].filter(
@@ -66,12 +50,6 @@ const FilterPills = ({ viewAllBuilds }) => {
         })
       );
     }
-    dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
-      })
-    );
   };
 
   useEffect(() => {
@@ -151,16 +129,19 @@ const FilterPills = ({ viewAllBuilds }) => {
               <div className="border-base-300 my-auto h-5 border-l" />
             </>
           )}
-          {itemsArray}
-          {!!itemsArray.length && (
-            <O11yButton
-              variant="minimal"
-              colors="white"
-              onClick={viewAllBuilds}
-            >
-              Clear All
-            </O11yButton>
-          )}
+          <div className="block">
+            {itemsArray}
+            {!!itemsArray.length && (
+              <O11yButton
+                variant="minimal"
+                colors="white"
+                wrapperClassName="ml-4"
+                onClick={viewAllBuilds}
+              >
+                Clear All
+              </O11yButton>
+            )}
+          </div>
         </div>
       )}
     </>

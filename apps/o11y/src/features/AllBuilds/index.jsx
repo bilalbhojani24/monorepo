@@ -94,7 +94,7 @@ const AllBuildsPage = () => {
       // Clean builds on project change
       resetReduxStore(['selected', 'applied', 'buildsData', 'metaData']);
     },
-    [dispatch, resetReduxStore]
+    [dispatch, resetReduxStore, projectNormalisedName]
   );
 
   useEffect(() => {

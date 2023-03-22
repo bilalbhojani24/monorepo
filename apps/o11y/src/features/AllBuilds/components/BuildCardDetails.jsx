@@ -26,7 +26,7 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { aggregateColors } from '../constants';
 import { setAppliedFilters } from '../slices/dataSlice';
-import { getAppliedFilters } from '../slices/selectors';
+import { getAppliedFilterTags } from '../slices/selectors';
 
 import DividedPill from './DividedPill';
 
@@ -34,15 +34,14 @@ const BuildCardDetails = ({ data }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { projectNormalisedName } = useParams();
-  const selectedFilters = useSelector(getAppliedFilters);
-  const { tags } = selectedFilters;
+  const tags = useSelector(getAppliedFilterTags);
 
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
     if (TEST_STATUS.PENDING === status) {
       return (
         <div className="h-8 w-8">
-          <O11yLoader loaderClass="text-base-500 h-8 w-8 self-center p-1" />
+          <O11yLoader loaderClass="text-base-300 fill-base-400 h-8 w-8 self-center p-1" />
         </div>
       );
     }

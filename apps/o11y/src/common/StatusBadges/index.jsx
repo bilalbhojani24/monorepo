@@ -1,4 +1,5 @@
 import React from 'react';
+import { TEST_STATUS } from 'constants/common';
 import PropTypes from 'prop-types';
 
 import StatusBadgeItem from './StatusBadgeItem';
@@ -11,7 +12,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         number={statusStats.passed}
         modifier="success"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: 'passed' })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.passed })
         }
       />
       <StatusBadgeItem
@@ -19,7 +20,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         number={statusStats.failed}
         modifier="error"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: 'failed' })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.failed })
         }
       />
       <StatusBadgeItem
@@ -27,7 +28,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         number={statusStats.skipped}
         modifier="base"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: 'skipped' })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.skipped })
         }
       />
       <StatusBadgeItem
@@ -35,7 +36,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         number={statusStats.timeout}
         modifier="warn"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: 'timeout' })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.timeout })
         }
       />
     </div>
