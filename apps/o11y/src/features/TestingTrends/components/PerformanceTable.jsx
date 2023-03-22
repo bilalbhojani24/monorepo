@@ -30,12 +30,14 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       })}
     >
       <div className="flex">
-        <MiniChart
-          data={item?.lineChartData || []}
-          lineColor="#376D98"
-          color="#E5EEF8"
-          type="areaspline"
-        />
+        <div className="h-5 w-12 shrink-0">
+          <MiniChart
+            data={item?.lineChartData || []}
+            lineColor="#376D98"
+            color="#E5EEF8"
+            type="areaspline"
+          />
+        </div>
         <p className="pl-2">{abbrNumber(item?.testCount)}</p>
       </div>
     </O11yTableCell>
@@ -45,11 +47,13 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       })}
     >
       <div className="flex">
-        <MiniChart
-          data={item?.barChartData || []}
-          color="#9DD0CA"
-          type="column"
-        />
+        <div className="h-5 w-12 shrink-0">
+          <MiniChart
+            data={item?.barChartData || []}
+            color="#9DD0CA"
+            type="column"
+          />
+        </div>
         <p className="pl-2">{milliSecondsToTime(item?.avgDuration)}</p>
       </div>
     </O11yTableCell>

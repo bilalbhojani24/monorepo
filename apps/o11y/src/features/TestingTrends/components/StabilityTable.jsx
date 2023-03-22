@@ -27,12 +27,14 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
       })}
     >
       <div className="flex items-center">
-        <MiniChart
-          data={item?.chartData || []}
-          lineColor="#376D98"
-          color="#E5EEF8"
-          type="area"
-        />
+        <div className="h-5 w-12 shrink-0">
+          <MiniChart
+            data={item?.chartData || []}
+            lineColor="#376D98"
+            color="#E5EEF8"
+            type="area"
+          />
+        </div>
         <p className="pl-2">{item?.percentage}%</p>
       </div>
     </O11yTableCell>
