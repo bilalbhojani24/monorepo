@@ -90,6 +90,25 @@ const useDependencyChecker = () => {
     );
   };
 
+  const searchApplications = (event) => {
+    if (lisOfApplications) {
+      let searchResults = [];
+
+      if (event?.target?.value?.length > 0) {
+        searchResults = lisOfApplications?.filter?.(
+          (app) =>
+            app?.name
+              ?.toLowerCase()
+              ?.indexOf(event?.target?.value?.toLowerCase()) !== -1
+        );
+      } else {
+        searchResults = lisOfApplications;
+      }
+
+      setApplicationOptionList(generateAppOptions(searchResults));
+    }
+  };
+
   const refetchDevices = useCallback(() => {
     dispatch(fetchConnectedDevices());
   }, [dispatch]);
@@ -118,6 +137,7 @@ const useDependencyChecker = () => {
     areDevicesStillLoading,
     areApplicationsStillLoading,
     errorOnApplicationFetch,
+    lisOfApplications,
     deviceSelected,
     applicationSelected,
     deviceOptionList,
@@ -129,7 +149,8 @@ const useDependencyChecker = () => {
     refetchDevices,
     deviceSelectionError,
     disableTestTrigger:
-      !isUserLoggedIn && totalAllowedSessions === totalCompletedSessions
+      !isUserLoggedIn && totalAllowedSessions === totalCompletedSessions,
+    searchApplications
   };
 };
 

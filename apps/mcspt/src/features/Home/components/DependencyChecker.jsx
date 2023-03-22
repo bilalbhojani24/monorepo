@@ -25,6 +25,7 @@ const DependencyChecker = () => {
     areDevicesStillLoading,
     areApplicationsStillLoading,
     errorOnApplicationFetch,
+    lisOfApplications,
     deviceSelected,
     applicationSelected,
     deviceOptionList,
@@ -35,7 +36,8 @@ const DependencyChecker = () => {
     isSessionApiLoading,
     refetchDevices,
     deviceSelectionError,
-    disableTestTrigger
+    disableTestTrigger,
+    searchApplications
   } = useDependencyChecker();
 
   return (
@@ -110,13 +112,16 @@ const DependencyChecker = () => {
                       loadingText="Loading applications"
                       disabled={
                         areApplicationsStillLoading ||
-                        applicationOptionList?.length === 0 ||
+                        lisOfApplications?.length === 0 ||
                         !selectedDevice?.compatible
                       }
                       errorText={errorOnApplicationFetch}
                     >
                       <ComboboxLabel>Application</ComboboxLabel>
-                      <ComboboxTrigger placeholder=" " />
+                      <ComboboxTrigger
+                        placeholder=" "
+                        onInputValueChange={searchApplications}
+                      />
                       <ComboboxOptionGroup>
                         {applicationOptionList.map((item) => (
                           <ComboboxOptionItem key={item.value} option={item} />
