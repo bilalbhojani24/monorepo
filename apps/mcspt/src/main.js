@@ -66,6 +66,7 @@ const createWindow = async () => {
   }
 
   fileExplorerOps.initializeProtocolForFileRead();
+  backendServerOps.registerQuitHotkeys();
 };
 
 fileExplorerOps.initializeSchemeForFileRead();
