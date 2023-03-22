@@ -56,17 +56,18 @@ const PlatformsTab = () => {
 
   const handleClickItem = (currentIndex) => {
     const activeRow = platforms?.[currentIndex];
+    const browser = activeRow?.browserDevice || activeRow?.browser;
     if (activeRow) {
       dispatch(
         setUECbtInfo({
           osName: activeRow?.os?.name || '',
           osVersion: activeRow?.os?.version || '',
-          browserName: activeRow?.browserDevice?.name || '',
-          browserVersion: activeRow?.browserDevice?.version || '',
-          deviceName: activeRow?.browserDevice?.device?.name || '',
+          browserName: browser?.name || '',
+          browserVersion: browser?.version || '',
+          deviceName: browser?.device || '',
           osKey: activeRow?.os?.key || '',
-          browserKey: activeRow?.browserDevice?.key || '',
-          deviceKey: activeRow?.browserDevice?.device?.key || ''
+          browserKey: browser?.key || '',
+          deviceKey: browser?.device?.key || ''
         })
       );
       const searchParams = new URLSearchParams(window?.location?.search);

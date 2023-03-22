@@ -37,11 +37,11 @@ const TestDetailsCombinationsMenu = () => {
     const combinations = errorDetailsInfo.data?.combinations;
     if (combinations?.length) {
       combinations.forEach((item) => {
-        const combination = `${getShortOSName(item?.os?.name)} ${
-          item?.os?.version
-        } ${item?.browser?.device?.name || capitalize(item?.browser?.name)} ${
-          item?.browser?.version
-        }`;
+        const os = `${getShortOSName(item?.os?.name)} ${item?.os?.version}`;
+        const browser = `${
+          item?.browser?.device || capitalize(item?.browser?.name)
+        } ${item?.browser?.version}`;
+        const combination = `${os} ${browser}`;
         menuOptions.push({
           label: combination,
           value: combination,
