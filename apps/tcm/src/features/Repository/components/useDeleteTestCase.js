@@ -122,15 +122,15 @@ export default function useDeleteTestCase() {
   const singleItemDeleteHelper = () => {
     dispatch(
       logEventHelper('TM_DeleteCaseBtnClicked', {
-        project_id: projectId,
+        project_id: selectedTestCase.project_id,
         testcase_id: selectedTestCase?.id
       })
     );
 
     dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: true }));
     deleteTestCaseAPI({
-      projectId,
-      folderId,
+      projectId: selectedTestCase?.project_id,
+      folderId: selectedTestCase?.test_case_folder_id,
       testCaseId: selectedTestCase.id
     })
       .then(() => {
@@ -138,7 +138,7 @@ export default function useDeleteTestCase() {
 
         dispatch(
           logEventHelper('TM_TcDeletedNotification', {
-            project_id: projectId,
+            project_id: selectedTestCase?.project_id,
             testcase_id: selectedTestCase?.id
           })
         );
