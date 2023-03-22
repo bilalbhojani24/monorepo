@@ -33,8 +33,8 @@ import {
 } from '@browserstack/bifrost';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
+import { logEvent } from 'utils/logEvent';
 
-import { logEvent } from '../../../../../packages/utils/src/logger';
 import {
   fetchScanConfigsById,
   runInstantScan,
@@ -272,16 +272,11 @@ export default function SiteScanner() {
 
   const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.id;
-    logEvent(
-      ['EDS'],
-      'accessibility_dashboard_web_events',
-      'InteractedWithWSHomepage',
-      {
-        actionType: 'Scan changes',
-        action: getActionForAnalytics(menuItem),
-        scanType: rowData.recurring ? 'Recurring scan' : 'On-demand scan'
-      }
-    );
+    logEvent('InteractedWithWSHomepage', {
+      actionType: 'Scan changes',
+      action: getActionForAnalytics(menuItem),
+      scanType: rowData.recurring ? 'Recurring scan' : 'On-demand scan'
+    });
     switch (menuItem) {
       case 'newScanRun':
         setIsLoading(true);
@@ -405,7 +400,7 @@ export default function SiteScanner() {
       <div className="flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
-          <h3 className="text-base-500 mb-4 text-sm font-medium">
+          <h3 className="mb-4 text-sm font-medium text-base-500">
             Scan multiple pages in one go and schedule periodic scans to monitor
             your pages for accessibility issues
           </h3>
@@ -413,15 +408,10 @@ export default function SiteScanner() {
         <Button
           modifier="primary"
           onClick={() => {
-            logEvent(
-              ['EDS'],
-              'accessibility_dashboard_web_events',
-              'InteractedWithWSHomepage',
-              {
-                actionType: 'Configure new scan',
-                action: 'Open new website scan slide over'
-              }
-            );
+            logEvent('InteractedWithWSHomepage', {
+              actionType: 'Configure new scan',
+              action: 'Open new website scan slide over'
+            });
             setShowNewScan(true);
           }}
           size="small"
@@ -495,18 +485,13 @@ export default function SiteScanner() {
               <TableRow
                 key={row.id}
                 onRowClick={() => {
-                  logEvent(
-                    ['EDS'],
-                    'accessibility_dashboard_web_events',
-                    'InteractedWithWSHomepage',
-                    {
-                      actionType: 'Open Scan',
-                      scanType: row.recurring
-                        ? 'Recurring scan'
-                        : 'On-demand scan',
-                      scanName: row.name
-                    }
-                  );
+                  logEvent('InteractedWithWSHomepage', {
+                    actionType: 'Open Scan',
+                    scanType: row.recurring
+                      ? 'Recurring scan'
+                      : 'On-demand scan',
+                    scanName: row.name
+                  });
                   navigate(`/site-scanner/scan-details/${row.id}`);
                 }}
               >
@@ -518,7 +503,7 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="text-base-700 mr-2 max-w-xs truncate font-medium"
+                        className="mr-2 max-w-xs truncate font-medium text-base-700"
                       >
                         {row.name}
                       </div>
@@ -594,7 +579,7 @@ export default function SiteScanner() {
                       <span className="flex items-center">
                         <MdOutlineSync
                           color="#FFF"
-                          className="bg-attention-500 mr-0.5 rounded-full"
+                          className="mr-0.5 rounded-full bg-attention-500"
                         />
                         {row?.lastScanDetails?.reportSummary?.redirect}{' '}
                         redirects
@@ -677,7 +662,7 @@ export default function SiteScanner() {
                 <span className="mr-2 flex items-center text-sm">
                   <span className="mr-0.5 flex items-center">
                     <MdPerson color="#9CA3AF" className="mr-2" />
-                    <span className="text-base-500 mr-2">
+                    <span className="mr-2 text-base-500">
                       {currentScanDetails?.createdBy?.name}
                     </span>
                   </span>{' '}
