@@ -151,8 +151,20 @@ export default function useIssues() {
         values
       })
     );
-    const updatedPath = updateUrlWithQueryParam({ impact: values });
+    dispatch(resetIssueItem());
+    const path = deleteUrlQueryParam([
+      'activeViolationId',
+      'activeComponentId',
+      'activeIssueIndex',
+      'isShowingIssue'
+    ]);
+    navigate(`?${path}`);
+
+    const updatedPath = updateUrlWithQueryParam({
+      impact: values.map(({ value }) => value)
+    });
     navigate(`?${updatedPath}`);
+    setIsOpen(false);
   };
 
   useEffect(() => {

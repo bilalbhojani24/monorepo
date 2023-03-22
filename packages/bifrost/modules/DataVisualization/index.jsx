@@ -144,7 +144,7 @@ const DataVisualization = ({
             <a
               href={footerProps.linkTo}
               className="text-brand-600 text-sm font-medium leading-5"
-              onClick={footerProps.onClick}
+              onClick={(e) => footerProps?.onClick?.(e)}
             >
               {footerProps.linkText}
               <span aria-hidden="true"> &rarr;</span>

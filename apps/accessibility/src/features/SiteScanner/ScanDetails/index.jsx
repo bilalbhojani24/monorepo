@@ -14,11 +14,11 @@ import {
   MdSchedule,
   MdStop,
   Modal,
-  ModalBody,
   ModalFooter,
   ModalHeader,
   Tabs
 } from '@browserstack/bifrost';
+import Loader from 'common/Loader';
 import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
@@ -27,7 +27,8 @@ import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
-import Loader from '../../../common/Loader';
+import { toHoursAndMinutes } from '../../../utils/helper';
+import { dayMap } from '../NewScan/constants';
 
 export const tabsArray = [
   {
@@ -62,18 +63,32 @@ const ScanDetails = () => {
     Convert back to Local Timezone
   */
   const convertToLocale = () => {
-    const interval = parser.parseExpression(scanRunDataCommon.schedulePattern, {
-      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      iterator: true
-    });
+    const cronStringArray = scanRunDataCommon.schedulePattern.split(" ");
+    const timezoneOffset = new Date().getTimezoneOffset();
+    const minutes =
+      parseInt(cronStringArray[1]) * 60 + parseInt(cronStringArray[0]);
+    const diff = minutes - timezoneOffset;
 
-    const fields = JSON.parse(JSON.stringify(interval.fields)); // Fields is immutable
-        console.log(scanRunDataCommon.schedulePattern, cronstrue.toString(parser.fieldsToExpression(fields).stringify()));
-    return cronstrue.toString(parser.fieldsToExpression(fields).stringify());
+    const finalUTCVal = toHoursAndMinutes(diff);
+    let dayVal = cronStringArray[cronStringArray.length - 1];
+        // console.log(diff, minutes, timezoneOffset, toHoursAndMinutes(diff), dayMap[day]);
+    if (diff < 0 && day !== '*') {
+      dayVal = parseInt(day) === 0 ? dayMap[6] : dayMap[day - 1];
+    }
+    if (diff > 1439 && day !== '*') {
+      dayVal =
+        parseInt(day) === 6
+          ? dayMap[0]
+          : dayMap[getKeyByValue(dayMap, day) + 1];
+    }
+    const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
+    
+    return cronstrue.toString(adjustedCronExpression);
   };
-  if(isLoading) {
+  if (isLoading || !scanOverviewData) {
     return <Loader />;
   }
+
   return (
     <>
       <div className="bg-base-50">
@@ -151,19 +166,20 @@ const ScanDetails = () => {
               New scan run
             </Button>
             {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate && userInfo.user_id === scanRunDataCommon.createdBy.id && (
-              <Button
-                colors="white"
-                onClick={() => setStopModal(true)}
-                size="small"
-                type="subtle"
-                icon={<MdStop />}
-                iconPlacement="start"
-                wrapperClassName="h-10 mr-2"
-              >
-                Stop recurring
-              </Button>
-            )}
+            {scanRunDataCommon?.nextScanDate &&
+              userInfo.user_id === scanRunDataCommon.createdBy.id && (
+                <Button
+                  colors="white"
+                  onClick={() => setStopModal(true)}
+                  size="small"
+                  type="subtle"
+                  icon={<MdStop />}
+                  iconPlacement="start"
+                  wrapperClassName="h-10 mr-2"
+                >
+                  Stop recurring
+                </Button>
+              )}
             <Dropdown
               trigger={
                 <DropdownTrigger
