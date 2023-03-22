@@ -79,9 +79,9 @@ const useFilter = (prop) => {
 
     if (
       isFilterInvoke &&
-      !Object.values(workingMetaData).find((item) => item.length)
+      !Object.values({ ...workingMetaData, q: '' }).find((item) => item.length)
     ) {
-      // if not filter/search values then do not continue
+      // if not filter values then do not continue
       return;
     }
 
