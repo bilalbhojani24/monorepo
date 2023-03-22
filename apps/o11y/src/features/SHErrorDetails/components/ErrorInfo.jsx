@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DangerIcon } from 'assets/icons/components';
+import { MdCancel } from '@browserstack/bifrost';
 import { O11yTooltip } from 'common/bifrostProxy';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -57,7 +57,7 @@ const ErrorInfo = () => {
     <div className="mb-6 flex items-center gap-6">
       <div className="bg-danger-50 flex-1 rounded-md p-4 pb-6">
         <div className="flex items-center gap-3">
-          <DangerIcon className="h-4 w-4" />
+          <MdCancel className="text-danger-400 h-4 w-4" />
           <span className="text-danger-800 text-sm font-medium">Error</span>
         </div>
         <O11yTooltip
