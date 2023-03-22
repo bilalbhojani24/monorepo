@@ -1,6 +1,6 @@
+import { testTypes } from 'constants';
+import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
-
-import { wcagVersions } from '../features/SiteScanner/NewScan/constants';
 
 const BEST_PRACTICE_TAG = 'best-practice';
 
@@ -174,3 +174,22 @@ export const addZero = (i) => {
 
 export const getWcagVersionFromVal = (val) =>
   wcagVersions.filter((version) => version.id === val)[0];
+
+export const generateReportUrl = (key) => {
+  let reportParam;
+  const id = key.split(':')[1];
+  if (key.includes(testTypes.workflowScan)) {
+    reportParam = `ids=${id}`;
+  } else if (key.includes(testTypes.assistiveTest)) {
+    reportParam = `ar_ids=${id}`;
+  } else if (key.includes(testTypes.websiteScan)) {
+    reportParam = `wsr_ids=${id}`;
+  }
+  return `/reports/report?${reportParam}`;
+};
+
+export const toHoursAndMinutes = (totalMinutes) => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return { hours, minutes };
+}

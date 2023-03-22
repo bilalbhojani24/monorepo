@@ -7,6 +7,7 @@ import { fetchConsolidatedData } from 'api/siteScannerScanReports';
 import { resetReportAppInfo } from '../slices/appSlice';
 import {
   getScanLogs,
+  resetReportOverviewMetaData,
   setCustomData,
   setOverviewData
 } from '../slices/dataSlice';
@@ -46,6 +47,8 @@ export default function useScanReport() {
     const tab = searchParams.get('tab');
     setActiveTab(tab);
     setActiveTabIndex(tabsOptions[tab]?.index || 0);
+    // dispatch(setCustomData(null));
+    // dispatch(setOverviewData({}));
   }, [searchParams]);
 
   useEffect(() => {
@@ -79,23 +82,23 @@ export default function useScanReport() {
     }
   }, [scanLogsData]);
 
+  useEffect(() => () => dispatch(resetReportOverviewMetaData()), [dispatch]);
   /*
     Tab Change Handler
   */
-  const onTabChange = (tab) => {
+  function onTabChange(tab) {
     const reportId = searchParams.get('id');
     setActiveTab(tab.id);
     navigate({
       search: `?id=${reportId}&tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
-  };
+  }
 
   /*
     Scan Logs Filter Applied
   */
   const onFilterApplied = (e) => {
-    console.log(e);
     setSelected(e);
     const scanLogsStateDataCpy = { ...scanLogsData.data };
 

@@ -9,7 +9,17 @@ const SkipToContent = ({ wrapperClassName, children, target }) => {
     <button
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      onClick={() => target?.current?.focus()}
+      onClick={() => {
+        const containerRef = target;
+        if (containerRef.current) {
+          const firstFocusableElement = containerRef.current.querySelector(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (firstFocusableElement) {
+            firstFocusableElement.focus();
+          }
+        }
+      }}
       type="button"
       className={twClassNames(
         '-ml-80 absolute text-brand-600 px-4 rounded-sm text-sm bg-transparent py-2.5 focus:outline-none focus:ring-brand-600 focus:ring-2 focus:ring-offset-1',
