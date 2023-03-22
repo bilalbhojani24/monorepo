@@ -441,9 +441,9 @@ export default function ScanReportSummary() {
             />
           </div>
           <div className="mt-4 flex">
-            {options.map(({ name, id, stat }) => (
+            {options.map((option) => (
               <div className="mr-4 w-2/4">
-                <Stats option={{ name, id, stat }} />
+                <Stats option={option} />
               </div>
             ))}
           </div>
