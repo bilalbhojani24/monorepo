@@ -134,7 +134,7 @@ export default function useDeleteTestCase() {
       testCaseId: selectedTestCase.id
     })
       .then(() => {
-        dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: true }));
+        dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: false }));
 
         dispatch(
           logEventHelper('TM_TcDeletedNotification', {

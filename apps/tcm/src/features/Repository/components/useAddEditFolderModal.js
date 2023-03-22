@@ -114,8 +114,6 @@ export default function useAddEditFolderModal(prop) {
       dispatch(updateCtaLoading({ key: 'deleteFolderCta', value: true }));
       deleteFolder({ projectId, folderId: openedFolderModal.folder.id })
         .then((item) => {
-          dispatch(updateCtaLoading({ key: 'deleteFolderCta', value: false }));
-
           dispatch(
             logEventHelper('TM_FolderDeletedNotification', {
               project_id: projectId,
@@ -138,6 +136,7 @@ export default function useAddEditFolderModal(prop) {
           }
 
           hideFolderModal();
+          dispatch(updateCtaLoading({ key: 'deleteFolderCta', value: false }));
         })
         .catch(() => {
           dispatch(updateCtaLoading({ key: 'deleteFolderCta', value: false }));
@@ -168,7 +167,6 @@ export default function useAddEditFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        dispatch(updateCtaLoading({ key: 'editFolderCta', value: false }));
         dispatch(
           logEventHelper('TM_FolderUpdatedNotification', {
             project_id: projectId,
@@ -177,6 +175,7 @@ export default function useAddEditFolderModal(prop) {
         );
         if (item.data?.folder) renameFolderHelper(item.data.folder);
         hideFolderModal();
+        dispatch(updateCtaLoading({ key: 'editFolderCta', value: false }));
       })
       .catch(() => {
         dispatch(updateCtaLoading({ key: 'editFolderCta', value: false }));
@@ -191,9 +190,9 @@ export default function useAddEditFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
         if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
         hideFolderModal();
+        dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
       })
       .catch(() => {
         dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
@@ -201,57 +200,62 @@ export default function useAddEditFolderModal(prop) {
   };
 
   const addFolderHelper = () => {
-    const addFolderAPIFunction =
-      projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
-    dispatch(
-      logEventHelper('TM_CreateFolderCtaClicked', {
-        project_id: projectId
-      })
-    );
-    dispatch(updateCtaLoading({ key: 'addFolderCta', value: true }));
-    addFolderAPIFunction({
-      projectId,
-      payload: filledFormData
-    })
-      .then((item) => {
-        dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
-        if (item.data?.folder) updateFolders(item.data.folder);
-        noProjectFolderCreationRouteUpdate(item);
-        dispatch(
-          logEventHelper('TM_FolderCreatedNotification', {
-            project_id: projectId,
-            folder_id: item.data.folder?.id
-          })
-        );
-        dispatch(
-          addNotificaton({
-            id: `folder_created${item.data.folder?.id}`,
-            title: `'${item.data.folder?.name}': Folder created`,
-            variant: 'success'
-          })
-        );
+    if (!addFolderCtaLoading) {
+      const addFolderAPIFunction =
+        projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
+      dispatch(
+        logEventHelper('TM_CreateFolderCtaClicked', {
+          project_id: projectId
+        })
+      );
+      dispatch(updateCtaLoading({ key: 'addFolderCta', value: true }));
 
-        if (projectId === 'new') {
-          dispatch(addGlobalProject(item.data.project));
-        }
-        hideFolderModal();
+      addFolderAPIFunction({
+        projectId,
+        payload: filledFormData
       })
-      .catch(() => {
-        dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
-      });
+        .then((item) => {
+          if (item.data?.folder) updateFolders(item.data.folder);
+          noProjectFolderCreationRouteUpdate(item);
+          dispatch(
+            logEventHelper('TM_FolderCreatedNotification', {
+              project_id: projectId,
+              folder_id: item.data.folder?.id
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `folder_created${item.data.folder?.id}`,
+              title: `'${item.data.folder?.name}': Folder created`,
+              variant: 'success'
+            })
+          );
+
+          if (projectId === 'new') {
+            dispatch(addGlobalProject(item.data.project));
+          }
+          hideFolderModal();
+          dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
+        })
+        .catch(() => {
+          dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
+        });
+    }
   };
 
   const createFolderHandler = () => {
     if (filledFormData.name.length === 0) {
       setFormError({ ...formError, nameError: 'This is a required field' });
-    } else if (prop?.isSubFolder && prop?.folderId) {
+    } else if (prop?.isSubFolder && prop?.folderId && !addSubFolderCtaLoading) {
       addSubFolderHandler();
-    } else if (prop?.isEditFolder && prop?.folderId) {
+    } else if (prop?.isEditFolder && prop?.folderId && !editFolderCtaLoading) {
       renameFolderHandler();
     } else {
       addFolderHelper();
     }
   };
+
+  // const throttledCreateFolderHandler = debounce(createFolderHandler, 5000);
 
   const getLoader = () => {
     if (prop.isEditFolder) return editFolderCtaLoading;
@@ -273,5 +277,6 @@ export default function useAddEditFolderModal(prop) {
     deleteFolderHandler,
     noProjectFolderCreationRouteUpdate,
     createFolderHandler
+    // throttledCreateFolderHandler
   };
 }

@@ -11,6 +11,8 @@ import Notification from 'features/Notification';
 import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
 import SideNav from 'features/SideNav';
 
+import { PRODUCTION_HOST } from './const/immutables';
+
 if (window.initialized !== true) {
   window.initialized = false;
 }
@@ -55,7 +57,8 @@ function App() {
       userAndGroupConfig?.bsUserId &&
       userAndGroupConfig?.tmUserId &&
       userAndGroupConfig?.bsGroupId &&
-      userAndGroupConfig?.tmGroupId
+      userAndGroupConfig?.tmGroupId &&
+      window.location.hostname === PRODUCTION_HOST
     ) {
       initLogger(keys);
       window.initialized = true;
