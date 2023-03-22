@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdError } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import selectMenuAndroidIcon from 'assets/selectMenuAndroidIcon.png';
 import selectMenuIosIcon from 'assets/selectMenuIosIcon.png';
@@ -38,12 +37,6 @@ export const generateDeviceOptions = (deviceList) =>
             {`${device?.os} ${device?.osVersion}`}
           </div>
         </div>
-
-        {!device?.compatible && (
-          <div className="text-danger-600 ml-auto flex text-xl">
-            <MdError />
-          </div>
-        )}
       </div>
     ),
     value: device?.deviceId
