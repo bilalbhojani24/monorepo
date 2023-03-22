@@ -5,7 +5,7 @@ import { twClassNames } from '@browserstack/utils';
 import SnPTestsFilter from './TestsFilter';
 
 const SnPTestsHeader = () => (
-  <div className={twClassNames('mb-4 px-8 pt-7')}>
+  <div className={twClassNames('mb-4 px-6 pt-7')}>
     <SnPTestsFilter />
   </div>
 );

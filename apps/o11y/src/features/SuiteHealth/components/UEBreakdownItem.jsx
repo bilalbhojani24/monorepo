@@ -67,7 +67,12 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
         )}
       >
         <div className="h-5 w-12">
-          <MiniChart data={item.chartData} chartType="area" />
+          <MiniChart
+            data={item.chartData}
+            chartType="area"
+            color="var(--colors-danger-100)"
+            lineColor="var(--colors-danger-400)"
+          />
         </div>
         <p className="">{item.errorCount}</p>
       </div>

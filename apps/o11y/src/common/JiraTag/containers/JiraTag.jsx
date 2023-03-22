@@ -17,7 +17,7 @@ function JiraTag({ jiraUrl, tagClickCb, wrapperClassName, iconOnly }) {
       tagClickCb={handleJiraLinkClick}
       iconOnly={iconOnly}
       text={generatedIssueName(jiraUrl)}
-      icon={<JiraIcon className="h-4 w-4" />}
+      icon={<JiraIcon className="h-3 w-3" />}
     />
   );
 }

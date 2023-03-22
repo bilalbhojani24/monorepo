@@ -51,7 +51,6 @@ const SnPUniqueErrors = () => {
   const pagingParams = useSelector(getSnpErrorsPaging);
   const sortBy = useSelector(getSnpErrorsSortBy);
   const activeProject = useSelector(getActiveProject);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     logOllyEvent({
@@ -164,13 +163,13 @@ const SnPUniqueErrors = () => {
             </div>
           ) : (
             <>
-              <div className="px-8">
+              <div className="px-6">
                 <UETableHeader
                   handleClickSortBy={handleClickSortBy}
                   isLoadingMore={isLoadingMore}
                 />
               </div>
-              <div className="flex-1 overflow-auto px-8">
+              <div className="flex-1 overflow-auto px-6">
                 <Virtuoso
                   data={errors}
                   overscan={200}

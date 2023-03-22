@@ -50,7 +50,12 @@ const UERowHeader = ({ data }) => (
       )}
     >
       <div className="h-5 w-12">
-        <MiniChart data={data.chartData} chartType="area" />
+        <MiniChart
+          data={data.chartData}
+          chartType="area"
+          color="var(--colors-danger-100)"
+          lineColor="var(--colors-danger-400)"
+        />
       </div>
       <p className="text-base-500 text-sm leading-5">
         {data.errorCount ? data.errorCount : '-'}

@@ -61,7 +61,7 @@ const ErrorInfo = () => {
           <span className="text-danger-800 text-sm font-medium">Error</span>
         </div>
         <O11yTooltip
-          triggerWrapperClassName="max-w-full pl-7 line-clamp-2 text-danger-700 text-sm font-normal leading-5"
+          triggerWrapperClassName="max-w-full ml-7 line-clamp-2 text-danger-700 text-sm font-normal leading-5"
           content={
             <StackTraceTooltip
               traceLines={errorDetailsInfo?.data?.error || []}

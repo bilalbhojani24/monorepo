@@ -27,7 +27,10 @@ const BuildRow = ({ buildData }) => (
         BUILDS_HEADER_COLUMN_STYLE_MAPPING.testStatus.defaultClass
       )}
     >
-      <StatusChip status={buildData.status} />
+      <StatusChip
+        status={buildData.status}
+        showDot={buildData.isFailedWithSameError}
+      />
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames(

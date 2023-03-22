@@ -41,7 +41,12 @@ const PlatformRow = ({ buildData }) => {
       <O11yTableCell wrapperClassName="py-3">
         <div className="flex w-full items-center gap-4">
           <div className="h-5 w-12">
-            <MiniChart data={buildData.chartData} chartType="area" />
+            <MiniChart
+              data={buildData.chartData}
+              chartType="area"
+              color="var(--colors-danger-100)"
+              lineColor="var(--colors-danger-400)"
+            />
           </div>
           <p className="text-base-500 text-sm leading-5">
             {buildData.errorCount ? buildData.errorCount : '-'}

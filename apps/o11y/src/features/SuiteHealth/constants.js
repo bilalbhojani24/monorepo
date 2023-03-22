@@ -77,7 +77,7 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[140px] py-4 pl-6 text-sm'
+      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pr-6',
+    bodyClass: 'w-[140px] py-4 pr-6 text-sm'
   }
 };
