@@ -23,8 +23,7 @@ import {
 } from '@browserstack/bifrost';
 import { json2csv } from 'json-2-csv';
 import PropTypes from 'prop-types';
-
-import { logEvent } from '../../../../../../packages/utils/src/logger';
+import { logEvent } from 'utils/logEvent';
 
 import { days, urlPattern, wcagVersions } from './constants';
 import useNewScan from './useNewScan';

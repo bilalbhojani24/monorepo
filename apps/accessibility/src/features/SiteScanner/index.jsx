@@ -33,8 +33,8 @@ import {
 } from '@browserstack/bifrost';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
+import { logEvent } from 'utils/logEvent';
 
-import { logEvent } from '../../../../../packages/utils/src/logger';
 import {
   fetchScanConfigsById,
   runInstantScan,

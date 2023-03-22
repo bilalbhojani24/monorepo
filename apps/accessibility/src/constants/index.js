@@ -14,7 +14,7 @@ export const ROUTES = {
   welcome: '/welcome'
 };
 
-export const EDSKey = 'web_events';
+export const EDSKey = 'accessibility_dashboard_web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
