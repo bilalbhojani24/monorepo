@@ -19,8 +19,9 @@ const DraggableResizable = ({ children, childRef }) => {
     ) {
       let calcHeight =
         childHeight || windowDimensions.inlineSize || windowDimensions.height;
-      if (calcHeight < 400) {
-        calcHeight = 400;
+      if (calcHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
+        const [, minHeight] = DEFAULT_WIDGET_DIMENSIONS.MIN;
+        calcHeight = minHeight;
       }
       if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
         setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
@@ -54,10 +55,10 @@ const DraggableResizable = ({ children, childRef }) => {
             />
           )}
           width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
-          height={widgetHeight || 400}
+          height={widgetHeight || DEFAULT_WIDGET_DIMENSIONS.MIN[1]}
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
-          minConstraints={[450, 400]}
+          minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
           <div className="w-full" style={{ height: `${containerHeight}px` }}>

@@ -3,13 +3,16 @@ import axios from 'axios';
 import { URLS } from './constants';
 
 export const createIssue = (integrationKey, fields) =>
-  axios({
-    method: 'post',
-    url: URLS.TICKET,
-    params: {
-      integration_key: integrationKey
-    },
-    data: {
-      fields
-    }
-  }).then((response) => response.data);
+  axios
+    .post(
+      URLS.TICKET,
+      {
+        fields
+      },
+      {
+        params: {
+          integration_key: integrationKey
+        }
+      }
+    )
+    .then((response) => response.data);

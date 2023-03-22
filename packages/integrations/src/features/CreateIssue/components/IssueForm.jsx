@@ -2,19 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Alerts,
-  Loader,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
-  SelectMenuTrigger,
-  Tabs
+  SelectMenuTrigger
 } from '@browserstack/bifrost';
 
 import { getCreateMeta, getProjectsThunk } from '../../../api';
-import { getUpdateMeta } from '../../../api/getUpdateMeta';
-import { GenericError } from '../../../common/components';
-import SingleValueSelect from '../../../common/components/SingleValueSelect';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
   projectsErrorSelector,
@@ -22,8 +17,7 @@ import {
   projectsSelector
 } from '../../slices/projectsSlice';
 
-import { FIELD_KEYS, ISSUE_MODES, TABS } from './constants';
-import CreateIssueForm from './CreateIssueForm';
+import { FIELD_KEYS } from './constants';
 import DiscardIssue from './DiscardIssue';
 import UpdateIssueForm from './UpdateIssueForm';
 
@@ -107,6 +101,7 @@ const renderChild = ({
     </>
   );
 };
+import renderChild from './renderChild';
 
 const IssueForm = ({
   mode,
