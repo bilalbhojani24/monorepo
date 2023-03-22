@@ -11,10 +11,10 @@ const TMPageHeadings = (props) => {
     e?.preventDefault();
     e?.stopPropagation();
 
+    props?.onBreadcrumbClick(e, data);
     if (data?.url) {
       navigate(data.url);
     }
-    props?.onBreadcrumbClick(e, data);
   };
 
   return (
