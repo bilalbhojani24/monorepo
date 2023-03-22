@@ -6,7 +6,10 @@ export const URLS = {
   PROJECTS: 'https://integrations.bsstag.com/api/pm-tools/v1/projects',
   CREATE_META:
     'https://integrations.bsstag.com/api/pm-tools/v1/tickets/meta-create',
-  CREATE: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets'
+  UPDATE_META:
+    'https://integrations.bsstag.com/api/pm-tools/v1/tickets/meta-update',
+  TICKET: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets',
+  ATTACHMENT: 'https://integrations.bsstag.com/api/pm-tools/v1/attachments'
 };
 
 export const REQUEST_TIMOUT = 15000;

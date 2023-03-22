@@ -1,16 +1,22 @@
 import React from 'react';
 
 import { createIssue } from '../../../api';
-import { FormBuilder } from '../../../common/components';
+import { addAttachment } from '../../../api/addAttachment';
+import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import { parseFieldsForCreate } from '../helpers';
+
+import { FIELD_KEYS } from './constants';
 
 const CreateIssueForm = ({
   fields,
   metaData,
   fieldsData,
+  attachment,
+  setFieldsData,
   setErrorMessage,
   projectFieldData,
   clearErrorMessage,
+  cleanedIssueTypes,
   issueTypeFieldData,
   setIsWorkInProgress,
   integrationToolFieldData
@@ -29,6 +35,11 @@ const CreateIssueForm = ({
       .then((response) => {
         if (response?.success) {
           clearErrorMessage();
+          addAttachment(
+            attachment,
+            integrationToolFieldData?.value,
+            response.data.ticket_id
+          );
         }
         return response;
       })
@@ -39,12 +50,27 @@ const CreateIssueForm = ({
   };
 
   return (
-    <FormBuilder
-      fields={fields}
-      metaData={metaData}
-      handleSubmit={handleSubmit}
-      setIsWorkInProgress={setIsWorkInProgress}
-    />
+    <>
+      <div className="py-3">
+        <SingleValueSelect
+          fieldsData={fieldsData}
+          fieldKey={FIELD_KEYS.ISSUE_TYPE}
+          setFieldsData={setFieldsData}
+          label="Issue type"
+          placeholder="Select issue"
+          required
+          options={cleanedIssueTypes}
+          selectFirstByDefault
+        />
+      </div>
+      <FormBuilder
+        fields={fields}
+        metaData={metaData}
+        attachment={attachment}
+        handleSubmit={handleSubmit}
+        setIsWorkInProgress={setIsWorkInProgress}
+      />
+    </>
   );
 };
 

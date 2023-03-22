@@ -12,6 +12,7 @@ import {
 } from '@browserstack/bifrost';
 
 import { getCreateMeta, getProjectsThunk } from '../../../api';
+import { getUpdateMeta } from '../../../api/getUpdateMeta';
 import { GenericError } from '../../../common/components';
 import SingleValueSelect from '../../../common/components/SingleValueSelect';
 import { LOADING_STATUS } from '../../slices/constants';
@@ -31,6 +32,7 @@ const renderChild = ({
   fields,
   metaData,
   projects,
+  attachment,
   fieldsData,
   setFieldsData,
   handleTryAgain,
@@ -76,32 +78,31 @@ const renderChild = ({
         onTabChange={handleIssueTabChange}
         defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
       />
-      <div className="py-3">
-        <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.ISSUE_TYPE}
-          setFieldsData={setFieldsData}
-          label="Issue type"
-          placeholder="Select issue"
-          required
-          options={cleanedIssueTypes}
-          selectFirstByDefault
-        />
-      </div>
+
       {mode === ISSUE_MODES.CREATION ? (
         <CreateIssueForm
           fields={fields}
           metaData={metaData}
           fieldsData={fieldsData}
+          attachment={attachment}
+          setFieldsData={setFieldsData}
           setErrorMessage={setErrorMessage}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
+          cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
           integrationToolFieldData={integrationToolFieldData}
         />
       ) : (
-        <UpdateIssueForm />
+        <UpdateIssueForm
+          fields={fields}
+          metaData={metaData}
+          attachment={attachment}
+          fieldsData={fieldsData}
+          setFieldsData={setFieldsData}
+          setIsWorkInProgress={setErrorMessage}
+        />
       )}
     </>
   );
@@ -110,6 +111,7 @@ const renderChild = ({
 const IssueForm = ({
   mode,
   options,
+  attachment,
   changeModeTo,
   integrations,
   continueEditing,
@@ -153,6 +155,7 @@ const IssueForm = ({
   const integrationToolFieldData = fieldsData[FIELD_KEYS.INTEGRATON_TOOL];
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
+  const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
   const metaData = options.metaData[integrationToolFieldData?.value];
 
   const selectTool = (item) => {
@@ -176,7 +179,8 @@ const IssueForm = ({
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData &&
-      issueTypeFieldData
+      issueTypeFieldData &&
+      mode === ISSUE_MODES.CREATION
     ) {
       getCreateMeta(
         integrationToolFieldData.value,
@@ -187,10 +191,33 @@ const IssueForm = ({
       });
     }
   }, [
+    mode,
     areProjectsLoaded,
     integrationToolFieldData,
     projectFieldData,
     issueTypeFieldData
+  ]);
+
+  useEffect(() => {
+    if (
+      areProjectsLoaded &&
+      integrationToolFieldData &&
+      projectFieldData &&
+      issueFieldData &&
+      mode === ISSUE_MODES.UPDATION
+    ) {
+      getUpdateMeta(integrationToolFieldData.value, issueFieldData.value).then(
+        (responseFields) => {
+          setFields(responseFields.fields);
+        }
+      );
+    }
+  }, [
+    mode,
+    areProjectsLoaded,
+    integrationToolFieldData,
+    projectFieldData,
+    issueFieldData
   ]);
 
   const handleIssueTabChange = (tabSelected) => {
@@ -259,8 +286,10 @@ const IssueForm = ({
             fields,
             metaData,
             projects,
+            attachment,
             fieldsData,
             setFieldsData,
+            issueFieldData,
             handleTryAgain,
             setErrorMessage,
             projectFieldData,

@@ -5,7 +5,7 @@ import { URLS } from './constants';
 export const createIssue = (integrationKey, fields) =>
   axios({
     method: 'post',
-    url: URLS.CREATE,
+    url: URLS.TICKET,
     params: {
       integration_key: integrationKey
     },
