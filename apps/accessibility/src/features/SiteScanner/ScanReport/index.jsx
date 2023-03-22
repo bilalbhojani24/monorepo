@@ -81,7 +81,7 @@ export default function ScanReport() {
                   },
                   {
                     name: metaData?.name,
-                    url: `/site-scanner/scan-details/${metaData?.reportId}`,
+                    url: `/site-scanner/scan-details/${metaData?.scanConfigId}`,
                     current: false
                   },
                   {
