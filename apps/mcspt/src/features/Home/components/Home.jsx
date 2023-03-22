@@ -11,6 +11,7 @@ const Home = () => {
     totalCompletedSessions,
     totalAllowedSessions,
     buildBannerMsg,
+    loginViaSSO,
     shouldShowExistingSessionsTable,
     showAuthBanner
   } = useHome();
@@ -22,7 +23,7 @@ const Home = () => {
           align="centered"
           isDismissButton={false}
           ctaButton={
-            <Button variant="primary" colors="white">
+            <Button variant="primary" colors="white" onClick={loginViaSSO}>
               Login Now
             </Button>
           }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SSO_AUTH_URL } from 'constants/mcpConstants';
 import {
   getIsUserLoggedIn,
   getTotalAllowedSessions,
@@ -28,6 +29,10 @@ const useHome = () => {
   const totalCompletedSessions = useSelector(getTotalCompletedSessions);
   const previousUserSessions = useSelector(getPreviousUserSessions);
 
+  const loginViaSSO = () => {
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+  };
+
   useEffect(() => {
     dispatch(checkForPreviousUserSessions());
   }, [dispatch]);
@@ -36,6 +41,7 @@ const useHome = () => {
     totalCompletedSessions,
     totalAllowedSessions,
     buildBannerMsg,
+    loginViaSSO,
     shouldShowExistingSessionsTable:
       previousUserSessions?.length > EXISTIN_REPORTS_SAMPLE_SWITCH,
     showAuthBanner:
