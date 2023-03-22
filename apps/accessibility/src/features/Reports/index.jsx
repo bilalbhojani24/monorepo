@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Banner,
   Button,
   InputField,
   MdClose,
@@ -36,10 +35,7 @@ export default function Reports() {
     selectedReportsLength,
     searchInput,
     selectedReportType,
-    isSidebarCollapsed,
     resetSelection,
-    onCloseClick,
-    onDownloadExtensionClick,
     onUpdateSelectedReportType,
     onInputValueChange,
     updateLastIndex,
@@ -56,9 +52,10 @@ export default function Reports() {
       : reportList;
 
   const searchFilterList = searchInput
-    ? filteredReportList.filter(({ name, createdBy: { name: userName } }) =>
-        // name.toLowerCase().includes(searchInput.toLowerCase()) ||
-        userName.toLowerCase().includes(searchInput.toLowerCase())
+    ? filteredReportList.filter(
+        ({ name, createdBy: { name: userName } }) =>
+          userName.toLowerCase().includes(searchInput.toLowerCase()) ||
+          name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : filteredReportList;
 
@@ -105,37 +102,12 @@ export default function Reports() {
         </ModalFooter>
       </Modal>
       <div
-        className="border-base-200 fixed top-16 z-10 w-full border-b p-6"
-        style={{ width: 'calc(100vw - 256px)' }}
+        className="border-base-200 fixed z-10 w-full border-b p-6"
+        style={{
+          width: 'calc(100vw - 256px)',
+          top: isShowingBanner ? '128px' : '64px'
+        }}
       >
-        {isShowingBanner ? (
-          <div className="flex justify-between fixed inset-x-0 top-0 z-10">
-            <Banner
-              description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
-              isDismissButton
-              bannerIcon={
-                <img
-                  src={Logo}
-                  alt="accessibility logo"
-                  height={24}
-                  width={24}
-                />
-              }
-              ctaButton={
-                <Button
-                  onClick={onDownloadExtensionClick}
-                  size="small"
-                  colors="white"
-                  icon={<MdOpenInNew />}
-                  iconPlacement="end"
-                >
-                  Download extension
-                </Button>
-              }
-              onDismissClick={onCloseClick}
-            />
-          </div>
-        ) : null}
         <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
         <h3 className="text-base-500 mb-4 text-sm font-medium">
           Select reports to view them. You can select more than one report to
@@ -200,9 +172,11 @@ export default function Reports() {
       <div
         className="fixed overflow-auto"
         style={{
-          height: 'calc(100vh - 227px)',
-          top: '227px',
-          width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
+          height: isShowingBanner
+            ? 'calc(100vh - 291px)'
+            : 'calc(100vh - 227px)',
+          top: isShowingBanner ? '291px' : '227px',
+          width: 'calc(100vw - 256px)'
         }}
       >
         {!isLoading && searchFilterList.length === 0 && (

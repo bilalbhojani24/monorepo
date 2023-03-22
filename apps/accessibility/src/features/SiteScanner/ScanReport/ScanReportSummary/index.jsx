@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import {
   ChevronDownIcon,
   DataVisualization,
@@ -19,7 +18,6 @@ import {
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
-import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import cloneDeep from 'lodash/cloneDeep';
 import { formatComponentIdString } from 'utils/helper';
 
@@ -74,7 +72,6 @@ export default function ScanReportSummary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
 
   const options = [
     {
@@ -92,10 +89,10 @@ export default function ScanReportSummary() {
   ];
 
   const impactColorMap = {
-    critical: 'bg-danger-500',
-    serious: 'bg-danger-500',
-    moderate: 'bg-attention-500',
-    minor: 'bg-base-500'
+    critical: 'bg-[#F95D6A]',
+    serious: 'bg-[#F472B6]',
+    moderate: 'bg-[#E3C500]',
+    minor: 'bg-[#C5D1D8]'
   };
 
   const componentColumns = [
@@ -151,7 +148,6 @@ export default function ScanReportSummary() {
       key: 'issueCount'
     }
   ];
-  console.log(categoryList);
   return (
     <div className="bg-base-50 relative mt-4">
       <div className="flex items-start">
@@ -205,17 +201,20 @@ export default function ScanReportSummary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <Table>
+                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                   <TableHead>
                     <TableRow>
                       {componentColumns.map((col, index) => (
                         <TableCell
                           key={col.key}
                           variant="header"
+                          isSticky
                           textTransform="uppercase"
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
-                          } ${index === 2 ? 'w-32' : ''}`}
+                          } ${index === 1 ? 'w-80' : ''} ${
+                            index === 2 ? 'w-32' : ''
+                          }`}
                         >
                           {col.name}
                         </TableCell>
@@ -223,34 +222,36 @@ export default function ScanReportSummary() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {componentList
-                      .slice(0, 6)
-                      .map(({ componentId, count }, index) => (
-                        <TableRow
-                          wrapperClassName="cursor-pointer"
-                          onRowClick={() =>
-                            onRowClick('component', {
-                              label: formatComponentIdString(componentId),
-                              value: componentId
-                            })
-                          }
-                        >
-                          {componentColumns.map((column, colIndex) => (
-                            <TableCell
-                              key={column.id}
-                              wrapperClassName={`px-3 py-2 ${
-                                colIndex === 0 ? 'w-14' : ''
-                              }`}
-                            >
-                              {colIndex === 0 ? index + 1 : ''}
-                              {colIndex === 1
-                                ? formatComponentIdString(componentId)
-                                : ''}
-                              {colIndex === 2 ? count : ''}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
+                    {componentList.map(({ componentId, count }, index) => (
+                      <TableRow
+                        wrapperClassName="cursor-pointer"
+                        onRowClick={() =>
+                          onRowClick('component', {
+                            label: formatComponentIdString(componentId),
+                            value: componentId
+                          })
+                        }
+                      >
+                        {componentColumns.map((column, colIndex) => (
+                          <TableCell
+                            key={column.id}
+                            wrapperClassName={`px-3 py-2 ${
+                              colIndex === 0 ? 'w-14' : ''
+                            }`}
+                          >
+                            {colIndex === 0 ? index + 1 : ''}
+                            {colIndex === 1 ? (
+                              <div className="w-80 overflow-hidden truncate">
+                                {formatComponentIdString(componentId)}
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                            {colIndex === 2 ? count : ''}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </div>
@@ -268,7 +269,7 @@ export default function ScanReportSummary() {
               <div>
                 <p className="text-base-500 mr-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
-                  {componentList.length}
+                  {categoryList.length}
                 </p>
                 <Table>
                   <TableHead>
@@ -371,39 +372,6 @@ export default function ScanReportSummary() {
             }
           />
         </div>
-        {/* <Dropdown
-          icon={<SortIcon />}
-          triggerAriaLabel="Sort Issue category by options"
-          menuOptions={[
-            {
-              label: 'A to Z',
-              value: 'char-sort',
-              icon: <SortByAlphaIcon />
-            },
-            {
-              label: 'Descending',
-              value: 'desc',
-              icon: <ArrowDownwardIcon />
-            },
-            {
-              label: 'Ascending',
-              value: 'asc',
-              icon: <ArrowUpwardIcon />
-            }
-          ]}
-          style={{
-            maxMenuHeight: 200,
-            menuAlignment: 'auto',
-            menuPlacement: 'auto',
-            minMenuHeight: 50,
-            minWidth: 100
-          }}
-          title="Action"
-          variant="icon-button"
-          type="outline-button"
-          chevronRequired={false}
-          onChange={onMenuChange}
-        /> */}
         <div className="mr-4 w-6/12 ">
           <div className="bg-white">
             <DataVisualization
@@ -416,13 +384,14 @@ export default function ScanReportSummary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <Table>
+                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                     <TableHead>
                       <TableRow>
                         {urlColumns.map((col, index) => (
                           <TableCell
                             key={col.key}
                             variant="header"
+                            isSticky
                             textTransform="uppercase"
                           >
                             <div
@@ -437,7 +406,7 @@ export default function ScanReportSummary() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {urlList.slice(0, 6).map(({ url, count }, index) => (
+                      {urlList.map(({ url, count }, index) => (
                         <TableRow
                           wrapperClassName="cursor-pointer"
                           onRowClick={() =>
@@ -452,11 +421,11 @@ export default function ScanReportSummary() {
                               key={column.id}
                               wrapperClassName={`px-3 py-2 text-ellipsis overflow-hidden ${
                                 colIndex === 0 ? 'w-14' : ''
-                              } ${colIndex === 2 ? 'w-36' : ''}`}
+                              } ${colIndex === 2 ? 'w-32' : ''}`}
                             >
                               {colIndex === 0 ? index + 1 : ''}
                               {colIndex === 1 && (
-                                <div className="w-64 overflow-hidden truncate">
+                                <div className="w-80 overflow-hidden truncate">
                                   {url || ''}
                                 </div>
                               )}
@@ -471,74 +440,12 @@ export default function ScanReportSummary() {
               }
             />
           </div>
-          {/* <Card height={3} width={3}>
-            <p className="summary-card__title">Affected Pages</p>
-            <p className="summary-card__count">{urlList.length}</p>
-            <div className="summary-card__table">
-              <div className="summary-card__table-header">
-                <p className="summary-card__table-header-number">#</p>
-                <p className="summary-card__table-header-name">Affected URL</p>
-                <p className="summary-card__table-header-count">Issues Count</p>
-              </div>
-              <div className="summary-card__table-rows">
-                {urlList.map(({ url, count }, index) => (
-                  <div
-                    className="summary-card__table-row"
-                    role="presentation"
-                    onClick={() => onRowClick('page', url)}
-                  >
-                    <p className="summary-card__table-row-number">
-                      {index + 1}
-                    </p>
-                    <p className="summary-card__table-row-name" title={url}>
-                      {url}
-                    </p>
-                    <p className="summary-card__table-row-count">{count}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card> */}
           <div className="mt-4 flex">
             {options.map(({ name, id, stat }) => (
               <div className="mr-4 w-2/4">
                 <Stats option={{ name, id, stat }} />
               </div>
             ))}
-            {/* <Card height={1} width={1} className="m-20">
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={() => onRowClick('showNeedsReviewIssues', true, true)}
-                aria-label={`${needsReviewIssues} Needs Review Issues`}
-              >
-                <div className="summary-card__header-row">
-                  <p className="summary-card__title">Needs Review</p>
-                  <ErrorIcon />
-                </div>
-                <span className="summary-card__hidden-review-count">
-                  {' '}
-                  {needsReviewIssues}{' '}
-                </span>
-              </div>
-            </Card>
-            <Card height={1} width={1} className="mt-20">
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={onHiddenIssueClick}
-                aria-label={`${hiddenIssues} Hidden Issues`}
-              >
-                <div className="summary-card__header-row">
-                  <p className="summary-card__title-fade">Hidden Issues</p>
-                  <HideSource />
-                </div>
-                <span className="summary-card__needs-review-count">
-                  {' '}
-                  {hiddenIssues}{' '}
-                </span>
-              </div>
-            </Card> */}
           </div>
         </div>
       </div>

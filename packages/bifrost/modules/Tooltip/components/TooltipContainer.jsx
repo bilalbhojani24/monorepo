@@ -62,7 +62,6 @@ const TooltipContainer = (props) => {
           onOpenChange={onOpenChange}
         >
           <TooltipPrimitive.Trigger
-            className={triggerWrapperClassName}
             ref={triggerRef}
             onClick={(event) => {
               if (triggerOnTouch) event.preventDefault();
@@ -70,7 +69,11 @@ const TooltipContainer = (props) => {
             aria-label={triggerAriaLabel}
             asChild
           >
-            <div className="inline-block">{children}</div>
+            <div
+              className={twClassNames('inline-block', triggerWrapperClassName)}
+            >
+              {children}
+            </div>
           </TooltipPrimitive.Trigger>
           <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content

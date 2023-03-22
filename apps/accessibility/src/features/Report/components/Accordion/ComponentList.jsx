@@ -15,10 +15,7 @@ import {
   setActiveViolationId,
   setIsShowingIssue
 } from 'features/Report/slice/appSlice';
-import {
-  getActiveComponentId
-  // getIsShowingIssue
-} from 'features/Report/slice/selector';
+import { getActiveComponentId } from 'features/Report/slice/selector';
 import PropTypes from 'prop-types';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
@@ -27,7 +24,6 @@ export default function ComponentList({ nodes, violationId }) {
   const navigate = useNavigate();
   const { isHalfView } = useContext(SectionsDataContext);
   const activeComponentId = useSelector(getActiveComponentId);
-  // const isShowingIssue = useSelector(getIsShowingIssue);
   const onRowClick = (key) => {
     dispatch(setActiveViolationId(violationId));
     dispatch(setActiveComponentId(key));

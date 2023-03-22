@@ -10,7 +10,8 @@ import { getUser } from '../../Dashboard/slices/selectors';
 import {
   clearScanOverviewData,
   getScanOverview,
-  getScanRuns
+  getScanRuns,
+  clearCommonData
 } from '../slices/dataSlice';
 import {
   getScanOverviewData,
@@ -48,6 +49,7 @@ export default function useScanDetails() {
     // const tab = searchParams.get('tab');
     setIsLoading(true);
     dispatch(clearScanOverviewData());
+    dispatch(clearCommonData());
     dispatch(getScanOverview(id));
     dispatch(getScanRuns(id));
   }, [dispatch, id]);
