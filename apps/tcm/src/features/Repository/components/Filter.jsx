@@ -46,6 +46,15 @@ const Filter = ({ isMini, onFilterChange }) => {
 
   const priorityOptions = [
     {
+      value: 'critical',
+      label: (
+        <>
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
+          Critical
+        </>
+      )
+    },
+    {
       value: 'high',
       label: (
         <>
@@ -66,15 +75,6 @@ const Filter = ({ isMini, onFilterChange }) => {
       label: (
         <>
           <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" /> Low
-        </>
-      )
-    },
-    {
-      value: 'critical',
-      label: (
-        <>
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
-          Critical
         </>
       )
     }
