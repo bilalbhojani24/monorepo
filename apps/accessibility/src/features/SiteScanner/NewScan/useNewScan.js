@@ -277,26 +277,21 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
-          logEvent(
-            ['EDS'],
-            'accessibility_dashboard_web_events',
-            'InteractedWithWSNewWebsiteScanSlideOver',
-            {
-              actionType: 'Scan changes',
-              action: 'Create Scan',
-              scanFrequency: recurringStatus ? formData.type : null,
-              scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-              scanTime: recurringStatus
-                ? formData.time
-                : new Date().toLocaleTimeString(),
-              wcagVersion: formData.scanData.wcagVersion.label,
-              day: recurringStatus
-                ? formData.day
-                : new Date().toLocaleDateString(),
-              bestPractices: formData.scanData.bestPractices,
-              needsReview: formData.scanData.needsReview
-            }
-          );
+          logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
+            actionType: 'Scan changes',
+            action: 'Create Scan',
+            scanFrequency: recurringStatus ? formData.type : null,
+            scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+            scanTime: recurringStatus
+              ? formData.time
+              : new Date().toLocaleTimeString(),
+            wcagVersion: formData.scanData.wcagVersion.label,
+            day: recurringStatus
+              ? formData.day
+              : new Date().toLocaleDateString(),
+            bestPractices: formData.scanData.bestPractices,
+            needsReview: formData.scanData.needsReview
+          });
 
           postNewScanConfig(payload)
             .then(() => {

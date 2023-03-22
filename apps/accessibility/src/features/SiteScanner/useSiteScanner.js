@@ -23,7 +23,7 @@ export default function useSiteScanner() {
   }, [dispatch]);
 
   useEffect(() => {
-    logEvent(['EDS'], 'accessibility_dashboard_web_events', 'OnWSHomepageView');
+    logEvent('OnWSHomepageView');
   }, []);
 
   useEffect(() => {
