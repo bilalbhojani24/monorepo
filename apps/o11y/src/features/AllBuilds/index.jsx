@@ -1,30 +1,84 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { MdSearchOff } from '@browserstack/bifrost';
+import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
+import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
 import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
-import { getBuildsData, setBuilds } from './slices/dataSlice';
+import Filters from './components/Filters';
+import FilterPills from './components/Filters/FilterPills';
+import SearchBuilds from './components/SearchBuilds';
 import {
+  getBuildsData,
+  setAppliedFilters,
+  setBuilds,
+  setFiltersMetaData,
+  setSelectedFilters
+} from './slices/dataSlice';
+import {
+  getAppliedFilters,
   getBuilds,
   getBuildsApiState,
   getBuildsPagingParams
 } from './slices/selectors';
+import { getParamsFromFiltersObject } from './utils/common';
+import {
+  EMPTY_APPLIED_FILTERS,
+  EMPTY_METADATA_FILTERS,
+  EMPTY_SELECTED_FILTERS
+} from './constants';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { projectNormalisedName } = useParams();
+  const [, setSearchParams] = useSearchParams();
   const buildsData = useSelector(getBuilds);
+  const appliedFilters = useSelector(getAppliedFilters);
   const buildsPagingParamsData = useSelector(getBuildsPagingParams);
   const { status: buildsApiStatus } = useSelector(getBuildsApiState);
 
-  const loadBuildsData = useCallback(() => {
+  const resetReduxStore = useCallback(
+    (itemsToReset) => {
+      if (itemsToReset.includes('selected'))
+        dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
+      if (itemsToReset.includes('applied'))
+        dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
+      if (itemsToReset.includes('buildsData'))
+        dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
+      if (itemsToReset.includes('metaData')) {
+        dispatch(setFiltersMetaData(EMPTY_METADATA_FILTERS));
+      }
+    },
+    [dispatch]
+  );
+
+  const viewAllBuilds = useCallback(() => {
+    resetReduxStore(['selected', 'applied', 'buildsData']);
+    dispatch(
+      getBuildsData({
+        projectNormalisedName,
+        currentPagingParams: {}
+      })
+    );
+  }, [dispatch, projectNormalisedName, resetReduxStore]);
+
+  const loadFreshBuildsData = useCallback(() => {
+    dispatch(
+      getBuildsData({
+        projectNormalisedName,
+        currentPagingParams: {}
+      })
+    );
+  }, [dispatch, projectNormalisedName]);
+
+  const loadBuildsData = () => {
     if (buildsPagingParamsData.hasNext) {
       dispatch(
         getBuildsData({
@@ -33,20 +87,28 @@ const AllBuildsPage = () => {
         })
       );
     }
-  }, [dispatch, buildsPagingParamsData, projectNormalisedName]);
+  };
+
+  useEffect(
+    () => () => {
+      // Clean builds on project change
+      resetReduxStore(['selected', 'applied', 'buildsData', 'metaData']);
+    },
+    [dispatch, resetReduxStore, projectNormalisedName]
+  );
 
   useEffect(() => {
+    const filtersParams = getParamsFromFiltersObject(appliedFilters);
+    setSearchParams(filtersParams);
     dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
+      setSelectedFilters({
+        ...appliedFilters
       })
     );
-    return () => {
-      // Clean builds on project change
-      dispatch(setBuilds({ builds: [] }));
-    };
-  }, [dispatch, projectNormalisedName]);
+    resetReduxStore(['buildsData']);
+    loadFreshBuildsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appliedFilters]);
 
   const handleClickBuildItem = (currentIdx) => {
     const build = buildsData[currentIdx];
@@ -66,12 +128,38 @@ const AllBuildsPage = () => {
       </div>
 
       <div className="flex flex-1 flex-col py-6 px-8">
+        <div className="mb-2 flex justify-between">
+          <SearchBuilds />
+          <Filters />
+        </div>
+        <div className="mb-4">
+          <FilterPills viewAllBuilds={viewAllBuilds} />
+        </div>
         {buildsApiStatus === API_STATUSES.FAILED && (
           <EmptyPage
             heading="Unable to fetch data"
             text="Something went wrong while fetching builds data"
           />
         )}
+        {buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING ? (
+          <O11yLoader loaderClass="self-center p-1 my-5" />
+        ) : null}
+        {buildsData.length === 0 &&
+        buildsApiStatus === API_STATUSES.FULFILLED ? (
+          <div className="m-auto">
+            <MdSearchOff className="text-base-500 mx-auto h-11 w-11" />
+            <h2 className="text-center font-bold">No matching results found</h2>
+            <p className="text-base-500 text-center">
+              We couldn&apos;t find the results you were looking for.
+            </p>
+            <O11yButton
+              wrapperClassName="mx-auto mt-6 block"
+              onClick={viewAllBuilds}
+            >
+              View All Builds
+            </O11yButton>
+          </div>
+        ) : null}
         {!!buildsData.length && (
           <VirtualisedTable
             data={buildsData}
@@ -85,11 +173,15 @@ const AllBuildsPage = () => {
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell>BUILD</O11yTableCell>
-                <O11yTableCell>TESTS</O11yTableCell>
-                <O11yTableCell>DURATION</O11yTableCell>
-                <O11yTableCell>FAILURE CATEGORIES</O11yTableCell>
-                <O11yTableCell>SMART TAGS</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">BUILD</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">TESTS</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">DURATION</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">
+                  FAILURE CATEGORIES
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3">
+                  SMART TAGS
+                </O11yTableCell>
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}

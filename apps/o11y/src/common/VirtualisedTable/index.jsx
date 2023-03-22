@@ -57,7 +57,7 @@ Table.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 const LoadingFooter = () => (
   <O11yTableRow>
     <O11yTableCell colspan="100%">
-      <O11yLoader loaderClass="text-base-600 h-6 w-6 self-center p-1" />
+      <O11yLoader loaderClass="self-center p-1" />
     </O11yTableCell>
   </O11yTableRow>
 );
