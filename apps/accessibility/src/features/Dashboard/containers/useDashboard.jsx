@@ -13,10 +13,8 @@ import { CHROME_EXTENSION_URL, events } from 'constants';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath } from 'utils';
+import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
-import { getTimeDiffInDays } from '../../../utils/helper';
-
-// import { getSidebarCollapsedStatus } from '../slices/selectors';
 
 export default function useDashboard() {
   const mainRef = useRef(null);
@@ -26,7 +24,7 @@ export default function useDashboard() {
   const navigate = useNavigate();
   const shouldShowNewBadge = () => {
     const lastTimeSaved = new Date(
-      parseInt(localStorage.getItem('newSiteScannerBadge'))
+      parseInt(localStorage.getItem('newSiteScannerBadge'), 10)
     );
     if (lastTimeSaved) {
       const currentTime = new Date().getTime();

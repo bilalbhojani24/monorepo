@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { logEvent } from '@browserstack/utils';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { logEvent } from '../../../../../packages/utils/src/logger';
 import { getUser } from '../Dashboard/slices/selectors';
 
 import { getScanConfigs } from './slices/dataSlice';
