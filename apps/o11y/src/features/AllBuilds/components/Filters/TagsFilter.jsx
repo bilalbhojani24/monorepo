@@ -5,12 +5,12 @@ import { O11yComboBox } from 'common/bifrostProxy';
 import { PropTypes } from 'prop-types';
 
 import { getBuildTagsData } from '../../slices/dataSlice';
-import { getAppliedFilterTags } from '../../slices/selectors';
+import { getSelectedFilterTags } from '../../slices/selectors';
 
 const TagsFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
   const dispatch = useDispatch();
   const { projectNormalisedName } = useParams();
-  const tags = useSelector(getAppliedFilterTags);
+  const tags = useSelector(getSelectedFilterTags);
   const [allTagsData, setAllTagsData] = useState({
     isLoading: false,
     data: []

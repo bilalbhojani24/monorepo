@@ -4,13 +4,13 @@ import { O11yComboBox } from 'common/bifrostProxy';
 import { setFiltersMetaData } from 'features/AllBuilds/slices/dataSlice';
 import { PropTypes } from 'prop-types';
 
-import { getAppliedFilterUsers } from '../../slices/selectors';
+import { getSelectedFilterUsers } from '../../slices/selectors';
 
 import useFetchUser from './useFetchUser';
 
 const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
   const dispatch = useDispatch();
-  const users = useSelector(getAppliedFilterUsers);
+  const users = useSelector(getSelectedFilterUsers);
   const { data: allUsersData } = useFetchUser(allowFetchingData);
   const allUsersDataOptions = allUsersData.map((el) => ({
     value: el.id.toString(),
