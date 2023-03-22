@@ -14,6 +14,7 @@ import { getTrendPerformanceChartData } from 'features/TestingTrends/slices/test
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import useChartActions from '../hooks/useChartActions';
@@ -51,7 +52,7 @@ function getFormattedTooltip() {
   }, ``);
 }
 
-const getChartOptions = ({ afterSetExtremes }) => ({
+const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
     ...TOOLTIP_STYLES,
@@ -122,8 +123,23 @@ const getChartOptions = ({ afterSetExtremes }) => ({
     series: {
       color: '#376D98',
       animation: false,
+      connectNulls: null,
       marker: {
         radius: 3
+      },
+      point: {
+        events: {
+          click: () => {
+            logOllyEvent({
+              event: 'O11yTestingTrendsInteracted',
+              data: {
+                project_name: activeProject.name,
+                project_id: activeProject.id,
+                interaction: 'performance_clicked'
+              }
+            });
+          }
+        }
       }
     },
     column: {
@@ -176,7 +192,7 @@ export default function PerformanceGraph({ buildId }) {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes }),
+      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
       series: [
         {
           type: 'column',
@@ -194,7 +210,7 @@ export default function PerformanceGraph({ buildId }) {
         }
       ]
     }),
-    [afterSetExtremes, chartData?.barData, chartData?.lineData]
+    [afterSetExtremes, chartData?.barData, chartData?.lineData, projects.active]
   );
 
   return (
@@ -205,12 +221,6 @@ export default function PerformanceGraph({ buildId }) {
       onClickCTA={fetchData}
       showTitle={false}
     >
-      {/* <IconButton
-        icon={<DragIndicatorIcon fontSize="inherit" />}
-        type="subtle"
-        className="to-test-trend__dragHandler to-test-trend__dragHandler-abs"
-        size="small"
-      /> */}
       <div className="h-96">
         <Chart
           options={options}

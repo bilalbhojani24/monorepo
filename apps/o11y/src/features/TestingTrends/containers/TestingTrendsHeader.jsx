@@ -16,6 +16,7 @@ import {
 import { getTTFilterByKey } from 'features/TestingTrends/slices/selectors';
 import { setTTFilters } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 const BUILD_OPTIONS = [
   {
@@ -49,6 +50,14 @@ export default function TestingTrendsHeader() {
         }
       })
     );
+    logOllyEvent({
+      event: 'O11yTestingTrendsInteracted',
+      data: {
+        project_name: projects?.active?.name,
+        project_id: projects?.active?.id,
+        interaction: 'time_filter_changed'
+      }
+    });
   };
 
   const handleBuildChange = (selectedItem) => {
@@ -60,6 +69,14 @@ export default function TestingTrendsHeader() {
         buildName: selectedItem
       })
     );
+    logOllyEvent({
+      event: 'O11yTestingTrendsInteracted',
+      data: {
+        project_name: projects?.active?.name,
+        project_id: projects?.active?.id,
+        interaction: 'build_filter_applied'
+      }
+    });
   };
 
   useEffect(() => {
@@ -132,16 +149,6 @@ export default function TestingTrendsHeader() {
             </O11ySelectMenuOptionGroup>
           </O11ySelectMenu>
         </div>
-        {/* <O11ySelectMenu
-          id="build-name-filters"
-          menuOptions={buildList}
-          placeholder="All Builds"
-          size="default"
-          wrapperClassName="to-test-trend-header__builds"
-          onChange={handleBuildChange}
-          isMulti={false}
-          defaultSelected={activeBuild}
-        /> */}
       </div>
     </div>
   );

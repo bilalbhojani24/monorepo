@@ -12,7 +12,7 @@ export default function CardHeader({ title }) {
         icon={<MdDragIndicator className="ml-1" />}
         isIconOnlyButton
         size="small"
-        wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:bg-none"
+        wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:shadow-none"
       />
     </div>
   );

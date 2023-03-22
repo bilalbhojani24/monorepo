@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { Button, MdDragIndicator } from '@browserstack/bifrost';
 import TrendsGenericChart from 'features/TestingTrends/components/TrendsGenericChart';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
@@ -8,6 +7,7 @@ import { getTrendStabilityChartData } from 'features/TestingTrends/slices/testin
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
 export default function StabilityLineGraph({ buildId }) {
   const [chartData, setChartData] = useState({});
@@ -53,12 +53,6 @@ export default function StabilityLineGraph({ buildId }) {
       onClickCTA={fetchData}
       showTitle={false}
     >
-      {/* <Button
-        icon={<MdDragIndicator />}
-        isIconOnlyButton
-        size="small"
-        wrapperClassName="ml-3"
-      /> */}
       <div className="h-96">
         {!isEmpty(chartData.data) && (
           <TrendsGenericChart
@@ -66,7 +60,16 @@ export default function StabilityLineGraph({ buildId }) {
             config={{
               median: chartData?.median,
               showTrendLine: true,
-              fixedToTwoDigits: true
+              fixedToTwoDigits: true,
+              pointClickCb: () =>
+                logOllyEvent({
+                  event: 'O11yTestingTrendsInteracted',
+                  data: {
+                    project_name: projects.active.name,
+                    project_id: projects.active.id,
+                    interaction: 'stability_clicked'
+                  }
+                })
             }}
             seriesOptions={{
               id: 'stabilityChart',

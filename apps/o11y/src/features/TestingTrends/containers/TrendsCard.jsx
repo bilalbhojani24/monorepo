@@ -84,11 +84,7 @@ export default function TrendsCard({
           </div>
         )}
         {!isEmpty(chartData.data) && (
-          <div
-            className={twClassNames('px-5 pt-2 pb-2 h-80', {
-              // 'max-h-[calc(100%_-_100px)]': !isEmpty(chartData?.insights)
-            })}
-          >
+          <div className={twClassNames('px-5 pt-2 pb-2 h-80')}>
             <TrendsGenericChart
               data={chartData.data}
               config={config}

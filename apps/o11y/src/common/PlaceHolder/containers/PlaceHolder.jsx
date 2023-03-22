@@ -20,7 +20,7 @@ export default function PlaceHolder({
     <div className="flex flex-col py-0 px-5">
       {type === 'error' && (
         <div className="h-28 w-28 rounded-full">
-          <MdOutlineErrorOutline className="text-danger-300 bg-danger-100 ml-2 h-24 w-24" />{' '}
+          <MdOutlineErrorOutline className="text-danger-300 bg-danger-100 ml-2 h-16 w-16" />{' '}
         </div>
       )}
       {type === 'empty' && (

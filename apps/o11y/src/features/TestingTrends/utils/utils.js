@@ -74,8 +74,24 @@ export const getCommonChartOptions = (data = {}) => {
       series: {
         color: '#1b8bff',
         animation: false,
+        connectNulls: true,
         marker: {
           radius: 3
+        },
+        point: {
+          events: {
+            click: (e) => {
+              if (
+                data?.pointClickCb &&
+                typeof data.pointClickCb === 'function'
+              ) {
+                data?.pointClickCb(e);
+              }
+            }
+          }
+        },
+        areaspline: {
+          connectNulls: true
         }
       }
     }

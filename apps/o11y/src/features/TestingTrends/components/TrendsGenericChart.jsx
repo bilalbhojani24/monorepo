@@ -15,13 +15,16 @@ export default function TrendsGenericChart({
   chartType,
   seriesOptions
 }) {
-  const { afterSetExtremes } = useChartActions();
+  const { afterSetExtremes } = useChartActions(config?.analyticsKey || '');
   const activeDateRange = useSelector((state) =>
     getTTFilterByKey(state, 'dateRange')
   );
   const options = useMemo(() => {
     const chartOptions = {
-      ...getCommonChartOptions({ afterSetExtremes, ...config }),
+      ...getCommonChartOptions({
+        afterSetExtremes,
+        ...config
+      }),
       chart: {
         animation: false,
         type: chartType,
@@ -87,7 +90,9 @@ TrendsGenericChart.propTypes = {
     showTrendLine: PropTypes.bool,
     tooltipFormatter: PropTypes.func,
     fixedToTwoDigits: PropTypes.bool,
-    hideLegends: PropTypes.bool
+    hideLegends: PropTypes.bool,
+    analyticsKey: PropTypes.string,
+    pointClickCb: PropTypes.func
   }),
   seriesOptions: PropTypes.shape({
     id: PropTypes.string,
@@ -103,6 +108,8 @@ TrendsGenericChart.defaultProps = {
     showTrendLine: false,
     tooltipFormatter: null,
     fixedToTwoDigits: false,
-    hideLegends: false
+    hideLegends: false,
+    analyticsKey: '',
+    pointClickCb: () => {}
   }
 };

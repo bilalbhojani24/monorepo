@@ -1,13 +1,16 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TT_PARAMS_MAPPING } from 'features/TestingTrends/constants';
 import { setTTFilters } from 'features/TestingTrends/slices/testingTrendsSlice';
+import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { getUnixEndOfDay, getUnixStartOfDay } from 'utils/dateTime';
 
 const useChartActions = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const activeProject = useSelector(getActiveProject);
   const afterSetExtremes = useCallback(
     (e) => {
       if (e.trigger) {
@@ -29,9 +32,17 @@ const useChartActions = () => {
             }
           })
         );
+        logOllyEvent({
+          event: 'O11yTestingTrendsInteracted',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            interaction: 'chart_zoomed'
+          }
+        });
       }
     },
-    [dispatch, navigate]
+    [activeProject.id, activeProject.name, dispatch, navigate]
   );
 
   return {

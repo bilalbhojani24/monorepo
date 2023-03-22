@@ -5,10 +5,10 @@ import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import MiniChart from 'common/MiniChart';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getTrendPerformanceData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { abbrNumber } from 'utils/common';
+import { abbrNumber, logOllyEvent } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 
 import { getAllTTFilters } from '../slices/selectors';
@@ -57,6 +57,7 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
 ));
 
 export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
+  const activeProject = useSelector(getActiveProject);
   const filters = useSelector(getAllTTFilters);
   const [performanceData, setPerformanceData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -125,6 +126,15 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
 
   const handleClickBuildItem = (id) => {
     const selectedId = performanceData?.data[id]?.id;
+    logOllyEvent({
+      event: 'O11yTestingTrendsInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'performance_build_name_clicked',
+        build_name: id
+      }
+    });
     handleBuildSelect(selectedId);
   };
 

@@ -13,8 +13,13 @@ import useTestingTrends from 'features/TestingTrends/containers/useTestingTrends
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default function TestingTrends() {
-  const { handleResize, onLayoutChange, rglLayouts, TREND_CARDS } =
-    useTestingTrends();
+  const {
+    handleResize,
+    logTrendsInteractionEvent,
+    onLayoutChange,
+    rglLayouts,
+    TREND_CARDS
+  } = useTestingTrends();
   const renderDashboardCard = (key) => {
     const { title } = TREND_CARDS[key];
     switch (key) {
@@ -28,7 +33,13 @@ export default function TestingTrends() {
             cardKey="testGrowthOverTime"
             apiKey="testGrowth"
             seriesOptions={{ id: 'tests', name: 'Tests' }}
-            config={{ abbrNumber: true }}
+            config={{
+              abbrNumber: true,
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'unique_test_cases_clicked'
+                })
+            }}
           />
         );
       case 'latestUniqueBuildRuns':
@@ -42,7 +53,11 @@ export default function TestingTrends() {
             config={{
               hideLegends: true,
               showTrendLine: true,
-              fixedToTwoDigits: true
+              fixedToTwoDigits: true,
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'flakiness_clicked'
+                })
             }}
             seriesOptions={{ id: 'flakiness', name: 'Flakiness' }}
             insightsSuffix="%"
@@ -53,7 +68,13 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="alwaysFailing"
             apiKey="alwaysFailing"
-            config={{ hideLegends: true }}
+            config={{
+              hideLegends: true,
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'always_failing_clicked'
+                })
+            }}
             seriesOptions={{ id: 'alwaysFailing', name: 'Always Failing' }}
             insightsSuffix="%"
           />
@@ -63,7 +84,13 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="newFailures"
             apiKey="newFailures"
-            config={{ hideLegends: true }}
+            config={{
+              hideLegends: true,
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'new_failure_clicked'
+                })
+            }}
             seriesOptions={{ id: 'newFailures', name: 'Newly Failed Tests' }}
             insightsSuffix="%"
           />
@@ -81,12 +108,17 @@ export default function TestingTrends() {
               showTrendLine: true,
               fixedToTwoDigits: true,
               abbrNumber: true,
-              metaText: 'Test Executions'
+              metaText: 'Test Executions',
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'test_executions_clicked'
+                })
             }}
             seriesOptions={{
               id: 'testExecutions',
               name: 'Test Executions',
-              fillOpacity: 0.1
+              fillOpacity: 0.1,
+              connectNulls: true
             }}
             chartType="areaspline"
           />
@@ -96,7 +128,14 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="parallelExecutions"
             apiKey="parallelExecutions"
-            config={{ showTrendLine: true, fixedToTwoDigits: true }}
+            config={{
+              showTrendLine: true,
+              fixedToTwoDigits: true,
+              pointClickCb: () =>
+                logTrendsInteractionEvent({
+                  interaction: 'parallel_executions_clicked'
+                })
+            }}
             seriesOptions={{
               id: 'parallelExecutions',
               name: 'Parallel Executions'
@@ -129,6 +168,9 @@ export default function TestingTrends() {
           cols={{ lg: 10, md: 10, sm: 1, xs: 1, xxs: 1 }}
           layouts={rglLayouts}
           onLayoutChange={onLayoutChange}
+          onDragStop={() =>
+            logTrendsInteractionEvent({ interaction: 'chart_moved' })
+          }
           rowHeight={140}
           margin={[20, 20]}
           isResizable

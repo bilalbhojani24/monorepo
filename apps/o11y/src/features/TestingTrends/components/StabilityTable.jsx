@@ -7,9 +7,10 @@ import VirtualisedTable from 'common/VirtualisedTable';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendStabilityData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
 const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
@@ -39,6 +40,7 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
 ));
 
 export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
+  const activeProject = useSelector(getActiveProject);
   const filters = useSelector(getAllTTFilters);
   const [stabilityData, setStabilityData] = useState({});
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -108,6 +110,15 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
 
   const handleClickBuildItem = (id) => {
     const selectedId = stabilityData?.data[id]?.id;
+    logOllyEvent({
+      event: 'O11yTestingTrendsInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'stability_build_name_clicked',
+        build_name: id
+      }
+    });
     handleBuildSelect(selectedId);
   };
 

@@ -17,6 +17,7 @@ import { getTrendFailureCategoriesData } from 'features/TestingTrends/slices/tes
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
 function getFormattedTooltip() {
@@ -27,7 +28,7 @@ function getFormattedTooltip() {
   }, `<span class="tt-small-text" style="margin-bottom:6px">${getCustomTimeStamp({ dateString: this.x })}</span>`);
 }
 
-function getChartOptions({ afterSetExtremes }) {
+function getChartOptions({ afterSetExtremes, activeProject }) {
   return {
     ...COMMON_CHART_CONFIGS,
     tooltip: {
@@ -73,8 +74,23 @@ function getChartOptions({ afterSetExtremes }) {
       series: {
         color: '#1b8bff',
         animation: false,
+        connectNulls: null,
         marker: {
           radius: 3
+        },
+        point: {
+          events: {
+            click: () => {
+              logOllyEvent({
+                event: 'O11yTestingTrendsInteracted',
+                data: {
+                  project_name: activeProject.name,
+                  project_id: activeProject.id,
+                  interaction: 'failure_category_clicked'
+                }
+              });
+            }
+          }
         }
       },
       area: {
@@ -128,10 +144,10 @@ export default function FailureCategoryTrend({ title }) {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes }),
+      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
       series: chartData?.data || []
     }),
-    [afterSetExtremes, chartData?.data]
+    [afterSetExtremes, chartData?.data, projects.active]
   );
 
   return (

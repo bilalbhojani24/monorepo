@@ -17,6 +17,7 @@ import CardHeader from 'features/TestingTrends/components/CardHeader';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
+import { logOllyEvent } from 'utils/common';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { TREND_CARDS } from '../constants';
@@ -126,6 +127,14 @@ export default function CbtTrends() {
             if (data.length) {
               setChartTitle(data.length || 0, e.target);
               setActiveSeriesData(data);
+              logOllyEvent({
+                event: 'O11yTestingTrendsInteracted',
+                data: {
+                  project_name: projects.active.name,
+                  project_id: projects.active.id,
+                  interaction: 'cbt_drilldown'
+                }
+              });
             }
           },
           drillup(e) {
@@ -162,7 +171,13 @@ export default function CbtTrends() {
         }))
       }
     }),
-    [chartData.data, chartData?.drillDownData, setChartTitle]
+    [
+      chartData.data,
+      chartData?.drillDownData,
+      projects.active.id,
+      projects.active.name,
+      setChartTitle
+    ]
   );
 
   const handleDrillDown = (item, idx) => {

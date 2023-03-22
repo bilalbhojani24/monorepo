@@ -41,9 +41,9 @@ const CHART_OPTIONS = {
     enabled: false
   },
   plotOptions: {
-    // series: {
-    //   color: '#FB7373'
-    // },
+    series: {
+      connectNulls: true
+    },
     area: {
       lineWidth: 1
     }
