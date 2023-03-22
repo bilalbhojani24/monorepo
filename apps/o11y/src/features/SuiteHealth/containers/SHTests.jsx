@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ArrowDownIcon, ArrowUpIcon } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
@@ -23,7 +21,7 @@ import { logOllyEvent } from 'utils/common';
 
 import SHTestItem from '../components/TestItem';
 import SHTestsHeader from '../components/TestsHeader';
-import { SUITE_TESTS_HEADER_LABEL_MAPPING } from '../constants';
+import TestsTableHeader from '../components/TestsTableHeader';
 import {
   getSnPTestsData,
   setTestsLoading,
@@ -173,7 +171,7 @@ export default function SnPTests() {
   };
 
   return (
-    <div className={twClassNames('flex flex-col h-full')}>
+    <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
@@ -188,65 +186,16 @@ export default function SnPTests() {
               <EmptyPage text="No data found" />
             </div>
           ) : (
-            <div className="flex-1">
+            <div className="flex-1 overflow-auto px-6">
               <VirtualisedTable
                 style={{ height: '100%' }}
                 data={tests}
                 endReached={loadMoreRows}
                 fixedHeaderContent={() => (
-                  <O11yTableRow>
-                    {Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).map(
-                      (key, idx) => {
-                        if (idx > 1) {
-                          return (
-                            <O11yTableCell
-                              key={key}
-                              wrapperClassName={twClassNames(
-                                SUITE_TESTS_HEADER_LABEL_MAPPING[key]
-                                  .defaultClass
-                              )}
-                            >
-                              <button
-                                className="flex w-full items-center justify-center gap-1 "
-                                onClick={() => handleClickSortBy(key)}
-                                disabled={isLoadingMore}
-                                type="button"
-                              >
-                                <span className="text-xs font-medium leading-4">
-                                  {SUITE_TESTS_HEADER_LABEL_MAPPING[
-                                    key
-                                  ].name.toUpperCase()}
-                                </span>
-                                {sortBy.type === key && (
-                                  <>
-                                    {sortBy.status === 'asc' ? (
-                                      <ArrowUpIcon className="text-brand-500 inline-block h-4 w-4" />
-                                    ) : (
-                                      <ArrowDownIcon className="text-brand-500 inline-block h-4 w-4" />
-                                    )}
-                                  </>
-                                )}
-                              </button>
-                            </O11yTableCell>
-                          );
-                        }
-                        return (
-                          <O11yTableCell
-                            key={key}
-                            wrapperClassName={twClassNames(
-                              SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
-                            )}
-                          >
-                            <div className="text-xs font-medium leading-4">
-                              {SUITE_TESTS_HEADER_LABEL_MAPPING[
-                                key
-                              ].name.toUpperCase()}
-                            </div>
-                          </O11yTableCell>
-                        );
-                      }
-                    )}
-                  </O11yTableRow>
+                  <TestsTableHeader
+                    isLoadingMore={isLoadingMore}
+                    handleClickSortBy={handleClickSortBy}
+                  />
                 )}
                 itemContent={(index, testData) => (
                   <SHTestItem key={testData.id} testDetails={testData} />

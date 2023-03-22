@@ -186,7 +186,7 @@ export default function TestTrend() {
         data: {
           project_name: activeProject.name,
           project_id: activeProject.id,
-          interaction: 'test_details_opened'
+          interaction: 'zoom'
         }
       });
     },
@@ -266,7 +266,7 @@ export default function TestTrend() {
   }
 
   return (
-    <div className="mb-10">
+    <div className="mb-8">
       <p className="text-base-900 mb-6 text-lg font-medium leading-6">
         Test duration across builds
       </p>

@@ -8,47 +8,7 @@ import {
 } from 'api/snp';
 import { getAllSnPTestFilters } from 'features/SuiteHealth/slices/selectors';
 
-const { reducer, actions } = createSlice({
-  name: 'SuiteHealthErrorDetails',
-  initialState: {
-    ui: {
-      isDetailsVisible: false,
-      showDetailsFor: {
-        testId: '',
-        errorId: ''
-      },
-      cbtInfo: {
-        osName: '',
-        osVersion: '',
-        browserName: '',
-        browserVersion: '',
-        osKey: '',
-        browserKey: ''
-      }
-    }
-  },
-  reducers: {
-    setIsSnPErrorDetailsVisible: (state, { payload }) => {
-      state.ui.isDetailsVisible = payload;
-    },
-    setShowSnPErrorDetailsFor: (state, { payload }) => {
-      state.ui.showDetailsFor = {
-        testId: payload.testId,
-        errorId: payload.errorId
-      };
-    },
-    setSnPErrorCbtInfo: (state, { payload }) => {
-      state.ui.cbtInfo = payload;
-    }
-  },
-  extraReducers: {}
-});
-
-export const {
-  setIsSnPErrorDetailsVisible,
-  setShowSnPErrorDetailsFor,
-  setSnPErrorCbtInfo
-} = actions;
+import { TABS } from '../constants';
 
 export const getSnPErrorDetailsInfoData = createAsyncThunk(
   'testlist/getSnPErrorDetailsInfoData',
@@ -62,6 +22,97 @@ export const getSnPErrorDetailsInfoData = createAsyncThunk(
     }
   }
 );
+
+const { reducer, actions } = createSlice({
+  name: 'SuiteHealthErrorDetails',
+  initialState: {
+    data: {
+      errorDetailsInfo: {
+        isLoading: false,
+        data: null
+      }
+    },
+    ui: {
+      isDetailsVisible: false,
+      showDetailsFor: {
+        testId: '',
+        errorId: ''
+      },
+      cbtInfo: {
+        osName: '',
+        osVersion: '',
+        browserName: '',
+        browserVersion: '',
+        osKey: '',
+        browserKey: '',
+        deviceKey: ''
+      },
+      chartBounds: {
+        lower: null,
+        upper: null
+      },
+      activeTab: {
+        idx: 1,
+        value: TABS.runs
+      },
+      showAllBuilds: false
+    }
+  },
+  reducers: {
+    setIsUEDetailsVisible: (state, { payload }) => {
+      state.ui.isDetailsVisible = payload;
+    },
+    setShowUEDetailsFor: (state, { payload }) => {
+      state.ui.showDetailsFor = {
+        testId: payload.testId,
+        errorId: payload.errorId
+      };
+    },
+    setUECbtInfo: (state, { payload }) => {
+      state.ui.cbtInfo = payload;
+    },
+    setUEDetailsChartBounds: (state, { payload }) => {
+      state.ui.chartBounds = payload;
+    },
+    setUEDetailsActiveTab: (state, { payload }) => {
+      state.ui.activeTab = payload;
+    },
+    setShowAllBuilds: (state, { payload }) => {
+      state.ui.showAllBuilds = payload;
+    },
+    clearUEDetailsInfo: (state) => {
+      state.data.errorDetailsInfo.isLoading = false;
+      state.data.errorDetailsInfo.data = null;
+    },
+    resetUEDetailsActiveTab: (state) => {
+      state.ui.activeTab = { idx: 1, value: TABS.runs };
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSnPErrorDetailsInfoData.pending, (state) => {
+        state.data.errorDetailsInfo.isLoading = true;
+      })
+      .addCase(getSnPErrorDetailsInfoData.fulfilled, (state, { payload }) => {
+        state.data.errorDetailsInfo.data = payload;
+        state.data.errorDetailsInfo.isLoading = false;
+      })
+      .addCase(getSnPErrorDetailsInfoData.rejected, (state) => {
+        state.data.errorDetailsInfo.isLoading = false;
+      });
+  }
+});
+
+export const {
+  setIsUEDetailsVisible,
+  setShowUEDetailsFor,
+  setUECbtInfo,
+  setUEDetailsChartBounds,
+  setUEDetailsActiveTab,
+  clearUEDetailsInfo,
+  resetUEDetailsActiveTab,
+  setShowAllBuilds
+} = actions;
 
 export const getSnPErrorDetailsTrendData = createAsyncThunk(
   'testlist/getSnPErrorDetailsTrendData',

@@ -89,3 +89,29 @@ export const TOOLTIP_STYLES = {
     textTransform: 'capitalize'
   }
 };
+
+export const UNSUPPORTED_HTML_TAGS = [
+  'anonymous',
+  'html',
+  'head',
+  'body',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'p',
+  'br',
+  'div',
+  'section',
+  'main',
+  'article',
+  'header',
+  'footer',
+  'table',
+  'thead',
+  'th',
+  'tr',
+  'td'
+];

@@ -46,7 +46,7 @@ const PlatformRow = ({ buildData }) => (
       {buildData?.totalFailures?.failed === undefined ? (
         '-'
       ) : (
-        <p className="text-base-500 text-sm leading-5 ">
+        <p>
           {buildData.totalFailures?.failed}
           {buildData.totalFailures?.total && (
             <span className="">/{buildData.totalFailures?.total}</span>
@@ -58,16 +58,14 @@ const PlatformRow = ({ buildData }) => (
       {buildData?.reliability === undefined ? (
         '-'
       ) : (
-        <p className="text-base-500 text-sm leading-5">
+        <p>
           {buildData.reliability}
           <span className="">%</span>
         </p>
       )}
     </O11yTableCell>
     <O11yTableCell wrapperClassName="py-3">
-      <div className="text-base-500 text-sm leading-5">
-        {ReactHtmlParser(milliSecondsToTime(buildData.duration, true))}
-      </div>
+      {ReactHtmlParser(milliSecondsToTime(buildData.duration, true))}
     </O11yTableCell>
   </>
 );

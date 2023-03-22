@@ -1,5 +1,6 @@
 // browsers
 import ChromeIcon from './browser/ChromeIcon';
+import DefaultBrowserIcon from './browser/DefaultBrowserIcon';
 import EdgeIcon from './browser/EdgeIcon';
 import FirefoxIcon from './browser/FirefoxIcon';
 import IEIcon from './browser/IEIcon';
@@ -24,7 +25,9 @@ import VivoIcon from './device/VivoIcon';
 import XiaomiIcon from './device/XiaomiIcon';
 // os
 import AndroidIcon from './os/AndroidIcon';
+import DefaultOSIcon from './os/DefaultOSIcon';
 import IOSIcon from './os/IOSIcon';
+import LinuxIcon from './os/LinuxIcon';
 import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
@@ -52,6 +55,8 @@ export {
   BuildKiteIcon,
   ChromeIcon,
   CircleCIIcon,
+  DefaultBrowserIcon,
+  DefaultOSIcon,
   DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
@@ -67,6 +72,7 @@ export {
   JenkinsIcon,
   JiraIcon,
   LgIcon,
+  LinuxIcon,
   MacOSIcon,
   MotorolaIcon,
   NokiaIcon,
