@@ -67,7 +67,7 @@ const defaultConfig = {
         'Should provide the content of list items that written using `StackedListGroup`, `StackedLisItem` and `StackedListCommon` components'
     },
     footer: {
-      default: (
+      defaultValue: (
         <div className="bg-white py-3 text-center">
           <button
             className="border-base-300 w-full rounded-md border py-1"
