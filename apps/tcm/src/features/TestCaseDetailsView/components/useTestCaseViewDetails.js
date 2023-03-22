@@ -157,7 +157,7 @@ export default function useTestCaseViewDetails() {
         });
       }
     }
-  }, [detailsRef]);
+  }, [detailsRef, testCaseDetails]);
 
   useEffect(() => {
     if (!jiraConfig) {
