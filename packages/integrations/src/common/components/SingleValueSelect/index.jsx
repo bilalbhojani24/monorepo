@@ -13,7 +13,7 @@ import { fetchOptions } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 
-const SingleDynamicSelect = ({
+const SingleValueSelect = ({
   label,
   options,
   fieldKey,
@@ -129,7 +129,7 @@ const SingleDynamicSelect = ({
       onChange={handleChange}
       value={fieldsData[fieldKey] ?? {}}
       errorText={requiredFieldError}
-      disabled={!(optionsToRender ?? []).length}
+      // disabled={!(optionsToRender ?? []).length}
     >
       <Label label={label} required={required} />
       <ComboboxTrigger
@@ -146,7 +146,7 @@ const SingleDynamicSelect = ({
   );
 };
 
-SingleDynamicSelect.propTypes = {
+SingleValueSelect.propTypes = {
   fieldsData: PropTypes.string.isRequired,
   setFieldsData: PropTypes.func.isRequired,
   fieldKey: PropTypes.string.isRequired,
@@ -159,11 +159,11 @@ SingleDynamicSelect.propTypes = {
   optionsPath: PropTypes.string.isRequired
 };
 
-SingleDynamicSelect.defaultProps = {
+SingleValueSelect.defaultProps = {
   placeholder: null,
   options: [],
   required: false,
   wrapperClassName: ''
 };
 
-export default SingleDynamicSelect;
+export default SingleValueSelect;

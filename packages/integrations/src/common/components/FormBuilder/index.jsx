@@ -7,8 +7,9 @@ import { FormBuilderType } from './types';
 
 const FormBuilder = ({
   fields,
-  handleSubmit,
   metaData,
+  attachment,
+  handleSubmit,
   setIsWorkInProgress
 }) => {
   const [fieldsData, setFieldsData] = useState({});
@@ -30,6 +31,8 @@ const FormBuilder = ({
   const resetFieldsData = () => {
     setFieldsData({});
   };
+
+  console.log(attachment);
 
   useEffect(() => {
     const isWIP = Object.values(fieldsData).some((field) => {
@@ -65,6 +68,7 @@ const FormBuilder = ({
                 options={options}
                 metaData={metaData}
                 required={required}
+                attachment={attachment}
                 searchPath={searchPath}
                 fieldsData={fieldsData}
                 optionsPath={optionsPath}
@@ -101,8 +105,6 @@ const FormBuilder = ({
       }
     }
   };
-
-  console.log(fieldsData);
 
   return (
     <form id="form-builder" onSubmit={handleFormSubmit}>

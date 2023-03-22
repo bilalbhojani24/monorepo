@@ -4,10 +4,13 @@ export const splitFields = (fields) =>
     const SHOW_AT_TOP_BUCKET = 0;
     const REQUIRED_BUCKET = 1;
     const OPTIONAL_BUCKET = 2;
-    const FIELDS_KEYS_TO_SHOW_AT_TOP = ['assignee', 'summary', 'description'];
-    const {
-      schema: { system_type: key }
-    } = field;
+    const FIELDS_KEYS_TO_SHOW_AT_TOP = [
+      'assignee',
+      'summary',
+      'description',
+      'attachment'
+    ];
+    const { key } = field;
     const keyIdx = FIELDS_KEYS_TO_SHOW_AT_TOP.indexOf(key);
     if (keyIdx !== -1) {
       if (!buckets[SHOW_AT_TOP_BUCKET]) {
