@@ -15,12 +15,13 @@ const WIDGET_POSITIONS = ['left', 'right'];
 
 export const CreateIssue = ({
   isOpen,
-  authUrl,
+  auth,
   options,
   position,
   projectId,
   positionRef,
-  handleClose
+  handleClose,
+  attachment
 }) => {
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
@@ -70,7 +71,7 @@ export const CreateIssue = ({
   return (
     <BasicWidget
       isOpen={isOpen}
-      authUrl={authUrl}
+      auth={auth}
       options={options}
       position={position}
       projectId={projectId}
@@ -88,6 +89,7 @@ export const CreateIssue = ({
           mode={mode}
           options={options}
           projectId={projectId}
+          attachment={attachment}
           changeModeTo={changeModeTo}
           continueEditing={continueEditing}
           isBeingDiscarded={isBeingDiscarded}
@@ -131,22 +133,24 @@ CreateIssue.defaultProps = {
 
 const CreateIssueWithProvider = ({
   isOpen,
-  authUrl,
+  auth,
   options,
   position,
   projectId,
   positionRef,
-  handleClose
+  handleClose,
+  attachment
 }) => (
   <Provider store={store}>
     <CreateIssue
       isOpen={isOpen}
-      authUrl={authUrl}
+      auth={auth}
       options={options}
       position={position}
       projectId={projectId}
       positionRef={positionRef}
       handleClose={handleClose}
+      attachment={attachment}
     />
   </Provider>
 );

@@ -20,14 +20,32 @@ const Home = () => {
       }
     }
   };
+
+  const auth = {
+    url: 'https://integrations.bsstag.com/api/user-access-tokens?unique_user_id=4',
+    headers: {
+      Authorization:
+        'Basic dGVzdGludGVncmF0aW9uc19wckFNYTk6Z1F6YXA3cm1lMTluYkphWnZOc0o='
+    }
+  };
+  const [attachment, setAttachment] = useState(
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi1h3CULGItXdaYf2-72PtkqJ_7jk-eYzOtpAKmw5dBvP9lM4GNpe4cEk2GAmr5bb_8lUtdqBWHZo&usqp=CAU&ec=48600113'
+  );
+
+  const handleChange = (event) => {
+    setAttachment(event.target?.files?.[0] ?? null);
+  };
+
   return (
     <div>
+      <input type="file" onChange={handleChange} />
       <Button onClick={handleOpen}>Report a bug</Button>
       <CreateIssue
         isOpen={isOpen}
         handleClose={handleClose}
-        authUrl="https://integrations.bsstag.com/api/user-access-tokens"
+        auth={auth}
         options={options}
+        attachment={attachment}
       />
     </div>
   );
