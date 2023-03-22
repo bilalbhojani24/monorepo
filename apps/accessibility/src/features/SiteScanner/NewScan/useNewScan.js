@@ -239,8 +239,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           const timeval = formData.time.split(':');
           // eslint-disable-next-line radix
           const minutes = parseInt(timeval[0]) * 60 + parseInt(timeval[1]);
-          console.log({ timeval, minutes });
-
+          
           const diff = minutes + timezoneOffset;
           let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;

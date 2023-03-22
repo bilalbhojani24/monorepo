@@ -1,5 +1,6 @@
+import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS } from 'constants/common';
+import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
@@ -111,7 +112,7 @@ export const getShortOSName = (os) => {
 };
 export const getOsIconName = (os) => {
   if (!os) {
-    return 'unknown';
+    return 'default_os';
   }
   const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
   const [osType] = formattedOS.split('-');
@@ -129,7 +130,7 @@ export const getIconName = (name = '', device = '') => {
   if (device) {
     return `device_icon`;
   }
-  return '';
+  return 'icon-default_browser';
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -177,3 +178,21 @@ export const abbrNumber = (num = 0) =>
   })
     .format(num)
     .padStart(2, '0');
+
+export const transformUnsupportedTags = (node, index) => {
+  const updatedNode = node;
+  if (
+    updatedNode.type === 'tag' &&
+    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+  ) {
+    updatedNode.children = [
+      {
+        data: `<${updatedNode.name}>`,
+        type: 'text'
+      },
+      ...updatedNode.children
+    ];
+    updatedNode.name = 'span';
+  }
+  return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
+};

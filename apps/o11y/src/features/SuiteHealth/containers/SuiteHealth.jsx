@@ -5,7 +5,7 @@ import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
 import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
-import { getIsSnPErrorDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
+import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
 import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
 import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
@@ -13,17 +13,17 @@ import TestDetailsSlideOver from 'features/TestDetails';
 import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
 import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 
+import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
 import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
 
-import SHHeader from './SHHeader';
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';
 
 export default function SnP() {
   const dispatch = useDispatch();
-  const isSnPErrorDetailsVisible = useSelector(getIsSnPErrorDetailsVisible);
+  const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
   const isDetailsVisible = useSelector(getIsDetailsVisible);
   const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
@@ -84,7 +84,7 @@ export default function SnP() {
       )}
     >
       <SHHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className={twClassNames('px-8 py-7 flex-1 overflow-auto')}>
+      <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
         {activeTab.value === TABS.build_performance && (
@@ -95,9 +95,7 @@ export default function SnP() {
           </div>
         )}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
-        {isSnPErrorDetailsVisible && (
-          <SHErrorDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
-        )}
+        {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
         {isDetailsVisible && (
           <TestDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
         )}

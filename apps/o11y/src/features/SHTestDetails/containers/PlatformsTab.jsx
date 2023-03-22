@@ -1,22 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { twClassNames } from '@browserstack/utils';
-import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
-import EmptyPage from 'common/EmptyPage';
-import O11yLoader from 'common/O11yLoader';
-import VirtualisedTable from 'common/VirtualisedTable';
+import PlatformsTable from 'common/PlatformsTable';
 import { getSnPTestsBreakdownData } from 'features/SuiteHealth/slices/dataSlice';
 import {
   getAllSnPTestFilters,
   getSnPTestFilterByKey
 } from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
+import FixedPlatformHeader from '../components/FixedHeader';
 import PlatformRow from '../components/PlatformsRow';
-import { PLATFORM_HEADER_CELLS_MAPPING } from '../constants';
 import { resetActiveTab, setSnPCbtInfo } from '../slices/dataSlice';
 import { getShowSnPDetailsFor } from '../slices/selectors';
 
@@ -31,12 +26,12 @@ const PlatformsTab = () => {
     getSnPTestFilterByKey(state, 'buildName')
   );
   const activeProject = useSelector(getActiveProject);
-  const [breakDownData, setBreakDownData] = useState([]);
-  const [isLoadingBD, setIsLoadingBD] = useState(true);
+  const [platforms, setPlatforms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     mounted.current = true;
-    setIsLoadingBD(true);
+    setIsLoading(true);
     if (testId) {
       dispatch(
         getSnPTestsBreakdownData({
@@ -48,10 +43,10 @@ const PlatformsTab = () => {
       )
         .unwrap()
         .then((res) => {
-          setBreakDownData(res);
+          setPlatforms(res);
         })
         .finally(() => {
-          setIsLoadingBD(false);
+          setIsLoading(false);
         });
     }
 
@@ -67,7 +62,7 @@ const PlatformsTab = () => {
   ]);
 
   const handleClickItem = (currentIndex) => {
-    const activeRow = breakDownData?.[currentIndex];
+    const activeRow = platforms?.[currentIndex];
     if (activeRow) {
       dispatch(
         setSnPCbtInfo({
@@ -95,51 +90,14 @@ const PlatformsTab = () => {
     }
   };
 
-  if (isLoadingBD) {
-    return (
-      <O11yLoader
-        wrapperClassName="py-6"
-        loaderClass="text-base-200 fill-base-400 w-8 h-8"
-      />
-    );
-  }
-
-  if (isEmpty(breakDownData)) {
-    return (
-      <div className={twClassNames('flex items-center justify-center flex-1')}>
-        <EmptyPage text="No data found" />
-      </div>
-    );
-  }
-
   return (
-    <div className={twClassNames('flex-1')}>
-      <VirtualisedTable
-        style={{ height: '100%' }}
-        data={breakDownData}
-        fixedHeaderContent={() => (
-          <O11yTableRow>
-            {Object.keys(PLATFORM_HEADER_CELLS_MAPPING).map((key) => (
-              <O11yTableCell
-                key={key}
-                wrapperClassName={twClassNames(
-                  PLATFORM_HEADER_CELLS_MAPPING[key].defaultClass
-                )}
-              >
-                <div className="text-xs font-medium leading-4">
-                  {PLATFORM_HEADER_CELLS_MAPPING[key].name}
-                </div>
-              </O11yTableCell>
-            ))}
-          </O11yTableRow>
-        )}
-        itemContent={(index, buildData) => (
-          <PlatformRow buildData={buildData} />
-        )}
-        handleRowClick={handleClickItem}
-        showFixedFooter={false}
-      />
-    </div>
+    <PlatformsTable
+      isLoading={isLoading}
+      data={platforms}
+      onRowClick={handleClickItem}
+      FixedHeaderContent={FixedPlatformHeader}
+      ItemContent={PlatformRow}
+    />
   );
 };
 

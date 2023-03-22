@@ -128,7 +128,7 @@ export default function TestBuilds() {
                 BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
               )}
             >
-              <div className="text-xs font-medium leading-4">
+              <div className="text-xs font-medium uppercase leading-4">
                 {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
               </div>
             </O11yTableCell>

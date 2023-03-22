@@ -61,7 +61,7 @@ export default function ScanReport() {
     ? Object.values(reportMetaData.meta)[0]
     : null;
 
-  if (isLoading) {
+  if (!metaData) {
     return <Loader />;
   }
 

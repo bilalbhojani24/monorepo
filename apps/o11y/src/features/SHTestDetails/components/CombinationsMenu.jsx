@@ -1,13 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { twClassNames } from '@browserstack/utils';
-import {
-  O11ySelectMenu,
-  O11ySelectMenuOptionGroup,
-  O11ySelectMenuOptionItem,
-  O11ySelectMenuTrigger
-} from 'common/bifrostProxy';
+import CombinationsMenu from 'common/CombinationsMenu';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -23,7 +17,7 @@ import {
   getTestDetailsInfo
 } from '../slices/selectors';
 
-const CombinationsMenu = () => {
+const TestDetailsCombinationsMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const testDetailsInfo = useSelector(getTestDetailsInfo);
@@ -116,28 +110,14 @@ const CombinationsMenu = () => {
 
   return (
     <div>
-      <O11ySelectMenu
+      <CombinationsMenu
         defaultValue={getDefaultSelectedCombination}
-        onChange={handleCombinationChange}
-      >
-        <O11ySelectMenuTrigger
-          placeholder="Select.."
-          wrapperClassName={twClassNames('max-w-[300px]', {
-            'pointer-events-none opacity-50': testDetailsInfo.isLoading
-          })}
-        />
-        <O11ySelectMenuOptionGroup>
-          {updatedMenuOptions.map((item) => (
-            <O11ySelectMenuOptionItem
-              key={item.value}
-              option={item}
-              wrapperClassName="text-xs"
-            />
-          ))}
-        </O11ySelectMenuOptionGroup>
-      </O11ySelectMenu>
+        isLoading={testDetailsInfo.isLoading}
+        menuOptions={updatedMenuOptions}
+        onCombinationChange={handleCombinationChange}
+      />
     </div>
   );
 };
 
-export default CombinationsMenu;
+export default TestDetailsCombinationsMenu;

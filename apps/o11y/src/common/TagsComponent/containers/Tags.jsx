@@ -11,7 +11,7 @@ const TagsComponent = ({
 }) => (
   <button
     className={twClassNames(
-      'border border-base-300 px-1 flex items-center rounded',
+      'border border-base-300 px-1 py-1 flex items-center rounded',
       wrapperClassName
     )}
     onClick={tagClickCb}

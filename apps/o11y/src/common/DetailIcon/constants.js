@@ -3,6 +3,8 @@ import {
   AndroidIcon,
   AppleIcon,
   ChromeIcon,
+  DefaultBrowserIcon,
+  DefaultOSIcon,
   DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
@@ -12,6 +14,7 @@ import {
   IEIcon,
   IOSIcon,
   LgIcon,
+  LinuxIcon,
   MacOSIcon,
   MotorolaIcon,
   NokiaIcon,
@@ -44,7 +47,7 @@ export const ICON_LIST = {
   'icon-macos': MacOSIcon,
   'icon-windows': WindowsIcon,
   'icon-winphone': WindowsPhoneIcon,
-  'icon-linux': null, // #TODO: linux icon
+  'icon-linux': LinuxIcon,
   'icon-amazon': AmazonIcon,
   'icon-apple': AppleIcon,
   'icon-google': GoogleIcon,
@@ -60,7 +63,9 @@ export const ICON_LIST = {
   'icon-sony': SonyIcon,
   'icon-oppo': OppoIcon,
   'icon-realme': RealmeIcon,
-  device_icon: DeviceIcon
+  device_icon: DeviceIcon,
+  'icon-default_os': DefaultOSIcon,
+  'icon-default_browser': DefaultBrowserIcon
 };
 
 export const BROWSERS_ICON_LIST = [

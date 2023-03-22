@@ -85,11 +85,12 @@ export default function MiniChart({ data, color, lineColor, chartType }) {
     return <div className="" />;
   }
 
-  return (
-    <div className="h-5 w-12 shrink-0">
-      <Chart options={chartData} />
-    </div>
-  );
+  // return (
+  //   <div className="h-5 w-12 shrink-0">
+  //     <Chart options={chartData} />
+  //   </div>
+  // );
+  return <Chart options={chartData} />;
 }
 
 MiniChart.propTypes = {

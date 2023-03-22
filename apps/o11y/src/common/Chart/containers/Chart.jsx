@@ -27,7 +27,6 @@ const HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE =
   '[&_div[data-highcharts-chart]]:absolute [&_div[data-highcharts-chart]]:h-full [&_div[data-highcharts-chart]]:w-full';
 const HIGHCHARTS_PIE_CHART_OVERRIDE =
   '[&_.highcharts-title>p:first-of-type]:text-5xl [&_.highcharts-title>p:first-of-type]:text-center [&_.highcharts-title>p:last-of-type]:text-base [&_.highcharts-title>p:last-of-type]:font-medium';
-
 const Chart = ({ options, chartRef }) => (
   <div
     className={twClassNames(

@@ -79,11 +79,12 @@ export default function MiniLineChart({ data, color, lineColor }) {
     return <div className="" />;
   }
 
-  return (
-    <div className="h-96">
-      <Chart options={chartData} />
-    </div>
-  );
+  // return (
+  //   <div className="h-96">
+  //     <Chart options={chartData} />
+  //   </div>
+  // );
+  return <Chart options={chartData} />;
 }
 
 MiniLineChart.propTypes = {

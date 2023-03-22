@@ -4,7 +4,7 @@ export const getSnpTestsLoading = (state) => state.shTests.data.tests.isLoading;
 export const getSnpTestsSortBy = (state) => state.shTests.data.tests.sortBy;
 export const getSnpTestsPaging = (state) =>
   state.shTests.data.tests.pagingParams;
-export const getSnpErrors = (state) => state.shTests.data.errors.data;
+export const getSHDataErrors = (state) => state.shTests.data.errors.data;
 export const getSnpErrorsLoading = (state) =>
   state.shTests.data.errors.isLoading;
 export const getSnpErrorsPaging = (state) =>
