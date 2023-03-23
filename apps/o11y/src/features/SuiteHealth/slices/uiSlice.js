@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildNames } from 'api/snp';
-import { SNP_DATE_RANGE, SNP_PARAMS_MAPPING } from 'constants/common';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
 
 import { TABS } from '../constants';
 
@@ -55,8 +55,7 @@ const { reducer, actions } = createSlice({
   initialState: {
     snpTestFilters: {
       dateRange: {
-        key: getInitialDateRange(),
-        ...SNP_DATE_RANGE[getInitialDateRange()].getDuration
+        key: getInitialDateRange()
       },
       buildName: getInitialBuild(),
       isMuted: getInitialMuted(),
@@ -77,8 +76,7 @@ const { reducer, actions } = createSlice({
     clearSnpTestFilter: (state) => {
       state.snpTestFilters = {
         dateRange: {
-          key: 'days7',
-          ...SNP_DATE_RANGE.days7.getDuration
+          key: 'days7'
         },
         buildName: {
           label: 'All Builds',

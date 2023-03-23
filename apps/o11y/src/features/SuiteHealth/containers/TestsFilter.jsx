@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
-import { SNP_DATE_RANGE, SNP_PARAMS_MAPPING } from 'constants/common';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 
 import DateRangeFilter from '../components/DateRangeFilter';
@@ -43,8 +43,7 @@ const SnPTestFilter = () => {
     dispatch(
       setSnPTestFilters({
         dateRange: {
-          key,
-          ...SNP_DATE_RANGE[key].getDuration
+          key
         }
       })
     );

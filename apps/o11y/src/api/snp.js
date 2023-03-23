@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
+import { getTimeBounds } from 'utils/dateTime';
 
 export const getBuildNames = async ({ normalisedName }) =>
   axios.get(
@@ -24,8 +25,9 @@ export const getSnPTests = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -40,8 +42,9 @@ export const getSnPTestsBreakdown = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
 
   return axios.get(endpoint);
@@ -55,8 +58,9 @@ export const getSnPTestsDetailsInfo = async ({
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/info?isMuted=${
     filters.isMuted
   }&isFlaky=${filters.isFlaky}`;
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -76,8 +80,9 @@ export const getSnPDetailsStats = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -96,8 +101,9 @@ export const getSnPDetailsTrend = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -121,13 +127,9 @@ export const getSnPDetailsBuilds = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (
-    !chartBounds.lower &&
-    !chartBounds.upper &&
-    filters.dateRange.lowerBound &&
-    filters.dateRange.upperBound
-  ) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   if (chartBounds.lower && chartBounds.upper) {
     endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
@@ -153,8 +155,9 @@ export const getSnPErrors = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -172,8 +175,9 @@ export const getSnPUEBreakdown = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -191,8 +195,9 @@ export const getSnPErrorDetailsInfo = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -210,8 +215,9 @@ export const getSnPErrorDetailsErrorCount = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -232,8 +238,9 @@ export const getSnPErrorDetailsTrend = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -259,13 +266,9 @@ export const getSnPErrorDetailsBuilds = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (
-    !chartBounds.lower &&
-    !chartBounds.upper &&
-    filters.dateRange.lowerBound &&
-    filters.dateRange.upperBound
-  ) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   if (chartBounds.lower && chartBounds.upper) {
     endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
@@ -287,8 +290,9 @@ export const getSnPErrorDetailsPlatforms = async ({
     // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };

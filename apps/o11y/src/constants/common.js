@@ -1,5 +1,3 @@
-import { getSubtractedUnixTime } from 'utils/dateTime';
-
 export const DOC_KEY_MAPPING = {
   introduction: 'overview/what-is-test-observability',
   wdio: 'quick-start/webdriverio',
@@ -60,27 +58,15 @@ export const SNP_PARAMS_MAPPING = {
 export const SNP_DATE_RANGE = {
   days7: {
     key: 'days7',
-    label: 'Last 7 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(7) * 1000
-    }
+    label: 'Last 7 Days'
   },
   days15: {
     key: 'days15',
-    label: 'Last 15 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(15) * 1000
-    }
+    label: 'Last 15 Days'
   },
   days30: {
     key: 'days30',
-    label: 'Last 30 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(30) * 1000
-    }
+    label: 'Last 30 Days'
   }
 };
 
