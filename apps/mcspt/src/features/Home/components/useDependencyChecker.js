@@ -148,8 +148,10 @@ const useDependencyChecker = () => {
     isSessionApiLoading,
     refetchDevices,
     deviceSelectionError,
+    totalCompletedSessions,
     disableTestTrigger:
-      !isUserLoggedIn && totalAllowedSessions === totalCompletedSessions,
+      (!isUserLoggedIn && totalAllowedSessions === totalCompletedSessions) ||
+      areApplicationsStillLoading,
     searchApplications
   };
 };

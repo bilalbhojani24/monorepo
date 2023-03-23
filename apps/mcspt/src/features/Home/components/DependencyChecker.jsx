@@ -36,6 +36,7 @@ const DependencyChecker = () => {
     isSessionApiLoading,
     refetchDevices,
     deviceSelectionError,
+    totalCompletedSessions,
     disableTestTrigger,
     searchApplications
   } = useDependencyChecker();
@@ -57,7 +58,9 @@ const DependencyChecker = () => {
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold leading-7">
                 {deviceOptionList?.length > 0
-                  ? 'Conduct your first performance test'
+                  ? `Conduct your ${
+                      totalCompletedSessions >= 1 ? '' : 'first'
+                    } performance test`
                   : 'No devices connected'}
               </div>
 

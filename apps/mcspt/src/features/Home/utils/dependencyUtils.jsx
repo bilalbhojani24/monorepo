@@ -25,7 +25,7 @@ export const generateDeviceOptions = (deviceList) =>
               'text-base-400': !device?.compatible
             })}
           >
-            {device?.model}
+            {`${device?.manufacturer} ${device?.model}`}
           </div>
 
           <div

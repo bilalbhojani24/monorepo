@@ -43,7 +43,7 @@ const useHome = () => {
     buildBannerMsg,
     loginViaSSO,
     shouldShowExistingSessionsTable:
-      previousUserSessions?.length > EXISTIN_REPORTS_SAMPLE_SWITCH,
+      previousUserSessions?.length >= EXISTIN_REPORTS_SAMPLE_SWITCH,
     showAuthBanner:
       !isUserLoggedIn &&
       totalCompletedSessions > SESSIONS_ALLOWED_BERFOR_WARNING
