@@ -367,7 +367,11 @@ InputWithTrailingClickable.args = {
   label: 'Account holder',
   placeholder: 'Devon Mccoy',
   addOnAfterInline: (
-    <Button variant="minimal" onClick={() => console.log('I am clicked')}>
+    <Button
+      variant="minimal"
+      onClick={() => console.log('I am clicked')}
+      ariaLabel="button variant"
+    >
       <QuestionMarkCircleIcon className="text-base-500 h-5 w-5" />
     </Button>
   )
