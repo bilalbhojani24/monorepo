@@ -97,7 +97,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdAdd />
-        <span className="ml-2">New Scan</span>
+        <span className="ml-2">New scan</span>
       </div>
     )
   },
@@ -106,7 +106,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdStop />
-        <span className="ml-2">Stop Recurring Scan</span>
+        <span className="ml-2">Stop recurring scan</span>
       </div>
     )
   },
@@ -115,7 +115,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdOutlineContentCopy />
-        <span className="ml-2">Clone Scan Configuration</span>
+        <span className="ml-2">Clone scan configuration</span>
       </div>
     )
   }
@@ -127,7 +127,7 @@ const singleMenu = [
     value: 'scanDetails',
     body: (
       <div className="flex items-center">
-        <span className="ml-2">View Scan Details</span>
+        <span className="ml-2">View scan details</span>
       </div>
     )
   }
