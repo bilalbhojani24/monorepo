@@ -96,9 +96,7 @@ const defaultConfig = {
     addOnAfterInline: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
-      //   control: { type: null },
       defaultValue: null
-      // defaultValue: <EnvelopeIcon className="text-base-400 h-5 w-5" />
     },
     addOnBefore: {
       type: { summary: 'NODE', required: false },
@@ -111,6 +109,18 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       //   control: { type: null },
       defaultValue: null
+    },
+    addOnAfterInlineWrapperClassName: {
+      type: { summary: 'NODE', required: false },
+      description: 'ABCDEFGHIJK',
+      //   control: { type: null },
+      defaultValue: ''
+    },
+    addOnBeforeInlineWrapperClassName: {
+      type: { summary: 'NODE', required: false },
+      description: 'ABCDEFGHIJK',
+      //   control: { type: null },
+      defaultValue: ''
     },
     placeholder: {
       type: { summary: 'STRING', required: false },
@@ -290,7 +300,7 @@ InputWithInlineLeadingDropdown.args = {
   type: 'number',
   label: 'Phone Number',
   placeholder: '+1 (555) 987-6543',
-  leadingIconWrapperClassName: 'pl-0',
+  addOnBeforeInlineWrapperClassName: 'pl-0',
   addOnBeforeInline: (
     <SelectMenu>
       <InputGroupSelectMenuTrigger />
@@ -300,8 +310,7 @@ InputWithInlineLeadingDropdown.args = {
         ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
-  ),
-  isTrailingNodeClickable: true
+  )
 };
 
 InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
@@ -319,8 +328,7 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
         ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
-  ),
-  isTrailingNodeClickable: true
+  )
 };
 
 InputWithLeadingIconAndTrailingButton.args = {
@@ -352,8 +360,7 @@ InputWithTooltip.args = {
         <QuestionMarkCircleIcon className="h-5 w-5" />
       </Tooltip>
     </InputGroupAddOn>
-  ),
-  isTrailingNodeClickable: true
+  )
 };
 
 InputWithTrailingClickable.args = {
@@ -363,6 +370,5 @@ InputWithTrailingClickable.args = {
     <Button variant="minimal" onClick={() => console.log('I am clicked')}>
       <QuestionMarkCircleIcon className="text-base-500 h-5 w-5" />
     </Button>
-  ),
-  isTrailingNodeClickable: true
+  )
 };

@@ -11,6 +11,8 @@ const InputField = forwardRef(
       addOnAfter,
       addOnAfterInline,
       addOnBeforeInline,
+      addOnBeforeInlineWrapperClassName,
+      addOnAfterInlineWrapperClassName,
       autoComplete,
       cornerHintText,
       defaultValue,
@@ -19,7 +21,6 @@ const InputField = forwardRef(
       errorText,
       id,
       inputRef,
-      isTrailingNodeClickable,
       isMandatory,
       label,
       onBlur,
@@ -30,9 +31,7 @@ const InputField = forwardRef(
       readonly,
       type,
       value,
-      wrapperClassName,
-      leadingIconWrapperClassName,
-      trailingIconWrapperClassName
+      wrapperClassName
     },
     ref
   ) => (
@@ -72,7 +71,12 @@ const InputField = forwardRef(
           )}
         >
           {addOnBeforeInline && (
-            <div className={twClassNames('pl-3', leadingIconWrapperClassName)}>
+            <div
+              className={twClassNames(
+                'pl-3',
+                addOnBeforeInlineWrapperClassName
+              )}
+            >
               {addOnBeforeInline}
             </div>
           )}
@@ -107,10 +111,7 @@ const InputField = forwardRef(
             <div
               className={twClassNames(
                 'flex items-center pr-3 gap-1',
-                {
-                  'pointer-events-none': !isTrailingNodeClickable
-                },
-                trailingIconWrapperClassName
+                addOnAfterInlineWrapperClassName
               )}
             >
               {errorText && (
@@ -143,6 +144,8 @@ InputField.propTypes = {
   addOnAfter: PropTypes.node,
   addOnBeforeInline: PropTypes.node,
   addOnAfterInline: PropTypes.node,
+  addOnBeforeInlineWrapperClassName: PropTypes.string,
+  addOnAfterInlineWrapperClassName: PropTypes.string,
   cornerHintText: PropTypes.string,
   defaultValue: PropTypes.string,
   description: PropTypes.string,
@@ -153,7 +156,6 @@ InputField.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  isTrailingNodeClickable: PropTypes.bool,
   isMandatory: PropTypes.bool,
   label: PropTypes.string,
   onBlur: PropTypes.func,
@@ -164,22 +166,21 @@ InputField.propTypes = {
   readonly: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.string,
-  wrapperClassName: PropTypes.string,
-  leadingIconWrapperClassName: PropTypes.string,
-  trailingIconWrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
   autoComplete: 'off',
   addOnBeforeInline: null,
   addOnAfterInline: null,
+  addOnBeforeInlineWrapperClassName: '',
+  addOnAfterInlineWrapperClassName: '',
   cornerHintText: '',
   defaultValue: undefined,
   description: '',
   disabled: false,
   errorText: '',
   inputRef: null,
-  isTrailingNodeClickable: false,
   isMandatory: false,
   label: '',
   addOnBefore: null,
@@ -192,9 +193,7 @@ InputField.defaultProps = {
   readonly: false,
   type: 'text',
   value: undefined,
-  wrapperClassName: '',
-  leadingIconWrapperClassName: '',
-  trailingIconWrapperClassName: ''
+  wrapperClassName: ''
 };
 
 export default InputField;
