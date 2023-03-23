@@ -12,6 +12,15 @@ export function CalendarGrid({ state, ...props }) {
   // Get the number of weeks in the month so we can render the proper number of rows.
   const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale);
 
+  const isTodaysDate = (dateObj) => {
+    const today = new Date();
+    return !!(
+      today.getMonth() + 1 === dateObj.month &&
+      today.getDate() === dateObj.day &&
+      today.getFullYear() === dateObj.year
+    );
+  };
+
   return (
     <table {...gridProps} cellPadding="0" className="flex-1">
       <thead {...headerProps}>
@@ -47,6 +56,7 @@ export function CalendarGrid({ state, ...props }) {
                     }
                     borderTop={weekIndex === 0}
                     borderLeft={i === 0}
+                    currentDate={isTodaysDate(date)}
                   />
                 ) : (
                   <td key={`${date}-${i + 1}`} />

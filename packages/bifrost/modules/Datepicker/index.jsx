@@ -1,22 +1,34 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 
-import DatePickerBody from '../DatepickerBody';
+import DatePickerCore from '../DatepickerCore';
 
 const Datepicker = (props) => {
-  const { wrapperClassName } = props;
+  const { wrapperClassName, onChange } = props;
+
+  const handleChange = (dateObj) => {
+    onChange(dateObj);
+  };
   return (
     <div className={wrapperClassName}>
-      <DatePickerBody {...props} />
+      <DatePickerCore {...props} onChange={handleChange} />
     </div>
   );
 };
 
 Datepicker.propTypes = {
-  wrapperClassName: Proptypes.string
+  wrapperClassName: Proptypes.string,
+  errorMessage: Proptypes.string,
+  disabled: Proptypes.bool,
+  onChange: Proptypes.func,
+  disabledMessage: Proptypes.string
 };
 Datepicker.defaultProps = {
-  wrapperClassName: ''
+  wrapperClassName: '',
+  errorMessage: null,
+  disabled: false,
+  onChange: () => {},
+  disabledMessage: 'Datepicker has been disabled'
 };
 
 export default Datepicker;

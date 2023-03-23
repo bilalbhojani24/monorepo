@@ -12,17 +12,33 @@ export function DateField(props) {
     createCalendar
   });
 
+  const { disabled } = props;
+
   const ref = useRef();
   const { fieldProps } = useDateField(props, state, ref);
 
   return (
     <div {...fieldProps} ref={ref} className="flex w-full items-center">
-      {state.segments.map((segment, i) => (
-        <DateSegment key={`${i + 1}`} segment={segment} state={state} />
-      ))}
+      {disabled ? (
+        <p className="text-base-500 text-sm font-normal leading-5">
+          00-00-0000
+        </p>
+      ) : (
+        state.segments.map((segment, i) => (
+          <DateSegment key={`${i + 1}`} segment={segment} state={state} />
+        ))
+      )}
     </div>
   );
 }
+
+DateField.propTypes = {
+  disabled: PropTypes.bool
+};
+
+DateField.defaultProps = {
+  disabled: false
+};
 
 function DateSegment({ segment, state }) {
   const ref = useRef();

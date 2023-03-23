@@ -17,7 +17,8 @@ export function CalendarCell({
   borderRadiusTopRight,
   borderRadiusBottomRight,
   borderTop,
-  borderLeft
+  borderLeft,
+  currentDate
 }) {
   const ref = useRef();
   const {
@@ -105,6 +106,9 @@ export function CalendarCell({
                 'bg-base-100 cursor-not-allowed text-base-900':
                   isOutsideVisibleRange,
 
+                // current date
+                'text-brand-600 hover:bg-brand-50 hover:text-brand-800 rounded-full font-semibold w-7 h-7 mx-auto rounded-full':
+                  currentDate,
                 // Darker selection background for the start and end.
                 // selected state for picking single date
                 'bg-base-900 text-white rounded-full font-semibold w-7 h-7 mx-auto rounded-full':
@@ -156,7 +160,8 @@ CalendarCell.propTypes = {
   borderRadiusTopRight: Proptypes.bool,
   borderRadiusBottomRight: Proptypes.bool,
   borderTop: Proptypes.bool,
-  borderLeft: Proptypes.bool
+  borderLeft: Proptypes.bool,
+  currentDate: Proptypes.bool
 };
 
 CalendarCell.defaultProps = {
@@ -167,5 +172,6 @@ CalendarCell.defaultProps = {
   borderRadiusTopRight: false,
   borderRadiusBottomRight: false,
   borderTop: false,
-  borderLeft: false
+  borderLeft: false,
+  currentDate: false
 };

@@ -18,30 +18,37 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    label: {
-      defaultValue: 'Due Date'
+    errorMessage: {
+      defaultValue: ''
     },
-    onChange: {
-      defaultValue: () => {}
+    disabled: {
+      defaultValue: false
     },
-    value: {}
+    disabledMessage: {
+      defaultValue: 'Datepicker has been disabled'
+    }
   },
   controls: {}
 };
-const Template = (args) => {
-  const { label } = args;
-  return (
-    <>
-      <DatepickerLabel>{label}</DatepickerLabel>
-      <Datepicker {...args} />
-    </>
-  );
+
+const DatepickerWithLabelT = (args) => (
+  <>
+    <DatepickerLabel wrapperClassName="mb-1">Due Date</DatepickerLabel>
+    <Datepicker {...args} />
+  </>
+);
+
+const DatepickerWithLabel = DatepickerWithLabelT.bind({});
+DatepickerWithLabel.parameters = {
+  controls: {}
 };
 
-const Primary = Template.bind({});
-Primary.parameters = {
+const DatepickerWithoutLabelT = (args) => <Datepicker {...args} />;
+
+const DatepickerWithoutLabel = DatepickerWithoutLabelT.bind({});
+DatepickerWithoutLabel.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+export { DatepickerWithLabel, DatepickerWithoutLabel };
