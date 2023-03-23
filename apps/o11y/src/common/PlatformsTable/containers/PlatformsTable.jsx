@@ -50,8 +50,9 @@ PlatformsTable.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.any).isRequired,
   onRowClick: PropTypes.func.isRequired,
-  FixedHeaderContent: PropTypes.node.isRequired,
-  ItemContent: PropTypes.node.isRequired
+  FixedHeaderContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    .isRequired,
+  ItemContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired
 };
 
 export default PlatformsTable;

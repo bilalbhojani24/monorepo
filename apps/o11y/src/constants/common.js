@@ -1,5 +1,3 @@
-import { getSubtractedUnixTime } from 'utils/dateTime';
-
 export const DOC_KEY_MAPPING = {
   introduction: 'overview/what-is-test-observability',
   wdio: 'quick-start/webdriverio',
@@ -17,10 +15,13 @@ export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
 
 export const API_STATUSES = {
-  IDLE: 'idle',
-  PENDING: 'pending',
+  EMPTY: 'empty',
+  ERROR: 'error',
+  FAILED: 'failed',
   FULFILLED: 'fulfilled',
-  FAILED: 'failed'
+  IDLE: 'idle',
+  LOADING: 'loading',
+  PENDING: 'pending'
 };
 
 export const TEST_STATUS = {
@@ -59,25 +60,16 @@ export const SNP_PARAMS_MAPPING = {
 
 export const SNP_DATE_RANGE = {
   days7: {
-    label: 'Last 7 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(7) * 1000
-    }
+    key: 'days7',
+    label: 'Last 7 Days'
   },
   days15: {
-    label: 'Last 15 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(15) * 1000
-    }
+    key: 'days15',
+    label: 'Last 15 Days'
   },
   days30: {
-    label: 'Last 30 Days',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(30) * 1000
-    }
+    key: 'days30',
+    label: 'Last 30 Days'
   }
 };
 

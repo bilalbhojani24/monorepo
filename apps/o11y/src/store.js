@@ -10,6 +10,7 @@ import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
 import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
+import suiteHealthUIReducer from 'features/SuiteHealth/slices/uiSlice';
 import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import testingTrendReducer from 'features/TestingTrends/slices/testingTrendsSlice';
@@ -30,6 +31,7 @@ export const store = configureStore({
     shErrordetails: shErrorDetailsReducer,
     shTestdetails: shTestDetailsReducer,
     shTests: shTestsReducer,
+    suiteHealthUI: suiteHealthUIReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
     testingTrend: testingTrendReducer

@@ -35,7 +35,7 @@ import {
   getSnpTestsSortBy
 } from '../slices/selectors';
 
-export default function SnPTests() {
+export default function SHTests() {
   const mounted = useRef(null);
 
   const [isLoadingMore, setIsLoadingMore] = useState(false);

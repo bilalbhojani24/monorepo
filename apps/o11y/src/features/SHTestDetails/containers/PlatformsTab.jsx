@@ -37,7 +37,6 @@ const PlatformsTab = () => {
         getSnPTestsBreakdownData({
           normalisedName: activeProject?.normalisedName,
           testId,
-          buildName: activeBuild.value,
           filters
         })
       )
