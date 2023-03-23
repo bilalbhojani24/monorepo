@@ -108,7 +108,7 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="flex h-9 items-center capitalize">
+          <div className="flex h-9 items-center pl-3 capitalize">
             {valueMapped?.label || '--'}
           </div>
         ) : (
