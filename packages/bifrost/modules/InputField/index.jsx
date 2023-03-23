@@ -91,7 +91,7 @@ const InputField = forwardRef(
             className={twClassNames(
               'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm disabled:cursor-not-allowed',
               {
-                'text-danger-900': errorText,
+                'text-danger-900 placeholder:text-danger-300': errorText,
                 'disabled:text-base-500': disabled,
                 'text-base-900 focus:text-base-700': readonly
               }
