@@ -7,8 +7,8 @@ import { SNP_DATE_RANGE, SNP_PARAMS_MAPPING } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 
 import DateRangeFilter from '../components/DateRangeFilter';
-import { getBuildNamesData, setSnPTestFilters } from '../slices/dataSlice';
 import { getSnPTestFilterByKey } from '../slices/selectors';
+import { getBuildNamesData, setSnPTestFilters } from '../slices/uiSlice';
 
 import AppliedFilters from './AppliedFilters';
 import FiltersSlideover from './FiltersSlideover';
