@@ -78,7 +78,7 @@ const TruncateText = ({
             {
               'line-clamp-1':
                 !wrapperClassName.includes('line-clamp-') && truncateUsingClamp,
-              truncate: !truncateUsingClamp
+              'truncate mr-2': !truncateUsingClamp
             },
             wrapperClassName
           )}
@@ -98,8 +98,7 @@ const TruncateText = ({
         <span
           className={twClassNames('absolute top-1', {
             'right-0': !hidetooltipTriggerIcon,
-            'right-1': hidetooltipTriggerIcon,
-            '-right-1': !truncateUsingClamp
+            'right-1': hidetooltipTriggerIcon
           })}
         >
           <TooltipWrapper
