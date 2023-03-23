@@ -59,6 +59,7 @@ export const SNP_PARAMS_MAPPING = {
 
 export const SNP_DATE_RANGE = {
   days7: {
+    key: 'days7',
     label: 'Last 7 Days',
     getDuration: {
       upperBound: Date.now(),
@@ -66,6 +67,7 @@ export const SNP_DATE_RANGE = {
     }
   },
   days15: {
+    key: 'days15',
     label: 'Last 15 Days',
     getDuration: {
       upperBound: Date.now(),
@@ -73,6 +75,7 @@ export const SNP_DATE_RANGE = {
     }
   },
   days30: {
+    key: 'days30',
     label: 'Last 30 Days',
     getDuration: {
       upperBound: Date.now(),
