@@ -50,7 +50,10 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
           modifier={rowData?.latest_status
             ?.replace('untested', 'base')
             ?.replace('passed', 'success')
-            ?.replace('failed', 'error')}
+            ?.replace('failed', 'error')
+            ?.replace('blocked', 'error')
+            ?.replace('retest', 'warn')
+            ?.replace('skipped', 'base')}
         />
       )
     }

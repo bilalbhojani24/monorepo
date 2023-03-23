@@ -138,9 +138,7 @@ const AddEditTestCase = () => {
                 handleTestCaseFieldChange('name', e.currentTarget.value)
               }
               ref={focusRef}
-              errorText={
-                inputError?.name ? "This field can't be left empty" : ''
-              }
+              errorText={inputError?.name ? 'This is a required field' : ''}
             />
             {scheduledFolder.length ? (
               <div className="mt-2.5 flex w-full">
@@ -220,9 +218,7 @@ const AddEditTestCase = () => {
           </>
         ) : (
           <StepComponent
-            errorText={
-              inputError?.steps ? "This field can't be left empty" : ''
-            }
+            errorText={inputError?.steps ? 'This is a required field' : ''}
             data={testCaseFormData.steps}
             onChange={(data) => handleTestCaseFieldChange('steps', data, true)}
             projectId={projectId}

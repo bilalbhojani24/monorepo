@@ -21,6 +21,8 @@ const EditProjects = ({ show }) => {
     selectedProject,
     editProjectHandler,
     formData,
+    formError,
+    setFormError,
     setFormData,
     hideEditProjectModal,
     editProjectCtaLoading
@@ -54,9 +56,13 @@ const EditProjects = ({ show }) => {
             placeholder="Project Name 01"
             onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.currentTarget.value })
-            }
+            errorText={formError.nameError}
+            onChange={(e) => {
+              if (formError?.nameError && e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
+              }
+              setFormData({ ...formData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <div className="mb-4">

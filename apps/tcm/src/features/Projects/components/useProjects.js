@@ -193,7 +193,7 @@ const useProjects = (prop) => {
     if (!createProjectCtaLoading) {
       dispatch(logEventHelper('TM_CreateProjectCtaClicked', {}));
       if (formData.name.trim().length === 0) {
-        setFormError({ ...formError, nameError: 'Name is not specified' });
+        setFormError({ ...formError, nameError: 'This is a required field' });
         setFormData({ ...formData, name: '' });
       } else {
         dispatch(
@@ -223,12 +223,15 @@ const useProjects = (prop) => {
               })
             );
             hideAddProjectModal();
-            dispatch(
-              setButtonLoaders({
-                key: 'createProjectCtaLoading',
-                value: false
-              })
-            );
+            setTimeout(() => {
+              // we are turning off the loader 100ms after hiding the modal, just to ensure that user is not able to click on create button in any case
+              dispatch(
+                setButtonLoaders({
+                  key: 'createProjectCtaLoading',
+                  value: false
+                })
+              );
+            }, 500);
           })
           .catch(() => {
             dispatch(
@@ -244,37 +247,43 @@ const useProjects = (prop) => {
 
   const hideEditProjectModal = () => {
     dispatch(setEditProjectModalVisibility(false));
+    setFormError({ ...formError, nameError: '' });
   };
 
   const editProjectHandler = () => {
-    dispatch(
-      logEventHelper('TM_UpdateProjectCtaClicked', {
-        project_id: selectedProject?.id,
-        project_name: selectedProject?.name
+    if (formData.name.trim().length === 0) {
+      setFormError({ ...formError, nameError: 'This is a required field' });
+      setFormData({ ...formData, name: '' });
+    } else {
+      dispatch(
+        logEventHelper('TM_UpdateProjectCtaClicked', {
+          project_id: selectedProject?.id,
+          project_name: selectedProject?.name
+        })
+      );
+      dispatch(setButtonLoaders({ key: 'editProjectCtaLoading', value: true }));
+      editProjectAPI(selectedProject.id, {
+        project: formData
       })
-    );
-    dispatch(setButtonLoaders({ key: 'editProjectCtaLoading', value: true }));
-    editProjectAPI(selectedProject.id, {
-      project: formData
-    })
-      .then((res) => {
-        dispatch(
-          setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
-        );
-        dispatch(
-          logEventHelper('TM_ProjectUpdatedNotification', {
-            project_id: res.data.project?.id
-          })
-        );
-        dispatch(updateProject(res.data.project));
-        dispatch(updateGlobalProject(res.data.project));
-        hideEditProjectModal();
-      })
-      .catch(() => {
-        dispatch(
-          setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
-        );
-      });
+        .then((res) => {
+          dispatch(
+            setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
+          );
+          dispatch(
+            logEventHelper('TM_ProjectUpdatedNotification', {
+              project_id: res.data.project?.id
+            })
+          );
+          dispatch(updateProject(res.data.project));
+          dispatch(updateGlobalProject(res.data.project));
+          hideEditProjectModal();
+        })
+        .catch(() => {
+          dispatch(
+            setButtonLoaders({ key: 'editProjectCtaLoading', value: false })
+          );
+        });
+    }
   };
 
   const getStatusOfNewImportedProjects = async () => {
