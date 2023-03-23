@@ -96,7 +96,7 @@ const TruncateText = ({
 
       {!isFullWidthTooltip && truncatedDataTooltip && isTooltip && (
         <span
-          className={twClassNames('absolute bottom-0', {
+          className={twClassNames('absolute top-1', {
             'right-0': !hidetooltipTriggerIcon,
             'right-1': hidetooltipTriggerIcon
           })}
