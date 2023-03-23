@@ -4,6 +4,7 @@ import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
+import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
 import SuiteHealth from 'features/SuiteHealth';
 
@@ -42,7 +43,7 @@ export const APP_ROUTES = [
   {
     path: ROUTES.root,
     isProtected: true,
-    component: <Navigate to={ROUTES.projects} replace />
+    component: <RootPathHandler />
   },
   {
     path: ROUTES.root,

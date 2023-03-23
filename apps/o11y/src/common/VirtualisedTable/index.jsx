@@ -136,7 +136,7 @@ VirtualisedTable.propTypes = {
   fixedHeaderContent: PropTypes.func.isRequired,
   fixedFooterContent: PropTypes.func,
   overscan: PropTypes.number,
-  style: PropTypes.shape(PropTypes.object),
+  style: PropTypes.objectOf(PropTypes.any),
   handleRowClick: PropTypes.func,
   useWindowScroll: PropTypes.bool,
   customScrollParent: PropTypes.instanceOf(Element),
