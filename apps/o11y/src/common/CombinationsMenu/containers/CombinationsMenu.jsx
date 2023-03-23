@@ -14,11 +14,7 @@ const CombinationsMenu = ({
   menuOptions,
   onCombinationChange
 }) => (
-  <O11ySelectMenu
-    defaultValue={defaultValue}
-    onChange={onCombinationChange}
-    onOpenChange={() => {}}
-  >
+  <O11ySelectMenu defaultValue={defaultValue} onChange={onCombinationChange}>
     <O11ySelectMenuTrigger
       placeholder="Select.."
       wrapperClassName={twClassNames('max-w-[300px]', {

@@ -35,12 +35,7 @@ const O11yComboBox = ({
   }
 
   return (
-    <ComboBox
-      onChange={onChange}
-      value={value}
-      isMulti={isMulti}
-      onOpenChange={() => {}}
-    >
+    <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
