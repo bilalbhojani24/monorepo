@@ -185,10 +185,12 @@ export default function SiteScanner() {
     if (recurring && !active) {
       return <Badge text="Recurring: OFF" wrapperClassName="mr-2" />;
     }
+    const onDemandCountText =
+      onDemandCount > 0
+        ? `(${onDemandCount} ${onDemandCount > 1 ? 'runs' : 'run'})`
+        : '';
     return (
-      <div>
-        <Badge text="On-demand" wrapperClassName="mr-2" />({onDemandCount})
-      </div>
+      <Badge text={`On-demand ${onDemandCountText}`} wrapperClassName="mr-2" />
     );
   };
 
