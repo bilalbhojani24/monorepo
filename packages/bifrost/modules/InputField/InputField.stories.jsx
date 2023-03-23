@@ -11,10 +11,12 @@ import Button from '../Button';
 import SelectMenu from '../SelectMenu';
 import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
 import SelectMenuOptionItem from '../SelectMenuOptionItem';
-import SelectMenuTrigger from '../SelectMenuTrigger';
 import Tooltip from '../Tooltip';
 import TooltipBody from '../TooltipBody';
 
+import InputGroupAddOn from './components/InputGroupAddOn';
+import InputGroupButton from './components/InputGroupButton';
+import InputGroupSelectMenuTrigger from './components/InputGroupSelectMenuTrigger';
 import InputField from './index';
 
 const emailText = 'you@example.com';
@@ -233,7 +235,11 @@ InputWithCornerHint.args = {
 InputWithLeadingIcon.args = {
   label: 'Email',
   placeholder: emailText,
-  addOnBeforeInline: <EnvelopeIcon className="text-base-400 h-5 w-5" />
+  addOnBeforeInline: (
+    <InputGroupAddOn inline>
+      <EnvelopeIcon className="h-5 w-5" />
+    </InputGroupAddOn>
+  )
 };
 
 InputWithTrailingIcon.args = {
@@ -243,26 +249,26 @@ InputWithTrailingIcon.args = {
 };
 
 InputWithAddOn.args = {
-  addOnBefore: (
-    <p className="border-base-300 text-base-500 flex items-center rounded-md rounded-r-none border border-r-0 px-3">
-      http://
-    </p>
-  )
+  addOnAfter: <InputGroupAddOn position="end">.com</InputGroupAddOn>,
+  addOnBefore: <InputGroupAddOn>https://</InputGroupAddOn>
 };
 
 InputWithAddOnInline.args = {
   label: 'Company Website',
   placeholder: 'www.example.com',
-  addOnBeforeInline: <p className="text-base-500 flex items-center">http://</p>
+  addOnBeforeInline: <InputGroupAddOn inline>https://</InputGroupAddOn>
 };
 
 InputWithInlineTrailingLeading.args = {
   label: 'Price',
   type: 'number',
-
   placeholder: '0.00',
-  addOnBeforeInline: <span className="text-base-500">$</span>,
-  addOnAfterInline: <span className="text-base-500">USD</span>
+  addOnBeforeInline: <InputGroupAddOn inline>$</InputGroupAddOn>,
+  addOnAfterInline: (
+    <InputGroupAddOn inline position="end">
+      USD
+    </InputGroupAddOn>
+  )
 };
 
 const options = [
@@ -287,31 +293,26 @@ InputWithInlineLeadingDropdown.args = {
   leadingIconWrapperClassName: 'pl-0',
   addOnBeforeInline: (
     <SelectMenu>
-      <SelectMenuTrigger
-        placeholder="Select.."
-        wrapperClassName="border-0 w-max focus:ring-0  shadow-none"
-      />
+      <InputGroupSelectMenuTrigger />
       <SelectMenuOptionGroup alignment="start">
         {options.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
         ))}
       </SelectMenuOptionGroup>
     </SelectMenu>
-  )
+  ),
+  isTrailingNodeClickable: true
 };
 
 InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
   label: 'Price',
   type: 'number',
   placeholder: '0.00',
-  addOnBeforeInline: <span className="text-base-500">$</span>,
+  addOnBeforeInline: <InputGroupAddOn inline>$</InputGroupAddOn>,
   trailingIconWrapperClassName: 'pr-0',
   addOnAfterInline: (
     <SelectMenu>
-      <SelectMenuTrigger
-        placeholder="Select.."
-        wrapperClassName="border-0 w-max focus:ring-0  shadow-none"
-      />
+      <InputGroupSelectMenuTrigger />
       <SelectMenuOptionGroup alignment="end">
         {options.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
@@ -326,17 +327,16 @@ InputWithLeadingIconAndTrailingButton.args = {
   label: 'Price',
   type: 'number',
   placeholder: '0.00',
-  addOnBeforeInline: <UserIcon className="text-base-400 h-5 w-5" />,
+  addOnBeforeInline: (
+    <InputGroupAddOn inline>
+      <UserIcon className="h-5 w-5" />
+    </InputGroupAddOn>
+  ),
   addOnAfter: (
-    <Button
-      variant="minimal"
-      wrapperClassName="rounded-l-none border border-base-300 border-l-0"
-    >
-      <span className="text-base-500 flex space-x-1.5 px-3">
-        <BarsArrowUpIcon className="text-base-500 h-5 w-5" aria-hidden="true" />
-        <span>Sort</span>
-      </span>
-    </Button>
+    <InputGroupButton position="end">
+      <span>Sort</span>
+      <BarsArrowUpIcon className="h-5 w-5" aria-hidden="true" />
+    </InputGroupButton>
   )
 };
 
@@ -344,12 +344,14 @@ InputWithTooltip.args = {
   label: 'Account number',
   placeholder: '000-00-0000',
   addOnAfterInline: (
-    <Tooltip
-      theme="dark"
-      content={<TooltipBody>I am tooltip body</TooltipBody>}
-    >
-      <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
-    </Tooltip>
+    <InputGroupAddOn inline>
+      <Tooltip
+        theme="dark"
+        content={<TooltipBody>I am tooltip body</TooltipBody>}
+      >
+        <QuestionMarkCircleIcon className="h-5 w-5" />
+      </Tooltip>
+    </InputGroupAddOn>
   ),
   isTrailingNodeClickable: true
 };
@@ -359,7 +361,7 @@ InputWithTrailingClickable.args = {
   placeholder: 'Devon Mccoy',
   addOnAfterInline: (
     <Button variant="minimal" onClick={() => console.log('I am clicked')}>
-      <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
+      <QuestionMarkCircleIcon className="text-base-500 h-5 w-5" />
     </Button>
   ),
   isTrailingNodeClickable: true

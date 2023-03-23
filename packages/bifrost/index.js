@@ -29,6 +29,9 @@ import HeaderElements from './modules/HeaderElements/index';
 import HeaderProductContainer from './modules/HeaderProductContainer/index';
 import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
+import InputGroupAddOn from './modules/InputField/components/InputGroupAddOn';
+import InputGroupButton from './modules/InputField/components/InputGroupButton';
+import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
@@ -126,6 +129,9 @@ export {
   HeaderProducts,
   Hyperlink,
   InputField,
+  InputGroupAddOn,
+  InputGroupButton,
+  InputGroupSelectMenuTrigger,
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
