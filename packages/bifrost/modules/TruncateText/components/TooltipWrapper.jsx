@@ -18,7 +18,7 @@ const TooltipWrapper = ({
       content={tooltipContent}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...headerTooltipProps}
-      triggerWrapperClassName={`w-full text-left ${
+      triggerWrapperClassName={`w-full text-left block ${
         headerTooltipProps?.triggerWrapperClassName
           ? headerTooltipProps?.triggerWrapperClassName
           : ''

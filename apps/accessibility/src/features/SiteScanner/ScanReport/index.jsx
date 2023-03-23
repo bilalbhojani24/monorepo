@@ -61,7 +61,7 @@ export default function ScanReport() {
     ? Object.values(reportMetaData.meta)[0]
     : null;
 
-  if (isLoading) {
+  if (!metaData) {
     return <Loader />;
   }
 
@@ -81,7 +81,7 @@ export default function ScanReport() {
                   },
                   {
                     name: metaData?.name,
-                    url: `/site-scanner/scan-details/${metaData?.reportId}`,
+                    url: `/site-scanner/scan-details/${metaData?.scanConfigId}`,
                     current: false
                   },
                   {

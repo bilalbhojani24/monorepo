@@ -179,9 +179,7 @@ export default function useIssues() {
     }
     if (activeReportFilters.impact.length) {
       filteredViolations = reportData.filter((violation) =>
-        activeReportFilters.impact
-          .map(({ value }) => value)
-          .includes(violation.impact)
+        activeReportFilters.impact.includes(violation.impact)
       );
     }
     if (activeReportFilters.category.length) {

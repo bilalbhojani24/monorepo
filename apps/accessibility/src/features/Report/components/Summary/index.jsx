@@ -107,7 +107,7 @@ export default function Summary() {
     },
     {
       id: 'affectedComponents',
-      name: 'Top Affected Components',
+      name: 'Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -125,7 +125,7 @@ export default function Summary() {
     },
     {
       id: 'affectedUrls',
-      name: 'Top Affected URLs',
+      name: 'Affected URLs',
       key: 'affectedUrls'
     },
     {
@@ -160,48 +160,53 @@ export default function Summary() {
           <DataVisualization
             title="Issue Summary"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div className="flex w-full items-center justify-between">
-                <div className="w-3/5">
+                <div className="w-2/4">
                   <Chart options={chartOption} />
                 </div>
-                <div className="flex w-2/5 flex-col items-end">
-                  {impactList.map((impact) => (
-                    <div
-                      aria-label={impact}
-                      tabIndex={0}
-                      className="border-base-200 mb-4 flex h-6 w-40 cursor-pointer items-center justify-between border-b"
-                      onClick={() =>
-                        onRowClick(
-                          'impact',
-                          severityOptions.find(({ value }) => value === impact)
-                        )
-                      }
-                      onKeyDown={(e) =>
-                        handleClickByEnterOrSpace(e, () =>
+                <div className="flex w-2/4 flex-col items-center px-6">
+                  <div className="w-full">
+                    {impactList.map((impact) => (
+                      <div
+                        aria-label={impact}
+                        tabIndex={0}
+                        className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
+                        onClick={() =>
                           onRowClick(
                             'impact',
                             severityOptions.find(
                               ({ value }) => value === impact
                             )
                           )
-                        )
-                      }
-                      role="button"
-                    >
-                      <div className="text-base-800 flex items-center pb-3 text-sm">
-                        <div
-                          className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
-                        />
-                        {impact.charAt(0).toUpperCase()}
-                        {impact.slice(1, impact.length)}
+                        }
+                        onKeyDown={(e) =>
+                          handleClickByEnterOrSpace(e, () =>
+                            onRowClick(
+                              'impact',
+                              severityOptions.find(
+                                ({ value }) => value === impact
+                              )
+                            )
+                          )
+                        }
+                        role="button"
+                      >
+                        <div className="text-base-800 flex items-center pb-3 text-sm">
+                          <div
+                            className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
+                          />
+                          {impact.charAt(0).toUpperCase()}
+                          {impact.slice(1, impact.length)}
+                        </div>
+                        <p className="text-base-800 flex pb-3 text-sm">
+                          {issueSummary[impact]}
+                        </p>
                       </div>
-                      <p className="text-base-800 flex pb-3 text-sm">
-                        {issueSummary[impact]}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             }
@@ -211,6 +216,7 @@ export default function Summary() {
           <DataVisualization
             title="Affected Components"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div>
@@ -218,13 +224,14 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <Table>
+                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                   <TableHead>
                     <TableRow>
                       {componentColumns.map((col, index) => (
                         <TableCell
                           key={col.key}
                           variant="header"
+                          isSticky
                           textTransform="uppercase"
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
@@ -238,38 +245,36 @@ export default function Summary() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {componentList
-                      .slice(0, 6)
-                      .map(({ componentId, count }, index) => (
-                        <TableRow
-                          wrapperClassName="cursor-pointer"
-                          onRowClick={() =>
-                            onRowClick('component', {
-                              label: formatComponentIdString(componentId),
-                              value: componentId
-                            })
-                          }
-                        >
-                          {componentColumns.map((column, colIndex) => (
-                            <TableCell
-                              key={column.id}
-                              wrapperClassName={`px-3 py-2 ${
-                                colIndex === 0 ? 'w-14' : ''
-                              }`}
-                            >
-                              {colIndex === 0 ? index + 1 : ''}
-                              {colIndex === 1 ? (
-                                <div className="w-80 overflow-hidden truncate">
-                                  {formatComponentIdString(componentId)}
-                                </div>
-                              ) : (
-                                ''
-                              )}
-                              {colIndex === 2 ? count : ''}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
+                    {componentList.map(({ componentId, count }, index) => (
+                      <TableRow
+                        wrapperClassName="cursor-pointer"
+                        onRowClick={() =>
+                          onRowClick('component', {
+                            label: formatComponentIdString(componentId),
+                            value: componentId
+                          })
+                        }
+                      >
+                        {componentColumns.map((column, colIndex) => (
+                          <TableCell
+                            key={column.id}
+                            wrapperClassName={`px-3 py-2 ${
+                              colIndex === 0 ? 'w-14' : ''
+                            }`}
+                          >
+                            {colIndex === 0 ? index + 1 : ''}
+                            {colIndex === 1 ? (
+                              <div className="w-80 overflow-hidden truncate">
+                                {formatComponentIdString(componentId)}
+                              </div>
+                            ) : (
+                              ''
+                            )}
+                            {colIndex === 2 ? count : ''}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </div>
@@ -287,7 +292,7 @@ export default function Summary() {
               <div>
                 <p className="text-base-500 mr-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
-                  {componentList.length}
+                  {categoryList.length}
                 </p>
                 <Table>
                   <TableHead>
@@ -390,11 +395,12 @@ export default function Summary() {
             }
           />
         </div>
-        <div className="mr-4 w-6/12 ">
+        <div className="mr-4 w-6/12">
           <div className="bg-white">
             <DataVisualization
               title="Affected Pages"
               headerInfo={null}
+              wrapperClassName="h-[440px]"
               size="fit-content"
               analytics={
                 <div>
@@ -402,28 +408,28 @@ export default function Summary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <Table>
+                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
                     <TableHead>
                       <TableRow>
                         {urlColumns.map((col, index) => (
                           <TableCell
                             key={col.key}
                             variant="header"
+                            isSticky
                             textTransform="uppercase"
+                            wrapperClassName={`text-xs text-base-500 ${
+                              index === 0 ? 'w-14' : ''
+                            } ${index === 1 ? 'w-80' : ''} ${
+                              index === 2 ? 'w-32' : ''
+                            }`}
                           >
-                            <div
-                              className={`text-base-500 text-xs ${
-                                index === 1 ? 'w-80' : ''
-                              } ${index === 2 ? 'w-36' : ''}`}
-                            >
-                              {col.name}
-                            </div>
+                            {col.name}
                           </TableCell>
                         ))}
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {urlList.slice(0, 6).map(({ url, count }, index) => (
+                      {urlList.map(({ url, count }, index) => (
                         <TableRow
                           wrapperClassName="cursor-pointer"
                           onRowClick={() =>
@@ -438,7 +444,7 @@ export default function Summary() {
                               key={column.id}
                               wrapperClassName={`px-3 py-2 text-ellipsis overflow-hidden ${
                                 colIndex === 0 ? 'w-14' : ''
-                              } ${colIndex === 2 ? 'w-36' : ''}`}
+                              } ${colIndex === 2 ? 'w-32' : ''}`}
                             >
                               {colIndex === 0 ? index + 1 : ''}
                               {colIndex === 1 && (

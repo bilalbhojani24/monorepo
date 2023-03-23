@@ -8,7 +8,6 @@ import { setOpenAccordionId } from 'features/Report/slice/appSlice';
 import {
   getActiveComponentId,
   getIsShowingIssue
-  // getOpenAccordionId
 } from 'features/Report/slice/selector';
 import PropTypes from 'prop-types';
 
@@ -19,8 +18,6 @@ export default function Violation({ violation, index }) {
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
-  // const openAccordionId = useSelector(getOpenAccordionId);
-  // const isOpen = openAccordionId === violation.id;
 
   const isHalfView = activeComponentId && isShowingIssue;
 
