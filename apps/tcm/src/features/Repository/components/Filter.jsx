@@ -113,7 +113,6 @@ const Filter = ({ isMini, onFilterChange }) => {
       <div className="isolate inline-flex rounded-md shadow-sm">
         <TMButton
           onClick={() => setFilter(!isFilterVisible)}
-          // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
             'rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10':
               appliedFiltersCount
@@ -132,7 +131,6 @@ const Filter = ({ isMini, onFilterChange }) => {
         {appliedFiltersCount ? (
           <TMButton
             onClick={() => resetFilterAndSearch()}
-            buttonType="half-rounded-button"
             wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
             size="default"
             variant="primary"

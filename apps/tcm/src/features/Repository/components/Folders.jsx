@@ -82,7 +82,6 @@ export default function Folders() {
           <div className="border-base-300 flex w-full items-center border-b p-3">
             <span className="text-base">Folders</span>
             <TMButton
-              buttonType="half-rounded-button"
               variant="primary"
               colors="white"
               wrapperClassName="ml-2 p-2"

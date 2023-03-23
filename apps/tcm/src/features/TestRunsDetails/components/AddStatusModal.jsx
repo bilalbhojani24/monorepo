@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
@@ -30,7 +30,7 @@ const AddStatusModal = () => {
     addIssuesSaveHelper,
     setStatusError
   } = useTRTCFolders();
-  // const statusFocusRef = useRef();
+  const statusFocusRef = useRef();
 
   return (
     <TMModal
@@ -50,7 +50,7 @@ const AddStatusModal = () => {
             <TMSelectMenu
               label="Status"
               checkPosition="right"
-              // ref={statusFocusRef}
+              ref={statusFocusRef}
               placeholder="Choose from options"
               options={STATUS_OPTIONS.map((el) => ({
                 label: (

@@ -82,7 +82,7 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
 };
 
 ClampedTags.propTypes = {
-  tagsArray: PropTypes.arrayOf([PropTypes.string]),
+  tagsArray: PropTypes.arrayOf(PropTypes.string),
   badgeModifier: PropTypes.string
 };
 

@@ -163,7 +163,7 @@ const TestCasesTable = () => {
           </TMTableCell> */}
             {datatableColumns?.map((col, index) => (
               <TMTableCell
-                key={col.key || index}
+                key={col.key}
                 variant="body"
                 wrapperClassName={classNames(
                   col?.class,
@@ -194,7 +194,7 @@ const TestCasesTable = () => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.key}
                         wrapperClassName={classNames(
                           column?.class,
                           'first:pr-3 last:pl-3 px-2 py-2',
