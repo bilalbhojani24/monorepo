@@ -62,9 +62,6 @@ const ScanDetails = () => {
   /*
     Convert back to Local Timezone
   */
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find((key) => object[key] === value);
-  }
   const convertToLocale = () => {
     const cronStringArray = scanRunDataCommon.schedulePattern.split(' ');
     const timezoneOffset = new Date().getTimezoneOffset();
@@ -81,7 +78,7 @@ const ScanDetails = () => {
       if (day === '*') {
         dayVal = day;
       } else {
-        dayVal = parseInt(day, 10) === 0 ? dayMap[6] : dayMap[day - 1];
+        dayVal = parseInt(day, 10) === 0 ? dayMap[6] : parseInt(day, 10) - 1;
       }
     }
     if (diff > 1439) {
@@ -89,13 +86,22 @@ const ScanDetails = () => {
       if (day === '*') {
         dayVal = day;
       } else {
-        dayVal =
-          parseInt(day, 10) === 6
-            ? dayMap[0]
-            : dayMap[getKeyByValue(dayMap, day) + 1];
+        dayVal = parseInt(day, 10) === 6 ? dayMap[0] : parseInt(day, 10) + 1;
       }
     }
+  
     const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
+    console.log(
+      {
+        finalUTCVal,
+        day,
+        diff,
+        dayVal,
+        adjustedCronExpression,
+        cronStringArray
+      },
+      cronStringArray[cronStringArray.length -1]
+    );
     return cronstrue.toString(adjustedCronExpression);
   };
   if (isLoading || !scanOverviewData) {
