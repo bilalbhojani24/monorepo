@@ -6,7 +6,12 @@ axios.defaults.baseURL =
   // 'https://accessibility.bsstag.com/api' ||
   `${window.location.origin}/api`;
 
-axios.interceptors.request.use((config) => ({
-  ...config,
-  withCredentials: true
-}));
+axios.interceptors.request.use((config) => {
+  if (config.url.includes('eds.browserstack.com')) {
+    return config;
+  }
+  return {
+    ...config,
+    withCredentials: true
+  };
+});
