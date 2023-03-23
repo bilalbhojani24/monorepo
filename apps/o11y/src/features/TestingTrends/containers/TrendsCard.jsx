@@ -5,7 +5,7 @@ import TrendsGenericChart from 'features/TestingTrends/components/TrendsGenericC
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
@@ -20,7 +20,7 @@ export default function TrendsCard({
   const filters = useSelector(getAllTTFilters);
   const [chartData, setChartData] = useState({ data: {} });
   const dispatch = useDispatch();
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -29,7 +29,7 @@ export default function TrendsCard({
     setHasError(false);
     dispatch(
       getTrendsData({
-        normalisedName: projects.active?.normalisedName,
+        normalisedName: activeProject?.normalisedName,
         filters,
         key: apiKey
       })
@@ -44,13 +44,13 @@ export default function TrendsCard({
       .finally(() => {
         setIsLoading(false);
       });
-  }, [dispatch, projects.active?.normalisedName, filters, apiKey]);
+  }, [dispatch, activeProject?.normalisedName, filters, apiKey]);
 
   useEffect(() => {
-    if (projects.active?.normalisedName) {
+    if (activeProject?.normalisedName) {
       fetchData();
     }
-  }, [fetchData, projects.active?.normalisedName]);
+  }, [fetchData, activeProject?.normalisedName]);
   return (
     <TrendStatesWrapper
       isLoading={isLoading}

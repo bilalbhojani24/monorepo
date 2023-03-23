@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@browserstack/bifrost';
 import {
+  O11yButton,
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
   O11ySelectMenuOptionItem,
@@ -17,7 +17,7 @@ import {
   getBuildNamesData,
   setTTFilters
 } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 const BUILD_OPTIONS = [
@@ -29,7 +29,7 @@ const BUILD_OPTIONS = [
 export default function TestingTrendsHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const [builds, setBuilds] = useState([]);
   const activeBuild = useSelector((state) =>
     getTTFilterByKey(state, 'buildName')
@@ -52,8 +52,8 @@ export default function TestingTrendsHeader() {
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
-        project_name: projects?.active?.name,
-        project_id: projects?.active?.id,
+        project_name: activeProject?.name,
+        project_id: activeProject?.id,
         interaction: 'time_filter_changed'
       }
     });
@@ -71,24 +71,24 @@ export default function TestingTrendsHeader() {
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
-        project_name: projects?.active?.name,
-        project_id: projects?.active?.id,
+        project_name: activeProject?.name,
+        project_id: activeProject?.id,
         interaction: 'build_filter_applied'
       }
     });
   };
 
   useEffect(() => {
-    if (projects.active?.normalisedName) {
+    if (activeProject?.normalisedName) {
       dispatch(
-        getBuildNamesData({ normalisedName: projects.active?.normalisedName })
+        getBuildNamesData({ normalisedName: activeProject?.normalisedName })
       )
         .unwrap()
         .then((res) => {
-          setBuilds(res || []);
+          setBuilds(res?.data || []);
         });
     }
-  }, [dispatch, projects.active?.normalisedName]);
+  }, [dispatch, activeProject?.normalisedName]);
 
   useEffect(() => {
     if (
@@ -123,23 +123,45 @@ export default function TestingTrendsHeader() {
       <span className="text-2xl font-bold">Testing Trends</span>
       <div className="mt-4 flex justify-between">
         <div>
-          {Object.keys(TT_DATE_RANGE).map((key) => (
-            <Button
-              aria-label={TT_DATE_RANGE[key].label}
-              colors="white"
-              key={key}
-              onClick={() => handleClickRange(key)}
-              size="large"
-              variant="primary"
-              wrapperClassName="focus:outline-0"
-            >
-              {TT_DATE_RANGE[key].label}
-            </Button>
-          ))}
+          {Object.keys(TT_DATE_RANGE).map((key, index) => {
+            let wrapperClassName = 'rounded-none focus:outline-0';
+            switch (index) {
+              case 0:
+                wrapperClassName = `border border-base-300 rounded-none rounded-l-md border-r-0 
+              focus:ring-offset-0 focus:border-r peer/days7 focus:z-[1] focus:ring-1 
+              ring-brand-500 text-sm font-medium text-base-700`;
+                break;
+              case 1:
+                wrapperClassName = `peer/days15 peer-focus/days7:border-l-0 focus:z-[1] focus:ring-1 
+                ring-brand-500 border border-base-300 rounded-none focus:ring-offset-0 
+                focus:border-r border-r-0 text-sm font-medium text-base-700`;
+                break;
+              case 2:
+                wrapperClassName = `peer-focus/days15:border-l-0 focus:z-[1] focus:ring-1 ring-brand-500 
+                border border-base-300 rounded-none first:rounded-l-md last:rounded-r-md focus:ring-offset-0 
+                text-sm font-medium text-base-700`;
+                break;
+              default:
+                break;
+            }
+            return (
+              <O11yButton
+                aria-label={TT_DATE_RANGE[key].label}
+                colors="white"
+                key={key}
+                onClick={() => handleClickRange(key)}
+                size="large"
+                variant="primary"
+                wrapperClassName={wrapperClassName}
+              >
+                {TT_DATE_RANGE[key].label}
+              </O11yButton>
+            );
+          })}
         </div>
 
         <div>
-          <O11ySelectMenu onChange={handleBuildChange}>
+          <O11ySelectMenu onChange={handleBuildChange} checkPosition="right">
             <O11ySelectMenuTrigger placeholder="All Builds" />
             <O11ySelectMenuOptionGroup>
               {buildList.map((item) => (
