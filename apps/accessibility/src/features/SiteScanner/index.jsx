@@ -172,7 +172,7 @@ export default function SiteScanner() {
     setShowNewScan(false);
   };
 
-  const getRunTypeBadge = (recurring, active) => {
+  const getRunTypeBadge = (recurring, active, onDemandCount) => {
     if (recurring && active) {
       return (
         <Badge
@@ -185,7 +185,11 @@ export default function SiteScanner() {
     if (recurring && !active) {
       return <Badge text="Recurring: OFF" wrapperClassName="mr-2" />;
     }
-    return <Badge text="On-demand" wrapperClassName="mr-2" />;
+    return (
+      <div>
+        <Badge text="On-demand" wrapperClassName="mr-2" />({onDemandCount})
+      </div>
+    );
   };
 
   const getCurrrentStatus = (row) => {
@@ -527,7 +531,11 @@ export default function SiteScanner() {
                 </TableCell>
                 <TableCell>
                   <div className="flex-col">
-                    {getRunTypeBadge(row.recurring, row.active)}
+                    {getRunTypeBadge(
+                      row.recurring,
+                      row.active,
+                      row.onDemandCount
+                    )}
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
                       <div className="mt-2 flex items-center">

@@ -158,7 +158,7 @@ export default function Summary() {
       <div className="flex items-start">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization
-            title="Issue Summary"
+            title="Issue summary"
             headerInfo={null}
             wrapperClassName="h-[440px]"
             size="fit-content"
@@ -214,7 +214,7 @@ export default function Summary() {
         </div>
         <div className="mr-4 w-6/12 bg-white">
           <DataVisualization
-            title="Affected Components"
+            title="Affected components"
             headerInfo={null}
             wrapperClassName="h-[440px]"
             size="fit-content"
@@ -398,7 +398,7 @@ export default function Summary() {
         <div className="mr-4 w-6/12">
           <div className="bg-white">
             <DataVisualization
-              title="Affected Pages"
+              title="Affected pages"
               headerInfo={null}
               wrapperClassName="h-[440px]"
               size="fit-content"

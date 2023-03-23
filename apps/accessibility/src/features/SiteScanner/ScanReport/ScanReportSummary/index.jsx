@@ -153,7 +153,7 @@ export default function ScanReportSummary() {
       <div className="flex items-start">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization
-            title="Issue Summary"
+            title="Issue summary"
             headerInfo={null}
             size="fit-content"
             analytics={
@@ -192,7 +192,7 @@ export default function ScanReportSummary() {
         </div>
         <div className="mr-4 w-6/12 bg-white">
           <DataVisualization
-            title="Affected Components"
+            title="Affected components"
             headerInfo={null}
             size="fit-content"
             analytics={
@@ -375,7 +375,7 @@ export default function ScanReportSummary() {
         <div className="mr-4 w-6/12 ">
           <div className="bg-white">
             <DataVisualization
-              title="Affected Pages"
+              title="Affected pages"
               headerInfo={null}
               size="fit-content"
               analytics={
