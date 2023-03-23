@@ -362,7 +362,7 @@ const TestCasesTable = ({
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.key}
                         wrapperClassName={classNames(column?.class, {
                           'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
                           // 'pb-[3px]': column.key === 'identifier',
@@ -437,7 +437,12 @@ TestCasesTable.defaultProps = {
   isLoading: false,
   onPaginationClick: null,
   onItemSelectionCb: () => {},
-  metaPage: {},
+  metaPage: {
+    page: null,
+    next: null,
+    prev: null,
+    count: null
+  },
   selectedTestCases: null // only if this is passed as prop take it, else ignore
 };
 

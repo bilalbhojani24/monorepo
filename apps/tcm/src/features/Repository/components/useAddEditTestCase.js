@@ -19,7 +19,6 @@ import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
-import { requestedSteps } from '../const/unsavedConst';
 import {
   addSingleTestCase,
   resetBulkSelection,
@@ -49,7 +48,7 @@ export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
-  const { isOkToExitForm } = useUnsavedChanges();
+  const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
   const [inputError, setInputError] = useState({
     name: false
   });
@@ -537,44 +536,42 @@ export default function useAddEditTestCase(prop) {
   };
 
   const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
-    if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
-      return;
+    unsavedFormConfirmation(false, () => {
+      if (isFromListTree) {
+        dispatch(
+          logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
+            project_id: projectId,
+            folder_id: thisFolder?.id
+          })
+        );
+      } else {
+        dispatch(
+          logEventHelper('TM_CreateTcBtnClickedTopHeader', {
+            project_id: projectId
+          })
+        );
+      }
+      const thisSelectedFolder = thisFolder?.id
+        ? thisFolder?.id
+        : selectedFolder?.id;
 
-    if (isFromListTree) {
-      dispatch(
-        logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
-          project_id: projectId,
-          folder_id: thisFolder?.id
-        })
-      );
-    } else {
-      dispatch(
-        logEventHelper('TM_CreateTcBtnClickedTopHeader', {
-          project_id: projectId
-        })
-      );
-    }
-    const thisSelectedFolder = thisFolder?.id
-      ? thisFolder?.id
-      : selectedFolder?.id;
-
-    dispatch(setEditTestCasePageVisibility(!(thisSelectedFolder || true))); // [NOTE: we were not able to move from Add to Edit when clicked from folders]
-    dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
-    if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
-    if (!folderId)
-      // then in search view, go to repository view
-      navigate(
-        `${routeFormatter(AppRoute.TEST_CASES, {
-          projectId
-        })}`
-      );
+      dispatch(setEditTestCasePageVisibility(!(thisSelectedFolder || true))); // [NOTE: we were not able to move from Add to Edit when clicked from folders]
+      dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
+      if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
+      if (!folderId)
+        // then in search view, go to repository view
+        navigate(
+          `${routeFormatter(AppRoute.TEST_CASES, {
+            projectId
+          })}`
+        );
+    });
   };
 
   const goToThisURL = (url, dontFormat) => {
-    if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
-      return;
-
-    navigate(dontFormat ? url : routeFormatter(url, { projectId }));
+    unsavedFormConfirmation(false, () => {
+      navigate(dontFormat ? url : routeFormatter(url, { projectId }));
+    });
   };
 
   const setShowMoreFieldHelper = (value) => {
