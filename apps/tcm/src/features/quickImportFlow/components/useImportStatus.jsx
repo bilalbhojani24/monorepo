@@ -156,39 +156,35 @@ const useImportStatus = () => {
     successCount,
     importType
   ) => {
-    const actionButtons = (toastData) => {
-      if (!data?.firstButton && !data?.secondButton) return null;
-
-      return (
-        <>
-          <TMButton
-            onClick={handleFirstButtonClick(
-              toastData,
-              currentImportStatus,
-              totalCount,
-              successCount
-            )}
-            variant="minimal"
-            colors="white"
-          >
-            {data?.firstButton}
-          </TMButton>
-          <TMButton
-            variant="minimal"
-            wrapperClassName="text-base-600"
-            onClick={handleSecondButtonClick(
-              toastData,
-              currentImportStatus,
-              totalCount,
-              successCount,
-              importType
-            )}
-          >
-            {data?.secondButton}
-          </TMButton>
-        </>
-      );
-    };
+    const actionButtons = (toastData) => (
+      <>
+        <TMButton
+          onClick={handleFirstButtonClick(
+            toastData,
+            currentImportStatus,
+            totalCount,
+            successCount
+          )}
+          variant="minimal"
+          colors="white"
+        >
+          {data?.firstButton}
+        </TMButton>
+        <TMButton
+          variant="minimal"
+          wrapperClassName="text-base-600"
+          onClick={handleSecondButtonClick(
+            toastData,
+            currentImportStatus,
+            totalCount,
+            successCount,
+            importType
+          )}
+        >
+          {data?.secondButton}
+        </TMButton>
+      </>
+    );
     notify(
       <Notifications
         id={data?.id}
@@ -201,7 +197,9 @@ const useImportStatus = () => {
         description={data?.description}
         headerIcon={data?.headerIcon}
         handleClose={handleNotificationClose(currentImportStatus)}
-        actionButtons={actionButtons()}
+        actionButtons={
+          !data?.firstButton && !data?.secondButton ? null : actionButtons
+        }
       />,
       {
         position: 'top-right',
