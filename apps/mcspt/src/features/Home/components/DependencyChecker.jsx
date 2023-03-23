@@ -95,7 +95,7 @@ const DependencyChecker = () => {
                             <SelectMenuOptionItem
                               key={item.value}
                               checkPosition="right"
-                              wrapperClassName="flex-1"
+                              wrapperClassName="flex-1 group/devicedd"
                               option={item}
                             />
                           ))}

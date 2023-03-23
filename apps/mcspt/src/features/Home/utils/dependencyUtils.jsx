@@ -20,19 +20,25 @@ export const generateDeviceOptions = (deviceList) =>
           </div>
 
           <div
-            className={twClassNames('mr-1 text-sm font-medium leading-5', {
-              'text-base-900': device?.compatible,
-              'text-base-400': !device?.compatible
-            })}
+            className={twClassNames(
+              'mr-1 text-sm font-medium leading-5 group-hover/devicedd:text-white',
+              {
+                'text-base-900': device?.compatible,
+                'text-base-400': !device?.compatible
+              }
+            )}
           >
             {`${device?.manufacturer} ${device?.model}`}
           </div>
 
           <div
-            className={twClassNames('text-sm font-normal leading-5', {
-              'text-base-500': device?.compatible,
-              'text-base-400': !device?.compatible
-            })}
+            className={twClassNames(
+              'text-sm font-normal leading-5 group-hover/devicedd:text-white group-active/devicedd:text-danger-500',
+              {
+                'text-base-500': device?.compatible,
+                'text-base-400': !device?.compatible
+              }
+            )}
           >
             {`${device?.os} ${device?.osVersion}`}
           </div>
