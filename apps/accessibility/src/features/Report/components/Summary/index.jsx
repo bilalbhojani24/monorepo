@@ -224,7 +224,7 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
+                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px] relative z-0">
                   <TableHead>
                     <TableRow>
                       {componentColumns.map((col, index) => (
@@ -408,7 +408,7 @@ export default function Summary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
+                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px] relative z-0">
                     <TableHead>
                       <TableRow>
                         {urlColumns.map((col, index) => (
