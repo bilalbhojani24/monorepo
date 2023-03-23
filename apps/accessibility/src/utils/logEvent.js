@@ -55,7 +55,7 @@ export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
 
   const env = getCurrentEnv();
 
-  if (env !== ENVS.PRODUCTION) {
+  if (env === ENVS.PRODUCTION) {
     logAccessibilityEvent(skipLoggingKeys, EDSKey, name, {
       product,
       team: product,
