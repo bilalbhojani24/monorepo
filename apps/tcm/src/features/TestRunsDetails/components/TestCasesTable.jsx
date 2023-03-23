@@ -108,7 +108,9 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="capitalize">{rowData?.latest_status}</div>
+          <div className="flex h-9 items-center capitalize">
+            {valueMapped?.label || '--'}
+          </div>
         ) : (
           <TMSelectMenu
             placeholder="Not Started"
