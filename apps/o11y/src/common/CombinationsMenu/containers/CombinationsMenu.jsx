@@ -36,16 +36,16 @@ const CombinationsMenu = ({
 CombinationsMenu.propTypes = {
   isLoading: PropTypes.bool,
   defaultValue: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    data: PropTypes.shape(PropTypes.any)
+    label: PropTypes.string,
+    value: PropTypes.string,
+    data: PropTypes.objectOf(PropTypes.any)
   }).isRequired,
   onCombinationChange: PropTypes.func.isRequired,
   menuOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      data: PropTypes.shape(PropTypes.any)
+      label: PropTypes.string,
+      value: PropTypes.string,
+      data: PropTypes.objectOf(PropTypes.any)
     })
   ).isRequired
 };

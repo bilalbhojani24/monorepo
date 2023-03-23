@@ -15,8 +15,9 @@ import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
-import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
+import { clearSnPTests } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
+import { setActiveTab } from '../slices/uiSlice';
 
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';

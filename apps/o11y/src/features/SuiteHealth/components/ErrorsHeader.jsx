@@ -1,8 +1,7 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 
-// import PropTypes from 'prop-types';
-import SnPTestsFilter from './TestsFilter';
+import SnPTestsFilter from '../containers/TestsFilter';
 
 const ErrorsHeader = () => (
   <div className={twClassNames('mb-4 px-6 pt-7')}>

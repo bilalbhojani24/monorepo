@@ -1,3 +1,4 @@
+import { SNP_DATE_RANGE } from 'constants/common';
 import {
   endOfDay,
   format,
@@ -111,4 +112,21 @@ export function millisToMinutesAndSeconds(ms) {
   const minStr = minutes < 10 ? `0${minutes}` : minutes;
   const secStr = seconds < 10 ? `0${seconds}` : seconds;
   return `${returnText}${minStr}:${secStr}`;
+}
+
+export function getTimeBounds(activeKey) {
+  const timebounds = {
+    upperBound: Date.now(),
+    lowerBound: 0
+  };
+  if (SNP_DATE_RANGE.days7.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
+  }
+  if (SNP_DATE_RANGE.days15.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(15) * 1000;
+  }
+  if (SNP_DATE_RANGE.days30.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+  }
+  return timebounds;
 }

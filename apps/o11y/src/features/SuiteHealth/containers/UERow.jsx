@@ -7,18 +7,12 @@ import PropTypes from 'prop-types';
 import UEBreakdown from '../components/UEBreakdown';
 import UERowHeader from '../components/UERowHeader';
 import { getSnPUEBreakdownData } from '../slices/dataSlice';
-import {
-  getAllSnPTestFilters,
-  getSnpErrorsSortBy,
-  getSnPTestFilterByKey
-} from '../slices/selectors';
+import { getAllSnPTestFilters, getSnpErrorsSortBy } from '../slices/selectors';
 
 export default function UERow({ data }) {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const activeBuild = useSelector((state) =>
-    getSnPTestFilterByKey(state, 'buildName')
-  );
+
   const [breakDownData, setBreakDownData] = useState([]);
   const [isLoadingBD, setIsLoadingBD] = useState(true);
   const filters = useSelector(getAllSnPTestFilters);
@@ -30,7 +24,6 @@ export default function UERow({ data }) {
       getSnPUEBreakdownData({
         normalisedName: activeProject?.normalisedName,
         errorId: data.id,
-        activeBuild: activeBuild.value,
         filters,
         sortOptions: sortBy
       })

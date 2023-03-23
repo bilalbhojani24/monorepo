@@ -8,13 +8,15 @@ import {
   O11ySelectMenuOptionItem,
   O11ySelectMenuTrigger
 } from 'common/bifrostProxy';
-import { getBuildNamesData } from 'features/SuiteHealth/slices/dataSlice';
 import {
   TT_DATE_RANGE,
   TT_PARAMS_MAPPING
 } from 'features/TestingTrends/constants';
 import { getTTFilterByKey } from 'features/TestingTrends/slices/selectors';
-import { setTTFilters } from 'features/TestingTrends/slices/testingTrendsSlice';
+import {
+  getBuildNamesData,
+  setTTFilters
+} from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -32,9 +34,6 @@ export default function TestingTrendsHeader() {
   const activeBuild = useSelector((state) =>
     getTTFilterByKey(state, 'buildName')
   );
-  // const activeDateRange = useSelector((state) =>
-  //   getTTFilterByKey(state, 'dateRange')
-  // );
 
   const handleClickRange = (key) => {
     const searchParams = new URLSearchParams(window?.location?.search);
