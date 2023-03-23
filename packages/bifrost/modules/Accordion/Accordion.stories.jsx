@@ -22,13 +22,12 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    openByDefault: {
+    defaultOpen: {
       option: { type: 'boolean' },
       defaultValue: false
     },
-    triggerClassName: {
-      option: { type: 'string' },
-      defaultValue: 'px-6 pt-4 bg-brand-100'
+    children: {
+      default: <></>
     }
   },
   controls: {}
@@ -59,7 +58,7 @@ InteractiveAccordion.args = {
           </a>
           <a className="flex items-center gap-1.5 hover:underline" href="#/">
             <FolderIcon className="h-4 w-4" />
-            Meta Column Text 2
+            <span className="truncate">Meta Column Text 2</span>
           </a>
           <span className="flex gap-2">
             <Badge text="B1" modifier="success" />
@@ -75,19 +74,22 @@ InteractiveAccordion.args = {
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" /> Meta data is here
+          <FolderIcon className="h-4 w-4" />
+          Meta data is here
         </a>
         <a
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" /> Meta data is here
+          <FolderIcon className="h-4 w-4" />
+          Meta data is here
         </a>
         <a
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" /> Meta data is here
+          <FolderIcon className="h-4 w-4" />
+          Meta data is here
         </a>
       </div>
     </AccordionInteractiveHeader>,

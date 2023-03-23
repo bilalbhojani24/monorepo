@@ -12,35 +12,35 @@ function AccordionInteractiveHeader({
 }) {
   return (
     <span className="flex items-start gap-1">
-      <span className="-mt-0.5">{trigger}</span>
-      <span className="w-full grow">
-        <Disclosure.Button as={Fragment}>
-          {({ open }) => (
-            <button
-              type="button"
-              className={twClassNames(
-                'flex grow cursor-pointer items-center gap-1',
-                { 'text-base-800': open },
-                { 'text-base-500': !open }
-              )}
-            >
-              <ChevronRightIcon
+      {trigger && <span>{trigger}</span>}
+      <div className="w-full">
+        <div className="flex justify-between">
+          <Disclosure.Button as={Fragment}>
+            {({ open }) => (
+              <button
+                type="button"
                 className={twClassNames(
-                  'truncate h-6 w-6 transition-transform',
-                  {
-                    'rotate-90': open
-                  }
+                  'flex  cursor-pointer items-center gap-1',
+                  { 'text-base-800': open },
+                  { 'text-base-500': !open }
                 )}
-              />
-              <span>{title}</span>
-            </button>
-          )}
-        </Disclosure.Button>
-        <div className="ml-7">{children}</div>
-      </span>
-      {asideContent && (
-        <div className="w-full grow truncate">{asideContent}</div>
-      )}
+              >
+                <ChevronRightIcon
+                  className={twClassNames(
+                    'truncate h-6 w-6 transition-transform',
+                    {
+                      'rotate-90': open
+                    }
+                  )}
+                />
+                <span>{title}</span>
+              </button>
+            )}
+          </Disclosure.Button>
+          {asideContent && <div className="truncate">{asideContent}</div>}
+        </div>
+        {children && <div className="ml-7">{children}</div>}
+      </div>
     </span>
   );
 }
