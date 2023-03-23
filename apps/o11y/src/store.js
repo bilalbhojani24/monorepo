@@ -10,6 +10,7 @@ import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
 import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
+import suiteHealthUIReducer from 'features/SuiteHealth/slices/uiSlice';
 import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import globalReducer from 'globalSlice';
@@ -24,6 +25,7 @@ export const store = configureStore({
     failureCategoriesSettings: failureCategoriesSettingsReducer,
     reRunSettings: reRunSettingsReducer,
     shTests: shTestsReducer,
+    suiteHealthUI: suiteHealthUIReducer,
     shTestdetails: shTestDetailsReducer,
     shErrordetails: shErrorDetailsReducer,
     testdetails: testDetailsDataReducer,

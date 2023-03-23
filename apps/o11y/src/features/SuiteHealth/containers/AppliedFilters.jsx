@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { O11yBadge } from 'common/bifrostProxy';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 
-import { setSnPTestFilters } from '../slices/dataSlice';
 import { getAllSnPTestFilters } from '../slices/selectors';
+import { setSnPTestFilters } from '../slices/uiSlice';
 
 const AppliedFilters = () => {
   const dispatch = useDispatch();
