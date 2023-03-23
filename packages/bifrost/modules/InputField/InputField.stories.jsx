@@ -318,7 +318,7 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
   type: 'number',
   placeholder: '0.00',
   addOnBeforeInline: <InputGroupAddOn inline>$</InputGroupAddOn>,
-  trailingIconWrapperClassName: 'pr-0',
+  addOnAfterInlineWrapperClassName: 'pr-0',
   addOnAfterInline: (
     <SelectMenu>
       <InputGroupSelectMenuTrigger />
