@@ -67,7 +67,7 @@ export default function ScanReport() {
 
   return (
     <>
-      <div className="bg-base-50">
+      <div className="bg-base-50 border-base-200 border-b">
         <div className="flex justify-between px-6 py-4">
           <div className="flex-col">
             <div className="mb-4">
@@ -158,17 +158,6 @@ export default function ScanReport() {
                 </Button>
               </CopyToClipboard>
             </Tooltip>
-
-            {/* <Button
-              onClick={() => {}}
-              size="small"
-              type="subtle"
-              wrapperClassName="h-10 mr-2"
-              icon={<MdDownload />}
-              iconPlacement="end"
-            >
-              Export
-            </Button> */}
           </div>
         </div>
         <div className="pl-6">

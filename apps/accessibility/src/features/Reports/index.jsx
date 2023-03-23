@@ -204,7 +204,9 @@ export default function Reports() {
           width: 'calc(100vw - 256px)'
         }}
       >
-        {isLoading && <Loader wrapperClassName="mt-28 h-96" />}
+        {isLoading && searchFilterList.length === 0 && (
+          <Loader wrapperClassName="mt-28 h-96" />
+        )}
         {!isLoading && searchFilterList.length === 0 && (
           <div
             className="bg-base-50 mt-12 "

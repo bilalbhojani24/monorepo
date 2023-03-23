@@ -97,7 +97,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdAdd />
-        <span className="ml-2">New Scan</span>
+        <span className="ml-2">New scan</span>
       </div>
     )
   },
@@ -106,7 +106,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdStop />
-        <span className="ml-2">Stop Recurring Scan</span>
+        <span className="ml-2">Stop recurring scan</span>
       </div>
     )
   },
@@ -115,7 +115,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdOutlineContentCopy />
-        <span className="ml-2">Clone Scan Configuration</span>
+        <span className="ml-2">Clone scan configuration</span>
       </div>
     )
   }
@@ -127,7 +127,7 @@ const singleMenu = [
     value: 'scanDetails',
     body: (
       <div className="flex items-center">
-        <span className="ml-2">View Scan Details</span>
+        <span className="ml-2">View scan details</span>
       </div>
     )
   }
@@ -172,7 +172,7 @@ export default function SiteScanner() {
     setShowNewScan(false);
   };
 
-  const getRunTypeBadge = (recurring, active) => {
+  const getRunTypeBadge = (recurring, active, onDemandCount = 0) => {
     if (recurring && active) {
       return (
         <Badge
@@ -185,7 +185,13 @@ export default function SiteScanner() {
     if (recurring && !active) {
       return <Badge text="Recurring: OFF" wrapperClassName="mr-2" />;
     }
-    return <Badge text="On-demand" wrapperClassName="mr-2" />;
+    const onDemandCountText =
+      onDemandCount > 0
+        ? `(${onDemandCount} ${onDemandCount > 1 ? 'runs' : 'run'})`
+        : '';
+    return (
+      <Badge text={`On-demand ${onDemandCountText}`} wrapperClassName="mr-2" />
+    );
   };
 
   const getCurrrentStatus = (row) => {
@@ -527,7 +533,11 @@ export default function SiteScanner() {
                 </TableCell>
                 <TableCell>
                   <div className="flex-col">
-                    {getRunTypeBadge(row.recurring, row.active)}
+                    {getRunTypeBadge(
+                      row.recurring,
+                      row.active,
+                      row?.onDemandCount
+                    )}
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
                       <div className="mt-2 flex items-center">
