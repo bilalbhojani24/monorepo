@@ -35,7 +35,12 @@ const O11yComboBox = ({
   }
 
   return (
-    <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
+    <ComboBox
+      onChange={onChange}
+      value={value}
+      isMulti={isMulti}
+      onOpenChange={() => {}}
+    >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
@@ -73,11 +78,22 @@ O11yComboBox.propTypes = {
     })
   ),
   onChange: PropTypes.func,
-  value: PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    label: PropTypes.string.isRequired,
-    image: PropTypes.string
-  }),
+  value: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
+        label: PropTypes.string.isRequired,
+        image: PropTypes.string
+      })
+    ),
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+      label: PropTypes.string.isRequired,
+      image: PropTypes.string
+    })
+  ]),
   virtuosoWidth: PropTypes.string,
   optionsListWrapperClassName: PropTypes.string
 };

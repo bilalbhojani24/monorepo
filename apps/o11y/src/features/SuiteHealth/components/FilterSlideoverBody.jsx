@@ -65,16 +65,15 @@ FilterSlideoverBody.propTypes = {
   filters: PropTypes.shape({
     isFlaky: PropTypes.bool.isRequired,
     isMuted: PropTypes.bool.isRequired,
-    buildNames: PropTypes.arrayOf({
-      label: PropTypes.string,
-      value: PropTypes.string
-    }).isRequired
+    buildNames: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+      })
+    )
   }).isRequired,
   setFilters: PropTypes.func.isRequired,
-  allBuildNames: PropTypes.arrayOf({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }).isRequired
+  allBuildNames: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default FilterSlideoverBody;

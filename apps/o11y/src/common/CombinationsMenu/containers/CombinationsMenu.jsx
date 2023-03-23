@@ -14,7 +14,11 @@ const CombinationsMenu = ({
   menuOptions,
   onCombinationChange
 }) => (
-  <O11ySelectMenu defaultValue={defaultValue} onChange={onCombinationChange}>
+  <O11ySelectMenu
+    defaultValue={defaultValue}
+    onChange={onCombinationChange}
+    onOpenChange={() => {}}
+  >
     <O11ySelectMenuTrigger
       placeholder="Select.."
       wrapperClassName={twClassNames('max-w-[300px]', {
@@ -36,16 +40,16 @@ const CombinationsMenu = ({
 CombinationsMenu.propTypes = {
   isLoading: PropTypes.bool,
   defaultValue: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    data: PropTypes.shape(PropTypes.any)
+    label: PropTypes.string,
+    value: PropTypes.string,
+    data: PropTypes.objectOf(PropTypes.any)
   }).isRequired,
   onCombinationChange: PropTypes.func.isRequired,
   menuOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      data: PropTypes.shape(PropTypes.any)
+      label: PropTypes.string,
+      value: PropTypes.string,
+      data: PropTypes.objectOf(PropTypes.any)
     })
   ).isRequired
 };
