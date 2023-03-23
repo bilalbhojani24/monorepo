@@ -70,7 +70,16 @@ const TestRunsTable = () => {
               testRunId: rowData?.id
             })}
           >
-            {rowData.name}
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
+              {rowData.name}
+            </TMTruncateText>
           </Link>
           {rowData.description && (
             <div className="text-base-500">
