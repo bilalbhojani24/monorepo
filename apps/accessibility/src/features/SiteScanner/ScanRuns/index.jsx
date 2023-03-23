@@ -25,16 +25,16 @@ const columns = [
     isSortable: true
   },
   {
-    name: 'Issue Summary',
+    name: 'Issue summary',
     key: 'issueSummary',
     isSortable: true
   },
   {
-    name: 'Severity Breakdown',
+    name: 'Severity breakdown',
     key: 'severity'
   },
   {
-    name: 'Page Summary',
+    name: 'Page summary',
     key: 'pageSummary'
   }
 ];

@@ -9,7 +9,7 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-export default function CopyButton({ className, text }) {
+export default function CopyButton({ className, text, hasBorder }) {
   const [isCopied, setIsCopied] = useState(false);
   return (
     <Tooltip
@@ -48,6 +48,7 @@ export default function CopyButton({ className, text }) {
           colors="white"
           size="small"
           isIconOnlyButton
+          variant={hasBorder ? 'primary' : 'minimal'}
           wrapperClassName={className}
         />
       </CopyToClipboard>
@@ -57,9 +58,11 @@ export default function CopyButton({ className, text }) {
 
 CopyButton.propTypes = {
   className: PropTypes.string,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  hasBorder: PropTypes.bool
 };
 
 CopyButton.defaultProps = {
-  className: ''
+  className: '',
+  hasBorder: true
 };

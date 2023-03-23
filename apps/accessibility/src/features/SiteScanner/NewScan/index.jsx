@@ -23,8 +23,7 @@ import {
 } from '@browserstack/bifrost';
 import { json2csv } from 'json-2-csv';
 import PropTypes from 'prop-types';
-
-import { logEvent } from '../../../../../../packages/utils/src/logger';
+import { logEvent } from 'utils/logEvent';
 
 import { days, urlPattern, wcagVersions } from './constants';
 import useNewScan from './useNewScan';
@@ -93,23 +92,18 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
   }, [setShowToast, showToast]);
 
   const handleCloseWithLogEvent = () => {
-    logEvent(
-      ['EDS'],
-      'accessibility_dashboard_web_events',
-      'InteractedWithWSNewWebsiteScanSlideOver',
-      {
-        actionType: 'Scan changes',
-        action: 'Cancel Scan',
-        scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-        scanTime: recurringStatus
-          ? formData.time
-          : new Date().toLocaleTimeString(),
-        wcagVersion: formData.scanData.wcagVersion.label,
-        day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
-        bestPractices: formData.scanData.bestPractices,
-        needsReview: formData.scanData.needsReview
-      }
-    );
+    logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
+      actionType: 'Scan changes',
+      action: 'Cancel Scan',
+      scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+      scanTime: recurringStatus
+        ? formData.time
+        : new Date().toLocaleTimeString(),
+      wcagVersion: formData.scanData.wcagVersion.label,
+      day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
+      bestPractices: formData.scanData.bestPractices,
+      needsReview: formData.scanData.needsReview
+    });
     handlerCloseOver();
   };
 
@@ -150,7 +144,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     </div>
   );
   return (
-    <div>
+    <div className="relative z-10">
       <Slideover
         show={show}
         slideoverWidth="max-w-screen-md w-screen overflow-y"

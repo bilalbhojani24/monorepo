@@ -25,6 +25,10 @@ const defaultConfig = {
           importStatement={"import Button from 'bifrost/Button'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=5108-71365&t=pdW8TqWMUZrVSu5l-0'
     }
   },
   argTypes: {
@@ -89,7 +93,6 @@ const defaultConfig = {
 };
 
 const buttonText = 'Button';
-const loadingText = 'Loading...';
 
 const Template = (args) => {
   const { isIconOnlyButton } = args;
