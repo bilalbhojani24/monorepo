@@ -172,7 +172,7 @@ export default function SiteScanner() {
     setShowNewScan(false);
   };
 
-  const getRunTypeBadge = (recurring, active, onDemandCount) => {
+  const getRunTypeBadge = (recurring, active, onDemandCount = 0) => {
     if (recurring && active) {
       return (
         <Badge
@@ -534,7 +534,7 @@ export default function SiteScanner() {
                     {getRunTypeBadge(
                       row.recurring,
                       row.active,
-                      row.onDemandCount
+                      row?.onDemandCount
                     )}
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
