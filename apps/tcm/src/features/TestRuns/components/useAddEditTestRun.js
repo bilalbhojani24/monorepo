@@ -213,8 +213,11 @@ const useAddEditTestRun = () => {
   };
 
   const createTestRunHandler = () => {
-    if (!testRunFormData.test_run.name) {
+    if (!testRunFormData.test_run.name.trim()) {
       setInputError(true);
+      dispatch(
+        updateTestRunFormData({ key: 'test_run', innerKey: 'name', value: '' })
+      );
     } else if (isEditing) {
       dispatch(
         logEventHelper('TM_UpdateTrCtaClicked', {
