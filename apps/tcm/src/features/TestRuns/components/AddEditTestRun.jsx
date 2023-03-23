@@ -109,7 +109,7 @@ const AddEditTestRun = ({ isEdit }) => {
               <TMInputField
                 value={testRunFormData?.test_run?.name}
                 id="test-run-name"
-                errorText={inputError ? "This field can't be left empty" : ''}
+                errorText={inputError ? 'This is a required field' : ''}
                 label="Test Run Name*"
                 ref={focusRef}
                 placeholder="Enter test run name"

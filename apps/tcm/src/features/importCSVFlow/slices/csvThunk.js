@@ -49,6 +49,10 @@ const removeAddValues = (valueMappings) =>
     return { ...obj, [key]: valueMappings[key] };
   }, {});
 
+// const addCustomToFieldMappings = (fieldMappings) => {
+//   console.log('field mappings', fieldMappings);
+// };
+
 export const setCSVConfigurations = () => async (dispatch) => {
   try {
     const response = await getCSVConfigurations();
@@ -124,11 +128,13 @@ export const setValueMappingsThunk =
 export const submitMappingData =
   ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
   async (dispatch) => {
-    dispatch(submitMappingDataPending());
     const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
+    // const customAddedFieldMappings = addCustomToFieldMappings(
+    //   filteredFieldMappings
+    // );
     const filteredValueMappings = removeIgnoredValues(valueMappings);
     const overFilteredValueMappings = removeAddValues(filteredValueMappings); // remove Add Values.
-
+    dispatch(submitMappingDataPending());
     try {
       const response = await postMappingData({
         importId,
