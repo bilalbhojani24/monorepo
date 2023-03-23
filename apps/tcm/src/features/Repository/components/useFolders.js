@@ -13,7 +13,6 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
-import { requestedSteps } from '../const/unsavedConst';
 import {
   setAllFolders,
   setFolderModalConf,
@@ -28,7 +27,7 @@ import useAddEditTestCase from './useAddEditTestCase';
 import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useFolders() {
-  const { isOkToExitForm } = useUnsavedChanges();
+  const { unsavedFormConfirmation } = useUnsavedChanges();
   const [isMoveToRootAvailable, setMoveToRoot] = useState(false);
   const [searchParams] = useSearchParams();
   const { showTestCaseAdditionPage, hideTestCaseAddEditPage } =
@@ -70,18 +69,20 @@ export default function useFolders() {
   };
 
   const showAddFolderModal = (isEmptyClick) => {
-    dispatch(
-      logEventHelper(
-        isEmptyClick
-          ? 'TM_CreateFolderBtnClickedEmptyPrj'
-          : 'TM_CreateFolderIconClicked',
-        {
-          project_id: projectId
-        }
-      )
-    );
-    closeTCDetailsSlide();
-    dispatch(setFolderModalConf({ modal: addFolderModalKey }));
+    unsavedFormConfirmation(false, () => {
+      dispatch(
+        logEventHelper(
+          isEmptyClick
+            ? 'TM_CreateFolderBtnClickedEmptyPrj'
+            : 'TM_CreateFolderIconClicked',
+          {
+            project_id: projectId
+          }
+        )
+      );
+      closeTCDetailsSlide();
+      dispatch(setFolderModalConf({ modal: addFolderModalKey }));
+    });
   };
 
   const mapFolderAncestorHelper = (ancestorsArray) => {
@@ -191,77 +192,74 @@ export default function useFolders() {
   };
 
   const updateRouteHelper = (selectedFolder) => {
-    const route = routeFormatter(AppRoute.TEST_CASES, {
-      projectId,
-      folderId: selectedFolder.id
+    unsavedFormConfirmation(false, () => {
+      const route = routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId: selectedFolder.id
+      });
+
+      closeTCDetailsSlide();
+      dispatch(
+        logEventHelper('TM_FolderClicked', {
+          project_id: projectId,
+          folder_id: selectedFolder.id
+        })
+      );
+
+      navigate(route);
     });
-    if (
-      !isOkToExitForm(false, {
-        key: requestedSteps.ROUTE,
-        value: route
-      })
-    )
-      return;
-
-    closeTCDetailsSlide();
-    dispatch(
-      logEventHelper('TM_FolderClicked', {
-        project_id: projectId,
-        folder_id: selectedFolder.id
-      })
-    );
-
-    navigate(route);
   };
 
   const folderActionsHandler = ({ folder, selectedOption }) => {
     if (selectedOption?.id) {
-      const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
+      unsavedFormConfirmation(false, () => {
+        const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
 
-      closeTCDetailsSlide();
-      dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
-      switch (selectedOption.id) {
-        case folderDropOptions[1].id: // sub folder
-          dispatch(
-            logEventHelper('TM_CreateFolderMenuLinkClicked', {
-              project_id: projectId,
-              folder_id: folder?.id
-            })
-          );
-          break;
-        case folderDropOptions[2].id: // move folder
-          dispatch(
-            logEventHelper('TM_MoveFolderMenuLinkClicked', {
-              project_id: projectId,
-              folder_id: folder?.id
-            })
-          );
-          break;
-        case folderDropOptions[3].id: // edit folder
-          dispatch(
-            logEventHelper('TM_EditFolderMenuLinkClicked', {
-              project_id: projectId,
-              folder_id: folder?.id
-            })
-          );
-          break;
-        case folderDropOptions[4].id: // delete folder
-          dispatch(
-            logEventHelper('TM_DeleteFolderMenuLinkClicked', {
-              project_id: projectId,
-              folder_id: folder?.id
-            })
-          );
-          break;
+        closeTCDetailsSlide();
+        dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
+        switch (selectedOption.id) {
+          case folderDropOptions[1].id: // sub folder
+            dispatch(
+              logEventHelper('TM_CreateFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[2].id: // move folder
+            dispatch(
+              logEventHelper('TM_MoveFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[3].id: // edit folder
+            dispatch(
+              logEventHelper('TM_EditFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[4].id: // delete folder
+            dispatch(
+              logEventHelper('TM_DeleteFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
 
-        default:
-          break;
-      }
+          default:
+            break;
+        }
 
-      if (isCreateTestCase) {
-        // create test case
-        showTestCaseAdditionPage(folder, true);
-      } else hideTestCaseAddEditPage();
+        if (isCreateTestCase) {
+          // create test case
+          showTestCaseAdditionPage(folder, true);
+        } else hideTestCaseAddEditPage();
+      });
     }
   };
 

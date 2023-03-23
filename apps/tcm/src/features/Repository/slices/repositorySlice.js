@@ -231,6 +231,7 @@ export const repositorySlice = createSlice({
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
+      if (!payload) state.isUnsavedDataModalVisible = false;
     },
     setUnsavedDataModal: (state, { payload }) => {
       state.isUnsavedDataModalVisible = payload;
