@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 const DatepickerLabel = ({ children, wrapperClassName }) => (
   <div className={wrapperClassName}>
-    <span className="text-base-800 text-sm">{children}</span>
+    <span className="text-base-700 text-sm font-medium leading-5">
+      {children}
+    </span>
   </div>
 );
 

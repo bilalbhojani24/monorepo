@@ -16,7 +16,7 @@ export function CalendarButton(props) {
       ref={ref}
       className={twClassNames('rounded-full p-2 outline-none', {
         'text-base-400': isDisabled,
-        'hover:bg-brand-100 active:bg-brand-200': !isDisabled,
+        'hover:bg-base-100 active:bg-base-200': !isDisabled,
         'ring-brand-600 ring-2 ring-offset-2': isFocusVisible
       })}
     >

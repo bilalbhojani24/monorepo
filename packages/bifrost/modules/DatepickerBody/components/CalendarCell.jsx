@@ -9,7 +9,16 @@ import { twClassNames } from '@browserstack/utils';
 import { getDayOfWeek, isSameDay } from '@internationalized/date';
 import Proptypes from 'prop-types';
 
-export function CalendarCell({ state, date }) {
+export function CalendarCell({
+  state,
+  date,
+  borderRadiusTopLeft,
+  borderRadiusBottomLeft,
+  borderRadiusTopRight,
+  borderRadiusBottomRight,
+  borderTop,
+  borderLeft
+}) {
   const ref = useRef();
   const {
     cellProps,
@@ -44,7 +53,7 @@ export function CalendarCell({ state, date }) {
   return (
     <td
       {...cellProps}
-      className={twClassNames('relative py-0.5', {
+      className={twClassNames('relative', {
         'z-10': isFocusVisible,
         'z-0': !isFocusVisible
       })}
@@ -52,49 +61,77 @@ export function CalendarCell({ state, date }) {
       <div
         {...mergeProps(buttonProps, focusProps)}
         ref={ref}
-        hidden={isOutsideVisibleRange}
         className={twClassNames('group h-10 w-10 outline-none', {
           disabled: isDisabled,
           'rounded-l-full': isRoundedLeft,
-          'rounded-r-full': isRoundedRight,
-          'bg-brand-300': isSelected,
-          'bg-danger-300': isSelected && isInvalid
+          'rounded-r-full': isRoundedRight
+
+          // selected state
+          // 'bg-brand-300': isSelected,
+          // 'bg-danger-300': isSelected && isInvalid
         })}
       >
         <div
           className={twClassNames(
-            'flex h-full w-full items-center justify-center rounded-full cursor-default',
+            'border-base-300 h-10 w-14 border-b border-r flex flex-col justify-around',
             {
-              'text-base-400': isDisabled && !isInvalid,
+              'rounded-tl-2xl': borderRadiusTopLeft,
+              'rounded-bl-2xl': borderRadiusBottomLeft,
+              'rounded-tr-2xl': borderRadiusTopRight,
+              'rounded-br-2xl': borderRadiusBottomRight,
 
-              // Focus ring, visible while the cell has keyboard focus.
-              'group-focus:z-2 ring-brand-600 ring-2 ring-offset-2':
-                isFocusVisible,
-
-              // Darker selection background for the start and end.
-              'bg-brand-600 hover:bg-brand-700 text-white':
-                isSelectionStart || isSelectionEnd,
-              'bg-danger-600 hover:bg-danger-700 text-white':
-                (isSelectionStart || isSelectionEnd) && isInvalid,
-
-              // Hover state for cells in the middle of the range.
-              'hover:bg-danger-400':
-                isSelected &&
-                !isDisabled &&
-                !(isSelectionStart || isSelectionEnd) &&
-                isInvalid,
-              'hover:bg-brand-400':
-                isSelected &&
-                !isDisabled &&
-                !(isSelectionStart || isSelectionEnd) &&
-                !isInvalid,
-
-              // Hover state for non-selected cells.
-              'hover:bg-brand-100': !isSelected && !isDisabled
+              'border-t': borderTop,
+              'border-l': borderLeft
             }
           )}
         >
-          {formattedDate}
+          <div
+            className={twClassNames(
+              'flex h-full w-full items-center justify-center bg-white cursor-pointer',
+              {
+                // border radius for the edge cells
+                'rounded-tl-2xl': borderRadiusTopLeft,
+                'rounded-bl-2xl': borderRadiusBottomLeft,
+                'rounded-tr-2xl': borderRadiusTopRight,
+                'rounded-br-2xl': borderRadiusBottomRight,
+
+                'text-base-400': isDisabled && !isInvalid,
+
+                // Focus ring, visible while the cell has keyboard focus.
+                'group-focus:z-2 ring-brand-600 ring-2 ring-offset-2':
+                  isFocusVisible,
+
+                // dates outside of current month
+                'bg-base-100 cursor-not-allowed text-base-900':
+                  isOutsideVisibleRange,
+
+                // Darker selection background for the start and end.
+                // selected state for picking single date
+                'bg-base-900 text-white rounded-full font-semibold w-7 h-7 mx-auto rounded-full':
+                  isSelectionStart || isSelectionEnd,
+                'bg-danger-600 hover:bg-danger-700 text-white font-semibold w-7 h-7 mx-auto rounded-full':
+                  (isSelectionStart || isSelectionEnd) && isInvalid,
+
+                // Hover state for cells in the middle of the range.
+                'hover:bg-danger-400':
+                  isSelected &&
+                  !isDisabled &&
+                  !(isSelectionStart || isSelectionEnd) &&
+                  isInvalid,
+                'hover:bg-brand-400':
+                  isSelected &&
+                  !isDisabled &&
+                  !(isSelectionStart || isSelectionEnd) &&
+                  !isInvalid,
+
+                // Hover state for non-selected cells.
+                'hover:bg-base-100 w-7 h-7 mx-auto rounded-full':
+                  !isSelected && !isDisabled
+              }
+            )}
+          >
+            {formattedDate}
+          </div>
         </div>
       </div>
     </td>
@@ -113,10 +150,22 @@ CalendarCell.propTypes = {
     calendar: Proptypes.shape({
       getDaysInMonth: Proptypes.func
     })
-  })
+  }),
+  borderRadiusTopLeft: Proptypes.bool,
+  borderRadiusBottomLeft: Proptypes.bool,
+  borderRadiusTopRight: Proptypes.bool,
+  borderRadiusBottomRight: Proptypes.bool,
+  borderTop: Proptypes.bool,
+  borderLeft: Proptypes.bool
 };
 
 CalendarCell.defaultProps = {
   state: {},
-  date: {}
+  date: {},
+  borderRadiusTopLeft: false,
+  borderRadiusBottomLeft: false,
+  borderRadiusTopRight: false,
+  borderRadiusBottomRight: false,
+  borderTop: false,
+  borderLeft: false
 };

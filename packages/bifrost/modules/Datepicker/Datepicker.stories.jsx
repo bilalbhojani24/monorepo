@@ -19,7 +19,7 @@ const defaultConfig = {
   },
   argTypes: {
     label: {
-      defaultValue: 'hello'
+      defaultValue: 'Due Date'
     },
     onChange: {
       defaultValue: () => {}

@@ -16,7 +16,7 @@ export function DateField(props) {
   const { fieldProps } = useDateField(props, state, ref);
 
   return (
-    <div {...fieldProps} ref={ref} className="flex">
+    <div {...fieldProps} ref={ref} className="flex w-full items-center">
       {state.segments.map((segment, i) => (
         <DateSegment key={`${i + 1}`} segment={segment} state={state} />
       ))}
@@ -32,28 +32,21 @@ function DateSegment({ segment, state }) {
     <div
       {...segmentProps}
       ref={ref}
-      style={{
-        ...segmentProps.style,
-        minWidth:
-          segment.maxValue != null && `${String(segment.maxValue).length}ch`
-      }}
-      className={`focus:bg-brand-600 group box-content rounded-sm px-0.5 text-right tabular-nums outline-none focus:text-white ${
-        !segment.isEditable ? 'text-base-500' : 'text-base-800'
-      }`}
+      className="focus:bg-brand-200 group w-fit rounded-sm outline-none focus:text-white"
     >
       {/* Always reserve space for the placeholder, to prevent layout shift when editing. */}
-      <span
-        aria-hidden="true"
-        className="text-base-500 block w-full text-center italic group-focus:text-white"
-        style={{
-          visibility: segment.isPlaceholder ? '' : 'hidden',
-          height: segment.isPlaceholder ? '' : 0,
-          pointerEvents: 'none'
-        }}
-      >
-        {segment.placeholder}
-      </span>
-      {segment.isPlaceholder ? '' : segment.text}
+      {segment.isPlaceholder ? (
+        <span
+          aria-hidden="true"
+          className="text-base-900 pointer-events-none block w-full text-sm font-normal leading-5"
+        >
+          {segment.placeholder}
+        </span>
+      ) : (
+        <span className="text-base-900 m-0 block w-fit text-sm font-normal leading-5">
+          {segment.text}
+        </span>
+      )}
     </div>
   );
 }

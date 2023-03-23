@@ -6,7 +6,7 @@ export function Popover(props) {
   const ref = useRef(null);
   const { state, children } = props;
 
-  const { popoverProps, underlayProps } = usePopover(
+  const { popoverProps } = usePopover(
     {
       ...props,
       popoverRef: ref
@@ -16,11 +16,11 @@ export function Popover(props) {
 
   return (
     <Overlay>
-      <div {...underlayProps} className="fixed inset-0" />
       <div
         {...popoverProps}
         ref={ref}
-        className="border-base-300 absolute top-full z-10 mt-2 rounded-md border bg-white p-8 shadow-lg"
+        // eslint-disable-next-line tailwindcss/no-arbitrary-value
+        className="border-base-300 top-full z-10 mt-2 w-[26rem] rounded-md border bg-white p-3 shadow-lg"
       >
         <DismissButton onDismiss={state.close} />
         {children}

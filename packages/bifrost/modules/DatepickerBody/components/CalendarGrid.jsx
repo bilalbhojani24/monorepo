@@ -14,17 +14,20 @@ export function CalendarGrid({ state, ...props }) {
 
   return (
     <table {...gridProps} cellPadding="0" className="flex-1">
-      <thead {...headerProps} className="text-base-600">
+      <thead {...headerProps}>
         <tr>
           {weekDays.map((day, index) => (
-            <th className="text-center" key={`${day}-${index + 1}`}>
+            <th
+              className="text-base-500 h-10 w-14 text-center text-sm font-normal leading-5"
+              key={`${day}-${index + 1}`}
+            >
               {day}
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
+        {[...new Array(weeksInMonth + 1).keys()].map((weekIndex) => (
           <tr key={weekIndex}>
             {state
               .getDatesInWeek(weekIndex)
@@ -34,6 +37,16 @@ export function CalendarGrid({ state, ...props }) {
                     key={`${date}-${i + 1}`}
                     state={state}
                     date={date}
+                    borderRadiusTopLeft={weekIndex === 0 && i === 0}
+                    borderRadiusBottomLeft={
+                      weekIndex === weeksInMonth && i === 0
+                    }
+                    borderRadiusTopRight={weekIndex === 0 && i === 6}
+                    borderRadiusBottomRight={
+                      weekIndex === weeksInMonth && i === 6
+                    }
+                    borderTop={weekIndex === 0}
+                    borderLeft={i === 0}
                   />
                 ) : (
                   <td key={`${date}-${i + 1}`} />

@@ -21,12 +21,16 @@ export function Calendar(props) {
     useCalendar(props, state, ref);
 
   return (
-    <div {...calendarProps} ref={ref} className="text-base-800 inline-block">
-      <div className="flex items-center pb-4">
-        <h2 className="ml-2 flex-1 text-xl font-bold">{title}</h2>
+    <div
+      {...calendarProps}
+      ref={ref}
+      className="text-base-800 m-0 inline-block p-0"
+    >
+      <div className="mb-4 flex items-center justify-between">
         <CalendarButton {...prevButtonProps}>
           <ChevronLeftIcon className="h-6 w-6" />
         </CalendarButton>
+        <p className="flex-1 text-center text-base font-bold">{title}</p>
         <CalendarButton {...nextButtonProps}>
           <ChevronRightIcon className="h-6 w-6" />
         </CalendarButton>

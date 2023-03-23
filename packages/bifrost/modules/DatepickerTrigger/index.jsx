@@ -13,12 +13,16 @@ const DatepickerTrigger = ({
   groupProps,
   isOpen
 }) => (
-  <div {...groupProps} ref={triggerRef} className="group flex">
-    <div className="border-base-300 group-hover:border-base-400 group-focus-within:border-brand-600 group-focus-within:group-hover:border-brand-600 relative flex items-center rounded-l-md border bg-white p-1 pr-10 transition-colors">
+  <div
+    {...groupProps}
+    ref={triggerRef}
+    className="border-base-300 hover:border-brand-500 flex w-full rounded-md border"
+  >
+    <div className="relative flex w-full items-center rounded-md rounded-r-none p-1 py-2 pl-3">
       <DateField {...fieldProps} />
     </div>
     <FieldButton {...buttonProps} isPressed={isOpen}>
-      <CalendarIcon className="text-base-700 group-focus-within:text-brand-700 h-5 w-5" />
+      <CalendarIcon className="text-base-400 h-5 w-5" />
     </FieldButton>
   </div>
 );

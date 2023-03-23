@@ -11,11 +11,14 @@ import { Popover } from './components/Popover';
 const DatePickerBody = (props) => {
   const state = useDatePickerState(props);
   const ref = useRef();
-  const { groupProps, fieldProps, buttonProps, dialogProps, calendarProps } =
-    useDatePicker(props, state, ref);
+  const { groupProps, fieldProps, buttonProps, calendarProps } = useDatePicker(
+    props,
+    state,
+    ref
+  );
 
   return (
-    <div className="relative inline-flex flex-col text-left">
+    <div>
       <DatePickerTrigger
         groupProps={groupProps}
         fieldProps={fieldProps}
@@ -25,7 +28,7 @@ const DatePickerBody = (props) => {
       />
       {state.isOpen && (
         <Popover triggerRef={ref} state={state} placement="bottom start">
-          <Dialog {...dialogProps}>
+          <Dialog>
             <Calendar {...calendarProps} />
           </Dialog>
         </Popover>
