@@ -98,7 +98,6 @@ export default function Issues() {
   );
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
-  console.log('halfview', isHalfView, activeComponentId, isShowingIssue);
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
