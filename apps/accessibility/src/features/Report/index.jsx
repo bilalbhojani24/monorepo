@@ -5,7 +5,6 @@ import {
   Badge,
   Breadcrumb,
   Button,
-  Hyperlink,
   MdDownload,
   MdOutlineCalendarToday,
   MdPerson,

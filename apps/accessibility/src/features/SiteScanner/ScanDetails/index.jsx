@@ -23,12 +23,12 @@ import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
+import { toHoursAndMinutes } from '../../../utils/helper';
+import { dayMap } from '../NewScan/constants';
 import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
-import { toHoursAndMinutes } from '../../../utils/helper';
-import { dayMap } from '../NewScan/constants';
 
 export const tabsArray = [
   {
@@ -199,12 +199,14 @@ const ScanDetails = () => {
             />
           </div>
         </div>
-        <div className="pl-6">
+        <div className="border-base-200 border-b  pl-6">
           <Tabs
             defaultIndex={activeTabIndex}
             id="menu"
             onTabChange={tabChangeHandler}
             tabsArray={tabsArray}
+            isFullWidth={false}
+            disableFullWidthBorder
           />
         </div>
       </div>
