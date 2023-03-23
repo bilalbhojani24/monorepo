@@ -58,40 +58,42 @@ export default function TrendsCard({
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="flex flex-col">
-        {!isEmpty(chartData.insights) && (
-          <div className="flex flex-col">
-            {chartData?.insights?.count !== undefined && (
-              <>
-                <p className="text-base-500 text-sm font-medium">Total</p>
-                <div className="flex">
-                  <p className="pr-2 pb-0 text-3xl font-semibold">
-                    {config?.abbrNumber
-                      ? abbrNumber(chartData?.insights?.count)
-                      : chartData?.insights?.count}
-                    {insightsSuffix}
-                  </p>
-                  {(!!chartData?.insights?.meta || !!config.metaText) && (
-                    <p className="text-base-500 self-end pb-1 text-sm font-medium">
-                      {chartData?.insights?.meta || config.metaText}
+      {!isLoading && (
+        <div className="flex flex-col">
+          {!isEmpty(chartData.insights) && (
+            <div className="flex flex-col">
+              {chartData?.insights?.count !== undefined && (
+                <>
+                  <p className="text-base-500 text-sm font-medium">Total</p>
+                  <div className="flex">
+                    <p className="pr-2 pb-0 text-3xl font-semibold">
+                      {config?.abbrNumber
+                        ? abbrNumber(chartData?.insights?.count)
+                        : chartData?.insights?.count}
+                      {insightsSuffix}
                     </p>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        )}
-        {!isEmpty(chartData.data) && (
-          <div className={twClassNames('pt-2 pb-2 h-80')}>
-            <TrendsGenericChart
-              data={chartData.data}
-              config={config}
-              chartType={chartType}
-              seriesOptions={seriesOptions}
-            />
-          </div>
-        )}
-      </div>
+                    {(!!chartData?.insights?.meta || !!config.metaText) && (
+                      <p className="text-base-500 self-end pb-1 text-sm font-medium">
+                        {chartData?.insights?.meta || config.metaText}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+          {!isEmpty(chartData.data) && (
+            <div className={twClassNames('pt-2 pb-2 h-80')}>
+              <TrendsGenericChart
+                data={chartData.data}
+                config={config}
+                chartType={chartType}
+                seriesOptions={seriesOptions}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

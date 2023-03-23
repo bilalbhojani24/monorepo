@@ -79,25 +79,26 @@ export default function BuildRunFreqTrend() {
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="h-96 flex-1">
-        <VirtualisedTable
-          data={buildData?.data}
-          // endReached={loadMoreRows}
-          showFixedFooter={isAtBottom}
-          tableRowWrapperClassName="shadow-none"
-          customScrollParent={containerRef.current}
-          itemContent={(index, singleBuildData) => (
-            <BuildRunsList item={singleBuildData} maxRunCount={maxRunCount} />
-          )}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              <O11yTableCell>BUILD NAME</O11yTableCell>
-              <O11yTableCell>RUNS</O11yTableCell>
-            </O11yTableRow>
-          )}
-          handleRowClick={handleBottomChange}
-        />
-      </div>
+      {!isLoading && (
+        <div className="h-96 flex-1">
+          <VirtualisedTable
+            data={buildData?.data}
+            showFixedFooter={isAtBottom}
+            tableRowWrapperClassName="shadow-none"
+            customScrollParent={containerRef.current}
+            itemContent={(index, singleBuildData) => (
+              <BuildRunsList item={singleBuildData} maxRunCount={maxRunCount} />
+            )}
+            fixedHeaderContent={() => (
+              <O11yTableRow>
+                <O11yTableCell>BUILD NAME</O11yTableCell>
+                <O11yTableCell>RUNS</O11yTableCell>
+              </O11yTableRow>
+            )}
+            handleRowClick={handleBottomChange}
+          />
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

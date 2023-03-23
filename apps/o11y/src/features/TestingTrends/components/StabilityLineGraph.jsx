@@ -4,7 +4,7 @@ import TrendsGenericChart from 'features/TestingTrends/components/TrendsGenericC
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendStabilityChartData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
@@ -12,7 +12,7 @@ import { logOllyEvent } from 'utils/common';
 export default function StabilityLineGraph({ buildId }) {
   const [chartData, setChartData] = useState({});
   const dispatch = useDispatch();
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const filters = useSelector(getAllTTFilters);
@@ -22,7 +22,7 @@ export default function StabilityLineGraph({ buildId }) {
     setHasError(false);
     dispatch(
       getTrendStabilityChartData({
-        normalisedName: projects.active?.normalisedName,
+        normalisedName: activeProject?.normalisedName,
         buildId,
         filters
       })
@@ -37,13 +37,13 @@ export default function StabilityLineGraph({ buildId }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [buildId, dispatch, projects.active?.normalisedName, filters]);
+  }, [buildId, dispatch, activeProject?.normalisedName, filters]);
 
   useEffect(() => {
-    if (projects.active?.normalisedName && buildId) {
+    if (activeProject?.normalisedName && buildId) {
       fetchData();
     }
-  }, [buildId, fetchData, projects.active?.normalisedName]);
+  }, [buildId, fetchData, activeProject?.normalisedName]);
 
   return (
     <TrendStatesWrapper
@@ -52,31 +52,33 @@ export default function StabilityLineGraph({ buildId }) {
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="h-96">
-        {!isEmpty(chartData.data) && (
-          <TrendsGenericChart
-            data={chartData.data}
-            config={{
-              median: chartData?.median,
-              showTrendLine: true,
-              fixedToTwoDigits: true,
-              pointClickCb: () =>
-                logOllyEvent({
-                  event: 'O11yTestingTrendsInteracted',
-                  data: {
-                    project_name: projects.active.name,
-                    project_id: projects.active.id,
-                    interaction: 'stability_clicked'
-                  }
-                })
-            }}
-            seriesOptions={{
-              id: 'stabilityChart',
-              name: 'Stability'
-            }}
-          />
-        )}
-      </div>
+      {!isLoading && (
+        <div className="h-96">
+          {!isEmpty(chartData.data) && (
+            <TrendsGenericChart
+              data={chartData.data}
+              config={{
+                median: chartData?.median,
+                showTrendLine: true,
+                fixedToTwoDigits: true,
+                pointClickCb: () =>
+                  logOllyEvent({
+                    event: 'O11yTestingTrendsInteracted',
+                    data: {
+                      project_name: activeProject.name,
+                      project_id: activeProject.id,
+                      interaction: 'stability_clicked'
+                    }
+                  })
+              }}
+              seriesOptions={{
+                id: 'stabilityChart',
+                name: 'Stability'
+              }}
+            />
+          )}
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

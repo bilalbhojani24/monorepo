@@ -149,28 +149,30 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
       hasError={hasError}
       onClickCTA={loadInitialData}
     >
-      <div className="flex h-96 flex-col">
-        <VirtualisedTable
-          data={performanceData?.data}
-          endReached={loadMoreRows}
-          overscan={100}
-          showFixedFooter={isLoadingMore}
-          itemContent={(index, singleBuildData) => (
-            <PerformanceTableItem
-              item={singleBuildData}
-              selectedBuild={selectedBuild}
-            />
-          )}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              <O11yTableCell>BUILD NAME</O11yTableCell>
-              <O11yTableCell>TESTS</O11yTableCell>
-              <O11yTableCell>AVG. DURATION</O11yTableCell>
-            </O11yTableRow>
-          )}
-          handleRowClick={handleClickBuildItem}
-        />
-      </div>
+      {!isLoading && (
+        <div className="flex h-96 flex-col">
+          <VirtualisedTable
+            data={performanceData?.data}
+            endReached={loadMoreRows}
+            overscan={100}
+            showFixedFooter={isLoadingMore}
+            itemContent={(index, singleBuildData) => (
+              <PerformanceTableItem
+                item={singleBuildData}
+                selectedBuild={selectedBuild}
+              />
+            )}
+            fixedHeaderContent={() => (
+              <O11yTableRow>
+                <O11yTableCell>BUILD NAME</O11yTableCell>
+                <O11yTableCell>TESTS</O11yTableCell>
+                <O11yTableCell>AVG. DURATION</O11yTableCell>
+              </O11yTableRow>
+            )}
+            handleRowClick={handleClickBuildItem}
+          />
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

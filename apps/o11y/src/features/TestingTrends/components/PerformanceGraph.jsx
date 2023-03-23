@@ -220,12 +220,14 @@ export default function PerformanceGraph({ buildId }) {
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="h-96">
-        <Chart
-          options={options}
-          key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
-        />
-      </div>
+      {!isLoading && (
+        <div className="h-96">
+          <Chart
+            options={options}
+            key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
+          />
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

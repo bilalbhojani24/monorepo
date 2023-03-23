@@ -195,43 +195,45 @@ export default function CbtTrends() {
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="flex h-full flex-col">
-        <div className="grid h-96 flex-1 grid-cols-2 gap-8">
-          {!!chartData.data?.length && (
-            <Chart options={getOptions} chartRef={chart} />
-          )}
-          <div className="h-96 overflow-y-auto p-3">
-            {activeSeriesData.map((item, idx) => (
-              <div
-                className={classNames(
-                  'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-1 text-[#333333] border-b border-[#EEEEEE] last:border-b-0',
-                  {
-                    '[&:not(:last-child)]:border': !item.drilldown
-                  }
-                )}
-                key={item.name}
-                role="button"
-                tabIndex={0}
-                onKeyDown={() => {
-                  handleDrillDown(item, idx);
-                }}
-                onClick={() => {
-                  handleDrillDown(item, idx);
-                }}
-              >
-                <p className="flex items-start">
-                  <span
-                    className="mr-2 mt-1 inline-block h-2 w-2 rounded"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span>{item.name}</span>
-                </p>
-                <p className="font-medium">{item.percentage}%</p>
-              </div>
-            ))}
+      {!isLoading && (
+        <div className="flex h-full flex-col">
+          <div className="grid h-96 flex-1 grid-cols-2 gap-8">
+            {!!chartData.data?.length && (
+              <Chart options={getOptions} chartRef={chart} />
+            )}
+            <div className="h-96 overflow-y-auto p-3">
+              {activeSeriesData.map((item, idx) => (
+                <div
+                  className={classNames(
+                    'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-1 text-[#333333] border-b border-[#EEEEEE] last:border-b-0',
+                    {
+                      '[&:not(:last-child)]:border': !item.drilldown
+                    }
+                  )}
+                  key={item.name}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={() => {
+                    handleDrillDown(item, idx);
+                  }}
+                  onClick={() => {
+                    handleDrillDown(item, idx);
+                  }}
+                >
+                  <p className="flex items-start">
+                    <span
+                      className="mr-2 mt-1 inline-block h-2 w-2 rounded"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span>{item.name}</span>
+                  </p>
+                  <p className="font-medium">{item.percentage}%</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </TrendStatesWrapper>
   );
 }

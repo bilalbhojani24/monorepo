@@ -155,17 +155,19 @@ export default function FailureCategoryTrend() {
       hasError={hasError}
       onClickCTA={fetchData}
     >
-      <div className="flex h-full flex-col">
-        {chartData?.percentage !== undefined && (
-          <p className="">{chartData?.percentage}%</p>
-        )}
-        <div className="h-96">
-          <Chart
-            options={options}
-            key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
-          />
+      {!isLoading && (
+        <div className="flex h-full flex-col">
+          {chartData?.percentage !== undefined && (
+            <p className="">{chartData?.percentage}%</p>
+          )}
+          <div className="h-96">
+            <Chart
+              options={options}
+              key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </TrendStatesWrapper>
   );
 }

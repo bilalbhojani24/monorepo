@@ -154,7 +154,7 @@ export default function TestingTrends() {
         return (
           <div className="flex h-full flex-col">
             <p className="text-lg font-semibold">{TREND_CARDS[key].title}</p>
-            <div className="flex flex-1 items-center justify-center">
+            <div className="flex h-80 flex-1 items-center justify-center">
               <PlaceHolder type="empty" text="No data found" />
             </div>
           </div>
@@ -205,7 +205,6 @@ export default function TestingTrends() {
                   size: 'xs',
                   theme: 'dark'
                 }}
-                isLoading
                 filterDropdown={
                   <Button
                     colors="white"

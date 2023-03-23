@@ -6,6 +6,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader/components/O11yLoader';
+import { API_STATUSES } from 'constants/common';
 import PropTypes from 'prop-types';
 
 export default function PlaceHolder({
@@ -17,18 +18,24 @@ export default function PlaceHolder({
   onClickCTA
 }) {
   return (
-    <div className="flex flex-col items-center py-0 px-5">
-      {type === 'error' && (
-        <div className="h-28 w-28 rounded-full">
-          <MdOutlineErrorOutline className="text-danger-300 bg-danger-100 ml-2 h-16 w-16" />{' '}
+    <div className="mt-5 flex h-full flex-col items-center justify-center py-0 px-5">
+      {type === API_STATUSES.ERROR && (
+        <div className="bg-danger-100 flex h-28 w-28 items-center justify-center rounded-full">
+          <MdOutlineErrorOutline className="text-danger-300 h-16 w-16" />{' '}
         </div>
       )}
-      {type === 'empty' && (
-        <div className="h-28 w-28 rounded-full">
-          <MdBarChart className="text-base-300 bg-base-100 ml-2 h-24 w-24" />{' '}
+      {type === API_STATUSES.EMPTY && (
+        <div className="bg-base-100 flex h-28 w-28 items-center justify-center rounded-full">
+          <MdBarChart className="text-base-300 h-16 w-16" />{' '}
         </div>
       )}
-      {type === 'loading' && <O11yLoader text="Fetching data" />}
+      {type === API_STATUSES.LOADING && (
+        <O11yLoader
+          text="Fetching data"
+          wrapperClassName="py-6"
+          loaderClass="text-base-200 fill-base-400 w-8 h-8"
+        />
+      )}
       {!!illustration && (
         <>
           {React.cloneElement(illustration, {
@@ -45,11 +52,11 @@ export default function PlaceHolder({
         {ctaText && (
           <Button
             onClick={onClickCTA}
-            size="small"
-            text={ctaText}
-            type="subtle"
-            className="mt-1"
-          />
+            ariaLabel={ctaText}
+            wrapperClassName="mt-1"
+          >
+            {ctaText}
+          </Button>
         )}
       </div>
     </div>

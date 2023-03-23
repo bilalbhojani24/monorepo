@@ -114,19 +114,21 @@ export default function UniqueBuildRuns() {
       hasError={hasError}
       onClickCTA={() => fetchData({})}
     >
-      <div className="relative flex h-full flex-col px-5 pt-5 pb-0">
-        {!!builds?.data?.length && (
-          <UniqueBuildRunsList
-            handleBottomChange={handleBottomChange}
-            builds={builds}
-            loadMoreRows={loadMoreRows}
-            isLoadingMore={isLoadingMore}
-          />
-        )}
-        {!isAtBottom && (
-          <div className="absolute bottom-0 left-0 m-0 w-full py-2 px-0 text-center" />
-        )}
-      </div>
+      {!isLoading && (
+        <div className="relative flex h-full flex-col px-5 pt-5 pb-0">
+          {!!builds?.data?.length && (
+            <UniqueBuildRunsList
+              handleBottomChange={handleBottomChange}
+              builds={builds}
+              loadMoreRows={loadMoreRows}
+              isLoadingMore={isLoadingMore}
+            />
+          )}
+          {!isAtBottom && (
+            <div className="absolute bottom-0 left-0 m-0 w-full py-2 px-0 text-center" />
+          )}
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

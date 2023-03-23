@@ -11,7 +11,7 @@ export default function TrendStatesWrapper({
 }) {
   if (!isLoading && hasError) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-80 flex-col">
         <div className="">
           <PlaceHolder
             type="error"
@@ -26,7 +26,7 @@ export default function TrendStatesWrapper({
 
   if (isEmpty && !isLoading) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-80 flex-col">
         <div className="flex flex-1 items-center justify-center">
           <PlaceHolder type="empty" text="No data found" />
         </div>
@@ -34,7 +34,7 @@ export default function TrendStatesWrapper({
     );
   }
   return (
-    <div className="relative h-full">
+    <div className="relative h-80">
       {children}
       {isLoading && (
         <div className="top-0 z-10 flex h-full w-full items-center justify-center bg-white opacity-70">
