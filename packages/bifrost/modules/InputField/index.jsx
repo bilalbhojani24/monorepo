@@ -9,6 +9,8 @@ const InputField = forwardRef(
     {
       addOnBefore,
       addOnAfter,
+      addOnAfterInline,
+      addOnBeforeInline,
       autoComplete,
       cornerHintText,
       defaultValue,
@@ -20,7 +22,6 @@ const InputField = forwardRef(
       isTrailingNodeClickable,
       isMandatory,
       label,
-      leadingIcon,
       onBlur,
       onChange,
       onKeyDown,
@@ -28,7 +29,6 @@ const InputField = forwardRef(
       placeholder,
       readonly,
       type,
-      trailingIcon,
       value,
       wrapperClassName,
       leadingIconWrapperClassName,
@@ -71,9 +71,9 @@ const InputField = forwardRef(
             wrapperClassName
           )}
         >
-          {leadingIcon && (
+          {addOnBeforeInline && (
             <div className={twClassNames('pl-3', leadingIconWrapperClassName)}>
-              {leadingIcon}
+              {addOnBeforeInline}
             </div>
           )}
           <input
@@ -103,7 +103,7 @@ const InputField = forwardRef(
             autoComplete={autoComplete}
           />
 
-          {(trailingIcon || errorText) && (
+          {(addOnAfterInline || errorText) && (
             <div
               className={twClassNames(
                 'flex items-center pr-3 gap-1',
@@ -113,13 +113,13 @@ const InputField = forwardRef(
                 trailingIconWrapperClassName
               )}
             >
-              {trailingIcon}
               {errorText && (
                 <ExclamationCircleIcon
                   className="text-danger-500 h-5 w-5"
                   aria-hidden="true"
                 />
               )}
+              {addOnAfterInline}
             </div>
           )}
         </div>
@@ -139,6 +139,10 @@ const InputField = forwardRef(
 
 InputField.propTypes = {
   autoComplete: PropTypes.string,
+  addOnBefore: PropTypes.node,
+  addOnAfter: PropTypes.node,
+  addOnBeforeInline: PropTypes.node,
+  addOnAfterInline: PropTypes.node,
   cornerHintText: PropTypes.string,
   defaultValue: PropTypes.string,
   description: PropTypes.string,
@@ -152,10 +156,6 @@ InputField.propTypes = {
   isTrailingNodeClickable: PropTypes.bool,
   isMandatory: PropTypes.bool,
   label: PropTypes.string,
-  leadingIcon: PropTypes.node,
-  trailingIcon: PropTypes.node,
-  addOnBefore: PropTypes.node,
-  addOnAfter: PropTypes.node,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
@@ -171,6 +171,8 @@ InputField.propTypes = {
 
 InputField.defaultProps = {
   autoComplete: 'off',
+  addOnBeforeInline: null,
+  addOnAfterInline: null,
   cornerHintText: '',
   defaultValue: undefined,
   description: '',
@@ -180,8 +182,6 @@ InputField.defaultProps = {
   isTrailingNodeClickable: false,
   isMandatory: false,
   label: '',
-  leadingIcon: null,
-  trailingIcon: null,
   addOnBefore: null,
   addOnAfter: null,
   onBlur: () => {},

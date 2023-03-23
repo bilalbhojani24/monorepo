@@ -85,13 +85,13 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       control: { type: null }
     },
-    leadingIcon: {
+    addOnBeforeInline: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: null },
       defaultValue: null
     },
-    trailingIcon: {
+    addOnAfterInline: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       //   control: { type: null },
@@ -233,13 +233,13 @@ InputWithCornerHint.args = {
 InputWithLeadingIcon.args = {
   label: 'Email',
   placeholder: emailText,
-  leadingIcon: <EnvelopeIcon className="text-base-400 h-5 w-5" />
+  addOnBeforeInline: <EnvelopeIcon className="text-base-400 h-5 w-5" />
 };
 
 InputWithTrailingIcon.args = {
   label: 'Account number',
   placeholder: '000-00-0000',
-  trailingIcon: <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
+  addOnAfterInline: <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
 };
 
 InputWithAddOn.args = {
@@ -253,7 +253,7 @@ InputWithAddOn.args = {
 InputWithAddOnInline.args = {
   label: 'Company Website',
   placeholder: 'www.example.com',
-  leadingIcon: <p className="text-base-500 flex items-center">http://</p>
+  addOnBeforeInline: <p className="text-base-500 flex items-center">http://</p>
 };
 
 InputWithInlineTrailingLeading.args = {
@@ -261,8 +261,8 @@ InputWithInlineTrailingLeading.args = {
   type: 'number',
 
   placeholder: '0.00',
-  leadingIcon: <span className="text-base-500">$</span>,
-  trailingIcon: <span className="text-base-500">USD</span>
+  addOnBeforeInline: <span className="text-base-500">$</span>,
+  addOnAfterInline: <span className="text-base-500">USD</span>
 };
 
 const options = [
@@ -285,7 +285,7 @@ InputWithInlineLeadingDropdown.args = {
   label: 'Phone Number',
   placeholder: '+1 (555) 987-6543',
   leadingIconWrapperClassName: 'pl-0',
-  leadingIcon: (
+  addOnBeforeInline: (
     <SelectMenu>
       <SelectMenuTrigger
         placeholder="Select.."
@@ -304,9 +304,9 @@ InputWithInlineLeadingAddOnAndTrailingDropdown.args = {
   label: 'Price',
   type: 'number',
   placeholder: '0.00',
-  leadingIcon: <span className="text-base-500">$</span>,
+  addOnBeforeInline: <span className="text-base-500">$</span>,
   trailingIconWrapperClassName: 'pr-0',
-  trailingIcon: (
+  addOnAfterInline: (
     <SelectMenu>
       <SelectMenuTrigger
         placeholder="Select.."
@@ -326,7 +326,7 @@ InputWithLeadingIconAndTrailingButton.args = {
   label: 'Price',
   type: 'number',
   placeholder: '0.00',
-  leadingIcon: <UserIcon className="text-base-400 h-5 w-5" />,
+  addOnBeforeInline: <UserIcon className="text-base-400 h-5 w-5" />,
   addOnAfter: (
     <Button
       variant="minimal"
@@ -343,7 +343,7 @@ InputWithLeadingIconAndTrailingButton.args = {
 InputWithTooltip.args = {
   label: 'Account number',
   placeholder: '000-00-0000',
-  trailingIcon: (
+  addOnAfterInline: (
     <Tooltip
       theme="dark"
       content={<TooltipBody>I am tooltip body</TooltipBody>}
@@ -357,7 +357,7 @@ InputWithTooltip.args = {
 InputWithTrailingClickable.args = {
   label: 'Account holder',
   placeholder: 'Devon Mccoy',
-  trailingIcon: (
+  addOnAfterInline: (
     <Button variant="minimal" onClick={() => console.log('I am clicked')}>
       <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
     </Button>
