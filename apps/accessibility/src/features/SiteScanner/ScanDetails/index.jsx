@@ -89,19 +89,7 @@ const ScanDetails = () => {
         dayVal = parseInt(day, 10) === 6 ? dayMap[0] : parseInt(day, 10) + 1;
       }
     }
-  
     const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
-    console.log(
-      {
-        finalUTCVal,
-        day,
-        diff,
-        dayVal,
-        adjustedCronExpression,
-        cronStringArray
-      },
-      cronStringArray[cronStringArray.length -1]
-    );
     return cronstrue.toString(adjustedCronExpression);
   };
   if (isLoading || !scanOverviewData) {
