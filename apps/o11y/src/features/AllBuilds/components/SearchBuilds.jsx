@@ -57,7 +57,7 @@ const SearchBuilds = () => {
         placeholder="Search builds by name or CI number"
         onKeyDown={handleSearchTextChange}
         onChange={handleOnChange}
-        wrapperClassName="max-w-md w-[28rem]"
+        wrapperClassName="max-w-md w-80"
         id="all-search-value"
       />
     </>

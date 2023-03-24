@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import buildsReducer from 'features/AllBuilds/slices/dataSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
+import testListReducer from 'features/BuildDetails/slices/testListSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
 import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
 import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
@@ -28,6 +29,7 @@ export const store = configureStore({
     suiteHealthUI: suiteHealthUIReducer,
     shTestdetails: shTestDetailsReducer,
     shErrordetails: shErrorDetailsReducer,
+    testList: testListReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
     buildsData: buildsReducer,

@@ -273,7 +273,9 @@ function BuildDetailsHeader() {
           tabsArray={tabsList}
           onTabChange={onTabChange}
         />
-        <StatusBadges statusStats={statusStats} />
+        <div className="flex items-center pr-3">
+          <StatusBadges statusStats={statusStats} />
+        </div>
       </div>
     </div>
   );

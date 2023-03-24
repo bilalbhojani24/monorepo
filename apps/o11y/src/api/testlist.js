@@ -25,7 +25,7 @@ export const getTestHistoryData = async (testRunIds) =>
   axios.post(`${versionedBaseRoute()}/builds/testRuns/historyDetails`, {
     testRunIds
   });
-export const getTestlistFilters = async (buildId) =>
+export const getTestlistFilters = async ({ buildId }) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/getFilters`);
 
 export const toggleMuteTest = async ({ buildId, testRunId, shouldMute }) =>

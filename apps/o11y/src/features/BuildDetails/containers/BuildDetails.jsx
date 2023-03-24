@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import { PUSHER_EVENTS } from 'constants/common';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import TestList from '../components/TestList';
@@ -17,6 +18,7 @@ import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
+  const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
@@ -44,7 +46,13 @@ function BuildDetails() {
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
-  useEffect(() => () => dispatch(clearBuildUUID()), [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(clearBuildUUID());
+      setTestDefectTypeMapping({});
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -61,6 +69,34 @@ function BuildDetails() {
       );
     }
   }, [dispatch, location.search]);
+
+  const updateTestDefectTypeMapping = useCallback((data, bulk = false) => {
+    if (bulk) {
+      const formattedData = {};
+      data.forEach((item) => {
+        formattedData[item.id] = { ...item };
+      });
+      setTestDefectTypeMapping((prev) => ({
+        ...prev,
+        ...formattedData
+      }));
+    } else {
+      setTestDefectTypeMapping((prev) => ({
+        ...prev,
+        [data.id]: {
+          ...data
+        }
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.pubSub.subscribe(PUSHER_EVENTS.ANALYZER_COMPLETED, (payload) => {
+      if (payload?.data?.length && payload.buildId === buildUUID) {
+        updateTestDefectTypeMapping(payload.data, true);
+      }
+    });
+  }, [buildUUID, updateTestDefectTypeMapping]);
 
   if (!buildUUID) {
     return (
@@ -94,7 +130,13 @@ function BuildDetails() {
         {activeTab.id === TABS.insights.id && (
           <div className="px-8 py-4">Build Insights</div>
         )}
-        {activeTab.id === TABS.tests.id && <TestList />}
+        {activeTab.id === TABS.tests.id && (
+          <TestList
+            buildUUID={buildUUID}
+            testDefectTypeMapping={testDefectTypeMapping}
+            updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+          />
+        )}
       </div>
     </>
   );

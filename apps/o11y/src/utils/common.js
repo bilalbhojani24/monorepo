@@ -179,3 +179,20 @@ export const transformUnsupportedTags = (node, index) => {
   }
   return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
 };
+
+export const getParsedImageData = async (signedUrl, errCb) => {
+  const imgUrls = [];
+  try {
+    const response = await (await fetch(signedUrl)).text();
+    const imgs = response.split('\n');
+    // Remove last empty line
+    imgs.pop();
+    imgs.forEach((item) => imgUrls.push(JSON.parse(item)));
+    return imgUrls;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error fetching images', error);
+    errCb();
+    return imgUrls;
+  }
+};
