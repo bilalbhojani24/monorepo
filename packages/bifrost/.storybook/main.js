@@ -11,6 +11,7 @@ module.exports = {
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
     "storybook-addon-designs",
+    'addon-screen-reader',
     {
       name: 'storybook-addon-sass-postcss',
       options: {
