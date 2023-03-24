@@ -31,7 +31,8 @@ const InputField = forwardRef(
       readonly,
       type,
       value,
-      wrapperClassName
+      wrapperClassName,
+      ...props
     },
     ref
   ) => (
@@ -105,6 +106,7 @@ const InputField = forwardRef(
             onFocus={onFocus}
             onBlur={onBlur}
             autoComplete={autoComplete}
+            {...props}
           />
 
           {(addOnAfterInline || errorText) && (
