@@ -19,8 +19,7 @@ export function Popover(props) {
       <div
         {...popoverProps}
         ref={ref}
-        // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        className="border-base-300 top-full z-10 mt-2 w-[26rem] rounded-md border bg-white p-3 shadow-lg"
+        className="border-base-300 top-full z-10 mt-2 rounded-md border bg-white p-3 shadow-lg"
       >
         <DismissButton onDismiss={state.close} />
         {children}
