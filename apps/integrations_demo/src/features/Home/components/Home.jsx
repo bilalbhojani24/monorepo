@@ -28,12 +28,12 @@ const Home = () => {
         'Basic dGVzdGludGVncmF0aW9uc19wckFNYTk6Z1F6YXA3cm1lMTluYkphWnZOc0o='
     }
   };
-  const [attachment, setAttachment] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi1h3CULGItXdaYf2-72PtkqJ_7jk-eYzOtpAKmw5dBvP9lM4GNpe4cEk2GAmr5bb_8lUtdqBWHZo&usqp=CAU&ec=48600113'
-  );
+  const [attachments, setAttachments] = useState(null);
 
   const handleChange = (event) => {
-    setAttachment(event.target?.files?.[0] ?? null);
+    if (event.target?.files?.[0]) {
+      setAttachments([event.target?.files?.[0]]);
+    }
   };
 
   return (
@@ -45,7 +45,7 @@ const Home = () => {
         handleClose={handleClose}
         auth={auth}
         options={options}
-        attachment={attachment}
+        attachments={attachments}
       />
     </div>
   );

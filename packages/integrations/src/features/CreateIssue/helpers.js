@@ -18,7 +18,7 @@ const parseFieldsForCreateHelper = (
       else val = fieldData.value;
       break;
     case 'array':
-      val = fieldData.map((fieldItem) =>
+      val = (fieldData ?? [])?.map((fieldItem) =>
         // loop through through field data and build item based on $item structur
         parseFieldsForCreateHelper($items, fieldItem)
       );

@@ -13,6 +13,7 @@ import Label from '../Label';
 
 const NestedSingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
   required,
@@ -25,6 +26,7 @@ const NestedSingleValueSelect = ({
   areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (data) =>
+    Array.isArray(data) &&
     data.reduce((acc, currOption) => {
       const image =
         typeof currOption.icon === 'object'
@@ -124,7 +126,7 @@ const NestedSingleValueSelect = ({
   };
 
   return (
-    <>
+    <div className="py-3">
       <ComboBox
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
@@ -157,7 +159,7 @@ const NestedSingleValueSelect = ({
           </ComboBox>
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default NestedSingleValueSelect;

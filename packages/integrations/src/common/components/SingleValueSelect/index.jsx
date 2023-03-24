@@ -15,19 +15,23 @@ import Label from '../Label';
 
 const SingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
+  disabled,
   required,
   searchPath,
   fieldsData,
   optionsPath,
   placeholder,
+  defaultValue,
   setFieldsData,
   wrapperClassName,
   selectFirstByDefault = false,
   areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (data) =>
+    Array.isArray(data) &&
     data.reduce((acc, currOption) => {
       // pick image url from icons -  which is either an object
       // or a single value
@@ -37,17 +41,25 @@ const SingleValueSelect = ({
           : currOption.image || currOption.icon;
 
       // option can have value in 3 possible keys
-      const value = currOption.value || currOption.id || currOption.key;
+      const optionValue = currOption.value || currOption.id || currOption.key;
 
       // map them to support UI comp and also create post call
       acc.push({
-        value,
+        value: optionValue,
         image,
         label: currOption.label,
         ticketTypes: currOption.ticket_types
       });
       return acc;
     }, []);
+
+  const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
+
+  useEffect(() => {
+    if (value || defaultValue) {
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+    }
+  }, [value, defaultValue]);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
@@ -58,10 +70,23 @@ const SingleValueSelect = ({
     areSomeRequiredFieldsEmpty
   );
 
+  const appendOptionIfMissing = (optionList = [], target) => {
+    if (target) {
+      const isInOptions =
+        optionList?.findIndex((option) => option?.key === target?.key) !== -1;
+      if (!isInOptions) {
+        return [target, ...optionList];
+      }
+    }
+    return optionList;
+  };
+
   useEffect(() => {
     if (optionsPath) {
       fetchOptions(optionsPath).then((optionsData) => {
-        const cleanedOptions = cleanOptions(optionsData);
+        const cleanedOptions = cleanOptions(
+          appendOptionIfMissing(optionsData, value || defaultValue)
+        );
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
       });
@@ -69,8 +94,10 @@ const SingleValueSelect = ({
   }, [optionsPath]);
 
   useEffect(() => {
-    setOptionsToRender(cleanOptions(options));
-  }, [options]);
+    setOptionsToRender(
+      cleanOptions(appendOptionIfMissing(options, value || defaultValue))
+    );
+  }, [value, options, defaultValue]);
 
   useEffect(() => {
     if (
@@ -132,9 +159,9 @@ const SingleValueSelect = ({
   return (
     <ComboBox
       onChange={handleChange}
-      value={fieldsData[fieldKey] ?? {}}
+      value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
       errorText={requiredFieldError}
-      // disabled={!(optionsToRender ?? []).length}
+      disabled={disabled}
     >
       <Label label={label} required={required} />
       <ComboboxTrigger

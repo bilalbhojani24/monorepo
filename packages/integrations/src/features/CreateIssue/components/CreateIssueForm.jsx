@@ -11,8 +11,9 @@ const CreateIssueForm = ({
   fields,
   metaData,
   fieldsData,
-  attachment,
+  attachments,
   setFieldsData,
+  setAttachments,
   setErrorMessage,
   projectFieldData,
   clearErrorMessage,
@@ -35,11 +36,13 @@ const CreateIssueForm = ({
       .then((response) => {
         if (response?.success) {
           clearErrorMessage();
-          addAttachment(
-            attachment,
-            integrationToolFieldData?.value,
-            response.data.ticket_id
-          );
+          if (attachments?.length) {
+            addAttachment(
+              attachments[0],
+              integrationToolFieldData?.value,
+              response.data.ticket_id
+            );
+          }
         }
         return response;
       })
@@ -66,8 +69,9 @@ const CreateIssueForm = ({
       <FormBuilder
         fields={fields}
         metaData={metaData}
-        attachment={attachment}
+        attachments={attachments}
         handleSubmit={handleSubmit}
+        setAttachments={setAttachments}
         setIsWorkInProgress={setIsWorkInProgress}
       />
     </>

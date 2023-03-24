@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TextArea } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
@@ -7,10 +7,12 @@ import Label from '../Label';
 
 const TextAreaField = ({
   label,
+  value,
   fieldKey,
   required,
   fieldsData,
   placeholder,
+  defaultValue,
   setFieldsData,
   areSomeRequiredFieldsEmpty
 }) => {
@@ -24,12 +26,18 @@ const TextAreaField = ({
     setFieldsData({ ...fieldsData, [fieldKey]: fieldValue });
   };
 
+  useEffect(() => {
+    if (value || defaultValue) {
+      setFieldsData({ ...fieldsData, [fieldKey]: value || defaultValue });
+    }
+  }, [value, defaultValue]);
+
   return (
     <>
       <Label required={required} label={label} />
       <TextArea
         onChange={handleChange}
-        value={fieldsData[fieldKey] ?? ''}
+        value={(fieldsData[fieldKey] || value || defaultValue) ?? ''}
         placeholder={placeholder}
         errorText={requiredFieldError}
       />

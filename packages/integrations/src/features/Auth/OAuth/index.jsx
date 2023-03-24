@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Alerts,
   Button,
@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
+import { getSetupStatus } from '../../../api/getSetupStatus';
 import { Loader, Logo } from '../../../common/components';
 import { setHasIntegrated } from '../../slices/integrationsSlice';
 import { OAuthMetaType } from '../types';
@@ -25,7 +26,10 @@ const OAuth = ({
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
-  let authWindow = null;
+  const [authWindow, setAuthWindow] = useState({});
+  const OAUTH_POLL_MAX = 5;
+  const oAuthPollCounter = useRef(OAUTH_POLL_MAX);
+  const authWindowName = 'browser_oauth';
   useEffect(() => {
     const handleMessage = (event) => {
       setIsOAuthConnecting(true);
@@ -35,10 +39,9 @@ const OAuth = ({
       } finally {
         setIsOAuthConnecting(false);
       }
+      // oauth has failed
       if (message.hasError) {
         setHasOAuthFailed(true);
-      } else {
-        dispatch(setHasIntegrated(integrationKey));
       }
       authWindow?.close();
     };
@@ -51,9 +54,48 @@ const OAuth = ({
   const handleAPIConnect = () => {
     showAPIToken();
   };
+
+  const oAuthSyncPoller = () => {
+    let pollTimer = null;
+    const foo = () => {
+      if (oAuthPollCounter.current) {
+        oAuthPollCounter.current -= 1;
+        getSetupStatus(integrationKey).then((response) => {
+          if (response?.data?.success && response?.data?.setup_completed) {
+            dispatch(setHasIntegrated(integrationKey));
+          }
+        });
+      } else {
+        if (pollTimer) {
+          clearInterval(pollTimer);
+        }
+        setHasOAuthFailed(true);
+      }
+    };
+    pollTimer = setInterval(
+      foo,
+      (OAUTH_POLL_MAX - (oAuthPollCounter.current ?? 0) + 1) * 1000
+    );
+  };
+
   const handleOAuthConnection = () => {
     getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      authWindow = window.open(redirectUri, 'mywindow', 'height=640,width=960');
+      const childWindow = window.open(
+        redirectUri,
+        authWindowName,
+        'height=640,width=960'
+      );
+      setAuthWindow(childWindow);
+
+      let timer = null;
+
+      function checkChild() {
+        if (childWindow.closed) {
+          oAuthSyncPoller();
+          clearInterval(timer);
+        }
+      }
+      timer = setInterval(checkChild, 500);
     });
   };
 

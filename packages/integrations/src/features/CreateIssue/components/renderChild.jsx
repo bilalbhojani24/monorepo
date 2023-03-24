@@ -1,11 +1,7 @@
 import React from 'react';
-import { Tabs } from '@browserstack/bifrost';
+import { Loader, Tabs } from '@browserstack/bifrost';
 
-import {
-  GenericError,
-  Loader,
-  SingleValueSelect
-} from '../../../common/components';
+import { GenericError, SingleValueSelect } from '../../../common/components';
 
 import { FIELD_KEYS, ISSUE_MODES, TABS } from './constants';
 import CreateIssueForm from './CreateIssueForm';
@@ -16,9 +12,12 @@ const renderChild = ({
   fields,
   metaData,
   projects,
-  attachment,
+  resetMeta,
   fieldsData,
+  attachments,
   setFieldsData,
+  setAttachments,
+  issueFieldData,
   handleTryAgain,
   setErrorMessage,
   projectFieldData,
@@ -54,7 +53,6 @@ const renderChild = ({
           required
           placeholder="Select project"
           options={projects}
-          selectFirstByDefault
         />
       </div>
       <Tabs
@@ -68,8 +66,9 @@ const renderChild = ({
           fields={fields}
           metaData={metaData}
           fieldsData={fieldsData}
-          attachment={attachment}
+          attachments={attachments}
           setFieldsData={setFieldsData}
+          setAttachments={setAttachments}
           setErrorMessage={setErrorMessage}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
@@ -82,10 +81,17 @@ const renderChild = ({
         <UpdateIssueForm
           fields={fields}
           metaData={metaData}
-          attachment={attachment}
+          resetMeta={resetMeta}
           fieldsData={fieldsData}
+          attachments={attachments}
           setFieldsData={setFieldsData}
-          setIsWorkInProgress={setErrorMessage}
+          setAttachments={setAttachments}
+          issueFieldData={issueFieldData}
+          setErrorMessage={setErrorMessage}
+          projectFieldData={projectFieldData}
+          clearErrorMessage={clearErrorMessage}
+          setIsWorkInProgress={setIsWorkInProgress}
+          integrationToolFieldData={integrationToolFieldData}
         />
       )}
     </>

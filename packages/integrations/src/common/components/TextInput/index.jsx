@@ -11,9 +11,11 @@ const TextField = ({
   placeholder,
   required,
   label,
+  value,
   fieldKey,
   schema,
   validations,
+  defaultValue,
   areSomeRequiredFieldsEmpty
 }) => {
   const [error, setError] = useState(null);
@@ -31,8 +33,8 @@ const TextField = ({
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
   const valueToRender = Array.isArray(fieldsData[fieldKey])
-    ? fieldsData[fieldKey].join(',')
-    : fieldsData[fieldKey] ?? '';
+    ? (fieldsData[fieldKey] || value || defaultValue || []).join(',')
+    : (fieldsData[fieldKey] || value || defaultValue) ?? '';
 
   const requiredFieldError = useRequiredFieldError(
     required,
@@ -81,7 +83,7 @@ const TextField = ({
   };
 
   return (
-    <>
+    <div className="py-3">
       <Label required={required} label={label} />
       <InputField
         onChange={handleChange}
@@ -91,7 +93,7 @@ const TextField = ({
         errorText={error}
         type={schema?.field === 'numeric' ? 'number' : 'text'}
       />
-    </>
+    </div>
   );
 };
 

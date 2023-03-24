@@ -8,9 +8,12 @@ import { FormBuilderType } from './types';
 const FormBuilder = ({
   fields,
   metaData,
-  attachment,
+  attachments,
   handleSubmit,
-  setIsWorkInProgress
+  setAttachments,
+  setIsWorkInProgress,
+  hideDescription = false,
+  showDescriptionMetaIn = ''
 }) => {
   const [fieldsData, setFieldsData] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
@@ -23,6 +26,7 @@ const FormBuilder = ({
   };
   const [areSomeRequiredFieldsEmpty, setAreSomeRequiredFieldsEmpty] =
     useState(false);
+
   const [fieldsToShowAtTop, requiredFields, optionalFields] = useMemo(
     () => splitFields(fields),
     [fields]
@@ -31,8 +35,6 @@ const FormBuilder = ({
   const resetFieldsData = () => {
     setFieldsData({});
   };
-
-  console.log(attachment);
 
   useEffect(() => {
     const isWIP = Object.values(fieldsData).some((field) => {
@@ -54,32 +56,35 @@ const FormBuilder = ({
         options_path: optionsPath,
         placeholder,
         validations,
-        defaultValue,
-        description
+        default_value: defaultValue,
+        description,
+        current_value: currentValue
       }) => {
         const Field = FormFieldMap[schema?.field];
         if (Field) {
           return (
-            <div className="py-3">
-              <Field
-                label={label}
-                fieldKey={key}
-                schema={schema}
-                options={options}
-                metaData={metaData}
-                required={required}
-                attachment={attachment}
-                searchPath={searchPath}
-                fieldsData={fieldsData}
-                optionsPath={optionsPath}
-                placeholder={placeholder}
-                validations={validations}
-                description={description}
-                defaultValue={defaultValue}
-                setFieldsData={setFieldsData}
-                areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
-              />
-            </div>
+            <Field
+              value={currentValue}
+              label={label}
+              fieldKey={key}
+              schema={schema}
+              options={options}
+              metaData={metaData}
+              required={required}
+              attachments={attachments}
+              searchPath={searchPath}
+              fieldsData={fieldsData}
+              optionsPath={optionsPath}
+              placeholder={placeholder}
+              validations={validations}
+              description={description}
+              defaultValue={defaultValue}
+              setFieldsData={setFieldsData}
+              setAttachments={setAttachments}
+              hideDescription={hideDescription}
+              showDescriptionMetaIn={showDescriptionMetaIn}
+              areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
+            />
           );
         }
         return null;

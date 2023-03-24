@@ -11,13 +11,17 @@ import TextAreaField from '../TextArea';
 
 const Paragraph = ({
   key,
-  fieldsData,
-  setFieldsData,
-  fieldKey,
-  placeholder,
-  required,
   label,
-  metaData
+  value,
+  fieldKey,
+  required,
+  metaData,
+  fieldsData,
+  placeholder,
+  defaultValue,
+  setFieldsData,
+  hideDescription,
+  showDescriptionMetaIn
 }) => {
   const [shouldShowMetaSection, setShouldShowMetaSection] = useState(false);
   const toggleMetaSectionVisibility = () => {
@@ -25,15 +29,19 @@ const Paragraph = ({
   };
   const isDescription = fieldKey === 'description';
 
-  return (
-    <>
+  return (isDescription && !hideDescription) || !isDescription ? (
+    <div className="py-3">
       <TextAreaField
-        fieldsData={fieldsData}
-        setFieldsData={setFieldsData}
-        fieldKey={fieldKey}
-        placeholder={placeholder}
-        required={required}
         label={label}
+        value={
+          showDescriptionMetaIn === fieldKey ? metaData.description : value
+        }
+        fieldKey={fieldKey}
+        required={required}
+        fieldsData={fieldsData}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        setFieldsData={setFieldsData}
       />
       {isDescription && (
         <>
@@ -55,8 +63,8 @@ const Paragraph = ({
           )}
         </>
       )}
-    </>
-  );
+    </div>
+  ) : null;
 };
 
 Paragraph.propTypes = {

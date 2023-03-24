@@ -21,7 +21,7 @@ export const CreateIssue = ({
   projectId,
   positionRef,
   handleClose,
-  attachment
+  attachments = []
 }) => {
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
@@ -89,7 +89,7 @@ export const CreateIssue = ({
           mode={mode}
           options={options}
           projectId={projectId}
-          attachment={attachment}
+          attachments={attachments}
           changeModeTo={changeModeTo}
           continueEditing={continueEditing}
           isBeingDiscarded={isBeingDiscarded}
@@ -103,7 +103,7 @@ export const CreateIssue = ({
             Cancel
           </Button>
           <Button type="submit" form="form-builder">
-            Create Issue
+            {mode === ISSUE_MODES.CREATION ? 'Create Issue' : 'Update Issue'}
           </Button>
         </div>
       )}
@@ -139,7 +139,7 @@ const CreateIssueWithProvider = ({
   projectId,
   positionRef,
   handleClose,
-  attachment
+  attachments
 }) => (
   <Provider store={store}>
     <CreateIssue
@@ -150,7 +150,7 @@ const CreateIssueWithProvider = ({
       projectId={projectId}
       positionRef={positionRef}
       handleClose={handleClose}
-      attachment={attachment}
+      attachments={attachments}
     />
   </Provider>
 );

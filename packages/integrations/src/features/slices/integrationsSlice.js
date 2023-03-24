@@ -53,3 +53,5 @@ export const integrationsSelector = (state) =>
 export const integrationsLoadingSelector = (state) =>
   state.integrations.loading;
 export const integrationsErrorSelector = (state) => state.integrations.error;
+export const hasIntegratedSelector = (state) =>
+  state.integrations.hasIntegrated;

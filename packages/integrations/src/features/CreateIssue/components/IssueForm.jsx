@@ -8,8 +8,9 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { makeDebounce } from '@browserstack/utils';
 
-import { getCreateMeta, getProjectsThunk } from '../../../api';
+import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
   projectsErrorSelector,
@@ -17,96 +18,14 @@ import {
   projectsSelector
 } from '../../slices/projectsSlice';
 
-import { FIELD_KEYS } from './constants';
+import { FIELD_KEYS, ISSUE_MODES } from './constants';
 import DiscardIssue from './DiscardIssue';
-import UpdateIssueForm from './UpdateIssueForm';
-
-const renderChild = ({
-  mode,
-  fields,
-  metaData,
-  projects,
-  attachment,
-  fieldsData,
-  setFieldsData,
-  handleTryAgain,
-  setErrorMessage,
-  projectFieldData,
-  projectsHaveError,
-  clearErrorMessage,
-  cleanedIssueTypes,
-  areProjectsLoading,
-  issueTypeFieldData,
-  setIsWorkInProgress,
-  handleIssueTabChange,
-  integrationToolFieldData
-}) => {
-  if (areProjectsLoading) {
-    return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
-  }
-  if (projectsHaveError) {
-    return (
-      <GenericError
-        errorMessage="Error loading projects"
-        handleTryAgain={handleTryAgain}
-      />
-    );
-  }
-
-  return (
-    <>
-      <div className="py-3">
-        <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.PROJECT}
-          setFieldsData={setFieldsData}
-          label="Project"
-          required
-          placeholder="Select project"
-          options={projects}
-          selectFirstByDefault
-        />
-      </div>
-      <Tabs
-        tabsArray={TABS}
-        onTabChange={handleIssueTabChange}
-        defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
-      />
-
-      {mode === ISSUE_MODES.CREATION ? (
-        <CreateIssueForm
-          fields={fields}
-          metaData={metaData}
-          fieldsData={fieldsData}
-          attachment={attachment}
-          setFieldsData={setFieldsData}
-          setErrorMessage={setErrorMessage}
-          projectFieldData={projectFieldData}
-          clearErrorMessage={clearErrorMessage}
-          cleanedIssueTypes={cleanedIssueTypes}
-          issueTypeFieldData={issueTypeFieldData}
-          setIsWorkInProgress={setIsWorkInProgress}
-          integrationToolFieldData={integrationToolFieldData}
-        />
-      ) : (
-        <UpdateIssueForm
-          fields={fields}
-          metaData={metaData}
-          attachment={attachment}
-          fieldsData={fieldsData}
-          setFieldsData={setFieldsData}
-          setIsWorkInProgress={setErrorMessage}
-        />
-      )}
-    </>
-  );
-};
 import renderChild from './renderChild';
 
 const IssueForm = ({
   mode,
   options,
-  attachment,
+  attachments,
   changeModeTo,
   integrations,
   continueEditing,
@@ -117,6 +36,7 @@ const IssueForm = ({
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
   const [fields, setFields] = useState([]);
+  const [files, setFiles] = useState(attachments);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
   const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
   const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
@@ -144,8 +64,8 @@ const IssueForm = ({
 
   const [fieldsData, setFieldsData] = useState({
     [FIELD_KEYS.INTEGRATON_TOOL]: toolOptions[0],
-    [FIELD_KEYS.PROJECT]: [],
-    [FIELD_KEYS.ISSUE_TYPE]: []
+    [FIELD_KEYS.PROJECT]: null,
+    [FIELD_KEYS.ISSUE_TYPE]: null
   });
   const integrationToolFieldData = fieldsData[FIELD_KEYS.INTEGRATON_TOOL];
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
@@ -165,9 +85,35 @@ const IssueForm = ({
     [projectFieldData]
   );
 
+  const resetMeta = () => {
+    setFields([]);
+  };
+
+  useEffect(() => {
+    resetMeta();
+  }, [mode]);
+
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
   }, [dispatch, integrationToolFieldData]);
+
+  const debouncedGetCreateMeta = makeDebounce(() => {
+    getCreateMeta(
+      integrationToolFieldData.value,
+      projectFieldData.value,
+      issueTypeFieldData.value
+    ).then((responseFields) => {
+      setFields(responseFields.fields);
+    });
+  }, 300);
+
+  const debouncedGetUpdateMeta = makeDebounce(() => {
+    getUpdateMeta(integrationToolFieldData.value, issueFieldData.value).then(
+      ({ fields: responseFields }) => {
+        setFields(responseFields);
+      }
+    );
+  }, 300);
 
   useEffect(() => {
     if (
@@ -177,13 +123,7 @@ const IssueForm = ({
       issueTypeFieldData &&
       mode === ISSUE_MODES.CREATION
     ) {
-      getCreateMeta(
-        integrationToolFieldData.value,
-        projectFieldData.value,
-        issueTypeFieldData.value
-      ).then((responseFields) => {
-        setFields(responseFields.fields);
-      });
+      debouncedGetCreateMeta();
     }
   }, [
     mode,
@@ -191,6 +131,7 @@ const IssueForm = ({
     integrationToolFieldData,
     projectFieldData,
     issueTypeFieldData
+    // debouncedGetCreateMeta
   ]);
 
   useEffect(() => {
@@ -198,14 +139,10 @@ const IssueForm = ({
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData &&
-      issueFieldData &&
+      issueFieldData?.value &&
       mode === ISSUE_MODES.UPDATION
     ) {
-      getUpdateMeta(integrationToolFieldData.value, issueFieldData.value).then(
-        (responseFields) => {
-          setFields(responseFields.fields);
-        }
-      );
+      debouncedGetUpdateMeta();
     }
   }, [
     mode,
@@ -213,6 +150,7 @@ const IssueForm = ({
     integrationToolFieldData,
     projectFieldData,
     issueFieldData
+    // debouncedGetUpdateMeta
   ]);
 
   const handleIssueTabChange = (tabSelected) => {
@@ -281,7 +219,7 @@ const IssueForm = ({
             fields,
             metaData,
             projects,
-            attachment,
+            resetMeta,
             fieldsData,
             setFieldsData,
             issueFieldData,
@@ -290,11 +228,13 @@ const IssueForm = ({
             projectFieldData,
             projectsHaveError,
             cleanedIssueTypes,
+            attachments: files,
             clearErrorMessage,
             areProjectsLoading,
             issueTypeFieldData,
             setIsWorkInProgress,
             handleIssueTabChange,
+            setAttachments: setFiles,
             integrationToolFieldData
           })}
         </div>

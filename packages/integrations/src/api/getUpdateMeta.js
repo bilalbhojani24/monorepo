@@ -7,7 +7,8 @@ export const getUpdateMeta = (integrationKey, ticketTypeId) =>
     .get(URLS.UPDATE_META, {
       params: {
         integration_key: integrationKey,
-        ticket_id: ticketTypeId
+        ticket_id: ticketTypeId,
+        values: true
       }
     })
     .then((response) => response.data.data);

@@ -28,7 +28,7 @@ const renderAuth = ({
 const ListOfIntegrations = ({
   mode,
   options,
-  attachment,
+  attachments,
   changeModeTo,
   isBeingDiscarded,
   continueEditing,
@@ -47,7 +47,7 @@ const ListOfIntegrations = ({
       <IssueForm
         mode={mode}
         options={options}
-        attachment={attachment}
+        attachments={attachments}
         integrations={integrations}
         changeModeTo={changeModeTo}
         continueEditing={continueEditing}

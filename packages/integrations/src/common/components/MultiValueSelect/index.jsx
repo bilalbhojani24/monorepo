@@ -14,6 +14,7 @@ import Label from '../Label';
 
 const MultiSelect = ({
   label,
+  value,
   options,
   required,
   fieldKey,
@@ -21,11 +22,13 @@ const MultiSelect = ({
   fieldsData,
   placeholder,
   optionsPath,
+  defaultValue,
   setFieldsData,
   wrapperClassName,
   areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (options) =>
+    Array.isArray(options) &&
     options.map((option) => ({
       label: option.label,
       value: option.key
@@ -34,6 +37,7 @@ const MultiSelect = ({
   const handleChange = (val) => {
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
+
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const requiredFieldError = useRequiredFieldError(
@@ -43,9 +47,38 @@ const MultiSelect = ({
   );
 
   useEffect(() => {
+    if (value || defaultValue) {
+      const cleanedValue = cleanOptions(value || defaultValue);
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+    }
+  }, [value, defaultValue]);
+
+  const mergeTwoOptionsArray = (optionsOne, optionsTwo) => {
+    let res = [];
+    if (optionsTwo) {
+      res = optionsTwo.reduce(
+        (acc, curr) => {
+          const isInOptionsOne =
+            acc.findIndex((optionOne) => optionOne?.key === curr?.key) !== -1;
+          if (!isInOptionsOne) {
+            acc.push(curr);
+          }
+          return acc;
+        },
+        [...(optionsOne ?? [])]
+      );
+    } else {
+      res = optionsOne;
+    }
+    return res;
+  };
+
+  useEffect(() => {
     if (optionsPath) {
       fetchOptions(optionsPath).then((optionsData) => {
-        const cleanedOptions = cleanOptions(optionsData);
+        const cleanedOptions = cleanOptions(
+          mergeTwoOptionsArray(optionsData, value || defaultValue)
+        );
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
       });
@@ -53,8 +86,14 @@ const MultiSelect = ({
   }, [optionsPath]);
 
   useEffect(() => {
-    setOptionsToRender(cleanOptions(options));
-  }, [options]);
+    if (value || defaultValue) {
+      const optionsWithValue = mergeTwoOptionsArray(
+        options,
+        value || defaultValue
+      );
+      setOptionsToRender(cleanOptions(optionsWithValue));
+    } else setOptionsToRender(cleanOptions(options));
+  }, [options, value, defaultValue]);
 
   const fetchQuery = (query) => {
     fetchOptions(searchPath + query).then((optionsData) => {
@@ -92,11 +131,14 @@ const MultiSelect = ({
     }
   };
 
+  const valueToRender =
+    fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
+
   return (
-    <>
+    <div className="py-3">
       <ComboBox
         onChange={handleChange}
-        value={fieldsData[fieldKey] ?? []}
+        value={valueToRender}
         isMulti
         errorText={requiredFieldError}
       >
@@ -116,7 +158,7 @@ const MultiSelect = ({
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
-    </>
+    </div>
   );
 };
 
