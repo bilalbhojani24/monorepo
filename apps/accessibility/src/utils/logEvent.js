@@ -56,10 +56,12 @@ export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
   const env = getCurrentEnv();
 
   if (env === ENVS.PRODUCTION) {
+    const AnalyticsPayload = { ...data };
+    AnalyticsPayload.event_name = name;
     logAccessibilityEvent(skipLoggingKeys, EDSKey, name, {
       product,
       team: product,
-      ...data
+      ...AnalyticsPayload
     });
   }
 };

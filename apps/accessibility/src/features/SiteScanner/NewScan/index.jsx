@@ -93,7 +93,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
 
   const handleCloseWithLogEvent = () => {
     logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
-      actionType: 'Scan changes',
       action: 'Cancel Scan',
       scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
       scanTime: recurringStatus
