@@ -28,6 +28,10 @@ const defaultConfig = {
           importStatement={"import Popover from 'bifrost/Popover'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
 

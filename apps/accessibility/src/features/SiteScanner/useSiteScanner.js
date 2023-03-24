@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
+import { logEvent } from 'utils/logEvent';
 
-import { logEvent } from '../../../../../packages/utils/src/logger';
 import { getUser } from '../Dashboard/slices/selectors';
 
 import { getScanConfigs } from './slices/dataSlice';
@@ -23,7 +23,7 @@ export default function useSiteScanner() {
   }, [dispatch]);
 
   useEffect(() => {
-    logEvent(['EDS'], 'accessibility_dashboard_web_events', 'OnWSHomepageView');
+    logEvent('OnWSHomepageView');
   }, []);
 
   useEffect(() => {
