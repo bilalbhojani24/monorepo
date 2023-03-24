@@ -172,7 +172,7 @@ export default function SHTests() {
 
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
-      <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
+      <SHTestsHeader />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
       ) : (

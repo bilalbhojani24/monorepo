@@ -9,7 +9,7 @@ import {
   getShortOSName
 } from 'utils/common';
 
-export default function SnPPlatforms({ platforms, browsers }) {
+export default function SnPPlatforms({ platforms, browsers, onViewMoreClick }) {
   const browsersPlatforms = [...platforms, ...browsers];
 
   const getIcon = (item) => {
@@ -55,6 +55,7 @@ export default function SnPPlatforms({ platforms, browsers }) {
           text={`${browsersPlatforms.length - 2} more platform${
             browsersPlatforms.length - 2 === 1 ? '' : 's'
           }`}
+          onClick={onViewMoreClick}
         />
       </div>
     );
@@ -74,7 +75,8 @@ export default function SnPPlatforms({ platforms, browsers }) {
 
 SnPPlatforms.propTypes = {
   platforms: PropTypes.arrayOf(PropTypes.object),
-  browsers: PropTypes.arrayOf(PropTypes.object)
+  browsers: PropTypes.arrayOf(PropTypes.object),
+  onViewMoreClick: PropTypes.func.isRequired
 };
 SnPPlatforms.defaultProps = {
   platforms: [],

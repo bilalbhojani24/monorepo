@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { JiraIcon } from 'assets/icons/components';
 import TagsComponent from 'common/TagsComponent';
 import PropTypes from 'prop-types';
@@ -13,7 +14,7 @@ function JiraTag({ jiraUrl, tagClickCb, wrapperClassName, iconOnly }) {
   };
   return (
     <TagsComponent
-      wrapperClassName={wrapperClassName}
+      wrapperClassName={twClassNames(wrapperClassName, 'gap-1')}
       tagClickCb={handleJiraLinkClick}
       iconOnly={iconOnly}
       text={generatedIssueName(jiraUrl)}

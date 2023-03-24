@@ -12,16 +12,16 @@ export const TESTS_HEADER_LABEL_MAPPING = {
   average: 'Avg. Duration'
 };
 
-const ACTION_HEADER_COLUMN_CLASS = 'py-3 text-center';
+const ACTION_HEADER_COLUMN_CLASS = 'text-center';
 
 export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   tests: {
     name: TESTS_HEADER_LABEL_MAPPING.tests,
-    defaultClass: 'py-3 pl-6 w-2/4 whitespace-normal'
+    defaultClass: 'pl-6 w-2/4 whitespace-normal'
   },
   platforms: {
     name: TESTS_HEADER_LABEL_MAPPING.platforms,
-    defaultClass: 'py-3 w-1/5'
+    defaultClass: 'w-1/5'
   },
   totalFailures: {
     name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
@@ -77,7 +77,7 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pr-6',
-    bodyClass: 'w-[140px] py-4 pr-6 text-sm'
+      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
+    bodyClass: 'w-[140px] py-4 pl-6 text-sm'
   }
 };

@@ -18,7 +18,8 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
             <O11yTableCell
               key={key}
               wrapperClassName={twClassNames(
-                SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
+                SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
+                'py-3'
               )}
             >
               <button
@@ -47,7 +48,8 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
           <O11yTableCell
             key={key}
             wrapperClassName={twClassNames(
-              SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass
+              SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
+              'py-3'
             )}
           >
             <div className="text-xs font-medium leading-4">
