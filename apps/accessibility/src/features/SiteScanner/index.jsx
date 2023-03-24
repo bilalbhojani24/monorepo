@@ -580,21 +580,30 @@ export default function SiteScanner() {
                 <TableCell>
                   {row?.lastScanDetails?.reportSummary ? (
                     <div className="flex">
-                      <span className="mr-4 flex items-center">
-                        <MdCheckCircle color="#10B981" className="mr-0.5" />
-                        {row?.lastScanDetails?.reportSummary?.success} success
+                      <span
+                        title={`${row?.lastScanDetails?.reportSummary?.success} success`}
+                        className="mr-4 flex items-center"
+                      >
+                        <MdCheckCircle color="#10B981" className="mr-0.5" fontSize="medium" />
+                        {row?.lastScanDetails?.reportSummary?.success}
                       </span>
-                      <span className="mr-4 flex items-center">
-                        <MdCancel color="#EF4444" className="mr-0.5" />
-                        {row?.lastScanDetails?.reportSummary?.failure} failed
+                      <span
+                        className="mr-4 flex items-center"
+                        title={`${row?.lastScanDetails?.reportSummary?.failure} failure`}
+                      >
+                        <MdCancel color="#EF4444" className="mr-0.5" fontSize="medium"/>
+                        {row?.lastScanDetails?.reportSummary?.failure}
                       </span>
-                      <span className="flex items-center">
+                      <span
+                        className="flex items-center"
+                        title={`${row?.lastScanDetails?.reportSummary?.redirect} redirect`}
+                      >
                         <MdOutlineSync
                           color="#FFF"
                           className="mr-0.5 rounded-full bg-attention-500"
+                          fontSize="medium"
                         />
-                        {row?.lastScanDetails?.reportSummary?.redirect}{' '}
-                        redirects
+                        {row?.lastScanDetails?.reportSummary?.redirect}
                       </span>
                     </div>
                   ) : null}
