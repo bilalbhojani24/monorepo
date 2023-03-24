@@ -32,7 +32,12 @@ const DatePickerInputGroup = ({
     <div
       {...groupProps}
       ref={triggerRef}
-      className="border-base-300 hover:border-brand-500 flex w-full rounded-md border"
+      className={twClassNames(
+        'border-base-300 hover:border-brand-500 flex w-full rounded-md border',
+        {
+          'border-danger-300': errorMessage
+        }
+      )}
     >
       <div className="relative flex w-full items-center rounded-md rounded-r-none p-1 py-2 pl-3">
         <DateField {...fieldProps} disabled={disabled} />
