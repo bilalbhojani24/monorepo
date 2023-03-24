@@ -196,14 +196,14 @@ const useMapFields = () => {
     mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
   }));
 
-  // const customFieldDisplayNames = mapFieldsConfig.customFields.reduce(
-  //   (mapObject, field) => {
-  //     const key = field.name;
-  //     const value = true;
-  //     return { ...mapObject, [key]: value };
-  //   },
-  //   {}
-  // );
+  const customFieldNames = mapFieldsConfig.customFields.reduce(
+    (mapObject, field) => {
+      const key = field.name;
+      const value = true;
+      return { ...mapObject, [key]: value };
+    },
+    {}
+  );
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -254,7 +254,7 @@ const useMapFields = () => {
           importId: mapFieldsConfig?.importId,
           field,
           projectId: queryParams.get('project'),
-          mapped_field: mapDisplayToName[selectedOption.label]
+          mappedField: mapDisplayToName[selectedOption.label]
         })
       );
     }
@@ -383,8 +383,8 @@ const useMapFields = () => {
     const mappingData = {
       importId: mapFieldsConfig.importId,
       myFieldMappings,
-      valueMappings
-      // customFieldDisplayNames
+      valueMappings,
+      customFieldNames
     };
 
     if (projectId && projectId !== 'new') mappingData.projectId = projectId;
