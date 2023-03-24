@@ -7,8 +7,8 @@ import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
-  setIsSnPDetailsVisible,
-  setShowSnPDetailsFor,
+  setIsSHTestsDetailsVisible,
+  setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
 import {
@@ -127,11 +127,11 @@ export default function SHTests() {
           deviceKey: searchParams.get(SNP_PARAMS_MAPPING.snpDeviceKeys) || ''
         })
       );
-      dispatch(setIsSnPDetailsVisible(true));
-      dispatch(setShowSnPDetailsFor(snpDetails));
+      dispatch(setIsSHTestsDetailsVisible(true));
+      dispatch(setShowSHTestsDetailsFor(snpDetails));
     }
     return () => {
-      dispatch(setIsSnPDetailsVisible(false));
+      dispatch(setIsSHTestsDetailsVisible(false));
     };
   }, [dispatch]);
 
@@ -161,8 +161,8 @@ export default function SHTests() {
         })
       );
       dispatch(setIsDetailsVisible(false));
-      dispatch(setShowSnPDetailsFor(activeRow.id));
-      dispatch(setIsSnPDetailsVisible(true));
+      dispatch(setShowSHTestsDetailsFor(activeRow.id));
+      dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.delete('details');
       searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);

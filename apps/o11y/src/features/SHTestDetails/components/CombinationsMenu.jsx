@@ -12,17 +12,17 @@ import {
   setSnPCbtInfo
 } from '../slices/dataSlice';
 import {
-  getShowSnPDetailsFor,
-  getSnPCbtInfo,
-  getTestDetailsInfo
+  getShowSHTestsDetailsFor,
+  getSHTestsDetailsInfo,
+  getSnPCbtInfo
 } from '../slices/selectors';
 
 const TestDetailsCombinationsMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const testDetailsInfo = useSelector(getTestDetailsInfo);
+  const testDetailsInfo = useSelector(getSHTestsDetailsInfo);
   const cbtInfo = useSelector(getSnPCbtInfo);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const activeProject = useSelector(getActiveProject);
 
   const updatedMenuOptions = useMemo(() => {

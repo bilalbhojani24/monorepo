@@ -25,7 +25,7 @@ import {
   getSnPDetailsTrendData,
   setSHTestDetailsChartBounds
 } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getSnPCbtInfo } from '../slices/selectors';
+import { getShowSHTestsDetailsFor, getSnPCbtInfo } from '../slices/selectors';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
@@ -127,7 +127,7 @@ const CHART_DEFAULT_OPTION = {
 export default function TestTrend() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [trendData, setTrendData] = useState({});

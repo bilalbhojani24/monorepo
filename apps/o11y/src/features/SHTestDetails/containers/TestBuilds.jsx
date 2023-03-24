@@ -13,7 +13,7 @@ import {
 } from '../constants';
 import { getSnPDetailsBuildsData } from '../slices/dataSlice';
 import {
-  getShowSnPDetailsFor,
+  getShowSHTestsDetailsFor,
   getSnPCbtInfo,
   getTestDetailsChartBounds
 } from '../slices/selectors';
@@ -22,7 +22,7 @@ export default function TestBuilds() {
   const dispatch = useDispatch();
 
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const chartBounds = useSelector(getTestDetailsChartBounds);
   const [isLoadingData, setIsLoadingData] = useState(true);

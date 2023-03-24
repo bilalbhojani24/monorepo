@@ -7,8 +7,8 @@ import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
-import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
-import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
+import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
+import { getIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/selectors';
 import TestDetailsSlideOver from 'features/TestDetails';
 import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
 import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
@@ -26,13 +26,13 @@ export default function SnP() {
   const dispatch = useDispatch();
   const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
   const isDetailsVisible = useSelector(getIsDetailsVisible);
-  const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
+  const isSnPDetailsVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
   const navigate = useNavigate();
 
   useEffect(
     () => () => {
-      dispatch(setIsSnPDetailsVisible(false));
+      dispatch(setIsSHTestsDetailsVisible(false));
       dispatch(setIsDetailsVisible(false));
       dispatch(clearSnPTests());
     },
