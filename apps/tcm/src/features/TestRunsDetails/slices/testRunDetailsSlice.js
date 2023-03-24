@@ -88,7 +88,6 @@ export const testRunDetailsSlice = createSlice({
     },
     resetTestCaseDetails: (state) => {
       state.testCaseDetails = initialState.testCaseDetails;
-      state.isLoading.testRunDetails = true;
     },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;

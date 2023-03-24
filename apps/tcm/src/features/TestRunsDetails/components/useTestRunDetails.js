@@ -116,6 +116,10 @@ export default function useTestRunDetails() {
     dispatch(resetTestCaseDetails());
   };
 
+  const setTestRunDetailsLoading = () => {
+    dispatch(setIsLoadingProps({ key: 'testRunDetails', value: true }));
+  };
+
   const sendPageLoadingLog = () => {
     dispatch(
       logEventHelper('TM_TrDetailPageLoaded', {
@@ -145,6 +149,7 @@ export default function useTestRunDetails() {
     onDropDownChange,
     sendPageLoadingLog,
     resetTestCaseDetailsMeta,
+    setTestRunDetailsLoading,
     automationTooltipClicked
   };
 }

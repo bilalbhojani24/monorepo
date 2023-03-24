@@ -234,6 +234,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    isTableLoading: isTestCasesLoading || isTestRunDetailsLoading,
     page,
     testRunDetails,
     statusError,
