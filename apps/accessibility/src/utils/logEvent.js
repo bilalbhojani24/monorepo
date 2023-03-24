@@ -13,7 +13,7 @@ const eventQueue = [];
 const env = getCurrentEnv();
 
 const getLoggersKeys = () => {
-  const { user } = store.getState().accessibility.app.dashboard;
+  const currentUser = store.getState().accessibility.app.dashboard || {};
 
   if (env === ENVS.PRODUCTION) {
     return {
@@ -30,7 +30,9 @@ const getLoggersKeys = () => {
           port: '443',
           apiKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
         },
-        userDetails: user
+        userDetails: {
+          user_id: currentUser.user.user_id ? currentUser.user.user_id : ''
+        }
       }
     };
   }
@@ -39,7 +41,9 @@ const getLoggersKeys = () => {
     analyticsKey: 'UA-x-x',
     EDSDetails: {
       ...ANALYTICS_KEYS.EDSDetails,
-      userDetails: user
+      userDetails: {
+        user_id: currentUser.user.user_id ? currentUser.user.user_id : ''
+      }
     }
   }; // added random key so that it does not break UI. Done for staging and local.
 };

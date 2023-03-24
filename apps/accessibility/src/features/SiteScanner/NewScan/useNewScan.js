@@ -289,11 +289,15 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
               ? formData.day
               : new Date().toLocaleDateString(),
             bestPractices: formData.scanData.bestPractices,
-            needsReview: formData.scanData.needsReview
+            needsReview: formData.scanData.needsReview,
+            urlCount: formData.scanData.urlSet
+              ? formData.scanData.urlSet.length
+              : undefined
           });
 
           postNewScanConfig(payload)
-            .then(() => {
+            .then((res) => {
+              console.log(res);
               dispatch(getScanConfigs());
               setShowToast(true);
               handlerCloseOver();

@@ -340,7 +340,6 @@ export default function SiteScanner() {
     if (!Object.keys(row.lastScanDetails).length) {
       rowMenuCpy = rowMenuCpy.slice(0, -1);
     }
-    console.log(row.createdBy.id, userInfo);
     if (row.createdBy.id !== userInfo.user_id) {
       rowMenuCpy = [
         {

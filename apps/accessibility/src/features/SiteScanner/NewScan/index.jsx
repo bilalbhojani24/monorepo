@@ -101,7 +101,8 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
       wcagVersion: formData.scanData.wcagVersion.label,
       day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
       bestPractices: formData.scanData.bestPractices,
-      needsReview: formData.scanData.needsReview
+      needsReview: formData.scanData.needsReview,
+      urlCount: formData.scanData.urlSet ? formData.scanData.urlSet.length : undefined
     });
     handlerCloseOver();
   };
