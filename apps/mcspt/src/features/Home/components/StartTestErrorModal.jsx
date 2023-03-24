@@ -1,19 +1,16 @@
 import React from 'react';
 import { Button, MdErrorOutline, Modal } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
 
 import { useStartTestErrorTypes } from './StartTestErrorTypes';
 
-const StartTestErrorModal = ({
-  showStartTestErrorModal,
-  setShowStartTestErrorModal
-}) => {
-  const { errorUiFragment } = useStartTestErrorTypes();
+const StartTestErrorModal = () => {
+  const { showStartTestErrorModal, errorUiFragment, closeStartTestErrorModal } =
+    useStartTestErrorTypes();
 
   return (
     <Modal wrapperClassName="" show={showStartTestErrorModal} size="sm">
       <div className="flex flex-col p-6">
-        <div className="flex flex-col items-center justify-center ">
+        <div className="flex flex-col items-center justify-center text-center">
           <div
             className="bg-danger-50 text-danger-600 flex min-h-[48px] min-w-[48px] 
                 items-center justify-center rounded-full text-2xl"
@@ -26,9 +23,7 @@ const StartTestErrorModal = ({
 
         <div className="mt-6 flex items-center justify-between">
           <Button
-            onClick={() => {
-              setShowStartTestErrorModal(false);
-            }}
+            onClick={closeStartTestErrorModal}
             fullWidth
             variant="primary"
             colors="white"
@@ -40,16 +35,6 @@ const StartTestErrorModal = ({
       </div>
     </Modal>
   );
-};
-
-StartTestErrorModal.propTypes = {
-  showStartTestErrorModal: PropTypes.bool,
-  setShowStartTestErrorModal: PropTypes.func
-};
-
-StartTestErrorModal.defaultProps = {
-  showStartTestErrorModal: false,
-  setShowStartTestErrorModal: () => {}
 };
 
 export default StartTestErrorModal;

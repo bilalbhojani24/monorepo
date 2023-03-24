@@ -14,8 +14,6 @@ import useDependencyChecker from './useDependencyChecker';
 const DependencyChecker = () => {
   const {
     areDevicesStillLoading,
-    showStartTestErrorModal,
-    setShowStartTestErrorModal,
     listOfDevices,
     refetchDevices,
     totalCompletedSessions
@@ -93,10 +91,7 @@ const DependencyChecker = () => {
         )}
       </div>
 
-      <StartTestErrorModal
-        showStartTestErrorModal={showStartTestErrorModal}
-        setShowStartTestErrorModal={setShowStartTestErrorModal}
-      />
+      <StartTestErrorModal />
     </div>
   );
 };

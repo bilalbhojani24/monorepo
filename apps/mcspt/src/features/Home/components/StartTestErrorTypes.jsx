@@ -1,8 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Hyperlink } from '@browserstack/bifrost';
 
-import { getStartTestError } from '../slices/newPerformanceSessionSlice';
+import {
+  getStartTestError,
+  setStartTestError
+} from '../slices/newPerformanceSessionSlice';
 
 const DeviceLocked = () => (
   <>
@@ -52,7 +55,7 @@ const DevModeDisabled = () => (
 
 const GenericError = () => (
   <>
-    <div className="mb-1 mt-4 text-center text-lg font-medium leading-6">
+    <div className="mb-1 mt-4 text-lg font-medium leading-6">
       Failed to start test due to an internal error. Please try again.
     </div>
 
@@ -72,6 +75,22 @@ const GenericError = () => (
 export const useStartTestErrorTypes = () => {
   const startTestError = useSelector(getStartTestError);
 
+  const [showStartTestErrorModal, setShowStartTestErrorModal] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const closeStartTestErrorModal = () => {
+    setShowStartTestErrorModal(false);
+
+    setTimeout(() => {
+      /**
+       * time for fadeout animation of modal to complete before
+       * redux updates the state and content changes
+       */
+      dispatch(setStartTestError(null));
+    }, 500);
+  };
+
   const generateErrorUIFromResponse = (errorObj) => {
     switch (errorObj?.type) {
       case 'DEVICE_LOCKED': {
@@ -88,7 +107,13 @@ export const useStartTestErrorTypes = () => {
     }
   };
 
+  useEffect(() => {
+    setShowStartTestErrorModal(!!startTestError?.type);
+  }, [startTestError]);
+
   return {
+    showStartTestErrorModal,
+    closeStartTestErrorModal,
     errorUiFragment: generateErrorUIFromResponse(startTestError)
   };
 };

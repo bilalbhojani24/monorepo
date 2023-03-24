@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotalCompletedSessions } from 'features/Dashboard/slices/dashboardSlice';
 
@@ -12,8 +12,6 @@ const useDependencyChecker = () => {
 
   const listOfDevices = useSelector(getListOfDevices);
 
-  const [showStartTestErrorModal, setShowStartTestErrorModal] = useState(false);
-
   const dispatch = useDispatch();
 
   const refetchDevices = useCallback(() => {
@@ -26,8 +24,6 @@ const useDependencyChecker = () => {
 
   return {
     areDevicesStillLoading,
-    showStartTestErrorModal,
-    setShowStartTestErrorModal,
     listOfDevices,
     refetchDevices,
     totalCompletedSessions
