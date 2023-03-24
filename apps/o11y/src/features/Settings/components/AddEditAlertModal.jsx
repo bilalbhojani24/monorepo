@@ -290,11 +290,11 @@ function AddEditAlertModal() {
 
   return (
     <>
-      <O11yModal show size="xl">
+      <O11yModal show size="xl" onClose={() => handleCloseModal({})}>
         <O11yModalHeader
           dismissButton
           heading={modalData?.action === 'edit' ? 'Edit Alert' : 'Add Alert'}
-          handleDismissClick={handleCloseModal}
+          handleDismissClick={() => handleCloseModal({})}
         />
 
         <O11yModalBody>
@@ -465,7 +465,7 @@ function AddEditAlertModal() {
         </O11yModalBody>
 
         <O11yModalFooter position="right">
-          <O11yButton colors="white" onClick={handleCloseModal}>
+          <O11yButton colors="white" onClick={() => handleCloseModal({})}>
             Cancel
           </O11yButton>
           <O11yButton

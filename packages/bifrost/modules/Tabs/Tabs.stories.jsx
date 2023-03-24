@@ -25,6 +25,10 @@ const defaultConfig = {
       page: () => (
         <DocPageTemplate importStatement={"import Tabs from 'bifrost/Tabs'"} />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=178-38522&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

@@ -16,6 +16,10 @@ const defaultConfig = {
           importStatement={"import Alerts from 'bifrost/Alerts'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

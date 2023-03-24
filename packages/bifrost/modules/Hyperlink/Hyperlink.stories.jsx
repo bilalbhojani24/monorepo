@@ -15,6 +15,10 @@ const defaultConfig = {
           importStatement={"import Hyperlink from 'bifrost/Hyperlink'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

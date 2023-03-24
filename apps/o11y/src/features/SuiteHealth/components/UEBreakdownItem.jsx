@@ -4,16 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import MiniChart from 'common/MiniChart';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { TABS as ERROR_DETAILS_TABS } from 'features/SHErrorDetails/constants';
 import {
   setIsUEDetailsVisible,
   setShowUEDetailsFor,
-  setUECbtInfo
+  setUECbtInfo,
+  setUEDetailsActiveTab
 } from 'features/SHErrorDetails/slices/dataSlice';
 import PropTypes from 'prop-types';
 
 import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
 
-import SnPPlatforms from './Platforms';
+import Platforms from './Platforms';
 import TestInfo from './TestInfo';
 
 const UEBreakdownItem = ({ item, errorId, isLast }) => {
@@ -44,6 +46,15 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
     navigate({ search: searchParams.toString() });
   };
 
+  const handleViewMorePlatforms = () => {
+    dispatch(
+      setUEDetailsActiveTab({
+        idx: 0,
+        value: ERROR_DETAILS_TABS.platforms
+      })
+    );
+  };
+
   return (
     <div
       className={twClassNames('flex w-full items-center hover:bg-brand-50', {
@@ -58,7 +69,11 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
         <TestInfo testDetails={item} />
       </div>
       <div className={UNIQUE_ERROR_BREAKDOWN_HEADER.platforms.bodyClass}>
-        <SnPPlatforms browsers={item.browsers} platforms={item.platforms} />
+        <Platforms
+          browsers={item.browsers}
+          platforms={item.platforms}
+          onViewMoreClick={handleViewMorePlatforms}
+        />
       </div>
       <div
         className={twClassNames(

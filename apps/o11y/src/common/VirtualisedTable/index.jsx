@@ -41,18 +41,26 @@ const TableHead = ({ wrapperClassName, ...restProps }) => (
 
 TableHead.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 
-const Table = ({ wrapperClassName, ...restProps }) => (
+const Table = ({
+  tableWrapperClassName,
+  tableContainerWrapperClassName,
+  ...restProps
+}) => (
   <O11yTable
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...restProps}
     containerWrapperClass={twClassNames(
       'border border-base-300',
-      wrapperClassName
+      tableContainerWrapperClassName
     )}
+    tableWrapperClass={tableWrapperClassName}
   />
 );
 
-Table.propTypes = { wrapperClassName: PropTypes.string.isRequired };
+Table.propTypes = {
+  tableWrapperClassName: PropTypes.string.isRequired,
+  tableContainerWrapperClassName: PropTypes.string.isRequired
+};
 
 const LoadingFooter = () => (
   <O11yTableRow>
@@ -75,6 +83,7 @@ const VirtualisedTable = ({
   useWindowScroll,
   customScrollParent,
   tableWrapperClassName,
+  tableContainerWrapperClassName,
   tableHeaderWrapperClassName,
   tableRowWrapperClassName
 }) => {
@@ -107,7 +116,11 @@ const VirtualisedTable = ({
       }
       components={{
         Table: (props) => (
-          <Table {...props} wrapperClassName={tableWrapperClassName} />
+          <Table
+            {...props}
+            tableContainerWrapperClassName={tableContainerWrapperClassName}
+            tableWrapperClassName={tableWrapperClassName}
+          />
         ),
         TableHead: (props) => (
           <TableHead
@@ -141,6 +154,7 @@ VirtualisedTable.propTypes = {
   useWindowScroll: PropTypes.bool,
   customScrollParent: PropTypes.instanceOf(Element),
   tableWrapperClassName: PropTypes.string,
+  tableContainerWrapperClassName: PropTypes.string,
   tableHeaderWrapperClassName: PropTypes.string,
   tableRowWrapperClassName: PropTypes.string
 };
@@ -154,6 +168,7 @@ VirtualisedTable.defaultProps = {
   useWindowScroll: false,
   customScrollParent: null,
   tableWrapperClassName: '',
+  tableContainerWrapperClassName: '',
   tableHeaderWrapperClassName: '',
   tableRowWrapperClassName: ''
 };
