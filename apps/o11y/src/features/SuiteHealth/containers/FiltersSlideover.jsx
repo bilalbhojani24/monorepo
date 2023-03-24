@@ -56,15 +56,11 @@ const FiltersSlideover = memo(
         closeButtonOutside={false}
       >
         <O11ySlideoverHeader
-          heading={
-            <span className="text-base-900 text-lg font-medium leading-7">
-              Filters
-            </span>
-          }
-          headingWrapperClassName="py-2"
+          heading="Filters"
+          headingWrapperClassName="text-base-900 text-lg font-medium leading-7"
           handleDismissClick={onClose}
         />
-        <O11ySlideoverBody wrapperClassName="px-6 py-0 border-b border-base-200">
+        <O11ySlideoverBody wrapperClassName="px-6 py-0 pt-2 border-b border-base-200">
           <FilterSlideoverBody
             allBuildNames={allBuildNames}
             filters={filters}

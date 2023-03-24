@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdCancel } from '@browserstack/bifrost';
 import { O11yTooltip } from 'common/bifrostProxy';
+import MiniChart from 'common/MiniChart';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import { getActiveProject } from 'globalSlice/selectors';
 
@@ -84,9 +85,19 @@ const ErrorInfo = () => {
           <span className="text-base-900 text-base font-normal leading-6">
             Error count
           </span>
-          <span className="text-base-700 text-base font-semibold leading-8">
-            {errorData?.errorCount.toString().padStart(2, '0')}
-          </span>
+          <div className="flex items-center gap-4">
+            <div className="h-5 w-12">
+              <MiniChart
+                data={errorData.chartData}
+                chartType="area"
+                color="var(--colors-danger-100)"
+                lineColor="var(--colors-danger-400)"
+              />
+            </div>
+            <span className="text-base-700 text-2xl font-semibold leading-8">
+              {errorData?.errorCount.toString().padStart(2, '0')}
+            </span>
+          </div>
         </div>
       </div>
     </div>

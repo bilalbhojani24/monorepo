@@ -35,7 +35,7 @@ const SlideOverBody = () => {
   };
 
   return (
-    <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-2">
+    <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-0">
       <div className="py-0 px-6">
         <O11yTabs
           defaultIndex={activeTab.idx}

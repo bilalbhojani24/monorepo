@@ -152,7 +152,7 @@ export default function ErrorBuilds() {
       itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
       showFixedFooter={isLoadingMore}
       handleRowClick={handleRowClick}
-      tableWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none border-b"
+      tableContainerWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none border-b"
       tableHeaderWrapperClassName="bg-white"
     />
   );
