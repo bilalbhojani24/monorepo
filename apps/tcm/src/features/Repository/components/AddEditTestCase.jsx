@@ -444,7 +444,7 @@ const AddEditTestCase = () => {
                 )}
                 <TMFileUpload
                   isUploading={isUploadInProgress}
-                  multiple
+                  multiple={false}
                   wrapperClassName="w-64 h-36"
                   heading=""
                   linkText="Upload a file"

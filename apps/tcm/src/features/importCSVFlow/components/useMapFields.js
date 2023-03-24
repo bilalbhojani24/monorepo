@@ -196,6 +196,15 @@ const useMapFields = () => {
     mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
   }));
 
+  const customFieldNames = mapFieldsConfig.customFields.reduce(
+    (mapObject, field) => {
+      const key = field.name;
+      const value = true;
+      return { ...mapObject, [key]: value };
+    },
+    {}
+  );
+
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
       setMapFieldModalConfig({
@@ -245,7 +254,7 @@ const useMapFields = () => {
           importId: mapFieldsConfig?.importId,
           field,
           projectId: queryParams.get('project'),
-          mapped_field: mapDisplayToName[selectedOption.label]
+          mappedField: mapDisplayToName[selectedOption.label]
         })
       );
     }
@@ -322,9 +331,6 @@ const useMapFields = () => {
       currentSelectedModalOption.current
     ) {
       const selectedLabel = currentSelectedModalOption.current.value;
-      // currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
-      //   ? currentSelectedModalOption.current.label.toLowerCase()
-      //   : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
 
       if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
         dispatch(
@@ -377,7 +383,8 @@ const useMapFields = () => {
     const mappingData = {
       importId: mapFieldsConfig.importId,
       myFieldMappings,
-      valueMappings
+      valueMappings,
+      customFieldNames
     };
 
     if (projectId && projectId !== 'new') mappingData.projectId = projectId;

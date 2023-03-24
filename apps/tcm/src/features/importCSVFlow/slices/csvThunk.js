@@ -49,6 +49,15 @@ const removeAddValues = (valueMappings) =>
     return { ...obj, [key]: valueMappings[key] };
   }, {});
 
+const addCustomToFieldMappings = (fieldMappings, customFieldName) =>
+  Object.keys(fieldMappings).reduce((mapObject, key) => {
+    const value = fieldMappings[key];
+    if (customFieldName[value])
+      return { ...mapObject, [key]: { custom_field: value } };
+
+    return { ...mapObject, [key]: value };
+  }, {});
+
 export const setCSVConfigurations = () => async (dispatch) => {
   try {
     const response = await getCSVConfigurations();
@@ -106,14 +115,14 @@ export const setFieldsMappingThunk = (payload) => (dispatch, getState) => {
 };
 
 export const setValueMappingsThunk =
-  ({ importId, field, projectId, mapped_field }) =>
+  ({ importId, field, projectId, mappedField }) =>
   async (dispatch) => {
     try {
       const response = await getFieldMapping({
         importId,
         field,
         projectId,
-        mapped_field
+        mapped_field: mappedField
       });
       dispatch(setValueMappingThunkFulfilled({ field, ...response }));
     } catch (err) {
@@ -122,20 +131,30 @@ export const setValueMappingsThunk =
   };
 
 export const submitMappingData =
-  ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
+  ({
+    importId,
+    projectId,
+    folderId,
+    myFieldMappings,
+    valueMappings,
+    customFieldNames
+  }) =>
   async (dispatch) => {
-    dispatch(submitMappingDataPending());
     const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
+    const customFieldAddedMappings = addCustomToFieldMappings(
+      filteredFieldMappings,
+      customFieldNames
+    );
     const filteredValueMappings = removeIgnoredValues(valueMappings);
     const overFilteredValueMappings = removeAddValues(filteredValueMappings); // remove Add Values.
-
+    dispatch(submitMappingDataPending());
     try {
       const response = await postMappingData({
         importId,
         payload: {
           project_id: projectId,
           folder_id: folderId,
-          field_mappings: filteredFieldMappings,
+          field_mappings: customFieldAddedMappings,
           value_mappings: overFilteredValueMappings
         }
       });
