@@ -192,3 +192,20 @@ export const severityOptions = [
 
 export const getUrlForHeader = (relativeUrl) =>
   `https://www.browserstack.com/${relativeUrl}`;
+
+export const ANALYTICS_KEYS = {
+  amplitudeKey: '',
+  amplitudeConfig: {
+    key: '',
+    userData: {},
+    groupData: {}
+  },
+  analyticsKey: 'UA-x-x',
+  EDSDetails: {
+    config: {
+      server: 'eds.browserstack.com',
+      port: '443',
+      apiKey: ''
+    }
+  }
+};

@@ -14,7 +14,7 @@ import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
-import { logEvent } from 'utils/logEvent';
+import { logEvent, startLogging } from 'utils/logEvent';
 
 export default function useDashboard() {
   const mainRef = useRef(null);
@@ -91,8 +91,12 @@ export default function useDashboard() {
 
   useEffect(() => {
     if (!localStorage.getItem('newSiteScannerBadge')) {
-      console.log('hello');
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
+    }
+    try {
+      startLogging();
+    } catch (e) {
+      console.log('EDS already initialize...');
     }
   }, []);
 
