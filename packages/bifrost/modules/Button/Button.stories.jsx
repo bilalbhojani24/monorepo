@@ -29,6 +29,9 @@ const defaultConfig = {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=5108-71365&t=pdW8TqWMUZrVSu5l-0'
+    },
+    percy: {
+      name: 'button snapshot'
     }
   },
   argTypes: {

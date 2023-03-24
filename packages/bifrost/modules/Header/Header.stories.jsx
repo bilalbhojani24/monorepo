@@ -22,6 +22,10 @@ const defaultConfig = {
     design: {
       type: 'figma',
       url: ''
+    },
+    percy: {
+      skip: true,
+      name: 'dataviz snapshot'
     }
   },
   argTypes: {
