@@ -23,7 +23,7 @@ const StackedListItem = ({
   return (
     <li
       className={twClassNames(
-        'relative px-4 py-4 sm:px-6 flex items-center truncate',
+        'relative px-4 py-5 sm:px-6 flex items-center truncate',
         {
           'px-6 hover:bg-base-50 cursor-pointer rounded-md': variant === 'card'
         }

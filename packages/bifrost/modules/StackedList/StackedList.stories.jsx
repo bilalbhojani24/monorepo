@@ -70,7 +70,7 @@ const defaultConfig = {
       defaultValue: (
         <div className="bg-white py-3 text-center">
           <button
-            className="border-base-300 w-full rounded-md border py-1"
+            className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
             type="button"
           >
             View all
@@ -189,10 +189,10 @@ WithRightJustifiedSecondColumn.args = {
       {JobTitles.map((job, index) => (
         <StackedListItem key={job} variant="card">
           <StackedListCommon
-            title={<span className="text-brand-600">{job}</span>}
+            title={<span className="text-brand-600 text-base">{job}</span>}
             subTitle={
-              <div className="mt-2 flex">
-                <span className="text-base-500 mr-4 flex">
+              <div className="mt-2 flex gap-6">
+                <span className=" text-base-500 flex">
                   <UsersIcon className="fill-base-400 mr-2 h-5 w-5" />
                   {index === 2 ? 'Design' : 'Engineering'}
                 </span>
@@ -226,7 +226,7 @@ ContentLinksWithAction.args = {
   footer: (
     <div className="bg-white py-3 text-center">
       <button
-        className="border-base-300 w-full rounded-md border py-1"
+        className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
         type="button"
       >
         View all
@@ -260,7 +260,7 @@ WithTruncatedContentPreview.args = {
   footer: (
     <div className="bg-white py-3 text-center">
       <button
-        className="border-base-300 w-full rounded-md border py-1"
+        className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
         type="button"
       >
         Action
@@ -280,8 +280,8 @@ WithTruncatedContentPreview.args = {
             contentAside={<span className="text-base-500 text-sm">{time}</span>}
             subTitle={
               <span>
-                <p className="truncate">{subTitle}</p>
-                <p className="text-base-600 line-clamp-2 mt-1 whitespace-normal text-sm">
+                <p className="text-base-500 truncate">{subTitle}</p>
+                <p className="text-base-600 line-clamp-2 mt-1.5 whitespace-normal text-sm">
                   {content}
                 </p>
               </span>
