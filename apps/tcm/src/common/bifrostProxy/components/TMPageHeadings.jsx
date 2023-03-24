@@ -13,7 +13,7 @@ const TMPageHeadings = (props) => {
 
     props?.onBreadcrumbClick(e, data);
     if (data?.url) {
-      navigate(data.url);
+      navigate(data.url, data?.options);
     }
   };
 

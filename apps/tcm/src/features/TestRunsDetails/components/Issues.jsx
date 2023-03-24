@@ -10,8 +10,13 @@ import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
   const { testRunDetails, isIssuesLoading, issuesArray } = useIssues();
-  const { projectId, testRunId, testRunPageQuery, fetchTestRunDetails } =
-    useTestRunDetails();
+  const {
+    projectId,
+    testRunId,
+    testRunPageQuery,
+    sourceTab,
+    fetchTestRunDetails
+  } = useTestRunDetails();
 
   useEffect(() => {
     fetchTestRunDetails(false);
@@ -62,7 +67,8 @@ const Issues = () => {
             url: routeFormatter(AppRoute.TEST_RUN_DETAILS, {
               projectId,
               testRunId
-            })
+            }),
+            options: { state: { sourceTab } }
           },
           { name: 'Issues' }
         ]}
