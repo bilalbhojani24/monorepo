@@ -48,7 +48,7 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Test Run',
-      key: 'jira_id',
+      key: 'test_run_id',
       cell: (rowData) => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
@@ -81,7 +81,8 @@ const TestCaseMutliData = ({
   return (
     <>
       <TMTabs
-        id="project-tabs"
+        defaultIndex={TABS_ARRAY.findIndex((item) => item === selectedTab)}
+        id="test-case-multi-tabs"
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
