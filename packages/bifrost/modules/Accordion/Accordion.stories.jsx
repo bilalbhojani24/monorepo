@@ -38,6 +38,7 @@ const Template = (args) => <Accordion {...args} />;
 const InteractiveAccordion = Template.bind({});
 InteractiveAccordion.args = {
   defaultOpen: true,
+  wrapperAriaLabel: 'My Accordion',
   children: [
     <AccordionInteractiveHeader
       trigger={<input aria-label="custom checkbox" type="checkbox" />}
@@ -96,6 +97,7 @@ InteractiveAccordion.args = {
     <AccordionPanel>
       <div className="bg-base-100 my-2 flex h-16 items-center justify-center">
         main content comes here
+        <a href="#/">Some Link</a>
       </div>
     </AccordionPanel>
   ]
