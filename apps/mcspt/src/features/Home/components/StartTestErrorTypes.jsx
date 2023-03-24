@@ -10,7 +10,7 @@ import {
 const DeviceLocked = () => (
   <>
     <div className="mb-1 mt-4 text-lg font-medium leading-6">
-      Failed to start Test
+      Failed to start test
     </div>
 
     <div className="mb-1 text-lg font-medium leading-6">
@@ -33,7 +33,7 @@ const DeviceLocked = () => (
 const DevModeDisabled = () => (
   <>
     <div className="mb-1 mt-4 text-lg font-medium leading-6">
-      Failed to start Test
+      Failed to start test
     </div>
 
     <div className="mb-1 text-lg font-medium leading-6">
