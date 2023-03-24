@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { chartOptionsSpline, chartOptionStacked } from './chartOptions';
 
@@ -44,7 +44,7 @@ export default function useOverview({ scanOverviewData }) {
           name: 'Minor',
           data: severity.minor,
           borderWidth: 0,
-          color: '#DFE7E8',
+          color: '#9CA3AF',
           pointWidth: 12,
           borderRadiusTopLeft: '10px',
           borderRadiusTopRight: '10px',
@@ -58,7 +58,7 @@ export default function useOverview({ scanOverviewData }) {
           name: 'Moderate',
           data: severity.moderate,
           borderWidth: 0,
-          color: '#EAB308',
+          color: '#F59E0B',
           pointWidth: 12,
           events: {
             click(event) {
@@ -70,7 +70,7 @@ export default function useOverview({ scanOverviewData }) {
           name: 'Serious',
           data: severity.serious,
           borderWidth: 0,
-          color: '#F97316',
+          color: '#F472B6',
           pointWidth: 12,
           events: {
             click(event) {
@@ -81,7 +81,7 @@ export default function useOverview({ scanOverviewData }) {
         {
           name: 'Critical',
           data: severity.critical,
-          color: '#DC2626',
+          color: '#EF4444',
           pointWidth: 12,
           borderWidth: 0,
           events: {
@@ -91,7 +91,6 @@ export default function useOverview({ scanOverviewData }) {
           }
         }
       ];
-      console.log(currentStackedChartData, scanOverviewData);
       return currentStackedChartData;
     }
     return null;
