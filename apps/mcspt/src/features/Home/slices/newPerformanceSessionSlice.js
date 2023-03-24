@@ -6,6 +6,7 @@ const initialState = {
   selectedApplication: {},
   listOfDevices: [],
   lisOfApplications: [],
+  startTestError: null,
   sessionDetails: {
     sessionName: ''
   }
@@ -39,6 +40,10 @@ export const newPerformanceSessionSlice = createSlice({
       state.sessionDetails = { ...state.sessionDetails, ...action.payload };
     },
 
+    setStartTestError: (state, action) => {
+      state.startTestError = action.payload;
+    },
+
     resetSessionSetupData: (state) => {
       state.currentSetupStep = initialState.currentSetupStep;
       state.selectedDevice = initialState.selectedDevice;
@@ -64,6 +69,9 @@ export const getListOfDevices = (state) =>
 export const getListOfApplications = (state) =>
   state.newPerformanceSession.lisOfApplications;
 
+export const getStartTestError = (state) =>
+  state.newPerformanceSession.startTestError;
+
 export const getSessionDetails = (state) =>
   state.newPerformanceSession.sessionDetails;
 
@@ -74,6 +82,7 @@ export const {
   setSelectedApplication,
   setListOfDevices,
   setListOfApplications,
+  setStartTestError,
   setSessionDetails,
   resetSessionSetupData
 } = newPerformanceSessionSlice.actions;

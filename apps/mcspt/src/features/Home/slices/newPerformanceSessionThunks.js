@@ -16,7 +16,8 @@ import {
   setListOfDevices,
   setSelectedApplication,
   setSelectedDevice,
-  setSessionDetails
+  setSessionDetails,
+  setStartTestError
 } from './newPerformanceSessionSlice';
 
 export const fetchApplicationsFromSelectedDevice =
@@ -80,6 +81,8 @@ export const triggerSession =
     try {
       dispatch(setIsSessionApiLoading(true));
 
+      dispatch(setStartTestError(null));
+
       dispatch(setSessionDetails({ sessionName }));
 
       const selectedDevice = getState()?.newPerformanceSession?.selectedDevice;
@@ -96,8 +99,10 @@ export const triggerSession =
 
       navigatorCallback('/generate');
     } catch (error) {
-      if (error?.response?.status !== 461) {
-        throw error;
+      if (error?.response?.status === 466) {
+        dispatch(setStartTestError(error?.response?.data));
+      } else {
+        dispatch(setStartTestError({ type: 'UNHANDLED_BY_BE' }));
       }
     } finally {
       dispatch(setIsSessionApiLoading(false));

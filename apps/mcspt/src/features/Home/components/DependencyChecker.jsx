@@ -18,6 +18,7 @@ import {
 } from '@browserstack/bifrost';
 import dependencyLoader from 'assets/tripleDots.gif';
 
+import StartTestErrorModal from './StartTestErrorModal';
 import useDependencyChecker from './useDependencyChecker';
 
 const DependencyChecker = () => {
@@ -38,7 +39,9 @@ const DependencyChecker = () => {
     deviceSelectionError,
     totalCompletedSessions,
     disableTestTrigger,
-    searchApplications
+    searchApplications,
+    showStartTestErrorModal,
+    setShowStartTestErrorModal
   } = useDependencyChecker();
 
   return (
@@ -198,6 +201,11 @@ const DependencyChecker = () => {
           </div>
         )}
       </div>
+
+      <StartTestErrorModal
+        showStartTestErrorModal={showStartTestErrorModal}
+        setShowStartTestErrorModal={setShowStartTestErrorModal}
+      />
     </div>
   );
 };

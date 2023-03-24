@@ -54,6 +54,7 @@ const useDependencyChecker = () => {
   const [applicationOptionList, setApplicationOptionList] = useState([]);
 
   const [deviceSelectionError, setDeviceSelectionError] = useState('');
+  const [showStartTestErrorModal, setShowStartTestErrorModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -152,7 +153,9 @@ const useDependencyChecker = () => {
     disableTestTrigger:
       (!isUserLoggedIn && totalAllowedSessions === totalCompletedSessions) ||
       areApplicationsStillLoading,
-    searchApplications
+    searchApplications,
+    showStartTestErrorModal,
+    setShowStartTestErrorModal
   };
 };
 
