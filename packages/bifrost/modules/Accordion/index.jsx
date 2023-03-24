@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 const Accordion = ({ children, defaultOpen, wrapperAriaLabel }) => (
   <Disclosure as={Fragment} defaultOpen={defaultOpen}>
-    <div aria-label={wrapperAriaLabel} className="p-2">
-      {children}
-    </div>
+    <div aria-label={wrapperAriaLabel}>{children}</div>
   </Disclosure>
 );
 

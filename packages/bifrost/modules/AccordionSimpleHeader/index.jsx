@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import PropTypes from 'prop-types';
 
 const AccordionSimpleHeader = ({ title }) => (
-  <Disclosure.Button className="flex w-full items-center gap-1">
+  <Disclosure.Button className="flex w-full items-center gap-1 py-3 px-6">
     {({ open }) => (
       <>
         <ChevronRightIcon

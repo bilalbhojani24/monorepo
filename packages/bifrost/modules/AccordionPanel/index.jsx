@@ -10,6 +10,7 @@ const AccordionPanel = ({ children }) => (
     leave="transition duration-200 ease-out"
     leaveFrom="transform scale-100 opacity-100"
     leaveTo="transform scale-95 opacity-0"
+    className="pb-4 pl-6"
   >
     <Disclosure.Panel>{children}</Disclosure.Panel>{' '}
   </Transition>

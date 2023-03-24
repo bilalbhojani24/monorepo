@@ -10,7 +10,7 @@ const AccordionInteractiveHeader = ({
   asideContent,
   children
 }) => (
-  <span className="flex items-start gap-1">
+  <span className="flex place-items-start gap-1.5 py-3 px-6">
     {trigger && <span>{trigger}</span>}
     <div className="w-full">
       <div className="flex justify-between">
@@ -19,14 +19,14 @@ const AccordionInteractiveHeader = ({
             <button
               type="button"
               className={twClassNames(
-                'flex  cursor-pointer items-center gap-1',
+                'flex  cursor-pointer items-center gap-2.5 grow m-1',
                 { 'text-base-800': open },
                 { 'text-base-500': !open }
               )}
             >
               <ChevronRightIcon
                 className={twClassNames(
-                  'truncate h-6 w-6 transition-transform',
+                  'truncate h-5 w-5 transition-transform',
                   {
                     'rotate-90': open
                   }
@@ -38,7 +38,7 @@ const AccordionInteractiveHeader = ({
         </Disclosure.Button>
         {asideContent && <div className="truncate">{asideContent}</div>}
       </div>
-      {children && <div className="ml-7">{children}</div>}
+      {children && <div className="ml-7 pl-0.5">{children}</div>}
     </div>
   </span>
 );
