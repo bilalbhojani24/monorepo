@@ -1,13 +1,13 @@
 import React from 'react';
+
+import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 import {
   BarsArrowUpIcon,
   EnvelopeIcon,
   QuestionMarkCircleIcon,
   UserIcon
-} from '@heroicons/react/20/solid';
-
-import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import Button from '../Button';
+} from '../Icon';
 import SelectMenu from '../SelectMenu';
 import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
 import SelectMenuOptionItem from '../SelectMenuOptionItem';
