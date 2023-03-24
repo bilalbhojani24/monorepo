@@ -14,10 +14,11 @@ import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
-import { logEvent } from 'utils/logEvent';
+import { logEvent, startLogging } from 'utils/logEvent';
 
 export default function useDashboard() {
   const mainRef = useRef(null);
+  const analyticsInitializerRef = useRef(false);
   const dispatch = useDispatch();
   const isShowingBanner = useSelector(getIsShowingBanner);
   const [currentPath, setCurrentPath] = useState(defaultPath());
@@ -91,8 +92,14 @@ export default function useDashboard() {
 
   useEffect(() => {
     if (!localStorage.getItem('newSiteScannerBadge')) {
-      console.log('hello');
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!analyticsInitializerRef.current) {
+      startLogging();
+      analyticsInitializerRef.current = true;
     }
   }, []);
 
