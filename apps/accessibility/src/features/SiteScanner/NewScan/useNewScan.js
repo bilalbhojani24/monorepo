@@ -278,7 +278,6 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             value: selectedWcagVersion.id
           };
           logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
-            actionType: 'Scan changes',
             action: 'Create Scan',
             scanFrequency: recurringStatus ? formData.type : null,
             scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
