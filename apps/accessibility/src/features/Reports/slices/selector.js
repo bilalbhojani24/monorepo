@@ -18,3 +18,5 @@ export const getLastIndex = (state) =>
   state.accessibility.app.reports.lastIndex;
 export const getSelectedReportType = (state) =>
   state.accessibility.app.reports.selectedReportType;
+export const getIsShowingBanner = (state) =>
+  state.accessibility.app.reports.isShowingBanner;

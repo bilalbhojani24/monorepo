@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
@@ -15,7 +15,8 @@ import {
 import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getProjects } from 'globalSlice/selectors';
-import { getDocUrl } from 'utils/common';
+import debounce from 'lodash/debounce';
+import { getDocUrl, logOllyEvent } from 'utils/common';
 
 import ProjectListItem from '../components/ProjectListItem';
 
@@ -34,7 +35,30 @@ export default function ProjectList() {
 
   useEffect(() => {
     setProjectsList(projects.list);
+    if (projects.list.length) {
+      logOllyEvent({
+        event: 'O11yProjectListingVisited',
+        data: {
+          num_projects: projects.list.length
+        }
+      });
+    }
   }, [projects.list]);
+
+  const debouncedSearchLogEvent = useMemo(
+    () =>
+      debounce(
+        (text) =>
+          logOllyEvent({
+            event: 'O11yProjectListingSearched',
+            data: {
+              search_string: text
+            }
+          }),
+        300
+      ),
+    []
+  );
 
   const handleSearchTextChange = (e) => {
     const val = e.target?.value?.toLowerCase();
@@ -42,6 +66,7 @@ export default function ProjectList() {
     setProjectsList(
       projects.list.filter((item) => item?.name?.toLowerCase().includes(val))
     );
+    debouncedSearchLogEvent(val);
   };
 
   const handleClearSearch = () => {
@@ -108,7 +133,7 @@ export default function ProjectList() {
             />
           </div>
         )}
-        <div className="flex justify-center bg-white px-5 py-2">
+        <div className="flex justify-center bg-white px-6 pb-6 pt-4">
           <O11yHyperlink
             target="_blank"
             href={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}

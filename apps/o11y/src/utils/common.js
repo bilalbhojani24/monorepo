@@ -1,5 +1,6 @@
+import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS } from 'constants/common';
+import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
@@ -46,9 +47,6 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
 
 export const logOllyEvent = ({ event, data = {} }) => {
-  if (!window.location.hostname.endsWith('browserstack.com')) {
-    return;
-  }
   const commonData = {
     url: window.location.href,
     screenResolution: {
@@ -67,9 +65,72 @@ export const logOllyEvent = ({ event, data = {} }) => {
     domain:
       window.location.hostname.split('.').length >= 3
         ? window.location.hostname.split('.').slice(1, 3).join('.')
-        : window.location.hostname
+        : window.location.hostname,
+    is_dark_mode:
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  logEvent([], 'web_events', event, { ...commonData, ...data });
+  if (!getEnvConfig().enableLogging) {
+    // eslint-disable-next-line no-console
+    console.log('Event Name:', event);
+    // eslint-disable-next-line no-console
+    console.table({ ...commonData, ...data });
+  }
+  if (window.location.hostname.endsWith('browserstack.com')) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
+  }
+};
+
+export const capitalize = (word, upCaseTwo = false) => {
+  let result = word;
+  if (result) {
+    result = result.toLowerCase();
+    if (upCaseTwo && result.length === 2) {
+      result = result.toUpperCase();
+    } else {
+      result = result.charAt(0).toUpperCase() + result.slice(1);
+    }
+  }
+  return result;
+};
+
+export const getShortOSName = (os) => {
+  switch (os) {
+    case 'windows':
+      return 'Win';
+    case 'ios':
+      return 'iOS';
+    case 'macos':
+      return 'mac OS';
+    case 'os x':
+      return 'OS X';
+    case 'winphone':
+      return 'WinPhone';
+    default:
+      return capitalize(os);
+  }
+};
+export const getOsIconName = (os) => {
+  if (!os) {
+    return 'default_os';
+  }
+  const formattedOS = os.toLowerCase().replace(/\s+/g, '-');
+  const [osType] = formattedOS.split('-');
+  if (osType === 'ios') {
+    return osType;
+  }
+
+  return formattedOS;
+};
+
+export const getIconName = (name = '', device = '') => {
+  if (name) {
+    return `icon-${name.toLowerCase()}`;
+  }
+  if (device) {
+    return `device_icon`;
+  }
+  return 'icon-default_browser';
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -108,4 +169,22 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
     return TEST_STATUS.SKIPPED;
   }
   return TEST_STATUS.UNKNOWN;
+};
+
+export const transformUnsupportedTags = (node, index) => {
+  const updatedNode = node;
+  if (
+    updatedNode.type === 'tag' &&
+    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+  ) {
+    updatedNode.children = [
+      {
+        data: `<${updatedNode.name}>`,
+        type: 'text'
+      },
+      ...updatedNode.children
+    ];
+    updatedNode.name = 'span';
+  }
+  return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
 };

@@ -10,7 +10,9 @@ import {
   O11yTableHead,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -18,8 +20,8 @@ import AlertTypeGroup from '../components/AlertTypeGroup';
 import Initiator from '../components/Initiator';
 import SettingsCard from '../components/SettingsCard';
 import { ALERT_TYPES } from '../constants';
+import { getAlertsSettings } from '../slices/alertsSettings';
 import { getAlertsState } from '../slices/selectors';
-import { getAlertsSettings } from '../slices/settingsSlice';
 
 export default function AlertsSettings() {
   const data = useSelector(getAlertsState);
@@ -35,13 +37,16 @@ export default function AlertsSettings() {
     }
   }, [activeProject.normalisedName, dispatch]);
 
+  const handleClickAddAlert = () => {
+    dispatch(toggleModal({ version: MODAL_TYPES.add_edit_alert, data: {} }));
+  };
+
   if (data?.isLoading) {
     return (
       <SettingsCard>
         <div className="m-auto flex h-72 w-72 flex-col items-center justify-center p-6">
           <O11yLoader
             wrapperClassName="flex-1"
-            loaderClass="text-base-200 fill-base-400 w-8 h-8"
             text="Fetching alerts"
             textClass="text-sm"
           />
@@ -56,7 +61,7 @@ export default function AlertsSettings() {
           <Initiator
             btnText="Create Alert"
             desc="Alerts allow you to define thresholds for different build criteria, such as build performance, stability, etc and monitor the overall health of your builds or projects."
-            onClick={() => {}}
+            onClick={handleClickAddAlert}
             title="Configure alerts"
             illustration={createAlertSvg}
           />
@@ -77,19 +82,39 @@ export default function AlertsSettings() {
           </div>
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
-            // onClick={onClick}
+            onClick={handleClickAddAlert}
           >
             Add alert
           </O11yButton>
         </div>
         <div className="mt-6">
-          <O11yTable containerWrapperClass="overflow-visible overflow-x-visible md:rounded-none">
+          <O11yTable containerWrapperClass="overflow-visible overflow-x-visible">
             <O11yTableHead wrapperClassName="bg-white sticky top-0">
               <O11yTableRow>
-                <O11yTableCell variant="header">Alert name</O11yTableCell>
-                <O11yTableCell variant="header">Warning</O11yTableCell>
-                <O11yTableCell variant="header">Critical</O11yTableCell>
-                <O11yTableCell variant="header">Applicable to</O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg  w-2/5"
+                  variant="header"
+                >
+                  Alert
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Warning
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Critical
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="md:rounded-lg"
+                  variant="header"
+                >
+                  Applicable to
+                </O11yTableCell>
               </O11yTableRow>
             </O11yTableHead>
             <O11yTableBody>

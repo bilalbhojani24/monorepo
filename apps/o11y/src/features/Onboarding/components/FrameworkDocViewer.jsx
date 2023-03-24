@@ -11,7 +11,7 @@ import { ROUTES } from 'constants/routes';
 import { setProjectList } from 'globalSlice';
 import useRafPolling from 'hooks/useRafPolling';
 import PropTypes from 'prop-types';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, logOllyEvent } from 'utils/common';
 
 const POLLING_INTERVAL = 10000;
 
@@ -54,6 +54,17 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     [endPolling]
   );
 
+  useEffect(() => {
+    if (selectedFramework.name) {
+      logOllyEvent({
+        event: 'O11yOnboardingVisited',
+        data: {
+          language_framework: selectedFramework.name
+        }
+      });
+    }
+  }, [selectedFramework.name]);
+
   const handleFrameTasks = useCallback((message) => {
     if (!message?.data) return;
     // Adding check for allowing messages only from browserstack domain
@@ -89,12 +100,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
         </O11yButton>
         <p className="text-sm font-medium">{selectedFramework.name}</p>
       </div>
-      {isLoading && (
-        <O11yLoader
-          wrapperClassName="flex-1"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
-      )}
+      {isLoading && <O11yLoader wrapperClassName="flex-1" />}
       <iframe
         className={twClassNames('w-full h-0 border-0 rounded', {
           'h-full border border-base-200 ': !isLoading
@@ -109,7 +115,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
       {!isLoading && (
         <O11yLoader
           wrapperClassName="h-10 mt-5"
-          loaderClass="text-base-200 fill-base-400 w-6 h-6"
+          loaderClass="w-6 h-6"
           text="Waiting for first build to be triggered to view test results"
           textClass="text-base font-medium"
         />

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
+import { getTimeBounds } from 'utils/dateTime';
 
 export const getBuildNames = async ({ normalisedName }) =>
   axios.get(
@@ -12,19 +13,21 @@ export const getSnPTests = async ({
   sortOptions,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/?orderKey=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/?orderKey=${
     sortOptions.type
   }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
     filters.isFlaky
   }`;
-  if (pagingParams?.offset && pagingParams?.start) {
-    endpoint = `${endpoint}&start=${pagingParams.start}&offset=${pagingParams.offset}`;
+  if (pagingParams?.pageNumber) {
+    endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
   }
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -32,41 +35,54 @@ export const getSnPTests = async ({
 export const getSnPTestsBreakdown = async ({
   normalisedName,
   testId,
-  buildName,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/breakdown?`;
-
-  if (buildName && buildName !== 'all') {
-    endpoint = `${endpoint}&buildName=${buildName}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/breakdown?`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
 
   return axios.get(endpoint);
 };
 
-export const getSnPTestsDetailsInfo = async ({ normalisedName, testId }) =>
-  axios.get(`
-  ${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/info
-  `);
+export const getSnPTestsDetailsInfo = async ({
+  normalisedName,
+  testId,
+  filters
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/info?isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
 export const getSnPDetailsStats = async ({
   normalisedName,
   testId,
   cbtInfo,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/stats?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/stats?browser=${
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -76,16 +92,18 @@ export const getSnPDetailsTrend = async ({
   cbtInfo,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/trend?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/tests/${testId}/details/trend?browser=${
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -98,23 +116,20 @@ export const getSnPDetailsBuilds = async ({
   filters
 }) => {
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/${testId}/details/builds?browser=${
-    cbtInfo.browserName
-  },${cbtInfo.browserVersion}&os=${cbtInfo.osName},${
-    cbtInfo.osVersion
-  }&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
+    cbtInfo.browserKey
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
+    filters.isMuted
+  }&isFlaky=${filters.isFlaky}`;
   if (pagingParams?.offset && pagingParams?.start) {
     endpoint = `${endpoint}&start=${pagingParams.start}&offset=${pagingParams.offset}`;
   }
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (
-    !chartBounds.lower &&
-    !chartBounds.upper &&
-    filters.dateRange.lowerBound &&
-    filters.dateRange.upperBound
-  ) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   if (chartBounds.lower && chartBounds.upper) {
     endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
@@ -136,11 +151,13 @@ export const getSnPErrors = async ({
   if (pagingParams?.pageNumber) {
     endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
   }
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -148,18 +165,19 @@ export const getSnPErrors = async ({
 export const getSnPUEBreakdown = async ({
   normalisedName,
   errorId,
-  activeBuild,
   filters,
   sortOptions
 }) => {
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/errors/${errorId}/breakdown?orderKey=${
     sortOptions.type
   }&orderValue=${sortOptions.status}`;
-  if (activeBuild && activeBuild !== 'all') {
-    endpoint = `${endpoint}&buildName=${activeBuild}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -173,11 +191,13 @@ export const getSnPErrorDetailsInfo = async ({
     filters.isMuted
   }&isFlaky=${filters.isFlaky}
   `;
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -191,11 +211,13 @@ export const getSnPErrorDetailsErrorCount = async ({
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/errors/${errorId}/details/errorCount?testId=${testId}&browser=${
     cbtInfo.browserKey
   }&os=${cbtInfo.osKey}&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -212,11 +234,13 @@ export const getSnPErrorDetailsTrend = async ({
   }&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}&isMuted=${
     filters.isMuted
   }&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -238,16 +262,13 @@ export const getSnPErrorDetailsBuilds = async ({
   if (pagingParams?.searchAfter) {
     endpoint = `${endpoint}&searchAfter=${pagingParams.searchAfter}`;
   }
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (
-    !chartBounds.lower &&
-    !chartBounds.upper &&
-    filters.dateRange.lowerBound &&
-    filters.dateRange.upperBound
-  ) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   if (chartBounds.lower && chartBounds.upper) {
     endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
@@ -265,11 +286,13 @@ export const getSnPErrorDetailsPlatforms = async ({
     filters.isMuted
   }&isFlaky=${filters.isFlaky}`;
 
-  if (filters.buildName && filters?.buildName?.value !== 'all') {
-    endpoint = `${endpoint}&buildName=${filters.buildName.value}`;
+  if (filters.buildName.length > 0) {
+    // :TODO need to pass all values as comma seperated
+    endpoint = `${endpoint}&buildName=${filters.buildName[0]}`;
   }
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    endpoint = `${endpoint}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };

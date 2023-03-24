@@ -5,21 +5,24 @@ export const getBuilds = async ({
   projectNormalisedName,
   currentPagingParams
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/`;
+  const searchParams = window.location.search || '?';
+  endpoint += searchParams;
   if (currentPagingParams?.searchAfter?.length) {
+    if (searchParams) endpoint += '&';
     endpoint += `searchAfter=${currentPagingParams.searchAfter}`;
   }
   return axios.get(endpoint);
 };
 
-export const getBuildMetaDataAPI = async (buildId) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}`);
+export const getBuildMetaDataAPI = async ({ buildUUID }) =>
+  axios.get(`${versionedBaseRoute()}/builds/${buildUUID}`);
 
-export const getBuildIdFromBuildInfoApi = async (
+export const getBuildIdFromBuildInfoApi = async ({
   projectNormalisedName,
   buildNormalisedName,
   buildSerialId
-) => {
+}) => {
   const searchParams = new URLSearchParams();
   searchParams.append('projectNormalisedName', projectNormalisedName);
   searchParams.append('buildNormalisedName', buildNormalisedName);
@@ -32,3 +35,25 @@ export const getBuildIdFromBuildInfoApi = async (
 
 export const getBuildInfoFromUuidApi = async (uuid) =>
   axios.get(`${versionedBaseRoute()}/builds/getBuildInfoFromUuid/${uuid}`);
+
+export const getBuildTags = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/tags`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getUserNames = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/users`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getBuildFilterDetails = async ({ projectNormalisedName }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/filters`;
+  endpoint += window.location.search;
+  return axios.get(endpoint);
+};

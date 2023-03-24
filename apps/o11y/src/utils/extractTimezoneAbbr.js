@@ -258,9 +258,8 @@ const TIMEZONE_ABBR_DICT = [
 ];
 
 export const extractTimezoneAbbr = (datetime) => {
-  // eslint-disable-next-line no-param-reassign
-  datetime = datetime || new Date();
-  const m = `${datetime}`.match(/\((.*?)\)\s*$/);
+  const updatedDateTime = datetime || new Date();
+  const m = `${updatedDateTime}`.match(/\((.*?)\)\s*$/);
   if (m) {
     const s = (r) =>
       r
@@ -277,7 +276,7 @@ export const extractTimezoneAbbr = (datetime) => {
   }
   if (window.Intl)
     return `${new window.Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-  return `GMT${datetime.getTimezoneOffset() < 0 ? '' : '+'}${
-    datetime.getTimezoneOffset() / 60
+  return `GMT${updatedDateTime.getTimezoneOffset() < 0 ? '' : '+'}${
+    updatedDateTime.getTimezoneOffset() / 60
   }`;
 };

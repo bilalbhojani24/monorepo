@@ -25,6 +25,10 @@ const defaultConfig = {
           }
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=181-38680&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

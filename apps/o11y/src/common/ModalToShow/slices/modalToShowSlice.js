@@ -11,7 +11,7 @@ const { reducer, actions } = createSlice({
   reducers: {
     toggleModal: (state, { payload }) => {
       state.version = payload.version;
-      state.data = payload.data;
+      state.data = payload?.data || {};
     }
   }
 });

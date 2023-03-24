@@ -6,14 +6,7 @@ import O11yLoader from 'common/O11yLoader';
 
 export default function LayoutWOSidebar() {
   return (
-    <Suspense
-      fallback={
-        <O11yLoader
-          wrapperClassName="h-full"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
-      }
-    >
+    <Suspense fallback={<O11yLoader wrapperClassName="h-full" />}>
       <O11yHeader />
       <main>
         <Outlet />

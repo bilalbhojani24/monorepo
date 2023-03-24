@@ -5,8 +5,9 @@ import { postNewScanConfig } from 'api/siteScannerScanConfigs';
 import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
+import { addZero } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
-import { addZero, getWcagVersionFromVal } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, urlPattern, wcagVersions } from './constants';
@@ -23,7 +24,7 @@ function toHoursAndMinutes(totalMinutes) {
   const minutes = totalMinutes % 60;
   return { hours, minutes };
 }
-export default function useNewScan(closeSlideover, preConfigData) {
+export default function useNewScan(closeSlideover, preConfigData, show) {
   const [recurringStatus, setRecurringStatus] = useState(true);
   const [formData, setFormData] = useState({
     recurring: true,
@@ -238,12 +239,10 @@ export default function useNewScan(closeSlideover, preConfigData) {
           const timeval = formData.time.split(':');
           // eslint-disable-next-line radix
           const minutes = parseInt(timeval[0]) * 60 + parseInt(timeval[1]);
-          console.log({ timeval, minutes });
 
           const diff = minutes + timezoneOffset;
           let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;
-          console.log(diff);
           if (diff < 0) {
             dayVal = dayMap[getKeyByValue(dayMap, formData.day) - 1];
             finalUTCValue = toHoursAndMinutes(1440 + diff);
@@ -278,6 +277,22 @@ export default function useNewScan(closeSlideover, preConfigData) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
+          logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
+            actionType: 'Scan changes',
+            action: 'Create Scan',
+            scanFrequency: recurringStatus ? formData.type : null,
+            scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+            scanTime: recurringStatus
+              ? formData.time
+              : new Date().toLocaleTimeString(),
+            wcagVersion: formData.scanData.wcagVersion.label,
+            day: recurringStatus
+              ? formData.day
+              : new Date().toLocaleDateString(),
+            bestPractices: formData.scanData.bestPractices,
+            needsReview: formData.scanData.needsReview
+          });
+
           postNewScanConfig(payload)
             .then(() => {
               dispatch(getScanConfigs());
@@ -286,7 +301,7 @@ export default function useNewScan(closeSlideover, preConfigData) {
             })
             .catch((err) => console.log(err));
         } else {
-          console.log(validationError, formData);
+          // console.log(validationError, formData);
         }
         break;
       default:

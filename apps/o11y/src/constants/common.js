@@ -37,3 +37,70 @@ export const URL_REGEX =
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
 
 export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
+export const SNP_PARAMS_MAPPING = {
+  snpTestDetails: 'snp_test_details',
+  snpOsName: 'snp_os_name',
+  snpOsVersion: 'snp_os_version',
+  snpBrowserName: 'snp_browser_name',
+  snpBrowserVersion: 'snp_browser_version',
+  snpOsKey: 'snp_os_key',
+  snpBrowserKey: 'snp_browser_key',
+  snpDeviceKey: 'snp_device_key',
+  snpTab: 'snp_tab',
+  snpDateRange: 'snp_date_range',
+  snpActiveBuild: 'snp_active_build',
+  snpErrorId: 'snp_error_id',
+  snpErrorTestId: 'snp_etid',
+  snpIsFlaky: 'snp_flaky',
+  snpIsMuted: 'snp_muted'
+};
+
+export const SNP_DATE_RANGE = {
+  days7: {
+    key: 'days7',
+    label: 'Last 7 Days'
+  },
+  days15: {
+    key: 'days15',
+    label: 'Last 15 Days'
+  },
+  days30: {
+    key: 'days30',
+    label: 'Last 30 Days'
+  }
+};
+
+export const TOOLTIP_STYLES = {
+  backgroundColor: '#00335D',
+  borderColor: 'transparent',
+  style: {
+    color: '#fff',
+    textTransform: 'capitalize'
+  }
+};
+
+export const UNSUPPORTED_HTML_TAGS = [
+  'anonymous',
+  'html',
+  'head',
+  'body',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'p',
+  'br',
+  'div',
+  'section',
+  'main',
+  'article',
+  'header',
+  'footer',
+  'table',
+  'thead',
+  'th',
+  'tr',
+  'td'
+];

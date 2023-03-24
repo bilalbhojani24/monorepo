@@ -2,12 +2,17 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
-import AllBuilds from 'features/AllBuilds';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
+import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
+import SuiteHealth from 'features/SuiteHealth';
 
 import { ROUTES } from './routes';
+
+const AllBuilds = React.lazy(() => import('features/AllBuilds'));
+
+const BuildDetails = React.lazy(() => import('features/BuildDetails'));
 
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
@@ -38,7 +43,7 @@ export const APP_ROUTES = [
   {
     path: ROUTES.root,
     isProtected: true,
-    component: <Navigate to={ROUTES.projects} replace />
+    component: <RootPathHandler />
   },
   {
     path: ROUTES.root,
@@ -72,9 +77,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.build,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <BuildDetails />
       },
       {
         path: ROUTES.builds,
@@ -84,9 +87,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.suite_health,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <SuiteHealth />
       },
       {
         path: ROUTES.settings,
