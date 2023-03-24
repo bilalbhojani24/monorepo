@@ -93,13 +93,10 @@ export default function useDashboard() {
     if (!localStorage.getItem('newSiteScannerBadge')) {
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
     }
-  }, []);
-
-  useEffect(() => {
     try {
       startLogging();
-    } catch (error) {
-      console.log('EDS is already initialize...');
+    } catch (e) {
+      console.log('EDS already initialize...');
     }
   }, []);
 

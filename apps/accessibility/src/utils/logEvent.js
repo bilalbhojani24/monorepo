@@ -7,9 +7,12 @@ import { getCurrentEnv } from 'utils';
 
 import store from '../store';
 
+let isInit = false;
+const eventQueue = [];
+
 const env = getCurrentEnv();
 
-const getAmplitudeKeys = () => {
+const getLoggersKeys = () => {
   const { user } = store.getState().accessibility.app.dashboard;
 
   if (env === ENVS.PRODUCTION) {
@@ -41,11 +44,6 @@ const getAmplitudeKeys = () => {
   }; // added random key so that it does not break UI. Done for staging and local.
 };
 
-export const startLogging = () => {
-  const keys = getAmplitudeKeys();
-  initLogger(keys);
-};
-
 export const getConfigByKey = (key) => {
   const envVars = import.meta.env;
   if (!key) {
@@ -72,12 +70,27 @@ export const getCookieByKeyName = (key) => {
 
 export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
   const product = 'accessibility';
+  const analyticsPayload = { ...data };
+  analyticsPayload.event_name = name;
 
-  const AnalyticsPayload = { ...data };
-  AnalyticsPayload.event_name = name;
+  if (!isInit) {
+    eventQueue.push({ name, data, skipLoggingKeys });
+  }
+
   logAccessibilityEvent(skipLoggingKeys, EDSKey, name, {
     product,
     team: product,
-    ...AnalyticsPayload
+    ...analyticsPayload
   });
+};
+
+export const startLogging = () => {
+  const keys = getLoggersKeys();
+  initLogger(keys);
+  if (eventQueue.length) {
+    eventQueue.forEach(({ name, data, skipLoggingKeys }) => {
+      logEvent(name, data, skipLoggingKeys);
+    });
+  }
+  isInit = true;
 };
