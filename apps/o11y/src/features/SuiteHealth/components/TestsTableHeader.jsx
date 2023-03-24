@@ -19,8 +19,9 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
               key={key}
               wrapperClassName={twClassNames(
                 SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-                'py-3'
+                'py-3 md:first:rounded-tl-lg md:last:rounded-tr-lg'
               )}
+              isSticky
             >
               <button
                 className="flex w-full items-center justify-center gap-1 "
@@ -49,8 +50,9 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
             key={key}
             wrapperClassName={twClassNames(
               SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-              'py-3'
+              'py-3 md:first:rounded-tl-lg md:last:rounded-tr-lg'
             )}
+            isSticky
           >
             <div className="text-xs font-medium leading-4">
               {SUITE_TESTS_HEADER_LABEL_MAPPING[key].name.toUpperCase()}
