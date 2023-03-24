@@ -13,6 +13,8 @@ import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
+import Datepicker from './modules/Datepicker';
+import DatepickerLabel from './modules/DatepickerLabel';
 import DescriptionList from './modules/DescriptionList/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
@@ -113,6 +115,8 @@ export {
   ComboboxOptionItem,
   ComboboxTrigger,
   DataVisualization,
+  Datepicker,
+  DatepickerLabel,
   DescriptionList,
   Draggable,
   Dropdown,

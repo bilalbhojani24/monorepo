@@ -26,7 +26,8 @@ const defaultConfig = {
     },
     disabledMessage: {
       defaultValue: 'Datepicker has been disabled'
-    }
+    },
+    onChange: {}
   },
   controls: {}
 };

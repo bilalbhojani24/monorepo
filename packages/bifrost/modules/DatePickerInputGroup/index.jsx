@@ -39,7 +39,10 @@ const DatePickerInputGroup = ({
       </div>
       {errorMessage ? (
         <div className="flex flex-col justify-around">
-          <ExclamationCircleIcon className="text-danger-500 mr-4 h-5 w-5" />
+          <ExclamationCircleIcon
+            className="text-danger-500 mr-4 h-5 w-5"
+            aria-hidden="true"
+          />
         </div>
       ) : null}
       {disabled ? (
@@ -53,7 +56,10 @@ const DatePickerInputGroup = ({
             defaultOpen
             theme="dark"
           >
-            <QuestionMarkCircleIcon className="text-base-400 mr-4 h-5 w-5" />
+            <QuestionMarkCircleIcon
+              className="text-base-400 mr-4 h-5 w-5"
+              aria-hidden="true"
+            />
           </Tooltip>
         </div>
       ) : (

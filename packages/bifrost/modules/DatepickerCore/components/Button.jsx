@@ -9,15 +9,15 @@ export function CalendarButton(props) {
   const { children } = props;
   const ref = useRef();
   const { buttonProps, isDisabled } = useButton(props, ref);
-  const { focusProps, isFocusVisible } = useFocusRing();
+  const { focusProps } = useFocusRing();
   return (
     <Button
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
       className={twClassNames('rounded-full p-2 outline-none', {
         'text-base-400': isDisabled,
-        'hover:bg-base-100 active:bg-base-200': !isDisabled,
-        'ring-brand-600 ring-2 ring-offset-2': isFocusVisible
+        'hover:bg-base-100 active:bg-base-200 focus:ring-brand-600 focus:ring-2':
+          !isDisabled
       })}
     >
       {children}

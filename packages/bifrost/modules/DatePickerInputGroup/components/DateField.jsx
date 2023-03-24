@@ -18,7 +18,12 @@ export function DateField(props) {
   const { fieldProps } = useDateField(props, state, ref);
 
   return (
-    <div {...fieldProps} ref={ref} className="flex w-full items-center">
+    <div
+      {...fieldProps}
+      ref={ref}
+      className="flex w-full items-center"
+      aria-label="Enter valid date"
+    >
       {disabled ? (
         <p className="text-base-500 text-sm font-normal leading-5">
           00-00-0000

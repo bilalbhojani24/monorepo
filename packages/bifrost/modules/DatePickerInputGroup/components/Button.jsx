@@ -12,7 +12,7 @@ export function FieldButton(props) {
     <Button
       {...buttonProps}
       ref={ref}
-      className={`border-base-300 -ml-px rounded-r-md border-l px-3.5 outline-none ${
+      className={`border-base-300 focus:ring-brand-600 -ml-px rounded-r-md border-l px-3.5 outline-none focus:ring-2 ${
         isPressed || isCurrentlyPressed ? 'bg-base-300' : 'bg-base-50'
       }`}
     >

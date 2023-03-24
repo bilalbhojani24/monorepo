@@ -15,10 +15,10 @@ const DatePickerCore = (props) => {
   const { groupProps, fieldProps, buttonProps, dialogProps, calendarProps } =
     useDatePicker(props, state, ref);
 
-  const { errorMessage, disabled, wrapperClassName, disabledMessage } = props;
+  const { errorMessage, disabled, disabledMessage } = props;
 
   return (
-    <div className={wrapperClassName}>
+    <div aria-label="Date input field and calendar viewer">
       <DatePickerInputGroup
         errorMessage={errorMessage}
         groupProps={groupProps}
@@ -45,12 +45,10 @@ export default DatePickerCore;
 DatePickerCore.propTypes = {
   errorMessage: Proptypes.string,
   disabled: Proptypes.bool,
-  wrapperClassName: Proptypes.string,
   disabledMessage: Proptypes.string.isRequired
 };
 
 DatePickerCore.defaultProps = {
   errorMessage: null,
-  disabled: false,
-  wrapperClassName: ''
+  disabled: false
 };

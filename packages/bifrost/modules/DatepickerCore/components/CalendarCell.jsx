@@ -28,7 +28,8 @@ export function CalendarCell({
     isOutsideVisibleRange,
     isDisabled,
     formattedDate,
-    isInvalid
+    isInvalid,
+    isUnavailable
   } = useCalendarCell({ date }, state, ref);
 
   let isSelectionStart = isSelected;
@@ -66,7 +67,6 @@ export function CalendarCell({
           disabled: isDisabled,
           'rounded-l-full': isRoundedLeft,
           'rounded-r-full': isRoundedRight
-
           // selected state
           // 'bg-brand-300': isSelected,
           // 'bg-danger-300': isSelected && isInvalid
@@ -130,7 +130,11 @@ export function CalendarCell({
 
                 // Hover state for non-selected cells.
                 'hover:bg-base-100 w-7 h-7 mx-auto rounded-full':
-                  !isSelected && !isDisabled
+                  !isSelected && !isDisabled,
+
+                // styles for unavailable dates
+
+                '': isUnavailable
               }
             )}
           >

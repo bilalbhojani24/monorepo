@@ -21,14 +21,16 @@ Datepicker.propTypes = {
   errorMessage: Proptypes.string,
   disabled: Proptypes.bool,
   onChange: Proptypes.func,
-  disabledMessage: Proptypes.string
+  disabledMessage: Proptypes.string,
+  isDateUnavailable: Proptypes.func
 };
 Datepicker.defaultProps = {
   wrapperClassName: '',
   errorMessage: null,
   disabled: false,
   onChange: () => {},
-  disabledMessage: 'Datepicker has been disabled'
+  disabledMessage: 'Datepicker has been disabled',
+  isDateUnavailable: () => {}
 };
 
 export default Datepicker;
