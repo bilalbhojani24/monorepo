@@ -108,7 +108,9 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="capitalize">{rowData?.latest_status}</div>
+          <div className="flex h-9 items-center pl-3 capitalize">
+            {valueMapped?.label || '--'}
+          </div>
         ) : (
           <TMSelectMenu
             placeholder="Not Started"
@@ -161,7 +163,7 @@ const TestCasesTable = () => {
           </TMTableCell> */}
             {datatableColumns?.map((col, index) => (
               <TMTableCell
-                key={col.key || index}
+                key={col.key}
                 variant="body"
                 wrapperClassName={classNames(
                   col?.class,
@@ -192,7 +194,7 @@ const TestCasesTable = () => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.key}
                         wrapperClassName={classNames(
                           column?.class,
                           'first:pr-3 last:pl-3 px-2 py-2',

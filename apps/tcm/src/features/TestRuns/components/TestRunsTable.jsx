@@ -48,6 +48,7 @@ const TestRunsTable = () => {
       cell: (rowData) => (
         <Link
           className="hover:text-brand-600 cursor-pointer font-medium"
+          state={{ sourceTab: currentTab }}
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
             testRunId: rowData?.id
@@ -65,12 +66,22 @@ const TestRunsTable = () => {
         <>
           <Link
             className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
+            state={{ sourceTab: currentTab }}
             to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
               projectId,
               testRunId: rowData?.id
             })}
           >
-            {rowData.name}
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
+              {rowData.name}
+            </TMTruncateText>
           </Link>
           {rowData.description && (
             <div className="text-base-500">

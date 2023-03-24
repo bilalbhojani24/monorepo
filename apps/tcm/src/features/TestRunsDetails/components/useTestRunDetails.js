@@ -1,9 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom';
 import { getTestRunDetailsAPI } from 'api/testruns.api';
 import AppRoute from 'const/routes';
 import useTestRunsTable from 'features/TestRuns/components/useTestRunsTable';
+import { TABS_ARRAY } from 'features/TestRuns/const/immutableConst';
 import {
   setIsVisibleProps,
   setSelectedTestRun
@@ -22,11 +28,17 @@ import {
 } from '../slices/testRunDetailsSlice';
 
 export default function useTestRunDetails() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { projectId, testRunId } = useParams();
   const { getProgressOptions } = useTestRunsTable();
   const dispatch = useDispatch();
+  const sourceTab = location.state?.sourceTab;
+  const testRunPageQuery =
+    sourceTab === TABS_ARRAY[1].name
+      ? `?${new URLSearchParams({ closed: true }).toString()}`
+      : '';
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
@@ -120,6 +132,8 @@ export default function useTestRunDetails() {
   }, [projectId]);
 
   return {
+    sourceTab,
+    testRunPageQuery,
     showIssuesHandler,
     isTestRunDetailsLoading,
     testCaseDetails,

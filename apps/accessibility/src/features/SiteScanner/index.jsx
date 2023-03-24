@@ -33,8 +33,8 @@ import {
 } from '@browserstack/bifrost';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
+import { logEvent } from 'utils/logEvent';
 
-import { logEvent } from '../../../../../packages/utils/src/logger';
 import {
   fetchScanConfigsById,
   runInstantScan,
@@ -72,7 +72,7 @@ const columns = [
 
 const typesScan = [
   {
-    body: 'All Scans',
+    body: 'All scans',
     id: 'allScans'
   },
   {
@@ -97,7 +97,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdAdd />
-        <span className="ml-2">New Scan</span>
+        <span className="ml-2">New scan</span>
       </div>
     )
   },
@@ -106,7 +106,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdStop />
-        <span className="ml-2">Stop Recurring Scan</span>
+        <span className="ml-2">Stop recurring scan</span>
       </div>
     )
   },
@@ -115,7 +115,7 @@ export const rowMenu = [
     body: (
       <div className="flex items-center">
         <MdOutlineContentCopy />
-        <span className="ml-2">Clone Scan Configuration</span>
+        <span className="ml-2">Clone scan configuration</span>
       </div>
     )
   }
@@ -127,7 +127,7 @@ const singleMenu = [
     value: 'scanDetails',
     body: (
       <div className="flex items-center">
-        <span className="ml-2">View Scan Details</span>
+        <span className="ml-2">View scan details</span>
       </div>
     )
   }
@@ -172,7 +172,7 @@ export default function SiteScanner() {
     setShowNewScan(false);
   };
 
-  const getRunTypeBadge = (recurring, active) => {
+  const getRunTypeBadge = (recurring, active, onDemandCount = 0) => {
     if (recurring && active) {
       return (
         <Badge
@@ -185,7 +185,13 @@ export default function SiteScanner() {
     if (recurring && !active) {
       return <Badge text="Recurring: OFF" wrapperClassName="mr-2" />;
     }
-    return <Badge text="On-demand" wrapperClassName="mr-2" />;
+    const onDemandCountText =
+      onDemandCount > 0
+        ? `(${onDemandCount} ${onDemandCount > 1 ? 'runs' : 'run'})`
+        : '';
+    return (
+      <Badge text={`On-demand ${onDemandCountText}`} wrapperClassName="mr-2" />
+    );
   };
 
   const getCurrrentStatus = (row) => {
@@ -252,7 +258,7 @@ export default function SiteScanner() {
         // alert('Stopped Recurring scan');
       })
       .catch((err) => console.log(err));
-    }
+  };
   const getActionForAnalytics = (val) => {
     switch (val) {
       case 'newScanRun':
@@ -272,16 +278,11 @@ export default function SiteScanner() {
 
   const handleRowMenuClick = (e, rowData) => {
     const menuItem = e.id;
-    logEvent(
-      ['EDS'],
-      'accessibility_dashboard_web_events',
-      'InteractedWithWSHomepage',
-      {
-        actionType: 'Scan changes',
-        action: getActionForAnalytics(menuItem),
-        scanType: rowData.recurring ? 'Recurring scan' : 'On-demand scan'
-      }
-    );
+    logEvent('InteractedWithWSHomepage', {
+      actionType: 'Scan changes',
+      action: getActionForAnalytics(menuItem),
+      scanType: rowData.recurring ? 'Recurring scan' : 'On-demand scan'
+    });
     switch (menuItem) {
       case 'newScanRun':
         setIsLoading(true);
@@ -405,7 +406,7 @@ export default function SiteScanner() {
       <div className="flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
-          <h3 className="text-base-500 mb-4 text-sm font-medium">
+          <h3 className="mb-4 text-sm font-medium text-base-500">
             Scan multiple pages in one go and schedule periodic scans to monitor
             your pages for accessibility issues
           </h3>
@@ -413,15 +414,10 @@ export default function SiteScanner() {
         <Button
           modifier="primary"
           onClick={() => {
-            logEvent(
-              ['EDS'],
-              'accessibility_dashboard_web_events',
-              'InteractedWithWSHomepage',
-              {
-                actionType: 'Configure new scan',
-                action: 'Open new website scan slide over'
-              }
-            );
+            logEvent('InteractedWithWSHomepage', {
+              actionType: 'Configure new scan',
+              action: 'Open new website scan slide over'
+            });
             setShowNewScan(true);
           }}
           size="small"
@@ -495,19 +491,16 @@ export default function SiteScanner() {
               <TableRow
                 key={row.id}
                 onRowClick={() => {
-                  logEvent(
-                    ['EDS'],
-                    'accessibility_dashboard_web_events',
-                    'InteractedWithWSHomepage',
-                    {
+                  if (Object.keys(row.lastScanDetails).length) {
+                    logEvent('InteractedWithWSHomepage', {
                       actionType: 'Open Scan',
                       scanType: row.recurring
                         ? 'Recurring scan'
                         : 'On-demand scan',
                       scanName: row.name
-                    }
-                  );
-                  navigate(`/site-scanner/scan-details/${row.id}`);
+                    });
+                    navigate(`/site-scanner/scan-details/${row.id}`);
+                  }
                 }}
               >
                 <TableCell
@@ -518,7 +511,7 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="text-base-700 mr-2 max-w-xs truncate font-medium"
+                        className="mr-2 max-w-xs truncate font-medium text-base-700"
                       >
                         {row.name}
                       </div>
@@ -540,10 +533,14 @@ export default function SiteScanner() {
                 </TableCell>
                 <TableCell>
                   <div className="flex-col">
-                    {getRunTypeBadge(row.recurring, row.active)}
+                    {getRunTypeBadge(
+                      row.recurring,
+                      row.active,
+                      row?.onDemandCount
+                    )}
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
-                      <div className="flex items-center mt-2">
+                      <div className="mt-2 flex items-center">
                         Scan Ongoing
                         <svg
                           aria-hidden="true"
@@ -569,7 +566,7 @@ export default function SiteScanner() {
                       </div>
                     ) : null}
                     {!row.isProcessing && row.nextScanDate ? (
-                      <span className="mr-2 flex items-center mt-2">
+                      <span className="mr-2 mt-2 flex items-center">
                         Next:{' '}
                         {dateFormat(
                           new Date(row.nextScanDate),
@@ -594,7 +591,7 @@ export default function SiteScanner() {
                       <span className="flex items-center">
                         <MdOutlineSync
                           color="#FFF"
-                          className="bg-attention-500 mr-0.5 rounded-full"
+                          className="mr-0.5 rounded-full bg-attention-500"
                         />
                         {row?.lastScanDetails?.reportSummary?.redirect}{' '}
                         redirects
@@ -677,7 +674,7 @@ export default function SiteScanner() {
                 <span className="mr-2 flex items-center text-sm">
                   <span className="mr-0.5 flex items-center">
                     <MdPerson color="#9CA3AF" className="mr-2" />
-                    <span className="text-base-500 mr-2">
+                    <span className="mr-2 text-base-500">
                       {currentScanDetails?.createdBy?.name}
                     </span>
                   </span>{' '}

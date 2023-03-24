@@ -57,10 +57,10 @@ const TestCaseView = ({
 
 TestCaseView.propTypes = {
   actionHandler: PropTypes.func,
-  testRunId: PropTypes.number,
+  testRunId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
-  onResultClick: PropTypes.bool
+  onResultClick: PropTypes.func
 };
 
 TestCaseView.defaultProps = {

@@ -10,7 +10,8 @@ import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
   const { testRunDetails, isIssuesLoading, issuesArray } = useIssues();
-  const { projectId, testRunId, fetchTestRunDetails } = useTestRunDetails();
+  const { projectId, testRunId, testRunPageQuery, fetchTestRunDetails } =
+    useTestRunDetails();
 
   useEffect(() => {
     fetchTestRunDetails(false);
@@ -52,7 +53,9 @@ const Issues = () => {
         breadcrumbs={[
           {
             name: 'Test Runs',
-            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+            url:
+              routeFormatter(AppRoute.TEST_RUNS, { projectId }) +
+              testRunPageQuery
           },
           {
             name: testRunDetails?.name || testRunId,

@@ -1,22 +1,18 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
-import { requestedSteps } from '../const/unsavedConst';
 import {
   setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
   setBulkUpdateProgress,
   setEditTestCasePageVisibility,
   setRecentRquestedAfterUnsaved,
-  setTestCaseFormData,
   setUnsavedDataExists,
   setUnsavedDataModal
 } from '../slices/repositorySlice';
 
 const useUnsavedChanges = () => {
   const modalFocusRef = useRef();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isUnsavedDataExists = useSelector(
     (state) => state.repository.isUnsavedDataExists
@@ -36,11 +32,6 @@ const useUnsavedChanges = () => {
     dispatch(setUnsavedDataModal(false));
   };
 
-  const clearForm = () => {
-    dispatch(setTestCaseFormData(null));
-    dispatch(setUnsavedDataExists(false));
-  };
-
   const exitAndClearForm = () => {
     dispatch(setAddTestCaseVisibility(false));
     dispatch(setEditTestCasePageVisibility(false));
@@ -50,18 +41,8 @@ const useUnsavedChanges = () => {
   };
 
   const clearUnsavedChangesHandler = () => {
-    switch (recentRequestedStep?.key) {
-      case requestedSteps.CREATE_TEST_CASE: // clear and reopen, nothing additional
-        clearForm();
-        break;
-      case requestedSteps.ROUTE: // clear and reroute
-        navigate(recentRequestedStep?.value);
-        exitAndClearForm();
-        break;
-      default:
-        exitAndClearForm();
-        break;
-    }
+    exitAndClearForm();
+    recentRequestedStep.callBack?.();
     setRecentRequestedStep('');
     hideUnsavedModal();
   };
@@ -81,12 +62,22 @@ const useUnsavedChanges = () => {
     return !isUnsavedDataExists;
   };
 
+  const unsavedFormConfirmation = (isForcedExit, callBack) => {
+    // if ok to proceed rightaway call the function, else wait until complied, if not drop
+    const isOk = isOkToExitForm(isForcedExit, {
+      callBack
+    });
+
+    if (isOk) callBack();
+  };
+
   return {
     modalFocusRef,
     isUnsavedDataModalVisible,
     hideUnsavedModal,
     clearUnsavedChangesHandler,
-    isOkToExitForm
+    isOkToExitForm,
+    unsavedFormConfirmation
   };
 };
 

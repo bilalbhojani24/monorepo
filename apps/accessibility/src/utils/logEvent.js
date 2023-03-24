@@ -2,13 +2,29 @@ import {
   initLogger,
   logEvent as logAccessibilityEvent
 } from '@browserstack/utils';
-import { EDSKey } from 'constants';
+import { EDSKey, ENVS } from 'constants';
+import { getCurrentEnv } from 'utils';
 
-// initLogger({
-//   amplitudeKey: '',
-//   analyticsKey: '',
-//   EDSDetails: ''
-// });
+const keys = {
+  amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
+  amplitudeConfig: {
+    key: '985eaa9c45d824a94344e64a2a3ca724',
+    userData: {},
+    groupData: {}
+  },
+  analyticsKey: 'UA-418548-19',
+  EDSDetails: {
+    config: {
+      server: 'eds.browserstack.com',
+      port: '443',
+      api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+    }
+  }
+};
+
+export const startLogging = () => {
+  initLogger(keys);
+};
 
 export const getConfigByKey = (key) => {
   const envVars = import.meta.env;
@@ -34,13 +50,16 @@ export const getCookieByKeyName = (key) => {
   return '';
 };
 
-export const logEvent = (name, data = {}, skipLoggingKeys = ['amplitude']) => {
+export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
   const product = 'accessibility';
 
-  return null;
-  // logAccessibilityEvent(skipLoggingKeys, EDSKey, name, {
-  //   product,
-  //   team: product,
-  //   ...data
-  // });
+  const env = getCurrentEnv();
+
+  if (env === ENVS.PRODUCTION) {
+    logAccessibilityEvent(skipLoggingKeys, EDSKey, name, {
+      product,
+      team: product,
+      ...data
+    });
+  }
 };

@@ -24,6 +24,8 @@ import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
   const {
+    sourceTab,
+    testRunPageQuery,
     projectId,
     testRunId,
     showIssuesHandler,
@@ -32,6 +34,7 @@ const TopSection = () => {
     fetchTestRunDetails,
     automationTooltipClicked
   } = useTestRunDetails();
+
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
@@ -39,7 +42,9 @@ const TopSection = () => {
         breadcrumbs={[
           {
             name: 'Test Runs',
-            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+            url:
+              routeFormatter(AppRoute.TEST_RUNS, { projectId }) +
+              testRunPageQuery
           },
           {
             name: testRunDetails?.identifier || testRunId
@@ -93,6 +98,7 @@ const TopSection = () => {
         actions={
           <>
             <Link
+              state={{ sourceTab }}
               to={routeFormatter(AppRoute.TEST_RUN_ISSUES, {
                 projectId,
                 testRunId

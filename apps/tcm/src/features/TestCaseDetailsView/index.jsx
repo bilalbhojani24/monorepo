@@ -85,7 +85,7 @@ TestCaseDetailsView.propTypes = {
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
-  onResultClick: PropTypes.bool,
+  onResultClick: PropTypes.func,
   testResultsArray: PropTypes.arrayOf(PropTypes.object)
 };
 

@@ -82,6 +82,10 @@ const defaultConfig = {
           importStatement={"import {Table} from '@browserstack/bifrost'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=156-35973&t=TWCLo3KWhysdxj9F-0'
     }
   },
 
