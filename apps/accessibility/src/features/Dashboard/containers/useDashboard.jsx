@@ -18,7 +18,6 @@ import { logEvent, startLogging } from 'utils/logEvent';
 
 export default function useDashboard() {
   const mainRef = useRef(null);
-  const analyticsInitializerRef = useRef(false);
   const dispatch = useDispatch();
   const isShowingBanner = useSelector(getIsShowingBanner);
   const [currentPath, setCurrentPath] = useState(defaultPath());
@@ -97,9 +96,10 @@ export default function useDashboard() {
   }, []);
 
   useEffect(() => {
-    if (!analyticsInitializerRef.current) {
+    try {
       startLogging();
-      analyticsInitializerRef.current = true;
+    } catch (error) {
+      console.log('EDS is already initialize...');
     }
   }, []);
 
