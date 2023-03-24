@@ -49,9 +49,14 @@ const removeAddValues = (valueMappings) =>
     return { ...obj, [key]: valueMappings[key] };
   }, {});
 
-// const addCustomToFieldMappings = (fieldMappings) => {
-//   console.log('field mappings', fieldMappings);
-// };
+const addCustomToFieldMappings = (fieldMappings, customFieldName) =>
+  Object.keys(fieldMappings).reduce((mapObject, key) => {
+    const value = fieldMappings[key];
+    if (customFieldName[value])
+      return { ...mapObject, [key]: { custom_field: value } };
+
+    return { ...mapObject, [key]: value };
+  }, {});
 
 export const setCSVConfigurations = () => async (dispatch) => {
   try {
@@ -110,14 +115,14 @@ export const setFieldsMappingThunk = (payload) => (dispatch, getState) => {
 };
 
 export const setValueMappingsThunk =
-  ({ importId, field, projectId, mapped_field }) =>
+  ({ importId, field, projectId, mappedField }) =>
   async (dispatch) => {
     try {
       const response = await getFieldMapping({
         importId,
         field,
         projectId,
-        mapped_field
+        mapped_field: mappedField
       });
       dispatch(setValueMappingThunkFulfilled({ field, ...response }));
     } catch (err) {
@@ -126,12 +131,20 @@ export const setValueMappingsThunk =
   };
 
 export const submitMappingData =
-  ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
+  ({
+    importId,
+    projectId,
+    folderId,
+    myFieldMappings,
+    valueMappings,
+    customFieldNames
+  }) =>
   async (dispatch) => {
     const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
-    // const customAddedFieldMappings = addCustomToFieldMappings(
-    //   filteredFieldMappings
-    // );
+    const customFieldAddedMappings = addCustomToFieldMappings(
+      filteredFieldMappings,
+      customFieldNames
+    );
     const filteredValueMappings = removeIgnoredValues(valueMappings);
     const overFilteredValueMappings = removeAddValues(filteredValueMappings); // remove Add Values.
     dispatch(submitMappingDataPending());
@@ -141,7 +154,7 @@ export const submitMappingData =
         payload: {
           project_id: projectId,
           folder_id: folderId,
-          field_mappings: filteredFieldMappings,
+          field_mappings: customFieldAddedMappings,
           value_mappings: overFilteredValueMappings
         }
       });
