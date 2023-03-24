@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   authToken: null,
   userDetails: null,
-  totalAllowedSessions: 0,
+  totalAllowedSessions: 1,
   totalCompletedSessions: 0
 };
 

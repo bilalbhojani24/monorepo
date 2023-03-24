@@ -21,11 +21,12 @@ export const generateDeviceOptions = (deviceList) =>
 
           <div
             className={twClassNames(
-              'mr-1 text-sm font-medium leading-5 group-hover/devicedd:text-white',
+              'mr-1 text-sm font-medium leading-5',
               {
                 'text-base-900': device?.compatible,
                 'text-base-400': !device?.compatible
-              }
+              },
+              'group-hover:text-white'
             )}
           >
             {`${device?.manufacturer} ${device?.model}`}
@@ -33,11 +34,12 @@ export const generateDeviceOptions = (deviceList) =>
 
           <div
             className={twClassNames(
-              'text-sm font-normal leading-5 group-hover/devicedd:text-white group-active/devicedd:text-danger-500',
+              'text-sm font-normal leading-5',
               {
                 'text-base-500': device?.compatible,
                 'text-base-400': !device?.compatible
-              }
+              },
+              'group-hover:text-white'
             )}
           >
             {`${device?.os} ${device?.osVersion}`}

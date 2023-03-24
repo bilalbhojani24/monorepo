@@ -60,23 +60,35 @@ const waitForSuccessfulServerReply = async (
   intervalDuration
 ) => {
   try {
-    const response = await axios.get(
+    const pyServerResponse = await axios.get(
+      `http://localhost:${serverEntities.pyServerPort}/`
+    );
+
+    const nodeServerResponse = await axios.get(
       `http://localhost:${serverEntities.nodeServerPort}/`
     );
 
-    if (response.status !== 200) {
-      throw response;
-    } else {
-      Promise.resolve(response);
+    if (nodeServerResponse.status !== 200 || pyServerResponse.status !== 200) {
+      throw nodeServerResponse;
     }
+
+    return [pyServerResponse, nodeServerResponse];
   } catch (error) {
     if (retries < maxRetries) {
-      setTimeout(() => {
-        waitForSuccessfulServerReply(retries + 1, maxRetries, intervalDuration);
-      }, intervalDuration);
-    } else {
-      throw new Error('Too Many Retries');
+      return new Promise((resolverFn) => {
+        setTimeout(() => {
+          resolverFn(
+            waitForSuccessfulServerReply(
+              retries + 1,
+              maxRetries,
+              intervalDuration
+            )
+          );
+        }, intervalDuration);
+      });
     }
+
+    throw new Error('Too Many Retries');
   }
 };
 
@@ -90,17 +102,37 @@ export const checkServerAvailability = async (initiationCallback) => {
   }
 };
 
+const performApplicationTermination = () => {
+  if (!IS_DEV) {
+    serverEntities.nodeServerInstance.kill();
+    serverEntities.pyServerInstance.kill();
+  }
+
+  app.quit();
+};
+
 export const registerQuitHotkeys = () => {
   process.on('SIGTERM', () => {
-    serverEntities.nodeServer.kill();
-    serverEntities.pyServer.kill();
+    performApplicationTermination();
   });
 
   if (process.platform === 'darwin') {
     globalShortcut.register('Command+Q', () => {
-      serverEntities.nodeServerInstance.kill();
-      serverEntities.pyServerInstance.kill();
-      app.quit();
+      performApplicationTermination();
     });
   }
+};
+
+export const registerAppTerminationListeners = () => {
+  app.on('window-all-closed', () => {
+    if (process.platform === 'darwin') {
+      performApplicationTermination();
+    }
+  });
+
+  app.on('quit', () => {
+    if (process.platform === 'darwin') {
+      performApplicationTermination();
+    }
+  });
 };

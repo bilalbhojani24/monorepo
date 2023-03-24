@@ -7,14 +7,8 @@ import SampleReportsTable from './SampleReports';
 import useHome from './useHome';
 
 const Home = () => {
-  const {
-    totalCompletedSessions,
-    totalAllowedSessions,
-    buildBannerMsg,
-    loginViaSSO,
-    shouldShowExistingSessionsTable,
-    showAuthBanner
-  } = useHome();
+  const { loginViaSSO, shouldShowExistingSessionsTable, showAuthBanner } =
+    useHome();
 
   return (
     <div id="home-container" className="flex w-full flex-col">
@@ -24,18 +18,11 @@ const Home = () => {
           isDismissButton={false}
           ctaButton={
             <Button variant="primary" colors="white" onClick={loginViaSSO}>
-              Login Now
+              Login
             </Button>
           }
-          description={buildBannerMsg(
-            totalCompletedSessions,
-            totalAllowedSessions
-          )}
-          modifier={
-            totalAllowedSessions === totalCompletedSessions
-              ? 'danger'
-              : 'attention'
-          }
+          description="Login now to run unlimited test runs for free."
+          modifier="danger"
           placement="relative"
         />
       )}

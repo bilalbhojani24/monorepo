@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  MdChevronLeft,
-  MdEdit,
-  MdFolderOpen
-} from '@browserstack/bifrost';
+import { Button, MdChevronLeft, MdFolderOpen } from '@browserstack/bifrost';
 
 import useReportHeader from './useReportHeader';
 
@@ -21,10 +16,6 @@ const ReportHeader = () => {
 
         <div className="mx-2 text-sm font-medium leading-5">
           {sessionData.name}
-        </div>
-
-        <div className="text-xl">
-          <MdEdit />
         </div>
       </div>
 
