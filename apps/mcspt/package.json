@@ -1,12 +1,12 @@
 {
   "name": "mcspt",
   "productName": "AppBench",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
     "dev": "electron-forge start -- IS_DEV",
-    "prod": "electron-forge start",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

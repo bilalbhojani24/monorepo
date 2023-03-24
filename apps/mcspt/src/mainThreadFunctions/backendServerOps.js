@@ -4,7 +4,7 @@ const { app, globalShortcut } = require('electron');
 const { default: getPort } = require('get-port');
 const axios = require('axios');
 
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 
 const binIndex = process.execPath.lastIndexOf('/');
 const binPath = process.execPath.substring(0, binIndex);
@@ -26,8 +26,41 @@ const serverEntities = {
   nodeServerPort: null
 };
 
+const findProcessIdFromRecord = (inputProcess) =>
+  inputProcess?.split?.(' ').filter?.((fragment) => fragment !== '')?.[1];
+
+const killPreExistingServers = () => {
+  try {
+    const stalePyServers = execSync(
+      "ps aux | grep 'py-ios/server' | sed -e '/grep/d'"
+    )
+      ?.toString()
+      ?.split('\n')
+      ?.filter((processEntry) => processEntry !== '')
+      .map((record) => findProcessIdFromRecord(record));
+
+    const staleNodeServers = execSync(
+      "ps aux | grep 'mobile-performance/bs-perf-tool server' | sed -e '/grep/d'"
+    )
+      ?.toString()
+      ?.split('\n')
+      ?.filter((processEntry) => processEntry !== '')
+      .map((record) => findProcessIdFromRecord(record));
+
+    stalePyServers.concat(staleNodeServers).forEach((stalePID) => {
+      if (stalePID) {
+        process.kill(stalePID);
+      }
+    });
+  } catch (e) {
+    // Handle failed killing of pre-existing stale processes
+  }
+};
+
 export const initializeBackendServer = async (mainThreadGlobals) => {
   try {
+    killPreExistingServers();
+
     serverEntities.pyServerPort = await getPort({ port: 8000 });
 
     serverEntities.pyServerInstance = await spawn(processPaths.pyIos, [
