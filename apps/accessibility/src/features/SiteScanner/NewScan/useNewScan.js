@@ -282,8 +282,18 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             scanFrequency: recurringStatus ? formData.type : null,
             scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
             scanTime: recurringStatus
-              ? formData.time
-              : new Date().toLocaleTimeString(),
+              ? {
+                  time: formData.time,
+                  timeZone: new Date()
+                    .toString()
+                    .match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+                }
+              : {
+                  time: new Date().toLocaleTimeString(),
+                  timeZone: new Date()
+                    .toString()
+                    .match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+                },
             wcagVersion: formData.scanData.wcagVersion.label,
             day: recurringStatus
               ? formData.day

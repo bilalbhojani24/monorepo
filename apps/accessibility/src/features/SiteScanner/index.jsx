@@ -29,7 +29,9 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
@@ -579,31 +581,60 @@ export default function SiteScanner() {
                 <TableCell>
                   {row?.lastScanDetails?.reportSummary ? (
                     <div className="flex">
-                      <span
-                        title={`${row?.lastScanDetails?.reportSummary?.success} success`}
-                        className="mr-4 flex items-center"
+                      <Tooltip
+                        theme="dark"
+                        placementSide="bottom"
+                        content={
+                          <TooltipBody wrapperClassName="mb-0">
+                            {`Success: ${row?.lastScanDetails?.reportSummary?.success} `}
+                          </TooltipBody>
+                        }
                       >
-                        <MdCheckCircle color="#10B981" className="mr-0.5" fontSize="medium" />
-                        {row?.lastScanDetails?.reportSummary?.success}
-                      </span>
-                      <span
-                        className="mr-4 flex items-center"
-                        title={`${row?.lastScanDetails?.reportSummary?.failure} failure`}
+                        <span className="mr-4 flex items-center">
+                          <MdCheckCircle
+                            color="#10B981"
+                            className="mr-0.5"
+                            fontSize="medium"
+                          />
+                          {row?.lastScanDetails?.reportSummary?.success}
+                        </span>
+                      </Tooltip>
+                      <Tooltip
+                        theme="dark"
+                        placementSide="bottom"
+                        content={
+                          <TooltipBody wrapperClassName="mb-0">
+                            {`Failure: ${row?.lastScanDetails?.reportSummary?.failure}`}
+                          </TooltipBody>
+                        }
                       >
-                        <MdCancel color="#EF4444" className="mr-0.5" fontSize="medium"/>
-                        {row?.lastScanDetails?.reportSummary?.failure}
-                      </span>
-                      <span
-                        className="flex items-center"
-                        title={`${row?.lastScanDetails?.reportSummary?.redirect} redirect`}
+                        <span className="mr-4 flex items-center">
+                          <MdCancel
+                            color="#EF4444"
+                            className="mr-0.5"
+                            fontSize="medium"
+                          />
+                          {row?.lastScanDetails?.reportSummary?.failure}
+                        </span>
+                      </Tooltip>
+                      <Tooltip
+                        theme="dark"
+                        placementSide="bottom"
+                        content={
+                          <TooltipBody wrapperClassName="mb-0">
+                            {`Redirect: ${row?.lastScanDetails?.reportSummary?.redirect} `}
+                          </TooltipBody>
+                        }
                       >
-                        <MdOutlineSync
-                          color="#FFF"
-                          className="mr-0.5 rounded-full bg-attention-500"
-                          fontSize="medium"
-                        />
-                        {row?.lastScanDetails?.reportSummary?.redirect}
-                      </span>
+                        <span className="flex items-center">
+                          <MdOutlineSync
+                            color="#FFF"
+                            className="mr-0.5 rounded-full bg-attention-500"
+                            fontSize="medium"
+                          />
+                          {row?.lastScanDetails?.reportSummary?.redirect}
+                        </span>
+                      </Tooltip>
                     </div>
                   ) : null}
                 </TableCell>
