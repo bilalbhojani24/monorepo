@@ -11,6 +11,7 @@ const TextAreaField = ({
   fieldKey,
   required,
   fieldsData,
+  fieldErrors,
   placeholder,
   defaultValue,
   setFieldsData,
@@ -39,7 +40,7 @@ const TextAreaField = ({
         onChange={handleChange}
         value={(fieldsData[fieldKey] || value || defaultValue) ?? ''}
         placeholder={placeholder}
-        errorText={requiredFieldError}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       />
     </>
   );

@@ -16,6 +16,7 @@ const TextField = ({
   schema,
   validations,
   defaultValue,
+  fieldErrors,
   areSomeRequiredFieldsEmpty
 }) => {
   const [error, setError] = useState(null);
@@ -47,8 +48,8 @@ const TextField = ({
   };
 
   useEffect(() => {
-    setError(requiredFieldError);
-  }, [requiredFieldError]);
+    setError(requiredFieldError || fieldErrors?.[fieldKey]);
+  }, [requiredFieldError, fieldErrors, fieldKey]);
 
   const validateInput = (e) => {
     const input = e.target.value.trim();

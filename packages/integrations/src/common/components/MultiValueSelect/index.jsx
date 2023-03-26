@@ -20,6 +20,7 @@ const MultiSelect = ({
   fieldKey,
   searchPath,
   fieldsData,
+  fieldErrors,
   placeholder,
   optionsPath,
   defaultValue,
@@ -140,7 +141,7 @@ const MultiSelect = ({
         onChange={handleChange}
         value={valueToRender}
         isMulti
-        errorText={requiredFieldError}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger

@@ -17,6 +17,7 @@ const Paragraph = ({
   required,
   metaData,
   fieldsData,
+  fieldErrors,
   placeholder,
   defaultValue,
   setFieldsData,
@@ -39,6 +40,7 @@ const Paragraph = ({
         fieldKey={fieldKey}
         required={required}
         fieldsData={fieldsData}
+        fieldErrors={fieldErrors}
         placeholder={placeholder}
         defaultValue={defaultValue}
         setFieldsData={setFieldsData}

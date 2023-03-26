@@ -22,6 +22,7 @@ const SingleValueSelect = ({
   required,
   searchPath,
   fieldsData,
+  fieldErrors,
   optionsPath,
   placeholder,
   defaultValue,
@@ -160,7 +161,7 @@ const SingleValueSelect = ({
     <ComboBox
       onChange={handleChange}
       value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
-      errorText={requiredFieldError}
+      errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       disabled={disabled}
     >
       <Label label={label} required={required} />

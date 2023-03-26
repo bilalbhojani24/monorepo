@@ -15,4 +15,7 @@ export const createIssue = (integrationKey, fields) =>
         }
       }
     )
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((errorResponse) => {
+      throw errorResponse.response.data?.error;
+    });

@@ -16,6 +16,7 @@ const FormBuilder = ({
   showDescriptionMetaIn = ''
 }) => {
   const [fieldsData, setFieldsData] = useState({});
+  const [fieldErrors, setFieldErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
   const showAllFieldsButtonText = shouldShowOptionalFields
@@ -34,6 +35,9 @@ const FormBuilder = ({
 
   const resetFieldsData = () => {
     setFieldsData({});
+  };
+  const resetFieldErrors = () => {
+    setFieldErrors({});
   };
 
   useEffect(() => {
@@ -72,6 +76,7 @@ const FormBuilder = ({
               metaData={metaData}
               required={required}
               attachments={attachments}
+              fieldErrors={fieldErrors}
               searchPath={searchPath}
               fieldsData={fieldsData}
               optionsPath={optionsPath}
@@ -102,11 +107,18 @@ const FormBuilder = ({
       if (hasSomeEmptyRequiredFields) {
         setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
       } else {
-        handleSubmit(fieldsData).then((response) => {
-          if (response?.success) {
-            resetFieldsData();
-          }
-        });
+        resetFieldErrors();
+        handleSubmit(fieldsData)
+          .then((response) => {
+            if (response?.success) {
+              resetFieldsData();
+            }
+          })
+          .catch((errorResponse) => {
+            if (errorResponse.field_errors) {
+              setFieldErrors(errorResponse.field_errors);
+            }
+          });
       }
     }
   };

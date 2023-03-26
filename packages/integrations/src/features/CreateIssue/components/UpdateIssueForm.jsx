@@ -71,7 +71,7 @@ const UpdateIssueForm = ({
       })
       .catch((res) => {
         setErrorMessage('Error updating issue');
-        return res;
+        throw res;
       });
   };
 

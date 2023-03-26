@@ -48,7 +48,7 @@ const CreateIssueForm = ({
       })
       .catch((res) => {
         setErrorMessage('Error creating issue');
-        return res;
+        throw res;
       });
   };
 

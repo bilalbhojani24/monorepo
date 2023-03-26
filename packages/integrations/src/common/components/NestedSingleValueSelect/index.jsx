@@ -17,6 +17,7 @@ const NestedSingleValueSelect = ({
   options,
   fieldKey,
   required,
+  fieldErrors,
   fieldsData,
   searchPath,
   optionsPath,
@@ -130,7 +131,7 @@ const NestedSingleValueSelect = ({
       <ComboBox
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
-        errorText={requiredFieldError}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
