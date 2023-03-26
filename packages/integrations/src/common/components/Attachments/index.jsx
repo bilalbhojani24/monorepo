@@ -3,7 +3,7 @@ import { MdDeleteOutline } from '@browserstack/bifrost';
 
 import Label from '../Label';
 
-const Attachment = ({ required, label, attachments, setAttachments }) => {
+const Attachments = ({ required, label, attachments, setAttachments }) => {
   if (!attachments?.length) return null;
 
   const handleDelete = () => {
@@ -24,7 +24,7 @@ const Attachment = ({ required, label, attachments, setAttachments }) => {
             {isAttachmentABLOB && <p>{attachments[0].name}</p>}
           </div>
           <MdDeleteOutline
-            className="text-base-400 text-3xl"
+            className="text-base-400 cursor-pointer text-3xl"
             onClick={handleDelete}
           />
         </div>
@@ -33,4 +33,4 @@ const Attachment = ({ required, label, attachments, setAttachments }) => {
   );
 };
 
-export default Attachment;
+export default Attachments;

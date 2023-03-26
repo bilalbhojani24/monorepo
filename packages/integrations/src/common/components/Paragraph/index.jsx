@@ -21,22 +21,20 @@ const Paragraph = ({
   placeholder,
   defaultValue,
   setFieldsData,
-  hideDescription,
-  showDescriptionMetaIn
+  hideDescription
 }) => {
   const [shouldShowMetaSection, setShouldShowMetaSection] = useState(false);
   const toggleMetaSectionVisibility = () => {
     setShouldShowMetaSection(!shouldShowMetaSection);
   };
   const isDescription = fieldKey === 'description';
+  const isComment = fieldKey === 'comment';
 
   return (isDescription && !hideDescription) || !isDescription ? (
     <div className="py-3">
       <TextAreaField
         label={label}
-        value={
-          showDescriptionMetaIn === fieldKey ? metaData.description : value
-        }
+        value={value}
         fieldKey={fieldKey}
         required={required}
         fieldsData={fieldsData}
@@ -45,7 +43,7 @@ const Paragraph = ({
         defaultValue={defaultValue}
         setFieldsData={setFieldsData}
       />
-      {isDescription && (
+      {(isDescription || isComment) && (
         <>
           <Button
             variant="minimal"
@@ -57,8 +55,12 @@ const Paragraph = ({
             onClick={toggleMetaSectionVisibility}
           >
             {shouldShowMetaSection
-              ? 'Collapse meta data added with description'
-              : 'Additional meta data added with description'}
+              ? `Collapse meta data added ${
+                  isDescription ? 'with description' : 'in the comment'
+                }`
+              : `Additional meta data added ${
+                  isDescription ? 'with description' : 'in the comment'
+                }`}
           </Button>
           {shouldShowMetaSection && (
             <TextArea disabled value={metaData.description} />

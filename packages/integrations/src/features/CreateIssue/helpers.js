@@ -8,8 +8,11 @@ const parseFieldsForCreateHelper = (
 ) => {
   let val = null;
   switch ($type) {
-    case 'float':
-      val = fieldData;
+    case 'number':
+      // is a string, parse to number and assign value
+      if (typeof fieldData === 'string') val = Number(fieldData);
+      // value is embedded in value
+      else val = fieldData.value;
       break;
     case 'string':
       // is a string, directly assign value
@@ -18,7 +21,7 @@ const parseFieldsForCreateHelper = (
       else val = fieldData.value;
       break;
     case 'array':
-      val = (fieldData ?? [])?.map((fieldItem) =>
+      val = fieldData?.map((fieldItem) =>
         // loop through through field data and build item based on $item structur
         parseFieldsForCreateHelper($items, fieldItem)
       );

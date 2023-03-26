@@ -21,7 +21,7 @@ const SingleValueSelect = ({
   disabled,
   required,
   searchPath,
-  fieldsData,
+  fieldsData = {},
   fieldErrors,
   optionsPath,
   placeholder,
@@ -158,24 +158,26 @@ const SingleValueSelect = ({
   };
 
   return (
-    <ComboBox
-      onChange={handleChange}
-      value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
-      errorText={requiredFieldError || fieldErrors?.[fieldKey]}
-      disabled={disabled}
-    >
-      <Label label={label} required={required} />
-      <ComboboxTrigger
-        placeholder={placeholder}
-        wrapperClassName={wrapperClassName}
-        onInputValueChange={handleInputChange}
-      />
-      <ComboboxOptionGroup>
-        {optionsToRender?.map((item) => (
-          <ComboboxOptionItem key={item.value} option={item} />
-        ))}
-      </ComboboxOptionGroup>
-    </ComboBox>
+    <div className="py-3">
+      <ComboBox
+        onChange={handleChange}
+        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+        disabled={disabled}
+      >
+        <Label label={label} required={required} />
+        <ComboboxTrigger
+          placeholder={placeholder}
+          wrapperClassName={wrapperClassName}
+          onInputValueChange={handleInputChange}
+        />
+        <ComboboxOptionGroup>
+          {optionsToRender?.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+    </div>
   );
 };
 

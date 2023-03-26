@@ -13,8 +13,7 @@ const FormBuilder = ({
   handleSubmit,
   setAttachments,
   setIsWorkInProgress,
-  hideDescription = false,
-  showDescriptionMetaIn = ''
+  hideDescription = false
 }) => {
   const [fieldsData, setFieldsData] = useState({});
   const [formFieldErrors, setFormFieldErrors] = useState({});
@@ -91,7 +90,6 @@ const FormBuilder = ({
               setFieldsData={setFieldsData}
               setAttachments={setAttachments}
               hideDescription={hideDescription}
-              showDescriptionMetaIn={showDescriptionMetaIn}
               areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
             />
           );

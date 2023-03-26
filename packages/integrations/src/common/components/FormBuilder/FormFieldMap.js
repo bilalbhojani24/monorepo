@@ -1,4 +1,4 @@
-import Attachment from '../Attachment';
+import Attachments from '../Attachments';
 import Checkbox from '../Checkbox';
 import MultiValueSelect from '../MultiValueSelect';
 import NestedSingleValueSelect from '../NestedSingleValueSelect';
@@ -11,7 +11,7 @@ const FormFieldMap = {
   paragraph: Paragraph,
   // date: TextInput,
   // datetime: TextInput,
-  file: Attachment,
+  file: Attachments,
   numeric: TextInput,
   checkbox: Checkbox,
   'multi-text': MultiValueSelect,

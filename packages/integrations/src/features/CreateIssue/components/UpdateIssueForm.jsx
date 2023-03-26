@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
+import Attachments from '../../../common/components/Attachments';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
 
@@ -114,7 +115,7 @@ const UpdateIssueForm = ({
       <div className="py-3">
         <SingleValueSelect
           required
-          label="Issue"
+          label="Search Issue to update"
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID}
           setFieldsData={setFieldsData}
@@ -126,6 +127,16 @@ const UpdateIssueForm = ({
           value={issueFieldValue}
         />
       </div>
+      {!fields?.length && (
+        <Attachments
+          label="Attachment"
+          attachments={attachments}
+          setAttachments={setAttachments}
+        />
+      )}
+      {/* {issueFieldValue && (
+        <SingleValueSelect label="Issue" disabled value={issueFieldValue} />
+      )} */}
       <FormBuilder
         hideDescription
         fields={fields}
@@ -133,7 +144,6 @@ const UpdateIssueForm = ({
         attachments={attachments}
         fieldErrors={fieldErrors}
         handleSubmit={handleSubmit}
-        showDescriptionMetaIn="comment"
         setAttachments={setAttachments}
         setIsWorkInProgress={setIsWorkInProgress}
       />
