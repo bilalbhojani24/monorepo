@@ -25,7 +25,7 @@ const Home = () => {
     url: 'https://integrations.bsstag.com/api/user-access-tokens?unique_user_id=4',
     headers: {
       Authorization:
-        'Basic dGVzdGludGVncmF0aW9uc19wckFNYTk6Z1F6YXA3cm1lMTluYkphWnZOc0o='
+        'Basic aW50ZWdyYXRpb25zc2Vydl9YOEE2cDM6bUxzZDhpc05lU3RnOHBzNXhwUDg='
     }
   };
   const [attachments, setAttachments] = useState(null);

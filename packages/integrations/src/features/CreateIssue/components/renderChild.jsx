@@ -19,7 +19,6 @@ const renderChild = ({
   setAttachments,
   issueFieldData,
   handleTryAgain,
-  setErrorMessage,
   projectFieldData,
   projectsHaveError,
   clearErrorMessage,
@@ -65,11 +64,11 @@ const renderChild = ({
         <CreateIssueForm
           fields={fields}
           metaData={metaData}
+          resetMeta={resetMeta}
           fieldsData={fieldsData}
           attachments={attachments}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
-          setErrorMessage={setErrorMessage}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
@@ -87,7 +86,6 @@ const renderChild = ({
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}
-          setErrorMessage={setErrorMessage}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
           setIsWorkInProgress={setIsWorkInProgress}

@@ -8,6 +8,7 @@ import { FormBuilderType } from './types';
 const FormBuilder = ({
   fields,
   metaData,
+  fieldErrors,
   attachments,
   handleSubmit,
   setAttachments,
@@ -16,7 +17,7 @@ const FormBuilder = ({
   showDescriptionMetaIn = ''
 }) => {
   const [fieldsData, setFieldsData] = useState({});
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [formFieldErrors, setFormFieldErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
   const showAllFieldsButtonText = shouldShowOptionalFields
@@ -36,9 +37,6 @@ const FormBuilder = ({
   const resetFieldsData = () => {
     setFieldsData({});
   };
-  const resetFieldErrors = () => {
-    setFieldErrors({});
-  };
 
   useEffect(() => {
     const isWIP = Object.values(fieldsData).some((field) => {
@@ -47,6 +45,12 @@ const FormBuilder = ({
     });
     setIsWorkInProgress(isWIP);
   }, [fieldsData, setIsWorkInProgress]);
+
+  useEffect(() => {
+    if (fieldErrors) {
+      setFormFieldErrors(fieldErrors);
+    }
+  }, [fieldErrors]);
 
   const renderFields = (fieldsToRender) =>
     fieldsToRender?.map(
@@ -76,7 +80,6 @@ const FormBuilder = ({
               metaData={metaData}
               required={required}
               attachments={attachments}
-              fieldErrors={fieldErrors}
               searchPath={searchPath}
               fieldsData={fieldsData}
               optionsPath={optionsPath}
@@ -84,6 +87,7 @@ const FormBuilder = ({
               validations={validations}
               description={description}
               defaultValue={defaultValue}
+              fieldErrors={formFieldErrors}
               setFieldsData={setFieldsData}
               setAttachments={setAttachments}
               hideDescription={hideDescription}
@@ -107,18 +111,11 @@ const FormBuilder = ({
       if (hasSomeEmptyRequiredFields) {
         setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
       } else {
-        resetFieldErrors();
-        handleSubmit(fieldsData)
-          .then((response) => {
-            if (response?.success) {
-              resetFieldsData();
-            }
-          })
-          .catch((errorResponse) => {
-            if (errorResponse.field_errors) {
-              setFieldErrors(errorResponse.field_errors);
-            }
-          });
+        handleSubmit(fieldsData).then((response) => {
+          if (response?.success) {
+            resetFieldsData();
+          }
+        });
       }
     }
   };

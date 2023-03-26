@@ -11,6 +11,7 @@ import {
 import { makeDebounce } from '@browserstack/utils';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
+import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
   projectsErrorSelector,
@@ -41,10 +42,6 @@ const IssueForm = ({
   const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
   const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
   const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
-  const [errorMessage, setErrorMessage] = useState(null);
-  const clearErrorMessage = () => {
-    setErrorMessage(null);
-  };
   const toolOptions = integrations.reduce((acc, curr) => {
     const { key, label, icon } = curr;
     acc.push({
@@ -165,11 +162,14 @@ const IssueForm = ({
 
   useEffect(() => {
     if (areProjectsLoaded && (projects ?? []).length === 0) {
-      setErrorMessage(
-        `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+      dispatch(
+        setGlobalAlert({
+          kind: 'error',
+          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+        })
       );
     }
-  }, [areProjectsLoaded, projects, integrationToolFieldData]);
+  }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
 
   return (
     <>
@@ -180,16 +180,6 @@ const IssueForm = ({
         />
       )}
       <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
-        {errorMessage && (
-          <div className="pb-6">
-            <Alerts
-              title=""
-              description={errorMessage}
-              modifier="error"
-              linkText=""
-            />
-          </div>
-        )}
         <SelectMenu
           onChange={(val) => selectTool(val)}
           value={integrationToolFieldData}
@@ -224,12 +214,10 @@ const IssueForm = ({
             setFieldsData,
             issueFieldData,
             handleTryAgain,
-            setErrorMessage,
             projectFieldData,
             projectsHaveError,
             cleanedIssueTypes,
             attachments: files,
-            clearErrorMessage,
             areProjectsLoading,
             issueTypeFieldData,
             setIsWorkInProgress,

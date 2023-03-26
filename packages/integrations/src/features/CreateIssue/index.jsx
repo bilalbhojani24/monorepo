@@ -3,6 +3,7 @@ import { Provider, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import { GlobalAlert } from '../../common/components';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
@@ -85,6 +86,9 @@ export const CreateIssue = ({
         )}
         style={{ maxHeight: '650px' }}
       >
+        <div className="pb-6">
+          <GlobalAlert />
+        </div>
         <ListOfIntegrations
           mode={mode}
           options={options}

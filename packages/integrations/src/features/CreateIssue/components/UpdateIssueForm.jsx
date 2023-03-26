@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
+import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
 
 import { FIELD_KEYS } from './constants';
@@ -16,14 +18,17 @@ const UpdateIssueForm = ({
   setFieldsData,
   issueFieldData,
   setAttachments,
-  setErrorMessage,
   projectFieldData,
-  clearErrorMessage,
   setIsWorkInProgress,
   integrationToolFieldData
 }) => {
+  const dispatch = useDispatch();
   const [issuesOptions, setIssueOptions] = useState([]);
+  const [fieldErrors, setFieldErrors] = useState({});
   const [issueFieldValue, setIssueFieldValue] = useState(null);
+  const resetFieldErrors = () => {
+    setFieldErrors({});
+  };
 
   const clearIssueField = () => {
     setIssueFieldValue({});
@@ -48,30 +53,59 @@ const UpdateIssueForm = ({
         (data.comment ? `${data.comment}\n` : '') + metaData.description;
     }
     const parsed = parseFieldsForCreate(fields, data);
+    resetFieldErrors();
     return updateIssue(
       integrationToolFieldData?.value,
       issueFieldData.value,
       parsed
     )
+      .catch((errorResponse) => {
+        if (errorResponse?.field_errors) {
+          setFieldErrors(errorResponse.field_errors);
+        }
+        dispatch(
+          setGlobalAlert({ kind: 'error', message: 'Error updating issue' })
+        );
+        return Promise.reject(Error('update_failed'));
+      })
       .then((response) => {
         if (response?.success) {
-          clearErrorMessage();
+          // ticket creation was successful
           setIssueOptions([]);
           resetMeta();
           clearIssueField();
           if (attachments?.length) {
-            addAttachment(
+            // has attachments to add
+            return addAttachment(
               attachments[0],
               integrationToolFieldData?.value,
               issueFieldData?.value
             );
           }
+          // no attachment, just form success
+          return response;
         }
-        return response;
+        return null;
+      })
+      .then((response) => {
+        if (response?.success) {
+          dispatch(
+            setGlobalAlert({
+              kind: 'success',
+              message: 'Ticket updated successfully'
+            })
+          );
+        }
       })
       .catch((res) => {
-        setErrorMessage('Error updating issue');
-        throw res;
+        if (res.message !== 'update_failed')
+          dispatch(
+            setGlobalAlert({
+              kind: 'warn',
+              message:
+                'Ticket updated successfully. Error in  uploading attachments'
+            })
+          );
       });
   };
 
@@ -97,8 +131,9 @@ const UpdateIssueForm = ({
         fields={fields}
         metaData={metaData}
         attachments={attachments}
-        showDescriptionMetaIn="comment"
+        fieldErrors={fieldErrors}
         handleSubmit={handleSubmit}
+        showDescriptionMetaIn="comment"
         setAttachments={setAttachments}
         setIsWorkInProgress={setIsWorkInProgress}
       />

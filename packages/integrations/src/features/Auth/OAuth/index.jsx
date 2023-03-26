@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
 import { getSetupStatus } from '../../../api/getSetupStatus';
 import { Loader, Logo } from '../../../common/components';
+import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { setHasIntegrated } from '../../slices/integrationsSlice';
 import { OAuthMetaType } from '../types';
 
@@ -21,8 +22,7 @@ const OAuth = ({
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
   hasOAuthFailed,
-  setHasOAuthFailed,
-  shouldShowFailedAuthMessage
+  setHasOAuthFailed
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
@@ -42,6 +42,12 @@ const OAuth = ({
       // oauth has failed
       if (message.hasError) {
         setHasOAuthFailed(true);
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message: 'There was some problem connecting to JIRA software'
+          })
+        );
       }
       authWindow?.close();
     };
@@ -70,6 +76,12 @@ const OAuth = ({
           clearInterval(pollTimer);
         }
         setHasOAuthFailed(true);
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message: 'There was some problem connecting to JIRA software'
+          })
+        );
       }
     };
     pollTimer = setInterval(
@@ -110,16 +122,6 @@ const OAuth = ({
   return (
     <>
       <div>
-        {shouldShowFailedAuthMessage && (
-          <div className="pb-6">
-            <Alerts
-              title=""
-              description="There was some problem connecting to JIRA software"
-              modifier="error"
-              linkText=""
-            />
-          </div>
-        )}
         <div className="flex items-center justify-center ">
           <Logo logo="/icons/browserstack.png" label="Browserstack" />
           <MdSwapHoriz className="text-brand-500 mx-3 text-3xl" />
