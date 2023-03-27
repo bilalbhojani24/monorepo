@@ -12,10 +12,10 @@ import Proptypes from 'prop-types';
 export function CalendarCell({
   state,
   date,
-  // borderRadiusTopLeft,
-  // borderRadiusBottomLeft,
-  // borderRadiusTopRight,
-  // borderRadiusBottomRight,
+  borderRadiusTopLeft,
+  borderRadiusBottomLeft,
+  borderRadiusTopRight,
+  borderRadiusBottomRight,
   borderTop,
   borderLeft,
   currentDate
@@ -76,10 +76,10 @@ export function CalendarCell({
           className={twClassNames(
             'border-base-300 h-10 w-14 border-b border-r flex flex-col justify-around',
             {
-              // 'rounded-tl-2xl': borderRadiusTopLeft,
-              // 'rounded-bl-2xl': borderRadiusBottomLeft,
-              // 'rounded-tr-2xl': borderRadiusTopRight,
-              // 'rounded-br-2xl': borderRadiusBottomRight,
+              'rounded-tl-2xl': borderRadiusTopLeft,
+              'rounded-bl-2xl': borderRadiusBottomLeft,
+              'rounded-tr-2xl': borderRadiusTopRight,
+              'rounded-br-2xl': borderRadiusBottomRight,
 
               'border-t': borderTop,
               'border-l': borderLeft
@@ -91,10 +91,10 @@ export function CalendarCell({
               'flex h-full w-full items-center justify-center bg-white cursor-pointer',
               {
                 // border radius for the edge cells
-                // 'rounded-tl-2xl': borderRadiusTopLeft,
-                // 'rounded-bl-2xl': borderRadiusBottomLeft,
-                // 'rounded-tr-2xl': borderRadiusTopRight,
-                // 'rounded-br-2xl': borderRadiusBottomRight,
+                'rounded-tl-2xl': borderRadiusTopLeft,
+                'rounded-bl-2xl': borderRadiusBottomLeft,
+                'rounded-tr-2xl': borderRadiusTopRight,
+                'rounded-br-2xl': borderRadiusBottomRight,
 
                 'text-base-400': isDisabled && !isInvalid,
 
@@ -112,21 +112,7 @@ export function CalendarCell({
                 // Darker selection background for the start and end.
                 // selected state for picking single date
                 'bg-base-900 text-white rounded-full font-semibold w-7 h-7 mx-auto rounded-full':
-                  isSelectionStart || isSelectionEnd,
-                'bg-danger-600 hover:bg-danger-700 text-white font-semibold w-7 h-7 mx-auto rounded-full':
-                  (isSelectionStart || isSelectionEnd) && isInvalid,
-
-                // Hover state for cells in the middle of the range.
-                'hover:bg-danger-400':
-                  isSelected &&
-                  !isDisabled &&
-                  !(isSelectionStart || isSelectionEnd) &&
-                  isInvalid,
-                'hover:bg-brand-400':
-                  isSelected &&
-                  !isDisabled &&
-                  !(isSelectionStart || isSelectionEnd) &&
-                  !isInvalid,
+                  isSelectionStart,
 
                 // Hover state for non-selected cells.
                 'hover:bg-base-100 w-7 h-7 mx-auto rounded-full':
