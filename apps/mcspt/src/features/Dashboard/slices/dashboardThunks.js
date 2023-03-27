@@ -1,8 +1,13 @@
 import {
+  confirmLoginForReverseSync,
   fetchLatestToken,
   fetchUserDetails,
   userLogOut
 } from 'api/authentication';
+import {
+  checkForPreviousUserSessions,
+  setIsTestHistoryLoading
+} from 'features/TestHistory';
 
 import { getAuthToken, setAuthToken, setUserDetails } from './dashboardSlice';
 
@@ -35,6 +40,11 @@ export const checkAuthAndSaveUserDetails =
       if (userDetailsResponse) {
         if (userDetailsResponse?.status === 200) {
           dispatch(setUserDetails(userDetailsResponse?.data));
+
+          // reverse syncing reports if user is logged in
+          dispatch(setIsTestHistoryLoading(true));
+          await confirmLoginForReverseSync();
+          dispatch(checkForPreviousUserSessions(true));
         } else {
           throw userDetailsResponse;
         }
@@ -51,6 +61,8 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
     if (logOutResponse?.status === 200) {
       dispatch(setAuthToken(null));
       dispatch(setUserDetails(null));
+      dispatch(setIsTestHistoryLoading(true));
+      dispatch(checkForPreviousUserSessions(true));
     }
   } catch (e) {
     // console.log(e);

@@ -3,28 +3,41 @@ import { setSessionAuthMetaData } from 'features/Dashboard/slices/dashboardSlice
 import { fetchConnectedDevices } from 'features/Home';
 import { updateSessionMetrics } from 'features/Report';
 
-import { setPreviousUserSessions } from './testHistorySlice';
+import {
+  setIsTestHistoryLoading,
+  setPreviousUserSessions,
+  setShowHistoricalReportLoadingModal
+} from './testHistorySlice';
 
-export const checkForPreviousUserSessions = () => async (dispatch) => {
-  try {
-    const response = await fetchSessions();
+export const checkForPreviousUserSessions =
+  (refetchDevices) => async (dispatch) => {
+    try {
+      dispatch(setIsTestHistoryLoading(true));
 
-    if (response.status === 'success') {
-      dispatch(setPreviousUserSessions(response.sessions));
-      dispatch(setSessionAuthMetaData(response.metadata));
+      const response = await fetchSessions();
 
-      dispatch(fetchConnectedDevices());
-    } else {
-      throw response;
+      if (response.status === 'success') {
+        dispatch(setPreviousUserSessions(response.sessions));
+        dispatch(setSessionAuthMetaData(response.metadata));
+
+        if (refetchDevices) {
+          dispatch(fetchConnectedDevices());
+        }
+      } else {
+        throw response;
+      }
+    } catch (e) {
+      // handle error
+    } finally {
+      dispatch(setIsTestHistoryLoading(false));
     }
-  } catch (e) {
-    // handle error
-  }
-};
+  };
 
 export const extractSessionDetailsById =
   (sessionId, navigatorCallback) => async (dispatch) => {
     try {
+      dispatch(setShowHistoricalReportLoadingModal(true));
+
       const response = await fetchSessionById(sessionId);
 
       if (response.status === 'success') {
@@ -36,5 +49,7 @@ export const extractSessionDetailsById =
       }
     } catch (e) {
       // handle error
+    } finally {
+      dispatch(setShowHistoricalReportLoadingModal(false));
     }
   };

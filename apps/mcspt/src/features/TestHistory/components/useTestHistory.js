@@ -2,14 +2,21 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { getPreviousUserSessions } from '../slices/testHistorySlice';
-import { extractSessionDetailsById } from '../slices/testHistoryThunks';
+import {
+  getIsTestHistoryLoading,
+  getPreviousUserSessions
+} from '../slices/testHistorySlice';
+import {
+  checkForPreviousUserSessions,
+  extractSessionDetailsById
+} from '../slices/testHistoryThunks';
 
 const useExistingUserHome = () => {
   const [tableRows, setTableRows] = useState([]);
   const [currentSortDir, setCurrentSortDir] = useState('asc');
 
   const previousUserSessions = useSelector(getPreviousUserSessions);
+  const isHistoryLoading = useSelector(getIsTestHistoryLoading);
 
   const navigateToPath = useNavigate();
 
@@ -40,6 +47,10 @@ const useExistingUserHome = () => {
   };
 
   useEffect(() => {
+    dispatch(checkForPreviousUserSessions(false));
+  }, [dispatch]);
+
+  useEffect(() => {
     setTableRows(previousUserSessions);
   }, [previousUserSessions]);
 
@@ -47,7 +58,8 @@ const useExistingUserHome = () => {
     tableRows,
     sortRows,
     currentSortDir,
-    sessionSelected
+    sessionSelected,
+    isHistoryLoading
   };
 };
 

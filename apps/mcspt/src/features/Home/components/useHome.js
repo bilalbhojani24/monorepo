@@ -27,7 +27,7 @@ const useHome = () => {
   };
 
   useEffect(() => {
-    dispatch(checkForPreviousUserSessions());
+    dispatch(checkForPreviousUserSessions(true));
   }, [dispatch]);
 
   return {
