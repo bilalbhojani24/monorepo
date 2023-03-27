@@ -98,7 +98,6 @@ export default function Issues() {
   );
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
-  console.log('halfview', isHalfView, activeComponentId, isShowingIssue);
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
@@ -199,7 +198,7 @@ export default function Issues() {
         </Modal>
         <div
           className="bg-base-50 border-base-200 fixed z-10 border-b"
-          style={{ width: 'calc(100% - 256px)', top: '246px' }}
+          style={{ width: 'calc(100% - 256px)', top: '250px' }}
         >
           <div className="flex w-full items-center justify-between py-4 px-6">
             <div className="flex items-center">

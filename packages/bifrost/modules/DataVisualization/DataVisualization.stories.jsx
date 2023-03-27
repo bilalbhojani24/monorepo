@@ -75,6 +75,14 @@ const defaultConfig = {
           }
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=505-8706&t=TWCLo3KWhysdxj9F-0'
+    },
+    percy: {
+      skip: true,
+      name: 'dataviz snapshot'
     }
   },
   argTypes: {
@@ -121,7 +129,7 @@ const defaultConfig = {
       defaultValue: {
         description: 'Subtext or supplementary info here',
         linkText: 'Learn more',
-        linkTo: '#'
+        linkTo: 'https://www.google.com'
       }
     },
     KpiProps: {
@@ -203,9 +211,26 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <DataVisualization {...args} />;
+const DataVizWithFooterOnClickTemplate = (args) => (
+  <DataVisualization {...args} />
+);
+
 const Primary = Template.bind({});
+const DataVizWithFooterOnClick = DataVizWithFooterOnClickTemplate.bind({});
+
 Primary.parameters = {
   controls: {}
+};
+
+DataVizWithFooterOnClick.args = {
+  footerProps: {
+    description: 'Subtext or supplementary info here',
+    linkText: 'Learn more',
+    linkTo: '#',
+    onClick: (e) => {
+      e.preventDefault();
+    }
+  }
 };
 
 const DataVisualizationDetail = (args) => (
@@ -261,4 +286,4 @@ const DataVisualizationDetail = (args) => (
 );
 
 export default defaultConfig;
-export { DataVisualizationDetail, Primary };
+export { DataVisualizationDetail, DataVizWithFooterOnClick, Primary };

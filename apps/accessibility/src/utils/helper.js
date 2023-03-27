@@ -1,6 +1,6 @@
+import { testTypes } from 'constants';
+import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
-
-import { wcagVersions } from '../features/SiteScanner/NewScan/constants';
 
 const BEST_PRACTICE_TAG = 'best-practice';
 
@@ -9,17 +9,13 @@ export const tagToView = (tags) =>
     .map((tag) => tag.toLowerCase())
     .filter(
       (tag) =>
-        (tag.includes('section508') ||
-          tag.includes('wcag') ||
-          tag.includes(BEST_PRACTICE_TAG)) &&
-        tag !== 'wcag' &&
-        tag !== 'section508'
+        (tag.includes('wcag') || tag.includes(BEST_PRACTICE_TAG)) &&
+        tag !== 'wcag'
     )
     .filter((tag) => {
       const regExp = /[a-zA-Z]/g;
       return (
         (tag.includes('wcag') && !regExp.test(tag.split('wcag'))) ||
-        tag.includes('section508') ||
         tag.includes(BEST_PRACTICE_TAG)
       );
     })
@@ -31,15 +27,6 @@ export const tagToView = (tags) =>
             2,
             number.length
           )}`,
-          value: tag
-        };
-      }
-      if (tag.includes('section508')) {
-        const [, ...rest] = tag.split('.');
-        return {
-          label: `Section 508 ${
-            rest ? rest.map((value) => value.toUpperCase()).join('.') : ''
-          }`,
           value: tag
         };
       }
@@ -174,3 +161,27 @@ export const addZero = (i) => {
 
 export const getWcagVersionFromVal = (val) =>
   wcagVersions.filter((version) => version.id === val)[0];
+
+export const generateReportUrl = (key) => {
+  let reportParam;
+  const id = key.split(':')[1];
+  if (key.includes(testTypes.workflowScan)) {
+    reportParam = `ids=${id}`;
+  } else if (key.includes(testTypes.assistiveTest)) {
+    reportParam = `ar_ids=${id}`;
+  } else if (key.includes(testTypes.websiteScan)) {
+    reportParam = `wsr_ids=${id}`;
+  }
+  return `/reports/report?${reportParam}`;
+};
+
+export const toHoursAndMinutes = (totalMinutes) => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return { hours, minutes };
+};
+
+export const getTimeDiffInDays = (d1, d2) => {
+  const diff = Math.abs(d1 - d2) / 1000; // divide by 1000 to get seconds
+  return Math.floor(diff / 86400); // divide by 86400 to get days
+};

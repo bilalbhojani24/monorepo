@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -14,6 +16,10 @@ const defaultConfig = {
           importStatement={"import SkipToContent from 'bifrost/SkipToContent'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {
@@ -29,6 +35,10 @@ const Template = (args) => (
   <SkipToContent {...args}>Skip to main content</SkipToContent>
 );
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  expect(canvas.getByText('Skip to main content')).toBeInTheDocument();
+};
 Primary.parameters = {
   controls: {}
 };
@@ -41,23 +51,24 @@ export const SkipToContentExample = () => {
       <SkipToContent wrapperClassName="top-2" target={targetRef}>
         Skip to input tag
       </SkipToContent>
-      <p className="mt-10 rounded border p-3">
-        Press TAB key on your keyboard to interact, once the `skip to` element
-        is visible press ENTER key to see focus jumping to main content, in this
-        context an input field
-        <br /> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-        necessitatibus ut expedita fugiat porro ad omnis quaerat placeat. Ut,
-        molestias rerum. Vero tempora cupiditate, ipsam iste similique
-        voluptatum. Ratione, eos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Impedit ab commodi voluptatem excepturi. Laborum quae
-        quidem saepe in soluta accusantium beatae nam, obcaecati, voluptas non
-        fugit architecto deleniti, autem delectus.
-      </p>
-      <input
-        className="focus:bg-brand-100 mt-10 w-full p-3"
-        ref={targetRef}
-        placeholder="Component focused on click of skip-to-content"
-      />
+      <div ref={targetRef}>
+        <p className="mt-10 rounded border p-3">
+          Press TAB key on your keyboard to interact, once the `skip to` element
+          is visible press ENTER key to see focus jumping to main content, in
+          this context an input field
+          <br /> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
+          necessitatibus ut expedita fugiat porro ad omnis quaerat placeat. Ut,
+          molestias rerum. Vero tempora cupiditate, ipsam iste similique
+          voluptatum. Ratione, eos. Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Impedit ab commodi voluptatem excepturi. Laborum
+          quae quidem saepe in soluta accusantium beatae nam, obcaecati,
+          voluptas non fugit architecto deleniti, autem delectus.
+        </p>
+        <input
+          className="focus:bg-brand-100 mt-10 w-full p-3"
+          placeholder="Component focused on click of skip-to-content is the first focusable element of the container"
+        />
+      </div>
     </div>
   );
 };

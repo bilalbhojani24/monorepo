@@ -9,7 +9,7 @@ import { node, string } from '../../shared/proptypesConstants';
 const ComboboxOptionGroup = ({ children, wrapperClassName }) => {
   const { width } = useContext(ComboboxContextData);
   return (
-    <Popover.Portal forceMount>
+    <Popover.Portal>
       <Popover.Content
         asChild
         style={{

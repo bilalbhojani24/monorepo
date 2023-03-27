@@ -14,7 +14,7 @@ let baseLogger;
 
 export const initLogger = (initArgs) => {
   baseLogger = initArgs;
-  initAmplitude(initArgs.amplitudeKey);
+  initAmplitude(initArgs.amplitudeConfig);
   initGA(initArgs.analyticsKey);
   initEDS(initArgs.EDSDetails);
 };

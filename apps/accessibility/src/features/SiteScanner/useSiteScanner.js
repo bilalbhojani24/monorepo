@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
+import { logEvent } from 'utils/logEvent';
 
 import { getUser } from '../Dashboard/slices/selectors';
 
@@ -20,6 +21,10 @@ export default function useSiteScanner() {
     setIsLoading(true);
     dispatch(getScanConfigs());
   }, [dispatch]);
+
+  useEffect(() => {
+    logEvent('OnWSHomepageView');
+  }, []);
 
   useEffect(() => {
     if (scanConfigsData?.data) {

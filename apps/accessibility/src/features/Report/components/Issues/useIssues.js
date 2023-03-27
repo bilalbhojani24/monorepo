@@ -151,8 +151,20 @@ export default function useIssues() {
         values
       })
     );
-    const updatedPath = updateUrlWithQueryParam({ impact: values });
+    dispatch(resetIssueItem());
+    const path = deleteUrlQueryParam([
+      'activeViolationId',
+      'activeComponentId',
+      'activeIssueIndex',
+      'isShowingIssue'
+    ]);
+    navigate(`?${path}`);
+
+    const updatedPath = updateUrlWithQueryParam({
+      impact: values.map(({ value }) => value)
+    });
     navigate(`?${updatedPath}`);
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -187,10 +199,11 @@ export default function useIssues() {
       }));
     }
     if (activeReportFilters.impact.length) {
+      const appliedSeverityFilter = activeReportFilters.impact.map(
+        ({ value }) => value
+      );
       filteredViolations = reportData.filter((violation) =>
-        activeReportFilters.impact
-          .map(({ value }) => value)
-          .includes(violation.impact)
+        appliedSeverityFilter.includes(violation.impact)
       );
     }
     if (activeReportFilters.category.length) {

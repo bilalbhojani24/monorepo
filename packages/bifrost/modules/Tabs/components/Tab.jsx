@@ -6,6 +6,40 @@ import Badge from '../../Badge';
 import { BADGE_MODIFIER } from '../../Badge/const/badgeConstants';
 import { TAB_SHAPE } from '../const/tabsConstants';
 
+const effectiveClasses = ({
+  isCurrent,
+  isContained,
+  tabIdx,
+  shape,
+  totalTabs,
+  isFullWidth
+}) =>
+  twClassNames(
+    // contained
+    isContained && isCurrent
+      ? 'text-base-900'
+      : 'text-base-500 hover:text-base-700',
+    isContained && tabIdx === 0 ? 'rounded-l-lg' : '',
+    isContained && tabIdx === totalTabs - 1 ? 'rounded-r-lg' : '',
+    isContained
+      ? 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-base-50 focus:z-10'
+      : '',
+    {
+      'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex border-transparent text-base-500 hover:text-base-700 hover:border-base-300':
+        shape === TAB_SHAPE[0] && !isContained,
+      'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
+        shape === TAB_SHAPE[1] && !isContained,
+
+      'border-brand-500 text-brand-600':
+        shape === TAB_SHAPE[0] && isCurrent && !isContained,
+
+      'bg-base-100 text-base-700':
+        shape === TAB_SHAPE[1] && isCurrent && !isContained,
+
+      [`w-1/${totalTabs} flex justify-center`]: isFullWidth && !isContained
+    }
+  );
+
 const Tab = ({
   tab,
   isCurrent,
@@ -16,39 +50,22 @@ const Tab = ({
   totalTabs,
   tabIdx
 }) => {
-  console.log(isContained);
-  console.log(isFullWidth);
-  console.log(totalTabs);
+  const classNames = effectiveClasses({
+    isFullWidth,
+    totalTabs,
+    tabIdx,
+    isContained,
+    isCurrent,
+    shape
+  });
+
   return (
     <button
+      type="button"
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
       value={tab.name}
-      className={twClassNames(
-        // contained
-        isContained && isCurrent
-          ? 'text-base-900'
-          : 'text-base-500 hover:text-base-700',
-        isContained && tabIdx === 0 ? 'rounded-l-lg' : '',
-        isContained && tabIdx === totalTabs - 1 ? 'rounded-r-lg' : '',
-        isContained
-          ? 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-base-50 focus:z-10'
-          : '',
-        {
-          'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex border-transparent text-base-500 hover:text-base-700 hover:border-base-300':
-            shape === TAB_SHAPE[0] && !isContained,
-          'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
-            shape === TAB_SHAPE[1] && !isContained,
-
-          'border-brand-500 text-brand-600':
-            shape === TAB_SHAPE[0] && isCurrent && !isContained,
-
-          'bg-base-100 text-base-700':
-            shape === TAB_SHAPE[1] && isCurrent && !isContained,
-
-          [`w-1/${totalTabs} flex justify-center`]: isFullWidth && !isContained
-        }
-      )}
+      className={classNames}
       aria-current={isCurrent ? 'page' : undefined}
     >
       {tab.icon && shape === TAB_SHAPE[0] && !isContained && (
@@ -76,6 +93,7 @@ const Tab = ({
             text={tab.count}
             wrapperClassName="ml-3"
             modifier={isCurrent ? BADGE_MODIFIER[1] : BADGE_MODIFIER[0]}
+            role="none"
           />
         ) : null}
       </span>
@@ -94,14 +112,18 @@ Tab.propTypes = {
     count: PropTypes.string
   }).isRequired,
   shape: PropTypes.string,
-  totalTabs: PropTypes.number
+  totalTabs: PropTypes.number,
+  tabIdx: PropTypes.number
 };
 
 Tab.defaultProps = {
   isCurrent: false,
   onTabClick: () => {},
-  tab: {},
-  shape: TAB_SHAPE[0]
+  shape: TAB_SHAPE[0],
+  tabIdx: 0,
+  isContained: false,
+  isFullWidth: false,
+  totalTabs: 0
 };
 
 export default Tab;
