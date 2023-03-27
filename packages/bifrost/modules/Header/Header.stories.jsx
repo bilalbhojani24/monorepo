@@ -25,7 +25,7 @@ const defaultConfig = {
     },
     percy: {
       skip: true,
-      name: 'dataviz snapshot'
+      name: 'header snapshot'
     }
   },
   argTypes: {
