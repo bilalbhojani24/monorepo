@@ -137,10 +137,6 @@ const ReportLoading = () => {
               >
                 Generate Performance Report
               </Button>
-
-              <div className="text-base-600 mt-2 text-sm font-medium leading-5">
-                Test recording will be stopped
-              </div>
             </div>
           )}
 

@@ -16,11 +16,6 @@ const generatePrimaryNavs = (iconMap) => {
       id: 'testHistory',
       label: 'Test History',
       routePath: '/testHistory'
-    },
-    {
-      id: 'thresholdPresets',
-      label: 'Threshold Presets',
-      routePath: '/thresholdPresets'
     }
   ];
 

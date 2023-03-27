@@ -2,7 +2,7 @@ import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
+import { decideIfCriteriaBreached } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
 import useBatteryDetails from './useBatteryDetails';
@@ -15,9 +15,7 @@ const BatteryChart = () => {
       <div className="flex w-[275px] shrink-0 grow-0 flex-col">
         <MetricStat
           metricTitle="Total Power Drawn"
-          metricText={`${sanitizeValue(
-            sessionData?.aggregated?.totalBatteryConsumedPercent?.value
-          )} %`}
+          metricText={`${sessionData?.aggregated?.totalBatteryConsumedPercent?.value} %`}
           MetricIcon={<MdInfoOutline />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.totalBatteryConsumedPercent?.value,

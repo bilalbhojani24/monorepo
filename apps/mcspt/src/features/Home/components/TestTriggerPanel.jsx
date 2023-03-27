@@ -95,16 +95,7 @@ const TestTriggerPanel = () => {
         </div>
       </div>
 
-      <div className="mt-9 flex items-center justify-between">
-        <div className="">
-          <div className="text-base-500 text-sm font-medium leading-5">
-            Applied Thresholds:
-          </div>
-          <div className="text-sm font-normal leading-5">
-            {`${selectedDevice.os === 'android' ? 'Android ' : 'iOS '} Preset`}
-          </div>
-        </div>
-
+      <div className="mt-9 flex items-center justify-end">
         <Button
           icon={<MdPlayArrow />}
           variant="primary"
