@@ -7,11 +7,11 @@ import { FormBuilderType } from './types';
 
 const FormBuilder = ({
   fields,
-  metaData,
   fieldErrors,
   attachments,
   handleSubmit,
   setAttachments,
+  descriptionMeta,
   setIsWorkInProgress,
   hideDescription = false
 }) => {
@@ -76,7 +76,6 @@ const FormBuilder = ({
               fieldKey={key}
               schema={schema}
               options={options}
-              metaData={metaData}
               required={required}
               attachments={attachments}
               searchPath={searchPath}
@@ -89,6 +88,7 @@ const FormBuilder = ({
               fieldErrors={formFieldErrors}
               setFieldsData={setFieldsData}
               setAttachments={setAttachments}
+              descriptionMeta={descriptionMeta}
               hideDescription={hideDescription}
               areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
             />

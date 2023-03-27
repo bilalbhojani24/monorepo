@@ -57,7 +57,7 @@ const SingleValueSelect = ({
   const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
 
   useEffect(() => {
-    if (value || defaultValue) {
+    if (value || (defaultValue && typeof setFieldsData === 'function')) {
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
   }, [value, defaultValue]);
@@ -119,7 +119,9 @@ const SingleValueSelect = ({
   ]);
 
   const handleChange = (val) => {
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    if (typeof setFieldsData === 'function') {
+      setFieldsData({ ...fieldsData, [fieldKey]: val });
+    }
   };
 
   const fetchQuery = (query) => {

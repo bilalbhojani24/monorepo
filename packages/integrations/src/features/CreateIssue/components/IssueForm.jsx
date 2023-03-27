@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Alerts,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
@@ -68,7 +67,6 @@ const IssueForm = ({
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
-  const metaData = options.metaData[integrationToolFieldData?.value];
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
@@ -207,7 +205,7 @@ const IssueForm = ({
           {renderChild({
             mode,
             fields,
-            metaData,
+            options,
             projects,
             resetMeta,
             fieldsData,

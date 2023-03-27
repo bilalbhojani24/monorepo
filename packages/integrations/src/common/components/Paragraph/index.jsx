@@ -15,13 +15,13 @@ const Paragraph = ({
   value,
   fieldKey,
   required,
-  metaData,
   fieldsData,
   fieldErrors,
   placeholder,
   defaultValue,
   setFieldsData,
-  hideDescription
+  hideDescription,
+  descriptionMeta
 }) => {
   const [shouldShowMetaSection, setShouldShowMetaSection] = useState(false);
   const toggleMetaSectionVisibility = () => {
@@ -63,7 +63,7 @@ const Paragraph = ({
                 }`}
           </Button>
           {shouldShowMetaSection && (
-            <TextArea disabled value={metaData.description} />
+            <TextArea disabled value={descriptionMeta} />
           )}
         </>
       )}

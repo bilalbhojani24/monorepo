@@ -69,7 +69,7 @@ const NestedSingleValueSelect = ({
   }, [options]);
 
   const handleChange = (val) => {
-    const { options: nestedOptions, ...valWithoutChild } = val;
+    const { options: nestedOptions = [], ...valWithoutChild } = val;
     const cleanedChildOptions = nestedOptions.map(
       ({ value, key, label: nestedOptionLabel }) => ({
         value: value || key,
@@ -145,7 +145,7 @@ const NestedSingleValueSelect = ({
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
-      {childOptions && (
+      {Boolean(childOptions?.length) && (
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}

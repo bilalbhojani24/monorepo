@@ -11,7 +11,7 @@ import { FIELD_KEYS } from './constants';
 
 const CreateIssueForm = ({
   fields,
-  metaData,
+  options,
   resetMeta,
   fieldsData,
   attachments,
@@ -25,15 +25,19 @@ const CreateIssueForm = ({
 }) => {
   const dispatch = useDispatch();
   const [fieldErrors, setFieldErrors] = useState({});
+  const {
+    description: descriptionMeta,
+    successCallback,
+    errorCallback
+  } = options;
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
   const handleSubmit = (formData) => {
     const data = { ...fieldsData, ...formData };
-    if (metaData.description) {
+    if (descriptionMeta) {
       data.description =
-        (data.description ? `${data.description}\n` : '') +
-        metaData.description;
+        (data.description ? `${data.description}\n` : '') + descriptionMeta;
     }
     const parsed = parseFieldsForCreate(fields, data);
     parsed.project_id = projectFieldData.value;
@@ -47,6 +51,18 @@ const CreateIssueForm = ({
         dispatch(
           setGlobalAlert({ kind: 'error', message: 'Error creating issue' })
         );
+        if (typeof errorCallback === 'function') {
+          errorCallback({
+            event: 'create',
+            data: {
+              error: errorResponse,
+              integration: {
+                key: integrationToolFieldData.value,
+                label: integrationToolFieldData.title
+              }
+            }
+          });
+        }
         return Promise.reject(Error('create_failed'));
       })
       .then((response) => {
@@ -56,7 +72,7 @@ const CreateIssueForm = ({
           if (attachments?.length) {
             // has attachments to add
             return addAttachment(
-              attachments[0],
+              attachments,
               integrationToolFieldData?.value,
               response.data.ticket_id,
               response.data.ticket_url
@@ -75,10 +91,27 @@ const CreateIssueForm = ({
               message: 'Ticket added successfully'
             })
           );
+          if (typeof successCallback === 'function') {
+            const payload = {
+              event: 'create',
+              data: {
+                issueId: response?.data?.ticket_id,
+                issureUrl: response?.data?.ticket_url,
+                integration: {
+                  key: integrationToolFieldData.value,
+                  label: integrationToolFieldData.title
+                }
+              }
+            };
+            if (response?.data?.attachment) {
+              payload.data.attachments = [response.data.attachment];
+            }
+            successCallback(payload);
+          }
         }
       })
       .catch((res) => {
-        if (res.message !== 'create_failed' && res.cause.ticket_url)
+        if (res?.message !== 'create_failed' && res?.cause?.ticket_url) {
           dispatch(
             setGlobalAlert({
               kind: 'warn',
@@ -88,6 +121,24 @@ const CreateIssueForm = ({
               linkUrl: res.cause.ticket_url
             })
           );
+          if (typeof successCallback === 'function') {
+            const payload = {
+              event: 'create',
+              data: {
+                issueId: res.cause.ticket_id,
+                issureUrl: res.cause.ticket_url,
+                integration: {
+                  key: integrationToolFieldData.value,
+                  label: integrationToolFieldData.title
+                }
+              }
+            };
+            if (res.cause.attachment) {
+              payload.data.attachments = [res.cause.attachment];
+            }
+            successCallback(payload);
+          }
+        }
       });
   };
 
@@ -107,11 +158,11 @@ const CreateIssueForm = ({
       </div>
       <FormBuilder
         fields={fields}
-        metaData={metaData}
         fieldErrors={fieldErrors}
         attachments={attachments}
         handleSubmit={handleSubmit}
         setAttachments={setAttachments}
+        descriptionMeta={descriptionMeta}
         setIsWorkInProgress={setIsWorkInProgress}
       />
     </>

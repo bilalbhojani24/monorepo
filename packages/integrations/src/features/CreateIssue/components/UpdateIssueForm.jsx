@@ -12,7 +12,7 @@ import { FIELD_KEYS } from './constants';
 
 const UpdateIssueForm = ({
   fields,
-  metaData,
+  options,
   resetMeta,
   fieldsData,
   attachments,
@@ -27,6 +27,11 @@ const UpdateIssueForm = ({
   const [issuesOptions, setIssueOptions] = useState([]);
   const [fieldErrors, setFieldErrors] = useState({});
   const [issueFieldValue, setIssueFieldValue] = useState(null);
+  const {
+    description: descriptionMeta,
+    successCallback,
+    errorCallback
+  } = options;
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
@@ -49,9 +54,9 @@ const UpdateIssueForm = ({
 
   const handleSubmit = (formData) => {
     const data = { ...fieldsData, ...formData };
-    if (metaData.description) {
+    if (descriptionMeta) {
       data.comment =
-        (data.comment ? `${data.comment}\n` : '') + metaData.description;
+        (data.comment ? `${data.comment}\n` : '') + descriptionMeta;
     }
     const parsed = parseFieldsForCreate(fields, data);
     resetFieldErrors();
@@ -67,6 +72,18 @@ const UpdateIssueForm = ({
         dispatch(
           setGlobalAlert({ kind: 'error', message: 'Error updating issue' })
         );
+        if (typeof errorCallback === 'function') {
+          errorCallback({
+            event: 'update',
+            data: {
+              error: errorResponse,
+              integration: {
+                key: integrationToolFieldData.value,
+                label: integrationToolFieldData.title
+              }
+            }
+          });
+        }
         return Promise.reject(Error('update_failed'));
       })
       .then((response) => {
@@ -96,10 +113,26 @@ const UpdateIssueForm = ({
               message: 'Ticket updated successfully'
             })
           );
+          if (typeof successCallback === 'function') {
+            const payload = {
+              event: 'update',
+              data: {
+                issueId: response?.data?.ticket_id,
+                integration: {
+                  key: integrationToolFieldData.value,
+                  label: integrationToolFieldData.title
+                }
+              }
+            };
+            if (response?.data?.attachment) {
+              payload.data.attachments = [response?.data?.attachment];
+            }
+            successCallback(payload);
+          }
         }
       })
       .catch((res) => {
-        if (res.message !== 'update_failed')
+        if (res.message !== 'update_failed') {
           dispatch(
             setGlobalAlert({
               kind: 'warn',
@@ -107,6 +140,23 @@ const UpdateIssueForm = ({
                 'Ticket updated successfully. Error in  uploading attachments'
             })
           );
+          if (typeof successCallback === 'function') {
+            const payload = {
+              event: 'update',
+              data: {
+                issueId: res?.cause.ticket_id,
+                integration: {
+                  key: integrationToolFieldData.value,
+                  label: integrationToolFieldData.title
+                }
+              }
+            };
+            if (res.cause.attachment) {
+              payload.data.attachments = [res.cause.attachment];
+            }
+            successCallback(payload);
+          }
+        }
       });
   };
 
@@ -134,17 +184,17 @@ const UpdateIssueForm = ({
           setAttachments={setAttachments}
         />
       )}
-      {/* {issueFieldValue && (
+      {issueFieldValue && (
         <SingleValueSelect label="Issue" disabled value={issueFieldValue} />
-      )} */}
+      )}
       <FormBuilder
         hideDescription
         fields={fields}
-        metaData={metaData}
         attachments={attachments}
         fieldErrors={fieldErrors}
         handleSubmit={handleSubmit}
         setAttachments={setAttachments}
+        descriptionMeta={descriptionMeta}
         setIsWorkInProgress={setIsWorkInProgress}
       />
     </>

@@ -10,7 +10,7 @@ import UpdateIssueForm from './UpdateIssueForm';
 const renderChild = ({
   mode,
   fields,
-  metaData,
+  options,
   projects,
   resetMeta,
   fieldsData,
@@ -63,7 +63,7 @@ const renderChild = ({
       {mode === ISSUE_MODES.CREATION ? (
         <CreateIssueForm
           fields={fields}
-          metaData={metaData}
+          options={options}
           resetMeta={resetMeta}
           fieldsData={fieldsData}
           attachments={attachments}
@@ -79,7 +79,7 @@ const renderChild = ({
       ) : (
         <UpdateIssueForm
           fields={fields}
-          metaData={metaData}
+          options={options}
           resetMeta={resetMeta}
           fieldsData={fieldsData}
           attachments={attachments}
