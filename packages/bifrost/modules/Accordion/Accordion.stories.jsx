@@ -1,11 +1,11 @@
 import React from 'react';
-import { FolderIcon } from '@heroicons/react/24/outline';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import AccordionInteractiveHeader from '../AccordionInteractiveHeader';
 import AccordionPanel from '../AccordionPanel';
 import AccordionSimpleHeader from '../AccordionSimpleHeader';
 import Badge from '../Badge';
+import { MdOutlineFolder as FolderIcon } from '../Icon';
 
 import Accordion from './index';
 
@@ -60,11 +60,11 @@ InteractiveAccordion.args = {
       asideContent={
         <div className="text-base-600 m-1 flex items-start justify-end gap-6 text-sm font-light">
           <a className="flex items-center gap-1.5 hover:underline" href="#/">
-            <FolderIcon className="h-4 w-4" />
+            <FolderIcon className="text-base-400 h-4 w-4" />
             <span className="truncate text-sm">Meta Column Text</span>
           </a>
           <a className="flex items-center gap-1.5 hover:underline" href="#/">
-            <FolderIcon className="h-4 w-4" />
+            <FolderIcon className="text-base-400 h-4 w-4" />
             <span className="truncate text-sm">Meta Column Text 2</span>
           </a>
           <span className="flex gap-2 text-xs">
@@ -81,21 +81,21 @@ InteractiveAccordion.args = {
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" />
+          <FolderIcon className="text-base-400 h-4 w-4" />
           Meta data is here
         </a>
         <a
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" />
+          <FolderIcon className="text-base-400 h-4 w-4" />
           Meta data is here
         </a>
         <a
           className="flex items-center gap-1 truncate hover:underline"
           href="#/"
         >
-          <FolderIcon className="h-4 w-4" />
+          <FolderIcon className="text-base-400 h-4 w-4" />
           Meta data is here
         </a>
       </div>

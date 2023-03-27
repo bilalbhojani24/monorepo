@@ -9,9 +9,12 @@ const AccordionSimpleHeader = ({ title }) => (
     {({ open }) => (
       <>
         <ChevronRightIcon
-          className={twClassNames('truncate h-7 w-7 transition-transform', {
-            'rotate-90': open
-          })}
+          className={twClassNames(
+            'truncate h-7 w-7 transition-transform font-medium',
+            {
+              'rotate-90': open
+            }
+          )}
         />
         <span>{title}</span>
       </>

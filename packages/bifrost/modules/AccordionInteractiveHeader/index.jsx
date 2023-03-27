@@ -19,9 +19,7 @@ const AccordionInteractiveHeader = ({
             <button
               type="button"
               className={twClassNames(
-                'flex  cursor-pointer items-center gap-2.5 grow m-1',
-                { 'text-base-800': open },
-                { 'text-base-500': !open }
+                'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
               )}
             >
               <ChevronRightIcon
