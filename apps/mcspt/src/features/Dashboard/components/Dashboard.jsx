@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AuthLoadingModal from './AuthLoadingModal';
 import Footer from './Footer';
 import useDashboard from './useDashboard';
 
@@ -12,6 +13,8 @@ const Dashboard = ({ children }) => {
       <>{children}</>
 
       <Footer />
+
+      <AuthLoadingModal />
     </div>
   );
 };

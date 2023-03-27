@@ -4,12 +4,14 @@ import {
   fetchUserDetails,
   userLogOut
 } from 'api/authentication';
-import {
-  checkForPreviousUserSessions,
-  setIsTestHistoryLoading
-} from 'features/TestHistory';
+import { checkForPreviousUserSessions } from 'features/TestHistory';
 
-import { getAuthToken, setAuthToken, setUserDetails } from './dashboardSlice';
+import {
+  getAuthToken,
+  setAuthToken,
+  setShowAuthLoadingModal,
+  setUserDetails
+} from './dashboardSlice';
 
 export const checkAuthAndSaveUserDetails =
   (ssoRedirectUrl) => async (dispatch, getState) => {
@@ -17,6 +19,7 @@ export const checkAuthAndSaveUserDetails =
       let userDetailsResponse;
 
       if (ssoRedirectUrl) {
+        dispatch(setShowAuthLoadingModal(true));
         const params = ssoRedirectUrl.split('?')[1];
         const loginToken = params?.split('=')[1];
 
@@ -41,31 +44,36 @@ export const checkAuthAndSaveUserDetails =
         if (userDetailsResponse?.status === 200) {
           dispatch(setUserDetails(userDetailsResponse?.data));
 
-          // reverse syncing reports if user is logged in
-          dispatch(setIsTestHistoryLoading(true));
-          await confirmLoginForReverseSync();
-          dispatch(checkForPreviousUserSessions(true));
+          if (ssoRedirectUrl) {
+            // reverse syncing reports if user is logged in
+            await confirmLoginForReverseSync();
+            await dispatch(checkForPreviousUserSessions(true));
+          }
         } else {
           throw userDetailsResponse;
         }
       }
     } catch (e) {
       // console.log(e);
+    } finally {
+      dispatch(setShowAuthLoadingModal(false));
     }
   };
 
 export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
   try {
-    dispatch(setIsTestHistoryLoading(true));
+    dispatch(setShowAuthLoadingModal(true));
 
     const logOutResponse = await userLogOut();
 
     if (logOutResponse?.status === 200) {
       dispatch(setAuthToken(null));
       dispatch(setUserDetails(null));
-      dispatch(checkForPreviousUserSessions(true));
+      await dispatch(checkForPreviousUserSessions(true));
     }
   } catch (e) {
     // console.log(e);
+  } finally {
+    dispatch(setShowAuthLoadingModal(false));
   }
 };

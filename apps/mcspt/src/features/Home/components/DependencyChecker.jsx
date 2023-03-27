@@ -13,7 +13,7 @@ import useDependencyChecker from './useDependencyChecker';
 
 const DependencyChecker = () => {
   const {
-    areDevicesStillLoading,
+    areDependenciesStillLoading,
     listOfDevices,
     refetchDevices,
     totalCompletedSessions
@@ -22,7 +22,7 @@ const DependencyChecker = () => {
   return (
     <div className="bg-base-50 p-14">
       <div className="mx-auto rounded-xl bg-white shadow-md">
-        {areDevicesStillLoading && (
+        {areDependenciesStillLoading && (
           <div className="flex flex-col items-center justify-center p-14">
             <img src={dependencyLoader} alt="loading..." className="w-24" />
             <div className="text-2xl font-bold leading-7">
@@ -31,7 +31,7 @@ const DependencyChecker = () => {
           </div>
         )}
 
-        {!areDevicesStillLoading && (
+        {!areDependenciesStillLoading && (
           <div className="py-6 px-4">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold leading-7">
@@ -56,7 +56,7 @@ const DependencyChecker = () => {
           </div>
         )}
 
-        {!areDevicesStillLoading && listOfDevices?.length === 0 && (
+        {!areDependenciesStillLoading && listOfDevices?.length === 0 && (
           <div className="flex items-center justify-center px-28 py-12">
             <div
               className="bg-base-50 text-base-500 flex min-h-[72px] min-w-[72px] 

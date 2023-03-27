@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -46,6 +46,7 @@ const useTestTriggerPanel = () => {
   const totalAllowedSessions = useSelector(getTotalAllowedSessions);
   const totalCompletedSessions = useSelector(getTotalCompletedSessions);
   const isUserLoggedIn = useSelector(getIsUserLoggedIn);
+  const shouldPreserveSelectedDeviceWhenTestTriggered = useRef(false);
 
   const [deviceOptionList, setDeviceOptionList] = useState([]);
   const [applicationOptionList, setApplicationOptionList] = useState([]);
@@ -79,6 +80,12 @@ const useTestTriggerPanel = () => {
   };
 
   const startTestSession = () => {
+    /**
+     * this useRef was done because backend wasn't
+     * sending device model in session start API
+     */
+    shouldPreserveSelectedDeviceWhenTestTriggered.current = true;
+
     dispatch(
       triggerSession(
         navigateToPath,
@@ -117,9 +124,15 @@ const useTestTriggerPanel = () => {
   }, [lisOfApplications]);
 
   useEffect(() => {
-    if (selectedDevice.deviceId) {
+    if (selectedDevice?.deviceId) {
       dispatch(fetchApplicationsFromSelectedDevice());
     }
+
+    return () => {
+      if (!shouldPreserveSelectedDeviceWhenTestTriggered.current) {
+        dispatch(setSelectedDevice({}));
+      }
+    };
   }, [dispatch, selectedDevice.deviceId]);
 
   return {

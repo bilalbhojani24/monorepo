@@ -63,9 +63,6 @@ export const fetchConnectedDevices = () => async (dispatch, getState) => {
   try {
     dispatch(setAreDevicesStillLoading(true));
 
-    // with this, it will refetch applications as well at the time of refresh.
-    dispatch(setSelectedDevice({}));
-
     const allDeviceResponses = await Promise.allSettled([
       fetchDevices('android'),
       fetchDevices('ios')
