@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EllipsisVerticalIcon } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yDropdown,
   O11yDropdownOptionGroup,
@@ -55,7 +56,9 @@ function CategoryGroup({ type }) {
         <O11yTableCell
           variant="header"
           colspan={4}
-          wrapperClassName="bg-base-50"
+          wrapperClassName={twClassNames('bg-base-50', {
+            'last:md:rounded-b-lg': !subcategories.length
+          })}
         >
           {FAILURE_CATEGORIES_INFO[type].label}
         </O11yTableCell>

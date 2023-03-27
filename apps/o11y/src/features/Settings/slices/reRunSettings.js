@@ -53,7 +53,6 @@ const { reducer } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
       .addCase(getReRunSettings.pending, (state) => {
         state.reRun.isLoading = true;
       })

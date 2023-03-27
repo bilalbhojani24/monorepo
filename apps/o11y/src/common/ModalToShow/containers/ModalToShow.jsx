@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
+import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
 
@@ -19,6 +20,8 @@ export default function ModalToShow() {
       return <AddEditSubCategoryModal />;
     case MODAL_TYPES.delete_sub_cat:
       return <DeleteSubCatModal />;
+    case MODAL_TYPES.add_notifications_users:
+      return <AddNotificationUserModal />;
     default:
       return null;
   }

@@ -12,3 +12,9 @@ export const getFailureSubCategoriesState = (state) =>
 
 export const getFailureSubCategoryByType = (type) => (state) =>
   state.failureCategoriesSettings.failureSubCategories.data?.[type] || [];
+
+export const getNotificationsStatus = (state) =>
+  state.notificationsSettings.status;
+
+export const getNotifiedUsersState = (state) =>
+  state.notificationsSettings.notifiedUsers;

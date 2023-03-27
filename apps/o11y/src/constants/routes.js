@@ -5,7 +5,6 @@ export const ROUTES = {
   buildShort: '/builds/:buildUuid',
   suite_health: '/projects/:projectNormalisedName/suite_health',
   testing_trends: '/projects/:projectNormalisedName/testing_trends',
-  dashboard: '/dashboard',
   integrations_base: '/integrations',
   integrations_jenkins: '/integrations/jenkins',
   integrations_azurePipelines: '/integrations/azure-pipelines',
@@ -19,6 +18,8 @@ export const ROUTES = {
   settings_re_run: '/projects/:projectNormalisedName/settings/re_run',
   settings_integrations:
     '/projects/:projectNormalisedName/settings/integrations',
+  settings_notifications:
+    '/projects/:projectNormalisedName/settings/notifications',
   test_details: '/test/details/:testRunId',
   projects: '/projects',
   request_access: '/request_access',

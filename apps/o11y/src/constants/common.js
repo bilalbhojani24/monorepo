@@ -104,3 +104,11 @@ export const UNSUPPORTED_HTML_TAGS = [
   'tr',
   'td'
 ];
+
+export const EMAIL_VERIFICATION_REGEX =
+  /^[a-zA-Z0-9+_|-](?:[.]?[a-zA-Z0-9'+_|~-])*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+export const NOTIFICATION_TYPES = {
+  dailySummary: 'DAILY_SUMMARY_EMAIL',
+  buildInsights: 'BUILD_FINISH_EMAIL'
+};

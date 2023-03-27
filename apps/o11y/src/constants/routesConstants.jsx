@@ -29,6 +29,9 @@ const FailureCategoriesSettings = React.lazy(() =>
 const ReRunSettings = React.lazy(() =>
   import('features/Settings/containers/ReRunSettings')
 );
+const NotificationsSettings = React.lazy(() =>
+  import('features/Settings/containers/NotificationsSettings')
+);
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -118,6 +121,11 @@ export const APP_ROUTES = [
             path: ROUTES.settings_re_run,
             isProtected: true,
             component: <ReRunSettings />
+          },
+          {
+            path: ROUTES.settings_notifications,
+            isProtected: true,
+            component: <NotificationsSettings />
           }
         ]
       },

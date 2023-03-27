@@ -137,46 +137,44 @@ function AddEditSubCategoryModal() {
       />
 
       <O11yModalBody>
-        <form>
-          <O11ySelectMenu
-            onChange={handleSelectFailureCategory}
-            value={selectedCategoryType}
-            disabled={modalData?.action === 'edit'}
-          >
-            <O11ySelectMenuLabel>
-              <p className="flex gap-1 text-sm font-medium leading-5">
-                <span>Failure category</span>
-                <span className="text-danger-600">*</span>
-              </p>
-            </O11ySelectMenuLabel>
-            <O11ySelectMenuTrigger placeholder="Select.." value="" />
-            <O11ySelectMenuOptionGroup>
-              {Object.keys(FAILURE_CATEGORIES_TYPES).map((key) => (
-                <O11ySelectMenuOptionItem
-                  checkPosition="right"
-                  key={key}
-                  wrapperClassName="text-sm"
-                  option={{
-                    label: FAILURE_CATEGORIES_INFO[key].label,
-                    value: key
-                  }}
-                />
-              ))}
-            </O11ySelectMenuOptionGroup>
-          </O11ySelectMenu>
-          <div className="mt-4">
-            <O11yInputField
-              label="Category Name"
-              isMandatory
-              placeholder="Custom category"
-              value={subCategoryName}
-              onChange={handleChangeSubCategoryName}
-            />
-            <p className="text-base-500 mt-2 text-sm font-normal leading-5">
-              Max-characters - 32
+        <O11ySelectMenu
+          onChange={handleSelectFailureCategory}
+          value={selectedCategoryType}
+          disabled={modalData?.action === 'edit'}
+        >
+          <O11ySelectMenuLabel>
+            <p className="flex gap-1 text-sm font-medium leading-5">
+              <span>Failure category</span>
+              <span className="text-danger-600">*</span>
             </p>
-          </div>
-        </form>
+          </O11ySelectMenuLabel>
+          <O11ySelectMenuTrigger placeholder="Select.." value="" />
+          <O11ySelectMenuOptionGroup>
+            {Object.keys(FAILURE_CATEGORIES_TYPES).map((key) => (
+              <O11ySelectMenuOptionItem
+                checkPosition="right"
+                key={key}
+                wrapperClassName="text-sm"
+                option={{
+                  label: FAILURE_CATEGORIES_INFO[key].label,
+                  value: key
+                }}
+              />
+            ))}
+          </O11ySelectMenuOptionGroup>
+        </O11ySelectMenu>
+        <div className="mt-4">
+          <O11yInputField
+            label="Category Name"
+            isMandatory
+            placeholder="Custom category"
+            value={subCategoryName}
+            onChange={handleChangeSubCategoryName}
+          />
+          <p className="text-base-500 mt-2 text-sm font-normal leading-5">
+            Max-characters - 32
+          </p>
+        </div>
       </O11yModalBody>
       <O11yModalFooter position="right">
         <O11yButton colors="white" onClick={handleCloseModal}>

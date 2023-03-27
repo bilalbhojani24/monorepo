@@ -46,6 +46,14 @@ const getNav = ({ projectNormalisedName }) => [
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 're_run'),
     pattern: ROUTES.settings_re_run
+  },
+  {
+    id: 'notifications',
+    label: 'Notifications',
+    activeIcon: () => <></>,
+    inActiveIcon: () => <></>,
+    path: getSettingsPath(projectNormalisedName, 'notifications'),
+    pattern: ROUTES.settings_notifications
   }
 ];
 
