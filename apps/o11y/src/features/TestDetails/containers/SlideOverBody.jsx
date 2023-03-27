@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { O11ySlideoverBody } from 'common/bifrostProxy';
 
 import { TEST_DETAILS_TABS } from '../constants';
@@ -13,9 +13,12 @@ const SlideOverBody = () => {
     idx: 0,
     value: TEST_DETAILS_TABS.logs
   });
+  const scrollParentRef = useRef(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (scrollParentRef.current) {
+      scrollParentRef.current.scrollTo(0, 0);
+    }
   }, [activeTab.value]);
 
   const onTabChange = useCallback((tabInfo) => {
@@ -34,7 +37,7 @@ const SlideOverBody = () => {
     <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-0">
       <HistorySlider />
       <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className="overflow-auto px-6">
+      <div className="overflow-auto px-6" ref={scrollParentRef}>
         {activeTab.value === TEST_DETAILS_TABS.logs && <LogsTab />}
         {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
       </div>
