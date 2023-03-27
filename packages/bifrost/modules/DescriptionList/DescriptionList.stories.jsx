@@ -1,12 +1,13 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import DescriptionListBody from '../DescriptionListBody';
 import DescriptionListHeader from '../DescriptionListHeader';
-import DescriptionListItem from '../DescriptionListItem';
 import HyperLink from '../Hyperlink';
 import { PaperClipIcon } from '../Icon';
+import KeyValue from '../KeyValuePair';
 
 import DescriptionList from './index';
 
@@ -22,15 +23,17 @@ const descriptionListData = [
     value: 'Backend Developer'
   },
   {
-    id: 4,
+    id: 3,
     label: 'Email address',
     value: 'margotfoster@example.com'
   },
   {
+    id: 4,
     label: 'Salary expectation',
     value: '$120,000'
   },
   {
+    id: 5,
     label: 'About',
     value: `Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
             incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
@@ -39,6 +42,7 @@ const descriptionListData = [
             deserunt qui eu.`
   },
   {
+    id: 6,
     label: 'Attachments',
     value: (
       <ul className="divide-base-200 border-base-200 divide-y rounded-md border">
@@ -80,8 +84,7 @@ const defaultConfig = {
   component: DescriptionList,
   subcomponents: {
     DescriptionListBody,
-    DescriptionListHeader,
-    DescriptionListItem
+    DescriptionListHeader
   },
   parameters: {
     docs: {
@@ -118,80 +121,77 @@ export default defaultConfig;
 
 export const LeftAlignedInCard = () => (
   <DescriptionList>
-    <DescriptionListHeader>
-      <h3 className="text-base-900 text-base font-semibold leading-6">
-        Applicant Information
-      </h3>
-      <p className="text-base-500 mt-1 max-w-2xl text-sm">
-        Personal details and application.
-      </p>
-    </DescriptionListHeader>
-    <DescriptionListBody>
-      {descriptionListData.map((item) => (
-        <DescriptionListItem
-          key={item.value}
-          wrapperClassName="sm:grid sm:grid-cols-3 sm:gap-4"
-        >
-          <dt className="text-base-500 text-sm font-medium">{item.label}</dt>
-          <dd className="text-base-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
-            {item.value}
-          </dd>
-        </DescriptionListItem>
-      ))}
+    <DescriptionListHeader
+      heading="Applicant Information"
+      subHeading="Personal details and application."
+    />
+    <DescriptionListBody wrapperClassName="p-0">
+      <div>
+        {descriptionListData.map((item) => (
+          <div
+            className={twClassNames(
+              'px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'
+            )}
+          >
+            <KeyValue
+              label={item.label}
+              value={item.value}
+              valueClassNames="sm:col-span-2"
+            />
+          </div>
+        ))}
+      </div>
     </DescriptionListBody>
   </DescriptionList>
 );
 
 export const LeftAlignedStripedInCard = () => (
   <DescriptionList>
-    <DescriptionListHeader>
-      <h3 className="text-base-900 text-base font-semibold leading-6">
-        Applicant Information
-      </h3>
-      <p className="text-base-500 mt-1 max-w-2xl text-sm">
-        Personal details and application.
-      </p>
-    </DescriptionListHeader>
-    <DescriptionListBody>
-      {descriptionListData.map((item, index) => (
-        <DescriptionListItem
-          key={item.value}
-          wrapperClassName={`sm:grid sm:grid-cols-3 sm:gap-4 ${
-            index % 2 === 0 ? 'bg-base-50' : ''
-          }`}
-        >
-          <dt className="text-base-500 text-sm font-medium">{item.label}</dt>
-          <dd className="text-base-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
-            {item.value}
-          </dd>
-        </DescriptionListItem>
-      ))}
+    <DescriptionListHeader
+      heading="Applicant Information"
+      subHeading="Personal details and application."
+    />
+    <DescriptionListBody wrapperClassName="p-0">
+      <div>
+        {descriptionListData.map((item, index) => (
+          <div
+            className={twClassNames(
+              'px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6',
+              {
+                'bg-base-50': index % 2 === 0
+              }
+            )}
+          >
+            <KeyValue
+              label={item.label}
+              value={item.value}
+              valueClassNames="sm:col-span-2"
+            />
+          </div>
+        ))}
+      </div>
     </DescriptionListBody>
   </DescriptionList>
 );
 
 export const LeftAligned = () => (
-  <DescriptionList wrapperClassName="shadow-none sm:rounded-none">
-    <DescriptionListHeader>
-      <h3 className="text-base-900 text-base font-semibold leading-6">
-        Applicant Information
-      </h3>
-      <p className="text-base-500 mt-1 max-w-2xl text-sm">
-        Personal details and application.
-      </p>
-    </DescriptionListHeader>
+  <DescriptionList isCard={false}>
+    <DescriptionListHeader
+      heading="Applicant Information"
+      subHeading="Personal details and application."
+    />
     <DescriptionListBody>
-      {descriptionListData.map((item) => (
-        <DescriptionListItem
-          key={item.value}
-          wrapperClassName="sm:grid sm:grid-cols-3 sm:gap-4"
-        >
-          <dt className="text-base-500 text-sm font-medium">{item.label}</dt>
-          <dd className="text-base-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
-            {item.value}
-          </dd>
-        </DescriptionListItem>
-      ))}
+      <div className="sm:divide-base-200 sm:divide-y">
+        {descriptionListData.map((item) => (
+          <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+            <KeyValue
+              label={item.label}
+              value={item.value}
+              valueClassNames="sm:col-span-2"
+            />
+          </div>
+        ))}
+      </div>
     </DescriptionListBody>
   </DescriptionList>
 );
@@ -304,50 +304,55 @@ export const LeftAlignedWithInlineActions = () => {
     }
   ];
   return (
-    <DescriptionList wrapperClassName="shadow-none sm:rounded-none">
-      <DescriptionListHeader>
-        <h3 className="text-base-900 text-base font-semibold leading-6">
-          Applicant Information
-        </h3>
-        <p className="text-base-500 mt-1 max-w-2xl text-sm">
-          Personal details and application.
-        </p>
-      </DescriptionListHeader>
+    <DescriptionList
+      wrapperClassName="shadow-none sm:rounded-none"
+      isCard={false}
+    >
+      <DescriptionListHeader
+        heading="Applicant Information"
+        subHeading="Personal details and application."
+      />
       <DescriptionListBody>
-        {ddData.map((item) => (
-          <DescriptionListItem
-            key={item.value}
-            wrapperClassName="sm:grid sm:grid-cols-3 sm:gap-4"
-          >
-            <dt className="text-base-500 text-sm font-medium">{item.label}</dt>
-            {item.value}
-          </DescriptionListItem>
-        ))}
+        <div className="sm:divide-base-200 sm:divide-y">
+          {ddData.map((item) => (
+            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+              <KeyValue
+                label={item.label}
+                value={item.value}
+                valueClassNames="sm:col-span-2"
+              />
+            </div>
+          ))}
+        </div>
       </DescriptionListBody>
     </DescriptionList>
   );
 };
 
 export const TwoColumnInCard = () => (
-  <DescriptionList>
-    <DescriptionListHeader>
-      <h3 className="text-base-900 text-base font-semibold leading-6">
-        Applicant Information
-      </h3>
-      <p className="text-base-500 mt-1 max-w-2xl text-sm">
-        Personal details and application.
-      </p>
-    </DescriptionListHeader>
-    <DescriptionListBody dataListClassName="grid grid-cols-1 gap-x-4  sm:grid-cols-2 sm:divide-y-0">
-      {descriptionListData.map((item, index) => (
-        <DescriptionListItem
-          key={item.value}
-          wrapperClassName={`${index < 4 ? 'sm:col-span-1' : 'sm:col-span-2'}`}
-        >
-          <dt className="text-base-500 text-sm font-medium">{item.label}</dt>
-          <dd className="text-base-900 mt-1 text-sm">{item.value}</dd>
-        </DescriptionListItem>
-      ))}
+  <DescriptionList isCard>
+    <DescriptionListHeader
+      heading="Applicant Information"
+      subHeading="Personal details and application."
+    />
+    <DescriptionListBody>
+      <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+        {descriptionListData.map((item) => (
+          <div
+            className={twClassNames({
+              'sm:col-span-2': item.id > 4,
+              'sm:col-span-1': item.id <= 4
+            })}
+            key={item.id}
+          >
+            <KeyValue
+              label={item.label}
+              value={item.value}
+              valueClassNames="mt-1"
+            />
+          </div>
+        ))}
+      </div>
     </DescriptionListBody>
   </DescriptionList>
 );

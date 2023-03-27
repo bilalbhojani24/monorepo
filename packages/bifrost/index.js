@@ -14,6 +14,8 @@ import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import DescriptionListBody from './modules/DescriptionListBody/index';
+import DescriptionListHeader from './modules/DescriptionListHeader/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
@@ -34,6 +36,7 @@ import InputField from './modules/InputField/index';
 import InputWButton from './modules/InputWButton/index';
 import InputWDropdown from './modules/InputWDropdown/index';
 import InputWKB from './modules/InputWKB/index';
+import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -114,6 +117,8 @@ export {
   ComboboxTrigger,
   DataVisualization,
   DescriptionList,
+  DescriptionListBody,
+  DescriptionListHeader,
   Draggable,
   Dropdown,
   DropdownOptionGroup,
@@ -134,6 +139,7 @@ export {
   InputWButton,
   InputWDropdown,
   InputWKB,
+  KeyValue,
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
