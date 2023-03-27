@@ -58,7 +58,7 @@ const Issues = () => {
               testRunPageQuery
           },
           {
-            name: testRunDetails?.name || testRunId,
+            name: testRunDetails?.name || '--',
             url: routeFormatter(AppRoute.TEST_RUN_DETAILS, {
               projectId,
               testRunId
