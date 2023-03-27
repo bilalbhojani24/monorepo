@@ -16,6 +16,10 @@ const defaultConfig = {
           importStatement={"import SkipToContent from 'bifrost/SkipToContent'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

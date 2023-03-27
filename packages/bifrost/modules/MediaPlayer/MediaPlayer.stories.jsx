@@ -14,6 +14,10 @@ const defaultConfig = {
           importStatement={"import MediaPlayer from 'bifrost/MediaPlayer'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

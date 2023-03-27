@@ -25,16 +25,16 @@ const columns = [
     isSortable: true
   },
   {
-    name: 'Issue Summary',
+    name: 'Issue summary',
     key: 'issueSummary',
     isSortable: true
   },
   {
-    name: 'Severity Breakdown',
+    name: 'Severity breakdown',
     key: 'severity'
   },
   {
-    name: 'Page Summary',
+    name: 'Page summary',
     key: 'pageSummary'
   }
 ];
@@ -127,17 +127,18 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
               >
                 <div className="flex">
                   <span className="mr-2 flex items-center">
-                    <MdCheckCircle color="#10B981" className="mr-0.5" />
+                    <MdCheckCircle color="#10B981" className="mr-0.5" fontSize="medium" />
                     {row?.reportSummary?.success || 0}
                   </span>
                   <span className="mr-2 flex items-center">
-                    <MdCancel color="#EF4444" className="mr-0.5" />
+                    <MdCancel color="#EF4444" className="mr-0.5" fontSize="medium" />
                     {row?.reportSummary?.failure || 0}
                   </span>
                   <span className="mr-2 flex items-center">
                     <MdOutlineSync
                       color="#FFF"
                       className="bg-attention-500 mr-0.5 rounded-full"
+                      fontSize="medium"
                     />
                     {row?.reportSummary?.redirect || 0}
                   </span>

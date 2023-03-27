@@ -15,6 +15,10 @@ const defaultConfig = {
           importStatement={"import Metadata from 'bifrost/Metadata'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

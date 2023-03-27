@@ -39,6 +39,10 @@ const defaultConfig = {
           importStatement={"import ListTree from '@browserstack/bifrost'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=24-324&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
