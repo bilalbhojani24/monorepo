@@ -106,17 +106,26 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
             <TableCell>
               <div className="text-base-900 flex">
                 <p className="mr-4 flex items-center">
-                  <MdCheckCircle color="#10B981" className="mr-0.5" />
+                  <MdCheckCircle
+                    color="#10B981"
+                    className="mr-0.5"
+                    fontSize="medium"
+                  />
                   {row?.reportSummary?.success || 0}
                 </p>
                 <p className="mr-4 flex items-center">
-                  <MdCancel color="#EF4444" className="mr-0.5" />
+                  <MdCancel
+                    color="#EF4444"
+                    className="mr-0.5"
+                    fontSize="medium"
+                  />
                   {row?.reportSummary?.failure || 0}
                 </p>
                 <p className="mr-4 flex items-center">
                   <MdOutlineSync
                     color="#FFF"
                     className="bg-attention-500 mr-0.5 rounded-full"
+                    fontSize="medium"
                   />
                   {row?.reportSummary?.redirect || 0}
                 </p>

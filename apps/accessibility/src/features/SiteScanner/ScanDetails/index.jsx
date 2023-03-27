@@ -62,9 +62,6 @@ const ScanDetails = () => {
   /*
     Convert back to Local Timezone
   */
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find((key) => object[key] === value);
-  }
   const convertToLocale = () => {
     const cronStringArray = scanRunDataCommon.schedulePattern.split(' ');
     const timezoneOffset = new Date().getTimezoneOffset();
@@ -73,20 +70,26 @@ const ScanDetails = () => {
       parseInt(cronStringArray[1], 10) * 60 + parseInt(cronStringArray[0], 10);
     const diff = minutes - timezoneOffset;
 
-    const finalUTCVal = toHoursAndMinutes(diff);
+    let finalUTCVal = toHoursAndMinutes(diff);
     let dayVal = cronStringArray[cronStringArray.length - 1];
     // console.log(diff, minutes, timezoneOffset, toHoursAndMinutes(diff), dayMap[day]);
-    if (diff < 0 && day !== '*') {
-      dayVal = parseInt(day, 10) === 0 ? dayMap[6] : dayMap[day - 1];
+    if (diff < 0) {
+      finalUTCVal = toHoursAndMinutes(1440 + diff);
+      if (day === '*') {
+        dayVal = day;
+      } else {
+        dayVal = parseInt(day, 10) === 0 ? dayMap[6] : parseInt(day, 10) - 1;
+      }
     }
-    if (diff > 1439 && day !== '*') {
-      dayVal =
-        parseInt(day, 10) === 6
-          ? dayMap[0]
-          : dayMap[getKeyByValue(dayMap, day) + 1];
+    if (diff > 1439) {
+      finalUTCVal = toHoursAndMinutes(diff - 1440);
+      if (day === '*') {
+        dayVal = day;
+      } else {
+        dayVal = parseInt(day, 10) === 6 ? dayMap[0] : parseInt(day, 10) + 1;
+      }
     }
     const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
-
     return cronstrue.toString(adjustedCronExpression);
   };
   if (isLoading || !scanOverviewData) {
