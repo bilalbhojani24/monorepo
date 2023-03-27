@@ -30,8 +30,8 @@ export const responseInterceptor = axios.interceptors.response.use(
   (error) => {
     // Do something with response error
     const { status, data } = error.response;
-    if (status === 401 && data.error_message.name === 'TokenExpiredError') {
-      // token has expired
+    if (status === 401 && data.error?.refresh_token) {
+      // run refresh token flow
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
       return store.dispatch(fetchTokenThunk()).then(() => {
         // new UAT has been issued and stored in cookie

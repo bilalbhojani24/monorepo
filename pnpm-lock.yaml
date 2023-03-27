@@ -20031,7 +20031,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
@@ -20097,7 +20097,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.26
       '@types/use-sync-external-store': 0.0.3
