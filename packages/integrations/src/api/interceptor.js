@@ -1,6 +1,7 @@
 import { cookieUtils as Cookie } from '@browserstack/utils';
 import axios from 'axios';
 
+import { baseURLSelector } from '../common/slices/configSlice';
 import { store } from '../features/store';
 
 import { UAT_COOKIE_NAME } from './constants';
@@ -10,6 +11,8 @@ import { fetchTokenThunk } from './fetchToken';
 const cookie = new Cookie();
 export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
+    // eslint-disable-next-line no-param-reassign
+    config.baseURL = baseURLSelector(store.getState());
     const token = cookie.read(UAT_COOKIE_NAME);
     if (token) {
       // eslint-disable-next-line no-param-reassign
