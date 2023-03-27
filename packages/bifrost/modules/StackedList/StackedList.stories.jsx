@@ -10,6 +10,8 @@ import {
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
+import Button from '../Button';
+import HyperLink from '../Hyperlink';
 import StackedListCommon from '../StackedListCommon';
 import StackedListGroup from '../StackedListGroup';
 import StackedListItem from '../StackedListItem';
@@ -52,9 +54,7 @@ const defaultConfig = {
                   />
                 }
                 title={name}
-                subTitle={
-                  <span className="text-base-500 text-sm">{email}</span>
-                }
+                subTitle={email}
               />
             </StackedListItem>
           ))}
@@ -66,16 +66,15 @@ const defaultConfig = {
       description:
         'Should provide the content of list items that written using `StackedListGroup`, `StackedLisItem` and `StackedListCommon` components'
     },
+    isCard: {
+      option: { type: 'boolean' },
+      defaultValue: false
+    },
     footer: {
       defaultValue: (
-        <div className="bg-white py-3 text-center">
-          <button
-            className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
-            type="button"
-          >
-            View all
-          </button>
-        </div>
+        <Button variant="primary" colors="white" fullWidth wrapperClassName="">
+          View all
+        </Button>
       ),
       option: {
         type: null
@@ -103,7 +102,7 @@ NarrowWithAvatarGroup.args = {
               <img alt={name} className="h-10 w-10 rounded-full" src={image} />
             }
             title={name}
-            subTitle={<span className="text-base-500 text-sm">{email}</span>}
+            subTitle={email}
           />
         </StackedListItem>
       ))}
@@ -116,7 +115,7 @@ WithStickyHeadings.args = {
   children: GroupedPeople.map(({ title, people }) => (
     <StackedListGroup key={title} heading={title}>
       {people.map(({ name, image, info }) => (
-        <StackedListItem>
+        <StackedListItem variant="card">
           <StackedListCommon
             icon={
               <img
@@ -126,7 +125,7 @@ WithStickyHeadings.args = {
               />
             }
             title={name}
-            subTitle={<span className="text-base-500 text-sm">{info}</span>}
+            subTitle={info}
           />
         </StackedListItem>
       ))}
@@ -158,7 +157,7 @@ TwoColumnsWithAvatar.args = {
             }
             title={<span className="text-brand-600">{name}</span>}
             subTitle={
-              <span className="text-base-500 mt-2 flex text-sm">
+              <span className="mt-2 flex">
                 <EnvelopeIcon
                   className="text-base-400 mr-1.5 h-5 w-5 shrink-0 "
                   aria-hidden="true"
@@ -170,7 +169,7 @@ TwoColumnsWithAvatar.args = {
           <StackedListCommon
             title={info}
             subTitle={
-              <span className="text-base-500 mt-2 flex text-sm">
+              <span className="mt-2 flex">
                 <CheckCircleIcon className="fill-success-400 mr-2 h-5 w-5" />
                 {statusText}
               </span>
@@ -179,20 +178,21 @@ TwoColumnsWithAvatar.args = {
         </StackedListItem>
       ))}
     </StackedListGroup>
-  )
+  ),
+  footer: null
 };
 
 const WithRightJustifiedSecondColumn = Template.bind({});
 WithRightJustifiedSecondColumn.args = {
   children: (
-    <StackedListGroup>
+    <StackedListGroup wrapperClassName="shadow rounded-md">
       {JobTitles.map((job, index) => (
         <StackedListItem key={job} variant="card">
           <StackedListCommon
             title={<span className="text-brand-600 text-base">{job}</span>}
             subTitle={
               <div className="mt-2 flex gap-6">
-                <span className=" text-base-500 flex">
+                <span className="text-base-500 flex">
                   <UsersIcon className="fill-base-400 mr-2 h-5 w-5" />
                   {index === 2 ? 'Design' : 'Engineering'}
                 </span>
@@ -205,7 +205,7 @@ WithRightJustifiedSecondColumn.args = {
           />
           <StackedListCommon
             subTitle={
-              <span className="text-base-500 mt-1 flex text-sm">
+              <span className="mt-1 flex">
                 <CalendarIcon className="fill-base-400 h-5 w-5" />
                 <span className="ml-2 ">
                   Closing on January {index === 2 ? 14 : 7}, 2020
@@ -218,33 +218,30 @@ WithRightJustifiedSecondColumn.args = {
         </StackedListItem>
       ))}
     </StackedListGroup>
-  )
+  ),
+  footer: null
 };
 
 const ContentLinksWithAction = Template.bind({});
 ContentLinksWithAction.args = {
   footer: (
-    <div className="bg-white py-3 text-center">
-      <button
-        className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
-        type="button"
-      >
-        View all
-      </button>
-    </div>
+    <Button variant="primary" colors="white" fullWidth wrapperClassName="">
+      View all
+    </Button>
   ),
   children: (
     <StackedListGroup>
       {contentList.map(({ title, content }) => (
-        <StackedListItem>
+        <StackedListItem focusParentOnChildFocused>
           <StackedListCommon
             title={
-              <a className="hover:underline" href="#/">
+              <HyperLink wrapperClassName="focus:none font-normal text-base-900">
                 {title}
-              </a>
+                <span className="absolute inset-0" aria-hidden="true" />
+              </HyperLink>
             }
             subTitle={
-              <p className="line-clamp-2 text-base-600 mt-1 whitespace-normal text-sm">
+              <p className="line-clamp-1 text-base-600 mt-1 whitespace-normal text-sm">
                 {content}
               </p>
             }
@@ -257,34 +254,26 @@ ContentLinksWithAction.args = {
 
 const WithTruncatedContentPreview = Template.bind({});
 WithTruncatedContentPreview.args = {
-  footer: (
-    <div className="bg-white py-3 text-center">
-      <button
-        className="hover:bg-base-50 border-base-300 w-full rounded-md border py-1"
-        type="button"
-      >
-        Action
-      </button>
-    </div>
-  ),
+  footer: null,
   children: (
     <StackedListGroup>
       {contentLinks.map(({ time, title, subTitle, content }) => (
-        <StackedListItem>
+        <StackedListItem focusParentOnChildFocused>
           <StackedListCommon
             title={
-              <a className="hover:underline" href="#/">
+              <HyperLink wrapperClassName="focus:none font-normal text-base-900">
                 {title}
-              </a>
+                <span className="absolute inset-0" aria-hidden="true" />
+              </HyperLink>
             }
-            contentAside={<span className="text-base-500 text-sm">{time}</span>}
+            contentAside={time}
             subTitle={
-              <span>
+              <>
                 <p className="text-base-500 truncate">{subTitle}</p>
-                <p className="text-base-600 line-clamp-2 mt-1.5 whitespace-normal text-sm">
+                <p className="text-base-600 line-clamp-1 mt-1.5 whitespace-normal text-sm">
                   {content}
                 </p>
-              </span>
+              </>
             }
           />
         </StackedListItem>
@@ -295,25 +284,14 @@ WithTruncatedContentPreview.args = {
 
 const AvatarGroupsWithActions = Template.bind({});
 AvatarGroupsWithActions.args = {
-  footer: (
-    <button
-      type="button"
-      className="hover:bg-base-50 text-base-600 border-base-200 w-full rounded-md border-2 px-3  py-2 font-semibold"
-    >
-      View all
-    </button>
-  ),
   children: (
     <StackedListGroup>
       {AvatarGroupPeople.map(({ image, name, username }) => (
         <StackedListItem
           actions={
-            <button
-              type="button"
-              className="hover:bg-base-50 text-base-600 border-base-400 rounded-2xl border px-3  py-1 text-sm font-semibold"
-            >
+            <Button variant="rounded" colors="white">
               View
-            </button>
+            </Button>
           }
         >
           <StackedListCommon
@@ -321,7 +299,7 @@ AvatarGroupsWithActions.args = {
               <img alt={name} className="h-10 w-10 rounded-full" src={image} />
             }
             title={name}
-            subTitle={<span className="text-base-500">{username}</span>}
+            subTitle={username}
           />
         </StackedListItem>
       ))}

@@ -19,10 +19,12 @@ const StackedListCommon = ({
     {icon && <span className="float-left mr-3 shrink-0">{icon}</span>}
     <span className="truncate text-sm">
       <p className="text-base-900 truncate font-medium">{title}</p>
-      <p className="truncate">{subTitle}</p>
+      <p className="text-base-500 truncate text-sm">{subTitle}</p>
     </span>
     {contentAside && (
-      <span className="absolute top-3 right-4">{contentAside}</span>
+      <span className="text-base-500 absolute top-3 right-4">
+        {contentAside}
+      </span>
     )}
     {actions}
   </div>

@@ -3,10 +3,12 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const StackedListItem = ({
-  variant,
+  isCard,
   actions,
   children,
-  hideContentInSmallWidth
+  focusParentOnChildFocused,
+  hideContentInSmallWidth,
+  wrapperClassName
 }) => {
   const effectiveChildren =
     children.length > 1
@@ -25,11 +27,14 @@ const StackedListItem = ({
       className={twClassNames(
         'relative px-4 py-5 sm:px-6 flex items-center truncate',
         {
-          'px-6 hover:bg-base-50 cursor-pointer rounded-md': variant === 'card'
-        }
+          'px-6 hover:bg-base-50 cursor-pointer': isCard,
+          'focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-500 cursor-pointer':
+            focusParentOnChildFocused
+        },
+        wrapperClassName
       )}
     >
-      <span className=" block  max-w-full flex-1 justify-between gap-3 md:flex ">
+      <span className="block max-w-full flex-1 justify-between gap-3 md:flex ">
         {effectiveChildren}
       </span>
       {actions && <div className="shrink-0 pl-3">{actions}</div>}
@@ -38,15 +43,18 @@ const StackedListItem = ({
 };
 
 StackedListItem.propTypes = {
-  variant: PropTypes.oneOf(['subtle', 'card']),
   actions: PropTypes.node,
   children: PropTypes.node.isRequired,
-  hideContentInSmallWidth: PropTypes.bool
+  focusParentOnChildFocused: PropTypes.bool,
+  isCard: PropTypes.bool.isRequired,
+  hideContentInSmallWidth: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 StackedListItem.defaultProps = {
-  variant: 'subtle',
   actions: null,
-  hideContentInSmallWidth: false
+  focusParentOnChildFocused: false,
+  hideContentInSmallWidth: false,
+  wrapperClassName: ''
 };
 
 export default StackedListItem;
