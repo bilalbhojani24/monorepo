@@ -6,8 +6,10 @@ import newPerformanceSessionReducer, {
   getSessionDetails,
   resetSessionSetupData
 } from './slices/newPerformanceSessionSlice';
+import { fetchConnectedDevices } from './slices/newPerformanceSessionThunks';
 
 export {
+  fetchConnectedDevices,
   getListOfDevices,
   getSelectedDevice,
   getSessionDetails,

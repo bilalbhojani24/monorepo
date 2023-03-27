@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTotalCompletedSessions } from 'features/Dashboard/slices/dashboardSlice';
 
@@ -17,10 +17,6 @@ const useDependencyChecker = () => {
   const refetchDevices = useCallback(() => {
     dispatch(fetchConnectedDevices());
   }, [dispatch]);
-
-  useEffect(() => {
-    refetchDevices();
-  }, [refetchDevices]);
 
   return {
     areDevicesStillLoading,

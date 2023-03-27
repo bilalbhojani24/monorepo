@@ -3,6 +3,7 @@ import {
   fetchDevices,
   startSession
 } from 'api/newPerformanceSession';
+import { getPreviousUserSessions } from 'features/TestHistory';
 
 import {
   setAreApplicationsStillLoading,
@@ -37,6 +38,22 @@ export const fetchApplicationsFromSelectedDevice =
       if (response?.apps?.length > 0) {
         dispatch(setSelectedApplication(response?.apps[0]));
       }
+
+      if (response?.apps?.length > 0) {
+        const previousUserSessions = getPreviousUserSessions(getState());
+
+        if (previousUserSessions?.length > 0 && response?.apps?.length > 0) {
+          const lastSessionSelectedAppId =
+            previousUserSessions?.[0]?.package?.bundleId;
+
+          const lastSessionDevice =
+            response.apps.find(
+              (app) => app.packageName === lastSessionSelectedAppId
+            ) || response.apps[0];
+
+          dispatch(setSelectedApplication(lastSessionDevice));
+        }
+      }
     } catch (error) {
       if (error?.response?.status !== 460) {
         throw error;
@@ -48,7 +65,7 @@ export const fetchApplicationsFromSelectedDevice =
     }
   };
 
-export const fetchConnectedDevices = () => async (dispatch) => {
+export const fetchConnectedDevices = () => async (dispatch, getState) => {
   try {
     dispatch(setAreDevicesStillLoading(true));
 
@@ -66,7 +83,19 @@ export const fetchConnectedDevices = () => async (dispatch) => {
       .flat();
 
     if (resultSet.length > 0) {
-      dispatch(setSelectedDevice(resultSet[0]));
+      const previousUserSessions = getPreviousUserSessions(getState());
+
+      if (previousUserSessions?.length > 0 && resultSet.length > 0) {
+        const lastSessionSelectedDeviceId =
+          previousUserSessions?.[0]?.device?.deviceId;
+
+        const lastSessionDevice =
+          resultSet.find(
+            (device) => device.deviceId === lastSessionSelectedDeviceId
+          ) || resultSet[0];
+
+        dispatch(setSelectedDevice(lastSessionDevice));
+      }
     }
 
     dispatch(setListOfDevices(resultSet));
