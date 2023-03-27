@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { MdKeyboardArrowDown } from '@browserstack/bifrost';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -60,7 +61,10 @@ const TestRetriesMenu = () => {
           defaultValue={defaultSelectedOption}
           onChange={onRetryRunChange}
         >
-          <O11ySelectMenuTrigger placeholder="Select.." />
+          <O11ySelectMenuTrigger
+            placeholder="Select.."
+            triggerIcon={<MdKeyboardArrowDown className="h-4 w-4" />}
+          />
           <O11ySelectMenuOptionGroup>
             {retriesMenuOptions.map((retryOption) => (
               <O11ySelectMenuOptionItem

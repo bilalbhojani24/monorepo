@@ -17,7 +17,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
         className={twClassNames(
           'w-4 h-4',
           {
-            'text-success-500': !noColor
+            'text-success-500': !noColor,
+            'text-base-400': noColor
           },
           customClass
         )}
@@ -30,7 +31,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
         className={twClassNames(
           'w-4 h-4 fill-brand-500',
           {
-            'text-brand-500': !noColor
+            'text-brand-500': !noColor,
+            'text-base-400': noColor
           },
           customClass
         )}
@@ -43,7 +45,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
         className={twClassNames(
           'w-4 h-4',
           {
-            'text-danger-500': !noColor
+            'text-danger-500': !noColor,
+            'text-base-400': noColor
           },
           customClass
         )}
@@ -56,7 +59,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
         className={twClassNames(
           'w-4 h-4',
           {
-            'text-attention-500': !noColor
+            'text-attention-500': !noColor,
+            'text-base-400': noColor
           },
           customClass
         )}
@@ -69,7 +73,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
       className={twClassNames(
         'w-4 h-4',
         {
-          'text-base-500': !noColor
+          'text-base-500': !noColor,
+          'text-base-400': noColor
         },
         customClass
       )}

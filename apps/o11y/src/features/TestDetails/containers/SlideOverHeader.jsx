@@ -6,7 +6,7 @@ import StatusIcon from 'common/StatusIcon';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
-import { getTestMetaData } from '../slices/dataSlice';
+import { clearTestMeta, getTestMetaData } from '../slices/dataSlice';
 import { getShowTestDetailsFor, getTestMeta } from '../slices/selectors';
 import {
   setCurrentTestRunId,
@@ -47,6 +47,10 @@ const TestDetailsHeader = () => {
       );
       dispatch(setCurrentTestRunId(testRunId));
     }
+
+    return () => {
+      dispatch(clearTestMeta());
+    };
   }, [dispatch, testRunId, activeProject?.normalisedName]);
 
   const handleCloseDetails = () => {
