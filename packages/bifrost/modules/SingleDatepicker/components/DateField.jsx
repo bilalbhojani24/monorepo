@@ -24,7 +24,7 @@ export function DateField(props) {
       aria-label="Enter valid date"
     >
       {disabled ? (
-        <p className="text-base-400 text-sm font-normal leading-5">
+        <p className="text-base-500 text-sm font-normal leading-5">
           00-00-0000
         </p>
       ) : (
@@ -75,7 +75,7 @@ function DateSegment({ segment, state, errorState }) {
             'text-base-900 m-0 block w-fit text-sm font-normal leading-5',
             {
               'text-base-500': segment.text === '/',
-              'text-danger-600': errorState && segment.text !== '/'
+              'text-danger-900': errorState
             }
           )}
         >

@@ -13,8 +13,6 @@ import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
-import Datepicker from './modules/Datepicker';
-import DatepickerLabel from './modules/DatepickerLabel';
 import DescriptionList from './modules/DescriptionList/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
@@ -72,6 +70,7 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import SidebarNavigationWCollapse from './modules/SidebarNavigationWCollapse';
+import SingleDatepicker from './modules/SingleDatepicker';
 import SkipToContent from './modules/SkipToContent/index';
 import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
@@ -115,8 +114,6 @@ export {
   ComboboxOptionItem,
   ComboboxTrigger,
   DataVisualization,
-  Datepicker,
-  DatepickerLabel,
   DescriptionList,
   Draggable,
   Dropdown,
@@ -175,6 +172,7 @@ export {
   SidebarItem,
   SidebarNavigation,
   SidebarNavigationWCollapse,
+  SingleDatepicker,
   SkipToContent,
   Slideover,
   SlideoverBody,

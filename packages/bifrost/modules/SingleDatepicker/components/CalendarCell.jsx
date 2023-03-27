@@ -90,12 +90,6 @@ export function CalendarCell({
             className={twClassNames(
               'flex h-full w-full items-center justify-center bg-white cursor-pointer',
               {
-                // border radius for the edge cells
-                'rounded-tl-2xl': borderRadiusTopLeft,
-                'rounded-bl-2xl': borderRadiusBottomLeft,
-                'rounded-tr-2xl': borderRadiusTopRight,
-                'rounded-br-2xl': borderRadiusBottomRight,
-
                 'text-base-400': isDisabled && !isInvalid,
 
                 // Focus ring, visible while the cell has keyboard focus.
@@ -133,8 +127,16 @@ export function CalendarCell({
                   !isSelected && !isDisabled,
 
                 // styles for unavailable dates
+                'bg-base-100 w-full h-full rounded-none':
+                  isOutsideVisibleRange && currentDate,
 
-                '': isUnavailable
+                '': isUnavailable,
+
+                // border radius for the edge cells
+                'rounded-tl-2xl': borderRadiusTopLeft,
+                'rounded-bl-2xl': borderRadiusBottomLeft,
+                'rounded-tr-2xl': borderRadiusTopRight,
+                'rounded-br-2xl': borderRadiusBottomRight
               }
             )}
           >
