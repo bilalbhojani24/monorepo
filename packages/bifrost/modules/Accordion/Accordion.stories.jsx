@@ -68,10 +68,10 @@ InteractiveAccordion.args = {
             <span className="truncate text-sm">Meta Column Text 2</span>
           </a>
           <span className="flex gap-2 text-xs">
-            <Badge size="basic" text="B1" modifier="success" />
-            <Badge size="basic" text="B2" modifier="error" />
-            <Badge size="basic" text="B3" modifier="warn" />
-            <Badge size="basic" text="B4" />
+            <Badge size="basic" text="B1" modifier="success" tabIndex={0} />
+            <Badge size="basic" text="B2" modifier="error" tabIndex={0} />
+            <Badge size="basic" text="B3" modifier="warn" tabIndex={0} />
+            <Badge size="basic" text="B4" tabIndex={0} />
           </span>
         </div>
       }
