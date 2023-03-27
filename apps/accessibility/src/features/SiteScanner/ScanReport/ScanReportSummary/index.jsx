@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import ZeroIssues from 'assets/zero_issues.svg';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
 import cloneDeep from 'lodash/cloneDeep';
@@ -64,7 +65,10 @@ export default function ScanReportSummary() {
     onHiddenIssueClick,
     getHiddenIssuesCount
   } = useScanReportSummary();
-  const { issueSummary, chartData } = reportOverviewMetaData;
+  const {
+    issueSummary: { issueCount },
+    chartData
+  } = reportOverviewMetaData;
   const { hiddenIssues, needsReviewIssues } = getHiddenIssuesCount();
   const { issueCountByComponent, issueCountByURL } = chartData;
   const componentList = cloneDeep(issueCountByComponent).sort(
@@ -148,6 +152,24 @@ export default function ScanReportSummary() {
       key: 'issueCount'
     }
   ];
+
+  if (!issueCount) {
+    return (
+      <div
+        style={{ height: 'calc(100vh - 250px)' }}
+        className="flex flex-col items-center justify-center"
+      >
+        <img src={ZeroIssues} alt="zero issues" className="mb-5" />
+        <div className="text-center">
+          <p className="text-base-900 text-base font-medium">Hurray!</p>
+          <p className="text-base-500 text-base">
+            We found zero issues in this scan.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-base-50 relative mt-4">
       <div className="flex items-start">
