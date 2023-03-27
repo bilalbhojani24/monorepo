@@ -40,7 +40,11 @@ const DatePickerInputGroup = ({
       )}
     >
       <div className="relative flex w-full items-center rounded-md rounded-r-none p-1 py-2 pl-3">
-        <DateField {...fieldProps} disabled={disabled} />
+        <DateField
+          {...fieldProps}
+          disabled={disabled}
+          errorMessage={errorMessage}
+        />
       </div>
       {errorMessage ? (
         <div className="flex flex-col justify-around">
@@ -73,7 +77,7 @@ const DatePickerInputGroup = ({
         </FieldButton>
       )}
     </div>
-    <p className="text-danger-600 mt-1.5 text-sm font-normal leading-5">
+    <p className="text-danger-600 mt-1.5 break-all text-sm font-normal leading-5">
       {errorMessage}
     </p>
   </div>

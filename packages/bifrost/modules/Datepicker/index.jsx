@@ -22,7 +22,10 @@ Datepicker.propTypes = {
   disabled: Proptypes.bool,
   onChange: Proptypes.func,
   disabledMessage: Proptypes.string,
-  isDateUnavailable: Proptypes.func
+  isDateUnavailable: Proptypes.func,
+  offset: Proptypes.number,
+  crossOffset: Proptypes.number,
+  placement: Proptypes.string
 };
 Datepicker.defaultProps = {
   wrapperClassName: '',
@@ -30,7 +33,10 @@ Datepicker.defaultProps = {
   disabled: false,
   onChange: () => {},
   disabledMessage: 'Datepicker has been disabled',
-  isDateUnavailable: () => {}
+  isDateUnavailable: () => {},
+  offset: 0,
+  crossOffset: 0,
+  placement: 'bottom end'
 };
 
 export default Datepicker;

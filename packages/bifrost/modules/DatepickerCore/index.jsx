@@ -15,7 +15,14 @@ const DatePickerCore = (props) => {
   const { groupProps, fieldProps, buttonProps, dialogProps, calendarProps } =
     useDatePicker(props, state, ref);
 
-  const { errorMessage, disabled, disabledMessage } = props;
+  const {
+    errorMessage,
+    disabled,
+    disabledMessage,
+    offset,
+    crossOffset,
+    placement
+  } = props;
 
   return (
     <div aria-label="Date input field and calendar viewer">
@@ -30,7 +37,13 @@ const DatePickerCore = (props) => {
         disabledMessage={disabledMessage}
       />
       {state.isOpen && (
-        <Popover triggerRef={ref} state={state} placement="bottom start">
+        <Popover
+          triggerRef={ref}
+          state={state}
+          placement={placement}
+          offset={offset}
+          crossOffset={crossOffset}
+        >
           <Dialog {...dialogProps}>
             <Calendar {...calendarProps} />
           </Dialog>
@@ -45,10 +58,16 @@ export default DatePickerCore;
 DatePickerCore.propTypes = {
   errorMessage: Proptypes.string,
   disabled: Proptypes.bool,
-  disabledMessage: Proptypes.string.isRequired
+  disabledMessage: Proptypes.string.isRequired,
+  offset: Proptypes.number,
+  crossOffset: Proptypes.number,
+  placement: Proptypes.string
 };
 
 DatePickerCore.defaultProps = {
   errorMessage: null,
-  disabled: false
+  disabled: false,
+  offset: 0,
+  crossOffset: 0,
+  placement: 'bottom end'
 };
