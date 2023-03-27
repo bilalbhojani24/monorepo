@@ -56,12 +56,13 @@ export const checkAuthAndSaveUserDetails =
 
 export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
   try {
+    dispatch(setIsTestHistoryLoading(true));
+
     const logOutResponse = await userLogOut();
 
     if (logOutResponse?.status === 200) {
       dispatch(setAuthToken(null));
       dispatch(setUserDetails(null));
-      dispatch(setIsTestHistoryLoading(true));
       dispatch(checkForPreviousUserSessions(true));
     }
   } catch (e) {
