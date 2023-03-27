@@ -12,10 +12,10 @@ import Proptypes from 'prop-types';
 export function CalendarCell({
   state,
   date,
-  borderRadiusTopLeft,
-  borderRadiusBottomLeft,
-  borderRadiusTopRight,
-  borderRadiusBottomRight,
+  // borderRadiusTopLeft,
+  // borderRadiusBottomLeft,
+  // borderRadiusTopRight,
+  // borderRadiusBottomRight,
   borderTop,
   borderLeft,
   currentDate
@@ -76,10 +76,10 @@ export function CalendarCell({
           className={twClassNames(
             'border-base-300 h-10 w-14 border-b border-r flex flex-col justify-around',
             {
-              'rounded-tl-2xl': borderRadiusTopLeft,
-              'rounded-bl-2xl': borderRadiusBottomLeft,
-              'rounded-tr-2xl': borderRadiusTopRight,
-              'rounded-br-2xl': borderRadiusBottomRight,
+              // 'rounded-tl-2xl': borderRadiusTopLeft,
+              // 'rounded-bl-2xl': borderRadiusBottomLeft,
+              // 'rounded-tr-2xl': borderRadiusTopRight,
+              // 'rounded-br-2xl': borderRadiusBottomRight,
 
               'border-t': borderTop,
               'border-l': borderLeft
@@ -90,6 +90,12 @@ export function CalendarCell({
             className={twClassNames(
               'flex h-full w-full items-center justify-center bg-white cursor-pointer',
               {
+                // border radius for the edge cells
+                // 'rounded-tl-2xl': borderRadiusTopLeft,
+                // 'rounded-bl-2xl': borderRadiusBottomLeft,
+                // 'rounded-tr-2xl': borderRadiusTopRight,
+                // 'rounded-br-2xl': borderRadiusBottomRight,
+
                 'text-base-400': isDisabled && !isInvalid,
 
                 // Focus ring, visible while the cell has keyboard focus.
@@ -130,13 +136,7 @@ export function CalendarCell({
                 'bg-base-100 w-full h-full rounded-none':
                   isOutsideVisibleRange && currentDate,
 
-                '': isUnavailable,
-
-                // border radius for the edge cells
-                'rounded-tl-2xl': borderRadiusTopLeft,
-                'rounded-bl-2xl': borderRadiusBottomLeft,
-                'rounded-tr-2xl': borderRadiusTopRight,
-                'rounded-br-2xl': borderRadiusBottomRight
+                '': isUnavailable
               }
             )}
           >
