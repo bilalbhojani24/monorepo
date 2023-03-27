@@ -13,8 +13,8 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
@@ -195,8 +195,8 @@ export default function TestTrend() {
 
   const handleClickChartItem = useCallback(
     ({ point: { options } }) => {
-      dispatch(setShowDetailsFor(options?.id));
-      dispatch(setIsDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(options?.id));
+      dispatch(setIsTestDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.set('details', options.id);
       navigate({ search: searchParams.toString() });

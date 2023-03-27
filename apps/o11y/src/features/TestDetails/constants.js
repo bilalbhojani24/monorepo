@@ -21,3 +21,8 @@ export const LOG_LEVELS = {
   TRACE: 'TRACE',
   FATAL: 'FATAL'
 };
+
+export const TEST_DETAILS_TABS = {
+  logs: 'Logs',
+  info: 'Info'
+};

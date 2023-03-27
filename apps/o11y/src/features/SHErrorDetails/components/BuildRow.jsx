@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { twClassNames } from '@browserstack/utils';
-import { O11yTableCell } from 'common/bifrostProxy';
+import { O11yBadge, O11yTableCell } from 'common/bifrostProxy';
 import JiraTag from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusChip from 'common/StatusChip';
-import TagsComponent from 'common/TagsComponent';
 import PropTypes from 'prop-types';
 import { milliSecondsToTime } from 'utils/dateTime';
 
@@ -64,10 +63,7 @@ const BuildRow = ({ buildData }) => (
           )}
           {buildData?.historyAggregate?.isFlaky && (
             <PropagationBlocker className="inline">
-              <TagsComponent
-                text="Flaky"
-                wrapperClassName="pointer-events-none border-attention-200 bg-attention-50"
-              />
+              <O11yBadge text="Flaky" isRounded={false} modifier="warn" />
             </PropagationBlocker>
           )}
         </div>

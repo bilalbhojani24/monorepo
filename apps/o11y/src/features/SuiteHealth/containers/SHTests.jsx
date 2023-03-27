@@ -12,8 +12,8 @@ import {
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -102,11 +102,11 @@ export default function SHTests() {
     const searchParams = new URLSearchParams(window.location.search);
     const testDetails = searchParams.get('details');
     if (testDetails) {
-      dispatch(setIsDetailsVisible(true));
-      dispatch(setShowDetailsFor(testDetails));
+      dispatch(setIsTestDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(testDetails));
     }
     return () => {
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsTestDetailsVisible(false));
     };
   }, [dispatch]);
 
@@ -160,7 +160,7 @@ export default function SHTests() {
           deviceKey: ''
         })
       );
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsTestDetailsVisible(false));
       dispatch(setShowSHTestsDetailsFor(activeRow.id));
       dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);

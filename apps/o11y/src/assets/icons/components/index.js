@@ -44,6 +44,7 @@ import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
+import LoadingIcon from './LoadingIcon';
 import UnknownIcon from './UnknownIcon';
 
 export {
@@ -73,6 +74,7 @@ export {
   JiraIcon,
   LgIcon,
   LinuxIcon,
+  LoadingIcon,
   MacOSIcon,
   MotorolaIcon,
   NokiaIcon,
