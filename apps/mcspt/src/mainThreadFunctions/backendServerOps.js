@@ -158,14 +158,10 @@ export const registerQuitHotkeys = () => {
 
 export const registerAppTerminationListeners = () => {
   app.on('window-all-closed', () => {
-    if (process.platform === 'darwin') {
-      performApplicationTermination();
-    }
+    performApplicationTermination();
   });
 
   app.on('quit', () => {
-    if (process.platform === 'darwin') {
-      performApplicationTermination();
-    }
+    performApplicationTermination();
   });
 };
