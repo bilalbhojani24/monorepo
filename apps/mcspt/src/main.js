@@ -43,8 +43,9 @@ const createWindow = async () => {
   });
 
   mainThreadGlobals.splashScreen = new BrowserWindow({
-    width: 640,
-    height: 320,
+    width: 750,
+    height: 450,
+    center: true,
     frame: false,
     transparent: true,
     alwaysOnTop: true,

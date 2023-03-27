@@ -1,6 +1,7 @@
 const { app } = require('electron');
 const path = require('path');
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const initializeDeepLinking = (mainThreadGlobals) => {
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
@@ -29,7 +30,7 @@ const initializeDeepLinking = (mainThreadGlobals) => {
 
       mainThreadGlobals.mainWindow.webContents.send(
         'save-auth-token',
-        commandLine.pop().slice(0, -1)
+        commandLine.pop().slice(0)
       );
     });
 
