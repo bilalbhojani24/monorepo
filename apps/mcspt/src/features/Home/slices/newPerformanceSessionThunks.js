@@ -36,23 +36,17 @@ export const fetchApplicationsFromSelectedDevice =
       dispatch(setListOfApplications(response?.apps));
 
       if (response?.apps?.length > 0) {
-        dispatch(setSelectedApplication(response?.apps[0]));
-      }
-
-      if (response?.apps?.length > 0) {
         const previousUserSessions = getPreviousUserSessions(getState());
 
-        if (previousUserSessions?.length > 0 && response?.apps?.length > 0) {
-          const lastSessionSelectedAppId =
-            previousUserSessions?.[0]?.package?.bundleId;
+        const lastSessionSelectedAppId =
+          previousUserSessions?.[0]?.package?.bundleId;
 
-          const lastSessionDevice =
-            response.apps.find(
-              (app) => app.packageName === lastSessionSelectedAppId
-            ) || response.apps[0];
+        const lastSessionDevice =
+          response.apps.find(
+            (app) => app.packageName === lastSessionSelectedAppId
+          ) || response.apps[0];
 
-          dispatch(setSelectedApplication(lastSessionDevice));
-        }
+        dispatch(setSelectedApplication(lastSessionDevice));
       }
     } catch (error) {
       if (error?.response?.status !== 460) {
@@ -85,17 +79,15 @@ export const fetchConnectedDevices = () => async (dispatch, getState) => {
     if (resultSet.length > 0) {
       const previousUserSessions = getPreviousUserSessions(getState());
 
-      if (previousUserSessions?.length > 0 && resultSet.length > 0) {
-        const lastSessionSelectedDeviceId =
-          previousUserSessions?.[0]?.device?.deviceId;
+      const lastSessionSelectedDeviceId =
+        previousUserSessions?.[0]?.device?.deviceId;
 
-        const lastSessionDevice =
-          resultSet.find(
-            (device) => device.deviceId === lastSessionSelectedDeviceId
-          ) || resultSet[0];
+      const lastSessionDevice =
+        resultSet.find(
+          (device) => device.deviceId === lastSessionSelectedDeviceId
+        ) || resultSet[0];
 
-        dispatch(setSelectedDevice(lastSessionDevice));
-      }
+      dispatch(setSelectedDevice(lastSessionDevice));
     }
 
     dispatch(setListOfDevices(resultSet));

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   areDevicesStillLoading: true,
-  areApplicationsStillLoading: true,
+  areApplicationsStillLoading: false,
   isSessionApiLoading: false,
   errorOnApplicationFetch: null
 };
