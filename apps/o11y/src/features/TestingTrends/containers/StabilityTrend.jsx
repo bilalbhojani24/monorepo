@@ -23,7 +23,7 @@ export default function StabilityTrend() {
       </div>
       {!!selectedBuild && (
         <div className="flex-1 px-5">
-          <StabilityLineGraph buildId={selectedBuild} key={selectedBuild} />
+          <StabilityLineGraph buildName={selectedBuild} key={selectedBuild} />
         </div>
       )}
     </div>

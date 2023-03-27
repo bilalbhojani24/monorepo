@@ -9,7 +9,7 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
-export default function StabilityLineGraph({ buildId }) {
+export default function StabilityLineGraph({ buildName }) {
   const [chartData, setChartData] = useState({});
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
@@ -23,7 +23,7 @@ export default function StabilityLineGraph({ buildId }) {
     dispatch(
       getTrendStabilityChartData({
         normalisedName: activeProject?.normalisedName,
-        buildId,
+        buildName,
         filters
       })
     )
@@ -37,13 +37,13 @@ export default function StabilityLineGraph({ buildId }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [buildId, dispatch, activeProject?.normalisedName, filters]);
+  }, [buildName, dispatch, activeProject?.normalisedName, filters]);
 
   useEffect(() => {
-    if (activeProject?.normalisedName && buildId) {
+    if (activeProject?.normalisedName && buildName) {
       fetchData();
     }
-  }, [buildId, fetchData, activeProject?.normalisedName]);
+  }, [buildName, fetchData, activeProject?.normalisedName]);
 
   return (
     <TrendStatesWrapper
@@ -84,8 +84,8 @@ export default function StabilityLineGraph({ buildId }) {
 }
 
 StabilityLineGraph.propTypes = {
-  buildId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  buildName: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 StabilityLineGraph.defaultProps = {
-  buildId: ''
+  buildName: ''
 };

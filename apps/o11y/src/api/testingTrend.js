@@ -11,6 +11,16 @@ const getCommonFilterQuery = (filters) => {
   }
   return queryString;
 };
+const getCommonBuildNameForChartQuery = (filters, buildName) => {
+  if (
+    !(filters.buildName && filters?.buildName?.value !== 'all') &&
+    buildName &&
+    buildName?.toLowerCase() !== 'all'
+  ) {
+    return `&buildName=${buildName}`;
+  }
+  return '';
+};
 export const getBuildNames = async ({ normalisedName }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/buildNames`;
   return axios.get(endpoint);
@@ -30,11 +40,12 @@ export const getTrendStability = async ({
 };
 export const getTrendStabilityChart = async ({
   normalisedName,
-  buildId,
+  buildName,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/stability/${buildId}/chart?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/stability/chart?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
+  endpoint += `${getCommonBuildNameForChartQuery(filters, buildName)}`;
   return axios.get(endpoint);
 };
 export const getTrendPerformance = async ({
@@ -51,11 +62,12 @@ export const getTrendPerformance = async ({
 };
 export const getTrendPerformanceChart = async ({
   normalisedName,
-  buildId,
+  buildName,
   filters
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/performance/${buildId}/chart?`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/testingTrends/performance/chart?`;
   endpoint += `${getCommonFilterQuery(filters)}`;
+  endpoint += `${getCommonBuildNameForChartQuery(filters, buildName)}`;
   return axios.get(endpoint);
 };
 export const getTrendUniqueBuilds = async ({

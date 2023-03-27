@@ -150,7 +150,7 @@ const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
   }
 });
 
-export default function PerformanceGraph({ buildId }) {
+export default function PerformanceGraph({ buildName }) {
   const [chartData, setChartData] = useState({});
   const activeDateRange = useSelector((state) =>
     getTTFilterByKey(state, 'dateRange')
@@ -168,7 +168,7 @@ export default function PerformanceGraph({ buildId }) {
     dispatch(
       getTrendPerformanceChartData({
         normalisedName: projects.active?.normalisedName,
-        buildId,
+        buildName,
         filters
       })
     )
@@ -182,13 +182,13 @@ export default function PerformanceGraph({ buildId }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [buildId, dispatch, projects.active?.normalisedName, filters]);
+  }, [buildName, dispatch, projects.active?.normalisedName, filters]);
 
   useEffect(() => {
-    if (projects.active?.normalisedName && buildId) {
+    if (projects.active?.normalisedName && buildName) {
       fetchData();
     }
-  }, [buildId, projects.active?.normalisedName, fetchData]);
+  }, [buildName, projects.active?.normalisedName, fetchData]);
 
   const options = useMemo(
     () => ({
@@ -221,7 +221,7 @@ export default function PerformanceGraph({ buildId }) {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-96">
+        <div className="h-full">
           <Chart
             options={options}
             key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
@@ -233,8 +233,8 @@ export default function PerformanceGraph({ buildId }) {
 }
 
 PerformanceGraph.propTypes = {
-  buildId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  buildName: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 PerformanceGraph.defaultProps = {
-  buildId: ''
+  buildName: ''
 };

@@ -13,8 +13,10 @@ import { getAllTTFilters } from '../slices/selectors';
 
 const BuildRunsList = React.memo(({ item, maxRunCount }) => (
   <>
-    <O11yTableCell>{item.buildName}</O11yTableCell>
-    <O11yTableCell>
+    <O11yTableCell wrapperClassName="font-medium text-base-900">
+      {item.buildName}
+    </O11yTableCell>
+    <O11yTableCell wrapperClassName="font-medium text-base-500">
       <div className="flex">
         <div
           className="mr-3 h-3 rounded-r-lg"
@@ -84,18 +86,29 @@ export default function BuildRunFreqTrend() {
           <VirtualisedTable
             data={buildData?.data}
             showFixedFooter={isAtBottom}
-            tableRowWrapperClassName="shadow-none"
+            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
             customScrollParent={containerRef.current}
             itemContent={(index, singleBuildData) => (
               <BuildRunsList item={singleBuildData} maxRunCount={maxRunCount} />
             )}
             fixedHeaderContent={() => (
-              <O11yTableRow>
-                <O11yTableCell>BUILD NAME</O11yTableCell>
-                <O11yTableCell>RUNS</O11yTableCell>
+              <O11yTableRow wrapperClassName="bg-white font-semibold text-base-900">
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white"
+                >
+                  BUILD NAME
+                </O11yTableCell>
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white w-2/3"
+                >
+                  RUNS
+                </O11yTableCell>
               </O11yTableRow>
             )}
-            handleRowClick={handleBottomChange}
+            atBottomStateChange={handleBottomChange}
+            handleRowClick={() => {}}
           />
         </div>
       )}

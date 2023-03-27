@@ -18,15 +18,15 @@ import TrendStatesWrapper from './TrendStatesWrapper';
 const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
-      wrapperClassName={twClassNames({
-        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
+      wrapperClassName={twClassNames('font-medium text-base-900', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames({
-        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
+      wrapperClassName={twClassNames('font-medium text-base-500', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
       <div className="flex">
@@ -35,15 +35,15 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
             data={item?.lineChartData || []}
             lineColor="#376D98"
             color="#E5EEF8"
-            type="areaspline"
+            chartType="area"
           />
         </div>
         <p className="pl-2">{abbrNumber(item?.testCount)}</p>
       </div>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames({
-        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
+      wrapperClassName={twClassNames('font-medium text-base-500', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
       <div className="flex">
@@ -51,7 +51,7 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
           <MiniChart
             data={item?.barChartData || []}
             color="#9DD0CA"
-            type="column"
+            chartType="column"
           />
         </div>
         <p className="pl-2">{milliSecondsToTime(item?.avgDuration)}</p>
@@ -89,7 +89,7 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
           } else {
             setPerformanceData(res);
             if (!selectedBuild) {
-              handleBuildSelect(res?.data?.[0]?.id);
+              handleBuildSelect(res?.data?.[0]?.buildName);
             }
           }
         })
@@ -129,14 +129,14 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
   };
 
   const handleClickBuildItem = (id) => {
-    const selectedId = performanceData?.data[id]?.id;
+    const selectedId = performanceData?.data[id]?.buildName;
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
         project_name: activeProject.name,
         project_id: activeProject.id,
         interaction: 'performance_build_name_clicked',
-        build_name: id
+        build_name: selectedId
       }
     });
     handleBuildSelect(selectedId);
@@ -150,7 +150,7 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
       onClickCTA={loadInitialData}
     >
       {!isLoading && (
-        <div className="flex h-96 flex-col">
+        <div className="flex h-full flex-col">
           <VirtualisedTable
             data={performanceData?.data}
             endReached={loadMoreRows}
@@ -164,10 +164,25 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
               />
             )}
             fixedHeaderContent={() => (
-              <O11yTableRow>
-                <O11yTableCell isSticky>BUILD NAME</O11yTableCell>
-                <O11yTableCell isSticky>TESTS</O11yTableCell>
-                <O11yTableCell isSticky>AVG. DURATION</O11yTableCell>
+              <O11yTableRow wrapperClassName="bg-white font-semibold">
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white"
+                >
+                  BUILD NAME
+                </O11yTableCell>
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white"
+                >
+                  TESTS
+                </O11yTableCell>
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white"
+                >
+                  AVG. DURATION
+                </O11yTableCell>
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}

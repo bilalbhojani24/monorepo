@@ -15,28 +15,32 @@ import { logOllyEvent } from 'utils/common';
 const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
-      wrapperClassName={twClassNames({
-        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
+      wrapperClassName={twClassNames('font-medium text-base-900', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames({
-        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
+      wrapperClassName={twClassNames('font-medium text-base-500', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
-      <div className="flex items-center">
-        <div className="h-5 w-12 shrink-0">
-          <MiniChart
-            data={item?.chartData || []}
-            lineColor="#376D98"
-            color="#E5EEF8"
-            type="area"
-          />
-        </div>
-        <p className="pl-2">{item?.percentage}%</p>
+      <div className="h-5 w-12 shrink-0">
+        <MiniChart
+          data={item?.chartData || []}
+          lineColor="#376D98"
+          color="#E5EEF8"
+          chartType="area"
+        />
       </div>
+    </O11yTableCell>
+    <O11yTableCell
+      wrapperClassName={twClassNames('font-medium text-base-500', {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+      })}
+    >
+      <p className="pl-2">{item?.percentage}%</p>
     </O11yTableCell>
   </>
 ));
@@ -71,7 +75,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
           } else {
             setStabilityData(res);
             if (!selectedBuild) {
-              handleBuildSelect(res?.data?.[0]?.id);
+              handleBuildSelect(res?.data?.[0]?.buildName);
             }
           }
         })
@@ -111,17 +115,17 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
   };
 
   const handleClickBuildItem = (id) => {
-    const selectedId = stabilityData?.data[id]?.id;
+    const selectedName = stabilityData?.data[id]?.buildName;
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
         project_name: activeProject.name,
         project_id: activeProject.id,
         interaction: 'stability_build_name_clicked',
-        build_name: id
+        build_name: selectedName
       }
     });
-    handleBuildSelect(selectedId);
+    handleBuildSelect(selectedName);
   };
 
   return (
@@ -137,6 +141,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
           endReached={loadMoreRows}
           showFixedFooter={isLoadingMore}
           tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
+          // tableHeaderWrapperClassName="bg-brand-900 font-semibold"
           itemContent={(index, singleBuildData) => (
             <StabilityTableItem
               item={singleBuildData}
@@ -144,11 +149,15 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
             />
           )}
           fixedHeaderContent={() => (
-            <O11yTableRow wrapperClassName="bg-white font-semibold text-base-900">
-              <O11yTableCell wrapperClassName="text-base-900" isSticky>
+            <O11yTableRow>
+              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
                 BUILD NAME
               </O11yTableCell>
-              <O11yTableCell wrapperClassName="text-base-900" isSticky>
+              <O11yTableCell
+                wrapperClassName="text-base-900 bg-white"
+                isSticky
+              />
+              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
                 STABILITY
               </O11yTableCell>
             </O11yTableRow>

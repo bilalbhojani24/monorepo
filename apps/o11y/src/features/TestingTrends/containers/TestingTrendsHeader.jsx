@@ -122,7 +122,7 @@ export default function TestingTrendsHeader() {
   return (
     <div
       className={twClassNames(
-        'sticky top-16 z-10 flex flex-col py-5 px-8 bg-base-50'
+        'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50'
       )}
     >
       <span className="text-2xl font-bold">Testing Trends</span>
@@ -136,17 +136,15 @@ export default function TestingTrendsHeader() {
               focus:ring-offset-0 focus:border-r peer/days7 focus:z-[1] focus:ring-1 
               ring-brand-500 text-sm font-medium text-base-700`;
                 break;
-              case 1:
-                wrapperClassName = `peer/days15 peer-focus/days7:border-l-0 focus:z-[1] focus:ring-1 
-                ring-brand-500 border border-base-300 rounded-none focus:ring-offset-0 
-                focus:border-r border-r-0 text-sm font-medium text-base-700`;
-                break;
-              case 2:
+              case Object.keys(TT_DATE_RANGE).length - 1:
                 wrapperClassName = `peer-focus/days15:border-l-0 focus:z-[1] focus:ring-1 ring-brand-500 
                 border border-base-300 rounded-none first:rounded-l-md last:rounded-r-md focus:ring-offset-0 
                 text-sm font-medium text-base-700`;
                 break;
               default:
+                wrapperClassName = `peer/days15 peer-focus/days7:border-l-0 focus:z-[1] focus:ring-1 
+                ring-brand-500 border border-base-300 rounded-none focus:ring-offset-0 
+                focus:border-r border-r-0 text-sm font-medium text-base-700`;
                 break;
             }
             return (

@@ -27,7 +27,7 @@ export const TT_DATE_RANGE = {
     label: '2M',
     getDuration: {
       upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(2, 'month') * 1000
+      lowerBound: getSubtractedUnixTime(2, 'months') * 1000
     }
   }
 };

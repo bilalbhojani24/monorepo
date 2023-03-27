@@ -24,7 +24,7 @@ export default function PerformanceTrend() {
       </div>
       {!!selectedBuild && (
         <div className="flex-1 px-5">
-          <PerformanceGraph buildId={selectedBuild} key={selectedBuild} />
+          <PerformanceGraph buildName={selectedBuild} key={selectedBuild} />
         </div>
       )}
     </div>
