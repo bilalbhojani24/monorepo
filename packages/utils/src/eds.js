@@ -34,6 +34,7 @@ export const logEDSEvent = (eventName, eventType, extraData, sessionId) => {
   }
 
   const eventData = {
+    eventName,
     event_type: eventType,
     data: {
       user: EDS.user,
