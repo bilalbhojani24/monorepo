@@ -15,6 +15,10 @@ const defaultConfig = {
           importStatement={"import FileUpload from 'bifrost/FileUpload'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

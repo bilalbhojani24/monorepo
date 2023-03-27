@@ -107,7 +107,7 @@ export default function Summary() {
     },
     {
       id: 'affectedComponents',
-      name: 'Top Affected Components',
+      name: 'Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -125,7 +125,7 @@ export default function Summary() {
     },
     {
       id: 'affectedUrls',
-      name: 'Top Affected URLs',
+      name: 'Affected URLs',
       key: 'affectedUrls'
     },
     {
@@ -158,7 +158,7 @@ export default function Summary() {
       <div className="flex items-start">
         <div className="mx-4 w-6/12 bg-white">
           <DataVisualization
-            title="Issue Summary"
+            title="Issue summary"
             headerInfo={null}
             wrapperClassName="h-[440px]"
             size="fit-content"
@@ -214,7 +214,7 @@ export default function Summary() {
         </div>
         <div className="mr-4 w-6/12 bg-white">
           <DataVisualization
-            title="Affected Components"
+            title="Affected components"
             headerInfo={null}
             wrapperClassName="h-[440px]"
             size="fit-content"
@@ -224,7 +224,7 @@ export default function Summary() {
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
-                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
+                <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px] relative z-0">
                   <TableHead>
                     <TableRow>
                       {componentColumns.map((col, index) => (
@@ -398,7 +398,7 @@ export default function Summary() {
         <div className="mr-4 w-6/12">
           <div className="bg-white">
             <DataVisualization
-              title="Affected Pages"
+              title="Affected pages"
               headerInfo={null}
               wrapperClassName="h-[440px]"
               size="fit-content"
@@ -408,7 +408,7 @@ export default function Summary() {
                   <p className="text-base-900 mb-4 text-3xl font-semibold">
                     {urlList.length}
                   </p>
-                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px]">
+                  <Table containerWrapperClass="overflow-auto overflow-x-visible max-h-[266px] relative z-0">
                     <TableHead>
                       <TableRow>
                         {urlColumns.map((col, index) => (

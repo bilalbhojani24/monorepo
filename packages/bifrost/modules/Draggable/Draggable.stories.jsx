@@ -16,6 +16,10 @@ const defaultConfig = {
           importStatement={"import Draggable from 'bifrost/Draggable'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

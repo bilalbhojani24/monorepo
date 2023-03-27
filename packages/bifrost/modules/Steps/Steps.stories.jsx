@@ -48,6 +48,10 @@ const defaultConfig = {
           importStatement={"import Steps from 'bifrost/Steps'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=395-9548&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

@@ -9,7 +9,7 @@ import { SelectMenuContextData } from '../../shared/selectMenuContext';
 import { OPTION_GROUP_ALIGNMENT } from './const/selectMenuOptionGroupConstants';
 
 const SelectMenuOptionGroup = forwardRef(
-  ({ alignment, children, wrapperClassName }, ref) => {
+  ({ alignment, children, wrapperClassName, maxWidth }, ref) => {
     const { width } = useContext(SelectMenuContextData);
 
     return (
@@ -18,7 +18,7 @@ const SelectMenuOptionGroup = forwardRef(
           asChild
           style={{
             minWidth: `${width}px`,
-            maxWidth: '100vw'
+            maxWidth
           }}
           align={alignment}
         >
@@ -48,12 +48,14 @@ const SelectMenuOptionGroup = forwardRef(
 SelectMenuOptionGroup.propTypes = {
   alignment: oneOf(OPTION_GROUP_ALIGNMENT),
   children: node.isRequired,
-  wrapperClassName: string
+  wrapperClassName: string,
+  maxWidth: string
 };
 
 SelectMenuOptionGroup.defaultProps = {
   alignment: OPTION_GROUP_ALIGNMENT[0],
-  wrapperClassName: ''
+  wrapperClassName: '',
+  maxWidth: '80vw'
 };
 
 export default SelectMenuOptionGroup;
