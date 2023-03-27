@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import configReducers from '../common/slices/configSlice';
 import globalAlertReducers from '../common/slices/globalAlertSlice';
 
 import integrationsReducers from './slices/integrationsSlice';
@@ -12,7 +13,8 @@ export const reducers = {
   integrations: integrationsReducers,
   userAuth: userAuthReducers,
   toolAuth: toolAuthRedducers,
-  globalAlert: globalAlertReducers
+  globalAlert: globalAlertReducers,
+  config: configReducers
 };
 export const store = configureStore({
   reducer: reducers

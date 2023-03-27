@@ -1,22 +1,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { GlobalAlert } from '../../common/components';
+import { setConfig } from '../../common/slices/configSlice';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
+import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];
 
 export const CreateIssue = ({
-  isOpen,
   auth,
+  config = DEFAULT_CONFIG,
+  isOpen,
   options,
   position,
   projectId,
@@ -24,6 +27,12 @@ export const CreateIssue = ({
   handleClose,
   attachments = []
 }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (config?.baseURL) {
+      dispatch(setConfig(config));
+    }
+  }, [config, dispatch]);
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
     ({ setup_completed: integrated }) => integrated
@@ -136,8 +145,9 @@ CreateIssue.defaultProps = {
 };
 
 const CreateIssueWithProvider = ({
-  isOpen,
   auth,
+  isOpen,
+  config,
   options,
   position,
   projectId,
@@ -147,8 +157,9 @@ const CreateIssueWithProvider = ({
 }) => (
   <Provider store={store}>
     <CreateIssue
-      isOpen={isOpen}
       auth={auth}
+      config={config}
+      isOpen={isOpen}
       options={options}
       position={position}
       projectId={projectId}

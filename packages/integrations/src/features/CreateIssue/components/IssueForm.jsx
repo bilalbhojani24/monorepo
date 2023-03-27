@@ -10,6 +10,7 @@ import {
 import { makeDebounce } from '@browserstack/utils';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
+import { baseURLSelector } from '../../../common/slices/configSlice';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
 import {
@@ -38,6 +39,7 @@ const IssueForm = ({
   const [fields, setFields] = useState([]);
   const [files, setFiles] = useState(attachments);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
+  const baseURL = useSelector(baseURLSelector);
   const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
   const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
   const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
@@ -46,7 +48,7 @@ const IssueForm = ({
     acc.push({
       value: key,
       label: `${label} issue`,
-      image: `https://integrations.bsstag.com${icon}`,
+      image: `${baseURL}${icon}`,
       title: label
     });
     return acc;

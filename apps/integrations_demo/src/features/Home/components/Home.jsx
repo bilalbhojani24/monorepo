@@ -48,6 +48,10 @@ const Home = () => {
     setAlertMessage('');
   };
 
+  const config = {
+    baseURL: 'https://integrations.bsstag.com'
+  };
+
   return (
     <div>
       {alertMessage && (
@@ -66,6 +70,7 @@ const Home = () => {
         handleClose={handleClose}
         auth={auth}
         options={options}
+        config={config}
         attachments={attachments}
       />
     </div>
