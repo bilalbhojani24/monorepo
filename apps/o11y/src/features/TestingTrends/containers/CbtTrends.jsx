@@ -104,7 +104,7 @@ export default function CbtTrends() {
     const currentChart = chartRef || chart.current?.chart;
     if (currentChart) {
       currentChart.setTitle({
-        text: `<p class="donut-chart__title-count">${totalCombinations}</p><p class="donut-chart__title">Combinations</p>`
+        text: `<p class="text-5xl text-center">${totalCombinations}</p><p class="text-base font-medium">Combinations</p>`
       });
     }
   }, []);
@@ -197,7 +197,7 @@ export default function CbtTrends() {
     >
       {!isLoading && (
         <div className="flex h-full flex-col">
-          <div className="grid h-96 flex-1 grid-cols-2 gap-8">
+          <div className="grid h-96 flex-1 grid-cols-2 gap-1">
             {!!chartData.data?.length && (
               <Chart options={getOptions} chartRef={chart} />
             )}
@@ -205,7 +205,7 @@ export default function CbtTrends() {
               {activeSeriesData.map((item, idx) => (
                 <div
                   className={classNames(
-                    'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-1 text-[#333333] border-b border-[#EEEEEE] last:border-b-0',
+                    'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-1 text-base-900 border-b border-base-200 last:border-b-0',
                     {
                       '[&:not(:last-child)]:border': !item.drilldown
                     }

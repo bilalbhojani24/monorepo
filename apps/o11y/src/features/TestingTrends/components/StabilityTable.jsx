@@ -16,14 +16,14 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
       wrapperClassName={twClassNames({
-        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
       })}
     >
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames({
-        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
       })}
     >
       <div className="flex items-center">
@@ -136,7 +136,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
           data={stabilityData?.data}
           endReached={loadMoreRows}
           showFixedFooter={isLoadingMore}
-          tableRowWrapperClassName="shadow-none"
+          tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
           itemContent={(index, singleBuildData) => (
             <StabilityTableItem
               item={singleBuildData}
@@ -144,9 +144,13 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
             />
           )}
           fixedHeaderContent={() => (
-            <O11yTableRow>
-              <O11yTableCell>BUILD NAME</O11yTableCell>
-              <O11yTableCell>STABILITY</O11yTableCell>
+            <O11yTableRow wrapperClassName="bg-white font-semibold text-base-900">
+              <O11yTableCell wrapperClassName="text-base-900" isSticky>
+                BUILD NAME
+              </O11yTableCell>
+              <O11yTableCell wrapperClassName="text-base-900" isSticky>
+                STABILITY
+              </O11yTableCell>
             </O11yTableRow>
           )}
           handleRowClick={handleClickBuildItem}

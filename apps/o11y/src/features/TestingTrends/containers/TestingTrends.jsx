@@ -3,10 +3,11 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import {
   Button,
   DataVisualization,
+  MdBarChart,
   MdDragIndicator,
   MdInfoOutline
 } from '@browserstack/bifrost';
-import PlaceHolder from 'common/PlaceHolder';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import BuildRunFreqTrend from 'features/TestingTrends/containers/BuildRunFreqTrend';
 import CbtTrends from 'features/TestingTrends/containers/CbtTrends';
 import FailureCategoryTrend from 'features/TestingTrends/containers/FailureCategoryTrend';
@@ -155,7 +156,14 @@ export default function TestingTrends() {
           <div className="flex h-full flex-col">
             <p className="text-lg font-semibold">{TREND_CARDS[key].title}</p>
             <div className="flex h-80 flex-1 items-center justify-center">
-              <PlaceHolder type="empty" text="No data found" />
+              <O11yEmptyState
+                title="No data found"
+                description="Please update your access privileges by Contacting your administrator"
+                mainIcon={
+                  <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
+                }
+                buttonProps={null}
+              />
             </div>
           </div>
         );
@@ -192,7 +200,7 @@ export default function TestingTrends() {
             >
               <DataVisualization
                 analytics={renderDashboardCard(key)}
-                headerInfo
+                headerInfo={false}
                 headerInfoTooltipProps={{
                   content: (
                     <div className="text-base-300 w-60 px-4 text-sm">

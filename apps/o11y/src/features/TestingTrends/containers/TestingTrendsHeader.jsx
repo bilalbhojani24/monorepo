@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11ySelectMenu,
@@ -119,7 +120,11 @@ export default function TestingTrendsHeader() {
   }, [builds]);
 
   return (
-    <div className="flex flex-col py-5 px-8">
+    <div
+      className={twClassNames(
+        'sticky top-16 z-10 flex flex-col py-5 px-8 bg-base-50'
+      )}
+    >
       <span className="text-2xl font-bold">Testing Trends</span>
       <div className="mt-4 flex justify-between">
         <div>
@@ -165,7 +170,11 @@ export default function TestingTrendsHeader() {
             <O11ySelectMenuTrigger placeholder="All Builds" />
             <O11ySelectMenuOptionGroup>
               {buildList.map((item) => (
-                <O11ySelectMenuOptionItem key={item.value} option={item} />
+                <O11ySelectMenuOptionItem
+                  key={item.value}
+                  option={item}
+                  checkPosition="right"
+                />
               ))}
             </O11ySelectMenuOptionGroup>
           </O11ySelectMenu>

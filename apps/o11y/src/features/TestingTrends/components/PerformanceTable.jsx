@@ -19,14 +19,14 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
       wrapperClassName={twClassNames({
-        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
       })}
     >
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames({
-        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
       })}
     >
       <div className="flex">
@@ -43,7 +43,7 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames({
-        'bg-[#0070f0] bg-opacity-5': selectedBuild === item?.id
+        'bg-brand-50 bg-opacity-5': selectedBuild === item?.id
       })}
     >
       <div className="flex">
@@ -156,6 +156,7 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
             endReached={loadMoreRows}
             overscan={100}
             showFixedFooter={isLoadingMore}
+            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
             itemContent={(index, singleBuildData) => (
               <PerformanceTableItem
                 item={singleBuildData}
@@ -164,9 +165,9 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell>BUILD NAME</O11yTableCell>
-                <O11yTableCell>TESTS</O11yTableCell>
-                <O11yTableCell>AVG. DURATION</O11yTableCell>
+                <O11yTableCell isSticky>BUILD NAME</O11yTableCell>
+                <O11yTableCell isSticky>TESTS</O11yTableCell>
+                <O11yTableCell isSticky>AVG. DURATION</O11yTableCell>
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}
