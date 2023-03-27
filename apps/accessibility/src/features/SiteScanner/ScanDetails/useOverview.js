@@ -21,7 +21,11 @@ export default function useOverview({ scanOverviewData }) {
       };
 
       const categories = [];
-      for (let i = 0; i < currentRunFilter; i += 1) {
+      const minRuns = Math.min(
+        currentRunFilter,
+        scanOverviewData?.data?.overview?.issueHistory?.length
+      );
+      for (let i = 0; i < minRuns; i += 1) {
         const item =
           currentRunFilter === 4
             ? scanOverviewData?.data?.overview?.issueHistory.slice(
@@ -34,11 +38,11 @@ export default function useOverview({ scanOverviewData }) {
           severity.serious.push(item.serious);
           severity.moderate.push(item.moderate);
         }
-        categories.push(i + 1);
+        categories.push(`#${i + 1}`);
       }
       const currentStackedChartData = { ...stackedChartData };
       currentStackedChartData.xAxis.categories = categories;
-      currentStackedChartData.xAxis.max = currentRunFilter - 1;
+      currentStackedChartData.xAxis.max = minRuns - 1;
       currentStackedChartData.series = [
         {
           name: 'Minor',
@@ -105,8 +109,11 @@ export default function useOverview({ scanOverviewData }) {
       };
 
       const categories = [];
-      for (let i = 0; i < currentSplineRunFilter; i += 1) {
-        // const item = scanOverviewData.data.overview.scanStability[i];
+      const minRuns = Math.min(
+        currentRunFilter,
+        scanOverviewData?.data?.overview?.issueHistory?.length
+      );
+      for (let i = 0; i < minRuns; i += 1) {
         const item =
           currentSplineRunFilter === 4
             ? scanOverviewData?.data?.overview?.scanStability.slice(
@@ -118,11 +125,11 @@ export default function useOverview({ scanOverviewData }) {
           stability.failure.push(item.failure);
           stability.success.push(item.success);
         }
-        categories.push(i + 1);
+        categories.push(`#${i + 1}`);
       }
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;
-      currentSplineChartData.xAxis.max = currentSplineRunFilter;
+      currentSplineChartData.xAxis.max = minRuns;
       currentSplineChartData.series = [
         {
           name: 'Success',
