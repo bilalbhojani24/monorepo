@@ -28,6 +28,10 @@ const defaultConfig = {
           importStatement={"import Tooltip from 'bifrost/Tooltip'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=159-39732&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

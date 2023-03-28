@@ -20,8 +20,8 @@ import {
 
 const tabsOptions = {
   SUMMARY: { name: 'Summary', id: 'SUMMARY', index: 0 },
-  ALLISSUES: { name: 'All Issues', id: 'ALLISSUES', index: 1 },
-  SCANLOGS: { name: 'Scan Logs', id: 'SCANLOGS', index: 2 }
+  ALLISSUES: { name: 'All issues', id: 'ALLISSUES', index: 1 },
+  SCANLOGS: { name: 'Scan logs', id: 'SCANLOGS', index: 2 }
 };
 
 export default function useScanReport() {

@@ -5,6 +5,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlig
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
   Badge,
+  Button,
   Hyperlink,
   InputField,
   MdClose,
@@ -30,13 +31,14 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/SiteScanner/ScanReport/slice/selector';
+import { getEnvUrl } from 'utils';
 import {
+  generateReportUrl,
   handleClickByEnterOrSpace,
   handleFocusElement,
   tagToView
 } from 'utils/helper';
 
-// import CopyCode from '../../../CopyCode';
 import useIssueItem from '../../useIssueItem';
 
 import NeedsReviewBanner from './NeedsReviewBanner';
@@ -68,26 +70,6 @@ export default function IssueItem() {
   };
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
-
-  const activeViolation = isGuidelineMode
-    ? activeViolationItem
-    : activeIssueSection;
-  let activeComponentNodes = isGuidelineMode ? activeSectionNodes : activeNodes;
-  const {
-    activeTab,
-    isCopied,
-    onTabChange,
-    onNextClick,
-    onPreviousClick,
-    onFirstPageClick,
-    onLastPageClick,
-    onCloseClick,
-    onTagClick,
-    setIsCopied,
-    getNodeNeedsReviewStatusInReports,
-    getReviewMessage
-  } = useIssueItem(activeComponentNodes);
-
   if (isGuidelineMode) {
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
@@ -114,6 +96,13 @@ export default function IssueItem() {
       (node) => node.componentId === activeComponentId
     );
   }
+
+  const issueItem = isGuidelineMode ? activeIssueItem : issueNode;
+  const activeViolation = isGuidelineMode
+    ? activeViolationItem
+    : activeIssueSection;
+  let activeComponentNodes = isGuidelineMode ? activeSectionNodes : activeNodes;
+
   // NOTE: Node filter logic for the right panel
   if (activeReportFilters.page.length) {
     activeComponentNodes = activeComponentNodes.filter((node) =>
@@ -135,8 +124,19 @@ export default function IssueItem() {
     help: activeViolation.help,
     description: activeViolation.description
   };
-  const issueItem = isGuidelineMode ? activeIssueItem : issueNode;
 
+  const {
+    activeTab,
+    isCopied,
+    onTabChange,
+    onNextClick,
+    onPreviousClick,
+    onCloseClick,
+    onTagClick,
+    setIsCopied,
+    getNodeNeedsReviewStatusInReports,
+    getReviewMessage
+  } = useIssueItem(activeComponentNodes);
   const {
     page: { url },
     html,
@@ -146,11 +146,10 @@ export default function IssueItem() {
     none,
     confirmed,
     childNodes,
-    needsReview
+    needsReview,
+    testType
   } = issueItem;
 
-  const isPreviousDisabled = activeIssueIndex === 0;
-  const isNextDisabled = activeIssueIndex === activeComponentNodes.length - 1;
   const tagList = tagToView(headerData.tags);
 
   const data = [
@@ -167,11 +166,14 @@ export default function IssueItem() {
       nodeList: none
     }
   ];
+
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
-    reportMetaData
+    reportMetaData,
+    testType
   );
-  const reportList = needsReviewStatusinReports.map((item) => item.reportName);
+
+  // const reportList = needsReviewStatusinReports.map((item) => item.reportName);
   const message = needsReview ? getReviewMessage(data) : '';
 
   useEffect(() => {
@@ -184,9 +186,9 @@ export default function IssueItem() {
 
   return (
     <div className="relative">
-      <div className="border-base-200 sticky top-0 z-10 flex w-full justify-between border-b bg-white py-4 pr-4 pl-6">
-        <div className="">
-          <div className="flex">
+      <div className="border-base-200 sticky top-0 z-10 flex w-full items-start justify-between border-b bg-white py-4 pr-4 pl-6">
+        <div>
+          <div className="flex items-center">
             <p
               className="text-base-900 mb-1 mr-2 max-w-md overflow-hidden truncate text-lg font-medium"
               title={title}
@@ -196,8 +198,11 @@ export default function IssueItem() {
             <Tooltip
               show={isCopied}
               theme="dark"
+              placementSide="right"
               content={
-                <TooltipBody>{isCopied ? 'Link copied' : null}</TooltipBody>
+                <TooltipBody wrapperClassName="mb-0">
+                  {isCopied ? 'Link copied' : null}
+                </TooltipBody>
               }
             >
               <CopyToClipboard
@@ -209,18 +214,28 @@ export default function IssueItem() {
                 }}
                 text={window.location.href}
               >
-                <MdLink className="text-xl" />
+                <Button
+                  icon={<MdLink className="cursor-pointer text-xl" />}
+                  isIconOnlyButton
+                  colors="white"
+                  variant="minimal"
+                />
               </CopyToClipboard>
             </Tooltip>
           </div>
           <p className="text-base-500">
-            Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}
-            &nbsp; issues
+            Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}{' '}
+            issues
           </p>
         </div>
-        <MdClose
-          className="text-base-400 cursor-pointer text-2xl"
+        <Button
+          icon={<MdClose className="text-base-400 text-2xl" />}
           onClick={onCloseClick}
+          colors="white"
+          size="large"
+          isIconOnlyButton
+          variant="minimal"
+          wrapperClassName="text-2xl p-0"
         />
       </div>
       <div className="pb-40" style={{ top: '90px' }}>
@@ -240,7 +255,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`https://accessibility.browserstack.com/api/more-info/4.4/${activeViolation.id}`}
+                href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
                 target="_blank"
                 onClick={
                   isGuidelineMode
@@ -252,17 +267,18 @@ export default function IssueItem() {
                       }
                     : () => {}
                 }
-                wrapperClassName="font-semibold inline-flex ml-1"
+                wrapperClassName="font-semibold inline-flex ml-1 font-normal"
               >
                 Learn more
               </Hyperlink>
             </p>
             {tagList.length > 0 && (
-              <div>
+              <div className="flex items-center">
                 {tagList.map(({ label, value }) => (
                   <div
                     key={label}
                     tabIndex={0}
+                    className="mr-2"
                     onClick={value ? () => onTagClick(value) : () => {}}
                     role="button"
                     aria-label={`Go to ${label}.Link will open in a new tab.`}
@@ -282,14 +298,19 @@ export default function IssueItem() {
                 ))}
               </div>
             )}
-            {reportList.length > 0 && (
+            {needsReviewStatusinReports.length > 0 && (
               <div className="mt-4 flex text-sm font-medium">
-                <p className="text-base-500 text-sm font-medium">
+                <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
                   Source report(s):
                 </p>
-                <p className="text-base-900 ml-1 flex">
-                  {reportList.join(', ')}
-                </p>
+                {needsReviewStatusinReports.map(({ reportName, id }, index) => (
+                  <div className="flex items-center">
+                    {reportName}
+                    {index !== needsReviewStatusinReports.length - 1
+                      ? ', '
+                      : ''}
+                  </div>
+                ))}
               </div>
             )}
             <div className="mt-4">
@@ -400,7 +421,7 @@ export default function IssueItem() {
                                         {targetNode}
                                       </SyntaxHighlighter>
                                     </div>
-                                    <CopyButton text={sanitizeValue(html)} />
+                                    <CopyButton text={targetNode} />
                                   </div>
                                 );
                               })

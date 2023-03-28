@@ -17,6 +17,10 @@ const defaultConfig = {
           importStatement={"import TruncateText from 'bifrost/TruncateText'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
 

@@ -14,7 +14,7 @@ export const ROUTES = {
   welcome: '/welcome'
 };
 
-export const EDSKey = 'web_events';
+export const EDSKey = 'accessibility_dashboard_web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
@@ -23,9 +23,9 @@ export const ENVS = {
 };
 
 export const NEEDS_REVIEW_BANNER_TEXT = {
-  ACCEPTED: "This 'Needs Review' instance has been confirmed as an issue",
-  REJECTED: "This 'Needs Review' instance has been dismissed as not an issue",
-  DEFAULT_TITLE: 'Issue Needs Review',
+  ACCEPTED: "This 'needs review' instance has been confirmed as an issue",
+  REJECTED: "This 'needs review' instance has been dismissed as not an issue",
+  DEFAULT_TITLE: 'Issue needs review',
   DEFAULT_MESSAGE:
     'This issue requires manual inspection to confirm its validity.'
 };
@@ -192,3 +192,20 @@ export const severityOptions = [
 
 export const getUrlForHeader = (relativeUrl) =>
   `https://www.browserstack.com/${relativeUrl}`;
+
+export const ANALYTICS_KEYS = {
+  amplitudeKey: '',
+  amplitudeConfig: {
+    key: '',
+    userData: {},
+    groupData: {}
+  },
+  analyticsKey: 'UA-x-x',
+  EDSDetails: {
+    config: {
+      server: 'eds.browserstack.com',
+      port: '443',
+      apiKey: ''
+    }
+  }
+};
