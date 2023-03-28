@@ -9,7 +9,8 @@ const TableRow = ({
   wrapperClassName,
   hover,
   onRowClick,
-  selected
+  selected,
+  ...rest
 }) => (
   <tr
     className={twClassNames(
@@ -25,6 +26,8 @@ const TableRow = ({
       if (e.key === ' ' && onRowClick) onRowClick(e);
     }}
     tabIndex={typeof onRowClick === 'function' ? 0 : -1}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...rest}
   >
     {children}
   </tr>
