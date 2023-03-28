@@ -11,6 +11,7 @@ import {
   BUTTON_LOADER_CLASSES,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
+  BUTTON_TYPES,
   BUTTON_VARIANTS
 } from './const/buttonConstants';
 
@@ -31,7 +32,10 @@ const Button = (
     isIconOnlyButton,
     colors,
     loaderText,
-    ariaLabel
+    ariaLabel,
+    type,
+    form,
+    ...props
   },
   ref
 ) => {
@@ -57,6 +61,7 @@ const Button = (
   };
 
   const effectiveChildrenClasses = twClassNames({
+    'flex items-center justify-center gap-2.5 mx-auto': loading,
     'mx-auto grid w-fit items-center gap-2.5': icon !== null,
     'grid-cols-[16px,2fr]':
       iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
@@ -144,7 +149,7 @@ const Button = (
   };
 
   const handleClick = (e) => {
-    if (disabled) return;
+    if (disabled || loading) return;
     onClick(e);
   };
 
@@ -188,9 +193,8 @@ const Button = (
 
   return (
     <button
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...getConditionalProps()}
-      type="button"
+      type={type === 'submit' ? 'submit' : 'button'}
       ref={ref || buttonRef}
       aria-disabled={disabled}
       className={twClassNames(
@@ -203,6 +207,8 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
+      form={form}
+      {...props}
     >
       {effectiveChildren}
     </button>
@@ -223,7 +229,9 @@ const buttonProps = {
   colors: PropTypes.oneOf(BUTTON_COLORS),
   isIconOnlyButton: PropTypes.bool,
   ariaLabel: PropTypes.string,
-  loaderText: PropTypes.string
+  loaderText: PropTypes.string,
+  type: PropTypes.oneOf(BUTTON_TYPES),
+  form: PropTypes.string
 };
 
 const defaultProps = {
@@ -240,7 +248,9 @@ const defaultProps = {
   colors: BUTTON_COLORS[0],
   isIconOnlyButton: false,
   ariaLabel: '',
-  loaderText: 'Loading'
+  loaderText: 'Loading',
+  type: 'button',
+  form: null
 };
 
 const WrappedButton = forwardRef(Button);

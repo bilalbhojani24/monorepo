@@ -27,7 +27,8 @@ const Header = ({
   headerElementArray,
   productArray,
   planButtonVisible,
-  isFreeUser
+  isFreeUser,
+  onSignoutClick
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -45,7 +46,7 @@ const Header = ({
         release={release}
       />
       <HeaderProducts
-        wrapperClassName="max-[1360px]:hidden"
+        wrapperClassName="[@media(max-width:1360px)]:hidden max-[1360px]:hidden"
         productCount={productsToShow}
         productArray={productArray}
       />
@@ -62,6 +63,7 @@ const Header = ({
           headerElementArray={headerElementArray}
           planButtonVisible={planButtonVisible}
           isFreeUser={isFreeUser}
+          onSignoutClick={onSignoutClick}
         />
       </div>
     </nav>
@@ -87,7 +89,8 @@ Header.propTypes = {
     PropTypes.shape({ name: PropTypes.string, link: PropTypes.string })
   ),
   planButtonVisible: PropTypes.bool,
-  isFreeUser: PropTypes.bool
+  isFreeUser: PropTypes.bool,
+  onSignoutClick: PropTypes.func
 };
 Header.defaultProps = {
   wrapperClassName: '',
@@ -106,7 +109,8 @@ Header.defaultProps = {
   headerID: '',
   productArray: [],
   planButtonVisible: true,
-  isFreeUser: true
+  isFreeUser: true,
+  onSignoutClick: null
 };
 
 export default Header;

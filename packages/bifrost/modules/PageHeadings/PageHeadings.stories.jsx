@@ -47,6 +47,10 @@ const defaultConfig = {
           importStatement={"import PageHeadings from 'bifrost/PageHeadings'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=390-9204&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

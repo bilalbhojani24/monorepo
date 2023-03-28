@@ -23,7 +23,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
   return (
     <div
       className={twClassNames(
-        'flex flex-row items-center p-0 max-[1023px]:hidden',
+        'flex flex-row items-center p-0 [@media(max-width:1023px)]:hidden max-[1023px]:hidden',
         wrapperClassName
       )}
     >
@@ -52,6 +52,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
         size="5xl"
         wrapperClassName="py-0"
         triggerOnTouch
+        triggerAriaLabel="product popover"
       >
         <div className={twClassNames('group flex flex-row items-center p-0')}>
           <div
@@ -60,7 +61,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
             )}
           >
             <GridViewSolidIcon
-              iconClass="min-[1361px]:hidden"
+              iconClass="[@media(min-width:1361px)]:hidden min-[1361px]:hidden"
               aria-hidden="true"
             />
             <div
@@ -70,14 +71,14 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
             >
               <p
                 className={twClassNames(
-                  'not-italic font-medium text-sm leading-5 text-base-300 max-[1360px]:hidden group-hover:text-base-100'
+                  'not-italic font-medium text-sm leading-5 text-base-300 [@media(max-width:1360px)]:hidden max-[1360px]:hidden group-hover:text-base-100'
                 )}
               >
                 More
               </p>
               <p
                 className={twClassNames(
-                  'not-italic font-medium text-sm leading-5 text-base-300 min-[1361px]:hidden group-hover:text-base-100'
+                  'not-italic font-medium text-sm leading-5 text-base-300 [@media(min-width:1361px)]:hidden min-[1361px]:hidden group-hover:text-base-100'
                 )}
               >
                 Products
