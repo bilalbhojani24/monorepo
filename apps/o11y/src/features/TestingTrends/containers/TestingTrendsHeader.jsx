@@ -13,7 +13,10 @@ import {
   TT_DATE_RANGE,
   TT_PARAMS_MAPPING
 } from 'features/TestingTrends/constants';
-import { getTTFilterByKey } from 'features/TestingTrends/slices/selectors';
+import {
+  getAllTTFilters,
+  getTTFilterByKey
+} from 'features/TestingTrends/slices/selectors';
 import {
   getBuildNamesData,
   setTTFilters
@@ -32,6 +35,7 @@ export default function TestingTrendsHeader() {
   const navigate = useNavigate();
   const activeProject = useSelector(getActiveProject);
   const [builds, setBuilds] = useState([]);
+  const allTTFilters = useSelector(getAllTTFilters);
   const activeBuild = useSelector((state) =>
     getTTFilterByKey(state, 'buildName')
   );
@@ -155,7 +159,10 @@ export default function TestingTrendsHeader() {
                 onClick={() => handleClickRange(key)}
                 size="large"
                 variant="primary"
-                wrapperClassName={wrapperClassName}
+                wrapperClassName={twClassNames(wrapperClassName, {
+                  'border-brand-500 ring-1 z-[1] border-r':
+                    allTTFilters.dateRange.key === key
+                })}
               >
                 {TT_DATE_RANGE[key].label}
               </O11yButton>
