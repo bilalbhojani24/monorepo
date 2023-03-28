@@ -51,7 +51,10 @@ function AddEditAlertModal() {
   const modalData = useSelector(getModalData);
   const buildNames = useSelector(getBuildNamesState);
   const activeProject = useSelector(getActiveProject);
-  const [selectedTypeOfAlert, setSelectedTypeOfAlert] = useState('');
+  const [selectedTypeOfAlert, setSelectedTypeOfAlert] = useState({
+    value: '',
+    label: ''
+  });
   const [alertName, setAlertName] = useState('');
   const [selectedApplicableTo, setSelectedApplicableTo] = useState(
     APPLICABLE_TO.all
@@ -191,7 +194,7 @@ function AddEditAlertModal() {
 
   const isFormValid = useMemo(() => {
     if (
-      !selectedTypeOfAlert ||
+      !selectedTypeOfAlert?.value ||
       !alertName ||
       !criticalValue ||
       warningErrorText
@@ -309,7 +312,7 @@ function AddEditAlertModal() {
                 <span className="text-danger-600">*</span>
               </p>
             </O11ySelectMenuLabel>
-            <O11ySelectMenuTrigger placeholder="Select.." value="" />
+            <O11ySelectMenuTrigger placeholder="Select.." />
             <O11ySelectMenuOptionGroup>
               {Object.keys(ALERT_TYPES).map((key) => (
                 <O11ySelectMenuOptionItem
@@ -331,6 +334,7 @@ function AddEditAlertModal() {
           <div className="mt-4">
             <O11yInputField
               label="Alert name"
+              id="alert-name-value"
               isMandatory
               placeholder="Enter alert name"
               value={alertName}
@@ -409,6 +413,7 @@ function AddEditAlertModal() {
                     ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
                       .placeholder_text
                   }`}
+                  id="alert-critical-value"
                   isMandatory
                   placeholder="Enter numeric value"
                   value={criticalValue}
@@ -449,6 +454,7 @@ function AddEditAlertModal() {
                       ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
                         .placeholder_text
                     }`}
+                    id="alert-warning-value"
                     placeholder="Enter numeric value"
                     value={warningValue}
                     onChange={handleChangeWarningValue}

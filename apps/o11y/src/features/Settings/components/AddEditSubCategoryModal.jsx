@@ -166,6 +166,7 @@ function AddEditSubCategoryModal() {
         <div className="mt-4">
           <O11yInputField
             label="Category Name"
+            id="category-name-value"
             isMandatory
             placeholder="Custom category"
             value={subCategoryName}
