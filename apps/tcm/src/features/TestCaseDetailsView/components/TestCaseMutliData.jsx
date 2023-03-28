@@ -48,7 +48,7 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Test Run',
-      key: 'jira_id',
+      key: 'test_run_id',
       cell: (rowData) => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
