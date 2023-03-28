@@ -180,7 +180,7 @@ function BuildDetailsHeader() {
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b px-8 pt-6">
+    <div className="border-base-200 border-b p-6 pb-0">
       <h1 className="text-2xl font-bold leading-7">
         {isAutoDetectedName ? originalName : name}{' '}
         <div className="inline-block">
