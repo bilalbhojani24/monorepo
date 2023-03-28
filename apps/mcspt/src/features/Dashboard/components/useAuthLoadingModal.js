@@ -1,17 +1,17 @@
 import { useSelector } from 'react-redux';
 
 import {
-  getIsUserLoggedIn,
+  getAuthModalStatusText,
   getShowAuthLoadingModal
 } from '../slices/dashboardSlice';
 
 const useAuthLoadingModal = () => {
   const showAuthLoadingModal = useSelector(getShowAuthLoadingModal);
-  const isUserLoggedIn = useSelector(getIsUserLoggedIn);
+  const authModalStatusText = useSelector(getAuthModalStatusText);
 
   return {
     showAuthLoadingModal,
-    isUserLoggedIn
+    authModalStatusText
   };
 };
 

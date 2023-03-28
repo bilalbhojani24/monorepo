@@ -8,14 +8,17 @@ import MetricStat from './MetricStat';
 import useBatteryDetails from './useBatteryDetails';
 
 const BatteryChart = () => {
-  const { sessionData, batteryChartOptions } = useBatteryDetails();
+  const { sessionData, batteryChartOptions, roundTo3DecimalPlaces } =
+    useBatteryDetails();
 
   return (
     <div className="flex">
       <div className="flex w-[275px] shrink-0 grow-0 flex-col">
         <MetricStat
           metricTitle="Total Power Drawn"
-          metricText={`${sessionData?.aggregated?.totalBatteryConsumedPercent?.value} %`}
+          metricText={`${roundTo3DecimalPlaces(
+            sessionData?.aggregated?.totalBatteryConsumedPercent?.value
+          )} %`}
           MetricIcon={<MdInfoOutline />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.totalBatteryConsumedPercent?.value,

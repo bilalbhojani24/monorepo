@@ -8,6 +8,7 @@ import { checkForPreviousUserSessions } from 'features/TestHistory';
 
 import {
   getAuthToken,
+  setAuthModalStatusText,
   setAuthToken,
   setShowAuthLoadingModal,
   setUserDetails
@@ -19,7 +20,9 @@ export const checkAuthAndSaveUserDetails =
       let userDetailsResponse;
 
       if (ssoRedirectUrl) {
+        dispatch(setAuthModalStatusText('Logging In'));
         dispatch(setShowAuthLoadingModal(true));
+
         const params = ssoRedirectUrl.split('?')[1];
         const loginToken = params?.split('=')[1];
 
@@ -62,6 +65,7 @@ export const checkAuthAndSaveUserDetails =
 
 export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
   try {
+    dispatch(setAuthModalStatusText('Logging Out'));
     dispatch(setShowAuthLoadingModal(true));
 
     const logOutResponse = await userLogOut();
