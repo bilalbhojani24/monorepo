@@ -9,7 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const ClampedTags = ({ tagsArray, badgeModifier }) => {
+const ClampedTags = ({ tagsArray, badgeModifier, noTagsText }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -75,7 +75,7 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
           </TMModal>
         </div>
       ) : (
-        '--'
+        noTagsText
       )}
     </>
   );
@@ -83,12 +83,14 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
 
 ClampedTags.propTypes = {
   tagsArray: PropTypes.arrayOf(PropTypes.string),
-  badgeModifier: PropTypes.string
+  badgeModifier: PropTypes.string,
+  noTagsText: PropTypes.string
 };
 
 ClampedTags.defaultProps = {
   tagsArray: [],
-  badgeModifier: 'primary'
+  badgeModifier: 'primary',
+  noTagsText: '--'
 };
 
 export default ClampedTags;
