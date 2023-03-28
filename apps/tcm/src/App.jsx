@@ -12,7 +12,7 @@ import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatus
 import SideNav from 'features/SideNav';
 
 import { PRODUCTION_HOST } from './const/immutables';
-import { setErrorLoggerUserContext } from '@browserstack/utils/src/sentry';
+import { setErrorLoggerUserContext } from '@browserstack/utils';
 
 if (window.initialized !== true) {
   window.initialized = false;
