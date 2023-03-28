@@ -236,7 +236,7 @@ export default function SiteScanner() {
           </span>
           <span className="mt-2 flex items-center">
             <MdOutlineHistory className="mr-0.5" />
-            Last scan:{' '}
+            Latest scan:&nbsp;
             {row?.lastScanDetails?.lastScanDate
               ? dateFormat(
                   new Date(row.lastScanDetails.lastScanDate),
