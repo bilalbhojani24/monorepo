@@ -55,6 +55,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
           }}
           ref={comboInputRef}
           readOnly={isLoading}
+          autoComplete="off"
+          onFocus={() => {
+            comboInputRef.current.value = '';
+          }}
         />
         {isLoading && (
           <span className="text-base-500 absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
