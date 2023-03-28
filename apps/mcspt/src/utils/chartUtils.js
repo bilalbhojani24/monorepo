@@ -52,7 +52,11 @@ export const getDefaultChartOptions = () => ({
     rules: []
   },
   tooltip: {},
-  plotOptions: {},
+  plotOptions: {
+    series: {
+      connectNulls: true
+    }
+  },
   series: [],
   credits: {
     enabled: false

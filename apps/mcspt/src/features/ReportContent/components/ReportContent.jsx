@@ -1,10 +1,17 @@
 import React from 'react';
-import { Button, MdFolderOpen, MdInfoOutline } from '@browserstack/bifrost';
+import {
+  Button,
+  MdAccessTime,
+  MdFolderOpen,
+  MdInfoOutline
+} from '@browserstack/bifrost';
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
+import { formatReportTime } from 'utils/dateUtils';
 
 import BatteryChart from './BatteryDetails';
 import CpuDetails from './CpuDetails';
 import DiskIODetails from './DiskIODetails';
+import IssuesAudits from './IssuesAudits';
 import MemoryDetails from './MemoryDetails';
 import MetricStat from './MetricStat';
 import NetworkIODetails from './NetworkIODetails';
@@ -13,10 +20,31 @@ import UIRenderingCard from './UIRenderingCard';
 import useReportContent from './useReportContent';
 
 const ReportContent = () => {
-  const { sessionData, openDiagnosticFolder } = useReportContent();
+  const { sessionData, openDiagnosticFolder, generateSessionNameString } =
+    useReportContent();
 
   return (
     <div id="reportContent" className="bg-base-50 px-4 py-6">
+      <div className="mb-6 flex flex-col">
+        <div className="mb-2 text-2xl font-bold leading-7">
+          {generateSessionNameString(sessionData)}
+        </div>
+
+        <div className="flex items-center">
+          <div className="text-base-500 mr-1 text-base">
+            <MdAccessTime />
+          </div>
+
+          <div className="text-base-500 text-sm font-medium leading-5">
+            {formatReportTime(sessionData?.startTime)}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <IssuesAudits />
+      </div>
+
       <div className="flex flex-col">
         <div className="mb-4 text-lg font-medium leading-6">Startup Time</div>
 

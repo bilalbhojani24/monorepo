@@ -1,11 +1,10 @@
 import React from 'react';
-
 import ReportContent from 'features/ReportContent';
 import ReportHeader from 'features/ReportHeader';
 import ReportSidebar from 'features/ReportSidebar';
 
 const Report = () => (
-  <div id="reportContainer" className="flex min-h-screen flex-col">
+  <div id="reportContainer" className="flex min-h-screen w-full flex-col">
     <ReportHeader />
 
     <div className="flex max-w-full flex-1">
