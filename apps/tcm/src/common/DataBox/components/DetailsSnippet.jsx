@@ -19,7 +19,7 @@ const DetailsSnippet = ({
       {title}
     </div>
     <div
-      className={className('text-base-700 text-sm', {
+      className={className('text-base-700 text-sm break-all', {
         'capitalize ': !parseContent && !dontCapitalize
       })}
     >

@@ -31,10 +31,10 @@ const TMSelectMenu = forwardRef(
       value={value}
       isMulti={isMulti}
       defaultValue={defaultValue}
-      ref={ref}
     >
       {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
       <SelectMenuTrigger
+        ref={ref}
         placeholder={placeholder}
         wrapperClassName={twClassNames(
           'cursor-pointer',

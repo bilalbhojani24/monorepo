@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { formatTime } from 'utils/helperFunctions';
 
-import { STATE_OPTIONS } from '../const/addEditConst';
+import { STATE_OPTIONS_ALL } from '../const/addEditConst';
 
 const initialState = {
   isVisible: {
@@ -39,7 +39,7 @@ const initialState = {
     test_run: {
       name: `Test Run-${formatTime(new Date(), 'date')}`,
       description: '',
-      run_state: STATE_OPTIONS[0].value,
+      run_state: STATE_OPTIONS_ALL[0].value,
       owner: null,
       tags: [],
       issues: []

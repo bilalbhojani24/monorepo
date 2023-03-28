@@ -81,8 +81,8 @@ const TestCaseMutliData = ({
   return (
     <>
       <TMTabs
-        defaultIndex={TABS_ARRAY.findIndex((item) => item === selectedTab)}
-        id="test-case-multi-tabs"
+        id="project-tabs"
+        defaultIndex={null}
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
