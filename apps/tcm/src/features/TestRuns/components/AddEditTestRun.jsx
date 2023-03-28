@@ -13,7 +13,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { STATE_OPTIONS } from '../const/addEditConst';
+import { STATE_OPTIONS_ALL, STATE_OPTIONS_NEW } from '../const/addEditConst';
 
 import TestCasesExplorer from './TestCasesExplorer';
 import useAddEditTestRun from './useAddEditTestRun';
@@ -65,6 +65,8 @@ const AddEditTestRun = ({ isEdit }) => {
     !isEditing && usersArrayMapped?.length
       ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
       : { label: '', value: '' };
+
+  const STATE_OPTIONS = isEditing ? STATE_OPTIONS_ALL : STATE_OPTIONS_NEW;
 
   return (
     <>
