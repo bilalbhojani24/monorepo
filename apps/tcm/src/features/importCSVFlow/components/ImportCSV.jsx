@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TMPageHeadings } from 'common/bifrostProxy';
-import { setSelectedProject } from 'globalSlice';
-import { logEventHelper } from 'utils/logEvent';
 
 import {
   IMPORT_CSV_STEPS,
@@ -11,7 +8,6 @@ import {
   PREVIEW_AND_CONFIRM_IMPORT,
   UPLOAD_FILE
 } from '../const/importCSVConstants';
-import { setCSVConfigurations } from '../slices/csvThunk';
 
 import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
@@ -20,12 +16,13 @@ import UploadFile from './UploadFile';
 import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const projectId = queryParams.get('project');
-  const { currentCSVScreen, importCSVSteps } = useImportCSV();
+  const folderId = queryParams.get('folder');
+  const { currentCSVScreen, importCSVSteps, fetchCSVConfigurations } =
+    useImportCSV();
 
   const handleBreadcrumbClick = (_, clickedOption) => {
     const { name } = clickedOption;
@@ -42,19 +39,10 @@ const ImportCSV = () => {
   };
 
   useEffect(() => {
-    dispatch(setCSVConfigurations());
-    dispatch(
-      logEventHelper('TM_ImportCsvPageLoaded', {
-        project_id: projectId
-      })
-    );
+    console.log('fetch csv config');
+    fetchCSVConfigurations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(setSelectedProject(projectId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
+  }, [projectId, folderId]);
 
   return (
     <>

@@ -55,7 +55,10 @@ const initialState = {
   totalImportedProjectsInPreview: null,
   mapFieldsProceedLoading: false,
   showSelectMenuErrorInMapFields: false,
-  importCSVSuccessNotificationShown: false
+  importCSVSuccessNotificationShown: false,
+  selectedFolderLocation: '/',
+  showChangeFolderModal: false,
+  foldersForCSV: []
 };
 
 const importCSVSlice = createSlice({
@@ -130,6 +133,7 @@ const importCSVSlice = createSlice({
         label: separator,
         value: separator
       }));
+      state.selectedFolderLocation = payload.folder;
     },
     uploadFilePending: (state) => {
       state.uploadFileProceedLoading = true;
@@ -255,6 +259,12 @@ const importCSVSlice = createSlice({
           payload?.confirmCSVImportNotificationConfig,
         ...restInitialState
       };
+    },
+    setShowChangeFolderModal: (state, { payload }) => {
+      state.showChangeFolderModal = payload;
+    },
+    setFoldersForCSV: (state, { payload }) => {
+      state.foldersForCSV = payload;
     }
   }
 });
@@ -288,6 +298,8 @@ export const {
   submitMappingDataFulfilled,
   submitMappingDataRejected,
   setNotificationConfigForConfirmCSVImport,
-  setImportCSVSuccessNotificationShown
+  setImportCSVSuccessNotificationShown,
+  setShowChangeFolderModal,
+  setFoldersForCSV
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

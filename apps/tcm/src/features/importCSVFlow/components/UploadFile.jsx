@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { MdFolder } from '@browserstack/bifrost';
 import { ExpandLessOutlinedIcon, ExpandMoreOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -10,21 +11,32 @@ import {
 } from 'common/bifrostProxy';
 
 import { downloadSampleCSV } from '../../../api/importCSV.api';
+import { FolderExplorerModal } from '../../../common/FolderExplorer';
 import { setCSVUploadError } from '../slices/importCSVSlice';
 
 import CSVForm from './CSVForm';
+import FolderInputWButton from './folderInputWButtons';
 import useImportCSV from './useImportCSV';
 
 const UploadFile = () => {
   const {
     csvUploadError,
     fileConfig,
+    projectId,
+    folderId,
     showMoreFields,
+    showChangeFolderModal,
+    selectedFolderLocation,
     uploadFileProceedLoading,
+    allFoldersForCSV,
+    fetchFolders,
     handleFileUpload,
     handleFileRemove,
     handleProceedClick,
-    handleShowMoreFields
+    handleShowMoreFields,
+    handleChangeFolderClick,
+    handleUploadToRootClick,
+    hideFolderExplorerModal
   } = useImportCSV();
 
   const dispatch = useDispatch();
@@ -42,6 +54,11 @@ const UploadFile = () => {
       link.click();
     });
   };
+
+  useEffect(() => {
+    fetchFolders(projectId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return (
     <div className="w-4/5 max-w-7xl">
@@ -104,6 +121,20 @@ const UploadFile = () => {
           </span>{' '}
           with instructions.
         </div>
+        <FolderInputWButton
+          label="Folder Location"
+          text={folderId ? selectedFolderLocation : '/'}
+          secondBtnDisabled={!folderId}
+          firstCta="Change Folder"
+          secondCta="Upload to Root Location"
+          firstCtaClick={() => {
+            handleChangeFolderClick();
+          }}
+          secondCtaClick={() => {
+            handleUploadToRootClick();
+          }}
+          icon={<MdFolder className="text-brand-400 h-5 w-5" />}
+        />
         <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
           <TMButton
             onClick={handleShowMoreFields}
@@ -124,6 +155,22 @@ const UploadFile = () => {
         </div>
         {showMoreFields && <CSVForm />}
       </div>
+      <FolderExplorerModal
+        heading="Folder Location"
+        subHeading="Chose your desired folder location where you want to move your test cases"
+        isRootAvailable
+        radioGroupTitle="Upload to:"
+        projectId={projectId}
+        selectedFolderId={folderId}
+        allFolders={allFoldersForCSV}
+        show={showChangeFolderModal}
+        trailingButton
+        showEmptyModal={projectId === 'new'}
+        onClose={hideFolderExplorerModal}
+        confirmButtonText="Update Location"
+        folderExplorerHeader="Folders"
+        rootFolderText="Test Cases will be created at root location. New folders will be created if they are defined in the uploaded CSV."
+      />
     </div>
   );
 };
