@@ -27,6 +27,7 @@ import {
 export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const [isAllDashboadEmpty, setAllDashboadEmpty] = useState(false);
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
   const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
   const [testCasesTrendOptions, setTestCasesTrendOptions] = useState(null);
@@ -39,6 +40,26 @@ export default function useDashboard() {
   const [jiraIssuesOptions, setJiraIssuesOptions] = useState(null);
 
   const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
+
+  useEffect(() => {
+    if (
+      activeTestRunsOptions?.isEmpty &&
+      testCaseTypesOptions?.isEmpty &&
+      testCasesTrendOptions?.isEmpty &&
+      closedTestRunsMonthlyLineOptions?.isEmpty &&
+      closedTestRunsDailyLineOptions?.isEmpty &&
+      jiraIssuesOptions?.isEmpty
+    ) {
+      setAllDashboadEmpty(true);
+    } else setAllDashboadEmpty(false);
+  }, [
+    activeTestRunsOptions,
+    testCaseTypesOptions,
+    testCasesTrendOptions,
+    closedTestRunsMonthlyLineOptions,
+    closedTestRunsDailyLineOptions,
+    jiraIssuesOptions
+  ]);
 
   const projectIdCheck = (key, apiFunction, doAfter) => {
     if (projectId === 'new') {
@@ -195,6 +216,7 @@ export default function useDashboard() {
   }, [projectId]);
 
   return {
+    isAllDashboadEmpty,
     testCaseTypesOptions,
     closedTestRunsDailyLineOptions,
     jiraIssuesOptions,

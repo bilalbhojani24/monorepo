@@ -1,7 +1,6 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Listbox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-
 import {
   arrayOf,
   bool,
@@ -11,14 +10,27 @@ import {
   oneOfType,
   shape,
   string
-} from '../../shared/proptypesConstants';
+} from 'prop-types';
+
 import { SelectMenuContextData } from '../../shared/selectMenuContext';
 
-const SelectMenu = forwardRef((props, ref) => {
+import RenderChildren from './components/RenderChildren';
+
+const SelectMenu = (props) => {
   const [width, setWidth] = useState(0);
   const [showCount, setShowCount] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const { children, errorText, onChange, isMulti, defaultValue, value } = props;
+  const {
+    children,
+    errorText,
+    onChange,
+    isMulti,
+    defaultValue,
+    value,
+    onOpenChange,
+    disabled
+  } = props;
 
   return (
     <SelectMenuContextData.Provider
@@ -28,12 +40,14 @@ const SelectMenu = forwardRef((props, ref) => {
         width,
         showCount,
         setShowCount,
-        errorText
+        errorText,
+        open,
+        setOpen,
+        disabled
       }}
     >
-      <Popover.Root>
+      <Popover.Root open={open}>
         <Listbox
-          ref={ref}
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
@@ -44,8 +58,13 @@ const SelectMenu = forwardRef((props, ref) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
+          disabled={disabled}
         >
-          {children}
+          {({ open: dropdownOpen }) => (
+            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
+              {children}
+            </RenderChildren>
+          )}
         </Listbox>
         {errorText && (
           <p className="text-danger-600 mt-2 text-sm">{errorText}</p>
@@ -53,7 +72,7 @@ const SelectMenu = forwardRef((props, ref) => {
       </Popover.Root>
     </SelectMenuContextData.Provider>
   );
-});
+};
 
 SelectMenu.propTypes = {
   children: node.isRequired,
@@ -87,7 +106,9 @@ SelectMenu.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  onOpenChange: func,
+  disabled: bool
 };
 
 SelectMenu.defaultProps = {
@@ -95,7 +116,9 @@ SelectMenu.defaultProps = {
   errorText: '',
   isMulti: false,
   onChange: () => {},
-  value: null
+  value: null,
+  onOpenChange: null,
+  disabled: false
 };
 
 export default SelectMenu;

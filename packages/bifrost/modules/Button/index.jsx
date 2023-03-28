@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import {
   BUTTON_LOADER_CLASSES,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
+  BUTTON_TYPES,
   BUTTON_VARIANTS
 } from './const/buttonConstants';
 
@@ -29,44 +31,91 @@ const Button = (
     iconPlacement,
     isIconOnlyButton,
     colors,
-    ariaLabel
+    loaderText,
+    ariaLabel,
+    type,
+    form,
+    ...props
   },
   ref
 ) => {
+  const smallButtons = (buttonSize) => {
+    let flag = false;
+    if (buttonSize === BUTTON_SIZES[0] || buttonSize === BUTTON_SIZES[1])
+      flag = true;
+
+    return flag;
+  };
+
+  const largeButtons = (buttonSize) => {
+    let flag = false;
+
+    if (
+      buttonSize === BUTTON_SIZES[2] ||
+      buttonSize === BUTTON_SIZES[3] ||
+      buttonSize === BUTTON_SIZES[4]
+    )
+      flag = true;
+
+    return flag;
+  };
+
+  const effectiveChildrenClasses = twClassNames({
+    'flex items-center justify-center gap-2.5 mx-auto': loading,
+    'mx-auto grid w-fit items-center gap-2.5': icon !== null,
+    'grid-cols-[16px,2fr]':
+      iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
+      icon !== null &&
+      smallButtons(size),
+    'grid-cols-[20px,2fr]':
+      iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
+      icon !== null &&
+      largeButtons(size),
+    'grid-cols-[2fr,16px]':
+      iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
+      icon !== null &&
+      smallButtons(size),
+    'grid-cols-[2fr,20px]':
+      iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
+      icon !== null &&
+      largeButtons(size),
+    'gap-0 grid-cols-auto': isIconOnlyButton,
+    'h-5 w-5':
+      (size === BUTTON_SIZES[0] ||
+        size === BUTTON_SIZES[1] ||
+        size === BUTTON_SIZES[2]) &&
+      isIconOnlyButton,
+    'h-6 w-6':
+      (size === BUTTON_SIZES[3] || size === BUTTON_SIZES[4]) && isIconOnlyButton
+  });
+
   const buttonRef = useRef();
 
   const effectiveChildren =
     loading && !disabled && variant !== BUTTON_VARIANTS[3] ? (
-      <Loader
-        wrapperStyle={`mx-auto ${
-          BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
-        }`}
-        height={
-          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
-        }
-        width={
-          size === BUTTON_SIZES[0] || size === BUTTON_SIZES[1] ? 'h-4' : 'h-5'
-        }
-      />
+      <span className={effectiveChildrenClasses}>
+        {iconPlacement === BUTTON_ICON_PLACEMENT[0] && (
+          <Loader
+            wrapperStyle={`mx-auto ${
+              BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
+            }`}
+            height={smallButtons(size) ? 'h-4' : 'h-5'}
+            width={smallButtons(size) ? 'h-4' : 'h-5'}
+          />
+        )}
+        {isIconOnlyButton === false && loaderText}
+        {iconPlacement === BUTTON_ICON_PLACEMENT[1] && (
+          <Loader
+            wrapperStyle={`mx-auto ${
+              BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
+            }`}
+            height={smallButtons(size) ? 'h-4' : 'h-5'}
+            width={smallButtons(size) ? 'h-4' : 'h-5'}
+          />
+        )}
+      </span>
     ) : (
-      <span
-        className={twClassNames({
-          'mx-auto grid w-fit items-center gap-2.5': icon !== null,
-          'grid-cols-[16px,2fr]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon !== null,
-          'grid-cols-[2fr,16px]':
-            iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon !== null,
-          'gap-0 grid-cols-auto': isIconOnlyButton,
-          'h-5 w-5':
-            (size === BUTTON_SIZES[0] ||
-              size === BUTTON_SIZES[1] ||
-              size === BUTTON_SIZES[2]) &&
-            isIconOnlyButton,
-          'h-6 w-6':
-            (size === BUTTON_SIZES[3] || size === BUTTON_SIZES[4]) &&
-            isIconOnlyButton
-        })}
-      >
+      <span className={effectiveChildrenClasses}>
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon}
         {children}
         {iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon}
@@ -100,12 +149,12 @@ const Button = (
   };
 
   const handleClick = (e) => {
-    if (disabled) return;
+    if (disabled || loading) return;
     onClick(e);
   };
 
   const buttonDimensions = useMemo(() => {
-    if (loading && !fullWidth) {
+    if (loading && !fullWidth && isIconOnlyButton) {
       const target = ref || buttonRef;
       return {
         width: target?.current?.getBoundingClientRect()?.width,
@@ -114,7 +163,7 @@ const Button = (
     }
 
     return null;
-  }, [loading, ref, fullWidth]);
+  }, [loading, ref, fullWidth, isIconOnlyButton]);
 
   const stylePicker = () => {
     if (disabled) {
@@ -144,9 +193,8 @@ const Button = (
 
   return (
     <button
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...getConditionalProps()}
-      type="button"
+      type={type === 'submit' ? 'submit' : 'button'}
       ref={ref || buttonRef}
       aria-disabled={disabled}
       className={twClassNames(
@@ -159,6 +207,8 @@ const Button = (
         wrapperClassName
       )}
       onClick={handleClick}
+      form={form}
+      {...props}
     >
       {effectiveChildren}
     </button>
@@ -178,7 +228,10 @@ const buttonProps = {
   iconPlacement: PropTypes.string,
   colors: PropTypes.oneOf(BUTTON_COLORS),
   isIconOnlyButton: PropTypes.bool,
-  ariaLabel: PropTypes.string
+  ariaLabel: PropTypes.string,
+  loaderText: PropTypes.string,
+  type: PropTypes.oneOf(BUTTON_TYPES),
+  form: PropTypes.string
 };
 
 const defaultProps = {
@@ -194,7 +247,10 @@ const defaultProps = {
   iconPlacement: BUTTON_ICON_PLACEMENT[0],
   colors: BUTTON_COLORS[0],
   isIconOnlyButton: false,
-  ariaLabel: ''
+  ariaLabel: '',
+  loaderText: 'Loading',
+  type: 'button',
+  form: null
 };
 
 const WrappedButton = forwardRef(Button);

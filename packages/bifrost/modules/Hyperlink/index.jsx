@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 
 const Hyperlink = (props) => {
-  const { children, href, onClick, rel, wrapperClassName } = props;
+  const { children, href, onClick, rel, wrapperClassName, target } = props;
+
+  const appliedRel = target === '_blank' ? `${rel} noopener noreferrer` : rel;
 
   return (
     <a
       href={href || '#'}
-      rel={rel}
+      rel={appliedRel}
       className={twClassNames(
         'flex items-center text-brand-600 text-base font-black',
         wrapperClassName
@@ -18,6 +20,7 @@ const Hyperlink = (props) => {
       onClick={(e) => {
         onClick?.(e);
       }}
+      target={target}
     >
       {children}
     </a>
@@ -29,14 +32,16 @@ Hyperlink.propTypes = {
   href: PropTypes.string,
   onClick: PropTypes.func,
   rel: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  target: PropTypes.string
 };
 Hyperlink.defaultProps = {
   children: null,
   onClick: null,
   href: '#',
   rel: '',
-  wrapperClassName: ''
+  wrapperClassName: '',
+  target: ''
 };
 
 export default Hyperlink;

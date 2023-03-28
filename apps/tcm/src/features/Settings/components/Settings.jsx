@@ -17,7 +17,8 @@ const Settings = () => {
     settingsApiKeys,
     fetchAPIKey,
     onIntegrationsButtonClick,
-    fetchJiraConfigurations
+    fetchJiraConfigurations,
+    configureJIRAInit
   } = useSettings();
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const Settings = () => {
             onIntegrationsButtonClick={onIntegrationsButtonClick}
           />
         ) : (
-          <NoJiraConfiguration />
+          <NoJiraConfiguration onAddJiraIntegration={configureJIRAInit} />
         )}
         <JiraFooter apiKey={settingsApiKeys.api_key} />
       </div>

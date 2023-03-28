@@ -1,5 +1,5 @@
 import { FaApple } from 'react-icons/fa';
-import { SiJira } from 'react-icons/si';
+import { SiJira, SiJirasoftware } from 'react-icons/si';
 import {
   ArrowDownIcon,
   ArrowLongLeftIcon,
@@ -7,6 +7,7 @@ import {
   ArrowUpIcon,
   Bars3Icon,
   BarsArrowUpIcon,
+  BuildingOfficeIcon,
   CalendarIcon,
   ChartBarIcon,
   CheckCircleIcon,
@@ -16,6 +17,7 @@ import {
   ChevronRightIcon,
   ChevronUpDownIcon,
   ChevronUpIcon,
+  CreditCardIcon,
   CursorArrowRaysIcon,
   EllipsisVerticalIcon,
   EnvelopeIcon,
@@ -30,6 +32,7 @@ import {
   PaperClipIcon,
   PhotoIcon,
   PlusIcon,
+  UserIcon,
   UsersIcon,
   XCircleIcon,
   XMarkIcon
@@ -49,6 +52,7 @@ export {
   AutomationIcon,
   Bars3Icon,
   BarsArrowUpIcon,
+  BuildingOfficeIcon,
   CalendarIcon,
   ChartBarIcon,
   CheckCircleIcon,
@@ -58,6 +62,7 @@ export {
   ChevronRightIcon,
   ChevronUpDownIcon,
   ChevronUpIcon,
+  CreditCardIcon,
   CursorArrowRaysIcon,
   EllipsisVerticalIcon,
   EnvelopeIcon,
@@ -74,6 +79,8 @@ export {
   PhotoIcon,
   PlusIcon,
   SiJira,
+  SiJirasoftware,
+  UserIcon,
   UsersIcon,
   XCircleIcon,
   XMarkIcon

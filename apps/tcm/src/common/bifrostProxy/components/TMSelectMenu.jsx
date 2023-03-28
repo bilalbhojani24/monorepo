@@ -7,6 +7,7 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const TMSelectMenu = ({
@@ -18,7 +19,8 @@ const TMSelectMenu = ({
   value,
   isMulti,
   defaultValue,
-  triggerWrapperClassName
+  triggerWrapperClassName,
+  checkPosition
 }) => (
   <SelectMenu
     onChange={onChange}
@@ -29,12 +31,13 @@ const TMSelectMenu = ({
     {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
     <SelectMenuTrigger
       placeholder={placeholder}
-      wrapperClassName={triggerWrapperClassName}
+      wrapperClassName={twClassNames('cursor-pointer', triggerWrapperClassName)}
     />
     <SelectMenuOptionGroup>
       {React.Children.toArray(
         options.map((item, idx) => (
           <SelectMenuOptionItem
+            checkPosition={checkPosition}
             option={item}
             wrapperClassName={
               idx === dividerIdx ? 'border-base-100 border-b' : ''
@@ -50,6 +53,8 @@ TMSelectMenu.propTypes = {
   placeholder: PropTypes.string,
   isMulti: PropTypes.bool,
   label: PropTypes.string,
+  checkPosition: PropTypes.string,
+  triggerWrapperClassName: PropTypes.string,
   dividerIdx: PropTypes.number,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -77,6 +82,8 @@ TMSelectMenu.defaultProps = {
   placeholder: '',
   dividerIdx: null,
   label: '',
+  checkPosition: 'left',
+  triggerWrapperClassName: '',
   options: [],
   onChange: () => {},
   value: null,

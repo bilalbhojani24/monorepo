@@ -17,6 +17,7 @@ import useProjects from './useProjects';
 
 const EditProjects = ({ show }) => {
   const {
+    modalFocusRef,
     selectedProject,
     editProjectHandler,
     formData,
@@ -35,6 +36,7 @@ const EditProjects = ({ show }) => {
 
   return (
     <TMModal
+      ref={modalFocusRef}
       show={show}
       withDismissButton
       onOverlayClick={hideEditProjectModal}
@@ -77,6 +79,7 @@ const EditProjects = ({ show }) => {
         <TMButton
           variant="primary"
           colors="white"
+          ref={modalFocusRef}
           onClick={hideEditProjectModal}
         >
           Cancel

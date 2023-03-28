@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
 import {
-  AccessTimeFilledRoundedIcon,
+  AccessTimeIcon,
   CheckCircleRoundedIcon,
   ErrorIcon
 } from 'assets/icons';
@@ -17,6 +17,7 @@ import {
   TMTruncateText
 } from 'common/bifrostProxy';
 
+import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import { COMPLETED, FAILURE, INFINITY, ONGOING } from '../const/importConst';
 import {
@@ -42,6 +43,7 @@ const ImportStatus = () => {
     isNotificationDismissed,
     showNotificationModal,
     checkImportStatusClicked,
+    quickImportProjectId,
     checkImportStatusClickHandler
   } = useImportStatus();
   const dispatch = useDispatch();
@@ -80,7 +82,9 @@ const ImportStatus = () => {
       })
     );
     dispatch(setShowNotificationModal(false));
-    navigate('/import');
+    if (quickImportProjectId)
+      navigate(`/projects/${quickImportProjectId}/quick-import`);
+    else navigate(AppRoute.IMPORT);
   };
 
   const handleNotificationClose = (toastData) => {
@@ -168,17 +172,16 @@ const ImportStatus = () => {
       {importStatus === ONGOING && (
         <TMBanner
           align="extreme"
-          description="We’ve started importing your projects which will take some time. We’ll also notify you over email once it’s completed."
+          description="We’ve started importing your projects which will take some time. You can check import status to know progress."
           isDismissButton={false}
           placement="relative"
           modifier="brand"
-          bannerIcon={
-            <AccessTimeFilledRoundedIcon className="text-brand-500" />
-          }
+          bannerIcon={<AccessTimeIcon className="text-white" />}
           ctaButton={
             <TMButton
+              size="large"
               variant="minimal"
-              wrapperClassName="text-brand-50 underline hover:text-brand-50"
+              wrapperClassName="text-brand-50 hover:text-brand-50"
               onClick={checkImportStatusClickHandler}
             >
               Check Import Status
@@ -198,7 +201,7 @@ const ImportStatus = () => {
           />
           <TMModalBody>
             <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
-              Below is a report of all the completed project imports:
+              Below is a report on import progress
             </div>
             <div className="border-base-100 text-base-500 mt-7 flex place-content-between border-b p-3 text-xs font-medium">
               <span className="inline-flex flex-1">Project</span>

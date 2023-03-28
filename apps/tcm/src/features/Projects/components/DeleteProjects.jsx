@@ -11,11 +11,13 @@ import PropTypes from 'prop-types';
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
-  const { hideDeleteProjectModal, deleteProjectHandler } = useProjects();
+  const { modalFocusRef, hideDeleteProjectModal, deleteProjectHandler } =
+    useProjects();
 
   return (
     <TMModal
       show={show}
+      ref={modalFocusRef}
       withDismissButton
       onOverlayClick={hideDeleteProjectModal}
     >
@@ -30,6 +32,7 @@ const DeleteProjects = ({ show }) => {
           variant="primary"
           colors="white"
           onClick={hideDeleteProjectModal}
+          ref={modalFocusRef}
         >
           Cancel
         </TMButton>

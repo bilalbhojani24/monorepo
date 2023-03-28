@@ -10,10 +10,12 @@ import {
 import AppRoute from 'const/routes';
 import {
   addGlobalProject,
+  addNotificaton,
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/projectsConst';
 import {
@@ -61,6 +63,7 @@ const useProjects = (prop) => {
   const isLoading = useSelector((state) => state.projects.isLoading);
 
   const showAddProjectModal = () => {
+    dispatch(logEventHelper('TM_CreateProjectBtnClicked', {}));
     dispatch(setAddProjectModalVisibility(true));
   };
 
@@ -97,7 +100,13 @@ const useProjects = (prop) => {
   };
 
   const deleteProjectHandler = () => {
-    if (selectedProject)
+    if (selectedProject) {
+      dispatch(
+        logEventHelper('TM_DeleteProjectCtaClicked', {
+          project_id: selectedProject?.id,
+          project_name: selectedProject?.name
+        })
+      );
       deleteProjectAPI(selectedProject.id).then((res) => {
         dispatch(deleteProject(res.data.project));
         dispatch(deleteGlobalProject(res.data.project));
@@ -109,6 +118,7 @@ const useProjects = (prop) => {
         );
         hideDeleteProjectModal();
       });
+    }
   };
 
   const hideAddProjectModal = () => {
@@ -123,6 +133,15 @@ const useProjects = (prop) => {
       addProjectsAPI(formData).then((res) => {
         dispatch(addProject(res.data.project));
         dispatch(addGlobalProject(res.data.project));
+
+        dispatch(
+          addNotificaton({
+            id: `project_added${res.data.project?.id}`,
+            title: `${res.data.project?.identifier} : Project created`,
+            description: null,
+            variant: 'success'
+          })
+        );
 
         navigate(
           prop?.isFirstProject
@@ -140,6 +159,12 @@ const useProjects = (prop) => {
   };
 
   const editProjectHandler = () => {
+    dispatch(
+      logEventHelper('TM_UpdateProjectCtaClicked', {
+        project_id: selectedProject?.id,
+        project_name: selectedProject?.name
+      })
+    );
     editProjectAPI(selectedProject.id, {
       project: formData
     }).then((res) => {
@@ -172,7 +197,8 @@ const useProjects = (prop) => {
     formError,
     setFormError,
     editProjectHandler,
-    hideEditProjectModal
+    hideEditProjectModal,
+    dispatch
   };
 };
 

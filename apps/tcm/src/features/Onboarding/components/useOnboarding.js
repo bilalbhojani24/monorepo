@@ -77,7 +77,9 @@ const useOnboarding = () => {
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import
           navigate(AppRoute.IMPORT, {
-            state: { isFromOnboarding: true },
+            state: {
+              isFromOnboarding: true
+            },
             replace: true
           });
           break;

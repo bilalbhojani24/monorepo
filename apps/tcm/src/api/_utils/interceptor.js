@@ -16,8 +16,9 @@ const setupInterceptors = (navigateTo, dispatch) => {
       dispatch(
         addNotificaton({
           id: 'server_error',
-          title: res.message,
-          description: null,
+          title: 'Error occurred',
+          description:
+            'Some technical error occurred. Please try again. If this issue persists, contact Support.',
           variant: 'error'
         })
       );

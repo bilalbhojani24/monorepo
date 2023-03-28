@@ -17,7 +17,7 @@ const onAssetUpload = async (files) => {
   });
   const result = await res.json();
 
-  return result.data.url;
+  return { src: result.data.url };
 };
 
 const defaultConfig = {
@@ -32,6 +32,10 @@ const defaultConfig = {
           }
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=1484-11701&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

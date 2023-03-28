@@ -14,6 +14,7 @@ const DeleteTestCase = ({ show }) => {
   const {
     deleteTestCaseHandler,
     hideDeleteTestCaseModal,
+    modalFocusRef,
     isBulkUpdate,
     selectedBulkTCCount
   } = useDeleteTestCase();
@@ -21,6 +22,7 @@ const DeleteTestCase = ({ show }) => {
   return (
     <TMModal
       show={show}
+      ref={modalFocusRef}
       withDismissButton
       onOverlayClick={hideDeleteTestCaseModal}
     >
@@ -36,13 +38,14 @@ const DeleteTestCase = ({ show }) => {
             : 'Are you sure you want to delete this test case? All the data will be permanently deleted. This action cannot be undone.'
         }
         handleDismissClick={hideDeleteTestCaseModal}
-        Icon={WarningAmberOutlinedIcon}
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
         <TMButton
           variant="primary"
           colors="white"
           onClick={hideDeleteTestCaseModal}
+          ref={modalFocusRef}
         >
           Cancel
         </TMButton>

@@ -5,7 +5,7 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 
 import {
-  importCleanUp,
+  setBeginImportLoading,
   setCheckImportStatusClicked,
   setConfigureToolProceeded,
   setConfigureToolProceedLoading,
@@ -15,6 +15,7 @@ import {
   setCurrentTestManagementTool,
   setErrorForConfigureData,
   setImportStarted,
+  setImportStatusOngoing,
   setImportSteps,
   setJiraConfigurationStatus,
   setProjectForTestManagementImport,
@@ -72,6 +73,9 @@ const useImport = () => {
   );
   const showErrorForConfigData = useSelector(
     (state) => state.import.showErrorForConfigData
+  );
+  const beginImportLoading = useSelector(
+    (state) => state.import.beginImportLoading
   );
 
   const handleInputFieldChange = (key) => (e) => {
@@ -219,32 +223,44 @@ const useImport = () => {
     }
   };
 
+  const beginImportSuccessful = () => {
+    dispatch(setBeginImportLoading(false));
+    navigate(AppRoute.ROOT);
+    dispatch(setImportStarted(true));
+    dispatch(setCheckImportStatusClicked(false));
+    dispatch(setImportStatusOngoing());
+  };
+
   const handleConfirmImport = () => {
+    // dispatch(startQuickImport(currentTestManagementTool));
+    dispatch(setBeginImportLoading(true));
     if (currentTestManagementTool === 'testrails') {
       importProjects('testrail', {
         ...testRailsCred,
         testrail_projects: testManagementProjects
           .map((project) => (project.checked ? project : null))
           .filter((project) => project !== null)
-      }).then(() => {
-        // console.log('done successfully');
-        // set first screen as configure tool
-        // clean up all the states
-      });
+      })
+        .then(() => {
+          beginImportSuccessful();
+        })
+        .catch(() => {
+          dispatch(setBeginImportLoading(false));
+        });
     } else if (currentTestManagementTool === 'zephyr') {
       importProjects('zephyr', {
         ...zephyrCred,
         projects: testManagementProjects
           .map((project) => (project.checked ? project : null))
           .filter((project) => project !== null)
-      }).then(() => {
-        // console.log('done successfully');
-      });
+      })
+        .then(() => {
+          beginImportSuccessful();
+        })
+        .catch(() => {
+          dispatch(setBeginImportLoading(false));
+        });
     }
-    dispatch(importCleanUp());
-    dispatch(setImportStarted(true));
-    dispatch(setCheckImportStatusClicked(false));
-    navigate(AppRoute.ROOT);
   };
 
   const isJiraConfiguredForZephyr = () => {
@@ -275,6 +291,7 @@ const useImport = () => {
   return {
     isFromOnboarding,
     allImportSteps,
+    beginImportLoading,
     importStatus,
     configureToolProceed,
     currentTestManagementTool,

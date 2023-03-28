@@ -56,7 +56,9 @@ const initialState = {
   notificationData: null,
   notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
   showNotificationModal: false,
-  checkImportStatusClicked: false
+  checkImportStatusClicked: false,
+  quickImportProjectId: null,
+  beginImportLoading: false
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -174,18 +176,34 @@ const importSlice = createSlice({
     setZephyrCredTouched: (state, { payload }) => {
       state.zephyrCredTouched[payload.key] = payload.value;
     },
-    importCleanUp: (state) => {
-      state.testRailsCred = initialState.testRailsCred;
-      state.zephyrCred = initialState.zephyrCred;
-      state.connectionStatusMap = initialState.connectionStatusMap;
-      state.selectedRadioIdMap = initialState.selectedRadioIdMap;
-      state.projectsForTestManagementImport =
-        initialState.projectsForTestManagementImport;
-      state.currentScreen = initialState.currentScreen;
-      state.importSteps = initialState.importSteps;
-      state.currentTestManagementTool = initialState.currentTestManagementTool;
-      state.testRailsCredTouched = initialState.testRailsCredTouched;
-      state.zephyrCredTouched = initialState.zephyrCredTouched;
+    quickImportCleanUp: (state, { payload }) => {
+      const {
+        importId,
+        importStatus,
+        isDismissed,
+        importStarted,
+        notificationData,
+        notificationProjectConfig,
+        showNotificationModal,
+        checkImportStatusClicked,
+        quickImportProjectId,
+        currentTestManagementTool,
+        ...restInitialState
+      } = initialState;
+
+      return {
+        importId: payload?.importId,
+        importStatus: payload?.importStatus,
+        isDismissed: payload?.isDismissed,
+        importStarted: payload?.importStarted,
+        notificationData: payload?.notificationData,
+        notificationProjectConfig: payload?.notificationProjectConfig,
+        showNotificationModal: payload?.showNotificationModal,
+        checkImportStatusClicked: payload?.checkImportStatusClicked,
+        quickImportProjectId: payload?.quickImportProjectId,
+        currentTestManagementTool: payload?.currentTestManagementTool,
+        ...restInitialState
+      };
     },
     setCheckImportStatusClicked: (state, { payload }) => {
       state.checkImportStatusClicked = payload;
@@ -197,6 +215,16 @@ const importSlice = createSlice({
     },
     setShowNotificationModal: (state, { payload }) => {
       state.showNotificationModal = payload;
+    },
+    setProjectIdForQuickImport: (state, { payload }) => {
+      state.quickImportProjectId = payload;
+    },
+    setImportStatusOngoing: (state) => {
+      state.importStatus = ONGOING;
+      state.notificationData = WARNING_DATA;
+    },
+    setBeginImportLoading: (state, { payload }) => {
+      state.beginImportLoading = payload;
     }
   },
   extraReducers: (builder) => {
@@ -205,9 +233,9 @@ const importSlice = createSlice({
         state.isJiraConfiguredForZephyr = false;
       else {
         state.isJiraConfiguredForZephyr = true;
-        state.zephyrCred.email = action.payload.email;
-        state.zephyrCred.host = action.payload.host;
-        state.zephyrCred.jira_key = action.payload.key;
+        state.zephyrCred.email = action.payload.data.email;
+        state.zephyrCred.host = action.payload.data.host;
+        state.zephyrCred.jira_key = action.payload.data.key;
       }
     });
     builder.addCase(setJiraConfigurationStatus.rejected, (state) => {
@@ -272,13 +300,16 @@ export const {
   setImportStarted,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
-  importCleanUp,
+  quickImportCleanUp,
   setImportConfig,
   setImportStatus,
   setNotificationData,
   setCheckImportStatusClicked,
   setImportedProjects,
   setNotificationProjectConfig,
-  setShowNotificationModal
+  setShowNotificationModal,
+  setProjectIdForQuickImport,
+  setImportStatusOngoing,
+  setBeginImportLoading
 } = importSlice.actions;
 export default importSlice.reducer;
