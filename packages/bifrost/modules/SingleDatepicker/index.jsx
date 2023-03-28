@@ -46,7 +46,7 @@ const SingleDatepicker = (props) => {
       {label && (
         <span
           {...labelProps}
-          className="text-base-700 text-sm font-medium leading-5"
+          className="text-base-700 break-all text-sm font-medium leading-5"
         >
           {label}
         </span>
@@ -91,6 +91,7 @@ const SingleDatepicker = (props) => {
                     {disabledMessage}
                   </TooltipBody>
                 }
+                wrapperClassName="break-all"
                 theme="dark"
               >
                 <QuestionMarkCircleIcon
