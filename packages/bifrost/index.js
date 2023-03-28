@@ -79,10 +79,6 @@ import StackedList from './modules/StackedList';
 import StackedListCommon from './modules/StackedListCommon';
 import StackedListGroup from './modules/StackedListGroup';
 import StackedListItem from './modules/StackedListItem';
-import StackedListWAvatar from './modules/StackedListWAvatar/index';
-import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
-import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
-import StackedListWTwoColumns from './modules/StackedListWTwoColumns/index';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
 import Switch from './modules/Switch/index';
@@ -184,10 +180,6 @@ export {
   StackedListCommon,
   StackedListGroup,
   StackedListItem,
-  StackedListWAvatar,
-  StackedListWSingleColumn,
-  StackedListWStickyHeadings,
-  StackedListWTwoColumns,
   Stats,
   Steps,
   Switch,

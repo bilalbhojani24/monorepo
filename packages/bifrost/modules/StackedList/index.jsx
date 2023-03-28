@@ -10,7 +10,7 @@ const StackedList = ({ footer, children, isCard }) => (
         });
       return child;
     })}
-    {footer && <div className="sticky bottom-0 z-10 mt-1">{footer}</div>}
+    {footer && <div className="sticky bottom-0 z-10 mt-6">{footer}</div>}
   </section>
 );
 

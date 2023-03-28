@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -18,7 +18,13 @@ const StackedListGroup = ({ heading, children, isCard, wrapperClassName }) => (
         wrapperClassName
       )}
     >
-      {children}
+      {React.Children.map(children, (child) => {
+        if (isValidElement(child))
+          return React.cloneElement(child, {
+            isCard
+          });
+        return child;
+      })}
     </ul>
   </>
 );
