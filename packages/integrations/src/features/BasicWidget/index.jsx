@@ -120,7 +120,7 @@ const WidgetPortal = ({
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
       }
     });
-  }, [hasToken, auth, dispatch, projectId, componentKey]);
+  }, [hasToken, dispatch, projectId, componentKey]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {

@@ -29,9 +29,11 @@ const ListOfIntegrations = ({
   mode,
   options,
   attachments,
+  discardIssue,
   changeModeTo,
-  isBeingDiscarded,
   continueEditing,
+  isBeingDiscarded,
+  isWorkInProgress,
   setReadyToSubmit,
   confirmIssueDiscard,
   setIsWorkInProgress
@@ -48,11 +50,13 @@ const ListOfIntegrations = ({
         mode={mode}
         options={options}
         attachments={attachments}
+        discardIssue={discardIssue}
         integrations={integrations}
         changeModeTo={changeModeTo}
         continueEditing={continueEditing}
         isBeingDiscarded={isBeingDiscarded}
         setReadyToSubmit={setReadyToSubmit}
+        isWorkInProgress={isWorkInProgress}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}
       />

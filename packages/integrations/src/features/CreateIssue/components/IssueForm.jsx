@@ -30,6 +30,7 @@ const IssueForm = ({
   changeModeTo,
   integrations,
   continueEditing,
+  isWorkInProgress,
   isBeingDiscarded,
   confirmIssueDiscard,
   setIsWorkInProgress
@@ -88,12 +89,14 @@ const IssueForm = ({
   };
 
   useEffect(() => {
-    resetMeta();
-  }, [mode]);
+    if (!isBeingDiscarded && !isWorkInProgress) {
+      resetMeta();
+    }
+  }, [isWorkInProgress, mode]);
 
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
-  }, [dispatch, integrationToolFieldData]);
+  }, [dispatch, integrationToolFieldData.value]);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
     getCreateMeta(
@@ -119,7 +122,8 @@ const IssueForm = ({
       integrationToolFieldData &&
       projectFieldData &&
       issueTypeFieldData &&
-      mode === ISSUE_MODES.CREATION
+      mode === ISSUE_MODES.CREATION &&
+      !isWorkInProgress
     ) {
       debouncedGetCreateMeta();
     }
@@ -183,9 +187,10 @@ const IssueForm = ({
         <DiscardIssue
           continueEditing={continueEditing}
           confirmIssueDiscard={confirmIssueDiscard}
+          integrationName={integrationToolFieldData.title}
         />
       )}
-      <div className={''.concat(isBeingDiscarded ? 'hidden' : '')}>
+      <div className={''.concat(isBeingDiscarded ? 'invisible h-0' : '')}>
         <SelectMenu
           onChange={(val) => selectTool(val)}
           value={integrationToolFieldData}

@@ -68,11 +68,10 @@ const CreateIssueForm = ({
       .then((response) => {
         if (response?.success) {
           // ticket creation was successful
-          resetMeta();
           if (attachments?.length) {
             // has attachments to add
             return addAttachment(
-              attachments,
+              attachments[0],
               integrationToolFieldData?.value,
               response.data.ticket_id,
               response.data.ticket_url
@@ -144,7 +143,7 @@ const CreateIssueForm = ({
 
   return (
     <>
-      <div className="py-3">
+      <div className="pt-3">
         <SingleValueSelect
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.ISSUE_TYPE}

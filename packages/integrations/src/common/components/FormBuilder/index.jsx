@@ -42,7 +42,9 @@ const FormBuilder = ({
       if (Array.isArray(field) && field.length) return true;
       return Boolean(field);
     });
-    setIsWorkInProgress(isWIP);
+    if (isWIP) {
+      setIsWorkInProgress(true);
+    }
   }, [fieldsData, setIsWorkInProgress]);
 
   useEffect(() => {
@@ -112,6 +114,7 @@ const FormBuilder = ({
         handleSubmit(fieldsData).then((response) => {
           if (response?.success) {
             resetFieldsData();
+            setIsWorkInProgress(false);
           }
         });
       }

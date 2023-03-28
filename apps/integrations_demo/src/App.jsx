@@ -6,6 +6,8 @@ import env from './constants/envConstants';
 // import { APP_ROUTES } from './constants/routesConstants';
 import Home from './features/Home';
 
+import './App.scss';
+
 // const initAPI = async () => {
 //   await new Promise((resolve) => {
 //     setTimeout(() => {

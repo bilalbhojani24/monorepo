@@ -90,12 +90,13 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
-        className={'bg-white overflow-auto'.concat(
-          hasAtLeastOneIntegrationSetup ? ' p-6' : ''
+        className={'bg-white'.concat(
+          hasAtLeastOneIntegrationSetup ? ' p-6' : '',
+          !isBeingDiscarded ? ' overflow-auto' : ''
         )}
         style={{ maxHeight: '650px' }}
       >
-        <GlobalAlert className="pb-6" />
+        {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
           mode={mode}
           options={options}
@@ -104,13 +105,14 @@ export const CreateIssue = ({
           changeModeTo={changeModeTo}
           discardIssue={discardIssue}
           continueEditing={continueEditing}
+          isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
+        <div className="border-base-200 fixed bottom-0 left-0 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>

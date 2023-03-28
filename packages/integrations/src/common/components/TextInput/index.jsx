@@ -94,7 +94,7 @@ const TextField = ({
         onBlur={validateInput}
         errorText={error}
         type={schema?.field === 'numeric' ? 'number' : 'text'}
-        disabled
+        disabled={disabled}
       />
     </div>
   );
