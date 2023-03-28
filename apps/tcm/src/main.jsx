@@ -10,7 +10,7 @@ import { store } from './store';
 
 import './index.scss';
 
-if (window.location.hostname === PRODUCTION_HOST || true) {
+if (window.location.hostname === PRODUCTION_HOST) {
   initErrorLogger({
     dsn: 'https://6707e9548518483b9931877fd670e35e@o70254.ingest.sentry.io/4504853198929920',
     debug: false,

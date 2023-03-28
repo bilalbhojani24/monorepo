@@ -59,7 +59,7 @@ function App() {
       userAndGroupConfig?.tmUserId &&
       userAndGroupConfig?.bsGroupId &&
       userAndGroupConfig?.tmGroupId &&
-      (window.location.hostname === PRODUCTION_HOST || true)
+      window.location.hostname === PRODUCTION_HOST
     ) {
       setErrorLoggerUserContext(userAndGroupConfig.bsUserId);
       initLogger(keys);
