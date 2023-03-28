@@ -359,6 +359,17 @@ const useAddEditTestRun = () => {
   }, [testRunFormData?.test_case_ids]);
 
   useEffect(() => {
+    if (!isEditing)
+      dispatch(
+        updateTestRunFormData({
+          key: 'test_run',
+          innerKey: 'owner',
+          value: userData?.id
+        })
+      );
+  }, [isEditing, userData, dispatch]);
+
+  useEffect(() => {
     if (isEditing && selectedTestRun?.id) {
       dispatch(
         setTestRunFormData(
