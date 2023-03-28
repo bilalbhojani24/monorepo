@@ -16,12 +16,14 @@ import {
   O11yTableCell,
   O11yTooltip
 } from 'common/bifrostProxy';
+import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
-import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
+import { getActiveProject } from 'globalSlice/selectors';
+import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { aggregateColors } from '../constants';
@@ -35,6 +37,7 @@ const BuildCardDetails = ({ data }) => {
   const navigate = useNavigate();
   const { projectNormalisedName } = useParams();
   const tags = useSelector(getAppliedFilterTags);
+  const activeProject = useSelector(getActiveProject);
 
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
@@ -66,6 +69,16 @@ const BuildCardDetails = ({ data }) => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const logBuildListingInteracted = ({ buildName, interaction }) => {
+    logOllyEvent({
+      event: 'O11yBuildListingInteracted',
+      project_name: activeProject.name,
+      build_name: buildName,
+      interaction
+    });
+  };
+
   const navigateToTestPage = (itemCategory, clickData) => {
     let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
     endpoint += `&${itemCategory}=${clickData.itemClicked}`;
@@ -79,31 +92,36 @@ const BuildCardDetails = ({ data }) => {
           {renderStatusIcon()}
           <div className="ml-4">
             <div className="flex">
-              <p className="text-base-900 text-sm font-medium leading-5">
-                {data?.isAutoDetectedName ? data?.originalName : data?.name}
-                {` `}
+              <div className="text-base-900 text-sm font-medium leading-5">
+                <span className="text-base-900 text-sm font-medium leading-5">
+                  {data?.isAutoDetectedName ? data?.originalName : data?.name}
+                  &nbsp;
+                </span>
                 <O11yMetaData
                   textColorClass="text-base-500 inline-flex text-sm"
                   metaDescription={`#${data.buildNumber}`}
                   title="Build Number"
                 />
-                {` `}
+                &nbsp;
                 {data?.isAutoDetectedName && (
                   <O11yTooltip
                     theme="dark"
                     content={
                       <div className="mx-4">
-                        <p className="text-base-300 text-sm leading-5">
-                          Static build name automatically detected: {data.name}
+                        <p className="text-base-300 mb-2 text-sm">
+                          Static build name automatically detected:{' '}
+                          {data?.isAutoDetectedName
+                            ? data?.originalName
+                            : data?.name}
                         </p>
                         <O11yHyperlink
+                          wrapperClassName="text-base-50 text-sm font-medium underline"
                           target="_blank"
                           href={getDocUrl({
                             path: DOC_KEY_MAPPING.automation_build
                           })}
-                          className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
                         >
-                          Learn More
+                          Learn more
                         </O11yHyperlink>
                       </div>
                     }
@@ -111,7 +129,7 @@ const BuildCardDetails = ({ data }) => {
                     <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block" />
                   </O11yTooltip>
                 )}
-              </p>
+              </div>
               {data?.tags.map((singleTag) => (
                 <PropagationBlocker key={singleTag}>
                   <O11yBadge
@@ -125,14 +143,14 @@ const BuildCardDetails = ({ data }) => {
                 </PropagationBlocker>
               ))}
             </div>
-            <p className="text-base-500 text-sm">
-              Ran by{' '}
+            <div className="text-base-500 text-sm">
+              <span className="text-base-500 text-sm">Ran by </span>
               <O11yMetaData
                 textColorClass="text-base-500 inline-flex text-sm"
                 metaDescription={data?.user}
                 title="Triggered By"
-              />{' '}
-              on{' '}
+              />
+              <span className="text-base-500 text-sm"> on </span>
               {data?.startedAt ? (
                 <O11yMetaData
                   textColorClass="text-base-500 inline-flex text-sm"
@@ -142,48 +160,93 @@ const BuildCardDetails = ({ data }) => {
                   title="Started At"
                 />
               ) : null}{' '}
-              <span className="mx-2" />
-              {data?.versionControlInfo ? (
-                <O11yHyperlink
-                  target="_blank"
-                  wrapperClassName="inline-block"
-                  href={data?.versionControlInfo?.url}
-                >
-                  <O11yMetaData
-                    icon={
-                      <VCIcon
-                        url={data?.versionControlInfo?.url}
-                        iconProps={{ className: 'h-5 w-5' }}
-                      />
+              <div className="mx-1 inline-block">
+                {data?.ciBuildData?.buildNumber && (
+                  <O11yTooltip
+                    theme="dark"
+                    placementSide="bottom"
+                    triggerWrapperClassName="mr-2 inline-flex items-end"
+                    wrapperClassName="py-2"
+                    content={
+                      <>
+                        {data?.ciBuildData?.jobName ? (
+                          <div className="mx-4">
+                            <p className="text-base-300 text-sm">
+                              Job name: {data?.ciBuildData?.jobName}
+                            </p>
+                          </div>
+                        ) : null}
+                      </>
                     }
-                    textColorClass="hover:text-brand-600 text-base-500 inline-flex text-sm underline"
-                    metaDescription={`#
-                    ${data?.versionControlInfo?.commitId?.slice(0, 8)}
-                    `}
-                    title="Commit ID"
-                  />
-                </O11yHyperlink>
-              ) : null}
-            </p>
+                  >
+                    <O11yHyperlink
+                      target="_blank"
+                      href={data?.versionControlInfo?.url}
+                    >
+                      <O11yMetaData
+                        icon={
+                          <CiIcon
+                            name={data?.ciBuildData?.name}
+                            iconProps={{ className: 'h-5 w-5 m-auto' }}
+                          />
+                        }
+                        metaDescription={`${data?.ciBuildData.name} ${data?.ciBuildData?.buildNumber}`}
+                        textColorClass="hover:text-brand-700 text-base-500 inline-flex items-baseline text-sm font-normal"
+                      />
+                    </O11yHyperlink>
+                  </O11yTooltip>
+                )}
+              </div>
+              <div className="mx-1 inline-block">
+                {data?.versionControlInfo?.url ? (
+                  <PropagationBlocker variant="span">
+                    <O11yHyperlink
+                      target="_blank"
+                      wrapperClassName="inline-block"
+                      href={data?.versionControlInfo?.url}
+                    >
+                      <O11yMetaData
+                        icon={
+                          <VCIcon
+                            url={data?.versionControlInfo?.url}
+                            iconProps={{ className: 'h-5 w-5 m-auto' }}
+                          />
+                        }
+                        textColorClass="hover:text-brand-700 text-base-500 inline-flex items-baseline text-sm underline font-normal"
+                        metaDescription={`#${data?.versionControlInfo?.commitId?.slice(
+                          0,
+                          8
+                        )}`}
+                        title="Commit ID"
+                      />
+                    </O11yHyperlink>
+                  </PropagationBlocker>
+                ) : null}
+              </div>
+            </div>
           </div>
         </div>
       </O11yTableCell>
       <O11yTableCell>
         <PropagationBlocker>
-          <StatusBadges
-            statusStats={data.statusStats}
-            onClickHandler={(clickData) =>
-              navigateToTestPage('status', clickData)
-            }
-          />
+          {data?.status && (
+            <StatusBadges
+              statusStats={data.statusStats}
+              onClickHandler={(clickData) =>
+                navigateToTestPage('status', clickData)
+              }
+            />
+          )}
         </PropagationBlocker>
       </O11yTableCell>
       <O11yTableCell>
-        <O11yMetaData
-          textColorClass="text-base-500 inline-flex text-sm"
-          metaDescription={milliSecondsToTime(data.duration)}
-          title="Duration"
-        />
+        {data.duration ? (
+          <O11yMetaData
+            textColorClass="text-base-500 inline-flex text-sm"
+            metaDescription={milliSecondsToTime(data.duration)}
+            title="Duration"
+          />
+        ) : null}
       </O11yTableCell>
       <O11yTableCell>
         <div>

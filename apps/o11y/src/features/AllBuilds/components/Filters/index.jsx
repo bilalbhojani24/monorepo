@@ -51,14 +51,18 @@ const Filters = () => {
     );
   };
   const onChangeUpperLowerBound = (e, targetBound) => {
-    const newValue = new Date(e.target.value).getTime();
+    const newValue = new Date(e.target.value);
     dispatch(
       setSelectedFilters({
         dateRange: {
           lowerBound:
-            targetBound === 'lowerBound' ? newValue : dateRange.lowerBound,
+            targetBound === 'lowerBound'
+              ? newValue.getTime()
+              : dateRange.lowerBound,
           upperBound:
-            targetBound === 'upperBound' ? newValue : dateRange.upperBound
+            targetBound === 'upperBound'
+              ? new Date(newValue.setUTCHours(23, 59, 59, 999)).getTime()
+              : dateRange.upperBound
         }
       })
     );
@@ -72,7 +76,11 @@ const Filters = () => {
 
   return (
     <>
-      <O11ySlideover show={isSlideoverVisible} backgroundOverlay={false}>
+      <O11ySlideover
+        size="sm"
+        show={isSlideoverVisible}
+        backgroundOverlay={false}
+      >
         <O11ySlideoverHeader
           heading="Filters"
           handleDismissClick={hideSlideover}
@@ -83,7 +91,7 @@ const Filters = () => {
               <O11yComboBox
                 isMulti
                 placeholder="Select"
-                label="Status"
+                label="Build Status"
                 options={statusOptions}
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'statuses');
@@ -92,8 +100,8 @@ const Filters = () => {
                   statuses.includes(el.value)
                 )}
                 checkPosition
-                virtuosoWidth="480px"
-                optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
+                virtuosoWidth="350px"
+                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
               />
               <UsersFilters
                 onChangeArrayFilter={onChangeArrayFilter}
@@ -141,7 +149,9 @@ const Filters = () => {
                   value={
                     dateRange.upperBound
                       ? getCustomTimeStamp({
-                          dateString: new Date(dateRange.upperBound),
+                          dateString: new Date(
+                            dateRange.upperBound
+                          ).setUTCHours(0, 0, 0, 0),
                           withoutTZ: true,
                           withoutTime: true,
                           dateFormat: 'yyyy-MM-dd'

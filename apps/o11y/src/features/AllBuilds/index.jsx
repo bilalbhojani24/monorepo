@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES } from 'constants/common';
+import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
@@ -36,7 +43,8 @@ import {
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { pathname } = useLocation();
+  const activeProject = useSelector(getActiveProject);
   const { projectNormalisedName } = useParams();
   const [, setSearchParams] = useSearchParams();
   const buildsData = useSelector(getBuilds);
@@ -88,6 +96,15 @@ const AllBuildsPage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11yBuildListingVisited',
+      project_name: activeProject.name,
+      project_id: activeProject.id,
+      url: window.location.href
+    });
+  }, [pathname, activeProject]);
 
   useEffect(
     () => () => {

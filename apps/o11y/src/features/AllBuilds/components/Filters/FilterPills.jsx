@@ -122,12 +122,12 @@ const FilterPills = ({ viewAllBuilds }) => {
   return (
     <>
       {filterDetailsApiStatus === API_STATUSES.FULFILLED && (
-        <div className="flex gap-x-4">
+        <div className="flex items-baseline">
           {!!itemsArray.length && (
-            <>
-              <p>Filters</p>
+            <div className="inline-flex gap-4">
+              <p className="text-base-500 text-sm">Filters</p>
               <div className="border-base-300 my-auto h-5 border-l" />
-            </>
+            </div>
           )}
           <div className="block">
             {itemsArray}
