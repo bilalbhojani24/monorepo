@@ -28,7 +28,7 @@ const StackedListItem = ({
         'relative px-4 py-5 sm:px-6 flex items-center truncate',
         {
           'px-6 hover:bg-base-50 cursor-pointer': isCard,
-          'focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-500 cursor-pointer':
+          'focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-500 cursor-pointer hover:bg-base-50':
             focusParentOnChildFocused
         },
         wrapperClassName

@@ -114,7 +114,7 @@ NarrowWithAvatarGroup.args = {
 const WithStickyHeadings = Template.bind({});
 WithStickyHeadings.args = {
   children: GroupedPeople.map(({ title, people }) => (
-    <StackedListGroup key={title} heading={title} wrapperClassName="">
+    <StackedListGroup key={title} heading={title}>
       {people.map(({ name, image, info }) => (
         <StackedListItem focusParentOnChildFocused>
           <HyperLink wrapperClassName="focus:outline-none font-normal">
@@ -145,14 +145,13 @@ TwoColumnsWithAvatar.args = {
     <StackedListGroup wrapperClassName="shadow rounded-md">
       {PeopleWithTwoCols.map(({ email, name, image, statusText, info }) => (
         <StackedListItem
-          variant="card"
           actions={<ChevronRightIcon className="fill-base-500 h-6 w-6" />}
           hideContentInSmallWidth
           key={email}
           focusParentOnChildFocused
         >
           <HyperLink
-            wrapperClassName="focus:outline-none font-normal text-base-900"
+            wrapperClassName="focus:outline-none font-normal text-base-900 md:min-w-[50%]"
             href="https://www.google.com"
           >
             {/* Add span only if want to make parent container as target to open link */}
@@ -176,16 +175,17 @@ TwoColumnsWithAvatar.args = {
                 </span>
               }
             />
-            <StackedListCommon
-              title={info}
-              subTitle={
-                <span className="mt-2 flex">
-                  <CheckCircleIcon className="fill-success-400 mr-2 h-5 w-5" />
-                  {statusText}
-                </span>
-              }
-            />
           </HyperLink>
+
+          <StackedListCommon
+            title={info}
+            subTitle={
+              <span className="mt-2 flex">
+                <CheckCircleIcon className="fill-success-400 mr-2 h-5 w-5" />
+                {statusText}
+              </span>
+            }
+          />
         </StackedListItem>
       ))}
     </StackedListGroup>
