@@ -12,20 +12,6 @@ export const getBaseUrl = () => {
   env = env && domain === 'bsstag.com' ? `${env}.` : '';
   return `${protocol}//${env}${domain}`;
 };
-export const getDocUrl = ({
-  path,
-  useProdDomain = true,
-  prependO11y = true
-}) => {
-  if (useProdDomain) {
-    return `https://browserstack.com/docs/${
-      prependO11y ? 'test-observability/' : ''
-    }${path}`;
-  }
-  return `${getBaseUrl()}/docs/${
-    prependO11y ? 'test-observability/' : ''
-  }${path}`;
-};
 export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   if (!stage) {
     let guessedStage = '';
@@ -43,6 +29,11 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   // TODO: Keeping  default  stage to staging for now, until production env is ready
   return stageConfigMapping[stage] || stageConfigMapping.staging;
 };
+
+export const getDocUrl = ({ path, prependO11y = true }) =>
+  `${getEnvConfig().baseDocUrl}/docs/${
+    prependO11y ? 'test-observability/' : ''
+  }${path}`;
 
 export const getNumericValue = (value) => +value.replace(/\D/g, '');
 
