@@ -358,7 +358,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
@@ -390,7 +390,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
