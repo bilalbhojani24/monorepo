@@ -7,7 +7,7 @@ import {
   Hyperlink,
   MdCancel,
   MdCheckCircle,
-  MdContactSupport,
+  MdHelp,
   MdOutlineAutoFixHigh,
   MdOutlineTimer,
   MdPerson,
@@ -143,7 +143,7 @@ function BuildDetailsHeader() {
     if (TEST_STATUS.UNKNOWN === status)
       return (
         <O11yMetaData
-          icon={<MdContactSupport className="h-5 w-5" />}
+          icon={<MdHelp className="h-5 w-5" />}
           metaDescription="Unknown"
           textColorClass="text-attention-500"
         />
@@ -158,7 +158,7 @@ function BuildDetailsHeader() {
       );
     return (
       <O11yMetaData
-        icon={<MdContactSupport className="h-5 w-5" />}
+        icon={<MdHelp className="h-5 w-5" />}
         metaDescription="Unknown"
         textColorClass="text-attention-500"
       />
