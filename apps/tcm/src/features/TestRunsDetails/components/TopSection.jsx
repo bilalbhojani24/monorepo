@@ -47,7 +47,7 @@ const TopSection = () => {
               testRunPageQuery
           },
           {
-            name: testRunDetails?.identifier || testRunId
+            name: testRunDetails?.identifier || '--'
           }
         ]}
         heading={
