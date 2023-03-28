@@ -298,170 +298,169 @@ function AddEditAlertModal() {
         />
 
         <O11yModalBody>
-          <form>
-            <O11ySelectMenu
-              onChange={handleSelectAlertType}
-              value={selectedTypeOfAlert}
-              disabled={modalData?.action === 'edit'}
-            >
-              <O11ySelectMenuLabel>
-                <p className="flex gap-1 text-sm font-medium leading-5">
-                  <span>Type of alert</span>
-                  <span className="text-danger-600">*</span>
-                </p>
-              </O11ySelectMenuLabel>
-              <O11ySelectMenuTrigger placeholder="Select.." value="" />
-              <O11ySelectMenuOptionGroup>
-                {Object.keys(ALERT_TYPES).map((key) => (
-                  <O11ySelectMenuOptionItem
-                    checkPosition="right"
-                    wrapperClassName="text-sm"
-                    key={key}
-                    option={{
-                      label: ALERT_TYPES_INFO[key].label,
-                      value: key
-                    }}
-                  />
-                ))}
-              </O11ySelectMenuOptionGroup>
-            </O11ySelectMenu>
-            <p className="text-base-500 mt-2 text-sm font-normal leading-5">
-              Create a custom alert from a list of predefined alert categories
-              that appear on the Build Insights tab if threshold is breached.
-            </p>
+          <O11ySelectMenu
+            onChange={handleSelectAlertType}
+            value={selectedTypeOfAlert}
+            disabled={modalData?.action === 'edit'}
+          >
+            <O11ySelectMenuLabel>
+              <p className="flex gap-1 text-sm font-medium leading-5">
+                <span>Type of alert</span>
+                <span className="text-danger-600">*</span>
+              </p>
+            </O11ySelectMenuLabel>
+            <O11ySelectMenuTrigger placeholder="Select.." value="" />
+            <O11ySelectMenuOptionGroup>
+              {Object.keys(ALERT_TYPES).map((key) => (
+                <O11ySelectMenuOptionItem
+                  checkPosition="right"
+                  wrapperClassName="text-sm"
+                  key={key}
+                  option={{
+                    label: ALERT_TYPES_INFO[key].label,
+                    value: key
+                  }}
+                />
+              ))}
+            </O11ySelectMenuOptionGroup>
+          </O11ySelectMenu>
+          <p className="text-base-500 mt-2 text-sm font-normal leading-5">
+            Create a custom alert from a list of predefined alert categories
+            that appear on the Build Insights tab if threshold is breached.
+          </p>
+          <div className="mt-4">
+            <O11yInputField
+              label="Alert name"
+              id="alert-name-value"
+              isMandatory
+              placeholder="Enter alert name"
+              value={alertName}
+              onChange={handleChangeAlertName}
+            />
+          </div>
+          <p className="text-base-700 mt-4 flex gap-1 text-sm font-medium leading-5">
+            <span>Applicable to</span>
+            <span className="text-danger-600">*</span>
+          </p>
+          <p className="text-base-500 mt-1 text-sm font-normal leading-5">
+            Select the builds where you want to apply the alerts. Alerts apply
+            only to the current project selection.
+          </p>
+          <div className="mt-4">
+            <O11yRadioGroup
+              direction="vertical"
+              selectedOption={selectedApplicableTo}
+              onChange={handleChangeApplicableTo}
+              options={Object.values(APPLICABLE_TO)}
+            />
+          </div>
+          {selectedApplicableTo?.id === APPLICABLE_TO.selective.id && (
             <div className="mt-4">
-              <O11yInputField
-                label="Alert name"
-                isMandatory
-                placeholder="Enter alert name"
-                value={alertName}
-                onChange={handleChangeAlertName}
+              <O11yComboBox
+                label=""
+                placeholder="Select a build"
+                isMulti
+                value={selectedBuilds}
+                options={buildNamesMenuOptions}
+                onChange={handleBuildNamesSelect}
               />
             </div>
-            <p className="text-base-700 mt-4 flex gap-1 text-sm font-medium leading-5">
-              <span>Applicable to</span>
-              <span className="text-danger-600">*</span>
-            </p>
-            <p className="text-base-500 mt-1 text-sm font-normal leading-5">
-              Select the builds where you want to apply the alerts. Alerts apply
-              only to the current project selection.
-            </p>
-            <div className="mt-4">
-              <O11yRadioGroup
-                direction="vertical"
-                selectedOption={selectedApplicableTo}
-                onChange={handleChangeApplicableTo}
-                options={Object.values(APPLICABLE_TO)}
-              />
-            </div>
-            {selectedApplicableTo?.id === APPLICABLE_TO.selective.id && (
-              <div className="mt-4">
-                <O11yComboBox
-                  label=""
-                  placeholder="Select a build"
-                  isMulti
-                  value={selectedBuilds}
-                  options={buildNamesMenuOptions}
-                  onChange={handleBuildNamesSelect}
+          )}
+          {ALERT_TYPES_INFO[selectedTypeOfAlert?.value] && (
+            <>
+              <p className="text-base-700 mt-4 text-sm font-medium leading-5">
+                Alert condition
+              </p>
+              <p className="text-base-500 text-sm font-normal leading-5">
+                {
+                  ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
+                    ?.alert_condition_text
+                }
+              </p>
+              <div className="mt-4 flex gap-2">
+                <AlertStaticBlock
+                  label="Level"
+                  isMandatory
+                  innerText="Critical"
+                  wrapperClass="flex-1 flex-shrink-0"
+                  boxClass=" bg-base-100"
+                  icon={<MdInfoOutline className="text-danger-600 text-xl" />}
+                />
+                <AlertStaticBlock
+                  label="Condition"
+                  isMandatory
+                  innerText={
+                    ALERT_CONDITION_MAP[
+                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition
+                    ].formLabel
+                  }
+                  wrapperClass="flex-1 flex-shrink-0"
+                  boxClass=" bg-base-100"
+                  icon={
+                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition ===
+                    ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL ? (
+                      <MdArrowForwardIos className="text-base-600 text-sm" />
+                    ) : (
+                      <MdArrowBackIos className="text-base-600 text-sm" />
+                    )
+                  }
+                />
+                <O11yInputField
+                  label={`${
+                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
+                      .placeholder_text
+                  }`}
+                  id="alert-critical-value"
+                  isMandatory
+                  placeholder="Enter numeric value"
+                  value={criticalValue}
+                  onChange={handleChangeCriticalValue}
                 />
               </div>
-            )}
-            {ALERT_TYPES_INFO[selectedTypeOfAlert?.value] && (
-              <>
-                <p className="text-base-700 mt-4 text-sm font-medium leading-5">
-                  Alert condition
-                </p>
-                <p className="text-base-500 text-sm font-normal leading-5">
-                  {
-                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                      ?.alert_condition_text
+              <div className="mt-4 flex gap-2">
+                <AlertStaticBlock
+                  label="Level"
+                  innerText="Warning"
+                  wrapperClass="flex-1 flex-shrink-0"
+                  boxClass=" bg-base-100"
+                  icon={
+                    <MdWarningAmber className="text-attention-400 text-xl" />
                   }
-                </p>
-                <div className="mt-4 flex gap-2">
-                  <AlertStaticBlock
-                    label="Level"
-                    isMandatory
-                    innerText="Critical"
-                    wrapperClass="flex-1 flex-shrink-0"
-                    boxClass=" bg-base-100"
-                    icon={<MdInfoOutline className="text-danger-600 text-xl" />}
-                  />
-                  <AlertStaticBlock
-                    label="Condition"
-                    isMandatory
-                    innerText={
-                      ALERT_CONDITION_MAP[
-                        ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition
-                      ].formLabel
-                    }
-                    wrapperClass="flex-1 flex-shrink-0"
-                    boxClass=" bg-base-100"
-                    icon={
-                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                        ?.condition ===
-                      ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL ? (
-                        <MdArrowForwardIos className="text-base-600 text-sm" />
-                      ) : (
-                        <MdArrowBackIos className="text-base-600 text-sm" />
-                      )
-                    }
-                  />
+                />
+                <AlertStaticBlock
+                  label="Condition"
+                  innerText={
+                    ALERT_CONDITION_MAP[
+                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition
+                    ].formLabel
+                  }
+                  wrapperClass="flex-1 flex-shrink-0"
+                  boxClass=" bg-base-100"
+                  icon={
+                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition ===
+                    ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL ? (
+                      <MdArrowForwardIos className="text-base-600 text-sm" />
+                    ) : (
+                      <MdArrowBackIos className="text-base-600 text-sm" />
+                    )
+                  }
+                />
+                <div className="w-48">
                   <O11yInputField
                     label={`${
                       ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
                         .placeholder_text
                     }`}
-                    isMandatory
+                    id="alert-warning-value"
                     placeholder="Enter numeric value"
-                    value={criticalValue}
-                    onChange={handleChangeCriticalValue}
+                    value={warningValue}
+                    onChange={handleChangeWarningValue}
+                    errorText={warningErrorText}
                   />
                 </div>
-                <div className="mt-4 flex gap-2">
-                  <AlertStaticBlock
-                    label="Level"
-                    innerText="Warning"
-                    wrapperClass="flex-1 flex-shrink-0"
-                    boxClass=" bg-base-100"
-                    icon={
-                      <MdWarningAmber className="text-attention-400 text-xl" />
-                    }
-                  />
-                  <AlertStaticBlock
-                    label="Condition"
-                    innerText={
-                      ALERT_CONDITION_MAP[
-                        ALERT_TYPES_INFO[selectedTypeOfAlert?.value]?.condition
-                      ].formLabel
-                    }
-                    wrapperClass="flex-1 flex-shrink-0"
-                    boxClass=" bg-base-100"
-                    icon={
-                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                        ?.condition ===
-                      ALERT_CONDITION_KEYS.GREATER_THAN_EQUAL ? (
-                        <MdArrowForwardIos className="text-base-600 text-sm" />
-                      ) : (
-                        <MdArrowBackIos className="text-base-600 text-sm" />
-                      )
-                    }
-                  />
-                  <div className="w-48">
-                    <O11yInputField
-                      label={`${
-                        ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                          .placeholder_text
-                      }`}
-                      placeholder="Enter numeric value"
-                      value={warningValue}
-                      onChange={handleChangeWarningValue}
-                      errorText={warningErrorText}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </form>
+              </div>
+            </>
+          )}
         </O11yModalBody>
 
         <O11yModalFooter position="right">

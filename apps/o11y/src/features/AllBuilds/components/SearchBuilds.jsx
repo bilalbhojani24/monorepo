@@ -50,6 +50,7 @@ const SearchBuilds = () => {
         onKeyDown={handleSearchTextChange}
         onChange={handleOnChange}
         wrapperClassName="max-w-md w-[28rem]"
+        id="all-search-value"
       />
     </>
   );
