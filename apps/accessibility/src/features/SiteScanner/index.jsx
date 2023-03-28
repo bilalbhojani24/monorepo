@@ -364,7 +364,6 @@ export default function SiteScanner() {
         }
       ];
     }
-    console.log(row);
     if (!row.recurring || !row.active) {
       rowMenuCpy = [
         {
@@ -407,7 +406,7 @@ export default function SiteScanner() {
       <div className="flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
-          <h3 className="mb-4 text-sm font-medium text-base-500">
+          <h3 className="text-base-500 mb-4 text-sm font-medium">
             Scan multiple pages in one go and schedule periodic scans to monitor
             your pages for accessibility issues
           </h3>
@@ -474,13 +473,13 @@ export default function SiteScanner() {
         }}
       >
         <Table>
-          <TableHead>
+          <TableHead wrapperClassName="border-t border-base-200">
             <TableRow>
               {columns.map((col) => (
                 <TableCell
                   key={col.key}
                   variant="header"
-                  wrapperClass="first:pr-3 last:pl-3 px-2"
+                  wrapperClassName="text-base-500 font-medium"
                 >
                   {col.name}
                 </TableCell>
@@ -512,12 +511,12 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="mr-2 max-w-xs truncate font-medium text-base-700"
+                        className="text-base-700 mr-2 max-w-xs truncate font-medium"
                       >
                         {row.name}
                       </div>
                     </div>
-                    <div className="mt-2 flex items-center font-light">
+                    <div className="mt-2 flex items-center">
                       <span className="mr-2 flex items-center">
                         <span>
                           <MdPerson className="mr-0.5" color="#9CA3AF" />
@@ -590,14 +589,16 @@ export default function SiteScanner() {
                           </TooltipBody>
                         }
                       >
-                        <span className="mr-4 flex items-center">
+                        <div className="mr-2 flex items-center">
                           <MdCheckCircle
                             color="#10B981"
                             className="mr-0.5"
                             fontSize="medium"
                           />
-                          {row?.lastScanDetails?.reportSummary?.success}
-                        </span>
+                          <p className="w-7">
+                            {row?.lastScanDetails?.reportSummary?.success}
+                          </p>
+                        </div>
                       </Tooltip>
                       <Tooltip
                         theme="dark"
@@ -608,14 +609,16 @@ export default function SiteScanner() {
                           </TooltipBody>
                         }
                       >
-                        <span className="mr-4 flex items-center">
+                        <div className="mr-2 flex items-center">
                           <MdCancel
                             color="#EF4444"
                             className="mr-0.5"
                             fontSize="medium"
                           />
-                          {row?.lastScanDetails?.reportSummary?.failure}
-                        </span>
+                          <p className="w-7">
+                            {row?.lastScanDetails?.reportSummary?.failure}
+                          </p>
+                        </div>
                       </Tooltip>
                       <Tooltip
                         theme="dark"
@@ -626,14 +629,16 @@ export default function SiteScanner() {
                           </TooltipBody>
                         }
                       >
-                        <span className="flex items-center">
+                        <div className="flex items-center">
                           <MdOutlineSync
                             color="#FFF"
-                            className="mr-0.5 rounded-full bg-attention-500"
+                            className="bg-attention-500 mr-0.5 rounded-full"
                             fontSize="medium"
                           />
-                          {row?.lastScanDetails?.reportSummary?.redirect}
-                        </span>
+                          <p className="w-7">
+                            {row?.lastScanDetails?.reportSummary?.redirect}
+                          </p>
+                        </div>
                       </Tooltip>
                     </div>
                   ) : null}
@@ -713,7 +718,7 @@ export default function SiteScanner() {
                 <span className="mr-2 flex items-center text-sm">
                   <span className="mr-0.5 flex items-center">
                     <MdPerson color="#9CA3AF" className="mr-2" />
-                    <span className="mr-2 text-base-500">
+                    <span className="text-base-500 mr-2">
                       {currentScanDetails?.createdBy?.name}
                     </span>
                   </span>{' '}

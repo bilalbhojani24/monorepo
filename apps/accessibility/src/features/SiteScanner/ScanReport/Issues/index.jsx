@@ -33,7 +33,6 @@ import {
   getUniqFilterValues
 } from 'features/Report/slice/selector';
 
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Allissues/Accordion';
 import IssueItem from '../Allissues/Accordion/IssueItem';
 
