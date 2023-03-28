@@ -127,11 +127,19 @@ const ScanRuns = ({ isLoading, scanRunData }) => {
               >
                 <div className="flex">
                   <span className="mr-2 flex items-center">
-                    <MdCheckCircle color="#10B981" className="mr-0.5" fontSize="medium" />
+                    <MdCheckCircle
+                      color="#10B981"
+                      className="mr-0.5"
+                      fontSize="medium"
+                    />
                     {row?.reportSummary?.success || 0}
                   </span>
                   <span className="mr-2 flex items-center">
-                    <MdCancel color="#EF4444" className="mr-0.5" fontSize="medium" />
+                    <MdCancel
+                      color="#EF4444"
+                      className="mr-0.5"
+                      fontSize="medium"
+                    />
                     {row?.reportSummary?.failure || 0}
                   </span>
                   <span className="mr-2 flex items-center">
