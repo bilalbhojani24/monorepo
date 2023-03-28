@@ -85,7 +85,7 @@ export const cancelRecordingSession =
         updateSessionStatus({ status: REPORT_LOADING_STATES.NOT_STARTED })
       );
 
-      await stopSession(currentSessionId);
+      await stopSession(currentSessionId, { cancelled: true });
     } catch (error) {
       if (error?.response?.status === 500) {
         throw error;
