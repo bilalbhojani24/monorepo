@@ -16,7 +16,8 @@ import {
   setTestCaseDetails,
   setTestCaseViewVisibility,
   setTestObservabilityUrl,
-  setTestResultsArray
+  setTestResultsArray,
+  setTestRunsTestCaseDetails
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseView({
@@ -59,6 +60,8 @@ export default function useTestCaseView({
           dispatch(
             setTestObservabilityUrl(data?.data?.test?.observability_url)
           );
+
+          dispatch(setTestRunsTestCaseDetails(data?.data?.test));
         });
       } else {
         getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(

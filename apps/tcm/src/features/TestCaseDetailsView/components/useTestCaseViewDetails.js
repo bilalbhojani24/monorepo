@@ -41,6 +41,9 @@ export default function useTestCaseViewDetails() {
   const testObservabilityUrl = useSelector(
     (state) => state.testCaseDetails.testObservabilityUrl
   );
+  const testRunsTestCaseDetails = useSelector(
+    (state) => state.testCaseDetails.testRunsTestCaseDetails
+  );
 
   const handleTabChange = (value, isFromTestRun, testRunId) => {
     if (isFromTestRun) {
@@ -189,6 +192,7 @@ export default function useTestCaseViewDetails() {
     hideAddIssuesModal,
     saveAddIssesModal,
     onJiraButtonClick,
-    testRunButtonClick
+    testRunButtonClick,
+    testRunsTestCaseDetails
   };
 }

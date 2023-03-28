@@ -30,12 +30,16 @@ export const testCaseDetailsSlice = createSlice({
     },
     setTestObservabilityUrl: (state, { payload }) => {
       state.testObservabilityUrl = payload;
+    },
+    setTestRunsTestCaseDetails: (state, { payload }) => {
+      state.testRunsTestCaseDetails = payload;
     }
   }
 });
 
 export const {
   setTestCaseViewVisibility,
+  setTestRunsTestCaseDetails,
   setTestCaseDetails,
   setMetaIds,
   setTestResultsArray,
