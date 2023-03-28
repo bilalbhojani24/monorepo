@@ -590,6 +590,13 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
+  const handleMenuOpen = (key, isMenuOpened) => {
+    if (key === 'tags' && !tagsArray.length && isMenuOpened)
+      dispatch(setAddTagModal(true));
+    else if (key === 'issues' && !issuesArray.length && isMenuOpened) {
+      dispatch(setAddIssuesModal(true));
+    }
+  };
   // const handleUpdateAllClicked = () => {
   //   console.log(selectedTestCase);
   //   dispatch(
@@ -661,6 +668,7 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
+    handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,

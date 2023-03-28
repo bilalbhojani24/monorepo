@@ -15,7 +15,8 @@ const TMComboBox = ({
   label,
   options,
   onChange,
-  value
+  value,
+  onOpenChange
 }) => {
   const [query, setQuery] = useState('');
 
@@ -27,17 +28,24 @@ const TMComboBox = ({
         );
 
   return (
-    <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
+    <ComboBox
+      onChange={onChange}
+      value={value}
+      isMulti={isMulti}
+      onOpenChange={onOpenChange}
+    >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
         onInputValueChange={(e) => setQuery(e.target.value)}
       />
-      <ComboboxOptionGroup>
-        {React.Children.toArray(
-          filteredOptions.map((item) => <ComboboxOptionItem option={item} />)
-        )}
-      </ComboboxOptionGroup>
+      {options.length ? (
+        <ComboboxOptionGroup>
+          {React.Children.toArray(
+            filteredOptions.map((item) => <ComboboxOptionItem option={item} />)
+          )}
+        </ComboboxOptionGroup>
+      ) : null}
     </ComboBox>
   );
 };
@@ -46,6 +54,7 @@ TMComboBox.propTypes = {
   isMulti: PropTypes.bool,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  onOpenChange: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -68,6 +77,7 @@ TMComboBox.defaultProps = {
   label: '',
   options: [],
   onChange: () => {},
+  onOpenChange: () => {},
   value: null
 };
 export default TMComboBox;

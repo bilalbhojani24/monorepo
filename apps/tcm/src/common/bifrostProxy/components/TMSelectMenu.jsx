@@ -22,7 +22,8 @@ const TMSelectMenu = forwardRef(
       isMulti,
       defaultValue,
       triggerWrapperClassName,
-      checkPosition
+      checkPosition,
+      onOpenChange
     },
     ref
   ) => (
@@ -31,6 +32,7 @@ const TMSelectMenu = forwardRef(
       value={value}
       isMulti={isMulti}
       defaultValue={defaultValue}
+      onOpenChange={onOpenChange}
     >
       {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
       <SelectMenuTrigger
@@ -41,19 +43,21 @@ const TMSelectMenu = forwardRef(
           triggerWrapperClassName
         )}
       />
-      <SelectMenuOptionGroup>
-        {React.Children.toArray(
-          options.map((item, idx) => (
-            <SelectMenuOptionItem
-              checkPosition={checkPosition}
-              option={item}
-              wrapperClassName={
-                idx === dividerIdx ? 'border-base-100 border-b' : ''
-              }
-            />
-          ))
-        )}
-      </SelectMenuOptionGroup>
+      {options.length ? (
+        <SelectMenuOptionGroup>
+          {React.Children.toArray(
+            options.map((item, idx) => (
+              <SelectMenuOptionItem
+                checkPosition={checkPosition}
+                option={item}
+                wrapperClassName={
+                  idx === dividerIdx ? 'border-base-100 border-b' : ''
+                }
+              />
+            ))
+          )}
+        </SelectMenuOptionGroup>
+      ) : null}
     </SelectMenu>
   )
 );
@@ -83,7 +87,8 @@ TMSelectMenu.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     image: PropTypes.string
-  })
+  }),
+  onOpenChange: PropTypes.func
 };
 
 TMSelectMenu.defaultProps = {
@@ -96,6 +101,7 @@ TMSelectMenu.defaultProps = {
   options: [],
   onChange: () => {},
   value: null,
-  defaultValue: null
+  defaultValue: null,
+  onOpenChange: () => {}
 };
 export default TMSelectMenu;
