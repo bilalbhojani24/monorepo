@@ -205,10 +205,8 @@ export default function CbtTrends() {
               {activeSeriesData.map((item, idx) => (
                 <div
                   className={classNames(
-                    'w-full flex flex-1 justify-between items-center px-2 py-1 text-sm text-left gap-2 text-base-900 border-b border-base-200 last:border-b-0',
-                    {
-                      '[&:not(:last-child)]:border': !item.drilldown
-                    }
+                    `w-full flex flex-1 justify-between items-center px-2 py-1
+                     text-sm text-left gap-2 text-base-900 border-b border-base-200 last:border-b-0`
                   )}
                   key={item.name}
                   role="button"

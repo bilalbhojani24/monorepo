@@ -15,6 +15,7 @@ import { getAllTTFilters } from '../slices/selectors';
 
 import TrendStatesWrapper from './TrendStatesWrapper';
 
+const FontMediumBase500 = 'font-medium text-base-500';
 const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
@@ -25,7 +26,7 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-500', {
+      wrapperClassName={twClassNames(FontMediumBase500, {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
@@ -42,7 +43,7 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       </div>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-500', {
+      wrapperClassName={twClassNames(FontMediumBase500, {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >

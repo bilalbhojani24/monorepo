@@ -135,36 +135,43 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
       hasError={hasError}
       onClickCTA={loadInitialData}
     >
-      <div className="h-96 flex-1">
-        <VirtualisedTable
-          data={stabilityData?.data}
-          endReached={loadMoreRows}
-          showFixedFooter={isLoadingMore}
-          tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
-          // tableHeaderWrapperClassName="bg-brand-900 font-semibold"
-          itemContent={(index, singleBuildData) => (
-            <StabilityTableItem
-              item={singleBuildData}
-              selectedBuild={selectedBuild}
-            />
-          )}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
-                BUILD NAME
-              </O11yTableCell>
-              <O11yTableCell
-                wrapperClassName="text-base-900 bg-white"
-                isSticky
+      {!isLoading && (
+        <div className="h-96 flex-1">
+          <VirtualisedTable
+            data={stabilityData?.data}
+            endReached={loadMoreRows}
+            showFixedFooter={isLoadingMore}
+            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
+            itemContent={(index, singleBuildData) => (
+              <StabilityTableItem
+                item={singleBuildData}
+                selectedBuild={selectedBuild}
               />
-              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
-                STABILITY
-              </O11yTableCell>
-            </O11yTableRow>
-          )}
-          handleRowClick={handleClickBuildItem}
-        />
-      </div>
+            )}
+            fixedHeaderContent={() => (
+              <O11yTableRow>
+                <O11yTableCell
+                  wrapperClassName="text-base-900 bg-white"
+                  isSticky
+                >
+                  BUILD NAME
+                </O11yTableCell>
+                <O11yTableCell
+                  wrapperClassName="text-base-900 bg-white"
+                  isSticky
+                />
+                <O11yTableCell
+                  wrapperClassName="text-base-900 bg-white"
+                  isSticky
+                >
+                  STABILITY
+                </O11yTableCell>
+              </O11yTableRow>
+            )}
+            handleRowClick={handleClickBuildItem}
+          />
+        </div>
+      )}
     </TrendStatesWrapper>
   );
 }

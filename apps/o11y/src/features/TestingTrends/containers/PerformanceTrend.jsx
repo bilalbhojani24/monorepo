@@ -12,11 +12,7 @@ export default function PerformanceTrend() {
 
   return (
     <div className="flex">
-      <div
-        className={twClassNames('w-2/5 flex flex-col', {
-          'w-full': !selectedBuild
-        })}
-      >
+      <div className={twClassNames('flex flex-col w-5/12')}>
         <PerformanceTable
           handleBuildSelect={handleBuildSelect}
           selectedBuild={selectedBuild}

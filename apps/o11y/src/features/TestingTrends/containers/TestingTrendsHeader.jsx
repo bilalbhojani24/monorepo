@@ -164,7 +164,10 @@ export default function TestingTrendsHeader() {
         </div>
 
         <div>
-          <O11ySelectMenu onChange={handleBuildChange} checkPosition="right">
+          <O11ySelectMenu
+            onChange={handleBuildChange}
+            defaultValue={activeBuild}
+          >
             <O11ySelectMenuTrigger placeholder="All Builds" />
             <O11ySelectMenuOptionGroup>
               {buildList.map((item) => (
