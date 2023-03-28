@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 
 import { ExclamationCircleIcon } from '../Icon';
 
-import './styles.scss';
-
 const InputField = forwardRef(
   (
     {
+      addOnBefore,
+      addOnAfter,
+      addOnAfterInline,
+      addOnBeforeInline,
+      addOnBeforeInlineWrapperClassName,
+      addOnAfterInlineWrapperClassName,
       autoComplete,
       cornerHintText,
       defaultValue,
@@ -17,23 +21,18 @@ const InputField = forwardRef(
       errorText,
       id,
       inputRef,
-      // isInlineLeadingAddOn,
-      // isInlineTrailingAddOn,
+      isMandatory,
       label,
-      // leadingAddOnText,
-      leadingIcon,
       onBlur,
       onChange,
       onKeyDown,
       onFocus,
       placeholder,
       readonly,
-      // trailingAddOnText,
-      trailingIcon,
       type,
       value,
-      isTrailingNodeClickable,
-      wrapperClassName
+      wrapperClassName,
+      ...props
     },
     ref
   ) => (
@@ -46,75 +45,96 @@ const InputField = forwardRef(
             className="text-base-700 block text-sm font-medium"
           >
             {label}
+            {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
           </label>
           {cornerHintText && (
             <span className="text-base-500 text-sm">{cornerHintText}</span>
           )}
         </div>
       )}
-      <div
-        className={twClassNames(
-          'relative rounded-md shadow-sm',
-          wrapperClassName
-        )}
-      >
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          {leadingIcon}
-        </div>
-        <input
-          aria-invalid={!!errorText}
-          aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
-          defaultValue={defaultValue}
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          type={type}
-          ref={ref || inputRef}
-          name={label}
-          id={id}
-          className={twClassNames(
-            'block w-full rounded-md border-base-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm',
-            {
-              'text-danger-900 border-danger-500 ring-danger-500': errorText,
-              'disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-50 disabled:text-base-500':
-                disabled,
-              'text-base-900 bg-base-50 bg-clip-padding border border-solid border-base-300 focus:text-base-700  focus:border-brand-600 focus:outline-none':
-                readonly,
-              'pl-10': !!leadingIcon,
-              'pr-10': !!trailingIcon
-            }
-          )}
-          placeholder={placeholder}
-          readOnly={readonly}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          autoComplete={autoComplete}
-        />
+      <div className={twClassNames('flex w-full shadow-sm')}>
+        {addOnBefore}
         <div
           className={twClassNames(
-            'absolute inset-y-0 right-0 flex items-center pr-3 ',
+            'rounded-md w-full flex items-center border-1 border border-base-300 z-10 ',
             {
-              'pointer-events-none': !isTrailingNodeClickable
-            }
+              'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
+                errorText,
+              'focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500':
+                !errorText,
+              'border-base-200 bg-base-50': disabled,
+              'bg-base-50 bg-clip-padding border-base-300 focus-within:border-brand-600 focus-within:outline-brand-600':
+                readonly,
+              'rounded-l-none': addOnBefore,
+              'rounded-r-none': addOnAfter
+            },
+            wrapperClassName
           )}
         >
-          {trailingIcon}
-          {errorText && (
-            <ExclamationCircleIcon
-              className="text-danger-500 h-5 w-5"
-              aria-hidden="true"
-            />
+          {addOnBeforeInline && (
+            <div
+              className={twClassNames(
+                'pl-3',
+                addOnBeforeInlineWrapperClassName
+              )}
+            >
+              {addOnBeforeInline}
+            </div>
+          )}
+          <input
+            aria-invalid={!!errorText}
+            aria-describedby={id + (errorText ? 'error-wrap' : 'label-wrap')}
+            defaultValue={defaultValue}
+            value={value}
+            disabled={disabled}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+            type={type}
+            ref={ref || inputRef}
+            name={label}
+            id={id}
+            className={twClassNames(
+              'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm disabled:cursor-not-allowed',
+              {
+                'text-danger-900 placeholder:text-danger-300': errorText,
+                'disabled:text-base-500': disabled,
+                'text-base-900 focus:text-base-700': readonly
+              }
+            )}
+            placeholder={placeholder}
+            readOnly={readonly}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            autoComplete={autoComplete}
+            {...props}
+          />
+
+          {(addOnAfterInline || errorText) && (
+            <div
+              className={twClassNames(
+                'flex items-center pr-3 gap-1',
+                addOnAfterInlineWrapperClassName
+              )}
+            >
+              {errorText && (
+                <ExclamationCircleIcon
+                  className="text-danger-500 h-5 w-5"
+                  aria-hidden="true"
+                />
+              )}
+              {addOnAfterInline}
+            </div>
           )}
         </div>
+        {addOnAfter}
       </div>
-      {description && (
-        <p className="text-base-500 mt-2 text-sm">{description}</p>
-      )}
       {errorText && (
         <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
           {errorText}
         </p>
+      )}
+      {description && (
+        <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
     </div>
   )
@@ -122,6 +142,12 @@ const InputField = forwardRef(
 
 InputField.propTypes = {
   autoComplete: PropTypes.string,
+  addOnBefore: PropTypes.node,
+  addOnAfter: PropTypes.node,
+  addOnBeforeInline: PropTypes.node,
+  addOnAfterInline: PropTypes.node,
+  addOnBeforeInlineWrapperClassName: PropTypes.string,
+  addOnAfterInlineWrapperClassName: PropTypes.string,
   cornerHintText: PropTypes.string,
   defaultValue: PropTypes.string,
   description: PropTypes.string,
@@ -132,41 +158,43 @@ InputField.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
+  isMandatory: PropTypes.bool,
   label: PropTypes.string,
-  leadingIcon: PropTypes.node,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
   placeholder: PropTypes.string,
   readonly: PropTypes.bool,
-  trailingIcon: PropTypes.node,
   type: PropTypes.string,
   value: PropTypes.string,
-  isTrailingNodeClickable: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
   autoComplete: 'off',
+  addOnBeforeInline: null,
+  addOnAfterInline: null,
+  addOnBeforeInlineWrapperClassName: '',
+  addOnAfterInlineWrapperClassName: '',
   cornerHintText: '',
   defaultValue: undefined,
   description: '',
   disabled: false,
   errorText: '',
   inputRef: null,
+  isMandatory: false,
   label: '',
-  leadingIcon: null,
+  addOnBefore: null,
+  addOnAfter: null,
   onBlur: () => {},
   onChange: () => {},
   onKeyDown: () => {},
   onFocus: () => {},
   placeholder: '',
   readonly: false,
-  trailingIcon: null,
   type: 'text',
   value: undefined,
-  isTrailingNodeClickable: false,
   wrapperClassName: ''
 };
 
