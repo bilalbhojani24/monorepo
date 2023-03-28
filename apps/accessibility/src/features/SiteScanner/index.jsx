@@ -541,7 +541,7 @@ export default function SiteScanner() {
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
                       <div className="mt-2 flex items-center">
-                        Scan Ongoing
+                        Scan ongoing
                         <svg
                           aria-hidden="true"
                           className="ml-2"
