@@ -1,12 +1,26 @@
-import { setStorage } from '@browserstack/utils';
+import { getStorage, setStorage } from '@browserstack/utils';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildInfoFromUuidApi } from 'api/builds';
-import { getProjectsListAPI } from 'api/projectlist';
+import { getProjectsListAPI, initO11y } from 'api/global';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 
+const SLICE_NAME = 'global';
+
+export const getInitialData = createAsyncThunk(
+  `${SLICE_NAME}/getInitialData`,
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await initO11y();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(null);
+    }
+  }
+);
+
 export const getProjectsList = createAsyncThunk(
-  'sidebar/getProjectsList',
-  async (data) => {
+  `${SLICE_NAME}/getProjectsList`,
+  async (data, { rejectWithValue }) => {
     try {
       const response = await getProjectsListAPI();
       return {
@@ -14,13 +28,13 @@ export const getProjectsList = createAsyncThunk(
         projectNormalisedName: data?.projectNormalisedName
       };
     } catch (err) {
-      return null;
+      return rejectWithValue(null);
     }
   }
 );
 
 export const getBuildInfoFromUuid = createAsyncThunk(
-  'base/getBuildInfoFromUuid',
+  `${SLICE_NAME}/getBuildInfoFromUuid`,
   async (data, { rejectWithValue }) => {
     try {
       const response = await getBuildInfoFromUuidApi(data.uuid);
@@ -31,8 +45,31 @@ export const getBuildInfoFromUuid = createAsyncThunk(
   }
 );
 
+export const initO11yProduct = (params) => (dispatch) =>
+  Promise.all([
+    dispatch(getInitialData())
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      }),
+    dispatch(
+      getProjectsList({
+        projectNormalisedName: encodeURI(
+          params?.projectNormalisedName ||
+            getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
+        )
+      })
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      })
+  ])
+    .then((res) => Promise.resolve(res))
+    .catch(() => null);
+
 const { actions, reducer } = createSlice({
-  name: 'global',
+  name: SLICE_NAME,
   initialState: {
     projects: {
       isLoading: true,
@@ -43,7 +80,8 @@ const { actions, reducer } = createSlice({
         normalisedName: ''
       }
     },
-    buildInfo: null
+    buildInfo: null,
+    initData: {}
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -108,6 +146,9 @@ const { actions, reducer } = createSlice({
           buildNormalisedName: payload.buildNormalisedName,
           buildSerialId: payload.buildSerialId
         };
+      })
+      .addCase(getInitialData.fulfilled, (state, { payload }) => {
+        state.initData = payload;
       });
   }
 });

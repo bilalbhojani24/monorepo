@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { getProjectsListAPI } from 'api/projectlist';
+import { getProjectsListAPI } from 'api/global';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { URL_REGEX, WRAPPER_GAP_CLASS } from 'constants/common';
