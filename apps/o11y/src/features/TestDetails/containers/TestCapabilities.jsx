@@ -18,11 +18,11 @@ const TAB_KEYS = {
 
 const TABS = {
   inputCapabilities: {
-    name: 'Input Capabilities',
+    name: 'Input',
     value: 'inputCapabilities'
   },
   outputCapabilities: {
-    name: 'Device Capabilities',
+    name: 'Device',
     value: 'outputCapabilities'
   },
   app: {
