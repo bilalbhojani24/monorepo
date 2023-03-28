@@ -62,7 +62,7 @@ const HistorySlider = () => {
         className="border-base-300 flex flex-nowrap gap-8 overflow-x-auto border-b"
         ref={scrollerRef}
       >
-        {testMeta.data.history?.map((testHistory) => (
+        {testMeta.data?.history?.map((testHistory) => (
           <HistoryItem
             key={testHistory.testRunId}
             data={testHistory}

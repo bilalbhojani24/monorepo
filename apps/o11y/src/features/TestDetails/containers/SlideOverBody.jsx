@@ -37,7 +37,7 @@ const SlideOverBody = () => {
     <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-0">
       <HistorySlider />
       <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className="overflow-auto px-6" ref={scrollParentRef}>
+      <div className="flex-1 overflow-auto px-6" ref={scrollParentRef}>
         {activeTab.value === TEST_DETAILS_TABS.logs && <LogsTab />}
         {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
       </div>

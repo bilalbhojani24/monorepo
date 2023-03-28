@@ -46,11 +46,11 @@ const InfoTab = () => {
   }, [dispatch, currentTestRunId]);
 
   if (isLoading) {
-    return <O11yLoader wrapperClassName="py-20" />;
+    return <O11yLoader wrapperClassName="w-full h-full" />;
   }
 
   return (
-    <div className="flex pt-4">
+    <div className="flex h-full w-full pt-4">
       <InfoSidebar tabs={tabs} activeTab={activeTab} onChange={onTabChange} />
       <div className="flex-1 pt-2">
         {activeTab === TABS_MAPPING.overview && <TestOverview />}
