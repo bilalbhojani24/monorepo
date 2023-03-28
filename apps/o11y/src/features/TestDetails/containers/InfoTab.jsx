@@ -50,9 +50,9 @@ const InfoTab = () => {
   }
 
   return (
-    <div className="flex h-full w-full pt-4">
+    <div className="flex h-full w-full overflow-hidden pt-4">
       <InfoSidebar tabs={tabs} activeTab={activeTab} onChange={onTabChange} />
-      <div className="flex-1 pt-2">
+      <div className="flex-1 overflow-y-auto pt-2">
         {activeTab === TABS_MAPPING.overview && <TestOverview />}
         {activeTab === TABS_MAPPING.testCode && <TestCode />}
         {activeTab === TABS_MAPPING.behaviour && <TestBehaviour />}
