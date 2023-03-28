@@ -33,6 +33,7 @@ function TestListSearch() {
       onKeyDown={handleSearchTextChange}
       onChange={handleOnChange}
       wrapperClassName="max-w-md w-[28rem]"
+      id="build-search-value"
     />
   );
 }
