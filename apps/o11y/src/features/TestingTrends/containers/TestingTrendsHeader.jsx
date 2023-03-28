@@ -176,7 +176,7 @@ export default function TestingTrendsHeader() {
             defaultValue={activeBuild}
           >
             <O11ySelectMenuTrigger placeholder="All Builds" />
-            <O11ySelectMenuOptionGroup>
+            <O11ySelectMenuOptionGroup alignment="end">
               {buildList.map((item) => (
                 <O11ySelectMenuOptionItem
                   key={item.value}
