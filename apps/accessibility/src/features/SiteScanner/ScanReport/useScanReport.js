@@ -7,6 +7,7 @@ import { fetchConsolidatedData } from 'api/siteScannerScanReports';
 import { resetReportAppInfo } from '../slices/appSlice';
 import {
   getScanLogs,
+  resetReportOverviewMetaData,
   setCustomData,
   setOverviewData
 } from '../slices/dataSlice';
@@ -19,8 +20,8 @@ import {
 
 const tabsOptions = {
   SUMMARY: { name: 'Summary', id: 'SUMMARY', index: 0 },
-  ALLISSUES: { name: 'All Issues', id: 'ALLISSUES', index: 1 },
-  SCANLOGS: { name: 'Scan Logs', id: 'SCANLOGS', index: 2 }
+  ALLISSUES: { name: 'All issues', id: 'ALLISSUES', index: 1 },
+  SCANLOGS: { name: 'Scan logs', id: 'SCANLOGS', index: 2 }
 };
 
 export default function useScanReport() {
@@ -81,23 +82,23 @@ export default function useScanReport() {
     }
   }, [scanLogsData]);
 
+  useEffect(() => () => dispatch(resetReportOverviewMetaData()), [dispatch]);
   /*
     Tab Change Handler
   */
-  const onTabChange = (tab) => {
+  function onTabChange(tab) {
     const reportId = searchParams.get('id');
     setActiveTab(tab.id);
     navigate({
       search: `?id=${reportId}&tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
-  };
+  }
 
   /*
     Scan Logs Filter Applied
   */
   const onFilterApplied = (e) => {
-    console.log(e);
     setSelected(e);
     const scanLogsStateDataCpy = { ...scanLogsData.data };
 

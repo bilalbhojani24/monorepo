@@ -103,7 +103,7 @@ export default function useSummary() {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
-      height: '100%'
+      height: '312px'
     },
     exporting: {
       enabled: false
@@ -132,7 +132,11 @@ export default function useSummary() {
         point: {
           events: {
             click: (value) => {
-              onRowClick('impact', value?.point?.options?.name.toLowerCase());
+              const impactFilterObj = {
+                label: value?.point?.options?.name,
+                value: value?.point?.options?.name.toLowerCase()
+              };
+              onRowClick('impact', impactFilterObj);
             },
             mouseOver: (value) => {
               logEvent('OnADReportView', {

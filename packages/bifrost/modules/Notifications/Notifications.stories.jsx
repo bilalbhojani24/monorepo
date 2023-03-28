@@ -17,6 +17,10 @@ const defaultConfig = {
           importStatement={"import Notifications from 'bifrost/Notifications'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=132-36335&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {

@@ -16,6 +16,10 @@ const defaultConfig = {
           importStatement={"import Switch from 'bifrost/Switch'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {
