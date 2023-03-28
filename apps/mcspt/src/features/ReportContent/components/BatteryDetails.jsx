@@ -17,15 +17,15 @@ const BatteryChart = () => {
         <MetricStat
           metricTitle="Total Power Drawn"
           metricText={`${roundTo3DecimalPlaces(
-            sessionData?.aggregated?.totalBatteryConsumedPercent?.value
+            sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value
           )} %`}
           MetricIcon={<MdInfoOutline />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.totalBatteryConsumedPercent?.value,
-            sessionData?.threshold?.totalBatteryConsumedPercent
+            sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value,
+            sessionData?.threshold?.batterymAhConsumedByAppPercent
           )}
           triangleDirection={
-            sessionData?.threshold?.totalBatteryConsumedPercent?.operator
+            sessionData?.threshold?.batterymAhConsumedByAppPercent?.operator
           }
         />
       </div>

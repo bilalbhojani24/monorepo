@@ -86,7 +86,7 @@ const ReportLoading = () => {
               className={twClassNames(
                 'mx-auto flex aspect-[9/16]',
                 'items-center justify-center',
-                'rounded-lg border-8 border-base-900 px-5',
+                'rounded-lg border-8 border-base-900',
                 {
                   'bg-base-50':
                     sessionState === REPORT_LOADING_STATES.RECORDING,

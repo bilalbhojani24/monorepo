@@ -9,7 +9,7 @@ const IssuesAudits = () => {
     useIssuesAudits();
 
   return (
-    <div className="mb-10">
+    <div className="mb-8">
       <div className="mb-3 flex flex-col rounded-lg bg-white shadow">
         <div className="border-base-300 flex items-center border-b py-4 px-6">
           <div className="mr-1 text-lg font-semibold leading-6">

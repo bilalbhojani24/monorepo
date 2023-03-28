@@ -40,7 +40,7 @@ const AuditAccordion = ({ auditDetails }) => (
     }
     panelContentNode={
       <div className="flex flex-col pl-7 pb-4">
-        <div className="mb-4 text-sm font-normal leading-5">
+        <div className="mb-2 text-sm font-normal leading-5">
           {auditDetails.subtitle}
         </div>
 
@@ -48,11 +48,11 @@ const AuditAccordion = ({ auditDetails }) => (
           <Button
             size="default"
             fullWidth={false}
-            colors="white"
-            variant="primary"
+            colors="brand"
+            variant="minimal"
             onClick={() => {}}
           >
-            Learn How to fix it.
+            Learn How to fix it
           </Button>
         </div>
       </div>
