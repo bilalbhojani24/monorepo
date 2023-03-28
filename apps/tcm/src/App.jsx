@@ -12,6 +12,7 @@ import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatus
 import SideNav from 'features/SideNav';
 
 import { PRODUCTION_HOST } from './const/immutables';
+import { setErrorLoggerUserContext } from '@browserstack/utils/src/sentry';
 
 if (window.initialized !== true) {
   window.initialized = false;
@@ -58,8 +59,9 @@ function App() {
       userAndGroupConfig?.tmUserId &&
       userAndGroupConfig?.bsGroupId &&
       userAndGroupConfig?.tmGroupId &&
-      window.location.hostname === PRODUCTION_HOST
+      (window.location.hostname === PRODUCTION_HOST || true)
     ) {
+      setErrorLoggerUserContext(userAndGroupConfig.bsUserId);
       initLogger(keys);
       window.initialized = true;
     }
