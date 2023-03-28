@@ -55,9 +55,7 @@ export default function useAddFolderModal(prop) {
   };
 
   const addSubFolderHandler = () => {
-    // if (addSubFolderCtaLoading || !prop?.folderId) return;
     setLoaders({ createFolderCta: true });
-    // dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: true }));
     addSubFolder({
       projectId: prop.projectId,
       folderId: prop?.folderId,
@@ -66,24 +64,19 @@ export default function useAddFolderModal(prop) {
       .then((item) => {
         if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
         hideFolderModal();
-        setLoaders({ createFolderCta: false });
-        // setTimeout(() => {
-        //   dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
-        // }, 500);
+        setTimeout(() => {
+          setLoaders({ createFolderCta: false });
+        }, 500);
       })
       .catch(() => {
         setLoaders({ createFolderCta: false });
-        // dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
       });
   };
 
   const addFolderHelper = () => {
-    console.log('inside add folder helper');
-    // if (addFolderCtaLoading) return;
     const addFolderAPIFunction =
       prop.projectId === 'new' ? addFolderWithoutProjectAPI : addFolder;
 
-    // dispatch(updateCtaLoading({ key: 'addFolderCta', value: true }));
     setLoaders({ createFolderCta: true });
     addFolderAPIFunction({
       projectId: prop.projectId,
@@ -92,14 +85,13 @@ export default function useAddFolderModal(prop) {
       .then((item) => {
         if (item.data?.folder) updateFolders(item.data.folder);
         hideFolderModal(item.data?.project?.id);
-        setLoaders({ createFolderCta: false });
-        // setTimeout(() => {
-        //   dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
-        // }, 500);
+
+        setTimeout(() => {
+          setLoaders({ createFolderCta: false });
+        }, 500);
       })
       .catch(() => {
         setLoaders({ createFolderCta: false });
-        // dispatch(updateCtaLoading({ key: 'addFolderCta', value: false }));
       });
   };
 

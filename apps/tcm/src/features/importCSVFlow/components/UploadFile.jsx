@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { MdFolder } from '@browserstack/bifrost';
+import { MdFolder, MdInfo, MdOutlineTextSnippet } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { ExpandLessOutlinedIcon, ExpandMoreOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -36,7 +37,8 @@ const UploadFile = () => {
     handleShowMoreFields,
     handleChangeFolderClick,
     handleUploadToRootClick,
-    hideFolderExplorerModal
+    hideFolderExplorerModal,
+    handleUpdateFolderLocationClick
   } = useImportCSV();
 
   const dispatch = useDispatch();
@@ -92,7 +94,13 @@ const UploadFile = () => {
             </>
           }
         />
-        <div className="mt-5 mb-2">Upload File:</div>
+        <div
+          className={twClassNames('mt-5 mb-2', {
+            'text-sm font-medium text-base-500': fileConfig?.fileName
+          })}
+        >
+          {fileConfig?.fileName ? 'Uploaded CSV:' : 'Upload File:'}
+        </div>
         {!fileConfig?.fileName && (
           <TMFileUpload
             linkText="Upload a file"
@@ -106,21 +114,24 @@ const UploadFile = () => {
           <TMAttachments
             attachments={[{ name: fileConfig?.fileName }]}
             onActionClick={handleFileRemove}
+            icon={<MdOutlineTextSnippet className="h-5 w-5" />}
           />
         )}
-        <div className="text-base-600 mt-4 text-sm">
-          You can also download a{' '}
-          <span
-            tabIndex={0}
-            role="button"
-            className="cursor-pointer font-semibold text-black"
-            onClick={handleDownloadSampleCSV}
-            onKeyDown={handleDownloadSampleCSV}
-          >
-            sample.csv
-          </span>{' '}
-          with instructions.
-        </div>
+        {!fileConfig?.fileName && (
+          <div className="text-base-600 mt-4 text-sm">
+            You can also download a{' '}
+            <span
+              tabIndex={0}
+              role="button"
+              className="cursor-pointer font-semibold text-black"
+              onClick={handleDownloadSampleCSV}
+              onKeyDown={handleDownloadSampleCSV}
+            >
+              sample.csv
+            </span>{' '}
+            with instructions.
+          </div>
+        )}
         <FolderInputWButton
           label="Folder Location"
           text={folderId ? selectedFolderLocation : '/'}
@@ -134,6 +145,14 @@ const UploadFile = () => {
             handleUploadToRootClick();
           }}
           icon={<MdFolder className="text-brand-400 h-5 w-5" />}
+          description={
+            folderId
+              ? 'Update your folder location where you want to import the test cases'
+              : 'Test Cases will be created at root location. New folders will be created if they are defined in the uploaded CSV.'
+          }
+          descriptionIcon={
+            !folderId ? <MdInfo className="text-base-500 mr-1 h-5 w-5" /> : null
+          }
         />
         <div className="before:border-base-300 relative mb-6 mt-4 flex w-full justify-center before:absolute before:top-1/2 before:z-0 before:w-full before:border-b ">
           <TMButton
@@ -156,20 +175,22 @@ const UploadFile = () => {
         {showMoreFields && <CSVForm />}
       </div>
       <FolderExplorerModal
-        heading="Folder Location"
-        subHeading="Chose your desired folder location where you want to move your test cases"
-        isRootAvailable
-        radioGroupTitle="Upload to:"
-        projectId={projectId}
-        selectedFolderId={folderId}
+        actionOptions={[{ id: 'add_folder', body: 'Add Sub Folder' }]}
         allFolders={allFoldersForCSV}
-        show={showChangeFolderModal}
-        trailingButton
-        showEmptyModal={projectId === 'new'}
-        onClose={hideFolderExplorerModal}
+        confirmButtonCb={handleUpdateFolderLocationClick}
         confirmButtonText="Update Location"
         folderExplorerHeader="Folders"
+        heading="Folder Location"
+        isCreateFolderButton
+        isRootAvailable
+        onClose={hideFolderExplorerModal}
+        projectId={projectId}
+        radioGroupTitle="Upload to:"
         rootFolderText="Test Cases will be created at root location. New folders will be created if they are defined in the uploaded CSV."
+        selectedFolderId={folderId}
+        show={showChangeFolderModal}
+        showEmptyModal={projectId === 'new'}
+        subHeading="Chose your desired folder location where you want to move your test cases"
       />
     </div>
   );

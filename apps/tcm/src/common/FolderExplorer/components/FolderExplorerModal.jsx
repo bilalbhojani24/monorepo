@@ -15,58 +15,51 @@ import FolderExplorer from 'common/FolderExplorer';
 import PropTypes from 'prop-types';
 
 import { moveFolderOptions } from '../../../const/immutables';
-import { setShowChangeFolderModal } from '../../../features/importCSVFlow/slices/importCSVSlice';
 
 import AddFolderModal from './AddFolderModal';
 import useFolderExplorerModal from './useFolderExplorerModal';
 
 const FolderExplorerModal = ({
-  allFolders,
   alertRequired,
-  projectId,
-  show,
-  heading,
-  subHeading,
   alertText,
-  isRootAvailable,
+  allFolders,
   confirmButtonText,
-  onClose,
+  confirmButtonCb,
   disabledFolders,
+  folderExplorerHeader,
+  heading,
+  isCreateFolderButton,
+  isRootAvailable,
   loading,
+  onClose,
+  projectId,
   radioGroupTitle,
   rootFolderText,
-  trailingButton,
+  show,
   showEmptyModal,
-  folderExplorerHeader
+  subHeading,
+  actionOptions
 }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
     moveFolderOptions[0].id
   );
-  const {
-    navigate,
-    dispatch,
-    handleCreateFolderButtonClick,
-    handleActionClick,
-    showAddFolderModal,
-    hideModalHandler,
-    parentFolderId
-  } = useFolderExplorerModal({ projectId });
   const [internalAllFolders, setInternalAllFolders] = useState(null);
 
-  // const moveFolderOnOkHandler = () => {
-  //   onOK(
-  //     primaryMoveLocation === moveFolderOptions[1]?.id ? null : selectedFolder,
-  //     internalAllFolders
-  //   );
-  // };
-  const updateFolderLocation = () => {
-    if (primaryMoveLocation === moveFolderOptions[0]?.id) {
-      navigate(`/import/csv?project=${projectId}&folder=${selectedFolder.id}`);
-    } else if (primaryMoveLocation === moveFolderOptions[1]?.id)
-      navigate(`/import/csv?project=${projectId}`);
-    dispatch(setShowChangeFolderModal(false));
-  };
+  const {
+    handleActionClick,
+    handleCreateFolderButtonClick,
+    hideAddFolderModalHandler,
+    parentFolderId,
+    showAddFolderModal,
+    handleConfirmButtonClick
+  } = useFolderExplorerModal({
+    projectId,
+    selectedFolder,
+    confirmButtonCb,
+    internalAllFolders,
+    primaryMoveLocation
+  });
 
   useEffect(() => {
     if (show) {
@@ -86,7 +79,7 @@ const FolderExplorerModal = ({
             subHeading={subHeading}
             handleDismissClick={onClose}
           />
-          {projectId && projectId !== 'new' && (
+          {projectId && !showEmptyModal && (
             <TMModalBody>
               {isRootAvailable && (
                 <div className="mb-4 flex items-center justify-start pt-1 text-sm">
@@ -107,7 +100,7 @@ const FolderExplorerModal = ({
                 <div className="border-base-300 mb-4 max-h-64 overflow-auto rounded-md border">
                   <div className="border-base-200 flex justify-between border-b py-2 px-4">
                     <span>{folderExplorerHeader}</span>
-                    {trailingButton && (
+                    {isCreateFolderButton && (
                       <TMButton
                         size="extra-small"
                         iconPlacement="end"
@@ -126,9 +119,7 @@ const FolderExplorerModal = ({
                     onFoldersUpdate={(data) => setInternalAllFolders(data)}
                     disabledFolders={disabledFolders}
                     actionsEnabled
-                    actionOptions={[
-                      { id: 'add_folder', body: 'Add Sub Folder' }
-                    ]}
+                    actionOptions={actionOptions}
                     isSingleSelect
                     actionClickHandler={handleActionClick}
                   />
@@ -182,8 +173,7 @@ const FolderExplorerModal = ({
               }
               variant="primary"
               wrapperClassName="ml-3"
-              // onClick={moveFolderOnOkHandler}
-              onClick={updateFolderLocation}
+              onClick={handleConfirmButtonClick}
               loading={loading}
               isIconOnlyButton={loading}
             >
@@ -192,13 +182,13 @@ const FolderExplorerModal = ({
           </TMModalFooter>
         </TMModal>
       )}
-      {showAddFolderModal && projectId && (
+      {showAddFolderModal && (
         <AddFolderModal
           projectId={projectId}
           show={showAddFolderModal}
           folderId={parentFolderId}
           isSubFolder={!!parentFolderId}
-          hideModal={hideModalHandler}
+          hideModal={hideAddFolderModalHandler}
         />
       )}
     </>
@@ -207,13 +197,13 @@ const FolderExplorerModal = ({
 
 FolderExplorerModal.propTypes = {
   allFolders: PropTypes.arrayOf(PropTypes.object),
+  actionOptions: PropTypes.arrayOf(PropTypes.object),
   alertRequired: PropTypes.bool,
   projectId: PropTypes.string,
-  // selectedFolderId: PropTypes.string,
   show: PropTypes.bool,
   isRootAvailable: PropTypes.bool,
   onClose: PropTypes.func,
-  // onOK: PropTypes.func,
+  confirmButtonCb: PropTypes.func,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
   confirmButtonText: PropTypes.string,
@@ -222,19 +212,20 @@ FolderExplorerModal.propTypes = {
   loading: PropTypes.bool,
   radioGroupTitle: PropTypes.string,
   rootFolderText: PropTypes.string,
-  trailingButton: PropTypes.bool,
+  isCreateFolderButton: PropTypes.bool,
   showEmptyModal: PropTypes.bool,
   folderExplorerHeader: PropTypes.string
 };
 
 FolderExplorerModal.defaultProps = {
   allFolders: [],
+  actionOptions: [],
   alertRequired: false,
   projectId: '',
   show: false,
   isRootAvailable: false,
   onClose: () => {},
-  // onOK: () => {},
+  confirmButtonCb: () => {},
   heading: '',
   subHeading: '',
   confirmButtonText: '',
@@ -243,7 +234,7 @@ FolderExplorerModal.defaultProps = {
   loading: false,
   radioGroupTitle: '',
   rootFolderText: '',
-  trailingButton: false,
+  isCreateFolderButton: false,
   showEmptyModal: false,
   folderExplorerHeader: ''
 };

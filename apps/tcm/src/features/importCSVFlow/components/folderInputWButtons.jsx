@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { TMTooltip, TMTooltipBody } from 'common/bifrostProxy';
 import { bool, func, node, string } from 'prop-types';
 
@@ -8,10 +9,12 @@ const FolderInputWButton = ({
   icon,
   firstCta,
   secondCta,
+  description,
   firstBtnDisabled,
   secondBtnDisabled,
   firstCtaClick,
-  secondCtaClick
+  secondCtaClick,
+  descriptionIcon
 }) => (
   <div className="my-5">
     <div className="text-base-500 mb-2 text-sm font-medium">{label}</div>
@@ -69,8 +72,16 @@ const FolderInputWButton = ({
         )}
       </span>
     </div>
-    <div className="text-base-500 mt-1 text-sm font-normal">
-      Update your folder location where you want to import the test cases
+    <div
+      className={twClassNames(
+        'text-base-500 mt-1 flex items-center text-sm font-normal',
+        {
+          'text-base-700': descriptionIcon
+        }
+      )}
+    >
+      {descriptionIcon}
+      {description}
     </div>
   </div>
 );
@@ -84,7 +95,9 @@ FolderInputWButton.propTypes = {
   firstBtnDisabled: bool,
   secondBtnDisabled: bool,
   firstCtaClick: func,
-  secondCtaClick: func
+  secondCtaClick: func,
+  description: string,
+  descriptionIcon: node
 };
 
 FolderInputWButton.defaultProps = {
@@ -96,7 +109,9 @@ FolderInputWButton.defaultProps = {
   firstBtnDisabled: false,
   secondBtnDisabled: false,
   firstCtaClick: () => {},
-  secondCtaClick: () => {}
+  secondCtaClick: () => {},
+  description: '',
+  descriptionIcon: null
 };
 
 export default FolderInputWButton;

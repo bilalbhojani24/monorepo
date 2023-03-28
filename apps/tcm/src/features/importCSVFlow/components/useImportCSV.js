@@ -4,6 +4,7 @@ import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
 import { getFolders } from '../../../api/folders.api';
+import { moveFolderOptions } from '../../../const/immutables';
 import { setCSVConfigurations, uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
@@ -101,10 +102,37 @@ const useImportCSV = () => {
     }
   };
 
-  // const showFolderExplorerModal = () => {
-  //   dispatch(setShowChangeFolderModal(true));
-  // };
   const hideFolderExplorerModal = () => {
+    dispatch(setShowChangeFolderModal(false));
+  };
+
+  const handleUpdateFolderLocationClick = ({
+    folderExplorerProjectId,
+    primaryMoveLocation,
+    selectedFolder
+  }) => {
+    if (primaryMoveLocation === moveFolderOptions[0]?.id) {
+      // navigate(
+      //   routeFormatter(
+      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
+      //       projectId: folderExplorerProjectId,
+      //       folderId: selectedFolder.id
+      //     }).toString()}`
+      //   )
+      // );
+      navigate(
+        `${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}&folder=${selectedFolder.id}`
+      );
+    } else if (primaryMoveLocation === moveFolderOptions[1]?.id) {
+      // navigate(
+      //   routeFormatter(
+      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
+      //       projectId: folderExplorerProjectId
+      //     }).toString()}`
+      //   )
+      // );
+      navigate(`${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}`);
+    }
     dispatch(setShowChangeFolderModal(false));
   };
 
@@ -170,6 +198,7 @@ const useImportCSV = () => {
     handleChangeFolderClick,
     handleUploadToRootClick,
     hideFolderExplorerModal,
+    handleUpdateFolderLocationClick,
     // showFolderExplorerModal,
     mappingFieldsData,
     mapFieldModalConfig,

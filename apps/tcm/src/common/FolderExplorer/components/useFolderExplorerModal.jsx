@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const useFolderExplorerModal = () => {
+const useFolderExplorerModal = ({
+  projectId,
+  selectedFolder,
+  confirmButtonCb,
+  internalAllFolders,
+  primaryMoveLocation
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
@@ -13,7 +19,7 @@ const useFolderExplorerModal = () => {
     setShowAddFolderModal(true);
   };
 
-  const hideModalHandler = () => {
+  const hideAddFolderModalHandler = () => {
     setShowAddFolderModal(false);
   };
 
@@ -22,14 +28,24 @@ const useFolderExplorerModal = () => {
     if (selectedOption?.id === 'add_folder') setParentFolderId(folder?.id);
   };
 
+  const handleConfirmButtonClick = () => {
+    confirmButtonCb?.({
+      folderExplorerProjectId: projectId,
+      internalAllFolders,
+      primaryMoveLocation,
+      selectedFolder
+    });
+  };
+
   return {
     navigate,
     dispatch,
     handleCreateFolderButtonClick,
     handleActionClick,
-    hideModalHandler,
+    hideAddFolderModalHandler,
     showAddFolderModal,
-    parentFolderId
+    parentFolderId,
+    handleConfirmButtonClick
   };
 };
 
