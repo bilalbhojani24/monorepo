@@ -7,7 +7,7 @@ import {
   globalAlertStateSelector
 } from '../../slices/globalAlertSlice';
 
-const GlobalAlert = () => {
+const GlobalAlert = ({ className }) => {
   const { kind, title, message, linkText, linkUrl } = useSelector(
     globalAlertStateSelector
   );
@@ -18,15 +18,17 @@ const GlobalAlert = () => {
   };
 
   return message ? (
-    <Alerts
-      title={title}
-      description={message}
-      modifier={kind}
-      linkText={linkText}
-      linkUrl={linkUrl}
-      dismissButton
-      dismissButtonFn={handleDismissButton}
-    />
+    <div className={className}>
+      <Alerts
+        title={title}
+        description={message}
+        modifier={kind}
+        linkText={linkText}
+        linkUrl={linkUrl}
+        dismissButton
+        dismissButtonFn={handleDismissButton}
+      />
+    </div>
   ) : null;
 };
 export default GlobalAlert;

@@ -26,6 +26,7 @@ const renderChild = ({
   areProjectsLoading,
   issueTypeFieldData,
   setIsWorkInProgress,
+  issueSearchFieldData,
   handleIssueTabChange,
   integrationToolFieldData
 }) => {
@@ -52,6 +53,7 @@ const renderChild = ({
           required
           placeholder="Select project"
           options={projects}
+          selectFirstByDefault
         />
       </div>
       <Tabs
@@ -89,6 +91,7 @@ const renderChild = ({
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
           setIsWorkInProgress={setIsWorkInProgress}
+          issueSearchFieldData={issueSearchFieldData}
           integrationToolFieldData={integrationToolFieldData}
         />
       )}

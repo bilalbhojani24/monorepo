@@ -95,15 +95,14 @@ export const CreateIssue = ({
         )}
         style={{ maxHeight: '650px' }}
       >
-        <div className="pb-6">
-          <GlobalAlert />
-        </div>
+        <GlobalAlert className="pb-6" />
         <ListOfIntegrations
           mode={mode}
           options={options}
           projectId={projectId}
           attachments={attachments}
           changeModeTo={changeModeTo}
+          discardIssue={discardIssue}
           continueEditing={continueEditing}
           isBeingDiscarded={isBeingDiscarded}
           confirmIssueDiscard={confirmIssueDiscard}

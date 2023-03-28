@@ -17,7 +17,8 @@ const TextField = ({
   validations,
   defaultValue,
   fieldErrors,
-  areSomeRequiredFieldsEmpty
+  areSomeRequiredFieldsEmpty,
+  disabled = false
 }) => {
   const [error, setError] = useState(null);
   const handleChange = (e) => {
@@ -33,9 +34,9 @@ const TextField = ({
 
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
-  const valueToRender = Array.isArray(fieldsData[fieldKey])
-    ? (fieldsData[fieldKey] || value || defaultValue || []).join(',')
-    : (fieldsData[fieldKey] || value || defaultValue) ?? '';
+  const valueToRender = Array.isArray(fieldsData?.[fieldKey])
+    ? (fieldsData?.[fieldKey] || value || defaultValue || []).join(',')
+    : (fieldsData?.[fieldKey] || value || defaultValue) ?? '';
 
   const requiredFieldError = useRequiredFieldError(
     required,
@@ -93,6 +94,7 @@ const TextField = ({
         onBlur={validateInput}
         errorText={error}
         type={schema?.field === 'numeric' ? 'number' : 'text'}
+        disabled
       />
     </div>
   );

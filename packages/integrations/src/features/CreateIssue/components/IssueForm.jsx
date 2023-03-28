@@ -69,6 +69,7 @@ const IssueForm = ({
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
+  const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
@@ -104,8 +105,8 @@ const IssueForm = ({
     });
   }, 300);
 
-  const debouncedGetUpdateMeta = makeDebounce(() => {
-    getUpdateMeta(integrationToolFieldData.value, issueFieldData.value).then(
+  const debouncedGetUpdateMeta = makeDebounce((issue) => {
+    getUpdateMeta(integrationToolFieldData.value, issue.value).then(
       ({ fields: responseFields }) => {
         setFields(responseFields);
       }
@@ -136,17 +137,22 @@ const IssueForm = ({
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData &&
-      issueFieldData?.value &&
+      issueSearchFieldData?.value &&
       mode === ISSUE_MODES.UPDATION
     ) {
-      debouncedGetUpdateMeta();
+      debouncedGetUpdateMeta(issueSearchFieldData);
+      setFieldsData({
+        ...fieldsData,
+        [FIELD_KEYS.TICKET_ID]: issueSearchFieldData,
+        [FIELD_KEYS.TICKET_ID_SEARCH]: {}
+      });
     }
   }, [
     mode,
     areProjectsLoaded,
     integrationToolFieldData,
     projectFieldData,
-    issueFieldData
+    issueSearchFieldData
     // debouncedGetUpdateMeta
   ]);
 
@@ -222,6 +228,7 @@ const IssueForm = ({
             issueTypeFieldData,
             setIsWorkInProgress,
             handleIssueTabChange,
+            issueSearchFieldData,
             setAttachments: setFiles,
             integrationToolFieldData
           })}

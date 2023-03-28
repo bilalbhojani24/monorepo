@@ -12,6 +12,6 @@ export const getTickets = (integrationKey, projectId, format) =>
         format
       }
     })
-    .then((response) => response.data.data.tickets);
+    .then((response) => response.data.data.options);
 
 // export const getProjectsThunk = createAsyncThunk('getProjects', getProjects);

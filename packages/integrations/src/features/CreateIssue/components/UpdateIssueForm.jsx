@@ -5,6 +5,7 @@ import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
+import TextField from '../../../common/components/TextInput';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
 
@@ -21,12 +22,12 @@ const UpdateIssueForm = ({
   setAttachments,
   projectFieldData,
   setIsWorkInProgress,
+  issueSearchFieldData,
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
   const [issuesOptions, setIssueOptions] = useState([]);
   const [fieldErrors, setFieldErrors] = useState({});
-  const [issueFieldValue, setIssueFieldValue] = useState(null);
   const {
     description: descriptionMeta,
     successCallback,
@@ -36,10 +37,6 @@ const UpdateIssueForm = ({
     setFieldErrors({});
   };
 
-  const clearIssueField = () => {
-    setIssueFieldValue({});
-  };
-
   useEffect(() => {
     if (projectFieldData) {
       getTickets(
@@ -47,7 +44,7 @@ const UpdateIssueForm = ({
         projectFieldData?.value,
         'single-value-select'
       ).then((response) => {
-        console.log(response);
+        setIssueOptions(response);
       });
     }
   }, [projectFieldData, integrationToolFieldData]);
@@ -91,7 +88,6 @@ const UpdateIssueForm = ({
           // ticket creation was successful
           setIssueOptions([]);
           resetMeta();
-          clearIssueField();
           if (attachments?.length) {
             // has attachments to add
             return addAttachment(
@@ -162,19 +158,17 @@ const UpdateIssueForm = ({
 
   return (
     <>
-      <div className="py-3">
+      <div className="pt-3">
         <SingleValueSelect
           required
           label="Search Issue to update"
           fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.TICKET_ID}
+          fieldKey={FIELD_KEYS.TICKET_ID_SEARCH}
           setFieldsData={setFieldsData}
           placeholder="Select with issues number, title or description"
-          optionsPath="/api/pm-tools/v1/tickets?integration_key=jira&format=single-value-select"
           options={issuesOptions}
           searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project-id=${projectFieldData?.value}&format=single-value-select&query=`}
           disabled={!projectFieldData?.value}
-          value={issueFieldValue}
         />
       </div>
       {!fields?.length && (
@@ -184,8 +178,8 @@ const UpdateIssueForm = ({
           setAttachments={setAttachments}
         />
       )}
-      {issueFieldValue && (
-        <SingleValueSelect label="Issue" disabled value={issueFieldValue} />
+      {issueFieldData && (
+        <TextField disabled label="Issue" value={issueFieldData.label} />
       )}
       <FormBuilder
         hideDescription
