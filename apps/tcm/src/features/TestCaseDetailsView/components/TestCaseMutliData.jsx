@@ -82,6 +82,7 @@ const TestCaseMutliData = ({
     <>
       <TMTabs
         id="project-tabs"
+        defaultIndex={null}
         tabsArray={TABS_ARRAY.map((item) => ({
           ...item,
           count:
