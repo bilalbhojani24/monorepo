@@ -16,6 +16,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  PageHeadings,
   Popover,
   RadioGroup,
   SelectMenu,
@@ -27,6 +28,10 @@ import {
   SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
+  StackedList,
+  StackedListCommon,
+  StackedListGroup,
+  StackedListItem,
   Switch,
   Table,
   TableBody,
@@ -58,7 +63,6 @@ export const O11yDropdownOptionItem = (props) => (
   <DropdownOptionItem {...props} />
 );
 export const O11ySlideoverFooter = (props) => <SlideoverFooter {...props} />;
-
 export const O11yTableBody = (props) => <TableBody {...props} />;
 export const O11yTableCell = (props) => <TableCell {...props} />;
 export const O11yTableHead = (props) => <TableHead {...props} />;
@@ -84,22 +88,24 @@ export const O11ySelectMenuTrigger = (props) => (
   <SelectMenuTrigger {...props} />
 );
 export const O11yTooltip = (props) => <Tooltip {...props} />;
-
 export const O11yTabs = (props) => <Tabs {...props} />;
-
 export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
-
 export const O11ySlideover = (props) => {
   const topMarginElementId = 'bstack-header';
-
   return <Slideover {...props} topMarginElementId={topMarginElementId} />;
 };
 export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
-
 export const O11yTruncateText = TruncateText;
 export const O11yAccordian = (props) => <Accordion {...props} />;
+export const O11yPageHeadings = (props) => <PageHeadings {...props} />;
+export const O11yStackedList = (props) => <StackedList {...props} />;
+export const O11yStackedListGroup = (props) => <StackedListGroup {...props} />;
+export const O11yStackedListItem = (props) => <StackedListItem {...props} />;
+export const O11yStackedListCommon = (props) => (
+  <StackedListCommon {...props} />
+);
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

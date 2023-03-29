@@ -14,6 +14,8 @@ const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
 
+const Integrations = React.lazy(() => import('features/Integrations'));
+
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
 );
@@ -124,9 +126,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.integrations_base,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <Integrations />
       }
     ]
   }
