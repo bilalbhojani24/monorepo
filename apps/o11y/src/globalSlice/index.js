@@ -81,7 +81,10 @@ const { actions, reducer } = createSlice({
       }
     },
     buildInfo: null,
-    initData: {}
+    initData: {
+      isLoading: true,
+      data: null
+    }
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -97,6 +100,9 @@ const { actions, reducer } = createSlice({
         PROJECT_NORMALISED_NAME_IDENTIFIER,
         state.projects.active.normalisedName
       );
+    },
+    setHasAcceptedTnC: (state, { payload }) => {
+      state.initData.data.hasAcceptedTnC = payload;
     }
   },
   extraReducers: (builder) => {
@@ -148,11 +154,14 @@ const { actions, reducer } = createSlice({
         };
       })
       .addCase(getInitialData.fulfilled, (state, { payload }) => {
-        state.initData = payload;
+        state.initData = {
+          isLoading: false,
+          data: payload
+        };
       });
   }
 });
 
-export const { setProjectList, setActiveProject } = actions;
+export const { setProjectList, setActiveProject, setHasAcceptedTnC } = actions;
 
 export default reducer;

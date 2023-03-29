@@ -2,4 +2,4 @@ export const getProjects = (state) => state.global.projects;
 export const getActiveProject = (state) => state.global.projects.active;
 export const getInitData = (state) => state.global.initData;
 export const getUserDetails = (state) =>
-  state.global.initData?.userDetails || {};
+  state.global.initData?.data?.userDetails || {};
