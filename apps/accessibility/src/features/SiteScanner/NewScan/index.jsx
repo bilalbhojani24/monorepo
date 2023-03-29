@@ -336,7 +336,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 ''
               )}
               <div className="pt-2">
-                Hello World
                 <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
