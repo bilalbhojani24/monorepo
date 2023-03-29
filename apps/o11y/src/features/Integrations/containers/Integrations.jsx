@@ -50,18 +50,20 @@ function Integrations() {
               id="integration-search-value"
             />
           </div>
-          <div className="w-40">
+          <div className="max-w-sm">
             <O11ySelectMenu>
               <O11ySelectMenuTrigger placeholder="All Categories" value="" />
               <O11ySelectMenuOptionGroup>
-                <O11ySelectMenuOptionItem
-                  checkPosition="right"
-                  wrapperClassName="text-sm"
-                  option={{
-                    label: 'All Categories',
-                    value: 'all'
-                  }}
-                />
+                {INTEGRATIONS.map((integration) => (
+                  <O11ySelectMenuOptionItem
+                    checkPosition="right"
+                    wrapperClassName="text-sm"
+                    option={{
+                      label: integration.name,
+                      value: integration.value
+                    }}
+                  />
+                ))}
               </O11ySelectMenuOptionGroup>
             </O11ySelectMenu>
           </div>
@@ -78,14 +80,14 @@ function Integrations() {
                   <O11yStackedListItem
                     actions={
                       <O11yButton variant="rounded" colors="white" size="small">
-                        View
+                        {integrationItem.cta.name}
                       </O11yButton>
                     }
                   >
                     <O11yStackedListCommon
                       icon={integrationItem.icon}
                       title={integrationItem.name}
-                      subTitle="Documentation"
+                      subTitle={integrationItem.type}
                     />
                   </O11yStackedListItem>
                 ))}
