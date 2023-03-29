@@ -20,7 +20,6 @@ import {
   submitMappingData
 } from '../slices/csvThunk';
 import {
-  // setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
@@ -33,9 +32,6 @@ const useMapFields = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const rowRef = useRef([]);
-  const currentSelectedModalCSVKey = useRef(null);
-  const currentSelectedModalField = useRef(null);
-  const currentSelectedModalOption = useRef(null);
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
@@ -212,7 +208,9 @@ const useMapFields = () => {
         mapped_field: value,
         show: true
       })
-    ); // isme value from api add karna hai
+    );
+    localStorage.setItem('valueMappings', JSON.stringify(valueMappings));
+    // isme value from api add karna hai
   };
 
   const handleSelectMenuChange = (field) => (selectedOption) => {
@@ -312,62 +310,54 @@ const useMapFields = () => {
   };
 
   const handleModalSelectMenuChange = (key, field) => (selectedOption) => {
-    currentSelectedModalCSVKey.current = key;
-    currentSelectedModalField.current = field;
-    currentSelectedModalOption.current = selectedOption;
+    const selectedLabel = selectedOption.label;
+    const selectedValue = selectedOption.value;
+    if (selectedLabel === ADD_VALUE_LABEL) {
+      dispatch(
+        setValueMappings({
+          key,
+          value: {
+            ...valueMappings[key],
+            [field]: { action: ADD_VALUE_VALUE }
+          }
+        })
+      );
+    } else if (selectedLabel === IGNORE_VALUE_LABEL) {
+      dispatch(
+        setValueMappings({
+          key,
+          value: {
+            ...valueMappings[key],
+            [field]: {
+              action: IGNORE_VALUE_VALUE
+            }
+          }
+        })
+      );
+    } else
+      dispatch(
+        setValueMappings({
+          key,
+          value: {
+            ...valueMappings[key],
+            [field]: selectedValue
+          }
+        })
+      );
   };
 
   const onModalCloseHandler = () => {
+    const prevValueMapping = JSON.parse(localStorage.getItem('valueMappings'));
+    Object.keys(prevValueMapping).forEach((key) => {
+      dispatch(setValueMappings({ key, value: prevValueMapping[key] }));
+    });
+    localStorage.removeItem('valueMappings');
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
-    currentSelectedModalCSVKey.current = null;
-    currentSelectedModalOption.current = null;
-    currentSelectedModalField.current = null;
   };
 
   const handleSaveClick = () => {
-    if (
-      currentSelectedModalCSVKey.current &&
-      currentSelectedModalField.current &&
-      currentSelectedModalOption.current
-    ) {
-      const selectedLabel = currentSelectedModalOption.current.value;
-
-      if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: { action: ADD_VALUE_VALUE }
-            }
-          })
-        );
-      } else if (
-        currentSelectedModalOption.current.label === IGNORE_VALUE_LABEL
-      ) {
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: {
-                action: IGNORE_VALUE_VALUE
-              }
-            }
-          })
-        );
-      } else
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: selectedLabel
-            }
-          })
-        );
-    }
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
+    localStorage.removeItem('valueMappings');
   };
 
   const handleMappingProceedClick = () => {
