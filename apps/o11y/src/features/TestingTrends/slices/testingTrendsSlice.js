@@ -10,10 +10,7 @@ import {
   getTrendStabilityChart,
   getTrendUniqueBuilds
 } from 'api/testingTrend';
-import {
-  TT_DATE_RANGE,
-  TT_PARAMS_MAPPING
-} from 'features/TestingTrends/constants';
+import { TT_PARAMS_MAPPING } from 'features/TestingTrends/constants';
 
 export const getBuildNamesData = createAsyncThunk(
   'testlist/getBuildNamesData',
@@ -127,8 +124,7 @@ const getInitialDateRange = () => {
   };
   if (dateRange !== 'custom') {
     returnData = {
-      ...returnData,
-      ...TT_DATE_RANGE[dateRange].getDuration
+      ...returnData
     };
   }
   if (dateRange === 'custom' && dateTo && dateFrom) {
@@ -179,8 +175,7 @@ const { actions, reducer } = createSlice({
     clearTTFilter: (state) => {
       state.ttFilters = {
         dateRange: {
-          key: 'days7',
-          ...TT_DATE_RANGE.days7.getDuration
+          key: 'days7'
         },
         buildName: {
           label: 'All Builds',

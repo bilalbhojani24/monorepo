@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
+import { getTTTimeBounds } from 'utils/dateTime';
 
 const getCommonFilterQuery = (filters) => {
   let queryString = '';
-  if (filters.dateRange.lowerBound && filters.dateRange.upperBound) {
-    queryString = `${queryString}&lowerBound=${filters.dateRange.lowerBound}&upperBound=${filters.dateRange.upperBound}`;
+  if (filters.dateRange.key) {
+    const { lowerBound, upperBound } = getTTTimeBounds(filters.dateRange.key);
+    queryString = `${queryString}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   if (filters?.buildName?.value !== 'all') {
     queryString = `${queryString}&buildName=${filters.buildName.value}`;

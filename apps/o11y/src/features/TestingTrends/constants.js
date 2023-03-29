@@ -1,5 +1,3 @@
-import { getSubtractedUnixTime } from 'utils/dateTime';
-
 export const TT_PARAMS_MAPPING = {
   ttDateRange: 'tt_date_range',
   ttFromDate: 'tt_from',
@@ -10,25 +8,16 @@ export const TT_PARAMS_MAPPING = {
 
 export const TT_DATE_RANGE = {
   days7: {
-    label: '7D',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(7) * 1000
-    }
+    key: 'days7',
+    label: '7D'
   },
   days30: {
-    label: '30D',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(30) * 1000
-    }
+    key: 'days30',
+    label: '30D'
   },
   months2: {
-    label: '2M',
-    getDuration: {
-      upperBound: Date.now(),
-      lowerBound: getSubtractedUnixTime(2, 'months') * 1000
-    }
+    key: 'months2',
+    label: '2M'
   }
 };
 

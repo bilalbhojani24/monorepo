@@ -49,8 +49,7 @@ export default function TestingTrendsHeader() {
     dispatch(
       setTTFilters({
         dateRange: {
-          key,
-          ...TT_DATE_RANGE[key].getDuration
+          key
         }
       })
     );

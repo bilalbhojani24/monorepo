@@ -7,6 +7,7 @@ import {
   startOfDay,
   sub
 } from 'date-fns';
+import { TT_DATE_RANGE } from 'features/TestingTrends/constants';
 
 import { extractTimezoneAbbr } from './extractTimezoneAbbr';
 
@@ -127,6 +128,23 @@ export function getTimeBounds(activeKey) {
   }
   if (SNP_DATE_RANGE.days30.key === activeKey) {
     timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+  }
+  return timebounds;
+}
+
+export function getTTTimeBounds(activeKey) {
+  const timebounds = {
+    upperBound: Date.now(),
+    lowerBound: 0
+  };
+  if (TT_DATE_RANGE.days7.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
+  }
+  if (TT_DATE_RANGE.days30.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+  }
+  if (TT_DATE_RANGE.months2.key === activeKey) {
+    timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
   }
   return timebounds;
 }
