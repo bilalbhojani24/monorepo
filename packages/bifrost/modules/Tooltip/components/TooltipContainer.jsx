@@ -88,7 +88,7 @@ const TooltipContainer = (props) => {
               sideOffset={sideOffset}
               sticky={sticky}
               className={twClassNames(
-                'z-50 rounded-md shadow bg-white py-4',
+                'z-50 rounded-md shadow bg-white py-4 space-y-2',
                 {
                   'bg-white': theme === TP_TOOLTIP_THEME[0],
                   'bg-base-800': theme === TP_TOOLTIP_THEME[1],
