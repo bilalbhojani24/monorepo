@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { MdClose, MdSearch } from '@browserstack/bifrost';
-import { O11yInputField } from 'common/bifrostProxy';
+import { O11yButton, O11yInputField } from 'common/bifrostProxy';
 
 function TestListSearch() {
   // const dispatch = useDispatch();
@@ -24,12 +24,20 @@ function TestListSearch() {
   return (
     <O11yInputField
       value={searchText}
-      trailingIcon={
-        searchText.length ? <MdClose onClick={clearSearchText} /> : null
+      addOnAfterInline={
+        searchText.length ? (
+          <O11yButton
+            variant="minimal"
+            colors="white"
+            icon={<MdClose className="text-lg" />}
+            onClick={clearSearchText}
+            isIconOnlyButton
+            size="extra-small"
+          />
+        ) : null
       }
-      leadingIcon={<MdSearch />}
+      addOnBeforeInline={<MdSearch className="text-base-400 text-lg" />}
       placeholder="Search builds by name or CI number"
-      isTrailingNodeClickable={!!searchText.length}
       onKeyDown={handleSearchTextChange}
       onChange={handleOnChange}
       wrapperClassName="max-w-md w-[28rem]"
