@@ -41,7 +41,8 @@ const BulkEditTestCase = () => {
     hideAddIssueModal,
     addIssuesSaveHelper,
     saveBulkEditHelper,
-    setBulkEditConfirm
+    setBulkEditConfirm,
+    handleMenuOpen
   } = useAddEditTestCase();
   const { initFormValues } = useTestCases();
 
@@ -200,6 +201,9 @@ const BulkEditTestCase = () => {
                 options={issuesArray}
                 value={testCaseBulkFormData?.issues}
                 onChange={(e) => handleTestCaseFieldChange('issues', e)}
+                onOpenChange={(isMenuOpened) => {
+                  handleMenuOpen('issues', isMenuOpened);
+                }}
               />
             </div>
             <TMButton

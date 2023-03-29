@@ -354,6 +354,12 @@ const useAddEditTestRun = () => {
     if (testRunId) fetchTestRunDetails(testRunId);
   };
 
+  const handleMenuOpen = (key, isMenuOpened) => {
+    if (key === 'tags' && !tagsArray.length && isMenuOpened) showAddTagsModal();
+    else if (key === 'issues' && !issuesArray.length && isMenuOpened)
+      showAddIssuesModal();
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -418,6 +424,7 @@ const useAddEditTestRun = () => {
     issuesArray,
     createTestRunsCtaLoading,
     editTestRunsCtaLoading,
+    handleMenuOpen,
     showTestCasesModal,
     handleTestRunInputFieldChange,
     showAddTagsModal,

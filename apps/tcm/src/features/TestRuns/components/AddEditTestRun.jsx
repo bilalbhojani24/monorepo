@@ -44,7 +44,8 @@ const AddEditTestRun = ({ isEdit }) => {
     initTestRunFormData,
     updatedMySelfLabelName,
     createTestRunsCtaLoading,
-    editTestRunsCtaLoading
+    editTestRunsCtaLoading,
+    handleMenuOpen
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -188,6 +189,9 @@ const AddEditTestRun = ({ isEdit }) => {
                       onChange={(e) => {
                         handleTestRunInputFieldChange('tags', e);
                       }}
+                      onOpenChange={(isMenuOpened) => {
+                        handleMenuOpen('tags', isMenuOpened);
+                      }}
                     />
                   </div>
                   <TMButton
@@ -232,6 +236,9 @@ const AddEditTestRun = ({ isEdit }) => {
                       onChange={(e) =>
                         handleTestRunInputFieldChange('issues', e)
                       }
+                      onOpenChange={(isMenuOpened) => {
+                        handleMenuOpen('issues', isMenuOpened);
+                      }}
                     />
                   </div>
                   <TMButton
