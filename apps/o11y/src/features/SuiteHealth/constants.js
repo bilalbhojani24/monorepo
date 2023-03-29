@@ -40,7 +40,7 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
     key: 'error',
     label: 'Error',
     headerClass: 'py-2 flex-1 min-w-[460px]',
-    bodyClass: 'py-3 min-w-[460px] flex-1'
+    bodyClass: 'py-3 w-[460px] flex-1'
   },
   testCount: {
     key: 'testCount',
