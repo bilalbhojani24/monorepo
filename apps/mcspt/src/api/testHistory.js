@@ -13,3 +13,17 @@ export const fetchSessionById = async (sessionId) => {
 
   return response.data;
 };
+
+export const fetchSampleSessions = async () => {
+  const response = await axios.get(`${getBaseUrl()}/sessions/sample`);
+
+  return response.data;
+};
+
+export const fetchSampleSessionById = async (sessionId) => {
+  const response = await axios.get(
+    `${getBaseUrl()}/sessions/sample/${sessionId}`
+  );
+
+  return response.data;
+};

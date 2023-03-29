@@ -1,21 +1,7 @@
 import React from 'react';
 import { Hyperlink } from '@browserstack/bifrost';
-import discordLogo from 'assets/discordLogo.png';
-import twitterLogo from 'assets/twitterLogo.png';
-import wikiLogo from 'assets/wikiLogo.png';
 
 export const sampleReportColumns = [
-  {
-    name: 'Icon',
-    key: 'appIcon',
-    cell: (row) => (
-      <>
-        <div className="flex">
-          <img src={row.logo} alt="app logo" />
-        </div>
-      </>
-    )
-  },
   {
     name: 'Application',
     key: 'application',
@@ -23,14 +9,15 @@ export const sampleReportColumns = [
       <>
         <div className="flex flex-col">
           <div className="text-base-900 text-sm font-medium leading-5">
-            {row.application}
+            {row?.package?.name}
           </div>
           <div className="text-base-500 text-sm font-normal leading-5">
-            {row.packageDetails}
+            {`${row?.package?.bundleId}∙ v${row?.package?.version}`}
           </div>
         </div>
       </>
-    )
+    ),
+    classOverrides: 'text-base-900 first:pl-0 sm:first:pl-0 py-2'
   },
   {
     name: 'Device',
@@ -38,48 +25,28 @@ export const sampleReportColumns = [
     cell: (row) => (
       <>
         <div className="text-base-900 text-sm font-medium leading-5">
-          {row.device}
+          {row?.device?.name}
         </div>
-        <div className="text-base-500 text-sm font-normal leading-5">
-          {row.osDetails}
+        <div className="text-base-500 text-sm font-normal capitalize leading-5">
+          {`${row?.device?.os} ${row?.device?.osVersion}`}
         </div>
       </>
-    )
+    ),
+    classOverrides: 'py-2'
   },
   {
     name: 'View Button',
     key: 'viewButton',
-    cell: () => (
-      <Hyperlink wrapperClassName="text-sm leading-5 font-normal ">
+    cell: (row, reportNavigationCallback) => (
+      <Hyperlink
+        wrapperClassName="text-sm leading-5 font-normal"
+        onClick={() => {
+          reportNavigationCallback(row);
+        }}
+      >
         View Sample Report
       </Hyperlink>
-    )
-  }
-];
-
-export const sampleReportRows = [
-  {
-    logo: twitterLogo,
-    application: 'Twitter',
-    device: 'iPhone 14 Pro Max',
-    time: '10:55pm',
-    packageDetails: 'com.bird.app ∙ v10.03',
-    osDetails: 'iOS 16'
-  },
-  {
-    logo: wikiLogo,
-    application: 'Wikipedia',
-    device: 'Google Pixel 7 Pro',
-    time: '10:54pm',
-    packageDetails: 'com.wikipedia.app ∙ v2.03',
-    osDetails: 'Android 13'
-  },
-  {
-    logo: discordLogo,
-    application: 'Discord',
-    device: 'Samsung Galaxy S22 Ultra',
-    time: '10:56pm',
-    packageDetails: 'com.discord.app ∙ v9.16',
-    osDetails: 'Android 13'
+    ),
+    classOverrides: 'last:pr-0 sm:last:pr-0 flex justify-end'
   }
 ];

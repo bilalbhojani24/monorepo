@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isTestHistoryLoading: false,
   showHistoricalReportLoadingModal: false,
-  previousUserSessions: []
+  previousUserSessions: [],
+  areSampleReportsLoading: false,
+  sampleReports: []
 };
 
 export const testHistorySlice = createSlice({
@@ -18,6 +20,12 @@ export const testHistorySlice = createSlice({
     },
     setShowHistoricalReportLoadingModal: (state, action) => {
       state.showHistoricalReportLoadingModal = action.payload;
+    },
+    setSampleReports: (state, action) => {
+      state.sampleReports = action.payload;
+    },
+    setAreSampleReportsLoading: (state, action) => {
+      state.areSampleReportsLoading = action.payload;
     }
   }
 });
@@ -32,11 +40,18 @@ export const getIsTestHistoryLoading = (state) =>
 export const getShowHistoricalReportLoadingModal = (state) =>
   state.testHistory.showHistoricalReportLoadingModal;
 
+export const getSampleReports = (state) => state.testHistory.sampleReports;
+
+export const getAreSampleReportsLoading = (state) =>
+  state.testHistory.areSampleReportsLoading;
+
 // Action creators are generated for each case reducer function
 export const {
   setPreviousUserSessions,
   setIsTestHistoryLoading,
-  setShowHistoricalReportLoadingModal
+  setShowHistoricalReportLoadingModal,
+  setSampleReports,
+  setAreSampleReportsLoading
 } = testHistorySlice.actions;
 
 export default testHistorySlice.reducer;
