@@ -34,7 +34,8 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
     isShowAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick
+    onJiraButtonClick,
+    getAssignedTo
   } = useTestCaseViewDetails();
 
   return (
@@ -89,10 +90,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           <div className="border-base-200 mb-4 w-full border-b" />
           <div className="flex w-full flex-wrap">
             <div className="w-3/6">
-              <DetailsSnippet
-                title="Assigned to"
-                value={testCaseDetails?.assignee?.full_name || '--'}
-              />
+              <DetailsSnippet title="Assigned to" value={getAssignedTo()} />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
