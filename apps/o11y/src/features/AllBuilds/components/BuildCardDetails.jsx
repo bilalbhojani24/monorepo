@@ -162,39 +162,41 @@ const BuildCardDetails = ({ data }) => {
               ) : null}{' '}
               <div className="mx-1 inline-block">
                 {data?.ciBuildData?.buildNumber && (
-                  <O11yTooltip
-                    theme="dark"
-                    placementSide="bottom"
-                    triggerWrapperClassName="mr-2 inline-flex items-end"
-                    wrapperClassName="py-2"
-                    content={
-                      <>
-                        {data?.ciBuildData?.jobName ? (
-                          <div className="mx-4">
-                            <p className="text-base-300 text-sm">
-                              Job name: {data?.ciBuildData?.jobName}
-                            </p>
-                          </div>
-                        ) : null}
-                      </>
-                    }
-                  >
-                    <O11yHyperlink
-                      target="_blank"
-                      href={data?.versionControlInfo?.url}
+                  <PropagationBlocker variant="span">
+                    <O11yTooltip
+                      theme="dark"
+                      placementSide="bottom"
+                      triggerWrapperClassName="mr-2 inline-flex items-end"
+                      wrapperClassName="py-2"
+                      content={
+                        <>
+                          {data?.ciBuildData?.jobName ? (
+                            <div className="mx-4">
+                              <p className="text-base-300 text-sm">
+                                Job name: {data?.ciBuildData?.jobName}
+                              </p>
+                            </div>
+                          ) : null}
+                        </>
+                      }
                     >
-                      <O11yMetaData
-                        icon={
-                          <CiIcon
-                            name={data?.ciBuildData?.name}
-                            iconProps={{ className: 'h-5 w-5 m-auto' }}
-                          />
-                        }
-                        metaDescription={`${data?.ciBuildData.name} ${data?.ciBuildData?.buildNumber}`}
-                        textColorClass="hover:text-brand-700 text-base-500 inline-flex items-baseline text-sm font-normal"
-                      />
-                    </O11yHyperlink>
-                  </O11yTooltip>
+                      <O11yHyperlink
+                        target="_blank"
+                        href={data?.versionControlInfo?.url}
+                      >
+                        <O11yMetaData
+                          icon={
+                            <CiIcon
+                              name={data?.ciBuildData?.name}
+                              iconProps={{ className: 'h-5 w-5 m-auto' }}
+                            />
+                          }
+                          metaDescription={`${data?.ciBuildData.name} ${data?.ciBuildData?.buildNumber}`}
+                          textColorClass="hover:text-brand-700 text-base-500 inline-flex items-baseline text-sm font-normal"
+                        />
+                      </O11yHyperlink>
+                    </O11yTooltip>
+                  </PropagationBlocker>
                 )}
               </div>
               <div className="mx-1 inline-block">
@@ -231,6 +233,7 @@ const BuildCardDetails = ({ data }) => {
         <PropagationBlocker>
           {data?.status && (
             <StatusBadges
+              isSmallBadges
               statusStats={data.statusStats}
               onClickHandler={(clickData) =>
                 navigateToTestPage('status', clickData)
