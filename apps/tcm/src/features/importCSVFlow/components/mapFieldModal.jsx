@@ -63,7 +63,8 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           displayOptions[i].value === value[field] ||
           (mappedField === 'Test Case Type' &&
             displayOptions[i].value === 'smoke_sanity' &&
-            value[field].toLowerCase() === 'smoke & sanity')
+            value[field].toLowerCase() === 'smoke & sanity') ||
+          displayOptions[i].value === value[field]
         ) {
           defaultSelected = displayOptions[i];
           break;
