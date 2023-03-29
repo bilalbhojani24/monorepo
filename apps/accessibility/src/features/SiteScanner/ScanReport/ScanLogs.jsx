@@ -66,7 +66,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
           width: 'calc(100vw - 256px)'
         }}
       >
-        <Table>
+        <Table containerWrapperClass="md:rounded-none shadow border-t border-base-200">
           <TableHead>
             <TableRow>
               {columns.map((col) => (

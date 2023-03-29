@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { activeInitFilters, events } from 'constants';
+import { activeInitFilters } from 'constants';
+import { getScanReportMetaData } from 'features/SiteScanner/slices/selector';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 import {
@@ -26,11 +27,11 @@ import {
   getReportFilters,
   getShowHiddenIssuesState
 } from '../../slice/selector';
-// import { logEvent } from 'utils/logEvent';
 
 export default function useIssues() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const reportOverviewMetaData = useSelector(getScanReportMetaData);
   const reportData = useSelector(getReportData);
   const customData = useSelector(getCustomData);
   const activeSwitch = useSelector(getActiveSwitch);
@@ -169,7 +170,6 @@ export default function useIssues() {
           nodes: filteredNodes
         };
       });
-      // console.log({ filteredViolations });
     }
     if (activeReportFilters.showNeedsReviewIssues) {
       filteredViolations = reportData.map((violation) => ({
@@ -324,6 +324,7 @@ export default function useIssues() {
     intermediateFilters,
     sectionData,
     showHiddenIssues,
+    reportOverviewMetaData,
     onNeedsReviewChecked,
     onHiddenIssueClick,
     onApplyFilters,
