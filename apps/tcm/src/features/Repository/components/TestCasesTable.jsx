@@ -48,6 +48,7 @@ const TestCasesTable = ({
     isAllChecked,
     isIndeterminate,
     bulkMoveTestCaseCtaLoading,
+    getOwner,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -178,9 +179,7 @@ const TestCasesTable = ({
     {
       name: 'OWNER',
       key: 'owner',
-      cell: (rowData) => (
-        <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
-      ),
+      cell: (rowData) => <span>{getOwner(rowData)}</span>,
       class: 'w-[15%]'
     },
     {
