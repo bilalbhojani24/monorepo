@@ -285,6 +285,7 @@ ContentLinksWithAction.play = async ({ canvasElement }) => {
     await expect(canvas.getByText(content.content)).toBeVisible();
   });
   await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
 };
 ContentLinksWithAction.args = {
   children: (
@@ -357,6 +358,7 @@ AvatarGroupsWithActions.play = async ({ canvasElement }) => {
     await expect(canvas.getByText(people.username)).toBeVisible();
   });
   await expect(canvas.getByText('View all')).toBeVisible();
+  await userEvent.click(canvas.getByText('View all'));
   await expect(canvas.queryAllByText('View').length).toBe(4);
 };
 AvatarGroupsWithActions.args = {
