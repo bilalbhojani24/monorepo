@@ -50,7 +50,7 @@ export default function UERow({ data }) {
             </div>
           }
           asideContent={
-            <div className="flex w-full cursor-pointer items-center rounded-b-md">
+            <div className="flex h-full w-full cursor-pointer items-center rounded-b-md">
               <UERowHeader data={data} />
             </div>
           }
