@@ -3,6 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import { oneOf } from 'prop-types';
 
+import CheckboxClone from '../../shared/CheckboxClone';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import {
   bool,
@@ -78,17 +79,8 @@ const ComboboxOptionItem = forwardRef(
               </>
             ) : (
               <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  id={option.name}
-                  className={`border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
-                    active
-                      ? 'ring-brand-500 ring-2 ring-offset-2 group-hover:ring-0 group-hover:ring-offset-0'
-                      : ''
-                  }`}
-                  readOnly
-                />
+                <CheckboxClone checked={selected} active={active} />
+
                 <label htmlFor={option.name} className="cursor-pointer">
                   {option?.visualLabel || option.label}
                 </label>
