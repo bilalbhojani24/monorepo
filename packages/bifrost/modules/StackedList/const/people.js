@@ -108,36 +108,33 @@ export const contentLinks = [
   {
     title: 'Gloria Roberston',
     time: '1d ago',
-    content:
-      'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum Doloremque dolorem maiores assumenda',
+    content: 'Doloremque dolorem maiores assumenda dolorem facilis.',
     subTitle: 'Velit placeat sit ducimus non sed'
   },
   {
     title: 'Virginia Abshire',
-    time: '1d ago',
+    time: '2d ago',
     content:
-      'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum Doloremque dolorem maiores assumenda',
+      'Velit vel in a rerum natus facere. Enim rerum Doloremque dolorem maiores assumenda',
     subTitle: 'Nemo mollitia repudiandae adipisci explic'
   },
   {
     title: 'Kyle Gulgowski',
-    time: '1d ago',
-    content:
-      'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum, Doloremque dolorem maiores assumenda',
+    time: '3d ago',
+    content: 'Enim rerum, Doloremque dolorem maiores assumenda',
     subTitle: 'Doloremque reprehenderit et harum quas'
   },
   {
     title: 'Hattie Haag',
     time: '10 ago',
-    content:
-      'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum, Doloremque dolorem maiores assumenda',
+    content: 'Doloremque dolorem maiores assumenda',
     subTitle: 'Eos sequi et aut ex impedit'
   },
   {
     title: 'Wilma Glover',
-    time: '10 ago',
+    time: '30 ago',
     content:
-      'Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere Doloremque dolorem maiores assumenda',
+      'Velit vel in a rerum natus facere Doloremque dolorem maiores assumenda',
     subTitle: 'Quisquam veniam explicabo'
   }
 ];
@@ -145,17 +142,15 @@ export const contentLinks = [
 export const contentList = [
   {
     title: 'Office closed on July 2nd',
-    content:
-      'Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut  Suscipit in dolor veritatis sequi aut. '
+    content: 'Cum qui rem deleniti.'
   },
   {
     title: 'New password policy',
-    content:
-      'Alias inventore ut autem optio voluptas et repellendus. Facere totam quaerat quam quo laudantium cumque  Suscipit in dolor veritatis sequi aut. '
+    content: 'Alias inventore ut autem optio voluptas et repellendus.'
   },
   {
-    title: 'Office closed on July 2nd',
+    title: 'Office closed on July 3nd',
     content:
-      'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure  Suscipit in dolor veritatis sequi aut. '
+      'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem.'
   }
 ];
