@@ -236,7 +236,7 @@ export default function SiteScanner() {
           </span>
           <span className="mt-2 flex items-center">
             <MdOutlineHistory className="mr-0.5" />
-            Last scan:{' '}
+            Latest scan:&nbsp;
             {row?.lastScanDetails?.lastScanDate
               ? dateFormat(
                   new Date(row.lastScanDetails.lastScanDate),
@@ -349,7 +349,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineContentCopy />
-              <span className="ml-2">Clone Scan Configuration</span>
+              <span className="ml-2">Clone scan configuration</span>
             </div>
           )
         },
@@ -358,13 +358,12 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
       ];
     }
-    console.log(row);
     if (!row.recurring || !row.active) {
       rowMenuCpy = [
         {
@@ -373,7 +372,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdAdd />
-              <span className="ml-2">New Scan</span>
+              <span className="ml-2">New scan</span>
             </div>
           )
         },
@@ -382,7 +381,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineContentCopy />
-              <span className="ml-2">Clone Scan Configuration</span>
+              <span className="ml-2">Clone scan configuration</span>
             </div>
           )
         },
@@ -391,7 +390,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
@@ -542,7 +541,7 @@ export default function SiteScanner() {
                     {row.isProcessing &&
                     Object.keys(row.lastScanDetails).length ? (
                       <div className="mt-2 flex items-center">
-                        Scan Ongoing
+                        Scan ongoing
                         <svg
                           aria-hidden="true"
                           className="ml-2"
