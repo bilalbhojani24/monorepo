@@ -27,6 +27,7 @@ const GlobalAlert = ({ className }) => {
         linkUrl={linkUrl}
         dismissButton
         dismissButtonFn={handleDismissButton}
+        alertLinkPosition="inline"
       />
     </div>
   ) : null;

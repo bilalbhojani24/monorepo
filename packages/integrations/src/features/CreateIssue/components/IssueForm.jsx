@@ -93,7 +93,7 @@ const IssueForm = ({
     if (!isBeingDiscarded && !isWorkInProgress) {
       resetMeta();
     }
-  }, [isWorkInProgress, mode]);
+  }, [mode]);
 
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
@@ -123,8 +123,7 @@ const IssueForm = ({
       integrationToolFieldData &&
       projectFieldData &&
       issueTypeFieldData &&
-      mode === ISSUE_MODES.CREATION &&
-      !isWorkInProgress
+      mode === ISSUE_MODES.CREATION
     ) {
       debouncedGetCreateMeta();
     }

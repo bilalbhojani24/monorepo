@@ -12,7 +12,6 @@ import { FIELD_KEYS } from './constants';
 const CreateIssueForm = ({
   fields,
   options,
-  resetMeta,
   fieldsData,
   attachments,
   setFieldsData,
@@ -111,7 +110,9 @@ const CreateIssueForm = ({
             successCallback(payload);
           }
           setIsFormBeingSubmitted(false);
+          return response;
         }
+        return null;
       })
       .catch((res) => {
         if (res?.message !== 'create_failed' && res?.cause?.ticket_url) {

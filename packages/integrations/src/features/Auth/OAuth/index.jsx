@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
-  Alerts,
   Button,
   CheckCircleIcon,
   MdArrowForward,
@@ -28,14 +27,58 @@ const OAuth = ({
   const dispatch = useDispatch();
   const [authWindow, setAuthWindow] = useState({});
   const OAUTH_POLL_MAX = 5;
-  const oAuthPollCounter = useRef(OAUTH_POLL_MAX);
+  const pollTimers = useRef(new Array(OAUTH_POLL_MAX));
   const authWindowName = 'browser_oauth';
+  const clearTimersAfter = (start) => {
+    for (let idx = start; idx < pollTimers.length; idx += 1) {
+      if (pollTimers[idx]) {
+        clearTimeout(pollTimers[idx]);
+      }
+    }
+  };
+
+  const pollerFn = (attempt = 1) => {
+    if (attempt <= OAUTH_POLL_MAX) {
+      getSetupStatus(integrationKey).then((response) => {
+        if (response?.data?.success && response?.data?.setup_completed) {
+          clearTimersAfter(attempt);
+          dispatch(setHasIntegrated(integrationKey));
+        } else {
+          setHasOAuthFailed(true);
+          dispatch(
+            setGlobalAlert({
+              kind: 'error',
+              message: 'There was some problem connecting to JIRA software'
+            })
+          );
+        }
+      });
+    }
+  };
+
+  const oAuthSyncPoller = () => {
+    for (
+      let oAuthPollCounter = 0;
+      oAuthPollCounter < OAUTH_POLL_MAX;
+      oAuthPollCounter += 1
+    ) {
+      // 1, 3, 6, 10, 15 ... nth term  = n(n + 1) / 2
+      const n = oAuthPollCounter + 1;
+      const delayConstant = (n * (n + 1)) / 2;
+      const timer = setTimeout(() => {
+        pollerFn(n);
+      }, delayConstant * 1000);
+      pollTimers[oAuthPollCounter] = timer;
+    }
+  };
   useEffect(() => {
     const handleMessage = (event) => {
       setIsOAuthConnecting(true);
       let message = {};
       try {
         message = JSON.parse(event.data);
+      } catch (e) {
+        return e;
       } finally {
         setIsOAuthConnecting(false);
       }
@@ -48,6 +91,8 @@ const OAuth = ({
             message: 'There was some problem connecting to JIRA software'
           })
         );
+      } else {
+        oAuthSyncPoller();
       }
       authWindow?.close();
     };
@@ -59,35 +104,6 @@ const OAuth = ({
 
   const handleAPIConnect = () => {
     showAPIToken();
-  };
-
-  const oAuthSyncPoller = () => {
-    let pollTimer = null;
-    const foo = () => {
-      if (oAuthPollCounter.current) {
-        oAuthPollCounter.current -= 1;
-        getSetupStatus(integrationKey).then((response) => {
-          if (response?.data?.success && response?.data?.setup_completed) {
-            dispatch(setHasIntegrated(integrationKey));
-          }
-        });
-      } else {
-        if (pollTimer) {
-          clearInterval(pollTimer);
-        }
-        setHasOAuthFailed(true);
-        dispatch(
-          setGlobalAlert({
-            kind: 'error',
-            message: 'There was some problem connecting to JIRA software'
-          })
-        );
-      }
-    };
-    pollTimer = setInterval(
-      foo,
-      (OAUTH_POLL_MAX - (oAuthPollCounter.current ?? 0) + 1) * 1000
-    );
   };
 
   const handleOAuthConnection = () => {
@@ -103,7 +119,7 @@ const OAuth = ({
 
       function checkChild() {
         if (childWindow.closed) {
-          oAuthSyncPoller();
+          pollerFn(OAUTH_POLL_MAX);
           clearInterval(timer);
         }
       }

@@ -45,7 +45,7 @@ const renderChild = ({
 
   return (
     <>
-      <div className="py-3">
+      <div className="pt-3">
         <SingleValueSelect
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.PROJECT}
