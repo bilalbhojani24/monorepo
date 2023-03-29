@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 
-class Pusher {
+export class Pusher {
   constructor(manager, prefix, information, authEndpoint) {
     let userAgent;
     const info = information;
@@ -145,7 +144,7 @@ class Pusher {
   //   return this;
 }
 
-class PusherManager extends Pusher {
+export class PusherManager extends Pusher {
   constructor(server, manager, prefix, information, authEndpoint) {
     super(manager, prefix, information, authEndpoint);
     this.instances = [];
