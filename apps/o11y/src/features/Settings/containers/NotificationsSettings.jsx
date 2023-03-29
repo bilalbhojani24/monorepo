@@ -14,6 +14,7 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import NotificationRowItem from '../components/NotificationRowItem';
@@ -70,6 +71,14 @@ function NotificationsSettings() {
             description: 'Notifications status toggled successfully',
             type: 'success'
           });
+          logOllyEvent({
+            event: 'O11yProjectEmailNotificationsToggled',
+            data: {
+              project_name: activeProject.name,
+              project_id: activeProject.id,
+              email_settings: !notificationsEnabled
+            }
+          });
         })
         .catch(() => {
           o11yNotify({
@@ -86,6 +95,14 @@ function NotificationsSettings() {
   };
 
   const handleClickAddUsers = () => {
+    logOllyEvent({
+      event: 'O11yProjectEmailNotificationsAddUsersClicked',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        email_settings: notificationsEnabled
+      }
+    });
     dispatch(
       toggleModal({
         version: MODAL_TYPES.add_notifications_users

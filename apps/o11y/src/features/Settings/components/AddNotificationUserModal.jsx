@@ -15,6 +15,7 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { EMAIL_VERIFICATION_REGEX, NOTIFICATION_TYPES } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 import uniqBy from 'lodash/uniqBy';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import {
@@ -71,6 +72,22 @@ function AddNotificationUserModal() {
             }))
           )
         );
+        logOllyEvent({
+          event: 'O11yProjectEmailNotificationsUsersChanged',
+          data: {
+            project_name: activeProject.name,
+            project_id: activeProject.id,
+            users_added: validUserMails.length,
+            daily_summary_subscribed:
+              selectedNotificationTypes[NOTIFICATION_TYPES.dailySummary],
+            daily_summary_removed:
+              !selectedNotificationTypes[NOTIFICATION_TYPES.dailySummary],
+            build_insights_subscribed:
+              selectedNotificationTypes[NOTIFICATION_TYPES.buildInsights],
+            build_insights_removed:
+              !selectedNotificationTypes[NOTIFICATION_TYPES.buildInsights]
+          }
+        });
         handleCloseModal();
       })
       .catch(() => {
