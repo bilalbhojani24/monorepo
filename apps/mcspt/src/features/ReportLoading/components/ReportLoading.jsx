@@ -136,6 +136,7 @@ const ReportLoading = () => {
                 onClick={() => {
                   setShowGenerateReportPrompt(true);
                 }}
+                disabled={sessionState !== REPORT_LOADING_STATES.RECORDING}
               >
                 Generate Performance Report
               </Button>
