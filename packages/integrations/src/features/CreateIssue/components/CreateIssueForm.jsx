@@ -21,7 +21,8 @@ const CreateIssueForm = ({
   cleanedIssueTypes,
   issueTypeFieldData,
   setIsWorkInProgress,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setIsFormBeingSubmitted
 }) => {
   const dispatch = useDispatch();
   const [fieldErrors, setFieldErrors] = useState({});
@@ -34,6 +35,7 @@ const CreateIssueForm = ({
     setFieldErrors({});
   };
   const handleSubmit = (formData) => {
+    setIsFormBeingSubmitted(true);
     const data = { ...fieldsData, ...formData };
     if (descriptionMeta) {
       data.description =
@@ -63,6 +65,7 @@ const CreateIssueForm = ({
             }
           });
         }
+        setIsFormBeingSubmitted(false);
         return Promise.reject(Error('create_failed'));
       })
       .then((response) => {
@@ -107,6 +110,7 @@ const CreateIssueForm = ({
             }
             successCallback(payload);
           }
+          setIsFormBeingSubmitted(false);
         }
       })
       .catch((res) => {
@@ -137,6 +141,7 @@ const CreateIssueForm = ({
             }
             successCallback(payload);
           }
+          setIsFormBeingSubmitted(false);
         }
       });
   };
@@ -153,6 +158,7 @@ const CreateIssueForm = ({
           required
           options={cleanedIssueTypes}
           selectFirstByDefault
+          selectFirstOnOptionChange
         />
       </div>
       <FormBuilder

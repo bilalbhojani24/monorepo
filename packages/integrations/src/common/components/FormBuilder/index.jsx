@@ -103,7 +103,7 @@ const FormBuilder = ({
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (typeof handleSubmit === 'function') {
-      const hasSomeEmptyRequiredFields = requiredFields.some((field) => {
+      const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];
         if (Array.isArray(stateValue) && stateValue.length === 0) return true;
         return !stateValue;

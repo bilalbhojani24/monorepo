@@ -33,7 +33,8 @@ const IssueForm = ({
   isWorkInProgress,
   isBeingDiscarded,
   confirmIssueDiscard,
-  setIsWorkInProgress
+  setIsWorkInProgress,
+  setIsFormBeingSubmitted
 }) => {
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
@@ -96,7 +97,7 @@ const IssueForm = ({
 
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
-  }, [dispatch, integrationToolFieldData.value]);
+  }, []);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
     getCreateMeta(
@@ -235,7 +236,8 @@ const IssueForm = ({
             handleIssueTabChange,
             issueSearchFieldData,
             setAttachments: setFiles,
-            integrationToolFieldData
+            integrationToolFieldData,
+            setIsFormBeingSubmitted
           })}
         </div>
       </div>

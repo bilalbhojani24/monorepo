@@ -31,10 +31,16 @@ const parseFieldsForCreateHelper = (
         const [currItemKey, currItemVal] = curr;
         // call itself with the inner property and break down the field data inc ase the
         // the property is an object
-        acc[currItemKey] = parseFieldsForCreateHelper(
-          currItemVal,
-          currItemVal.$type === 'object' ? fieldData[currItemKey] : fieldData
-        );
+        if (currItemVal.$type === 'object') {
+          if (fieldData[currItemKey]) {
+            acc[currItemKey] = parseFieldsForCreateHelper(
+              currItemVal,
+              fieldData[currItemKey]
+            );
+          }
+        } else {
+          acc[currItemKey] = parseFieldsForCreateHelper(currItemVal, fieldData);
+        }
         return acc;
       }, {});
       break;

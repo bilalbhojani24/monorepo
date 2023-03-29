@@ -40,6 +40,7 @@ export const CreateIssue = ({
 
   const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
   const [isWorkInProgress, setIsWorkInProgress] = useState(false);
+  const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const previousModeRef = useRef(null);
 
@@ -109,6 +110,7 @@ export const CreateIssue = ({
           isBeingDiscarded={isBeingDiscarded}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
@@ -116,7 +118,15 @@ export const CreateIssue = ({
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>
-          <Button type="submit" form="form-builder">
+          <Button
+            type="submit"
+            form="form-builder"
+            loading={isFormBeingSubmitted}
+            loaderText={
+              mode === ISSUE_MODES.CREATION ? 'Creating...' : 'Updating...'
+            }
+            disabled={!isWorkInProgress}
+          >
             {mode === ISSUE_MODES.CREATION ? 'Create Issue' : 'Update Issue'}
           </Button>
         </div>

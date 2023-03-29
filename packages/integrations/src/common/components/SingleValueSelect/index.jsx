@@ -29,6 +29,7 @@ const SingleValueSelect = ({
   setFieldsData,
   wrapperClassName,
   selectFirstByDefault = false,
+  selectFirstOnOptionChange = false,
   areSomeRequiredFieldsEmpty
 }) => {
   const cleanOptions = (data) =>
@@ -102,10 +103,11 @@ const SingleValueSelect = ({
 
   useEffect(() => {
     if (
-      selectFirstByDefault &&
-      typeof setFieldsData === 'function' &&
-      (!fieldsData?.[fieldKey]?.length < 1 ||
-        optionsToRender !== previousOptions)
+      (typeof setFieldsData === 'function' &&
+        !fieldsData?.[fieldKey] &&
+        selectFirstByDefault &&
+        optionsToRender[0]) ||
+      (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
       setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
     }

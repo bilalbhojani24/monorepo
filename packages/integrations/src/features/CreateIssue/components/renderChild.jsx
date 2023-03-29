@@ -28,7 +28,8 @@ const renderChild = ({
   setIsWorkInProgress,
   issueSearchFieldData,
   handleIssueTabChange,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setIsFormBeingSubmitted
 }) => {
   if (areProjectsLoading) {
     return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
@@ -77,6 +78,7 @@ const renderChild = ({
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
           integrationToolFieldData={integrationToolFieldData}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       ) : (
         <UpdateIssueForm
@@ -93,6 +95,7 @@ const renderChild = ({
           setIsWorkInProgress={setIsWorkInProgress}
           issueSearchFieldData={issueSearchFieldData}
           integrationToolFieldData={integrationToolFieldData}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       )}
     </>

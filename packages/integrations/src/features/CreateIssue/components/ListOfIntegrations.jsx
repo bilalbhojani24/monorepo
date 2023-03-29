@@ -36,7 +36,8 @@ const ListOfIntegrations = ({
   isWorkInProgress,
   setReadyToSubmit,
   confirmIssueDiscard,
-  setIsWorkInProgress
+  setIsWorkInProgress,
+  setIsFormBeingSubmitted
 }) => {
   const integrations = useSelector(integrationsSelector);
   // user has single integration available
@@ -59,6 +60,7 @@ const ListOfIntegrations = ({
         isWorkInProgress={isWorkInProgress}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}
+        setIsFormBeingSubmitted={setIsFormBeingSubmitted}
       />
     );
   }

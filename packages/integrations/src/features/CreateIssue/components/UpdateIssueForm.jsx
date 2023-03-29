@@ -23,6 +23,7 @@ const UpdateIssueForm = ({
   projectFieldData,
   setIsWorkInProgress,
   issueSearchFieldData,
+  setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const UpdateIssueForm = ({
   }, [projectFieldData, integrationToolFieldData]);
 
   const handleSubmit = (formData) => {
+    setIsFormBeingSubmitted(true);
     const data = { ...fieldsData, ...formData };
     if (descriptionMeta) {
       data.comment =
@@ -81,6 +83,7 @@ const UpdateIssueForm = ({
             }
           });
         }
+        setIsFormBeingSubmitted(false);
         return Promise.reject(Error('update_failed'));
       })
       .then((response) => {
@@ -125,6 +128,7 @@ const UpdateIssueForm = ({
             }
             successCallback(payload);
           }
+          setIsFormBeingSubmitted(false);
         }
       })
       .catch((res) => {
@@ -152,6 +156,7 @@ const UpdateIssueForm = ({
             }
             successCallback(payload);
           }
+          setIsFormBeingSubmitted(false);
         }
       });
   };
