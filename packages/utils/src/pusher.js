@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
-// eslint-disable-next-line no-unused-vars
+
 class Pusher {
   constructor(manager, prefix, information, authEndpoint) {
     let userAgent;
@@ -40,7 +42,6 @@ class Pusher {
 
   log(msg) {
     if (this.pusherLogging) {
-      // eslint-disable-next-line no-console
       console.log(`::PUSHER ${this.prefix}::`, msg);
     }
   }
@@ -144,7 +145,6 @@ class Pusher {
   //   return this;
 }
 
-// eslint-disable-next-line no-unused-vars
 class PusherManager extends Pusher {
   constructor(server, manager, prefix, information, authEndpoint) {
     super(manager, prefix, information, authEndpoint);
@@ -159,17 +159,18 @@ class PusherManager extends Pusher {
 
   log(msg) {
     if (this.pusherManagerLogging) {
-      // eslint-disable-next-line no-console
       console.log('::PUSHER MANAGER::', msg);
     }
   }
 
   connect() {
     this.reconnectionAttempts = 0;
-    this.socket = io120(this.server, {
-      transports: ['websocket'],
-      'force new connection': true
-    });
+
+    // TODO Enable this snippet after finding out wth is io120
+    // this.socket = io120(this.server, {
+    //   transports: ['websocket'],
+    //   'force new connection': true
+    // });
 
     this.socket.on('reconnect_attempt', () => {
       this.reconnectionAttempts += 1;
@@ -184,14 +185,13 @@ class PusherManager extends Pusher {
     });
 
     this.socket.on('connect', () => {
-      let i;
       this.log('SocketIO Connected');
-      for (i in this.instances) {
+      this.instances.forEach((instance, i) => {
         if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
           this.instances[i].status = 'connected';
           this.init(this.instances[i]);
         }
-      }
+      });
 
       if (typeof this.customPusherConnectHandler === 'function') {
         this.customPusherConnectHandler();
@@ -199,28 +199,25 @@ class PusherManager extends Pusher {
     });
 
     this.socket.on('disconnect', () => {
-      let i;
       this.log('SocketIO Disconnected');
-
-      for (i in this.instances) {
+      this.instances.forEach((instance, i) => {
         if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
           this.instances[i].status = 'disconnected';
           this.instances[i].disconnected_at = new Date().getTime();
           this.instances[i].trigger('disconnect');
         }
-      }
+      });
     });
 
     this.socket.on('subscribed', (data) => {
-      let i;
       this.log(`Channel subscribed: ${data}`);
 
-      for (i in this.instances) {
+      this.instances.forEach((instance, i) => {
         if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
           this.instances[i].status = 'subscribed';
           this.instances[i].trigger('subscribed', data);
         }
-      }
+      });
     });
 
     this.socket.on('error', (e) => {
