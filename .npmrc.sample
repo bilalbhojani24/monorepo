@@ -3,3 +3,4 @@
 registry=https://registry.npmjs.org
 auto-install-peers=true
 link-workspace-packages=false
+
