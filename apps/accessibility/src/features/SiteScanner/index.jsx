@@ -43,7 +43,7 @@ import {
   stopRecurringScans
 } from '../../api/siteScannerScanConfigs';
 import Loader from '../../common/Loader/index';
-import NewScanLogo from 'assets/noScan.svg'
+import NewScanLogo from 'assets/noScans.svg'
 import { getWcagVersionFromVal } from '../../utils/helper';
 
 import { getScanConfigs } from './slices/dataSlice';
