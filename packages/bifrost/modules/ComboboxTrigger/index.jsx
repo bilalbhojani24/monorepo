@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
+import { bool } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { func, string } from '../../shared/proptypesConstants';
@@ -11,7 +12,11 @@ import Loader from '../Loader';
 import TriggerButton from './component/TriggerButton';
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
-const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
+const ComboboxTrigger = ({
+  onInputValueChange,
+  placeholder,
+  clearInputOnFocus
+}) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
 
@@ -57,7 +62,8 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
           readOnly={isLoading}
           autoComplete="off"
           onFocus={() => {
-            if (comboInputRef.current) comboInputRef.current.value = '';
+            if (clearInputOnFocus && comboInputRef.current)
+              comboInputRef.current.value = '';
           }}
         />
         {isLoading && (
@@ -89,10 +95,12 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
 };
 
 ComboboxTrigger.propTypes = {
+  clearInputOnFocus: bool,
   onInputValueChange: func,
   placeholder: string
 };
 ComboboxTrigger.defaultProps = {
+  clearInputOnFocus: false,
   onInputValueChange: null,
   placeholder: ''
 };
