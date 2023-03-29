@@ -367,6 +367,15 @@ export default function SiteScanner() {
     if (!row.recurring || !row.active) {
       rowMenuCpy = [
         {
+          id: 'lastScanRun',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineHistory />
+              <span className="ml-2">View latest scan run</span>
+            </div>
+          )
+        },
+        {
           id: 'newScanRun',
           value: 'newScanRun',
           body: (
@@ -382,15 +391,6 @@ export default function SiteScanner() {
             <div className="flex items-center">
               <MdOutlineContentCopy />
               <span className="ml-2">Clone scan configuration</span>
-            </div>
-          )
-        },
-        {
-          id: 'lastScanRun',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineHistory />
-              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
