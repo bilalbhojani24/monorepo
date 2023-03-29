@@ -7,6 +7,8 @@ import {
   MapPinIcon,
   UsersIcon
 } from '@heroicons/react/20/solid';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
@@ -89,6 +91,13 @@ const defaultConfig = {
 const Template = (args) => <StackedList {...args} />;
 
 const NarrowWithAvatarGroup = Template.bind({});
+NarrowWithAvatarGroup.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  People.forEach(async (person) => {
+    await expect(canvas.getByText(person.name)).toBeVisible();
+    await expect(canvas.getByText(person.email)).toBeVisible();
+  });
+};
 NarrowWithAvatarGroup.parameters = {
   controls: {}
 };
@@ -112,6 +121,23 @@ NarrowWithAvatarGroup.args = {
 };
 
 const WithStickyHeadings = Template.bind({});
+WithStickyHeadings.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let Alist = GroupedPeople[0];
+  await expect(canvas.getByText(Alist.title)).toBeVisible();
+  let Blist = GroupedPeople[1];
+  await expect(canvas.getByText(Blist.title)).toBeVisible();
+  Alist = Alist.people;
+  Blist = Blist.people;
+  Alist.forEach(async (al) => {
+    await expect(canvas.getByText(al.name)).toBeVisible();
+    await expect(canvas.getByText(al.info)).toBeVisible();
+  });
+  Blist.forEach(async (bl) => {
+    await expect(canvas.getByText(bl.name)).toBeVisible();
+    await expect(canvas.getByText(bl.info)).toBeVisible();
+  });
+};
 WithStickyHeadings.args = {
   children: GroupedPeople.map(({ title, people }) => (
     <StackedListGroup key={title} heading={title}>
@@ -140,6 +166,15 @@ WithStickyHeadings.parameters = {
 };
 
 const TwoColumnsWithAvatar = Template.bind({});
+TwoColumnsWithAvatar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  PeopleWithTwoCols.forEach(async (person) => {
+    await expect(canvas.getByText(person.name)).toBeVisible();
+    await expect(canvas.getByText(person.email)).toBeVisible();
+    await expect(canvas.queryAllByText(person.info).length).toBe(3);
+    await expect(canvas.queryAllByText(person.statusText).length).toBe(3);
+  });
+};
 TwoColumnsWithAvatar.args = {
   isCard: true,
   children: (
@@ -195,6 +230,12 @@ TwoColumnsWithAvatar.args = {
 };
 
 const WithRightJustifiedSecondColumn = Template.bind({});
+WithRightJustifiedSecondColumn.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  JobTitles.forEach(async (jobTitle) => {
+    await expect(canvas.getByText(jobTitle)).toBeVisible();
+  });
+};
 WithRightJustifiedSecondColumn.args = {
   isCard: true,
   children: (
@@ -237,6 +278,14 @@ WithRightJustifiedSecondColumn.args = {
 };
 
 const ContentLinksWithAction = Template.bind({});
+ContentLinksWithAction.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  contentList.forEach(async (content) => {
+    await expect(canvas.getByText(content.title)).toBeVisible();
+    await expect(canvas.getByText(content.content)).toBeVisible();
+  });
+  await expect(canvas.getByRole('button')).toBeVisible();
+};
 ContentLinksWithAction.args = {
   children: (
     <StackedListGroup>
@@ -261,6 +310,15 @@ ContentLinksWithAction.args = {
 };
 
 const WithTruncatedContentPreview = Template.bind({});
+WithTruncatedContentPreview.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  contentLinks.forEach(async (content) => {
+    await expect(canvas.getByText(content.title)).toBeVisible();
+    await expect(canvas.getByText(content.time)).toBeVisible();
+    await expect(canvas.getByText(content.subTitle)).toBeVisible();
+    await expect(canvas.getByText(content.content)).toBeVisible();
+  });
+};
 WithTruncatedContentPreview.args = {
   footer: null,
   isCard: true,
@@ -292,6 +350,15 @@ WithTruncatedContentPreview.args = {
 };
 
 const AvatarGroupsWithActions = Template.bind({});
+AvatarGroupsWithActions.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  AvatarGroupPeople.forEach(async (people) => {
+    await expect(canvas.getByText(people.name)).toBeVisible();
+    await expect(canvas.getByText(people.username)).toBeVisible();
+  });
+  await expect(canvas.getByText('View all')).toBeVisible();
+  await expect(canvas.queryAllByText('View').length).toBe(4);
+};
 AvatarGroupsWithActions.args = {
   children: (
     <StackedListGroup>
