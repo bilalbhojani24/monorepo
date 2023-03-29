@@ -104,7 +104,7 @@ const VirtualisedTable = ({
   return (
     <TableVirtuoso
       {...getScrollProps()}
-      style={{ height: '100%', width: '100%', ...style }}
+      style={{ height: '100%', width: '100%', zIndex: 0, ...style }}
       data={data}
       endReached={endReached}
       overscan={overscan}

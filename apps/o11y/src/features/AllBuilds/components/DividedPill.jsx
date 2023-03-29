@@ -4,11 +4,15 @@ import PropagationBlocker from 'common/PropagationBlocker';
 
 import { aggregateColors } from '../constants';
 
-function DividedPill({ data }) {
+function DividedPill({ data, logBuildListingInteracted }) {
   const navigate = useNavigate();
   const { projectNormalisedName } = useParams();
 
   const handleChartClick = (itemClicked) => {
+    const interactionName = `${itemClicked
+      .replace(' ', '_')
+      .toLowerCase()}_clicked`;
+    logBuildListingInteracted(interactionName);
     let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
     endpoint += `&issueTypeGroup=${itemClicked}`;
     navigate(endpoint);

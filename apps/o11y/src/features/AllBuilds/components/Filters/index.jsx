@@ -130,7 +130,7 @@ const Filters = () => {
                           withoutTime: true,
                           dateFormat: 'yyyy-MM-dd'
                         })
-                      : '00-00-0000'
+                      : '0000-00-00'
                   }
                   onChange={(e) => onChangeUpperLowerBound(e, 'lowerBound')}
                   placeholder="Start Date"
@@ -156,7 +156,7 @@ const Filters = () => {
                           withoutTime: true,
                           dateFormat: 'yyyy-MM-dd'
                         })
-                      : '00-00-0000'
+                      : '0000-00-00'
                   }
                   onChange={(e) => onChangeUpperLowerBound(e, 'upperBound')}
                   type="date"

@@ -20,7 +20,6 @@ import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
-import VCIcon from 'common/VCIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
@@ -44,19 +43,29 @@ const BuildCardDetails = ({ data }) => {
     if (TEST_STATUS.PENDING === status) {
       return (
         <div className="h-8 w-8">
-          <O11yLoader loaderClass="text-base-300 fill-base-400 h-8 w-8 self-center p-1" />
+          <O11yLoader loaderClass="flex-shrink-0 text-base-300 fill-base-400 h-8 w-8 self-center p-1" />
         </div>
       );
     }
     if (TEST_STATUS.FAIL === status)
-      return <MdCancel className="text-danger-500 h-8 w-8 self-center" />;
+      return (
+        <MdCancel className="text-danger-500 h-8 w-8 shrink-0 self-center" />
+      );
     if (TEST_STATUS.PASS === status)
-      return <MdCheckCircle className="text-success-500 h-8 w-8 self-center" />;
+      return (
+        <MdCheckCircle className="text-success-500 h-8 w-8 shrink-0 self-center" />
+      );
     if (TEST_STATUS.UNKNOWN === status)
-      return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
+      return (
+        <MdHelp className="text-attention-500 h-8 w-8 shrink-0 self-center" />
+      );
     if (TEST_STATUS.SKIPPED === status)
-      return <MdRemoveCircle className="text-base-500 h-8 w-8 self-center" />;
-    return <MdHelp className="text-attention-500 h-8 w-8 self-center" />;
+      return (
+        <MdRemoveCircle className="text-base-500 h-8 w-8 shrink-0 self-center" />
+      );
+    return (
+      <MdHelp className="text-attention-500  h-8 w-8 shrink-0 self-center" />
+    );
   };
 
   const addFilterTag = (item) => {
@@ -69,31 +78,59 @@ const BuildCardDetails = ({ data }) => {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const logBuildListingInteracted = ({ buildName, interaction }) => {
+  const logBuildListingInteracted = (interaction) => {
     logOllyEvent({
       event: 'O11yBuildListingInteracted',
       project_name: activeProject.name,
-      build_name: buildName,
+      build_name: data?.isAutoDetectedName ? data?.originalName : data?.name,
       interaction
     });
   };
 
+  const handleCIClicked = () => logBuildListingInteracted('ci_link_clicked');
+  const investigationRequiredClicked = () =>
+    logBuildListingInteracted('to_be_investigated_clicked');
+  const noDefectClicked = () => logBuildListingInteracted('no_defect_clicked');
+  const buildCardNameClicked = () =>
+    logBuildListingInteracted('build_name_card_clicked');
+  const onAutoDetectLearnMoreClick = () =>
+    logBuildListingInteracted('auto_detect_learn_more_clicked');
+  const onAutoDetectHover = (isVisible) => {
+    if (isVisible) {
+      logBuildListingInteracted('auto_detect_hovered');
+    }
+  };
+
   const navigateToTestPage = (itemCategory, clickData) => {
-    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
+    const interactionName = `${clickData.itemClicked
+      .replace(' ', '_')
+      .toLowerCase()}_clicked`;
+    logBuildListingInteracted(interactionName);
+    let endpoint = `/projects/${projectNormalisedName}/builds/${
+      data?.isAutoDetectedName ? data?.originalName : data?.name
+    }/3?tab=tests`;
     endpoint += `&${itemCategory}=${clickData.itemClicked}`;
     navigate(endpoint);
   };
 
   return (
     <>
-      <O11yTableCell>
+      <O11yTableCell wrapperClassName="overflow-hidden whitespace-normal break-words">
         <div className="flex">
           {renderStatusIcon()}
           <div className="ml-4">
             <div className="flex">
               <div className="text-base-900 text-sm font-medium leading-5">
-                <span className="text-base-900 text-sm font-medium leading-5">
+                <span
+                  role="presentation"
+                  className="text-base-900 text-sm font-medium leading-5"
+                  onClick={buildCardNameClicked}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      buildCardNameClicked();
+                    }
+                  }}
+                >
                   {data?.isAutoDetectedName ? data?.originalName : data?.name}
                   &nbsp;
                 </span>
@@ -106,6 +143,7 @@ const BuildCardDetails = ({ data }) => {
                 {data?.isAutoDetectedName && (
                   <O11yTooltip
                     theme="dark"
+                    onOpenChange={onAutoDetectHover}
                     content={
                       <div className="mx-4">
                         <p className="text-base-300 mb-2 text-sm">
@@ -120,6 +158,7 @@ const BuildCardDetails = ({ data }) => {
                           href={getDocUrl({
                             path: DOC_KEY_MAPPING.automation_build
                           })}
+                          onClick={onAutoDetectLearnMoreClick}
                         >
                           Learn more
                         </O11yHyperlink>
@@ -133,7 +172,7 @@ const BuildCardDetails = ({ data }) => {
               {data?.tags.map((singleTag) => (
                 <PropagationBlocker key={singleTag}>
                   <O11yBadge
-                    wrapperClassName="mx-1"
+                    wrapperClassName="mx-1 flex-shrink-0"
                     hasRemoveButton={false}
                     onClick={() => addFilterTag(singleTag)}
                     modifier="base"
@@ -143,8 +182,8 @@ const BuildCardDetails = ({ data }) => {
                 </PropagationBlocker>
               ))}
             </div>
-            <div className="text-base-500 text-sm">
-              <span className="text-base-500 text-sm">Ran by </span>
+            <div className="text-base-500 text-sm leading-6">
+              <span className="text-base-500 text-sm">Run by </span>
               <O11yMetaData
                 textColorClass="text-base-500 inline-flex text-sm"
                 metaDescription={data?.user}
@@ -183,6 +222,7 @@ const BuildCardDetails = ({ data }) => {
                       <O11yHyperlink
                         target="_blank"
                         href={data?.versionControlInfo?.url}
+                        onClick={handleCIClicked}
                       >
                         <O11yMetaData
                           icon={
@@ -199,37 +239,11 @@ const BuildCardDetails = ({ data }) => {
                   </PropagationBlocker>
                 )}
               </div>
-              <div className="mx-1 inline-block">
-                {data?.versionControlInfo?.url ? (
-                  <PropagationBlocker variant="span">
-                    <O11yHyperlink
-                      target="_blank"
-                      wrapperClassName="inline-block"
-                      href={data?.versionControlInfo?.url}
-                    >
-                      <O11yMetaData
-                        icon={
-                          <VCIcon
-                            url={data?.versionControlInfo?.url}
-                            iconProps={{ className: 'h-5 w-5 m-auto' }}
-                          />
-                        }
-                        textColorClass="hover:text-brand-700 text-base-500 inline-flex items-baseline text-sm underline font-normal"
-                        metaDescription={`#${data?.versionControlInfo?.commitId?.slice(
-                          0,
-                          8
-                        )}`}
-                        title="Commit ID"
-                      />
-                    </O11yHyperlink>
-                  </PropagationBlocker>
-                ) : null}
-              </div>
             </div>
           </div>
         </div>
       </O11yTableCell>
-      <O11yTableCell>
+      <O11yTableCell wrapperClassName="overflow-hidden">
         <PropagationBlocker>
           {data?.status && (
             <StatusBadges
@@ -242,7 +256,7 @@ const BuildCardDetails = ({ data }) => {
           )}
         </PropagationBlocker>
       </O11yTableCell>
-      <O11yTableCell>
+      <O11yTableCell wrapperClassName="overflow-hidden">
         {data.duration ? (
           <O11yMetaData
             textColorClass="text-base-500 inline-flex text-sm"
@@ -251,7 +265,7 @@ const BuildCardDetails = ({ data }) => {
           />
         ) : null}
       </O11yTableCell>
-      <O11yTableCell>
+      <O11yTableCell wrapperClassName="overflow-hidden">
         <div>
           {Object.entries(data?.issueTypeAggregate)?.every(
             (item) =>
@@ -278,7 +292,16 @@ const BuildCardDetails = ({ data }) => {
                 </div>
               }
             >
-              <p className="flex w-full justify-start">
+              <p
+                role="presentation"
+                className="flex w-full justify-start"
+                onClick={investigationRequiredClicked}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    investigationRequiredClicked();
+                  }
+                }}
+              >
                 Investigation required
               </p>
             </O11yTooltip>
@@ -291,7 +314,10 @@ const BuildCardDetails = ({ data }) => {
               content={
                 <div className="mx-4 w-96">
                   <div className="mb-2 flex overflow-hidden rounded-xl">
-                    <DividedPill data={data} />
+                    <DividedPill
+                      data={data}
+                      logBuildListingInteracted={logBuildListingInteracted}
+                    />
                   </div>
                   <ul>
                     {Object.keys(data?.issueTypeAggregate)?.map(
@@ -313,7 +339,10 @@ const BuildCardDetails = ({ data }) => {
                 </div>
               }
             >
-              <DividedPill data={data} />
+              <DividedPill
+                data={data}
+                logBuildListingInteracted={logBuildListingInteracted}
+              />
             </O11yTooltip>
           )}
           {Object.values(data?.issueTypeAggregate)?.every(
@@ -325,11 +354,21 @@ const BuildCardDetails = ({ data }) => {
                 placementSide="top"
                 triggerWrapperClassName="w-full"
                 content={
-                  <p className="text-base-100 px-2">No Failures Found</p>
+                  <p
+                    role="presentation"
+                    className="text-base-100 px-2"
+                    onClick={noDefectClicked}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        noDefectClicked();
+                      }
+                    }}
+                  >
+                    No Failures Found
+                  </p>
                 }
               >
                 <div
-                  id="pratik"
                   label="No Failures Found"
                   className="bg-base-200 h-3 w-full"
                   tabIndex={0}
@@ -340,7 +379,7 @@ const BuildCardDetails = ({ data }) => {
           )}
         </div>
       </O11yTableCell>
-      <O11yTableCell>
+      <O11yTableCell wrapperClassName="overflow-hidden">
         <ul>
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker
@@ -354,7 +393,7 @@ const BuildCardDetails = ({ data }) => {
               }
               className="text-danger-600"
             >
-              {`New Failures (${data?.historyAggregate?.isNewFailure})`}
+              {`New Failures(${data?.historyAggregate?.isNewFailure})`}
             </PropagationBlocker>
           )}
           {data?.historyAggregate?.isFlaky > 0 && (
@@ -364,10 +403,10 @@ const BuildCardDetails = ({ data }) => {
               onClick={(e) =>
                 navigateToTestPage('smartTags', {
                   eventData: e,
-                  itemClicked: 'Flaky'
+                  itemClicked: 'flaky'
                 })
               }
-            >{`Flaky (${data?.historyAggregate?.isFlaky})`}</PropagationBlocker>
+            >{`Flaky(${data?.historyAggregate?.isFlaky})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isAlwaysFailing > 0 && (
             <PropagationBlocker
@@ -379,7 +418,7 @@ const BuildCardDetails = ({ data }) => {
                   itemClicked: 'Always Failing'
                 })
               }
-            >{`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}</PropagationBlocker>
+            >{`Always Failing(${data?.historyAggregate?.isAlwaysFailing})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isPerformanceAnomaly > 0 && (
             <PropagationBlocker
@@ -391,7 +430,7 @@ const BuildCardDetails = ({ data }) => {
                   itemClicked: 'Performance Anomaly'
                 })
               }
-            >{`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}</PropagationBlocker>
+            >{`Performance Anomaly(${data?.historyAggregate?.isPerformanceAnomaly})`}</PropagationBlocker>
           )}
           {Object.values(data?.historyAggregate).every((el) => el === 0) && (
             <li className="text-left">-</li>

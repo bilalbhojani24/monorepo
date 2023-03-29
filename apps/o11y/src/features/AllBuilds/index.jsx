@@ -190,18 +190,26 @@ const AllBuildsPage = () => {
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell wrapperClassName="py-3">BUILD</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">TESTS</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">DURATION</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">
+                <O11yTableCell wrapperClassName="py-3 w-5/12" isSticky>
+                  BUILD
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 w-2/12" isSticky>
+                  TESTS
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 w-1/12" isSticky>
+                  DURATION
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 w-1/12" isSticky>
                   FAILURE CATEGORIES
                 </O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">
+                <O11yTableCell wrapperClassName="py-3 w-2/12" isSticky>
                   SMART TAGS
                 </O11yTableCell>
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}
+            tableWrapperClassName="border border-base-300 bg-white shadow ring-1 ring-black/5 md:rounded-lg border-separate border-spacing-0 table-fixed"
+            tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
           />
         )}
       </div>

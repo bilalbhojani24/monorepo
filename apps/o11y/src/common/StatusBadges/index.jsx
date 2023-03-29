@@ -12,9 +12,9 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         isSmallBadges={isSmallBadges}
         number={statusStats.passed}
         modifier="success"
-        onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.passed })
-        }
+        onClickHandler={(e) => {
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.PASS });
+        }}
       />
       <StatusBadgeItem
         text="Failed"
@@ -22,7 +22,7 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         number={statusStats.failed}
         modifier="error"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.failed })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.FAIL })
         }
       />
       <StatusBadgeItem
@@ -31,7 +31,7 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         number={statusStats.skipped}
         modifier="base"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.skipped })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.SKIPPED })
         }
       />
       <StatusBadgeItem
@@ -40,7 +40,7 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         number={statusStats.timeout}
         modifier="warn"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.timeout })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.UNKNOWN })
         }
       />
     </div>
