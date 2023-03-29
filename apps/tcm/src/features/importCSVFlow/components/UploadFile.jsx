@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { MdFolder, MdInfo, MdOutlineTextSnippet } from '@browserstack/bifrost';
+import { MdFolder, MdInfo, MdTextSnippet } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { ExpandLessOutlinedIcon, ExpandMoreOutlinedIcon } from 'assets/icons';
 import {
@@ -29,8 +29,7 @@ const UploadFile = () => {
     showChangeFolderModal,
     selectedFolderLocation,
     uploadFileProceedLoading,
-    allFoldersForCSV,
-    fetchFolders,
+    // fetchFolders,
     handleFileUpload,
     handleFileRemove,
     handleProceedClick,
@@ -57,10 +56,10 @@ const UploadFile = () => {
     });
   };
 
-  useEffect(() => {
-    fetchFolders(projectId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
+  // useEffect(() => {
+  //   fetchFolders(projectId);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [projectId]);
 
   return (
     <div className="w-4/5 max-w-7xl">
@@ -114,7 +113,7 @@ const UploadFile = () => {
           <TMAttachments
             attachments={[{ name: fileConfig?.fileName }]}
             onActionClick={handleFileRemove}
-            icon={<MdOutlineTextSnippet className="h-5 w-5" />}
+            icon={<MdTextSnippet className="text-base-500 h-5 w-5" />}
           />
         )}
         {!fileConfig?.fileName && (
@@ -175,8 +174,10 @@ const UploadFile = () => {
         {showMoreFields && <CSVForm />}
       </div>
       <FolderExplorerModal
-        actionOptions={[{ id: 'add_folder', body: 'Add Sub Folder' }]}
-        allFolders={allFoldersForCSV}
+        actionOptions={[
+          { id: 'add_folder', body: 'Add Sub Folder', value: 'add-folder' }
+        ]}
+        allFolders={null}
         confirmButtonCb={handleUpdateFolderLocationClick}
         confirmButtonText="Update Location"
         folderExplorerHeader="Folders"

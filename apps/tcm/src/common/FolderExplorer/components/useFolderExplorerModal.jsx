@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { injectFolderToParent } from 'utils/folderHelpers';
 
 const useFolderExplorerModal = ({
-  projectId,
-  selectedFolder,
+  allFolders,
   confirmButtonCb,
-  internalAllFolders,
-  primaryMoveLocation
+  moveFolderOptions,
+  projectId,
+  show
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // related to folder explorer
+  const [selectedFolder, setSelectedFolder] = useState(null);
+  const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
+    moveFolderOptions[0].id
+  );
+  const [internalAllFolders, setInternalAllFolders] = useState(null);
+
+  // related to add folder modal
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
   const [parentFolderId, setParentFolderId] = useState(null);
 
@@ -37,15 +46,45 @@ const useFolderExplorerModal = ({
     });
   };
 
+  const handleNewFolderCreated = (folder, parentId) => {
+    if (!parentId)
+      setInternalAllFolders([...internalAllFolders, folder]); // root folder
+    else {
+      // sub folder
+      const updatedFolders = injectFolderToParent(
+        internalAllFolders,
+        folder,
+        parentId
+      );
+      setInternalAllFolders(updatedFolders);
+    }
+  };
+
+  useEffect(() => {
+    if (show) {
+      setInternalAllFolders(allFolders);
+      setPrimaryMoveLocation(moveFolderOptions[0].id);
+      setSelectedFolder(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]);
+
   return {
-    navigate,
     dispatch,
-    handleCreateFolderButtonClick,
     handleActionClick,
+    handleConfirmButtonClick,
+    handleCreateFolderButtonClick,
+    handleNewFolderCreated,
     hideAddFolderModalHandler,
-    showAddFolderModal,
+    internalAllFolders,
+    navigate,
     parentFolderId,
-    handleConfirmButtonClick
+    primaryMoveLocation,
+    selectedFolder,
+    setInternalAllFolders,
+    setPrimaryMoveLocation,
+    setSelectedFolder,
+    showAddFolderModal
   };
 };
 

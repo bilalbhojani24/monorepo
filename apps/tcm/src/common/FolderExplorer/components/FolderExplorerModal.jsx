@@ -1,6 +1,4 @@
-// TODO: after success, rearrange the folder, challenge updatedfolder structure to be fetched in allFolders
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MdOutlineCreateNewFolder } from '@browserstack/bifrost';
 import {
   TMAlerts,
@@ -20,11 +18,12 @@ import AddFolderModal from './AddFolderModal';
 import useFolderExplorerModal from './useFolderExplorerModal';
 
 const FolderExplorerModal = ({
+  actionOptions,
   alertRequired,
   alertText,
   allFolders,
-  confirmButtonText,
   confirmButtonCb,
+  confirmButtonText,
   disabledFolders,
   folderExplorerHeader,
   heading,
@@ -37,38 +36,29 @@ const FolderExplorerModal = ({
   rootFolderText,
   show,
   showEmptyModal,
-  subHeading,
-  actionOptions
+  subHeading
 }) => {
-  const [selectedFolder, setSelectedFolder] = useState(null);
-  const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
-    moveFolderOptions[0].id
-  );
-  const [internalAllFolders, setInternalAllFolders] = useState(null);
-
   const {
     handleActionClick,
+    handleConfirmButtonClick,
     handleCreateFolderButtonClick,
+    handleNewFolderCreated,
     hideAddFolderModalHandler,
-    parentFolderId,
-    showAddFolderModal,
-    handleConfirmButtonClick
-  } = useFolderExplorerModal({
-    projectId,
-    selectedFolder,
-    confirmButtonCb,
     internalAllFolders,
-    primaryMoveLocation
+    parentFolderId,
+    primaryMoveLocation,
+    selectedFolder,
+    setInternalAllFolders,
+    setPrimaryMoveLocation,
+    setSelectedFolder,
+    showAddFolderModal
+  } = useFolderExplorerModal({
+    allFolders,
+    confirmButtonCb,
+    moveFolderOptions,
+    projectId,
+    show
   });
-
-  useEffect(() => {
-    if (show) {
-      setInternalAllFolders(allFolders);
-      setPrimaryMoveLocation(moveFolderOptions[0].id);
-      setSelectedFolder(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show]);
 
   return (
     <>
@@ -114,7 +104,7 @@ const FolderExplorerModal = ({
                   </div>
                   <FolderExplorer
                     projectId={projectId}
-                    allFolders={allFolders}
+                    allFolders={internalAllFolders}
                     onFolderClick={(folder) => setSelectedFolder(folder)}
                     onFoldersUpdate={(data) => setInternalAllFolders(data)}
                     disabledFolders={disabledFolders}
@@ -189,6 +179,7 @@ const FolderExplorerModal = ({
           folderId={parentFolderId}
           isSubFolder={!!parentFolderId}
           hideModal={hideAddFolderModalHandler}
+          onNewFolderCreated={handleNewFolderCreated}
         />
       )}
     </>

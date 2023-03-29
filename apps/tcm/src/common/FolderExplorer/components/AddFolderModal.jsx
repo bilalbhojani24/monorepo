@@ -19,7 +19,8 @@ const AddFolderModal = ({
   show,
   folderId,
   isSubFolder,
-  hideModal
+  hideModal,
+  onNewFolderCreated
 }) => {
   const {
     modalFocusRef,
@@ -30,7 +31,13 @@ const AddFolderModal = ({
     setFormData,
     hideFolderModal,
     createFolderHandler
-  } = useAddFolderModal({ projectId, folderId, isSubFolder, hideModal });
+  } = useAddFolderModal({
+    projectId,
+    folderId,
+    isSubFolder,
+    hideModal,
+    onNewFolderCreated
+  });
 
   useEffect(() => {
     if (show)
@@ -107,18 +114,16 @@ AddFolderModal.propTypes = {
   folderId: PropTypes.number,
   show: PropTypes.bool,
   isSubFolder: PropTypes.bool,
-  hideModal: PropTypes.func
-  // isEditFolder: PropTypes.bool,
-  // currentData: PropTypes.objectOf()
+  hideModal: PropTypes.func,
+  onNewFolderCreated: PropTypes.func
 };
 
 AddFolderModal.defaultProps = {
   show: false,
   isSubFolder: false,
-  // isEditFolder: false,
   hideModal: () => {},
-  folderId: null
-  // currentData: null
+  folderId: null,
+  onNewFolderCreated: () => {}
 };
 
 export default AddFolderModal;

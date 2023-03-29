@@ -1,18 +1,13 @@
 import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   addFolder,
   addFolderWithoutProjectAPI,
   addSubFolder
 } from 'api/folders.api';
-import { injectFolderToParent } from 'utils/folderHelpers';
-
-import { setFoldersForCSV } from '../../../features/importCSVFlow/slices/importCSVSlice';
 
 export default function useAddFolderModal(prop) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const modalFocusRef = useRef();
   const [filledFormData, setFormData] = useState({
     name: '',
@@ -25,33 +20,11 @@ export default function useAddFolderModal(prop) {
 
   const [loaders, setLoaders] = useState({ createFolderCta: false });
 
-  const allFoldersForCSV = useSelector(
-    (state) => state.importCSV.foldersForCSV
-  );
-
-  const setAllFoldersHelper = (data) => {
-    dispatch(setFoldersForCSV(data));
-  };
-
   const hideFolderModal = (newProjectId) => {
     prop.hideModal();
     setFormError({ ...formError, nameError: '' });
     if (prop.projectId === 'new')
       navigate(`/import/csv?project=${newProjectId}`);
-  };
-
-  const updateFolders = (folderItem, parentId) => {
-    if (!parentId)
-      setAllFoldersHelper([...allFoldersForCSV, folderItem]); // root folder
-    else {
-      // sub folder
-      const updatedFolders = injectFolderToParent(
-        allFoldersForCSV,
-        folderItem,
-        parentId
-      );
-      setAllFoldersHelper(updatedFolders);
-    }
   };
 
   const addSubFolderHandler = () => {
@@ -62,7 +35,7 @@ export default function useAddFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
+        prop.onNewFolderCreated(item.data.folder, prop?.folderId);
         hideFolderModal();
         setTimeout(() => {
           setLoaders({ createFolderCta: false });
@@ -83,9 +56,8 @@ export default function useAddFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder);
+        prop.onNewFolderCreated(item.data.folder);
         hideFolderModal(item.data?.project?.id);
-
         setTimeout(() => {
           setLoaders({ createFolderCta: false });
         }, 500);
@@ -114,7 +86,6 @@ export default function useAddFolderModal(prop) {
     loaders,
     modalFocusRef,
     setFormData,
-    setFormError,
-    updateFolders
+    setFormError
   };
 }
