@@ -3,12 +3,13 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MdCheck, MdOutlineContentCopy } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-function Copy2Clipboard({ text, showBtnText }) {
+function Copy2Clipboard({ text, showBtnText, onCopyCb }) {
   const mounted = useRef(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleClick = () => {
     setIsCopied(true);
+    onCopyCb();
     setTimeout(() => {
       if (mounted.current) {
         setIsCopied(false);
@@ -65,12 +66,14 @@ function Copy2Clipboard({ text, showBtnText }) {
 
 Copy2Clipboard.propTypes = {
   text: PropTypes.string,
-  showBtnText: PropTypes.bool
+  showBtnText: PropTypes.bool,
+  onCopyCb: PropTypes.func
 };
 
 Copy2Clipboard.defaultProps = {
   text: '',
-  showBtnText: false
+  showBtnText: false,
+  onCopyCb: () => {}
 };
 
 export default Copy2Clipboard;

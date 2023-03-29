@@ -32,25 +32,33 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
+import ApplicationIcon from './ApplicationIcon';
 // Others
 import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
+import DoubleArrowDownIcon from './DoubleArrowDownIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
+import JSIcon from './JSIcon';
 import LoadingIcon from './LoadingIcon';
+import ScreenshotFailureIcon from './ScreenshotFailureIcon';
+import ScreenshotLoadingIcon from './ScreenshotLoadingIcon';
+import SeleniumIcon from './SeleniumIcon';
+import TerminalIcon from './TerminalIcon';
 import UnknownIcon from './UnknownIcon';
 
 export {
   AmazonIcon,
   AndroidIcon,
   AppleIcon,
+  ApplicationIcon,
   AzurePipelinesIcon,
   BitBucketIcon,
   BuildKiteIcon,
@@ -59,6 +67,7 @@ export {
   DefaultBrowserIcon,
   DefaultOSIcon,
   DeviceIcon,
+  DoubleArrowDownIcon,
   EdgeIcon,
   FirefoxIcon,
   GithubActionsIcon,
@@ -72,6 +81,7 @@ export {
   IOSIcon,
   JenkinsIcon,
   JiraIcon,
+  JSIcon,
   LgIcon,
   LinuxIcon,
   LoadingIcon,
@@ -85,7 +95,11 @@ export {
   RealmeIcon,
   SafariIcon,
   SamsungIcon,
+  ScreenshotFailureIcon,
+  ScreenshotLoadingIcon,
+  SeleniumIcon,
   SonyIcon,
+  TerminalIcon,
   UnknownIcon,
   VivoIcon,
   WindowsIcon,

@@ -75,7 +75,11 @@ export default function TestCode() {
         </div>
       )}
       <div className="">
-        <PrismHighlight code={testCode?.code} language={testCode?.language} />
+        <PrismHighlight
+          code={testCode?.code}
+          language={testCode?.language}
+          shouldWrapText
+        />
       </div>
     </section>
   );

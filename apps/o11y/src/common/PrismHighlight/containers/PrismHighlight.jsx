@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 
@@ -8,19 +9,23 @@ import '../prismLanguages';
 import 'prismjs/themes/prism.css';
 import '../../../ThirdPartyStyles.scss';
 
-export default function PrismHighlight({ code, language, showLineNumber }) {
+export default function PrismHighlight({
+  code,
+  language,
+  showLineNumber,
+  shouldWrapText
+}) {
   useEffect(() => {
     Prism.highlightAll();
   }, [code, language]);
 
   return (
-    <div>
+    <div className={twClassNames({ 'whitespace-pre-wrap': shouldWrapText })}>
       <pre className="!bg-base-100 !rounded-md !px-3 !py-2">
         <code
-          // eslint-disable-next-line tailwindcss/no-custom-classname
-          className={`language-${language} ${
-            showLineNumber ? 'line-numbers' : ''
-          } !text-xs !leading-5`}
+          className={twClassNames(`language-${language} !text-xs !leading-5`, {
+            'line-numbers': showLineNumber
+          })}
         >
           {code}
         </code>
@@ -32,9 +37,11 @@ export default function PrismHighlight({ code, language, showLineNumber }) {
 PrismHighlight.propTypes = {
   code: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  showLineNumber: PropTypes.bool
+  showLineNumber: PropTypes.bool,
+  shouldWrapText: PropTypes.bool
 };
 
 PrismHighlight.defaultProps = {
-  showLineNumber: false
+  showLineNumber: false,
+  shouldWrapText: false
 };
