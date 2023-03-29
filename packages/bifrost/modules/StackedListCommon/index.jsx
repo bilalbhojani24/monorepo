@@ -7,24 +7,20 @@ const StackedListCommon = ({
   subTitle,
   actions,
   contentAside,
-  icon,
-  align
+  icon
 }) => (
   <div
-    className={twClassNames('md:min-w-[50%] flex items-center', {
-      'md:flex md:justify-end md:text-right': align === 'right',
-      'md:pt-7': contentAside && !title
+    className={twClassNames('flex items-center', {
+      'md:mt-8': contentAside && !title
     })}
   >
     {icon && <span className="float-left mr-3 shrink-0">{icon}</span>}
-    <span className="truncate text-sm">
-      <p className="text-base-900 truncate font-medium">{title}</p>
-      <p className="text-base-500 truncate text-sm">{subTitle}</p>
-    </span>
+    <div className="flex-1 text-sm">
+      <p className="text-base-900 line-clamp-1 pr-4 font-medium">{title}</p>
+      <p className="text-base-500 line-clamp-1 text-sm">{subTitle}</p>
+    </div>
     {contentAside && (
-      <span className="text-base-500 absolute top-3 right-4">
-        {contentAside}
-      </span>
+      <div className="text-base-500 absolute top-4 right-4">{contentAside}</div>
     )}
     {actions}
   </div>
@@ -35,16 +31,14 @@ StackedListCommon.propTypes = {
   subTitle: PropTypes.node,
   actions: PropTypes.node,
   contentAside: PropTypes.node,
-  icon: PropTypes.node,
-  align: PropTypes.oneOf(['left', 'right'])
+  icon: PropTypes.node
 };
 StackedListCommon.defaultProps = {
   subTitle: null,
   actions: null,
   contentAside: null,
   icon: null,
-  title: null,
-  align: 'left'
+  title: null
 };
 
 export default StackedListCommon;

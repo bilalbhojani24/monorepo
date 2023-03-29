@@ -141,8 +141,9 @@ WithStickyHeadings.parameters = {
 
 const TwoColumnsWithAvatar = Template.bind({});
 TwoColumnsWithAvatar.args = {
+  isCard: true,
   children: (
-    <StackedListGroup wrapperClassName="shadow rounded-md">
+    <StackedListGroup>
       {PeopleWithTwoCols.map(({ email, name, image, statusText, info }) => (
         <StackedListItem
           actions={<ChevronRightIcon className="fill-base-500 h-6 w-6" />}
@@ -151,7 +152,7 @@ TwoColumnsWithAvatar.args = {
           focusParentOnChildFocused
         >
           <HyperLink
-            wrapperClassName="focus:outline-none font-normal text-base-900 md:min-w-[50%]"
+            wrapperClassName="focus:outline-none font-normal text-base-900 md:w-[50%]"
             href="https://www.google.com"
           >
             {/* Add span only if want to make parent container as target to open link */}
@@ -164,15 +165,15 @@ TwoColumnsWithAvatar.args = {
                   src={image}
                 />
               }
-              title={<span className="text-brand-600">{name}</span>}
+              title={<div className="text-brand-600">{name}</div>}
               subTitle={
-                <span className="mt-2 flex">
+                <div className="mt-2 flex">
                   <EnvelopeIcon
                     className="text-base-400 mr-1.5 h-5 w-5 shrink-0 "
                     aria-hidden="true"
                   />
-                  <span className="truncate">{email}</span>
-                </span>
+                  <div className="line-clamp-1">{email}</div>
+                </div>
               }
             />
           </HyperLink>
@@ -180,10 +181,10 @@ TwoColumnsWithAvatar.args = {
           <StackedListCommon
             title={info}
             subTitle={
-              <span className="mt-2 flex">
+              <div className="mt-2 flex">
                 <CheckCircleIcon className="fill-success-400 mr-2 h-5 w-5" />
                 {statusText}
-              </span>
+              </div>
             }
           />
         </StackedListItem>
@@ -197,41 +198,37 @@ const WithRightJustifiedSecondColumn = Template.bind({});
 WithRightJustifiedSecondColumn.args = {
   isCard: true,
   children: (
-    <StackedListGroup wrapperClassName="shadow rounded-md">
+    <StackedListGroup>
       {JobTitles.map((job, index) => (
         <StackedListItem key={job} focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:outline-none font-normal">
+          <HyperLink wrapperClassName="focus:outline-none font-normal w-full block">
             {/* Add span only if want to make parent container as target to open link */}
             <span className="absolute inset-0" aria-hidden="true" />
             <StackedListCommon
-              title={<span className="text-brand-600 text-base">{job}</span>}
+              title={<div className="text-brand-600 text-base">{job}</div>}
+              contentAside={
+                <Badge modifier="success" text="Full-time" tabIndex={0} />
+              }
               subTitle={
-                <div className="mt-2 flex gap-6">
-                  <span className="text-base-500 flex">
+                <div className="mt-2 flex justify-end gap-6">
+                  <div className="text-base-500 flex">
                     <UsersIcon className="fill-base-400 mr-2 h-5 w-5" />
                     {index === 2 ? 'Design' : 'Engineering'}
-                  </span>
-                  <span className="text-base-500 flex">
+                  </div>
+                  <div className="text-base-500 flex">
                     <MapPinIcon className="fill-base-400 mr-2 h-5 w-5" />
                     Remote
-                  </span>
+                  </div>
+                  <div className="ml-auto flex">
+                    <CalendarIcon className="fill-base-400 h-5 w-5" />
+                    <div className="ml-2">
+                      Closing on January {index === 2 ? 14 : 7}, 2020
+                    </div>
+                  </div>
                 </div>
               }
             />
           </HyperLink>
-
-          <StackedListCommon
-            subTitle={
-              <span className="mt-1 flex">
-                <CalendarIcon className="fill-base-400 h-5 w-5" />
-                <span className="ml-2 ">
-                  Closing on January {index === 2 ? 14 : 7}, 2020
-                </span>
-              </span>
-            }
-            align="right"
-            contentAside={<Badge modifier="success" text="Full-time" />}
-          />
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -245,20 +242,18 @@ ContentLinksWithAction.args = {
     <StackedListGroup>
       {contentList.map(({ title, content }) => (
         <StackedListItem focusParentOnChildFocused>
-          <StackedListCommon
-            title={
-              <HyperLink wrapperClassName="focus:none font-normal text-base-900">
-                {title}
-                {/* Add span only if want to make parent container as target to open link */}
-                <span className="absolute inset-0" aria-hidden="true" />
-              </HyperLink>
-            }
-            subTitle={
-              <p className="line-clamp-1 text-base-600 mt-1 whitespace-normal text-sm">
-                {content}
-              </p>
-            }
-          />
+          <HyperLink wrapperClassName="focus:none font-normal text-base-900">
+            {/* Add span only if want to make parent container as target to open link */}
+            <span className="absolute inset-0" aria-hidden="true" />
+            <StackedListCommon
+              title={title}
+              subTitle={
+                <p className="line-clamp-1 text-base-600 mt-1 whitespace-normal text-sm">
+                  {content}
+                </p>
+              }
+            />
+          </HyperLink>
         </StackedListItem>
       ))}
     </StackedListGroup>

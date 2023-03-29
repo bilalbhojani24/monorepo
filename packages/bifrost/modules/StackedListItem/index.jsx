@@ -25,7 +25,7 @@ const StackedListItem = ({
   return (
     <li
       className={twClassNames(
-        'relative px-4 py-5 sm:px-6 flex items-center truncate',
+        'relative px-4 py-5 sm:px-6 flex items-center',
         {
           'px-6 hover:bg-base-50 cursor-pointer': isCard,
           'focus-within:ring-2 focus-within:ring-inset focus-within:ring-brand-500 cursor-pointer hover:bg-base-50':
@@ -34,9 +34,9 @@ const StackedListItem = ({
         wrapperClassName
       )}
     >
-      <span className="block max-w-full flex-1 justify-between gap-3 md:flex ">
+      <div className="block max-w-full flex-1 justify-between gap-3 md:flex">
         {effectiveChildren}
-      </span>
+      </div>
       {actions && <div className="shrink-0 pl-3">{actions}</div>}
     </li>
   );
