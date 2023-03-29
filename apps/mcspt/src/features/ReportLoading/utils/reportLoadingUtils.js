@@ -12,7 +12,7 @@ export const sessionStateTextMap = {
 export const generateTestDataDescriptionList = (deviceDetails) => [
   {
     title: 'Device Model',
-    description: deviceDetails?.model || 'N.A'
+    description: deviceDetails?.name || 'N.A'
   },
   {
     title: 'OS Version',

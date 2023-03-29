@@ -40,7 +40,9 @@ const ReportLoading = () => {
         <div className="text-xl">
           <MdChevronLeft
             onClick={() => {
-              setShowQuitTestingPrompt(true);
+              if (sessionState === REPORT_LOADING_STATES.RECORDING) {
+                setShowQuitTestingPrompt(true);
+              }
             }}
           />
         </div>

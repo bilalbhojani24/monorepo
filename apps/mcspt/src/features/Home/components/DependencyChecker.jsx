@@ -5,6 +5,7 @@ import {
   MdDeviceUnknown,
   MdOutlineAutorenew
 } from '@browserstack/bifrost';
+import checkDependeciesBg from 'assets/checkDependeciesBg.svg';
 import dependencyLoader from 'assets/tripleDots.gif';
 
 import StartTestErrorModal from './StartTestErrorModal';
@@ -20,7 +21,10 @@ const DependencyChecker = () => {
   } = useDependencyChecker();
 
   return (
-    <div className="bg-base-50 p-14">
+    <div
+      className="bg-base-50 p-14"
+      style={{ backgroundImage: `url(${checkDependeciesBg})` }}
+    >
       <div className="mx-auto rounded-xl bg-white shadow-md">
         {areDependenciesStillLoading && (
           <div className="flex flex-col items-center justify-center p-14">

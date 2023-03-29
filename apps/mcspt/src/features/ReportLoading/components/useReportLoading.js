@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
-import { getSelectedDevice, getSessionDetails } from 'features/Home';
+import { getSessionDetails } from 'features/Home';
 
 import {
   getIsSessionStopInProgress,
@@ -22,7 +22,6 @@ const useReportLoading = () => {
   const sessionState = useSelector(getLatestSessionStatus);
   const sessionDetails = useSelector(getSessionDetails);
   const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
-  const selectedDevice = useSelector(getSelectedDevice);
 
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
@@ -56,8 +55,10 @@ const useReportLoading = () => {
   };
 
   useEffect(() => {
-    setTestDataDescriptionList(generateTestDataDescriptionList(selectedDevice));
-  }, [selectedDevice]);
+    setTestDataDescriptionList(
+      generateTestDataDescriptionList(sessionDetails?.device)
+    );
+  }, [sessionDetails?.device]);
 
   useEffect(() => {
     if (sessionDetails?.cellular) {
