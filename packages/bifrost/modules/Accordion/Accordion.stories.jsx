@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import AccordionInteractiveHeader from '../AccordionInteractiveHeader';
@@ -40,6 +42,16 @@ const defaultConfig = {
 const Template = (args) => <Accordion {...args} />;
 
 const InteractiveAccordion = Template.bind({});
+InteractiveAccordion.play = async ({ canvasElement }) => {
+  const titleText = 'Title goes in here';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(titleText)).toBeVisible();
+  await userEvent.click(canvas.getByText(titleText));
+  await userEvent.click(canvas.getByText(titleText));
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByText('main content comes here')).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(5);
+};
 InteractiveAccordion.args = {
   defaultOpen: true,
   wrapperAriaLabel: 'My Accordion',
@@ -114,6 +126,14 @@ InteractiveAccordion.args = {
 };
 
 const SimpleAccordion = Template.bind({});
+SimpleAccordion.play = async ({ canvasElement }) => {
+  const titleText = 'Title goes in here';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(titleText)).toBeVisible();
+  await userEvent.click(canvas.getByText(titleText));
+  await userEvent.click(canvas.getByText(titleText));
+  await expect(canvas.getByText('main content comes here')).toBeVisible();
+};
 SimpleAccordion.args = {
   defaultOpen: true,
   children: [
