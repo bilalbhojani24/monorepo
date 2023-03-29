@@ -412,7 +412,7 @@ export default function SiteScanner() {
             your pages for accessibility issues
           </h3>
         </div>
-        {scanConfigStateData?.data?.scanConfigs?.length && (
+        {scanConfigStateData?.data?.scanConfigs?.length ? (
           <Button
             modifier="primary"
             onClick={() => {
@@ -428,7 +428,7 @@ export default function SiteScanner() {
           >
             New website scan
           </Button>
-        )}
+        ):null}
       </div>
       {scanConfigStateData?.data?.scanConfigs?.length ? (
         <>
@@ -844,7 +844,7 @@ export default function SiteScanner() {
           ) : null}
         </>
       ) : (
-        scanConfigStateData.success && <div
+        scanConfigStateData.success ? <div
           className="justify-center"
           style={{ height: 'calc(100vh - 320px)' }}
         >
@@ -872,7 +872,7 @@ export default function SiteScanner() {
               New website scan
             </Button>
           </div>
-        </div>
+        </div>:null
       )}
     </div>
   );
