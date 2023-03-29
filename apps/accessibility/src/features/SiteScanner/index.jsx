@@ -412,6 +412,11 @@ export default function SiteScanner() {
             your pages for accessibility issues
           </h3>
         </div>
+        <NewScan
+          show={showNewScan}
+          closeSlideover={closeSlideover}
+          preConfigData={preConfigData}
+        />
         {scanConfigStateData?.data?.scanConfigs?.length ? (
           <Button
             modifier="primary"
@@ -428,7 +433,7 @@ export default function SiteScanner() {
           >
             New website scan
           </Button>
-        ):null}
+        ) : null}
       </div>
       {scanConfigStateData?.data?.scanConfigs?.length ? (
         <>
@@ -686,11 +691,7 @@ export default function SiteScanner() {
               </TableBody>
             </Table>
           </div>
-          <NewScan
-            show={showNewScan}
-            closeSlideover={closeSlideover}
-            preConfigData={preConfigData}
-          />
+
           {/* View Running Scan Details */}
           <Modal
             show={viewScanDetails}
@@ -843,8 +844,8 @@ export default function SiteScanner() {
             </div>
           ) : null}
         </>
-      ) : (
-        scanConfigStateData.success ? <div
+      ) : scanConfigStateData.success ? (
+        <div
           className="justify-center"
           style={{ height: 'calc(100vh - 320px)' }}
         >
@@ -872,8 +873,8 @@ export default function SiteScanner() {
               New website scan
             </Button>
           </div>
-        </div>:null
-      )}
+        </div>
+      ) : null}
     </div>
   );
 }
