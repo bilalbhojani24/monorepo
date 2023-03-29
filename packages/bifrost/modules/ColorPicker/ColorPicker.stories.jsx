@@ -14,6 +14,10 @@ const defaultConfig = {
           importStatement={"import ColorPicker from 'bifrost/ColorPicker'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

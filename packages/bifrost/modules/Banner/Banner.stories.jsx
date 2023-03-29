@@ -23,6 +23,10 @@ const defaultConfig = {
           importStatement={"import Banner from 'bifrost/Banner'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=142-35545&t=TWCLo3KWhysdxj9F-0'
     }
   },
 
