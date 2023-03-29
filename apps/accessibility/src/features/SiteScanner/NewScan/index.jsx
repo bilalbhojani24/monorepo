@@ -93,16 +93,24 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
 
   const handleCloseWithLogEvent = () => {
     logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
-      actionType: 'Scan changes',
       action: 'Cancel Scan',
       scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
       scanTime: recurringStatus
-        ? formData.time
-        : new Date().toLocaleTimeString(),
+        ? {
+            time: formData.time,
+            timeZone: new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+          }
+        : {
+            time: new Date().toLocaleTimeString(),
+            timeZone: new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+          },
       wcagVersion: formData.scanData.wcagVersion.label,
       day: recurringStatus ? formData.day : new Date().toLocaleDateString(),
       bestPractices: formData.scanData.bestPractices,
-      needsReview: formData.scanData.needsReview
+      needsReview: formData.scanData.needsReview,
+      urlCount: formData.scanData.urlSet
+        ? formData.scanData.urlSet.length
+        : undefined
     });
     handlerCloseOver();
   };

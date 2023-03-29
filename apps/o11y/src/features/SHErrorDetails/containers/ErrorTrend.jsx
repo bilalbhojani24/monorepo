@@ -152,6 +152,12 @@ export default function ErrorTrend() {
   const showAllBuilds = useSelector(getUEShowAllBuilds);
 
   const handleToggleChange = (value) => {
+    dispatch(
+      setUEDetailsChartBounds({
+        lower: null,
+        upper: null
+      })
+    );
     dispatch(setShowAllBuilds(value));
   };
 

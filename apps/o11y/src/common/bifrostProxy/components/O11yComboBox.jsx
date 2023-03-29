@@ -7,6 +7,7 @@ import {
   ComboboxOptionItem,
   ComboboxTrigger
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const O11yComboBox = ({
@@ -29,7 +30,7 @@ const O11yComboBox = ({
           opt.label.toLowerCase().includes(query.toLowerCase())
         );
 
-  const virtuosoStyles = { height: 238 };
+  const virtuosoStyles = { height: '100%' };
   if (virtuosoWidth) {
     virtuosoStyles.width = virtuosoWidth;
   }
@@ -41,7 +42,12 @@ const O11yComboBox = ({
         placeholder={placeholder}
         onInputValueChange={(e) => setQuery(e.target.value)}
       />
-      <ComboboxOptionGroup wrapperClassName={optionsListWrapperClassName}>
+      <ComboboxOptionGroup
+        wrapperClassName={twClassNames(
+          'h-60 min-w-max',
+          optionsListWrapperClassName
+        )}
+      >
         <Virtuoso
           style={virtuosoStyles}
           data={filteredOptions || []}

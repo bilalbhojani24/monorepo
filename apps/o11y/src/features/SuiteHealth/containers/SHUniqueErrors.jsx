@@ -34,6 +34,14 @@ import {
 
 import UERow from './UERow';
 
+const List = forwardRef((props, ref) => (
+  <div
+    {...props}
+    ref={ref}
+    className="border-base-300 rounded-b-md border border-t-0"
+  />
+));
+
 const LoadingFooter = () => (
   <div className="flex w-full justify-center py-2">
     <O11yLoader loaderClass="text-base-600 h-6 w-6 self-center p-1" />
@@ -177,13 +185,7 @@ const SnPUniqueErrors = () => {
                   itemContent={(index, data) => <UERow data={data} />}
                   components={{
                     Footer: isLoadingMore ? LoadingFooter : null,
-                    List: forwardRef((props, ref) => (
-                      <div
-                        {...props}
-                        ref={ref}
-                        className="border-base-300 rounded-b-md border border-t-0"
-                      />
-                    ))
+                    List
                   }}
                 />
               </div>

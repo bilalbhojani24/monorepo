@@ -172,7 +172,7 @@ export default function SHTests() {
 
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
-      <SHTestsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
+      <SHTestsHeader />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
       ) : (
@@ -202,6 +202,8 @@ export default function SHTests() {
                 )}
                 showFixedFooter={isLoadingMore}
                 handleRowClick={handleClickTestItem}
+                tableWrapperClassName="border border-base-300 bg-white shadow ring-1 ring-black/5 md:rounded-lg border-separate border-spacing-0"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
               />
             </div>
           )}

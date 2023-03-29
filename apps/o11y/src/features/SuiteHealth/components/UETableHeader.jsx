@@ -10,7 +10,7 @@ import { getSnpErrorsSortBy } from '../slices/selectors';
 const UETableHeader = ({ handleClickSortBy, isLoadingMore }) => {
   const sortBy = useSelector(getSnpErrorsSortBy);
   return (
-    <div className="border-base-300 flex w-full items-center rounded-t-md border bg-white pl-4 sm:pl-6">
+    <div className="border-base-300 bg-base-50 flex w-full items-center rounded-t-md border pl-4 sm:pl-6">
       <div className={twClassNames(UNIQUE_ERROR_MAIN_HEADER.error.headerClass)}>
         <span className="text-base-500 text-xs font-medium uppercase leading-4">
           {UNIQUE_ERROR_MAIN_HEADER.error.label}

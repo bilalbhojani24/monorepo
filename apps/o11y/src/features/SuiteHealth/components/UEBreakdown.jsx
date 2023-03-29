@@ -32,7 +32,7 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
   }
 
   return (
-    <div className={twClassNames('flex-1 bg-base-50 pl-6 py-4')}>
+    <div className={twClassNames('flex-1 bg-base-50 pl-11 py-4')}>
       <div className="border-base-300 flex w-full items-center border-b">
         <div className={UNIQUE_ERROR_BREAKDOWN_HEADER.tests.headerClass}>
           {UNIQUE_ERROR_BREAKDOWN_HEADER.tests.label}
