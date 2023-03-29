@@ -24,7 +24,7 @@ const useRecentTests = () => {
   };
 
   useEffect(() => {
-    setTableRows(previousUserSessions?.slice(previousUserSessions?.length - 3));
+    setTableRows(previousUserSessions?.slice(0, 3));
   }, [previousUserSessions]);
 
   return {
