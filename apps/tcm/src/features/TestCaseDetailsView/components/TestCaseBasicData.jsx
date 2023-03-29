@@ -90,7 +90,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           <div className="border-base-200 mb-4 w-full border-b" />
           <div className="flex w-full flex-wrap">
             <div className="w-3/6">
-              <DetailsSnippet title="Assigned to" value={getAssignedTo()} />
+              <DetailsSnippet title="Owner" value={getAssignedTo()} />
             </div>
             <div className="w-3/6">
               <DetailsSnippet

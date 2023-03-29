@@ -356,7 +356,7 @@ export default function useAddEditTestCase(prop) {
       projectId,
       folderId,
       bulkSelection,
-      data: formDataFormatter(testCaseBulkFormData).test_case
+      data: testCaseBulkFormData
     })
       .then(() => {
         dispatch(
