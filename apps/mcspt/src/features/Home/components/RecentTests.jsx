@@ -6,6 +6,7 @@ import {
   TableCell,
   TableRow
 } from '@browserstack/bifrost';
+import { HistoricalReportLoadingModal } from 'features/TestHistory';
 
 import { recentTestsColumns } from '../utils/recentTestsColumns';
 
@@ -50,6 +51,8 @@ const TestHistory = () => {
           ))}
         </TableBody>
       </Table>
+
+      <HistoricalReportLoadingModal />
     </>
   );
 };
