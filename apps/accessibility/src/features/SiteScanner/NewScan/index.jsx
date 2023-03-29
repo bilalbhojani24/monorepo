@@ -7,7 +7,6 @@ import {
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
-  Hyperlink,
   InputField,
   MdCheckCircleOutline,
   MdDelete,
@@ -337,6 +336,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 ''
               )}
               <div className="pt-2">
+                Hello World
                 <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
