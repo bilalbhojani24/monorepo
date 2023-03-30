@@ -14,7 +14,7 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { o11yNotify } from 'utils/notification';
 
-import { CI_API_SLUGS } from '../constants';
+import { CI_API_SLUGS, INTEGRATIONS_EXT_LINKS } from '../constants';
 import { updateCiData } from '../slices/integrationsSlice';
 import { getCiDataBySlug } from '../slices/selectors';
 
@@ -92,7 +92,7 @@ function AzureIntegrationModal() {
           }
         </p>
         <O11yHyperlink
-          href="https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"
+          href={INTEGRATIONS_EXT_LINKS.azurePAT}
           target="_blank"
           wrapperClassName="text-sm font-medium mt-2 inline-flex items-center"
         >

@@ -30,6 +30,12 @@ export const CI_API_SLUGS = {
   AZURE_DEVOPS: 'AZURE_DEVOPS'
 };
 
+export const INTEGRATIONS_EXT_LINKS = {
+  browserstackPlugin: 'https://plugins.jenkins.io/browserstack-integration/',
+  azurePAT:
+    'https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate'
+};
+
 const CI_INTEGRATIONS = [
   {
     name: 'Jenkins',

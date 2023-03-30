@@ -14,7 +14,7 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { o11yNotify } from 'utils/notification';
 
-import { CI_API_SLUGS } from '../constants';
+import { CI_API_SLUGS, INTEGRATIONS_EXT_LINKS } from '../constants';
 import { updateCiData } from '../slices/integrationsSlice';
 import { getCiDataBySlug } from '../slices/selectors';
 
@@ -101,7 +101,7 @@ function JenkinsIntegrationModal() {
             {`You'd need to add the BrowserStack plugin in your Jenkins setup. From your Jenkins dashboard navigate to Manage Jenkins > Manage Plugins and select the Available tab. Locate the plugin by searching for "browserstack-integration" and thereafter install it.`}
           </p>
           <O11yHyperlink
-            href="https://plugins.jenkins.io/browserstack-integration/"
+            href={INTEGRATIONS_EXT_LINKS.browserstackPlugin}
             target="_blank"
             wrapperClassName="text-sm font-medium mt-2 inline-flex items-center"
           >
