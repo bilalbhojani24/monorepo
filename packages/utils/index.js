@@ -6,6 +6,8 @@ import getUniqueId from './src/getUniqueId';
 import getUrlParams from './src/getUrlParams';
 import makeDebounce from './src/makeDebounce';
 import pubSub from './src/pubSub';
+import Pusher from './src/pusher';
+import PusherManager from './src/pusherManager';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
 export * from './src/axiosUtils';
@@ -15,7 +17,6 @@ export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
 export * from './src/logger';
-export * from './src/pusher';
 export * from './src/sentry';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
@@ -29,5 +30,7 @@ export {
   getUrlParams,
   makeDebounce,
   pubSub,
+  Pusher,
+  PusherManager,
   removePaddingfromBeginning
 };
