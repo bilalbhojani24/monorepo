@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
+import { io } from 'socket.io';
 
 export class Pusher {
   constructor(manager, prefix, information, authEndpoint) {
@@ -165,11 +166,10 @@ export class PusherManager extends Pusher {
   connect() {
     this.reconnectionAttempts = 0;
 
-    // TODO Enable this snippet after finding out wth is io120
-    // this.socket = io120(this.server, {
-    //   transports: ['websocket'],
-    //   'force new connection': true
-    // });
+    this.socket = io(this.server, {
+      transports: ['websocket'],
+      'force new connection': true
+    });
 
     this.socket.on('reconnect_attempt', () => {
       this.reconnectionAttempts += 1;
