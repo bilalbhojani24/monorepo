@@ -44,7 +44,7 @@ const List = forwardRef((props, ref) => (
 
 const LoadingFooter = () => (
   <div className="flex w-full justify-center py-2">
-    <O11yLoader loaderClass="text-base-600 h-6 w-6 self-center p-1" />
+    <O11yLoader />
   </div>
 );
 
