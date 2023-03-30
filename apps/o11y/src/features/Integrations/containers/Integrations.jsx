@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
@@ -19,7 +19,25 @@ import { WRAPPER_GAP_CLASS } from 'constants/common';
 import ListGroupHeader from '../components/ListGroupHeader';
 import { INTEGRATIONS } from '../constants';
 
+const ALL_CATEGORIES_OPTION = {
+  label: 'All Categories',
+  value: 'all'
+};
+
 function Integrations() {
+  const [availableIntegrations, setAvailableIntegrations] =
+    useState(INTEGRATIONS);
+
+  const onCategorySelect = (category) => {
+    if (category.value === 'all') {
+      setAvailableIntegrations(INTEGRATIONS);
+    } else {
+      setAvailableIntegrations([
+        INTEGRATIONS.find((integration) => integration.value === category.value)
+      ]);
+    }
+  };
+
   return (
     <div className={twClassNames('w-full flex flex-col', WRAPPER_GAP_CLASS)}>
       <O11yPageHeadings
@@ -30,30 +48,23 @@ function Integrations() {
         <section className="bg-base-50 flex max-w-3xl justify-between gap-6 py-6">
           <div className="w-full max-w-xs">
             <O11yInputField
-              // value={searchText}
-              // addOnAfterInline={
-              //   searchText.length ? (
-              //     <O11yButton
-              //       variant="minimal"
-              //       colors="white"
-              //       icon={<MdClose className="text-lg" />}
-              //       onClick={clearSearchText}
-              //       isIconOnlyButton
-              //       size="extra-small"
-              //     />
-              //   ) : null
-              // }
               addOnBeforeInline={<MdSearch className="text-base-400 text-lg" />}
               placeholder="Search"
-              // onKeyDown={handleSearchTextChange}
-              // onChange={handleOnChange}
               id="integration-search-value"
             />
           </div>
           <div className="max-w-sm">
-            <O11ySelectMenu>
+            <O11ySelectMenu
+              defaultValue={ALL_CATEGORIES_OPTION}
+              onChange={onCategorySelect}
+            >
               <O11ySelectMenuTrigger placeholder="All Categories" value="" />
               <O11ySelectMenuOptionGroup>
+                <O11ySelectMenuOptionItem
+                  checkPosition="right"
+                  wrapperClassName="text-sm"
+                  option={ALL_CATEGORIES_OPTION}
+                />
                 {INTEGRATIONS.map((integration) => (
                   <O11ySelectMenuOptionItem
                     checkPosition="right"
@@ -70,7 +81,7 @@ function Integrations() {
         </section>
         <section className="border-x-base-200 border-b-base-200 max-w-3xl overflow-auto border-x border-b pt-0">
           <O11yStackedList>
-            {INTEGRATIONS.map((integration) => (
+            {availableIntegrations.map((integration) => (
               <O11yStackedListGroup
                 key={integration.name}
                 wrapperClassName="fist:rounded-lg"
