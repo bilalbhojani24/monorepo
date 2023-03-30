@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   SelectMenu,
@@ -85,9 +85,9 @@ const IssueForm = ({
     [projectFieldData]
   );
 
-  const resetMeta = () => {
+  const resetMeta = useCallback(() => {
     setFields([]);
-  };
+  }, []);
 
   useEffect(() => {
     if (!isBeingDiscarded && !isWorkInProgress) {
@@ -160,15 +160,15 @@ const IssueForm = ({
     // debouncedGetUpdateMeta
   ]);
 
-  const handleIssueTabChange = (tabSelected) => {
+  const handleIssueTabChange = useCallback((tabSelected) => {
     if (tabSelected.mode !== mode) {
       changeModeTo(tabSelected.mode);
     }
-  };
+  }, []);
 
-  const handleTryAgain = () => {
+  const handleTryAgain = useCallback(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
-  };
+  }, []);
 
   useEffect(() => {
     if (areProjectsLoaded && (projects ?? []).length === 0) {

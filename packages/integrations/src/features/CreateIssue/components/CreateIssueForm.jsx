@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { createIssue } from '../../../api';
@@ -33,7 +33,7 @@ const CreateIssueForm = ({
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
-  const handleSubmit = (formData) => {
+  const handleSubmit = useCallback((formData) => {
     setIsFormBeingSubmitted(true);
     const data = { ...fieldsData, ...formData };
     if (descriptionMeta) {
@@ -145,7 +145,7 @@ const CreateIssueForm = ({
           setIsFormBeingSubmitted(false);
         }
       });
-  };
+  }, []);
 
   return (
     <>

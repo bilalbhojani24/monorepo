@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { getTickets, updateIssue } from '../../../api';
@@ -50,7 +50,7 @@ const UpdateIssueForm = ({
     }
   }, [projectFieldData, integrationToolFieldData]);
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = useCallback((formData) => {
     setIsFormBeingSubmitted(true);
     const data = { ...fieldsData, ...formData };
     if (descriptionMeta) {
@@ -159,7 +159,7 @@ const UpdateIssueForm = ({
           setIsFormBeingSubmitted(false);
         }
       });
-  };
+  }, []);
 
   return (
     <>

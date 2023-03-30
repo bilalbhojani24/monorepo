@@ -34,7 +34,6 @@ const ListOfIntegrations = ({
   continueEditing,
   isBeingDiscarded,
   isWorkInProgress,
-  setReadyToSubmit,
   confirmIssueDiscard,
   setIsWorkInProgress,
   setIsFormBeingSubmitted
@@ -56,7 +55,6 @@ const ListOfIntegrations = ({
         changeModeTo={changeModeTo}
         continueEditing={continueEditing}
         isBeingDiscarded={isBeingDiscarded}
-        setReadyToSubmit={setReadyToSubmit}
         isWorkInProgress={isWorkInProgress}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}

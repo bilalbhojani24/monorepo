@@ -44,17 +44,17 @@ export const CreateIssue = ({
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const previousModeRef = useRef(null);
 
-  const continueEditing = () => {
+  const continueEditing = useCallback(() => {
     if (previousModeRef.current) {
       setMode(previousModeRef.current);
       previousModeRef.current = null;
     }
     setIsBeingDiscarded(false);
-  };
+  }, []);
 
-  const discardIssue = () => {
+  const discardIssue = useCallback(() => {
     setIsBeingDiscarded(true);
-  };
+  }, []);
   const confirmIssueDiscard = useCallback(() => {
     if (previousModeRef.current) {
       previousModeRef.current = null;
@@ -71,13 +71,13 @@ export const CreateIssue = ({
     }
   }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
 
-  const changeModeTo = (nextMode) => {
+  const changeModeTo = useCallback((nextMode) => {
     if (isWorkInProgress) {
       discardIssue();
       previousModeRef.current = mode;
     }
     setMode(nextMode);
-  };
+  }, []);
 
   return (
     <BasicWidget
