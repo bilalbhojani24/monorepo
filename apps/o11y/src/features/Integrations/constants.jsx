@@ -1,8 +1,10 @@
 import React from 'react';
 import {
+  AzurePipelinesIcon,
   // AzurePipelinesIcon,
   GithubIcon,
   GitLabIcon,
+  JenkinsIcon,
   // JenkinsIcon,
   JiraIcon
 } from 'assets/icons/components';
@@ -16,6 +18,7 @@ import Winston from 'assets/icons/winston.svg';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { getDocUrl, getEnvConfig } from 'utils/common';
 
+import CIStackItem from './components/CIStackItem';
 import DocumentStackListItem from './components/DocumentStackListItem';
 import EmailCommunicationItem from './components/EmailCommunicationItem';
 
@@ -23,28 +26,32 @@ export const INTEGRATIONS_PARAMS = {
   MANAGE_EMAIL_PREFERENCE: 'manage_email_preference'
 };
 
-// const CI_INTEGRATIONS = [
-//   {
-//     name: 'Jenkins',
-//     dataToken: 'JENKINS',
-//     cta: {
-//       name: 'Configure',
-//       link: '',
-//       analyticKey: 'jenkins_connect_clicked'
-//     },
-//     icon: <JenkinsIcon width="40" height="40" />
-//   },
-//   {
-//     name: 'Azure Pipelines',
-//     dataToken: 'AZURE_DEVOPS',
-//     cta: {
-//       name: 'Configure',
-//       link: '',
-//       analyticKey: 'azure_connect_clicked'
-//     },
-//     icon: <AzurePipelinesIcon width="40" height="40" />
-//   }
-// ];
+const CI_INTEGRATIONS = [
+  {
+    name: 'Jenkins',
+    component: (
+      <CIStackItem
+        analyticKey="jenkins_connect_clicked"
+        title="Jenkins"
+        icon=<JenkinsIcon width="40" height="40" />
+        cta="Configure"
+        apiSlug="JENKINS"
+      />
+    )
+  },
+  {
+    name: 'Azure Pipelines',
+    component: (
+      <CIStackItem
+        analyticKey="azure_connect_clicked"
+        title="AzurePipelinesIcon"
+        icon=<AzurePipelinesIcon width="40" height="40" />
+        cta="Configure"
+        apiSlug="AZURE_DEVOPS"
+      />
+    )
+  }
+];
 
 const TESTING_FRAMEWORKS = [
   {
@@ -230,11 +237,11 @@ export const INTEGRATIONS = [
     value: 'testingFrameworks',
     list: TESTING_FRAMEWORKS
   },
-  // {
-  //   name: 'CI/CD',
-  //   value: 'cicd',
-  //   list: CI_INTEGRATIONS
-  // },
+  {
+    name: 'CI/CD',
+    value: 'cicd',
+    list: CI_INTEGRATIONS
+  },
   {
     name: 'Project management tools',
     value: 'pmTools',
