@@ -393,7 +393,7 @@ export default function IssueItem() {
           {activeTab === HOW_TO_FIX_TAB && (
             <div>
               {testType === TEST_TYPE.ASSITIVE_TEST ? (
-                <div className="text-base-700 mb-2 mt-4 text-sm font-medium">
+                <div className="text-base-500 mb-2 mt-4 text-sm font-medium">
                   {failureSummary}
                 </div>
               ) : (
