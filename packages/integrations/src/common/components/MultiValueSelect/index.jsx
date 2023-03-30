@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ComboBox,
   ComboboxOptionGroup,
@@ -8,7 +9,7 @@ import {
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { fetchOptions } from '../../../api';
+import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 
@@ -28,6 +29,7 @@ const MultiSelect = ({
   wrapperClassName,
   areSomeRequiredFieldsEmpty
 }) => {
+  const dispatch = useDispatch();
   const cleanOptions = (options) =>
     Array.isArray(options) &&
     options.map((option) => ({
@@ -76,7 +78,9 @@ const MultiSelect = ({
 
   useEffect(() => {
     if (optionsPath) {
-      fetchOptions(optionsPath).then((optionsData) => {
+      dispatch(
+        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
+      ).then(({ payload: optionsData }) => {
         const cleanedOptions = cleanOptions(
           mergeTwoOptionsArray(optionsData, value || defaultValue)
         );
@@ -97,7 +101,9 @@ const MultiSelect = ({
   }, [options, value, defaultValue]);
 
   const fetchQuery = (query) => {
-    fetchOptions(searchPath + query).then((optionsData) => {
+    dispatch(
+      fetchOptionsThunk({ path: searchPath + query, isDefaultOptions: false })
+    ).then(({ payload: optionsData }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);

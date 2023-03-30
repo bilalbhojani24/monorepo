@@ -1,5 +1,5 @@
 export { createIssue } from './createIssue';
-export { fetchOptions } from './fetchOptions';
+export { fetchOptionsThunk } from './fetchOptions';
 export { fetchTokenThunk } from './fetchToken';
 export { getCreateMeta } from './getCreateMeta';
 export { getIntegrationsThunk } from './getIntegrations';
