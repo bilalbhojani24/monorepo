@@ -11,7 +11,7 @@ const IssuesAudits = () => {
   return (
     <div className="mb-8">
       <div className="mb-3 flex flex-col rounded-lg bg-white shadow">
-        <div className="border-base-300 flex items-center border-b py-4 px-6">
+        <div className="flex items-center px-6 py-4">
           <div className="mr-1 text-lg font-semibold leading-6">
             Issues Detected
           </div>
@@ -29,12 +29,21 @@ const IssuesAudits = () => {
           </div>
         </div>
 
-        {auditsToBeShown?.length > 0 &&
-          auditsToBeShown.map((audit) => (
-            <div className="border-base-300 border-b px-6">
-              <AuditAccordion auditDetails={audit} />
-            </div>
-          ))}
+        {auditsToBeShown?.length === 0 && (
+          <div className="pb-6 pt-2 text-center text-lg font-semibold">
+            No Issues Detected!
+          </div>
+        )}
+
+        {auditsToBeShown?.length > 0 && (
+          <div className="border-base-300 border-t">
+            {auditsToBeShown.map((audit) => (
+              <div className="border-base-300 border-b px-6">
+                <AuditAccordion auditDetails={audit} />
+              </div>
+            ))}
+          </div>
+        )}
 
         {sessionData?.audits?.failedAudits?.length > 3 && (
           <div
@@ -54,7 +63,7 @@ const IssuesAudits = () => {
         )}
       </div>
 
-      <div className="flex flex-col rounded-lg bg-white py-4 px-6 shadow">
+      <div className="flex flex-col rounded-lg bg-white px-6 py-4 shadow">
         <div className="text-lg font-semibold leading-6">
           <div className="mb-4 flex items-center">
             <div className="mr-1 text-lg font-semibold leading-6">
@@ -68,16 +77,32 @@ const IssuesAudits = () => {
                 modifier="success"
                 isRounded
                 size="large"
-                text={sessionData?.audits?.passedAudits?.count}
+                text={sessionData?.audits?.passedAudits?.metrics?.length}
                 wrapperClassName=""
               />
             </div>
           </div>
 
-          <div className="flex">
-            <span className="text-base font-normal leading-6">
+          <div className="flex flex-col">
+            <div className="text-base font-normal leading-6">
               {sessionData?.audits?.passedAudits?.message}
-            </span>
+            </div>
+
+            {sessionData?.audits?.passedAudits?.metrics?.length > 0 && (
+              <div className="mt-3 flex flex-wrap">
+                {sessionData?.audits?.passedAudits?.metrics.map((metric) => (
+                  <Badge
+                    hasDot={false}
+                    hasRemoveButton={false}
+                    modifier="base"
+                    isRounded
+                    size="large"
+                    text={metric}
+                    wrapperClassName="mr-2 mb-2"
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
