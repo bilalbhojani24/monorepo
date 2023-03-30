@@ -1,10 +1,14 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import {
+  NETWORK_DOWNLOAD_TT,
+  NETWORK_UPLOAD_TT
+} from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useNetworkIODetails from './useNetworkIODetails';
 
 const NetworkIODetails = () => {
@@ -19,7 +23,7 @@ const NetworkIODetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.networkReadKbTotal?.value
           )} Kb`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={NETWORK_UPLOAD_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.networkReadKbTotal?.value,
             sessionData?.threshold?.networkReadKbTotal
@@ -35,7 +39,7 @@ const NetworkIODetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.networkWriteKbTotal?.value
           )} Kb`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={NETWORK_DOWNLOAD_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.networkWriteKbTotal?.value,
             sessionData?.threshold?.networkWriteKbTotal
@@ -47,7 +51,7 @@ const NetworkIODetails = () => {
       </div>
 
       <div className="relative h-[182px]">
-        <div className="absolute top-0 left-0 w-full">
+        <div className="absolute left-0 top-0 w-full">
           {networkIOChartOptions && (
             <HighchartsReact
               highcharts={Highcharts}

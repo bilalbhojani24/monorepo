@@ -1,10 +1,11 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { BATTERY_CONSUMED_TT } from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { decideIfCriteriaBreached } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useBatteryDetails from './useBatteryDetails';
 
 const BatteryChart = () => {
@@ -19,7 +20,7 @@ const BatteryChart = () => {
           metricText={`${roundTo3DecimalPlaces(
             sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value
           )} %`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={BATTERY_CONSUMED_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value,
             sessionData?.threshold?.batterymAhConsumedByAppPercent
@@ -31,7 +32,7 @@ const BatteryChart = () => {
       </div>
 
       <div className="relative h-[182px] flex-1">
-        <div className="absolute top-0 left-0 w-full">
+        <div className="absolute left-0 top-0 w-full">
           {batteryChartOptions && (
             <HighchartsReact
               highcharts={Highcharts}

@@ -1,8 +1,9 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { APP_SIZE_TT, COLD_APP_STARTUP_TT } from 'constants/reportTooltipText';
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useStartupAndSize from './useStartupAndSize';
 
 const StartupAndSize = () => {
@@ -20,7 +21,7 @@ const StartupAndSize = () => {
             metricText={`${sanitizeValue(
               sessionData?.aggregated?.appStartTotalTime?.value
             )} ms`}
-            MetricIcon={<MdInfoOutline />}
+            MetricIcon={<ReportTooltip cardToolTipData={COLD_APP_STARTUP_TT} />}
             criteriaForBreach={decideIfCriteriaBreached(
               sessionData?.aggregated?.appStartTotalTime?.value,
               sessionData?.threshold?.appStartTotalTime
@@ -43,7 +44,7 @@ const StartupAndSize = () => {
               metricText={`${sanitizeValue(
                 sessionData?.aggregated?.appSize?.value
               )} MB`}
-              MetricIcon={<MdInfoOutline />}
+              MetricIcon={<ReportTooltip cardToolTipData={APP_SIZE_TT} />}
               criteriaForBreach={decideIfCriteriaBreached(
                 sessionData?.aggregated?.appSize?.value,
                 sessionData?.threshold?.appSize

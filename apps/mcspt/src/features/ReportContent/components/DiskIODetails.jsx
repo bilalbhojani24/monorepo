@@ -1,10 +1,11 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { DISK_READ_TT, DISK_WRITE_TT } from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useDiskIODetails from './useDiskIODetails';
 
 const DiskIODetails = () => {
@@ -19,7 +20,7 @@ const DiskIODetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.diskReadMbTotal?.value
           )} MB`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={DISK_READ_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.diskReadMbTotal?.value,
             sessionData?.threshold?.diskReadMbTotal
@@ -33,7 +34,7 @@ const DiskIODetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.diskWriteMbTotal?.value
           )} MB`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={DISK_WRITE_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.diskWriteMbTotal?.value,
             sessionData?.threshold?.diskWriteMbTotal
@@ -43,7 +44,7 @@ const DiskIODetails = () => {
       </div>
 
       <div className="relative h-[182px]">
-        <div className="absolute top-0 left-0 w-full">
+        <div className="absolute left-0 top-0 w-full">
           {diskIOChartOptions && (
             <HighchartsReact
               highcharts={Highcharts}
