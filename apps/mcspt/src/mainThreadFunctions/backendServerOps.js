@@ -128,7 +128,7 @@ const waitForSuccessfulServerReply = async (
 export const checkServerAvailability = async (initiationCallback) => {
   try {
     await waitForLocalhost({ port: serverEntities.nodeServerPort });
-    await waitForSuccessfulServerReply(1, 30, 1000);
+    await waitForSuccessfulServerReply(1, 120, 1000);
     initiationCallback();
   } catch (e) {
     // console.log(e);
