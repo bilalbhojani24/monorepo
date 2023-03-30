@@ -3,14 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
-// import { getFolders } from '../../../api/folders.api';
+import { getFolders } from '../../../api/folders.api';
 import { moveFolderOptions } from '../../../const/immutables';
 import { setCSVConfigurations, uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
   setCSVUploadError,
   setFileConfig,
-  // setFoldersForCSV,
+  setFoldersForCSV,
   setShowChangeFolderModal,
   setShowMoreFields
 } from '../slices/importCSVSlice';
@@ -47,6 +47,7 @@ const useImportCSV = () => {
   const showChangeFolderModal = useSelector(
     (state) => state.importCSV.showChangeFolderModal
   );
+  const allCSVFolders = useSelector((state) => state.importCSV.foldersForCSV);
 
   const fetchCSVConfigurations = () => {
     dispatch(setCSVConfigurations({ projectId, folderId }));
@@ -57,12 +58,12 @@ const useImportCSV = () => {
     );
   };
 
-  // const fetchFolders = (id) => {
-  //   if (id !== 'new')
-  //     getFolders({ projectId: id }).then((res) => {
-  //       dispatch(setFoldersForCSV(res?.folders));
-  //     });
-  // };
+  const fetchFolders = (id) => {
+    if (id !== 'new')
+      getFolders({ projectId: id }).then((res) => {
+        dispatch(setFoldersForCSV(res?.folders));
+      });
+  };
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -181,10 +182,11 @@ const useImportCSV = () => {
     fileConfig,
     projectId,
     folderId,
+    allCSVFolders,
     showMoreFields,
     showChangeFolderModal,
     selectedFolderLocation,
-    // fetchFolders,
+    fetchFolders,
     handleFileUpload,
     handleFileRemove,
     handleCSVFieldChange,
@@ -195,7 +197,6 @@ const useImportCSV = () => {
     handleUploadToRootClick,
     hideFolderExplorerModal,
     handleUpdateFolderLocationClick,
-    // showFolderExplorerModal,
     mappingFieldsData,
     mapFieldModalConfig,
     uploadFileProceedLoading

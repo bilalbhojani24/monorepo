@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { MdFolder, MdInfo, MdTextSnippet } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -25,11 +25,12 @@ const UploadFile = () => {
     fileConfig,
     projectId,
     folderId,
+    allCSVFolders,
     showMoreFields,
     showChangeFolderModal,
     selectedFolderLocation,
     uploadFileProceedLoading,
-    // fetchFolders,
+    fetchFolders,
     handleFileUpload,
     handleFileRemove,
     handleProceedClick,
@@ -56,10 +57,10 @@ const UploadFile = () => {
     });
   };
 
-  // useEffect(() => {
-  //   fetchFolders(projectId);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [projectId]);
+  useEffect(() => {
+    fetchFolders(projectId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return (
     <div className="w-4/5 max-w-7xl">
@@ -177,7 +178,7 @@ const UploadFile = () => {
         actionOptions={[
           { id: 'add_folder', body: 'Add Sub Folder', value: 'add-folder' }
         ]}
-        allFolders={null}
+        allFolders={allCSVFolders}
         confirmButtonCb={handleUpdateFolderLocationClick}
         confirmButtonText="Update Location"
         folderExplorerHeader="Folders"

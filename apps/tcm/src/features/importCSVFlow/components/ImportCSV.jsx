@@ -39,7 +39,6 @@ const ImportCSV = () => {
   };
 
   useEffect(() => {
-    console.log('fetch csv config');
     fetchCSVConfigurations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, folderId]);

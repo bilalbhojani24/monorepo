@@ -56,7 +56,7 @@ const TreeNode = ({
             {item.name}
           </TMTruncateText>
         }
-        description={`(${item?.sub_folders_count})`}
+        // description={`(${item?.sub_folders_count})`}
         hideArrowIcon={!item?.sub_folders_count || false}
         isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
         onNodeClick={() => onFolderClick(item)}
