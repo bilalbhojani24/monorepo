@@ -193,6 +193,9 @@ export const repositorySlice = createSlice({
     resetBulkSelection: (state) => {
       state.bulkSelection = initialState.bulkSelection;
     },
+    resetBulkFormData: (state) => {
+      state.testCaseBulkFormData = initialState.testCaseBulkFormData;
+    },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
@@ -290,6 +293,7 @@ export const {
   setBulkAllSelected,
   setBulkUpdateProgress,
   resetBulkSelection,
+  resetBulkFormData,
   updateBulkTestCaseFormData,
   updateTestCasesListLoading,
   updateFoldersLoading,

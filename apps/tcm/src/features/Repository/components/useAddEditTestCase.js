@@ -21,6 +21,7 @@ import { logEventHelper } from 'utils/logEvent';
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  resetBulkFormData,
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
@@ -386,6 +387,7 @@ export default function useAddEditTestCase(prop) {
         );
         hideTestCaseAddEditPage(null, true);
         dispatch(resetBulkSelection());
+        dispatch(resetBulkFormData());
       })
       .catch(() => {
         dispatch(
