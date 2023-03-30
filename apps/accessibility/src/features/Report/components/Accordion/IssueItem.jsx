@@ -16,7 +16,12 @@ import {
   TooltipBody
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton';
-import { GUIDELINES, HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB } from 'constants';
+import {
+  GUIDELINES,
+  HOW_TO_FIX_TAB,
+  ISSUE_DETAILS_TAB,
+  TEST_TYPE
+} from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { SectionsDataContext } from 'features/Report/context/SectionsDataContext';
 import {
@@ -147,7 +152,8 @@ export default function IssueItem() {
     confirmed,
     childNodes,
     needsReview,
-    testType
+    testType,
+    failureSummary
   } = issueItem;
 
   const tagList = tagToView(headerData.tags);
@@ -166,6 +172,8 @@ export default function IssueItem() {
       nodeList: none
     }
   ];
+
+  console.log({ testType, issueItem });
 
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
@@ -384,60 +392,67 @@ export default function IssueItem() {
           )}
           {activeTab === HOW_TO_FIX_TAB && (
             <div>
-              <div>
-                {data
-                  .filter(({ nodeList }) => nodeList.length > 0)
-                  .map(({ type, nodeList }, index) => {
-                    let hasRelatedNodes = false;
-                    nodeList.forEach(({ relatedNodes }) => {
-                      if (relatedNodes.length && !hasRelatedNodes) {
-                        hasRelatedNodes = true;
-                      }
-                    });
-                    return (
-                      <div key={type}>
-                        {index !== 0 && <p>and</p>}
-                        <p className="text-base-700 mb-2 mt-4 text-sm font-medium">
-                          Fix {type === 'any' ? 'any' : 'all'} of the following
-                        </p>
-                        <ul className="text-base-500 mb-4 ml-6 list-disc text-sm">
-                          {nodeList.map(({ message: nodeMessage }) => (
-                            <li key={nodeMessage}>{nodeMessage}</li>
-                          ))}
-                        </ul>
-                        {hasRelatedNodes && (
-                          <div>
-                            <p className="text-base-700 mb-1 text-sm font-medium">
-                              Related CSS Selector(s)
-                            </p>
-                            {nodeList.map(({ relatedNodes }) =>
-                              relatedNodes.map((item) => {
-                                const targetNode = item.target
-                                  ? item.target.join(' ')
-                                  : item.html;
-                                return (
-                                  <div className="flex">
-                                    <div className="mr-2 w-full">
-                                      <SyntaxHighlighter
-                                        language="css"
-                                        style={a11yLight}
-                                        wrapLongLines
-                                        customStyle={{ padding: '6px' }}
-                                      >
-                                        {targetNode}
-                                      </SyntaxHighlighter>
+              {testType === TEST_TYPE.ASSITIVE_TEST ? (
+                <div className="text-base-700 mb-2 mt-4 text-sm font-medium">
+                  {failureSummary}
+                </div>
+              ) : (
+                <div>
+                  {data
+                    .filter(({ nodeList }) => nodeList.length > 0)
+                    .map(({ type, nodeList }, index) => {
+                      let hasRelatedNodes = false;
+                      nodeList.forEach(({ relatedNodes }) => {
+                        if (relatedNodes.length && !hasRelatedNodes) {
+                          hasRelatedNodes = true;
+                        }
+                      });
+                      return (
+                        <div key={type}>
+                          {index !== 0 && <p>and</p>}
+                          <p className="text-base-700 mb-2 mt-4 text-sm font-medium">
+                            Fix {type === 'any' ? 'any' : 'all'} of the
+                            following
+                          </p>
+                          <ul className="text-base-500 mb-4 ml-6 list-disc text-sm">
+                            {nodeList.map(({ message: nodeMessage }) => (
+                              <li key={nodeMessage}>{nodeMessage}</li>
+                            ))}
+                          </ul>
+                          {hasRelatedNodes && (
+                            <div>
+                              <p className="text-base-700 mb-1 text-sm font-medium">
+                                Related CSS Selector(s)
+                              </p>
+                              {nodeList.map(({ relatedNodes }) =>
+                                relatedNodes.map((item) => {
+                                  const targetNode = item.target
+                                    ? item.target.join(' ')
+                                    : item.html;
+                                  return (
+                                    <div className="flex">
+                                      <div className="mr-2 w-full">
+                                        <SyntaxHighlighter
+                                          language="css"
+                                          style={a11yLight}
+                                          wrapLongLines
+                                          customStyle={{ padding: '6px' }}
+                                        >
+                                          {targetNode}
+                                        </SyntaxHighlighter>
+                                      </div>
+                                      <CopyButton text={targetNode} />
                                     </div>
-                                    <CopyButton text={targetNode} />
-                                  </div>
-                                );
-                              })
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-              </div>
+                                  );
+                                })
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
             </div>
           )}
         </div>
