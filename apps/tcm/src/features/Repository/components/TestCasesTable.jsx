@@ -106,7 +106,7 @@ const TestCasesTable = ({
           </TMTruncateText>
         </div>
       ),
-      class: 'w-[11%]'
+      class: 'w-[9%] max-w-[112px]'
     },
     {
       name: 'TITLE',
@@ -163,7 +163,7 @@ const TestCasesTable = ({
           )}
         </div>
       ),
-      class: 'w-[42%]'
+      class: 'w-[42%] max-w-xs'
     },
     {
       name: 'PRIORITY',
@@ -225,7 +225,7 @@ const TestCasesTable = ({
           }
         />
       ),
-      class: 'w-[5%]'
+      class: 'w-4'
     }
   ];
 
@@ -236,11 +236,12 @@ const TestCasesTable = ({
   return (
     <>
       <TMTable
-        tableWrapperClass="table-fixed w-full"
+        tableWrapperClass="table-fixed"
         containerWrapperClass={classNames(
           containerWrapperClass,
           // 'max-w-[calc(100vw-40rem)]'
-          'overflow-y-auto'
+          'overflow-y-auto',
+          'overflow-x-auto'
         )}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
@@ -248,13 +249,13 @@ const TestCasesTable = ({
             {!isSearchFilterView && (
               <td
                 variant="body"
-                className="border-base-50 text-base-500 h-full w-[5%] p-2"
+                className="border-base-50 text-base-500 p-2"
                 textTransform="uppercase"
               >
                 {/* all checkbox */}
                 <TMCheckBox
                   border={false}
-                  wrapperClassName="pt-0"
+                  wrapperClassName="pt-0 pl-2"
                   checked={
                     isAllChecked
                     // (isAllSelected && !deSelectedTestCaseIDs.length) ||
@@ -278,7 +279,7 @@ const TestCasesTable = ({
                 key={col.key || index}
                 variant="body"
                 wrapperClassName={classNames(`test-base-500`, col?.class, {
-                  'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                  'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
                   // 'flex-1 w-9/12': index === 1,
                   // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
@@ -336,7 +337,7 @@ const TestCasesTable = ({
                       variant="body"
                       // className="border-base-50 test-base-500 h-full min-w-[5%] p-2"
                       className={classNames(
-                        'border-base-50 test-base-500 h-full min-w-[5%] p-2',
+                        'border-base-50 test-base-500 p-2',
                         !deSelectedTestCaseIDs.includes(row.id) &&
                           (isAllSelected ||
                             selectedTestCaseIDs.includes(row.id))
@@ -347,7 +348,7 @@ const TestCasesTable = ({
                     >
                       <TMCheckBox
                         border={false}
-                        wrapperClassName="pt-0"
+                        wrapperClassName="pt-0 pl-2"
                         checked={
                           !deSelectedTestCaseIDs.includes(row.id) &&
                           (isAllSelected ||
@@ -363,7 +364,7 @@ const TestCasesTable = ({
                       <TMTableCell
                         key={column.key}
                         wrapperClassName={classNames(column?.class, {
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
                           // 'pb-[3px]': column.key === 'identifier',
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
