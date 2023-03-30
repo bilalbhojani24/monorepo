@@ -26,11 +26,22 @@ export const submitEmailPreferencesData = createAsyncThunk(
   }
 );
 
-const { reducer } = createSlice({
+const { reducer, actions } = createSlice({
   name: 'integrations',
-  initialState: {},
-  reducers: {},
+  initialState: {
+    ciData: {}
+  },
+  reducers: {
+    updateCiData: (state, { payload }) => {
+      state.ciData = {
+        ...state.ciData,
+        ...payload
+      };
+    }
+  },
   extraReducers: {}
 });
+
+export const { updateCiData } = actions;
 
 export default reducer;

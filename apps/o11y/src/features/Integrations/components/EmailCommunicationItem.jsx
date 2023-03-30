@@ -59,7 +59,9 @@ function EmailCommunicationItem() {
       }
     >
       <O11yStackedListCommon
-        icon={<MdOutlineMailOutline className="h-10 w-10 rounded-full" />}
+        icon={
+          <MdOutlineMailOutline className="text-base-500 h-10 w-10 rounded-full" />
+        }
         title="Email"
       />
     </O11yStackedListItem>

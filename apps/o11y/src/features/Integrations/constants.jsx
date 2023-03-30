@@ -1,11 +1,9 @@
 import React from 'react';
 import {
   AzurePipelinesIcon,
-  // AzurePipelinesIcon,
   GithubIcon,
   GitLabIcon,
   JenkinsIcon,
-  // JenkinsIcon,
   JiraIcon
 } from 'assets/icons/components';
 import FilebeatLogstash from 'assets/icons/filebeat+logstash.svg';
@@ -16,6 +14,7 @@ import TestNgIcon from 'assets/icons/Testng.svg';
 import WebDriverIOIcon from 'assets/icons/Webdriver-IO.svg';
 import Winston from 'assets/icons/winston.svg';
 import { DOC_KEY_MAPPING } from 'constants/common';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import { getDocUrl, getEnvConfig } from 'utils/common';
 
 import CIStackItem from './components/CIStackItem';
@@ -24,6 +23,11 @@ import EmailCommunicationItem from './components/EmailCommunicationItem';
 
 export const INTEGRATIONS_PARAMS = {
   MANAGE_EMAIL_PREFERENCE: 'manage_email_preference'
+};
+
+export const CI_API_SLUGS = {
+  JENKINS: 'JENKINS',
+  AZURE_DEVOPS: 'AZURE_DEVOPS'
 };
 
 const CI_INTEGRATIONS = [
@@ -35,7 +39,8 @@ const CI_INTEGRATIONS = [
         title="Jenkins"
         icon=<JenkinsIcon width="40" height="40" />
         cta="Configure"
-        apiSlug="JENKINS"
+        apiSlug={CI_API_SLUGS.JENKINS}
+        modalKey={MODAL_TYPES.jenkins_connect_modal}
       />
     )
   },
@@ -47,7 +52,8 @@ const CI_INTEGRATIONS = [
         title="AzurePipelinesIcon"
         icon=<AzurePipelinesIcon width="40" height="40" />
         cta="Configure"
-        apiSlug="AZURE_DEVOPS"
+        apiSlug={CI_API_SLUGS.AZURE_DEVOPS}
+        modalKey={MODAL_TYPES.azure_connect_modal}
       />
     )
   }
@@ -75,7 +81,7 @@ const TESTING_FRAMEWORKS = [
     component: (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
-        title="TestNg"
+        title="Mocha"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.mocha, prependO11y: true })}
         icon=<img
