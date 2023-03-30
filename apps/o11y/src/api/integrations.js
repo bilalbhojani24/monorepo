@@ -8,7 +8,7 @@ export const getEmailPreferences = async () => {
 };
 
 export const submitEmailPreferences = async ({ payload }) => {
-  const endpoint = `${versionedBaseRoute()}/api/v1/integrations/email-preferences`;
+  const endpoint = `${versionedBaseRoute()}/integrations/email-preferences`;
   return axios.put(endpoint, {
     payload
   });

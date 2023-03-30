@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,9 +14,14 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { NOTIFICATION_TYPES } from 'constants/common';
 import { getProjects } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 import { INTEGRATIONS_PARAMS } from '../constants';
-import { getEmailPreferencesData } from '../slices/integrationsSlice';
+import {
+  getEmailPreferencesData,
+  submitEmailPreferencesData
+} from '../slices/integrationsSlice';
 
 const getFilteredMenuOptions = (projectList, selectedProjects) => {
   const filteredList = projectList.filter(
@@ -36,6 +41,8 @@ function EmailPreferenceModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const projects = useSelector(getProjects);
+  const [isUnchanged, setIsUnchanged] = useState(true);
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
   const [isLoadingInitialData, setIsLoadingInitialData] = useState(true);
   const [isCheckedDailySummary, setIsCheckedDailySummary] = useState(false);
   const [selectedDailySummaryProjects, setSelectedDailySummaryProjects] =
@@ -71,22 +78,65 @@ function EmailPreferenceModal() {
     [projects]
   );
 
-  const handleSelectDailySummaryCheck = (status) => {
-    // setIsUnchanged(false);
-    setIsCheckedDailySummary(status);
+  const handleSelectDailySummaryCheck = ({ target: { checked } }) => {
+    setIsUnchanged(false);
+    setIsCheckedDailySummary(checked);
   };
-  const handleSelectBuildInsightsCheck = (status) => {
-    // setIsUnchanged(false);
-    setIsCheckedBuildInsights(status);
+  const handleSelectBuildInsightsCheck = ({ target: { checked } }) => {
+    setIsUnchanged(false);
+    setIsCheckedBuildInsights(checked);
   };
 
   const handleSelectDailySummaryProjects = (items) => {
-    // setIsUnchanged(false);
+    setIsUnchanged(false);
     setSelectedDailySummaryProjects(items);
   };
   const handleSelectBuildInsightsProjects = (items) => {
-    // setIsUnchanged(false);
+    setIsUnchanged(false);
     setSelectedBuildInsightsProjects(items);
+  };
+
+  const handleSubmit = () => {
+    const payload = {
+      [NOTIFICATION_TYPES.dailySummary]: {
+        isSubscribed: isCheckedDailySummary,
+        projects: selectedDailySummaryProjects.map((item) => item.value)
+      },
+      [NOTIFICATION_TYPES.buildInsights]: {
+        isSubscribed: isCheckedBuildInsights,
+        projects: selectedBuildInsightsProjects.map((item) => item.value)
+      }
+    };
+    setIsSubmittingData(true);
+    dispatch(submitEmailPreferencesData({ payload }))
+      .unwrap()
+      .then(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        logOllyEvent({
+          event: 'O11yIntegrationsEmailConfigurationChanged',
+          data: {
+            daily_summary_enabled: isCheckedDailySummary,
+            daily_summary_projects: selectedDailySummaryProjects.length,
+            build_insights_enabled: isCheckedBuildInsights,
+            build_insights_projects: selectedBuildInsightsProjects.length,
+            source: searchParams.get('source') ? 'click' : 'direct'
+          }
+        });
+        o11yNotify({
+          title: `Email preferences updated successfully`,
+          type: 'success'
+        });
+        handleCloseModal();
+      })
+      .catch(() => {
+        o11yNotify({
+          title: `Failed to update email preferences`,
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
   };
 
   useEffect(() => {
@@ -145,6 +195,22 @@ function EmailPreferenceModal() {
         setIsLoadingInitialData(false);
       });
   }, [dispatch, getFormattedMenuOptions, projects.list]);
+
+  const isValid = useMemo(() => {
+    if (isUnchanged) {
+      return false;
+    }
+    if (isCheckedBuildInsights && !selectedBuildInsightsProjects.length) {
+      return false;
+    }
+    return !(isCheckedDailySummary && !selectedDailySummaryProjects.length);
+  }, [
+    isCheckedBuildInsights,
+    isCheckedDailySummary,
+    isUnchanged,
+    selectedBuildInsightsProjects.length,
+    selectedDailySummaryProjects.length
+  ]);
 
   return (
     <O11yModal show size="lg" onClose={handleCloseModal}>
@@ -218,10 +284,10 @@ function EmailPreferenceModal() {
           Cancel
         </O11yButton>
         <O11yButton
-          // disabled={!isFormValid}
-          // loading={isSubmittingData}
-          // isIconOnlyButton={isSubmittingData}
-          // onClick={handleSubmitChanges}
+          disabled={!isValid}
+          loading={isSubmittingData}
+          isIconOnlyButton={isSubmittingData}
+          onClick={handleSubmit}
           type="submit"
         >
           Confirm
