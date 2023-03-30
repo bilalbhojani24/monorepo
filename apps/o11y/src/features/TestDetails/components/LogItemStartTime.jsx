@@ -16,7 +16,7 @@ export default function LogItemStartTime({ duration }) {
       <span
         className={twClassNames(
           'ml-2 inline-flex shrink-0 justify-end leading-5',
-          { hidden: sessionTestToggle }
+          { hidden: !sessionTestToggle }
         )}
       >
         {millisToMinutesAndSeconds(duration)}
@@ -26,7 +26,7 @@ export default function LogItemStartTime({ duration }) {
           className={twClassNames(
             'ml-2 hidden shrink-0 justify-end leading-5',
             {
-              'inline-flex': sessionTestToggle
+              'inline-flex': !sessionTestToggle
             }
           )}
         >
