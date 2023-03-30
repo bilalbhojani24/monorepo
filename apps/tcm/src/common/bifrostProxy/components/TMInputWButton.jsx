@@ -1,15 +1,16 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { TMButton, TMInputField } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const TMAttachments = (props) => (
-  <div className="flex w-full items-end justify-end">
+const TMInputWButton = forwardRef((props, ref) => (
+  <div className="relative z-0 flex w-full items-end justify-end">
     <div className="w-full">
       <TMInputField
         {...props}
+        ref={ref}
         wrapperClassName={twClassNames(
           'flex-1 w-full rounded-none rounded-l-md',
           props.wrapperClassName
@@ -26,20 +27,20 @@ const TMAttachments = (props) => (
       {props.buttonElement}
     </TMButton>
   </div>
-);
+));
 
 // space-x-2 rounded-r-md border px-4 py-2 text-sm font-medium focus:outline-none focus:ring-1
 
-TMAttachments.propTypes = {
+TMInputWButton.propTypes = {
   wrapperClassName: PropTypes.string,
   onButtonClick: PropTypes.func,
   buttonElement: PropTypes.node
 };
 
-TMAttachments.defaultProps = {
+TMInputWButton.defaultProps = {
   wrapperClassName: '',
   onButtonClick: () => {},
   buttonElement: null
 };
 
-export default TMAttachments;
+export default TMInputWButton;
