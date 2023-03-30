@@ -40,19 +40,19 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
     key: 'error',
     label: 'Error',
     headerClass: 'py-2 flex-1 min-w-[460px]',
-    bodyClass: 'py-3 w-[460px] flex-1'
+    bodyClass: 'w-[460px] flex-1'
   },
   testCount: {
     key: 'testCount',
     label: 'Impacted tests',
     headerClass: 'py-2 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'py-3 pl-4 pr-4 sm:pr-6 w-[150px]'
+    bodyClass: 'pl-4 pr-4 sm:pr-6 w-[150px]'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
     headerClass: 'py-2 pr-4 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'py-3 pr-4 sm:pr-6 pl-4 w-[150px]'
+    bodyClass: 'pr-4 sm:pr-6 pl-4 w-[150px]'
   }
 };
 
