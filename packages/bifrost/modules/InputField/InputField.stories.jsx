@@ -1,4 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -20,6 +23,17 @@ import InputGroupSelectMenuTrigger from './components/InputGroupSelectMenuTrigge
 import InputField from './index';
 
 const emailText = 'you@example.com';
+const automatedText = `AUTOMATED TEST GENERATED TEXT`;
+const automatedNumer = `1234567890`;
+const placeholderEmail = emailText;
+const labelText = 'Label';
+const labelEmail = 'Email';
+const helpText = "We'll only use this for spam.";
+const cornerHintText = 'Optional';
+const validationErrorText = 'Not a valid email address.';
+const addonText = 'https://';
+const dropdownOptions = ['USA', 'CA', 'EU'];
+const placeholderText = 'Placeholder text';
 
 const defaultConfig = {
   title: 'Application/Components/InputField',
@@ -126,7 +140,7 @@ const defaultConfig = {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Placeholder text'
+      defaultValue: placeholderText
     },
     readonly: {
       type: { summary: 'STRING', required: false },
@@ -169,25 +183,233 @@ const InputWithTooltipTemplate = (args) => <InputField {...args} />;
 const InputWithTrailingClickableTemplate = (args) => <InputField {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+};
 const InputWithLeadingIconAndTrailingButton =
   InputWithLeadingIconAndTrailingButtonTemplate.bind({});
+InputWithLeadingIconAndTrailingButton.play = async ({ canvasElement }) => {
+  const InputWithLeadingIconAndTrailingButtonPlaceholder = '0.00';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Price')).toBeVisible();
+  await expect(
+    canvas.getByPlaceholderText(
+      InputWithLeadingIconAndTrailingButtonPlaceholder
+    )
+  ).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(
+      InputWithLeadingIconAndTrailingButtonPlaceholder
+    ),
+    automatedNumer
+  );
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const InputWithLabelAndHelpText = InputWithLabelAndHelpTextTemplate.bind({});
+InputWithLabelAndHelpText.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelEmail)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderEmail)).toBeVisible();
+  await expect(canvas.getByText(helpText)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderEmail),
+    automatedText
+  );
+};
+
 const InputWithValidationError = InputWithValidationErrorTemplate.bind({});
+InputWithValidationError.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelEmail)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await userEvent.clear(canvas.getByPlaceholderText(placeholderText));
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+  await expect(canvas.getByText(validationErrorText)).toBeVisible();
+};
+
 const InputWithDisabledState = InputWithDisabledStateTemplate.bind({});
+InputWithDisabledState.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelEmail)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await userEvent.clear(canvas.getByPlaceholderText(placeholderText));
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+};
+
 const InputWithHiddenLabel = InputWithHiddenLabelTemplate.bind({});
+InputWithHiddenLabel.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(labelText).length).toBe(0);
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await userEvent.clear(canvas.getByPlaceholderText(placeholderText));
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+};
+
 const InputWithCornerHint = InputWithCornerHintTemplate.bind({});
+InputWithCornerHint.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelEmail)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await expect(canvas.getByText(cornerHintText)).toBeVisible();
+  await userEvent.clear(canvas.getByPlaceholderText(placeholderText));
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+};
+
 const InputWithLeadingIcon = InputWithLeadingIconTemplate.bind({});
+InputWithLeadingIcon.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelEmail)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderEmail)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderEmail),
+    automatedText
+  );
+};
+
 const InputWithTrailingIcon = InputWithTrailingIconTemplate.bind({});
+InputWithTrailingIcon.play = async ({ canvasElement }) => {
+  const trailingPlaceholder = '000-00-000';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(trailingPlaceholder)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(trailingPlaceholder),
+    automatedText
+  );
+};
+
 const InputWithAddOn = InputWithAddOnTemplate.bind({});
+InputWithAddOn.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await expect(canvas.getByText(addonText)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+  await expect(canvas.getByText('.com')).toBeVisible();
+};
+
 const InputWithAddOnInline = InputWithAddOnInlineTemplate.bind({});
+InputWithAddOnInline.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderEmail)).toBeVisible();
+  await expect(canvas.getByText(addonText)).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderEmail),
+    automatedText
+  );
+};
+
 const InputWithInlineTrailingLeading =
   InputWithInlineTrailingLeadingTemplate.bind({});
+InputWithInlineTrailingLeading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Price')).toBeVisible();
+  await expect(canvas.getByPlaceholderText('0.00')).toBeVisible();
+  await expect(canvas.getByText('$')).toBeVisible();
+  await expect(canvas.getByText('USD')).toBeVisible();
+  await userEvent.type(canvas.getByPlaceholderText('0.00'), '1.11');
+};
+
 const InputWithInlineLeadingDropdown =
   InputWithInlineLeadingDropdownTemplate.bind({});
+InputWithInlineLeadingDropdown.play = async ({ canvasElement }) => {
+  const InputWithInlineLeadingDropdownPlaceholder = '+1 (555) 987-6543';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Phone Number')).toBeVisible();
+  await expect(
+    canvas.getByPlaceholderText(InputWithInlineLeadingDropdownPlaceholder)
+  ).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(InputWithInlineLeadingDropdownPlaceholder),
+    automatedNumer
+  );
+  await userEvent.click(canvas.getByRole('button'));
+  await delay(1);
+  const elements = document.querySelectorAll('[role="option"]');
+  elements.forEach(async (option) => {
+    await expect(dropdownOptions.includes(option.firstChild.textContent)).toBe(
+      true
+    );
+  });
+  await delay(1);
+  elements[0].click();
+  await delay(1);
+  await expect(canvas.getByText(dropdownOptions[0])).toBeVisible();
+};
+
 const InputWithInlineLeadingAddOnAndTrailingDropdown =
   InputWithInlineLeadingAddOnAndTrailingDropdownTemplate.bind({});
+InputWithInlineLeadingAddOnAndTrailingDropdown.play = async ({
+  canvasElement
+}) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Price')).toBeVisible();
+  await expect(canvas.getByPlaceholderText('0.00')).toBeVisible();
+  await userEvent.type(canvas.getByPlaceholderText('0.00'), automatedNumer);
+  await expect(canvas.getByText('$')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+  await delay(1);
+  const elements = document.querySelectorAll('[role="option"]');
+  elements.forEach(async (option) => {
+    await expect(dropdownOptions.includes(option.firstChild.textContent)).toBe(
+      true
+    );
+  });
+  await delay(1);
+  elements[0].click();
+  await delay(1);
+  await expect(canvas.getByText(dropdownOptions[0])).toBeVisible();
+};
+
 const InputWithTooltip = InputWithTooltipTemplate.bind({});
+InputWithTooltip.play = async ({ canvasElement }) => {
+  const InputWithTooltipPlaceholder = '000-00';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(
+    canvas.getByPlaceholderText(InputWithTooltipPlaceholder)
+  ).toBeVisible();
+  await userEvent.type(
+    canvas.getByPlaceholderText(InputWithTooltipPlaceholder),
+    automatedText
+  );
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const InputWithTrailingClickable = InputWithTrailingClickableTemplate.bind({});
+InputWithTrailingClickable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(labelText)).toBeVisible();
+  await expect(canvas.getByPlaceholderText(placeholderText)).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+  await userEvent.type(
+    canvas.getByPlaceholderText(placeholderText),
+    automatedText
+  );
+};
 
 Primary.parameters = {
   controls: {}
@@ -222,7 +444,7 @@ InputWithLabelAndHelpText.args = {
 InputWithValidationError.args = {
   errorText: 'Not a valid email address.',
   label: 'Email',
-  value: 'adamwathan'
+  defaultValue: 'adamwathan'
 };
 
 InputWithDisabledState.args = {
@@ -233,12 +455,12 @@ InputWithDisabledState.args = {
 
 InputWithHiddenLabel.args = {
   label: null,
-  value: emailText
+  defaultValue: emailText
 };
 
 InputWithCornerHint.args = {
   label: 'Email',
-  value: emailText,
+  defaultValue: emailText,
   cornerHintText: 'Optional'
 };
 
@@ -253,8 +475,8 @@ InputWithLeadingIcon.args = {
 };
 
 InputWithTrailingIcon.args = {
-  label: 'Account number',
-  placeholder: '000-00-0000',
+  label: 'Label',
+  placeholder: '000-00-000',
   addOnAfterInline: <QuestionMarkCircleIcon className="text-base-400 h-5 w-5" />
 };
 
@@ -264,8 +486,8 @@ InputWithAddOn.args = {
 };
 
 InputWithAddOnInline.args = {
-  label: 'Company Website',
-  placeholder: 'www.example.com',
+  label: 'Label',
+  placeholder: 'you@example.com',
   addOnBeforeInline: <InputGroupAddOn inline>https://</InputGroupAddOn>
 };
 
@@ -349,23 +571,34 @@ InputWithLeadingIconAndTrailingButton.args = {
 };
 
 InputWithTooltip.args = {
-  label: 'Account number',
-  placeholder: '000-00-0000',
+  label: 'Label',
+  placeholder: '000-00',
   addOnAfterInline: (
     <InputGroupAddOn inline>
       <Tooltip
         theme="dark"
         content={<TooltipBody>I am tooltip body</TooltipBody>}
       >
-        <QuestionMarkCircleIcon className="h-5 w-5" />
+        <Button
+          variant="minimal"
+          wrapperClassName="rounded-l-none border border-base-300"
+        >
+          <span className="text-base-500 flex space-x-1.5 px-3">
+            <BarsArrowUpIcon
+              className="text-base-500 h-5 w-5"
+              aria-hidden="true"
+            />
+            <span>ToolTip</span>
+          </span>
+        </Button>
       </Tooltip>
     </InputGroupAddOn>
   )
 };
 
 InputWithTrailingClickable.args = {
-  label: 'Account holder',
-  placeholder: 'Devon Mccoy',
+  label: 'Label',
+  placeholder: placeholderText,
   addOnAfterInline: (
     <Button
       variant="minimal"
