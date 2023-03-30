@@ -99,6 +99,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
     };
   }, [dispatch, currentTestRunId]);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (!isEmpty(consolidatedLogsData.data.logs)) {
       const allLogs = [];
@@ -152,6 +153,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
     sessionTestToggle
   ]);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (videoSeekTime !== -1 && logs.length) {
       let approxIdx = -1;
@@ -266,8 +268,11 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
 
   return (
     <div className="relative h-full">
-      <div className="flex items-center justify-between">
-        <TestLogFilters onSearchChange={handleSearchChange} />
+      <div className="flex items-center justify-between pt-4">
+        <TestLogFilters
+          onSearchChange={handleSearchChange}
+          searchText={searchText}
+        />
       </div>
       {!isEmpty(logs) && <div>{renderLogs(logs)}</div>}
       <div className="sticky bottom-0 z-10 flex items-center justify-between bg-white">
