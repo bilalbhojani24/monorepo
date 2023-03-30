@@ -3,7 +3,6 @@ import { twClassNames } from '@browserstack/utils';
 import { TMTooltip, TMTooltipBody } from 'common/bifrostProxy';
 import { bool, func, node, string } from 'prop-types';
 
-import useCheckOverflow from './useCheckOverflow';
 import useTextTransformer from './useTextTransformer';
 
 const FolderInputWButton = ({
@@ -20,8 +19,7 @@ const FolderInputWButton = ({
   descriptionIcon
 }) => {
   const textRef = useRef();
-  const { isOverflowing } = useCheckOverflow({ textRef, text });
-  const { transformedText } = useTextTransformer({ text, isOverflowing });
+  const { transformedText } = useTextTransformer({ textRef, text });
 
   return (
     <div className="my-5">
@@ -33,7 +31,7 @@ const FolderInputWButton = ({
             ref={textRef}
             className="text-base-900 ml-2 overflow-hidden text-sm"
           >
-            {transformedText}
+            {transformedText || text}
           </div>
         </span>
         <span className="text-brand-500 text-sm font-medium">

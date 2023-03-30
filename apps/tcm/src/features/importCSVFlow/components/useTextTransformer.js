@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const useTextTransformer = ({ text, isOverflowing }) => {
-  const [transformedText, setTransformedText] = useState();
+const useTextTransformer = ({ textRef, text }) => {
+  const [transformedText, setTransformedText] = useState(text);
 
-  if (isOverflowing) {
-    const textArray = text.split('/');
-    setTransformedText(
-      `/${textArray[1]}../${textArray[textArray.length - 2]}/`
-    );
-  } else setTransformedText(text);
+  useEffect(() => {
+    if (textRef.current?.clientWidth < textRef.current?.scrollWidth) {
+      const textArray = text.split('/');
+      setTransformedText(`/../${textArray[textArray.length - 2]}/`);
+    } else setTransformedText(text);
+  }, [textRef, text]);
 
-  return transformedText;
+  return { transformedText };
 };
 
 export default useTextTransformer;
