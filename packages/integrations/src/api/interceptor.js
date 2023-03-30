@@ -11,15 +11,14 @@ import { fetchTokenThunk } from './fetchToken';
 const cookie = new Cookie();
 export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
-    // eslint-disable-next-line no-param-reassign
-    config.baseURL = baseURLSelector(store.getState());
+    const configShallowCopy = config;
+    configShallowCopy.baseURL = baseURLSelector(store.getState());
     const token = cookie.read(UAT_COOKIE_NAME);
     if (token) {
-      // eslint-disable-next-line no-param-reassign
-      config.headers.Authorization = `Bearer ${token}`;
+      configShallowCopy.headers.Authorization = `Bearer ${token}`;
     }
     // Do something before request is sent
-    return config;
+    return configShallowCopy;
   },
   (error) =>
     // Do something with request error

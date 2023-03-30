@@ -58,19 +58,26 @@ const MultiSelect = ({
 
   const mergeTwoOptionsArray = (optionsOne, optionsTwo) => {
     let res = [];
+    // do we have optionsTwo?
     if (optionsTwo) {
+      // consolidate the arrays into one and store it in res
       res = optionsTwo.reduce(
+        // accumulator or the resultantArray, currentOption from optionOne
         (acc, curr) => {
+          // is the current option from optionsTwo array present in the accumulator
+          // which was initialised by the optionsOne array?
           const isInOptionsOne =
             acc.findIndex((optionOne) => optionOne?.key === curr?.key) !== -1;
+          // It is not present, so we must push it
           if (!isInOptionsOne) {
             acc.push(curr);
           }
           return acc;
         },
-        [...(optionsOne ?? [])]
+        [...(optionsOne ?? [])] // initialise the resultant array with optionsOne array
       );
     } else {
+      // we don't have optionsTwo array, then optionsOne is the default result
       res = optionsOne;
     }
     return res;
