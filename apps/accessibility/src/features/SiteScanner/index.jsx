@@ -324,7 +324,6 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       default:
-        console.log(menuItem);
         break;
     }
   };
@@ -332,7 +331,10 @@ export default function SiteScanner() {
   if (isLoading) {
     return (
       <div className="mt-8 flex h-screen items-center justify-center">
-        <Loader />
+        <Loader
+          shouldShowText
+          waitText="Preparing your report. Please hold on..."
+        />
       </div>
     );
   }
@@ -407,7 +409,7 @@ export default function SiteScanner() {
       <div className="flex justify-between p-6 pb-0">
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
-          <h3 className="mb-4 text-sm font-medium text-base-500">
+          <h3 className="text-base-500 mb-4 text-sm font-medium">
             Scan multiple pages in one go and schedule periodic scans to monitor
             your pages for accessibility issues
           </h3>
@@ -512,7 +514,7 @@ export default function SiteScanner() {
                     <div className="flex">
                       <div
                         title={row.name}
-                        className="mr-2 max-w-xs truncate font-medium text-base-700"
+                        className="text-base-700 mr-2 max-w-xs truncate font-medium"
                       >
                         {row.name}
                       </div>
@@ -629,7 +631,7 @@ export default function SiteScanner() {
                         <span className="flex items-center">
                           <MdOutlineSync
                             color="#FFF"
-                            className="mr-0.5 rounded-full bg-attention-500"
+                            className="bg-attention-500 mr-0.5 rounded-full"
                             fontSize="medium"
                           />
                           {row?.lastScanDetails?.reportSummary?.redirect}
@@ -713,7 +715,7 @@ export default function SiteScanner() {
                 <span className="mr-2 flex items-center text-sm">
                   <span className="mr-0.5 flex items-center">
                     <MdPerson color="#9CA3AF" className="mr-2" />
-                    <span className="mr-2 text-base-500">
+                    <span className="text-base-500 mr-2">
                       {currentScanDetails?.createdBy?.name}
                     </span>
                   </span>{' '}
