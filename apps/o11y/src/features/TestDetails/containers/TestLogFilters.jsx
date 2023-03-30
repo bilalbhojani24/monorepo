@@ -19,7 +19,7 @@ const TestLogFilters = ({ onSearchChange, searchText }) => {
   };
   return (
     <>
-      <div>
+      <div className="pl-1">
         <O11yInputField
           value={searchText}
           addOnBeforeInline={<MdSearch className="text-base-400" />}
@@ -35,7 +35,6 @@ const TestLogFilters = ({ onSearchChange, searchText }) => {
           addOnAfterInlineWrapperClassName=""
           placeholder="Search in logs"
           onChange={handleOnChange}
-          // wrapperClassName="w-48"
         />
       </div>
       <div className="flex items-center gap-3">
