@@ -13,6 +13,6 @@ export const rowMenu = [
   },
   {
     id: 'lastScanRun',
-    body: 'View last scan run'
+    body: 'View latest scan run'
   }
 ];
