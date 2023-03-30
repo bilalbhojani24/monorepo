@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
@@ -19,6 +20,8 @@ export default function ModalToShow() {
       return <AddEditSubCategoryModal />;
     case MODAL_TYPES.delete_sub_cat:
       return <DeleteSubCatModal />;
+    case MODAL_TYPES.email_preference:
+      return <EmailPreferenceModal />;
     default:
       return null;
   }

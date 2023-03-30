@@ -74,7 +74,7 @@ function Integrations() {
         wrapperClassName="p-6 border-b border-b-base-200"
       />
       <main className="flex flex-1 flex-col overflow-auto p-6 pt-0">
-        <section className="bg-base-50 flex max-w-3xl justify-between gap-6 py-6">
+        <section className="bg-base-50 flex max-w-7xl justify-between gap-6 py-6">
           <div className="w-full max-w-xs">
             <O11yInputField
               addOnBeforeInline={<MdSearch className="text-base-400 text-lg" />}
@@ -82,6 +82,7 @@ function Integrations() {
               id="integration-search-value"
               value={searchText}
               onChange={handleSearchTextChange}
+              wrapperClassName="bg-white"
               addOnAfterInline={
                 <>
                   {searchText ? (
@@ -124,20 +125,22 @@ function Integrations() {
             </O11ySelectMenu>
           </div>
         </section>
-        <section className="border-x-base-200 border-b-base-200 max-w-3xl overflow-auto border-x border-b pt-0">
-          <O11yStackedList>
-            {availableIntegrations.map((integration) => (
-              <O11yStackedListGroup
-                key={integration.name}
-                wrapperClassName="fist:rounded-lg"
-                heading={<ListGroupHeader title={integration.name} />}
-              >
-                {integration.list.map(
-                  (integrationItem) => integrationItem.component
-                )}
-              </O11yStackedListGroup>
-            ))}
-          </O11yStackedList>
+        <section className="border-l-base-200 overflow-auto border-l pt-0">
+          <div className="border-r-base-200 border-b-base-200 max-w-7xl border-r border-b">
+            <O11yStackedList>
+              {availableIntegrations.map((integration) => (
+                <O11yStackedListGroup
+                  key={integration.name}
+                  wrapperClassName="fist:rounded-lg"
+                  heading={<ListGroupHeader title={integration.name} />}
+                >
+                  {integration.list.map(
+                    (integrationItem) => integrationItem.component
+                  )}
+                </O11yStackedListGroup>
+              ))}
+            </O11yStackedList>
+          </div>
         </section>
       </main>
     </div>

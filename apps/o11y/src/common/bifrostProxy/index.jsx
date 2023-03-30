@@ -4,6 +4,7 @@ import {
   Accordion,
   Badge,
   Button,
+  Checkbox,
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
@@ -48,6 +49,7 @@ import O11yHeader from './components/O11yHeader';
 import O11ySwitcher from './components/O11ySwitcher';
 
 export const O11yBadge = (props) => <Badge {...props} />;
+export const O11yCheckbox = (props) => <Checkbox {...props} />;
 export const O11yTable = (props) => <Table {...props} />;
 export const O11yRefTableBody = React.forwardRef((props, ref) => (
   <TableBody {...props} ref={ref} />
