@@ -46,7 +46,7 @@ const TestsLogsInfoTabs = () => {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="border-base-200 sticky top-0 z-10 flex items-center border-b bg-white">
+      <div className="border-base-200 sticky top-0 z-20 flex items-center border-b bg-white">
         <O11yTabs
           defaultIndex={activeTab.idx}
           tabsArray={tabs}
