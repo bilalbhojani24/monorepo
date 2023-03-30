@@ -27,7 +27,7 @@ const OAuth = ({
   const dispatch = useDispatch();
   const [authWindow, setAuthWindow] = useState({});
   const OAUTH_POLL_MAX = 5;
-  const pollTimers = useRef(new Array(OAUTH_POLL_MAX));
+  const pollTimers = useRef([]);
   const authWindowName = 'browser_oauth';
   const clearTimersAfter = (start) => {
     for (let idx = start; idx < pollTimers.length; idx += 1) {
@@ -68,7 +68,7 @@ const OAuth = ({
       const timer = setTimeout(() => {
         pollerFn(n);
       }, delayConstant * 1000);
-      pollTimers[oAuthPollCounter] = timer;
+      pollTimers.push(timer);
     }
   };
   useEffect(() => {
@@ -94,6 +94,7 @@ const OAuth = ({
       } else {
         oAuthSyncPoller();
       }
+      console.log(authWindow);
       authWindow?.close();
     };
     window.addEventListener('message', handleMessage);
