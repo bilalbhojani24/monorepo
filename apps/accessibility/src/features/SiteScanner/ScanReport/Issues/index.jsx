@@ -33,7 +33,6 @@ import {
   getUniqFilterValues
 } from 'features/Report/slice/selector';
 
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Allissues/Accordion';
 import IssueItem from '../Allissues/Accordion/IssueItem';
 
@@ -183,7 +182,7 @@ export default function Issues() {
               border={false}
               wrapperClassName="pt-0"
               data={{
-                label: "Show only 'Needs Review' Issues",
+                label: "Show only 'Needs Review' issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}
