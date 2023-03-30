@@ -238,12 +238,6 @@ const useTestCasesTable = (prop) => {
     }
   };
 
-  const getOwner = (rowData) => {
-    if (rowData?.assignee) return rowData?.assignee?.full_name;
-    if (rowData?.owner_imported) return rowData?.owner_imported;
-    return '--';
-  };
-
   useEffect(() => {
     if (prop?.rows) {
       const checkedItems = prop?.rows
@@ -282,7 +276,6 @@ const useTestCasesTable = (prop) => {
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
     bulkMoveTestCaseCtaLoading,
-    getOwner,
     selectAll,
     updateSelection,
     initBulkMove,

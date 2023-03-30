@@ -17,7 +17,7 @@ import {
   testCaseTypesOptions
 } from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
-import { getMappedValue } from 'utils/helperFunctions';
+import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
 
 import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
@@ -34,8 +34,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
     isShowAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick,
-    getAssignedTo
+    onJiraButtonClick
   } = useTestCaseViewDetails();
 
   return (
@@ -92,7 +91,10 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title={isFromTestRun ? 'Assign To' : 'Owner'}
-                value={getAssignedTo()}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.assignee?.full_name,
+                  testCaseDetails?.owner_imported
+                )}
               />
             </div>
             <div className="w-3/6">
@@ -114,30 +116,31 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={
-                  testCaseDetails?.status
-                    ? getMappedValue(statusOptions, testCaseDetails.status)
-                    : '--'
-                }
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.status,
+                  testCaseDetails?.status_imported,
+                  statusOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
-                value={
-                  testCaseDetails?.case_type
-                    ? getMappedValue(
-                        testCaseTypesOptions,
-                        testCaseDetails.case_type
-                      )
-                    : '--'
-                }
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.case_type,
+                  testCaseDetails?.case_type_imported,
+                  testCaseTypesOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                value={testCaseDetails?.priority || '--'}
+                // value={testCaseDetails?.priority || '--'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.priority,
+                  testCaseDetails?.priority_imported
+                )}
               />
             </div>
             <div className="w-full">
