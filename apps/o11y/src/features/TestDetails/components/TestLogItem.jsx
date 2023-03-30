@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
+import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
 
@@ -49,7 +51,13 @@ export default function TestLogItem({ data, searchText }) {
 
   return (
     <button
-      className="border-base-300 flex break-words border-b py-4"
+      className={twClassNames(
+        'border-base-300 flex break-words border-b py-4 text-left',
+        {
+          '': LOG_LEVELS.ERROR === data?.logLevel
+          // '': LOG_LEVELS.SEVERE === data?.logLevel
+        }
+      )}
       data-idx={data.idx}
       type="button"
       onClick={handleClick}

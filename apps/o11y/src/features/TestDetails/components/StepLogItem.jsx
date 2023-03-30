@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import StatusIcon from 'common/StatusIcon';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
+import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getParsedJSON } from '../utils';
 
@@ -50,7 +52,13 @@ export default function StepLogItem({ data, isFromList, searchText }) {
 
   return (
     <button
-      className="border-base-300 flex gap-1 break-words border-b py-4"
+      className={twClassNames(
+        'border-base-300 flex gap-1 break-words border-b py-4 text-left',
+        {
+          '': LOG_LEVELS.ERROR === data?.logLevel
+          // '': LOG_LEVELS.SEVERE === data?.logLevel
+        }
+      )}
       data-idx={isFromList ? undefined : data.idx}
       data-stepidx={isFromList ? undefined : data.stepIdx}
       type="button"

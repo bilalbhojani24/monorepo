@@ -10,11 +10,11 @@ export default function LogItemStartTime({ duration }) {
 
   return (
     <>
-      <span className="tdl-log-item__duration">
+      <span className="ml-2 inline-flex shrink-0 justify-end leading-5">
         {millisToMinutesAndSeconds(duration)}
       </span>
       {!!details.data.videoLogs?.startOffset && (
-        <span className="tdl-log-item__duration-trimmed">
+        <span className="ml-2 inline-flex shrink-0 justify-end leading-5">
           {millisToMinutesAndSeconds(
             duration - details.data.videoLogs?.startOffset
           )}

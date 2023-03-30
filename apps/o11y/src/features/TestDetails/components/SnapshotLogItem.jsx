@@ -1,9 +1,12 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import Gallery from 'common/Gallery';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
+import { LOG_LEVELS } from '../constants';
 import { getActiveLogLevelsByType } from '../slices/selectors';
 import { getParsedJSON } from '../utils';
 
@@ -46,21 +49,23 @@ export default function SnapshotLogItem({ data }) {
   }
   return (
     <div
-      className={`tdl-log-item d-flex align-items-start tdl-log-item--${data?.logType} tdl-log-item--${data?.logLevel}`}
+      className={twClassNames(
+        'border-base-300 flex break-words border-b py-4 text-left',
+        {
+          '': LOG_LEVELS.ERROR === data?.logLevel
+          // '': LOG_LEVELS.SEVERE === data?.logLevel
+        }
+      )}
       data-idx={data.idx}
     >
       <Gallery images={logData} ref={galleryRef} />
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      <button
-        onClick={handleImgClick}
-        className="tdl-log-item__snapshot-handler"
-        type="button"
-      >
+      <button onClick={handleImgClick} className="max-w-[340px]" type="button">
         <img
           src={logData?.[0]?.s3_url}
           alt="test screenshot"
-          className="tdl-log-item__snapshot"
+          className="max-h-[300px] cursor-zoom-in"
         />
       </button>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}

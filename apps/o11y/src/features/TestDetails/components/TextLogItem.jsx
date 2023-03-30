@@ -1,16 +1,18 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   MdOutlineArrowDropDown,
   MdOutlineArrowRight
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import ImageViewerWithGallery from 'common/ImageViewerWithGallery';
 import PrismHighlight from 'common/PrismHighlight';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
-import { TEXT_LOG_CHAR_LIMIT } from '../constants';
+import { LOG_LEVELS, TEXT_LOG_CHAR_LIMIT } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
 import { formatLog } from '../utils';
@@ -106,8 +108,10 @@ export default function TextLogItem({ data, searchText }) {
       return null;
     }
     return (
-      <div className="tdl-log-item__snippet-row">
-        <div className="tdl-log-item__snippet--key">{key}</div>
+      <div className="table-row">
+        <div className="table-cell min-w-[80px] max-w-[320px] shrink-0 break-words pl-4 font-semibold">
+          {key}
+        </div>
         {key === 'script' ? (
           <PrismHighlight
             showCopy={false}
@@ -118,7 +122,7 @@ export default function TextLogItem({ data, searchText }) {
             shouldWrapText
           />
         ) : (
-          <div className="tdl-log-item__snippet--value">
+          <div className="table-cell break-words pl-6 pr-4">
             {parseLogValue(logData?.args[key])}
           </div>
         )}
@@ -131,7 +135,7 @@ export default function TextLogItem({ data, searchText }) {
     }
     if (response.value?.isObject) {
       return (
-        <pre className="tdl-log-item__pre">
+        <pre className="mb-0 whitespace-pre-wrap break-words px-4">
           {response.value?.stringifiedText}
         </pre>
       );
@@ -142,13 +146,17 @@ export default function TextLogItem({ data, searchText }) {
       : truncatedText.split('\n').splice(0, 100);
     let output = [];
     if (formattedText.length === 1) {
-      output = <pre className="tdl-log-item__pre">{response.value.text}</pre>;
+      output = (
+        <pre className="mb-0 whitespace-pre-wrap break-words px-4">
+          {response.value.text}
+        </pre>
+      );
     } else {
       formattedText.forEach((item, index) => {
         output.push(
-          <div className="tokenized-container" key={uuidv4()}>
-            <div className="tokenized-container__count">{index + 1}</div>
-            <div className="tokenized-container__data">{item}</div>
+          <div className="flex whitespace-pre-wrap px-4" key={uuidv4()}>
+            <div className="min-w-[32px] pl-2">{index + 1}</div>
+            <div className="">{item}</div>
           </div>
         );
       });
@@ -164,8 +172,10 @@ export default function TextLogItem({ data, searchText }) {
     }
     if (typeof logData?.args === 'string') {
       return (
-        <div className="tdl-log-item__snippet-row">
-          <div className="tdl-log-item__snippet--value">{logData?.args}</div>
+        <div className="table-row">
+          <div className="table-cell break-words pl-6 pr-4">
+            {logData?.args}
+          </div>
         </div>
       );
     }
@@ -174,35 +184,33 @@ export default function TextLogItem({ data, searchText }) {
 
   return (
     <button
-      className={`tdl-log-item tdl-log-item--${data?.logType} tdl-log-item--${data?.logLevel}`}
+      className={twClassNames(
+        'border-base-300 flex break-words border-b py-4 text-left',
+        {
+          '': LOG_LEVELS.ERROR === data?.logLevel
+          // '': LOG_LEVELS.SEVERE === data?.logLevel
+        }
+      )}
       type="button"
       onClick={handleClick}
       data-idx={data.idx}
     >
-      <div className="tdl-log-item__top d-flex align-items-start">
+      <div className="flex items-center">
         {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
         <LogItemIcon logLevel={data?.logLevel} />
         {!logData?.response?.value?.isSnapShot &&
           (!isEmpty(logData?.args) || logData?.response?.value) && (
             <>
               {isExpanded ? (
-                <MdOutlineArrowDropDown
-                  fontSize="inherit"
-                  className="tdl-log-item__arrow"
-                />
+                <MdOutlineArrowDropDown className="text-base-400 h-4 w-4" />
               ) : (
-                <MdOutlineArrowRight
-                  fontSize="inherit"
-                  className="tdl-log-item__arrow"
-                />
+                <MdOutlineArrowRight className="text-base-400 h-4 w-4" />
               )}
             </>
           )}
         <div>
-          <span className="tdl-log-item__readableText">
-            {logData?.readableText}
-          </span>
-          <span className="tdl-log-item__meta">
+          <span className="inline-flex leading-5">{logData?.readableText}</span>
+          <span className="text-base-500 ml-3">
             {logData?.args?.using && logData?.args?.value && (
               <>
                 {logData?.args?.using}={logData?.args?.value?.substring(0, 80)}
@@ -220,18 +228,20 @@ export default function TextLogItem({ data, searchText }) {
       ) : (
         <>
           {isExpanded && (
-            <div className="tdl-log-item__bottom">
+            <div className="">
               {!isEmpty(logData?.args) && (
-                <div className="tdl-log-item__snippet">
-                  <div className="tdl-log-item__snippet-header">Params</div>
-                  <div className="tdl-log-item__snippet-table">
-                    {renderArgs()}
+                <div className="bg-base-50 border-base-300 mt-3 w-full rounded-t border pl-3 text-xs">
+                  <div className="border-base-300 mb-3 border-b py-1 px-4 font-semibold">
+                    Params
                   </div>
+                  <div className="table table-fixed">{renderArgs()}</div>
                 </div>
               )}
               {logData?.response?.value && (
-                <div className="tdl-log-item__snippet">
-                  <div className="tdl-log-item__snippet-header">Response</div>
+                <div className="bg-base-50 border-base-300 mt-3 w-full rounded-t border pl-3 text-xs">
+                  <div className="border-base-300 mb-3 border-b py-1 px-4 font-semibold">
+                    Response
+                  </div>
                   {renderResponse(logData.response)}
                 </div>
               )}

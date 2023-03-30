@@ -275,6 +275,19 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
         />
       </div>
       {!isEmpty(logs) && <div>{renderLogs(logs)}</div>}
+      <div className="sticky bottom-10 z-10 flex items-center justify-center">
+        <O11yButton
+          variant="rounded"
+          wrapperClassName=""
+          icon={<DoubleArrowDownIcon className="h-4 w-4 fill-white" />}
+          onClick={handleClickScrollButton}
+          disabled={activeStep === totalSteps}
+          colors="brand"
+          iconPlacement="end"
+        >
+          {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
+        </O11yButton>
+      </div>
       <div className="sticky bottom-0 z-10 flex items-center justify-between bg-white">
         <div className="flex items-center gap-6">
           <O11yButton
@@ -305,19 +318,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
             </span>
           </O11yButton>
         </div>
-        <div className="">
-          <O11yButton
-            variant="rounded"
-            wrapperClassName=""
-            icon={<DoubleArrowDownIcon className="h-4 w-4 fill-white" />}
-            onClick={handleClickScrollButton}
-            disabled={activeStep === totalSteps}
-            colors="brand"
-            iconPlacement="end"
-          >
-            {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
-          </O11yButton>
-        </div>
+
         {details.data?.browserstackSessionUrl && (
           <div>
             <O11yHyperlink

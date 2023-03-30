@@ -5,10 +5,10 @@ import { milliSecondsToTime } from 'utils/dateTime';
 
 export default function LogItemDuration({ duration }) {
   return (
-    <span className="tdl-log-item__timer">
+    <div className="text-base-500 ml-2 inline-flex shrink-0 grow items-center justify-end">
       <MdOutlineTimer className="text-base-400 h-5 w-5" />
       <span className="ml-1">{milliSecondsToTime(duration)}</span>
-    </span>
+    </div>
   );
 }
 LogItemDuration.propTypes = {

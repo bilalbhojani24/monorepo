@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
+import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
 
@@ -68,14 +70,20 @@ export default function ConsoleLogItem({ data, searchText }) {
 
   return (
     <button
-      className={`tdl-log-item d-flex align-items-start tdl-log-item--${data?.logType} tdl-log-item--${data?.logLevel}`}
+      className={twClassNames(
+        'border-base-300 flex break-words border-b py-4 text-left',
+        {
+          '': LOG_LEVELS.ERROR === data?.logLevel
+          // '': LOG_LEVELS.SEVERE === data?.logLevel
+        }
+      )}
       data-idx={data.idx}
       type="button"
       onClick={handleClick}
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      <pre className="tdl-log-item__console">
+      <pre className="text-xs leading-5">
         {logData.map((item) => (
           <div key={item}>{item}</div>
         ))}
