@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
 
+import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getTestDetails } from '../slices/selectors';
 
-// import PropTypes from 'prop-types';
 import TestConsolidatedLogs from './TestConsolidatedLogs';
 import TestNetworkLogs from './TestNetworkLogs';
 
@@ -54,11 +54,14 @@ const TestsLogsInfoTabs = () => {
           disableFullWidthBorder
           wrapperClassName="flex-1"
         />
-        <O11yButton
-          isIconOnlyButton
-          icon={<MdOutlineBugReport className="h-full w-full" />}
-          colors="white"
-        />
+        <div className="flex items-center gap-3">
+          <SessionTestToggle />
+          <O11yButton
+            isIconOnlyButton
+            icon={<MdOutlineBugReport className="h-full w-full" />}
+            colors="white"
+          />
+        </div>
       </div>
       <div className="flex-1">
         {activeTab.value === LOGS_INFO_TAB_KEYS.logs && (

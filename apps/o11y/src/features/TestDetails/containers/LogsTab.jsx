@@ -1,21 +1,28 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import O11yLoader from 'common/O11yLoader';
 
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
-import { getTestMeta } from '../slices/selectors';
+import {
+  getExceptions,
+  getTestDetails,
+  getTestMeta
+} from '../slices/selectors';
+import { setExceptions } from '../slices/uiSlice';
 
 import TestsLogsInfoTabs from './TestsLogsInfoTabs';
 import TestVideoPlayer from './TestVideoPlayer';
-// import PropTypes from 'prop-types';
 
 const SCROLL_OFFSET = 200;
 
 const LogsTab = () => {
+  const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const videoRef = useRef(null);
   const floatingVideoComponentRef = useRef(null);
+  const details = useSelector(getTestDetails);
   const testMeta = useSelector(getTestMeta);
+  const testExceptions = useSelector(getExceptions);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
 
@@ -44,6 +51,42 @@ const LogsTab = () => {
     setVideoSeekTime(time);
   }, []);
 
+  const handleSessionToggle = useCallback(
+    (status) => {
+      handleSetCurrentTime(-1);
+      setSessionTestToggle(status);
+      if (testExceptions.length && details.data.videoLogs?.startOffset) {
+        if (status) {
+          dispatch(
+            setExceptions(
+              testExceptions.map((item) => ({
+                ...item,
+                startTime:
+                  item.startTime + details.data.videoLogs?.startOffset / 1000
+              }))
+            )
+          );
+        } else {
+          dispatch(
+            setExceptions(
+              testExceptions.map((item) => ({
+                ...item,
+                startTime:
+                  item.startTime - details.data.videoLogs?.startOffset / 1000
+              }))
+            )
+          );
+        }
+      }
+    },
+    [
+      details.data.videoLogs?.startOffset,
+      dispatch,
+      handleSetCurrentTime,
+      testExceptions
+    ]
+  );
+
   if (testMeta.isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -65,7 +108,8 @@ const LogsTab = () => {
           setSessionTestToggle,
           videoSeekTime,
           handleSetCurrentTime,
-          handleLogDurationClick
+          handleLogDurationClick,
+          handleSessionToggle
         }}
       >
         <TestVideoPlayer
