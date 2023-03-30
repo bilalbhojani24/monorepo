@@ -87,9 +87,9 @@ function AzureIntegrationModal() {
           Access Token (PAT) that can be used to trigger builds remotely.
         </p>
         <p className="text-base-500 mt-2 text-sm">
-          To generate a PAT, you&apos;d need to login to Azure Org &gt; User
-          settings &gt; Personal access tokens &gt; New token &gt; set expiry
-          and give access to Build read & execute
+          {
+            "To generate a PAT, you'd need to login to Azure Org > User settings > Personal access tokens > New token > set expiry and give access to Build read & execute"
+          }
         </p>
         <O11yHyperlink
           href="https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate"

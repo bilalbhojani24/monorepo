@@ -1,18 +1,18 @@
 import React from 'react';
 import {
   AzurePipelinesIcon,
+  FilebeatNLogStashIcon,
+  FluentdIcon,
   GithubIcon,
   GitLabIcon,
   JenkinsIcon,
-  JiraIcon
+  JiraIcon,
+  LogStashIcon,
+  MochaIcon,
+  TestngIcon,
+  WdioIcon,
+  WinstonIcon
 } from 'assets/icons/components';
-import FilebeatLogstash from 'assets/icons/filebeat+logstash.svg';
-import Fluentd from 'assets/icons/fluentd.svg';
-import Logstash from 'assets/icons/logstash.svg';
-import MochaIcon from 'assets/icons/Mocha.svg';
-import TestNgIcon from 'assets/icons/Testng.svg';
-import WebDriverIOIcon from 'assets/icons/Webdriver-IO.svg';
-import Winston from 'assets/icons/winston.svg';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getDocUrl, getEnvConfig } from 'utils/common';
@@ -68,11 +68,7 @@ const TESTING_FRAMEWORKS = [
         title="TestNg"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.testng, prependO11y: true })}
-        icon=<img
-          className="max-h-10 w-10"
-          src={TestNgIcon}
-          alt="TestNg Icon"
-        />
+        icon=<TestngIcon width="40" height="40" />
       />
     )
   },
@@ -84,11 +80,7 @@ const TESTING_FRAMEWORKS = [
         title="Mocha"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.mocha, prependO11y: true })}
-        icon=<img
-          alt="Mocha"
-          className="h-10 w-10 rounded-full"
-          src={MochaIcon}
-        />
+        icon=<MochaIcon width="40" height="40" />
       />
     )
   },
@@ -100,11 +92,7 @@ const TESTING_FRAMEWORKS = [
         title="Webdriver-IO"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.wdio, prependO11y: true })}
-        icon=<img
-          className="max-h-10 w-10"
-          src={WebDriverIOIcon}
-          alt="WebDriver IO Icon"
-        />
+        icon=<WdioIcon width="40" height="40" />
       />
     )
   }
@@ -178,11 +166,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<img
-          className="max-h-10 w-10"
-          src={Logstash}
-          alt="Logstash Icon"
-        />
+        icon=<LogStashIcon width="40" height="40" />
       />
     )
   },
@@ -197,11 +181,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<img
-          className="max-h-10 w-10"
-          src={FilebeatLogstash}
-          alt="FilebeatLogstash Icon"
-        />
+        icon=<FilebeatNLogStashIcon width="40" height="40" />
       />
     )
   },
@@ -216,7 +196,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<img className="max-h-10 w-10" src={Fluentd} alt="Fluentd Icon" />
+        icon=<FluentdIcon width="40" height="40" />
       />
     )
   },
@@ -231,7 +211,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<img className="max-h-10 w-10" src={Winston} alt="Winston Icon" />
+        icon=<WinstonIcon width="40" height="40" />
       />
     )
   }

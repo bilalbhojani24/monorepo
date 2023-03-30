@@ -98,11 +98,7 @@ function JenkinsIntegrationModal() {
           </p>
           <p className="text-sm font-medium">Install plugin</p>
           <p className="text-base-500 mt-2 text-sm">
-            You&apos;d need to add the BrowserStack plugin in your Jenkins
-            setup. From your Jenkins dashboard navigate to Manage Jenkins &gt;
-            Manage Plugins and select the Available tab. Locate the plugin by
-            searching for &quot;browserstack-integration&quot; and thereafter
-            install it.
+            {`You'd need to add the BrowserStack plugin in your Jenkins setup. From your Jenkins dashboard navigate to Manage Jenkins > Manage Plugins and select the Available tab. Locate the plugin by searching for "browserstack-integration" and thereafter install it.`}
           </p>
           <O11yHyperlink
             href="https://plugins.jenkins.io/browserstack-integration/"
@@ -124,10 +120,9 @@ function JenkinsIntegrationModal() {
             remotely.
           </p>
           <p className="text-base-500 mt-2 text-sm">
-            To generate an Auth Token, you&apos;d need to go to Jenkins UI &gt;
-            Your name on the top right &gt; Configure &gt; API Token &gt; Add
-            new token. You can choose to delete the connection at any later
-            point of time.
+            {
+              "To generate an Auth Token, you'd need to go to Jenkins UI > Your name on the top right > Configure > API Token > Add new token. You can choose to delete the connection at any later point of time."
+            }
           </p>
           <div className="mt-4">
             <O11yInputField
