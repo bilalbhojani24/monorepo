@@ -1,15 +1,17 @@
-import React from 'react';
-import {
-  MdClose,
-  MdOutlineFilterAlt,
-  MdOutlineMenu,
-  MdSearch
-} from '@browserstack/bifrost';
+import React, { useCallback } from 'react';
+import { MdClose, MdOutlineFilterAlt, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const TestLogFilters = ({ onSearchChange, searchText }) => {
+import StepsList from '../components/StepsList';
+
+const TestLogFilters = ({
+  onSearchChange,
+  searchText,
+  steps,
+  onClickStepItem
+}) => {
   const clearSearchText = () => {
     onSearchChange('');
   };
@@ -17,6 +19,25 @@ const TestLogFilters = ({ onSearchChange, searchText }) => {
   const handleOnChange = (e) => {
     onSearchChange(e.target.value);
   };
+
+  const highlightStep = useCallback((elem) => {
+    elem.classList.add('animateBg');
+    setTimeout(() => {
+      elem.classList.remove('animateBg');
+    }, 1000);
+  }, []);
+
+  const handleClickStep = useCallback(
+    (idx) => {
+      const idxElem = document.querySelector(`[data-stepidx="${idx}"]`);
+      if (idxElem) {
+        onClickStepItem(idxElem?.offsetTop);
+        highlightStep(idxElem);
+      }
+    },
+    [highlightStep, onClickStepItem]
+  );
+
   return (
     <>
       <div className="pl-1">
@@ -38,23 +59,7 @@ const TestLogFilters = ({ onSearchChange, searchText }) => {
         />
       </div>
       <div className="flex items-center gap-3">
-        <O11yPopover
-          content={
-            <div className="rounded-md bg-white shadow-md">
-              <span>Steps</span>
-            </div>
-          }
-          defaultOpen
-        >
-          <O11yButton
-            icon={<MdOutlineMenu className="text-base-500 h-4 w-4" />}
-            colors="white"
-          >
-            <span className="text-base-700 text-xs font-medium leading-4">
-              Steps
-            </span>
-          </O11yButton>
-        </O11yPopover>
+        <StepsList steps={steps} onClickStep={handleClickStep} />
         <O11yPopover>
           <O11yButton
             icon={
@@ -71,7 +76,9 @@ const TestLogFilters = ({ onSearchChange, searchText }) => {
 
 TestLogFilters.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
-  searchText: PropTypes.string.isRequired
+  searchText: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.any).isRequired,
+  onClickStepItem: PropTypes.func.isRequired
 };
 
 export default TestLogFilters;

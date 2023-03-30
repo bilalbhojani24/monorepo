@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   MdArrowDownward,
@@ -49,6 +49,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const [steps, setSteps] = useState([]);
 
   const renderLogItem = (data) => {
     switch (data.logType) {
@@ -104,12 +105,14 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
     if (!isEmpty(consolidatedLogsData.data.logs)) {
       const allLogs = [];
       const exceptions = [];
+      const stepItems = [];
       let step = -1;
       consolidatedLogsData.data.logs.forEach((data, idx) => {
         if (data.logType === LOG_TYPES.STEP) {
           step += 1;
           const stepItem = { ...data, key: uuidv4(), idx, stepIdx: step };
           allLogs.push(stepItem);
+          stepItems.push(stepItem);
         } else {
           allLogs.push({ ...data, key: uuidv4(), idx, stepIdx: -1 });
         }
@@ -140,8 +143,10 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
       dispatch(setExceptions(exceptions));
       setTotalSteps(step);
       setLogs(allLogs);
+      setSteps(stepItems);
     } else {
       setLogs([]);
+      setSteps([]);
       setTotalSteps(0);
       setActiveStep(0);
       dispatch(setExceptions([]));
@@ -247,6 +252,13 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
     setIsScrolledToBottom((t) => !t);
   };
 
+  const handleClickStepItem = useCallback(
+    (distance) => {
+      handleScrollIntoView(distance);
+    },
+    [handleScrollIntoView]
+  );
+
   if (details.isLoading) {
     return null;
   }
@@ -272,6 +284,8 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
         <TestLogFilters
           onSearchChange={handleSearchChange}
           searchText={searchText}
+          steps={steps}
+          onClickStepItem={handleClickStepItem}
         />
       </div>
       {!isEmpty(logs) && <div>{renderLogs(logs)}</div>}
