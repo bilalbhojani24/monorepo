@@ -5,7 +5,10 @@ import {
   MdArrowUpward,
   MdOutlineOpenInNew
 } from '@browserstack/bifrost';
-import { DoubleArrowDownIcon } from 'assets/icons/components';
+import {
+  DoubleArrowDownIcon,
+  DoubleArrowUpIcon
+} from 'assets/icons/components';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
@@ -293,7 +296,13 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
         <O11yButton
           variant="rounded"
           wrapperClassName=""
-          icon={<DoubleArrowDownIcon className="h-4 w-4 fill-white" />}
+          icon={
+            isScrolledToBottom ? (
+              <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
+            ) : (
+              <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
+            )
+          }
           onClick={handleClickScrollButton}
           disabled={activeStep === totalSteps}
           colors="brand"

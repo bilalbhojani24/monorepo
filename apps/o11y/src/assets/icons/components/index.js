@@ -40,6 +40,7 @@ import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
 import DoubleArrowDownIcon from './DoubleArrowDownIcon';
+import DoubleArrowUpIcon from './DoubleArrowUpIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
@@ -68,6 +69,7 @@ export {
   DefaultOSIcon,
   DeviceIcon,
   DoubleArrowDownIcon,
+  DoubleArrowUpIcon,
   EdgeIcon,
   FirefoxIcon,
   GithubActionsIcon,
