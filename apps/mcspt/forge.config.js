@@ -2,7 +2,7 @@ module.exports = {
   packagerConfig: {
     protocols: [
       {
-        name: 'AppBench',
+        name: 'BrowserStack-AppPerformance',
         schemes: ['bsperf']
       }
     ],

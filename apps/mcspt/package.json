@@ -1,6 +1,6 @@
 {
   "name": "mcspt",
-  "productName": "AppBench",
+  "productName": "BrowserStack-AppPerformance",
   "version": "0.1.1",
   "description": "My Electron application description",
   "main": ".webpack/main",

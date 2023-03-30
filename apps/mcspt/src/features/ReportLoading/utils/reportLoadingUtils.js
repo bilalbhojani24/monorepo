@@ -1,12 +1,12 @@
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 
 export const sessionStateTextMap = {
-  [REPORT_LOADING_STATES.CONNECTING]: `AppBench is warming up...`,
-  [REPORT_LOADING_STATES.LAUNCHING]: `AppBench is warming up...`,
+  [REPORT_LOADING_STATES.CONNECTING]: `BrowserStack AppPerformance is warming up...`,
+  [REPORT_LOADING_STATES.LAUNCHING]: `BrowserStack AppPerformance is warming up...`,
   [REPORT_LOADING_STATES.RECORDING]:
     'App profiling started.\nManually navigate critical app user journeys on the connected device.',
   [REPORT_LOADING_STATES.STOPPING]:
-    'Almost there! AppBench is generating your report…\nEnsure the device remains connected.'
+    'Almost there! BrowserStack AppPerformance is generating your report…\nEnsure the device remains connected.'
 };
 
 export const generateTestDataDescriptionList = (deviceDetails) => [

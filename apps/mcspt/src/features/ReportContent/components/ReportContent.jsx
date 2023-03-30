@@ -113,9 +113,10 @@ const ReportContent = () => {
         </div>
         <div className="mb-8 flex flex-col rounded-lg bg-white p-6 shadow">
           <div className="text-base-700 mb-5 text-base font-normal leading-6">
-            AppBench helps in troubleshooting performance issues by recording
-            session data such as Logcat, Crash, and ANR logs. It also provides
-            performance and resource usage data in easy-to-analyze .csv files.
+            BrowserStack AppPerformance helps in troubleshooting performance
+            issues by recording session data such as Logcat, Crash, and ANR
+            logs. It also provides performance and resource usage data in
+            easy-to-analyze .csv files.
           </div>
 
           <div>
