@@ -4,7 +4,7 @@ const { app, globalShortcut } = require('electron');
 const { default: getPort } = require('get-port');
 const axios = require('axios');
 
-const { spawn, execSync } = require('child_process');
+const { execSync, exec } = require('child_process');
 
 const binIndex = process.execPath.lastIndexOf('/');
 const binPath = process.execPath.substring(0, binIndex);
@@ -63,19 +63,15 @@ export const initializeBackendServer = async (mainThreadGlobals) => {
 
     serverEntities.pyServerPort = await getPort({ port: 8000 });
 
-    serverEntities.pyServerInstance = await spawn(processPaths.pyIos, [
-      serverEntities.pyServerPort
-    ]);
+    serverEntities.pyServerInstance = await exec(
+      `${processPaths.pyIos} ${serverEntities.pyServerPort}`
+    );
 
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
-    serverEntities.nodeServerInstance = await spawn(processPaths.bsPerf, [
-      'server',
-      '-p',
-      serverEntities.nodeServerPort,
-      '-pi',
-      serverEntities.pyServerPort
-    ]);
+    serverEntities.nodeServerInstance = await exec(
+      `${processPaths.bsPerf} server -p ${serverEntities.nodeServerPort} -pi ${serverEntities.pyServerPort}`
+    );
 
     // sending port number to FE to call api
     mainThreadGlobals.mainWindow.webContents.send(
