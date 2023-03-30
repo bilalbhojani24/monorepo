@@ -1,6 +1,8 @@
 export const FIELD_KEYS = {
   PROJECT: 'project',
   ISSUE_TYPE: 'issue_type',
+  TICKET_ID: 'ticket_id',
+  TICKET_ID_SEARCH: 'ticket_id_search',
   INTEGRATON_TOOL: 'integration_tool'
 };
 

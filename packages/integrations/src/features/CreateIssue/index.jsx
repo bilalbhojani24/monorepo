@@ -1,27 +1,38 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import { GlobalAlert } from '../../common/components';
+import { setConfig } from '../../common/slices/configSlice';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
+import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right'];
 
 export const CreateIssue = ({
+  auth,
+  config = DEFAULT_CONFIG,
   isOpen,
-  authUrl,
   options,
   position,
   projectId,
   positionRef,
-  handleClose
+  handleClose,
+  attachments = []
 }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (config?.baseURL) {
+      dispatch(setConfig(config));
+    }
+  }, [config, dispatch]);
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
     ({ setup_completed: integrated }) => integrated
@@ -29,20 +40,21 @@ export const CreateIssue = ({
 
   const [isBeingDiscarded, setIsBeingDiscarded] = useState(false);
   const [isWorkInProgress, setIsWorkInProgress] = useState(false);
+  const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const previousModeRef = useRef(null);
 
-  const continueEditing = () => {
+  const continueEditing = useCallback(() => {
     if (previousModeRef.current) {
       setMode(previousModeRef.current);
       previousModeRef.current = null;
     }
     setIsBeingDiscarded(false);
-  };
+  }, []);
 
-  const discardIssue = () => {
+  const discardIssue = useCallback(() => {
     setIsBeingDiscarded(true);
-  };
+  }, []);
   const confirmIssueDiscard = useCallback(() => {
     if (previousModeRef.current) {
       previousModeRef.current = null;
@@ -59,18 +71,21 @@ export const CreateIssue = ({
     }
   }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
 
-  const changeModeTo = (nextMode) => {
-    if (isWorkInProgress) {
-      discardIssue();
-      previousModeRef.current = mode;
-    }
-    setMode(nextMode);
-  };
+  const changeModeTo = useCallback(
+    (nextMode) => {
+      if (isWorkInProgress) {
+        discardIssue();
+        previousModeRef.current = mode;
+      }
+      setMode(nextMode);
+    },
+    [discardIssue, isWorkInProgress, mode]
+  );
 
   return (
     <BasicWidget
       isOpen={isOpen}
-      authUrl={authUrl}
+      auth={auth}
       options={options}
       position={position}
       projectId={projectId}
@@ -79,29 +94,43 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
-        className={'bg-white overflow-auto'.concat(
-          hasAtLeastOneIntegrationSetup ? ' p-6' : ''
+        className={'bg-white'.concat(
+          hasAtLeastOneIntegrationSetup ? ' p-6' : '',
+          !isBeingDiscarded ? ' overflow-auto' : ''
         )}
         style={{ maxHeight: '650px' }}
       >
+        {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
           mode={mode}
           options={options}
           projectId={projectId}
+          attachments={attachments}
           changeModeTo={changeModeTo}
+          discardIssue={discardIssue}
           continueEditing={continueEditing}
+          isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 flex w-full justify-end border-t py-4 px-5">
+        <div className="border-base-200 fixed bottom-0 left-0 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>
-          <Button type="submit" form="form-builder">
-            Create Issue
+          <Button
+            type="submit"
+            form="form-builder"
+            loading={isFormBeingSubmitted}
+            loaderText={
+              mode === ISSUE_MODES.CREATION ? 'Creating...' : 'Updating...'
+            }
+            disabled={!isWorkInProgress}
+          >
+            {mode === ISSUE_MODES.CREATION ? 'Create Issue' : 'Update Issue'}
           </Button>
         </div>
       )}
@@ -130,23 +159,27 @@ CreateIssue.defaultProps = {
 };
 
 const CreateIssueWithProvider = ({
+  auth,
   isOpen,
-  authUrl,
+  config,
   options,
   position,
   projectId,
   positionRef,
-  handleClose
+  handleClose,
+  attachments
 }) => (
   <Provider store={store}>
     <CreateIssue
+      auth={auth}
+      config={config}
       isOpen={isOpen}
-      authUrl={authUrl}
       options={options}
       position={position}
       projectId={projectId}
       positionRef={positionRef}
       handleClose={handleClose}
+      attachments={attachments}
     />
   </Provider>
 );

@@ -11,10 +11,14 @@ const TextField = ({
   placeholder,
   required,
   label,
+  value,
   fieldKey,
   schema,
   validations,
-  areSomeRequiredFieldsEmpty
+  defaultValue,
+  fieldErrors,
+  areSomeRequiredFieldsEmpty,
+  disabled = false
 }) => {
   const [error, setError] = useState(null);
   const handleChange = (e) => {
@@ -30,9 +34,9 @@ const TextField = ({
 
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
-  const valueToRender = Array.isArray(fieldsData[fieldKey])
-    ? fieldsData[fieldKey].join(',')
-    : fieldsData[fieldKey] ?? '';
+  const valueToRender = Array.isArray(fieldsData?.[fieldKey])
+    ? (fieldsData?.[fieldKey] || value || defaultValue || []).join(',')
+    : (fieldsData?.[fieldKey] || value || defaultValue) ?? '';
 
   const requiredFieldError = useRequiredFieldError(
     required,
@@ -45,8 +49,8 @@ const TextField = ({
   };
 
   useEffect(() => {
-    setError(requiredFieldError);
-  }, [requiredFieldError]);
+    setError(requiredFieldError || fieldErrors?.[fieldKey]);
+  }, [requiredFieldError, fieldErrors, fieldKey]);
 
   const validateInput = (e) => {
     const input = e.target.value.trim();
@@ -81,7 +85,7 @@ const TextField = ({
   };
 
   return (
-    <>
+    <div className="py-3">
       <Label required={required} label={label} />
       <InputField
         onChange={handleChange}
@@ -90,8 +94,9 @@ const TextField = ({
         onBlur={validateInput}
         errorText={error}
         type={schema?.field === 'numeric' ? 'number' : 'text'}
+        disabled={disabled}
       />
-    </>
+    </div>
   );
 };
 

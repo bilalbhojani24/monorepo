@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ComboBox,
   ComboboxOptionGroup,
@@ -9,25 +10,32 @@ import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { fetchOptions } from '../../../api';
+import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 
-const SingleDynamicSelect = ({
+const SingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
+  disabled,
   required,
   searchPath,
-  fieldsData,
+  fieldsData = {},
+  fieldErrors,
   optionsPath,
   placeholder,
+  defaultValue,
   setFieldsData,
   wrapperClassName,
   selectFirstByDefault = false,
+  selectFirstOnOptionChange = false,
   areSomeRequiredFieldsEmpty
 }) => {
+  const dispatch = useDispatch();
   const cleanOptions = (data) =>
+    Array.isArray(data) &&
     data.reduce((acc, currOption) => {
       // pick image url from icons -  which is either an object
       // or a single value
@@ -37,17 +45,25 @@ const SingleDynamicSelect = ({
           : currOption.image || currOption.icon;
 
       // option can have value in 3 possible keys
-      const value = currOption.value || currOption.id || currOption.key;
+      const optionValue = currOption.value || currOption.id || currOption.key;
 
       // map them to support UI comp and also create post call
       acc.push({
-        value,
+        value: optionValue,
         image,
         label: currOption.label,
         ticketTypes: currOption.ticket_types
       });
       return acc;
     }, []);
+
+  const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
+
+  useEffect(() => {
+    if ((value || defaultValue) && typeof setFieldsData === 'function') {
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+    }
+  }, [value, defaultValue]);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
@@ -58,10 +74,25 @@ const SingleDynamicSelect = ({
     areSomeRequiredFieldsEmpty
   );
 
+  const appendOptionIfMissing = (optionList = [], target) => {
+    if (target) {
+      const isInOptions =
+        optionList?.findIndex((option) => option?.key === target?.key) !== -1;
+      if (!isInOptions) {
+        return [target, ...optionList];
+      }
+    }
+    return optionList;
+  };
+
   useEffect(() => {
     if (optionsPath) {
-      fetchOptions(optionsPath).then((optionsData) => {
-        const cleanedOptions = cleanOptions(optionsData);
+      dispatch(
+        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
+      ).then(({ payload: optionsData }) => {
+        const cleanedOptions = cleanOptions(
+          appendOptionIfMissing(optionsData, value || defaultValue)
+        );
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
       });
@@ -69,15 +100,18 @@ const SingleDynamicSelect = ({
   }, [optionsPath]);
 
   useEffect(() => {
-    setOptionsToRender(cleanOptions(options));
-  }, [options]);
+    setOptionsToRender(
+      cleanOptions(appendOptionIfMissing(options, value || defaultValue))
+    );
+  }, [value, options, defaultValue]);
 
   useEffect(() => {
     if (
-      selectFirstByDefault &&
-      typeof setFieldsData === 'function' &&
-      (!fieldsData?.[fieldKey]?.length < 1 ||
-        optionsToRender !== previousOptions)
+      (typeof setFieldsData === 'function' &&
+        !fieldsData?.[fieldKey] &&
+        selectFirstByDefault &&
+        optionsToRender[0]) ||
+      (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
       setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
     }
@@ -91,11 +125,15 @@ const SingleDynamicSelect = ({
   ]);
 
   const handleChange = (val) => {
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    if (typeof setFieldsData === 'function') {
+      setFieldsData({ ...fieldsData, [fieldKey]: val });
+    }
   };
 
   const fetchQuery = (query) => {
-    fetchOptions(searchPath + query).then((optionsData) => {
+    dispatch(
+      fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
+    ).then(({ payload: optionsData }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);
@@ -130,28 +168,30 @@ const SingleDynamicSelect = ({
   };
 
   return (
-    <ComboBox
-      onChange={handleChange}
-      value={fieldsData[fieldKey] ?? {}}
-      errorText={requiredFieldError}
-      disabled={!(optionsToRender ?? []).length}
-    >
-      <Label label={label} required={required} />
-      <ComboboxTrigger
-        placeholder={placeholder}
-        wrapperClassName={wrapperClassName}
-        onInputValueChange={handleInputChange}
-      />
-      <ComboboxOptionGroup>
-        {optionsToRender?.map((item) => (
-          <ComboboxOptionItem key={item.value} option={item} />
-        ))}
-      </ComboboxOptionGroup>
-    </ComboBox>
+    <div className="py-3">
+      <ComboBox
+        onChange={handleChange}
+        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+        disabled={disabled}
+      >
+        <Label label={label} required={required} />
+        <ComboboxTrigger
+          placeholder={placeholder}
+          wrapperClassName={wrapperClassName}
+          onInputValueChange={handleInputChange}
+        />
+        <ComboboxOptionGroup>
+          {optionsToRender?.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+    </div>
   );
 };
 
-SingleDynamicSelect.propTypes = {
+SingleValueSelect.propTypes = {
   fieldsData: PropTypes.string.isRequired,
   setFieldsData: PropTypes.func.isRequired,
   fieldKey: PropTypes.string.isRequired,
@@ -164,11 +204,11 @@ SingleDynamicSelect.propTypes = {
   optionsPath: PropTypes.string.isRequired
 };
 
-SingleDynamicSelect.defaultProps = {
+SingleValueSelect.defaultProps = {
   placeholder: null,
   options: [],
   required: false,
   wrapperClassName: ''
 };
 
-export default SingleDynamicSelect;
+export default SingleValueSelect;

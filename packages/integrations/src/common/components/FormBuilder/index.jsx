@@ -7,11 +7,16 @@ import { FormBuilderType } from './types';
 
 const FormBuilder = ({
   fields,
+  fieldErrors,
+  attachments,
   handleSubmit,
-  metaData,
-  setIsWorkInProgress
+  setAttachments,
+  descriptionMeta,
+  setIsWorkInProgress,
+  hideDescription = false
 }) => {
   const [fieldsData, setFieldsData] = useState({});
+  const [formFieldErrors, setFormFieldErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
   const showAllFieldsButtonText = shouldShowOptionalFields
@@ -22,6 +27,7 @@ const FormBuilder = ({
   };
   const [areSomeRequiredFieldsEmpty, setAreSomeRequiredFieldsEmpty] =
     useState(false);
+
   const [fieldsToShowAtTop, requiredFields, optionalFields] = useMemo(
     () => splitFields(fields),
     [fields]
@@ -36,8 +42,16 @@ const FormBuilder = ({
       if (Array.isArray(field) && field.length) return true;
       return Boolean(field);
     });
-    setIsWorkInProgress(isWIP);
+    if (isWIP) {
+      setIsWorkInProgress(true);
+    }
   }, [fieldsData, setIsWorkInProgress]);
+
+  useEffect(() => {
+    if (fieldErrors) {
+      setFormFieldErrors(fieldErrors);
+    }
+  }, [fieldErrors]);
 
   const renderFields = (fieldsToRender) =>
     fieldsToRender?.map(
@@ -51,31 +65,35 @@ const FormBuilder = ({
         options_path: optionsPath,
         placeholder,
         validations,
-        defaultValue,
-        description
+        default_value: defaultValue,
+        description,
+        current_value: currentValue
       }) => {
         const Field = FormFieldMap[schema?.field];
         if (Field) {
           return (
-            <div className="py-3">
-              <Field
-                label={label}
-                fieldKey={key}
-                schema={schema}
-                options={options}
-                metaData={metaData}
-                required={required}
-                searchPath={searchPath}
-                fieldsData={fieldsData}
-                optionsPath={optionsPath}
-                placeholder={placeholder}
-                validations={validations}
-                description={description}
-                defaultValue={defaultValue}
-                setFieldsData={setFieldsData}
-                areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
-              />
-            </div>
+            <Field
+              value={currentValue}
+              label={label}
+              fieldKey={key}
+              schema={schema}
+              options={options}
+              required={required}
+              attachments={attachments}
+              searchPath={searchPath}
+              fieldsData={fieldsData}
+              optionsPath={optionsPath}
+              placeholder={placeholder}
+              validations={validations}
+              description={description}
+              defaultValue={defaultValue}
+              fieldErrors={formFieldErrors}
+              setFieldsData={setFieldsData}
+              setAttachments={setAttachments}
+              descriptionMeta={descriptionMeta}
+              hideDescription={hideDescription}
+              areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
+            />
           );
         }
         return null;
@@ -85,7 +103,7 @@ const FormBuilder = ({
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (typeof handleSubmit === 'function') {
-      const hasSomeEmptyRequiredFields = requiredFields.some((field) => {
+      const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];
         if (Array.isArray(stateValue) && stateValue.length === 0) return true;
         return !stateValue;
@@ -96,6 +114,7 @@ const FormBuilder = ({
         handleSubmit(fieldsData).then((response) => {
           if (response?.success) {
             resetFieldsData();
+            setIsWorkInProgress(false);
           }
         });
       }

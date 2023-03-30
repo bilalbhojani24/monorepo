@@ -1,8 +1,7 @@
 import React from 'react';
 import { Loader, Tabs } from '@browserstack/bifrost';
 
-import { GenericError } from '../../../common/components';
-import SingleValueSelect from '../../../common/components/SingleValueSelect';
+import { GenericError, SingleValueSelect } from '../../../common/components';
 
 import { FIELD_KEYS, ISSUE_MODES, TABS } from './constants';
 import CreateIssueForm from './CreateIssueForm';
@@ -10,13 +9,18 @@ import UpdateIssueForm from './UpdateIssueForm';
 
 const renderChild = ({
   mode,
-  fields,
-  metaData,
+  options,
   projects,
   fieldsData,
+  attachments,
+  createFields,
+  updateFields,
   setFieldsData,
+  setAttachments,
+  issueFieldData,
   handleTryAgain,
-  setErrorMessage,
+  resetCreateMeta,
+  resetUpdateMeta,
   projectFieldData,
   projectsHaveError,
   clearErrorMessage,
@@ -24,8 +28,10 @@ const renderChild = ({
   areProjectsLoading,
   issueTypeFieldData,
   setIsWorkInProgress,
+  issueSearchFieldData,
   handleIssueTabChange,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setIsFormBeingSubmitted
 }) => {
   if (areProjectsLoading) {
     return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
@@ -41,7 +47,7 @@ const renderChild = ({
 
   return (
     <>
-      <div className="py-3">
+      <div className="pt-3">
         <SingleValueSelect
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.PROJECT}
@@ -58,32 +64,41 @@ const renderChild = ({
         onTabChange={handleIssueTabChange}
         defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
       />
-      <div className="py-3">
-        <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.ISSUE_TYPE}
-          setFieldsData={setFieldsData}
-          label="Issue type"
-          placeholder="Select issue"
-          required
-          options={cleanedIssueTypes}
-          selectFirstByDefault
-        />
-      </div>
+
       {mode === ISSUE_MODES.CREATION ? (
         <CreateIssueForm
-          fields={fields}
-          metaData={metaData}
+          options={options}
+          fields={createFields}
           fieldsData={fieldsData}
-          setErrorMessage={setErrorMessage}
+          attachments={attachments}
+          resetMeta={resetCreateMeta}
+          setFieldsData={setFieldsData}
+          setAttachments={setAttachments}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
+          cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
           integrationToolFieldData={integrationToolFieldData}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       ) : (
-        <UpdateIssueForm />
+        <UpdateIssueForm
+          options={options}
+          fields={updateFields}
+          fieldsData={fieldsData}
+          attachments={attachments}
+          resetMeta={resetUpdateMeta}
+          setFieldsData={setFieldsData}
+          setAttachments={setAttachments}
+          issueFieldData={issueFieldData}
+          projectFieldData={projectFieldData}
+          clearErrorMessage={clearErrorMessage}
+          setIsWorkInProgress={setIsWorkInProgress}
+          issueSearchFieldData={issueSearchFieldData}
+          integrationToolFieldData={integrationToolFieldData}
+          setIsFormBeingSubmitted={setIsFormBeingSubmitted}
+        />
       )}
     </>
   );

@@ -5,7 +5,7 @@ import { fetchTokenThunk } from '../../api';
 import { LOADING_STATUS } from './constants';
 
 const initialState = {
-  uatUrl: '', // user access token URL
+  uatConfig: null,
   hasToken: false,
   loading: LOADING_STATUS.IDLE,
   error: null
@@ -15,8 +15,8 @@ export const userAuthSlice = createSlice({
   name: 'userAuth',
   initialState,
   reducers: {
-    setUATUrl: (state, action) => {
-      state.uatUrl = action.payload;
+    setUATConfig: (state, action) => {
+      state.uatConfig = action.payload;
     },
     setHasToken: (state, action) => {
       state.hasToken = action.payload;
@@ -37,11 +37,11 @@ export const userAuthSlice = createSlice({
   }
 });
 
-export const { setUATUrl, setHasToken } = userAuthSlice.actions;
+export const { setUATConfig, setHasToken } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
 
-export const uatUrlSelector = (state) => state.userAuth.uatUrl;
+export const uatConfigSelector = (state) => state.userAuth.uatConfig;
 export const hasTokenSelector = (state) => state.userAuth.hasToken;
 export const userAuthLoadingSelector = (state) => state.userAuth.loading;
 export const userAuthErrorSelector = (state) => state.userAuth.error;

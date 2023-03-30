@@ -28,12 +28,15 @@ const renderAuth = ({
 const ListOfIntegrations = ({
   mode,
   options,
+  attachments,
+  discardIssue,
   changeModeTo,
-  isBeingDiscarded,
   continueEditing,
-  setReadyToSubmit,
+  isBeingDiscarded,
+  isWorkInProgress,
   confirmIssueDiscard,
-  setIsWorkInProgress
+  setIsWorkInProgress,
+  setIsFormBeingSubmitted
 }) => {
   const integrations = useSelector(integrationsSelector);
   // user has single integration available
@@ -46,13 +49,16 @@ const ListOfIntegrations = ({
       <IssueForm
         mode={mode}
         options={options}
+        attachments={attachments}
+        discardIssue={discardIssue}
         integrations={integrations}
         changeModeTo={changeModeTo}
         continueEditing={continueEditing}
         isBeingDiscarded={isBeingDiscarded}
-        setReadyToSubmit={setReadyToSubmit}
+        isWorkInProgress={isWorkInProgress}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}
+        setIsFormBeingSubmitted={setIsFormBeingSubmitted}
       />
     );
   }

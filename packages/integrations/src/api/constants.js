@@ -1,12 +1,13 @@
 export const URLS = {
-  LIST_INTEGRATIONS: 'https://integrations.bsstag.com/api/integrations',
-  TOOL_OAUTH: 'https://integrations.bsstag.com/api/integrations/oauth',
-  TOOL_API_TOKEN_CONNECTION:
-    'https://integrations.bsstag.com/api/save-api-token',
-  PROJECTS: 'https://integrations.bsstag.com/api/pm-tools/v1/projects',
-  CREATE_META:
-    'https://integrations.bsstag.com/api/pm-tools/v1/tickets/meta-create',
-  CREATE: 'https://integrations.bsstag.com/api/pm-tools/v1/tickets'
+  LIST_INTEGRATIONS: '/api/integrations',
+  TOOL_OAUTH: '/api/integrations/oauth',
+  TOOL_API_TOKEN_CONNECTION: '/api/save-api-token',
+  PROJECTS: '/api/pm-tools/v1/projects',
+  CREATE_META: '/api/pm-tools/v1/tickets/meta-create',
+  UPDATE_META: '/api/pm-tools/v1/tickets/meta-update',
+  TICKET: '/api/pm-tools/v1/tickets',
+  ATTACHMENT: '/api/pm-tools/v1/attachments',
+  SETUP_STATUS: '/api/integrations/setup-status'
 };
 
 export const REQUEST_TIMOUT = 15000;

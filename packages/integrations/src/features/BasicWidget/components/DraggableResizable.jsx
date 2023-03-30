@@ -45,12 +45,12 @@ const DraggableResizable = ({ children, childRef }) => {
 
   return (
     <Draggable ref={widgetRef} handle=".drag-handle">
-      <div ref={widgetRef} className="absolute">
+      <div ref={widgetRef} className="absolute drop-shadow-lg">
         <Resizable
           className="border-base-200 relative flex flex-col items-center overflow-hidden rounded-md border border-solid"
           handle={(__resizeHandleAxis, ref) => (
             <div
-              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-8 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
+              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-16 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
               ref={ref}
             />
           )}

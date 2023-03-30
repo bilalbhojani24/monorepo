@@ -11,10 +11,7 @@ import PropTypes from 'prop-types';
 import { getTokenConnectionForToolThunk } from '../../../api';
 import { Loader, Logo } from '../../../common/components';
 import { LOADING_STATUS } from '../../slices/constants';
-import {
-  toolAuthErrorSelector,
-  toolAuthLoadingSelector
-} from '../../slices/toolAuthSlice';
+import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
 
 import APITokenFormField from './APITokenFormField';
@@ -29,7 +26,6 @@ const APIToken = ({
   const dispatch = useDispatch();
   const isLoading =
     useSelector(toolAuthLoadingSelector) === LOADING_STATUS.PENDING;
-  const error = useSelector(toolAuthErrorSelector);
 
   const setDataForField = (fieldKey, dataFromField) => {
     setData({ ...data, [fieldKey]: dataFromField });
@@ -48,16 +44,6 @@ const APIToken = ({
 
   return (
     <>
-      {error && (
-        <div className="pb-6">
-          <Alerts
-            title=""
-            description="There was some problem connecting to JIRA software"
-            modifier="error"
-            linkText=""
-          />
-        </div>
-      )}
       <Button
         variant="primary"
         colors="white"

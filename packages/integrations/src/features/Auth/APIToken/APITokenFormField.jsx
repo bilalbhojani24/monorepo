@@ -3,13 +3,13 @@ import { Hyperlink, InputField } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 const Field = ({
+  type,
+  value,
   label,
   docLink = null,
-  type,
   fieldKey,
-  setDataForField,
-  value,
-  placeholder
+  placeholder,
+  setDataForField
 }) => {
   const handleChange = (event) => {
     setDataForField(fieldKey, event.target.value);

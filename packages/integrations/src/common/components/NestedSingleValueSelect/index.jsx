@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ComboBox,
   ComboboxOptionGroup,
@@ -7,15 +8,17 @@ import {
 } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
 
-import { fetchOptions } from '../../../api';
+import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 
 const NestedSingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
   required,
+  fieldErrors,
   fieldsData,
   searchPath,
   optionsPath,
@@ -24,7 +27,9 @@ const NestedSingleValueSelect = ({
   wrapperClassName,
   areSomeRequiredFieldsEmpty
 }) => {
+  const dispatch = useDispatch();
   const cleanOptions = (data) =>
+    Array.isArray(data) &&
     data.reduce((acc, currOption) => {
       const image =
         typeof currOption.icon === 'object'
@@ -53,7 +58,9 @@ const NestedSingleValueSelect = ({
 
   useEffect(() => {
     if (optionsPath) {
-      fetchOptions(optionsPath).then((optionsData) => {
+      dispatch(
+        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
+      ).then(({ payload: optionsData }) => {
         const cleanedOptions = cleanOptions(optionsData);
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
@@ -66,7 +73,7 @@ const NestedSingleValueSelect = ({
   }, [options]);
 
   const handleChange = (val) => {
-    const { options: nestedOptions, ...valWithoutChild } = val;
+    const { options: nestedOptions = [], ...valWithoutChild } = val;
     const cleanedChildOptions = nestedOptions.map(
       ({ value, key, label: nestedOptionLabel }) => ({
         value: value || key,
@@ -89,7 +96,10 @@ const NestedSingleValueSelect = ({
   };
 
   const fetchQuery = (query) => {
-    fetchOptions(searchPath + query).then((optionsData) => {
+    fetchOptionsThunk({
+      path: searchPath + query,
+      isDefaultOptions: false
+    }).then(({ payload: optionsData }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);
@@ -124,11 +134,11 @@ const NestedSingleValueSelect = ({
   };
 
   return (
-    <>
+    <div className="py-3">
       <ComboBox
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
-        errorText={requiredFieldError}
+        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -142,7 +152,7 @@ const NestedSingleValueSelect = ({
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
-      {childOptions && (
+      {Boolean(childOptions?.length) && (
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
@@ -157,7 +167,7 @@ const NestedSingleValueSelect = ({
           </ComboBox>
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default NestedSingleValueSelect;

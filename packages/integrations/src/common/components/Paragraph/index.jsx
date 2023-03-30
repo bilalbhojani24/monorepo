@@ -11,31 +11,39 @@ import TextAreaField from '../TextArea';
 
 const Paragraph = ({
   key,
-  fieldsData,
-  setFieldsData,
-  fieldKey,
-  placeholder,
-  required,
   label,
-  metaData
+  value,
+  fieldKey,
+  required,
+  fieldsData,
+  fieldErrors,
+  placeholder,
+  defaultValue,
+  setFieldsData,
+  hideDescription,
+  descriptionMeta
 }) => {
   const [shouldShowMetaSection, setShouldShowMetaSection] = useState(false);
   const toggleMetaSectionVisibility = () => {
     setShouldShowMetaSection(!shouldShowMetaSection);
   };
   const isDescription = fieldKey === 'description';
+  const isComment = fieldKey === 'comment';
 
-  return (
-    <>
+  return (isDescription && !hideDescription) || !isDescription ? (
+    <div className="py-3">
       <TextAreaField
-        fieldsData={fieldsData}
-        setFieldsData={setFieldsData}
-        fieldKey={fieldKey}
-        placeholder={placeholder}
-        required={required}
         label={label}
+        value={value}
+        fieldKey={fieldKey}
+        required={required}
+        fieldsData={fieldsData}
+        fieldErrors={fieldErrors}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        setFieldsData={setFieldsData}
       />
-      {isDescription && (
+      {(isDescription || isComment) && (
         <>
           <Button
             variant="minimal"
@@ -47,16 +55,20 @@ const Paragraph = ({
             onClick={toggleMetaSectionVisibility}
           >
             {shouldShowMetaSection
-              ? 'Collapse meta data added with description'
-              : 'Additional meta data added with description'}
+              ? `Collapse meta data added ${
+                  isDescription ? 'with description' : 'in the comment'
+                }`
+              : `Additional meta data added ${
+                  isDescription ? 'with description' : 'in the comment'
+                }`}
           </Button>
           {shouldShowMetaSection && (
-            <TextArea disabled value={metaData.description} />
+            <TextArea disabled value={descriptionMeta} />
           )}
         </>
       )}
-    </>
-  );
+    </div>
+  ) : null;
 };
 
 Paragraph.propTypes = {

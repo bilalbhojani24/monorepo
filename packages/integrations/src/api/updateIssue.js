@@ -2,11 +2,12 @@ import axios from 'axios';
 
 import { URLS } from './constants';
 
-export const createIssue = (integrationKey, fields) =>
+export const updateIssue = (integrationKey, ticketId, fields) =>
   axios
-    .post(
+    .put(
       URLS.TICKET,
       {
+        ticket_id: ticketId,
         fields
       },
       {

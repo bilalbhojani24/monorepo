@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Alerts,
   Button,
   CheckCircleIcon,
   MdArrowForward,
@@ -10,7 +9,9 @@ import {
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
+import { getSetupStatus } from '../../../api/getSetupStatus';
 import { Loader, Logo } from '../../../common/components';
+import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { setHasIntegrated } from '../../slices/integrationsSlice';
 import { OAuthMetaType } from '../types';
 
@@ -20,26 +21,80 @@ const OAuth = ({
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
   hasOAuthFailed,
-  setHasOAuthFailed,
-  shouldShowFailedAuthMessage
+  setHasOAuthFailed
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
-  let authWindow = null;
+  const [authWindow, setAuthWindow] = useState({});
+  const OAUTH_POLL_MAX = 5;
+  const pollTimers = useRef([]);
+  const authWindowName = 'browser_oauth';
+  const clearTimersAfter = (start) => {
+    for (let idx = start; idx < pollTimers.length; idx += 1) {
+      if (pollTimers[idx]) {
+        clearTimeout(pollTimers[idx]);
+      }
+    }
+  };
+
+  const pollerFn = (attempt = 1) => {
+    if (attempt <= OAUTH_POLL_MAX) {
+      getSetupStatus(integrationKey).then((response) => {
+        if (response?.data?.success && response?.data?.setup_completed) {
+          clearTimersAfter(attempt);
+          dispatch(setHasIntegrated(integrationKey));
+        } else {
+          setHasOAuthFailed(true);
+          dispatch(
+            setGlobalAlert({
+              kind: 'error',
+              message: 'There was some problem connecting to JIRA software'
+            })
+          );
+        }
+      });
+    }
+  };
+
+  const oAuthSyncPoller = () => {
+    for (
+      let oAuthPollCounter = 0;
+      oAuthPollCounter < OAUTH_POLL_MAX;
+      oAuthPollCounter += 1
+    ) {
+      // 1, 3, 6, 10, 15 ... nth term  = n(n + 1) / 2
+      const n = oAuthPollCounter + 1;
+      const delayConstant = (n * (n + 1)) / 2;
+      const timer = setTimeout(() => {
+        pollerFn(n);
+      }, delayConstant * 1000);
+      pollTimers.push(timer);
+    }
+  };
   useEffect(() => {
     const handleMessage = (event) => {
       setIsOAuthConnecting(true);
       let message = {};
       try {
         message = JSON.parse(event.data);
+      } catch (e) {
+        return e;
       } finally {
         setIsOAuthConnecting(false);
       }
+      // oauth has failed
       if (message.hasError) {
         setHasOAuthFailed(true);
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message: 'There was some problem connecting to JIRA software'
+          })
+        );
       } else {
-        dispatch(setHasIntegrated(integrationKey));
+        oAuthSyncPoller();
       }
+      console.log(authWindow);
       authWindow?.close();
     };
     window.addEventListener('message', handleMessage);
@@ -51,9 +106,25 @@ const OAuth = ({
   const handleAPIConnect = () => {
     showAPIToken();
   };
+
   const handleOAuthConnection = () => {
     getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      authWindow = window.open(redirectUri, 'mywindow', 'height=640,width=960');
+      const childWindow = window.open(
+        redirectUri,
+        authWindowName,
+        'height=640,width=960'
+      );
+      setAuthWindow(childWindow);
+
+      let timer = null;
+
+      function checkChild() {
+        if (childWindow.closed) {
+          pollerFn(OAUTH_POLL_MAX);
+          clearInterval(timer);
+        }
+      }
+      timer = setInterval(checkChild, 500);
     });
   };
 
@@ -68,16 +139,6 @@ const OAuth = ({
   return (
     <>
       <div>
-        {shouldShowFailedAuthMessage && (
-          <div className="pb-6">
-            <Alerts
-              title=""
-              description="There was some problem connecting to JIRA software"
-              modifier="error"
-              linkText=""
-            />
-          </div>
-        )}
         <div className="flex items-center justify-center ">
           <Logo logo="/icons/browserstack.png" label="Browserstack" />
           <MdSwapHoriz className="text-brand-500 mx-3 text-3xl" />

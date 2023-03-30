@@ -16,7 +16,7 @@ import {
 } from '../slices/integrationsSlice';
 import {
   hasTokenSelector,
-  setUATUrl,
+  setUATConfig,
   userAuthErrorSelector,
   userAuthLoadingSelector
 } from '../slices/userAuthSlice';
@@ -89,7 +89,7 @@ const renderChild = ({
 };
 
 const WidgetPortal = ({
-  authUrl,
+  auth,
   positionRef,
   position,
   projectId,
@@ -114,13 +114,13 @@ const WidgetPortal = ({
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setUATUrl(authUrl));
+    dispatch(setUATConfig(auth));
     dispatch(fetchTokenThunk()).then(() => {
       if (hasToken) {
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
       }
     });
-  }, [hasToken, authUrl, dispatch, projectId, componentKey]);
+  }, [hasToken, dispatch, projectId, componentKey]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
@@ -137,7 +137,6 @@ const WidgetPortal = ({
   return isOpen
     ? createPortal(
         <Widget
-          authUrl={authUrl}
           hasToken={hasToken}
           position={position}
           positionRef={positionRef}

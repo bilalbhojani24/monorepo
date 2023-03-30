@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import APIToken from './APIToken';
@@ -11,8 +11,6 @@ const IntegrationAuth = ({
   oAuthMeta,
   apiTokenMeta
 }) => {
-  const [shouldShowFailedAuthMessage, setShowFailedAuthMessage] =
-    useState(false);
   const [hasOAuthFailed, setHasOAuthFailed] = useState(false);
   const [isOAuthActive, setIsOAuthActive] = useState(true);
   const showOAuth = () => {
@@ -21,14 +19,7 @@ const IntegrationAuth = ({
   const showAPIToken = () => {
     setIsOAuthActive(false);
   };
-  const hideFailedAuthMessage = () => {
-    setShowFailedAuthMessage(false);
-  };
-  useEffect(() => {
-    if (hasOAuthFailed && isOAuthActive) {
-      setShowFailedAuthMessage(true);
-    }
-  }, [hasOAuthFailed, isOAuthActive]);
+  const hideFailedAuthMessage = () => {};
 
   return isOAuthActive ? (
     <OAuth
@@ -39,7 +30,6 @@ const IntegrationAuth = ({
       hasOAuthFailed={hasOAuthFailed}
       setHasOAuthFailed={setHasOAuthFailed}
       hideFailedAuthMessage={hideFailedAuthMessage}
-      shouldShowFailedAuthMessage={shouldShowFailedAuthMessage}
     />
   ) : (
     <APIToken
