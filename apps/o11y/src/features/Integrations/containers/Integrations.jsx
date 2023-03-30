@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MdSearch } from '@browserstack/bifrost';
+import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
@@ -10,9 +10,7 @@ import {
   O11ySelectMenuOptionItem,
   O11ySelectMenuTrigger,
   O11yStackedList,
-  O11yStackedListCommon,
-  O11yStackedListGroup,
-  O11yStackedListItem
+  O11yStackedListGroup
 } from 'common/bifrostProxy';
 import { WRAPPER_GAP_CLASS } from 'constants/common';
 
@@ -27,6 +25,37 @@ const ALL_CATEGORIES_OPTION = {
 function Integrations() {
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
+
+  const [searchText, setSearchText] = useState('');
+
+  const handleSearchTextChange = ({ target: { value } }) => {
+    setSearchText(value);
+    if (!value) {
+      setAvailableIntegrations(INTEGRATIONS);
+    }
+    const searchVal = value.toLowerCase();
+    const foundIntegrations = [];
+    INTEGRATIONS.forEach((integration) => {
+      const matched = [];
+      integration.list.forEach((integrationItem) => {
+        if (integrationItem.name.toLowerCase().includes(searchVal)) {
+          matched.push(integrationItem);
+        }
+      });
+      if (matched.length) {
+        foundIntegrations.push({
+          ...integration,
+          list: matched
+        });
+      }
+    });
+    setAvailableIntegrations(foundIntegrations);
+  };
+
+  const handleClearSearch = () => {
+    setSearchText('');
+    setAvailableIntegrations(INTEGRATIONS);
+  };
 
   const onCategorySelect = (category) => {
     if (category.value === 'all') {
@@ -51,6 +80,22 @@ function Integrations() {
               addOnBeforeInline={<MdSearch className="text-base-400 text-lg" />}
               placeholder="Search"
               id="integration-search-value"
+              value={searchText}
+              onChange={handleSearchTextChange}
+              addOnAfterInline={
+                <>
+                  {searchText ? (
+                    <O11yButton
+                      variant="minimal"
+                      colors="white"
+                      icon={<MdClose className="text-base-800 text-xl" />}
+                      onClick={handleClearSearch}
+                      isIconOnlyButton
+                      size="extra-small"
+                    />
+                  ) : null}
+                </>
+              }
             />
           </div>
           <div className="max-w-sm">
@@ -87,21 +132,9 @@ function Integrations() {
                 wrapperClassName="fist:rounded-lg"
                 heading={<ListGroupHeader title={integration.name} />}
               >
-                {integration.list.map((integrationItem) => (
-                  <O11yStackedListItem
-                    actions={
-                      <O11yButton variant="rounded" colors="white" size="small">
-                        {integrationItem.cta.name}
-                      </O11yButton>
-                    }
-                  >
-                    <O11yStackedListCommon
-                      icon={integrationItem.icon}
-                      title={integrationItem.name}
-                      subTitle={integrationItem.type}
-                    />
-                  </O11yStackedListItem>
-                ))}
+                {integration.list.map(
+                  (integrationItem) => integrationItem.component
+                )}
               </O11yStackedListGroup>
             ))}
           </O11yStackedList>
