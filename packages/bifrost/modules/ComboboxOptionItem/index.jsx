@@ -54,8 +54,11 @@ const ComboboxOptionItem = forwardRef(
                   )}
                   <span
                     className={twClassNames(
-                      'block truncate',
-                      selected && 'font-semibold'
+                      {
+                        'font-semibold': selected,
+                        'font-normal': !selected
+                      },
+                      'block truncate'
                     )}
                   >
                     {option.label}
@@ -81,7 +84,10 @@ const ComboboxOptionItem = forwardRef(
               <div className="flex items-center space-x-2">
                 <CheckboxClone checked={selected} active={active} />
 
-                <label htmlFor={option.name} className="cursor-pointer">
+                <label
+                  htmlFor={option.name}
+                  className="cursor-pointer truncate"
+                >
                   {option?.visualLabel || option.label}
                 </label>
               </div>
