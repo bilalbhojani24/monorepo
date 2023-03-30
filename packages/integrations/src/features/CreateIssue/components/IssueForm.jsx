@@ -7,6 +7,7 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
@@ -38,7 +39,8 @@ const IssueForm = ({
 }) => {
   const dispatch = useDispatch();
   const projects = useSelector(projectsSelector);
-  const [fields, setFields] = useState([]);
+  const [createFields, setCreateFields] = useState([]);
+  const [updateFields, setUpdateFields] = useState([]);
   const [files, setFiles] = useState(attachments);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
   const baseURL = useSelector(baseURLSelector);
@@ -69,6 +71,7 @@ const IssueForm = ({
   });
   const integrationToolFieldData = fieldsData[FIELD_KEYS.INTEGRATON_TOOL];
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
+  const previousProjectId = usePrevious(projectFieldData?.value ?? null);
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
   const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
@@ -85,13 +88,18 @@ const IssueForm = ({
     [projectFieldData]
   );
 
-  const resetMeta = useCallback(() => {
-    setFields([]);
+  const resetCreateMeta = useCallback(() => {
+    setCreateFields([]);
+  }, []);
+
+  const resetUpdateMeta = useCallback(() => {
+    setUpdateFields([]);
   }, []);
 
   useEffect(() => {
     if (!isBeingDiscarded && !isWorkInProgress) {
-      resetMeta();
+      if (mode === ISSUE_MODES.CREATION) resetCreateMeta();
+      else resetUpdateMeta();
     }
   }, [mode]);
 
@@ -104,15 +112,15 @@ const IssueForm = ({
       integrationToolFieldData.value,
       projectFieldData.value,
       issueTypeFieldData.value
-    ).then((responseFields) => {
-      setFields(responseFields.fields);
+    ).then(({ fields: responseFields }) => {
+      setCreateFields(responseFields);
     });
   }, 300);
 
   const debouncedGetUpdateMeta = makeDebounce((issue) => {
     getUpdateMeta(integrationToolFieldData.value, issue.value).then(
       ({ fields: responseFields }) => {
-        setFields(responseFields);
+        setUpdateFields(responseFields);
       }
     );
   }, 300);
@@ -123,7 +131,8 @@ const IssueForm = ({
       integrationToolFieldData &&
       projectFieldData &&
       issueTypeFieldData &&
-      mode === ISSUE_MODES.CREATION
+      mode === ISSUE_MODES.CREATION &&
+      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
     ) {
       debouncedGetCreateMeta();
     }
@@ -142,7 +151,8 @@ const IssueForm = ({
       integrationToolFieldData &&
       projectFieldData &&
       issueSearchFieldData?.value &&
-      mode === ISSUE_MODES.UPDATION
+      mode === ISSUE_MODES.UPDATION &&
+      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
     ) {
       debouncedGetUpdateMeta(issueSearchFieldData);
       setFieldsData({
@@ -160,15 +170,18 @@ const IssueForm = ({
     // debouncedGetUpdateMeta
   ]);
 
-  const handleIssueTabChange = useCallback((tabSelected) => {
-    if (tabSelected.mode !== mode) {
-      changeModeTo(tabSelected.mode);
-    }
-  }, []);
+  const handleIssueTabChange = useCallback(
+    (tabSelected) => {
+      if (tabSelected.mode !== mode) {
+        changeModeTo(tabSelected.mode);
+      }
+    },
+    [mode, changeModeTo]
+  );
 
   const handleTryAgain = useCallback(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
-  }, []);
+  }, [dispatch, integrationToolFieldData]);
 
   useEffect(() => {
     if (areProjectsLoaded && (projects ?? []).length === 0) {
@@ -217,14 +230,16 @@ const IssueForm = ({
         >
           {renderChild({
             mode,
-            fields,
             options,
             projects,
-            resetMeta,
             fieldsData,
+            createFields,
+            updateFields,
             setFieldsData,
             issueFieldData,
             handleTryAgain,
+            resetCreateMeta,
+            resetUpdateMeta,
             projectFieldData,
             projectsHaveError,
             cleanedIssueTypes,

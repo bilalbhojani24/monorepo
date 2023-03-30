@@ -9,16 +9,18 @@ import UpdateIssueForm from './UpdateIssueForm';
 
 const renderChild = ({
   mode,
-  fields,
   options,
   projects,
-  resetMeta,
   fieldsData,
   attachments,
+  createFields,
+  updateFields,
   setFieldsData,
   setAttachments,
   issueFieldData,
   handleTryAgain,
+  resetCreateMeta,
+  resetUpdateMeta,
   projectFieldData,
   projectsHaveError,
   clearErrorMessage,
@@ -65,11 +67,11 @@ const renderChild = ({
 
       {mode === ISSUE_MODES.CREATION ? (
         <CreateIssueForm
-          fields={fields}
           options={options}
-          resetMeta={resetMeta}
+          fields={createFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          resetMeta={resetCreateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
@@ -82,11 +84,11 @@ const renderChild = ({
         />
       ) : (
         <UpdateIssueForm
-          fields={fields}
           options={options}
-          resetMeta={resetMeta}
+          fields={updateFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          resetMeta={resetUpdateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}

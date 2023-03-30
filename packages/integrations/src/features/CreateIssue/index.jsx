@@ -71,13 +71,16 @@ export const CreateIssue = ({
     }
   }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
 
-  const changeModeTo = useCallback((nextMode) => {
-    if (isWorkInProgress) {
-      discardIssue();
-      previousModeRef.current = mode;
-    }
-    setMode(nextMode);
-  }, []);
+  const changeModeTo = useCallback(
+    (nextMode) => {
+      if (isWorkInProgress) {
+        discardIssue();
+        previousModeRef.current = mode;
+      }
+      setMode(nextMode);
+    },
+    [discardIssue, isWorkInProgress, mode]
+  );
 
   return (
     <BasicWidget
