@@ -6,6 +6,7 @@ import fetchReport from 'api/fetchReport';
 import { events, ISSUE_TYPE } from 'constants';
 import {
   resetReportAppInfo,
+  resetActiveTab,
   setActiveSwitch,
   setActiveTab,
   setOpenAccordionId
@@ -82,9 +83,9 @@ export default function useReport() {
       logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
-    // return () => {
-    //   dispatch(resetReportAppInfo());
-    // };
+    return () => {
+      dispatch(resetActiveTab());
+    };
   }, [dispatch]);
 
   return {

@@ -105,7 +105,7 @@ export default function useScanReportSummary() {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
-      height: '342px'
+      height: '312px'
     },
     exporting: {
       enabled: false
