@@ -15,11 +15,6 @@ if [ ! -d "$SOURCE" ]; then
   exit 1
 fi
 
-if ! aws s3 ls "s3://$DESTINATION/" >/dev/null 2>&1; then
-  echo "Error: $DESTINATION is not a valid file or destination."
-  exit 1
-fi
-
 
 if [ "$BCKP_FOLDERNAME" ] 
 then
