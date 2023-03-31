@@ -22,10 +22,6 @@ export default class Pusher {
     this.disconnected_at = null;
     this.pusherLogging = loggingEnabled;
 
-    this.emit = this.emit.bind(this);
-    this.flush = this.flush.bind(this);
-    this.trigger = this.trigger.bind(this);
-
     if (window.navigator) {
       let { userAgent } = window.navigator;
       if (userAgent) {
