@@ -311,7 +311,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
           {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
         </O11yButton>
       </div>
-      <div className="sticky bottom-0 z-10 flex items-center justify-between bg-white">
+      <div className="sticky bottom-0 z-10 flex items-center justify-between bg-white pt-2">
         <div className="flex items-center gap-6">
           <O11yButton
             variant="minimal"

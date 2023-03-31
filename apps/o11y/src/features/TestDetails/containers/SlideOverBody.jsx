@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { O11ySlideoverBody } from 'common/bifrostProxy';
 
-import { TEST_DETAILS_TABS } from '../constants';
+import {
+  TEST_DETAILS_SLIDEOVER_ELEMENT_ID,
+  TEST_DETAILS_TABS
+} from '../constants';
 
 import HistorySlider from './HistorySlider';
 import InfoTab from './InfoTab';
@@ -34,12 +37,17 @@ const SlideOverBody = () => {
   }, []);
 
   return (
-    <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-0">
-      <HistorySlider />
-      <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
-      <div className="flex-1 overflow-auto px-6" ref={scrollParentRef}>
-        {activeTab.value === TEST_DETAILS_TABS.logs && <LogsTab />}
-        {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
+    <O11ySlideoverBody wrapperClassName="overflow-hidden pt-0">
+      <div
+        className="flex h-full w-full flex-col"
+        id={TEST_DETAILS_SLIDEOVER_ELEMENT_ID}
+      >
+        <HistorySlider />
+        <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
+        <div className="flex-1 overflow-auto px-6" ref={scrollParentRef}>
+          {activeTab.value === TEST_DETAILS_TABS.logs && <LogsTab />}
+          {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
+        </div>
       </div>
     </O11ySlideoverBody>
   );

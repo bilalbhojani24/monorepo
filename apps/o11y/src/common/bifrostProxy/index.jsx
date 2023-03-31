@@ -11,6 +11,7 @@ import {
   EmptyState,
   Hyperlink,
   InputField,
+  MediaPlayerControlPanel,
   Metadata,
   Modal,
   ModalBody,
@@ -102,5 +103,9 @@ export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 
 export const O11yTruncateText = TruncateText;
 export const O11yAccordian = (props) => <Accordion {...props} />;
+
+export const O11yMediaPlayerControlPanel = (props) => (
+  <MediaPlayerControlPanel {...props} />
+);
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

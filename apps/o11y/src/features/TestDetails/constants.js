@@ -27,6 +27,9 @@ export const TEST_DETAILS_TABS = {
   info: 'Info'
 };
 
+export const TEST_DETAILS_SLIDEOVER_ELEMENT_ID =
+  'TEST_DETAILS_SLIDEOVER_ELEMENT_ID';
+
 export const TEXT_LOG_CHAR_LIMIT = 10000;
 
 export const TEXT_LOG_HUMANIZE = {

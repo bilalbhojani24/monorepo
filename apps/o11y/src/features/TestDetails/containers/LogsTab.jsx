@@ -1,7 +1,8 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import O11yLoader from 'common/O11yLoader';
 
+import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
 import {
   getExceptions,
@@ -25,6 +26,16 @@ const LogsTab = () => {
   const testExceptions = useSelector(getExceptions);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
+  const [parentWidth, setParentWidth] = useState(700);
+
+  useEffect(() => {
+    const parentElement = document.getElementById(
+      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
+    );
+    if (parentElement) {
+      setParentWidth(parentElement.offsetWidth);
+    }
+  }, []);
 
   const handleLogDurationClick = (duration) => {
     const videoComponent = videoRef.current;
@@ -109,7 +120,8 @@ const LogsTab = () => {
           videoSeekTime,
           handleSetCurrentTime,
           handleLogDurationClick,
-          handleSessionToggle
+          handleSessionToggle,
+          parentWidth
         }}
       >
         <TestVideoPlayer
