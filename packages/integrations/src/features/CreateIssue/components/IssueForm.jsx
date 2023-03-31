@@ -73,6 +73,7 @@ const IssueForm = ({
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const previousProjectId = usePrevious(projectFieldData?.value ?? null);
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
+  const previousIssueType = usePrevious(issueTypeFieldData?.value ?? null);
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
   const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
 
@@ -126,13 +127,18 @@ const IssueForm = ({
   }, 300);
 
   useEffect(() => {
+    console.log(
+      previousProjectId !== projectFieldData?.value || !isWorkInProgress
+    );
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData &&
       issueTypeFieldData &&
       mode === ISSUE_MODES.CREATION &&
-      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
+      (previousProjectId !== projectFieldData.value ||
+        previousIssueType !== issueTypeFieldData.value ||
+        !isWorkInProgress)
     ) {
       debouncedGetCreateMeta();
     }
@@ -193,6 +199,8 @@ const IssueForm = ({
       );
     }
   }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
+
+  console.log(fieldsData);
 
   return (
     <>

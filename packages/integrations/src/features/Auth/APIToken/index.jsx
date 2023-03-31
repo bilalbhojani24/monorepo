@@ -21,6 +21,7 @@ const APIToken = ({
   showOAuth,
   syncPoller,
   integrationKey,
+  isSyncInProgress,
   apiTokenMeta: { logo_url: logo, title, description, fields }
 }) => {
   const [data, setData] = useState({});
@@ -43,7 +44,7 @@ const APIToken = ({
     });
   };
 
-  if (isLoading) {
+  if (isLoading || isSyncInProgress) {
     return (
       <div className="flex h-full items-center justify-center">
         <Loader />;

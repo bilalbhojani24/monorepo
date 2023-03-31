@@ -23,6 +23,7 @@ const IntegrationAuth = ({
   const dispatch = useDispatch();
   const [hasOAuthFailed, setHasOAuthFailed] = useState(false);
   const [isOAuthActive, setIsOAuthActive] = useState(true);
+  const [isSyncInProgress, setIsSyncInProgress] = useState(false);
   const showOAuth = () => {
     setIsOAuthActive(true);
   };
@@ -32,9 +33,9 @@ const IntegrationAuth = ({
   const hideFailedAuthMessage = () => {};
   const pollTimers = useRef([]);
   const clearTimersAfter = (start) => {
-    for (let idx = start; idx < pollTimers.length; idx += 1) {
-      if (pollTimers[idx]) {
-        clearTimeout(pollTimers[idx]);
+    for (let idx = start; idx < pollTimers.current.length; idx += 1) {
+      if (pollTimers.current[idx]) {
+        clearTimeout(pollTimers.current[idx]);
       }
     }
   };
@@ -45,7 +46,8 @@ const IntegrationAuth = ({
           clearTimersAfter(attempt);
           dispatch(setHasIntegrated(integrationKey));
           dispatch(clearGlobalAlert());
-        } else {
+          setIsSyncInProgress(false);
+        } else if (attempt + 1 === SYNC_POLL_MAX_ATTEMPTS) {
           setHasOAuthFailed(true);
           dispatch(
             setGlobalAlert({
@@ -53,12 +55,14 @@ const IntegrationAuth = ({
               message: `There was some problem connecting to ${label} software`
             })
           );
+          setIsSyncInProgress(false);
         }
       });
     }
   };
 
   const syncPoller = () => {
+    setIsSyncInProgress(true);
     for (
       let oAuthPollCounter = 0;
       oAuthPollCounter < SYNC_POLL_MAX_ATTEMPTS;
@@ -83,6 +87,7 @@ const IntegrationAuth = ({
       showAPIToken={showAPIToken}
       integrationKey={integrationKey}
       hasOAuthFailed={hasOAuthFailed}
+      isSyncInProgress={isSyncInProgress}
       setHasOAuthFailed={setHasOAuthFailed}
       hideFailedAuthMessage={hideFailedAuthMessage}
     />
@@ -93,6 +98,7 @@ const IntegrationAuth = ({
       syncPoller={syncPoller}
       apiTokenMeta={apiTokenMeta}
       integrationKey={integrationKey}
+      isSyncInProgress={isSyncInProgress}
     />
   );
 };

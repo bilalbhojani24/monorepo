@@ -22,6 +22,7 @@ const OAuth = ({
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
   hasOAuthFailed,
+  isSyncInProgress,
   setHasOAuthFailed
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
@@ -91,7 +92,7 @@ const OAuth = ({
     });
   };
 
-  if (isOAuthConnecting) {
+  if (isOAuthConnecting || isSyncInProgress) {
     return (
       <div className="flex h-full items-center justify-center">
         <Loader />;
