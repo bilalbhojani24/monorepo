@@ -10,6 +10,7 @@ export default class Pusher {
 
     info.prefix = prefix;
     this.info = info;
+    this.info.reconnects = -1;
     this.prefix = prefix;
     this.manager = manager;
     this.auth_endpoint = authEndpoint;
@@ -17,7 +18,6 @@ export default class Pusher {
     this.switched = false;
     this.flushing = false;
     this.buffer = [];
-    this.info.reconnects = -1;
     this.status = 'not-connected';
     this.disconnected_at = null;
     this.pusherLogging = loggingEnabled;
@@ -39,14 +39,14 @@ export default class Pusher {
     }
   }
 
-  log(msg) {
+  log = (msg) => {
     if (this.pusherLogging) {
       // eslint-disable-next-line no-console
       console.log(`::PUSHER ${this.prefix}::`, msg);
     }
-  }
+  };
 
-  flush() {
+  flush = () => {
     this.log('SocketIO Flushing');
     if (this.buffer.length !== 0) {
       this.buffer.forEach((bufferItem) => {
@@ -55,48 +55,48 @@ export default class Pusher {
       this.buffer = this.buffer.splice(this.buffer.length);
     }
     this.switched = true;
-  }
+  };
 
-  emit(message) {
+  emit = (message) => {
     if (this.switched) {
       this.trigger('message', message);
     } else {
       this.buffer.push(message);
     }
-  }
+  };
 
-  on(event, handler) {
+  on = (event, handler) => {
     this.eventHandlers[event] = handler;
     return this;
-  }
+  };
 
-  off(event) {
+  off = (event) => {
     delete this.eventHandlers[event];
     return this;
-  }
+  };
 
-  subscribe() {
+  subscribe = () => {
     this.log('Subscribing');
     this.switched = false;
     this.info.reconnects += 1;
     this.manager.send('subscribe', JSON.stringify(this.info));
-  }
+  };
 
-  unsubscribe() {
+  unsubscribe = () => {
     this.log('Unsubscribing');
     this.switched = false;
     this.manager?.send('unsubscribe', JSON.stringify(this.info));
-  }
+  };
 
-  send(event, message) {
+  send = (event, message) => {
     this.log(`Sending event:${event} message:${message}`);
     this.manager?.send(
       `${this.prefix}push`,
       JSON.stringify({ event, message })
     );
-  }
+  };
 
-  trigger(event, data) {
+  trigger = (event, data) => {
     switch (event) {
       case 'connect':
         this.subscribe();
@@ -111,6 +111,8 @@ export default class Pusher {
 
       case 'invalid':
         this.log(data);
+        // replace the below with axios
+
         fetch(this.auth_endpoint)
           .then((response) => response.json())
           .then((dataObj) => {
@@ -125,5 +127,5 @@ export default class Pusher {
         break;
     }
     this.eventHandlers[event]?.(data);
-  }
+  };
 }
