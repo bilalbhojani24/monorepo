@@ -9,7 +9,7 @@ import './styles.scss';
 const TooltipFooter = ({ children, position, wrapperClassName }) => (
   <div
     className={twClassNames(
-      'flex space-x-2 px-4',
+      'flex space-x-3 px-4',
       {
         'justify-end': position === TP_ACTION_ITEM_POSITION[2],
         'justify-center': position === TP_ACTION_ITEM_POSITION[1]
