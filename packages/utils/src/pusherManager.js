@@ -9,14 +9,14 @@ export default class PusherManager {
     this.pusherManagerLogging = loggingEnabled;
   }
 
-  log(msg) {
+  log = (msg) => {
     if (this.pusherManagerLogging) {
       // eslint-disable-next-line no-console
       console.log('::PUSHER MANAGER::', msg);
     }
-  }
+  };
 
-  connect() {
+  connect = () => {
     this.reconnectionAttempts = 0;
 
     this.socket = io(this.server, {
@@ -74,14 +74,14 @@ export default class PusherManager {
       this.log(`SocketIO Error: ${e.toString()}`);
       this.customPusherErrorHandler?.(e.toString());
     });
-  }
+  };
 
-  add(key, pusher) {
+  add = (key, pusher) => {
     this.init(pusher);
     this.instances[key] = pusher;
-  }
+  };
 
-  init(pusher) {
+  init = (pusher) => {
     if (!(pusher instanceof Pusher)) {
       throw new Error('Not a valid instance of pusher passed!');
     }
@@ -105,17 +105,17 @@ export default class PusherManager {
     if (this.socket.connected) {
       pusher.trigger('connect');
     }
-  }
+  };
 
-  send(event, message) {
+  send = (event, message) => {
     if (!this.socket) {
       return;
     }
     this.log(`Sending event:${event} message:${message}`);
     this.socket.emit(event, message);
-  }
+  };
 
-  reset(prefix) {
+  reset = (prefix) => {
     if (!this.socket) {
       return;
     }
@@ -123,13 +123,13 @@ export default class PusherManager {
     this.socket.removeAllListeners(`${prefix}update`);
     this.socket.removeAllListeners(`${prefix}switch`);
     this.socket.removeAllListeners(`${prefix}invalid`);
-  }
+  };
 
-  remove(key) {
+  remove = (key) => {
     if (typeof this.instances[key] === 'undefined') {
       return;
     }
     this.reset(this.instances[key].prefix);
     delete this.instances[key];
-  }
+  };
 }
