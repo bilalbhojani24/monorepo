@@ -2,7 +2,8 @@
   "name": "mcspt",
   "productName": "BrowserStack-AppPerformance",
   "version": "0.1.1",
-  "description": "My Electron application description",
+  "description": "BrowserStack AppBench",
+  "repository": "https://github.com/repoUrlForAutoUpdate",
   "main": ".webpack/main",
   "scripts": {
     "dev": "electron-forge start -- IS_DEV",
@@ -53,6 +54,7 @@
     "axios": "1.2.2",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
+    "electron-log": "^4.4.8",
     "electron-squirrel-startup": "^1.0.0",
     "get-port": "6.1.2",
     "highcharts": "^10.3.3",
@@ -65,6 +67,7 @@
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "tailwind-merge": "^1.8.1",
+    "update-electron-app": "^2.0.1",
     "wait-for-localhost": "^4.0.1",
     "webpack": "^5.75.0"
   }
