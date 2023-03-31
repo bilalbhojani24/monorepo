@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, getEnvConfig } from 'utils/common';
 
 const O11yHeader = () => (
   <Header
@@ -11,15 +11,15 @@ const O11yHeader = () => (
     productName="Test Observability"
     productLink={ROUTES.root}
     release="Beta"
-    // beamerProductId="XxcUulZf52793"
-    documentationLink="https://www.browserstack.com/docs/test-observability/"
-    supportLink="https://www.browserstack.com/contact"
+    beamerProductId="XxcUulZf52793"
+    documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
+    supportLink={`${getEnvConfig().baseUrl}/contact`}
     headerElementArray={[
       'team',
       'pricing',
       'help',
       'search',
-      // 'notifications',
+      'notifications',
       'account'
     ]}
     documentation={{

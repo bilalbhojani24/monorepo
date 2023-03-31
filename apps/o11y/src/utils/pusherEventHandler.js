@@ -1,5 +1,8 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
 import { PUSHER_EVENTS } from 'constants/common';
+import { findAndUpdateBuilds } from 'features/AllBuilds/slices/dataSlice';
+import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
+import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { updateProjectList } from 'globalSlice/index';
 
 class O11yPusherEvents {
@@ -53,8 +56,37 @@ class O11yPusherEvents {
       this.log(message);
 
       if (message.type) {
-        // eslint-disable-next-line sonarjs/no-small-switch
         switch (message.type) {
+          case PUSHER_EVENTS.BUILD_FINISHED:
+            {
+              this.dispatch(findAndUpdateBuilds(message?.data || []));
+              const state = this.getState();
+              const buildUUID = getBuildUUID(state);
+              const finishedBuilds = message.data || [];
+              const foundBuild = finishedBuilds.find(
+                (build) => build.uuid === buildUUID
+              );
+              if (foundBuild) {
+                this.dispatch(
+                  updateBuildMeta({
+                    buildUID: foundBuild.uuid,
+                    data: {
+                      status: foundBuild?.status || null,
+                      statusStats: foundBuild?.statusStats || {}
+                    }
+                  })
+                );
+              }
+            }
+            break;
+          case PUSHER_EVENTS.ANALYZER_COMPLETED:
+            this.dispatch(
+              updateBuildMeta({
+                buildUID: message?.buildId || '',
+                isAutoAnalyzerRunning: false
+              })
+            );
+            break;
           case PUSHER_EVENTS.NEW_PROJECT:
             this.dispatch(updateProjectList(message?.data || {}));
             break;
