@@ -51,5 +51,5 @@ apiUrl: 'https://api-observability.browserstack.com'
 3. checkout branch `testops_static_data`
 4. start api-mocker
 
-## Making pusher work
+## receiving pusher updates on local with staging api
 - add `54.160.231.205 pusher-local.bsstag.com` entry to etc/hosts
