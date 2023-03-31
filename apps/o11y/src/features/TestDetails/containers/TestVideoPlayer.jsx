@@ -28,8 +28,8 @@ const TestVideoPlayer = () => {
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
-  const [isMainVideoPaused, setIsMainVideoPaused] = useState(false);
-  const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(false);
+  const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
+  const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
   const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
 
   const videoRef = useRef(null);
