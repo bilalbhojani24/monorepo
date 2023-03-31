@@ -13,7 +13,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
 import Button from '../Button';
-import HyperLink from '../Hyperlink';
+import Hyperlink from '../Hyperlink';
 import StackedListCommon from '../StackedListCommon';
 import StackedListGroup from '../StackedListGroup';
 import StackedListItem from '../StackedListItem';
@@ -143,7 +143,10 @@ WithStickyHeadings.args = {
     <StackedListGroup key={title} heading={title}>
       {people.map(({ name, image, info }) => (
         <StackedListItem focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:outline-none font-normal">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:outline-none font-normal"
+          >
             <StackedListCommon
               icon={
                 <img
@@ -155,7 +158,7 @@ WithStickyHeadings.args = {
               title={name}
               subTitle={info}
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -186,7 +189,8 @@ TwoColumnsWithAvatar.args = {
           key={email}
           focusParentOnChildFocused
         >
-          <HyperLink
+          <Hyperlink
+            isCSR={false}
             wrapperClassName="focus:outline-none font-normal text-base-900 md:w-[50%]"
             href="https://www.google.com"
           >
@@ -211,7 +215,7 @@ TwoColumnsWithAvatar.args = {
                 </div>
               }
             />
-          </HyperLink>
+          </Hyperlink>
 
           <StackedListCommon
             title={info}
@@ -242,7 +246,10 @@ WithRightJustifiedSecondColumn.args = {
     <StackedListGroup>
       {JobTitles.map((job, index) => (
         <StackedListItem key={job} focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:outline-none font-normal w-full block">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:outline-none font-normal w-full block"
+          >
             {/* Add span only if want to make parent container as target to open link */}
             <span className="absolute inset-0" aria-hidden="true" />
             <StackedListCommon
@@ -269,7 +276,7 @@ WithRightJustifiedSecondColumn.args = {
                 </div>
               }
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -292,7 +299,10 @@ ContentLinksWithAction.args = {
     <StackedListGroup>
       {contentList.map(({ title, content }) => (
         <StackedListItem focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:none font-normal text-base-900">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:none font-normal text-base-900"
+          >
             {/* Add span only if want to make parent container as target to open link */}
             <span className="absolute inset-0" aria-hidden="true" />
             <StackedListCommon
@@ -303,7 +313,7 @@ ContentLinksWithAction.args = {
                 </p>
               }
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -329,10 +339,13 @@ WithTruncatedContentPreview.args = {
         <StackedListItem focusParentOnChildFocused>
           <StackedListCommon
             title={
-              <HyperLink wrapperClassName="focus:none font-normal text-base-900">
+              <Hyperlink
+                isCSR={false}
+                wrapperClassName="focus:none font-normal text-base-900"
+              >
                 {title}
                 <span className="absolute inset-0" aria-hidden="true" />
-              </HyperLink>
+              </Hyperlink>
             }
             contentAside={time}
             subTitle={

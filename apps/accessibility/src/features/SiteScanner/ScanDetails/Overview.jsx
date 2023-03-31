@@ -139,13 +139,22 @@ const Overview = ({ scanOverviewData }) => {
                     // navigate('/site-scanner/scan-report/12');
                   }}
                 >
-                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
+                  <TableCell
+                    key={row}
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                  >
                     {idx + 1}
                   </TableCell>
-                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
+                  <TableCell
+                    key={row}
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                  >
                     {row}
                   </TableCell>
-                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
+                  <TableCell
+                    key={row}
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                  >
                     <div className="flex justify-end">
                       <CopyButton text={row} hasBorder={false} />
                     </div>
