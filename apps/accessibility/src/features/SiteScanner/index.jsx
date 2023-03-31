@@ -33,6 +33,7 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
+import NewScanLogo from 'assets/noScans.svg';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 import { logEvent } from 'utils/logEvent';
@@ -236,7 +237,7 @@ export default function SiteScanner() {
           </span>
           <span className="mt-2 flex items-center">
             <MdOutlineHistory className="mr-0.5" />
-            Last scan:{' '}
+            Latest scan:&nbsp;
             {row?.lastScanDetails?.lastScanDate
               ? dateFormat(
                   new Date(row.lastScanDetails.lastScanDate),
@@ -351,7 +352,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineContentCopy />
-              <span className="ml-2">Clone Scan Configuration</span>
+              <span className="ml-2">Clone scan configuration</span>
             </div>
           )
         },
@@ -360,22 +361,30 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">View latest scan run</span>
             </div>
           )
         }
       ];
     }
-    console.log(row);
     if (!row.recurring || !row.active) {
       rowMenuCpy = [
+        {
+          id: 'lastScanRun',
+          body: (
+            <div className="flex items-center">
+              <MdOutlineHistory />
+              <span className="ml-2">View latest scan run</span>
+            </div>
+          )
+        },
         {
           id: 'newScanRun',
           value: 'newScanRun',
           body: (
             <div className="flex items-center">
               <MdAdd />
-              <span className="ml-2">New Scan</span>
+              <span className="ml-2">New scan</span>
             </div>
           )
         },
@@ -384,16 +393,7 @@ export default function SiteScanner() {
           body: (
             <div className="flex items-center">
               <MdOutlineContentCopy />
-              <span className="ml-2">Clone Scan Configuration</span>
-            </div>
-          )
-        },
-        {
-          id: 'lastScanRun',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineHistory />
-              <span className="ml-2">View last scan run</span>
+              <span className="ml-2">Clone scan configuration</span>
             </div>
           )
         }
@@ -403,6 +403,36 @@ export default function SiteScanner() {
       <DropdownOptionItem key={opt.id} option={opt} />
     ));
   };
+
+  const getColdStart = () =>
+    scanConfigStateData.success ? (
+      <div className="justify-center" style={{ height: 'calc(100vh - 320px)' }}>
+        <div className="mt-40 mb-5 flex w-full flex-col items-center justify-center">
+          <img src={NewScanLogo} alt="new scan logo" className="mb-5" />
+          <div className="mb-5 flex flex-col items-center">
+            <span>No scans to show.</span>
+            <span className="text-base-500">
+              Get started by creating a new website scan.
+            </span>
+          </div>
+          <Button
+            modifier="primary"
+            onClick={() => {
+              logEvent('InteractedWithWSHomepage', {
+                actionType: 'Configure new scan',
+                action: 'Open new website scan slide over'
+              });
+              setShowNewScan(true);
+            }}
+            size="small"
+            type="subtle"
+            wrapperClassName="h-10 mb-5"
+          >
+            New website scan
+          </Button>
+        </div>
+      </div>
+    ) : null;
 
   return (
     <div className="bg-base-50">
@@ -414,51 +444,60 @@ export default function SiteScanner() {
             your pages for accessibility issues
           </h3>
         </div>
-        <Button
-          modifier="primary"
-          onClick={() => {
-            logEvent('InteractedWithWSHomepage', {
-              actionType: 'Configure new scan',
-              action: 'Open new website scan slide over'
-            });
-            setShowNewScan(true);
-          }}
-          size="small"
-          type="subtle"
-          wrapperClassName="h-10"
-        >
-          New website scan
-        </Button>
+        <NewScan
+          show={showNewScan}
+          closeSlideover={closeSlideover}
+          preConfigData={preConfigData}
+        />
+        {scanConfigStateData?.data?.scanConfigs?.length ? (
+          <Button
+            modifier="primary"
+            onClick={() => {
+              logEvent('InteractedWithWSHomepage', {
+                actionType: 'Configure new scan',
+                action: 'Open new website scan slide over'
+              });
+              setShowNewScan(true);
+            }}
+            size="small"
+            type="subtle"
+            wrapperClassName="h-10"
+          >
+            New website scan
+          </Button>
+        ) : null}
       </div>
-      <div className="block p-6 pt-0">
-        <div className="flex justify-between">
-          <div className="flex items-center">
-            <div className="mt-1 mr-4 w-64">
-              <InputField
-                onChange={handleSearch}
-                id="search-scan"
-                placeholder="Search for scan name or user..."
-                leadingIcon={<MdSearch />}
-              />
-            </div>
-            <div className="mt-1 mr-4">
-              <Dropdown onClick={handleSearchFilter} id="scanFilter">
-                <div className="flex">
-                  <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                    {currentFilter.body}
-                    <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-                  </DropdownTrigger>
+      {scanConfigStateData?.data?.scanConfigs?.length ? (
+        <>
+          <div className="block p-6 pt-0">
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <div className="mt-1 mr-4 w-64">
+                  <InputField
+                    onChange={handleSearch}
+                    id="search-scan"
+                    placeholder="Search for scan name or user..."
+                    leadingIcon={<MdSearch />}
+                  />
                 </div>
+                <div className="mt-1 mr-4">
+                  <Dropdown onClick={handleSearchFilter} id="scanFilter">
+                    <div className="flex">
+                      <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+                        {currentFilter.body}
+                        <MdExpandMore className="h-5 w-5" aria-hidden="true" />
+                      </DropdownTrigger>
+                    </div>
 
-                <DropdownOptionGroup>
-                  {typesScan.map((opt) => (
-                    <DropdownOptionItem key={opt.id} option={opt} />
-                  ))}
-                </DropdownOptionGroup>
-              </Dropdown>
-            </div>
-          </div>
-          {/* <div>
+                    <DropdownOptionGroup>
+                      {typesScan.map((opt) => (
+                        <DropdownOptionItem key={opt.id} option={opt} />
+                      ))}
+                    </DropdownOptionGroup>
+                  </Dropdown>
+                </div>
+              </div>
+              {/* <div>
             <Badge
               text={`${
                 scanConfigStateData?.data?.numRecurringScans || 0
@@ -795,45 +834,49 @@ export default function SiteScanner() {
         </ModalFooter>
       </Modal>
 
-      {showStopRecurringModal ? (
-        <div>
-          <Modal
-            show={showStopRecurringModal}
-            size="lg"
-            onOverlayClick={() => {
-              setShowStopRecurringModal(false);
-            }}
-          >
-            <ModalHeader
-              handleDismissClick={() => {
-                setShowStopRecurringModal(false);
-              }}
-              heading="Stop recurring scans"
-              subHeading="Are you sure you want to stop recurring scans for this configuration. This action cannot be undone."
-            />
-            <ModalFooter position="right">
-              <Button
-                onClick={() => {
+          {showStopRecurringModal ? (
+            <div>
+              <Modal
+                show={showStopRecurringModal}
+                size="lg"
+                onOverlayClick={() => {
                   setShowStopRecurringModal(false);
                 }}
-                colors="white"
               >
-                Close
-              </Button>
-              <Button
-                onClick={() => {
-                  handleStopRecurringScan(activeRowId);
-                }}
-                variant="primary"
-                colors="danger"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Loading' : 'Stop scans'}
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </div>
-      ) : null}
+                <ModalHeader
+                  handleDismissClick={() => {
+                    setShowStopRecurringModal(false);
+                  }}
+                  heading="Stop recurring scans"
+                  subHeading="Are you sure you want to stop recurring scans for this configuration. This action cannot be undone."
+                />
+                <ModalFooter position="right">
+                  <Button
+                    onClick={() => {
+                      setShowStopRecurringModal(false);
+                    }}
+                    colors="white"
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleStopRecurringScan(activeRowId);
+                    }}
+                    variant="primary"
+                    colors="danger"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Loading' : 'Stop scans'}
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            </div>
+          ) : null}
+        </>
+      ) : (
+        getColdStart()
+      )}
     </div>
   );
 }
