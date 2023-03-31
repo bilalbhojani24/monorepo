@@ -3,7 +3,7 @@
   "productName": "BrowserStack-AppPerformance",
   "version": "0.1.1",
   "description": "BrowserStack AppBench",
-  "repository": "https://github.com/repoUrlForAutoUpdate",
+  "repository": "https://github.com/browserstack/app-performance-releases",
   "main": ".webpack/main",
   "scripts": {
     "dev": "electron-forge start -- IS_DEV",
