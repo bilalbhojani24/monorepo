@@ -325,7 +325,6 @@ export default function SiteScanner() {
           .catch((err) => console.log(err));
         break;
       default:
-        console.log(menuItem);
         break;
     }
   };
@@ -333,7 +332,10 @@ export default function SiteScanner() {
   if (isLoading) {
     return (
       <div className="mt-8 flex h-screen items-center justify-center">
-        <Loader />
+        <Loader
+          shouldShowText
+          waitText="Preparing your report. Please hold on..."
+        />
       </div>
     );
   }
@@ -513,13 +515,13 @@ export default function SiteScanner() {
             }}
           >
             <Table>
-              <TableHead wrapperClassName="border-t border-base-200">
+              <TableHead>
                 <TableRow>
                   {columns.map((col) => (
                     <TableCell
                       key={col.key}
                       variant="header"
-                      wrapperClassName="text-base-500 font-medium"
+                      wrapperClass="first:pr-3 last:pl-3 px-2"
                     >
                       {col.name}
                     </TableCell>
@@ -556,7 +558,7 @@ export default function SiteScanner() {
                             {row.name}
                           </div>
                         </div>
-                        <div className="mt-2 flex items-center">
+                        <div className="mt-2 flex items-center font-light">
                           <span className="mr-2 flex items-center">
                             <span>
                               <MdPerson className="mr-0.5" color="#9CA3AF" />
@@ -620,66 +622,66 @@ export default function SiteScanner() {
                     <TableCell>
                       {row?.lastScanDetails?.reportSummary ? (
                         <div className="flex">
-                          <Tooltip
-                            theme="dark"
-                            placementSide="bottom"
-                            content={
-                              <TooltipBody wrapperClassName="mb-0">
-                                {`Success: ${row?.lastScanDetails?.reportSummary?.success} `}
-                              </TooltipBody>
-                            }
-                          >
-                            <div className="mr-2 flex items-center">
-                              <MdCheckCircle
-                                color="#10B981"
-                                className="mr-0.5"
-                                fontSize="medium"
-                              />
-                              <p className="w-7">
+                          <div className="w-11 ml-1">
+                            <Tooltip
+                              theme="dark"
+                              placementSide="bottom"
+                              content={
+                                <TooltipBody wrapperClassName="mb-0">
+                                  {`Success: ${row?.lastScanDetails?.reportSummary?.success} `}
+                                </TooltipBody>
+                              }
+                            >
+                              <span className="mr-4 flex items-center">
+                                <MdCheckCircle
+                                  color="#10B981"
+                                  className="mr-0.5"
+                                  fontSize="medium"
+                                />
                                 {row?.lastScanDetails?.reportSummary?.success}
-                              </p>
-                            </div>
-                          </Tooltip>
-                          <Tooltip
-                            theme="dark"
-                            placementSide="bottom"
-                            content={
-                              <TooltipBody wrapperClassName="mb-0">
-                                {`Failure: ${row?.lastScanDetails?.reportSummary?.failure}`}
-                              </TooltipBody>
-                            }
-                          >
-                            <div className="mr-2 flex items-center">
-                              <MdCancel
-                                color="#EF4444"
-                                className="mr-0.5"
-                                fontSize="medium"
-                              />
-                              <p className="w-7">
+                              </span>
+                            </Tooltip>
+                          </div>
+                          <div className="w-11 ml-1">
+                            <Tooltip
+                              theme="dark"
+                              placementSide="bottom"
+                              content={
+                                <TooltipBody wrapperClassName="mb-0">
+                                  {`Failure: ${row?.lastScanDetails?.reportSummary?.failure}`}
+                                </TooltipBody>
+                              }
+                            >
+                              <span className="mr-4 flex items-center">
+                                <MdCancel
+                                  color="#EF4444"
+                                  className="mr-0.5"
+                                  fontSize="medium"
+                                />
                                 {row?.lastScanDetails?.reportSummary?.failure}
-                              </p>
-                            </div>
-                          </Tooltip>
-                          <Tooltip
-                            theme="dark"
-                            placementSide="bottom"
-                            content={
-                              <TooltipBody wrapperClassName="mb-0">
-                                {`Redirect: ${row?.lastScanDetails?.reportSummary?.redirect} `}
-                              </TooltipBody>
-                            }
-                          >
-                            <div className="flex items-center">
-                              <MdOutlineSync
-                                color="#FFF"
-                                className="bg-attention-500 mr-0.5 rounded-full"
-                                fontSize="medium"
-                              />
-                              <p className="w-7">
+                              </span>
+                            </Tooltip>
+                          </div>
+                          <div className='w-11 ml-1'>
+                            <Tooltip
+                              theme="dark"
+                              placementSide="bottom"
+                              content={
+                                <TooltipBody wrapperClassName="mb-0">
+                                  {`Redirect: ${row?.lastScanDetails?.reportSummary?.redirect} `}
+                                </TooltipBody>
+                              }
+                            >
+                              <span className="flex items-center">
+                                <MdOutlineSync
+                                  color="#FFF"
+                                  className="bg-attention-500 mr-0.5 rounded-full"
+                                  fontSize="medium"
+                                />
                                 {row?.lastScanDetails?.reportSummary?.redirect}
-                              </p>
-                            </div>
-                          </Tooltip>
+                              </span>
+                            </Tooltip>
+                          </div>
                         </div>
                       ) : null}
                     </TableCell>
@@ -721,7 +723,11 @@ export default function SiteScanner() {
               </TableBody>
             </Table>
           </div>
-
+          <NewScan
+            show={showNewScan}
+            closeSlideover={closeSlideover}
+            preConfigData={preConfigData}
+          />
           {/* View Running Scan Details */}
           <Modal
             show={viewScanDetails}

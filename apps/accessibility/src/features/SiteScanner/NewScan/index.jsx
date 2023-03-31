@@ -395,18 +395,20 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                     });
                     if (validUrls.length) {
                       notify(
-                        <Notifications
-                          title={`${validUrls.length} pages added from CSV file`}
-                          description={`${invalidUrls.length} invalid URLs were ignored.`}
-                          actionButtons={null}
-                          headerIcon={
-                            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
-                          }
-                          handleClose={(toastData) => {
-                            notify.remove(toastData.id);
-                            setShowToast(false);
-                          }}
-                        />,
+                        <div id="file-uploaded">
+                          <Notifications
+                            title={`${validUrls.length} pages added from CSV file`}
+                            description={`${invalidUrls.length} invalid URLs were ignored.`}
+                            actionButtons={null}
+                            headerIcon={
+                              <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+                            }
+                            handleClose={(toastData) => {
+                              notify.remove(toastData.id);
+                              setShowToast(false);
+                            }}
+                          />
+                        </div>,
                         {
                           position: 'top-right',
                           duration: 4000,
@@ -416,18 +418,20 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       );
                     } else {
                       notify(
-                        <Notifications
-                          title={`${validUrls.length} pages added from CSV file`}
-                          description={`${invalidUrls.length} invalid URLs were ignored.`}
-                          actionButtons={null}
-                          headerIcon={
-                            <MdOutlineClose className="text-danger-400 h-6 w-6" />
-                          }
-                          handleClose={(toastData) => {
-                            notify.remove(toastData.id);
-                            setShowToast(false);
-                          }}
-                        />,
+                        <div id="file-uploaded">
+                          <Notifications
+                            title={`${validUrls.length} pages added from CSV file`}
+                            description={`${invalidUrls.length} invalid URLs were ignored.`}
+                            actionButtons={null}
+                            headerIcon={
+                              <MdOutlineClose className="text-danger-400 h-6 w-6" />
+                            }
+                            handleClose={(toastData) => {
+                              notify.remove(toastData.id);
+                              setShowToast(false);
+                            }}
+                          />
+                        </div>,
                         {
                           position: 'top-right',
                           duration: 4000,
@@ -440,7 +444,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                     handleFormData(validUrls, 'csvUpload');
                     // Continue processing...
                   };
-
                   reader.readAsText(e.target.files[0]);
                 }}
               />

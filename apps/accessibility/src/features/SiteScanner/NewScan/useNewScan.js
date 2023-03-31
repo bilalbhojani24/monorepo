@@ -208,6 +208,13 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
         formDataObj.type = name;
         break;
       case 'csvUpload':
+        // move focus to toast once file has been uploaded
+        const ele = document.getElementById('file-uploaded');
+        if (ele) {
+          ele.tabIndex = 0;
+          ele.focus();
+          ele.tabIndex = -1;
+        }
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
