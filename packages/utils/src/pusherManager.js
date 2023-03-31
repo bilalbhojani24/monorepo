@@ -3,10 +3,10 @@ import io from 'socket.io-client';
 import Pusher from './pusher';
 
 export default class PusherManager {
-  constructor(server, loggingEnabed = true) {
+  constructor(server, loggingEnabled = false) {
     this.instances = [];
     this.server = server;
-    this.pusherManagerLogging = loggingEnabed;
+    this.pusherManagerLogging = loggingEnabled;
   }
 
   log(msg) {

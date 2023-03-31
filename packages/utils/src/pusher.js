@@ -4,7 +4,7 @@ export default class Pusher {
     prefix,
     information,
     authEndpoint,
-    loggingEnabled = true
+    loggingEnabled = false
   ) {
     let userAgent;
     const info = information;
