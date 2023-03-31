@@ -100,17 +100,20 @@ const PopoverContainer = (props) => {
             >
               {content}
             </div>
-            <PopoverPrimitive.Arrow
-              height={arrowHeight}
-              width={arrowWidth}
-              className={twClassNames(
-                {
-                  'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
-                  'drop-shadow-sm fill-base-800': theme === TP_TOOLTIP_THEME[1]
-                },
-                arrowClassName
-              )}
-            />
+            <div className="!m-0">
+              <PopoverPrimitive.Arrow
+                height={arrowHeight}
+                width={arrowWidth}
+                className={twClassNames(
+                  {
+                    'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
+                    'drop-shadow-sm fill-base-800':
+                      theme === TP_TOOLTIP_THEME[1]
+                  },
+                  arrowClassName
+                )}
+              />
+            </div>
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
       </PopoverPrimitive.Root>

@@ -108,18 +108,21 @@ const TooltipContainer = (props) => {
               )}
             >
               {content}
-              <TooltipPrimitive.Arrow
-                height={arrowHeight}
-                width={arrowWidth}
-                className={twClassNames(
-                  {
-                    'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
-                    'drop-shadow-sm fill-base-800':
-                      theme === TP_TOOLTIP_THEME[1]
-                  },
-                  arrowClassName
-                )}
-              />
+              <div className="!m-0">
+                <TooltipPrimitive.Arrow
+                  height={arrowHeight}
+                  width={arrowWidth}
+                  className={twClassNames(
+                    {
+                      'drop-shadow-sm fill-white':
+                        theme === TP_TOOLTIP_THEME[0],
+                      'drop-shadow-sm fill-base-800':
+                        theme === TP_TOOLTIP_THEME[1]
+                    },
+                    arrowClassName
+                  )}
+                />
+              </div>
             </TooltipPrimitive.Content>
           </TooltipPrimitive.Portal>
         </TooltipPrimitive.Root>
