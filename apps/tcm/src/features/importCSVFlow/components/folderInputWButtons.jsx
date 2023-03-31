@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { TMTooltip, TMTooltipBody } from 'common/bifrostProxy';
 import { bool, func, node, string } from 'prop-types';
@@ -18,8 +18,7 @@ const FolderInputWButton = ({
   secondCtaClick,
   descriptionIcon
 }) => {
-  const textRef = useRef();
-  const { transformedText } = useTextTransformer({ textRef, text });
+  const { textRef } = useTextTransformer({ text });
 
   return (
     <div className="my-5">
@@ -31,10 +30,10 @@ const FolderInputWButton = ({
             ref={textRef}
             className="text-base-900 ml-2 overflow-hidden text-sm"
           >
-            {transformedText || text}
+            {text}
           </div>
         </span>
-        <span className="text-brand-500 text-sm font-medium">
+        <span className="text-brand-500 flex text-sm font-medium">
           <button
             type="button"
             className="disabled:text-brand-300 cursor-pointer disabled:cursor-not-allowed "

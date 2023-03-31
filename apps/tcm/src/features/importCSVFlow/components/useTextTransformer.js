@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-const useTextTransformer = ({ textRef, text }) => {
-  const [transformedText, setTransformedText] = useState(null);
+const useTextTransformer = ({ text }) => {
+  const textRef = useRef();
 
   useEffect(() => {
     if (textRef.current?.clientWidth < textRef.current?.scrollWidth) {
       const textArray = text.split('/');
-      setTransformedText(`/../${textArray[textArray.length - 2]}/`);
-    } else setTransformedText(null);
-  }, [textRef, text]);
+      textRef.current.textContent = `../${textArray[textArray.length - 2]}/`;
+    }
+  }, [text]);
 
-  return { transformedText };
+  return { textRef };
 };
 
 export default useTextTransformer;
