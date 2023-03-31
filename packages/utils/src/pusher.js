@@ -6,7 +6,6 @@ export default class Pusher {
     authEndpoint,
     loggingEnabled = false
   ) {
-    let userAgent;
     const info = information;
 
     info.prefix = prefix;
@@ -24,7 +23,7 @@ export default class Pusher {
     this.pusherLogging = loggingEnabled;
 
     if (window.navigator) {
-      userAgent = window.navigator.userAgent;
+      let { userAgent } = window.navigator;
       if (userAgent) {
         userAgent = userAgent.split(' ');
       }
