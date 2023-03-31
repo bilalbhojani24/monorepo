@@ -48,8 +48,12 @@ const defaultConfig = {
             </DropdownTrigger>
           </div>
           <DropdownOptionGroup>
-            {options.map((opt) => (
-              <DropdownOptionItem key={opt.value} option={opt} />
+            {options.map((opt, index) => (
+              <DropdownOptionItem
+                key={opt.value}
+                option={opt}
+                disabled={index % 2 === 0}
+              />
             ))}
           </DropdownOptionGroup>
         </>
@@ -124,12 +128,8 @@ export const MeatballDropdown = () => (
     </div>
 
     <DropdownOptionGroup>
-      {options.map((opt, index) => (
-        <DropdownOptionItem
-          key={opt.value}
-          option={opt}
-          disabled={index % 2 === 0}
-        />
+      {options.map((opt) => (
+        <DropdownOptionItem key={opt.value} option={opt} />
       ))}
     </DropdownOptionGroup>
   </Dropdown>
