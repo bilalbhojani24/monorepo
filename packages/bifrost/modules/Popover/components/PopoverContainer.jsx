@@ -42,7 +42,8 @@ const PopoverContainer = (props) => {
     sideOffset,
     sticky,
     theme,
-    triggerWrapperClassName
+    triggerWrapperClassName,
+    wrapperClassName
   } = props;
 
   return (
@@ -95,7 +96,8 @@ const PopoverContainer = (props) => {
                   'sm:max-w-5xl': TP_SIZE[8] === size,
                   'sm:max-w-6xl': TP_SIZE[9] === size,
                   'sm:max-w-full': TP_SIZE[10] === size
-                }
+                },
+                wrapperClassName
               )}
             >
               {content}
@@ -148,7 +150,8 @@ PopoverContainer.propTypes = {
   size: PropTypes.oneOf(TP_SIZE),
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
-  triggerWrapperClassName: PropTypes.string
+  triggerWrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
   arrowClassName: '',
@@ -177,7 +180,8 @@ PopoverContainer.defaultProps = {
   size: TP_SIZE[0],
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
-  triggerWrapperClassName: ''
+  triggerWrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default PopoverContainer;
