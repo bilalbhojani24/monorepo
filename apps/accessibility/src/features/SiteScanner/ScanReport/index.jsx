@@ -154,7 +154,7 @@ export default function ScanReport() {
                   icon={<MdShare />}
                   iconPlacement="end"
                 >
-                  Share Link
+                  Share link
                 </Button>
               </CopyToClipboard>
             </Tooltip>

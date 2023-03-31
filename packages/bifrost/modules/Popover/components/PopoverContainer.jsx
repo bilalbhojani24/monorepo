@@ -42,7 +42,8 @@ const PopoverContainer = (props) => {
     sideOffset,
     sticky,
     theme,
-    triggerWrapperClassName
+    triggerWrapperClassName,
+    wrapperClassName
   } = props;
 
   return (
@@ -77,9 +78,9 @@ const PopoverContainer = (props) => {
             sideOffset={sideOffset}
             side={placementSide}
             sticky={sticky}
-          >
-            <div
-              className={twClassNames('rounded-md shadow bg-white py-4', {
+            className={twClassNames(
+              'z-50 rounded-md shadow bg-white py-4',
+              {
                 'bg-white': theme === TP_TOOLTIP_THEME[0],
                 'bg-base-800': theme === TP_TOOLTIP_THEME[1],
                 'max-w-xs': TP_SIZE[0] === size,
@@ -93,10 +94,11 @@ const PopoverContainer = (props) => {
                 'sm:max-w-5xl': TP_SIZE[8] === size,
                 'sm:max-w-6xl': TP_SIZE[9] === size,
                 'sm:max-w-full': TP_SIZE[10] === size
-              })}
-            >
-              {content}
-            </div>
+              },
+              wrapperClassName
+            )}
+          >
+            {content}
             <PopoverPrimitive.Arrow
               height={arrowHeight}
               width={arrowWidth}
@@ -142,7 +144,8 @@ PopoverContainer.propTypes = {
   size: PropTypes.oneOf(TP_SIZE),
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
-  triggerWrapperClassName: PropTypes.string
+  triggerWrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
   arrowClassName: '',
@@ -171,7 +174,8 @@ PopoverContainer.defaultProps = {
   size: TP_SIZE[0],
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
-  triggerWrapperClassName: ''
+  triggerWrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default PopoverContainer;
