@@ -342,7 +342,7 @@ export default function IssueItem() {
             <div className="mt-4">
               <div className="mb-4">
                 <p className="text-base-700 mb-1 text-sm font-medium">
-                  CSS Selector
+                  CSS selector
                 </p>
                 <div className="flex items-start">
                   <div className="mr-2 w-full">
@@ -359,7 +359,7 @@ export default function IssueItem() {
               </div>
               <div>
                 <p className="text-base-700 mb-1 text-sm font-medium">
-                  HTML Snippet
+                  HTML snippet
                 </p>
                 <div className="flex items-start">
                   <div className="mr-2 w-full">
@@ -402,7 +402,7 @@ export default function IssueItem() {
                         {hasRelatedNodes && (
                           <div>
                             <p className="text-base-700 mb-1 text-sm font-medium">
-                              Related CSS Selector(s)
+                              Related CSS selector(s)
                             </p>
                             {nodeList.map(({ relatedNodes }) =>
                               relatedNodes.map((item) => {

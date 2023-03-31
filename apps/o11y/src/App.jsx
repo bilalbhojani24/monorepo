@@ -19,7 +19,6 @@ const App = () => {
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
   useMemo(() => {
     const keys = {
-      amplitudeKey: AMPLITUDE_KEY,
       analyticsKey: ANALYTICS_KEY,
       amplitudeConfig: {
         key: AMPLITUDE_KEY,
