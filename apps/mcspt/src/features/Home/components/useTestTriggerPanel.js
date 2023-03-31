@@ -6,6 +6,7 @@ import {
   getTotalAllowedSessions,
   getTotalCompletedSessions
 } from 'features/Dashboard/slices/dashboardSlice';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   getAreApplicationsStillLoading,
@@ -67,6 +68,12 @@ const useTestTriggerPanel = () => {
       setDeviceSelectionError('');
 
       dispatch(setSelectedDevice(ogDeviceObj));
+
+      mcpAnalyticsEvent('mcspDeviceSelected', {
+        selMobDeviceProperties: {
+          ...ogDeviceObj
+        }
+      });
     }
   };
 
@@ -76,6 +83,12 @@ const useTestTriggerPanel = () => {
     );
 
     dispatch(setSelectedApplication(ogAppObj));
+
+    mcpAnalyticsEvent('mcspAppSelected', {
+      selAppProperties: {
+        ...ogAppObj
+      }
+    });
   };
 
   const startTestSession = () => {
@@ -85,6 +98,13 @@ const useTestTriggerPanel = () => {
         getDefaultAutoGenerateName(selectedDevice, selectedApplication)
       )
     );
+
+    mcpAnalyticsEvent('mcspTestStarted', {
+      testMetadata: {
+        ...selectedDevice,
+        ...selectedApplication
+      }
+    });
   };
 
   const searchApplications = (event) => {

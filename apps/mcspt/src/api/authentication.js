@@ -12,3 +12,6 @@ export const userLogOut = async () => axios.get(`${getBaseUrl()}/auth/logout`);
 
 export const confirmLoginForReverseSync = async () =>
   axios.get(`${getBaseUrl()}/auth/login-complete`);
+
+export const fetchGeneralAnalytics = async () =>
+  axios.get(`${getBaseUrl()}/analytics`);

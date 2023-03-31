@@ -7,6 +7,7 @@ import {
   TooltipFooter
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const ReportTooltip = ({ cardToolTipData }) => {
   const [showReportTooltip, setShowReportTooltip] = React.useState(false);
@@ -26,6 +27,11 @@ const ReportTooltip = ({ cardToolTipData }) => {
 
           <TooltipFooter>
             <Hyperlink
+              onClick={() => {
+                mcpAnalyticsEvent('mcspReportLearnMoreClick', {
+                  sectionName: cardToolTipData.analyticsTitle
+                });
+              }}
               wrapperClassName="text-white underline font-normal mt-2"
               href={cardToolTipData.link}
               rel="noreferrer noopener"
@@ -42,6 +48,10 @@ const ReportTooltip = ({ cardToolTipData }) => {
       <MdInfoOutline
         onClick={() => {
           setShowReportTooltip((prevVal) => !prevVal);
+
+          mcpAnalyticsEvent('mcspReportMetricInfoBtnClick', {
+            metricName: cardToolTipData.analyticsTitle
+          });
         }}
       />
     </Tooltip>

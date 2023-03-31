@@ -1,6 +1,7 @@
 import React from 'react';
 import { Accordion, Badge, Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const AuditAccordion = ({ auditDetails }) => (
   <Accordion
@@ -39,7 +40,7 @@ const AuditAccordion = ({ auditDetails }) => (
       </div>
     }
     panelContentNode={
-      <div className="flex flex-col pl-7 pb-4">
+      <div className="flex flex-col pb-4 pl-7">
         <div className="mb-2 text-sm font-normal leading-5">
           {auditDetails.subtitle}
         </div>
@@ -50,14 +51,24 @@ const AuditAccordion = ({ auditDetails }) => (
             fullWidth={false}
             colors="brand"
             variant="minimal"
-            onClick={() => {}}
+            onClick={() => {
+              mcpAnalyticsEvent('mcspReportSummaryRecClick', {
+                sectionName: auditDetails.type,
+                title: auditDetails.title
+              });
+            }}
           >
             Learn How to fix it
           </Button>
         </div>
       </div>
     }
-    onTriggerClick={() => {}}
+    onTriggerClick={() => {
+      mcpAnalyticsEvent('mcspReportSummaryAccordionClick', {
+        sectionName: auditDetails.type,
+        title: auditDetails.title
+      });
+    }}
   />
 );
 

@@ -1,18 +1,37 @@
+import { initLogger } from '@browserstack/utils';
 import {
   confirmLoginForReverseSync,
+  fetchGeneralAnalytics,
   fetchLatestToken,
   fetchUserDetails,
   userLogOut
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
+import { ANALYTICS_KEYS } from 'utils/analyticsUtils';
 
 import {
   getAuthToken,
   setAuthModalStatusText,
   setAuthToken,
+  setGeneralAnalytics,
   setShowAuthLoadingModal,
   setUserDetails
 } from './dashboardSlice';
+
+export const checkGeneralAnalytics = () => async (dispatch) => {
+  try {
+    const analyticsResponse = await fetchGeneralAnalytics();
+
+    if (analyticsResponse?.status === 200) {
+      dispatch(setGeneralAnalytics(analyticsResponse.data));
+      initLogger(ANALYTICS_KEYS);
+    } else {
+      throw analyticsResponse;
+    }
+  } catch (error) {
+    // silently ignore analytics api error
+  }
+};
 
 export const checkAuthAndSaveUserDetails =
   (ssoRedirectUrl) => async (dispatch, getState) => {
@@ -57,9 +76,10 @@ export const checkAuthAndSaveUserDetails =
         }
       }
     } catch (e) {
-      // console.log(e);
+      // handle login errors after PM defines scenario
     } finally {
       dispatch(setShowAuthLoadingModal(false));
+      dispatch(checkGeneralAnalytics());
     }
   };
 
@@ -76,7 +96,7 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
       await dispatch(checkForPreviousUserSessions(true));
     }
   } catch (e) {
-    // console.log(e);
+    // handle logout errors after PM defines scenario
   } finally {
     dispatch(setShowAuthLoadingModal(false));
   }

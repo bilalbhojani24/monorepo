@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, MdExpandLess, MdExpandMore } from '@browserstack/bifrost';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import AuditAccordion from './AuditAccordion';
 import useIssuesAudits from './useIssuesAudits';
@@ -51,6 +52,8 @@ const IssuesAudits = () => {
             className="flex cursor-pointer items-center justify-center p-2 text-base"
             onClick={() => {
               setShowAllAudits((prev) => !prev);
+
+              mcpAnalyticsEvent('mcspReportSummaryShowAllClick');
             }}
           >
             <div className="mr-1 text-xl">

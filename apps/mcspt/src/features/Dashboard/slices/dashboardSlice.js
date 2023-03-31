@@ -6,7 +6,8 @@ const initialState = {
   totalAllowedSessions: 1,
   totalCompletedSessions: 0,
   showAuthLoadingModal: false,
-  authModalStatusText: ''
+  authModalStatusText: '',
+  generalAnalytics: null
 };
 
 export const dashboardSlice = createSlice({
@@ -28,6 +29,9 @@ export const dashboardSlice = createSlice({
     },
     setAuthModalStatusText: (state, action) => {
       state.authModalStatusText = action.payload;
+    },
+    setGeneralAnalytics: (state, action) => {
+      state.generalAnalytics = action.payload;
     }
   }
 });
@@ -45,13 +49,16 @@ export const getShowAuthLoadingModal = (state) =>
 export const getAuthModalStatusText = (state) =>
   state.dashboard?.authModalStatusText;
 
+export const getGeneralAnalytics = (state) => state.dashboard?.generalAnalytics;
+
 // Action creators are generated for each case reducer function
 export const {
   setAuthToken,
   setUserDetails,
   setSessionAuthMetaData,
   setShowAuthLoadingModal,
-  setAuthModalStatusText
+  setAuthModalStatusText,
+  setGeneralAnalytics
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

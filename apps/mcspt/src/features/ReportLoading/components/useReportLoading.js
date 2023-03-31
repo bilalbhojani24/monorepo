@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { getSessionDetails } from 'features/Home';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   getIsSessionStopInProgress,
@@ -46,12 +47,29 @@ const useReportLoading = () => {
         setShowQuitTestingPrompt(false);
       })
     );
+
+    mcpAnalyticsEvent('mcspTestQuit', {
+      testMetadata: {
+        duration: secondsElapsed,
+        selMobDeviceProperties: sessionDetails?.device,
+        selAppProperties: sessionDetails?.package
+      }
+    });
   };
 
   const stopSessionClicked = () => {
     clearInterval(timerIntervalId);
     setShowGenerateReportPrompt(false);
+
     dispatch(stopRecordingSession(navigateToPath));
+
+    mcpAnalyticsEvent('mcspTestCompleted', {
+      testMetadata: {
+        duration: secondsElapsed,
+        selMobDeviceProperties: sessionDetails?.device,
+        selAppProperties: sessionDetails?.package
+      }
+    });
   };
 
   useEffect(() => {
