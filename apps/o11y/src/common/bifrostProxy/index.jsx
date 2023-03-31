@@ -38,6 +38,7 @@ import {
   Tooltip,
   TruncateText
 } from '@browserstack/bifrost';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
 import O11yComboBox from './components/O11yComboBox';
 import O11yHeader from './components/O11yHeader';
@@ -93,11 +94,9 @@ export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
 
-export const O11ySlideover = (props) => {
-  const topMarginElementId = 'bstack-header';
-
-  return <Slideover {...props} topMarginElementId={topMarginElementId} />;
-};
+export const O11ySlideover = (props) => (
+  <Slideover {...props} topMarginElementId={BSTACK_TOPNAV_ELEMENT_ID} />
+);
 export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 

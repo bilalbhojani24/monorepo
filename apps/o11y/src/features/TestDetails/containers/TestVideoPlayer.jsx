@@ -20,7 +20,11 @@ const TestVideoPlayer = () => {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
   // const exceptions = useSelector(getExceptions);
-  const { sessionTestToggle, parentWidth } = useLogsContext();
+  const {
+    sessionTestToggle,
+    floatingVideoTopOffset,
+    floatingVideoRightOffset
+  } = useLogsContext();
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
@@ -163,7 +167,8 @@ const TestVideoPlayer = () => {
           hidden: !showFloatingWindow
         })}
         style={{
-          right: parentWidth,
+          right: floatingVideoRightOffset,
+          top: floatingVideoTopOffset,
           width: 'auto'
         }}
       >

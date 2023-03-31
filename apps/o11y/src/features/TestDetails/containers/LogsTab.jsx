@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import O11yLoader from 'common/O11yLoader';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
 import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
@@ -26,14 +27,21 @@ const LogsTab = () => {
   const testExceptions = useSelector(getExceptions);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
-  const [parentWidth, setParentWidth] = useState(700);
+  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
+  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
 
   useEffect(() => {
-    const parentElement = document.getElementById(
+    const slideOverElement = document.getElementById(
       TEST_DETAILS_SLIDEOVER_ELEMENT_ID
     );
-    if (parentElement) {
-      setParentWidth(parentElement.offsetWidth);
+    const bstackHeaderElement = document.getElementById(
+      BSTACK_TOPNAV_ELEMENT_ID
+    );
+    if (slideOverElement) {
+      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
+    }
+    if (bstackHeaderElement) {
+      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
     }
   }, []);
 
@@ -121,7 +129,8 @@ const LogsTab = () => {
           handleSetCurrentTime,
           handleLogDurationClick,
           handleSessionToggle,
-          parentWidth
+          floatingVideoTopOffset,
+          floatingVideoRightOffset
         }}
       >
         <TestVideoPlayer

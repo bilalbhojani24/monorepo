@@ -111,3 +111,5 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_TESTS: 'suite_health_tests',
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
+
+export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
