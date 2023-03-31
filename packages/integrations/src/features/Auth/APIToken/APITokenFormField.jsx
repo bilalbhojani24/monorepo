@@ -16,17 +16,18 @@ const Field = ({
   };
   return (
     <>
-      <InputField
-        wrapperClassName={`shadow-none ${docLink ? 'pb-2' : 'pb-5'}`}
-        label={label}
-        value={value}
-        type={type}
-        onChange={handleChange}
-        placeholder={placeholder}
-      />
+      <div className={` ${docLink ? 'mb-2' : 'mb-5'}`}>
+        <InputField
+          label={label}
+          value={value}
+          type={type}
+          onChange={handleChange}
+          placeholder={placeholder}
+        />
+      </div>
       {docLink && (
         <Hyperlink
-          wrapperClassName="text-sm font-normal leading-5 pb-5"
+          wrapperClassName="text-sm font-normal leading-5 mb-5"
           href={docLink.href}
         >
           {docLink.text}

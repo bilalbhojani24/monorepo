@@ -17,9 +17,10 @@ import { APITokenMetaType } from '../types';
 import APITokenFormField from './APITokenFormField';
 
 const APIToken = ({
-  integrationKey,
   label,
   showOAuth,
+  syncPoller,
+  integrationKey,
   apiTokenMeta: { logo_url: logo, title, description, fields }
 }) => {
   const [data, setData] = useState({});
@@ -31,7 +32,15 @@ const APIToken = ({
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
-    dispatch(getTokenConnectionForToolThunk({ integrationKey, data }));
+    dispatch(
+      getTokenConnectionForToolThunk({
+        integrationKey,
+        data,
+        integrationLabel: label
+      })
+    ).then(() => {
+      syncPoller();
+    });
   };
 
   if (isLoading) {

@@ -7,7 +7,7 @@ import { setHasIntegrated } from '../features/slices/integrationsSlice';
 import { URLS } from './constants';
 
 export const getTokenConnectionForTool = (
-  { integrationKey, data: fieldsData },
+  { integrationKey, data: fieldsData, integrationLabel },
   { dispatch }
 ) =>
   axios
@@ -30,7 +30,7 @@ export const getTokenConnectionForTool = (
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `There was some problem connecting to ${integrationKey} software`
+          message: `There was some problem connecting to ${integrationLabel} software`
         })
       );
       throw err;

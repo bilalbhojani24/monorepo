@@ -95,7 +95,7 @@ export const CreateIssue = ({
     >
       <div
         className={'bg-white'.concat(
-          hasAtLeastOneIntegrationSetup ? ' p-6' : '',
+          hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
         style={{ maxHeight: '650px' }}
