@@ -48,8 +48,12 @@ const defaultConfig = {
             </DropdownTrigger>
           </div>
           <DropdownOptionGroup>
-            {options.map((opt) => (
-              <DropdownOptionItem key={opt.value} option={opt} />
+            {options.map((opt, index) => (
+              <DropdownOptionItem
+                key={opt.value}
+                option={opt}
+                disabled={index % 2 === 0}
+              />
             ))}
           </DropdownOptionGroup>
         </>

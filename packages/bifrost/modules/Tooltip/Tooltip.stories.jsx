@@ -216,13 +216,17 @@ LightThemeHyperlink.args = {
       <TooltipFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
           Action 1
         </Hyperlink>
+
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          isCSR={false}
+          underlined
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
@@ -247,6 +251,7 @@ DarkThemeHyperlink.args = {
       <TooltipFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-base-50 underline"
+          isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
@@ -254,6 +259,10 @@ DarkThemeHyperlink.args = {
         </Hyperlink>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-base-50 underline"
+          isCSR={false}
+          underlined
+          fontWeight="font-light"
+          color="text-base-50"
           href="https://www.google.com"
           rel="noreferrer noopener"
         >

@@ -220,6 +220,7 @@ LightThemeHyperlink.args = {
       <PopoverFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
@@ -227,6 +228,7 @@ LightThemeHyperlink.args = {
         </Hyperlink>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
@@ -251,6 +253,7 @@ DarkThemeHyperlink.args = {
       <PopoverFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-base-50 underline"
+          isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
         >

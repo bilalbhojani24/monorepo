@@ -166,7 +166,7 @@ const ScanDetails = () => {
               onClick={handleNewScanRun}
               size="small"
               type="subtle"
-              icon={<MdAdd />}
+              icon={<MdAdd className="text-xl" />}
               iconPlacement="start"
               wrapperClassName="h-10 mr-2"
             >
@@ -180,7 +180,7 @@ const ScanDetails = () => {
                   onClick={() => setStopModal(true)}
                   size="small"
                   type="subtle"
-                  icon={<MdStop />}
+                  icon={<MdStop className="text-xl" />}
                   iconPlacement="start"
                   wrapperClassName="h-10 mr-2"
                 >
