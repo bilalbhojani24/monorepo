@@ -55,7 +55,7 @@ const createWindow = async () => {
 
   mainThreadGlobals.splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
 
-  if (!IS_DEV) {
+  if (IS_DEV) {
     // order is important for this one
 
     await backendServerOps.initializeBackendServer(mainThreadGlobals);

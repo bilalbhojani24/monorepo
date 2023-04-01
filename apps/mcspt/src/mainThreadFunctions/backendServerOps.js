@@ -1,13 +1,23 @@
 import waitForLocalhost from 'wait-for-localhost';
 
-const { app, globalShortcut } = require('electron');
-const { default: getPort } = require('get-port');
-const axios = require('axios');
+import {
+  initializeBackendServerForMac,
+  performApplicationTerminationForMac,
+  waitForSuccessfulServerReplyForMac
+} from './macServerOps';
+import {
+  initializeBackendServerForWindows,
+  killServersForWindows,
+  waitForSuccessfulServerReplyForWindows
+} from './windowsServerOps';
 
-const { execSync, exec } = require('child_process');
+const { app, globalShortcut } = require('electron');
 
 const binIndex = process.execPath.lastIndexOf('/');
 const binPath = process.execPath.substring(0, binIndex);
+
+const isMacMachine = process.platform === 'darwin';
+const isWindowsMachine = process.platform?.slice(0, 3) === 'win';
 
 const processPaths = IS_DEV
   ? {
@@ -26,99 +36,50 @@ const serverEntities = {
   nodeServerPort: null
 };
 
-const findProcessIdFromRecord = (inputProcess) =>
-  inputProcess?.split?.(' ').filter?.((fragment) => fragment !== '')?.[1];
-
-const killPreExistingServers = () => {
-  try {
-    const stalePyServers = execSync(
-      "ps aux | grep 'py-ios/server' | sed -e '/grep/d'"
-    )
-      ?.toString()
-      ?.split('\n')
-      ?.filter((processEntry) => processEntry !== '')
-      .map((record) => findProcessIdFromRecord(record));
-
-    const staleNodeServers = execSync(
-      "ps aux | grep 'mobile-performance/bs-perf-tool server' | sed -e '/grep/d'"
-    )
-      ?.toString()
-      ?.split('\n')
-      ?.filter((processEntry) => processEntry !== '')
-      .map((record) => findProcessIdFromRecord(record));
-
-    stalePyServers.concat(staleNodeServers).forEach((stalePID) => {
-      if (stalePID) {
-        process.kill(stalePID);
-      }
-    });
-  } catch (e) {
-    // Handle failed killing of pre-existing stale processes
+export const initializeBackendServer = (mainThreadGlobals) => {
+  if (isMacMachine) {
+    return initializeBackendServerForMac(
+      serverEntities,
+      processPaths,
+      mainThreadGlobals
+    );
   }
+
+  if (isWindowsMachine) {
+    return initializeBackendServerForWindows(
+      serverEntities,
+      processPaths,
+      mainThreadGlobals
+    );
+  }
+
+  return undefined;
 };
 
-export const initializeBackendServer = async (mainThreadGlobals) => {
-  try {
-    killPreExistingServers();
-
-    serverEntities.pyServerPort = await getPort({ port: 8000 });
-
-    serverEntities.pyServerInstance = await exec(
-      `${processPaths.pyIos} ${serverEntities.pyServerPort}`
-    );
-
-    serverEntities.nodeServerPort = await getPort({ port: 3000 });
-
-    serverEntities.nodeServerInstance = await exec(
-      `${processPaths.bsPerf} server -p ${serverEntities.nodeServerPort} -pi ${serverEntities.pyServerPort}`
-    );
-
-    // sending port number to FE to call api
-    mainThreadGlobals.mainWindow.webContents.send(
-      'save-bs-perf-port',
-      serverEntities.nodeServerPort
-    );
-  } catch (e) {
-    // No mechanism at BE to handle logs as of now
-  }
-};
-
-const waitForSuccessfulServerReply = async (
+const waitForSuccessfulServerReply = (
   retries,
   maxRetries,
   intervalDuration
 ) => {
-  try {
-    const pyServerResponse = await axios.get(
-      `http://localhost:${serverEntities.pyServerPort}/`
+  if (isMacMachine) {
+    return waitForSuccessfulServerReplyForMac(
+      serverEntities,
+      retries,
+      maxRetries,
+      intervalDuration
     );
-
-    const nodeServerResponse = await axios.get(
-      `http://localhost:${serverEntities.nodeServerPort}/`
-    );
-
-    if (nodeServerResponse.status !== 200 || pyServerResponse.status !== 200) {
-      throw nodeServerResponse;
-    }
-
-    return [pyServerResponse, nodeServerResponse];
-  } catch (error) {
-    if (retries < maxRetries) {
-      return new Promise((resolverFn) => {
-        setTimeout(() => {
-          resolverFn(
-            waitForSuccessfulServerReply(
-              retries + 1,
-              maxRetries,
-              intervalDuration
-            )
-          );
-        }, intervalDuration);
-      });
-    }
-
-    throw new Error('Too Many Retries');
   }
+
+  if (isWindowsMachine) {
+    return waitForSuccessfulServerReplyForWindows(
+      serverEntities,
+      retries,
+      maxRetries,
+      intervalDuration
+    );
+  }
+
+  return undefined;
 };
 
 export const checkServerAvailability = async (initiationCallback) => {
@@ -132,9 +93,14 @@ export const checkServerAvailability = async (initiationCallback) => {
 };
 
 const performApplicationTermination = () => {
-  if (!IS_DEV) {
-    serverEntities.nodeServerInstance.kill();
-    serverEntities.pyServerInstance.kill();
+  if (IS_DEV) {
+    if (isMacMachine) {
+      performApplicationTerminationForMac(serverEntities);
+    }
+
+    if (isWindowsMachine) {
+      killServersForWindows();
+    }
   }
 
   app.quit();

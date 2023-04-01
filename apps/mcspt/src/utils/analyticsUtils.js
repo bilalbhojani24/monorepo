@@ -39,7 +39,9 @@ const logMcpEvent = (name, data, sendToGA) => {
    *
    */
 
-  logEvent([], 'MCSPT', name, data, undefined, sendToGA);
+  if (!IS_DEV) {
+    logEvent([], 'MCSPT', name, data, undefined, sendToGA);
+  }
 };
 
 const sendDelayedEvents = () => {
