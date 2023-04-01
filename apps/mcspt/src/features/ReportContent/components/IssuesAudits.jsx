@@ -53,7 +53,7 @@ const IssuesAudits = () => {
             onClick={() => {
               setShowAllAudits((prev) => !prev);
 
-              mcpAnalyticsEvent('mcspReportSummaryShowAllClick');
+              mcpAnalyticsEvent('csptReportSummaryShowAllClick');
             }}
           >
             <div className="mr-1 text-xl">

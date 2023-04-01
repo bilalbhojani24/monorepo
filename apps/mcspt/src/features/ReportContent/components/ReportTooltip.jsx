@@ -28,7 +28,7 @@ const ReportTooltip = ({ cardToolTipData }) => {
           <TooltipFooter>
             <Hyperlink
               onClick={() => {
-                mcpAnalyticsEvent('mcspReportLearnMoreClick', {
+                mcpAnalyticsEvent('csptReportLearnMoreClick', {
                   sectionName: cardToolTipData.analyticsTitle
                 });
               }}
@@ -49,7 +49,7 @@ const ReportTooltip = ({ cardToolTipData }) => {
         onClick={() => {
           setShowReportTooltip((prevVal) => !prevVal);
 
-          mcpAnalyticsEvent('mcspReportMetricInfoBtnClick', {
+          mcpAnalyticsEvent('csptReportMetricInfoBtnClick', {
             metricName: cardToolTipData.analyticsTitle
           });
         }}

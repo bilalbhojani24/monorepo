@@ -4,6 +4,19 @@ const axios = require('axios');
 
 const { execSync, exec } = require('child_process');
 
+const binIndex = process.execPath.lastIndexOf('/');
+const binPath = process.execPath.substring(0, binIndex);
+
+const processPaths = IS_DEV
+  ? {
+      pyIos: `${process.cwd()}/nodeBE/py-ios/server`,
+      bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
+    }
+  : {
+      pyIos: `${binPath}/../Resources/nodeBE/py-ios/server`,
+      bsPerf: `${binPath}/../Resources/nodeBE/mobile-performance/bs-perf-tool`
+    };
+
 const findProcessIdFromRecord = (inputProcess) =>
   inputProcess?.split?.(' ').filter?.((fragment) => fragment !== '')?.[1];
 
@@ -37,7 +50,6 @@ const killPreExistingServersForMac = () => {
 
 export const initializeBackendServerForMac = async (
   serverEntities,
-  processPaths,
   mainThreadGlobals
 ) => {
   try {

@@ -9,7 +9,7 @@ const useReport = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      mcpAnalyticsEvent('mcspTestQuit', {
+      mcpAnalyticsEvent('csptTestQuit', {
         testMetadata: {
           duration:
             new Date(sessionData.startTime) - new Date(sessionData.endTime),

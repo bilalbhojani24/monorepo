@@ -57,7 +57,7 @@ const useSidebar = (sideNavIcons) => {
   const loginViaSSO = () => {
     window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
 
-    mcpAnalyticsEvent('mcspUserLoginClick', { totalCompletedSessions });
+    mcpAnalyticsEvent('csptUserLoginClick', { totalCompletedSessions });
   };
 
   const sidebarClicked = (event, clickedNavLink) => {

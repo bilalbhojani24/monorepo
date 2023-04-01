@@ -69,7 +69,7 @@ const useTestTriggerPanel = () => {
 
       dispatch(setSelectedDevice(ogDeviceObj));
 
-      mcpAnalyticsEvent('mcspDeviceSelected', {
+      mcpAnalyticsEvent('csptDeviceSelected', {
         selMobDeviceProperties: {
           ...ogDeviceObj
         }
@@ -84,7 +84,7 @@ const useTestTriggerPanel = () => {
 
     dispatch(setSelectedApplication(ogAppObj));
 
-    mcpAnalyticsEvent('mcspAppSelected', {
+    mcpAnalyticsEvent('csptAppSelected', {
       selAppProperties: {
         ...ogAppObj
       }
@@ -99,7 +99,7 @@ const useTestTriggerPanel = () => {
       )
     );
 
-    mcpAnalyticsEvent('mcspTestStarted', {
+    mcpAnalyticsEvent('csptTestStarted', {
       testMetadata: {
         ...selectedDevice,
         ...selectedApplication

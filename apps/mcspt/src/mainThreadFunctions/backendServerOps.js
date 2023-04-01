@@ -13,21 +13,8 @@ import {
 
 const { app, globalShortcut } = require('electron');
 
-const binIndex = process.execPath.lastIndexOf('/');
-const binPath = process.execPath.substring(0, binIndex);
-
 const isMacMachine = process.platform === 'darwin';
 const isWindowsMachine = process.platform?.slice(0, 3) === 'win';
-
-const processPaths = IS_DEV
-  ? {
-      pyIos: `${process.cwd()}/nodeBE/py-ios/server`,
-      bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
-    }
-  : {
-      pyIos: `${binPath}/../Resources/nodeBE/py-ios/server`,
-      bsPerf: `${binPath}/../Resources/nodeBE/mobile-performance/bs-perf-tool`
-    };
 
 const serverEntities = {
   pyServerInstance: null,
@@ -38,19 +25,11 @@ const serverEntities = {
 
 export const initializeBackendServer = (mainThreadGlobals) => {
   if (isMacMachine) {
-    return initializeBackendServerForMac(
-      serverEntities,
-      processPaths,
-      mainThreadGlobals
-    );
+    return initializeBackendServerForMac(serverEntities, mainThreadGlobals);
   }
 
   if (isWindowsMachine) {
-    return initializeBackendServerForWindows(
-      serverEntities,
-      processPaths,
-      mainThreadGlobals
-    );
+    return initializeBackendServerForWindows(serverEntities, mainThreadGlobals);
   }
 
   return undefined;

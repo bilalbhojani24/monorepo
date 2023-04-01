@@ -52,7 +52,7 @@ const AuditAccordion = ({ auditDetails }) => (
             colors="brand"
             variant="minimal"
             onClick={() => {
-              mcpAnalyticsEvent('mcspReportSummaryRecClick', {
+              mcpAnalyticsEvent('csptReportSummaryRecClick', {
                 sectionName: auditDetails.type,
                 title: auditDetails.title
               });
@@ -64,7 +64,7 @@ const AuditAccordion = ({ auditDetails }) => (
       </div>
     }
     onTriggerClick={() => {
-      mcpAnalyticsEvent('mcspReportSummaryAccordionClick', {
+      mcpAnalyticsEvent('csptReportSummaryAccordionClick', {
         sectionName: auditDetails.type,
         title: auditDetails.title
       });

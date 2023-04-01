@@ -30,7 +30,7 @@ const useDashboard = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    mcpAnalyticsEvent('mcspAppLaunch');
+    mcpAnalyticsEvent('csptAppLaunch');
   }, []);
 };
 

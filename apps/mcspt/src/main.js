@@ -29,6 +29,8 @@ const closeSplashAndLoadMainWindow = () => {
     mainThreadGlobals.splashScreen.destroy();
     mainThreadGlobals.mainWindow.show();
   });
+
+  autoUpdateOps.initializeAutoUpdate();
 };
 
 const createWindow = async () => {
@@ -80,7 +82,6 @@ deepLinkingSetup.initializeDeepLinking(mainThreadGlobals);
 app.on('ready', createWindow);
 
 backendServerOps.registerAppTerminationListeners();
-autoUpdateOps.initializeAutoUpdate();
 
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the

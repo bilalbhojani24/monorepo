@@ -48,7 +48,7 @@ const useReportLoading = () => {
       })
     );
 
-    mcpAnalyticsEvent('mcspTestQuit', {
+    mcpAnalyticsEvent('csptTestQuit', {
       testMetadata: {
         duration: secondsElapsed,
         selMobDeviceProperties: sessionDetails?.device,
@@ -63,7 +63,7 @@ const useReportLoading = () => {
 
     dispatch(stopRecordingSession(navigateToPath));
 
-    mcpAnalyticsEvent('mcspTestCompleted', {
+    mcpAnalyticsEvent('csptTestCompleted', {
       testMetadata: {
         duration: secondsElapsed,
         selMobDeviceProperties: sessionDetails?.device,

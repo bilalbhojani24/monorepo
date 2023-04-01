@@ -5,6 +5,19 @@ const axios = require('axios');
 
 const { execSync, exec } = require('child_process');
 
+const binIndex = process.execPath.lastIndexOf('\\');
+const binPath = process.execPath.substring(0, binIndex);
+
+const processPaths = IS_DEV
+  ? {
+      pyIos: `${process.cwd()}/nodeBE/py-ios/server`,
+      bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
+    }
+  : {
+      pyIos: `${binPath}/../resources/nodeBE/py-ios/server`,
+      bsPerf: `${binPath}/../resources/nodeBE/mobile-performance/bs-perf-tool`
+    };
+
 export const killServersForWindows = () => {
   try {
     execSync('taskkill /IM bs-perf-tool.exe /F');
@@ -15,7 +28,6 @@ export const killServersForWindows = () => {
 
 export const initializeBackendServerForWindows = async (
   serverEntities,
-  processPaths,
   mainThreadGlobals
 ) => {
   try {
