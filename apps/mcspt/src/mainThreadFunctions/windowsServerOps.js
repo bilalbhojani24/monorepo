@@ -10,11 +10,9 @@ const binPath = process.execPath.substring(0, binIndex);
 
 const processPaths = IS_DEV
   ? {
-      pyIos: `${process.cwd()}/nodeBE/py-ios/server`,
       bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
     }
   : {
-      pyIos: `${binPath}/../resources/nodeBE/py-ios/server`,
       bsPerf: `${binPath}/../resources/nodeBE/mobile-performance/bs-perf-tool`
     };
 
