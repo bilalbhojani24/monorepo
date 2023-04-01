@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import {
+  calculateTestDurationForAnalytics,
+  formatDeviceAndAppAnalyticsData
+} from 'utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import { getSessionMetrics } from '../slices/reportSlice';
@@ -8,16 +12,13 @@ const useReport = () => {
   const sessionData = useSelector(getSessionMetrics);
 
   useEffect(() => {
-    setTimeout(() => {
-      mcpAnalyticsEvent('csptReportViewed', {
-        testMetadata: {
-          duration:
-            new Date(sessionData.startTime) - new Date(sessionData.endTime),
-          selMobDeviceProperties: sessionData?.device,
-          selAppProperties: sessionData?.package
-        }
-      });
-    }, 30000);
+    mcpAnalyticsEvent('csptReportViewed', {
+      test_duration: calculateTestDurationForAnalytics(sessionData),
+      ...formatDeviceAndAppAnalyticsData(
+        sessionData?.device,
+        sessionData?.package
+      )
+    });
   });
 
   return { sessionData };

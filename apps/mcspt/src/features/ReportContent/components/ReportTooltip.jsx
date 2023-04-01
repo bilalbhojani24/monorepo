@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Hyperlink,
   MdInfoOutline,
@@ -6,10 +7,17 @@ import {
   TooltipBody,
   TooltipFooter
 } from '@browserstack/bifrost';
+import { getSessionMetrics } from 'features/Report';
 import PropTypes from 'prop-types';
+import {
+  calculateTestDurationForAnalytics,
+  formatDeviceAndAppAnalyticsData
+} from 'utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const ReportTooltip = ({ cardToolTipData }) => {
+  const sessionData = useSelector(getSessionMetrics);
+
   const [showReportTooltip, setShowReportTooltip] = React.useState(false);
 
   return (
@@ -28,8 +36,19 @@ const ReportTooltip = ({ cardToolTipData }) => {
           <TooltipFooter>
             <Hyperlink
               onClick={() => {
+                if (cardToolTipData?.link) {
+                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
+                    cardToolTipData.link
+                  );
+                }
+
                 mcpAnalyticsEvent('csptReportLearnMoreClick', {
-                  sectionName: cardToolTipData.analyticsTitle
+                  metric_name: cardToolTipData.analyticsTitle,
+                  test_duration: calculateTestDurationForAnalytics(sessionData),
+                  ...formatDeviceAndAppAnalyticsData(
+                    sessionData?.device,
+                    sessionData?.package
+                  )
                 });
               }}
               wrapperClassName="text-white underline font-normal mt-2"
@@ -50,7 +69,12 @@ const ReportTooltip = ({ cardToolTipData }) => {
           setShowReportTooltip((prevVal) => !prevVal);
 
           mcpAnalyticsEvent('csptReportMetricInfoBtnClick', {
-            metricName: cardToolTipData.analyticsTitle
+            metric_name: cardToolTipData.analyticsTitle,
+            test_duration: calculateTestDurationForAnalytics(sessionData),
+            ...formatDeviceAndAppAnalyticsData(
+              sessionData?.device,
+              sessionData?.package
+            )
           });
         }}
       />

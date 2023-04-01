@@ -13,6 +13,7 @@ import {
   checkForPreviousUserSessions,
   getPreviousUserSessions
 } from 'features/TestHistory';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const useHome = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,10 @@ const useHome = () => {
 
   const loginViaSSO = () => {
     window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+
+    mcpAnalyticsEvent('csptUserLoginLogoutClick', {
+      loginbtn_action: 'login'
+    });
   };
 
   useEffect(() => {

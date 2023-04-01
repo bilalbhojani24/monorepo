@@ -4,6 +4,7 @@ import {
   startSession
 } from 'api/newPerformanceSession';
 import { getPreviousUserSessions } from 'features/TestHistory';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   setAreApplicationsStillLoading,
@@ -85,6 +86,8 @@ export const fetchConnectedDevices = () => async (dispatch, getState) => {
         ) || resultSet[0];
 
       dispatch(setSelectedDevice(lastSessionDevice));
+    } else {
+      mcpAnalyticsEvent('csptNoDeviceConnected');
     }
 
     dispatch(setListOfDevices(resultSet));

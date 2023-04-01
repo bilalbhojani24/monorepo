@@ -1,12 +1,11 @@
 import React from 'react';
 import { Badge, MdExpandLess, MdExpandMore } from '@browserstack/bifrost';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import AuditAccordion from './AuditAccordion';
 import useIssuesAudits from './useIssuesAudits';
 
 const IssuesAudits = () => {
-  const { sessionData, auditsToBeShown, showAllAutdits, setShowAllAudits } =
+  const { sessionData, auditsToBeShown, showAllAutdits, showOrHideAllAudits } =
     useIssuesAudits();
 
   return (
@@ -50,11 +49,7 @@ const IssuesAudits = () => {
           <div
             role="presentation"
             className="flex cursor-pointer items-center justify-center p-2 text-base"
-            onClick={() => {
-              setShowAllAudits((prev) => !prev);
-
-              mcpAnalyticsEvent('csptReportSummaryShowAllClick');
-            }}
+            onClick={showOrHideAllAudits}
           >
             <div className="mr-1 text-xl">
               {showAllAutdits ? <MdExpandLess /> : <MdExpandMore />}

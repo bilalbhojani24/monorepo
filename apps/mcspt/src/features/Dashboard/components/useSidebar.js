@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SSO_AUTH_URL } from 'constants/mcpConstants';
-import { getTotalCompletedSessions, getUserData } from 'features/Dashboard';
+import { getUserData } from 'features/Dashboard';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const generatePrimaryNavs = (iconMap) => {
@@ -43,7 +43,6 @@ const generateSecondaryNav = (userData, iconMap) => {
 
 const useSidebar = (sideNavIcons) => {
   const userData = useSelector(getUserData);
-  const totalCompletedSessions = useSelector(getTotalCompletedSessions);
 
   const [primaryNavs, setPrimaryNavs] = useState(
     generatePrimaryNavs(sideNavIcons)
@@ -57,7 +56,9 @@ const useSidebar = (sideNavIcons) => {
   const loginViaSSO = () => {
     window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
 
-    mcpAnalyticsEvent('csptUserLoginClick', { totalCompletedSessions });
+    mcpAnalyticsEvent('csptUserLoginLogoutClick', {
+      loginbtn_action: 'login'
+    });
   };
 
   const sidebarClicked = (event, clickedNavLink) => {

@@ -6,6 +6,7 @@ import {
   getTotalAllowedSessions,
   getTotalCompletedSessions
 } from 'features/Dashboard/slices/dashboardSlice';
+import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
@@ -69,11 +70,10 @@ const useTestTriggerPanel = () => {
 
       dispatch(setSelectedDevice(ogDeviceObj));
 
-      mcpAnalyticsEvent('csptDeviceSelected', {
-        selMobDeviceProperties: {
-          ...ogDeviceObj
-        }
-      });
+      mcpAnalyticsEvent(
+        'csptDeviceSelected',
+        formatDeviceAndAppAnalyticsData(ogDeviceObj, null)
+      );
     }
   };
 
@@ -84,11 +84,10 @@ const useTestTriggerPanel = () => {
 
     dispatch(setSelectedApplication(ogAppObj));
 
-    mcpAnalyticsEvent('csptAppSelected', {
-      selAppProperties: {
-        ...ogAppObj
-      }
-    });
+    mcpAnalyticsEvent(
+      'csptAppSelected',
+      formatDeviceAndAppAnalyticsData(null, ogAppObj)
+    );
   };
 
   const startTestSession = () => {
@@ -99,12 +98,10 @@ const useTestTriggerPanel = () => {
       )
     );
 
-    mcpAnalyticsEvent('csptTestStarted', {
-      testMetadata: {
-        ...selectedDevice,
-        ...selectedApplication
-      }
-    });
+    mcpAnalyticsEvent(
+      'csptTestStarted',
+      formatDeviceAndAppAnalyticsData(selectedDevice, selectedApplication)
+    );
   };
 
   const searchApplications = (event) => {
