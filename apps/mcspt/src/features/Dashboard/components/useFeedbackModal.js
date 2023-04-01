@@ -44,7 +44,10 @@ const useFeedbackModal = () => {
         feedback: hasUserLiked || undefined,
         comment: textareaValue || undefined,
         email: emailErrorText ? undefined : emailValue || undefined,
-        ...generalAnalytics?.mcspHostProperties
+
+        platform: generalAnalytics?.host_platform,
+        os_version: generalAnalytics?.host_os_version,
+        uuid: generalAnalytics?.host_uuid
       };
 
       dispatch(submitUserFeedback(rqData));
