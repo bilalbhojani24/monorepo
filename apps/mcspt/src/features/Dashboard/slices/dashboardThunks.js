@@ -4,6 +4,7 @@ import {
   fetchGeneralAnalytics,
   fetchLatestToken,
   fetchUserDetails,
+  saveUserFeedback,
   userLogOut
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
@@ -99,5 +100,13 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
     // handle logout errors after PM defines scenario
   } finally {
     dispatch(setShowAuthLoadingModal(false));
+  }
+};
+
+export const submitUserFeedback = (rqdata) => async () => {
+  try {
+    await saveUserFeedback(rqdata);
+  } catch (error) {
+    // silent error for feedback failure
   }
 };

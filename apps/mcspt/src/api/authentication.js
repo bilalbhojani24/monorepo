@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getBaseUrl } from './apiUtils';
+import { getBaseUrl, getCsptApiUrl } from './apiUtils';
 
 export const fetchUserDetails = async () =>
   axios.get(`${getBaseUrl()}/auth/getUserDetails`);
@@ -15,3 +15,6 @@ export const confirmLoginForReverseSync = async () =>
 
 export const fetchGeneralAnalytics = async () =>
   axios.get(`${getBaseUrl()}/analytics`);
+
+export const saveUserFeedback = async (feedback) =>
+  axios.post(`${getCsptApiUrl()}/feedbacks`, feedback);

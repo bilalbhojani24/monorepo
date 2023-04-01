@@ -55,7 +55,7 @@ module.exports = {
           ]
         },
         devContentSecurityPolicy:
-          "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*; img-src https: http: data: blob: about:;",
+          "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*; img-src https: http: data: blob: about:; connect-src https: http: ws:",
         port: 2099
       }
     }

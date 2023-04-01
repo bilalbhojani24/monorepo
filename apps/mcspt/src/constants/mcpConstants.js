@@ -1,4 +1,6 @@
-export const SSO_AUTH_URL = 'https://cspt-api.bsstag.com/api/v1/auth/start-sso';
+import { getCsptApiUrl } from 'api/apiUtils';
+
+export const SSO_AUTH_URL = `${getCsptApiUrl()}/auth/start-sso`;
 
 export const EXISTING_REPORTS_SAMPLE_SWITCH = 3;
 

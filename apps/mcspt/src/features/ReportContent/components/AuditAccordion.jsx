@@ -5,7 +5,7 @@ import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const AuditAccordion = ({ auditDetails }) => (
   <Accordion
-    triggerClassName="pt-0"
+    triggerClassName="pt-0 items-center"
     triggerContentNode={
       <div className="flex flex-1 items-center justify-between py-3 pl-2">
         <div className="flex flex-col">
