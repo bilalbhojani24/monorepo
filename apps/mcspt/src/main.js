@@ -64,7 +64,7 @@ const createWindow = async () => {
       closeSplashAndLoadMainWindow
     );
   } else {
-    // closeSplashAndLoadMainWindow();
+    closeSplashAndLoadMainWindow();
   }
 
   fileExplorerOps.initializeProtocolForFileRead();
