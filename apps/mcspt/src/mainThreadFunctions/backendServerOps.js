@@ -93,7 +93,7 @@ export const checkServerAvailability = async (initiationCallback) => {
 };
 
 const performApplicationTermination = () => {
-  if (IS_DEV) {
+  if (!IS_DEV) {
     if (isMacMachine) {
       performApplicationTerminationForMac(serverEntities);
     }
