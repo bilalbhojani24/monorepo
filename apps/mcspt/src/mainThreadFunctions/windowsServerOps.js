@@ -13,7 +13,7 @@ const processPaths = IS_DEV
       bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
     }
   : {
-      bsPerf: `${binPath}/../resources/nodeBE/mobile-performance/bs-perf-tool`
+      bsPerf: `${binPath}/resources/nodeBE/mobile-performance/bs-perf-tool`
     };
 
 export const killServersForWindows = () => {

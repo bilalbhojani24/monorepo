@@ -15,7 +15,8 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: {
         icon: './cspLogo.ico'
-      }
+      },
+      platforms: ['win32']
     },
     {
       name: '@electron-forge/maker-dmg',
