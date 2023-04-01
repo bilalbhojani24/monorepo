@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { DropdownContextData } from '../../shared/dropdownContext';
 
-const DropdownOptionItem = ({ option, wrapperClassName }) => {
+const DropdownOptionItem = ({ option, wrapperClassName, ...props }) => {
   const dropdownCtx = useContext(DropdownContextData);
   return (
     <Menu.Item>
@@ -15,12 +15,13 @@ const DropdownOptionItem = ({ option, wrapperClassName }) => {
           type="button"
           className={twClassNames(
             active ? 'bg-base-100 text-base-900' : 'text-base-700',
-            'block px-4 py-2 text-sm w-full text-left',
+            'block px-4 py-2 text-sm w-full text-left disabled:bg-base-50 disabled:cursor-not-allowed',
             wrapperClassName
           )}
           onClick={(e) => {
             dropdownCtx?.onClick?.(option, e);
           }}
+          {...props}
         >
           {option.body}
         </button>
