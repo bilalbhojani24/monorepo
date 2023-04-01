@@ -6,19 +6,20 @@ module.exports = {
         schemes: ['bsperf']
       }
     ],
-    extraResource: ['./nodeBE'],
-    icon: './appIcon.icns'
+    extraResource: ['./nodeBE']
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {}
+      config: {
+        icon: './cspWin.ico'
+      }
     },
     {
       name: '@electron-forge/maker-dmg',
       config: {
-        icon: './appIcon.icns'
+        icon: './cspMac.icns'
       },
       platforms: ['darwin']
     },
