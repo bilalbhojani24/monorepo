@@ -44,8 +44,8 @@ const createWindow = async () => {
   });
 
   mainThreadGlobals.splashScreen = new BrowserWindow({
-    width: 750,
-    height: 450,
+    width: 640,
+    height: 360,
     center: true,
     frame: false,
     transparent: true,
@@ -64,7 +64,7 @@ const createWindow = async () => {
       closeSplashAndLoadMainWindow
     );
   } else {
-    closeSplashAndLoadMainWindow();
+    // closeSplashAndLoadMainWindow();
   }
 
   fileExplorerOps.initializeProtocolForFileRead();
