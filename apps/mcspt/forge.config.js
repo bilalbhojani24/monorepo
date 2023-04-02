@@ -1,8 +1,10 @@
+const APP_NAME = 'BrowserStack-AppPerformance';
+
 module.exports = {
   packagerConfig: {
     protocols: [
       {
-        name: 'BrowserStack-AppPerformance',
+        name: APP_NAME,
         schemes: ['bsperf']
       }
     ],
@@ -14,14 +16,16 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        icon: './cspLogo.ico'
+        icon: './cspLogo.ico',
+        name: APP_NAME
       },
       platforms: ['win32']
     },
     {
       name: '@electron-forge/maker-dmg',
       config: {
-        icon: './cspLogo.icns'
+        icon: './cspLogo.icns',
+        name: APP_NAME
       },
       platforms: ['darwin']
     },
