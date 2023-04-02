@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@browserstack/bifrost';
 import { CreateIssue } from '@browserstack/integrations';
 
-const ReportBug = ({ setAlertMessage }) => {
+const ReportBug = ({ setAlertMessage, positionRef }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen(true);
@@ -52,12 +52,14 @@ const ReportBug = ({ setAlertMessage }) => {
       <input type="file" onChange={handleChange} />
       <Button onClick={handleOpen}>Report a bug</Button>
       <CreateIssue
-        isOpen={isOpen}
-        handleClose={handleClose}
         auth={auth}
-        options={options}
+        position="left"
+        isOpen={isOpen}
         config={config}
+        options={options}
+        handleClose={handleClose}
         attachments={attachments}
+        positionRef={positionRef}
       />
     </div>
   );

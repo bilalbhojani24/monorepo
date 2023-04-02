@@ -26,16 +26,22 @@ import DraggableResizableContainer from './components/DraggableResizable';
 import WidgetHeader from './components/WidgetHeader';
 
 const Widget = ({
+  hasError,
+  position,
   children,
-  handleClose,
-  hasAtLeastOneIntegrationSetup,
   isLoading,
-  hasError
+  handleClose,
+  positionRef,
+  hasAtLeastOneIntegrationSetup
 }) => {
   const childRef = useRef(null);
   if (hasAtLeastOneIntegrationSetup) {
     return (
-      <DraggableResizableContainer childRef={childRef}>
+      <DraggableResizableContainer
+        position={position}
+        childRef={childRef}
+        positionRef={positionRef}
+      >
         <div ref={childRef} className="relative">
           <WidgetHeader handleClose={handleClose} />
           {children}
@@ -44,7 +50,7 @@ const Widget = ({
     );
   }
   return (
-    <DraggableContainer>
+    <DraggableContainer position={position} positionRef={positionRef}>
       <WidgetHeader handleClose={handleClose} />
       <div
         className={'flex-1 bg-white p-6'.concat(

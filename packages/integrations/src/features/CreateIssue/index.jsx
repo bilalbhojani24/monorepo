@@ -14,7 +14,7 @@ import ListOfIntegrations from './components/ListOfIntegrations';
 import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
-const WIDGET_POSITIONS = ['left', 'right'];
+const WIDGET_POSITIONS = ['left', 'right', 'center'];
 
 export const CreateIssue = ({
   auth,
@@ -153,7 +153,7 @@ CreateIssue.propTypes = {
 CreateIssue.defaultProps = {
   isOpen: false,
   options: null,
-  position: WIDGET_POSITIONS[0],
+  position: WIDGET_POSITIONS[2],
   projectId: null,
   positionRef: null
 };
