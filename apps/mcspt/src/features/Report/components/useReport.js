@@ -19,7 +19,7 @@ const useReport = () => {
         sessionData?.package
       )
     });
-  });
+  }, [sessionData]);
 
   return { sessionData };
 };
