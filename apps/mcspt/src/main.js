@@ -40,7 +40,8 @@ const createWindow = async () => {
     minWidth: 1024,
     minHeight: 720,
     webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      devTools: !IS_PROD
     },
     show: false
   });

@@ -162,7 +162,7 @@ const useTestTriggerPanel = () => {
     deviceSelectionError,
     searchApplications,
     disableTestTrigger:
-      (!isUserLoggedIn && totalAllowedSessions === totalCompletedSessions) ||
+      (!isUserLoggedIn && totalCompletedSessions >= totalAllowedSessions) ||
       areApplicationsStillLoading
   };
 };
