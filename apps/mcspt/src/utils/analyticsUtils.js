@@ -39,7 +39,7 @@ const logMcpEvent = (name, data, sendToGA) => {
    *
    */
 
-  if (!IS_DEV) {
+  if (IS_PROD) {
     logEvent([], 'CSPT', name, data, undefined, sendToGA);
   }
 };

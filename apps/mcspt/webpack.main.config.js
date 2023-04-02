@@ -12,7 +12,8 @@ module.exports = {
   },
   plugins: [
     new DefinePlugin({
-      IS_DEV: JSON.stringify(process.argv.includes('IS_DEV'))
+      IS_DEV: JSON.stringify(process.argv.includes('IS_DEV')),
+      IS_PROD: JSON.stringify(process.argv.includes('IS_PROD'))
     })
   ]
 };

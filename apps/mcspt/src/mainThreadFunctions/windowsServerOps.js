@@ -35,7 +35,9 @@ export const initializeBackendServerForWindows = async (
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
     serverEntities.nodeServerInstance = await exec(
-      `${processPaths.bsPerf} server -p ${serverEntities.nodeServerPort}`
+      `CSPT_ENV=${IS_PROD ? 'production' : 'staging'} ${
+        processPaths.bsPerf
+      } server -p ${serverEntities.nodeServerPort}`
     );
 
     // sending port number to FE to call api

@@ -22,7 +22,7 @@ export const store = configureStore({
 });
 
 // only enable in dev mode
-if (IS_DEV) {
+if (IS_DEV || !IS_PROD) {
   window.mcpDevRefs = {
     store,
     redirectToPath: (path) => {
