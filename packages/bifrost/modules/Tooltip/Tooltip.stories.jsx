@@ -215,6 +215,7 @@ LightThemeHyperlink.args = {
       </TooltipBody>
       <TooltipFooter>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-brand-600"
@@ -224,7 +225,9 @@ LightThemeHyperlink.args = {
         >
           Action 1
         </Hyperlink>
+
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-brand-600"
@@ -252,6 +255,7 @@ DarkThemeHyperlink.args = {
       </TooltipBody>
       <TooltipFooter>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-base-50"
@@ -262,6 +266,7 @@ DarkThemeHyperlink.args = {
           Action 1
         </Hyperlink>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-base-50"

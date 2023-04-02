@@ -6,6 +6,7 @@ import { TableVirtuoso } from 'react-virtuoso';
 import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
+  O11yButton,
   O11yHyperlink,
   O11yInputField,
   O11yRefTableBody,
@@ -102,14 +103,17 @@ export default function ProjectList() {
               placeholder="Search using project name"
               value={searchText}
               onChange={handleSearchTextChange}
-              leadingIcon={<MdSearch className="text-base-400 text-xl" />}
-              isTrailingNodeClickable
-              trailingIcon={
+              addOnBeforeInline={<MdSearch className="text-base-400 text-xl" />}
+              addOnAfterInline={
                 <>
                   {searchText ? (
-                    <MdClose
+                    <O11yButton
+                      variant="minimal"
+                      colors="white"
+                      icon={<MdClose className="text-base-800 text-xl" />}
                       onClick={handleClearSearch}
-                      className="text-base-800 cursor-pointer"
+                      isIconOnlyButton
+                      size="extra-small"
                     />
                   ) : null}
                 </>
