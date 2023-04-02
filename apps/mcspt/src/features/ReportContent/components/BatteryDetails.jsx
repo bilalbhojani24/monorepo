@@ -16,7 +16,7 @@ const BatteryChart = () => {
     <div className="flex">
       <div className="flex w-[275px] shrink-0 grow-0 flex-col">
         <MetricStat
-          metricTitle="Total Power Drawn"
+          metricTitle="Total Battery Consumed"
           metricText={`${roundTo3DecimalPlaces(
             sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value
           )} %`}

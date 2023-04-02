@@ -9,7 +9,7 @@ export const COLD_APP_STARTUP_TT = {
   analyticsTitle: 'COLD_APP_STARTUP',
   description:
     'Measures how long it takes for the app to launch and display its first frame or Time to Initial Display (TTID). Calculated by terminating the app and launching a fresh session.',
-  recommend: 'Recommended Threshold >= 3000ms ',
+  recommend: 'Recommended Threshold <= 3000ms ',
   link: ''
 };
 
@@ -17,7 +17,7 @@ export const SLOW_FRAMES_TT = {
   analyticsTitle: 'SLOW_FRAMES',
   description:
     'Measures % of frames taking >= 16.67 ms to render. Assuming 60FPS screen refresh rate.',
-  recommend: 'Recommended Threshold >= 25%',
+  recommend: 'Recommended Threshold <= 25%',
   link: ''
 };
 
@@ -25,7 +25,7 @@ export const FROZEN_FRAMES_TT = {
   analyticsTitle: 'FROZEN_FRAMES',
   description:
     'Measures % of frames taking >= 700 ms to render. Assuming 60FPS screen refresh rate.',
-  recommend: 'Recommended Threshold >= 0.1%',
+  recommend: 'Recommended Threshold <= 0.1%',
   link: ''
 };
 
@@ -49,7 +49,7 @@ export const AVG_MEMORY_TT = {
   analyticsTitle: 'AVG_MEMORY',
   description:
     'Measures the avg Memory footprint of the app in the test session.',
-  recommend: 'Recommended Threshold >= 250MB',
+  recommend: 'Recommended Threshold <= 250MB',
   link: ''
 };
 
@@ -63,7 +63,7 @@ export const MAX_MEMORY_TT = {
 export const AVG_CPU_TT = {
   analyticsTitle: 'AVG_CPU',
   description: `Measures the avg CPU usage of the app in the test session.`,
-  recommend: 'Recommended Threshold <= 25%',
+  recommend: 'Recommended Threshold <= 20%',
   link: ''
 };
 

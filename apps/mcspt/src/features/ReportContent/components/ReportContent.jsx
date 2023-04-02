@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, MdAccessTime, MdFolderOpen } from '@browserstack/bifrost';
+import { REPORT_METRIC_LABELS } from 'constants/reportMetricLabels';
 import { formatReportTime } from 'utils/dateUtils';
 
 import BatteryChart from './BatteryDetails';
@@ -113,10 +114,9 @@ const ReportContent = () => {
         </div>
         <div className="mb-8 flex flex-col rounded-lg bg-white p-6 shadow">
           <div className="text-base-700 mb-5 text-base font-normal leading-6">
-            BrowserStack AppPerformance helps in troubleshooting performance
-            issues by recording session data such as Logcat, Crash, and ANR
-            logs. It also provides performance and resource usage data in
-            easy-to-analyze .csv files.
+            {REPORT_METRIC_LABELS.DIAGNOSTIC_DESCRIPTION[
+              sessionData?.device?.os
+            ] || ''}
           </div>
 
           <div>

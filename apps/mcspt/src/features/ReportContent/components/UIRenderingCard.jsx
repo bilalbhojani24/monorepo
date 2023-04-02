@@ -39,7 +39,7 @@ const UIRenderingCard = () => {
         <div className="flex">
           <MetricStat
             wrapperClassName="p-4"
-            metricTitle="Frozen Frame Rate"
+            metricTitle="Frozen Frames"
             metricText={`${sanitizeValue(
               sessionData?.aggregated?.frozenFramePercent?.value
             )} %`}
