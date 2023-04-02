@@ -174,7 +174,7 @@ importers:
       tailwindcss: 3.1.4_postcss@8.4.21
       vite: 3.2.5_sass@1.57.1
 
-  apps/integrations_demo:
+  apps/integrations-demo:
     specifiers:
       '@browserstack/bifrost': workspace:*
       '@browserstack/hooks': workspace:*
@@ -219,7 +219,7 @@ importers:
       '@browserstack/stylelint-config': link:../../packages/stylelint-config
       '@browserstack/tailwind-config': link:../../packages/tailwind-config
       '@browserstack/vite-config': link:../../packages/vite-config
-      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.4
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -231,8 +231,8 @@ importers:
       stylelint-config-prettier: 9.0.4_stylelint@14.16.0
       stylelint-config-standard-scss: 7.0.1_l3s4qeu3gkar2knsdy3w5miimm
       stylelint-prettier: 2.0.0_lzrral356zwd7lm6e3scl4w4om
-      stylelint-scss: 4.4.0_stylelint@14.16.0
-      tailwindcss: 3.2.4_postcss@8.4.20
+      stylelint-scss: 4.3.0_stylelint@14.16.0
+      tailwindcss: 3.1.4_postcss@8.4.20
       vite: 3.2.5_sass@1.57.1
 
   apps/o11y:
@@ -278,7 +278,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/bifrost': 2.1.0_2dww6gez5vudtpgd7qn6thheyu
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
@@ -2364,6 +2364,48 @@ packages:
       react-icons: 4.7.1_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost/2.1.0_2dww6gez5vudtpgd7qn6thheyu:
+    resolution: {integrity: sha512-pHGauIPM/CwpK3Ua22kNxk7ap8yju1hNLPq+M8yYksRYn6gQx2MPtLJKuQxEsnjJYwPMdvGpNFXfbyV4/yULoA==, tarball: download/@browserstack/bifrost/2.1.0/97bf4f2c47199d201be01e243e12ef76d7ccd716}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/utils': 0.2.4_nnlqmyufqhjndtfjqk6u3aglwy
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
+      react-icons: 4.7.1_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.21.0_react@18.2.0
     transitivePeerDependencies:
       - '@juggle/resize-observer'
       - '@reduxjs/toolkit'
@@ -8604,15 +8646,6 @@ packages:
     dependencies:
       mini-svg-data-uri: 1.4.4
       tailwindcss: 3.1.4_postcss@8.4.20
-
-  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.4:
-    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
-    dependencies:
-      mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.2.4_postcss@8.4.20
-    dev: true
 
   /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.4:
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -20524,16 +20557,6 @@ packages:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
 
-  /postcss-nested/6.0.0_postcss@8.4.20:
-    resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
-    engines: {node: '>=12.0'}
-    peerDependencies:
-      postcss: ^8.2.14
-    dependencies:
-      postcss: 8.4.20
-      postcss-selector-parser: 6.0.11
-    dev: true
-
   /postcss-nested/6.0.0_postcss@8.4.21:
     resolution: {integrity: sha512-0DkamqrPcmkBDsLn+vQDIrtkSbNkv5AD/M322ySo9kqFkCIYklym2xEmWkwo+Y3/qZo34tzEPNUw4y7yMCdv5w==}
     engines: {node: '>=12.0'}
@@ -24097,40 +24120,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-
-  /tailwindcss/3.2.4_postcss@8.4.20:
-    resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}
-    engines: {node: '>=12.13.0'}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
-    dependencies:
-      arg: 5.0.2
-      chokidar: 3.5.3
-      color-name: 1.1.4
-      detective: 5.2.1
-      didyoumean: 1.2.2
-      dlv: 1.1.3
-      fast-glob: 3.2.12
-      glob-parent: 6.0.2
-      is-glob: 4.0.3
-      lilconfig: 2.0.6
-      micromatch: 4.0.5
-      normalize-path: 3.0.0
-      object-hash: 3.0.0
-      picocolors: 1.0.0
-      postcss: 8.4.20
-      postcss-import: 14.1.0_postcss@8.4.20
-      postcss-js: 4.0.0_postcss@8.4.20
-      postcss-load-config: 3.1.4_postcss@8.4.20
-      postcss-nested: 6.0.0_postcss@8.4.20
-      postcss-selector-parser: 6.0.11
-      postcss-value-parser: 4.2.0
-      quick-lru: 5.1.1
-      resolve: 1.22.1
-    transitivePeerDependencies:
-      - ts-node
-    dev: true
 
   /tailwindcss/3.2.4_postcss@8.4.21:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}

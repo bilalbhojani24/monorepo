@@ -16,8 +16,8 @@ if [ ! -d "$SOURCE" ]; then
 fi
 
 if ! aws s3 ls "s3://$DESTINATION/" >/dev/null 2>&1; then
-  echo "Error: $DESTINATION is not a valid file or destination."
-  exit 1
+  echo "$DESTINATION does not exist. Creating now."
+  aws s3 mb "s3://$DESTINATION"
 fi
 
 
@@ -39,7 +39,7 @@ else
   echo "*****STAGING PUBLISH STARTED*****"
 
   echo "$SOURCE uploading to $DESTINATION"
-  aws s3 sync "$SOURCE" "s3://$DESTINATION"  --delete
+  aws s3 sync "$SOURCE" "s3://$DESTINATION"  --delete 
   echo "$SOURCE uploading to $DESTINATION completed"
 
   echo "*****STAGING PUBLISH ENDED*****"

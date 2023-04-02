@@ -5,13 +5,18 @@ import PropTypes from 'prop-types';
 
 import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
 
-const DraggableResizable = ({ children, childRef }) => {
+import { getWidgetRenderPosition } from './helpers';
+
+const DraggableResizable = ({ children, childRef, position, positionRef }) => {
   const widgetRef = useRef(null);
   const [widgetHeight, setWidgetHeight] = useState(null);
   const [containerHeight, setContainerHeight] = useState(widgetHeight);
   const windowDimensions = useResizeObserver(childRef);
   const childHeight = childRef?.current?.getBoundingClientRect().height;
   const t = 12;
+  const [refAquired, setRefAquired] = useState(false);
+  const [widgetPosition, setWidgetPosition] = useState(null);
+  const [showWidget, setShowWidget] = useState(false);
   useEffect(() => {
     if (
       childRef?.current &&
@@ -37,6 +42,27 @@ const DraggableResizable = ({ children, childRef }) => {
     windowDimensions.inlineSize,
     windowDimensions.height
   ]);
+  useEffect(() => {
+    setRefAquired(true);
+  }, []);
+  useEffect(() => {
+    if (refAquired && widgetRef.current) {
+      const [x, y] = getWidgetRenderPosition(
+        position,
+        positionRef?.current?.getBoundingClientRect(),
+        widgetRef.current?.getBoundingClientRect()
+      );
+      setWidgetPosition({
+        x,
+        y
+      });
+    }
+  }, [refAquired]);
+
+  useEffect(() => {
+    setWidgetPosition(null);
+    setShowWidget(true);
+  }, [widgetPosition]);
 
   const onResize = (__, { size }) => {
     setWidgetHeight(size.height);
@@ -44,7 +70,13 @@ const DraggableResizable = ({ children, childRef }) => {
   };
 
   return (
-    <Draggable ref={widgetRef} handle=".drag-handle">
+    <Draggable
+      className={''.concat(showWidget ? '' : 'hidden')}
+      ref={widgetRef}
+      handle=".drag-handle"
+      isBodyBounded
+      position={widgetPosition}
+    >
       <div ref={widgetRef} className="absolute drop-shadow-lg">
         <Resizable
           className="border-base-200 relative flex flex-col items-center overflow-hidden rounded-md border border-solid"
