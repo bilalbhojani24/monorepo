@@ -68,7 +68,7 @@ export const initializeBackendServerForMac = async (
         processPaths.bsPerf
       } server -p ${serverEntities.nodeServerPort} -pi ${
         serverEntities.pyServerPort
-      }`
+      } ${IS_PROD ? '' : '-v'}`
     );
 
     // sending port number to FE to call api
