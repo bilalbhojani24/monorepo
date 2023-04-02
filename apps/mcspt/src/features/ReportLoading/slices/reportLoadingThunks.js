@@ -19,7 +19,10 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
       throw response;
     }
 
-    if (response?.state !== REPORT_LOADING_STATES.COMPLETE) {
+    if (
+      response?.state !== REPORT_LOADING_STATES.COMPLETE ||
+      response?.state !== REPORT_LOADING_STATES.CANCELLED
+    ) {
       const sessionStatusPollingTimeoutId = setTimeout(() => {
         dispatch(checkSessionStatus());
       }, 5000);
@@ -32,7 +35,10 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
       );
     }
 
-    if (response?.state === REPORT_LOADING_STATES.COMPLETE) {
+    if (
+      response?.state === REPORT_LOADING_STATES.COMPLETE ||
+      response?.state === REPORT_LOADING_STATES.CANCELLED
+    ) {
       const latestSessionPollingTimeoutId =
         getState()?.reportLoading?.latestPollingTimeoutId;
 

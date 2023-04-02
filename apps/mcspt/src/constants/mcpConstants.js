@@ -11,5 +11,6 @@ export const REPORT_LOADING_STATES = {
   RECORDING: 'recording',
   STOPPING: 'stopping',
   COMPLETE: 'complete',
+  CANCELLED: 'cancelled',
   FAILED: 'failed'
 };

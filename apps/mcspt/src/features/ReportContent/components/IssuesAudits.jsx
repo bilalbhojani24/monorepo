@@ -90,6 +90,7 @@ const IssuesAudits = () => {
               <div className="mt-3 flex flex-wrap">
                 {sessionData?.audits?.passedAudits?.metrics.map((metric) => (
                   <Badge
+                    key={metric}
                     hasDot={false}
                     hasRemoveButton={false}
                     modifier="base"

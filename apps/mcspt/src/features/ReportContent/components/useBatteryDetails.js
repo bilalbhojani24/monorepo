@@ -72,7 +72,10 @@ const useBatteryDetails = () => {
 
   useEffect(() => {
     setBatteryChartOptions(
-      generateBatteryChartOptions(sessionData, chartGridClicked)
+      generateBatteryChartOptions(
+        sessionData,
+        chartGridClicked('batteryChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 
