@@ -87,7 +87,10 @@ const useUIRenderingCard = () => {
 
   useEffect(() => {
     setFrameChartOptions(
-      generateFrameChartOptions(sessionData, chartGridClicked)
+      generateFrameChartOptions(
+        sessionData,
+        chartGridClicked('frameChart', sessionData)
+      )
     );
   }, [chartGridClicked, sessionData]);
 

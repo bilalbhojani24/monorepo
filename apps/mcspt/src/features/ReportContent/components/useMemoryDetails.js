@@ -71,7 +71,10 @@ const useMemoryDetails = () => {
 
   useEffect(() => {
     setMemoryChartOptions(
-      generateMemoryChartOptions(sessionData, chartGridClicked)
+      generateMemoryChartOptions(
+        sessionData,
+        chartGridClicked('memoryChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 

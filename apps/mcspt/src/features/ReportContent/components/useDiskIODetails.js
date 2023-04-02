@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
 const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -83,7 +82,10 @@ const useDiskIODetails = () => {
 
   useEffect(() => {
     setDiskIOChartOptions(
-      generateDiskIOChartOptions(sessionData, chartGridClicked)
+      generateDiskIOChartOptions(
+        sessionData,
+        chartGridClicked('diskIoChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 
