@@ -99,6 +99,14 @@ const useProjects = (prop) => {
     (state) => state.import.showNewProjectBanner
   );
 
+  const handleAmplitudeEvent = (projectId, action) => {
+    dispatch(
+      logEventHelper(`TM_${action}ClickedProjectList`, {
+        project_id: projectId
+      })
+    );
+  };
+
   const showAddProjectModal = () => {
     dispatch(
       logEventHelper('TM_CreateProjectBtnClicked', {
@@ -123,16 +131,18 @@ const useProjects = (prop) => {
       });
   };
 
-  const handleClickDynamicLink = (route, projectId, projectName) => (e) => {
-    if (e.type === 'keydown' && e?.code !== 'Space') return;
+  const handleClickDynamicLink =
+    (route, projectId, projectName, action) => (e) => {
+      if (e.type === 'keydown' && e?.code !== 'Space') return;
 
-    dispatch(setCurrentProjectName(projectName));
-    navigate(
-      routeFormatter(route, {
-        projectId
-      })
-    );
-  };
+      handleAmplitudeEvent(projectId, action);
+      dispatch(setCurrentProjectName(projectName));
+      navigate(
+        routeFormatter(route, {
+          projectId
+        })
+      );
+    };
 
   const onDropDownChange = (selectedOption, selectedItem) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
@@ -183,7 +193,9 @@ const useProjects = (prop) => {
     }
   };
 
-  const hideAddProjectModal = () => {
+  const hideAddProjectModal = (action) => {
+    if (action === 'Cancel')
+      dispatch(logEventHelper('TM_CreateProjectBtnClickedEmptyState', {}));
     dispatch(setAddProjectModalVisibility(false));
     setFormError({ ...formError, nameError: '' });
     prop?.onClose?.();

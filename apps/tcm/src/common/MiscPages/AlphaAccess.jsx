@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { MdLock, MdMail, MdOutlineTextSnippet } from '@browserstack/bifrost';
@@ -6,10 +6,15 @@ import { requestAccessAPI } from 'api/common.api';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 const AlphaAccess = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(logEventHelper('TM_RequestAccessPageLoaded', {}));
+  }, [dispatch]);
 
   const requestAccess = () => {
     requestAccessAPI()
