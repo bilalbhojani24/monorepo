@@ -2,7 +2,7 @@
   "name": "mcspt",
   "productName": "BrowserStack-AppPerformance",
   "version": "0.1.1",
-  "description": "BrowserStack AppBench",
+  "description": "BrowserStack AppPerformance",
   "repository": "https://github.com/browserstack/app-performance-releases",
   "main": ".webpack/main",
   "scripts": {
@@ -15,8 +15,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "Ashu",
-    "email": "ashutosh.d@browserstack.com"
+    "name": "BrowserStack Inc.",
+    "email": "mobileappperfferformance@browserstack.com"
   },
   "license": "MIT",
   "devDependencies": {
