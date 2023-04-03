@@ -169,12 +169,13 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
             <TestItemJiraTag details={details} />
           </div>
         </div>
-        <div className="flex w-80">
-          <div className="mr-6 flex w-56 items-start">
+        <div className="flex w-auto">
+          <div className="flex w-auto items-start">
             <TestListTimeline details={details} />
           </div>
-          <div className="group w-24">
-            <div className="flex items-center group-hover:hidden">
+          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+          <div className="group min-w-[100px]">
+            <div className="flex content-end items-center justify-end group-hover:hidden">
               <MdOutlineTimer className="text-base-500 block h-4 w-4" />
               <p className="text-base-500 ml-1 text-sm">
                 {milliSecondsToTime(details?.duration)}
