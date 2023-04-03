@@ -57,7 +57,7 @@ export default function GenericLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      <span className="text-sm font-medium leading-5">
+      <span className="text-sm font-normal leading-5">
         {data.content.toString()}
       </span>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}

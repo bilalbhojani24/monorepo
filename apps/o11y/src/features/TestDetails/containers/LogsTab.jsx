@@ -169,10 +169,7 @@ const LogsTab = () => {
   }
 
   return (
-    <div
-      className="relative flex h-full w-full flex-col overflow-y-auto"
-      ref={scrollRef}
-    >
+    <div className="relative flex h-full w-full flex-col" ref={scrollRef}>
       <LOGS_CONTEXT.Provider
         value={{
           handleScrollToBottom,

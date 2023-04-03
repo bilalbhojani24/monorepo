@@ -64,7 +64,7 @@ export default function TestLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      <span className="text-sm font-medium leading-5">{data?.content}</span>
+      <span className="text-sm font-normal leading-5">{data?.content}</span>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}
       <LogTypeIcon logType={data.logType} />
     </button>

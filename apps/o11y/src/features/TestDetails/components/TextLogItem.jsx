@@ -109,7 +109,7 @@ export default function TextLogItem({ data, searchText }) {
     }
     return (
       <div className="table-row">
-        <div className="table-cell min-w-[80px] max-w-[320px] shrink-0 break-words pl-4 font-semibold">
+        <div className="text-base-600 table-cell min-w-[80px] max-w-[320px] shrink-0 break-words pl-4 font-mono text-xs font-medium">
           {key}
         </div>
         {key === 'script' ? (
@@ -122,7 +122,7 @@ export default function TextLogItem({ data, searchText }) {
             shouldWrapText
           />
         ) : (
-          <div className="table-cell break-words pl-6 pr-4">
+          <div className="text-base-600 table-cell break-words pl-6 pr-4 font-mono text-xs font-normal">
             {parseLogValue(logData?.args[key])}
           </div>
         )}
@@ -185,7 +185,7 @@ export default function TextLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex break-words border-b py-4 text-left',
+        'border-base-200 flex flex-col break-words border-b py-4 text-left',
         {
           '': LOG_LEVELS.ERROR === data?.logLevel
           // '': LOG_LEVELS.SEVERE === data?.logLevel
@@ -195,51 +195,61 @@ export default function TextLogItem({ data, searchText }) {
       onClick={handleClick}
       data-idx={data.idx}
     >
-      <div className="flex items-center">
-        {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
-        <LogItemIcon logLevel={data?.logLevel} />
-        {!logData?.response?.value?.isSnapShot &&
-          (!isEmpty(logData?.args) || logData?.response?.value) && (
-            <>
-              {isExpanded ? (
-                <MdOutlineArrowDropDown className="text-base-400 h-4 w-4" />
-              ) : (
-                <MdOutlineArrowRight className="text-base-400 h-4 w-4" />
-              )}
-            </>
-          )}
-        <div>
-          <span className="inline-flex leading-5">{logData?.readableText}</span>
-          <span className="text-base-500 ml-3">
-            {logData?.args?.using && logData?.args?.value && (
-              <>
-                {logData?.args?.using}={logData?.args?.value?.substring(0, 80)}
-              </>
+      <div className="flex w-full items-center justify-between">
+        <div className="flex items-center">
+          {!logData?.response?.value?.isSnapShot &&
+            (!isEmpty(logData?.args) || logData?.response?.value) && (
+              <span className="mr-2">
+                {isExpanded ? (
+                  <MdOutlineArrowDropDown className="text-base-400 h-4 w-4" />
+                ) : (
+                  <MdOutlineArrowRight className="text-base-400 h-4 w-4" />
+                )}
+              </span>
             )}
-            {logData?.args?.script?.substring(0, 80)}
-            {logData?.args?.url?.substring(0, 80)}
-          </span>
+
+          {data?.startOffset && (
+            <LogItemStartTime duration={data?.startOffset} />
+          )}
+          <LogItemIcon logLevel={data?.logLevel} />
+          <div>
+            <span className="inline-flex text-sm font-medium leading-5">
+              {logData?.readableText}
+            </span>
+            <div className="text-base-500 ml-3">
+              {logData?.args?.using && logData?.args?.value && (
+                <>
+                  {logData?.args?.using}=
+                  {logData?.args?.value?.substring(0, 80)}
+                </>
+              )}
+              {logData?.args?.script?.substring(0, 80)}
+              {logData?.args?.url?.substring(0, 80)}
+            </div>
+          </div>
         </div>
-        {!!data?.duration && <LogItemDuration duration={data.duration} />}
-        <LogTypeIcon logType={data.logType} />
+        <div className="flex items-center">
+          {!!data?.duration && <LogItemDuration duration={data.duration} />}
+          <LogTypeIcon logType={data.logType} />
+        </div>
       </div>
       {logData?.response?.value?.isSnapShot ? (
         <ImageViewerWithGallery images={[logData?.response?.value?.text]} />
       ) : (
         <>
           {isExpanded && (
-            <div className="">
+            <div className="w-full">
               {!isEmpty(logData?.args) && (
-                <div className="bg-base-50 border-base-300 mt-3 w-full rounded-t border pl-3 text-xs">
-                  <div className="border-base-300 mb-3 border-b py-1 px-4 font-semibold">
+                <div className="border-base-300 mt-3 w-full overflow-hidden rounded-xl border pb-3 text-xs">
+                  <div className="border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold">
                     Params
                   </div>
                   <div className="table table-fixed">{renderArgs()}</div>
                 </div>
               )}
               {logData?.response?.value && (
-                <div className="bg-base-50 border-base-300 mt-3 w-full rounded-t border pl-3 text-xs">
-                  <div className="border-base-300 mb-3 border-b py-1 px-4 font-semibold">
+                <div className="border-base-300 mt-3 w-full overflow-hidden rounded-xl border bg-white pb-3 text-xs">
+                  <div className="border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold">
                     Response
                   </div>
                   {renderResponse(logData.response)}

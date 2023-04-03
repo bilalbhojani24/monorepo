@@ -15,7 +15,7 @@ export default function LogItemStartTime({ duration }) {
     <>
       <span
         className={twClassNames(
-          'mr-2 inline-flex shrink-0 justify-end leading-5 text-sm font-medium text-base-700',
+          'mr-4 inline-flex shrink-0 justify-end leading-5 text-sm font-medium text-base-700',
           { hidden: !sessionTestToggle }
         )}
       >
@@ -24,7 +24,7 @@ export default function LogItemStartTime({ duration }) {
       {!!details.data.videoLogs?.startOffset && (
         <span
           className={twClassNames(
-            'mr-2 hidden shrink-0 justify-end leading-5 text-sm font-medium text-base-700',
+            'mr-4 hidden shrink-0 justify-end leading-5 text-sm font-medium text-base-700',
             {
               'inline-flex': !sessionTestToggle
             }
