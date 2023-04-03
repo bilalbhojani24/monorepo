@@ -108,9 +108,9 @@ function BuildDetailsHeader() {
       case TEST_STATUS.PENDING:
         return (
           <O11yMetaData
-            icon={<O11yLoader loaderClass="text-brand-600 h-4 w-4" />}
+            icon={<O11yLoader loaderClass="h-4 w-4" />}
             metaDescription="Running"
-            textColorClass="text-brand-600"
+            textColorClass="text-base-600"
           />
         );
       case TEST_STATUS.FAIL:
