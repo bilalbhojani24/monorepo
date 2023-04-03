@@ -22,6 +22,7 @@ const HeaderBrand = ({ productName, productLink, release }) => (
       <BrandLogoWithName iconClass="[@media(max-width:1229px)]:hidden max-[1229px]:hidden -mt-0.5" />
     </a>
     <Hyperlink
+      isCSR={false}
       href={productLink}
       wrapperClassName={twClassNames('flex flex-row items-center gap-2 w-fit')}
     >
