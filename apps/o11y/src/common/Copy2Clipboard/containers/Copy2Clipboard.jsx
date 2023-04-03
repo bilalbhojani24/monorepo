@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MdCheck, MdOutlineContentCopy } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-function Copy2Clipboard({ text, showBtnText, onCopyCb }) {
+function Copy2Clipboard({ text, showBtnText, onCopyCb, wrapperClassName }) {
   const mounted = useRef(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -35,7 +36,10 @@ function Copy2Clipboard({ text, showBtnText, onCopyCb }) {
     <CopyToClipboard
       text={text}
       onCopy={handleClick}
-      className="hover:bg-base-200 flex items-center gap-1 rounded px-3 py-2"
+      className={twClassNames(
+        'hover:bg-base-200 flex items-center gap-1 rounded px-3 py-2',
+        wrapperClassName
+      )}
     >
       <div
         role="button"
@@ -67,13 +71,15 @@ function Copy2Clipboard({ text, showBtnText, onCopyCb }) {
 Copy2Clipboard.propTypes = {
   text: PropTypes.string,
   showBtnText: PropTypes.bool,
-  onCopyCb: PropTypes.func
+  onCopyCb: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 
 Copy2Clipboard.defaultProps = {
   text: '',
   showBtnText: false,
-  onCopyCb: () => {}
+  onCopyCb: () => {},
+  wrapperClassName: ''
 };
 
 export default Copy2Clipboard;

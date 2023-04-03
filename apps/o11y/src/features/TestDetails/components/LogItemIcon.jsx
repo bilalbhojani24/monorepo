@@ -11,9 +11,11 @@ export default function LogItemIcon({ logLevel }) {
   switch (logLevel) {
     case LOG_LEVELS.ERROR:
     case LOG_LEVELS.SEVERE:
-      return <MdOutlineErrorOutline className="" />;
+      return <MdOutlineErrorOutline className="text-danger-500 mr-2 h-5 w-5" />;
     case LOG_LEVELS.WARNING:
-      return <MdOutlineReportProblem className="" />;
+      return (
+        <MdOutlineReportProblem className="text-attention-500 mr-2 h-5 w-5" />
+      );
 
     default:
       return null;

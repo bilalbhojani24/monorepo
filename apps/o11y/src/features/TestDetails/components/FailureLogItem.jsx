@@ -18,7 +18,6 @@ export default function FailureLogItem({ data, searchText }) {
   const [logData, setLogData] = useState({});
   const [isMatching, setIsMatching] = useState(true);
   const { handleLogDurationClick } = useLogsContext();
-  // const { handleLogTDInteractionEvent } = useContext(TestDetailsContentContext);
 
   useEffect(() => {
     if (!isEmpty(data)) {
@@ -61,10 +60,14 @@ export default function FailureLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        `border-base-200 flex break-words border-b py-4 text-left`,
+        `border-base-200 pl-4 pr-2 flex break-words border-b py-4 text-left`,
         {
-          '': LOG_LEVELS.ERROR === data?.logLevel
-          // '': LOG_LEVELS.SEVERE === data?.logLevel
+          'bg-danger-50':
+            LOG_LEVELS.ERROR === data?.logLevel ||
+            LOG_LEVELS.SEVERE === data?.logLevel,
+          'bg-attention-50':
+            LOG_LEVELS.WARNING === data?.logLevel ||
+            LOG_LEVELS.WARN === data?.logLevel
         }
       )}
       data-idx={data.idx}
@@ -73,17 +76,18 @@ export default function FailureLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
 
-      <LogItemIcon logLevel={data?.logLevel} />
-      <pre className="text-xs leading-5">
+      <span>
+        <LogItemIcon logLevel={data?.logLevel} />
+      </span>
+      <pre className="text-danger-600 w-full overflow-auto font-mono text-xs leading-5">
         {logData.map((item) => (
           <div key={uuidv4()}>{item}</div>
         ))}
       </pre>
       <Copy2Clipboard
         text={logData.join('\n')}
-        onCopyCb={() => {
-          // handleLogTDInteractionEvent({ interaction: 'exception_copied' })
-        }}
+        onCopyCb={() => {}}
+        wrapperClassName="p-0 ml-2 mr-4"
       />
       {!!data?.duration && <LogItemDuration duration={data.duration} />}
       <LogTypeIcon logType={data.logType} />

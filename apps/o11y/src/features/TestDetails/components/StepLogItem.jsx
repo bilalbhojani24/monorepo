@@ -55,8 +55,12 @@ export default function StepLogItem({ data, isFromList, searchText }) {
       className={twClassNames(
         'border-base-200 flex items-center gap-1 break-words border-b py-4 text-left',
         {
-          '': LOG_LEVELS.ERROR === data?.logLevel
-          // '': LOG_LEVELS.SEVERE === data?.logLevel
+          'bg-danger-50':
+            LOG_LEVELS.ERROR === data?.logLevel ||
+            LOG_LEVELS.SEVERE === data?.logLevel,
+          'bg-attention-50':
+            LOG_LEVELS.WARNING === data?.logLevel ||
+            LOG_LEVELS.WARN === data?.logLevel
         }
       )}
       data-idx={isFromList ? undefined : data.idx}
