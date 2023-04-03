@@ -165,7 +165,8 @@ export default function SiteScanner() {
     dataFilter,
     setIsLoading,
     dispatch,
-    userInfo
+    userInfo,
+    isUserSearch
   } = useSiteScanner();
   const navigate = useNavigate();
   /*
@@ -467,7 +468,7 @@ export default function SiteScanner() {
           </Button>
         ) : null}
       </div>
-      {scanConfigStateData?.data?.scanConfigs?.length ? (
+      {scanConfigStateData?.data?.scanConfigs?.length || isUserSearch ? (
         <>
           <div className="block p-6 pt-0">
             <div className="flex justify-between">
