@@ -23,7 +23,9 @@ const DeviceLocked = () => (
 
       <Hyperlink
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        onClick={() => {}}
+        onClick={() => {
+          window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
+        }}
       >
         contact us.
       </Hyperlink>
