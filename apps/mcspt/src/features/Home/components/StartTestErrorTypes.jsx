@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Hyperlink } from '@browserstack/bifrost';
+import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
 
 import {
   getStartTestError,
@@ -45,7 +46,11 @@ const DevModeDisabled = () => (
 
       <Hyperlink
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        onClick={() => {}}
+        onClick={() => {
+          window.remoteThreadFunctions?.openUrlInSystemBrowser(
+            DEVICE_DETECT_TROUBLESHOOT
+          );
+        }}
       >
         troubleshooting docs.
       </Hyperlink>
@@ -64,7 +69,9 @@ const GenericError = () => (
 
       <Hyperlink
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        onClick={() => {}}
+        onClick={() => {
+          window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
+        }}
       >
         contact us.
       </Hyperlink>
