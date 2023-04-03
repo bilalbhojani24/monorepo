@@ -1,5 +1,7 @@
 import Attachments from '../Attachments';
 import Checkbox from '../Checkbox';
+import DateField from '../DateField';
+import DatetimeField from '../DatetimeField';
 import MultiValueSelect from '../MultiValueSelect';
 import NestedSingleValueSelect from '../NestedSingleValueSelect';
 import Paragraph from '../Paragraph';
@@ -9,8 +11,8 @@ import TextInput from '../TextInput';
 const FormFieldMap = {
   text: TextInput,
   paragraph: Paragraph,
-  // date: TextInput,
-  // datetime: TextInput,
+  date: DateField,
+  datetime: DatetimeField,
   file: Attachments,
   numeric: TextInput,
   checkbox: Checkbox,
