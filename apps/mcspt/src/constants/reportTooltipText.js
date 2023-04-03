@@ -84,7 +84,7 @@ export const BATTERY_CONSUMED_TT = {
 export const DISK_READ_TT = {
   analyticsTitle: 'DISK_READ',
   description: `Measures the amount of data the app reads from the device's disk during the session.`,
-  recommend: 'Recommended Threshold <= 20MB',
+  recommend: 'Recommended Threshold <= 100MB',
   link: ''
 };
 
@@ -98,13 +98,13 @@ export const DISK_WRITE_TT = {
 export const NETWORK_UPLOAD_TT = {
   analyticsTitle: 'NETWORK_UPLOAD',
   description: `Measures the amount of data the app uploads via the network during the session.`,
-  recommend: 'Recommended Threshold <= 20,000 KB ',
+  recommend: 'Recommended Threshold <= 5,000 Kb ',
   link: ''
 };
 
 export const NETWORK_DOWNLOAD_TT = {
   analyticsTitle: 'NETWORK_DOWNLOAD',
   description: `Measures the amount of data the app downloads via the network during the session.`,
-  recommend: 'Recommended Threshold <= 20,000 KB ',
+  recommend: 'Recommended Threshold <= 20,000 Kb ',
   link: ''
 };
