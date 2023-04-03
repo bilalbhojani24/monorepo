@@ -1,7 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
-const TestNetworkLogs = (props) => <div>TestNetworkLogs</div>;
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
+
+const TestNetworkLogs = () => {
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
+  useEffect(() => {
+    handleLogTDInteractionEvent({ interaction: 'network_logs_viewed' });
+  }, [handleLogTDInteractionEvent]);
+
+  return <div>TestNetworkLogs</div>;
+};
 
 TestNetworkLogs.propTypes = {};
 

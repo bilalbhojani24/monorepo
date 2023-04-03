@@ -6,6 +6,7 @@ import O11yLoader from 'common/O11yLoader';
 import isEmpty from 'lodash/isEmpty';
 
 import TestCapabilitiesList from '../components/TestCapabilitiesList';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getCapabilitiesData } from '../slices/dataSlice';
 import { getCurrentTestRunId } from '../slices/selectors';
 
@@ -46,6 +47,7 @@ const TestCapabilities = () => {
     idx: 0,
     value: TAB_KEYS.inputCapabilities
   });
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
   const getTabsList = useCallback((data) => {
     const currentTabList = [];
@@ -63,6 +65,10 @@ const TestCapabilities = () => {
     }
     return currentTabList;
   }, []);
+
+  useEffect(() => {
+    handleLogTDInteractionEvent({ interaction: 'info_capabilities_viewed' });
+  }, [handleLogTDInteractionEvent]);
 
   useEffect(() => {
     mounted.current = true;

@@ -5,6 +5,7 @@ import { O11yButton, O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import StepsList from '../components/StepsList';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 
 import FilterPopoverContent from './FilterPopoverContent';
 
@@ -15,6 +16,7 @@ const TestLogFilters = ({
   onClickStepItem
 }) => {
   const [showFilterPopover, setShowFilterPopover] = useState(false);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
   const clearSearchText = () => {
     onSearchChange('');
@@ -37,9 +39,10 @@ const TestLogFilters = ({
       if (idxElem) {
         onClickStepItem(idxElem?.offsetTop);
         highlightStep(idxElem);
+        handleLogTDInteractionEvent({ interaction: 'steps_navigated' });
       }
     },
-    [highlightStep, onClickStepItem]
+    [highlightStep, onClickStepItem, handleLogTDInteractionEvent]
   );
 
   const closeFilterPopover = () => {

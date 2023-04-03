@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import O11yLoader from 'common/O11yLoader';
 
 import InfoSidebar from '../components/InfoSidebar';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getTestInfoTabsData } from '../slices/dataSlice';
 import { getCurrentTestRunId } from '../slices/selectors';
 
@@ -21,10 +22,15 @@ const InfoTab = () => {
   const dispatch = useDispatch();
 
   const currentTestRunId = useSelector(getCurrentTestRunId);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
   const [tabs, setTabs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TABS_MAPPING.overview);
+
+  useEffect(() => {
+    handleLogTDInteractionEvent({ interaction: 'info_clicked' });
+  }, [handleLogTDInteractionEvent]);
 
   const onTabChange = useCallback((data) => {
     setActiveTab(data.id);

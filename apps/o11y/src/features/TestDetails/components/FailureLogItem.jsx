@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getParsedJSON } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
@@ -18,6 +19,7 @@ export default function FailureLogItem({ data, searchText }) {
   const [logData, setLogData] = useState({});
   const [isMatching, setIsMatching] = useState(true);
   const { handleLogDurationClick } = useLogsContext();
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
   useEffect(() => {
     if (!isEmpty(data)) {
@@ -86,7 +88,9 @@ export default function FailureLogItem({ data, searchText }) {
       </pre>
       <Copy2Clipboard
         text={logData.join('\n')}
-        onCopyCb={() => {}}
+        onCopyCb={() =>
+          handleLogTDInteractionEvent({ interaction: 'exception_copied' })
+        }
         wrapperClassName="p-0 ml-2 mr-4"
       />
       {!!data?.duration && <LogItemDuration duration={data.duration} />}

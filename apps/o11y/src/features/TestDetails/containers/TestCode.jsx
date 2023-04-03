@@ -7,15 +7,22 @@ import O11yLoader from 'common/O11yLoader';
 import PrismHighlight from 'common/PrismHighlight';
 import isEmpty from 'lodash/isEmpty';
 
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getTestCodeData } from '../slices/dataSlice';
 import { getCurrentTestRunId } from '../slices/selectors';
 
 export default function TestCode() {
   const mounted = useRef(false);
   const dispatch = useDispatch();
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const [isLoading, setIsLoading] = useState(true);
   const [testCode, setTestCode] = useState({});
+
+  useEffect(() => {
+    handleLogTDInteractionEvent({ interaction: 'info_test_code_viewed' });
+  }, [handleLogTDInteractionEvent]);
+
   useEffect(() => {
     mounted.current = true;
     if (currentTestRunId) {

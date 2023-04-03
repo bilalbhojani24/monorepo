@@ -15,6 +15,7 @@ import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
 import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import {
   getExceptions,
   getTestDetails,
@@ -31,6 +32,7 @@ const LogsTab = () => {
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const videoRef = useRef(null);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const floatingVideoComponentRef = useRef(null);
   const details = useSelector(getTestDetails);
   const testMeta = useSelector(getTestMeta);
@@ -135,6 +137,7 @@ const LogsTab = () => {
         handleScrollIntoView(idxElem?.offsetTop);
         highlightStep(idxElem);
         setActiveStep((step) => step + 1);
+        handleLogTDInteractionEvent({ interaction: 'next_step_clicked' });
       }
     }
   };
@@ -147,6 +150,7 @@ const LogsTab = () => {
         handleScrollIntoView(idxElem?.offsetTop);
         highlightStep(idxElem);
         setActiveStep((step) => step - 1);
+        handleLogTDInteractionEvent({ interaction: 'previous_step_clicked' });
       }
     }
   };
@@ -157,6 +161,7 @@ const LogsTab = () => {
     } else {
       handleScrollToBottom();
     }
+    handleLogTDInteractionEvent({ interaction: 'scroll_to_bottom_clicked' });
     setIsScrolledToBottom((t) => !t);
   };
 
@@ -247,6 +252,11 @@ const LogsTab = () => {
                 <O11yHyperlink
                   href={details.data.browserstackSessionUrl}
                   target="_blank"
+                  onClick={() =>
+                    handleLogTDInteractionEvent({
+                      interaction: 'browserstack_session_clicked'
+                    })
+                  }
                 >
                   <div className="flex gap-1">
                     <span className="text-base-700 text-xs font-medium leading-4">

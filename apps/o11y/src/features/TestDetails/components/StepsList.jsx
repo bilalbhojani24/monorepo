@@ -12,6 +12,7 @@ import { TEST_STATUS } from 'constants/common';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getParsedJSON } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
@@ -31,29 +32,40 @@ const getStatusColors = (status) => {
   }
 };
 
-const StepsList = memo(({ steps, onClickStep }) => (
-  <O11yDropdown
-    onClick={(data) => {
-      onClickStep(data.id);
-    }}
-  >
-    <O11yDropdownTrigger>
-      <MdOutlineMenu className="text-base-500 mr-2 h-4 w-4" />
-      <span className="text-base-700 text-xs font-medium leading-4">Steps</span>
-    </O11yDropdownTrigger>
-    <O11yDropdownOptionGroup wrapperClassName="w-80">
-      {steps.map((step, idx) => (
-        <O11yDropdownOptionItem
-          key={step}
-          option={{
-            id: idx,
-            body: <StepLogItem data={step} />
-          }}
-        />
-      ))}
-    </O11yDropdownOptionGroup>
-  </O11yDropdown>
-));
+const StepsList = memo(({ steps, onClickStep }) => {
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
+
+  return (
+    <O11yDropdown
+      onClick={(data) => {
+        onClickStep(data.id);
+      }}
+      onOpenChange={(isOpen) => {
+        if (isOpen) {
+          handleLogTDInteractionEvent({ interaction: 'steps_viewed' });
+        }
+      }}
+    >
+      <O11yDropdownTrigger>
+        <MdOutlineMenu className="text-base-500 mr-2 h-4 w-4" />
+        <span className="text-base-700 text-xs font-medium leading-4">
+          Steps
+        </span>
+      </O11yDropdownTrigger>
+      <O11yDropdownOptionGroup wrapperClassName="w-80">
+        {steps.map((step, idx) => (
+          <O11yDropdownOptionItem
+            key={step}
+            option={{
+              id: idx,
+              body: <StepLogItem data={step} />
+            }}
+          />
+        ))}
+      </O11yDropdownOptionGroup>
+    </O11yDropdown>
+  );
+});
 
 StepsList.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.any).isRequired,

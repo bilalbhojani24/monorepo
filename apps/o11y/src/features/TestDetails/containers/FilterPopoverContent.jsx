@@ -17,12 +17,14 @@ import PropTypes from 'prop-types';
 
 import { LOG_LEVELS, LOG_TYPES } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getActiveLogLevels } from '../slices/selectors';
 import { setActiveLogLevels } from '../slices/uiSlice';
 
 export default function FilterPopoverContent({ onClose }) {
   const dispatch = useDispatch();
   const activeLogLevels = useSelector(getActiveLogLevels);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const { handleSetCurrentTime } = useLogsContext();
   const [logsStatus, setLogsStatus] = useState({
     [LOG_TYPES.TEST_LOG]: {
@@ -55,6 +57,10 @@ export default function FilterPopoverContent({ onClose }) {
       [LOG_LEVELS.ERROR]: false
     }
   });
+
+  useEffect(() => {
+    handleLogTDInteractionEvent({ interaction: 'filter_logs_clicked' });
+  }, [handleLogTDInteractionEvent]);
 
   useEffect(() => {
     const testLogs = activeLogLevels[LOG_TYPES.TEST_LOG];
@@ -163,6 +169,7 @@ export default function FilterPopoverContent({ onClose }) {
         );
       }
     });
+    handleLogTDInteractionEvent({ interaction: 'filter_logs_applied' });
   };
 
   const renderCheckbox = (label, type, level) => (

@@ -17,6 +17,7 @@ import TestLogItem from '../components/TestLogItem';
 import TextLogItem from '../components/TextLogItem';
 import { LOG_LEVELS, LOG_TYPES } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getConsolidatedLogsData } from '../slices/dataSlice';
 import {
   getActiveLogLevels,
@@ -34,6 +35,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
   const activeLogLevels = useSelector(getActiveLogLevels);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const {
     handleScrollIntoView,
     sessionTestToggle,
@@ -204,6 +206,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
   }, [videoSeekTime, logs, handleScrollIntoView, activeLogLevels]);
 
   const handleSearchChange = (value) => {
+    handleLogTDInteractionEvent({ interaction: 'searched_in_logs' });
     setSearchText(value?.toLowerCase());
   };
 

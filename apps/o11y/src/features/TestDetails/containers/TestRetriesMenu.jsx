@@ -9,6 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import StatusIcon from 'common/StatusIcon';
 
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getShowTestDetailsFor, getTestMeta } from '../slices/selectors';
 import { setCurrentTestRunId } from '../slices/uiSlice';
 
@@ -17,6 +18,7 @@ const TestRetriesMenu = () => {
 
   const testMeta = useSelector(getTestMeta);
   const testRunId = useSelector(getShowTestDetailsFor);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
   const retriesMenuOptions = useMemo(() => {
     const retries = testMeta?.data?.retries;
@@ -52,6 +54,7 @@ const TestRetriesMenu = () => {
 
   const onRetryRunChange = (selected) => {
     dispatch(setCurrentTestRunId(selected.id));
+    handleLogTDInteractionEvent({ interaction: 'rerun_tab_clicked' });
   };
 
   return (

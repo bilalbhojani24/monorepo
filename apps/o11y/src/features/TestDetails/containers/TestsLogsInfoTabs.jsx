@@ -5,6 +5,7 @@ import { O11yButton, O11yTabs } from 'common/bifrostProxy';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getTestDetails } from '../slices/selectors';
 
 import TestConsolidatedLogs from './TestConsolidatedLogs';
@@ -28,6 +29,7 @@ const tabs = [
 
 const TestsLogsInfoTabs = () => {
   const details = useSelector(getTestDetails);
+  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const { videoSeekTime, sessionTestToggle } = useLogsContext();
   const [activeTab, setActiveTab] = useState({
     idx: 0,
@@ -60,6 +62,11 @@ const TestsLogsInfoTabs = () => {
             isIconOnlyButton
             icon={<MdOutlineBugReport className="h-full w-full" />}
             colors="white"
+            onClick={() => {
+              handleLogTDInteractionEvent({
+                interaction: 'report_bug_clicked'
+              });
+            }}
           />
         </div>
       </div>
