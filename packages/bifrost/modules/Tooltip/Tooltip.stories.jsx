@@ -72,7 +72,7 @@ const defaultConfig = {
             <Button>Action 1</Button>
             <Button
               // colors="white"
-              wrapperClassName="bg-base-600 text-white outline-0"
+              wrapperClassName="text-white outline-0"
             >
               Action 2
             </Button>
