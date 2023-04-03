@@ -404,6 +404,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                               <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
                             }
                             handleClose={(toastData) => {
+                              scanNameRef.current.focus();
                               notify.remove(toastData.id);
                               setShowToast(false);
                             }}
@@ -427,6 +428,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                               <MdOutlineClose className="text-danger-400 h-6 w-6" />
                             }
                             handleClose={(toastData) => {
+                              scanNameRef.current.focus();
                               notify.remove(toastData.id);
                               setShowToast(false);
                             }}
@@ -440,7 +442,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                         }
                       );
                     }
-
                     handleFormData(validUrls, 'csvUpload');
                     // Continue processing...
                   };

@@ -143,7 +143,10 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
     }
     scanUrlRef.current.value = null;
     setRecurringStatus(true);
-    document.querySelector('#recurring').checked = false;
+    const ele = document.querySelector('#recurring');
+    if(ele) {
+      ele.checked = false;
+    }
     closeSlideover();
     setValidationError({});
   };
@@ -209,12 +212,14 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
         break;
       case 'csvUpload':
         // move focus to toast once file has been uploaded
-        const ele = document.getElementById('file-uploaded');
-        if (ele) {
-          ele.tabIndex = 0;
-          ele.focus();
-          ele.tabIndex = -1;
-        }
+        setTimeout(() => {
+          const ele = document.getElementById('file-uploaded');
+          if (ele) {
+            ele.tabIndex = 0;
+            ele.focus();
+            ele.tabIndex = -1;
+          }
+        }, 0);
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
@@ -226,6 +231,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           new Set(formDataObj.scanData.urlSet)
         );
         fileUploadRef.current.value = null;
+
         break;
       case 'deleteUrl':
         formDataObj.scanData.urlSet.splice(
