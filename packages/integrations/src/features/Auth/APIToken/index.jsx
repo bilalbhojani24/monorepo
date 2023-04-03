@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Alerts,
-  Button,
-  MdArrowBack,
-  MdArrowForward
-} from '@browserstack/bifrost';
+import { Button, MdArrowBack, MdArrowForward } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { getTokenConnectionForToolThunk } from '../../../api';
 import { Loader, Logo } from '../../../common/components';
+import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
 import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -33,6 +29,7 @@ const APIToken = ({
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
+    dispatch(clearGlobalAlert());
     dispatch(
       getTokenConnectionForToolThunk({
         integrationKey,

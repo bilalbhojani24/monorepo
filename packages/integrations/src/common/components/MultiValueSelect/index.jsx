@@ -87,7 +87,7 @@ const MultiSelect = ({
     if (optionsPath) {
       dispatch(
         fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData }) => {
+      ).then(({ payload: optionsData = [] }) => {
         const cleanedOptions = cleanOptions(
           mergeTwoOptionsArray(optionsData, value || defaultValue)
         );
@@ -110,7 +110,7 @@ const MultiSelect = ({
   const fetchQuery = (query) => {
     dispatch(
       fetchOptionsThunk({ path: searchPath + query, isDefaultOptions: false })
-    ).then(({ payload: optionsData }) => {
+    ).then(({ payload: optionsData = [] }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);
@@ -148,6 +148,7 @@ const MultiSelect = ({
   const valueToRender =
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
+  console.log(optionsToRender);
   return (
     <div className="py-3">
       <ComboBox
@@ -163,7 +164,7 @@ const MultiSelect = ({
           onInputValueChange={handleInputChange}
         />
         <ComboboxOptionGroup>
-          {optionsToRender.map((item) => (
+          {optionsToRender?.map((item) => (
             <ComboboxOptionItem
               key={item.value}
               option={item}

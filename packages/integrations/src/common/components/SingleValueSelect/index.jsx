@@ -89,7 +89,7 @@ const SingleValueSelect = ({
     if (optionsPath) {
       dispatch(
         fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData }) => {
+      ).then(({ payload: optionsData = [] }) => {
         const cleanedOptions = cleanOptions(
           appendOptionIfMissing(optionsData, value || defaultValue)
         );
@@ -133,7 +133,7 @@ const SingleValueSelect = ({
   const fetchQuery = (query) => {
     dispatch(
       fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
-    ).then(({ payload: optionsData }) => {
+    ).then(({ payload: optionsData = [] }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);

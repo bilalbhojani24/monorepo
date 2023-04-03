@@ -60,7 +60,7 @@ const NestedSingleValueSelect = ({
     if (optionsPath) {
       dispatch(
         fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData }) => {
+      ).then(({ payload: optionsData = [] }) => {
         const cleanedOptions = cleanOptions(optionsData);
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
@@ -99,7 +99,7 @@ const NestedSingleValueSelect = ({
     fetchOptionsThunk({
       path: searchPath + query,
       isDefaultOptions: false
-    }).then(({ payload: optionsData }) => {
+    }).then(({ payload: optionsData = [] }) => {
       const cleanedOptions = cleanOptions(optionsData);
       setOptionsToRender(cleanedOptions);
       setDynamicOptions(cleanedOptions);
@@ -147,7 +147,7 @@ const NestedSingleValueSelect = ({
           onInputValueChange={handleInputChange}
         />
         <ComboboxOptionGroup>
-          {optionsToRender.map((item) => (
+          {optionsToRender?.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
         </ComboboxOptionGroup>
@@ -160,7 +160,7 @@ const NestedSingleValueSelect = ({
           >
             <ComboboxTrigger />
             <ComboboxOptionGroup>
-              {childOptions.map((item) => (
+              {childOptions?.map((item) => (
                 <ComboboxOptionItem key={item.value} option={item} />
               ))}
             </ComboboxOptionGroup>

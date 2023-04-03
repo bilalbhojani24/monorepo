@@ -10,7 +10,10 @@ import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
 import { Loader, Logo } from '../../../common/components';
-import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
+import {
+  clearGlobalAlert,
+  setGlobalAlert
+} from '../../../common/slices/globalAlertSlice';
 import { SYNC_POLL_MAX_ATTEMPTS } from '../constants';
 import { OAuthMetaType } from '../types';
 
@@ -72,6 +75,7 @@ const OAuth = ({
   };
 
   const handleOAuthConnection = () => {
+    dispatch(clearGlobalAlert());
     getOAuthUrlForTool(integrationKey).then((redirectUri) => {
       const childWindow = window.open(
         redirectUri,
