@@ -60,7 +60,7 @@ const UploadFile = () => {
       )}
       <div className="border-base-200 rounded-md border-2 border-solid bg-white p-6">
         <TMSectionHeadings
-          title="Upload CSV file"
+          title="Upload CSV"
           variant="buttons"
           trailingHeadNode={
             <>

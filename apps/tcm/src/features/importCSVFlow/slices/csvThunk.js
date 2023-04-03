@@ -71,6 +71,7 @@ export const uploadFile = (payload) => async (dispatch) => {
   dispatch(uploadFilePending());
   try {
     const response = await postCSV(payload);
+
     dispatch(uploadFileFulfilled(response));
   } catch (err) {
     dispatch(uploadFileRejected(err));

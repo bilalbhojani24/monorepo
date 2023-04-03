@@ -14,10 +14,10 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { cancelImport, downloadReport } from '../../../api/importCSV.api';
 import { AccessTimeIcon } from '../../../assets/icons';
-import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
+// import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
 import {
   setCSVCurrentScreen,
-  setCSVImportSteps,
+  // setCSVImportSteps,
   setNotificationConfigForConfirmCSVImport,
   setRetryImport
 } from '../slices/importCSVSlice';
@@ -71,15 +71,15 @@ const ImportCSVModal = ({ data, show, status }) => {
 
   const secondButtonCb = () => {
     // retry import
-    dispatch(
-      setCSVImportSteps(
-        IMPORT_CSV_STEPS.map((step, idx) => {
-          if (idx === 0) return { ...step, status: 'complete' };
-          if (idx === 1) return { ...step, status: 'current' };
-          return step;
-        })
-      )
-    );
+    // dispatch(
+    //   setCSVImportSteps(
+    //     IMPORT_CSV_STEPS.map((step, idx) => {
+    //       if (idx === 0) return { ...step, status: 'complete' };
+    //       if (idx === 1) return { ...step, status: 'current' };
+    //       return step;
+    //     })
+    //   )
+    // );
     dispatch(setCSVCurrentScreen('mapFields'));
     dispatch(setRetryImport(true));
     detoxNotification();

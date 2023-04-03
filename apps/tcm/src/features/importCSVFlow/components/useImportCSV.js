@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { logEventHelper } from 'utils/logEvent';
 
-import { uploadFile } from '../slices/csvThunk';
+import { setCSVConfigurations, uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
   setCSVUploadError,
@@ -12,8 +12,11 @@ import {
 
 const useImportCSV = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const projectId = queryParams.get('project');
+
   const importCSVSteps = useSelector((state) => state.importCSV.importCSVSteps);
   const currentCSVScreen = useSelector(
     (state) => state.importCSV.currentCSVScreen
@@ -33,6 +36,16 @@ const useImportCSV = () => {
   const uploadFileProceedLoading = useSelector(
     (state) => state.importCSV.uploadFileProceedLoading
   );
+  const topInfoSteps = useSelector((state) => state.importCSV.topInfoSteps);
+
+  const initImportCSV = () => {
+    dispatch(setCSVConfigurations());
+    dispatch(
+      logEventHelper('TM_ImportCsvPageLoaded', {
+        project_id: projectId
+      })
+    );
+  };
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -97,6 +110,9 @@ const useImportCSV = () => {
   };
 
   return {
+    projectId,
+    dispatch,
+    navigate,
     allEncodings,
     allSeparators,
     currentCSVScreen,
@@ -110,6 +126,8 @@ const useImportCSV = () => {
     handleCSVFieldChange,
     handleProceedClick,
     handleShowMoreFields,
+    initImportCSV,
+    topInfoSteps,
     mappingFieldsData,
     mapFieldModalConfig,
     uploadFileProceedLoading

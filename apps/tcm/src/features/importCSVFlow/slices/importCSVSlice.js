@@ -1,20 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  COMPLETE_STEP,
-  CURRENT_STEP,
   FAILED_IMPORT_MODAL_DATA,
-  IMPORT_CSV_STEPS,
+  FIRST_SCREEN,
   ONGOING_IMPORT_MODAL_DATA,
-  PREVIEW_AND_CONFIRM_IMPORT,
-  UPLOAD_FILE,
+  SECOND_SCREEN,
+  THIRD_SCREEN,
   VALUE_MAPPING_OPTIONS
 } from '../const/importCSVConstants';
 
 const initialState = {
   fileConfig: { file: '', fileName: '' },
-  currentCSVScreen: UPLOAD_FILE,
-  importCSVSteps: IMPORT_CSV_STEPS,
+  currentCSVScreen: FIRST_SCREEN,
   fieldsMappingData: {},
   allEncodings: [],
   allSeparators: [],
@@ -55,7 +52,9 @@ const initialState = {
   totalImportedProjectsInPreview: null,
   mapFieldsProceedLoading: false,
   showSelectMenuErrorInMapFields: false,
-  importCSVSuccessNotificationShown: false
+  importCSVSuccessNotificationShown: false,
+  topInfoSteps: [],
+  selectedFolderLocation: '/'
 };
 
 const importCSVSlice = createSlice({
@@ -130,6 +129,7 @@ const importCSVSlice = createSlice({
         label: separator,
         value: separator
       }));
+      state.selectedFolderLocation = payload.folder;
     },
     uploadFilePending: (state) => {
       state.uploadFileProceedLoading = true;
@@ -160,12 +160,16 @@ const importCSVSlice = createSlice({
         state.fieldsMapping[key] = value;
       }
 
+      state.topInfoSteps = [
+        {
+          title: `Uploaded CSV: ${state.fileConfig?.fileName}`,
+          description: `Import Location: ${state.selectedFolderLocation}`,
+          ctaText: 'Update File',
+          redirectTo: FIRST_SCREEN
+        }
+      ];
+
       state.currentCSVScreen = 'mapFields';
-      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-        if (idx === 0) return { ...step, status: COMPLETE_STEP };
-        if (idx === 1) return { ...step, status: CURRENT_STEP };
-        return step;
-      });
     },
     uploadFileRejected: (state, { payload }) => {
       state.csvUploadError = payload.response.data.message;
@@ -214,14 +218,19 @@ const importCSVSlice = createSlice({
       state.folderName = payload.folder;
       state.previewData = payload.test_cases;
       // next screen
-      state.currentCSVScreen = PREVIEW_AND_CONFIRM_IMPORT;
-      state.importCSVSteps = initialState.importCSVSteps.map((step, idx) => {
-        if (idx === 2) return { ...step, status: CURRENT_STEP };
-        return { ...step, status: COMPLETE_STEP };
-      });
+      state.currentCSVScreen = THIRD_SCREEN;
       state.mapFieldsProceedLoading = false;
       state.showSelectMenuErrorInMapFields = false;
       state.errorLabelInMapFields = new Set();
+      state.topInfoSteps = [
+        ...state.topInfoSteps,
+        {
+          title: 'Mapped Fields',
+          description: 'All fields and values are mapped',
+          ctaText: 'Update Mapping',
+          redirectTo: SECOND_SCREEN
+        }
+      ];
     },
     submitMappingDataRejected: (state, { payload }) => {
       state.mappingFieldsError = payload.response.data.message;
@@ -255,13 +264,16 @@ const importCSVSlice = createSlice({
           payload?.confirmCSVImportNotificationConfig,
         ...restInitialState
       };
+    },
+    setTopSectionInfoSteps: (state) => {
+      const { 0: firstStep } = state.topInfoSteps;
+      state.topInfoSteps = [firstStep];
     }
   }
 });
 
 export const {
   setCSVCurrentScreen,
-  setCSVImportSteps,
   setCSVFormData,
   setRetryImport,
   setCSVUploadError,
@@ -287,6 +299,7 @@ export const {
   submitMappingDataPending,
   submitMappingDataFulfilled,
   submitMappingDataRejected,
+  setTopSectionInfoSteps,
   setNotificationConfigForConfirmCSVImport,
   setImportCSVSuccessNotificationShown
 } = importCSVSlice.actions;

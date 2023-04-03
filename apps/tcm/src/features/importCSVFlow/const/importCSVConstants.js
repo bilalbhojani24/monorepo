@@ -1,29 +1,3 @@
-export const CURRENT_STEP = 'current';
-export const UPCOMING_STEP = 'upcoming';
-export const COMPLETE_STEP = 'complete';
-export const CURRENT_COMPLETED_STEP = 'current_completed';
-
-export const IMPORT_CSV_STEPS = [
-  {
-    id: 1,
-    name: 'UPLOAD FILE',
-    description: 'Upload CSV with test case data',
-    status: CURRENT_STEP
-  },
-  {
-    id: 2,
-    name: 'MAP FIELDS',
-    description: 'Map CSV columns with system parameters',
-    status: UPCOMING_STEP
-  },
-  {
-    id: 3,
-    name: 'PREVIEW & CONFIRM IMPORT',
-    description: 'Preview the entries and confirm import',
-    status: UPCOMING_STEP
-  }
-];
-
 export const MAP_FIELD_COLUMNS = [
   {
     name: 'CSV Column Header',
@@ -113,9 +87,9 @@ export const VALUE_MAPPING_OPTIONS = {
   ]
 };
 
-export const UPLOAD_FILE = 'uploadFile';
-export const MAP_FIELDS = 'mapFields';
-export const PREVIEW_AND_CONFIRM_IMPORT = 'previewAndConfirmImport';
+export const FIRST_SCREEN = 'uploadFile';
+export const SECOND_SCREEN = 'mapFields';
+export const THIRD_SCREEN = 'previewAndConfirmImport';
 
 export const ONGOING_IMPORT_MODAL_DATA = {
   label: 'Import is in progress',
