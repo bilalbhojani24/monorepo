@@ -24,7 +24,6 @@ const AccessibleTooltip = ({ children, content }) => {
           size="5xl"
           wrapperClassName="py-0 block"
           triggerOnTouch
-          triggerAriaLabel="product popover"
           triggerWrapperClassName="block"
           sideOffset={35}
           onOpenChange={(o) => setIsTooltipOpen(o)}
