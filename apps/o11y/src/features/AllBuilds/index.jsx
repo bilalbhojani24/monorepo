@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { MdRefresh, MdSearchOff } from '@browserstack/bifrost';
+import { MdOutlineRefresh, MdSearchOff } from '@browserstack/bifrost';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
@@ -146,7 +146,7 @@ const AllBuildsPage = () => {
         {!!updates && (
           <O11yButton
             variant="rounded"
-            icon={<MdRefresh className="text-sm" />}
+            icon={<MdOutlineRefresh className="text-sm" />}
             iconPlacement="end"
             size="extra-small"
             isIconOnlyButton={isLoadingInitialData}
