@@ -14,7 +14,7 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy, link }) {
     }, 2000);
   };
   return (
-    <div className="flex flex-col py-4 first:pt-0 last:pb-0">
+    <div className="flex flex-col py-2 first:pt-0 last:pb-0">
       <p className="text-base-500 text-sm font-medium">{title}</p>
       <div className="mt-1 flex items-center justify-between gap-4">
         <p className="truncate text-sm font-medium">{text}</p>
