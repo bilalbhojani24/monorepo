@@ -9,50 +9,80 @@ const AccordionInteractiveHeader = ({
   title,
   asideContent,
   children,
-  wrapperClassName
-}) => (
-  <span
-    className={twClassNames(
-      'flex place-items-start gap-1.5 px-6 py-3',
-      wrapperClassName
-    )}
-  >
-    {trigger && <span>{trigger}</span>}
-    <div className="w-full">
-      <div className="flex justify-between">
-        <Disclosure.Button as={Fragment}>
-          {({ open }) => (
-            <button
-              type="button"
-              className={twClassNames(
-                'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
-              )}
-            >
-              <ChevronRightIcon
-                className={twClassNames(
-                  'truncate h-5 w-5 transition-transform',
-                  {
-                    'rotate-90': open
-                  }
+  wrapperClassName,
+  controller,
+  onClick
+}) => {
+  const handleClick = () => {
+    onClick();
+  };
+
+  return (
+    <span
+      className={twClassNames(
+        'flex place-items-start gap-1.5 px-6 py-3',
+        wrapperClassName
+      )}
+    >
+      {trigger && <span>{trigger}</span>}
+      <div className="w-full">
+        <div className="flex justify-between">
+          <Disclosure.Button as={Fragment}>
+            {typeof controller !== 'undefined'
+              ? () => (
+                  <button
+                    type="button"
+                    onClick={handleClick}
+                    className={twClassNames(
+                      'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
+                    )}
+                  >
+                    <ChevronRightIcon
+                      className={twClassNames(
+                        'truncate h-5 w-5 transition-transform',
+                        {
+                          'rotate-90': controller
+                        }
+                      )}
+                    />
+                    <span>{title}</span>
+                  </button>
+                )
+              : ({ open }) => (
+                  <button
+                    type="button"
+                    className={twClassNames(
+                      'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
+                    )}
+                  >
+                    <ChevronRightIcon
+                      className={twClassNames(
+                        'truncate h-5 w-5 transition-transform',
+                        {
+                          'rotate-90': open
+                        }
+                      )}
+                    />
+                    <span>{title}</span>
+                  </button>
                 )}
-              />
-              <span>{title}</span>
-            </button>
-          )}
-        </Disclosure.Button>
-        {asideContent && <div className="truncate">{asideContent}</div>}
+          </Disclosure.Button>
+          {asideContent && <div className="truncate">{asideContent}</div>}
+        </div>
+        {children && <div className="ml-7 pl-0.5">{children}</div>}
       </div>
-      {children && <div className="ml-7 pl-0.5">{children}</div>}
-    </div>
-  </span>
-);
+    </span>
+  );
+};
 
 AccordionInteractiveHeader.propTypes = {
   trigger: PropTypes.node,
   title: PropTypes.node,
   asideContent: PropTypes.node,
   children: PropTypes.node,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  controller: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 AccordionInteractiveHeader.defaultProps = {
@@ -60,7 +90,9 @@ AccordionInteractiveHeader.defaultProps = {
   title: null,
   asideContent: null,
   children: null,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  controller: undefined,
+  onClick: () => {}
 };
 
 export default AccordionInteractiveHeader;

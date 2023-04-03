@@ -233,23 +233,50 @@ InteractiveAccordionHeaderWCustomStyle.args = {
   ]
 };
 
-export const ControlledAccordion = () => {
+export const ControlledSimpleAccordion = () => {
   const [opened, setOpened] = useState(false);
   return (
     <>
-      <Button role="button" onClick={() => setOpened(!opened)}>
-        toggle open close
-      </Button>
-      <AccordionSimpleHeader
-        controller={opened}
-        wrapperClassName="ml-16 px-3 bg-brand-200"
-        title="This variant is achieved by passing wrapperClassName prop to AccordionSimpleHeader Component"
-      />
-      <AccordionPanel controller={opened}>
-        <div className="my-2 flex h-16 items-center justify-center">
-          {accordionBodyContent}
-        </div>
-      </AccordionPanel>
+      <Accordion>
+        <Button role="button" onClick={() => setOpened(!opened)}>
+          {`toggle open close ${opened}`}
+        </Button>
+        <AccordionSimpleHeader
+          controller={opened}
+          onClick={() => setOpened(!opened)}
+          title="Controlled accordion example"
+        />
+        <AccordionPanel controller={opened}>
+          <div className="my-2 h-16 items-center justify-center border p-2">
+            This accordion is controlled by external variable that is toggled by
+            clicking on the button
+          </div>
+        </AccordionPanel>
+      </Accordion>
+    </>
+  );
+};
+
+export const ControlledSimpleInteractive = () => {
+  const [opened, setOpened] = useState(false);
+  return (
+    <>
+      <Accordion>
+        <Button role="button" onClick={() => setOpened(!opened)}>
+          {`toggle open close ${opened}`}
+        </Button>
+        <AccordionInteractiveHeader
+          controller={opened}
+          onClick={() => setOpened(!opened)}
+          title="Controlled accordion example"
+        />
+        <AccordionPanel controller={opened}>
+          <div className="my-2 h-16 items-center justify-center border p-2">
+            This accordion is controlled by external variable that is toggled by
+            clicking on the button
+          </div>
+        </AccordionPanel>
+      </Accordion>
     </>
   );
 };
