@@ -66,6 +66,7 @@ export default function ScanReport() {
       <Loader
         shouldShowText
         waitText="Preparing your report. Please hold on..."
+        waitTime={5000}
       />
     );
   }

@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 export default function Loader({
   wrapperClassName,
   shouldShowText = false,
-  waitText
+  waitText,
+  waitTime
 }) {
   const [showText, setShowText] = useState(false);
 
@@ -15,17 +16,24 @@ export default function Loader({
       const id = setTimeout(() => {
         setShowText(true);
         clearTimeout(id);
-      }, 5000);
+      }, waitTime);
     }
-  }, [shouldShowText]);
+  }, [shouldShowText, waitTime]);
   return (
     <div
-      className={twClassNames('flex h-screen flex-col justify-center items-center', wrapperClassName)}
+      className={twClassNames(
+        'flex h-screen flex-col justify-center items-center',
+        wrapperClassName
+      )}
     >
       <img src={LoaderImage} alt="loading" />
       {showText ? (
-        <p className="justify-center text-base-500 mt-2 text-sm font-medium">{waitText}</p>
-      ) : <div />}
+        <p className="text-base-500 mt-2 justify-center text-sm font-medium">
+          {waitText}
+        </p>
+      ) : (
+        <div />
+      )}
     </div>
   );
 }
@@ -33,11 +41,13 @@ export default function Loader({
 Loader.propTypes = {
   wrapperClassName: PropTypes.string,
   shouldShowText: PropTypes.bool,
-  waitText: PropTypes.string
+  waitText: PropTypes.string,
+  waitTime: PropTypes.number
 };
 
 Loader.defaultProps = {
   wrapperClassName: '',
   shouldShowText: false,
-  waitText: ''
+  waitText: '',
+  waitTime: 0
 };
