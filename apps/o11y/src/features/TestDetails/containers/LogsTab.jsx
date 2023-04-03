@@ -1,5 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  MdArrowDownward,
+  MdArrowUpward,
+  MdOutlineOpenInNew
+} from '@browserstack/bifrost';
+import {
+  DoubleArrowDownIcon,
+  DoubleArrowUpIcon
+} from 'assets/icons/components';
+import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
@@ -29,6 +39,9 @@ const LogsTab = () => {
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
   const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [totalSteps, setTotalSteps] = useState(0);
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
 
   useEffect(() => {
     const slideOverElement = document.getElementById(
@@ -106,6 +119,47 @@ const LogsTab = () => {
     ]
   );
 
+  const highlightStep = (elem) => {
+    elem.classList.add('animateBg');
+    setTimeout(() => {
+      elem.classList.remove('animateBg');
+    }, 1000);
+  };
+
+  const handleNextStep = () => {
+    if (activeStep < totalSteps) {
+      const idxElem = document.querySelector(
+        `[data-stepIdx="${activeStep + 1}"]`
+      );
+      if (idxElem) {
+        handleScrollIntoView(idxElem?.offsetTop);
+        highlightStep(idxElem);
+        setActiveStep((step) => step + 1);
+      }
+    }
+  };
+  const handlePrevStep = () => {
+    if (activeStep > 0) {
+      const idxElem = document.querySelector(
+        `[data-stepidx="${activeStep - 1}"]`
+      );
+      if (idxElem) {
+        handleScrollIntoView(idxElem?.offsetTop);
+        highlightStep(idxElem);
+        setActiveStep((step) => step - 1);
+      }
+    }
+  };
+
+  const handleClickScrollButton = () => {
+    if (isScrolledToBottom) {
+      handleScrollIntoView(0);
+    } else {
+      handleScrollToBottom();
+    }
+    setIsScrolledToBottom((t) => !t);
+  };
+
   if (testMeta.isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -130,7 +184,9 @@ const LogsTab = () => {
           handleLogDurationClick,
           handleSessionToggle,
           floatingVideoTopOffset,
-          floatingVideoRightOffset
+          floatingVideoRightOffset,
+          setActiveStep,
+          setTotalSteps
         }}
       >
         <TestVideoPlayer
@@ -138,6 +194,74 @@ const LogsTab = () => {
           floatingVideoRef={floatingVideoComponentRef}
         />
         <TestsLogsInfoTabs />
+        <div className="sticky bottom-0 z-20 w-full">
+          <div className="flex items-center justify-center">
+            <O11yButton
+              variant="rounded"
+              wrapperClassName=""
+              icon={
+                isScrolledToBottom ? (
+                  <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
+                ) : (
+                  <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
+                )
+              }
+              onClick={handleClickScrollButton}
+              disabled={activeStep === totalSteps}
+              colors="brand"
+              iconPlacement="end"
+            >
+              {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
+            </O11yButton>
+          </div>
+          <div className="flex items-center justify-between bg-white pt-2">
+            <div className="flex items-center gap-6">
+              <O11yButton
+                variant="minimal"
+                wrapperClassName=""
+                icon={<MdArrowDownward className="text-base-700 h-4 w-4" />}
+                onClick={handleNextStep}
+                disabled={activeStep === totalSteps}
+                size="small"
+                colors="white"
+              >
+                <span className="text-base-700 text-xs font-medium leading-4">
+                  Next step
+                </span>
+              </O11yButton>
+              <O11yButton
+                variant="minimal"
+                wrapperClassName=""
+                icon={<MdArrowUpward className="text-base-700 h-4 w-4" />}
+                onClick={handlePrevStep}
+                disabled={activeStep <= 0}
+                size="small"
+                colors="white"
+                iconPlacement="end"
+              >
+                <span className="text-base-700 text-xs font-medium leading-4">
+                  Previous step
+                </span>
+              </O11yButton>
+            </div>
+
+            {details.data?.browserstackSessionUrl && (
+              <div>
+                <O11yHyperlink
+                  href={details.data.browserstackSessionUrl}
+                  target="_blank"
+                >
+                  <div className="flex gap-1">
+                    <span className="text-base-700 text-xs font-medium leading-4">
+                      Automate session
+                    </span>
+                    <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                  </div>
+                </O11yHyperlink>
+              </div>
+            )}
+          </div>
+        </div>
       </LOGS_CONTEXT.Provider>
     </div>
   );
