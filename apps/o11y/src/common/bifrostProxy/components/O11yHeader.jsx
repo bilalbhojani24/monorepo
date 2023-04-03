@@ -11,7 +11,7 @@ const O11yHeader = () => (
     productName="Test Observability"
     productLink={ROUTES.root}
     release="Beta"
-    beamerProductId="XxcUulZf52793"
+    // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
     supportLink={`${getEnvConfig().baseUrl}/contact`}
     headerElementArray={[
@@ -19,7 +19,7 @@ const O11yHeader = () => (
       'pricing',
       'help',
       'search',
-      'notifications',
+      // 'notifications',
       'account'
     ]}
     documentation={{
