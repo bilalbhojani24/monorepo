@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { O11yButton } from 'common/bifrostProxy';
+import { MdOpenInNew } from '@browserstack/bifrost';
+import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
+function ViewMetaPopOverItem({ title, text, showCopy, textToCopy, link }) {
   const [copied, setCopied] = useState(false);
 
   const handleClick = () => {
@@ -26,6 +27,15 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
             </CopyToClipboard>
           </div>
         )}
+        {!!link && (
+          <O11yHyperlink
+            target="__blank"
+            href={link}
+            wrapperClassName="text-sm flex items-center gap-1 text-brand-600 hover:text-brand-500 font-medium"
+          >
+            View <MdOpenInNew className="text-sm" />
+          </O11yHyperlink>
+        )}
       </div>
     </div>
   );
@@ -35,12 +45,14 @@ ViewMetaPopOverItem.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   textToCopy: PropTypes.string,
-  showCopy: PropTypes.bool
+  showCopy: PropTypes.bool,
+  link: PropTypes.string
 };
 
 ViewMetaPopOverItem.defaultProps = {
   showCopy: false,
-  textToCopy: ''
+  textToCopy: '',
+  link: ''
 };
 
 export default ViewMetaPopOverItem;

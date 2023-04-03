@@ -47,11 +47,11 @@ export const getBuildInfoFromUuid = createAsyncThunk(
 
 export const initO11yProduct = (params) => (dispatch) =>
   Promise.all([
-    dispatch(getInitialData())
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      }),
+    // dispatch(getInitialData())
+    //   .unwrap()
+    //   .catch((err) => {
+    //     throw err;
+    //   }),
     dispatch(
       getProjectsList({
         projectNormalisedName: encodeURI(
