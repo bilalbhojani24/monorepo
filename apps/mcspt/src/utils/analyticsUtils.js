@@ -11,11 +11,13 @@ export const ANALYTICS_KEYS = {
   },
   analyticsKey: 'UA-418548-19',
   EDSDetails: {
-    userDetails: '12',
+    userDetails: {
+      user_id: '12'
+    },
     config: {
       server: 'eds.browserstack.com',
       port: '443',
-      api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+      apiKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
     }
   }
 };
@@ -60,6 +62,7 @@ const sendDelayedEvents = () => {
         analyticEvent.eventName,
         {
           team: 'cspt',
+          event_name: analyticEvent.eventName,
           ...analyticsEntities.generalAnalyticsData,
           ...analyticEvent.eventData
         },
@@ -75,7 +78,12 @@ export const mcpAnalyticsEvent = (eventName, eventData, sendToGA) => {
   if (analyticsEntities.generalAnalyticsData) {
     logMcpEvent(
       eventName,
-      { team: 'cspt', ...analyticsEntities.generalAnalyticsData, ...eventData },
+      {
+        team: 'cspt',
+        event_name: eventName,
+        ...analyticsEntities.generalAnalyticsData,
+        ...eventData
+      },
       sendToGA
     );
   } else {
