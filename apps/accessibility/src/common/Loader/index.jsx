@@ -20,12 +20,12 @@ export default function Loader({
   }, [shouldShowText]);
   return (
     <div
-      className={twClassNames('flex flex-col items-center', wrapperClassName)}
+      className={twClassNames('flex h-screen flex-col justify-center items-center', wrapperClassName)}
     >
       <img src={LoaderImage} alt="loading" />
       {showText ? (
-        <div className="text-base-500 mt-2 text-sm font-medium">{waitText}</div>
-      ) : null}
+        <p className="justify-center text-base-500 mt-2 text-sm font-medium">{waitText}</p>
+      ) : <div />}
     </div>
   );
 }

@@ -334,7 +334,7 @@ export default function SiteScanner() {
       <div className="mt-8 flex h-screen items-center justify-center">
         <Loader
           shouldShowText
-          waitText="Preparing your report. Please hold on..."
+          waitText="Preparing your report.Please hold on..."
         />
       </div>
     );
