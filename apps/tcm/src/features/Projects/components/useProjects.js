@@ -107,7 +107,12 @@ const useProjects = (prop) => {
     );
   };
 
-  const showAddProjectModal = () => {
+  const showAddProjectModal = (action) => {
+    if (action === 'emptyState') {
+      console.log('empty state');
+      dispatch(logEventHelper('TM_CreateProjectBtnClickedEmptyState', {}));
+    }
+
     dispatch(
       logEventHelper('TM_CreateProjectBtnClicked', {
         team: 'Test_Management',

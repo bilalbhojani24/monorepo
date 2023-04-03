@@ -309,7 +309,7 @@ const AllProjects = () => {
                     }
                     buttonProps={{
                       children: 'Create Project',
-                      onClick: showAddProjectModal,
+                      onClick: () => showAddProjectModal('emptyState'),
                       colors: 'white'
                     }}
                   />
