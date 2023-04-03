@@ -11,10 +11,10 @@ const ReportSidebar = () => {
     <div className="bg-base-100 h-full w-full p-2">
       <MediaPlayer
         ref={deviceVideoRef}
-        wrapperClassName="rounded-lg overflow-hidden sticky top-2 z-20"
+        wrapperClassName="rounded-lg overflow-hidden sticky top-2 z-[9]"
         url={`securefileprotocol://${sessionData?.metadata?.video}`}
         controlPanelStickToBottom
-        controlPanelClassName="fixed z-20 -ml-2 bottom-8"
+        controlPanelClassName="fixed z-[9] -ml-2 bottom-8"
         showRewindForwardControls={false}
         timeUpdateCallBack={updateChartSeekerPosition}
       />
