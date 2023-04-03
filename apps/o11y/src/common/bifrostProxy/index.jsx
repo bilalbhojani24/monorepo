@@ -4,6 +4,7 @@ import {
   Accordion,
   Badge,
   Button,
+  Checkbox,
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
@@ -18,6 +19,8 @@ import {
   ModalFooter,
   ModalHeader,
   Popover,
+  PopoverBody,
+  PopoverFooter,
   RadioGroup,
   SelectMenu,
   SelectMenuLabel,
@@ -45,6 +48,7 @@ import O11yHeader from './components/O11yHeader';
 import O11ySwitcher from './components/O11ySwitcher';
 
 export const O11yBadge = (props) => <Badge {...props} />;
+export const O11yCheckbox = (props) => <Checkbox {...props} />;
 
 export const O11yTable = (props) => <Table {...props} />;
 export const O11yRefTableBody = React.forwardRef((props, ref) => (
@@ -74,6 +78,8 @@ export const O11yMetaData = (props) => <Metadata {...props} />;
 export const O11yModalHeader = (props) => <ModalHeader {...props} />;
 export const O11yModalFooter = (props) => <ModalFooter {...props} />;
 export const O11yPopover = (props) => <Popover {...props} />;
+export const O11yPopoverBody = (props) => <PopoverBody {...props} />;
+export const O11yPopoverFooter = (props) => <PopoverFooter {...props} />;
 export const O11yRadioGroup = (props) => <RadioGroup {...props} />;
 export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
 export const O11ySelectMenuLabel = (props) => <SelectMenuLabel {...props} />;

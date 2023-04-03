@@ -5,7 +5,7 @@ const JSIcon = (props) => (
     width="20"
     height="20"
     viewBox="0 0 20 20"
-    fill="none"
+    fill="#666666"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
@@ -15,7 +15,6 @@ const JSIcon = (props) => (
       width="14.75"
       height="14.75"
       rx="1.875"
-      fill="#666666"
       stroke="#666666"
       strokeWidth="0.25"
     />

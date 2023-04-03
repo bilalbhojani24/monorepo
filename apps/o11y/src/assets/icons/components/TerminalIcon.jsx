@@ -15,7 +15,6 @@ const TerminalIcon = (props) => (
       width="14.75"
       height="14.75"
       rx="1.875"
-      fill="#666666"
       stroke="#666666"
       strokeWidth="0.25"
     />

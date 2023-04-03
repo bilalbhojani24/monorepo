@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { MdClose, MdOutlineFilterAlt, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yInputField, O11yPopover } from 'common/bifrostProxy';
@@ -6,12 +6,16 @@ import PropTypes from 'prop-types';
 
 import StepsList from '../components/StepsList';
 
+import FilterPopoverContent from './FilterPopoverContent';
+
 const TestLogFilters = ({
   onSearchChange,
   searchText,
   steps,
   onClickStepItem
 }) => {
+  const [showFilterPopover, setShowFilterPopover] = useState(false);
+
   const clearSearchText = () => {
     onSearchChange('');
   };
@@ -38,6 +42,10 @@ const TestLogFilters = ({
     [highlightStep, onClickStepItem]
   );
 
+  const closeFilterPopover = () => {
+    setShowFilterPopover(false);
+  };
+
   return (
     <>
       <div className="pl-1">
@@ -60,13 +68,25 @@ const TestLogFilters = ({
       </div>
       <div className="flex items-center gap-3">
         <StepsList steps={steps} onClickStep={handleClickStep} />
-        <O11yPopover>
+        <O11yPopover
+          theme="light"
+          arrowWidth={0}
+          arrowHeight={0}
+          placementAlign="end"
+          placementSide="bottom"
+          size="2xl"
+          content={<FilterPopoverContent onClose={closeFilterPopover} />}
+          show={showFilterPopover}
+        >
           <O11yButton
             icon={
               <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
             }
             colors="white"
             isIconOnlyButton
+            onClick={() => {
+              setShowFilterPopover(!showFilterPopover);
+            }}
           />
         </O11yPopover>
       </div>
