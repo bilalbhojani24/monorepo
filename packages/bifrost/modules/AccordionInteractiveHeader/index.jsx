@@ -8,9 +8,15 @@ const AccordionInteractiveHeader = ({
   trigger,
   title,
   asideContent,
-  children
+  children,
+  wrapperClassName
 }) => (
-  <span className="flex place-items-start gap-1.5 py-3 px-6">
+  <span
+    className={twClassNames(
+      'flex place-items-start gap-1.5 px-6 py-3',
+      wrapperClassName
+    )}
+  >
     {trigger && <span>{trigger}</span>}
     <div className="w-full">
       <div className="flex justify-between">
@@ -45,14 +51,16 @@ AccordionInteractiveHeader.propTypes = {
   trigger: PropTypes.node,
   title: PropTypes.node,
   asideContent: PropTypes.node,
-  children: PropTypes.node
+  children: PropTypes.node,
+  wrapperClassName: PropTypes.string
 };
 
 AccordionInteractiveHeader.defaultProps = {
   trigger: null,
   title: null,
   asideContent: null,
-  children: null
+  children: null,
+  wrapperClassName: ''
 };
 
 export default AccordionInteractiveHeader;
