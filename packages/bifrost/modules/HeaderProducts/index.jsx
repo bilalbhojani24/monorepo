@@ -2,11 +2,11 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import AccessibleTooltip from '../Header/components/AccessibleTooltip';
 import HeaderProductContainer from '../HeaderProductContainer';
 import Hyperlink from '../Hyperlink';
 import { ChevronDownIcon } from '../Icon';
 import GridViewSolidIcon from '../Icon/HeaderIcons/GridViewSolidIcon';
-import ToolTip from '../Tooltip';
 
 import './styles.scss';
 
@@ -45,16 +45,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
           </p>
         </Hyperlink>
       ))}
-      <ToolTip
-        arrowClassName="w-4 h-2"
-        content={<HeaderProductContainer />}
-        theme="light"
-        placementSide="bottom"
-        size="5xl"
-        wrapperClassName="py-0"
-        triggerOnTouch
-        triggerAriaLabel="product popover"
-      >
+      <AccessibleTooltip content={<HeaderProductContainer />}>
         <div className={twClassNames('group flex flex-row items-center p-0')}>
           <div
             className={twClassNames(
@@ -93,7 +84,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
             </div>
           </div>
         </div>
-      </ToolTip>
+      </AccessibleTooltip>
     </div>
   );
 };

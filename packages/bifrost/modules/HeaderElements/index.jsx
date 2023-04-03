@@ -4,18 +4,12 @@ import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
+import AccessibleTooltip from '../Header/components/AccessibleTooltip';
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
-import {
-  ChevronDownIcon,
-  MdArrowRightAlt,
-  MdClose,
-  MdSearch,
-  MdSubdirectoryArrowLeft
-} from '../Icon';
-// import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
-import ToolTip from '../Tooltip';
+import { MdClose, MdSearch, MdSubdirectoryArrowLeft } from '../Icon';
 
+import GetHelp from './components/GetHelp';
 import {
   ACCOUNT_ARRAY,
   ELEMENTS_WITH_LABEL
@@ -79,49 +73,6 @@ const HeaderElements = ({
   const focusSearchInput = () => {
     searchBarRef.current?.focus();
   };
-
-  const linkContainer = (title, optionArray) => (
-    <>
-      <div
-        className={twClassNames(
-          'flex flex-col items-start p-0 gap-2 w-full border-b border-[#dddddd]'
-        )}
-      >
-        <div
-          className={twClassNames(
-            'flex flex-row items-center py-0 px-2 gap-2 mb-2'
-          )}
-        >
-          {/* <NotebookIcon /> */}
-          <p
-            className={twClassNames(
-              'not-italic font-semibold text-xs leading-4 text-[#333333]'
-            )}
-          >
-            {title}
-          </p>
-        </div>
-      </div>
-      <div
-        className={twClassNames('flex flex-col items-start p-0 gap-0.5 w-full')}
-      >
-        {optionArray.map((element) => (
-          <Hyperlink
-            isCSR={false}
-            wrapperClassName={twClassNames(
-              'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]'
-            )}
-            href={element.link}
-            key={element.name}
-          >
-            <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
-              {element.name}
-            </p>
-          </Hyperlink>
-        ))}
-      </div>
-    </>
-  );
 
   const searchSlideover = (
     <Transition show={isSearchOpen} unmount={false}>
@@ -221,92 +172,6 @@ const HeaderElements = ({
         </div>
       </Transition.Child>
     </Transition>
-  );
-
-  const helpPopover = (
-    columnleft,
-    columnRight1,
-    columnRight2,
-    footerLeftLink,
-    footerRightLink
-  ) => (
-    <div
-      className={twClassNames('flex flex-col items-start py-4 px-0 gap-2.5')}
-    >
-      <div
-        className={twClassNames(
-          'flex flex-row items-start py-0 px-5 gap-5 pb-2.5 border-b border-[#dddddd]'
-        )}
-      >
-        <div
-          className={twClassNames(
-            'flex flex-col items-start p-0 gap-1.5 w-[188px]'
-          )}
-        >
-          {linkContainer(columnleft.title, columnleft.options)}
-        </div>
-        <div
-          className={twClassNames(
-            'flex flex-col items-start p-0 gap-5 w-[188px]'
-          )}
-        >
-          <div
-            className={twClassNames(
-              'flex flex-col items-start p-0 gap-1.5 w-full'
-            )}
-          >
-            {linkContainer(columnRight1.title, columnRight1.options)}
-          </div>
-          {columnRight2 && (
-            <div
-              className={twClassNames(
-                'flex flex-col items-start p-0 gap-1.5 w-full'
-              )}
-            >
-              {linkContainer(columnRight2.title, columnRight2.options)}
-            </div>
-          )}
-        </div>
-      </div>
-      <div
-        className={twClassNames(
-          'flex flex-row items-start pt-1.5 px-5 pb-0 gap-5'
-        )}
-      >
-        <Hyperlink
-          isCSR={false}
-          wrapperClassName={twClassNames(
-            'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
-          )}
-          href={footerLeftLink}
-        >
-          <p
-            className={twClassNames(
-              'not-italic font-semibold text-sm leading-4 underline'
-            )}
-          >
-            View Documentation
-          </p>
-          <MdArrowRightAlt className="h-3 w-3" />
-        </Hyperlink>
-        <Hyperlink
-          isCSR={false}
-          wrapperClassName={twClassNames(
-            'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
-          )}
-          href={footerRightLink}
-        >
-          <p
-            className={twClassNames(
-              'not-italic font-semibold text-sm leading-4 underline'
-            )}
-          >
-            View Support
-          </p>
-          <MdArrowRightAlt className="h-3 w-3" />
-        </Hyperlink>
-      </div>
-    </div>
   );
 
   const accountPopover = (productSupportLink, testInsight) => (
@@ -420,85 +285,34 @@ const HeaderElements = ({
     </Hyperlink>
   );
 
-  const helpElement = (elementOptions) => (
-    <ToolTip
-      arrowClassName="w-4 h-2"
-      content={helpPopover(
-        documentation,
-        references,
-        others,
-        documentationLink,
-        supportLink
-      )}
-      theme="light"
-      placementSide="bottom"
-      size="lg"
-      key={elementOptions.name}
-      wrapperClassName="py-0"
-      triggerOnTouch
-      triggerAriaLabel="help popover"
-    >
-      <div
-        className={twClassNames(
-          'group flex flex-row items-center py-2 px-3 hover:text-base-100 [@media(max-width:1229px)]:hidden max-[1229px]:hidden'
-        )}
-      >
-        <div
-          className={twClassNames(
-            'flex flex-row justify-center items-center p-0 gap-1.5'
-          )}
-        >
-          {elementOptions.icon}
-          <p
-            className={twClassNames(
-              'not-italic font-medium text-sm leading-5 text-base-300 group-hover:text-base-100 float-left whitespace-nowrap'
-            )}
-          >
-            {elementOptions.description}
-          </p>
-          <ChevronDownIcon
-            className={twClassNames(
-              'text-base-400 h-5 w-5 group-hover:text-base-100'
-            )}
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-      <div
-        className={twClassNames(
-          'group flex-row items-center p-2 hover:text-base-100 hidden lg:flex [@media(min-width:1230px)]:hidden min-[1230px]:hidden'
-        )}
-      >
-        {elementOptions.icon}
-      </div>
-    </ToolTip>
-  );
-
   const elementRender = (element) => {
     let temp = null;
     if (['team', 'pricing'].includes(element.name)) {
       temp = hyperlinkElements(element);
     } else if (element.name === 'help') {
-      temp = helpElement(element);
+      temp = (
+        <GetHelp
+          elementOptions={element}
+          {...{
+            documentation,
+            references,
+            others,
+            documentationLink,
+            supportLink
+          }}
+        />
+      );
     } else if (element.name === 'account') {
       temp = (
-        <ToolTip
-          arrowClassName="w-4 h-2"
+        <AccessibleTooltip
           content={accountPopover(supportLink, showTestInsights)}
-          theme="light"
-          placementSide="bottom"
-          size="lg"
-          key={element.name}
-          wrapperClassName="py-0"
-          triggerOnTouch
-          triggerAriaLabel="account popover"
         >
           <div
             className={twClassNames('lg:flex flex-row items-center p-2 hidden')}
           >
             {element.icon}
           </div>
-        </ToolTip>
+        </AccessibleTooltip>
       );
     } else if (['notifications', 'search'].includes(element.name)) {
       temp = (
@@ -542,11 +356,13 @@ const HeaderElements = ({
       className={twClassNames('flex flex-row items-center p-0 mr-8')}
     >
       <HeaderProducts wrapperClassName="[@media(min-width:1361px)]:hidden min-[1361px]:hidden" />
-      {ELEMENTS_WITH_LABEL?.map((element) =>
-        headerElementArray.includes(element.name)
-          ? elementRender(element)
-          : null
-      )}
+      {ELEMENTS_WITH_LABEL?.map((element) => (
+        <React.Fragment key={element.name}>
+          {headerElementArray.includes(element.name)
+            ? elementRender(element)
+            : null}
+        </React.Fragment>
+      ))}
       {searchSlideover}
       {planButtonVisible && (
         <div
