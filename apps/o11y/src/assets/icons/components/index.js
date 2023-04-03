@@ -41,6 +41,7 @@ import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
 import DoubleArrowDownIcon from './DoubleArrowDownIcon';
 import DoubleArrowUpIcon from './DoubleArrowUpIcon';
+import FindElementIcon from './FindElementIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
@@ -71,6 +72,7 @@ export {
   DoubleArrowDownIcon,
   DoubleArrowUpIcon,
   EdgeIcon,
+  FindElementIcon,
   FirefoxIcon,
   GithubActionsIcon,
   GithubIcon,

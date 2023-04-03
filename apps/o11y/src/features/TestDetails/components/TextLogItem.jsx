@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   MdOutlineArrowDropDown,
-  MdOutlineArrowRight
+  MdOutlineArrowRight,
+  MdOutlineCode
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import { DefaultBrowserIcon, FindElementIcon } from 'assets/icons/components';
+import { O11yTruncateText } from 'common/bifrostProxy';
 import ImageViewerWithGallery from 'common/ImageViewerWithGallery';
 import PrismHighlight from 'common/PrismHighlight';
 import isEmpty from 'lodash/isEmpty';
@@ -36,6 +39,18 @@ const truncateTextAndAppendMessage = (text) => {
     formattedText += `\nTRUNCATED as the text is too long to show. Use Raw logs to view complete details`;
   }
   return formattedText;
+};
+
+const isError = (logLevel) => {
+  if (!logLevel) return false;
+  return [LOG_LEVELS.ERROR, LOG_LEVELS.FATAL, LOG_LEVELS.SEVERE].includes(
+    logLevel
+  );
+};
+
+const isWarning = (logLevel) => {
+  if (!logLevel) return false;
+  return [LOG_LEVELS.WARN, LOG_LEVELS.WARNING].includes(logLevel);
 };
 
 export default function TextLogItem({ data, searchText }) {
@@ -109,20 +124,38 @@ export default function TextLogItem({ data, searchText }) {
     }
     return (
       <div className="table-row">
-        <div className="text-base-600 table-cell min-w-[80px] max-w-[320px] shrink-0 break-words pl-4 font-mono text-xs font-medium">
+        <div
+          className={twClassNames(
+            'text-base-600 table-cell min-w-[80px] max-w-[320px] shrink-0 break-words pl-4 font-mono text-xs font-medium',
+            {
+              'text-danger-600': isError(data?.logLevel),
+              'text-attention-600': isWarning(data?.logLevel)
+            }
+          )}
+        >
           {key}
         </div>
         {key === 'script' ? (
           <PrismHighlight
             showCopy={false}
-            content={truncateTextAndAppendMessage(
+            code={truncateTextAndAppendMessage(
               parseLogValue(logData?.args[key])
             )}
             showLineNumber
             shouldWrapText
+            codeOverrideClassName="!bg-transparent [&>code]:!whitespace-pre-wrap"
+            wrapperClassName="pr-4"
           />
         ) : (
-          <div className="text-base-600 table-cell break-words pl-6 pr-4 font-mono text-xs font-normal">
+          <div
+            className={twClassNames(
+              'text-base-600 table-cell break-words pl-6 pr-4 font-mono text-xs font-normal',
+              {
+                'text-danger-600': isError(data?.logLevel),
+                'text-attention-600': isWarning(data?.logLevel)
+              }
+            )}
+          >
             {parseLogValue(logData?.args[key])}
           </div>
         )}
@@ -135,7 +168,15 @@ export default function TextLogItem({ data, searchText }) {
     }
     if (response.value?.isObject) {
       return (
-        <pre className="mb-0 whitespace-pre-wrap break-words px-4">
+        <pre
+          className={twClassNames(
+            'text-base-600 mb-0 whitespace-pre-wrap break-words px-4 font-mono',
+            {
+              'text-danger-600': isError(data?.logLevel),
+              'text-attention-600': isWarning(data?.logLevel)
+            }
+          )}
+        >
           {response.value?.stringifiedText}
         </pre>
       );
@@ -147,14 +188,31 @@ export default function TextLogItem({ data, searchText }) {
     let output = [];
     if (formattedText.length === 1) {
       output = (
-        <pre className="mb-0 whitespace-pre-wrap break-words px-4">
+        <pre
+          className={twClassNames(
+            'text-base-600 mb-0 whitespace-pre-wrap break-words px-4 font-mono',
+            {
+              'text-danger-600': isError(data?.logLevel),
+              'text-attention-600': isWarning(data?.logLevel)
+            }
+          )}
+        >
           {response.value.text}
         </pre>
       );
     } else {
       formattedText.forEach((item, index) => {
         output.push(
-          <div className="flex whitespace-pre-wrap px-4" key={uuidv4()}>
+          <div
+            className={twClassNames(
+              'text-base-600 flex whitespace-pre-wrap px-4 font-mono',
+              {
+                'text-danger-600': isError(data?.logLevel),
+                'text-attention-600': isWarning(data?.logLevel)
+              }
+            )}
+            key={uuidv4()}
+          >
             <div className="min-w-[32px] pl-2">{index + 1}</div>
             <div className="">{item}</div>
           </div>
@@ -173,7 +231,15 @@ export default function TextLogItem({ data, searchText }) {
     if (typeof logData?.args === 'string') {
       return (
         <div className="table-row">
-          <div className="table-cell break-words pl-6 pr-4">
+          <div
+            className={twClassNames(
+              'table-cell break-words pl-6 pr-4 text-base-600 text-sm font-normal',
+              {
+                'text-danger-600': isError(data?.logLevel),
+                'text-attention-600': isWarning(data?.logLevel)
+              }
+            )}
+          >
             {logData?.args}
           </div>
         </div>
@@ -199,8 +265,8 @@ export default function TextLogItem({ data, searchText }) {
       onClick={handleClick}
       data-idx={data.idx}
     >
-      <div className="flex w-full items-center justify-between">
-        <div className="flex items-center">
+      <div className="flex w-full items-start justify-between">
+        <div className="flex items-start">
           {!logData?.response?.value?.isSnapShot &&
             (!isEmpty(logData?.args) || logData?.response?.value) && (
               <span className="mr-2">
@@ -216,19 +282,50 @@ export default function TextLogItem({ data, searchText }) {
             <LogItemStartTime duration={data?.startOffset} />
           )}
           <LogItemIcon logLevel={data?.logLevel} />
-          <div>
-            <span className="inline-flex text-sm font-medium leading-5">
+          <div className="flex flex-col gap-2">
+            <span
+              className={twClassNames(
+                'inline-flex text-sm font-medium leading-5 text-base-900',
+                {
+                  'text-danger-600': isError(data?.logLevel),
+                  'text-attention-600': isWarning(data?.logLevel)
+                }
+              )}
+            >
               {logData?.readableText}
             </span>
-            <div className="text-base-500 ml-3">
+            <div className="text-base-500 flex items-center gap-2 text-sm font-normal leading-5">
               {logData?.args?.using && logData?.args?.value && (
-                <>
+                <span className="inline-flex items-center gap-1">
+                  <FindElementIcon className="text-base-500 h-4 w-4" />
                   {logData?.args?.using}=
                   {logData?.args?.value?.substring(0, 80)}
-                </>
+                </span>
               )}
-              {logData?.args?.script?.substring(0, 80)}
-              {logData?.args?.url?.substring(0, 80)}
+              {logData?.args?.script && (
+                <p className="inline-flex items-center gap-1">
+                  <span>
+                    <MdOutlineCode className="text-base-500 h-4 w-4" />
+                  </span>
+                  <O11yTruncateText
+                    wrapperClassName="line-clamp-1"
+                    tooltipContent={
+                      <p className="text-base-500 break-words px-4 text-sm font-normal leading-5 text-white">
+                        {logData.args.script}
+                      </p>
+                    }
+                    hidetooltipTriggerIcon
+                  >
+                    {logData.args.script.substring(0, 80)}
+                  </O11yTruncateText>
+                </p>
+              )}
+              {logData?.args?.url && (
+                <span className="inline-flex items-center gap-1">
+                  <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
+                  {logData.args.url.substring(0, 80)}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -244,16 +341,56 @@ export default function TextLogItem({ data, searchText }) {
           {isExpanded && (
             <div className="w-full">
               {!isEmpty(logData?.args) && (
-                <div className="border-base-300 mt-3 w-full overflow-hidden rounded-xl border pb-3 text-xs">
-                  <div className="border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold">
+                <div
+                  className={twClassNames(
+                    'border-base-300 mt-3 w-full overflow-hidden rounded-xl border pb-3 text-xs bg-white',
+                    {
+                      'border-danger-200 bg-danger-50': isError(data?.logLevel),
+                      'border-attention-200 bg-attention-50': isWarning(
+                        data?.logLevel
+                      )
+                    }
+                  )}
+                >
+                  <div
+                    className={twClassNames(
+                      'border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold',
+                      {
+                        'bg-danger-100 border-danger-200 text-danger-600':
+                          isError(data?.logLevel),
+                        'bg-attention-100 border-attention-200 text-attention-600':
+                          isWarning(data?.logLevel)
+                      }
+                    )}
+                  >
                     Params
                   </div>
                   <div className="table table-fixed">{renderArgs()}</div>
                 </div>
               )}
               {logData?.response?.value && (
-                <div className="border-base-300 mt-3 w-full overflow-hidden rounded-xl border bg-white pb-3 text-xs">
-                  <div className="border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold">
+                <div
+                  className={twClassNames(
+                    'border-base-300 mt-3 w-full overflow-hidden rounded-xl border pb-3 text-xs bg-white',
+                    {
+                      'border-danger-200 bg-danger-50': isError(data?.logLevel),
+                      'border-attention-200 bg-attention-50': isWarning(
+                        data?.logLevel
+                      )
+                    }
+                  )}
+                >
+                  <div
+                    className={twClassNames(
+                      'border-base-300 text-base-600 bg-base-100 mb-3 border-b py-2 px-4 font-mono text-xs font-semibold',
+                      {
+                        'bg-danger-100 border-danger-200 text-danger-600':
+                          isError(data?.logLevel),
+                        'bg-attention-100 border-attention-200 text-attention-600':
+                          isWarning(data?.logLevel)
+                      }
+                    )}
+                  >
                     Response
                   </div>
                   {renderResponse(logData.response)}
