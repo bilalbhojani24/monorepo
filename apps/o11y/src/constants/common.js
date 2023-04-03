@@ -72,6 +72,18 @@ export const SNP_DATE_RANGE = {
     label: 'Last 30 Days'
   }
 };
+// BrowserStackConfig.main_cookie_domain
+export const BASE_DOC_URL = `https://${''}/docs`;
+
+export const DOC_LINKS = {
+  quickStart: `${BASE_DOC_URL}/test-observability/quick-start`,
+  mainDoc: `${BASE_DOC_URL}/test-observability/`,
+  autoAnalyser: `${BASE_DOC_URL}/test-observability/features/auto-failure-analysis`,
+  muteTests: `${BASE_DOC_URL}/test-observability/features/mute-tests`,
+  reRun: `${BASE_DOC_URL}/test-observability/features/re-run`,
+  tnc: `${BASE_DOC_URL}/test-observability/references/terms-and-conditions`,
+  organizeRuns: `${BASE_DOC_URL}/test-observability/how-to-guides/organize-test-runs`
+};
 
 export const TOOLTIP_STYLES = {
   backgroundColor: '#00335D',

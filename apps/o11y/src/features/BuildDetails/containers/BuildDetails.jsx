@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import TestList from '../components/TestList';
@@ -91,9 +92,7 @@ function BuildDetails() {
     <>
       <BuildDetailsHeader />
       <div className="h-full">
-        {activeTab.id === TABS.insights.id && (
-          <div className="px-8 py-4">Build Insights</div>
-        )}
+        {activeTab.id === TABS.insights.id && <TestInsightsLayout />}
         {activeTab.id === TABS.tests.id && <TestList />}
       </div>
     </>

@@ -2,6 +2,7 @@ import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
+import { keyBy, merge, values } from 'lodash';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -186,4 +187,21 @@ export const transformUnsupportedTags = (node, index) => {
     updatedNode.name = 'span';
   }
   return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
+};
+
+export const getMergedLayoutValue = (obj1, obj2) => {
+  const breakPoints = ['md', 'lg', 'sm', 'xs', 'xxs'];
+  const mergedObj = {};
+  breakPoints.forEach((bp) => {
+    if (obj1[bp].length && obj2[bp].length) {
+      const arr1 = obj1[bp];
+      const arr2 = obj2[bp];
+      mergedObj[bp] = values(merge(keyBy(arr1, 'i'), keyBy(arr2, 'i')));
+    } else if (obj1[bp].length) {
+      mergedObj[bp] = obj1[bp];
+    } else if (obj2[bp].length) {
+      mergedObj[bp] = obj2[bp];
+    }
+  });
+  return mergedObj;
 };
