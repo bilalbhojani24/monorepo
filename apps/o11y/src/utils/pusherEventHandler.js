@@ -83,7 +83,9 @@ class O11yPusherEvents {
             this.dispatch(
               updateBuildMeta({
                 buildUID: message?.buildId || '',
-                isAutoAnalyzerRunning: false
+                data: {
+                  isAutoAnalyzerRunning: false
+                }
               })
             );
             break;
