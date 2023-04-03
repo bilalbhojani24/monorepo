@@ -25,6 +25,7 @@ const PopoverContainer = (props) => {
     children,
     content,
     defaultOpen,
+    disabled,
     hideWhenDetached,
     forceMount,
     modal,
@@ -58,7 +59,10 @@ const PopoverContainer = (props) => {
         onOpenChange={onOpenChange}
         modal={modal}
       >
-        <PopoverPrimitive.Trigger className={triggerWrapperClassName}>
+        <PopoverPrimitive.Trigger
+          className={triggerWrapperClassName}
+          disabled={disabled}
+        >
           {children}
         </PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
@@ -130,6 +134,7 @@ PopoverContainer.propTypes = {
   content: PropTypes.node,
   children: PropTypes.node,
   defaultOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
   forceMount: PropTypes.bool,
   hideWhenDetached: PropTypes.bool,
   modal: PropTypes.bool,
@@ -160,6 +165,7 @@ PopoverContainer.defaultProps = {
   content: null,
   children: null,
   defaultOpen: undefined,
+  disabled: false,
   forceMount: undefined,
   hideWhenDetached: false,
   modal: false,

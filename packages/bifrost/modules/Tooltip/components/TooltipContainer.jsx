@@ -26,6 +26,7 @@ const TooltipContainer = (props) => {
     content,
     delay,
     defaultOpen,
+    disabled,
     onEscapeKeyDown,
     onPointerDownOutside,
     onOpenChange,
@@ -69,6 +70,7 @@ const TooltipContainer = (props) => {
             }}
             aria-label={triggerAriaLabel}
             asChild={triggerAsChild}
+            disabled={disabled}
           >
             <div
               className={twClassNames('inline-block', triggerWrapperClassName)}
@@ -142,6 +144,7 @@ export const TooltipPropTypes = {
   children: PropTypes.node,
   delay: PropTypes.number,
   defaultOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
   onEscapeKeyDown: PropTypes.func,
   onPointerDownOutside: PropTypes.func,
   onOpenChange: PropTypes.func,
@@ -171,6 +174,7 @@ TooltipContainer.defaultProps = {
   children: null,
   delay: 200,
   defaultOpen: undefined,
+  disabled: false,
   onEscapeKeyDown: null,
   onPointerDownOutside: null,
   onOpenChange: null,
