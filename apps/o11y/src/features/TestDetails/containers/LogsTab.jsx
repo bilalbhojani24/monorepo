@@ -195,7 +195,7 @@ const LogsTab = () => {
         />
         <TestsLogsInfoTabs />
         <div className="sticky bottom-0 z-20 w-full">
-          <div className="flex items-center justify-center">
+          <div className="mb-2 flex items-center justify-center">
             <O11yButton
               variant="rounded"
               wrapperClassName=""
