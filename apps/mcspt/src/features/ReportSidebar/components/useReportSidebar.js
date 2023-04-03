@@ -27,6 +27,13 @@ const useReportSidebar = () => {
     }
   }, [latestSeekTimeInSeconds]);
 
+  useEffect(
+    () => () => {
+      dispatch(updateLatestVideoCurrentTimeInSeconds(0));
+    },
+    [dispatch]
+  );
+
   return {
     sessionData,
     updateChartSeekerPosition,
