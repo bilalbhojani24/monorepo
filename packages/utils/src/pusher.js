@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default class Pusher {
   constructor(
     manager,
@@ -107,16 +109,12 @@ export default class Pusher {
 
       case 'invalid':
         this.log(data);
-        // replace the below with axios
-
-        fetch(this.auth_endpoint)
-          .then((response) => response.json())
-          .then((dataObj) => {
-            this.log(`Got reconnect token ${JSON.stringify(dataObj)}`);
-            this.info.token = dataObj.token;
-            this.info.channel = dataObj.channel;
-            this.subscribe();
-          });
+        axios.get(this.auth_endpoint).then(({ data: dataObj }) => {
+          this.log(`Got reconnect token ${JSON.stringify(dataObj)}`);
+          this.info.token = dataObj.token;
+          this.info.channel = dataObj.channel;
+          this.subscribe();
+        });
         break;
 
       default:
