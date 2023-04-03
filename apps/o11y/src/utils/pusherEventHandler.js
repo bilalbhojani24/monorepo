@@ -5,6 +5,10 @@ import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice'
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { updateProjectList } from 'globalSlice/index';
 
+import { getEnvConfig } from './common';
+
+const isLoggingEnabled = !getEnvConfig().disableLogs;
+
 class O11yPusherEvents {
   constructor(dispatch, getState, channelData, pusherManager) {
     this.dispatch = dispatch;
@@ -30,8 +34,10 @@ class O11yPusherEvents {
   }
 
   log = (msg) => {
-    // eslint-disable-next-line no-console
-    console.log('::O11Y EVENT HANDLER::', msg);
+    if (isLoggingEnabled) {
+      // eslint-disable-next-line no-console
+      console.log('::O11Y EVENT HANDLER::', msg);
+    }
   };
 
   attachEvents() {
@@ -128,6 +134,6 @@ export const subscribeO11yPusher =
     if (window.pusher) {
       window.pusher.socket.disconnect();
     }
-    const pusherManager = new PusherManager(pusherUrl, true);
+    const pusherManager = new PusherManager(pusherUrl, isLoggingEnabled);
     return new O11yPusherEvents(dispatch, getState, channelData, pusherManager);
   };
