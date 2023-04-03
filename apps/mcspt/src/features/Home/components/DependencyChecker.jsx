@@ -7,6 +7,7 @@ import {
 } from '@browserstack/bifrost';
 import checkDependeciesBg from 'assets/checkDependeciesBg.svg';
 import dependencyLoader from 'assets/tripleDots.gif';
+import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
 
 import StartTestErrorModal from './StartTestErrorModal';
 import TestTriggerPanel from './TestTriggerPanel';
@@ -36,7 +37,7 @@ const DependencyChecker = () => {
         )}
 
         {!areDependenciesStillLoading && (
-          <div className="py-6 px-4">
+          <div className="px-4 py-6">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold leading-7">
                 {listOfDevices?.length > 0
@@ -77,7 +78,11 @@ const DependencyChecker = () => {
 
               <Hyperlink
                 wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
-                onClick={() => {}}
+                onClick={() => {
+                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
+                    DEVICE_DETECT_TROUBLESHOOT
+                  );
+                }}
               >
                 device troubleshooting docs
               </Hyperlink>
@@ -86,7 +91,11 @@ const DependencyChecker = () => {
 
               <Hyperlink
                 wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
-                onClick={() => {}}
+                onClick={() => {
+                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
+                    CONTACT_US
+                  );
+                }}
               >
                 contact us.
               </Hyperlink>

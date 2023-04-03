@@ -13,7 +13,7 @@ const useReport = () => {
 
   useEffect(() => {
     mcpAnalyticsEvent('csptReportViewed', {
-      test_duration: calculateTestDurationForAnalytics(sessionData),
+      duration: calculateTestDurationForAnalytics(sessionData),
       ...formatDeviceAndAppAnalyticsData(
         sessionData?.device,
         sessionData?.package

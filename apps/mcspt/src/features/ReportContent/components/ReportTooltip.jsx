@@ -38,20 +38,20 @@ const ReportTooltip = ({ cardToolTipData }) => {
               onClick={() => {
                 if (cardToolTipData?.link) {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
-                    cardToolTipData.link
+                    cardToolTipData.link(sessionData?.device?.os)
                   );
                 }
 
                 mcpAnalyticsEvent('csptReportLearnMoreClick', {
                   metric_name: cardToolTipData.analyticsTitle,
-                  test_duration: calculateTestDurationForAnalytics(sessionData),
+                  duration: calculateTestDurationForAnalytics(sessionData),
                   ...formatDeviceAndAppAnalyticsData(
                     sessionData?.device,
                     sessionData?.package
                   )
                 });
               }}
-              wrapperClassName="text-white underline font-normal mt-2"
+              wrapperClassName="text-white underline cursor-pointer font-normal mt-2"
               href={cardToolTipData.link}
               rel="noreferrer noopener"
             >
@@ -65,12 +65,13 @@ const ReportTooltip = ({ cardToolTipData }) => {
       }}
     >
       <MdInfoOutline
+        className="cursor-pointer"
         onClick={() => {
           setShowReportTooltip((prevVal) => !prevVal);
 
           mcpAnalyticsEvent('csptReportMetricInfoBtnClick', {
             metric_name: cardToolTipData.analyticsTitle,
-            test_duration: calculateTestDurationForAnalytics(sessionData),
+            duration: calculateTestDurationForAnalytics(sessionData),
             ...formatDeviceAndAppAnalyticsData(
               sessionData?.device,
               sessionData?.package

@@ -40,7 +40,7 @@ const logMcpEvent = (name, data, sendToGA) => {
    */
 
   if (IS_PROD) {
-    logEvent([], 'CSPT', name, data, undefined, sendToGA);
+    logEvent([], 'web_events', name, data, undefined, sendToGA);
   }
 };
 
@@ -59,6 +59,7 @@ const sendDelayedEvents = () => {
       logMcpEvent(
         analyticEvent.eventName,
         {
+          team: 'cspt',
           ...analyticsEntities.generalAnalyticsData,
           ...analyticEvent.eventData
         },
@@ -74,7 +75,7 @@ export const mcpAnalyticsEvent = (eventName, eventData, sendToGA) => {
   if (analyticsEntities.generalAnalyticsData) {
     logMcpEvent(
       eventName,
-      { ...analyticsEntities.generalAnalyticsData, ...eventData },
+      { team: 'cspt', ...analyticsEntities.generalAnalyticsData, ...eventData },
       sendToGA
     );
   } else {

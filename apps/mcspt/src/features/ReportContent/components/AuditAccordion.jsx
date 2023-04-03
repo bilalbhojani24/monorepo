@@ -63,9 +63,15 @@ const AuditAccordion = ({ auditDetails }) => {
               colors="brand"
               variant="minimal"
               onClick={() => {
+                if (auditDetails?.link) {
+                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
+                    auditDetails?.link
+                  );
+                }
+
                 mcpAnalyticsEvent('csptReportSummaryRecClick', {
                   issues_detected_title: auditDetails.title,
-                  test_duration: calculateTestDurationForAnalytics(sessionData),
+                  duration: calculateTestDurationForAnalytics(sessionData),
                   ...formatDeviceAndAppAnalyticsData(
                     sessionData?.device,
                     sessionData?.package
@@ -81,7 +87,7 @@ const AuditAccordion = ({ auditDetails }) => {
       onTriggerClick={() => {
         mcpAnalyticsEvent('csptReportSummaryAccordionClick', {
           issues_detected_title: auditDetails.title,
-          test_duration: calculateTestDurationForAnalytics(sessionData),
+          duration: calculateTestDurationForAnalytics(sessionData),
           ...formatDeviceAndAppAnalyticsData(
             sessionData?.device,
             sessionData?.package
