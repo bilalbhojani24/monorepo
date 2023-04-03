@@ -42,7 +42,7 @@ const Widget = ({
         childRef={childRef}
         positionRef={positionRef}
       >
-        <div ref={childRef} className="relative">
+        <div ref={childRef} className="relative bg-white">
           <WidgetHeader handleClose={handleClose} />
           {children}
         </div>
@@ -126,7 +126,7 @@ const WidgetPortal = ({
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
       }
     });
-  }, [hasToken, dispatch, projectId, componentKey]);
+  }, [hasToken]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {

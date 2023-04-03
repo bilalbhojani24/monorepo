@@ -44,7 +44,7 @@ const APIToken = ({
   if (isLoading || isSyncInProgress) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Loader />;
+        <Loader />
       </div>
     );
   }

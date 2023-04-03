@@ -76,6 +76,9 @@ const IssueForm = ({
   const previousIssueType = usePrevious(issueTypeFieldData?.value ?? null);
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
   const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
+  const previousIssueSearchFieldData = usePrevious(
+    issueSearchFieldData?.value ?? null
+  );
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
@@ -152,13 +155,16 @@ const IssueForm = ({
   ]);
 
   useEffect(() => {
+    console.log(issueSearchFieldData, isWorkInProgress);
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData &&
       issueSearchFieldData?.value &&
       mode === ISSUE_MODES.UPDATION &&
-      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
+      (previousProjectId !== projectFieldData.value ||
+        previousIssueSearchFieldData !== issueSearchFieldData.value ||
+        !isWorkInProgress)
     ) {
       debouncedGetUpdateMeta(issueSearchFieldData);
       setFieldsData({
@@ -211,7 +217,9 @@ const IssueForm = ({
           integrationName={integrationToolFieldData.title}
         />
       )}
-      <div className={''.concat(isBeingDiscarded ? 'invisible h-0' : '')}>
+      <div
+        className={'bg-white '.concat(isBeingDiscarded ? 'invisible h-0' : '')}
+      >
         <SelectMenu
           onChange={(val) => selectTool(val)}
           value={integrationToolFieldData}

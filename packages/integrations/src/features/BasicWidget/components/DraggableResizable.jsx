@@ -93,7 +93,10 @@ const DraggableResizable = ({ children, childRef, position, positionRef }) => {
           minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
           maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
-          <div className="w-full" style={{ height: `${containerHeight}px` }}>
+          <div
+            className="w-full bg-white"
+            style={{ height: `${containerHeight}px` }}
+          >
             {children}
           </div>
         </Resizable>
