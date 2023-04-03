@@ -86,11 +86,11 @@ const performApplicationTermination = () => {
 };
 
 export const registerQuitHotkeys = () => {
-  process.on('SIGTERM', () => {
-    performApplicationTermination();
-  });
-
   if (process.platform === 'darwin') {
+    process.on('SIGTERM', () => {
+      performApplicationTermination();
+    });
+
     globalShortcut.register('Command+Q', () => {
       performApplicationTermination();
     });
