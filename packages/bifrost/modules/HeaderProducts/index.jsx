@@ -29,6 +29,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
     >
       {Array.from(Array(productCount), (e, index) => (
         <Hyperlink
+          isCSR={false}
           wrapperClassName={twClassNames(
             'flex flex-row items-center py-2 px-3'
           )}
