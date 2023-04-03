@@ -53,7 +53,7 @@ export default function StepLogItem({ data, isFromList, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-300 flex gap-1 break-words border-b py-4 text-left',
+        'border-base-200 flex items-center gap-1 break-words border-b py-4 text-left',
         {
           '': LOG_LEVELS.ERROR === data?.logLevel
           // '': LOG_LEVELS.SEVERE === data?.logLevel

@@ -61,7 +61,7 @@ export default function FailureLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        `border-base-300 flex break-words border-b py-4 text-left`,
+        `border-base-200 flex break-words border-b py-4 text-left`,
         {
           '': LOG_LEVELS.ERROR === data?.logLevel
           // '': LOG_LEVELS.SEVERE === data?.logLevel

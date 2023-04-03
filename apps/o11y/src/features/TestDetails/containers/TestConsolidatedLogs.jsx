@@ -291,7 +291,9 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
           onClickStepItem={handleClickStepItem}
         />
       </div>
-      {!isEmpty(logs) && <div>{renderLogs(logs)}</div>}
+      {!isEmpty(logs) && (
+        <div className="flex w-full flex-col">{renderLogs(logs)}</div>
+      )}
       <div className="sticky bottom-10 z-10 flex items-center justify-center">
         <O11yButton
           variant="rounded"

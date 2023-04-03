@@ -1,5 +1,4 @@
 import React from 'react';
-// import 'images/testops/icons/test_commands.svg'; // points to selenium, mistake ?
 import { MdOutlineNetworkCheck } from '@browserstack/bifrost';
 import {
   ApplicationIcon,
@@ -13,27 +12,26 @@ import PropTypes from 'prop-types';
 import { LOG_TYPES } from '../constants';
 
 export default function LogTypeIcon({ logType }) {
+  let icon = null;
   if ([LOG_TYPES.HTTP, LOG_TYPES.NETWORK_LOGS].includes(logType)) {
-    return <MdOutlineNetworkCheck className="text-base-500 h-3 w-3" />;
+    icon = <MdOutlineNetworkCheck className="text-base-500 h-4 w-4" />;
   }
   if ([LOG_TYPES.TEST_LOG, LOG_TYPES.FAILURE].includes(logType)) {
-    return <TerminalIcon className="text-base-500 h-3 w-3" />;
+    icon = <TerminalIcon className="fill-base-500 h-4 w-4" />;
   }
   if ([LOG_TYPES.TEST_SCREENSHOT, LOG_TYPES.TEXT_LOGS].includes(logType)) {
-    return (
-      <SeleniumIcon className="text-base-500 h-3 w-3" /> // need to put test commands icon
-    );
+    icon = <SeleniumIcon className="fill-base-500 h-4 w-4" />;
   }
   if (logType === LOG_TYPES.CONSOLE_LOGS) {
-    return <JSIcon className="text-base-500 h-3 w-3" />;
+    icon = <JSIcon className="fill-base-500 h-4 w-4" />;
   }
   if (logType === LOG_TYPES.DEVICE_LOGS) {
-    return <DeviceIcon className="text-base-500 h-3 w-3" />;
+    icon = <DeviceIcon className="fill-base-500 h-4 w-4" />;
   }
   if (logType === LOG_TYPES.APPLICATION_LOGS) {
-    return <ApplicationIcon className="text-base-500 h-3 w-3" />;
+    icon = <ApplicationIcon className="fill-base-500 h-4 w-4" />;
   }
-  return null;
+  return <span className="ml-auto">{icon}</span>;
 }
 
 LogTypeIcon.propTypes = {

@@ -52,7 +52,7 @@ export default function TestLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-300 flex break-words border-b py-4 text-left',
+        'border-base-200 flex break-words border-b py-4 text-left',
         {
           '': LOG_LEVELS.ERROR === data?.logLevel
           // '': LOG_LEVELS.SEVERE === data?.logLevel
@@ -64,7 +64,7 @@ export default function TestLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      {data?.content}
+      <span className="text-sm font-medium leading-5">{data?.content}</span>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}
       <LogTypeIcon logType={data.logType} />
     </button>
