@@ -333,10 +333,7 @@ export default function SiteScanner() {
   if (isLoading) {
     return (
       <div className="mt-8 flex h-screen items-center justify-center">
-        <Loader
-          shouldShowText
-          waitText="Preparing your report.Please hold on..."
-        />
+        <Loader />
       </div>
     );
   }
@@ -663,7 +660,7 @@ export default function SiteScanner() {
                               </span>
                             </Tooltip>
                           </div>
-                          <div className='w-11 ml-1'>
+                          <div className="w-11 ml-1">
                             <Tooltip
                               theme="dark"
                               placementSide="bottom"
