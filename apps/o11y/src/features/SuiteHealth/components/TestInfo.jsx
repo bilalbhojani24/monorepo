@@ -25,7 +25,7 @@ export default function TestInfo({ testDetails }) {
         {testDetails?.vcFileUrl ? (
           <PropagationBlocker
             className="border-base-300 max-w-[150px] truncate border-r pr-1"
-            style={{ direction: 'rtl' }}
+            dir="rtl"
           >
             <a
               href={testDetails?.vcFileUrl}
@@ -39,7 +39,7 @@ export default function TestInfo({ testDetails }) {
         ) : (
           <span
             className="border-base-300 mr-1 max-w-[150px] truncate border-r pr-1 text-sm"
-            style={{ direction: 'rtl' }}
+            dir="rtl"
           >
             {testDetails?.filePath}
           </span>
