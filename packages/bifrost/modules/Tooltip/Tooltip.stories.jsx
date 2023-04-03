@@ -70,7 +70,12 @@ const defaultConfig = {
           </TooltipBody>
           <TooltipFooter>
             <Button>Action 1</Button>
-            <Button colors="white">Action 2</Button>
+            <Button
+              // colors="white"
+              wrapperClassName="bg-base-600 text-white outline-0"
+            >
+              Action 2
+            </Button>
           </TooltipFooter>
         </>
       )
@@ -193,7 +198,7 @@ DarkTheme.args = {
       <TooltipFooter>
         <Button>Action 1</Button>
         <Button
-          // colors="white"
+          colors="white"
           wrapperClassName="bg-base-600 text-white outline-0"
         >
           Action 2
