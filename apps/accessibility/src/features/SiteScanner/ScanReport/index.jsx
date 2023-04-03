@@ -65,7 +65,7 @@ export default function ScanReport() {
     return (
       <Loader
         shouldShowText
-        waitText="Preparing your report.Please hold on..."
+        waitText="Preparing your report. Please hold on..."
       />
     );
   }
