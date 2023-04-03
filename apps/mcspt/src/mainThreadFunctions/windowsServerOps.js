@@ -29,9 +29,6 @@ export const initializeBackendServerForWindows = async (
   mainThreadGlobals
 ) => {
   try {
-    // killing pre-existing servers
-    killServersForWindows();
-
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
     serverEntities.nodeServerInstance = await exec(
