@@ -4,10 +4,9 @@ import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
-import { getParsedJSON } from '../utils';
+import { getParsedJSON, isError, isWarning } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
@@ -71,14 +70,10 @@ export default function HTTPLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex break-words border-b py-4 text-left',
+        'border-base-200 flex items-start break-words border-b py-4 text-left',
         {
-          'bg-danger-50':
-            LOG_LEVELS.ERROR === data?.logLevel ||
-            LOG_LEVELS.SEVERE === data?.logLevel,
-          'bg-attention-50':
-            LOG_LEVELS.WARNING === data?.logLevel ||
-            LOG_LEVELS.WARN === data?.logLevel
+          'bg-danger-50': isError(data?.logLevel),
+          'bg-attention-50': isWarning(data?.logLevel)
         }
       )}
       data-idx={data.idx}
@@ -87,8 +82,30 @@ export default function HTTPLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      {logData?.http_response?.method} {logData?.http_response?.path} [
-      {logData?.http_response?.status_code}]
+      <div className="flex flex-col gap-2">
+        <p
+          className={twClassNames(
+            'inline-flex text-sm font-medium leading-5 text-base-900',
+            {
+              'text-danger-600': isError(data?.logLevel),
+              'text-attention-600': isWarning(data?.logLevel)
+            }
+          )}
+        >
+          {logData?.http_response?.method}
+        </p>
+        {(logData?.http_response?.path ||
+          logData?.http_response?.status_code) && (
+          <div className="flex items-center gap-2">
+            {logData?.http_response?.path}
+            {logData?.http_response?.path &&
+              logData?.http_response?.status_code && (
+                <p className="flex h-1 w-1 items-center justify-center rounded-full" />
+              )}
+            [{logData?.http_response?.status_code}]
+          </div>
+        )}
+      </div>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}
       <LogTypeIcon logType={data.logType} />
     </button>

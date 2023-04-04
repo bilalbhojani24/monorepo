@@ -5,10 +5,9 @@ import { O11yHyperlink } from 'common/bifrostProxy';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
-import { getParsedJSON } from '../utils';
+import { getParsedJSON, isError, isWarning } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
@@ -70,12 +69,8 @@ export default function NetworkLogItem({ data, searchText }) {
       className={twClassNames(
         'border-base-200 flex break-words border-b py-4 text-left',
         {
-          'bg-danger-50':
-            LOG_LEVELS.ERROR === data?.logLevel ||
-            LOG_LEVELS.SEVERE === data?.logLevel,
-          'bg-attention-50':
-            LOG_LEVELS.WARNING === data?.logLevel ||
-            LOG_LEVELS.WARN === data?.logLevel
+          'bg-danger-50': isError(data?.logLevel),
+          'bg-attention-50': isWarning(data?.logLevel)
         }
       )}
       data-idx={data.idx}
@@ -84,24 +79,43 @@ export default function NetworkLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      {logData?.request?.method}
-      <O11yHyperlink
-        href={logData?.request?.url}
-        target="_blank"
-        wrapperClassName=""
-      >
-        {logData?.request?.url?.substring(0, 40)}
-        {logData?.request?.url.length > 50 && (
-          <>
-            ...
-            {logData?.request?.url?.substring(
-              logData?.request?.url.length - 10,
-              logData?.request?.url.length
+      <div className="flex flex-col gap-2">
+        <p
+          className={twClassNames(
+            'inline-flex text-sm font-medium leading-5 text-base-900',
+            {
+              'text-danger-600': isError(data?.logLevel),
+              'text-attention-600': isWarning(data?.logLevel)
+            }
+          )}
+        >
+          {logData?.request?.method}
+        </p>
+        {(logData?.request?.url || logData?.request?.status) && (
+          <div className="flex items-center gap-2">
+            <O11yHyperlink
+              href={logData?.request?.url}
+              target="_blank"
+              wrapperClassName=""
+            >
+              {logData?.request?.url?.substring(0, 40)}
+              {logData?.request?.url.length > 50 && (
+                <>
+                  ...
+                  {logData?.request?.url?.substring(
+                    logData?.request?.url.length - 10,
+                    logData?.request?.url.length
+                  )}
+                </>
+              )}
+            </O11yHyperlink>
+            {logData?.response?.status && logData?.request?.url && (
+              <p className="flex h-1 w-1 items-center justify-center rounded-full" />
             )}
-          </>
+            [{logData?.response?.status}]
+          </div>
         )}
-      </O11yHyperlink>
-      [{logData?.response?.status}]
+      </div>
       {!!data?.duration && <LogItemDuration duration={data.duration} />}
       <LogTypeIcon logType={data.logType} />
     </button>

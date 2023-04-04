@@ -1,4 +1,4 @@
-import { TEXT_LOG_HUMANIZE } from './constants';
+import { LOG_LEVELS, TEXT_LOG_HUMANIZE } from './constants';
 
 const FORMAT_KEYWORDS_MAP = {
   session: ':sessionId',
@@ -73,6 +73,7 @@ export const getHumanizedText = (method, path) => {
   return readableText;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const formatLog = (log) => {
   const parsedLog = getParsedJSON(log);
   if (!parsedLog) {
@@ -91,7 +92,9 @@ export const formatLog = (log) => {
     args = requestArray.join(' ').trim();
   }
 
-  const data = {};
+  const data = {
+    response: {}
+  };
   data.readableText = getHumanizedText(method, path);
   data.args = getParsedJSON(args) || args;
 
@@ -138,4 +141,16 @@ export const formatLog = (log) => {
   }
 
   return data;
+};
+
+export const isError = (logLevel) => {
+  if (!logLevel) return false;
+  return [LOG_LEVELS.ERROR, LOG_LEVELS.FATAL, LOG_LEVELS.SEVERE].includes(
+    logLevel
+  );
+};
+
+export const isWarning = (logLevel) => {
+  if (!logLevel) return false;
+  return [LOG_LEVELS.WARN, LOG_LEVELS.WARNING].includes(logLevel);
 };

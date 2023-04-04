@@ -5,10 +5,9 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
-import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
-import { getParsedJSON } from '../utils';
+import { getParsedJSON, isError, isWarning } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
@@ -64,12 +63,8 @@ export default function FailureLogItem({ data, searchText }) {
       className={twClassNames(
         `border-base-200 pl-4 pr-2 flex break-words border-b py-4 text-left`,
         {
-          'bg-danger-50':
-            LOG_LEVELS.ERROR === data?.logLevel ||
-            LOG_LEVELS.SEVERE === data?.logLevel,
-          'bg-attention-50':
-            LOG_LEVELS.WARNING === data?.logLevel ||
-            LOG_LEVELS.WARN === data?.logLevel
+          'bg-danger-50': isError(data?.logLevel),
+          'bg-attention-50': isWarning(data?.logLevel)
         }
       )}
       data-idx={data.idx}
@@ -81,7 +76,15 @@ export default function FailureLogItem({ data, searchText }) {
       <span>
         <LogItemIcon logLevel={data?.logLevel} />
       </span>
-      <pre className="text-danger-600 w-full overflow-auto font-mono text-xs leading-5">
+      <pre
+        className={twClassNames(
+          'w-full overflow-auto font-mono text-xs leading-5',
+          {
+            'text-danger-600': isError(data?.logLevel),
+            'text-attention-600': isWarning(data?.logLevel)
+          }
+        )}
+      >
         {logData.map((item) => (
           <div key={uuidv4()}>{item}</div>
         ))}

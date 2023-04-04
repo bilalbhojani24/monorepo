@@ -6,9 +6,8 @@ import Gallery from 'common/Gallery';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-import { LOG_LEVELS } from '../constants';
 import { getActiveLogLevelsByType } from '../slices/selectors';
-import { getParsedJSON } from '../utils';
+import { getParsedJSON, isError, isWarning } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
@@ -52,12 +51,8 @@ export default function SnapshotLogItem({ data }) {
       className={twClassNames(
         'border-base-200 flex break-words border-b py-4 text-left',
         {
-          'bg-danger-50':
-            LOG_LEVELS.ERROR === data?.logLevel ||
-            LOG_LEVELS.SEVERE === data?.logLevel,
-          'bg-attention-50':
-            LOG_LEVELS.WARNING === data?.logLevel ||
-            LOG_LEVELS.WARN === data?.logLevel
+          'bg-danger-50': isError(data?.logLevel),
+          'bg-attention-50': isWarning(data?.logLevel)
         }
       )}
       data-idx={data.idx}

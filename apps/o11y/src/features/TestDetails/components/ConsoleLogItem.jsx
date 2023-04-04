@@ -4,9 +4,9 @@ import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-import { LOG_LEVELS } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
+import { isError, isWarning } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
@@ -71,14 +71,10 @@ export default function ConsoleLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex break-words border-b py-4 text-left',
+        'border-base-200 pl-4 flex break-words border-b py-4 text-left',
         {
-          'bg-danger-50':
-            LOG_LEVELS.ERROR === data?.logLevel ||
-            LOG_LEVELS.SEVERE === data?.logLevel,
-          'bg-attention-50':
-            LOG_LEVELS.WARNING === data?.logLevel ||
-            LOG_LEVELS.WARN === data?.logLevel
+          'bg-danger-50': isError(data?.logLevel),
+          'bg-attention-50': isWarning(data?.logLevel)
         }
       )}
       data-idx={data.idx}
@@ -87,7 +83,15 @@ export default function ConsoleLogItem({ data, searchText }) {
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
       <LogItemIcon logLevel={data?.logLevel} />
-      <pre className="w-full overflow-auto font-mono text-xs leading-5">
+      <pre
+        className={twClassNames(
+          'w-full overflow-auto font-mono text-xs leading-5',
+          {
+            'text-danger-600': isError(data?.logLevel),
+            'text-attention-600': isWarning(data?.logLevel)
+          }
+        )}
+      >
         {logData.map((item) => (
           <div key={item}>{item}</div>
         ))}

@@ -143,7 +143,7 @@ export default function TextLogItem({ data, searchText }) {
             )}
             showLineNumber
             shouldWrapText
-            codeOverrideClassName="!bg-transparent [&>code]:!whitespace-pre-wrap"
+            codeOverrideClassName="!bg-transparent [&>code]:!whitespace-pre-wrap !pt-0"
             wrapperClassName="pr-4"
           />
         ) : (
@@ -294,39 +294,41 @@ export default function TextLogItem({ data, searchText }) {
             >
               {logData?.readableText}
             </span>
-            <div className="text-base-500 flex items-center gap-2 text-sm font-normal leading-5">
-              {logData?.args?.using && logData?.args?.value && (
-                <span className="inline-flex items-center gap-1">
-                  <FindElementIcon className="text-base-500 h-4 w-4" />
-                  {logData?.args?.using}=
-                  {logData?.args?.value?.substring(0, 80)}
-                </span>
-              )}
-              {logData?.args?.script && (
-                <p className="inline-flex items-center gap-1">
-                  <span>
-                    <MdOutlineCode className="text-base-500 h-4 w-4" />
+            {!isEmpty(logData?.args) && (
+              <div className="text-base-500 flex items-center gap-2 text-sm font-normal leading-5">
+                {logData?.args?.using && logData?.args?.value && (
+                  <span className="inline-flex items-center gap-1">
+                    <FindElementIcon className="text-base-500 h-4 w-4" />
+                    {logData?.args?.using}=
+                    {logData?.args?.value?.substring(0, 80)}
                   </span>
-                  <O11yTruncateText
-                    wrapperClassName="line-clamp-1"
-                    tooltipContent={
-                      <p className="text-base-500 break-words px-4 text-sm font-normal leading-5 text-white">
-                        {logData.args.script}
-                      </p>
-                    }
-                    hidetooltipTriggerIcon
-                  >
-                    {logData.args.script.substring(0, 80)}
-                  </O11yTruncateText>
-                </p>
-              )}
-              {logData?.args?.url && (
-                <span className="inline-flex items-center gap-1">
-                  <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
-                  {logData.args.url.substring(0, 80)}
-                </span>
-              )}
-            </div>
+                )}
+                {logData?.args?.script && (
+                  <p className="inline-flex items-center gap-1">
+                    <span>
+                      <MdOutlineCode className="text-base-500 h-4 w-4" />
+                    </span>
+                    <O11yTruncateText
+                      wrapperClassName="line-clamp-1"
+                      tooltipContent={
+                        <p className="text-base-500 break-words px-4 text-sm font-normal leading-5 text-white">
+                          {logData.args.script}
+                        </p>
+                      }
+                      hidetooltipTriggerIcon
+                    >
+                      {logData.args.script.substring(0, 80)}
+                    </O11yTruncateText>
+                  </p>
+                )}
+                {logData?.args?.url && (
+                  <span className="inline-flex items-center gap-1">
+                    <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
+                    {logData.args.url.substring(0, 80)}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex items-center">
