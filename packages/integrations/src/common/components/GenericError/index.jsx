@@ -12,7 +12,7 @@ const ErrorWithTryAgain = ({
 
   return (
     <div
-      className={'flex h-full flex-col items-center text-base-500 '.concat(
+      className={'py-6 flex h-full flex-col items-center text-base-500 '.concat(
         className
       )}
     >

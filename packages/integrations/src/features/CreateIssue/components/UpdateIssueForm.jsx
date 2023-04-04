@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Loader } from '@browserstack/bifrost';
 
 import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
@@ -21,6 +22,7 @@ const UpdateIssueForm = ({
   issueFieldData,
   setAttachments,
   projectFieldData,
+  isUpdateMetaLoading,
   setIsWorkInProgress,
   issueSearchFieldData,
   setIsFormBeingSubmitted,
@@ -28,6 +30,7 @@ const UpdateIssueForm = ({
 }) => {
   const dispatch = useDispatch();
   const [issuesOptions, setIssueOptions] = useState([]);
+  const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -40,13 +43,20 @@ const UpdateIssueForm = ({
 
   useEffect(() => {
     if (projectFieldData) {
+      setAreIssueOptionsLoading(true);
       getTickets(
         integrationToolFieldData?.value,
         projectFieldData?.value,
         'single-value-select'
-      ).then((response) => {
-        setIssueOptions(response);
-      });
+      )
+        .then((response) => {
+          setIssueOptions(response);
+          setAreIssueOptionsLoading(false);
+        })
+        .catch((err) => {
+          setAreIssueOptionsLoading(false);
+          throw err;
+        });
     }
   }, [projectFieldData, integrationToolFieldData]);
 
@@ -187,8 +197,9 @@ const UpdateIssueForm = ({
           setFieldsData={setFieldsData}
           placeholder="Select with issues number, title or description"
           options={issuesOptions}
-          searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project-id=${projectFieldData?.value}&format=single-value-select&query=`}
+          searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`}
           disabled={!projectFieldData?.value}
+          areOptionsLoading={areIssueOptionsLoading}
         />
       </div>
       {!fields?.length && (
@@ -198,19 +209,27 @@ const UpdateIssueForm = ({
           setAttachments={setAttachments}
         />
       )}
-      {issueFieldData && (
+      {Boolean(fields?.length) && issueFieldData && !isUpdateMetaLoading && (
         <TextField disabled label="Issue" value={issueFieldData.label} />
       )}
-      <FormBuilder
-        hideDescription
-        fields={fields}
-        attachments={attachments}
-        fieldErrors={fieldErrors}
-        handleSubmit={handleSubmit}
-        setAttachments={setAttachments}
-        descriptionMeta={descriptionMeta}
-        setIsWorkInProgress={setIsWorkInProgress}
-      />
+      {isUpdateMetaLoading && (
+        <div className="flex flex-col items-center py-6">
+          <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+          <p className="text-base-500 mt-6 text-center">Loading...</p>
+        </div>
+      )}
+      {!isUpdateMetaLoading && (
+        <FormBuilder
+          hideDescription
+          fields={fields}
+          attachments={attachments}
+          fieldErrors={fieldErrors}
+          handleSubmit={handleSubmit}
+          setAttachments={setAttachments}
+          descriptionMeta={descriptionMeta}
+          setIsWorkInProgress={setIsWorkInProgress}
+        />
+      )}
     </>
   );
 };

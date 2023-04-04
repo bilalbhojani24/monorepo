@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Loader } from '@browserstack/bifrost';
 
 import { createIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
@@ -19,6 +20,7 @@ const CreateIssueForm = ({
   projectFieldData,
   cleanedIssueTypes,
   issueTypeFieldData,
+  isCreateMetaLoading,
   setIsWorkInProgress,
   integrationToolFieldData,
   setIsFormBeingSubmitted
@@ -173,19 +175,26 @@ const CreateIssueForm = ({
           placeholder="Select issue"
           required
           options={cleanedIssueTypes}
-          selectFirstByDefault
-          selectFirstOnOptionChange
+          disabled={!projectFieldData}
         />
       </div>
-      <FormBuilder
-        fields={fields}
-        fieldErrors={fieldErrors}
-        attachments={attachments}
-        handleSubmit={handleSubmit}
-        setAttachments={setAttachments}
-        descriptionMeta={descriptionMeta}
-        setIsWorkInProgress={setIsWorkInProgress}
-      />
+      {isCreateMetaLoading && (
+        <div className="flex flex-col items-center py-6">
+          <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+          <p className="text-base-500 mt-6 text-center">Loading...</p>
+        </div>
+      )}
+      {!isCreateMetaLoading && (
+        <FormBuilder
+          fields={fields}
+          fieldErrors={fieldErrors}
+          attachments={attachments}
+          handleSubmit={handleSubmit}
+          setAttachments={setAttachments}
+          descriptionMeta={descriptionMeta}
+          setIsWorkInProgress={setIsWorkInProgress}
+        />
+      )}
     </>
   );
 };

@@ -31,8 +31,10 @@ const SingleValueSelect = ({
   wrapperClassName,
   selectFirstByDefault = false,
   selectFirstOnOptionChange = false,
-  areSomeRequiredFieldsEmpty
+  areSomeRequiredFieldsEmpty,
+  areOptionsLoading: areOptionsLoadingProps = false
 }) => {
+  const [areOptionsLoading, setAreOptionsLoading] = useState(false);
   const dispatch = useDispatch();
   const cleanOptions = (data) =>
     Array.isArray(data) &&
@@ -87,15 +89,19 @@ const SingleValueSelect = ({
 
   useEffect(() => {
     if (optionsPath) {
-      dispatch(
-        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData = [] }) => {
-        const cleanedOptions = cleanOptions(
-          appendOptionIfMissing(optionsData, value || defaultValue)
-        );
-        setOptionsToRender(cleanedOptions);
-        setDynamicOptions(cleanedOptions);
-      });
+      setAreOptionsLoading(true);
+      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+        .then(({ payload: optionsData = [] }) => {
+          const cleanedOptions = cleanOptions(
+            appendOptionIfMissing(optionsData, value || defaultValue)
+          );
+          setOptionsToRender(cleanedOptions);
+          setDynamicOptions(cleanedOptions);
+          setAreOptionsLoading(false);
+        })
+        .catch(() => {
+          setAreOptionsLoading(false);
+        });
     }
   }, [optionsPath]);
 
@@ -131,13 +137,15 @@ const SingleValueSelect = ({
   };
 
   const fetchQuery = (query) => {
-    dispatch(
-      fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
-    ).then(({ payload: optionsData = [] }) => {
-      const cleanedOptions = cleanOptions(optionsData);
-      setOptionsToRender(cleanedOptions);
-      setDynamicOptions(cleanedOptions);
-    });
+    if (query) {
+      dispatch(
+        fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
+      ).then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(optionsData);
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+      });
+    }
   };
 
   const searchInOptions = useCallback(
@@ -171,9 +179,15 @@ const SingleValueSelect = ({
     <div className="py-3">
       <ComboBox
         onChange={handleChange}
-        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
+        value={
+          !optionsToRender?.length
+            ? null
+            : (fieldsData[fieldKey] || cleanedValue) ?? {}
+        }
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
+        isLoading={areOptionsLoading || areOptionsLoadingProps}
+        loadingText="Loading"
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -181,11 +195,22 @@ const SingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup>
-          {optionsToRender?.map((item) => (
-            <ComboboxOptionItem key={item.value} option={item} />
-          ))}
-        </ComboboxOptionGroup>
+        {Boolean(optionsToRender?.length) && (
+          <ComboboxOptionGroup>
+            {optionsToRender?.map((item) => (
+              <ComboboxOptionItem key={item.value} option={item} />
+            ))}
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
       </ComboBox>
     </div>
   );

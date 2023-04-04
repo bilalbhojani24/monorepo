@@ -117,7 +117,7 @@ export const CreateIssue = ({
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 left-0 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
+        <div className="border-base-200 fixed bottom-0 left-0 z-20 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>

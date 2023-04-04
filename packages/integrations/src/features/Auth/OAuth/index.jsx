@@ -75,25 +75,29 @@ const OAuth = ({
   };
 
   const handleOAuthConnection = () => {
-    dispatch(clearGlobalAlert());
-    getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      const childWindow = window.open(
-        redirectUri,
-        authWindowName,
-        'height=640,width=960'
-      );
-      setAuthWindow(childWindow);
+    getOAuthUrlForTool(integrationKey)
+      .then((redirectUri) => {
+        dispatch(clearGlobalAlert());
+        const childWindow = window.open(
+          redirectUri,
+          authWindowName,
+          'height=640,width=960'
+        );
+        setAuthWindow(childWindow);
 
-      let timer = null;
+        let timer = null;
 
-      function checkChild() {
-        if (childWindow.closed) {
-          pollerFn(SYNC_POLL_MAX_ATTEMPTS);
-          clearInterval(timer);
+        function checkChild() {
+          if (childWindow.closed) {
+            pollerFn(SYNC_POLL_MAX_ATTEMPTS - 1);
+            clearInterval(timer);
+          }
         }
-      }
-      timer = setInterval(checkChild, 500);
-    });
+        timer = setInterval(checkChild, 500);
+      })
+      .catch(() => {
+        dispatch(clearGlobalAlert());
+      });
   };
 
   if (isOAuthConnecting || isSyncInProgress) {
@@ -122,7 +126,7 @@ const OAuth = ({
               {features?.map((feature) => (
                 <li className="text-base-700 flex py-2.5 text-sm">
                   <CheckCircleIcon className="text-success-500 mr-2.5 w-6" />
-                  {feature}
+                  <p className="flex-1">{feature}</p>
                 </li>
               ))}
             </ul>

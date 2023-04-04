@@ -27,6 +27,7 @@ const NestedSingleValueSelect = ({
   wrapperClassName,
   areSomeRequiredFieldsEmpty
 }) => {
+  const [areOptionsLoading, setAreOptionsLoading] = useState(false);
   const dispatch = useDispatch();
   const cleanOptions = (data) =>
     Array.isArray(data) &&
@@ -58,13 +59,17 @@ const NestedSingleValueSelect = ({
 
   useEffect(() => {
     if (optionsPath) {
-      dispatch(
-        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData = [] }) => {
-        const cleanedOptions = cleanOptions(optionsData);
-        setOptionsToRender(cleanedOptions);
-        setDynamicOptions(cleanedOptions);
-      });
+      setAreOptionsLoading(true);
+      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+        .then(({ payload: optionsData = [] }) => {
+          const cleanedOptions = cleanOptions(optionsData);
+          setOptionsToRender(cleanedOptions);
+          setDynamicOptions(cleanedOptions);
+          setAreOptionsLoading(false);
+        })
+        .catch(() => {
+          setAreOptionsLoading(false);
+        });
     }
   }, [optionsPath]);
 
@@ -96,14 +101,16 @@ const NestedSingleValueSelect = ({
   };
 
   const fetchQuery = (query) => {
-    fetchOptionsThunk({
-      path: searchPath + query,
-      isDefaultOptions: false
-    }).then(({ payload: optionsData = [] }) => {
-      const cleanedOptions = cleanOptions(optionsData);
-      setOptionsToRender(cleanedOptions);
-      setDynamicOptions(cleanedOptions);
-    });
+    if (query) {
+      fetchOptionsThunk({
+        path: searchPath + query,
+        isDefaultOptions: false
+      }).then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(optionsData);
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+      });
+    }
   };
 
   const searchInOptions = useCallback(
@@ -139,6 +146,8 @@ const NestedSingleValueSelect = ({
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+        isLoading={areOptionsLoading}
+        loadingText="Loading"
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -156,14 +165,27 @@ const NestedSingleValueSelect = ({
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
-            value={fieldsData[fieldKey].child ?? {}}
+            value={
+              !childOptions?.length ? null : fieldsData[fieldKey].child ?? {}
+            }
           >
             <ComboboxTrigger />
-            <ComboboxOptionGroup>
-              {childOptions?.map((item) => (
-                <ComboboxOptionItem key={item.value} option={item} />
-              ))}
-            </ComboboxOptionGroup>
+            {Boolean(childOptions?.length) && (
+              <ComboboxOptionGroup>
+                {childOptions?.map((item) => (
+                  <ComboboxOptionItem key={item.value} option={item} />
+                ))}
+              </ComboboxOptionGroup>
+            )}
+            {!childOptions?.length && (
+              <ComboboxOptionGroup>
+                <ComboboxOptionItem
+                  key="no options"
+                  option={{ label: 'No options' }}
+                  disabled
+                />
+              </ComboboxOptionGroup>
+            )}
           </ComboBox>
         </div>
       )}

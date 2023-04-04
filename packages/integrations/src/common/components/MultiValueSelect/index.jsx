@@ -30,6 +30,7 @@ const MultiSelect = ({
   areSomeRequiredFieldsEmpty
 }) => {
   const dispatch = useDispatch();
+  const [areOptionsLoading, setAreOptionsLoading] = useState(false);
   const cleanOptions = (options) =>
     Array.isArray(options) &&
     options.map((option) => ({
@@ -85,15 +86,19 @@ const MultiSelect = ({
 
   useEffect(() => {
     if (optionsPath) {
-      dispatch(
-        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData = [] }) => {
-        const cleanedOptions = cleanOptions(
-          mergeTwoOptionsArray(optionsData, value || defaultValue)
-        );
-        setOptionsToRender(cleanedOptions);
-        setDynamicOptions(cleanedOptions);
-      });
+      setAreOptionsLoading(true);
+      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+        .then(({ payload: optionsData = [] }) => {
+          const cleanedOptions = cleanOptions(
+            mergeTwoOptionsArray(optionsData, value || defaultValue)
+          );
+          setOptionsToRender(cleanedOptions);
+          setDynamicOptions(cleanedOptions);
+          setAreOptionsLoading(false);
+        })
+        .catch(() => {
+          setAreOptionsLoading(false);
+        });
     }
   }, [optionsPath]);
 
@@ -108,13 +113,15 @@ const MultiSelect = ({
   }, [options, value, defaultValue]);
 
   const fetchQuery = (query) => {
-    dispatch(
-      fetchOptionsThunk({ path: searchPath + query, isDefaultOptions: false })
-    ).then(({ payload: optionsData = [] }) => {
-      const cleanedOptions = cleanOptions(optionsData);
-      setOptionsToRender(cleanedOptions);
-      setDynamicOptions(cleanedOptions);
-    });
+    if (query) {
+      dispatch(
+        fetchOptionsThunk({ path: searchPath + query, isDefaultOptions: false })
+      ).then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(optionsData);
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+      });
+    }
   };
 
   const searchInOptions = useCallback(
@@ -148,13 +155,14 @@ const MultiSelect = ({
   const valueToRender =
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
-  console.log(optionsToRender);
   return (
     <div className="py-3">
       <ComboBox
         onChange={handleChange}
-        value={valueToRender}
+        value={!optionsToRender?.length ? null : valueToRender}
         isMulti
+        isLoading={areOptionsLoading}
+        loadingText="Loading"
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />
@@ -163,15 +171,26 @@ const MultiSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup>
-          {optionsToRender?.map((item) => (
+        {Boolean(optionsToRender?.length) && (
+          <ComboboxOptionGroup>
+            {optionsToRender?.map((item) => (
+              <ComboboxOptionItem
+                key={item.value}
+                option={item}
+                wrapperClassName="text-base-500"
+              />
+            ))}
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && (
+          <ComboboxOptionGroup>
             <ComboboxOptionItem
-              key={item.value}
-              option={item}
-              wrapperClassName="text-base-500"
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
             />
-          ))}
-        </ComboboxOptionGroup>
+          </ComboboxOptionGroup>
+        )}
       </ComboBox>
     </div>
   );

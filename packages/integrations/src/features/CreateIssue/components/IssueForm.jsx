@@ -41,6 +41,8 @@ const IssueForm = ({
   const projects = useSelector(projectsSelector);
   const [createFields, setCreateFields] = useState([]);
   const [updateFields, setUpdateFields] = useState([]);
+  const [isCreateMetaLoading, setIsCreateMetaLoading] = useState(false);
+  const [isUpdateMetaLoading, setIsUpdateMetaLoading] = useState(false);
   const [files, setFiles] = useState(attachments);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
   const baseURL = useSelector(baseURLSelector);
@@ -112,32 +114,39 @@ const IssueForm = ({
   }, []);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
+    setIsCreateMetaLoading(true);
     getCreateMeta(
       integrationToolFieldData.value,
       projectFieldData.value,
       issueTypeFieldData.value
-    ).then(({ fields: responseFields }) => {
-      setCreateFields(responseFields);
-    });
+    )
+      .then(({ fields: responseFields }) => {
+        setCreateFields(responseFields);
+        setIsCreateMetaLoading(false);
+      })
+      .catch(() => {
+        setIsCreateMetaLoading(false);
+      });
   }, 300);
 
   const debouncedGetUpdateMeta = makeDebounce((issue) => {
-    getUpdateMeta(integrationToolFieldData.value, issue.value).then(
-      ({ fields: responseFields }) => {
+    setIsUpdateMetaLoading(true);
+    getUpdateMeta(integrationToolFieldData.value, issue.value)
+      .then(({ fields: responseFields }) => {
         setUpdateFields(responseFields);
-      }
-    );
+        setIsUpdateMetaLoading(false);
+      })
+      .catch(() => {
+        setIsUpdateMetaLoading(false);
+      });
   }, 300);
 
   useEffect(() => {
-    console.log(
-      previousProjectId !== projectFieldData?.value || !isWorkInProgress
-    );
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
-      projectFieldData &&
-      issueTypeFieldData &&
+      projectFieldData?.value &&
+      issueTypeFieldData?.value &&
       mode === ISSUE_MODES.CREATION &&
       (previousProjectId !== projectFieldData.value ||
         previousIssueType !== issueTypeFieldData.value ||
@@ -155,11 +164,10 @@ const IssueForm = ({
   ]);
 
   useEffect(() => {
-    console.log(issueSearchFieldData, isWorkInProgress);
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
-      projectFieldData &&
+      projectFieldData?.value &&
       issueSearchFieldData?.value &&
       mode === ISSUE_MODES.UPDATION &&
       (previousProjectId !== projectFieldData.value ||
@@ -206,7 +214,12 @@ const IssueForm = ({
     }
   }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
 
-  console.log(fieldsData);
+  useEffect(() => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: {} });
+    if (mode === ISSUE_MODES.UPDATION) {
+      setUpdateFields([]);
+    }
+  }, [projectFieldData]);
 
   return (
     <>
@@ -263,6 +276,8 @@ const IssueForm = ({
             areProjectsLoading,
             issueTypeFieldData,
             setIsWorkInProgress,
+            isCreateMetaLoading,
+            isUpdateMetaLoading,
             handleIssueTabChange,
             issueSearchFieldData,
             setAttachments: setFiles,

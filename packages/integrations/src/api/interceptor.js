@@ -13,6 +13,7 @@ export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
     const configShallowCopy = config;
     configShallowCopy.baseURL = baseURLSelector(store.getState());
+    configShallowCopy.retry = configShallowCopy.retry || 3;
     const token = cookie.read(UAT_COOKIE_NAME);
     if (token) {
       configShallowCopy.headers.Authorization = `Bearer ${token}`;
@@ -32,19 +33,34 @@ export const responseInterceptor = axios.interceptors.response.use(
   (error) => {
     // Do something with response error
     const { status, data } = error.response;
+
     if (status === 401 && data.error?.refresh_token) {
+      const { config } = error;
+      // If config does not exist or the retry option is not set, reject
+      if (!config || !config.retry) return Promise.reject(error);
+      // Set the variable for keeping track of the retry count
+      config.retryCount = config.retryCount || 0;
+
+      // Check if we've maxed out the total number of retries
+      if (config.retryCount >= config.retry) {
+        // Reject with the error
+        return Promise.reject(error);
+      }
+
+      // Increase the retry count
+      config.retryCount += 1;
+
       // run refresh token flow
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
-      return store.dispatch(fetchTokenThunk()).then(() => {
+      return store.dispatch(fetchTokenThunk(config)).then(() => {
         // new UAT has been issued and stored in cookie
         const token = cookie.read(UAT_COOKIE_NAME);
-        const configShallowCopy = error.config;
         if (token) {
           // update the original request config with new token
-          configShallowCopy.headers.Authorization = `Bearer ${token}`;
+          config.headers.Authorization = `Bearer ${token}`;
         }
         // make new request with updated token
-        return axios.request(configShallowCopy);
+        return axios.request(config);
       });
     }
     return Promise.reject(error);

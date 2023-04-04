@@ -3,7 +3,7 @@ export const getWidgetRenderPosition = (
   dockRefClientRect,
   widgetRefClientRect
 ) => {
-  let x = 0;
+  let x = 8;
   let y = 0;
   const bodyWidth = document.body.getBoundingClientRect().width;
   const widgetWidth = widgetRefClientRect.width;
@@ -17,7 +17,7 @@ export const getWidgetRenderPosition = (
         const dockTop = dockRefClientRect.top;
         x =
           dockRight + widgetWidth > bodyWidth
-            ? bodyWidth - widgetWidth
+            ? bodyWidth - widgetWidth - 8
             : dockRight;
         y = dockTop - widgetTop;
         break;
@@ -26,16 +26,15 @@ export const getWidgetRenderPosition = (
       case 'left': {
         const dockLeft = dockRefClientRect.left;
         const dockTop = dockRefClientRect.top;
-        x = dockLeft - widgetWidth < 0 ? 0 : dockLeft - widgetWidth;
+        x = dockLeft - widgetWidth < 0 ? 8 : dockLeft - widgetWidth;
         y = dockTop - widgetTop;
-        console.log('hi', dockTop, widgetTop);
         break;
       }
     }
   } else {
     switch (position) {
       case 'right': {
-        x = bodyWidth - widgetWidth;
+        x = bodyWidth - widgetWidth - 8;
         break;
       }
       case 'center': {
@@ -43,7 +42,7 @@ export const getWidgetRenderPosition = (
         break;
       }
       default:
-        x = 0;
+        x = 8;
     }
     y = -widgetTop;
   }

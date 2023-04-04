@@ -27,14 +27,21 @@ const renderChild = ({
   cleanedIssueTypes,
   areProjectsLoading,
   issueTypeFieldData,
+  isCreateMetaLoading,
+  isUpdateMetaLoading,
   setIsWorkInProgress,
   issueSearchFieldData,
   handleIssueTabChange,
-  integrationToolFieldData,
-  setIsFormBeingSubmitted
+  setIsFormBeingSubmitted,
+  integrationToolFieldData
 }) => {
   if (areProjectsLoading) {
-    return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
+    return (
+      <div className="flex flex-col items-center py-6">
+        <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+        <p className="text-base-500 mt-6 text-center">Loading...</p>
+      </div>
+    );
   }
   if (projectsHaveError) {
     return (
@@ -56,7 +63,6 @@ const renderChild = ({
           required
           placeholder="Select project"
           options={projects}
-          selectFirstByDefault
         />
       </div>
       <Tabs
@@ -79,8 +85,9 @@ const renderChild = ({
           cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
-          integrationToolFieldData={integrationToolFieldData}
+          isCreateMetaLoading={isCreateMetaLoading}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
+          integrationToolFieldData={integrationToolFieldData}
         />
       ) : (
         <UpdateIssueForm
@@ -94,10 +101,11 @@ const renderChild = ({
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
           clearErrorMessage={clearErrorMessage}
+          isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}
           issueSearchFieldData={issueSearchFieldData}
-          integrationToolFieldData={integrationToolFieldData}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
+          integrationToolFieldData={integrationToolFieldData}
         />
       )}
     </>
