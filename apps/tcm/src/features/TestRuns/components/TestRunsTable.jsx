@@ -35,6 +35,7 @@ const TestRunsTable = () => {
     allTestRuns,
     isTestRunsLoading,
     metaPage,
+    addAmplitudeEventTrTable,
     getProgressOptions,
     onDropDownChange,
     paginationAnalytics
@@ -53,6 +54,9 @@ const TestRunsTable = () => {
             projectId,
             testRunId: rowData?.id
           })}
+          onClick={() => {
+            addAmplitudeEventTrTable('ID', rowData);
+          }}
         >
           {rowData.identifier}
         </Link>
@@ -71,6 +75,9 @@ const TestRunsTable = () => {
               projectId,
               testRunId: rowData?.id
             })}
+            onClick={() => {
+              addAmplitudeEventTrTable('Title', rowData);
+            }}
           >
             <TMTruncateText
               truncateUsingClamp={false}

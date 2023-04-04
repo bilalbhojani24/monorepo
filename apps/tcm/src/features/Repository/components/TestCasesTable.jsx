@@ -91,8 +91,8 @@ const TestCasesTable = ({
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'ID')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
             truncateUsingClamp={false}
@@ -116,8 +116,8 @@ const TestCasesTable = ({
           role="button"
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'Title')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           {isSearchFilterView ? (
             <>
