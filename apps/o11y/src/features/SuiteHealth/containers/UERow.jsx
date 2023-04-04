@@ -18,12 +18,12 @@ export default function UERow({ data }) {
     <>
       <Accordion>
         <AccordionInteractiveHeader
-          wrapperClassName="bg-white"
+          wrapperClassName="bg-white pr-0"
           title={
             <div
               className={twClassNames(
                 UNIQUE_ERROR_MAIN_HEADER.error.bodyClass,
-                'pl-1 pr-4 text-left'
+                'pl-1 pr-4 text-left items-center flex'
               )}
             >
               <O11yTooltip

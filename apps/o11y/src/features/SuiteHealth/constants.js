@@ -51,8 +51,8 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
-    headerClass: 'py-2 pr-4 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'pr-4 sm:pr-6 pl-4 w-[150px]'
+    headerClass: 'py-2 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
+    bodyClass: 'pl-4 w-[150px]'
   }
 };
 
@@ -75,7 +75,7 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[140px] py-4 pl-6 text-sm'
+      'uppercase w-[150px] text-base-500 text-xs font-medium leading-4 py-3 pl-4',
+    bodyClass: 'w-[150px] py-4 pl-4 text-sm'
   }
 };
