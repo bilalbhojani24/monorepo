@@ -175,7 +175,7 @@ function Integrations() {
         </section>
         {availableIntegrations.length ? (
           <section className="border-l-base-200 overflow-auto border-l pt-0">
-            <div className="border-r-base-200 border-b-base-200 max-w-7xl border-r border-b">
+            <div className="border-r-base-200 border-b-base-200 max-w-7xl border-b border-r">
               <O11yStackedList>
                 {availableIntegrations.map((integration) => (
                   <O11yStackedListGroup
@@ -192,7 +192,7 @@ function Integrations() {
             </div>
           </section>
         ) : (
-          <div className="border-t-base-200 flex max-w-7xl flex-1 items-center justify-center border-t">
+          <section className="border-t-base-200 flex max-w-7xl flex-1 items-center justify-center border-t">
             <O11yEmptyState
               title="No Results Found"
               description="No matching results found. Try searching with another combination"
@@ -205,7 +205,7 @@ function Integrations() {
                 size: 'default'
               }}
             />
-          </div>
+          </section>
         )}
       </main>
     </div>
