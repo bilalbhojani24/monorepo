@@ -110,21 +110,24 @@ export default function GeneralSettings() {
           Set a larger build timeout if you have non-test related activities
           consuming a considerable amount of time as part of your build.
         </p>
-        <O11yInputField
-          id="general-build-timeout"
-          disabled={data?.isLoading}
-          value={buildTimeout}
-          onChange={handleBuildTimeoutChange}
-          errorText={buildTimeoutError}
-          wrapperClassName="w-24"
-        />
+        <div className="w-40">
+          <O11yInputField
+            id="general-build-timeout"
+            disabled={data?.isLoading}
+            value={buildTimeout}
+            onChange={handleBuildTimeoutChange}
+            errorText={buildTimeoutError}
+            type="number"
+            wrapperClassName="w-full [&>input]:w-full"
+          />
+        </div>
       </div>
       <div className="bg-base-50 sticky bottom-0 flex justify-end py-3 px-6">
         <O11yButton
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}
           disabled={
-            data?.data?.buildTimeout === buildTimeout || buildTimeoutError
+            data?.data?.buildTimeout === buildTimeout || !!buildTimeoutError
           }
           onClick={handleSubmitChanges}
         >
