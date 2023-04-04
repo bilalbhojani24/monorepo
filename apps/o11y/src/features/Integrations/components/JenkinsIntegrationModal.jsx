@@ -84,7 +84,12 @@ function JenkinsIntegrationModal() {
   const isValid = useMemo(() => userName && authToken, [authToken, userName]);
 
   return (
-    <O11yModal show size="lg" onClose={handleCloseModal}>
+    <O11yModal
+      show
+      size="lg"
+      onClose={handleCloseModal}
+      wrapperClassName="max-h-[90vh]"
+    >
       <O11yModalHeader
         dismissButton
         heading="Jenkins configuration"
@@ -129,7 +134,7 @@ function JenkinsIntegrationModal() {
               label="Username"
               id="user-name-value"
               isMandatory
-              placeholder="admin"
+              placeholder="Your Jenkins username"
               value={userName}
               onChange={handleChangeUserName}
             />
@@ -139,7 +144,7 @@ function JenkinsIntegrationModal() {
               label="Auth Token"
               id="auth-token-value"
               isMandatory
-              placeholder="**********"
+              placeholder="Jenkins API token for authentication"
               type="password"
               value={authToken}
               onChange={handleChangeAuthToken}

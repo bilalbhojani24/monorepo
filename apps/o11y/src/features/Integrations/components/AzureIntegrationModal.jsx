@@ -104,7 +104,7 @@ function AzureIntegrationModal() {
             label="Auth Token"
             id="auth-token-value"
             isMandatory
-            placeholder="**********"
+            placeholder="Azure Personal Access Token"
             type="password"
             value={authToken}
             onChange={handleChangeAuthToken}

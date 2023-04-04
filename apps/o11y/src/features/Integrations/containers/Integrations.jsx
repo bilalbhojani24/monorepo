@@ -22,49 +22,90 @@ const ALL_CATEGORIES_OPTION = {
   value: 'all'
 };
 
+const getMatchedIntegrationsByText = (list, searchVal) => {
+  const matched = [];
+  list.forEach((integrationItem) => {
+    if (integrationItem.name.toLowerCase().includes(searchVal)) {
+      matched.push(integrationItem);
+    }
+  });
+  return matched;
+};
+
 function Integrations() {
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
 
   const [searchText, setSearchText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(
+    ALL_CATEGORIES_OPTION
+  );
+
+  const handleFilterByCategoryAndSearchVal = (searchVal, categoryType) => {
+    const matchedCategory = INTEGRATIONS.find(
+      (integration) => integration.value === categoryType
+    );
+    if (!matchedCategory) {
+      setAvailableIntegrations([]);
+    } else {
+      const matched = getMatchedIntegrationsByText(
+        matchedCategory.list,
+        searchVal
+      );
+      if (matched.length) {
+        setAvailableIntegrations([
+          {
+            ...matchedCategory,
+            list: matched
+          }
+        ]);
+      } else {
+        setAvailableIntegrations([]);
+      }
+    }
+  };
+
+  const handleFilterResults = (searchVal, categoryType) => {
+    if (searchVal && categoryType !== 'all') {
+      handleFilterByCategoryAndSearchVal(searchVal, categoryType);
+    } else if (searchVal && categoryType === 'all') {
+      const foundIntegrations = [];
+      INTEGRATIONS.forEach((integration) => {
+        const matched = getMatchedIntegrationsByText(
+          integration.list,
+          searchVal
+        );
+        if (matched.length) {
+          foundIntegrations.push({
+            ...integration,
+            list: matched
+          });
+        }
+      });
+      setAvailableIntegrations(foundIntegrations);
+    } else if (!searchVal && categoryType !== 'all') {
+      const foundIntegrations = INTEGRATIONS.find(
+        (integration) => integration.value === categoryType
+      );
+      setAvailableIntegrations(foundIntegrations ? [foundIntegrations] : []);
+    } else {
+      setAvailableIntegrations(INTEGRATIONS);
+    }
+  };
 
   const handleSearchTextChange = ({ target: { value } }) => {
     setSearchText(value);
-    if (!value) {
-      setAvailableIntegrations(INTEGRATIONS);
-    }
-    const searchVal = value.toLowerCase();
-    const foundIntegrations = [];
-    INTEGRATIONS.forEach((integration) => {
-      const matched = [];
-      integration.list.forEach((integrationItem) => {
-        if (integrationItem.name.toLowerCase().includes(searchVal)) {
-          matched.push(integrationItem);
-        }
-      });
-      if (matched.length) {
-        foundIntegrations.push({
-          ...integration,
-          list: matched
-        });
-      }
-    });
-    setAvailableIntegrations(foundIntegrations);
+    handleFilterResults(value, selectedCategory.value);
+  };
+
+  const onCategorySelect = (category) => {
+    setSelectedCategory(category);
+    handleFilterResults(searchText, category.value);
   };
 
   const handleClearSearch = () => {
     setSearchText('');
-    setAvailableIntegrations(INTEGRATIONS);
-  };
-
-  const onCategorySelect = (category) => {
-    if (category.value === 'all') {
-      setAvailableIntegrations(INTEGRATIONS);
-    } else {
-      setAvailableIntegrations([
-        INTEGRATIONS.find((integration) => integration.value === category.value)
-      ]);
-    }
+    handleFilterResults('', selectedCategory.value);
   };
 
   return (
@@ -101,7 +142,7 @@ function Integrations() {
           </div>
           <div className="max-w-sm">
             <O11ySelectMenu
-              defaultValue={ALL_CATEGORIES_OPTION}
+              value={selectedCategory}
               onChange={onCategorySelect}
             >
               <O11ySelectMenuTrigger placeholder="All Categories" value="" />
@@ -134,9 +175,9 @@ function Integrations() {
                   wrapperClassName="fist:rounded-lg"
                   heading={<ListGroupHeader title={integration.name} />}
                 >
-                  {integration.list.map(
-                    (integrationItem) => integrationItem.component
-                  )}
+                  {integration.list.map((integrationItem) => (
+                    <integrationItem.Component />
+                  ))}
                 </O11yStackedListGroup>
               ))}
             </O11yStackedList>

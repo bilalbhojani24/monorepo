@@ -39,7 +39,7 @@ export const INTEGRATIONS_EXT_LINKS = {
 const CI_INTEGRATIONS = [
   {
     name: 'Jenkins',
-    component: (
+    Component: () => (
       <CIStackItem
         analyticKey="jenkins_connect_clicked"
         title="Jenkins"
@@ -52,10 +52,10 @@ const CI_INTEGRATIONS = [
   },
   {
     name: 'Azure Pipelines',
-    component: (
+    Component: () => (
       <CIStackItem
         analyticKey="azure_connect_clicked"
-        title="AzurePipelinesIcon"
+        title="Azure Pipelines"
         icon=<AzurePipelinesIcon width="40" height="40" />
         cta="Configure"
         apiSlug={CI_API_SLUGS.AZURE_DEVOPS}
@@ -67,11 +67,11 @@ const CI_INTEGRATIONS = [
 
 const TESTING_FRAMEWORKS = [
   {
-    name: 'TestNg',
-    component: (
+    name: 'TestNG',
+    Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
-        title="TestNg"
+        title="TestNG"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.testng, prependO11y: true })}
         icon=<TestngIcon width="40" height="40" />
@@ -80,7 +80,7 @@ const TESTING_FRAMEWORKS = [
   },
   {
     name: 'Mocha',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
         title="Mocha"
@@ -92,7 +92,7 @@ const TESTING_FRAMEWORKS = [
   },
   {
     name: 'Webdriver-IO',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
         title="Webdriver-IO"
@@ -107,7 +107,7 @@ const TESTING_FRAMEWORKS = [
 const PROJECT_MANAGEMENT_TOOLS = [
   {
     name: 'Jira',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="pm_tools_docs_visited"
         title="Jira"
@@ -123,14 +123,14 @@ const PROJECT_MANAGEMENT_TOOLS = [
 const COMMUNICATION_TOOLS = [
   {
     name: 'Email',
-    component: <EmailCommunicationItem />
+    Component: () => <EmailCommunicationItem />
   }
 ];
 
 const SOURCE_CODE_VIEWER = [
   {
     name: 'Github',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="scim_docs_visited"
         title="Github"
@@ -145,7 +145,7 @@ const SOURCE_CODE_VIEWER = [
   },
   {
     name: 'Gitlab',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="scim_docs_visited"
         title="Gitlab"
@@ -163,7 +163,7 @@ const SOURCE_CODE_VIEWER = [
 const APPLICATION_LOGS_READER = [
   {
     name: 'Logstash',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="application_logs_docs_visited"
         title="Logstash"
@@ -178,7 +178,7 @@ const APPLICATION_LOGS_READER = [
   },
   {
     name: 'Filebeat + Logstash',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="application_logs_docs_visited"
         title="Filebeat + Logstash"
@@ -193,7 +193,7 @@ const APPLICATION_LOGS_READER = [
   },
   {
     name: 'Fluentd',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="application_logs_docs_visited"
         title="Fluentd"
@@ -208,7 +208,7 @@ const APPLICATION_LOGS_READER = [
   },
   {
     name: 'Winston',
-    component: (
+    Component: () => (
       <DocumentStackListItem
         analyticKey="application_logs_docs_visited"
         title="Winston"
