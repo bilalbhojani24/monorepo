@@ -143,7 +143,7 @@ function AddEditSubCategoryModal() {
           disabled={modalData?.action === 'edit'}
         >
           <O11ySelectMenuLabel>
-            <p className="flex gap-1 text-sm font-medium leading-5">
+            <p className="flex gap-0.5 text-sm font-medium leading-5">
               <span>Failure category</span>
               <span className="text-danger-600">*</span>
             </p>

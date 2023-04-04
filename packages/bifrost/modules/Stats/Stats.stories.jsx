@@ -117,6 +117,7 @@ const defaultConfig = {
         changeType: 'increase',
         link: (
           <Hyperlink
+            isCSR={false}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

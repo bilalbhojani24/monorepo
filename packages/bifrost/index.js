@@ -80,10 +80,10 @@ import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
-import StackedListWAvatar from './modules/StackedListWAvatar/index';
-import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
-import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
-import StackedListWTwoColumns from './modules/StackedListWTwoColumns/index';
+import StackedList from './modules/StackedList';
+import StackedListCommon from './modules/StackedListCommon';
+import StackedListGroup from './modules/StackedListGroup';
+import StackedListItem from './modules/StackedListItem';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
 import Switch from './modules/Switch/index';
@@ -186,10 +186,10 @@ export {
   SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
-  StackedListWAvatar,
-  StackedListWSingleColumn,
-  StackedListWStickyHeadings,
-  StackedListWTwoColumns,
+  StackedList,
+  StackedListCommon,
+  StackedListGroup,
+  StackedListItem,
   Stats,
   Steps,
   Switch,
