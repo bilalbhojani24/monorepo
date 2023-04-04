@@ -29,7 +29,7 @@ const TreeNode = ({
         //     ? 'opacity-25 pointer-events-none'
         //     : ''
         // }
-        addOnBeforeInline={
+        leadingIcon={
           isLoading && !item.contents ? (
             <div className="flex h-5 w-5 items-center justify-center">
               <img
