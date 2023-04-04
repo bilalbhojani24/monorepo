@@ -23,6 +23,7 @@ import {
   setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
+  setShowMappings,
   setValueMappings
 } from '../slices/importCSVSlice';
 
@@ -55,6 +56,7 @@ const useMapFields = () => {
   const showSelectMenuErrorInMapFields = useSelector(
     (state) => state.importCSV.showSelectMenuErrorInMapFields
   );
+  const showMappings = useSelector((state) => state.importCSV.showMappings);
 
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
@@ -360,6 +362,10 @@ const useMapFields = () => {
     localStorage.removeItem('valueMappings');
   };
 
+  const editMappingHandler = () => {
+    dispatch(setShowMappings(false));
+  };
+
   const handleMappingProceedClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
@@ -391,11 +397,13 @@ const useMapFields = () => {
     typeMapper,
     myFieldMappings,
     rowRef,
+    showMappings,
     valueMappings,
     errorLabelInMapFields,
     mapFieldProceedLoading,
     showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
+    editMappingHandler,
     handleSaveClick,
     onModalCloseHandler,
     setDefaultDropdownValue,

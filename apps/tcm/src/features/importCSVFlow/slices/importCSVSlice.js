@@ -25,6 +25,7 @@ const initialState = {
   mappingFieldsError: '',
   showCSVFields: false,
   fieldsMapping: {},
+  // immutableFieldMappings: {},
   valueMappings: {},
   mapFieldModalConfig: { show: false, field: '', mapped_field: '' },
   usersForDropdown: [],
@@ -54,7 +55,8 @@ const initialState = {
   showSelectMenuErrorInMapFields: false,
   importCSVSuccessNotificationShown: false,
   topInfoSteps: [],
-  selectedFolderLocation: '/'
+  selectedFolderLocation: '/',
+  showMappings: true
 };
 
 const importCSVSlice = createSlice({
@@ -170,6 +172,8 @@ const importCSVSlice = createSlice({
       ];
 
       state.currentCSVScreen = 'mapFields';
+      // state.immutableFieldMappings = state.fieldsMapping;
+      state.showMappings = true;
     },
     uploadFileRejected: (state, { payload }) => {
       state.csvUploadError = payload.response.data.message;
@@ -268,6 +272,9 @@ const importCSVSlice = createSlice({
     setTopSectionInfoSteps: (state) => {
       const { 0: firstStep } = state.topInfoSteps;
       state.topInfoSteps = [firstStep];
+    },
+    setShowMappings: (state, { payload }) => {
+      state.showMappings = payload;
     }
   }
 });
@@ -300,6 +307,7 @@ export const {
   submitMappingDataFulfilled,
   submitMappingDataRejected,
   setTopSectionInfoSteps,
+  setShowMappings,
   setNotificationConfigForConfirmCSVImport,
   setImportCSVSuccessNotificationShown
 } = importCSVSlice.actions;

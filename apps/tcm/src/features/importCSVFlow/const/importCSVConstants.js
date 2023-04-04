@@ -1,14 +1,14 @@
 export const MAP_FIELD_COLUMNS = [
   {
-    name: 'CSV Column Header',
+    name: 'YOUR CSV DATA',
     key: 'field'
   },
   {
-    name: 'Test Management Fields',
+    name: 'WILL BE MAPPED TO',
     key: 'mappedField'
   },
   {
-    name: 'Value Mapping',
+    name: 'VALUES FROM YOUR CSV',
     key: 'mappedValue'
   }
 ];
