@@ -44,6 +44,7 @@ const PopoverContainer = (props) => {
     sticky,
     theme,
     triggerWrapperClassName,
+    triggerAsChild,
     wrapperClassName
   } = props;
 
@@ -62,8 +63,13 @@ const PopoverContainer = (props) => {
         <PopoverPrimitive.Trigger
           className={triggerWrapperClassName}
           disabled={disabled}
+          asChild={triggerAsChild}
         >
-          {children}
+          <div
+            className={twClassNames('inline-block', triggerWrapperClassName)}
+          >
+            {children}
+          </div>
         </PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
@@ -153,6 +159,7 @@ PopoverContainer.propTypes = {
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
   triggerWrapperClassName: PropTypes.string,
+  triggerAsChild: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
@@ -184,6 +191,7 @@ PopoverContainer.defaultProps = {
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
   triggerWrapperClassName: '',
+  triggerAsChild: true,
   wrapperClassName: ''
 };
 

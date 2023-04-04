@@ -161,7 +161,11 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: ''
     },
-     wrapperClassName: {
+    triggerAsChild: {
+      option: { type: 'boolean' },
+      defaultValue: true
+    },
+    wrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
     }
