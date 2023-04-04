@@ -15,12 +15,10 @@ export default class Pusher {
     this.info.reconnects = -1;
     this.prefix = prefix;
     this.manager = manager;
-    this.auth_endpoint = authEndpoint;
+    this.authEndpoint = authEndpoint;
     this.eventHandlers = {};
     this.switched = false;
-    this.flushing = false;
     this.buffer = [];
-    this.status = 'not-connected';
     this.disconnected_at = null;
     this.pusherLogging = loggingEnabled;
 
@@ -106,7 +104,7 @@ export default class Pusher {
 
       case 'invalid':
         this.log(data);
-        axios.get(this.auth_endpoint).then(({ data: dataObj }) => {
+        axios.get(this.authEndpoint).then(({ data: dataObj }) => {
           this.log(`Got reconnect token ${dataObj?.token}`);
           this.info.token = dataObj.token;
           this.info.channel = dataObj.channel;
