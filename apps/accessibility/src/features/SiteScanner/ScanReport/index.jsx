@@ -62,7 +62,13 @@ export default function ScanReport() {
     : null;
 
   if (!metaData) {
-    return <Loader />;
+    return (
+      <Loader
+        shouldShowText
+        waitText="Preparing your report. Please hold on..."
+        waitTime={5000}
+      />
+    );
   }
 
   return (
@@ -154,7 +160,7 @@ export default function ScanReport() {
                   icon={<MdShare />}
                   iconPlacement="end"
                 >
-                  Share Link
+                  Share link
                 </Button>
               </CopyToClipboard>
             </Tooltip>

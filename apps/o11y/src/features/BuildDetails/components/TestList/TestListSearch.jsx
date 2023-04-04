@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
 
 function TestListSearch() {
-  // const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const handleOnChange = (e) => {
     const newValue = e.target.value;

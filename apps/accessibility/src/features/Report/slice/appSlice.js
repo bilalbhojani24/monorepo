@@ -184,6 +184,9 @@ const { actions, reducer } = createSlice({
       Object.entries(resetInitState).forEach(([key, value]) => {
         state[key] = value;
       });
+    },
+    resetActiveTab: (state) => {
+      state.activeTab = SUMMARY;
     }
   }
 });
@@ -206,7 +209,8 @@ export const {
   resetIntermediateFiltersToActiveFilters,
   resetFilters,
   resetReportAppInfo,
-  resetIssueItem
+  resetIssueItem,
+  resetActiveTab
 } = actions;
 
 export default reducer;

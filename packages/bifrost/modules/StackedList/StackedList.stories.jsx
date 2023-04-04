@@ -7,11 +7,13 @@ import {
   MapPinIcon,
   UsersIcon
 } from '@heroicons/react/20/solid';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
 import Button from '../Button';
-import HyperLink from '../Hyperlink';
+import Hyperlink from '../Hyperlink';
 import StackedListCommon from '../StackedListCommon';
 import StackedListGroup from '../StackedListGroup';
 import StackedListItem from '../StackedListItem';
@@ -89,6 +91,13 @@ const defaultConfig = {
 const Template = (args) => <StackedList {...args} />;
 
 const NarrowWithAvatarGroup = Template.bind({});
+NarrowWithAvatarGroup.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  People.forEach(async (person) => {
+    await expect(canvas.getByText(person.name)).toBeVisible();
+    await expect(canvas.getByText(person.email)).toBeVisible();
+  });
+};
 NarrowWithAvatarGroup.parameters = {
   controls: {}
 };
@@ -112,12 +121,32 @@ NarrowWithAvatarGroup.args = {
 };
 
 const WithStickyHeadings = Template.bind({});
+WithStickyHeadings.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let Alist = GroupedPeople[0];
+  await expect(canvas.getByText(Alist.title)).toBeVisible();
+  let Blist = GroupedPeople[1];
+  await expect(canvas.getByText(Blist.title)).toBeVisible();
+  Alist = Alist.people;
+  Blist = Blist.people;
+  Alist.forEach(async (al) => {
+    await expect(canvas.getByText(al.name)).toBeVisible();
+    await expect(canvas.getByText(al.info)).toBeVisible();
+  });
+  Blist.forEach(async (bl) => {
+    await expect(canvas.getByText(bl.name)).toBeVisible();
+    await expect(canvas.getByText(bl.info)).toBeVisible();
+  });
+};
 WithStickyHeadings.args = {
   children: GroupedPeople.map(({ title, people }) => (
     <StackedListGroup key={title} heading={title}>
       {people.map(({ name, image, info }) => (
         <StackedListItem focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:outline-none font-normal">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:outline-none font-normal"
+          >
             <StackedListCommon
               icon={
                 <img
@@ -129,7 +158,7 @@ WithStickyHeadings.args = {
               title={name}
               subTitle={info}
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -140,6 +169,15 @@ WithStickyHeadings.parameters = {
 };
 
 const TwoColumnsWithAvatar = Template.bind({});
+TwoColumnsWithAvatar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  PeopleWithTwoCols.forEach(async (person) => {
+    await expect(canvas.getByText(person.name)).toBeVisible();
+    await expect(canvas.getByText(person.email)).toBeVisible();
+    await expect(canvas.queryAllByText(person.info).length).toBe(3);
+    await expect(canvas.queryAllByText(person.statusText).length).toBe(3);
+  });
+};
 TwoColumnsWithAvatar.args = {
   isCard: true,
   children: (
@@ -151,7 +189,8 @@ TwoColumnsWithAvatar.args = {
           key={email}
           focusParentOnChildFocused
         >
-          <HyperLink
+          <Hyperlink
+            isCSR={false}
             wrapperClassName="focus:outline-none font-normal text-base-900 md:w-[50%]"
             href="https://www.google.com"
           >
@@ -176,7 +215,7 @@ TwoColumnsWithAvatar.args = {
                 </div>
               }
             />
-          </HyperLink>
+          </Hyperlink>
 
           <StackedListCommon
             title={info}
@@ -195,13 +234,22 @@ TwoColumnsWithAvatar.args = {
 };
 
 const WithRightJustifiedSecondColumn = Template.bind({});
+WithRightJustifiedSecondColumn.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  JobTitles.forEach(async (jobTitle) => {
+    await expect(canvas.getByText(jobTitle)).toBeVisible();
+  });
+};
 WithRightJustifiedSecondColumn.args = {
   isCard: true,
   children: (
     <StackedListGroup>
       {JobTitles.map((job, index) => (
         <StackedListItem key={job} focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:outline-none font-normal w-full block">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:outline-none font-normal w-full block"
+          >
             {/* Add span only if want to make parent container as target to open link */}
             <span className="absolute inset-0" aria-hidden="true" />
             <StackedListCommon
@@ -228,7 +276,7 @@ WithRightJustifiedSecondColumn.args = {
                 </div>
               }
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -237,12 +285,24 @@ WithRightJustifiedSecondColumn.args = {
 };
 
 const ContentLinksWithAction = Template.bind({});
+ContentLinksWithAction.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  contentList.forEach(async (content) => {
+    await expect(canvas.getByText(content.title)).toBeVisible();
+    await expect(canvas.getByText(content.content)).toBeVisible();
+  });
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 ContentLinksWithAction.args = {
   children: (
     <StackedListGroup>
       {contentList.map(({ title, content }) => (
         <StackedListItem focusParentOnChildFocused>
-          <HyperLink wrapperClassName="focus:none font-normal text-base-900">
+          <Hyperlink
+            isCSR={false}
+            wrapperClassName="focus:none font-normal text-base-900"
+          >
             {/* Add span only if want to make parent container as target to open link */}
             <span className="absolute inset-0" aria-hidden="true" />
             <StackedListCommon
@@ -253,7 +313,7 @@ ContentLinksWithAction.args = {
                 </p>
               }
             />
-          </HyperLink>
+          </Hyperlink>
         </StackedListItem>
       ))}
     </StackedListGroup>
@@ -261,6 +321,15 @@ ContentLinksWithAction.args = {
 };
 
 const WithTruncatedContentPreview = Template.bind({});
+WithTruncatedContentPreview.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  contentLinks.forEach(async (content) => {
+    await expect(canvas.getByText(content.title)).toBeVisible();
+    await expect(canvas.getByText(content.time)).toBeVisible();
+    await expect(canvas.getByText(content.subTitle)).toBeVisible();
+    await expect(canvas.getByText(content.content)).toBeVisible();
+  });
+};
 WithTruncatedContentPreview.args = {
   footer: null,
   isCard: true,
@@ -270,10 +339,13 @@ WithTruncatedContentPreview.args = {
         <StackedListItem focusParentOnChildFocused>
           <StackedListCommon
             title={
-              <HyperLink wrapperClassName="focus:none font-normal text-base-900">
+              <Hyperlink
+                isCSR={false}
+                wrapperClassName="focus:none font-normal text-base-900"
+              >
                 {title}
                 <span className="absolute inset-0" aria-hidden="true" />
-              </HyperLink>
+              </Hyperlink>
             }
             contentAside={time}
             subTitle={
@@ -292,6 +364,16 @@ WithTruncatedContentPreview.args = {
 };
 
 const AvatarGroupsWithActions = Template.bind({});
+AvatarGroupsWithActions.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  AvatarGroupPeople.forEach(async (people) => {
+    await expect(canvas.getByText(people.name)).toBeVisible();
+    await expect(canvas.getByText(people.username)).toBeVisible();
+  });
+  await expect(canvas.getByText('View all')).toBeVisible();
+  await userEvent.click(canvas.getByText('View all'));
+  await expect(canvas.queryAllByText('View').length).toBe(4);
+};
 AvatarGroupsWithActions.args = {
   children: (
     <StackedListGroup>
