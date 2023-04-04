@@ -23,7 +23,7 @@ const HistorySlider = () => {
   const tabs = useMemo(() => {
     if (!isEmpty(testMeta.data?.history)) {
       return testMeta.data?.history.map((testHistory) => ({
-        name: testHistory.serialId,
+        name: `${testHistory.serialId}`,
         value: testHistory.testRunId,
         icon: () => (
           <div className="mr-2 flex h-full items-center">
@@ -52,7 +52,7 @@ const HistorySlider = () => {
         setActiveTab({
           idx: activeTestHistoryIdx,
           value: activeTestHistory.testRunId,
-          name: activeTestHistory.serialId
+          name: `${activeTestHistory.serialId}`
         });
       }
     }
@@ -66,7 +66,7 @@ const HistorySlider = () => {
       setActiveTab({
         idx: activeIndex,
         value: tabInfo.value,
-        name: tabInfo.name
+        name: `${tabInfo.name}`
       });
       dispatch(setShowTestDetailsFor(tabInfo.value));
       const searchParams = new URLSearchParams(window?.location?.search);

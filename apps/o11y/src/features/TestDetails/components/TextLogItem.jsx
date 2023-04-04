@@ -249,7 +249,7 @@ export default function TextLogItem({ data, searchText }) {
   };
 
   return (
-    <button
+    <div
       className={twClassNames(
         'border-base-200 flex px-2 flex-col break-words border-b py-4 text-left',
         {
@@ -261,8 +261,10 @@ export default function TextLogItem({ data, searchText }) {
             LOG_LEVELS.WARN === data?.logLevel
         }
       )}
-      type="button"
+      role="button"
       onClick={handleClick}
+      onKeyDown={() => {}}
+      tabIndex={0}
       data-idx={data.idx}
     >
       <div
@@ -308,7 +310,7 @@ export default function TextLogItem({ data, searchText }) {
                   </span>
                 )}
                 {logData?.args?.script && (
-                  <p className="inline-flex items-center gap-1">
+                  <div className="inline-flex items-center gap-1">
                     <span>
                       <MdOutlineCode className="text-base-500 h-4 w-4" />
                     </span>
@@ -323,7 +325,7 @@ export default function TextLogItem({ data, searchText }) {
                     >
                       {logData.args.script.substring(0, 80)}
                     </O11yTruncateText>
-                  </p>
+                  </div>
                 )}
                 {logData?.args?.url && (
                   <span className="inline-flex items-center gap-1">
@@ -408,7 +410,7 @@ export default function TextLogItem({ data, searchText }) {
           )}
         </>
       )}
-    </button>
+    </div>
   );
 }
 TextLogItem.propTypes = {

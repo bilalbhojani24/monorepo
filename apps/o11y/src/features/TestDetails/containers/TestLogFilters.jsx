@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { MdClose, MdOutlineFilterAlt, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yButton, O11yInputField, O11yPopover } from 'common/bifrostProxy';
+import { O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import StepsList from '../components/StepsList';
@@ -67,6 +67,7 @@ const TestLogFilters = ({
           addOnAfterInlineWrapperClassName=""
           placeholder="Search in logs"
           onChange={handleOnChange}
+          id="search-in-logs"
         />
       </div>
       <div className="flex items-center gap-3">
@@ -80,17 +81,22 @@ const TestLogFilters = ({
           size="2xl"
           content={<FilterPopoverContent onClose={closeFilterPopover} />}
           show={showFilterPopover}
-        >
-          <O11yButton
-            icon={
-              <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
+          onOpenChange={(isOpen) => {
+            setShowFilterPopover(!showFilterPopover);
+            if (isOpen) {
+              handleLogTDInteractionEvent({
+                interaction: 'filter_logs_clicked'
+              });
             }
-            colors="white"
-            isIconOnlyButton
-            onClick={() => {
-              setShowFilterPopover(!showFilterPopover);
-            }}
-          />
+          }}
+        >
+          <div
+            className={twClassNames('border-base-300 rounded border p-2', {
+              'ring-2 ring-offset-2 ring-brand-500': showFilterPopover
+            })}
+          >
+            <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
+          </div>
         </O11yPopover>
       </div>
     </>

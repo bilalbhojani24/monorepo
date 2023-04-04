@@ -59,10 +59,6 @@ export default function FilterPopoverContent({ onClose }) {
   });
 
   useEffect(() => {
-    handleLogTDInteractionEvent({ interaction: 'filter_logs_clicked' });
-  }, [handleLogTDInteractionEvent]);
-
-  useEffect(() => {
     const testLogs = activeLogLevels[LOG_TYPES.TEST_LOG];
     const textLogs = activeLogLevels[LOG_TYPES.TEST_LOG];
     const screenshotLogs = activeLogLevels[LOG_TYPES.TEST_SCREENSHOT];

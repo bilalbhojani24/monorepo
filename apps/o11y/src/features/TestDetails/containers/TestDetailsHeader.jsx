@@ -18,7 +18,7 @@ const TestDetailsHeader = ({ activeTab, onTabChange }) => (
       tabsArray={tabsList}
       onTabChange={onTabChange}
       shape="pill"
-      disableFullWidthBorder="true"
+      disableFullWidthBorder
     />
     {activeTab.value === TEST_DETAILS_TABS.logs && <TestRetriesMenu />}
   </div>
