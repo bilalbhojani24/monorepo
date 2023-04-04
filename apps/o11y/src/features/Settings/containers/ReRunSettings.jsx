@@ -35,11 +35,11 @@ export default function ReRunSettings() {
         .then((res) => {
           if (mounted.current) {
             setReRunViaCli({
-              state: res.data.reRunViaCli,
+              state: res.data.reRunViaCli === 'true',
               loading: false
             });
             setReRunViaDashboard({
-              state: res.data.reRunViaDashboard,
+              state: res.data.reRunViaDashboard === 'true',
               loading: false
             });
           }

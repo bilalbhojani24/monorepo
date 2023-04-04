@@ -10,6 +10,9 @@ export const getAlertDataByType = (type) => (state) =>
 export const getFailureSubCategoriesState = (state) =>
   state.failureCategoriesSettings.failureSubCategories;
 
+export const getAllFailureSubCategory = (state) =>
+  state.failureCategoriesSettings.failureSubCategories.data || {};
+
 export const getFailureSubCategoryByType = (type) => (state) =>
   state.failureCategoriesSettings.failureSubCategories.data?.[type] || [];
 

@@ -154,6 +154,9 @@ const { reducer } = createSlice({
         state.alerts.data[payload.alertType] = state.alerts.data[
           payload.alertType
         ].filter((item) => item.id !== payload.alertId);
+        if (!state.alerts.data[payload.alertType].length) {
+          delete state.alerts.data[payload.alertType];
+        }
       })
       // Build Names
       .addCase(getBuildNamesData.pending, (state) => {

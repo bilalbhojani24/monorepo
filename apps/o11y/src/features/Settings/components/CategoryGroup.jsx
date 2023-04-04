@@ -14,7 +14,10 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import PropTypes from 'prop-types';
 
-import { FAILURE_CATEGORIES_INFO } from '../constants';
+import {
+  FAILURE_CATEGORIES_INFO,
+  FAILURE_CATEGORIES_TYPES
+} from '../constants';
 import { getFailureSubCategoryByType } from '../slices/selectors';
 
 function CategoryGroup({ type }) {
@@ -57,7 +60,8 @@ function CategoryGroup({ type }) {
           variant="header"
           colspan={4}
           wrapperClassName={twClassNames('bg-base-50', {
-            'last:md:rounded-b-lg': !subcategories.length
+            ' border-t border-t-base-200':
+              type !== FAILURE_CATEGORIES_TYPES.environmentIssue
           })}
         >
           {FAILURE_CATEGORIES_INFO[type].label}
@@ -65,10 +69,10 @@ function CategoryGroup({ type }) {
       </O11yTableRow>
       {subcategories.map((subcategory) => (
         <O11yTableRow key={subcategory.id}>
-          <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal max-w-xs">
+          <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal max-w-xs border-t border-t-base-200">
             {subcategory.name}
           </O11yTableCell>
-          <O11yTableCell>
+          <O11yTableCell wrapperClassName="border-t border-t-base-200">
             <div className="flex justify-end">
               <O11yDropdown
                 onClick={(value) => handleClickMeatBall(value, subcategory)}

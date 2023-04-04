@@ -110,7 +110,7 @@ export default function GeneralSettings() {
           Set a larger build timeout if you have non-test related activities
           consuming a considerable amount of time as part of your build.
         </p>
-        <div className="w-40">
+        <div className="w-16">
           <O11yInputField
             id="general-build-timeout"
             disabled={data?.isLoading}
