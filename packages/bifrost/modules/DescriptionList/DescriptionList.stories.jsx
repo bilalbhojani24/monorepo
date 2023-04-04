@@ -5,7 +5,6 @@ import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import DescriptionListBody from '../DescriptionListBody';
 import DescriptionListHeader from '../DescriptionListHeader';
-import HyperLink from '../Hyperlink';
 import { PaperClipIcon } from '../Icon';
 import KeyValue from '../KeyValuePair';
 
@@ -57,7 +56,7 @@ const descriptionListData = [
             </span>
           </div>
           <div className="ml-4 shrink-0">
-            <HyperLink wrapperClassName="font-normal">Download</HyperLink>
+            <Button variant="minimal">Download</Button>
           </div>
         </li>
         <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
@@ -71,7 +70,7 @@ const descriptionListData = [
             </span>
           </div>
           <div className="ml-4 shrink-0">
-            <HyperLink wrapperClassName="font-normal">Download</HyperLink>
+            <Button variant="minimal">Download</Button>
           </div>
         </li>
       </ul>
@@ -130,7 +129,7 @@ export const LeftAlignedInCard = () => (
         {descriptionListData.map((item) => (
           <div
             className={twClassNames(
-              'px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'
+              'px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-base-200 border-b'
             )}
           >
             <KeyValue
@@ -280,8 +279,10 @@ export const LeftAlignedWithInlineActions = () => {
                   resume_back_end_developer.pdf
                 </span>
               </div>
-              <div className="ml-4 shrink-0">
-                <HyperLink wrapperClassName="font-normal">Download</HyperLink>
+              <div className="ml-4 flex shrink-0 space-x-4">
+                <Button variant="minimal">Update</Button>
+                <span className="text-base-300"> | </span>
+                <Button variant="minimal">Remove</Button>
               </div>
             </li>
             <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
@@ -294,8 +295,10 @@ export const LeftAlignedWithInlineActions = () => {
                   coverletter_back_end_developer.pdf
                 </span>
               </div>
-              <div className="ml-4 shrink-0">
-                <HyperLink wrapperClassName="font-normal">Download</HyperLink>
+              <div className="ml-4 flex shrink-0 space-x-4">
+                <Button variant="minimal">Update</Button>
+                <span className="text-base-300"> | </span>
+                <Button variant="minimal">Remove</Button>
               </div>
             </li>
           </ul>
