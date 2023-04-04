@@ -191,7 +191,7 @@ const TestRunsTable = () => {
                 />
               )}
             </div>
-            <span className="text-base-500 ml-0.5 w-7">
+            <span className="text-base-500 ml-2 w-7">
               {Number.isNaN(untestedPerc) ? '' : `${untestedPerc.toFixed(0)}%`}
             </span>
           </div>
