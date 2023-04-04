@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import ZeroIssues from 'assets/zero_issues.svg';
 import Chart from 'common/Chart';
 import { severityOptions } from 'constants';
 import cloneDeep from 'lodash/cloneDeep';
@@ -148,6 +149,24 @@ export default function ScanReportSummary() {
       key: 'issueCount'
     }
   ];
+
+  if (!issueSummary.issueCount) {
+    return (
+      <div
+        style={{ height: 'calc(100vh - 250px)' }}
+        className="flex flex-col items-center justify-center"
+      >
+        <img src={ZeroIssues} alt="zero issues" className="mb-5" />
+        <div className="text-center">
+          <p className="text-base-900 text-base font-medium">Hurray!</p>
+          <p className="text-base-500 text-base">
+            We found zero issues in this scan.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-base-50 relative mt-4">
       <div className="flex items-start">
@@ -155,36 +174,41 @@ export default function ScanReportSummary() {
           <DataVisualization
             title="Issue summary"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div className="flex items-center justify-between">
-                <div className="w-80">
+                <div className="w-2/4">
                   <Chart options={chartOption} />
                 </div>
-                <div>
-                  {impactList.map((impact) => (
-                    <div
-                      className="mb-4 flex h-6 w-40 items-center justify-between"
-                      onClick={() =>
-                        onRowClick(
-                          'impact',
-                          severityOptions.find(({ value }) => value === impact)
-                        )
-                      }
-                      role="presentation"
-                    >
-                      <div className="text-base-800 flex items-center text-sm">
-                        <div
-                          className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
-                        />
-                        {impact.charAt(0).toUpperCase()}
-                        {impact.slice(1, impact.length)}
+                <div className="flex w-2/4 flex-col items-center px-6">
+                  <div className="w-full">
+                    {impactList.map((impact) => (
+                      <div
+                        className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
+                        onClick={() =>
+                          onRowClick(
+                            'impact',
+                            severityOptions.find(
+                              ({ value }) => value === impact
+                            )
+                          )
+                        }
+                        role="presentation"
+                      >
+                        <div className="text-base-800 flex items-center pb-3 text-sm">
+                          <div
+                            className={`mr-1.5 h-2 w-2 rounded-full ${impactColorMap[impact]}`}
+                          />
+                          {impact.charAt(0).toUpperCase()}
+                          {impact.slice(1, impact.length)}
+                        </div>
+                        <p className="text-base-800 flex pb-3 text-sm">
+                          {issueSummary[impact]}
+                        </p>
                       </div>
-                      <p className="text-base-800 flex">
-                        {issueSummary[impact]}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             }
@@ -194,6 +218,7 @@ export default function ScanReportSummary() {
           <DataVisualization
             title="Affected components"
             headerInfo={null}
+            wrapperClassName="h-[440px]"
             size="fit-content"
             analytics={
               <div>
@@ -377,6 +402,7 @@ export default function ScanReportSummary() {
             <DataVisualization
               title="Affected pages"
               headerInfo={null}
+              wrapperClassName="h-[440px]"
               size="fit-content"
               analytics={
                 <div>
@@ -393,14 +419,13 @@ export default function ScanReportSummary() {
                             variant="header"
                             isSticky
                             textTransform="uppercase"
+                            wrapperClassName={`text-xs text-base-500 ${
+                              index === 0 ? 'w-14' : ''
+                            } ${index === 1 ? 'w-80' : ''} ${
+                              index === 2 ? 'w-32' : ''
+                            }`}
                           >
-                            <div
-                              className={`text-base-500 text-xs ${
-                                index === 1 ? 'w-64' : ''
-                              } ${index === 2 ? 'w-36' : ''}`}
-                            >
-                              {col.name}
-                            </div>
+                            {col.name}
                           </TableCell>
                         ))}
                       </TableRow>

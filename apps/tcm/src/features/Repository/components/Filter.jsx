@@ -96,9 +96,9 @@ const Filter = ({ isMini, onFilterChange }) => {
           value={filterSearchMeta?.q}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
-          leadingIcon={<SearchIcon className="text-base-400" />}
+          addOnBeforeInline={<SearchIcon className="text-base-400" />}
           isTrailingNodeClickable
-          trailingIcon={
+          addOnAfterInline={
             <>
               {filterSearchMeta?.q ? (
                 <CloseOutlinedIcon
@@ -155,7 +155,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   placeholder="Search"
                   value={ownerSearchKey}
                   onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
-                  leadingIcon={<SearchIcon className="text-base-400" />}
+                  addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
@@ -185,7 +185,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   value={tagSearchKey}
                   onChange={(e) => setTagSearchKey(e.currentTarget.value)}
                   placeholder="Search tags by name"
-                  leadingIcon={<SearchIcon className="text-base-400" />}
+                  addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
