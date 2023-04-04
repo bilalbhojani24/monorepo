@@ -131,9 +131,9 @@ const LogsTab = () => {
   );
 
   const highlightStep = (elem) => {
-    elem.classList.add('animateBg');
+    elem.classList.add('animate-pulse-bg');
     setTimeout(() => {
-      elem.classList.remove('animateBg');
+      elem.classList.remove('animate-pulse-bg');
     }, 1000);
   };
 
