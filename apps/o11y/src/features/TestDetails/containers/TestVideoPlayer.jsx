@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import isEmpty from 'lodash/isEmpty';
 
 import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
@@ -148,6 +149,10 @@ const TestVideoPlayer = () => {
         <O11yLoader />
       </div>
     );
+  }
+
+  if (isEmpty(details.data?.videoLogs)) {
+    return null;
   }
 
   return (

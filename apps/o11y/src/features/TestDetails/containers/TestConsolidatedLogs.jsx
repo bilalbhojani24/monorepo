@@ -237,7 +237,7 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
   }
 
   return (
-    <div className="relative h-full">
+    <div className="h-full">
       <div className="flex items-center justify-between pt-4">
         <TestLogFilters
           onSearchChange={handleSearchChange}

@@ -28,6 +28,11 @@ import TestVideoPlayer from './TestVideoPlayer';
 
 const SCROLL_OFFSET = 200;
 
+export const LOGS_INFO_TAB_KEYS = {
+  logs: 'logs',
+  network: 'network'
+};
+
 const LogsTab = () => {
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
@@ -44,6 +49,10 @@ const LogsTab = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const [activeTab, setActiveTab] = useState({
+    idx: 0,
+    value: LOGS_INFO_TAB_KEYS.logs
+  });
 
   useEffect(() => {
     const slideOverElement = document.getElementById(
@@ -174,7 +183,10 @@ const LogsTab = () => {
   }
 
   return (
-    <div className="relative flex h-full w-full flex-col" ref={scrollRef}>
+    <div
+      className="relative flex h-full w-full flex-col overflow-auto"
+      ref={scrollRef}
+    >
       <LOGS_CONTEXT.Provider
         value={{
           handleScrollToBottom,
@@ -188,7 +200,9 @@ const LogsTab = () => {
           floatingVideoTopOffset,
           floatingVideoRightOffset,
           setActiveStep,
-          setTotalSteps
+          setTotalSteps,
+          activeTab,
+          setActiveTab
         }}
       >
         <TestVideoPlayer
@@ -196,79 +210,81 @@ const LogsTab = () => {
           floatingVideoRef={floatingVideoComponentRef}
         />
         <TestsLogsInfoTabs />
-        <div className="sticky bottom-0 z-20 w-full">
-          <div className="mb-2 flex items-center justify-center">
-            <O11yButton
-              variant="rounded"
-              wrapperClassName=""
-              icon={
-                isScrolledToBottom ? (
-                  <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
-                ) : (
-                  <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
-                )
-              }
-              onClick={handleClickScrollButton}
-              disabled={activeStep === totalSteps}
-              colors="brand"
-              iconPlacement="end"
-            >
-              {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
-            </O11yButton>
-          </div>
-          <div className="flex items-center justify-between bg-white pt-2">
-            <div className="flex items-center gap-6">
+        {activeTab.value === LOGS_INFO_TAB_KEYS.logs && (
+          <div className="sticky bottom-0 z-20 w-full">
+            <div className="mb-2 flex items-center justify-center">
               <O11yButton
-                variant="minimal"
+                variant="rounded"
                 wrapperClassName=""
-                icon={<MdArrowDownward className="text-base-700 h-4 w-4" />}
-                onClick={handleNextStep}
+                icon={
+                  isScrolledToBottom ? (
+                    <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
+                  ) : (
+                    <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
+                  )
+                }
+                onClick={handleClickScrollButton}
                 disabled={activeStep === totalSteps}
-                size="small"
-                colors="white"
-              >
-                <span className="text-base-700 text-xs font-medium leading-4">
-                  Next step
-                </span>
-              </O11yButton>
-              <O11yButton
-                variant="minimal"
-                wrapperClassName=""
-                icon={<MdArrowUpward className="text-base-700 h-4 w-4" />}
-                onClick={handlePrevStep}
-                disabled={activeStep <= 0}
-                size="small"
-                colors="white"
+                colors="brand"
                 iconPlacement="end"
               >
-                <span className="text-base-700 text-xs font-medium leading-4">
-                  Previous step
-                </span>
+                {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
               </O11yButton>
             </div>
-
-            {details.data?.browserstackSessionUrl && (
-              <div>
-                <O11yHyperlink
-                  href={details.data.browserstackSessionUrl}
-                  target="_blank"
-                  onClick={() =>
-                    handleLogTDInteractionEvent({
-                      interaction: 'browserstack_session_clicked'
-                    })
-                  }
+            <div className="flex items-center justify-between bg-white p-2">
+              <div className="flex items-center gap-6">
+                <O11yButton
+                  variant="minimal"
+                  wrapperClassName=""
+                  icon={<MdArrowDownward className="text-base-700 h-4 w-4" />}
+                  onClick={handleNextStep}
+                  disabled={activeStep === totalSteps}
+                  size="small"
+                  colors="white"
                 >
-                  <div className="flex gap-1">
-                    <span className="text-base-700 text-xs font-medium leading-4">
-                      Automate session
-                    </span>
-                    <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
-                  </div>
-                </O11yHyperlink>
+                  <span className="text-base-700 text-xs font-medium leading-4">
+                    Next step
+                  </span>
+                </O11yButton>
+                <O11yButton
+                  variant="minimal"
+                  wrapperClassName=""
+                  icon={<MdArrowUpward className="text-base-700 h-4 w-4" />}
+                  onClick={handlePrevStep}
+                  disabled={activeStep <= 0}
+                  size="small"
+                  colors="white"
+                  iconPlacement="end"
+                >
+                  <span className="text-base-700 text-xs font-medium leading-4">
+                    Previous step
+                  </span>
+                </O11yButton>
               </div>
-            )}
+
+              {details.data?.browserstackSessionUrl && (
+                <div>
+                  <O11yHyperlink
+                    href={details.data.browserstackSessionUrl}
+                    target="_blank"
+                    onClick={() =>
+                      handleLogTDInteractionEvent({
+                        interaction: 'browserstack_session_clicked'
+                      })
+                    }
+                  >
+                    <div className="flex gap-1">
+                      <span className="text-base-700 text-xs font-medium leading-4">
+                        Automate session
+                      </span>
+                      <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                    </div>
+                  </O11yHyperlink>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </LOGS_CONTEXT.Provider>
     </div>
   );

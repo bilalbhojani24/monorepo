@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
@@ -8,13 +8,9 @@ import { useLogsContext } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getTestDetails } from '../slices/selectors';
 
+import { LOGS_INFO_TAB_KEYS } from './LogsTab';
 import TestConsolidatedLogs from './TestConsolidatedLogs';
 import TestNetworkLogs from './TestNetworkLogs';
-
-const LOGS_INFO_TAB_KEYS = {
-  logs: 'logs',
-  network: 'network'
-};
 
 const tabs = [
   {
@@ -30,11 +26,8 @@ const tabs = [
 const TestsLogsInfoTabs = () => {
   const details = useSelector(getTestDetails);
   const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
-  const { videoSeekTime, sessionTestToggle } = useLogsContext();
-  const [activeTab, setActiveTab] = useState({
-    idx: 0,
-    value: LOGS_INFO_TAB_KEYS.logs
-  });
+  const { videoSeekTime, sessionTestToggle, activeTab, setActiveTab } =
+    useLogsContext();
 
   const onTabChange = (tabInfo) => {
     let activeIndex = tabs.findIndex((item) => item.value === tabInfo.value);
