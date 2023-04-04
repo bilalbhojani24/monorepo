@@ -125,7 +125,7 @@ const DataVisualization = ({
           ))}
         </div>
       )}
-      <div className={twClassNames(analyticsWrapperClassName)}>{analytics}</div>
+      <div className={analyticsWrapperClassName}>{analytics}</div>
 
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[1] && (
         <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
