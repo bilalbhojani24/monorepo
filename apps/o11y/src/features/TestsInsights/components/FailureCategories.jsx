@@ -1,28 +1,24 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@browserstack/bifrost';
+import { MdBarChart, MdErrorOutline, MdOpenInNew } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yTooltip } from 'common/bifrostProxy';
+import {
+  O11yEmptyState,
+  O11yHyperlink,
+  O11yTooltip
+} from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 // import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
-// import { DOC_LINKS } from 'constants/common';
+import BigNumber from 'features/TestsInsights/components/BigNumber';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { isEmpty } from 'lodash';
+import { docsLink } from 'utils/common';
 
-// import { OpenInNewIcon } from 'trike/Icons';
-// import 'images/testops/icons/no-data-search.svg';
 import { getDefectsStats } from '../slices/selectors';
 import { getDefectsData } from '../slices/testInsightsSlice';
-
-import BigNumber from './BigNumber';
-// import BigNumber from '../widgets/BigNumber';
-// import CardHeader from '../widgets/CardHeader';
-
-// import '../styles/Defects.scss';
 
 const getTBIStatus = (data = [], total = 0) => {
   const tbiId = 'tobeinvestigated';
@@ -95,75 +91,82 @@ export default function FailureCategories() {
 
   if (defectsStats?.isLoading) {
     return (
-      <div className="ti-defects ti-defects--loading">
-        {/* <CardHeader title="Failure Categories" showMore /> */}
-        <div className="ti-defects__loading-spin">
-          <O11yLoader text="Fetching data" />
-        </div>
+      <div className="flex h-full flex-col">
+        <O11yLoader text="Fetching data" />
       </div>
     );
   }
   if (defectsStats?.hasNetworkError || hasNoData) {
     return (
-      <div className="ti-defects">
-        {/* <CardHeader title="Failure Categories" showMore /> */}
-        {/* <PlaceHolder
-          type="error"
-          text="Something went wrong"
-          ctaText="Reload"
-          onClickCTA={() => dispatch(getDefectsData({ buildId }))}
-        /> */}
+      <div className="flex h-full flex-col">
+        <O11yEmptyState
+          title="Something went wrong"
+          description={null}
+          buttonProps={{
+            children: 'Reload',
+            onClick: () => dispatch(getDefectsData({ buildId })),
+            size: 'default'
+          }}
+          mainIcon={
+            <MdErrorOutline
+              className={twClassNames('text-danger-600 inline-block w-8 h-8')}
+            />
+          }
+        />
       </div>
     );
   }
 
   if (!totalDefects) {
     return (
-      <div className="ti-defects">
-        {/* <CardHeader title="Failure Categories" showMore />
-        <PlaceHolder
-          text="No failed tests found"
-          illustration={
-            <svg className="ti-placeholder__illustration">
-              <use xlinkHref="#no-data-rocket" />
-            </svg>
+      <div className="flex h-full flex-col">
+        <O11yEmptyState
+          title="No failed tests found"
+          description={null}
+          buttonProps={null}
+          mainIcon={
+            // show Rocket here
+            <MdErrorOutline
+              className={twClassNames('text-danger-600 inline-block h-8 w-8')}
+            />
           }
-        /> */}
+        />
       </div>
     );
   }
 
   if (areAllTBI.status) {
     return (
-      <div className="ti-defects">
-        {/* <CardHeader title="Failure Categories" showMore />
-        <PlaceHolder
-          text="Manual investigation yet to start"
-          metaText={
-            <>
+      <div className="flex h-full flex-col">
+        <O11yEmptyState
+          title="Manual investigation yet to start"
+          description={
+            <div className="flex flex-col items-center">
               Start tagging failures manually for Auto Analysis to kick-in{' '}
-              <HyperLink
+              <O11yHyperlink
                 target="_blank"
-                href={DOC_LINKS.autoAnalyser}
-                icon={<OpenInNewIcon />}
+                href={docsLink().autoAnalyser}
+                icon={<MdOpenInNew />}
                 iconPlacement="right"
                 label="Learn more"
                 linkWeight="regular"
                 modifier="primary"
-                className="to-anchor"
               >
                 Learn more
-              </HyperLink>
-            </>
+              </O11yHyperlink>
+            </div>
           }
-          illustration={
-            <svg className="ti-placeholder__illustration">
-              <use xlinkHref="#no-data-search" />
-            </svg>
+          buttonProps={{
+            children: 'Start Investigation',
+            onClick: handleClickStartInvestigation,
+            size: 'default'
+          }}
+          mainIcon={
+            <MdBarChart
+              className={twClassNames('text-danger-600 inline-block w-8 h-8')}
+            />
           }
-          ctaText="Start Investigation"
-          onClickCTA={handleClickStartInvestigation}
-        /> */}
+        />
       </div>
     );
   }
@@ -187,45 +190,33 @@ export default function FailureCategories() {
             />
             <div className="w-full flex-1">
               <div className="flex">
-                {defectsStats.data?.data?.map((item, index) => (
+                {defectsStats.data?.data?.map((item) => (
                   <div
-                    style={{ width: `${(item.value * 100) / totalDefects}%` }}
+                    className="h-5 overflow-hidden rounded-none first:rounded-l-full last:rounded-r-full"
+                    style={{
+                      color: item.color,
+                      backgroundColor: item.color,
+                      width: `${(item.value * 100) / totalDefects}%`
+                    }}
                   >
                     {!!item.value && (
                       <O11yTooltip
-                        theme="light"
+                        theme="dark"
                         placementSide="top"
                         wrapperClassName="py-2"
                         content={
-                          <div className="ti-defects__tooltip-content">
-                            <span
-                              className="ti-defects__color-dot"
-                              style={{ backgroundColor: item.color }}
-                            />
-                            <span className="ti-defects__tooltip-key">
+                          <div className="flex items-center gap-1">
+                            <span className="inline-flex h-2 w-2 rounded-full" />
+                            <span className="whitespace-nowrap text-xs">
                               {item.name}:
                             </span>
-                            <span className="ti-defects__tooltip-value">
+                            <span className="font-semibold">
                               {((item.value * 100) / totalDefects).toFixed(2)}%
                             </span>
                           </div>
                         }
                       >
-                        <div
-                          type="button"
-                          className={twClassNames(
-                            'h-8 overflow-hidden rounded-none ',
-                            {
-                              'rounded-l-full': index === 0,
-                              'rounded-r-full':
-                                defectsStats.data?.data?.length - 1 === index
-                            }
-                          )}
-                          style={{
-                            color: item.color,
-                            backgroundColor: item.color
-                          }}
-                        >
+                        <div type="button" className="contents">
                           {item.name}
                         </div>
                       </O11yTooltip>
@@ -237,22 +228,19 @@ export default function FailureCategories() {
           </div>
           <div className="mt-5 grid grid-cols-1 gap-x-2 gap-y-5">
             {defectsStats.data?.data?.map((item) => (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
               <div
                 className="flex cursor-pointer items-center justify-between pb-2 text-sm"
                 key={item.id}
-                role="button"
+                // role="button"
                 onClick={() => handleCategoryClick(item)}
-                tabIndex={0}
               >
                 <p className="flex items-center gap-2">
                   <span
                     className="inline-flex h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="ti-defects__item-card--text">
-                    {item.name}
-                  </span>
+                  <span>{item.name}</span>
                 </p>
                 <p className="font-medium">
                   {item?.value >= 10 ? item.value : `0${item.value}`}

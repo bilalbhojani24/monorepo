@@ -1,13 +1,14 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdBarChart, MdErrorOutline, Tooltip } from '@browserstack/bifrost';
+import { MdBarChart, MdErrorOutline } from '@browserstack/bifrost';
 import {
   O11yAccordian,
   O11yBadge,
   O11yEmptyState,
   O11yTableCell,
-  O11yTableRow
+  O11yTableRow,
+  O11yTooltip
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
@@ -41,15 +42,9 @@ const getFormattedData = (data) =>
             </p>
           ))}
           {titleSplit.length > 3 && (
-            <Tooltip
+            <O11yTooltip
               placement="bottom"
               trigger={['hover']}
-              // overlay={
-              //   // <StackTraceTooltip
-              //   //   traceLines={titleSplit || []}
-              //   //   copyText={titleSplit?.join('\n')}
-              //   // />
-              // }
               overlayClassName="ti-top-errors__tooltip-overlay"
               destroyTooltipOnHide={{ keepParent: false }}
               showArrow={false}
@@ -59,7 +54,7 @@ const getFormattedData = (data) =>
               <p className="ti-top-errors__title-more-line monospace">
                 ...{titleSplit.length - 3} more line(s)
               </p>
-            </Tooltip>
+            </O11yTooltip>
           )}
         </>
       ),
@@ -101,11 +96,6 @@ export default function TopErrors() {
           }
           buttonProps={null}
         />
-        {/* <PlaceHolder
-          text="Analysis yet to run"
-          metaText="Unique error analysis results will be available after build run completion"
-          type="empty"
-        /> */}
       </div>
     );
   }
@@ -125,12 +115,6 @@ export default function TopErrors() {
             size: 'default'
           }}
         />
-        {/* <PlaceHolder
-          type="error"
-          text="Something went wrong"
-          ctaText="Reload"
-          onClickCTA={() => dispatch(getTopErrorsData({ buildId }))}
-        /> */}
       </div>
     );
   }
@@ -149,11 +133,6 @@ export default function TopErrors() {
           }
           buttonProps={null}
         />
-        {/* <PlaceHolder
-          text="No Errors!"
-          metaText="We found zero errors in this build"
-          type="empty"
-        /> */}
       </div>
     );
   }
@@ -166,13 +145,8 @@ export default function TopErrors() {
     }
   };
 
-  console.log(
-    'topErrorsStats',
-    getFormattedData(topErrorsStats?.data?.data || [])
-  );
-
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-96 flex-col">
       {/* <CardHeader title="Unique errors" /> */}
       <div className="mt-6">
         <BigNumber
@@ -180,72 +154,58 @@ export default function TopErrors() {
           config={{ noHover: true }}
         />
       </div>
-      <div className="mt-4 h-96 flex-1">
+      <div className="mt-4 h-full flex-1">
         <VirtualisedTable
           data={getFormattedData(topErrorsStats?.data?.data || [])}
-          // endReached={loadMoreRows}
-          // showFixedFooter={isLoadingMore}
+          style={{ height: '100%' }}
           tableContainerWrapperClassName=""
-          itemContent={(index, singleBuildData) => {
-            // <StabilityTableItem
-            //   item={singleBuildData}
-            //   selectedBuild={selectedBuild}
-            // />
-            console.log('singleBuildData', singleBuildData);
-            return (
-              <>
-                <O11yTableCell>
-                  <O11yAccordian
-                    // pl-5 pt-0 bg-white flex items-center hover:bg-brand-50 rounded-b-md cursor-pointer
-                    triggerClassName=""
-                    triggerContentNode={
-                      <div className="flex flex-col items-start break-all">
-                        {singleBuildData.title}
-                      </div>
-                    }
-                    panelContentNode={
-                      <div className="flex flex-col items-start break-all">
-                        {singleBuildData.content}
-                      </div>
-                    }
-                    onTriggerClick={() => handleAccordionExpand}
-                  />
-                </O11yTableCell>
-                <O11yTableCell>
-                  {' '}
-                  <O11yBadge
-                    wrapperClassName="text-sm font-medium"
-                    onClick={() => {}}
-                    hasRemoveButton={false}
-                    modifier="error"
-                    hasDot={false}
-                    text={singleBuildData.badge}
-                  />
-                </O11yTableCell>
-              </>
-            );
-          }}
+          tableHeaderWrapperClassName="bg-white"
+          itemContent={(index, singleBuildData) => (
+            <>
+              <O11yTableCell>
+                <O11yAccordian
+                  triggerClassName=""
+                  triggerContentNode={
+                    <div className="flex flex-col items-start break-all">
+                      {singleBuildData.title}
+                    </div>
+                  }
+                  panelContentNode={
+                    <div className="flex flex-col">
+                      {singleBuildData.content}
+                    </div>
+                  }
+                  onTriggerClick={() => handleAccordionExpand}
+                />
+              </O11yTableCell>
+              <O11yTableCell>
+                {' '}
+                <O11yBadge
+                  wrapperClassName="text-sm font-medium"
+                  onClick={() => {}}
+                  hasRemoveButton={false}
+                  modifier="error"
+                  hasDot={false}
+                  text={singleBuildData.badge}
+                />
+              </O11yTableCell>
+            </>
+          )}
           fixedHeaderContent={() => (
             <O11yTableRow>
-              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
-                Error
-              </O11yTableCell>
               <O11yTableCell
-                wrapperClassName="text-base-900 bg-white w-1/4"
+                wrapperClassName="text-base-900 bg-white w-2/3"
                 isSticky
               >
+                Error
+              </O11yTableCell>
+              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
                 Tests
               </O11yTableCell>
             </O11yTableRow>
           )}
           handleRowClick={() => {}}
         />
-        {/* <Accordion
-          autoClose
-          className="ti-top-errors__accordion"
-          data={getFormattedData(topErrorsStats?.data?.data || [])}
-          onClick={handleAccordionExpand}
-        /> */}
       </div>
     </div>
   );

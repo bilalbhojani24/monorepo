@@ -1,5 +1,4 @@
 import React from 'react';
-// import { cards } from 'features/TestsInsights/constants';
 import PropTypes from 'prop-types';
 
 import Alerts from '../components/Alerts';
@@ -14,10 +13,8 @@ import MutedTests from '../components/MutedTests';
 import NewFailures from '../components/NewFailures';
 import ReRunSummary from '../components/ReRunSummary';
 import TopErrors from '../components/TopErrors';
-// import CardHeader from '../widgets/CardHeader';
 
 export default function DashboardCard({ cardKey }) {
-  // eslint-disable-next-line sonarjs/no-small-switch
   switch (cardKey) {
     case 'buildSummary':
       return <BuildSummary />;
@@ -46,7 +43,7 @@ export default function DashboardCard({ cardKey }) {
     case 'failuresByFolders':
       return <FailuresByFolders />;
     default:
-    // return <CardHeader title={cards[cardKey].title} />;
+      return null;
   }
 }
 DashboardCard.propTypes = {

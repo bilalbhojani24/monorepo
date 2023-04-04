@@ -1,4 +1,4 @@
-/* eslint-disable tailwindcss/no-custom-classname */
+/* eslint-disable react/no-this-in-sfc */
 import React, {
   useCallback,
   useContext,
@@ -23,9 +23,6 @@ import { getFailureByModules } from '../slices/selectors';
 import { getFailureByModulesData } from '../slices/testInsightsSlice';
 
 import FailureByFoldersTooltip from './FailureByFoldersTooltip';
-
-// import CardHeader from '../widgets/CardHeader';
-// import '../styles/FailuresByFolders.scss';
 
 const getChartOptions = () => ({
   ...COMMON_CHART_CONFIGS,
@@ -157,24 +154,24 @@ export default function FailuresByFolders() {
                 align: 'center',
                 verticalAlign: 'middle',
                 formatter() {
-                  return `<div class="ti-fbm__data-label">
+                  return `<div class="flex items-center gap-1 text-base-700">
+                      ${
+                        this?.point?.options?.type === 'FOLDER'
+                          ? `<svg class="shrink-0 w-5 h-5 text-base-700">
+                        <path d="M16.6667 4.99999H9.99999L8.33332 3.33333H3.33332C2.41666 3.33333 1.67499 4.08333 1.67499 4.99999L1.66666 15C1.66666 15.9167 2.41666 16.6667 3.33332 16.6667H16.6667C17.5833 16.6667 18.3333 15.9167 18.3333 15V6.66666C18.3333 5.74999 17.5833 4.99999 16.6667 4.99999ZM16.6667 15H3.33332V6.66666H16.6667V15Z" fill="#333333"/>
+                        </svg>`
+                          : `<svg width="14" height="18">
+                          <path d="M8.66671 0.666664H2.00004C1.08337 0.666664 0.341708 1.41666 0.341708 2.33333L0.333374 15.6667C0.333374 16.5833 1.07504 17.3333 1.99171 17.3333H12C12.9167 17.3333 13.6667 16.5833 13.6667 15.6667V5.66666L8.66671 0.666664ZM2.00004 15.6667V2.33333H7.83337V6.5H12V15.6667H2.00004Z" fill="#333333"/>
+                          </svg>
+                        `
+                      }
+                      <p class="text-sm flex-1 whitespace-nowrap overflow-hidden text-ellipsis">${
+                        this?.point?.name
+                      }</p>
                     </div>`;
                 }
               }
             }
-            // ${
-            //   this?.point?.options?.type === 'FOLDER'
-            //     ? `<svg class="ti-fbm__data-label-icon">
-            //   <path d="M16.6667 4.99999H9.99999L8.33332 3.33333H3.33332C2.41666 3.33333 1.67499 4.08333 1.67499 4.99999L1.66666 15C1.66666 15.9167 2.41666 16.6667 3.33332 16.6667H16.6667C17.5833 16.6667 18.3333 15.9167 18.3333 15V6.66666C18.3333 5.74999 17.5833 4.99999 16.6667 4.99999ZM16.6667 15H3.33332V6.66666H16.6667V15Z" fill="#333333"/>
-            //   </svg>`
-            //     : `<svg width="14" height="18">
-            //     <path d="M8.66671 0.666664H2.00004C1.08337 0.666664 0.341708 1.41666 0.341708 2.33333L0.333374 15.6667C0.333374 16.5833 1.07504 17.3333 1.99171 17.3333H12C12.9167 17.3333 13.6667 16.5833 13.6667 15.6667V5.66666L8.66671 0.666664ZM2.00004 15.6667V2.33333H7.83337V6.5H12V15.6667H2.00004Z" fill="#333333"/>
-            //     </svg>
-            //   `
-            // }
-            // <p class="ti-fbm__data-label-text">${
-            //   this?.point?.name
-            // }</p>
           ],
           states: {
             hover: {
@@ -223,7 +220,7 @@ export default function FailuresByFolders() {
 
   if (failureByModules?.hasNetworkError) {
     return (
-      <div className="ti-fbm">
+      <div className="flex h-full flex-col">
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -241,8 +238,8 @@ export default function FailuresByFolders() {
   }
   if (failureByModules?.isLoading) {
     return (
-      <div className="ti-fbm ti-fbm--loading">
-        <div className="ti-fbm__loading-spin">
+      <div className="flex h-full flex-col">
+        <div className="flex flex-1 items-center">
           <O11yLoader text="Fetching data" />
         </div>
       </div>
@@ -250,7 +247,7 @@ export default function FailuresByFolders() {
   }
   if (isEmpty(failureByModules?.data) && !failureByModules?.isLoading) {
     return (
-      <div className="ti-fbm">
+      <div className="flex h-full flex-col">
         <O11yEmptyState
           title="No data found"
           description={null}
@@ -264,9 +261,8 @@ export default function FailuresByFolders() {
   }
 
   return (
-    <div className="ti-fbm" ref={containerRef}>
-      {/* <CardHeader title="Failure by Folders" /> */}
-      <div className="ti-fbm__chart">
+    <div className="flex h-full flex-col" ref={containerRef}>
+      <div className="relative flex-1">
         <O11yTooltip
           theme="dark"
           content={
@@ -276,7 +272,7 @@ export default function FailuresByFolders() {
           }
         >
           <div
-            className="ti-fbm__tooltip-init"
+            className="absolute rounded-sm"
             key={tooltipData?.options?.id}
             style={{
               ...tooltipData?.styles,
@@ -286,7 +282,9 @@ export default function FailuresByFolders() {
             role="presentation"
           />
         </O11yTooltip>
-        <Chart options={chartOptions} />
+        <div className="h-60">
+          <Chart options={chartOptions} />
+        </div>
       </div>
     </div>
   );

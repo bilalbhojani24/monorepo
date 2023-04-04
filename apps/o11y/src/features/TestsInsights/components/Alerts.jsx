@@ -2,11 +2,15 @@ import React, { useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Alerts as BifrostAlerts,
   Button,
+  MdError,
   MdErrorOutline,
   MdNotificationAdd,
-  MdRocket
+  MdWarning,
+  StackedListCommon,
+  StackedListGroup,
+  StackedListItem
+  // MdRocket
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
@@ -21,9 +25,11 @@ import { getBuildAlerts } from '../slices/selectors';
 import { getBuildAlertsData } from '../slices/testInsightsSlice';
 
 const ALERT_LEVEL = {
-  WARNING: 'warning',
-  WARN: 'warning',
-  CRITICAL: 'error'
+  WARNING: (
+    <MdWarning className="text-attention-300 inline-block !h-12 !w-12" />
+  ),
+  WARN: <MdWarning className="text-attention-300 inline-block !h-12 !w-12" />,
+  CRITICAL: <MdError className="text-attention-500 inline-block !h-12 !w-12" />
 };
 
 export default function Alerts() {
@@ -63,7 +69,6 @@ export default function Alerts() {
   if (alerts?.isLoading) {
     return (
       <div className="">
-        {/* <CardHeader title="Alerts" /> */}
         <div className="flex flex-1 items-center">
           <O11yLoader text="Fetching data" />
         </div>
@@ -73,7 +78,6 @@ export default function Alerts() {
   if (alerts?.hasNetworkError) {
     return (
       <div className="flex h-full flex-col">
-        {/* <CardHeader title="Alerts" /> */}
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -92,18 +96,6 @@ export default function Alerts() {
   if (hasNoData && !alerts?.data?.alertsConfigured) {
     return (
       <div className="flex h-full flex-col">
-        {/* <CardHeader title="Alerts" /> */}
-        {/* <PlaceHolder
-          text="No alerts configured!"
-          // metaText="Alerts not configured yet"
-          illustration={
-            <svg className="ti-placeholder__illustration">
-              <use xlinkHref="#create_alert" />
-            </svg>
-          }
-          ctaText="Configure"
-          onClickCTA={handleClickConfigureAlerts}
-        /> */}
         <O11yEmptyState
           title="No alerts configured!"
           description={null}
@@ -122,50 +114,53 @@ export default function Alerts() {
   if (hasNoData) {
     return (
       <div className="flex h-full flex-col">
-        {/* <CardHeader title="Alerts" /> */}
         <O11yEmptyState
           title="No alerts!"
           description="We found zero alerts in this build"
           buttonProps={null}
           mainIcon={
-            <MdRocket className="text-brand-400 inline-block !h-12 !w-12" />
+            // no-data-rocket icon to be added
+            <MdErrorOutline className="text-brand-400 inline-block !h-12 !w-12" />
           }
         />
-        {/* <PlaceHolder
-          text="No alerts!"
-          metaText="We found zero alerts in this build"
-          illustration={
-            <svg className="ti-placeholder__illustration">
-              <use xlinkHref="#no-data-rocket" />
-            </svg>
-          }
-        /> */}
       </div>
     );
   }
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto">
-        {alerts?.data?.data.map((item) => (
-          <BifrostAlerts
-            title={item.text}
-            linkText={null}
-            modifier="primary"
-            // wrapperClassName="ti-alerts__alert"
-            key={item.id}
-            action={
-              <Button
-                wrapperClassName="ti-alerts__alert-btn"
-                onClick={() => handleFilterRedirect(item.filterQuery)}
-              >
-                {item.cta}
-              </Button>
-            }
-            // modifier={ALERT_LEVEL[item?.level] || ''}
-          />
-          //   {item.text}
-          // </BifrostAlerts>
-        ))}
+        <StackedListGroup>
+          {alerts?.data?.data.map((item) => (
+            <StackedListItem
+              wrapperClassName="px-0 py-3 sm:px-0"
+              actions={
+                <Button
+                  variant="rounded"
+                  colors="white"
+                  onClick={() => handleFilterRedirect(item.filterQuery)}
+                >
+                  {item.cta}
+                </Button>
+              }
+            >
+              <StackedListCommon
+                icon={ALERT_LEVEL[item?.level]}
+                title={item.text}
+                subTitle={null}
+              />
+            </StackedListItem>
+            // <BifrostAlerts
+            //   accentBorder={false}
+            //   title={item.text}
+            //   alertLinkPosition="end"
+            //   linkText={item.cta}
+            //   modifier={ALERT_LEVEL[item?.level] || ''}
+            //   wrapperClassName="mb-3"
+            //   key={item.id}
+            //   handleLinkClick={() => handleFilterRedirect(item.filterQuery)}
+            // />
+          ))}
+        </StackedListGroup>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +37,6 @@ export default function Flakiness() {
     <WidgetLayoutCard
       height={16}
       title="Flaky Tests"
-      showMoreButton
       isLoading={flakyStats?.isLoading}
       bigNumberData={flakyStats?.data}
       showNoData={isEmpty(flakyStats?.data) && !flakyStats?.isLoading}

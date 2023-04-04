@@ -21,14 +21,19 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId }) {
     // );
   };
   return (
-    <div className="ti-top-errors-bulk-trigger">
-      <p className="ti-top-errors-bulk-trigger__title">Failed tests</p>
-      <Button
-        wrapperClassName="ti-top-errors-bulk-trigger__btn"
-        onClick={handleClickTrigger}
-      >
-        Bulk update failure category
-      </Button>
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm font-semibold">Failed tests</p>
+      </div>
+      <div>
+        <Button
+          variant="minimal"
+          wrapperClassName="text-base-500 font-semibold"
+          onClick={handleClickTrigger}
+        >
+          Bulk update failure category
+        </Button>
+      </div>
     </div>
   );
 }

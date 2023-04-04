@@ -1,17 +1,14 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import O11yLoader from 'common/O11yLoader';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import TestDataItem from 'features/TestsInsights/components/TestDataItem';
 import { getTopErrorsTestRuns } from 'features/TestsInsights/slices/selectors';
 import { getTopErrorsTestRunsData } from 'features/TestsInsights/slices/testInsightsSlice';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
-// import TestDataItem from '../widgets/TestDataItem';
 import TopErrorsBulkUpdateTrigger from './TopErrorsBulkUpdateTrigger';
-
-// import '../styles/TestDataItem.scss';
 
 export default function TopErrorsTestRun({ data, parentId }) {
   const testRuns = useSelector((state) =>
@@ -34,8 +31,8 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   if (isLoading) {
     return (
-      <div className="ti-top-errors__testRuns">
-        <div className="ti-top-errors__loading-spin">
+      <div className="flex max-h-12 items-center justify-center">
+        <div className="flex flex-1 items-center">
           <O11yLoader text="Fetching data" />
         </div>
       </div>
@@ -49,7 +46,7 @@ export default function TopErrorsTestRun({ data, parentId }) {
   return (
     <>
       <TopErrorsBulkUpdateTrigger clusterId={parentId} />
-      {/* <TestDataItem data={data} /> */}
+      <TestDataItem data={data} />
     </>
   );
 }

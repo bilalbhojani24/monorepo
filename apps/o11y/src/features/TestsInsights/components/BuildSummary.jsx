@@ -81,9 +81,9 @@ export default function BuildSummary() {
         otherOptions: {
           legend: { enabled: false },
           title: {
-            text: `<p class="donut-chart__title-count">${getTotalValues(
+            text: `<p class="text-5xl text-center">${getTotalValues(
               buildSummaryStats.data?.data || []
-            )}</p><p class="donut-chart__title">Tests</p>`,
+            )}</p><p class="text-base font-medium">Tests</p>`,
             verticalAlign: 'middle',
             useHTML: true
           }

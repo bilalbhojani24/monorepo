@@ -4,10 +4,19 @@ import { useSelector } from 'react-redux';
 import {
   Button,
   DataVisualization,
+  EllipsisVerticalIcon,
   MdDragIndicator,
   MdInfoOutline
 } from '@browserstack/bifrost';
 import { getStorage, setStorage } from '@browserstack/utils';
+import {
+  O11yDropdown,
+  O11yDropdownOptionGroup,
+  O11yDropdownOptionItem,
+  O11yDropdownTrigger
+} from 'common/bifrostProxy';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import useShowMoreOptions from 'features/TestsInsights/components/useShowMoreOptions';
 // import { getBuildMetaDataSelector } from 'app/testops/TestList/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -22,8 +31,9 @@ const RGL_LS_KEY = 'testops-rgl-layouts-v3';
 const RGL_LS_KEY_OLDER = 'testops-rgl-layouts-v2';
 
 export default function TestInsightsLayout() {
-  const buildMeta = {}; // useSelector(getBuildMetaDataSelector);
+  const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
+  const handleClickViewTrends = useShowMoreOptions();
   const [rglLayouts, setRglLayouts] = useState(() => {
     localStorage.removeItem(RGL_LS_KEY_OLDER);
     return getStorage(RGL_LS_KEY)
@@ -56,6 +66,34 @@ export default function TestInsightsLayout() {
     logInsightsInteractionEvent({ interaction: 'chart_resized' });
   };
 
+  const getOtherOptions = (cardKey) => {
+    if (
+      cardKey === 'alwaysFailing' ||
+      cardKey === 'newFailures' ||
+      cardKey === 'flakiness' ||
+      cardKey === 'mutedTests'
+    ) {
+      return (
+        <>
+          <O11yDropdown onClick={handleClickViewTrends}>
+            <div className="flex">
+              <O11yDropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+              </O11yDropdownTrigger>
+            </div>
+
+            <O11yDropdownOptionGroup wrapperClassName="w-32">
+              <O11yDropdownOptionItem
+                option={{ body: 'View Trends', id: 'viewTrends' }}
+              />
+            </O11yDropdownOptionGroup>
+          </O11yDropdown>
+        </>
+      );
+    }
+    return null;
+  };
+
   useEffect(() => {
     window.scroll(0, 0);
     return () => {
@@ -79,7 +117,6 @@ export default function TestInsightsLayout() {
 
   return (
     <TestInsightsContext.Provider value={{ logInsightsInteractionEvent }}>
-      {/* to-til  */}
       <div className="overflow-x-hidden pb-24">
         <ResponsiveReactGridLayout
           className=""
@@ -100,7 +137,7 @@ export default function TestInsightsLayout() {
           measureBeforeMount
         >
           {Object.keys(cards).map((key) => (
-            <div className="" key={key} data-grid={cards[key]}>
+            <div className="flex flex-col" key={key} data-grid={cards[key]}>
               <DataVisualization
                 analytics={<DashboardCard cardKey={key} />}
                 headerInfo
@@ -127,9 +164,11 @@ export default function TestInsightsLayout() {
                     wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:shadow-none"
                   />
                 }
+                otherOptions={getOtherOptions(key)}
                 size="fit-content"
                 title={cards[key].title}
                 wrapperClassName="bg-white relative h-full"
+                descPosition={null}
               />
             </div>
           ))}

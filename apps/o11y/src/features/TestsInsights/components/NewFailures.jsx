@@ -22,20 +22,19 @@ export default function NewFailures() {
     dispatch(getNewFailureData({ buildId }));
   }, [buildId, dispatch]);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleFilterRedirect = () => {
     logInsightsInteractionEvent({ interaction: 'new_failures_clicked' });
     // dispatch(setTestRuns([]));
     window.scroll(0, 0);
     const searchString = `?tab=tests&history=isNewFailure`;
-    history.push({ search: searchString });
+    navigate({ search: searchString });
     // dispatch(setAppliedFiltersTagsViaURL());
   };
   return (
     <WidgetLayoutCard
       title="New Failures"
-      showMoreButton
       isLoading={newFailureStats?.isLoading}
       bigNumberData={newFailureStats?.data}
       showNoData={isEmpty(newFailureStats?.data) && !newFailureStats?.isLoading}

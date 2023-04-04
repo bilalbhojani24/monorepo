@@ -4,7 +4,6 @@ import {
   MdArrowUpward,
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
@@ -25,9 +24,7 @@ export default function BigNumber({ data, onClick, config }) {
 
   return (
     <div
-      className={twClassNames('flex items-end', {
-        // 'to-big-number--no-hover': config?.noHover
-      })}
+      className="hover:text-brand-600 flex items-end gap-2"
       role="presentation"
       onClick={onClick}
     >
@@ -41,15 +38,10 @@ export default function BigNumber({ data, onClick, config }) {
         )}
       </p>
       <div className="mx-2 my-1">
-        {/* to-big-number__insights--${data.insights.type} */}
         {!isEmpty(data.insights) && (
           <p className="flex items-center">
-            <span className="to-big-number__insights-icon">
-              {renderIcon(data.insights.type)}
-            </span>
-            <span className="to-big-number__insights-text">
-              {data.insights.text}
-            </span>
+            <span>{renderIcon(data.insights.type)}</span>
+            <span className="mr-1">{data.insights.text}</span>
           </p>
         )}
         <p className="text-sm font-normal">{data.meta}</p>

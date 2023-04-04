@@ -36,7 +36,6 @@ export default function MutedTests() {
     <WidgetLayoutCard
       height={16}
       title="Muted Tests"
-      showMoreButton
       isLoading={mutedTestStats?.isLoading}
       bigNumberData={mutedTestStats?.data || {}}
       showNoData={isEmpty(mutedTestStats?.data) && !mutedTestStats?.isLoading}
