@@ -59,13 +59,15 @@ const VideoPlayer = forwardRef(
     const handleMoveXSeconds = () => {};
 
     return (
-      <div ref={containerRef}>
+      // eslint-disable-next-line tailwindcss/no-arbitrary-value
+      <div ref={containerRef} className="flex h-[460px] flex-col">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           src={videoUrl}
           ref={ref}
           onLoadedMetadata={handleOnLoad}
           onTimeUpdate={handleTimeUpdate}
+          className="flex-1 object-fill"
         />
         <O11yMediaPlayerControlPanel
           isPaused={isPaused}
