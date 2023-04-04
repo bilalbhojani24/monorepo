@@ -1,16 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import { getActiveProject } from 'globalSlice/selectors';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
+import { getSnPUEBreakdownData } from '../slices/dataSlice';
+import { getAllSnPTestFilters, getSnpErrorsSortBy } from '../slices/selectors';
 
 import UEBreakdownItem from './UEBreakdownItem';
 
-export default function UEBreakdown({ errorId, isLoading, data }) {
-  if (isLoading) {
+export default function UEBreakdown({ errorId }) {
+  const dispatch = useDispatch();
+  const activeProject = useSelector(getActiveProject);
+
+  const [breakDownData, setBreakDownData] = useState([]);
+  const [isLoadingBD, setIsLoadingBD] = useState(true);
+  const filters = useSelector(getAllSnPTestFilters);
+  const sortBy = useSelector(getSnpErrorsSortBy);
+
+  useEffect(() => {
+    setIsLoadingBD(true);
+    dispatch(
+      getSnPUEBreakdownData({
+        normalisedName: activeProject?.normalisedName,
+        errorId,
+        filters,
+        sortOptions: sortBy
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        setBreakDownData(res);
+      })
+      .finally(() => {
+        setIsLoadingBD(false);
+      });
+  }, [activeProject?.normalisedName, dispatch, filters, sortBy, errorId]);
+
+  if (isLoadingBD) {
     return (
       <O11yLoader
         wrapperClassName="py-6"
@@ -19,7 +50,7 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
     );
   }
 
-  if (!isLoading && isEmpty(data)) {
+  if (!isLoadingBD && isEmpty(breakDownData)) {
     return (
       <div
         className={twClassNames(
@@ -32,7 +63,7 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
   }
 
   return (
-    <div className={twClassNames('flex-1 bg-base-50 pl-11 py-4')}>
+    <div className={twClassNames('flex-1 bg-base-50 pl-9 pb-4')}>
       <div className="border-base-300 flex w-full items-center border-b">
         <div className={UNIQUE_ERROR_BREAKDOWN_HEADER.tests.headerClass}>
           {UNIQUE_ERROR_BREAKDOWN_HEADER.tests.label}
@@ -45,16 +76,16 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
         </div>
       </div>
       <div className="">
-        {data.length > 5 ? (
+        {breakDownData.length > 5 ? (
           <>
             <Virtuoso
               style={{ height: 300 }}
-              data={data}
+              data={breakDownData}
               itemContent={(index, item) => (
                 <UEBreakdownItem
                   item={item}
                   key={item.id}
-                  isLast={index === data.length - 1}
+                  isLast={index === breakDownData.length - 1}
                   errorId={errorId}
                 />
               )}
@@ -62,11 +93,11 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
           </>
         ) : (
           <>
-            {data.map((item, index) => (
+            {breakDownData.map((item, index) => (
               <UEBreakdownItem
                 item={item}
                 key={item.id}
-                isLast={index === data.length - 1}
+                isLast={index === breakDownData.length - 1}
                 errorId={errorId}
               />
             ))}
@@ -78,7 +109,5 @@ export default function UEBreakdown({ errorId, isLoading, data }) {
 }
 
 UEBreakdown.propTypes = {
-  errorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired
+  errorId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 };

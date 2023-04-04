@@ -10,10 +10,10 @@ const DateRangeFilter = ({ activeKey, onDateRangeChange }) => (
       colors="white"
       wrapperClassName={twClassNames(
         `border border-base-300 rounded-none rounded-l-md border-r-0 
-                focus:ring-offset-0 focus:border-r peer/days7 focus:z-[1] focus:ring-1 
+                focus:ring-offset-0 focus:border-r peer/days7 focus:z-10 focus:ring-1 
                 ring-brand-500 text-sm font-medium text-base-700`,
         {
-          'border-brand-500 ring-1 z-[1] border-r':
+          'border-brand-500 ring-1 z-10 border-r':
             activeKey === SNP_DATE_RANGE.days7.key
         }
       )}
@@ -24,11 +24,11 @@ const DateRangeFilter = ({ activeKey, onDateRangeChange }) => (
     <O11yButton
       colors="white"
       wrapperClassName={twClassNames(
-        `peer/days15 peer-focus/days7:border-l-0 focus:z-[1] focus:ring-1 
+        `peer/days15 peer-focus/days7:border-l-0 focus:z-10 focus:ring-1 
                 ring-brand-500 border border-base-300 rounded-none focus:ring-offset-0 
                 focus:border-r border-r-0 text-sm font-medium text-base-700`,
         {
-          'border-brand-500 ring-1 z-[1] border-r':
+          'border-brand-500 ring-1 z-10 border-r':
             activeKey === SNP_DATE_RANGE.days15.key,
           'border-l-0': activeKey === SNP_DATE_RANGE.days7.key
         }
@@ -40,11 +40,11 @@ const DateRangeFilter = ({ activeKey, onDateRangeChange }) => (
     <O11yButton
       colors="white"
       wrapperClassName={twClassNames(
-        `peer-focus/days15:border-l-0 focus:z-[1] focus:ring-1 ring-brand-500 
+        `peer-focus/days15:border-l-0 focus:z-10 focus:ring-1 ring-brand-500 
                 border border-base-300 rounded-none first:rounded-l-md last:rounded-r-md focus:ring-offset-0 
                 text-sm font-medium text-base-700`,
         {
-          'border-brand-500 ring-1 z-[1]':
+          'border-brand-500 ring-1 z-10':
             activeKey === SNP_DATE_RANGE.days30.key,
           'border-l-0': activeKey === SNP_DATE_RANGE.days15.key
         }
