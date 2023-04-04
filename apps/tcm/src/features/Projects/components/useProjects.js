@@ -109,7 +109,6 @@ const useProjects = (prop) => {
 
   const showAddProjectModal = (action) => {
     if (action === 'emptyState') {
-      console.log('empty state');
       dispatch(logEventHelper('TM_CreateProjectBtnClickedEmptyState', {}));
     }
 

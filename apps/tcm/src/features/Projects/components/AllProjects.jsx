@@ -67,7 +67,7 @@ const AllProjects = () => {
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
             rowData.id,
-            undefined,
+            null,
             'ID'
           )}
           onKeyDown={handleClickDynamicLink(
@@ -75,7 +75,7 @@ const AllProjects = () => {
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
             rowData.id,
-            undefined,
+            null,
             'ID'
           )}
         >
@@ -176,13 +176,13 @@ const AllProjects = () => {
             onClick={handleClickDynamicLink(
               AppRoute.TEST_CASES,
               rowData.id,
-              undefined,
+              null,
               'TestCase'
             )}
             onKeyDown={handleClickDynamicLink(
               AppRoute.TEST_CASES,
               rowData.id,
-              undefined,
+              null,
               'TestCase'
             )}
             role="button"
@@ -198,13 +198,13 @@ const AllProjects = () => {
             onClick={handleClickDynamicLink(
               AppRoute.TEST_RUNS,
               rowData.id,
-              undefined,
+              null,
               'TestRun'
             )}
             onKeyDown={handleClickDynamicLink(
               AppRoute.TEST_RUNS,
               rowData.id,
-              undefined,
+              null,
               'TestRun'
             )}
           >

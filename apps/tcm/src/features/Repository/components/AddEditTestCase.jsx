@@ -98,7 +98,7 @@ const AddEditTestCase = () => {
               <TMButton
                 colors="white"
                 variant="primary"
-                onClick={(e) => hideTestCaseAddEditPage(e, undefined, 'Cancel')}
+                onClick={(e) => hideTestCaseAddEditPage(e, null, 'Cancel')}
               >
                 Cancel
               </TMButton>
