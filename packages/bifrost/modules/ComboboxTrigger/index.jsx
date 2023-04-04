@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-import { bool } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { func, string } from '../../shared/proptypesConstants';
@@ -12,11 +11,7 @@ import Loader from '../Loader';
 import TriggerButton from './component/TriggerButton';
 import { renderMultiOptions, renderSingleOptions } from './helper';
 
-const ComboboxTrigger = ({
-  onInputValueChange,
-  placeholder,
-  clearInputOnFocus
-}) => {
+const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
 
@@ -61,10 +56,6 @@ const ComboboxTrigger = ({
           ref={comboInputRef}
           readOnly={isLoading}
           autoComplete="off"
-          onFocus={() => {
-            if (clearInputOnFocus && comboInputRef.current)
-              comboInputRef.current.value = '';
-          }}
         />
         {isLoading && (
           <span className="text-base-500 absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
@@ -80,7 +71,7 @@ const ComboboxTrigger = ({
             />
           </span>
         )}
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <Combobox.Button className="absolute inset-y-0 right-0 flex w-full items-center justify-end rounded-r-md px-2 focus:outline-none">
           {({ value: buttonValue }) => (
             <TriggerButton
               value={buttonValue?.length}
@@ -95,12 +86,10 @@ const ComboboxTrigger = ({
 };
 
 ComboboxTrigger.propTypes = {
-  clearInputOnFocus: bool,
   onInputValueChange: func,
   placeholder: string
 };
 ComboboxTrigger.defaultProps = {
-  clearInputOnFocus: false,
   onInputValueChange: null,
   placeholder: ''
 };
