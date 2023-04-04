@@ -65,7 +65,7 @@ Table.propTypes = {
 const LoadingFooter = () => (
   <O11yTableRow>
     <O11yTableCell colspan="100%">
-      <O11yLoader loaderClass="self-center p-1" />
+      <O11yLoader />
     </O11yTableCell>
   </O11yTableRow>
 );
