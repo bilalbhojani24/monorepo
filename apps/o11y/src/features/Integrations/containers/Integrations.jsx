@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { MdClose, MdSearch } from '@browserstack/bifrost';
+import { MdClose, MdSearch, MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
+  O11yEmptyState,
   O11yInputField,
   O11yPageHeadings,
   O11ySelectMenu,
@@ -108,6 +109,12 @@ function Integrations() {
     handleFilterResults('', selectedCategory.value);
   };
 
+  const handleClearFilters = () => {
+    setSelectedCategory(ALL_CATEGORIES_OPTION);
+    setSearchText('');
+    handleFilterResults('', ALL_CATEGORIES_OPTION.value);
+  };
+
   return (
     <div className={twClassNames('w-full flex flex-col', WRAPPER_GAP_CLASS)}>
       <O11yPageHeadings
@@ -166,23 +173,40 @@ function Integrations() {
             </O11ySelectMenu>
           </div>
         </section>
-        <section className="border-l-base-200 overflow-auto border-l pt-0">
-          <div className="border-r-base-200 border-b-base-200 max-w-7xl border-r border-b">
-            <O11yStackedList>
-              {availableIntegrations.map((integration) => (
-                <O11yStackedListGroup
-                  key={integration.name}
-                  wrapperClassName="fist:rounded-lg"
-                  heading={<ListGroupHeader title={integration.name} />}
-                >
-                  {integration.list.map((integrationItem) => (
-                    <integrationItem.Component />
-                  ))}
-                </O11yStackedListGroup>
-              ))}
-            </O11yStackedList>
+        {availableIntegrations.length ? (
+          <section className="border-l-base-200 overflow-auto border-l pt-0">
+            <div className="border-r-base-200 border-b-base-200 max-w-7xl border-r border-b">
+              <O11yStackedList>
+                {availableIntegrations.map((integration) => (
+                  <O11yStackedListGroup
+                    key={integration.name}
+                    wrapperClassName="fist:rounded-lg"
+                    heading={<ListGroupHeader title={integration.name} />}
+                  >
+                    {integration.list.map((integrationItem) => (
+                      <integrationItem.Component />
+                    ))}
+                  </O11yStackedListGroup>
+                ))}
+              </O11yStackedList>
+            </div>
+          </section>
+        ) : (
+          <div className="border-t-base-200 flex max-w-7xl flex-1 items-center justify-center border-t">
+            <O11yEmptyState
+              title="No Results Found"
+              description="No matching results found. Try searching with another combination"
+              mainIcon={
+                <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+              }
+              buttonProps={{
+                children: 'Clear Filters',
+                onClick: handleClearFilters,
+                size: 'default'
+              }}
+            />
           </div>
-        </section>
+        )}
       </main>
     </div>
   );
