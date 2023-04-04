@@ -13,7 +13,7 @@ function DividedPill({ data, logBuildListingInteracted }) {
       .replace(' ', '_')
       .toLowerCase()}_clicked`;
     logBuildListingInteracted(interactionName);
-    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
+    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/${data?.buildNumber}?tab=tests`;
     endpoint += `&issueTypeGroup=${itemClicked}`;
     navigate(endpoint);
   };

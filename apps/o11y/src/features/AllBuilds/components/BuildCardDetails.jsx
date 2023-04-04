@@ -108,7 +108,7 @@ const BuildCardDetails = ({ data }) => {
     logBuildListingInteracted(interactionName);
     let endpoint = `/projects/${projectNormalisedName}/builds/${
       data?.isAutoDetectedName ? data?.originalName : data?.name
-    }/3?tab=tests`;
+    }/${data?.buildNumber}?tab=tests`;
     endpoint += `&${itemCategory}=${clickData.itemClicked}`;
     navigate(endpoint);
   };
