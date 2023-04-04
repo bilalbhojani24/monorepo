@@ -18,6 +18,7 @@ export default function UERow({ data }) {
     <>
       <Accordion>
         <AccordionInteractiveHeader
+          wrapperClassName="bg-white"
           title={
             <div
               className={twClassNames(
@@ -25,28 +26,26 @@ export default function UERow({ data }) {
                 'pl-1 pr-4 text-left'
               )}
             >
-              <div className="flex-1 truncate">
-                <O11yTooltip
-                  triggerWrapperClassName="max-w-full truncate"
-                  content={
-                    <StackTraceTooltip
-                      traceLines={data?.error || []}
-                      copyText={data?.error?.join('\n')}
-                    />
-                  }
-                  wrapperClassName="p-1 shadow-lg"
-                  placementSide="bottom"
-                  placementAlign="start"
-                  size="lg"
-                  arrowWidth={0}
-                  arrowHeight={0}
-                  sideOffset={2}
-                >
-                  <span className="text-base-900 text-sm font-medium leading-5">
-                    {data?.error?.[0]}
-                  </span>
-                </O11yTooltip>
-              </div>
+              <O11yTooltip
+                triggerWrapperClassName="max-w-full truncate"
+                content={
+                  <StackTraceTooltip
+                    traceLines={data?.error || []}
+                    copyText={data?.error?.join('\n')}
+                  />
+                }
+                wrapperClassName="p-1 shadow-lg"
+                placementSide="bottom"
+                placementAlign="start"
+                size="lg"
+                arrowWidth={0}
+                arrowHeight={0}
+                sideOffset={2}
+              >
+                <span className="text-base-900 text-sm font-medium leading-5">
+                  {data?.error?.[0]}
+                </span>
+              </O11yTooltip>
             </div>
           }
           asideContent={
