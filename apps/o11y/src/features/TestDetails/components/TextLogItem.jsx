@@ -265,7 +265,11 @@ export default function TextLogItem({ data, searchText }) {
       onClick={handleClick}
       data-idx={data.idx}
     >
-      <div className="flex w-full items-start justify-between">
+      <div
+        className={twClassNames('flex w-full items-start justify-between', {
+          'pl-6': logData?.response?.value?.isSnapShot
+        })}
+      >
         <div className="flex items-start">
           {!logData?.response?.value?.isSnapShot &&
             (!isEmpty(logData?.args) || logData?.response?.value) && (
@@ -285,10 +289,10 @@ export default function TextLogItem({ data, searchText }) {
           <div className="flex flex-col gap-2">
             <span
               className={twClassNames(
-                'inline-flex text-sm font-medium leading-5 text-base-900',
+                'inline-flex text-sm font-normal leading-5 text-base-900',
                 {
-                  'text-danger-600': isError(data?.logLevel),
-                  'text-attention-600': isWarning(data?.logLevel)
+                  'text-danger-600 font-medium': isError(data?.logLevel),
+                  'text-attention-600 font-medium': isWarning(data?.logLevel)
                 }
               )}
             >
@@ -337,7 +341,9 @@ export default function TextLogItem({ data, searchText }) {
         </div>
       </div>
       {logData?.response?.value?.isSnapShot ? (
-        <ImageViewerWithGallery images={[logData?.response?.value?.text]} />
+        <div className="pl-20">
+          <ImageViewerWithGallery images={[logData?.response?.value?.text]} />
+        </div>
       ) : (
         <>
           {isExpanded && (

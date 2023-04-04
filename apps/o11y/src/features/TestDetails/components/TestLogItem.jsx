@@ -52,7 +52,7 @@ export default function TestLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex px-2 break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 pl-8 break-words border-b py-4 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)

@@ -71,7 +71,7 @@ export default function ConsoleLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 px-2 flex break-words border-b py-4 text-left',
+        'border-base-200 px-2 pl-8 flex break-words border-b py-4 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)
@@ -85,7 +85,7 @@ export default function ConsoleLogItem({ data, searchText }) {
       <LogItemIcon logLevel={data?.logLevel} />
       <pre
         className={twClassNames(
-          'w-full overflow-auto font-mono text-xs leading-5',
+          'w-full overflow-auto font-mono text-xs leading-5 mr-2',
           {
             'text-danger-600': isError(data?.logLevel),
             'text-attention-600': isWarning(data?.logLevel)
