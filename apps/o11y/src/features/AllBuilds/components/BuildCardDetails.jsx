@@ -115,12 +115,12 @@ const BuildCardDetails = ({ data }) => {
 
   return (
     <>
-      <O11yTableCell wrapperClassName="overflow-hidden whitespace-normal break-words">
+      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300 whitespace-normal break-words">
         <div className="flex">
           {renderStatusIcon()}
           <div className="ml-4">
             <div className="flex">
-              <div className="text-base-900 text-sm font-medium leading-5">
+              <div className="text-base-900 w-full text-sm font-medium leading-5">
                 <span
                   role="presentation"
                   className="text-base-900 text-sm font-medium leading-5"
@@ -133,54 +133,54 @@ const BuildCardDetails = ({ data }) => {
                 >
                   {data?.isAutoDetectedName ? data?.originalName : data?.name}
                   &nbsp;
-                </span>
-                <O11yMetaData
-                  textColorClass="text-base-500 inline-flex text-sm"
-                  metaDescription={`#${data.buildNumber}`}
-                  title="Build Number"
-                />
-                &nbsp;
-                {data?.isAutoDetectedName && (
-                  <O11yTooltip
-                    theme="dark"
-                    onOpenChange={onAutoDetectHover}
-                    content={
-                      <div className="mx-4">
-                        <p className="text-base-300 mb-2 text-sm">
-                          Static build name automatically detected:{' '}
-                          {data?.isAutoDetectedName
-                            ? data?.originalName
-                            : data?.name}
-                        </p>
-                        <O11yHyperlink
-                          wrapperClassName="text-base-50 text-sm font-medium underline"
-                          target="_blank"
-                          href={getDocUrl({
-                            path: DOC_KEY_MAPPING.automation_build
-                          })}
-                          onClick={onAutoDetectLearnMoreClick}
-                        >
-                          Learn more
-                        </O11yHyperlink>
-                      </div>
-                    }
-                  >
-                    <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block" />
-                  </O11yTooltip>
-                )}
-              </div>
-              {data?.tags.map((singleTag) => (
-                <PropagationBlocker key={singleTag}>
-                  <O11yBadge
-                    wrapperClassName="mx-1 flex-shrink-0"
-                    hasRemoveButton={false}
-                    onClick={() => addFilterTag(singleTag)}
-                    modifier="base"
-                    hasDot={false}
-                    text={singleTag}
+                  <O11yMetaData
+                    textColorClass="text-base-500 inline-flex text-sm"
+                    metaDescription={`#${data.buildNumber}`}
+                    title="Build Number"
                   />
-                </PropagationBlocker>
-              ))}
+                  &nbsp;
+                  {!data?.isAutoDetectedName && (
+                    <O11yTooltip
+                      theme="dark"
+                      onOpenChange={onAutoDetectHover}
+                      content={
+                        <div className="mx-4">
+                          <p className="text-base-300 mb-2 text-sm">
+                            Static build name automatically detected:{' '}
+                            {data?.isAutoDetectedName
+                              ? data?.originalName
+                              : data?.name}
+                          </p>
+                          <O11yHyperlink
+                            wrapperClassName="text-base-50 text-sm font-medium underline"
+                            target="_blank"
+                            href={getDocUrl({
+                              path: DOC_KEY_MAPPING.automation_build
+                            })}
+                            onClick={onAutoDetectLearnMoreClick}
+                          >
+                            Learn more
+                          </O11yHyperlink>
+                        </div>
+                      }
+                    >
+                      <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block" />
+                    </O11yTooltip>
+                  )}
+                  {data?.tags.map((singleTag) => (
+                    <PropagationBlocker variant="span" key={singleTag}>
+                      <O11yBadge
+                        wrapperClassName="mx-1 flex-shrink-0"
+                        hasRemoveButton={false}
+                        onClick={() => addFilterTag(singleTag)}
+                        modifier="base"
+                        hasDot={false}
+                        text={singleTag}
+                      />
+                    </PropagationBlocker>
+                  ))}
+                </span>
+              </div>
             </div>
             <div className="text-base-500 text-sm leading-6">
               <span className="text-base-500 text-sm">Run by </span>
@@ -199,8 +199,8 @@ const BuildCardDetails = ({ data }) => {
                   title="Started At"
                 />
               ) : null}{' '}
-              <div className="mx-1 inline-block">
-                {data?.ciBuildData?.buildNumber && (
+              {data?.ciBuildData?.buildNumber && (
+                <div className="mx-1 inline-block">
                   <PropagationBlocker variant="span">
                     <O11yTooltip
                       theme="dark"
@@ -237,13 +237,13 @@ const BuildCardDetails = ({ data }) => {
                       </O11yHyperlink>
                     </O11yTooltip>
                   </PropagationBlocker>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden">
+      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
         <PropagationBlocker>
           {data?.status && (
             <StatusBadges
@@ -256,7 +256,7 @@ const BuildCardDetails = ({ data }) => {
           )}
         </PropagationBlocker>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden">
+      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
         {data.duration ? (
           <O11yMetaData
             textColorClass="text-base-500 inline-flex text-sm"
@@ -265,7 +265,7 @@ const BuildCardDetails = ({ data }) => {
           />
         ) : null}
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden">
+      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
         <div>
           {Object.entries(data?.issueTypeAggregate)?.every(
             (item) =>
@@ -379,7 +379,7 @@ const BuildCardDetails = ({ data }) => {
           )}
         </div>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden">
+      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
         <ul>
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker
