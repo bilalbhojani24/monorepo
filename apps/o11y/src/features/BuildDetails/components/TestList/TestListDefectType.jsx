@@ -62,18 +62,15 @@ function TestListDefectType({ data }) {
           version: MODAL_TYPES.bulk_assign_issuetype,
           data: {
             buildId: buildMeta?.uuid,
-            testRunId: data?.details?.id
+            testRunId: data?.details?.id,
+            defaultTypeSelection: selectedItem.defaultSelection,
+            selectedTestItemData: data,
+            onSuccess: (updatedData) => {
+              updateTestDefectTypeMapping(updatedData, true);
+            }
           }
         })
       );
-      //   dispatch(setCurrentSelectedTestId(data?.details?.id));
-      //   dispatch(
-      //     setShowBulkDefectTypeModal({
-      //       status: true,
-      //       currentIssueType: issueType,
-      //       clusterId: 0
-      //     })
-      //   );
     } else if (item.value !== issueType.id) {
       const currentIssueType = { ...issueType };
       const isCurrentlyAutoAnalyzed = isAutoAnalyzed;
@@ -172,7 +169,11 @@ function TestListDefectType({ data }) {
               ))}
             </div>
             <O11yDropdownOptionItem
-              option={{ body: 'Bulk update failure category', id: BULK_EDIT }}
+              option={{
+                body: 'Bulk update failure category',
+                id: BULK_EDIT,
+                defaultSelection: { name: issueType.name, id: issueType.id }
+              }}
               wrapperClassName="border-t border-base-100"
             />
           </O11yDropdownOptionGroup>

@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+  getAnalyzerSimilarTests as getAnalyzerSimilarTestsAPI,
   getTestHistoryData,
   getTestList,
   getTestlistFilters,
   toggleMuteTest as toggleMuteTestAPI,
-  triggerReRunBE as triggerReRunBEAPI
+  triggerReRunBE as triggerReRunBEAPI,
+  updateIssueTypes as updateIssueTypesAPI
 } from 'api/testlist';
 import { API_STATUSES } from 'constants/common';
 
@@ -24,6 +26,30 @@ export const getTestlistFiltersData = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await getTestlistFilters({ ...data });
+      return { ...response?.data, ...data };
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getAnalyzerSimilarTests = createAsyncThunk(
+  `${sliceName}/getAnalyzerSimilarTests`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getAnalyzerSimilarTestsAPI({ ...data });
+      return { ...response?.data, ...data };
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const updateIssueTypes = createAsyncThunk(
+  `${sliceName}/updateIssueTypes`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await updateIssueTypesAPI(data?.projectId, data?.data);
       return { ...response?.data, ...data };
     } catch (err) {
       return rejectWithValue(err);

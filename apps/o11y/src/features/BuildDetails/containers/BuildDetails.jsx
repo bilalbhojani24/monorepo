@@ -91,11 +91,17 @@ function BuildDetails() {
   }, []);
 
   useEffect(() => {
-    window.pubSub.subscribe(PUSHER_EVENTS.ANALYZER_COMPLETED, (payload) => {
-      if (payload?.data?.length && payload.buildId === buildUUID) {
-        updateTestDefectTypeMapping(payload.data, true);
+    const unsub = window.pubSub.subscribe(
+      PUSHER_EVENTS.ANALYZER_COMPLETED,
+      (payload) => {
+        if (payload?.data?.length && payload.buildId === buildUUID) {
+          updateTestDefectTypeMapping(payload.data, true);
+        }
       }
-    });
+    );
+    return () => {
+      unsub();
+    };
   }, [buildUUID, updateTestDefectTypeMapping]);
 
   if (!buildUUID) {

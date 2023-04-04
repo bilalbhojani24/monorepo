@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
+import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import { LOG_TYPES } from 'features/BuildDetails/constants';
 import { transformUnsupportedTags } from 'utils/common';
 
-function TestListStackTrace({ details }) {
+function TestListStackTrace({ wrapperClassName, details }) {
   const { retries } = details;
 
   if (
@@ -36,7 +37,10 @@ function TestListStackTrace({ details }) {
           ]?.join('\n')}
         />
       }
-      triggerWrapperClassName="max-w-full ml-6 line-clamp-2 text-danger-700 text-sm font-normal leading-5"
+      triggerWrapperClassName={twClassNames(
+        'max-w-full ml-6 line-clamp-2 text-danger-700 text-sm font-normal leading-5',
+        wrapperClassName
+      )}
     >
       <p className="text-danger-700 my-1 font-mono text-xs">
         {ReactHtmlParser(

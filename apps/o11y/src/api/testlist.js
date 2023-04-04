@@ -86,6 +86,12 @@ export const triggerJenkinsBuildAPI = async ({
 export const changeIssueType = async (projectId, data) =>
   axios.put(`${versionedBaseRoute()}/builds/${projectId}/update`, data);
 
+export const updateIssueTypes = async (projectId, data) =>
+  axios.put(
+    `${versionedBaseRoute()}/projects/${projectId}/updateIssueTypes`,
+    data
+  );
+
 export const getBugDetails = async (buildId, testRunId) =>
   axios.get(
     `${versionedBaseRoute()}/builds/${buildId}/testRuns/${testRunId}/bugDetails`
