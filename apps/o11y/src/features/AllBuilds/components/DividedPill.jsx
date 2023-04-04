@@ -28,7 +28,7 @@ function DividedPill({ data }) {
         role="button"
         href={`/projects/${projectNormalisedName}/builds/${
           data?.isAutoDetectedName ? data?.originalName : data?.name
-        }/3?tab=tests&issueType=${item}`}
+        }/${data?.buildNumber}?tab=tests&issueType=${item}`}
         style={{
           width: `${(data?.issueTypeAggregate[item] * 100) / totalDefects}%`,
           backgroundColor: aggregateColors[item]

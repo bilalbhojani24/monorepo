@@ -37,7 +37,7 @@ const BuildCardDetails = ({ data }) => {
   const tags = useSelector(getAppliedFilterTags);
   const navigationEndPoint = `/projects/${projectNormalisedName}/builds/${
     data?.isAutoDetectedName ? data?.originalName : data?.name
-  }/3?tab=tests`;
+  }/${data?.buildNumber}?tab=tests`;
 
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
