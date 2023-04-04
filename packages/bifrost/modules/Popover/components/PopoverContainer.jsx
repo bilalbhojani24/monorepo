@@ -65,11 +65,7 @@ const PopoverContainer = (props) => {
           disabled={disabled}
           asChild={triggerAsChild}
         >
-          <div
-            className={twClassNames('inline-block', triggerWrapperClassName)}
-          >
-            {children}
-          </div>
+          {children}
         </PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
