@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const FilterSlideoverBody = ({ filters, setFilters, allBuildNames }) => {
   const updateFilters = (selectedValues) => {
-    setFilters((state) => ({ ...state, buildNames: selectedValues }));
+    setFilters((state) => ({ ...state, buildNames: [selectedValues] }));
   };
 
   const toggleMuted = (val) => {
@@ -26,14 +26,14 @@ const FilterSlideoverBody = ({ filters, setFilters, allBuildNames }) => {
     <>
       <div className="mb-6">
         <O11yComboBox
-          isMulti
+          // isMulti #TODO
           placeholder="Select"
           label="Builds"
           options={buildNameOptions}
           onChange={(selectedValues) => {
             updateFilters(selectedValues);
           }}
-          value={filters.buildNames}
+          value={filters.buildNames[0]}
           checkPosition="left"
         />
       </div>
