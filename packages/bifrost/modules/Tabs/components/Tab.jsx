@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -51,6 +51,7 @@ const Tab = ({
   totalTabs,
   tabIdx
 }) => {
+  const ref = useRef();
   const classNames = effectiveClasses({
     isFullWidth,
     totalTabs,
@@ -60,8 +61,15 @@ const Tab = ({
     shape
   });
 
+  useEffect(() => {
+    if (ref.current && isCurrent) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isCurrent]);
+
   return (
     <button
+      ref={ref}
       type="button"
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
