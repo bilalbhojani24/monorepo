@@ -15,7 +15,6 @@ const effectiveClasses = ({
   isFullWidth
 }) =>
   twClassNames(
-    // contained
     isContained && isCurrent
       ? 'text-base-900'
       : 'text-base-500 hover:text-base-700',
@@ -27,6 +26,8 @@ const effectiveClasses = ({
     {
       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex border-transparent text-base-500 hover:text-base-700 hover:border-base-300':
         shape === TAB_SHAPE[0] && !isContained,
+      'hover:text-brand-600 hover:border-brand-500':
+        shape === TAB_SHAPE[0] && !isContained && isCurrent,
       'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
         shape === TAB_SHAPE[1] && !isContained,
 

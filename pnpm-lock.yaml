@@ -591,6 +591,7 @@ importers:
       postcss: 8.4.21
       postcss-loader: 7.0.2
       postcss-preset-env: 7.8.3
+      tailwind-scrollbar-hide: 1.1.7
       tailwindcss: 3.1.4
     dependencies:
       '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.1.4
@@ -600,6 +601,7 @@ importers:
       postcss: 8.4.21
       postcss-loader: 7.0.2_ynsp4hpcl6ftpkdbhj2ssg4tva
       postcss-preset-env: 7.8.3_postcss@8.4.21
+      tailwind-scrollbar-hide: 1.1.7
       tailwindcss: 3.1.4_postcss@8.4.21
 
   packages/utils:
@@ -23393,6 +23395,10 @@ packages:
 
   /tailwind-merge/1.8.1:
     resolution: {integrity: sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==}
+    dev: false
+
+  /tailwind-scrollbar-hide/1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
     dev: false
 
   /tailwindcss/3.1.4_postcss@8.4.20:

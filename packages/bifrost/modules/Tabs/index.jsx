@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import SelectMenu from '../SelectMenu';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
+import SelectMenuTrigger from '../SelectMenuTrigger';
+
 import Tab from './components/Tab';
 import { TAB_SHAPE } from './const/tabsConstants';
 
@@ -45,17 +50,20 @@ const Tabs = ({
                 {label}
               </label>
             )}
-            <select
-              id={id}
-              name={id}
-              onChange={onTabClickHandler}
-              className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md py-2 pl-3 pr-10 text-base focus:outline-none sm:text-sm"
-              value={selectedTab?.name}
-            >
-              {tabsArray?.map((tab) => (
-                <option key={tab.name}>{tab.name}</option>
-              ))}
-            </select>
+            <SelectMenu onChange={onTabChange}>
+              <SelectMenuTrigger placeholder="Select.." />
+              <SelectMenuOptionGroup>
+                {tabsArray.map((item) => (
+                  <SelectMenuOptionItem
+                    key={item.name}
+                    option={{
+                      value: item.name,
+                      label: item.name
+                    }}
+                  />
+                ))}
+              </SelectMenuOptionGroup>
+            </SelectMenu>
           </div>
           <div
             className={twClassNames(
@@ -67,7 +75,7 @@ const Tabs = ({
           >
             <nav
               className={twClassNames(
-                '-mb-px flex',
+                '-mb-px flex overflow-y-scroll scrollbar-hide',
                 {
                   'space-x-8': !isFullWidth,
                   'border-0': isFullWidth,
