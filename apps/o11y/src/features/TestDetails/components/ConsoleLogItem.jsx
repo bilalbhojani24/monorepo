@@ -71,7 +71,7 @@ export default function ConsoleLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 pl-4 flex break-words border-b py-4 text-left',
+        'border-base-200 px-2 flex break-words border-b py-4 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)

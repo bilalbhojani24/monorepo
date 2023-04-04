@@ -70,7 +70,7 @@ export default function HTTPLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex items-start break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 items-start break-words border-b py-4 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)

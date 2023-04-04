@@ -52,7 +52,7 @@ export default function StepLogItem({ data, isFromList, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex items-center gap-1 break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 items-center gap-1 break-words border-b py-4 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)
