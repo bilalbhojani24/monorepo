@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -93,42 +93,26 @@ Primary.parameters = {
 export default defaultConfig;
 export { Primary };
 
-// const slidableTabs = [
-//   { name: 'My Account', icon: UserIcon, count: '52' },
-//   { name: 'Company', icon: BuildingOfficeIcon, count: '52' },
-//   { name: 'Team Members', icon: UsersIcon, count: '52' },
-//   { name: 'Billing 1', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 2', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 3', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 4', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 5', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 6', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 7', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 8', icon: CreditCardIcon, count: '52' },
-//   { name: 'Billing 8', icon: CreditCardIcon, count: '52' }
-// ];
+const slidableTabs = [
+  { name: 'My Account', icon: UserIcon, count: '52' },
+  { name: 'Company', icon: BuildingOfficeIcon, count: '52' },
+  { name: 'Team Members', icon: UsersIcon, count: '52' },
+  { name: 'Billing 1', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 2', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 3', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 4', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 5', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 6', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 7', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 8', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 9', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 10', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 11', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 12', icon: CreditCardIcon, count: '52' }
+];
 
-// Slideable.args = {
-//   tabsArray: slidableTabs
-// };
-
-export const SlidableTabs = () => {
-  const [arr, setArr] = useState([...tabs]);
-
-  return (
-    <>
-      <Tabs tabsArray={arr} />
-      <button
-        type="button"
-        onClick={() => {
-          setArr([
-            ...arr,
-            { name: 'Billing 8', icon: CreditCardIcon, count: '52' }
-          ]);
-        }}
-      >
-        Add more
-      </button>
-    </>
-  );
-};
+export const SlidableTabs = () => (
+  <>
+    <Tabs tabsArray={slidableTabs} isSlideableTabs />
+  </>
+);

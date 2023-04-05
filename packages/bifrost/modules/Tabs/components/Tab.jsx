@@ -28,7 +28,7 @@ const effectiveClasses = ({
         shape === TAB_SHAPE[0] && !isContained,
       'hover:text-brand-600 hover:border-brand-500':
         shape === TAB_SHAPE[0] && !isContained && isCurrent,
-      'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
+      'whitespace-nowrap px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
         shape === TAB_SHAPE[1] && !isContained,
 
       'border-brand-500 text-brand-600':
