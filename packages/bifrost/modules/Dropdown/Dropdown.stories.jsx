@@ -27,6 +27,10 @@ const defaultConfig = {
           importStatement={"import Dropdown from 'bifrost/Dropdown'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=132-34713&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -44,8 +48,12 @@ const defaultConfig = {
             </DropdownTrigger>
           </div>
           <DropdownOptionGroup>
-            {options.map((opt) => (
-              <DropdownOptionItem key={opt.value} option={opt} />
+            {options.map((opt, index) => (
+              <DropdownOptionItem
+                key={opt.value}
+                option={opt}
+                disabled={index % 2 === 0}
+              />
             ))}
           </DropdownOptionGroup>
         </>

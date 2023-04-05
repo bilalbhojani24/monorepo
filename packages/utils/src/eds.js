@@ -28,12 +28,20 @@ export const initEDS = (initializer) => {
   EDS.initialized = true;
 };
 
+/**
+ *
+ * @param {*} eventName : string
+ * @param {*} eventType : string
+ * @param {*} extraData : {any}
+ */
+
 export const logEDSEvent = (eventName, eventType, extraData, sessionId) => {
   if (!EDS.initialized) {
     throw new Error('EDS not initialised');
   }
 
   const eventData = {
+    eventName,
     event_type: eventType,
     data: {
       user: EDS.user,

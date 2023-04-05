@@ -12,6 +12,28 @@ const whiteListUrl = [
 
 let baseLogger;
 
+/**
+  @param {*} initArgs : {
+    EDSDetails : {
+      userDetails : {}
+      config : {
+        server : string/number,
+        port : string/number,
+        apiKey : string/number
+      }
+    },
+    analyticsKey : {
+      trackingId : number
+    },
+    amplitudeConfig: {
+      key: string
+      userData: object
+      -user_id:string (optional key to be passed)
+      groupData: object
+      -group_id:string (optional key to be passed)
+    }
+ * }
+ */
 export const initLogger = (initArgs) => {
   baseLogger = initArgs;
   initAmplitude(initArgs.amplitudeConfig);

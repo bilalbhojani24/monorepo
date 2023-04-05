@@ -28,6 +28,10 @@ const defaultConfig = {
           importStatement={"import Tooltip from 'bifrost/Tooltip'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=159-39732&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -211,6 +215,7 @@ LightThemeHyperlink.args = {
       </TooltipBody>
       <TooltipFooter>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-brand-600"
@@ -220,7 +225,9 @@ LightThemeHyperlink.args = {
         >
           Action 1
         </Hyperlink>
+
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-brand-600"
@@ -248,6 +255,7 @@ DarkThemeHyperlink.args = {
       </TooltipBody>
       <TooltipFooter>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-base-50"
@@ -258,6 +266,7 @@ DarkThemeHyperlink.args = {
           Action 1
         </Hyperlink>
         <Hyperlink
+          isCSR={false}
           underlined
           fontWeight="font-light"
           color="text-base-50"

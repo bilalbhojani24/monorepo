@@ -1,11 +1,11 @@
 export const rowMenu = [
   {
     id: 'newScanRun',
-    body: 'New Scan'
+    body: 'New scan'
   },
   {
     id: 'stopRecurringScans',
-    body: 'Stop Recurring Scans'
+    body: 'Stop recurring scans'
   },
   {
     id: 'cloneScanConfig',
@@ -13,6 +13,6 @@ export const rowMenu = [
   },
   {
     id: 'lastScanRun',
-    body: 'View last scan run'
+    body: 'View latest scan run'
   }
 ];

@@ -1,4 +1,7 @@
 import Accordion from './modules/Accordion';
+import AccordionInteractiveHeader from './modules/AccordionInteractiveHeader';
+import AccordionPanel from './modules/AccordionPanel';
+import AccordionSimpleHeader from './modules/AccordionSimpleHeader';
 import Alerts from './modules/Alerts/index';
 import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
@@ -25,17 +28,18 @@ import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
 import FileUpload from './modules/FileUpload/index';
+import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
+import GridListWImage from './modules/GridListWImage/index';
 import Header from './modules/Header/index';
 import HeaderBrand from './modules/HeaderBrand/index';
 import HeaderElements from './modules/HeaderElements/index';
 import HeaderProductContainer from './modules/HeaderProductContainer/index';
 import HeaderProducts from './modules/HeaderProducts/index';
 import Hyperlink from './modules/Hyperlink/index';
-import InputAddOnTexts from './modules/InputAddOnTexts/index';
+import InputGroupAddOn from './modules/InputField/components/InputGroupAddOn';
+import InputGroupButton from './modules/InputField/components/InputGroupButton';
+import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
-import InputWButton from './modules/InputWButton/index';
-import InputWDropdown from './modules/InputWDropdown/index';
-import InputWKB from './modules/InputWKB/index';
 import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
@@ -73,15 +77,16 @@ import SidebarHeader from './modules/SidebarHeader/index';
 import SidebarItem from './modules/SidebarItem/index';
 import SidebarNavigation from './modules/SidebarNavigation/index';
 import SidebarNavigationWCollapse from './modules/SidebarNavigationWCollapse';
+import SingleDatepicker from './modules/SingleDatepicker';
 import SkipToContent from './modules/SkipToContent/index';
 import Slideover from './modules/Slideover/index';
 import SlideoverBody from './modules/SlideoverBody';
 import SlideoverFooter from './modules/SlideoverFooter';
 import SlideoverHeader from './modules/SlideoverHeader';
-import StackedListWAvatar from './modules/StackedListWAvatar/index';
-import StackedListWSingleColumn from './modules/StackedListWSingleColumn/index';
-import StackedListWStickyHeadings from './modules/StackedListWStickyHeadings/index';
-import StackedListWTwoColumns from './modules/StackedListWTwoColumns/index';
+import StackedList from './modules/StackedList';
+import StackedListCommon from './modules/StackedListCommon';
+import StackedListGroup from './modules/StackedListGroup';
+import StackedListItem from './modules/StackedListItem';
 import Stats from './modules/Stats/index';
 import Steps from './modules/Steps/index';
 import Switch from './modules/Switch/index';
@@ -102,6 +107,9 @@ export * from './modules/Icon/index';
 
 export {
   Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  AccordionSimpleHeader,
   Alerts,
   Attachments,
   Badge,
@@ -128,17 +136,18 @@ export {
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
   FileUpload,
+  GridListWHorizontalLink,
+  GridListWImage,
   Header,
   HeaderBrand,
   HeaderElements,
   HeaderProductContainer,
   HeaderProducts,
   Hyperlink,
-  InputAddOnTexts,
   InputField,
-  InputWButton,
-  InputWDropdown,
-  InputWKB,
+  InputGroupAddOn,
+  InputGroupButton,
+  InputGroupSelectMenuTrigger,
   KeyValue,
   ListTree,
   ListTreeNode,
@@ -177,15 +186,16 @@ export {
   SidebarItem,
   SidebarNavigation,
   SidebarNavigationWCollapse,
+  SingleDatepicker,
   SkipToContent,
   Slideover,
   SlideoverBody,
   SlideoverFooter,
   SlideoverHeader,
-  StackedListWAvatar,
-  StackedListWSingleColumn,
-  StackedListWStickyHeadings,
-  StackedListWTwoColumns,
+  StackedList,
+  StackedListCommon,
+  StackedListGroup,
+  StackedListItem,
   Stats,
   Steps,
   Switch,

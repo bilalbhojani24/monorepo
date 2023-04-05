@@ -1,12 +1,10 @@
 import React from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
   MdExpandMore,
-  MdOutlineContentCopy,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +12,7 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import Chart from 'common/Chart';
+import CopyButton from 'common/CopyButton';
 import PropTypes from 'prop-types';
 
 import useOverview from './useOverview';
@@ -52,27 +51,23 @@ const Overview = ({ scanOverviewData }) => {
     currentRunFilter,
     handleSplineFilter,
     currentSplineRunFilter,
-    isCopied,
-    setIsCopied,
     getStackedChartData,
     getSplineChartData
   } = useOverview({
     scanOverviewData
   });
-  console.log(getStackedChartData);
   return (
     <div
       className=" flex-col overflow-auto p-4"
       style={{
         height: 'calc(100vh - 227px)',
         top: '227px'
-        // width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
       }}
     >
       <div className="mt-4 flex items-start">
         <div className="mx-2 w-6/12 rounded-lg bg-white pt-4 shadow-md">
           <div className="mr-4 flex items-center justify-between">
-            <span className="ml-6 font-semibold">Issue History</span>
+            <span className="ml-6 font-semibold">Issue history</span>
             <Dropdown onClick={handleStackedFilter} id="stackedChartFilter">
               <div className="flex">
                 <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
@@ -96,7 +91,7 @@ const Overview = ({ scanOverviewData }) => {
         </div>
         <div className="mx-2 w-6/12 rounded-lg bg-white pt-4 shadow-md">
           <div className="mr-4 flex items-center justify-between">
-            <span className="ml-6 font-semibold">Scan Stability</span>
+            <span className="ml-6 font-semibold">Scan stability</span>
             <Dropdown onClick={handleSplineFilter} id="stackedSplineFilter">
               <div className="flex">
                 <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
@@ -120,8 +115,8 @@ const Overview = ({ scanOverviewData }) => {
         </div>
       </div>
       <div className="mx-2 my-4 w-full rounded-lg bg-white p-6 pt-4 shadow-md">
-        <span className="ml-6 mt-8 font-semibold">Added Pages</span>
-        <div className="mt-4">
+        <span className="ml-6 mt-8 font-semibold">Added pages</span>
+        <div className="mt-4 shadow">
           <Table>
             <TableHead>
               <TableRow>
@@ -129,7 +124,7 @@ const Overview = ({ scanOverviewData }) => {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    wrapperClass="first:pr-3 last:pl-3 px-2"
+                    wrapperClassName="first:pr-3 last:pl-3 px-2 h-9"
                   >
                     {col.name}
                   </TableCell>
@@ -143,30 +138,25 @@ const Overview = ({ scanOverviewData }) => {
                   onRowClick={() => {
                     // navigate('/site-scanner/scan-report/12');
                   }}
-                  tabIndex="0"
                 >
-                  <TableCell key={row} wrapperClass="first:pr-3 last:pl-3 p-5">
+                  <TableCell
+                    key={row}
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                  >
                     {idx + 1}
                   </TableCell>
-                  <TableCell key={row} wrapperClass="first:pr-3 last:pl-3 p-5">
+                  <TableCell
+                    key={row}
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                  >
                     {row}
                   </TableCell>
                   <TableCell
                     key={row}
-                    wrapperClass="flex justify-end cursor-pointer text-right"
+                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
                   >
                     <div className="flex justify-end">
-                      <CopyToClipboard
-                        onCopy={() => {
-                          setIsCopied(true);
-                          setTimeout(() => {
-                            setIsCopied(false);
-                          }, 2500);
-                        }}
-                        text={row}
-                      >
-                        <MdOutlineContentCopy />
-                      </CopyToClipboard>
+                      <CopyButton text={row} hasBorder={false} />
                     </div>
                   </TableCell>
                 </TableRow>

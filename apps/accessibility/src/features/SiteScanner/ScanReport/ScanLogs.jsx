@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   MdCancel,
   MdCheckCircle,
@@ -14,10 +14,9 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import Loader from 'common/Loader';
 import dateFormat from 'dateformat';
 import PropTypes from 'prop-types';
-
-import Loader from '../../../common/Loader';
 
 import { pageStatus } from './constants';
 
@@ -59,32 +58,15 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
             </SelectMenuOptionGroup>
           </SelectMenu>
         </div>
-        {/* <div className="flex text-sm">
-          <span className="mr-4 flex items-center">
-            <MdCheckCircle color="#10B981" className="mr-0.5" />
-            Success
-          </span>
-          <span className="mr-4 flex items-center">
-            <MdCancel color="#EF4444" className="mr-0.5" />
-            Failure
-          </span>
-          <span className="mr-8 flex items-center">
-            <MdOutlineSync
-              color="#FFF"
-              className="bg-attention-500 mr-0.5 rounded-full"
-            />
-            Redirect
-          </span>
-        </div> */}
       </div>
       <div
-        className="fixed overflow-y-auto"
+        className="fixed overflow-y-auto pb-28"
         style={{
           height: 'calc(100vh - 228px)',
           width: 'calc(100vw - 256px)'
         }}
       >
-        <Table>
+        <Table containerWrapperClass="md:rounded-none shadow border-t border-base-200">
           <TableHead>
             <TableRow>
               {columns.map((col) => (
@@ -98,49 +80,51 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {logs?.logs.map((row, idx) => (
-              <TableRow key={idx} tabIndex="0">
-                <TableCell wrapperClass="font-medium text-base-900 border-l-4 border-success-500 first:pr-3 last:pl-3 p-5">
-                  <div className="text-base-500 flex items-center font-normal">
-                    <MdSchedule />
-                    <span className="ml-0.5">
-                      {dateFormat(new Date(row.time), 'mmmm dS, h:MM TT')}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="mr-2 flex items-center">
-                    {row.cumulativeStatus === 'success' && (
-                      <MdCheckCircle color="#10B981" />
-                    )}
-                    {row.cumulativeStatus === 'redirect' && (
-                      <MdOutlineSync
-                        color="#FFF"
-                        className="bg-attention-500 mr-0.5 rounded-full"
-                      />
-                    )}
-                    {row.cumulativeStatus === 'failure' && (
-                      <MdCancel color="#EF4444" />
-                    )}
-                    <span className="ml-2">{row.pageUrl}</span>
-                  </div>
-                </TableCell>
-                {/* <TableCell>
-                {row.pageStatus === 'success' && (
-                  <MdCheckCircle color="#10B981" />
-                )}
-                {row.pageStatus === 'redirected' && (
-                  <MdOutlineSync
-                    color="#FFF"
-                    className="bg-attention-500 mr-0.5 rounded-full"
-                  />
-                )}
-                {row.pageStatus === 'error' && <MdCancel color="#EF4444" />}
-              </TableCell> */}
-                <TableCell>{row.description}</TableCell>
-              </TableRow>
-            ))}
+          <TableBody wrapperClassName="w-full">
+            {logs?.logs.map((row, idx) => {
+              const newDescription = row.description.split('Scan');
+              return (
+                <TableRow key={idx} tabIndex="0" wrapperClassName="w-full">
+                  <TableCell wrapperClassName="w-1/5 truncate">
+                    <div className="text-base-500 flex w-full items-center truncate font-normal">
+                      <MdSchedule />
+                      <span className="ml-0.5">
+                        {dateFormat(new Date(row.time), 'mmmm dS, h:MM TT')}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell wrapperClassName="w-2/5">
+                    <div className="mr-2 flex items-center">
+                      {row.cumulativeStatus === 'success' && (
+                        <MdCheckCircle color="#10B981" />
+                      )}
+                      {row.cumulativeStatus === 'redirect' && (
+                        <MdOutlineSync
+                          color="#FFF"
+                          className="bg-attention-500 mr-0.5 rounded-full"
+                        />
+                      )}
+                      {row.cumulativeStatus === 'failure' && (
+                        <MdCancel color="#EF4444" />
+                      )}
+                      <span className="ml-2 w-96 truncate" title={row.pageUrl}>
+                        {row.pageUrl}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell wrapperClassName="w-2/5">
+                    <div className="w-96 truncate" title={newDescription[0]}>
+                      {newDescription[0]}
+                    </div>
+                    {newDescription[1] ? (
+                      <div className="w-96 truncate" title={newDescription[1]}>
+                        Scan{newDescription[1]}
+                      </div>
+                    ) : null}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

@@ -18,6 +18,14 @@ const defaultConfig = {
           importStatement={"import Header from 'bifrost/Header'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
+    },
+    percy: {
+      skip: true,
+      name: 'header snapshot'
     }
   },
   argTypes: {

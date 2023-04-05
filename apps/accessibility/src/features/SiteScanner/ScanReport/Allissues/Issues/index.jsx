@@ -23,6 +23,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
+import ZeroIssues from 'assets/zero_issues.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 
@@ -33,7 +34,6 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from '../../slice/selector';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
 
@@ -48,6 +48,7 @@ export default function Issues() {
   const {
     activeSwitch,
     isOpen,
+    reportOverviewMetaData,
     intermediateFilters,
     sectionData,
     showHiddenIssues,
@@ -98,7 +99,28 @@ export default function Issues() {
   );
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
-  console.log('halfview', isHalfView, activeComponentId, isShowingIssue);
+
+  const {
+    issueSummary: { issueCount }
+  } = reportOverviewMetaData;
+
+  if (!issueCount) {
+    return (
+      <div
+        style={{ height: 'calc(100vh - 250px)' }}
+        className="flex flex-col items-center justify-center"
+      >
+        <img src={ZeroIssues} alt="zero issues" className="mb-5" />
+        <div className="text-center">
+          <p className="text-base-900 text-base font-medium">Hurray!</p>
+          <p className="text-base-500 text-base">
+            We found zero issues in this scan.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
@@ -183,7 +205,7 @@ export default function Issues() {
               border={false}
               wrapperClassName="pt-0"
               data={{
-                label: "Show only 'Needs Review' Issues",
+                label: "Show only 'Needs Review' issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}

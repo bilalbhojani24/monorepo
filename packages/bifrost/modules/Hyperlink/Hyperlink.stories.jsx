@@ -15,6 +15,10 @@ const defaultConfig = {
           importStatement={"import Hyperlink from 'bifrost/Hyperlink'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {
@@ -57,17 +61,21 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <Hyperlink {...args}>View</Hyperlink>;
+const Template = (args) => (
+  <Hyperlink isCSR={false} {...args}>
+    View
+  </Hyperlink>
+);
 
 const LeadingIconTemplate = (args) => (
-  <Hyperlink {...args}>
+  <Hyperlink isCSR={false} {...args}>
     <EnvelopeIcon className="mr-1 h-4 w-4" />
     View
   </Hyperlink>
 );
 
 const TrailingIconTemplate = (args) => (
-  <Hyperlink {...args}>
+  <Hyperlink isCSR={false} {...args}>
     View
     <EnvelopeIcon className="ml-1 h-4 w-4" />
   </Hyperlink>

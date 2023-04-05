@@ -216,7 +216,7 @@ export default function Issues() {
               border={false}
               wrapperClassName="pt-0"
               data={{
-                label: "Show only 'Needs Review' Issues",
+                label: "Show only 'Needs Review' issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}
@@ -340,7 +340,7 @@ export default function Issues() {
                       hasDot={false}
                       hasRemoveButton
                       isRounded
-                      text="Needs Review"
+                      text="Needs review"
                       size="large"
                       wrapperClassName="bg-white ml-4"
                       onClose={() => onTagClose('showNeedsReviewIssues')}
