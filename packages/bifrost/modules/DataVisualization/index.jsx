@@ -46,7 +46,9 @@ const DataVisualization = ({
     <div className={twClassNames('p-6', contentWrapperClassName)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
+          <h3 className="mr-2.5 break-all text-lg font-medium leading-6">
+            {title}
+          </h3>
           {headerInfo && (
             <ToolTip
               arrowClassName={headerInfoTooltipProps?.arrowClassName}
