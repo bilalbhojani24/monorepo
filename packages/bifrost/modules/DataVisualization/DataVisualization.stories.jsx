@@ -181,18 +181,16 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <DataVisualization {...args} />;
-const DataVisualizationDetailTemplate = (args) => (
+const DataVizWithFooterOnClickTemplate = (args) => (
   <DataVisualization {...args} />
 );
 
 const Primary = Template.bind({});
-const DataVizWithFooterOnClick = Template.bind({});
+const DataVizWithFooterOnClick = DataVizWithFooterOnClickTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
 };
-
-Primary.args = {};
 
 DataVizWithFooterOnClick.args = {
   footerProps: {
@@ -205,7 +203,7 @@ DataVizWithFooterOnClick.args = {
   }
 };
 
-const DataVisualizationDetail = DataVisualizationDetailTemplate.bind({});
+const DataVisualizationDetail = Template.bind({});
 
 DataVisualizationDetail.args = {
   hasWiderColumns: true,
