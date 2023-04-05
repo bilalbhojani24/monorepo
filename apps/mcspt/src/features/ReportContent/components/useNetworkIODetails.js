@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
-const generateDiskIOChartOptions = (sessionData, chartGridClicked) => {
+const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
 
   const networkReadTimeSeries = sessionData?.report?.Network?.metrics?.map(
@@ -79,16 +78,19 @@ const useNetworkIODetails = () => {
 
   const { chartGridClicked } = useMcpChart();
 
-  const [networkIOChartOptions, setDiskIOChartOptions] = useState(null);
+  const [networkIOChartOptions, setNetworkIOChartOptions] = useState(null);
 
   useEffect(() => {
-    setDiskIOChartOptions(
-      generateDiskIOChartOptions(sessionData, chartGridClicked)
+    setNetworkIOChartOptions(
+      generateNetworkIOChartOptions(
+        sessionData,
+        chartGridClicked('networkIoChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 
   useEffect(() => {
-    setDiskIOChartOptions((prevOps) => {
+    setNetworkIOChartOptions((prevOps) => {
       const newOps = { ...prevOps };
 
       newOps.xAxis.plotLines[0].value = latestVideoCurrentTimeInSeconds;

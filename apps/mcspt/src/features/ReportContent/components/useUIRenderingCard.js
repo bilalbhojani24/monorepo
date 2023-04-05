@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
+  getDevicePlatform,
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
 const generateFrameChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -79,13 +79,18 @@ const useUIRenderingCard = () => {
     getLatestVideoCurrentTimeInSeconds
   );
 
+  const devicePlatform = useSelector(getDevicePlatform);
+
   const { chartGridClicked } = useMcpChart();
 
   const [frameChartOptions, setFrameChartOptions] = useState(null);
 
   useEffect(() => {
     setFrameChartOptions(
-      generateFrameChartOptions(sessionData, chartGridClicked)
+      generateFrameChartOptions(
+        sessionData,
+        chartGridClicked('frameChart', sessionData)
+      )
     );
   }, [chartGridClicked, sessionData]);
 
@@ -99,7 +104,7 @@ const useUIRenderingCard = () => {
     });
   }, [latestVideoCurrentTimeInSeconds]);
 
-  return { sessionData, frameChartOptions };
+  return { sessionData, frameChartOptions, devicePlatform };
 };
 
 export default useUIRenderingCard;

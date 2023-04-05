@@ -12,7 +12,7 @@ axios.interceptors.request.use((config) => {
 
   const authToken = getAuthToken(store?.getState());
 
-  if (authToken) {
+  if (authToken && interceptedConfig.url.indexOf('eds.browserstack') === -1) {
     interceptedConfig.headers.Authorization = `Bearer ${authToken}`;
   }
 

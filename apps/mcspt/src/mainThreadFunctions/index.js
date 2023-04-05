@@ -2,6 +2,8 @@ const { ipcMain, shell } = require('electron');
 
 const fileExplorerOps = require('./fileExplorerOps');
 const deepLinkingSetup = require('./deepLinking');
+const backendServerOps = require('./backendServerOps');
+const autoUpdateOps = require('./autoUpdateOps');
 
 const initializeRemoteHandlers = () => {
   ipcMain.handle('openSystemFileFromPath', (event, path) => {
@@ -15,5 +17,7 @@ const initializeRemoteHandlers = () => {
 module.exports = {
   fileExplorerOps,
   deepLinkingSetup,
-  initializeRemoteHandlers
+  initializeRemoteHandlers,
+  backendServerOps,
+  autoUpdateOps
 };

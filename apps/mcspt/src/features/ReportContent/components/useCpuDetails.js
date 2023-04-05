@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
 const generateCPUChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -70,7 +69,12 @@ const useCpuDetails = () => {
   const [cpuChartOptions, setCpuChartOptions] = useState(null);
 
   useEffect(() => {
-    setCpuChartOptions(generateCPUChartOptions(sessionData, chartGridClicked));
+    setCpuChartOptions(
+      generateCPUChartOptions(
+        sessionData,
+        chartGridClicked('cpuChart', sessionData)
+      )
+    );
   }, [sessionData, chartGridClicked]);
 
   useEffect(() => {

@@ -1,1 +1,6 @@
-export const getBaseUrl = () => 'http://localhost:3000/api/v1';
+const getApiPort = () => window.BS_PERF_API_PORT || 3000;
+
+export const getBaseUrl = () => `http://localhost:${getApiPort()}/api/v1`;
+
+export const getCsptApiUrl = () =>
+  `http://cspt-api.${IS_PROD ? 'browserstack' : 'bsstag'}.com/api/v1`;

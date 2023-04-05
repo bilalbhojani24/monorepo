@@ -1,8 +1,11 @@
 const { app, BrowserWindow } = require('electron');
+
 const {
   fileExplorerOps,
   deepLinkingSetup,
-  initializeRemoteHandlers
+  initializeRemoteHandlers,
+  backendServerOps,
+  autoUpdateOps
 } = require('./mainThreadFunctions');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -15,21 +18,59 @@ const mainThreadGlobals = {
    * storing globals into object so that they can be
    * passed by reference to asynchronous handlers
    */
-  mainWindow: undefined
+  mainWindow: undefined,
+  splashScreen: undefined
 };
 
-const createWindow = () => {
+const closeSplashAndLoadMainWindow = () => {
+  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  mainThreadGlobals.mainWindow.once('ready-to-show', () => {
+    mainThreadGlobals.splashScreen.destroy();
+    mainThreadGlobals.mainWindow.show();
+  });
+
+  autoUpdateOps.initializeAutoUpdate();
+};
+
+const createWindow = async () => {
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
+    minWidth: 1024,
+    minHeight: 720,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-    }
+    },
+    show: false
   });
 
-  mainThreadGlobals.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainThreadGlobals.splashScreen = new BrowserWindow({
+    width: 640,
+    height: 360,
+    center: true,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    resizable: false
+  });
+
+  mainThreadGlobals.splashScreen.loadURL(SPLASH_WEBPACK_ENTRY);
+
+  if (!IS_DEV) {
+    // order is important for this one
+
+    await backendServerOps.initializeBackendServer(mainThreadGlobals);
+
+    await backendServerOps.checkServerAvailability(
+      closeSplashAndLoadMainWindow
+    );
+  } else {
+    closeSplashAndLoadMainWindow();
+  }
 
   fileExplorerOps.initializeProtocolForFileRead();
+  backendServerOps.registerQuitHotkeys();
 };
 
 fileExplorerOps.initializeSchemeForFileRead();
@@ -40,14 +81,7 @@ deepLinkingSetup.initializeDeepLinking(mainThreadGlobals);
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+backendServerOps.registerAppTerminationListeners();
 
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the

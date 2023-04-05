@@ -10,9 +10,10 @@ export const fetchSessionStatus = async (sessionId) => {
   return response.data;
 };
 
-export const stopSession = async (sessionId) => {
+export const stopSession = async (sessionId, bodyParams) => {
   const response = await axios.post(
-    `${getBaseUrl()}/session/${sessionId}/stop`
+    `${getBaseUrl()}/session/${sessionId}/stop`,
+    bodyParams
   );
 
   return response.data;

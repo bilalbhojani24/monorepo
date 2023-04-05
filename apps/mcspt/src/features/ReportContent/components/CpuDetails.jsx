@@ -1,11 +1,11 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { AVG_CPU_TT, MAX_CPU_TT } from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useCpuDetails from './useCpuDetails';
 
 const CpuDetails = () => {
@@ -20,7 +20,7 @@ const CpuDetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.cpuUsagePercentageAvg?.value
           )} %`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={AVG_CPU_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.cpuUsagePercentageAvg?.value,
             sessionData?.threshold?.cpuUsagePercentageAvg
@@ -36,7 +36,7 @@ const CpuDetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.cpuUsagePercentageMax?.value
           )} %`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={MAX_CPU_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.cpuUsagePercentageMax?.value,
             sessionData?.threshold?.cpuUsagePercentageMax
@@ -49,7 +49,7 @@ const CpuDetails = () => {
 
       <div className="p-4">
         <div className="relative h-[182px] flex-1">
-          <div className="absolute top-0 left-0 w-full">
+          <div className="absolute left-0 top-0 w-full">
             {cpuChartOptions && (
               <HighchartsReact
                 highcharts={Highcharts}

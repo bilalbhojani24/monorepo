@@ -1,5 +1,5 @@
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   getLatestSeekTimeInSeconds,
   getSessionMetrics,
@@ -11,6 +11,8 @@ const useReportSidebar = () => {
 
   const latestSeekTimeInSeconds = useSelector(getLatestSeekTimeInSeconds);
 
+  const deviceVideoRef = useRef(null);
+
   const dispatch = useDispatch();
 
   const updateChartSeekerPosition = (videoRefCurrent) => {
@@ -19,7 +21,24 @@ const useReportSidebar = () => {
     );
   };
 
-  return { sessionData, latestSeekTimeInSeconds, updateChartSeekerPosition };
+  useEffect(() => {
+    if (latestSeekTimeInSeconds) {
+      deviceVideoRef.current.seekToTimeStampCallBack(latestSeekTimeInSeconds);
+    }
+  }, [latestSeekTimeInSeconds]);
+
+  useEffect(
+    () => () => {
+      dispatch(updateLatestVideoCurrentTimeInSeconds(0));
+    },
+    [dispatch]
+  );
+
+  return {
+    sessionData,
+    updateChartSeekerPosition,
+    deviceVideoRef
+  };
 };
 
 export default useReportSidebar;

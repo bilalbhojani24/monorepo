@@ -1,36 +1,38 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { BATTERY_CONSUMED_TT } from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
+import { decideIfCriteriaBreached } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useBatteryDetails from './useBatteryDetails';
 
 const BatteryChart = () => {
-  const { sessionData, batteryChartOptions } = useBatteryDetails();
+  const { sessionData, batteryChartOptions, roundTo3DecimalPlaces } =
+    useBatteryDetails();
 
   return (
     <div className="flex">
       <div className="flex w-[275px] shrink-0 grow-0 flex-col">
         <MetricStat
-          metricTitle=" Total Battery Consumed"
-          metricText={`${sanitizeValue(
-            sessionData?.aggregated?.totalBatteryConsumedPercent?.value
+          metricTitle="Total Battery Consumed"
+          metricText={`${roundTo3DecimalPlaces(
+            sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value
           )} %`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={BATTERY_CONSUMED_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.totalBatteryConsumedPercent?.value,
-            sessionData?.threshold?.totalBatteryConsumedPercent
+            sessionData?.aggregated?.batterymAhConsumedByAppPercent?.value,
+            sessionData?.threshold?.batterymAhConsumedByAppPercent
           )}
           triangleDirection={
-            sessionData?.threshold?.totalBatteryConsumedPercent?.operator
+            sessionData?.threshold?.batterymAhConsumedByAppPercent?.operator
           }
         />
       </div>
 
       <div className="relative h-[182px] flex-1">
-        <div className="absolute top-0 left-0 w-full">
+        <div className="absolute left-0 top-0 w-full">
           {batteryChartOptions && (
             <HighchartsReact
               highcharts={Highcharts}

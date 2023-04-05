@@ -1,6 +1,7 @@
 import Report from './components/Report';
 import useMcpChart from './components/useMcpChart';
 import reportReducer, {
+  getDevicePlatform,
   getLatestSeekTimeInSeconds,
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
@@ -9,6 +10,7 @@ import reportReducer, {
 } from './slices/reportSlice';
 
 export {
+  getDevicePlatform,
   getLatestSeekTimeInSeconds,
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,

@@ -1,29 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { getPreviousUserSessions } from '../slices/homeSlice';
-import { checkForPreviousUserSessions } from '../slices/homeThunks';
+import {
+  EXISTING_REPORTS_SAMPLE_SWITCH,
+  SSO_AUTH_URL
+} from 'constants/mcpConstants';
+import {
+  getIsUserLoggedIn,
+  getTotalAllowedSessions,
+  getTotalCompletedSessions
+} from 'features/Dashboard/slices/dashboardSlice';
+import {
+  checkForPreviousUserSessions,
+  getPreviousUserSessions
+} from 'features/TestHistory';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const useHome = () => {
-  const [showNewSessionModal, setShowNewSessionModal] = useState(false);
-
   const dispatch = useDispatch();
 
+  const isUserLoggedIn = useSelector(getIsUserLoggedIn);
+  const totalAllowedSessions = useSelector(getTotalAllowedSessions);
+  const totalCompletedSessions = useSelector(getTotalCompletedSessions);
   const previousUserSessions = useSelector(getPreviousUserSessions);
 
-  const newTestClickHandler = () => {
-    setShowNewSessionModal(true);
+  const loginViaSSO = () => {
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+
+    mcpAnalyticsEvent('csptUserLoginLogoutClick', {
+      loginbtn_action: 'login'
+    });
   };
 
   useEffect(() => {
-    dispatch(checkForPreviousUserSessions());
+    dispatch(checkForPreviousUserSessions(true));
   }, [dispatch]);
 
   return {
-    newTestClickHandler,
-    showNewSessionModal,
-    setShowNewSessionModal,
-    previousUserSessions
+    totalCompletedSessions,
+    totalAllowedSessions,
+    loginViaSSO,
+    shouldShowExistingSessionsTable:
+      previousUserSessions?.length >= EXISTING_REPORTS_SAMPLE_SWITCH,
+    showAuthBanner:
+      !isUserLoggedIn && totalCompletedSessions >= totalAllowedSessions
   };
 };
 

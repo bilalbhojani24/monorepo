@@ -1,29 +1,37 @@
+const APP_NAME = 'BrowserStack-AppPerformance';
+
 module.exports = {
   packagerConfig: {
     protocols: [
       {
-        name: 'Browserstack App Performance',
+        name: APP_NAME,
         schemes: ['bsperf']
       }
-    ]
+    ],
+    extraResource: ['./nodeBE'],
+    icon: './cspLogo'
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {}
+      config: {
+        icon: './cspLogo.ico',
+        name: APP_NAME
+      },
+      platforms: ['win32']
+    },
+    {
+      name: '@electron-forge/maker-dmg',
+      config: {
+        icon: './cspLogo.icns',
+        name: APP_NAME
+      },
+      platforms: ['darwin']
     },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin']
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {}
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {}
     }
   ],
   plugins: [
@@ -41,11 +49,16 @@ module.exports = {
               preload: {
                 js: './src/preload.js'
               }
+            },
+            {
+              html: './src/splash.html',
+              js: './src/splashScreen.js',
+              name: 'splash'
             }
           ]
         },
         devContentSecurityPolicy:
-          "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*; img-src https: http: data: blob: about:;",
+          "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*; img-src https: http: data: blob: about:; connect-src https: http: ws:",
         port: 2099
       }
     }

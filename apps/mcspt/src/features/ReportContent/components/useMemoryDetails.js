@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
 const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -25,6 +24,7 @@ const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
   };
 
   chartOptions.plotOptions = {
+    ...chartOptions.plotOptions,
     spline: {
       point: {
         events: {
@@ -71,7 +71,10 @@ const useMemoryDetails = () => {
 
   useEffect(() => {
     setMemoryChartOptions(
-      generateMemoryChartOptions(sessionData, chartGridClicked)
+      generateMemoryChartOptions(
+        sessionData,
+        chartGridClicked('memoryChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 

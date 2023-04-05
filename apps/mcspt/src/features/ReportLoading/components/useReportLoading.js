@@ -1,58 +1,99 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import {
-  getSelectedApplication,
-  getSelectedDevice,
-  getSessionDetails
-} from 'features/NewPerformanceSession';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import { getSessionDetails } from 'features/Home';
+import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
+
 import {
   getIsSessionStopInProgress,
   getLatestSessionStatus
 } from '../slices/reportLoadingSlice';
 import {
+  cancelRecordingSession,
   checkSessionStatus,
   stopRecordingSession
 } from '../slices/reportLoadingThunks';
-
-const generateSessionTextMap = (device, application) => ({
-  [REPORT_LOADING_STATES.CONNECTING]: `Connecting to the ${device?.manufacturer} ${device?.model}...`,
-  [REPORT_LOADING_STATES.LAUNCHING]: `Launching the ${application?.name} app...`,
-  [REPORT_LOADING_STATES.RECORDING]:
-    'Performance Data is being recorded from your device'
-});
+import {
+  cycledTipMessages,
+  generateTestDataDescriptionList
+} from '../utils/reportLoadingUtils';
 
 const useReportLoading = () => {
   const sessionState = useSelector(getLatestSessionStatus);
-
   const sessionDetails = useSelector(getSessionDetails);
-  const selectedDevice = useSelector(getSelectedDevice);
-  const selectedApplication = useSelector(getSelectedApplication);
-
   const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
 
-  const [sesstionTextMap, setSessionTextMap] = useState(null);
   const [timerIntervalId, setTimerIntervalId] = useState(null);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
+  const [testDataDescriptionList, setTestDataDescriptionList] = useState(null);
+
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+
+  const [showGenerateReportPrompt, setShowGenerateReportPrompt] =
+    useState(false);
+
+  const [showQuitTestingPrompt, setShowQuitTestingPrompt] = useState(false);
 
   const dispatch = useDispatch();
 
   const navigateToPath = useNavigate();
 
-  const onCancelClicked = () => {
-    navigateToPath('/');
+  const quitTestConfirmed = () => {
+    clearInterval(timerIntervalId);
+
+    dispatch(
+      cancelRecordingSession(navigateToPath, () => {
+        setShowQuitTestingPrompt(false);
+      })
+    );
+
+    mcpAnalyticsEvent('csptTestQuit', {
+      test_duration: secondsElapsed,
+      ...formatDeviceAndAppAnalyticsData(
+        sessionDetails?.device,
+        sessionDetails?.package
+      )
+    });
   };
 
   const stopSessionClicked = () => {
     clearInterval(timerIntervalId);
+    setShowGenerateReportPrompt(false);
+
     dispatch(stopRecordingSession(navigateToPath));
+
+    mcpAnalyticsEvent('csptTestCompleted', {
+      test_duration: secondsElapsed,
+      ...formatDeviceAndAppAnalyticsData(
+        sessionDetails?.device,
+        sessionDetails?.package
+      )
+    });
   };
 
   useEffect(() => {
-    dispatch(checkSessionStatus());
-  }, [dispatch]);
+    setTestDataDescriptionList(
+      generateTestDataDescriptionList(sessionDetails?.device)
+    );
+  }, [sessionDetails?.device]);
+
+  useEffect(() => {
+    if (sessionDetails?.cellular) {
+      setTestDataDescriptionList((existingList) => {
+        if (existingList?.length > 0) {
+          const updatedVal = [...existingList];
+
+          updatedVal[updatedVal.length - 1].description =
+            sessionDetails?.cellular;
+
+          return updatedVal;
+        }
+        return existingList;
+      });
+    }
+  }, [sessionDetails]);
 
   useEffect(() => {
     if (sessionState === REPORT_LOADING_STATES.RECORDING) {
@@ -67,10 +108,18 @@ const useReportLoading = () => {
   }, [sessionState]);
 
   useEffect(() => {
-    setSessionTextMap(
-      generateSessionTextMap(selectedDevice, selectedApplication)
-    );
-  }, [selectedApplication, selectedDevice]);
+    dispatch(checkSessionStatus());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const localTimeoutId = setInterval(() => {
+      setCurrentTipIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
+    }, 5000);
+
+    return () => {
+      clearTimeout(localTimeoutId);
+    };
+  }, []);
 
   useEffect(
     () => () => {
@@ -82,13 +131,16 @@ const useReportLoading = () => {
   return {
     sessionState,
     sessionDetails,
-    selectedDevice,
-    sesstionTextMap,
-    selectedApplication,
-    onCancelClicked,
+    quitTestConfirmed,
     stopSessionClicked,
     secondsElapsed,
-    isSessionStopInProgress
+    isSessionStopInProgress,
+    showGenerateReportPrompt,
+    setShowGenerateReportPrompt,
+    showQuitTestingPrompt,
+    setShowQuitTestingPrompt,
+    testDataDescriptionList,
+    selectedTipMsg: cycledTipMessages[currentTipIndex]
   };
 };
 

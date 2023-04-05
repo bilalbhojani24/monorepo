@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-
 import { secondsToMinutes } from 'utils/dateUtils';
 
 import useScreenLoadTime from './useScreenLoadTime';

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getDefaultChartOptions } from 'utils/chartUtils';
-
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
   useMcpChart
 } from 'features/Report';
+import { getDefaultChartOptions } from 'utils/chartUtils';
 
 const generateBatteryChartOptions = (sessionData, chartGridClicked) => {
   const chartOptions = getDefaultChartOptions();
@@ -69,9 +68,14 @@ const useBatteryDetails = () => {
 
   const [batteryChartOptions, setBatteryChartOptions] = useState(null);
 
+  const roundTo3DecimalPlaces = (value) => Number(Number(value).toFixed(3));
+
   useEffect(() => {
     setBatteryChartOptions(
-      generateBatteryChartOptions(sessionData, chartGridClicked)
+      generateBatteryChartOptions(
+        sessionData,
+        chartGridClicked('batteryChart', sessionData)
+      )
     );
   }, [sessionData, chartGridClicked]);
 
@@ -85,7 +89,7 @@ const useBatteryDetails = () => {
     });
   }, [latestVideoCurrentTimeInSeconds]);
 
-  return { sessionData, batteryChartOptions };
+  return { sessionData, batteryChartOptions, roundTo3DecimalPlaces };
 };
 
 export default useBatteryDetails;

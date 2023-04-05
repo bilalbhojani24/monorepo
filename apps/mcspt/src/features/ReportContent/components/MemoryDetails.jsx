@@ -1,11 +1,11 @@
 import React from 'react';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { AVG_MEMORY_TT, MAX_MEMORY_TT } from 'constants/reportTooltipText';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import { decideIfCriteriaBreached, sanitizeValue } from 'utils/baseUtils';
 
 import MetricStat from './MetricStat';
+import ReportTooltip from './ReportTooltip';
 import useMemoryDetails from './useMemoryDetails';
 
 const MemoryDetails = () => {
@@ -20,7 +20,7 @@ const MemoryDetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.memoryUsageMbAvg?.value
           )} MB`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={AVG_MEMORY_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.memoryUsageMbAvg?.value,
             sessionData?.threshold?.memoryUsageMbAvg
@@ -34,7 +34,7 @@ const MemoryDetails = () => {
           metricText={`${sanitizeValue(
             sessionData?.aggregated?.memoryUsageMbMax?.value
           )} MB`}
-          MetricIcon={<MdInfoOutline />}
+          MetricIcon={<ReportTooltip cardToolTipData={MAX_MEMORY_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
             sessionData?.aggregated?.memoryUsageMbMax?.value,
             sessionData?.threshold?.memoryUsageMbMax
@@ -45,7 +45,7 @@ const MemoryDetails = () => {
 
       <div className="p-4">
         <div className="relative h-[182px] flex-1">
-          <div className="absolute top-0 left-0 w-full">
+          <div className="absolute left-0 top-0 w-full">
             {memoryChartOptions && (
               <HighchartsReact
                 highcharts={Highcharts}

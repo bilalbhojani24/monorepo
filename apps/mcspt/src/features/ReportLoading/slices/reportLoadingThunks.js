@@ -1,7 +1,7 @@
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
-import { resetSessionSetupData } from 'features/NewPerformanceSession';
-import { updateSessionMetrics } from 'features/Report';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import { resetSessionSetupData } from 'features/Home';
+import { updateSessionMetrics } from 'features/Report';
 
 import {
   setIsSessionStopInProgress,
@@ -19,7 +19,10 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
       throw response;
     }
 
-    if (response?.state !== REPORT_LOADING_STATES.COMPLETE) {
+    if (
+      response?.state !== REPORT_LOADING_STATES.COMPLETE ||
+      response?.state !== REPORT_LOADING_STATES.CANCELLED
+    ) {
       const sessionStatusPollingTimeoutId = setTimeout(() => {
         dispatch(checkSessionStatus());
       }, 5000);
@@ -32,7 +35,10 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
       );
     }
 
-    if (response?.state === REPORT_LOADING_STATES.COMPLETE) {
+    if (
+      response?.state === REPORT_LOADING_STATES.COMPLETE ||
+      response?.state === REPORT_LOADING_STATES.CANCELLED
+    ) {
       const latestSessionPollingTimeoutId =
         getState()?.reportLoading?.latestPollingTimeoutId;
 
@@ -53,7 +59,11 @@ export const stopRecordingSession =
 
       dispatch(setIsSessionStopInProgress(true));
 
+      dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
+
       const response = await stopSession(currentSessionId);
+
+      await new Promise((resolve) => setTimeout(resolve, 4000));
 
       dispatch(updateSessionMetrics(response));
 
@@ -66,5 +76,30 @@ export const stopRecordingSession =
       }
     } finally {
       dispatch(setIsSessionStopInProgress(false));
+    }
+  };
+
+export const cancelRecordingSession =
+  (navigationCallback, closeModalCallback) => async (dispatch, getState) => {
+    try {
+      const currentSessionId =
+        getState()?.newPerformanceSession?.sessionDetails?.sessionID;
+
+      dispatch(setIsSessionStopInProgress(true));
+
+      dispatch(
+        updateSessionStatus({ status: REPORT_LOADING_STATES.NOT_STARTED })
+      );
+
+      await stopSession(currentSessionId, { cancelled: true });
+    } catch (error) {
+      if (error?.response?.status === 500) {
+        throw error;
+      }
+    } finally {
+      closeModalCallback();
+      navigationCallback('/');
+      dispatch(setIsSessionStopInProgress(false));
+      dispatch(resetSessionSetupData());
     }
   };
