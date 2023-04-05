@@ -9,7 +9,6 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import { DefaultBrowserIcon, FindElementIcon } from 'assets/icons/components';
 import { O11yTruncateText } from 'common/bifrostProxy';
-import ImageViewerWithGallery from 'common/ImageViewerWithGallery';
 import PrismHighlight from 'common/PrismHighlight';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -20,6 +19,7 @@ import { useLogsContext } from '../contexts/LogsContext';
 import { getActiveLogLevelsByType } from '../slices/selectors';
 import { formatLog } from '../utils';
 
+import ImageGallery from './ImageGallery';
 import LogItemDuration from './LogItemDuration';
 import LogItemIcon from './LogItemIcon';
 import LogItemStartTime from './LogItemStartTime';
@@ -356,7 +356,7 @@ export default function TextLogItem({ data, searchText }) {
       </div>
       {logData?.response?.value?.isSnapShot ? (
         <div className="pl-20">
-          <ImageViewerWithGallery images={[logData?.response?.value?.text]} />
+          <ImageGallery images={[logData?.response?.value?.text]} />
         </div>
       ) : (
         <>

@@ -1,5 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
+import {
+  ScreenshotFailureIcon,
+  ScreenshotLoadingIcon
+} from 'assets/icons/components';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
@@ -8,10 +13,10 @@ const ImageItem = ({ url }) => {
   const [isLoadFailed, setIsLoadFailed] = useState(false);
   const handleImageLoad = () => {
     setIsLoadFailed(false);
-    setIsLoading(true);
+    setIsLoading(false);
   };
   const handleImageError = () => {
-    setIsLoading(true);
+    setIsLoading(false);
     setIsLoadFailed(true);
   };
   return (
@@ -28,10 +33,15 @@ const ImageItem = ({ url }) => {
       <img
         src={url}
         alt="test screenshot"
-        className="max-h-[300px]"
+        className={twClassNames('max-h-[300px]', {
+          hidden: isLoading || isLoadFailed
+        })}
         onError={handleImageError}
         onLoad={handleImageLoad}
       />
+
+      {isLoading && <ScreenshotLoadingIcon className="max-h-[300px]" />}
+      {isLoadFailed && <ScreenshotFailureIcon className="max-h-[300px]" />}
     </O11yHyperlink>
   );
 };
