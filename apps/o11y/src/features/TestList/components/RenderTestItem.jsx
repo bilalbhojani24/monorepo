@@ -29,7 +29,6 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
   const dispatch = useDispatch();
 
   const addFilterOnClick = (filterCategory, filterValue) => {
-    console.log('applying');
     if (filterCategory === 'tags' && !tags.includes(filterValue)) {
       dispatch(
         setAppliedFilters({
@@ -53,7 +52,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
 
   return (
     <div
-      className={twClassNames(`border-base-200 border-b pt-2 pr-8`, {
+      className={twClassNames(`border-base-200 border-b pt-2 pr-6`, {
         'pb-2': !isLastItem,
         'pb-4': isLastItem
       })}

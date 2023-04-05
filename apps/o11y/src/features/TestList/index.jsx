@@ -155,7 +155,7 @@ const TestList = ({
 
   return (
     <div className="flex h-full flex-col bg-white">
-      <div className="border-base-200 flex justify-between border-b py-4 pl-8 pr-5">
+      <div className="border-base-200 flex justify-between border-b px-6 py-4">
         <div className="flex w-full">
           <O11yButton
             isIconOnlyButton

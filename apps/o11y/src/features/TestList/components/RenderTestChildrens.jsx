@@ -33,7 +33,11 @@ const RenderChildrens = ({ listOfItems }) =>
     />
   ) : (
     listOfItems.children?.map((data, index) => (
-      <RenderAppropriateChild key={data.id} index={index} innerItem={data} />
+      <RenderAppropriateChild
+        key={`${data.id}-parent`}
+        index={index}
+        innerItem={data}
+      />
     ))
   );
 

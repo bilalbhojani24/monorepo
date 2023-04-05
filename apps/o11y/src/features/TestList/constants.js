@@ -75,8 +75,7 @@ export const singleItemPropType = {
 };
 
 export const HIERARCHY_SPACING = 12;
-export const HIERARCHY_SPACING_TEST = 12;
-export const HIERARCHY_SPACING_START = 40;
+export const HIERARCHY_SPACING_START = 24;
 
 export const LOG_TYPES = {
   STACKTRACE: 'TEST_FAILURE',

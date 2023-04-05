@@ -172,7 +172,7 @@ function BuildDetailsHeader({
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b px-8 pt-6">
+    <div className="border-base-200 border-b px-6 pt-6">
       <div className="flex">
         <h1 className="w-full text-2xl font-bold leading-8">
           {isAutoDetectedName ? originalName : name}{' '}
@@ -305,7 +305,7 @@ function BuildDetailsHeader({
           tabsArray={tabsList}
           onTabChange={onTabChange}
         />
-        <div className="flex items-center pr-3">
+        <div className="flex items-center">
           <StatusBadges statusStats={statusStats} />
         </div>
       </div>
