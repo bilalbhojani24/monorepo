@@ -1,3 +1,3 @@
-import TestDetailsSlideOver from '../SHTestDetails';
+import TestDetailsSlideOver from './containers/TestDetailsSlideOver';
 
 export default TestDetailsSlideOver;
