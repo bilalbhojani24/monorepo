@@ -70,6 +70,20 @@ export const getMappedValue = (mapArray, value) => {
   const match = mapArray.find((item) => item.value === value);
   return match?.label ? match.label : '--';
 };
+
+export const getSystemOrCustomValue = (
+  systemValue,
+  customValue,
+  mapArray = []
+) => {
+  if (systemValue) {
+    return mapArray.length
+      ? getMappedValue(mapArray, systemValue)
+      : systemValue;
+  }
+  if (customValue) return customValue;
+  return '--';
+};
 // export const attachEventListener = (target, event, cbFunction) => {
 //   target?.addEventListener(event, cbFunction);
 // };
