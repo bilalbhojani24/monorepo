@@ -9,6 +9,7 @@ import {
   MdCheckCircle,
   MdContactSupport,
   MdOutlineAutoFixHigh,
+  MdOutlineRefresh,
   MdOutlineTimer,
   MdPerson,
   MdRemoveCircle,
@@ -16,6 +17,7 @@ import {
 } from '@browserstack/bifrost';
 import {
   O11yBadge,
+  O11yButton,
   O11yMetaData,
   O11yTabs,
   O11yTooltip
@@ -27,6 +29,7 @@ import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
+import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
@@ -48,7 +51,7 @@ const tabsList = Object.keys(TABS).map((key) => ({
   icon: TABS[key].icon
 }));
 
-function BuildDetailsHeader() {
+function BuildDetailsHeader({ updateCount, onUpdateBtnClick }) {
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -157,46 +160,61 @@ function BuildDetailsHeader() {
 
   return (
     <div className="border-base-200 border-b px-8 pt-6">
-      <h1 className="text-2xl font-bold leading-7">
-        {isAutoDetectedName ? originalName : name}{' '}
-        <div className="inline-block">
-          {!!buildNumber && `#${buildNumber}`}
-          {isAutoDetectedName && (
-            <O11yTooltip
-              theme="dark"
-              placementSide="right"
-              content={
-                <div className="mx-4">
-                  <p className="text-base-300 text-sm leading-5">
-                    Static build name automatically detected: {name}
-                  </p>
-                  <a
-                    target="_new"
-                    href={getDocUrl({
-                      path: DOC_KEY_MAPPING.automation_build
-                    })}
-                    className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
-                  >
-                    Learn More
-                  </a>
-                </div>
-              }
-            >
-              <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block text-xl" />
-            </O11yTooltip>
-          )}
-        </div>
-        {tags?.map((tag) => (
-          <O11yBadge
-            key={tag}
-            wrapperClassName="mx-2 text-sm leading-5 font-medium"
-            hasRemoveButton={false}
-            modifier="base"
-            hasDot={false}
-            text={tag}
-          />
-        ))}
-      </h1>
+      <div className="flex">
+        <h1 className="w-full text-2xl font-bold leading-8">
+          {isAutoDetectedName ? originalName : name}{' '}
+          <div className="inline-block">
+            {!!buildNumber && `#${buildNumber}`}
+            {isAutoDetectedName && (
+              <O11yTooltip
+                theme="dark"
+                placementSide="right"
+                content={
+                  <div className="mx-4">
+                    <p className="text-base-300 text-sm leading-5">
+                      Static build name automatically detected: {name}
+                    </p>
+                    <a
+                      target="_new"
+                      href={getDocUrl({
+                        path: DOC_KEY_MAPPING.automation_build
+                      })}
+                      className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                }
+              >
+                <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block text-xl" />
+              </O11yTooltip>
+            )}
+          </div>
+          {tags?.map((tag) => (
+            <O11yBadge
+              key={tag}
+              wrapperClassName="mx-2 text-sm leading-5 font-medium"
+              hasRemoveButton={false}
+              modifier="base"
+              hasDot={false}
+              text={tag}
+            />
+          ))}
+        </h1>
+        {updateCount > 0 && (
+          <O11yButton
+            icon={<MdOutlineRefresh />}
+            onClick={onUpdateBtnClick}
+            wrapperClassName="flex"
+            size="small"
+            colors="brand"
+            variant="rounded"
+            iconPlacement="start"
+          >
+            {`${updateCount} new test${updateCount > 1 ? 's' : ''}`}
+          </O11yButton>
+        )}
+      </div>
       <div className="mt-2 flex flex-wrap items-center gap-4">
         {renderStatusIcon()}
         <O11yMetaData
@@ -282,3 +300,8 @@ function BuildDetailsHeader() {
 }
 
 export default BuildDetailsHeader;
+
+BuildDetailsHeader.propTypes = {
+  updateCount: PropTypes.number.isRequired,
+  onUpdateBtnClick: PropTypes.func.isRequired
+};

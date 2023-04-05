@@ -5,6 +5,7 @@ import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { PUSHER_EVENTS } from 'constants/common';
+import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import TestList from '../components/TestList';
@@ -15,10 +16,12 @@ import {
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
+import { getTestListData } from '../slices/testListSlice';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
+  const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
@@ -104,6 +107,17 @@ function BuildDetails() {
     };
   }, [buildUUID, updateTestDefectTypeMapping]);
 
+  useEffect(() => {
+    const unsub = window.pubSub.subscribe(PUSHER_EVENTS.NEW_TESTS, (data) => {
+      if (buildUUID === data.buildId) {
+        setUpdateCount((prev) => prev + data?.updatesCount || 0);
+      }
+    });
+    return () => {
+      unsub();
+    };
+  }, [buildUUID]);
+
   if (!buildUUID) {
     return (
       <div className="bg-base-50 flex h-screen w-full items-center justify-center">
@@ -129,9 +143,27 @@ function BuildDetails() {
     );
   }
 
+  const onUpdateBtnClick = () => {
+    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+      .unwrap()
+      .catch(() => {
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating tests',
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setUpdateCount(0);
+      });
+  };
+
   return (
     <>
-      <BuildDetailsHeader />
+      <BuildDetailsHeader
+        onUpdateBtnClick={onUpdateBtnClick}
+        updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
+      />
       <div className="h-full">
         {activeTab.id === TABS.insights.id && (
           <div className="px-8 py-4">Build Insights</div>
