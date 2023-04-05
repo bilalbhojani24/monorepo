@@ -20,7 +20,7 @@ import useTestRuns from './useTestRuns';
 const TestRuns = ({ isEditView }) => {
   const {
     projectId,
-    currentPage,
+    page,
     isEditTestRunsFormVisible,
     isAddTestRunsFormVisible,
     currentTab,
@@ -37,7 +37,7 @@ const TestRuns = ({ isEditView }) => {
   useEffect(() => {
     fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, currentTab, currentPage]);
+  }, [projectId, currentTab, page]);
 
   useEffect(() => {
     if (isEditView) showTestRunEditForm();
