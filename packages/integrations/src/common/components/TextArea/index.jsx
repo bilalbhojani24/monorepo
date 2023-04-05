@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { TextArea } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const TextAreaField = ({
   label,
@@ -47,11 +47,7 @@ const TextAreaField = ({
 };
 
 TextAreaField.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType
 };
 
 TextAreaField.defaultProps = {

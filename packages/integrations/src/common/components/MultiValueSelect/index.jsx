@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const MultiSelect = ({
   label,
@@ -31,9 +32,9 @@ const MultiSelect = ({
 }) => {
   const dispatch = useDispatch();
   const [areOptionsLoading, setAreOptionsLoading] = useState(false);
-  const cleanOptions = (options) =>
-    Array.isArray(options) &&
-    options.map((option) => ({
+  const cleanOptions = (optionsToClean) =>
+    Array.isArray(optionsToClean) &&
+    optionsToClean.map((option) => ({
       label: option.label,
       value: option.key
     }));
@@ -197,18 +198,16 @@ const MultiSelect = ({
 };
 
 MultiSelect.propTypes = {
-  placeholder: PropTypes.string,
-  options: PropTypes.arrayOf(),
-  label: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  wrapperClassName: PropTypes.string
+  ...FieldType,
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: PropTypes.string,
+  optionsPath: PropTypes.string
 };
 
 MultiSelect.defaultProps = {
-  placeholder: null,
-  options: [],
-  required: false,
-  wrapperClassName: ''
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: '',
+  optionsPath: ''
 };
 
 export default MultiSelect;

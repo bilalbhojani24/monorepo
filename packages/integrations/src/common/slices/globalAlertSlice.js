@@ -1,14 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const ALERT_MODIFIER = [
-  'base',
-  'primary',
-  'success',
-  'error',
-  'warn',
-  'info'
-];
-
 const initialState = {
   kind: 'info',
   title: '',

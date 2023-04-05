@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const SingleValueSelect = ({
   label,
@@ -217,23 +218,16 @@ const SingleValueSelect = ({
 };
 
 SingleValueSelect.propTypes = {
-  fieldsData: PropTypes.string.isRequired,
-  setFieldsData: PropTypes.func.isRequired,
-  fieldKey: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  options: PropTypes.arrayOf(),
-  label: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  wrapperClassName: PropTypes.string,
-  searchPath: PropTypes.string.isRequired,
-  optionsPath: PropTypes.string.isRequired
+  ...FieldType,
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: PropTypes.string,
+  optionsPath: PropTypes.string
 };
 
 SingleValueSelect.defaultProps = {
-  placeholder: null,
-  options: [],
-  required: false,
-  wrapperClassName: ''
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: '',
+  optionsPath: ''
 };
 
 export default SingleValueSelect;

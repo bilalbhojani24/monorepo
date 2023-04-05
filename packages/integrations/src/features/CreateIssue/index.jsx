@@ -140,7 +140,12 @@ export const CreateIssue = ({
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,
-  authUrl: PropTypes.string.isRequired,
+  auth: PropTypes.shape({
+    url: PropTypes.string,
+    headers: PropTypes.shape({
+      [PropTypes.string]: PropTypes.string
+    })
+  }).isRequired,
   options: CreateIssueOptionsType,
   position: PropTypes.oneOf(WIDGET_POSITIONS),
   projectId: PropTypes.string,
@@ -150,6 +155,7 @@ CreateIssue.propTypes = {
   ]),
   handleClose: PropTypes.func.isRequired
 };
+
 CreateIssue.defaultProps = {
   isOpen: false,
   options: null,

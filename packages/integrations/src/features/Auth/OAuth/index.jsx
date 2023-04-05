@@ -56,6 +56,7 @@ const OAuth = ({
         syncPoller();
       }
       authWindow?.close();
+      return null;
     };
     window.addEventListener('message', handleMessage);
     return () => {
@@ -164,15 +165,16 @@ OAuth.propTypes = {
   label: PropTypes.string.isRequired,
   oAuthMeta: PropTypes.shape(OAuthMetaType),
   hasOAuthFailed: PropTypes.bool,
-  shouldShowFailedAuthMessage: PropTypes.bool,
   showAPIToken: PropTypes.func.isRequired,
-  setHasOAuthFailed: PropTypes.func.isRequired
+  setHasOAuthFailed: PropTypes.func.isRequired,
+  pollerFn: PropTypes.func.isRequired,
+  syncPoller: PropTypes.func.isRequired,
+  isSyncInProgress: PropTypes.func.isRequired
 };
 
 OAuth.defaultProps = {
   oAuthMeta: {},
-  hasOAuthFailed: false,
-  shouldShowFailedAuthMessage: false
+  hasOAuthFailed: false
 };
 
 export default OAuth;

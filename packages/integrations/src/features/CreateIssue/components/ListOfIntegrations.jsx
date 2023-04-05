@@ -1,8 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import IntegrationAuth from '../../Auth';
 import { integrationsSelector } from '../../slices/integrationsSlice';
+import { CreateIssueOptionsType } from '../types';
 
 import IssueForm from './IssueForm';
 
@@ -64,5 +66,18 @@ const ListOfIntegrations = ({
   }
   // user has multiple integrations available
   return null;
+};
+ListOfIntegrations.propTypes = {
+  mode: PropTypes.string.isRequired,
+  changeModeTo: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
+  confirmIssueDiscard: PropTypes.isRequired,
+  options: CreateIssueOptionsType.isRequired,
+  continueEditing: PropTypes.func.isRequired,
+  isBeingDiscarded: PropTypes.bool.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 export default ListOfIntegrations;

@@ -59,10 +59,16 @@ const DraggableContainer = ({ children, position, positionRef }) => {
 };
 
 DraggableContainer.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  position: PropTypes.string.isRequired,
+  positionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ])
 };
 DraggableContainer.defaultProps = {
-  children: null
+  children: null,
+  positionRef: null
 };
 
 export default DraggableContainer;

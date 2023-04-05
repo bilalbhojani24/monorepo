@@ -3,16 +3,14 @@ import { SingleDatepicker } from '@browserstack/bifrost';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const DateField = ({
   label,
-  value,
   fieldKey,
   required,
   fieldsData,
   fieldErrors,
-  placeholder,
-  defaultValue,
   setFieldsData,
   areSomeRequiredFieldsEmpty
 }) => {
@@ -40,5 +38,11 @@ const DateField = ({
     </div>
   );
 };
+
+DateField.propTypes = {
+  ...FieldType
+};
+
+DateField.defaultProps = {};
 
 export default DateField;

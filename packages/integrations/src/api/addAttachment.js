@@ -3,7 +3,6 @@ import axios from 'axios';
 import { URLS } from './constants';
 
 export const addAttachment = (file, integrationKey, ticketId, ticketUrl) => {
-  // const url = 'http://example.com/file-upload';
   const formData = new FormData();
   formData.append('file', file);
   return axios

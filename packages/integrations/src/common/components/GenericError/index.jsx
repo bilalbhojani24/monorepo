@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, MdWarning } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import { GENERIC_ERROR_MESSAGE } from '../../constants';
 
 const ErrorWithTryAgain = ({
-  className = '',
+  className,
   errorMessage = GENERIC_ERROR_MESSAGE,
   handleTryAgain
 }) => {
@@ -32,4 +33,15 @@ const ErrorWithTryAgain = ({
   );
 };
 
+ErrorWithTryAgain.propTypes = {
+  className: PropTypes.string,
+  errorMessage: PropTypes.string,
+  handleTryAgain: PropTypes.func
+};
+
+ErrorWithTryAgain.defaultProps = {
+  className: '',
+  errorMessage: GENERIC_ERROR_MESSAGE,
+  handleTryAgain: null
+};
 export default ErrorWithTryAgain;

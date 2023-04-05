@@ -1,12 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import { createIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
+import {
+  SingleValueSelectOptionType,
+  SingleValueSelectRawOptionType
+} from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
+import { CreateIssueOptionsType } from '../types';
 
 import { FIELD_KEYS } from './constants';
 
@@ -36,6 +42,7 @@ const CreateIssueForm = ({
     setFieldErrors({});
   };
   const handleSubmit = useCallback(
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     (formData) => {
       setIsFormBeingSubmitted(true);
       const data = { ...fieldsData, ...formData };
@@ -197,6 +204,22 @@ const CreateIssueForm = ({
       )}
     </>
   );
+};
+CreateIssueForm.propTypes = {
+  fields: PropTypes.arrayOf().isRequired,
+  setFieldsData: PropTypes.func.isRequired,
+  setAttachments: PropTypes.func.isRequired,
+  fieldsData: PropTypes.shape({}).isRequired,
+  options: CreateIssueOptionsType.isRequired,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  isCreateMetaLoading: PropTypes.bool.isRequired,
+  setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  issueTypeFieldData: SingleValueSelectOptionType.isRequired,
+  projectFieldData: SingleValueSelectOptionType.isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
+  integrationToolFieldData: SingleValueSelectOptionType.isRequired,
+  cleanedIssueTypes: PropTypes.arrayOf(SingleValueSelectRawOptionType)
+    .isRequired
 };
 
 export default CreateIssueForm;

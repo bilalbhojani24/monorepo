@@ -9,6 +9,7 @@ import {
 } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
+import PropTypes from 'prop-types';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
 import { baseURLSelector } from '../../../common/slices/configSlice';
@@ -19,6 +20,7 @@ import {
   projectsLoadingSelector,
   projectsSelector
 } from '../../slices/projectsSlice';
+import { CreateIssueOptionsType } from '../types';
 
 import { FIELD_KEYS, ISSUE_MODES } from './constants';
 import DiscardIssue from './DiscardIssue';
@@ -288,6 +290,20 @@ const IssueForm = ({
       </div>
     </>
   );
+};
+
+IssueForm.propTypes = {
+  mode: PropTypes.string.isRequired,
+  changeModeTo: PropTypes.func.isRequired,
+  confirmIssueDiscard: PropTypes.isRequired,
+  options: CreateIssueOptionsType.isRequired,
+  continueEditing: PropTypes.func.isRequired,
+  isBeingDiscarded: PropTypes.bool.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  integrations: PropTypes.arrayOf({}).isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default IssueForm;

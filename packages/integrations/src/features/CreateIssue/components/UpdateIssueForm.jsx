@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
 import TextField from '../../../common/components/TextInput';
+import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
+import { CreateIssueOptionsType } from '../types';
 
 import { FIELD_KEYS } from './constants';
 
@@ -24,7 +27,6 @@ const UpdateIssueForm = ({
   projectFieldData,
   isUpdateMetaLoading,
   setIsWorkInProgress,
-  issueSearchFieldData,
   setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
@@ -61,6 +63,7 @@ const UpdateIssueForm = ({
   }, [projectFieldData, integrationToolFieldData]);
 
   const handleSubmit = useCallback(
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     (formData) => {
       setIsFormBeingSubmitted(true);
       const data = { ...fieldsData, ...formData };
@@ -232,6 +235,22 @@ const UpdateIssueForm = ({
       )}
     </>
   );
+};
+
+UpdateIssueForm.propTypes = {
+  resetMeta: PropTypes.func.isRequired,
+  fields: PropTypes.arrayOf().isRequired,
+  setFieldsData: PropTypes.func.isRequired,
+  setAttachments: PropTypes.func.isRequired,
+  fieldsData: PropTypes.shape({}).isRequired,
+  options: CreateIssueOptionsType.isRequired,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  isUpdateMetaLoading: PropTypes.bool.isRequired,
+  setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  issueFieldData: SingleValueSelectOptionType.isRequired,
+  projectFieldData: SingleValueSelectOptionType.isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
+  integrationToolFieldData: SingleValueSelectOptionType.isRequired
 };
 
 export default UpdateIssueForm;

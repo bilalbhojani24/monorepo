@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alerts } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import {
   clearGlobalAlert,
@@ -31,5 +32,13 @@ const GlobalAlert = ({ className }) => {
       />
     </div>
   ) : null;
+};
+
+GlobalAlert.propTypes = {
+  className: PropTypes.string
+};
+
+GlobalAlert.defaultProps = {
+  className: ''
 };
 export default GlobalAlert;

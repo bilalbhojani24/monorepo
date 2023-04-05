@@ -106,7 +106,9 @@ APIToken.propTypes = {
   integrationKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   apiTokenMeta: PropTypes.shape(APITokenMetaType),
-  showOAuth: PropTypes.func.isRequired
+  showOAuth: PropTypes.func.isRequired,
+  syncPoller: PropTypes.func.isRequired,
+  isSyncInProgress: PropTypes.func.isRequired
 };
 
 APIToken.defaultProps = {

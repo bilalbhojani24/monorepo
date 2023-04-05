@@ -110,11 +110,17 @@ DraggableResizable.propTypes = {
   childRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  position: PropTypes.string.isRequired,
+  positionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ])
 };
 DraggableResizable.defaultProps = {
   children: null,
-  childRef: null
+  childRef: null,
+  positionRef: null
 };
 
 export default DraggableResizable;

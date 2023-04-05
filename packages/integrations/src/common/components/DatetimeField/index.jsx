@@ -9,18 +9,16 @@ import {
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 import { TIME_PICKER_OPTIONS } from './constants';
 
 const DatetimeField = ({
   label,
-  value,
   fieldKey,
   required,
   fieldsData,
   fieldErrors,
-  placeholder,
-  defaultValue,
   setFieldsData,
   areSomeRequiredFieldsEmpty
 }) => {
@@ -52,7 +50,9 @@ const DatetimeField = ({
 
   const handleTimeChange = (e) => {
     let newDate = null;
-    const [newHour, newMin] = e.value.split(':').map((item) => parseInt(item));
+    const [newHour, newMin] = e.value
+      .split(':')
+      .map((item) => parseInt(item, 10));
     if (fieldsData?.[fieldKey]) {
       const prevDate = new Date(fieldsData[fieldKey]);
       newDate = new Date(
@@ -96,5 +96,11 @@ const DatetimeField = ({
     </div>
   );
 };
+
+DatetimeField.propTypes = {
+  ...FieldType
+};
+
+DatetimeField.defaultProps = {};
 
 export default DatetimeField;

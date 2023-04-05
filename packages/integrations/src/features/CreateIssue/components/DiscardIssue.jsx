@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, MdSave } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 const DiscardIssue = ({
   continueEditing,
@@ -30,4 +31,10 @@ const DiscardIssue = ({
     </Button>
   </div>
 );
+
+DiscardIssue.propTypes = {
+  continueEditing: PropTypes.func.isRequired,
+  integrationName: PropTypes.string.isRequired,
+  confirmIssueDiscard: PropTypes.isRequired
+};
 export default DiscardIssue;

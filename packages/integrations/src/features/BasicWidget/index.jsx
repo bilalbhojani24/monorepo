@@ -65,14 +65,20 @@ const Widget = ({
 
 Widget.propTypes = {
   children: PropTypes.node,
-  hasToken: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
-  hasAtLeastOneIntegrationSetup: PropTypes.bool
+  hasAtLeastOneIntegrationSetup: PropTypes.bool,
+  position: PropTypes.string.isRequired,
+  positionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  hasError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 Widget.defaultProps = {
   children: null,
-  hasToken: true,
-  hasAtLeastOneIntegrationSetup: false
+  hasAtLeastOneIntegrationSetup: false,
+  positionRef: null
 };
 
 const renderChild = ({

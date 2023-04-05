@@ -8,9 +8,9 @@ import {
 import PropTypes from 'prop-types';
 
 import TextAreaField from '../TextArea';
+import { FieldType } from '../types';
 
 const Paragraph = ({
-  key,
   label,
   value,
   fieldKey,
@@ -72,13 +72,14 @@ const Paragraph = ({
 };
 
 Paragraph.propTypes = {
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType,
+  descriptionMeta: PropTypes.string,
+  hideDescription: PropTypes.bool
 };
 
 Paragraph.defaultProps = {
-  placeholder: null
+  descriptionMeta: '',
+  hideDescription: false
 };
 
 export default Paragraph;

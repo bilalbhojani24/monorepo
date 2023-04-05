@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { InputField } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const TextField = ({
   fieldsData,
@@ -52,6 +52,7 @@ const TextField = ({
     setError(requiredFieldError || fieldErrors?.[fieldKey]);
   }, [requiredFieldError, fieldErrors, fieldKey]);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const validateInput = (e) => {
     const input = e.target.value.trim();
     if (validations) {
@@ -60,11 +61,7 @@ const TextField = ({
         validations.forEach(
           ({ regex, 'error-message': validationErrorMessage }) => {
             let validationRegex = null;
-            try {
-              validationRegex = new RegExp(regex);
-            } catch (err) {
-              console.error(err);
-            }
+            validationRegex = new RegExp(regex);
             if (validationRegex) {
               const isValid = validationRegex.test(input);
               if (!isValid) {
@@ -101,9 +98,7 @@ const TextField = ({
 };
 
 TextField.propTypes = {
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType
 };
 
 TextField.defaultProps = {

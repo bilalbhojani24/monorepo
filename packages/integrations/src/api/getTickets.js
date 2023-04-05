@@ -1,4 +1,3 @@
-// import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { URLS } from './constants';
@@ -13,5 +12,3 @@ export const getTickets = (integrationKey, projectId, format) =>
       }
     })
     .then((response) => response.data.data.options);
-
-// export const getProjectsThunk = createAsyncThunk('getProjects', getProjects);

@@ -7,14 +7,15 @@ import {
   ComboboxTrigger
 } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
+import PropTypes from 'prop-types';
 
 import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const NestedSingleValueSelect = ({
   label,
-  value,
   options,
   fieldKey,
   required,
@@ -36,10 +37,10 @@ const NestedSingleValueSelect = ({
         typeof currOption.icon === 'object'
           ? Object.values(currOption.icon)[0]
           : currOption.image || currOption.icon;
-      const value = currOption.value || currOption.id || currOption.key;
+      const val = currOption.value || currOption.id || currOption.key;
 
       acc.push({
-        value,
+        val,
         image,
         label: currOption.label,
         ticketTypes: currOption.ticket_types,
@@ -80,8 +81,8 @@ const NestedSingleValueSelect = ({
   const handleChange = (val) => {
     const { options: nestedOptions = [], ...valWithoutChild } = val;
     const cleanedChildOptions = nestedOptions.map(
-      ({ value, key, label: nestedOptionLabel }) => ({
-        value: value || key,
+      ({ value: nestedOptionValue, key, label: nestedOptionLabel }) => ({
+        value: nestedOptionValue || key,
         label: nestedOptionLabel
       })
     );
@@ -191,5 +192,18 @@ const NestedSingleValueSelect = ({
       )}
     </div>
   );
+};
+
+NestedSingleValueSelect.propTypes = {
+  ...FieldType,
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: PropTypes.string,
+  optionsPath: PropTypes.string
+};
+
+NestedSingleValueSelect.defaultProps = {
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: '',
+  optionsPath: ''
 };
 export default NestedSingleValueSelect;

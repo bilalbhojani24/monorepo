@@ -1,7 +1,9 @@
 import React from 'react';
 import { MdDeleteOutline } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const Attachments = ({ required, label, attachments, setAttachments }) => {
   if (!attachments?.length) return null;
@@ -31,6 +33,17 @@ const Attachments = ({ required, label, attachments, setAttachments }) => {
       </div>
     </div>
   );
+};
+
+Attachments.propTypes = {
+  ...FieldType,
+  attachments: PropTypes.arrayOf(PropTypes.string),
+  setAttachments: PropTypes.func
+};
+
+Attachments.defaultProps = {
+  attachments: [],
+  setAttachments: () => {}
 };
 
 export default Attachments;
