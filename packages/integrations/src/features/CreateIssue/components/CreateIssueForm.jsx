@@ -206,7 +206,7 @@ const CreateIssueForm = ({
   );
 };
 CreateIssueForm.propTypes = {
-  fields: PropTypes.arrayOf().isRequired,
+  fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,
   fieldsData: PropTypes.shape({}).isRequired,
