@@ -84,7 +84,7 @@ export const CreateIssue = ({
   );
 
   const widgetHeight = useSelector(widgetHeightSelector);
-  const maxHeight = widgetHeight ? widgetHeight - 52 : 650;
+  const maxHeight = widgetHeight ? widgetHeight - 120 : 650;
   console.log(maxHeight);
 
   return (

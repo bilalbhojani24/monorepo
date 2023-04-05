@@ -12,39 +12,39 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, childRef, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
-  const [widgetHeight, setWidgetHeight] = useState(null);
-  const [containerHeight, setContainerHeight] = useState(widgetHeight);
-  const windowDimensions = useResizeObserver(childRef);
-  const childHeight = childRef?.current?.getBoundingClientRect().height;
-  const t = 12;
+  const [widgetHeight, setWidgetHeight] = useState(800);
+  // const [containerHeight, setContainerHeight] = useState(widgetHeight);
+  // const windowDimensions = useResizeObserver(childRef);
+  // const childHeight = childRef?.current?.getBoundingClientRect().height;
+  // const t = 12;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [showWidget, setShowWidget] = useState(false);
-  useEffect(() => {
-    if (
-      childRef?.current &&
-      (childHeight || windowDimensions.inlineSize || windowDimensions.height)
-    ) {
-      let calcHeight =
-        childHeight || windowDimensions.inlineSize || windowDimensions.height;
-      if (calcHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
-        const [, minHeight] = DEFAULT_WIDGET_DIMENSIONS.MIN;
-        calcHeight = minHeight;
-      }
-      if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
-        setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
-        setWidgetHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1]);
-      } else {
-        setContainerHeight(calcHeight);
-        setWidgetHeight(calcHeight + t);
-      }
-    }
-  }, [
-    childRef,
-    childHeight,
-    windowDimensions.inlineSize,
-    windowDimensions.height
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     childRef?.current &&
+  //     (childHeight || windowDimensions.inlineSize || windowDimensions.height)
+  //   ) {
+  //     let calcHeight =
+  //       childHeight || windowDimensions.inlineSize || windowDimensions.height;
+  //     if (calcHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
+  //       const [, minHeight] = DEFAULT_WIDGET_DIMENSIONS.MIN;
+  //       calcHeight = minHeight;
+  //     }
+  //     if (calcHeight > DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t) {
+  //       setContainerHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1] - t);
+  //       setWidgetHeight(DEFAULT_WIDGET_DIMENSIONS.MAX[1]);
+  //     } else {
+  //       setContainerHeight(calcHeight);
+  //       setWidgetHeight(calcHeight + t);
+  //     }
+  //   }
+  // }, [
+  //   childRef,
+  //   childHeight,
+  //   windowDimensions.inlineSize,
+  //   windowDimensions.height
+  // ]);
   useEffect(() => {
     setRefAquired(true);
   }, []);
@@ -68,8 +68,9 @@ const DraggableResizable = ({ children, childRef, position, positionRef }) => {
   }, [widgetPosition]);
 
   const onResize = (__, { size }) => {
+    console.log('size', size);
     setWidgetHeight(size.height);
-    setContainerHeight(size.height - t);
+    // setContainerHeight(size.height - t);
     dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
 
@@ -81,25 +82,25 @@ const DraggableResizable = ({ children, childRef, position, positionRef }) => {
       isBodyBounded
       position={widgetPosition}
     >
-      <div ref={widgetRef} className="absolute drop-shadow-lg">
+      <div ref={widgetRef} className="absolute bg-white drop-shadow-lg">
         <Resizable
-          className="border-base-200 relative flex flex-col items-center overflow-hidden rounded-md border border-solid"
+          className="border-base-200 relative z-10 flex flex-col items-center overflow-hidden rounded-md border border-solid"
           handle={(__resizeHandleAxis, ref) => (
             <div
-              className="bg-base-200 relative bottom-0 left-1/2 mb-1 h-1 w-16 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
+              className="bg-base-200 absolute bottom-0 left-1/2 mb-1 h-1 w-16 -translate-x-1/2 rounded-3xl hover:cursor-s-resize"
               ref={ref}
             />
           )}
           width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
-          height={widgetHeight || DEFAULT_WIDGET_DIMENSIONS.MIN[1]}
+          height={widgetHeight}
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
           minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
-          maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
+          maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX[1]}
         >
           <div
-            className="w-full bg-white"
-            style={{ height: `${containerHeight}px` }}
+            className="h-auto w-full bg-white"
+            style={{ height: `${widgetHeight}px` }}
           >
             {children}
           </div>
