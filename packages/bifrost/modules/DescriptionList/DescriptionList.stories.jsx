@@ -205,55 +205,55 @@ export const LeftAlignedWithInlineActions = () => {
       id: 1,
       label: 'Full name',
       value: (
-        <dd className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
           <span className="grow">Margot Foster</span>
           <span className="ml-4 shrink-0">
             <Button variant="minimal">Update</Button>
           </span>
-        </dd>
+        </div>
       )
     },
     {
       id: 2,
       label: 'Application for',
       value: (
-        <dd className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
           <span className="grow">Backend Developer</span>
           <span className="ml-4 shrink-0">
             <Button variant="minimal">Update</Button>
           </span>
-        </dd>
+        </div>
       )
     },
     {
       id: 4,
       label: 'Email address',
       value: (
-        <dd className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
           <span className="grow">margotfoster@example.com</span>
           <span className="ml-4 shrink-0">
             <Button variant="minimal">Update</Button>
           </span>
-        </dd>
+        </div>
       )
     },
     {
       id: 3,
       label: 'Salary expectation',
       value: (
-        <dd className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
           <span className="grow">$120,000</span>
           <span className="ml-4 shrink-0">
             <Button variant="minimal">Update</Button>
           </span>
-        </dd>
+        </div>
       )
     },
     {
       id: 5,
       label: 'About',
       value: (
-        <dd className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 flex text-sm sm:col-span-2 sm:mt-0">
           <span className="grow">
             Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
             incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
@@ -264,14 +264,14 @@ export const LeftAlignedWithInlineActions = () => {
           <span className="ml-4 shrink-0">
             <Button variant="minimal">Update</Button>
           </span>
-        </dd>
+        </div>
       )
     },
     {
       id: 6,
       label: 'Attachments',
       value: (
-        <dd className="text-base-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
+        <div className="text-base-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
           <ul className="divide-base-200 border-base-200 divide-y rounded-md border">
             <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
               <div className="flex w-0 flex-1 items-center">
@@ -306,7 +306,7 @@ export const LeftAlignedWithInlineActions = () => {
               </div>
             </li>
           </ul>
-        </dd>
+        </div>
       )
     }
   ];
