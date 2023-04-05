@@ -22,7 +22,7 @@ export default function LayoutWOSidebar() {
   }
 
   return (
-    <Suspense fallback={<O11yLoader wrapperClassName="h-full" />}>
+    <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
       <O11yHeader />
       <main>
         <Outlet />
