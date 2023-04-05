@@ -9,8 +9,8 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import { singleItemTestDetails } from 'features/BuildDetails/constants';
 import { TestListContext } from 'features/BuildDetails/context/TestListContext';
+import { singleItemTestDetails } from 'features/TestList/constants';
 import PropTypes from 'prop-types';
 
 function TestListActionItems({ details }) {

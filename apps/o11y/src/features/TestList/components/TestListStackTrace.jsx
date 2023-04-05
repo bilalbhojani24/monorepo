@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
 import StackTraceTooltip from 'common/StackTraceTooltip';
-import { LOG_TYPES } from 'features/BuildDetails/constants';
+import { LOG_TYPES } from 'features/TestList/constants';
 import { transformUnsupportedTags } from 'utils/common';
 
 function TestListStackTrace({ wrapperClassName, details }) {

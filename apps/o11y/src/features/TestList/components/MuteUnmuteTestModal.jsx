@@ -9,7 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
-import { toggleMuteTest } from 'features/BuildDetails/slices/testListSlice';
+import { toggleMuteTest } from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
 
 function UnmuteTestModal() {

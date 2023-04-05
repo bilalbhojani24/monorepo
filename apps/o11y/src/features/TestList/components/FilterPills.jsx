@@ -1,13 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
-import { EMPTY_STATIC_FILTERS } from 'features/BuildDetails/constants';
+import { EMPTY_STATIC_FILTERS } from 'features/TestList/constants';
+import { getAppliedFilters } from 'features/TestList/slices/selectors';
+import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import startCase from 'lodash/startCase';
 import PropTypes from 'prop-types';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
-
-import { getAppliedFilters } from '../../slices/selectors';
-import { setAppliedFilters } from '../../slices/testListSlice';
 
 const FilterBadge = ({ text, onClose }) => (
   <O11yBadge
@@ -92,7 +91,7 @@ const FilterPills = ({ viewAllBuilds }) => {
     .filter((el) => el !== null && el.length !== 0);
 
   return itemsArray.length ? (
-    <div className="bg-base-100 py-4 px-8">
+    <div className="bg-base-100 px-8 py-4">
       <div className="flex gap-x-4">
         {!!itemsArray.length && (
           <>

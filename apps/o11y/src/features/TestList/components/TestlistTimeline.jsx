@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
 import { TEST_STATUS } from 'constants/common';
-import { getHistoryDetails } from 'features/BuildDetails/slices/testListSlice';
+import { getHistoryDetails } from 'features/TestList/slices/testListSlice';
 
 import TestListHistoryTooltip from './TestListHistoryTooltip';
 

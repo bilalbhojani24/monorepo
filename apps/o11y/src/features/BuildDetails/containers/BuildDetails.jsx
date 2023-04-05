@@ -7,8 +7,9 @@ import O11yLoader from 'common/O11yLoader';
 import { PUSHER_EVENTS } from 'constants/common';
 import { o11yNotify } from 'utils/notification';
 
+import TestList from '../../TestList';
+import { getTestListData } from '../../TestList/slices/testListSlice';
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
-import TestList from '../components/TestList';
 import { TABS } from '../constants';
 import {
   clearBuildUUID,
@@ -16,7 +17,6 @@ import {
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
-import { getTestListData } from '../slices/testListSlice';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import { TESTLIST_TYPES } from 'features/BuildDetails/constants';
+import { TESTLIST_TYPES } from 'features/TestList/constants';
 
 import RenderRootItem from './RenderRootItem';
 import RenderTestItem from './RenderTestItem';

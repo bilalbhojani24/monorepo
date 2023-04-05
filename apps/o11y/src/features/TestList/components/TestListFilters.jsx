@@ -15,11 +15,11 @@ import { API_STATUSES } from 'constants/common';
 import {
   getSelectedFilters,
   getStaticFilters
-} from 'features/BuildDetails/slices/selectors';
+} from 'features/TestList/slices/selectors';
 import {
   setAppliedFilters,
   setSelectedFilters
-} from 'features/BuildDetails/slices/testListSlice';
+} from 'features/TestList/slices/testListSlice';
 
 const TestListFilters = () => {
   const dispatch = useDispatch();

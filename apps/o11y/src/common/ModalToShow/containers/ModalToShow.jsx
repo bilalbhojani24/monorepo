@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import BulkTaggingModal from 'features/BuildDetails/components/TestList/BulkTaggingModal';
-import MuteUnmuteTestModal from 'features/BuildDetails/components/TestList/MuteUnmuteTestModal';
-import RerunTestsModal from 'features/BuildDetails/components/TestList/RerunTestModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
+import BulkTaggingModal from 'features/TestList/components/BulkTaggingModal';
+import MuteUnmuteTestModal from 'features/TestList/components/MuteUnmuteTestModal';
+import RerunTestsModal from 'features/TestList/components/RerunTestModal';
 
 import { getModalVersion } from '../slices/selectors';
 

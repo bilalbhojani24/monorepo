@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
-import { getSearchTextFilters } from 'features/BuildDetails/slices/selectors';
-import { setAppliedFilters } from 'features/BuildDetails/slices/testListSlice';
+import { getSearchTextFilters } from 'features/TestList/slices/selectors';
+import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 
 function TestListSearch() {
   const dispatch = useDispatch();

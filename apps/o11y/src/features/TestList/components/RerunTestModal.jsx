@@ -10,7 +10,7 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
-import { triggerReRunBE } from 'features/BuildDetails/slices/testListSlice';
+import { triggerReRunBE } from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
 
 function RenderTestModal() {

@@ -9,8 +9,8 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
-import { LOG_TYPES } from 'features/BuildDetails/constants';
-import { getTestHistoryDetails } from 'features/BuildDetails/slices/selectors';
+import { LOG_TYPES } from 'features/TestList/constants';
+import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { milliSecondsToTime } from 'utils/dateTime';
 

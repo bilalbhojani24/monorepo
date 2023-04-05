@@ -9,7 +9,7 @@ import {
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import StatusBadges from 'common/StatusBadges';
-import { singleItemPropType } from 'features/BuildDetails/constants';
+import { singleItemPropType } from 'features/TestList/constants';
 import PropTypes from 'prop-types';
 import {
   capitalize,

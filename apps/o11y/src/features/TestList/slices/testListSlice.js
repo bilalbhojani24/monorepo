@@ -9,15 +9,13 @@ import {
   updateIssueTypes as updateIssueTypesAPI
 } from 'api/testlist';
 import { API_STATUSES } from 'constants/common';
-
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE
-} from '../constants';
-
-import { getAllTestHistoryDetails } from './selectors';
+} from 'features/TestList/constants';
+import { getAllTestHistoryDetails } from 'features/TestList/slices/selectors';
 
 const sliceName = 'testList';
 

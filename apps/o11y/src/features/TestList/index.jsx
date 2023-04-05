@@ -6,17 +6,17 @@ import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES } from 'constants/common';
+import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE
-} from 'features/BuildDetails/constants';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
+} from 'features/TestList/constants';
 import {
   getAppliedFilters,
   getTestList
-} from 'features/BuildDetails/slices/selectors';
+} from 'features/TestList/slices/selectors';
 import {
   getTestListData,
   getTestlistFiltersData,
@@ -24,14 +24,14 @@ import {
   setSelectedFilters,
   setStaticFilters,
   setTestList
-} from 'features/BuildDetails/slices/testListSlice';
+} from 'features/TestList/slices/testListSlice';
 import useIsUnmounted from 'hooks/useIsMounted';
 import PropTypes from 'prop-types';
 
-import FilterPills from './FilterPills';
-import RenderChildrens from './RenderTestChildrens';
-import TestListFilters from './TestListFilters';
-import TestListSearch from './TestListSearch';
+import FilterPills from './components/FilterPills';
+import RenderChildrens from './components/RenderTestChildrens';
+import TestListFilters from './components/TestListFilters';
+import TestListSearch from './components/TestListSearch';
 
 const TestList = ({
   buildUUID,

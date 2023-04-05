@@ -19,7 +19,7 @@ import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   getAnalyzerSimilarTests,
   updateIssueTypes
-} from 'features/BuildDetails/slices/testListSlice';
+} from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import { o11yNotify } from 'utils/notification';
 
