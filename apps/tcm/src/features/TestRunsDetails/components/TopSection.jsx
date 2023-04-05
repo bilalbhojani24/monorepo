@@ -126,7 +126,7 @@ const TopSection = () => {
           </>
         }
         subSection={
-          <div className="mt-4 flex gap-4">
+          <div className="flex gap-4">
             <TMMetadata
               metaDescription={
                 testRunDetails?.assignee?.full_name || 'Unassigned'

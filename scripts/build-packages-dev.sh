@@ -8,8 +8,8 @@ projects=(
   "packages/bifrost"
 )
 
-echo "Taking current pre-master pull..."
-git pull origin pre-master
+echo "Taking current master pull..."
+git pull origin master
 echo "Taking pull completed..."
 
 echo "Installing packages started..."

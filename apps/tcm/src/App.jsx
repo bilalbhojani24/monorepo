@@ -3,7 +3,11 @@ import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { initLogger, twClassNames } from '@browserstack/utils';
+import {
+  initLogger,
+  setErrorLoggerUserContext,
+  twClassNames
+} from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
@@ -60,6 +64,7 @@ function App() {
       userAndGroupConfig?.tmGroupId &&
       window.location.hostname === PRODUCTION_HOST
     ) {
+      setErrorLoggerUserContext(userAndGroupConfig.bsUserId);
       initLogger(keys);
       window.initialized = true;
     }

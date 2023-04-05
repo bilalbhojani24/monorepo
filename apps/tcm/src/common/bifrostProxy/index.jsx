@@ -13,7 +13,6 @@ import {
   FileUpload,
   Hyperlink,
   InputField,
-  InputWButton,
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
@@ -27,7 +26,6 @@ import {
   SectionHeadings,
   Slideover,
   SlideoverHeader,
-  StackedListWSingleColumn,
   Steps,
   Table,
   TableBody,
@@ -48,6 +46,7 @@ import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
 import TMHeader from './components/TMHeader';
+import TMInputWButton from './components/TMInputWButton';
 import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
 import TMRichTextEditor from './components/TMRichTextEditor';
@@ -66,9 +65,6 @@ export const TMButton = forwardRef((props, ref) => (
 ));
 export const TMInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
-));
-export const TMInputWButton = forwardRef((props, ref) => (
-  <InputWButton {...props} ref={ref} />
 ));
 export const TMSectionHeadings = (props) => <SectionHeadings {...props} />;
 export const TMEmptyState = (props) => <EmptyState {...props} />;
@@ -92,9 +88,7 @@ export const TMFileUpload = (props) => <FileUpload {...props} />;
 export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
-export const TMStackedListWSingleColumn = (props) => (
-  <StackedListWSingleColumn {...props} />
-);
+
 export const TMSteps = (props) => <Steps {...props} />;
 export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
@@ -125,6 +119,7 @@ export {
   TMDataVisualization,
   TMDropdown,
   TMHeader,
+  TMInputWButton,
   TMPageHeadings,
   TMPagination,
   TMRichTextEditor,

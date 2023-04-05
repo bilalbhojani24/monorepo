@@ -204,7 +204,17 @@ const useTestCasesTable = (prop) => {
     dispatch(setSelectedTestCase(selectedItem));
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
+  const handleTableAmplitudeEvents = (item, action) => {
+    dispatch(
+      logEventHelper(`TM_${action}ClickedTcList`, {
+        project_id: projectId,
+        testcase_id: item?.id
+      })
+    );
+  };
+
+  const handleTestCaseViewClick = (testCaseItem, action) => () => {
+    handleTableAmplitudeEvents(testCaseItem, action);
     if (prop?.isMini) return;
 
     dispatch(

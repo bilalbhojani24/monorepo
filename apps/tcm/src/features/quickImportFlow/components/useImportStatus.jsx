@@ -188,7 +188,6 @@ const useImportStatus = () => {
     notify(
       <Notifications
         id={data?.id}
-        // isCondensed
         title={
           totalCount > successCount
             ? `${successCount}/${totalCount} ${data?.title}`
@@ -216,6 +215,8 @@ const useImportStatus = () => {
     );
     dispatch(setCheckImportStatusClicked(true));
     getQuickImportStatus(importId).then((data) => {
+      const currentUsedTool =
+        data.import_type.split('_')[0] === 'testrail' ? 'testrails' : 'zephyr';
       dispatch(setImportStatus(data.status));
       if (data.status === ONGOING) {
         dispatch(setNotificationData(WARNING_DATA));
@@ -230,12 +231,11 @@ const useImportStatus = () => {
               successCount: data.success_count
             })
           );
+          dispatch(setCurrentTestManagementTool(currentUsedTool));
           dispatch(
-            setCurrentTestManagementTool(
-              data.import_type.split('_')[0] === 'testrail'
-                ? 'testrails'
-                : 'zephyr'
-            )
+            logEventHelper('TM_QiErrorNotification', {
+              tool_selected: currentUsedTool
+            })
           );
           showNotification(
             FAILURE_DATA,
@@ -245,6 +245,11 @@ const useImportStatus = () => {
             data.import_type
           );
         } else {
+          dispatch(
+            logEventHelper('TM_QiSuccessNotification', {
+              tool_selected: currentUsedTool
+            })
+          );
           dispatch(setNotificationData(SUCCESS_DATA));
           dispatch(setImportedProjectCount(data.success_count));
           showNotification(SUCCESS_DATA, data.status);

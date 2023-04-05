@@ -70,7 +70,7 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
         <TMButton
           variant="primary"
           colors="white"
-          onClick={hideAddProjectModal}
+          onClick={() => hideAddProjectModal('Cancel')}
         >
           Cancel
         </TMButton>
