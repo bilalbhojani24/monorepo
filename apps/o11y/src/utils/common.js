@@ -161,6 +161,14 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
   return TEST_STATUS.UNKNOWN;
 };
 
+export const abbrNumber = (num = 0) =>
+  Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  })
+    .format(num)
+    .padStart(2, '0');
+
 export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;
   if (
