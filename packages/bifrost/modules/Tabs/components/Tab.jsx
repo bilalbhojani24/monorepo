@@ -74,7 +74,7 @@ const Tab = ({
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
       value={tab.name}
-      className={classNames}
+      className={`scroll-item ${classNames}`}
       aria-current={isCurrent ? 'page' : undefined}
     >
       {tab.icon && shape === TAB_SHAPE[0] && !isContained && (

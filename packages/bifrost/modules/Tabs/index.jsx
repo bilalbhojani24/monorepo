@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import PropTypes from 'prop-types';
 
+import Button from '../Button';
 import SelectMenu from '../SelectMenu';
 import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
 import SelectMenuOptionItem from '../SelectMenuOptionItem';
@@ -23,9 +25,11 @@ const Tabs = ({
   wrapperClassName,
   navigationClassName
 }) => {
+  const containerRef = useRef(null);
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
   );
+  const [isOverflowed, setIsOverflowed] = useState(false);
 
   const onTabClickHandler = (event, clickedTab) => {
     const thisTab =
@@ -40,9 +44,30 @@ const Tabs = ({
       setSelectedTab(tabsArray[defaultIndex]);
   }, [defaultIndex, tabsArray]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    setIsOverflowed(container.scrollWidth > container.clientWidth);
+  }, [tabsArray]);
+
+  const scroll = (type = 'next') => {
+    const container = containerRef.current;
+
+    const items = container.querySelectorAll('.scroll-item');
+    const itemWidth = items[0].offsetWidth;
+    const scrollPos =
+      type === 'next'
+        ? container.scrollLeft + itemWidth * 2
+        : container.scrollLeft - itemWidth * 2;
+
+    container.scrollTo({
+      left: scrollPos,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <>
-      {tabsArray?.length && (
+      {tabsArray?.length ? (
         <div className={twClassNames('w-full', wrapperClassName)}>
           <div className={twClassNames('sm:hidden', navigationClassName)}>
             {label && (
@@ -67,15 +92,26 @@ const Tabs = ({
           </div>
           <div
             className={twClassNames(
+              'sm:flex items-center space-x-2 h-full',
               {
                 'border-base-200 border-b': !disableFullWidthBorder
               },
-              'hidden sm:block'
+              'hidden'
             )}
           >
+            {isOverflowed && (
+              <Button
+                variant="minimal"
+                onClick={() => scroll('prev')}
+                wrapperClassName="items-stretch"
+              >
+                <ChevronLeftIcon className="text-base-200 hover:text-base-500 h-6 w-6" />
+              </Button>
+            )}
             <nav
+              ref={containerRef}
               className={twClassNames(
-                '-mb-px flex overflow-y-scroll scrollbar-hide',
+                '-mb-px flex overflow-y-scroll scrollbar-hide flex-1',
                 {
                   'space-x-8': !isFullWidth,
                   'border-0': isFullWidth,
@@ -100,9 +136,14 @@ const Tabs = ({
                 />
               ))}
             </nav>
+            {isOverflowed && (
+              <Button variant="minimal" onClick={() => scroll()}>
+                <ChevronRightIcon className="text-base-200 hover:text-base-500 h-6 w-6" />
+              </Button>
+            )}
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 };
