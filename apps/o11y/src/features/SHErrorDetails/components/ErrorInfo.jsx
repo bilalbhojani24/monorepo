@@ -69,7 +69,7 @@ const ErrorInfo = () => {
               copyText={errorDetailsInfo?.data?.error?.join('\n')}
             />
           }
-          wrapperClassName="p-1 shadow-lg"
+          wrapperClassName="p-1 shadow-lg max-w-lg sm:max-w-3xl"
           placementSide="bottom"
           placementAlign="start"
           size="lg"

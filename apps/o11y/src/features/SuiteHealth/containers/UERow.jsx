@@ -34,7 +34,7 @@ export default function UERow({ data }) {
                     copyText={data?.error?.join('\n')}
                   />
                 }
-                wrapperClassName="p-1 shadow-lg"
+                wrapperClassName="p-1 shadow-lg max-w-xl sm:max-w-3xl"
                 placementSide="bottom"
                 placementAlign="start"
                 size="lg"
