@@ -29,6 +29,8 @@ const Field = ({
         <Hyperlink
           wrapperClassName="text-sm font-normal leading-5 mb-5"
           href={docLink.href}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {docLink.text}
         </Hyperlink>
