@@ -119,7 +119,7 @@ const defaultConfig = {
         {
           id: 2,
           title: 'ipsum',
-          changeType: 'descrease',
+          changeType: 'decrease',
           difference: '35',
           description: 'Kpi info',
           percentage: '69',
@@ -233,7 +233,7 @@ DataVisualizationDetail.args = {
     {
       id: 2,
       title: 'ipsum',
-      changeType: 'descrease',
+      changeType: 'decrease',
       difference: '35',
       description: 'desc',
       leadingIcon: <MdAddCircle />,
