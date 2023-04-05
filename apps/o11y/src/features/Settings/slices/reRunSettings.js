@@ -19,7 +19,7 @@ export const getReRunSettings = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -33,7 +33,7 @@ export const updateReRunSettings = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );

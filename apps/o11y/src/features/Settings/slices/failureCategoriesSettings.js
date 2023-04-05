@@ -24,7 +24,7 @@ export const getFailureSubCategories = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -39,7 +39,7 @@ export const submitNewSubCat = createAsyncThunk(
         subCatData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -54,7 +54,7 @@ export const updateSubCat = createAsyncThunk(
         subCatData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -68,7 +68,7 @@ export const deleteSubCatById = createAsyncThunk(
         category: data.category
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
