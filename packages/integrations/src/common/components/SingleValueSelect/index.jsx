@@ -225,7 +225,7 @@ SingleValueSelect.propTypes = {
 };
 
 SingleValueSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

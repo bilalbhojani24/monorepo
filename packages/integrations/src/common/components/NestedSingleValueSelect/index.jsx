@@ -202,7 +202,7 @@ NestedSingleValueSelect.propTypes = {
 };
 
 NestedSingleValueSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

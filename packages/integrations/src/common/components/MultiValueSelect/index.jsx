@@ -205,7 +205,7 @@ MultiSelect.propTypes = {
 };
 
 MultiSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

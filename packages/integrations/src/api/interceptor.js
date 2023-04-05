@@ -14,6 +14,7 @@ export const requestInterceptor = axios.interceptors.request.use(
     const configShallowCopy = config;
     configShallowCopy.baseURL = baseURLSelector(store.getState());
     configShallowCopy.retry = configShallowCopy.retry || 3;
+    configShallowCopy.withCredentials = true;
     const token = cookie.read(UAT_COOKIE_NAME);
     if (token) {
       configShallowCopy.headers.Authorization = `Bearer ${token}`;
