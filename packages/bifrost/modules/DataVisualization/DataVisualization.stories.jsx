@@ -6,7 +6,7 @@ import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
-import { EllipsisVerticalIcon, MdAddCircle, MdInfoOutline } from '../Icon';
+import { MdAddCircle, MdInfoOutline } from '../Icon';
 import TooltipBody from '../TooltipBody';
 import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
@@ -30,34 +30,6 @@ const options = [
   },
   {
     id: '3',
-    body: 'Archive',
-    divider: true
-  },
-  {
-    id: '4',
-    body: 'Edit'
-  },
-  {
-    id: '5',
-    body: 'Duplicate',
-    divider: false
-  },
-  {
-    id: '6',
-    body: 'Archive',
-    divider: true
-  },
-  {
-    id: '7',
-    body: 'Edit'
-  },
-  {
-    id: '8',
-    body: 'Duplicate',
-    divider: false
-  },
-  {
-    id: '9',
     body: 'Archive',
     divider: true
   }
@@ -158,9 +130,7 @@ const defaultConfig = {
     filterDropdown: {
       defaultValue: (
         <Dropdown>
-          <DropdownTrigger>
-            <EllipsisVerticalIcon className="h-5 w-5" />
-          </DropdownTrigger>
+          <DropdownTrigger>Dropdown 1</DropdownTrigger>
           <DropdownOptionGroup>
             {options.map((op) => (
               <DropdownOptionItem option={op} />
@@ -172,7 +142,7 @@ const defaultConfig = {
     otherOptions: {
       defaultValue: (
         <Dropdown>
-          <DropdownTrigger>trigger</DropdownTrigger>
+          <DropdownTrigger>Dropdown 2</DropdownTrigger>
           <DropdownOptionGroup>
             {options.map((op) => (
               <DropdownOptionItem option={op} />
@@ -211,16 +181,18 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <DataVisualization {...args} />;
-const DataVizWithFooterOnClickTemplate = (args) => (
+const DataVisualizationDetailTemplate = (args) => (
   <DataVisualization {...args} />
 );
 
 const Primary = Template.bind({});
-const DataVizWithFooterOnClick = DataVizWithFooterOnClickTemplate.bind({});
+const DataVizWithFooterOnClick = Template.bind({});
 
 Primary.parameters = {
   controls: {}
 };
+
+Primary.args = {};
 
 DataVizWithFooterOnClick.args = {
   footerProps: {
@@ -233,57 +205,55 @@ DataVizWithFooterOnClick.args = {
   }
 };
 
-const DataVisualizationDetail = (args) => (
-  <DataVisualization
-    {...args}
-    hasWiderColumns
-    size="large"
-    title="This is title"
-    desc=""
-    descPosition={DATA_VISUALIZATION_DESC_POSITION[0]}
-    analytics={null}
-    footerProps=""
-    KpiProps={[
-      {
-        id: 1,
-        title: 'lorem',
-        changeType: 'increase',
-        difference: '65',
-        description: 'desc',
-        leadingIcon: <MdAddCircle />,
-        percentage: '02',
-        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
-        trailingIconNode: (
-          <MdInfoOutline
-            className="h-4 w-4 shrink-0 cursor-pointer"
-            aria-hidden="true"
-          />
-        )
-      },
-      {
-        id: 2,
-        title: 'ipsum',
-        changeType: 'descrease',
-        difference: '35',
-        description: 'desc',
-        leadingIcon: <MdAddCircle />,
-        percentage: '69',
-        direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
-        trailingIconNode: (
-          <MdInfoOutline
-            className="h-4 w-4 shrink-0 cursor-pointer"
-            aria-hidden="true"
-          />
-        )
-      }
-    ]}
-    otherOptions={null}
-    filterDropdown={null}
-    headerInfo
-    headerInfoTooltipProps={args.headerInfoTooltipProps}
-    wrapperClassName=""
-  />
-);
+const DataVisualizationDetail = DataVisualizationDetailTemplate.bind({});
+
+DataVisualizationDetail.args = {
+  hasWiderColumns: true,
+  size: 'large',
+  title: 'This is title',
+  desc: '',
+  descPosition: DATA_VISUALIZATION_DESC_POSITION[0],
+  analytics: null,
+  footerProps: '',
+  KpiProps: [
+    {
+      id: 1,
+      title: 'lorem',
+      changeType: 'increase',
+      difference: '65',
+      description: 'desc',
+      leadingIcon: <MdAddCircle />,
+      percentage: '02',
+      direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+      trailingIconNode: (
+        <MdInfoOutline
+          className="h-4 w-4 shrink-0 cursor-pointer"
+          aria-hidden="true"
+        />
+      )
+    },
+    {
+      id: 2,
+      title: 'ipsum',
+      changeType: 'descrease',
+      difference: '35',
+      description: 'desc',
+      leadingIcon: <MdAddCircle />,
+      percentage: '69',
+      direction: DATA_VISUALIZATION_STATS_DIRECTION[1],
+      trailingIconNode: (
+        <MdInfoOutline
+          className="h-4 w-4 shrink-0 cursor-pointer"
+          aria-hidden="true"
+        />
+      )
+    }
+  ],
+  otherOptions: null,
+  filterDropdown: null,
+  headerInfo: true,
+  wrapperClassName: ''
+};
 
 export default defaultConfig;
 export { DataVisualizationDetail, DataVizWithFooterOnClick, Primary };
