@@ -180,7 +180,6 @@ function Integrations() {
                 {availableIntegrations.map((integration) => (
                   <O11yStackedListGroup
                     key={integration.name}
-                    wrapperClassName="fist:rounded-lg"
                     heading={<ListGroupHeader title={integration.name} />}
                   >
                     {integration.list.map((integrationItem) => (
