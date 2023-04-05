@@ -83,7 +83,7 @@ const MiniDetails = () => {
             </td>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
               <div className="text-base-900 pl-7">
-                {testRunDetails?.test_cases?.length} Tests
+                {testRunDetails?.all_test_cases?.length} Tests
               </div>
             </TMTableCell>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
