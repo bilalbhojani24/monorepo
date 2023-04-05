@@ -28,7 +28,6 @@ const PopoverContainer = (props) => {
     disabled,
     hideWhenDetached,
     forceMount,
-    modal,
     onOpenChange,
     onOpenAutoFocus,
     onCloseAutoFocus,
@@ -58,7 +57,6 @@ const PopoverContainer = (props) => {
         open={show}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
-        modal={modal}
       >
         <PopoverPrimitive.Trigger
           className={triggerWrapperClassName}
@@ -139,7 +137,6 @@ PopoverContainer.propTypes = {
   disabled: PropTypes.bool,
   forceMount: PropTypes.bool,
   hideWhenDetached: PropTypes.bool,
-  modal: PropTypes.bool,
   onOpenChange: PropTypes.func,
   onOpenAutoFocus: PropTypes.func,
   onCloseAutoFocus: PropTypes.func,
@@ -171,7 +168,6 @@ PopoverContainer.defaultProps = {
   disabled: false,
   forceMount: undefined,
   hideWhenDetached: false,
-  modal: false,
   onOpenChange: null,
   onOpenAutoFocus: null,
   onCloseAutoFocus: null,
