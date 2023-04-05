@@ -59,9 +59,10 @@ export default function RootNodeMetaData({
           'to-root-metadata__dot': !!startedAt || !!middleScopes?.length
         })}
       >
-        <MdFolderOpen className="detail-icon__icon " />
+        <MdFolderOpen className="h-6 w-6" />
+        {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="detail-icon__text"
+          className="text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}
