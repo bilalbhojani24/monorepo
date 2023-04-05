@@ -26,7 +26,7 @@ const ALL_CATEGORIES_OPTION = {
 const getMatchedIntegrationsByText = (list, searchVal) => {
   const matched = [];
   list.forEach((integrationItem) => {
-    if (integrationItem.name.toLowerCase().includes(searchVal)) {
+    if (integrationItem.name.toLowerCase().includes(searchVal.toLowerCase())) {
       matched.push(integrationItem);
     }
   });
