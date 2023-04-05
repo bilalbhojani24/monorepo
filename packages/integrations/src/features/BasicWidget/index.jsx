@@ -42,7 +42,7 @@ const Widget = ({
         childRef={childRef}
         positionRef={positionRef}
       >
-        <div ref={childRef} className="relative bg-white">
+        <div ref={childRef} className="relative h-full flex-1 bg-white">
           <WidgetHeader handleClose={handleClose} />
           {children}
         </div>

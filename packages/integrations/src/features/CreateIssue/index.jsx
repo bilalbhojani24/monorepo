@@ -84,8 +84,7 @@ export const CreateIssue = ({
   );
 
   const widgetHeight = useSelector(widgetHeightSelector);
-  const maxHeight = widgetHeight ? widgetHeight - 120 : 650;
-  console.log(maxHeight);
+  const maxHeight = widgetHeight ? widgetHeight - 120 : 0;
 
   return (
     <BasicWidget
@@ -99,7 +98,7 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
-        className={'bg-white'.concat(
+        className={'bg-white h-full'.concat(
           hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
@@ -122,7 +121,7 @@ export const CreateIssue = ({
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 left-0 z-20 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
+        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pt-4 pb-6">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>

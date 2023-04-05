@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  height: null
+  height: 800
 };
 
 export const widgetSlice = createSlice({

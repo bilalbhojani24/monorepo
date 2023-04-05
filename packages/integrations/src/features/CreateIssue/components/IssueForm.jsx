@@ -233,7 +233,9 @@ const IssueForm = ({
         />
       )}
       <div
-        className={'bg-white '.concat(isBeingDiscarded ? 'invisible h-0' : '')}
+        className={'bg-white h-full'.concat(
+          isBeingDiscarded ? 'invisible h-0' : ''
+        )}
       >
         <SelectMenu
           onChange={(val) => selectTool(val)}
@@ -255,7 +257,7 @@ const IssueForm = ({
         <div
           className={''.concat(
             areProjectsLoading || projectsHaveError
-              ? 'flex justify-center items-center h-full flex-1'
+              ? 'flex flex-col justify-center h-full'
               : ''
           )}
         >

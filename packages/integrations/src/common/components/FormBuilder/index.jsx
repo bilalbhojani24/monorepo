@@ -129,7 +129,7 @@ const FormBuilder = ({
         <>
           <Button
             variant="minimal"
-            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm focus:ring-offset-0"
+            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm focus:ring-offset-0 mb-2"
             icon={
               shouldShowOptionalFields ? <ChevronUpIcon /> : <ChevronDownIcon />
             }
