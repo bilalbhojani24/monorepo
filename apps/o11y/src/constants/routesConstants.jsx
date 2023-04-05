@@ -15,6 +15,8 @@ const BuildDetails = React.lazy(() => import('features/BuildDetails'));
 const BuildShortUrlRedirect = React.lazy(() =>
   import('features/BuildShortUrlRedirect')
 );
+const TestingTrends = React.lazy(() => import('features/TestingTrends'));
+
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
 );
@@ -76,9 +78,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <TestingTrends />
       },
       {
         path: ROUTES.build,
