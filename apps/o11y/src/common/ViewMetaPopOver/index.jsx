@@ -6,7 +6,7 @@ import { getCustomTimeStamp } from 'utils/dateTime';
 
 import ViewMetaPopOverItem from './ViewMetaPopOverItem';
 
-function ViewMetaPopOver({ data }) {
+function ViewMetaPopOver({ data, handleInteraction }) {
   return (
     <O11yPopover
       theme="light"
@@ -78,7 +78,7 @@ function ViewMetaPopOver({ data }) {
         colors="white"
         iconPlacement="end"
         icon={<MdOutlineExpandMore className="text-xl" />}
-        // onClick={function noRefCheck() {}}
+        onClick={() => handleInteraction({ interaction: 'viewed_metadata' })}
         type="submit"
         variant="minimal"
         wrapperClassName="font-medium text-sm text-base-700"
@@ -90,7 +90,12 @@ function ViewMetaPopOver({ data }) {
 }
 
 ViewMetaPopOver.propTypes = {
-  data: PropTypes.objectOf(PropTypes.any).isRequired
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  handleInteraction: PropTypes.func
+};
+
+ViewMetaPopOver.defaultProps = {
+  handleInteraction: () => {}
 };
 
 export default ViewMetaPopOver;

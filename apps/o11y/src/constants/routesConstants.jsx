@@ -11,11 +11,13 @@ import SuiteHealth from 'features/SuiteHealth';
 import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
-
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
 
 const Integrations = React.lazy(() => import('features/Integrations'));
 
+const BuildShortUrlRedirect = React.lazy(() =>
+  import('features/BuildShortUrlRedirect')
+);
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
 );
@@ -41,6 +43,11 @@ export const APP_ROUTES = [
     path: ROUTES.not_found,
     isProtected: true,
     component: <NotFound to={ROUTES.not_found} replace />
+  },
+  {
+    path: ROUTES.buildShort,
+    isProtected: true,
+    component: <BuildShortUrlRedirect />
   },
   {
     path: ROUTES.root,
