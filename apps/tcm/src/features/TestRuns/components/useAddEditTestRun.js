@@ -23,6 +23,7 @@ import {
   setEditTestRunForm,
   setIssuesArray,
   setIsVisibleProps,
+  setLoader,
   setTagsArray,
   setTestRunFormData,
   setUnsavedDataExists,
@@ -32,7 +33,7 @@ import {
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, testRunId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -281,14 +282,21 @@ const useAddEditTestRun = () => {
           updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
         );
         const isInClosedTab = !!searchParams.get('closed');
-        if (
-          (isInClosedTab && data.data.testrun.run_state === 'closed') ||
-          (!isInClosedTab && data.data.testrun.run_state !== 'closed')
-        ) {
-          // dont append if status is closed and not in closed tab
-          // dont append if in active tab and status is closed
+        if (isInClosedTab) {
+          // after creation redirect to active test run in case currenlty in closed tab
+          dispatch(setLoader({ key: 'testRuns', value: true }));
+          setSearchParams({});
+        } else {
           dispatch(addTestRun(data.data.testrun || []));
         }
+        // if (
+        //   (isInClosedTab && data.data.testrun.run_state === 'closed') ||
+        //   (!isInClosedTab && data.data.testrun.run_state !== 'closed')
+        // ) {
+        //   // dont append if status is closed and not in closed tab
+        //   // dont append if in active tab and status is closed
+        //   dispatch(addTestRun(data.data.testrun || []));
+        // }
         dispatch(
           logEventHelper('TM_TrCreatedNotification', {
             project_id: projectId,
