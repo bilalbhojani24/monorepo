@@ -45,7 +45,7 @@ const AccordionInteractiveHeader = ({
                         }
                       )}
                     />
-                    <span>{title}</span>
+                    <div className="flex-1">{title}</div>
                   </button>
                 )
               : ({ open }) => (
@@ -63,7 +63,7 @@ const AccordionInteractiveHeader = ({
                         }
                       )}
                     />
-                    <span>{title}</span>
+                    <div className="flex-1">{title}</div>
                   </button>
                 )}
           </Disclosure.Button>
