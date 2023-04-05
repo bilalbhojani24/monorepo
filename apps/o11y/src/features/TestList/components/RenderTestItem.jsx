@@ -8,6 +8,8 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
 import {
+  HIERARCHY_SPACING,
+  HIERARCHY_SPACING_START,
   LOG_TYPES,
   singleItemPropType,
   singleItemTestDetails
@@ -26,7 +28,7 @@ import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
 const RenderTestChildrens = ({ item: data, isLastItem }) => {
-  const { displayName, details } = data;
+  const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
 
@@ -54,10 +56,13 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
 
   return (
     <div
-      className={twClassNames(`border-base-200 border-b pt-2 pr-6`, {
+      className={twClassNames(`border-base-100 border-b pt-2 pr-6`, {
         'pb-2': !isLastItem,
         'pb-4': isLastItem
       })}
+      style={{
+        paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
+      }}
     >
       <div className="flex justify-between">
         <div className="flex w-full flex-col items-center">
