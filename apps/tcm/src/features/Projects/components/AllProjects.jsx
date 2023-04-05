@@ -66,13 +66,17 @@ const AllProjects = () => {
             rowData.test_cases_count > 0
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
-            rowData.id
+            rowData.id,
+            null,
+            'ID'
           )}
           onKeyDown={handleClickDynamicLink(
             rowData.test_cases_count > 0
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
-            rowData.id
+            rowData.id,
+            null,
+            'ID'
           )}
         >
           {rowData.identifier}
@@ -93,14 +97,16 @@ const AllProjects = () => {
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
             rowData.id,
-            rowData.name
+            rowData.name,
+            'Name'
           )}
           onKeyDown={handleClickDynamicLink(
             rowData.test_cases_count > 0
               ? AppRoute.DASHBOARD
               : AppRoute.TEST_CASES,
             rowData.id,
-            rowData.name
+            rowData.name,
+            'Name'
           )}
         >
           <div className="flex items-center">
@@ -167,8 +173,18 @@ const AllProjects = () => {
       cell: (rowData) => (
         <div className="flex">
           <div
-            onClick={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
-            onKeyDown={handleClickDynamicLink(AppRoute.TEST_CASES, rowData.id)}
+            onClick={handleClickDynamicLink(
+              AppRoute.TEST_CASES,
+              rowData.id,
+              null,
+              'TestCase'
+            )}
+            onKeyDown={handleClickDynamicLink(
+              AppRoute.TEST_CASES,
+              rowData.id,
+              null,
+              'TestCase'
+            )}
             role="button"
             tabIndex={0}
             className="hover:text-brand-600 w-28 cursor-pointer"
@@ -179,8 +195,18 @@ const AllProjects = () => {
             tabIndex={0}
             role="button"
             className="hover:text-brand-600 ml-6  w-1 cursor-pointer"
-            onClick={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
-            onKeyDown={handleClickDynamicLink(AppRoute.TEST_RUNS, rowData.id)}
+            onClick={handleClickDynamicLink(
+              AppRoute.TEST_RUNS,
+              rowData.id,
+              null,
+              'TestRun'
+            )}
+            onKeyDown={handleClickDynamicLink(
+              AppRoute.TEST_RUNS,
+              rowData.id,
+              null,
+              'TestRun'
+            )}
           >
             {rowData.test_runs_count} Test Runs
           </div>
@@ -283,7 +309,7 @@ const AllProjects = () => {
                     }
                     buttonProps={{
                       children: 'Create Project',
-                      onClick: showAddProjectModal,
+                      onClick: () => showAddProjectModal('emptyState'),
                       colors: 'white'
                     }}
                   />

@@ -92,7 +92,13 @@ export default function useTRTCFolders() {
     });
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
+  const handleTestCaseViewClick = (testCaseItem, tableCol) => () => {
+    dispatch(
+      logEventHelper(`TM_${tableCol}ClickedTrTc`, {
+        project_id: projectId,
+        testrun_id: testRunId
+      })
+    );
     dispatch(
       logEventHelper('TM_TrDetailsViewTrTc', {
         project_id: projectId,
@@ -234,6 +240,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    isTableLoading: isTestCasesLoading || isTestRunDetailsLoading,
     page,
     testRunDetails,
     statusError,

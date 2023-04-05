@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom';
 import {
   addTestRunAPI,
   addTestRunWithoutProjectAPI,
@@ -27,6 +32,7 @@ import {
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
+  const [searchParams] = useSearchParams();
   const { projectId, testRunId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -88,7 +94,7 @@ const useAddEditTestRun = () => {
     dispatch(setAddTestRunForm(false));
   };
 
-  const hideAddTestRunForm = (goBack) => {
+  const hideAddTestRunForm = (goBack, action) => {
     if (isEditing || goBack) {
       navigate(
         routeFormatter(
@@ -102,7 +108,15 @@ const useAddEditTestRun = () => {
         ),
         { state: { isFromEditing: true } }
       );
-    } else dispatch(setAddTestRunForm(false));
+    } else {
+      if (action === 'Cancel')
+        dispatch(
+          logEventHelper('TM_CreateTrCancelCtaClicked', {
+            project_id: projectId
+          })
+        );
+      dispatch(setAddTestRunForm(false));
+    }
   };
 
   const hideAddIssuesModal = () => {
@@ -212,6 +226,99 @@ const useAddEditTestRun = () => {
     };
   };
 
+  const saveEditingForm = () => {
+    dispatch(
+      logEventHelper('TM_UpdateTrCtaClicked', {
+        project_id: projectId,
+        testrun_id: testRunFormData?.test_run?.id
+      })
+    );
+    dispatch(updateTestRunsCtaLoading({ key: 'editTestRunCta', value: true }));
+    editTestRunAPI({
+      payload: formDataFormatter(testRunFormData),
+      projectId,
+      testRunId: testRunFormData?.test_run?.id
+    })
+      .then((data) => {
+        dispatch(
+          updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
+        );
+        dispatch(
+          logEventHelper('TM_TrUpdatedNotification', {
+            project_id: projectId,
+            testrun_id: testRunFormData?.test_run?.id
+          })
+        );
+        dispatch(updateTestRun(data.data.testrun || []));
+        hideAddTestRunForm();
+      })
+      .catch(() => {
+        dispatch(
+          updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
+        );
+      });
+  };
+
+  const saveNewTestRun = () => {
+    dispatch(
+      logEventHelper('TM_CreateTrCtaClicked', {
+        project_id: projectId
+      })
+    );
+    const addtestRunAPIFunction =
+      projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
+    dispatch(
+      updateTestRunsCtaLoading({ key: 'createTestRunCta', value: true })
+    );
+    addtestRunAPIFunction({
+      payload: formDataFormatter(testRunFormData),
+      projectId
+    })
+      .then((data) => {
+        dispatch(
+          updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
+        );
+        const isInClosedTab = !!searchParams.get('closed');
+        if (
+          (isInClosedTab && data.data.testrun.run_state === 'closed') ||
+          (!isInClosedTab && data.data.testrun.run_state !== 'closed')
+        ) {
+          // dont append if status is closed and not in closed tab
+          // dont append if in active tab and status is closed
+          dispatch(addTestRun(data.data.testrun || []));
+        }
+        dispatch(
+          logEventHelper('TM_TrCreatedNotification', {
+            project_id: projectId,
+            testrun_id: data.data.testrun?.id
+          })
+        );
+        dispatch(
+          addNotificaton({
+            id: `test_run_added${data.data.testrun?.id}`,
+            title: `${data.data.testrun?.identifier} : Test run created`,
+            variant: 'success'
+          })
+        );
+
+        if (projectId === 'new') {
+          dispatch(addGlobalProject(data.data.project));
+          navigate(
+            `${routeFormatter(AppRoute.TEST_RUNS, {
+              projectId: data.data.testrun?.project_id
+            })}`
+          );
+        }
+
+        hideAddTestRunForm();
+      })
+      .catch(() => {
+        dispatch(
+          updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
+        );
+      });
+  };
+
   const createTestRunHandler = () => {
     if (!testRunFormData.test_run.name.trim()) {
       setInputError(true);
@@ -219,88 +326,9 @@ const useAddEditTestRun = () => {
         updateTestRunFormData({ key: 'test_run', innerKey: 'name', value: '' })
       );
     } else if (isEditing) {
-      dispatch(
-        logEventHelper('TM_UpdateTrCtaClicked', {
-          project_id: projectId,
-          testrun_id: testRunFormData?.test_run?.id
-        })
-      );
-      dispatch(
-        updateTestRunsCtaLoading({ key: 'editTestRunCta', value: true })
-      );
-      editTestRunAPI({
-        payload: formDataFormatter(testRunFormData),
-        projectId,
-        testRunId: testRunFormData?.test_run?.id
-      })
-        .then((data) => {
-          dispatch(
-            updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
-          );
-          dispatch(
-            logEventHelper('TM_TrUpdatedNotification', {
-              project_id: projectId,
-              testrun_id: testRunFormData?.test_run?.id
-            })
-          );
-          dispatch(updateTestRun(data.data.testrun || []));
-          hideAddTestRunForm();
-        })
-        .catch(() => {
-          dispatch(
-            updateTestRunsCtaLoading({ key: 'editTestRunCta', value: false })
-          );
-        });
+      saveEditingForm();
     } else {
-      dispatch(
-        logEventHelper('TM_CreateTrCtaClicked', {
-          project_id: projectId
-        })
-      );
-      const addtestRunAPIFunction =
-        projectId === 'new' ? addTestRunWithoutProjectAPI : addTestRunAPI;
-      dispatch(
-        updateTestRunsCtaLoading({ key: 'createTestRunCta', value: true })
-      );
-      addtestRunAPIFunction({
-        payload: formDataFormatter(testRunFormData),
-        projectId
-      })
-        .then((data) => {
-          dispatch(
-            updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
-          );
-          dispatch(addTestRun(data.data.testrun || []));
-          dispatch(
-            logEventHelper('TM_TrCreatedNotification', {
-              project_id: projectId,
-              testrun_id: data.data.testrun?.id
-            })
-          );
-          dispatch(
-            addNotificaton({
-              id: `test_run_added${data.data.testrun?.id}`,
-              title: `${data.data.testrun?.identifier} : Test run created`,
-              variant: 'success'
-            })
-          );
-
-          if (projectId === 'new') {
-            dispatch(addGlobalProject(data.data.project));
-            navigate(
-              `${routeFormatter(AppRoute.TEST_RUNS, {
-                projectId: data.data.testrun?.project_id
-              })}`
-            );
-          }
-
-          hideAddTestRunForm();
-        })
-        .catch(() => {
-          dispatch(
-            updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
-          );
-        });
+      saveNewTestRun();
     }
   };
 
@@ -334,6 +362,12 @@ const useAddEditTestRun = () => {
     if (testRunId) fetchTestRunDetails(testRunId);
   };
 
+  const handleMenuOpen = (key, isMenuOpened) => {
+    if (key === 'tags' && !tagsArray.length && isMenuOpened) showAddTagsModal();
+    else if (key === 'issues' && !issuesArray.length && isMenuOpened)
+      showAddIssuesModal();
+  };
+
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
       setUsersArray(
@@ -357,6 +391,17 @@ const useAddEditTestRun = () => {
   useEffect(() => {
     setSelectedTCIDs(testRunFormData?.test_case_ids || []);
   }, [testRunFormData?.test_case_ids]);
+
+  useEffect(() => {
+    if (!isEditing)
+      dispatch(
+        updateTestRunFormData({
+          key: 'test_run',
+          innerKey: 'owner',
+          value: userData?.id
+        })
+      );
+  }, [isEditing, userData, dispatch]);
 
   useEffect(() => {
     if (isEditing && selectedTestRun?.id) {
@@ -387,6 +432,7 @@ const useAddEditTestRun = () => {
     issuesArray,
     createTestRunsCtaLoading,
     editTestRunsCtaLoading,
+    handleMenuOpen,
     showTestCasesModal,
     handleTestRunInputFieldChange,
     showAddTagsModal,

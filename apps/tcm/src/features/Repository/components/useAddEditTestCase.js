@@ -121,9 +121,16 @@ export default function useAddEditTestCase(prop) {
     (state) => state.repository.isLoading.bulkEditTestCaseCta
   );
 
-  const hideTestCaseAddEditPage = (e, isForced) => {
+  const hideTestCaseAddEditPage = (e, isForced, action) => {
+    if (action === 'Cancel')
+      dispatch(
+        logEventHelper('TM_CreateCaseCancelCtaClicked', {
+          project_id: projectId
+        })
+      );
     isOkToExitForm(isForced);
   };
+
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
   };
@@ -590,6 +597,13 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
+  const handleMenuOpen = (key, isMenuOpened) => {
+    if (key === 'tags' && !tagsArray.length && isMenuOpened)
+      dispatch(setAddTagModal(true));
+    else if (key === 'issues' && !issuesArray.length && isMenuOpened) {
+      dispatch(setAddIssuesModal(true));
+    }
+  };
   // const handleUpdateAllClicked = () => {
   //   console.log(selectedTestCase);
   //   dispatch(
@@ -661,6 +675,7 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
+    handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,

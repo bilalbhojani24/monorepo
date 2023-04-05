@@ -13,7 +13,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { STATE_OPTIONS } from '../const/addEditConst';
+import { STATE_OPTIONS_ALL, STATE_OPTIONS_NEW } from '../const/addEditConst';
 
 import TestCasesExplorer from './TestCasesExplorer';
 import useAddEditTestRun from './useAddEditTestRun';
@@ -44,7 +44,8 @@ const AddEditTestRun = ({ isEdit }) => {
     initTestRunFormData,
     updatedMySelfLabelName,
     createTestRunsCtaLoading,
-    editTestRunsCtaLoading
+    editTestRunsCtaLoading,
+    handleMenuOpen
   } = useAddEditTestRun();
 
   const { initFormValues } = useTestRuns();
@@ -66,6 +67,8 @@ const AddEditTestRun = ({ isEdit }) => {
       ? usersArrayMapped?.find((item) => item.label === updatedMySelfLabelName)
       : { label: '', value: '' };
 
+  const STATE_OPTIONS = isEditing ? STATE_OPTIONS_ALL : STATE_OPTIONS_NEW;
+
   return (
     <>
       <div className="border-base-200 flex w-full flex-1 shrink-0 grow flex-col overflow-hidden border-l">
@@ -82,7 +85,7 @@ const AddEditTestRun = ({ isEdit }) => {
               <TMButton
                 variant="primary"
                 colors="white"
-                onClick={() => hideAddTestRunForm()}
+                onClick={() => hideAddTestRunForm(null, 'Cancel')}
               >
                 Cancel
               </TMButton>
@@ -186,6 +189,9 @@ const AddEditTestRun = ({ isEdit }) => {
                       onChange={(e) => {
                         handleTestRunInputFieldChange('tags', e);
                       }}
+                      onOpenChange={(isMenuOpened) => {
+                        handleMenuOpen('tags', isMenuOpened);
+                      }}
                     />
                   </div>
                   <TMButton
@@ -230,6 +236,9 @@ const AddEditTestRun = ({ isEdit }) => {
                       onChange={(e) =>
                         handleTestRunInputFieldChange('issues', e)
                       }
+                      onOpenChange={(isMenuOpened) => {
+                        handleMenuOpen('issues', isMenuOpened);
+                      }}
                     />
                   </div>
                   <TMButton

@@ -34,7 +34,7 @@ const AddStatusModal = () => {
 
   return (
     <TMModal
-      // ref={statusFocusRef}
+      ref={statusFocusRef}
       show={isAddStatusVisible}
       withDismissButton
       onOverlayClick={closeAll}

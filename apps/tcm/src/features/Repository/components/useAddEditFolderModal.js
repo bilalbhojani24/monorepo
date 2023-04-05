@@ -74,7 +74,13 @@ export default function useAddEditFolderModal(prop) {
     });
   };
 
-  const hideFolderModal = () => {
+  const hideFolderModal = (action) => {
+    if (action === 'Cancel' && !prop?.isEditFolder && !prop?.isSubFolder)
+      dispatch(
+        logEventHelper('TM_CreateFolderCancelCtaClicked', {
+          project_id: projectId
+        })
+      );
     dispatch(setFolderModalConf(false));
     setFormError({ ...formError, nameError: '' });
   };

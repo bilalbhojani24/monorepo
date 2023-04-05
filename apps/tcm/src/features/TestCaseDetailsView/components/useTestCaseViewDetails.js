@@ -11,7 +11,7 @@ import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseViewDetails() {
   const detailsRef = useRef();
-  const { projectId, folderId } = useParams();
+  const { projectId } = useParams();
   const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
   const [imageLink, setImageLink] = useState(null);
@@ -40,6 +40,9 @@ export default function useTestCaseViewDetails() {
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
   const testObservabilityUrl = useSelector(
     (state) => state.testCaseDetails.testObservabilityUrl
+  );
+  const testRunsTestCaseDetails = useSelector(
+    (state) => state.testCaseDetails.testRunsTestCaseDetails
   );
 
   const handleTabChange = (value, isFromTestRun, testRunId) => {
@@ -115,8 +118,8 @@ export default function useTestCaseViewDetails() {
     ];
     newTestCaseDetails.issues = updatedIssuesArray;
     editTestCaseAPI({
-      projectId,
-      folderId,
+      projectId: newTestCaseDetails.project_id,
+      folderId: newTestCaseDetails.test_case_folder_id,
       testCaseId: newTestCaseDetails.id,
       payload: { test_case: newTestCaseDetails }
     }).then((data) => {
@@ -144,6 +147,12 @@ export default function useTestCaseViewDetails() {
         .splice(0, 5)
         .join('/')}/test-runs/${testRunID}`
     );
+  };
+
+  const getAssignedTo = () => {
+    if (testCaseDetails?.assignee) return testCaseDetails?.assignee?.full_name;
+    if (testCaseDetails?.owner_imported) return testCaseDetails?.owner_imported;
+    return '--';
   };
 
   useEffect(() => {
@@ -189,6 +198,8 @@ export default function useTestCaseViewDetails() {
     hideAddIssuesModal,
     saveAddIssesModal,
     onJiraButtonClick,
-    testRunButtonClick
+    testRunButtonClick,
+    getAssignedTo,
+    testRunsTestCaseDetails
   };
 }

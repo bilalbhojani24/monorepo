@@ -21,7 +21,7 @@ const TestCasesTable = () => {
   const {
     testRunDetails,
     metaPage,
-    isTestCasesLoading,
+    isTableLoading,
     allTestCases,
     onPaginationClick,
     handleTestCaseViewClick,
@@ -38,8 +38,8 @@ const TestCasesTable = () => {
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'ID')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
             truncateUsingClamp={false}
@@ -64,8 +64,8 @@ const TestCasesTable = () => {
           role="button"
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'Title')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           <TMTruncateText
             truncateUsingClamp={false}
@@ -141,12 +141,12 @@ const TestCasesTable = () => {
   ];
 
   return (
-    <div className=" border-base-300   flex-col overflow-y-auto border-b">
+    <div className="flex-col overflow-y-auto border-none">
       <TMTable
         tableWrapperClass="table-fixed w-full"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
-          'overflow-y-auto'
+          'overflow-y-auto md:rounded-none'
         )}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
@@ -185,7 +185,7 @@ const TestCasesTable = () => {
           </TMTableRow>
         </TMTableHead>
         <TMTableBody>
-          {!isTestCasesLoading ? (
+          {!isTableLoading ? (
             <>
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
@@ -220,18 +220,23 @@ const TestCasesTable = () => {
           ) : null}
         </TMTableBody>
       </TMTable>
-      {isTestCasesLoading ? (
+      {isTableLoading ? (
         <div className="flex w-full flex-col justify-center">
           <Loader wrapperClassName="h-96 w-full" />
         </div>
-      ) : null}
-      {metaPage?.count > metaPage?.page_size && (
-        <TMPagination
-          pageNumber={metaPage?.page || 1}
-          count={metaPage?.count || 0}
-          pageSize={metaPage?.page_size}
-          onActionClick={onPaginationClick}
-        />
+      ) : (
+        <>
+          {metaPage?.count > metaPage?.page_size ? (
+            <TMPagination
+              pageNumber={metaPage?.page || 1}
+              count={metaPage?.count || 0}
+              pageSize={metaPage?.page_size}
+              onActionClick={onPaginationClick}
+            />
+          ) : (
+            <div className="border-base-300 border-t" />
+          )}
+        </>
       )}
     </div>
   );

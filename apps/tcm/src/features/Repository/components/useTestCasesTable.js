@@ -204,7 +204,17 @@ const useTestCasesTable = (prop) => {
     dispatch(setSelectedTestCase(selectedItem));
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
+  const handleTableAmplitudeEvents = (item, action) => {
+    dispatch(
+      logEventHelper(`TM_${action}ClickedTcList`, {
+        project_id: projectId,
+        testcase_id: item?.id
+      })
+    );
+  };
+
+  const handleTestCaseViewClick = (testCaseItem, action) => () => {
+    handleTableAmplitudeEvents(testCaseItem, action);
     if (prop?.isMini) return;
 
     dispatch(
@@ -236,6 +246,12 @@ const useTestCasesTable = (prop) => {
         }
       );
     }
+  };
+
+  const getOwner = (rowData) => {
+    if (rowData?.assignee) return rowData?.assignee?.full_name;
+    if (rowData?.owner_imported) return rowData?.owner_imported;
+    return '--';
   };
 
   useEffect(() => {
@@ -276,6 +292,7 @@ const useTestCasesTable = (prop) => {
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
     bulkMoveTestCaseCtaLoading,
+    getOwner,
     selectAll,
     updateSelection,
     initBulkMove,

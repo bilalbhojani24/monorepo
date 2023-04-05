@@ -123,6 +123,15 @@ const useTestRuns = () => {
     }
   };
 
+  const addAmplitudeEventTrTable = (tableCol, data) => {
+    dispatch(
+      logEventHelper(`TM_${tableCol}ClickedTrList`, {
+        project_id: projectId,
+        testrun_id: data?.id
+      })
+    );
+  };
+
   return {
     metaPage,
     isTestRunsLoading,
@@ -130,6 +139,7 @@ const useTestRuns = () => {
     allTestRuns,
     projectId,
     isAddTestRunsFormVisible,
+    addAmplitudeEventTrTable,
     getProgressOptions,
     onDropDownChange,
     paginationAnalytics

@@ -1,12 +1,10 @@
 import React from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
   MdExpandMore,
-  MdOutlineContentCopy,
   Table,
   TableBody,
   TableCell,
@@ -53,21 +51,17 @@ const Overview = ({ scanOverviewData }) => {
     currentRunFilter,
     handleSplineFilter,
     currentSplineRunFilter,
-    isCopied,
-    setIsCopied,
     getStackedChartData,
     getSplineChartData
   } = useOverview({
     scanOverviewData
   });
-  console.log(getStackedChartData);
   return (
     <div
       className=" flex-col overflow-auto p-4"
       style={{
         height: 'calc(100vh - 227px)',
         top: '227px'
-        // width: isSidebarCollapsed ? '100vw' : 'calc(100vw - 256px)'
       }}
     >
       <div className="mt-4 flex items-start">
@@ -122,7 +116,7 @@ const Overview = ({ scanOverviewData }) => {
       </div>
       <div className="mx-2 my-4 w-full rounded-lg bg-white p-6 pt-4 shadow-md">
         <span className="ml-6 mt-8 font-semibold">Added pages</span>
-        <div className="mt-4">
+        <div className="mt-4 shadow">
           <Table>
             <TableHead>
               <TableRow>
@@ -130,7 +124,7 @@ const Overview = ({ scanOverviewData }) => {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    wrapperClass="first:pr-3 last:pl-3 px-2"
+                    wrapperClassName="first:pr-3 last:pl-3 px-2 h-9"
                   >
                     {col.name}
                   </TableCell>
@@ -145,16 +139,13 @@ const Overview = ({ scanOverviewData }) => {
                     // navigate('/site-scanner/scan-report/12');
                   }}
                 >
-                  <TableCell key={row} wrapperClass="first:pr-3 last:pl-3 p-5">
+                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
                     {idx + 1}
                   </TableCell>
-                  <TableCell key={row} wrapperClass="first:pr-3 last:pl-3 p-5">
+                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
                     {row}
                   </TableCell>
-                  <TableCell
-                    key={row}
-                    wrapperClass="flex justify-end cursor-pointer text-right"
-                  >
+                  <TableCell key={row} wrapperClassName="first:pr-3 last:pl-3 p-5 h-9">
                     <div className="flex justify-end">
                       <CopyButton text={row} hasBorder={false} />
                     </div>

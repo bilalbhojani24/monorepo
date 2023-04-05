@@ -35,6 +35,7 @@ const TestRunsTable = () => {
     allTestRuns,
     isTestRunsLoading,
     metaPage,
+    addAmplitudeEventTrTable,
     getProgressOptions,
     onDropDownChange,
     paginationAnalytics
@@ -53,6 +54,9 @@ const TestRunsTable = () => {
             projectId,
             testRunId: rowData?.id
           })}
+          onClick={() => {
+            addAmplitudeEventTrTable('ID', rowData);
+          }}
         >
           {rowData.identifier}
         </Link>
@@ -71,6 +75,9 @@ const TestRunsTable = () => {
               projectId,
               testRunId: rowData?.id
             })}
+            onClick={() => {
+              addAmplitudeEventTrTable('Title', rowData);
+            }}
           >
             <TMTruncateText
               truncateUsingClamp={false}
@@ -102,7 +109,7 @@ const TestRunsTable = () => {
     },
     {
       name: 'Type of Run',
-      key: 'name',
+      key: 'is_automation',
       class: 'w-[15%]',
       cell: (rowData) => (
         <div>
@@ -170,7 +177,7 @@ const TestRunsTable = () => {
     },
     {
       name: 'OVERALL PROGRESS',
-      key: '',
+      key: 'id',
       cell: (rowData) => {
         const totalValue = Object.values(rowData.overall_progress).reduce(
           (total, num) => total + num,
@@ -191,7 +198,7 @@ const TestRunsTable = () => {
                 />
               )}
             </div>
-            <span className="text-base-500 ml-0.5 w-7">
+            <span className="text-base-500 ml-2 w-7">
               {Number.isNaN(untestedPerc) ? '' : `${untestedPerc.toFixed(0)}%`}
             </span>
           </div>
@@ -228,9 +235,9 @@ const TestRunsTable = () => {
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            {tableColumns?.map((col, index) => (
+            {tableColumns?.map((col) => (
               <TMTableCell
-                key={col.key || index}
+                key={`${col.key}`}
                 variant="body"
                 wrapperClassName={classNames('test-base-500', col?.class, {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
@@ -253,11 +260,11 @@ const TestRunsTable = () => {
               {allTestRuns?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  {tableColumns?.map((column, colIdx) => {
+                  {tableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
                       <td
-                        key={column.id || colIdx}
+                        key={`${column.key}_`}
                         className={classNames(
                           'px-3 text-base-500 whitespace-nowrap text-sm text-left inherit py-4 first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6 py-4',
                           {

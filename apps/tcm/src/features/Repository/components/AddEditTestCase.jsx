@@ -65,7 +65,8 @@ const AddEditTestCase = () => {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    testCaseEditingInit
+    testCaseEditingInit,
+    handleMenuOpen
   } = useAddEditTestCase({ isAddEditOnly: true });
 
   const { initFormValues } = useTestCases();
@@ -97,7 +98,7 @@ const AddEditTestCase = () => {
               <TMButton
                 colors="white"
                 variant="primary"
-                onClick={hideTestCaseAddEditPage}
+                onClick={(e) => hideTestCaseAddEditPage(e, null, 'Cancel')}
               >
                 Cancel
               </TMButton>
@@ -385,6 +386,9 @@ const AddEditTestCase = () => {
                     onChange={(e) => {
                       handleTestCaseFieldChange('tags', e);
                     }}
+                    onOpenChange={(isMenuOpened) => {
+                      handleMenuOpen('tags', isMenuOpened);
+                    }}
                   />
                 </div>
                 <TMButton
@@ -406,6 +410,9 @@ const AddEditTestCase = () => {
                     options={issuesArray}
                     value={testCaseFormData?.issues}
                     onChange={(e) => handleTestCaseFieldChange('issues', e)}
+                    onOpenChange={(isMenuOpened) => {
+                      handleMenuOpen('issues', isMenuOpened);
+                    }}
                   />
                 </div>
                 <TMButton

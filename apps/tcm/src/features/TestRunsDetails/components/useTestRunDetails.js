@@ -59,6 +59,7 @@ export default function useTestRunDetails() {
       dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
 
     if (forceRefetch || testRunDetails?.id !== parseInt(testRunId, 10)) {
+      dispatch(setIsLoadingProps({ key: 'testRunDetails', value: true }));
       getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
         dispatch(setTestRunsDetails(data.data.test_run));
         dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
@@ -72,6 +73,9 @@ export default function useTestRunDetails() {
           );
         }
       });
+    } else {
+      // incase data already exists in the redux state then set laoding to false and move forward
+      dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
     }
   };
 
@@ -116,6 +120,10 @@ export default function useTestRunDetails() {
     dispatch(resetTestCaseDetails());
   };
 
+  const setTestRunDetailsLoading = () => {
+    dispatch(setIsLoadingProps({ key: 'testRunDetails', value: true }));
+  };
+
   const sendPageLoadingLog = () => {
     dispatch(
       logEventHelper('TM_TrDetailPageLoaded', {
@@ -145,6 +153,7 @@ export default function useTestRunDetails() {
     onDropDownChange,
     sendPageLoadingLog,
     resetTestCaseDetailsMeta,
+    setTestRunDetailsLoading,
     automationTooltipClicked
   };
 }
