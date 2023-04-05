@@ -4,6 +4,7 @@ import {
   MdArrowUpward,
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
@@ -24,7 +25,9 @@ export default function BigNumber({ data, onClick, config }) {
 
   return (
     <div
-      className="hover:text-brand-600 flex items-end gap-2"
+      className={twClassNames('flex items-center gap-2', {
+        'hover:text-brand-600': !config.noHover
+      })}
       role="presentation"
       onClick={onClick}
     >

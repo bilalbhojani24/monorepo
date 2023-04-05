@@ -137,10 +137,14 @@ export default function TestInsightsLayout() {
           measureBeforeMount
         >
           {Object.keys(cards).map((key) => (
-            <div className="flex flex-col" key={key} data-grid={cards[key]}>
+            <div
+              className="group flex flex-col"
+              key={key}
+              data-grid={cards[key]}
+            >
               <DataVisualization
                 analytics={<DashboardCard cardKey={key} />}
-                headerInfo
+                headerInfo={false}
                 headerInfoTooltipProps={{
                   content: (
                     <div className="text-base-300 w-60 px-4 text-sm">
@@ -161,13 +165,13 @@ export default function TestInsightsLayout() {
                     icon={<MdDragIndicator className="ml-1" />}
                     isIconOnlyButton
                     size="small"
-                    wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:shadow-none"
+                    wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
                   />
                 }
                 otherOptions={getOtherOptions(key)}
                 size="fit-content"
                 title={cards[key].title}
-                wrapperClassName="bg-white relative h-full"
+                wrapperClassName="bg-white relative h-full data-visualization-wrapper"
                 descPosition={null}
               />
             </div>

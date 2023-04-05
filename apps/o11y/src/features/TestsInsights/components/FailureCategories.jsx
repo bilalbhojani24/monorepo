@@ -180,7 +180,7 @@ export default function FailureCategories() {
     <>
       <div className="flex h-full flex-col">
         <div className="overflow-auto py-5 pt-0 pb-2">
-          <div className="sticky flex items-end gap-4 bg-white pt-1">
+          <div className="sticky flex items-center gap-4 bg-white pt-1">
             <BigNumber
               data={{
                 count: totalDefects,
@@ -190,39 +190,56 @@ export default function FailureCategories() {
             />
             <div className="w-full flex-1">
               <div className="flex">
-                {defectsStats.data?.data?.map((item) => (
-                  <div
-                    className="h-5 overflow-hidden rounded-none first:rounded-l-full last:rounded-r-full"
-                    style={{
-                      color: item.color,
-                      backgroundColor: item.color,
-                      width: `${(item.value * 100) / totalDefects}%`
-                    }}
-                  >
-                    {!!item.value && (
-                      <O11yTooltip
-                        theme="dark"
-                        placementSide="top"
-                        wrapperClassName="py-2"
-                        content={
-                          <div className="flex items-center gap-1">
-                            <span className="inline-flex h-2 w-2 rounded-full" />
-                            <span className="whitespace-nowrap text-xs">
-                              {item.name}:
-                            </span>
-                            <span className="font-semibold">
-                              {((item.value * 100) / totalDefects).toFixed(2)}%
-                            </span>
-                          </div>
-                        }
-                      >
-                        <div type="button" className="contents">
-                          {item.name}
+                {defectsStats.data?.data?.map((item) => {
+                  const isItemVisible = (item.value * 100) / totalDefects > 0;
+                  return (
+                    <>
+                      {isItemVisible && (
+                        <div
+                          className="flex h-5 overflow-hidden rounded-none first:rounded-l-full last:rounded-r-full"
+                          style={{
+                            color: item.color,
+                            backgroundColor: item.color,
+                            width: `${(item.value * 100) / totalDefects}%`
+                          }}
+                        >
+                          {!!item.value && (
+                            <O11yTooltip
+                              theme="dark"
+                              placementSide="top"
+                              wrapperClassName="py-2 text-white"
+                              content={
+                                <div className="flex items-center gap-1 px-2">
+                                  <span
+                                    className="inline-flex h-2 w-2 rounded-full"
+                                    style={{ backgroundColor: item.color }}
+                                  />
+                                  <span className="whitespace-nowrap text-xs">
+                                    {item.name}:
+                                  </span>
+                                  <span className="font-semibold">
+                                    {(
+                                      (item.value * 100) /
+                                      totalDefects
+                                    ).toFixed(2)}
+                                    %
+                                  </span>
+                                </div>
+                              }
+                            >
+                              <div
+                                type="button"
+                                className="contents overflow-hidden"
+                              >
+                                {item.name}
+                              </div>
+                            </O11yTooltip>
+                          )}
                         </div>
-                      </O11yTooltip>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </>
+                  );
+                })}
               </div>
             </div>
           </div>

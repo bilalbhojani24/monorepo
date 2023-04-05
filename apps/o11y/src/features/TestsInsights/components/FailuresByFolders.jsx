@@ -154,10 +154,10 @@ export default function FailuresByFolders() {
                 align: 'center',
                 verticalAlign: 'middle',
                 formatter() {
-                  return `<div class="flex items-center gap-1 text-base-700">
+                  return `<div class="flex items-center gap-1 text-black whitespace-nowrap overflow-hidden text-ellipsis">
                       ${
                         this?.point?.options?.type === 'FOLDER'
-                          ? `<svg class="shrink-0 w-5 h-5 text-base-700">
+                          ? `<svg class="shrink-0 w-5 h-5 text-black">
                         <path d="M16.6667 4.99999H9.99999L8.33332 3.33333H3.33332C2.41666 3.33333 1.67499 4.08333 1.67499 4.99999L1.66666 15C1.66666 15.9167 2.41666 16.6667 3.33332 16.6667H16.6667C17.5833 16.6667 18.3333 15.9167 18.3333 15V6.66666C18.3333 5.74999 17.5833 4.99999 16.6667 4.99999ZM16.6667 15H3.33332V6.66666H16.6667V15Z" fill="#333333"/>
                         </svg>`
                           : `<svg width="14" height="18">

@@ -114,9 +114,10 @@ function WidgetLayoutCard({
             <VirtualisedTable
               data={tableData}
               tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
+              tableWrapperClassName="divide-y-0 border-none bg-black/0"
               itemContent={(index, singleBuildData) => (
                 <>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
                     <div className="flex items-center">
                       <div
                         className="mr-2 h-2 w-2 shrink-0 rounded-full"
