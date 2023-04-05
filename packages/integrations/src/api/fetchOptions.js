@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import {
   getOptionsForPath,
   setOptionsForPath
 } from '../common/slices/optionsSlice';
+
+import axios from './axiosInstance';
 
 export const fetchOptions = (
   { path, isDefaultOptions },

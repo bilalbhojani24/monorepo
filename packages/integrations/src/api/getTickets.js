@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import axios from './axiosInstance';
 import { URLS } from './constants';
 
 export const getTickets = (integrationKey, projectId, format) =>

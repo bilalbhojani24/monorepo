@@ -1,9 +1,9 @@
 import { cookieUtils as Cookie } from '@browserstack/utils';
-import axios from 'axios';
 
 import { baseURLSelector } from '../common/slices/configSlice';
 import { store } from '../features/store';
 
+import axios from './axiosInstance';
 import { UAT_COOKIE_NAME } from './constants';
 import { fetchTokenThunk } from './fetchToken';
 

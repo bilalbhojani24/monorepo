@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import { setHasIntegrated } from '../features/slices/integrationsSlice';
 
+import axios from './axiosInstance';
 import { URLS } from './constants';
 
 export const getTokenConnectionForTool = (

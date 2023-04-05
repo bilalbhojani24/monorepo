@@ -1,3 +1,4 @@
+export { default as axios } from './axiosInstance';
 export { createIssue } from './createIssue';
 export { fetchOptionsThunk } from './fetchOptions';
 export { fetchTokenThunk } from './fetchToken';
