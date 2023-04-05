@@ -60,10 +60,10 @@ export default function FilterPopoverContent({ onClose }) {
 
   useEffect(() => {
     const testLogs = activeLogLevels[LOG_TYPES.TEST_LOG];
-    const textLogs = activeLogLevels[LOG_TYPES.TEST_LOG];
+    const textLogs = activeLogLevels[LOG_TYPES.TEXT_LOGS];
     const screenshotLogs = activeLogLevels[LOG_TYPES.TEST_SCREENSHOT];
     const consoleLogs = activeLogLevels[LOG_TYPES.DEVICE_LOGS];
-    const networkLogs = activeLogLevels[LOG_TYPES.HTTP];
+    const networkLogs = activeLogLevels[LOG_TYPES.NETWORK_LOGS];
     const applicationLogs = activeLogLevels[LOG_TYPES.APPLICATION_LOGS];
     setLogsStatus({
       [LOG_TYPES.TEST_LOG]: {
@@ -146,6 +146,12 @@ export default function FilterPopoverContent({ onClose }) {
         dispatch(
           setActiveLogLevels({
             logType: LOG_TYPES.HTTP,
+            logLevels: updatedLogs
+          })
+        );
+        dispatch(
+          setActiveLogLevels({
+            logType: LOG_TYPES.NETWORK_LOGS,
             logLevels: updatedLogs
           })
         );

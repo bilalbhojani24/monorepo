@@ -12,7 +12,7 @@ export default function LogItemDuration({ duration, wrapperClassName }) {
         wrapperClassName
       )}
     >
-      <MdOutlineTimer className="text-base-400 h-5 w-5" />
+      <MdOutlineTimer className="text-base-400 h-4 w-4" />
       <span className="text-base-500 ml-1 text-sm">
         {milliSecondsToTime(duration)}
       </span>

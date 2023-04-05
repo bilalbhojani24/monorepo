@@ -269,7 +269,9 @@ export default function TextLogItem({ data, searchText }) {
     >
       <div
         className={twClassNames('flex w-full items-start justify-between', {
-          'pl-6': logData?.response?.value?.isSnapShot
+          'pl-6':
+            logData?.response?.value?.isSnapShot ||
+            (isEmpty(logData?.args) && !logData?.response?.value)
         })}
       >
         <div className="flex items-start">
@@ -330,7 +332,17 @@ export default function TextLogItem({ data, searchText }) {
                 {logData?.args?.url && (
                   <span className="inline-flex items-center gap-1">
                     <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
-                    {logData.args.url.substring(0, 80)}
+                    <O11yTruncateText
+                      wrapperClassName="line-clamp-1"
+                      tooltipContent={
+                        <p className="text-base-500 break-words px-4 text-sm font-normal leading-5 text-white">
+                          {logData.args.url}
+                        </p>
+                      }
+                      hidetooltipTriggerIcon
+                    >
+                      {logData.args.url.substring(0, 80)}
+                    </O11yTruncateText>
                   </span>
                 )}
               </div>

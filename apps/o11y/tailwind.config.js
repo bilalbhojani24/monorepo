@@ -21,7 +21,7 @@ module.exports = {
       },
       animation: {
         ...globalConfigs.globalTailwindConfig.theme.extend.animation,
-        'pulse-bg': 'bg-pulse 1s ease infinite'
+        'pulse-bg': 'bg-pulse 1s ease'
       }
     },
     fontFamily: {

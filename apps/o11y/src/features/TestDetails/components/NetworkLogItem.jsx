@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
-import { O11yHyperlink } from 'common/bifrostProxy';
+import { DefaultBrowserIcon } from 'assets/icons/components';
+import { O11yHyperlink, O11yTruncateText } from 'common/bifrostProxy';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -78,7 +79,6 @@ export default function NetworkLogItem({ data, searchText }) {
       onClick={handleClick}
     >
       {data?.startOffset && <LogItemStartTime duration={data?.startOffset} />}
-      <LogItemIcon logLevel={data?.logLevel} />
       <div className="flex flex-col gap-2">
         <p
           className={twClassNames(
@@ -91,28 +91,44 @@ export default function NetworkLogItem({ data, searchText }) {
         >
           {logData?.request?.method}
         </p>
+
         {(logData?.request?.url || logData?.request?.status) && (
           <div className="flex items-center gap-2">
-            <O11yHyperlink
-              href={logData?.request?.url}
-              target="_blank"
-              wrapperClassName=""
-            >
-              {logData?.request?.url?.substring(0, 40)}
-              {logData?.request?.url.length > 50 && (
-                <>
-                  ...
-                  {logData?.request?.url?.substring(
-                    logData?.request?.url.length - 10,
-                    logData?.request?.url.length
-                  )}
-                </>
-              )}
-            </O11yHyperlink>
+            <span className="inline-flex max-w-xs items-center gap-1">
+              <span>
+                <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
+              </span>
+              <O11yHyperlink
+                href={logData?.request?.url}
+                target="_blank"
+                wrapperClassName=""
+              >
+                <O11yTruncateText
+                  wrapperClassName="line-clamp-1"
+                  tooltipContent={
+                    <p className="text-base-500 break-words px-4 text-sm font-normal leading-5 text-white">
+                      {logData?.request?.url}
+                    </p>
+                  }
+                  hidetooltipTriggerIcon
+                >
+                  <span className="text-base-500 text-sm font-normal leading-5">
+                    {logData?.request?.url.substring(0, 80)}
+                  </span>
+                </O11yTruncateText>
+              </O11yHyperlink>
+            </span>
+
             {logData?.response?.status && logData?.request?.url && (
-              <p className="flex h-1 w-1 items-center justify-center rounded-full" />
+              <p className="bg-base-400 flex h-1 w-1 items-center justify-center rounded-full" />
             )}
-            [{logData?.response?.status}]
+            <span className="text-base-500 inline-flex items-center text-sm font-normal leading-5">
+              <LogItemIcon
+                logLevel={data?.logLevel}
+                wrapperClassName="text-base-500 mr-1"
+              />
+              {logData?.response?.status}
+            </span>
           </div>
         )}
       </div>

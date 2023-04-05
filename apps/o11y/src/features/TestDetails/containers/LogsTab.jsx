@@ -69,6 +69,12 @@ const LogsTab = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (activeTab.value === LOGS_INFO_TAB_KEYS.network) {
+      setIsScrolledToBottom(false);
+    }
+  }, [activeTab.value]);
+
   const handleLogDurationClick = (duration) => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;

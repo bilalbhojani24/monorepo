@@ -27,9 +27,9 @@ const TestLogFilters = ({
   };
 
   const highlightStep = useCallback((elem) => {
-    elem.classList.add('animateBg');
+    elem.classList.add('animate-pulse-bg');
     setTimeout(() => {
-      elem.classList.remove('animateBg');
+      elem.classList.remove('animate-pulse-bg');
     }, 1000);
   }, []);
 
@@ -70,7 +70,7 @@ const TestLogFilters = ({
           id="search-in-logs"
         />
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 pr-1">
         <StepsList steps={steps} onClickStep={handleClickStep} />
         <O11yPopover
           theme="light"

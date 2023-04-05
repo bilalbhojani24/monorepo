@@ -49,7 +49,7 @@ const TestsLogsInfoTabs = () => {
           disableFullWidthBorder
           wrapperClassName="flex-1"
         />
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 pr-1">
           <SessionTestToggle />
           <O11yButton
             isIconOnlyButton
