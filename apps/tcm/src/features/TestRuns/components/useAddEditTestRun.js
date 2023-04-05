@@ -289,14 +289,6 @@ const useAddEditTestRun = () => {
         } else {
           dispatch(addTestRun(data.data.testrun || []));
         }
-        // if (
-        //   (isInClosedTab && data.data.testrun.run_state === 'closed') ||
-        //   (!isInClosedTab && data.data.testrun.run_state !== 'closed')
-        // ) {
-        //   // dont append if status is closed and not in closed tab
-        //   // dont append if in active tab and status is closed
-        //   dispatch(addTestRun(data.data.testrun || []));
-        // }
         dispatch(
           logEventHelper('TM_TrCreatedNotification', {
             project_id: projectId,
