@@ -198,7 +198,7 @@ const UpdateIssueForm = ({
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID_SEARCH}
           setFieldsData={setFieldsData}
-          placeholder="Select with issues number, title or description"
+          placeholder="Select Issue Number, Title or Description"
           options={issuesOptions}
           searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`}
           disabled={!projectFieldData?.value}
