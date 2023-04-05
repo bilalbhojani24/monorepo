@@ -16,9 +16,7 @@ const Kpi = ({
   trailingIconNode
 }) => (
   <div>
-    <p className="text-base-900 break-all text-base font-normal leading-6">
-      {title}
-    </p>
+    <p className="text-base-900 text-base font-normal leading-6">{title}</p>
 
     <div
       className={twClassNames(
@@ -30,7 +28,7 @@ const Kpi = ({
     >
       <div className="flex items-center">
         {leadingIcon}
-        <p className="text-base-900 mr-2.5 flex break-all text-3xl font-semibold leading-9">
+        <p className="text-base-900 mr-2.5 flex text-3xl font-semibold leading-9">
           {percentage}%
         </p>
       </div>
@@ -65,7 +63,7 @@ const Kpi = ({
               direction === DATA_VISUALIZATION_STATS_DIRECTION[0]
                 ? 'mt-2.5'
                 : 'ml-2.5',
-              'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium break-all'
+              'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium'
             )}
           >
             {changeType === 'increase' ? (
