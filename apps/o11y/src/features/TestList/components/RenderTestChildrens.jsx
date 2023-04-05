@@ -1,7 +1,10 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Virtuoso } from 'react-virtuoso';
-import { TESTLIST_TYPES } from 'features/TestList/constants';
+import {
+  singleItemPropType,
+  TESTLIST_TYPES
+} from 'features/TestList/constants';
+import PropTypes from 'prop-types';
 
 import RenderRootItem from './RenderRootItem';
 import RenderTestItem from './RenderTestItem';
@@ -42,3 +45,14 @@ const RenderChildrens = ({ listOfItems }) =>
   );
 
 export default RenderChildrens;
+
+RenderAppropriateChild.propTypes = {
+  innerItem: PropTypes.shape(singleItemPropType).isRequired,
+  index: PropTypes.number.isRequired
+};
+RenderAppropriateChild.defaultProps = {};
+
+RenderChildrens.propTypes = {
+  listOfItems: PropTypes.shape(singleItemPropType).isRequired
+};
+RenderChildrens.defaultProps = {};

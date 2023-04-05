@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { MdOutlineImage } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
-import { getParsedImageData } from 'utils/common';
 
 function TestListGalleryContainer({ imgUrl }) {
   const imageLogUrl = imgUrl?.length ? imgUrl[0] : '';
@@ -13,18 +11,11 @@ function TestListGalleryContainer({ imgUrl }) {
   const fetchImages = useCallback(() => {
     if (mounted.current) {
       (async () => {
-        // const img = await getParsedImageData(imageLogUrl, () =>
-        //   setLoadError(true)
-        // );
-        // if (mounted.current) {
-        //   setImages(img);
-        // }
         setImages([]);
         setLoadError(false);
       })();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageLogUrl]);
+  }, []);
 
   useEffect(() => {
     mounted.current = true;
@@ -32,8 +23,7 @@ function TestListGalleryContainer({ imgUrl }) {
     return () => {
       mounted.current = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchImages]);
+  }, [fetchImages, imageLogUrl]);
 
   if (!images.length && !loadError && imageLogUrl) {
     return (

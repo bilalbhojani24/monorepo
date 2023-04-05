@@ -35,27 +35,35 @@ export const EMPTY_TESTLIST_DATA_STATE = {
 };
 
 export const singleItemTestDetails = {
-  browser: {
+  browser: PropTypes.shape({
     name: PropTypes.string,
     version: PropTypes.string
-  },
+  }),
   device: PropTypes.string,
   filePath: PropTypes.string,
   vcFileUrl: PropTypes.string,
   finishedAt: PropTypes.string,
   middleScopes: PropTypes.arrayOf(PropTypes.string),
-  os: {
+  os: PropTypes.shape({
     name: PropTypes.string,
     version: PropTypes.string
-  },
+  }),
   retries: PropTypes.arrayOf({
     uuid: PropTypes.string,
     status: PropTypes.string,
     duration: PropTypes.number,
-    logs: {
+    logs: PropTypes.shape({
       TEST_FAILURE: PropTypes.arrayOf(PropTypes.string)
-    }
+    })
   })
+};
+
+export const statusObjectPropType = {
+  passed: PropTypes.number,
+  failed: PropTypes.number,
+  pending: PropTypes.number,
+  skipped: PropTypes.number,
+  timeout: PropTypes.number
 };
 
 export const singleItemPropType = {
@@ -65,13 +73,7 @@ export const singleItemPropType = {
   details: PropTypes.shape(singleItemTestDetails),
   type: PropTypes.string,
   children: PropTypes.array,
-  status: {
-    passed: PropTypes.number,
-    failed: PropTypes.number,
-    pending: PropTypes.number,
-    skipped: PropTypes.number,
-    timeout: PropTypes.number
-  }
+  status: PropTypes.shape(statusObjectPropType)
 };
 
 export const HIERARCHY_SPACING = 12;

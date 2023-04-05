@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdExpandMore } from '@browserstack/bifrost';
@@ -17,7 +16,9 @@ import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import { singleItemPropType } from 'features/TestList/constants';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 import { o11yNotify } from 'utils/notification';
 
 const BULK_EDIT = 'BULK_EDIT';
@@ -117,8 +118,7 @@ function TestListDefectType({ data }) {
     ) {
       setIssueType(testDefectTypeMapping[data?.details?.id]?.issueType);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testDefectTypeMapping[data?.details?.id]?.issueType]);
+  }, [data?.details?.id, issueType.id, testDefectTypeMapping]);
 
   if (!issueType?.name || data?.details?.status !== TEST_STATUS.FAIL) {
     return null;
@@ -187,3 +187,8 @@ function TestListDefectType({ data }) {
 }
 
 export default TestListDefectType;
+
+TestListDefectType.propTypes = {
+  data: PropTypes.shape(singleItemPropType).isRequired
+};
+TestListDefectType.defaultProps = {};

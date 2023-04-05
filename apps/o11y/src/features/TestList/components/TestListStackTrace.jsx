@@ -1,10 +1,10 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
 import StackTraceTooltip from 'common/StackTraceTooltip';
-import { LOG_TYPES } from 'features/TestList/constants';
+import { LOG_TYPES, singleItemTestDetails } from 'features/TestList/constants';
+import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 
 function TestListStackTrace({ wrapperClassName, details }) {
@@ -55,3 +55,9 @@ function TestListStackTrace({ wrapperClassName, details }) {
 }
 
 export default TestListStackTrace;
+
+TestListStackTrace.propTypes = {
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  wrapperClassName: PropTypes.string.isRequired
+};
+TestListStackTrace.defaultProps = {};

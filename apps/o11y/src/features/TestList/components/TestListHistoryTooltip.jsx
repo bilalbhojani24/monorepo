@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
@@ -9,9 +8,10 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
-import { LOG_TYPES } from 'features/TestList/constants';
+import { LOG_TYPES, statusObjectPropType } from 'features/TestList/constants';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
+import PropTypes from 'prop-types';
 import { milliSecondsToTime } from 'utils/dateTime';
 
 function TestListHistoryTooltip({ testRunId, status }) {
@@ -161,3 +161,9 @@ function TestListHistoryTooltip({ testRunId, status }) {
 }
 
 export default TestListHistoryTooltip;
+
+TestListHistoryTooltip.propTypes = {
+  testRunId: PropTypes.number.isRequired,
+  status: PropTypes.shape(statusObjectPropType).isRequired
+};
+TestListHistoryTooltip.defaultProps = {};

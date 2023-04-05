@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +7,11 @@ import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
-import { LOG_TYPES, singleItemPropType } from 'features/TestList/constants';
+import {
+  LOG_TYPES,
+  singleItemPropType,
+  singleItemTestDetails
+} from 'features/TestList/constants';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
@@ -194,3 +196,9 @@ RenderTestChildrens.propTypes = {
 };
 
 export default RenderTestChildrens;
+
+RenderTestChildrens.propTypes = {
+  item: PropTypes.shape(singleItemTestDetails).isRequired,
+  isLastItem: PropTypes.bool.isRequired
+};
+RenderTestChildrens.defaultProps = {};

@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
 import { TEST_STATUS } from 'constants/common';
+import { singleItemTestDetails } from 'features/TestList/constants';
 import { getHistoryDetails } from 'features/TestList/slices/testListSlice';
+import PropTypes from 'prop-types';
 
 import TestListHistoryTooltip from './TestListHistoryTooltip';
 
@@ -79,3 +80,8 @@ function TestlistTimeline({ details }) {
 }
 
 export default TestlistTimeline;
+TestlistTimeline.propTypes = {
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  wrapperClassName: PropTypes.string.isRequired
+};
+TestlistTimeline.defaultProps = {};

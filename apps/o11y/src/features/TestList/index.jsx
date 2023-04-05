@@ -225,7 +225,6 @@ export default TestList;
 
 TestList.propTypes = {
   buildUUID: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  testDefectTypeMapping: PropTypes.object.isRequired,
+  testDefectTypeMapping: PropTypes.objectOf(PropTypes.number).isRequired,
   updateTestDefectTypeMapping: PropTypes.func.isRequired
 };
