@@ -203,7 +203,7 @@ export default function useAddEditTestCase(prop) {
       testCase.issues = formData?.issues?.map((item) => item.value);
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
-    if (!formData.owner) {
+    if (!formData.owner && !isBulkUpdate) {
       testCase.owner = userData?.id;
     }
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
@@ -364,7 +364,7 @@ export default function useAddEditTestCase(prop) {
       projectId,
       folderId,
       bulkSelection,
-      data: testCaseBulkFormData
+      data: formDataFormatter(testCaseBulkFormData).test_case
     })
       .then(() => {
         dispatch(
