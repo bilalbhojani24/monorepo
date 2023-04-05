@@ -136,6 +136,21 @@ const ImportStatus = () => {
     }
   };
 
+  const setAmplitudeEvent = (failedImport) => {
+    if (failedImport)
+      dispatch(
+        logEventHelper('TM_QiErrorNotification', {
+          tool_selected: testManagementTool
+        })
+      );
+    else
+      dispatch(
+        logEventHelper('TM_QiSuccessNotification', {
+          tool_selected: testManagementTool
+        })
+      );
+  };
+
   // only works on refresh and if banner does not comes.
   useEffect(() => {
     if (
@@ -144,6 +159,7 @@ const ImportStatus = () => {
       !isNotificationDismissed &&
       !checkImportStatusClicked
     ) {
+      setAmplitudeEvent(totalImportProjectsCount > successImportProjectCount);
       notify(
         <Notifications
           id={notificationData?.id}

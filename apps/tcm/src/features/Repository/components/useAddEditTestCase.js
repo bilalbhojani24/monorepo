@@ -122,9 +122,16 @@ export default function useAddEditTestCase(prop) {
     (state) => state.repository.isLoading.bulkEditTestCaseCta
   );
 
-  const hideTestCaseAddEditPage = (e, isForced) => {
+  const hideTestCaseAddEditPage = (e, isForced, action) => {
+    if (action === 'Cancel')
+      dispatch(
+        logEventHelper('TM_CreateCaseCancelCtaClicked', {
+          project_id: projectId
+        })
+      );
     isOkToExitForm(isForced);
   };
+
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
   };

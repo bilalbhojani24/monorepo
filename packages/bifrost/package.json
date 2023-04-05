@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "0.6.4",
+  "version": "2.1.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -25,13 +25,17 @@
     "@browserstack/utils": "workspace:*",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
+    "@internationalized/date": "^3.1.0",
     "@radix-ui/react-popover": "1.0.2",
     "@radix-ui/react-tooltip": "1.0.2",
+    "@react-aria/overlays": "^3.13.0",
     "@tinymce/tinymce-react": "4.3.0",
+    "react-aria": "^3.23.1",
     "react-draggable": "4.4.5",
     "react-hot-toast": "2.4.0",
     "react-icons": "4.7.1",
-    "react-resizable": "3.0.4"
+    "react-resizable": "3.0.4",
+    "react-stately": "^3.21.0"
   },
   "peerDependencies": {
     "prop-types": "15.8.1",
@@ -43,6 +47,8 @@
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/vite-config": "workspace:*",
+    "@percy/cli": "1.21.0",
+    "@percy/storybook": "4.3.5",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
@@ -60,6 +66,7 @@
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@vitejs/plugin-react": "2.2.0",
+    "addon-screen-reader": "1.8.6",
     "axe-playwright": "1.2.3",
     "chromatic": "6.17.0",
     "component-file-generator": "0.5.2",

@@ -39,6 +39,7 @@ const TooltipContainer = (props) => {
     triggerWrapperClassName,
     triggerOnTouch,
     triggerAriaLabel,
+    triggerAsChild,
     wrapperClassName
   } = props;
   const triggerRef = useRef(null);
@@ -67,7 +68,7 @@ const TooltipContainer = (props) => {
               if (triggerOnTouch) event.preventDefault();
             }}
             aria-label={triggerAriaLabel}
-            asChild
+            asChild={triggerAsChild}
           >
             <div
               className={twClassNames('inline-block', triggerWrapperClassName)}
@@ -150,6 +151,7 @@ export const TooltipPropTypes = {
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
   triggerWrapperClassName: PropTypes.string,
   triggerOnTouch: PropTypes.bool,
+  triggerAsChild: PropTypes.bool,
   triggerAriaLabel: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
@@ -178,6 +180,7 @@ TooltipContainer.defaultProps = {
   theme: TP_TOOLTIP_THEME[0],
   triggerWrapperClassName: '',
   triggerOnTouch: false,
+  triggerAsChild: true,
   triggerAriaLabel: '',
   wrapperClassName: ''
 };

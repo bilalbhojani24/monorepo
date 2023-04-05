@@ -94,7 +94,7 @@ const useAddEditTestRun = () => {
     dispatch(setAddTestRunForm(false));
   };
 
-  const hideAddTestRunForm = (goBack) => {
+  const hideAddTestRunForm = (goBack, action) => {
     if (isEditing || goBack) {
       navigate(
         routeFormatter(
@@ -108,7 +108,15 @@ const useAddEditTestRun = () => {
         ),
         { state: { isFromEditing: true } }
       );
-    } else dispatch(setAddTestRunForm(false));
+    } else {
+      if (action === 'Cancel')
+        dispatch(
+          logEventHelper('TM_CreateTrCancelCtaClicked', {
+            project_id: projectId
+          })
+        );
+      dispatch(setAddTestRunForm(false));
+    }
   };
 
   const hideAddIssuesModal = () => {
