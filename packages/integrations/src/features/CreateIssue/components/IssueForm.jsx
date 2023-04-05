@@ -233,7 +233,7 @@ const IssueForm = ({
         />
       )}
       <div
-        className={'bg-white h-full'.concat(
+        className={'bg-white h-full '.concat(
           isBeingDiscarded ? 'invisible h-0' : ''
         )}
       >
