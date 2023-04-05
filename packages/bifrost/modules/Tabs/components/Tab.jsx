@@ -15,6 +15,7 @@ const effectiveClasses = ({
   isFullWidth
 }) =>
   twClassNames(
+    'tabs-item',
     isContained && isCurrent
       ? 'text-base-900'
       : 'text-base-500 hover:text-base-700',
@@ -74,7 +75,7 @@ const Tab = ({
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
       value={tab.name}
-      className={`scroll-item ${classNames}`}
+      className={classNames}
       aria-current={isCurrent ? 'page' : undefined}
     >
       {tab.icon && shape === TAB_SHAPE[0] && !isContained && (

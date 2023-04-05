@@ -33,7 +33,7 @@ export const useTabs = (containerRef, tabsArray, isSlideableTabs) => {
 
   const scroll = (type = 'next') => {
     const container = containerRef.current;
-    const items = container.querySelectorAll('.scroll-item');
+    const items = container.querySelectorAll('.tabs-item');
     const itemWidth = items[0].offsetWidth;
 
     const newScrollPos =
