@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Draggable, Resizable } from '@browserstack/bifrost';
 import { useResizeObserver } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
+import { setWidgetHeight as setWidgetHeightInRedux } from '../../slices/widgetSlice';
 import { DEFAULT_RESIZE_HANDLE, DEFAULT_WIDGET_DIMENSIONS } from '../constants';
 
 import { getWidgetRenderPosition } from './helpers';
 
 const DraggableResizable = ({ children, childRef, position, positionRef }) => {
+  const dispatch = useDispatch();
   const widgetRef = useRef(null);
   const [widgetHeight, setWidgetHeight] = useState(null);
   const [containerHeight, setContainerHeight] = useState(widgetHeight);
@@ -67,6 +70,7 @@ const DraggableResizable = ({ children, childRef, position, positionRef }) => {
   const onResize = (__, { size }) => {
     setWidgetHeight(size.height);
     setContainerHeight(size.height - t);
+    dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
 
   return (

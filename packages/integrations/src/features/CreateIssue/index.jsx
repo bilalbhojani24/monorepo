@@ -7,6 +7,7 @@ import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
+import { widgetHeightSelector } from '../slices/widgetSlice';
 import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
@@ -82,6 +83,10 @@ export const CreateIssue = ({
     [discardIssue, isWorkInProgress, mode]
   );
 
+  const widgetHeight = useSelector(widgetHeightSelector);
+  const maxHeight = widgetHeight ? widgetHeight - 52 : 650;
+  console.log(maxHeight);
+
   return (
     <BasicWidget
       isOpen={isOpen}
@@ -98,7 +103,7 @@ export const CreateIssue = ({
           hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
-        style={{ maxHeight: '650px' }}
+        style={{ maxHeight: `${maxHeight}px` }}
       >
         {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
