@@ -32,18 +32,29 @@ const SessionTestToggle = () => {
   return (
     <div className="flex items-center">
       <O11yButton
-        colors={sessionTestToggle ? 'brand' : 'white'}
+        colors="white"
         wrapperClassName={twClassNames(
-          'rounded-r-none ring-0 focus:ring-0 active:ring-0 ring-offset-0 focus:ring-offset-0 active:ring-offset-0'
+          `border border-base-300 rounded-none rounded-l-md border-r-0 
+                focus:ring-offset-0 focus:border-r peer/session focus:z-10 focus:ring-1 
+                ring-brand-500 text-sm font-medium text-base-700`,
+          {
+            'border-brand-500 ring-1 z-10 border-r': sessionTestToggle
+          }
         )}
         onClick={handleClickSessionTab}
       >
         Session
       </O11yButton>
       <O11yButton
-        colors={sessionTestToggle ? 'white' : 'brand'}
+        colors="white"
         wrapperClassName={twClassNames(
-          'rounded-l-none ring-0 focus:ring-0 active:ring-0 ring-offset-0 focus:ring-offset-0 active:ring-offset-0'
+          `peer-focus/session:border-l-0 focus:z-10 focus:ring-1 ring-brand-500 
+                  border border-base-300 rounded-none first:rounded-l-md last:rounded-r-md focus:ring-offset-0 
+                  text-sm font-medium text-base-700`,
+          {
+            'border-brand-500 ring-1 z-10': !sessionTestToggle,
+            'border-l-0': sessionTestToggle
+          }
         )}
         onClick={handleClickTestTab}
       >
