@@ -62,7 +62,7 @@ const DraggableResizable = ({ children, childRef, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className="border-base-200 absolute overflow-hidden rounded-md border bg-white drop-shadow-lg"
+        className="border-base-200 absolute z-10 overflow-hidden rounded-md border bg-white drop-shadow-lg"
       >
         <Resizable
           className="relative z-10 flex flex-col items-center overflow-hidden"
