@@ -47,7 +47,7 @@ const Paragraph = ({
         <>
           <Button
             variant="minimal"
-            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-base-500 text-sm"
+            wrapperClassName="border-0 shadow-none focus:ring-0 focus:ring-offset-0 px-0 text-base-500 text-sm"
             icon={
               shouldShowMetaSection ? <ChevronUpIcon /> : <ChevronDownIcon />
             }

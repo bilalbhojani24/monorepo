@@ -160,7 +160,7 @@ const MultiSelect = ({
       <ComboBox
         onChange={handleChange}
         value={!optionsToRender?.length ? null : valueToRender}
-        isMulti
+        isMulti={Boolean(optionsToRender?.length)}
         isLoading={areOptionsLoading}
         loadingText="Loading"
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}

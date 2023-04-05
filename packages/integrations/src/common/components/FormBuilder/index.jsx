@@ -127,7 +127,6 @@ const FormBuilder = ({
       {renderFields(requiredFields)}
       {optionalFields && (
         <>
-          {shouldShowOptionalFields && renderFields(optionalFields)}
           <Button
             variant="minimal"
             wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm"
@@ -139,6 +138,7 @@ const FormBuilder = ({
           >
             {showAllFieldsButtonText}
           </Button>
+          {shouldShowOptionalFields && renderFields(optionalFields)}
         </>
       )}
     </form>
