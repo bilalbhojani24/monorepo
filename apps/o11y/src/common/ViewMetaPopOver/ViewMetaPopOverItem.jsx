@@ -29,7 +29,7 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy, link }) {
         )}
         {!!link && (
           <O11yHyperlink
-            target="__blank"
+            target="_blank"
             href={link}
             wrapperClassName="text-sm flex items-center gap-1 text-brand-600 hover:text-brand-500 font-medium"
           >
