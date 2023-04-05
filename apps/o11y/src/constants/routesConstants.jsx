@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
@@ -18,6 +17,8 @@ const Integrations = React.lazy(() => import('features/Integrations'));
 const BuildShortUrlRedirect = React.lazy(() =>
   import('features/BuildShortUrlRedirect')
 );
+const TestingTrends = React.lazy(() => import('features/TestingTrends'));
+
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
 );
@@ -79,9 +80,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <TestingTrends />
       },
       {
         path: ROUTES.build,
