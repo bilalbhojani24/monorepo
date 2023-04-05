@@ -35,7 +35,6 @@ export default function Flakiness() {
 
   return (
     <WidgetLayoutCard
-      height={16}
       title="Flaky Tests"
       isLoading={flakyStats?.isLoading}
       bigNumberData={flakyStats?.data}

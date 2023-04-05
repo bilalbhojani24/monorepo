@@ -59,7 +59,7 @@ export default function FailureCategories() {
       navigate({ search: searchString });
       // dispatch(setAppliedFiltersTagsViaURL());
     },
-    [dispatch, navigate]
+    [navigate]
   );
 
   const totalDefects = useMemo(() => {
@@ -125,7 +125,7 @@ export default function FailureCategories() {
           description={null}
           buttonProps={null}
           mainIcon={
-            // show Rocket here
+            // show Rocket icon here
             <MdErrorOutline
               className={twClassNames('text-danger-600 inline-block h-8 w-8')}
             />
@@ -143,16 +143,9 @@ export default function FailureCategories() {
           description={
             <div className="flex flex-col items-center">
               Start tagging failures manually for Auto Analysis to kick-in{' '}
-              <O11yHyperlink
-                target="_blank"
-                href={docsLink().autoAnalyser}
-                icon={<MdOpenInNew />}
-                iconPlacement="right"
-                label="Learn more"
-                linkWeight="regular"
-                modifier="primary"
-              >
+              <O11yHyperlink target="_blank" href={docsLink().autoAnalyser}>
                 Learn more
+                <MdOpenInNew className="ml-1 h-4 w-4" />
               </O11yHyperlink>
             </div>
           }

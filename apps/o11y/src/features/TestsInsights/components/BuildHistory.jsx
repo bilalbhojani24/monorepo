@@ -1,11 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
-// import {
-//   getBuildNormalizedData
-// } from 'testops/TestList/slices/selectors';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getStackedColumnChartData } from 'features/TestsInsights/utils';
@@ -37,7 +34,12 @@ export default function BuildHistory() {
   const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
   const buildId = useSelector(getBuildUUID);
   const buildHistoryStats = useSelector(getBuildHistoryStats);
-  const buildNormalizedData = {}; // useSelector(getBuildNormalizedData);
+  const params = useParams();
+  const buildNormalizedData = {
+    projectNormalisedName: encodeURI(params.projectNormalisedName),
+    buildNormalisedName: encodeURI(params.buildNormalisedName),
+    buildSerialId: params.buildSerialId
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -137,7 +139,6 @@ export default function BuildHistory() {
   );
   return (
     <WidgetLayoutCard
-      height={72}
       chartOptions={chartData}
       title="Build History"
       isLoading={buildHistoryStats?.isLoading}

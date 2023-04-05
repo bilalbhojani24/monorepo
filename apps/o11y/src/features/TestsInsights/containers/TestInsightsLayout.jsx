@@ -17,7 +17,6 @@ import {
 } from 'common/bifrostProxy';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import useShowMoreOptions from 'features/TestsInsights/components/useShowMoreOptions';
-// import { getBuildMetaDataSelector } from 'app/testops/TestList/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getMergedLayoutValue, logOllyEvent } from 'utils/common';
@@ -171,7 +170,7 @@ export default function TestInsightsLayout() {
                 otherOptions={getOtherOptions(key)}
                 size="fit-content"
                 title={cards[key].title}
-                wrapperClassName="bg-white relative h-full data-visualization-wrapper"
+                wrapperClassName="bg-white relative h-full [&>_div:first-child]:flex [&>_div:first-child]:flex-col [&>_div:first-child]:h-full [&>_div:first-child>div:last-child]:h-full [&>_div:first-child>div:last-child]:flex-1"
                 descPosition={null}
               />
             </div>

@@ -10,7 +10,6 @@ import {
   StackedListCommon,
   StackedListGroup,
   StackedListItem
-  // MdRocket
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
@@ -77,7 +76,7 @@ export default function Alerts() {
   }
   if (alerts?.hasNetworkError) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -95,7 +94,7 @@ export default function Alerts() {
   }
   if (hasNoData && !alerts?.data?.alertsConfigured) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No alerts configured!"
           description={null}
@@ -113,7 +112,7 @@ export default function Alerts() {
   }
   if (hasNoData) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No alerts!"
           description="We found zero alerts in this build"
@@ -149,16 +148,6 @@ export default function Alerts() {
                 subTitle={null}
               />
             </StackedListItem>
-            // <BifrostAlerts
-            //   accentBorder={false}
-            //   title={item.text}
-            //   alertLinkPosition="end"
-            //   linkText={item.cta}
-            //   modifier={ALERT_LEVEL[item?.level] || ''}
-            //   wrapperClassName="mb-3"
-            //   key={item.id}
-            //   handleLinkClick={() => handleFilterRedirect(item.filterQuery)}
-            // />
           ))}
         </StackedListGroup>
       </div>

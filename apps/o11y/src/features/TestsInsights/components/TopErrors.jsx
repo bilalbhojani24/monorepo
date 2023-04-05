@@ -1,7 +1,11 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdBarChart, MdErrorOutline } from '@browserstack/bifrost';
+import {
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  MdBarChart,
+  MdErrorOutline
+} from '@browserstack/bifrost';
 import {
   O11yAccordian,
   O11yBadge,
@@ -12,10 +16,6 @@ import {
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
-// import StackTraceTooltip from 'testops/components/StackTraceTooltip';
-// import {
-//   getBuildMetaDataSelector
-// } from 'testops/TestList/slices/selectors';
 import {
   getBuildMeta,
   getBuildUUID
@@ -37,23 +37,13 @@ const getFormattedData = (data) =>
       title: (
         <>
           {titleSplit.slice(0, 3).map((text) => (
-            <p className="ti-top-errors__title-line monospace" key={text}>
+            <p className="whitespace-pre-wrap" key={text}>
               {text}
             </p>
           ))}
           {titleSplit.length > 3 && (
-            <O11yTooltip
-              placement="bottom"
-              trigger={['hover']}
-              overlayClassName="ti-top-errors__tooltip-overlay"
-              destroyTooltipOnHide={{ keepParent: false }}
-              showArrow={false}
-              mouseEnterDelay={0.25}
-              align={{ points: ['t', 'b'] }}
-            >
-              <p className="ti-top-errors__title-more-line monospace">
-                ...{titleSplit.length - 3} more line(s)
-              </p>
+            <O11yTooltip placementSide="bottom" mouseEnterDelay={250}>
+              <p className="text-xs">...{titleSplit.length - 3} more line(s)</p>
             </O11yTooltip>
           )}
         </>
@@ -77,8 +67,8 @@ export default function TopErrors() {
 
   if (topErrorsStats?.isLoading) {
     return (
-      <div className="ti-top-errors ti-top-errors--loading">
-        <div className="ti-top-errors__loading-spin">
+      <div className=" flex h-full flex-col">
+        <div className="flex flex-1 items-center">
           <O11yLoader text="Fetching data" />
         </div>
       </div>
@@ -87,7 +77,7 @@ export default function TopErrors() {
 
   if (!buildMeta?.data.status || !topErrorsStats?.data?.ready) {
     return (
-      <div className="ti-top-errors">
+      <div className="flex flex-col">
         <O11yEmptyState
           title="Analysis yet to run"
           description="Unique error analysis results will be available after build run completion"
@@ -146,8 +136,7 @@ export default function TopErrors() {
   };
 
   return (
-    <div className="flex h-96 flex-col">
-      {/* <CardHeader title="Unique errors" /> */}
+    <div className="flex h-full flex-col">
       <div className="mt-6">
         <BigNumber
           data={{ ...topErrorsStats?.data?.overview, title: '' }}
@@ -157,26 +146,27 @@ export default function TopErrors() {
       <div className="mt-4 h-full flex-1">
         <VirtualisedTable
           data={getFormattedData(topErrorsStats?.data?.data || [])}
-          style={{ height: '100%' }}
-          tableContainerWrapperClassName=""
+          tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
           tableHeaderWrapperClassName="bg-white"
           itemContent={(index, singleBuildData) => (
             <>
-              <O11yTableCell>
-                <O11yAccordian
-                  triggerClassName=""
-                  triggerContentNode={
-                    <div className="flex flex-col items-start break-all">
-                      {singleBuildData.title}
-                    </div>
-                  }
-                  panelContentNode={
-                    <div className="flex flex-col">
+              <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0 p-0">
+                <O11yAccordian>
+                  <AccordionInteractiveHeader
+                    onClick={handleAccordionExpand}
+                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white"
+                    title={
+                      <div className="overflow-hidden text-ellipsis break-all">
+                        {singleBuildData.title}
+                      </div>
+                    }
+                  />
+                  <AccordionPanel>
+                    <div className="overflow-hidden">
                       {singleBuildData.content}
                     </div>
-                  }
-                  onTriggerClick={() => handleAccordionExpand}
-                />
+                  </AccordionPanel>
+                </O11yAccordian>
               </O11yTableCell>
               <O11yTableCell>
                 {' '}
@@ -194,13 +184,13 @@ export default function TopErrors() {
           fixedHeaderContent={() => (
             <O11yTableRow>
               <O11yTableCell
-                wrapperClassName="text-base-900 bg-white w-2/3"
+                wrapperClassName="text-base-900 bg-white w-5/6"
                 isSticky
               >
                 Error
               </O11yTableCell>
               <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
-                Tests
+                Impacted Tests
               </O11yTableCell>
             </O11yTableRow>
           )}

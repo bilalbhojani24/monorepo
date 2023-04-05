@@ -34,7 +34,6 @@ export default function MutedTests() {
   };
   return (
     <WidgetLayoutCard
-      height={16}
       title="Muted Tests"
       isLoading={mutedTestStats?.isLoading}
       bigNumberData={mutedTestStats?.data || {}}

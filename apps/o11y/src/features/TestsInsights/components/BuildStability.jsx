@@ -1,10 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
-// import {
-//   getBuildNormalizedData
-// } from 'testops/TestList/slices/selectors';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { isEmpty } from 'lodash';
@@ -37,7 +34,12 @@ function chartLoad(cb) {
 export default function BuildStability() {
   const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
   const buildStabilityStats = useSelector(getBuildStabilityStats);
-  const buildNormalizedData = {}; // useSelector(getBuildNormalizedData);
+  const params = useParams();
+  const buildNormalizedData = {
+    projectNormalisedName: encodeURI(params.projectNormalisedName),
+    buildNormalisedName: encodeURI(params.buildNormalisedName),
+    buildSerialId: params.buildSerialId
+  };
   const buildId = useSelector(getBuildUUID);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -188,7 +190,6 @@ export default function BuildStability() {
   );
   return (
     <WidgetLayoutCard
-      height={60}
       chartOptions={chartData}
       title="Build Stability"
       isLoading={buildStabilityStats?.isLoading}

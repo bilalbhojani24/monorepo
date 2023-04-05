@@ -1,6 +1,5 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@browserstack/bifrost';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -11,7 +10,7 @@ import PropTypes from 'prop-types';
 export default function FailureByFoldersTooltip({ data }) {
   const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleActionClick = () => {
     logInsightsInteractionEvent({
@@ -26,35 +25,29 @@ export default function FailureByFoldersTooltip({ data }) {
     // dispatch(setAppliedFiltersTagsViaURL());
   };
   return (
-    <div className="ti-fbm__tooltip-body">
-      <section className="ti-fbm__tooltip-body-section">
-        <p className="ti-fbm__tooltip-text ti-fbm__tooltip-title">
-          {data.name}
-        </p>
-        <p className="ti-fbm__tooltip-text">
+    <div className="flex flex-col-reverse">
+      <section className="flex flex-col gap-1 py-0 px-2">
+        <p className="text-xs font-medium">{data.name}</p>
+        <p className="text-xs">
           <span
-            className="ti-fbm__tooltip-text-dot"
+            className="mb-0.5 inline-block h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: data?.color }}
           />
           <span>Failure rate: </span>
-          <span className="ti-fbm__tooltip-text-count">
-            {data?.colorValue}%
-          </span>
+          <span className="font-semibold">{data?.colorValue}%</span>
         </p>
       </section>
-      <section className="ti-fbm__tooltip-body-section">
-        <p className="ti-fbm__tooltip-text">
+      <section className="flex flex-col gap-1 py-0 px-1">
+        <p className="text-xs">
           <span> Failed tests: </span>
-          <span className="ti-fbm__tooltip-text-count">
-            {data?.failedTests}
-          </span>
+          <span className="font-semibold">{data?.failedTests}</span>
         </p>
-        <p className="ti-fbm__tooltip-text">
+        <p className="text-xs">
           <span> No. of tests: </span>
-          <span className="ti-fbm__tooltip-text-count">{data?.value}</span>
+          <span className="font-semibold">{data?.value}</span>
         </p>
       </section>
-      <section className="ti-fbm__tooltip-body-section ti-fbm__tooltip-body-section--bottom">
+      <section className="pointer-events-auto flex flex-col gap-1 py-0 px-1">
         <Button
           wrapperClassName="ti-fbm__tooltip-btn"
           onClick={handleActionClick}

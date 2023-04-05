@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React from 'react';
 import { MdBarChart, MdErrorOutline } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -17,7 +16,6 @@ function WidgetLayoutCard({
   chartOptions,
   emptyPlaceholderConfig,
   hasNetworkError,
-  height,
   isLoading,
   onClickBigNumber,
   placeholderConfig,
@@ -25,7 +23,6 @@ function WidgetLayoutCard({
   tableConfig,
   tableData
 }) {
-  const LAYOUT_HEIGHT = `h-${height}`;
   const iconSize =
     placeholderConfig?.size === 'small' ? '!h-6 !w-6' : 'h-12 w-12';
   if (isLoading) {
@@ -84,60 +81,60 @@ function WidgetLayoutCard({
   }
 
   return (
-    <div className={twClassNames('flex flex-col', LAYOUT_HEIGHT)}>
-      <div className={twClassNames('flex flex-col justify-between h-full')}>
-        {!isEmpty(bigNumberData) && (
-          <div className="mt-2">
-            <BigNumber
-              data={bigNumberData}
-              onClick={onClickBigNumber}
-              config={bigNumberConfig}
-            />
-          </div>
-        )}
-        {chartOptions && !!chartOptions?.series?.length && (
-          <div
-            className={classnames('h-full', {
-              'h-full': tableData.length,
-              'h-4/6': !isEmpty(bigNumberData)
-            })}
-          >
-            <Chart options={chartOptions} />
-          </div>
-        )}
-        {!!tableData.length && (
-          <div
-            className={classnames('relative h-full overflow-auto', {
-              'ti-layout-card__table--withChart': chartOptions?.series?.length
-            })}
-          >
-            <VirtualisedTable
-              data={tableData}
-              tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
-              tableWrapperClassName="divide-y-0 border-none bg-black/0"
-              itemContent={(index, singleBuildData) => (
-                <>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
-                    <div className="flex items-center">
-                      <div
-                        className="mr-2 h-2 w-2 shrink-0 rounded-full"
-                        style={{ backgroundColor: singleBuildData.color || '' }}
-                      />
-                      {singleBuildData.label || singleBuildData.name}
-                    </div>
-                  </O11yTableCell>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end">
-                    {singleBuildData.value}
-                  </O11yTableCell>
-                </>
-              )}
-              fixedHeaderContent={null}
-              handleRowClick={() => tableConfig?.onClickFlaky() || null}
-            />
-          </div>
-        )}
-      </div>
+    // <div className={twClassNames('flex flex-col')}>
+    <div className={twClassNames('flex flex-col justify-between h-full')}>
+      {!isEmpty(bigNumberData) && (
+        <div className="mt-2">
+          <BigNumber
+            data={bigNumberData}
+            onClick={onClickBigNumber}
+            config={bigNumberConfig}
+          />
+        </div>
+      )}
+      {chartOptions && !!chartOptions?.series?.length && (
+        <div
+          className={classnames('h-full', {
+            'h-full': tableData.length,
+            'h-4/6': !isEmpty(bigNumberData)
+          })}
+        >
+          <Chart options={chartOptions} />
+        </div>
+      )}
+      {!!tableData.length && (
+        <div
+          className={classnames('relative h-full overflow-auto', {
+            // 'ti-layout-card__table--withChart': chartOptions?.series?.length
+          })}
+        >
+          <VirtualisedTable
+            data={tableData}
+            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
+            tableWrapperClassName="divide-y-0 border-none bg-black/0"
+            itemContent={(index, singleBuildData) => (
+              <>
+                <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
+                  <div className="flex items-center">
+                    <div
+                      className="mr-2 h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: singleBuildData.color || '' }}
+                    />
+                    {singleBuildData.label || singleBuildData.name}
+                  </div>
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end">
+                  {singleBuildData.value}
+                </O11yTableCell>
+              </>
+            )}
+            fixedHeaderContent={null}
+            handleRowClick={() => tableConfig?.onClickFlaky() || null}
+          />
+        </div>
+      )}
     </div>
+    // </div>
   );
 }
 WidgetLayoutCard.propTypes = {
@@ -147,7 +144,6 @@ WidgetLayoutCard.propTypes = {
   bigNumberConfig: PropTypes.objectOf(PropTypes.any),
   isLoading: PropTypes.bool,
   hasNetworkError: PropTypes.bool,
-  height: PropTypes.number,
   showNoData: PropTypes.bool,
   onClickBigNumber: PropTypes.func,
   tableConfig: PropTypes.objectOf(PropTypes.any),
@@ -159,7 +155,6 @@ WidgetLayoutCard.defaultProps = {
   tableData: [],
   bigNumberData: {},
   isLoading: false,
-  height: 0,
   hasNetworkError: false,
   showNoData: false,
   onClickBigNumber: () => {},

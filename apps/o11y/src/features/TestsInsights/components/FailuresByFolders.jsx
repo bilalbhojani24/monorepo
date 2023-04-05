@@ -165,7 +165,7 @@ export default function FailuresByFolders() {
                           </svg>
                         `
                       }
-                      <p class="text-sm flex-1 whitespace-nowrap overflow-hidden text-ellipsis">${
+                      <p class="text-sm font-medium flex-1 whitespace-nowrap overflow-hidden text-ellipsis">${
                         this?.point?.name
                       }</p>
                     </div>`;
@@ -265,6 +265,8 @@ export default function FailuresByFolders() {
       <div className="relative flex-1">
         <O11yTooltip
           theme="dark"
+          placementSide="top"
+          wrapperClassName="py-2"
           content={
             tooltipData?.options?.id ? (
               <FailureByFoldersTooltip data={tooltipData.options || {}} />
@@ -282,9 +284,9 @@ export default function FailuresByFolders() {
             role="presentation"
           />
         </O11yTooltip>
-        <div className="h-60">
-          <Chart options={chartOptions} />
-        </div>
+        {/* <div className="h-60"> */}
+        <Chart options={chartOptions} />
+        {/* </div> */}
       </div>
     </div>
   );

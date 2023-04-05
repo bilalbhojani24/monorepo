@@ -1,8 +1,11 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import React, { useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { MdBarChart, MdNotInterested } from '@browserstack/bifrost';
+import {
+  MdBarChart,
+  MdNotInterested,
+  MdOpenInNew
+} from '@browserstack/bifrost';
 import {
   O11yEmptyState,
   O11yHyperlink,
@@ -15,16 +18,11 @@ import { ROUTES } from 'constants/routes';
 // import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
 // import ReRunTriggerModal from 'testops/TestList/components/ReRunTriggerModal';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
-// import {
-//   getBuildMetaDataSelector
-// } from 'testops/TestList/slices/selectors';
 // import { setShowReRunModal } from 'testops/TestList/slices/uiSlice';
-// import { OpenInNewIcon } from 'trike/Icons';
 import {
   getBuildMeta,
   getBuildUUID
 } from 'features/BuildDetails/slices/selectors';
-// import 'images/testops/icons/no-data-rerun.svg';
 import { getRerunStats } from 'features/TestsInsights/slices/selectors';
 import { getRerunData } from 'features/TestsInsights/slices/testInsightsSlice';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -78,7 +76,7 @@ export default function ReRunSummary() {
 
   if (reRunStats?.hasNetworkError) {
     return (
-      <div className="ti-rerun-summary">
+      <div className="flex h-full flex-col overflow-auto">
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -96,24 +94,20 @@ export default function ReRunSummary() {
   }
   if (hasNoData) {
     return (
-      <div className="ti-rerun-summary">
+      <div className="flex h-full flex-col overflow-auto">
         <O11yEmptyState
           title="No re-runs!"
           description={
             <>
               There were no re-runs in this build{' '}
-              {/* <O11yHyperlink
+              <O11yHyperlink
                 target="_blank"
                 href={docsLink().reRun}
-                // icon={<OpenInNewIcon />}
                 iconPlacement="right"
-                label="Learn more"
-                linkWeight="regular"
-                modifier="primary"
-                // className="to-anchor"
               >
                 Learn more
-              </O11yHyperlink> */}
+                <MdOpenInNew className="ml-1 h-4 w-4" />
+              </O11yHyperlink>
             </>
           }
           mainIcon={

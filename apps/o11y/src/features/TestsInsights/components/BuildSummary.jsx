@@ -104,7 +104,6 @@ export default function BuildSummary() {
 
   return (
     <WidgetLayoutCard
-      height="72"
       chartOptions={chartData}
       title="Build Summary"
       isLoading={buildSummaryStats.isLoading}
