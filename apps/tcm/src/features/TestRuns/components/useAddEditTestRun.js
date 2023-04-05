@@ -210,12 +210,14 @@ const useAddEditTestRun = () => {
     // update the issues array with data from this one as well
     if (testRun?.issues)
       dispatch(
-        setIssuesArray([
-          ...new Set([
-            ...testRun.issues,
-            ...issuesArray.map((item) => item.value)
+        setIssuesArray(
+          selectMenuValueMapper([
+            ...new Set([
+              ...testRun?.issues?.map((item) => item.value),
+              ...issuesArray.map((item) => item.value)
+            ])
           ])
-        ])
+        )
       );
 
     return {
