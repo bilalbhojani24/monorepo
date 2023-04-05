@@ -41,8 +41,13 @@ const TestList = ({
   const dispatch = useDispatch();
   const { isMounted } = useIsUnmounted();
   const [, setSearchParams] = useSearchParams();
-  const [expandAll, setExpandAll] = useState(false);
-  const invertExpandAll = () => setExpandAll((prevValue) => !prevValue);
+  const [expandAll, setExpandAll] = useState(true);
+  const onAccordionChange = useCallback(() => {
+    setExpandAll(null);
+  }, []);
+  const invertExpandAll = () => {
+    setExpandAll((prevValue) => !prevValue);
+  };
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
   const appliedFilters = useSelector(getAppliedFilters);
@@ -96,9 +101,17 @@ const TestList = ({
     () => ({
       buildUUID,
       testDefectTypeMapping,
-      updateTestDefectTypeMapping
+      updateTestDefectTypeMapping,
+      expandAll,
+      onAccordionChange
     }),
-    [buildUUID, testDefectTypeMapping, updateTestDefectTypeMapping]
+    [
+      expandAll,
+      buildUUID,
+      onAccordionChange,
+      testDefectTypeMapping,
+      updateTestDefectTypeMapping
+    ]
   );
 
   useEffect(() => {

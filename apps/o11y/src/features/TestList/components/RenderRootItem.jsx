@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
   Accordion,
@@ -9,6 +9,7 @@ import {
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import StatusBadges from 'common/StatusBadges';
+import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
@@ -27,9 +28,20 @@ import RenderChildrens from './RenderTestChildrens';
 
 const RenderRootItem = ({ item }) => {
   const { details, displayName, status, rank } = item;
+  const [opened, setOpened] = useState(true);
+  const { onAccordionChange, expandAll } = useContext(TestListContext);
+  const toggleAccordion = () => {
+    setOpened((prev) => !prev);
+    onAccordionChange();
+  };
+
+  useEffect(() => {
+    if (expandAll !== null) setOpened(expandAll);
+  }, [expandAll]);
+
   return (
     <>
-      <Accordion openByDefault>
+      <Accordion>
         <div
           className="bg-base-50 border-base-100 border-y px-6"
           style={{
@@ -37,6 +49,8 @@ const RenderRootItem = ({ item }) => {
           }}
         >
           <AccordionInteractiveHeader
+            controller={opened}
+            onClick={toggleAccordion}
             wrapperClassName="px-0"
             asideContent={
               <div className="flex h-full">
@@ -117,7 +131,7 @@ const RenderRootItem = ({ item }) => {
             }
           />
         </div>
-        <AccordionPanel wrapperClassName="bg-white pl-0">
+        <AccordionPanel wrapperClassName="bg-white pl-0" controller={opened}>
           <RenderChildrens listOfItems={item} />
         </AccordionPanel>
       </Accordion>
