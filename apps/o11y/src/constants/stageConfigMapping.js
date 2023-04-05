@@ -4,7 +4,8 @@ const STAGING_CONFIG = (envName) => ({
   signInUrl: `https://${envName}.bsstag.com/users/sign_in`,
   apiUrl: 'https://devtestops-api.bsstag.com',
   baseDocUrl: 'https://devtestops.bsstag.com',
-  withCredentials: true
+  withCredentials: true,
+  integrationsBaseUrl: 'https://integrations-preprod.bsstag.com'
 });
 
 export default {
@@ -13,14 +14,16 @@ export default {
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     apiUrl: 'https://localhost:8082/testops',
     baseDocUrl: STAGING_CONFIG('').baseDocUrl,
-    withCredentials: false
+    withCredentials: false,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     baseDocUrl: STAGING_CONFIG('').baseDocUrl,
     apiUrl: STAGING_CONFIG('').apiUrl,
-    withCredentials: true
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
   },
   staging: {
     ...STAGING_CONFIG('devtestops')
@@ -36,7 +39,8 @@ export default {
     signInUrl: 'https://preprod.bsstag.com/users/sign_in',
     apiUrl: 'https://api-observability-preprod.bsstag.com',
     baseDocUrl: 'https://preprod.bsstag.com',
-    withCredentials: true
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
   },
   production: {
     cookiePrefix: '',
@@ -44,6 +48,7 @@ export default {
     apiUrl: 'https://api-observability.browserstack.com',
     baseDocUrl: 'https://browserstack.com',
     withCredentials: true,
-    enableAnalytics: true
+    enableAnalytics: true,
+    integrationsBaseUrl: ''
   }
 };
