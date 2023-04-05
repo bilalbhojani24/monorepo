@@ -52,7 +52,11 @@ const tabsList = Object.keys(TABS).map((key) => ({
   icon: TABS[key].icon
 }));
 
-function BuildDetailsHeader({ updateCount, onUpdateBtnClick }) {
+function BuildDetailsHeader({
+  updateCount,
+  onUpdateBtnClick,
+  isNewItemLoading
+}) {
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -212,15 +216,16 @@ function BuildDetailsHeader({ updateCount, onUpdateBtnClick }) {
         </h1>
         {updateCount > 0 && (
           <O11yButton
-            icon={<MdOutlineRefresh />}
-            onClick={onUpdateBtnClick}
-            wrapperClassName="flex"
-            size="small"
-            colors="brand"
             variant="rounded"
-            iconPlacement="start"
+            icon={<MdOutlineRefresh className="text-sm" />}
+            iconPlacement="end"
+            size="extra-small"
+            isIconOnlyButton={isNewItemLoading}
+            loading={isNewItemLoading}
+            onClick={onUpdateBtnClick}
+            wrapperClassName="flex-shrink-0"
           >
-            {`${updateCount} new test${updateCount > 1 ? 's' : ''}`}
+            {updateCount} new test{updateCount > 1 ? 's' : ''}
           </O11yButton>
         )}
       </div>
@@ -312,5 +317,6 @@ export default BuildDetailsHeader;
 
 BuildDetailsHeader.propTypes = {
   updateCount: PropTypes.number.isRequired,
-  onUpdateBtnClick: PropTypes.func.isRequired
+  onUpdateBtnClick: PropTypes.func.isRequired,
+  isNewItemLoading: PropTypes.bool.isRequired
 };

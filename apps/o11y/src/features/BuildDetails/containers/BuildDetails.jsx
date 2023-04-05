@@ -20,6 +20,7 @@ import { getTestListData } from '../slices/testListSlice';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
@@ -144,6 +145,7 @@ function BuildDetails() {
   }
 
   const onUpdateBtnClick = () => {
+    setIsLoading(true);
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
       .catch(() => {
@@ -154,6 +156,7 @@ function BuildDetails() {
         });
       })
       .finally(() => {
+        setIsLoading(false);
         setUpdateCount(0);
       });
   };
@@ -161,6 +164,7 @@ function BuildDetails() {
   return (
     <>
       <BuildDetailsHeader
+        isNewItemLoading={isLoading}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
       />

@@ -135,7 +135,7 @@ function TestListDefectType({ data }) {
               <p className="mb-2 text-sm font-medium text-white">
                 Analyser is running!
               </p>
-              <p className="text-base-300 hidden text-sm">
+              <p className="text-base-300 text-sm">
                 Failure category options will be available after build finish
                 and analysis completion.
               </p>

@@ -21,6 +21,7 @@ export default function StatusIcon({ status, wrapperClassName }) {
   if (status === TEST_STATUS.PENDING) {
     return (
       <O11yLoader
+        loaderClass="h-4 w-4"
         className={twClassNames('text-brand-600 w-4 h-4', wrapperClassName)}
       />
     );
