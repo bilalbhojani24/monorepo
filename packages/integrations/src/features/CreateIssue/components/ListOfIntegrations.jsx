@@ -28,11 +28,12 @@ const renderAuth = ({
 );
 
 const ListOfIntegrations = ({
+  tab,
   mode,
   options,
   attachments,
   discardIssue,
-  changeModeTo,
+  changeTabTo,
   continueEditing,
   isBeingDiscarded,
   isWorkInProgress,
@@ -49,12 +50,13 @@ const ListOfIntegrations = ({
     // user has the single integration set up
     return (
       <IssueForm
+        tab={tab}
         mode={mode}
         options={options}
         attachments={attachments}
         discardIssue={discardIssue}
         integrations={integrations}
-        changeModeTo={changeModeTo}
+        changeTabTo={changeTabTo}
         continueEditing={continueEditing}
         isBeingDiscarded={isBeingDiscarded}
         isWorkInProgress={isWorkInProgress}
@@ -68,8 +70,9 @@ const ListOfIntegrations = ({
   return null;
 };
 ListOfIntegrations.propTypes = {
+  tab: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
-  changeModeTo: PropTypes.func.isRequired,
+  changeTabTo: PropTypes.func.isRequired,
   discardIssue: PropTypes.func.isRequired,
   confirmIssueDiscard: PropTypes.isRequired,
   options: CreateIssueOptionsType.isRequired,

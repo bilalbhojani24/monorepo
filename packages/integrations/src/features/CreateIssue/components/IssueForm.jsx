@@ -27,10 +27,11 @@ import DiscardIssue from './DiscardIssue';
 import renderChild from './renderChild';
 
 const IssueForm = ({
+  tab,
   mode,
   options,
   attachments,
-  changeModeTo,
+  changeTabTo,
   integrations,
   continueEditing,
   isWorkInProgress,
@@ -194,11 +195,11 @@ const IssueForm = ({
 
   const handleIssueTabChange = useCallback(
     (tabSelected) => {
-      if (tabSelected.mode !== mode) {
-        changeModeTo(tabSelected.mode);
+      if (tabSelected.mode !== tab) {
+        changeTabTo(tabSelected.mode);
       }
     },
-    [mode, changeModeTo]
+    [mode, changeTabTo]
   );
 
   const handleTryAgain = useCallback(() => {
@@ -263,6 +264,7 @@ const IssueForm = ({
           )}
         >
           {renderChild({
+            tab,
             mode,
             options,
             projects,
@@ -296,8 +298,9 @@ const IssueForm = ({
 };
 
 IssueForm.propTypes = {
+  tab: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
-  changeModeTo: PropTypes.func.isRequired,
+  changeTabTo: PropTypes.func.isRequired,
   confirmIssueDiscard: PropTypes.isRequired,
   options: CreateIssueOptionsType.isRequired,
   continueEditing: PropTypes.func.isRequired,

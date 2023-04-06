@@ -43,28 +43,28 @@ export const CreateIssue = ({
   const [isWorkInProgress, setIsWorkInProgress] = useState(false);
   const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
-  const previousModeRef = useRef(null);
+  const [tab, setTab] = useState(ISSUE_MODES.CREATION);
 
   const continueEditing = useCallback(() => {
-    if (previousModeRef.current) {
-      setMode(previousModeRef.current);
-      previousModeRef.current = null;
+    if (tab !== mode) {
+      setTab(mode);
     }
     setIsBeingDiscarded(false);
-  }, []);
+  }, [mode, tab]);
 
   const discardIssue = useCallback(() => {
     setIsBeingDiscarded(true);
   }, []);
+
   const confirmIssueDiscard = useCallback(() => {
-    if (previousModeRef.current) {
-      previousModeRef.current = null;
+    if (tab !== mode) {
+      setMode(tab);
     } else {
       handleClose();
     }
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [handleClose]);
+  }, [handleClose, mode, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -72,15 +72,17 @@ export const CreateIssue = ({
     }
   }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
 
-  const changeModeTo = useCallback(
-    (nextMode) => {
+  const changeTabTo = useCallback(
+    (nextTab) => {
       if (isWorkInProgress) {
         discardIssue();
-        previousModeRef.current = mode;
+        setTab(nextTab);
+      } else {
+        setTab(nextTab);
+        setMode(nextTab);
       }
-      setMode(nextMode);
     },
-    [discardIssue, isWorkInProgress, mode]
+    [discardIssue, isWorkInProgress]
   );
 
   const widgetHeight = useSelector(widgetHeightSelector);
@@ -106,11 +108,12 @@ export const CreateIssue = ({
       >
         {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
+          tab={tab}
           mode={mode}
           options={options}
           projectId={projectId}
           attachments={attachments}
-          changeModeTo={changeModeTo}
+          changeTabTo={changeTabTo}
           discardIssue={discardIssue}
           continueEditing={continueEditing}
           isWorkInProgress={isWorkInProgress}

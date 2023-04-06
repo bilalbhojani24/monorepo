@@ -8,6 +8,7 @@ import CreateIssueForm from './CreateIssueForm';
 import UpdateIssueForm from './UpdateIssueForm';
 
 const renderChild = ({
+  tab,
   mode,
   options,
   projects,
@@ -68,7 +69,7 @@ const renderChild = ({
       <Tabs
         tabsArray={TABS}
         onTabChange={handleIssueTabChange}
-        defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
+        defaultIndex={tab === ISSUE_MODES.CREATION ? 0 : 1}
       />
 
       {mode === ISSUE_MODES.CREATION ? (
