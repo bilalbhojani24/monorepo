@@ -1,5 +1,5 @@
 import { COMMON_CHART_CONFIGS, TOOLTIP_STYLES } from 'constants/common';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
 function getFormattedTooltip(fixedToTwoDigits) {

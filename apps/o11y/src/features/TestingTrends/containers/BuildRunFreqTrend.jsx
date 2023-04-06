@@ -4,7 +4,8 @@ import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getTrendBuildFrequencyData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
-import { isEmpty, max } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import max from 'lodash/max';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
 

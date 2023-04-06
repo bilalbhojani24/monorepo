@@ -6,7 +6,7 @@ import MiniChart from 'common/MiniChart';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { getTrendPerformanceData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getActiveProject, getProjects } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { abbrNumber, logOllyEvent } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';

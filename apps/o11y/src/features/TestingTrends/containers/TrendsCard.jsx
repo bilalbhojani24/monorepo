@@ -6,7 +6,7 @@ import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWra
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getActiveProject } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { abbrNumber } from 'utils/common';
 
