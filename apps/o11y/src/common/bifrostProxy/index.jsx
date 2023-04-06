@@ -23,6 +23,7 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
+  SingleDatepicker,
   Slideover,
   SlideoverBody,
   SlideoverFooter,
@@ -101,5 +102,6 @@ export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 
 export const O11yTruncateText = TruncateText;
 export const O11yAccordian = (props) => <Accordion {...props} />;
+export const O11ySingleDatePicker = (props) => <SingleDatepicker {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };
