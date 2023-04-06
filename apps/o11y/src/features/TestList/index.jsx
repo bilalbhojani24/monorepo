@@ -169,7 +169,7 @@ const TestList = ({
   return (
     <>
       <div className="flex h-full flex-col bg-white">
-        <div className="border-base-200 z-0 flex justify-between border-b bg-white px-6 py-4">
+        <div className="border-base-200 flex justify-between border-b bg-white px-6 py-4">
           <div className="flex w-full">
             <O11yButton
               isIconOnlyButton
@@ -190,13 +190,13 @@ const TestList = ({
           <div className="flex items-center">
             <TestListFilters />
           </div>
-          <div />
         </div>
         <FilterPills viewAllBuilds={viewAllTests} />
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso
               useWindowScroll
+              style={{ zIndex: 0 }}
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}

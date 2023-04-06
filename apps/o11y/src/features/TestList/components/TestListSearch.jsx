@@ -56,7 +56,7 @@ function TestListSearch() {
       placeholder="Search builds by name or CI number"
       onKeyDown={handleSearchTextChange}
       onChange={handleOnChange}
-      wrapperClassName="max-w-md w-80"
+      wrapperClassName="max-w-md w-80 z-0"
       id="build-search-value"
     />
   );
