@@ -13,9 +13,15 @@ const ReportBug = ({ setAlertMessage, positionRef }) => {
 
   const handleSuccess = ({
     event,
-    data: { issueId, issueUrl, attachments, integration: { label } = {} }
+    data: {
+      issueId,
+      issueUrl,
+      attachments,
+      issueKey,
+      integration: { label } = {}
+    }
   }) => {
-    setAlertMessage(`Your ${label} issue (${issueId}) ${event}d successfully`);
+    setAlertMessage(`Your ${label} issue (${issueKey}) ${event}d successfully`);
   };
 
   const handleError = (args) => {};
@@ -59,7 +65,7 @@ const ReportBug = ({ setAlertMessage, positionRef }) => {
         options={options}
         handleClose={handleClose}
         attachments={attachments}
-        positionRef={positionRef}
+        // positionRef={positionRef}
       />
     </div>
   );

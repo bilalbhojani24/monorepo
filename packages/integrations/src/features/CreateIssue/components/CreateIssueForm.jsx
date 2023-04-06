@@ -86,7 +86,8 @@ const CreateIssueForm = ({
                 attachments[0],
                 integrationToolFieldData?.value,
                 response.data.ticket_id,
-                response.data.ticket_url
+                response.data.ticket_url,
+                response.data.ticket_key
               );
             }
             // no attachment, just form success
@@ -110,7 +111,7 @@ const CreateIssueForm = ({
                 data: {
                   issueId: response?.data?.ticket_id,
                   issureUrl: response?.data?.ticket_url,
-                  issueKey: response?.data?.tickey_key,
+                  issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
@@ -144,6 +145,7 @@ const CreateIssueForm = ({
                 data: {
                   issueId: res.cause.ticket_id,
                   issureUrl: res.cause.ticket_url,
+                  issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
