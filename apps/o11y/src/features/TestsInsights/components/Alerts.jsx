@@ -6,6 +6,7 @@ import {
   MdError,
   MdErrorOutline,
   MdOutlineAddAlert,
+  MdOutlineTask,
   MdWarning,
   StackedListCommon,
   StackedListGroup,
@@ -116,7 +117,7 @@ export default function Alerts() {
           description="We found zero alerts in this build"
           buttonProps={null}
           mainIcon={
-            <MdOutlineAddAlert className="text-base-400 inline-block !h-12 !w-12" />
+            <MdOutlineTask className="text-base-400 inline-block !h-12 !w-12" />
           }
         />
       </div>

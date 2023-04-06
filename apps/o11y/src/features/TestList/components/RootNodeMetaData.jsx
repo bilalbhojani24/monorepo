@@ -57,15 +57,15 @@ export default function RootNodeMetaData({
         )}
       </div>
       <div
-        className={twClassNames('flex gap-1 items-center', {
+        className={twClassNames('flex gap-1 items-center w-[150px]', {
           "after:content-[''] after:w-1 after:h-1 after:rounded":
             !!startedAt || !!middleScopes?.length
         })}
       >
-        <MdFolderOpen className="h-6 w-6" />
+        <MdFolderOpen className="h-8 w-8" />
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="text-ellipsis whitespace-nowrap text-sm"
+          className="overflow-hidden text-ellipsis whitespace-nowrap  text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}

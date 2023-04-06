@@ -154,7 +154,7 @@ export default function FailuresByFolders() {
                 align: 'center',
                 verticalAlign: 'middle',
                 formatter() {
-                  return `<div class="flex items-center gap-1 text-black whitespace-nowrap overflow-hidden text-ellipsis">
+                  return `<div class="flex w-full items-center gap-1 text-black whitespace-nowrap overflow-hidden text-ellipsis">
                       ${
                         this?.point?.options?.type === 'FOLDER'
                           ? `<svg class="shrink-0 w-5 h-5 text-black">
@@ -261,32 +261,31 @@ export default function FailuresByFolders() {
   }
 
   return (
-    <div className="flex h-full flex-col" ref={containerRef}>
-      <div className="relative flex-1">
-        <O11yTooltip
-          theme="dark"
-          wrapperClassName="py-2"
-          placementSide="top"
-          placementAlign="center"
-          content={
-            tooltipData?.options?.id ? (
-              <FailureByFoldersTooltip data={tooltipData.options || {}} />
-            ) : null
-          }
-        >
-          <div
-            className="absolute z-10 rounded-sm"
-            key={tooltipData?.options?.id}
-            style={{
-              ...tooltipData?.styles,
-              cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
-            }}
-            onClick={handleClickTooltipInit}
-            role="presentation"
-          />
-        </O11yTooltip>
-        <Chart options={chartOptions} />
-      </div>
+    <div className=" relative flex h-full flex-col" ref={containerRef}>
+      <O11yTooltip
+        theme="dark"
+        wrapperClassName="py-2"
+        placementSide="top"
+        placementAlign="center"
+        triggerAsChild
+        content={
+          tooltipData?.options?.id ? (
+            <FailureByFoldersTooltip data={tooltipData.options || {}} />
+          ) : null
+        }
+      >
+        <div
+          className="absolute z-10 rounded-sm"
+          key={tooltipData?.options?.id}
+          style={{
+            ...tooltipData?.styles,
+            cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+          }}
+          onClick={handleClickTooltipInit}
+          role="presentation"
+        />
+      </O11yTooltip>
+      <Chart options={chartOptions} />
     </div>
   );
 }

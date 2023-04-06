@@ -145,11 +145,7 @@ export default function TestInsightsLayout() {
                 analytics={<DashboardCard cardKey={key} />}
                 headerInfo={false}
                 headerInfoTooltipProps={{
-                  content: (
-                    // <div className="text-base-300 w-60 px-4 text-sm">
-                    <>{cards[key].title}</>
-                    // </div>
-                  ),
+                  content: <>{cards[key].title}</>,
                   children: <MdInfoOutline className="h-5 w-5" />,
                   placementAlign: 'center',
                   placementSide: 'bottom',

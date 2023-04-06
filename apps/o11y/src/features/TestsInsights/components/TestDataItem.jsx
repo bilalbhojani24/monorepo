@@ -29,29 +29,6 @@ export default function TestDataItem({ data }) {
     navigate({ search: searchParams.toString() });
   };
   return (
-    // <div className="">
-    //   {data.map((item) => (
-    //     <div
-    //       className="flex cursor-pointer items-start justify-between py-2 px-4"
-    //       key={item.id}
-    //       role="presentation"
-    //       onClick={() => handleClickTest(item?.details?.id)}
-    //     >
-    //       <div className="w-10/12">
-    //         {!!item?.scopeList?.length && (
-    //           <div className="w-full text-ellipsis whitespace-nowrap">
-    //             <ScopeLine scopes={item.scopeList} />
-    //           </div>
-    //         )}
-    //         <p className="text-base">{item.title}</p>
-    //         <RootNodeMetaData {...item?.details} />
-    //       </div>
-    //       <div className="">
-    //         <p className="">{milliSecondsToTime(item?.duration)}</p>
-    //       </div>
-    //     </div>
-    //   ))}
-    // </div>
     <>
       {data.map((item) => (
         <O11yTableRow onRowClick={() => handleClickTest(item?.details?.id)}>
@@ -67,7 +44,9 @@ export default function TestDataItem({ data }) {
             </>
           </O11yTableCell>
           <O11yTableCell>
-            <p className="">{milliSecondsToTime(item?.duration)}</p>
+            <p className="text-base-500">
+              {milliSecondsToTime(item?.duration)}
+            </p>
           </O11yTableCell>
         </O11yTableRow>
       ))}

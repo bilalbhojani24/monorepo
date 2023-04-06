@@ -32,10 +32,8 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   if (isLoading) {
     return (
-      <div className="flex max-h-12 items-center justify-center">
-        <div className="flex flex-1 items-center">
-          <O11yLoader text="Fetching data" />
-        </div>
+      <div className="flex flex-1 items-center">
+        <O11yLoader text="Fetching data" />
       </div>
     );
   }
@@ -46,7 +44,7 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   return (
     <>
-      <O11yTable containerWrapperClass="m-3">
+      <O11yTable containerWrapperClass="m-2 overflow-hidden">
         <TopErrorsBulkUpdateTrigger clusterId={parentId} />
         <O11yTableBody>
           <TestDataItem data={data} />

@@ -28,12 +28,12 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId }) {
   return (
     <>
       <O11yTableHead>
-        <O11yTableRow>
+        <O11yTableRow wrapperClassName="w-full">
           <O11yTableCell>Failed tests</O11yTableCell>
           <O11yTableCell>
             <Button
               variant="minimal"
-              wrapperClassName="text-brand-500 font-semibold"
+              wrapperClassName="text-brand-500 font-semibold w-1/3"
               onClick={handleClickTrigger}
             >
               Bulk update failure category

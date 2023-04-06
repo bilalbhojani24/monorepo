@@ -94,7 +94,7 @@ function WidgetLayoutCard({
 
   const showBigNumber = () => {
     if (bigNumberData.count === 0) {
-      return <p className="mt-2 font-bold">__</p>;
+      return <p className="text-base-400 mt-2 font-bold">_</p>;
     }
     return (
       <>
@@ -111,18 +111,20 @@ function WidgetLayoutCard({
     );
   };
 
+  const capitalizeFirstLetter = (string) =>
+    string.charAt(0).toUpperCase() + string.slice(1);
+
   return (
     <div
       className={twClassNames('flex flex-col justify-between h-full', {
-        'mt-4': !isSmallCard
+        'mt-3': !isSmallCard
       })}
     >
       {showBigNumber()}
       {chartOptions && !!chartOptions?.series?.length && (
         <div
           className={classnames('h-full', {
-            'h-full': tableData.length,
-            'h-4/6': !isEmpty(bigNumberData)
+            'h-full': tableData.length
           })}
         >
           <Chart options={chartOptions} />
@@ -130,12 +132,12 @@ function WidgetLayoutCard({
       )}
       {!!tableData.length && (
         <div
-          className={classnames('relative h-2/4 overflow-hidden', {
+          className={classnames('relative flex items-end', {
             // 'ti-layout-card__table--withChart': chartOptions?.series?.length
           })}
         >
           <O11yTable
-            containerWrapperClass="ring-0 shadow-none"
+            containerWrapperClass="ring-0 shadow-none w-full"
             tableWrapperClass="divide-y-0 shadow-none"
           >
             <O11yTableBody wrapperClassName="divide-y-0">
@@ -143,16 +145,18 @@ function WidgetLayoutCard({
                 <O11yTableRow
                   handleRowClick={() => tableConfig?.onClickFlaky() || null}
                 >
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none py-2">
                     <div className="flex items-center">
                       <div
-                        className="mr-2 h-2 w-2 shrink-0 rounded-full"
+                        className="mr-1 h-2 w-2 shrink-0 rounded-full"
                         style={{ backgroundColor: singleBuildData.color || '' }}
                       />
-                      {singleBuildData.label || singleBuildData.name}
+                      {capitalizeFirstLetter(
+                        singleBuildData.label || singleBuildData.name
+                      )}
                     </div>
                   </O11yTableCell>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2">
                     {!!singleBuildData.filterCount && (
                       <O11yBadge
                         modifier="warn"
@@ -171,30 +175,6 @@ function WidgetLayoutCard({
               ))}
             </O11yTableBody>
           </O11yTable>
-          {/* <VirtualisedTable
-            data={tableData}
-            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
-            tableWrapperClassName="divide-y-0 border-none bg-black/0"
-            tableBodyWrapperClassName="divide-y-0"
-            itemContent={(index, singleBuildData) => (
-              <>
-                <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
-                  <div className="flex items-center">
-                    <div
-                      className="mr-2 h-2 w-2 shrink-0 rounded-full"
-                      style={{ backgroundColor: singleBuildData.color || '' }}
-                    />
-                    {singleBuildData.label || singleBuildData.name}
-                  </div>
-                </O11yTableCell>
-                <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end">
-                  {singleBuildData.value}
-                </O11yTableCell>
-              </>
-            )}
-            fixedHeaderContent={null}
-            handleRowClick={() => tableConfig?.onClickFlaky() || null}
-          /> */}
         </div>
       )}
     </div>

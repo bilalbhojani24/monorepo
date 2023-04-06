@@ -78,7 +78,7 @@ export default function TopErrors() {
 
   if (!buildMeta?.data.status || !topErrorsStats?.data?.ready) {
     return (
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="Analysis yet to run"
           description="Unique error analysis results will be available after build run completion"
@@ -138,9 +138,13 @@ export default function TopErrors() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="mt-6">
+      <div className="mt-4">
         <BigNumber
-          data={{ ...topErrorsStats?.data?.overview, title: '' }}
+          data={{
+            ...topErrorsStats?.data?.overview,
+            title: '',
+            heading: 'Total'
+          }}
           config={{ noHover: true }}
         />
       </div>
@@ -161,7 +165,7 @@ export default function TopErrors() {
                       </div>
                     }
                   />
-                  <AccordionPanel wrapperClassName="bg-white">
+                  <AccordionPanel wrapperClassName="bg-white w-full overflow-hidden">
                     <div className="overflow-hidden">
                       {singleBuildData.content}
                     </div>

@@ -116,7 +116,7 @@ export default function ReRunSummary() {
   }
 
   return (
-    <div className="flex h-80 flex-col">
+    <div className="mt-4 flex h-80 flex-col">
       <BigNumber
         data={{
           count: reRunStats.data?.count || 0,

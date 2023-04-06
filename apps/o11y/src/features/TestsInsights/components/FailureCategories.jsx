@@ -86,7 +86,7 @@ export default function FailureCategories() {
 
   if (defectsStats?.isLoading) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yLoader text="Fetching data" />
       </div>
     );
@@ -157,17 +157,17 @@ export default function FailureCategories() {
 
   return (
     <>
-      <div className="flex h-full flex-col">
+      <div className="mt-4 flex h-full flex-col">
         <div className="overflow-auto py-5 pt-0 pb-2">
-          <div className="sticky flex items-center gap-4 bg-white pt-1">
+          <div className="flex items-end gap-4 bg-white pt-1">
             <BigNumber
               data={{
                 count: totalDefects,
-                meta: 'Failures'
+                heading: 'Failures'
               }}
               config={{ noHover: true }}
             />
-            <div className="w-full flex-1">
+            <div className="mb-2 w-full flex-1">
               <div className="flex">
                 {defectsStats.data?.data?.map((item) => {
                   const isItemVisible = (item.value * 100) / totalDefects > 0;
