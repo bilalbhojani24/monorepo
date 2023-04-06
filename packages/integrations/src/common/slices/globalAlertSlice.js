@@ -7,7 +7,7 @@ const initialState = {
   linkText: '',
   linkUrl: '',
   autoDismiss: false,
-  autoDismissDelay: 3
+  autoDismissDelay: 4
 };
 
 export const globalAlertSlice = createSlice({

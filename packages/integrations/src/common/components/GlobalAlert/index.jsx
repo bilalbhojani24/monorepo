@@ -40,7 +40,7 @@ const GlobalAlert = ({ className }) => {
     <div className={className}>
       <Alerts
         title={title}
-        dismissButton
+        dismissButton={!autoDismiss}
         modifier={kind}
         linkUrl={linkUrl}
         linkText={linkText}

@@ -101,8 +101,7 @@ const CreateIssueForm = ({
                 kind: 'success',
                 message: 'Ticket created successfully.',
                 linkUrl: response?.data?.ticket_url,
-                linkText: 'View',
-                autoDismiss: true
+                linkText: 'View'
               })
             );
             if (typeof successCallback === 'function') {
@@ -136,8 +135,7 @@ const CreateIssueForm = ({
                 message:
                   'Ticket created successfully. Error in  uploading attachments',
                 linkText: 'View',
-                linkUrl: res.cause.ticket_url,
-                autoDismiss: true
+                linkUrl: res.cause.ticket_url
               })
             );
             if (typeof successCallback === 'function') {
