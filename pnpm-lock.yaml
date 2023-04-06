@@ -494,6 +494,7 @@ importers:
       eslint-loader: 4.0.2
       eslint-plugin-import: 2.22.1
       eslint-plugin-jsx-a11y: 6.4.1
+      eslint-plugin-lodash: ^7.4.0
       eslint-plugin-prettier: 3.1.4
       eslint-plugin-react: 7.21.5
       eslint-plugin-react-hooks: 4.6.0
@@ -513,6 +514,7 @@ importers:
       eslint-loader: 4.0.2_vywa3ctuiignoxlvviwujxrpxy
       eslint-plugin-import: 2.22.1_oq3yucmdmme3b4hmopp5vydl6q
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.23.0
+      eslint-plugin-lodash: 7.4.0_eslint@7.23.0
       eslint-plugin-prettier: 3.1.4_4mccxsu2vsgmc76l7h2yayefze
       eslint-plugin-react: 7.21.5_eslint@7.23.0
       eslint-plugin-react-hooks: 4.6.0_eslint@7.23.0
@@ -13033,6 +13035,16 @@ packages:
       object.fromentries: 2.0.6
       semver: 6.3.0
     dev: true
+
+  /eslint-plugin-lodash/7.4.0_eslint@7.23.0:
+    resolution: {integrity: sha512-Tl83UwVXqe1OVeBRKUeWcfg6/pCW1GTRObbdnbEJgYwjxp5Q92MEWQaH9+dmzbRt6kvYU1Mp893E79nJiCSM8A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: '>=2'
+    dependencies:
+      eslint: 7.23.0
+      lodash: 4.17.21
+    dev: false
 
   /eslint-plugin-prettier/3.1.4_4mccxsu2vsgmc76l7h2yayefze:
     resolution: {integrity: sha512-jZDa8z76klRqo+TdGDTFJSavwbnWK2ZpqGKNZ+VvweMW516pDUMmQ2koXvxEE4JhzNvTv+radye/bWGBmA6jmg==}
