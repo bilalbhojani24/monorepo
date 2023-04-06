@@ -21,7 +21,7 @@ import { logEventHelper } from 'utils/logEvent';
 import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
-  resetBulkFormData,
+  // resetBulkFormData,
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
@@ -190,6 +190,15 @@ export default function useAddEditTestCase(prop) {
         dispatch(setUnsavedDataExists(true));
     }
   };
+
+  const formatBulkFormData = (formData) =>
+    Object.entries(formData).reduce((obj, [key, value]) => {
+      if (key === 'preconditions' && value === '')
+        return { ...obj, [key]: null };
+      if (key === 'issues' && value.length === 0)
+        return { ...obj, [key]: null };
+      return { ...obj, [key]: value };
+    });
 
   const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
@@ -364,7 +373,9 @@ export default function useAddEditTestCase(prop) {
       projectId,
       folderId,
       bulkSelection,
-      data: formDataFormatter(testCaseBulkFormData).test_case
+      data: formatBulkFormData(
+        formDataFormatter(testCaseBulkFormData).test_case
+      )
     })
       .then(() => {
         dispatch(
@@ -394,7 +405,7 @@ export default function useAddEditTestCase(prop) {
         );
         hideTestCaseAddEditPage(null, true);
         dispatch(resetBulkSelection());
-        dispatch(resetBulkFormData());
+        // dispatch(resetBulkFormData());
       })
       .catch(() => {
         dispatch(
