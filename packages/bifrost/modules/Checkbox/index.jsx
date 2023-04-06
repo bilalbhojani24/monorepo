@@ -9,22 +9,22 @@ import {
 
 import './styles.scss';
 
-const Checkbox = (props) => {
-  const {
-    border,
-    checked,
-    data,
-    defaultChecked,
-    disabled,
-    description,
-    icon,
-    indeterminate,
-    isCard,
-    name,
-    onChange,
-    position,
-    wrapperClassName
-  } = props;
+const Checkbox = ({
+  border,
+  checked,
+  data,
+  defaultChecked,
+  disabled,
+  description,
+  icon,
+  indeterminate,
+  isCard,
+  name,
+  onChange,
+  position,
+  wrapperClassName,
+  ...props
+}) => {
   const ref = useRef();
 
   useLayoutEffect(() => {
@@ -70,6 +70,7 @@ const Checkbox = (props) => {
             checked={checked}
             onChange={(e) => handleChange(e)}
             disabled={disabled}
+            {...props}
           />
         </div>
         {data ? (
