@@ -111,8 +111,13 @@ export default class PusherManager {
     if (!this.socket) {
       return;
     }
-    this.log(`Sending event:${event} message:${message}`);
-    this.socket.emit(event, message);
+    try {
+      const messageObj = JSON.stringify(message);
+      this.log(`Sending event:${event} message:${messageObj}`);
+      this.socket.emit(event, messageObj);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   reset = (prefix) => {
