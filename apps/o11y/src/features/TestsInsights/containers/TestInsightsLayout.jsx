@@ -8,7 +8,7 @@ import {
   MdDragIndicator,
   MdInfoOutline
 } from '@browserstack/bifrost';
-import { getStorage, setStorage } from '@browserstack/utils';
+import { getStorage, setStorage, twClassNames } from '@browserstack/utils';
 import {
   O11yDropdown,
   O11yDropdownOptionGroup,
@@ -142,6 +142,10 @@ export default function TestInsightsLayout() {
               data-grid={cards[key]}
             >
               <DataVisualization
+                analyticsWrapperClassName="h-full flex-1"
+                contentWrapperClassName={twClassNames('flex flex-col h-full', {
+                  'pb-0': key === 'failuresByFolders'
+                })}
                 analytics={<DashboardCard cardKey={key} />}
                 headerInfo={false}
                 headerInfoTooltipProps={{
@@ -165,7 +169,7 @@ export default function TestInsightsLayout() {
                 otherOptions={getOtherOptions(key)}
                 size="fit-content"
                 title={cards[key].title}
-                wrapperClassName="bg-white relative h-full [&>_div:first-child]:flex [&>_div:first-child]:flex-col [&>_div:first-child]:h-full [&>_div:first-child>div:last-child]:h-full [&>_div:first-child>div:last-child]:flex-1"
+                wrapperClassName="bg-white relative h-full"
                 descPosition={null}
               />
             </div>

@@ -192,7 +192,10 @@ export default function BuildStability() {
     <WidgetLayoutCard
       chartOptions={chartData}
       isLoading={buildStabilityStats?.isLoading}
-      bigNumberData={buildStabilityStats?.data?.overview}
+      bigNumberData={{
+        ...buildStabilityStats?.data?.overview,
+        heading: `Stability of #${params.buildSerialId}`
+      }}
       bigNumberConfig={{ noHover: true }}
       showNoData={hasNoData}
       hasNetworkError={buildStabilityStats.hasNetworkError}
