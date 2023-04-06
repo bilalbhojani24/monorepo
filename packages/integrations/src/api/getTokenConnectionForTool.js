@@ -1,14 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { setHasIntegrated } from '../features/slices/integrationsSlice';
-
 import axios from './axiosInstance';
 import { URLS } from './constants';
 
-export const getTokenConnectionForTool = (
-  { integrationKey, data: fieldsData, integrationLabel },
-  { dispatch }
-) =>
+export const getTokenConnectionForTool = ({
+  integrationKey,
+  data: fieldsData
+}) =>
   axios
     .post(
       URLS.TOOL_API_TOKEN_CONNECTION,
@@ -21,10 +19,8 @@ export const getTokenConnectionForTool = (
         }
       }
     )
-    .then((response) => {
-      dispatch(setHasIntegrated(integrationKey));
-      return response.data;
-    });
+    .then((response) => response.data)
+    .catch((error) => error.response.data);
 
 export const getTokenConnectionForToolThunk = createAsyncThunk(
   'getTokenConnectionForTool',

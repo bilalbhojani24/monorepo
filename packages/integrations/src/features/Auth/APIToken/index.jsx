@@ -4,8 +4,11 @@ import { Button, MdArrowBack, MdArrowForward } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { getTokenConnectionForToolThunk } from '../../../api';
-import { Loader, Logo } from '../../../common/components';
-import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
+import { Logo } from '../../../common/components';
+import {
+  clearGlobalAlert,
+  setGlobalAlert
+} from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
 import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -36,18 +39,22 @@ const APIToken = ({
         data,
         integrationLabel: label
       })
-    ).then(() => {
-      syncPoller();
+    ).then((res) => {
+      if (!res?.payload?.success) {
+        const message =
+          res?.payload?.message ||
+          `There was some problem connecting to ${label} software`;
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message
+          })
+        );
+      } else {
+        syncPoller();
+      }
     });
   };
-
-  if (isLoading || isSyncInProgress) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -94,6 +101,8 @@ const APIToken = ({
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
           onClick={handleConnect}
+          loading={isLoading || isSyncInProgress}
+          loadingText="Loading"
         >
           {`Connect to ${label}`}
         </Button>

@@ -25,7 +25,7 @@ export const toolAuthSlice = createSlice({
       getTokenConnectionForToolThunk.rejected,
       (state, action) => {
         state.loading = LOADING_STATUS.FAILED;
-        state.error = action;
+        state.error = action.error;
       }
     );
   }

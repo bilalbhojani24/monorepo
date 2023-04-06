@@ -32,14 +32,17 @@ const IntegrationAuth = ({
   };
   const hideFailedAuthMessage = () => {};
   const pollTimers = useRef([]);
+
   const clearTimersAfter = (start) => {
     for (let idx = start; idx < pollTimers.current.length; idx += 1) {
       if (pollTimers.current[idx]) {
         clearTimeout(pollTimers.current[idx]);
       }
     }
+    // clear timers queue
+    pollTimers.current = [];
   };
-  const pollerFn = (attempt = 1) => {
+  const pollerFn = (attempt = 1, setLoadingState) => {
     if (attempt <= SYNC_POLL_MAX_ATTEMPTS) {
       getSetupStatus(integrationKey).then((response) => {
         if (response?.data?.success && response?.data?.setup_completed) {
@@ -47,7 +50,10 @@ const IntegrationAuth = ({
           dispatch(setHasIntegrated(integrationKey));
           dispatch(clearGlobalAlert());
           setIsSyncInProgress(false);
-        } else if (attempt + 1 === SYNC_POLL_MAX_ATTEMPTS) {
+          if (setLoadingState) setLoadingState(false);
+        } else if (attempt === pollTimers.current.length) {
+          // clear timers queue
+          pollTimers.current = [];
           setHasOAuthFailed(true);
           dispatch(
             setGlobalAlert({
@@ -56,23 +62,28 @@ const IntegrationAuth = ({
             })
           );
           setIsSyncInProgress(false);
+          if (setLoadingState) setLoadingState(false);
         }
       });
     }
   };
 
-  const syncPoller = () => {
+  const syncPoller = (setLoadingState, pollCount) => {
+    // polling is in progress
+    if (pollTimers.current.length) return;
     setIsSyncInProgress(true);
+
+    const pollLimit = pollCount || SYNC_POLL_MAX_ATTEMPTS;
     for (
       let oAuthPollCounter = 0;
-      oAuthPollCounter < SYNC_POLL_MAX_ATTEMPTS;
+      oAuthPollCounter < pollLimit;
       oAuthPollCounter += 1
     ) {
       // 1, 3, 6, 10, 15 ... nth term  = n(n + 1) / 2
       const n = oAuthPollCounter + 1;
       const delayConstant = (n * (n + 1)) / 2;
       const timer = setTimeout(() => {
-        pollerFn(n);
+        pollerFn(n, setLoadingState);
       }, delayConstant * 1000);
       pollTimers.current.push(timer);
     }
@@ -81,7 +92,6 @@ const IntegrationAuth = ({
   return isOAuthActive ? (
     <OAuth
       label={label}
-      pollerFn={pollerFn}
       oAuthMeta={oAuthMeta}
       syncPoller={syncPoller}
       showAPIToken={showAPIToken}
