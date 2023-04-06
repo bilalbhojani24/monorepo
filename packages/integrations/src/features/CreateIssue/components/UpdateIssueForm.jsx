@@ -143,6 +143,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
           }
         })
@@ -172,6 +173,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
           }
         });
