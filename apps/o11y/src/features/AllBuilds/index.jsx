@@ -7,6 +7,7 @@ import {
   useSearchParams
 } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
@@ -37,7 +38,8 @@ import { getParamsFromFiltersObject } from './utils/common';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_METADATA_FILTERS,
-  EMPTY_SELECTED_FILTERS
+  EMPTY_SELECTED_FILTERS,
+  TABLE_CLASSES
 } from './constants';
 
 const AllBuildsPage = () => {
@@ -140,11 +142,11 @@ const AllBuildsPage = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-base-300 border-b px-8 py-5">
+      <div className="border-base-300 border-b px-6 py-5">
         <h1 className="text-2xl font-bold leading-6">All builds</h1>
       </div>
 
-      <div className="flex flex-1 flex-col py-6 px-8">
+      <div className="flex flex-1 flex-col p-6">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />
@@ -191,31 +193,43 @@ const AllBuildsPage = () => {
             fixedHeaderContent={() => (
               <O11yTableRow>
                 <O11yTableCell
-                  wrapperClassName="py-3 w-5/12 border-t border-base-300"
+                  wrapperClassName={TABLE_CLASSES.HEADER_COMMON}
                   isSticky
                 >
                   BUILD
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="py-3 w-2/12 border-t border-base-300"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.COL.TEST,
+                    TABLE_CLASSES.HEADER_COMMON
+                  )}
                   isSticky
                 >
                   TESTS
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="py-3 w-1/12 border-t border-base-300"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.COL.DURATION,
+                    TABLE_CLASSES.HEADER_COMMON
+                  )}
                   isSticky
                 >
                   DURATION
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="py-3 w-1/12 border-t border-base-300"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.COL.FAILURE_CATEGORY,
+                    TABLE_CLASSES.HEADER_COMMON
+                  )}
                   isSticky
                 >
                   FAILURE CATEGORIES
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="py-3 w-2/12 border-t border-base-300"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.COL.SMART_TAGS,
+                    TABLE_CLASSES.HEADER_COMMON
+                  )}
                   isSticky
                 >
                   SMART TAGS
@@ -223,7 +237,7 @@ const AllBuildsPage = () => {
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}
-            tableWrapperClassName="border-b border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
+            tableWrapperClassName="border-b border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0"
             tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
           />
         )}

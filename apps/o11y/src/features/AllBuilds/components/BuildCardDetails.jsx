@@ -9,6 +9,7 @@ import {
   MdOutlineAutoFixHigh,
   MdRemoveCircle
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yBadge,
   O11yHyperlink,
@@ -25,7 +26,7 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
-import { aggregateColors } from '../constants';
+import { aggregateColors, TABLE_CLASSES } from '../constants';
 import { setAppliedFilters } from '../slices/dataSlice';
 import { getAppliedFilterTags } from '../slices/selectors';
 
@@ -115,7 +116,12 @@ const BuildCardDetails = ({ data }) => {
 
   return (
     <>
-      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300 whitespace-normal break-words">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.COL.BUILD,
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <div className="flex">
           {renderStatusIcon()}
           <div className="ml-4">
@@ -243,7 +249,12 @@ const BuildCardDetails = ({ data }) => {
           </div>
         </div>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.COL.TEST,
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <PropagationBlocker>
           {data?.status && (
             <StatusBadges
@@ -256,7 +267,12 @@ const BuildCardDetails = ({ data }) => {
           )}
         </PropagationBlocker>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.COL.DURATION,
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         {data.duration ? (
           <O11yMetaData
             textColorClass="text-base-500 inline-flex text-sm"
@@ -265,7 +281,12 @@ const BuildCardDetails = ({ data }) => {
           />
         ) : null}
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.COL.FAILURE_CATEGORY,
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <div>
           {Object.entries(data?.issueTypeAggregate)?.every(
             (item) =>
@@ -379,7 +400,12 @@ const BuildCardDetails = ({ data }) => {
           )}
         </div>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="overflow-hidden border-b border-base-300">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.COL.SMART_TAGS,
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <ul>
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker
