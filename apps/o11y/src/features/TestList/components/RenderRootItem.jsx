@@ -28,9 +28,23 @@ import RenderChildrens from './RenderTestChildrens';
 
 const RenderRootItem = ({ item }) => {
   const { details, displayName, status, rank } = item;
-  const [opened, setOpened] = useState(true);
-  const { onAccordionChange, expandAll } = useContext(TestListContext);
+  const {
+    onAccordionChange,
+    expandAll,
+    closedAccordionIds,
+    setClosedAccordionIds
+  } = useContext(TestListContext);
+  const [opened, setOpened] = useState(() => !closedAccordionIds[item?.id]);
   const toggleAccordion = () => {
+    if (opened) {
+      setClosedAccordionIds((prev) => ({ ...prev, [item.id]: true }));
+    } else {
+      setClosedAccordionIds((prev) => {
+        const newData = { ...prev };
+        delete newData[item.id];
+        return newData;
+      });
+    }
     setOpened((prev) => !prev);
     onAccordionChange();
   };

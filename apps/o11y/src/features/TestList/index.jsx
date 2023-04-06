@@ -42,6 +42,7 @@ const TestList = ({
   const { isMounted } = useIsUnmounted();
   const [, setSearchParams] = useSearchParams();
   const [expandAll, setExpandAll] = useState(true);
+  const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const onAccordionChange = useCallback(() => {
     setExpandAll(null);
   }, []);
@@ -103,14 +104,18 @@ const TestList = ({
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       expandAll,
-      onAccordionChange
+      onAccordionChange,
+      closedAccordionIds,
+      setClosedAccordionIds
     }),
     [
       expandAll,
       buildUUID,
       onAccordionChange,
       testDefectTypeMapping,
-      updateTestDefectTypeMapping
+      updateTestDefectTypeMapping,
+      closedAccordionIds,
+      setClosedAccordionIds
     ]
   );
 
