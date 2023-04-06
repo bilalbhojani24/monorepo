@@ -25,13 +25,14 @@ const DatePickerGroup = ({
 }) => {
   const [fromDateValue, onChangeFromDateValue] = useState(null);
   const [toDateValue, onChangeToDateValue] = useState(null);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [error, setError] = useState(false);
 
   const handleFromDateChange = (dateObj) => {
     const dateString = dateObj.toString();
     const date = new Date(dateString);
     onChangeFromDateValue(dateString);
-    // TODO: open endDate datepicker
+    setShowEndDatePicker(true);
     onDateSelect({ from: date.getTime(), to: new Date(toDateValue).getTime() });
   };
 
@@ -43,6 +44,7 @@ const DatePickerGroup = ({
       from: new Date(fromDateValue).getTime(),
       to: date.getTime()
     });
+    setShowEndDatePicker(false);
   };
 
   useEffect(() => {
@@ -113,6 +115,15 @@ const DatePickerGroup = ({
           wrapperClassName="w-44"
           label="End date"
           defaultValue={parseDate(toDateValue)}
+          // TODO: enhance this logic
+          {...(showEndDatePicker
+            ? {
+                isOpen: true,
+                onClose: () => {
+                  setShowEndDatePicker(false);
+                }
+              }
+            : {})}
           {...extraProps()}
         />
       </div>
