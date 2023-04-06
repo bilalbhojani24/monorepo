@@ -16,7 +16,7 @@ const useTextTransformer = ({ text }) => {
         textRef.current.textContent = `/${textArray[1]}/../${
           textArray[textArray.length - 2]
         }/`;
-      }, 50);
+      }, 0);
     } else setIsOverflowing(false);
   }, [text, windowSize.width]);
 
