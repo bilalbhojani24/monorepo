@@ -175,7 +175,7 @@ const TestList = ({
               isIconOnlyButton
               colors="white"
               variant="minimal"
-              wrapperClassName="mr-4"
+              wrapperClassName="mr-3"
               icon={
                 expandAll ? (
                   <MdUnfoldLess className="h-5 w-5" />
@@ -195,7 +195,6 @@ const TestList = ({
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso
-              useWindowScroll
               style={{ zIndex: 0 }}
               data={testListData?.hierarchy}
               endReached={loadMoreData}

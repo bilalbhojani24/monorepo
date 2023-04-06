@@ -48,7 +48,7 @@ function TestlistTimeline({ details }) {
       {history?.map((singleHistoryItem) => (
         <O11yTooltip
           size="md"
-          placementSide="bottom"
+          placementSide="left"
           key={singleHistoryItem.testRunId}
           triggerWrapperClassName="inline-flex items-center"
           content={

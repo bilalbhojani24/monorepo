@@ -51,7 +51,7 @@ const RenderRootItem = ({ item }) => {
           <AccordionInteractiveHeader
             controller={opened}
             onClick={toggleAccordion}
-            wrapperClassName="px-0"
+            wrapperClassName="px-0 py-2"
             asideContent={
               <div className="flex h-full">
                 {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}

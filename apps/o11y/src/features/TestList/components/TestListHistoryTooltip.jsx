@@ -85,7 +85,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
               </span>
             </p>
             {!!historyData?.logs?.[LOG_TYPES.STACKTRACE]?.length && (
-              <div className="bg-base-200 mt-2">
+              <div className="bg-base-50 mt-2">
                 <StackTraceTooltip
                   showOnlyTraceData
                   traceLines={historyData?.logs[LOG_TYPES.STACKTRACE] || []}
