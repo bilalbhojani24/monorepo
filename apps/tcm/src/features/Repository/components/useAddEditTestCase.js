@@ -198,7 +198,7 @@ export default function useAddEditTestCase(prop) {
       if (key === 'issues' && value.length === 0)
         return { ...obj, [key]: null };
       return { ...obj, [key]: value };
-    });
+    }, {});
 
   const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
