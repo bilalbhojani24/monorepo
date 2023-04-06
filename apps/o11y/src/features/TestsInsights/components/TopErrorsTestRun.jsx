@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11yTable, O11yTableBody } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import TestDataItem from 'features/TestsInsights/components/TestDataItem';
 import { getTopErrorsTestRuns } from 'features/TestsInsights/slices/selectors';
 import { getTopErrorsTestRunsData } from 'features/TestsInsights/slices/testInsightsSlice';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import TopErrorsBulkUpdateTrigger from './TopErrorsBulkUpdateTrigger';
@@ -45,8 +46,12 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   return (
     <>
-      <TopErrorsBulkUpdateTrigger clusterId={parentId} />
-      <TestDataItem data={data} />
+      <O11yTable containerWrapperClass="m-3 xl:w-[380px]">
+        <TopErrorsBulkUpdateTrigger clusterId={parentId} />
+        <O11yTableBody>
+          <TestDataItem data={data} />
+        </O11yTableBody>
+      </O11yTable>
     </>
   );
 }

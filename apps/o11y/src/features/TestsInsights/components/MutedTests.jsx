@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { getMutedStats } from '../slices/selectors';
 import { getMutedData } from '../slices/testInsightsSlice';
@@ -34,7 +34,6 @@ export default function MutedTests() {
   };
   return (
     <WidgetLayoutCard
-      title="Muted Tests"
       isLoading={mutedTestStats?.isLoading}
       bigNumberData={mutedTestStats?.data || {}}
       showNoData={isEmpty(mutedTestStats?.data) && !mutedTestStats?.isLoading}

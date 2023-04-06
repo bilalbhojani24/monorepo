@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
 import { twClassNames } from '@browserstack/utils';
 import {
@@ -40,6 +40,12 @@ const TableHead = ({ wrapperClassName, ...restProps }) => (
 );
 
 TableHead.propTypes = { wrapperClassName: PropTypes.string.isRequired };
+
+const TableBodyWithRef = forwardRef(({ wrapperClassName, ...restProps }) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <O11yRefTableBody {...restProps} wrapperClassName={wrapperClassName} />
+));
+TableBodyWithRef.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 
 const Table = ({
   tableWrapperClassName,
@@ -85,6 +91,7 @@ const VirtualisedTable = ({
   tableWrapperClassName,
   tableContainerWrapperClassName,
   tableHeaderWrapperClassName,
+  tableBodyWrapperClassName,
   tableRowWrapperClassName
 }) => {
   const getScrollProps = () => {
@@ -128,7 +135,12 @@ const VirtualisedTable = ({
             wrapperClassName={tableHeaderWrapperClassName}
           />
         ),
-        TableBody: O11yRefTableBody,
+        TableBody: (props) => (
+          <TableBodyWithRef
+            wrapperClassName={tableBodyWrapperClassName}
+            {...props}
+          />
+        ),
         TableRow: (props) => (
           <TableRow
             {...props}
@@ -156,6 +168,7 @@ VirtualisedTable.propTypes = {
   tableWrapperClassName: PropTypes.string,
   tableContainerWrapperClassName: PropTypes.string,
   tableHeaderWrapperClassName: PropTypes.string,
+  tableBodyWrapperClassName: PropTypes.string,
   tableRowWrapperClassName: PropTypes.string
 };
 
@@ -170,6 +183,7 @@ VirtualisedTable.defaultProps = {
   tableWrapperClassName: '',
   tableContainerWrapperClassName: '',
   tableHeaderWrapperClassName: '',
+  tableBodyWrapperClassName: '',
   tableRowWrapperClassName: ''
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdBarChart, MdErrorOutline } from '@browserstack/bifrost';
+import { MdBarChart, MdError, MdErrorOutline } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import classnames from 'classnames';
 import { O11yEmptyState, O11yTableCell } from 'common/bifrostProxy';
@@ -7,7 +7,7 @@ import Chart from 'common/Chart/containers/Chart';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 function WidgetLayoutCard({
@@ -23,8 +23,8 @@ function WidgetLayoutCard({
   tableConfig,
   tableData
 }) {
-  const iconSize =
-    placeholderConfig?.size === 'small' ? '!h-6 !w-6' : 'h-12 w-12';
+  const isSmallCard = placeholderConfig?.size === 'small';
+
   if (isLoading) {
     return (
       <div className="top-0 z-10 flex h-full w-full items-center justify-center bg-white opacity-70">
@@ -42,6 +42,16 @@ function WidgetLayoutCard({
   }
 
   if (hasNetworkError) {
+    if (isSmallCard) {
+      return (
+        <div className="mt-2 flex h-full flex-1 items-center">
+          <MdError className="text-danger-500 inline-block !h-6 !w-6" />
+          <p className="text-base-600 ml-1 items-center text-sm font-medium">
+            Something went wrong
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="flex h-full flex-1 items-center justify-center">
         <O11yEmptyState
@@ -53,9 +63,7 @@ function WidgetLayoutCard({
             size: 'default'
           }}
           mainIcon={
-            <MdErrorOutline
-              className={twClassNames('text-danger-600 inline-block', iconSize)}
-            />
+            <MdErrorOutline className="text-danger-600 inline-block !h-12 !w-12" />
           }
           {...placeholderConfig}
         />
@@ -70,9 +78,7 @@ function WidgetLayoutCard({
           title="No data found"
           description={null}
           mainIcon={
-            <MdBarChart
-              className={twClassNames('text-base-400 inline-block', iconSize)}
-            />
+            <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
           }
           buttonProps={null}
         />
@@ -80,18 +86,32 @@ function WidgetLayoutCard({
     );
   }
 
+  const showBigNumber = () => {
+    if (bigNumberData.count === 0) {
+      return <p className="mt-2 font-bold">__</p>;
+    }
+    return (
+      <>
+        {!isEmpty(bigNumberData) && (
+          <div className="mt-2">
+            <BigNumber
+              data={bigNumberData}
+              onClick={onClickBigNumber}
+              config={bigNumberConfig}
+            />
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
-    // <div className={twClassNames('flex flex-col')}>
-    <div className={twClassNames('flex flex-col justify-between h-full')}>
-      {!isEmpty(bigNumberData) && (
-        <div className="mt-2">
-          <BigNumber
-            data={bigNumberData}
-            onClick={onClickBigNumber}
-            config={bigNumberConfig}
-          />
-        </div>
-      )}
+    <div
+      className={twClassNames('flex flex-col justify-between h-full', {
+        'mt-4': !isSmallCard
+      })}
+    >
+      {showBigNumber()}
       {chartOptions && !!chartOptions?.series?.length && (
         <div
           className={classnames('h-full', {
@@ -112,6 +132,7 @@ function WidgetLayoutCard({
             data={tableData}
             tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
             tableWrapperClassName="divide-y-0 border-none bg-black/0"
+            tableBodyWrapperClassName="divide-y-0"
             itemContent={(index, singleBuildData) => (
               <>
                 <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
@@ -134,7 +155,6 @@ function WidgetLayoutCard({
         </div>
       )}
     </div>
-    // </div>
   );
 }
 WidgetLayoutCard.propTypes = {

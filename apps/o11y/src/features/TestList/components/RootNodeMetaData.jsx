@@ -1,6 +1,7 @@
 import React from 'react';
-import { Hyperlink, MdFolderOpen } from '@browserstack/bifrost';
-import classNames from 'classnames';
+import { MdFolderOpen } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
+import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon/containers/DetailIcon';
 import ScopeLine from 'common/ScopeLine/containers/ScopeLine';
 import PropTypes from 'prop-types';
@@ -20,8 +21,9 @@ export default function RootNodeMetaData({
   return (
     <div className="mt-1 flex items-center">
       <div
-        className={classNames('to-root-metadata__deviceData', {
-          'to-root-metadata__dot': os?.name || browser?.name || device
+        className={twClassNames('flex items-center', {
+          "after:content-[''] after:w-1 after:h-1 after:rounded":
+            os?.name || browser?.name || device
         })}
       >
         {device ? (
@@ -55,29 +57,28 @@ export default function RootNodeMetaData({
         )}
       </div>
       <div
-        className={classNames('detail-icon', {
-          'to-root-metadata__dot': !!startedAt || !!middleScopes?.length
+        className={twClassNames('flex gap-1 items-center', {
+          "after:content-[''] after:w-1 after:h-1 after:rounded":
+            !!startedAt || !!middleScopes?.length
         })}
       >
         <MdFolderOpen className="h-6 w-6" />
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="text-sm"
+          className="text-ellipsis whitespace-nowrap text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}
         >
           {vcFileUrl && vcFileUrl !== '' ? (
-            <Hyperlink
+            <O11yHyperlink
               href={vcFileUrl}
               target="_blank"
-              modifier="default"
-              linkWeight="regular"
-              wrapperClassName="to-anchor"
+              className="text-base-600"
               onClick={handleClickFileUrl}
             >
               {filePath}
-            </Hyperlink>
+            </O11yHyperlink>
           ) : (
             <>{filePath}</>
           )}
@@ -85,15 +86,19 @@ export default function RootNodeMetaData({
       </div>
       {!!startedAt && (
         <p
-          className={classNames('to-root-metadata__lastUpdated', {
-            'to-root-metadata__dot': !!middleScopes?.length
-          })}
+          className={twClassNames(
+            'text-sm whitespace-nowrap flex items-center',
+            {
+              "after:content-[''] after:w-1 after:h-1 after:rounded":
+                !!middleScopes?.length
+            }
+          )}
         >
           Last updated {getCustomTimeStamp({ dateString: startedAt })}
         </p>
       )}
       {!!middleScopes?.length && (
-        <div className={classNames('to-root-metadata__scope')}>
+        <div className={twClassNames('flex items-center max-w-[300px]')}>
           <ScopeLine scopes={middleScopes} />
         </div>
       )}

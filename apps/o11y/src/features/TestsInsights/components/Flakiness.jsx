@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { getFlakyStats } from '../slices/selectors';
 import { getFlakyData } from '../slices/testInsightsSlice';
@@ -35,7 +35,6 @@ export default function Flakiness() {
 
   return (
     <WidgetLayoutCard
-      title="Flaky Tests"
       isLoading={flakyStats?.isLoading}
       bigNumberData={flakyStats?.data}
       showNoData={isEmpty(flakyStats?.data) && !flakyStats?.isLoading}

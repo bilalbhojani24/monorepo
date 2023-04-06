@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getStackedColumnChartData } from 'features/TestsInsights/utils';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { getBuildPath } from 'utils/routeUtils';
 
 import { getBuildHistoryStats } from '../slices/selectors';
@@ -140,7 +140,6 @@ export default function BuildHistory() {
   return (
     <WidgetLayoutCard
       chartOptions={chartData}
-      title="Build History"
       isLoading={buildHistoryStats?.isLoading}
       showNoData={hasNoData}
       hasNetworkError={buildHistoryStats.hasNetworkError}

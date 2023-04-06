@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { getBuildPath } from 'utils/routeUtils';
 
 import { getBuildStabilityStats } from '../slices/selectors';
@@ -191,7 +191,6 @@ export default function BuildStability() {
   return (
     <WidgetLayoutCard
       chartOptions={chartData}
-      title="Build Stability"
       isLoading={buildStabilityStats?.isLoading}
       bigNumberData={buildStabilityStats?.data?.overview}
       bigNumberConfig={{ noHover: true }}

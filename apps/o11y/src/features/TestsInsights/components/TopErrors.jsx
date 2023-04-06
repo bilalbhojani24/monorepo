@@ -4,7 +4,8 @@ import {
   AccordionInteractiveHeader,
   AccordionPanel,
   MdBarChart,
-  MdErrorOutline
+  MdErrorOutline,
+  MdOutlineTask
 } from '@browserstack/bifrost';
 import {
   O11yAccordian,
@@ -21,7 +22,7 @@ import {
   getBuildUUID
 } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { getTopErrorStats } from '../slices/selectors';
 import { getTopErrorsData } from '../slices/testInsightsSlice';
@@ -37,7 +38,7 @@ const getFormattedData = (data) =>
       title: (
         <>
           {titleSplit.slice(0, 3).map((text) => (
-            <p className="whitespace-pre-wrap" key={text}>
+            <p className="whitespace-pre-line" key={text}>
               {text}
             </p>
           ))}
@@ -92,7 +93,7 @@ export default function TopErrors() {
 
   if (topErrorsStats?.hasNetworkError) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="Something went wrong!"
           description={null}
@@ -114,12 +115,12 @@ export default function TopErrors() {
     !topErrorsStats.isLoading
   ) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No Errors!"
           description="We found zero errors in this build"
           mainIcon={
-            <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
+            <MdOutlineTask className="text-base-400 inline-block !h-12 !w-12" />
           }
           buttonProps={null}
         />
@@ -146,29 +147,28 @@ export default function TopErrors() {
       <div className="mt-4 h-full flex-1">
         <VirtualisedTable
           data={getFormattedData(topErrorsStats?.data?.data || [])}
-          tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
-          tableHeaderWrapperClassName="bg-white"
+          tableHeaderWrapperClassName="w-[400px]"
           itemContent={(index, singleBuildData) => (
             <>
               <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0 p-0">
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white"
+                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white xl:w-[400px]"
                     title={
                       <div className="overflow-hidden text-ellipsis break-all">
                         {singleBuildData.title}
                       </div>
                     }
                   />
-                  <AccordionPanel>
+                  <AccordionPanel wrapperClassName="bg-white">
                     <div className="overflow-hidden">
                       {singleBuildData.content}
                     </div>
                   </AccordionPanel>
                 </O11yAccordian>
               </O11yTableCell>
-              <O11yTableCell>
+              <O11yTableCell wrapperClassName="bg-white">
                 {' '}
                 <O11yBadge
                   wrapperClassName="text-sm font-medium"
@@ -184,13 +184,13 @@ export default function TopErrors() {
           fixedHeaderContent={() => (
             <O11yTableRow>
               <O11yTableCell
-                wrapperClassName="text-base-900 bg-white w-5/6"
+                wrapperClassName="text-base-900 xl:w-[400px]"
                 isSticky
               >
                 Error
               </O11yTableCell>
-              <O11yTableCell wrapperClassName="text-base-900 bg-white" isSticky>
-                Impacted Tests
+              <O11yTableCell wrapperClassName="text-base-900" isSticky>
+                Tests
               </O11yTableCell>
             </O11yTableRow>
           )}

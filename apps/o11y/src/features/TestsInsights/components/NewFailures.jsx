@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 // import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
@@ -34,7 +34,6 @@ export default function NewFailures() {
   };
   return (
     <WidgetLayoutCard
-      title="New Failures"
       isLoading={newFailureStats?.isLoading}
       bigNumberData={newFailureStats?.data}
       showNoData={isEmpty(newFailureStats?.data) && !newFailureStats?.isLoading}

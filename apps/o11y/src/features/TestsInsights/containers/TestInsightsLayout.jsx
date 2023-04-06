@@ -146,9 +146,9 @@ export default function TestInsightsLayout() {
                 headerInfo={false}
                 headerInfoTooltipProps={{
                   content: (
-                    <div className="text-base-300 w-60 px-4 text-sm">
-                      {cards[key].title}
-                    </div>
+                    // <div className="text-base-300 w-60 px-4 text-sm">
+                    <>{cards[key].title}</>
+                    // </div>
                   ),
                   children: <MdInfoOutline className="h-5 w-5" />,
                   placementAlign: 'center',
@@ -159,11 +159,10 @@ export default function TestInsightsLayout() {
                 KpiProps={null}
                 filterDropdown={
                   <Button
-                    colors="white"
-                    onClick={() => {}}
-                    icon={<MdDragIndicator className="ml-1" />}
+                    icon={<MdDragIndicator />}
                     isIconOnlyButton
-                    size="small"
+                    colors="white"
+                    variant="minimal"
                     wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
                   />
                 }

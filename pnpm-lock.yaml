@@ -440,9 +440,9 @@ importers:
       '@percy/storybook': 4.3.5
       '@storybook/addon-a11y': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
-      '@storybook/addon-docs': 6.5.16_aqqnkggkxn3mlyq3mj5bicrjxy
-      '@storybook/addon-essentials': 6.5.16_kwswofzrweqb64y2cdph4dv3lq
-      '@storybook/addon-interactions': 6.5.16_gccflt3qhy3wfug3jbtng67rwm
+      '@storybook/addon-docs': 6.5.16_xo7quhe5oasnakpft6izpnxsta
+      '@storybook/addon-essentials': 6.5.16_g5hsdzyd7m2ulfrad4wwfj3vra
+      '@storybook/addon-interactions': 6.5.16_iunnuj2v4vjx7t2pgihyx46l7m
       '@storybook/addon-links': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/builder-webpack5': 6.5.16_thg4xgkqzam43wvb4m4gitomxu
       '@storybook/jest': 0.0.10_biqbaboplfbrettd7655fr4n2y
@@ -6348,7 +6348,7 @@ packages:
       - webpack-command
     dev: true
 
-  /@storybook/addon-interactions/6.5.16_gccflt3qhy3wfug3jbtng67rwm:
+  /@storybook/addon-interactions/6.5.16_iunnuj2v4vjx7t2pgihyx46l7m:
     resolution: {integrity: sha512-DdTtyp3DgB/SpbM1GQgMnuSEBCkadxmj1mUcPk+Wp2iY+fDwsuoRDkr1H9Oe7IvlBKe7ciR79LEjoaABXNdw4w==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -10287,7 +10287,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -20397,6 +20397,17 @@ packages:
         optional: true
     dev: true
 
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
+    dev: true
+
   /promise.allsettled/1.0.6:
     resolution: {integrity: sha512-22wJUOD3zswWFqgwjNHa1965LvqTX87WPu/lreY2KSd7SVcERfuZ4GfUaOnJNnvtoIv2yXT/W00YIGMetXtFXg==}
     engines: {node: '>= 0.4'}
@@ -21088,10 +21099,10 @@ packages:
       resolve-url-loader: 4.0.0
       sass-loader: 12.6.0_sass@1.57.1+webpack@5.75.0
       semver: 7.3.8
-      source-map-loader: 3.0.2_webpack@5.76.0
-      style-loader: 3.3.1_webpack@5.76.0
+      source-map-loader: 3.0.2_webpack@5.75.0
+      style-loader: 3.3.1_webpack@5.75.0
       tailwindcss: 3.1.4_postcss@8.4.21
-      terser-webpack-plugin: 5.3.7_webpack@5.76.0
+      terser-webpack-plugin: 5.3.6_webpack@5.75.0
       typescript: 4.9.5
       webpack: 5.75.0
       webpack-dev-server: 4.11.1_webpack@5.75.0
@@ -23642,6 +23653,7 @@ packages:
 
   /trim/0.0.1:
     resolution: {integrity: sha512-YzQV+TZg4AxpKxaTHK3c3D+kRDCGVEE7LemdlQZoQXn0iennk10RsIoY6ikzAqJTc9Xjl9C1/waHom/J86ziAQ==}
+    deprecated: Use String.prototype.trim() instead
     dev: true
 
   /trough/1.0.5:

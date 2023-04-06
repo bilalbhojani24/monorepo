@@ -49,7 +49,7 @@ export default function FailureByFoldersTooltip({ data }) {
       </section>
       <section className="pointer-events-auto flex flex-col gap-1 py-0 px-1">
         <Button
-          wrapperClassName="ti-fbm__tooltip-btn"
+          wrapperClassName="font-medium flex items-center gap-1"
           onClick={handleActionClick}
         >
           Click to view tests

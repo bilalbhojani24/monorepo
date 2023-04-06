@@ -17,7 +17,7 @@ import O11yLoader from 'common/O11yLoader';
 import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { getFailureByModules } from '../slices/selectors';
 import { getFailureByModulesData } from '../slices/testInsightsSlice';
@@ -265,7 +265,6 @@ export default function FailuresByFolders() {
       <div className="relative flex-1">
         <O11yTooltip
           theme="dark"
-          placementSide="top"
           wrapperClassName="py-2"
           content={
             tooltipData?.options?.id ? (
@@ -274,7 +273,7 @@ export default function FailuresByFolders() {
           }
         >
           <div
-            className="absolute rounded-sm"
+            className="bg-danger-500 absolute z-10 rounded-sm"
             key={tooltipData?.options?.id}
             style={{
               ...tooltipData?.styles,
@@ -284,9 +283,7 @@ export default function FailuresByFolders() {
             role="presentation"
           />
         </O11yTooltip>
-        {/* <div className="h-60"> */}
         <Chart options={chartOptions} />
-        {/* </div> */}
       </div>
     </div>
   );

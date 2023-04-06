@@ -5,7 +5,7 @@ import {
   Button,
   MdError,
   MdErrorOutline,
-  MdNotificationAdd,
+  MdOutlineAddAlert,
   MdWarning,
   StackedListCommon,
   StackedListGroup,
@@ -18,17 +18,15 @@ import { ROUTES } from 'constants/routes';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { getBuildAlerts } from '../slices/selectors';
 import { getBuildAlertsData } from '../slices/testInsightsSlice';
 
 const ALERT_LEVEL = {
-  WARNING: (
-    <MdWarning className="text-attention-300 inline-block !h-12 !w-12" />
-  ),
-  WARN: <MdWarning className="text-attention-300 inline-block !h-12 !w-12" />,
-  CRITICAL: <MdError className="text-attention-500 inline-block !h-12 !w-12" />
+  WARNING: <MdWarning className="text-attention-300 inline-block !h-7 !w-7" />,
+  WARN: <MdWarning className="text-attention-300 inline-block !h-7 !w-7" />,
+  CRITICAL: <MdError className="text-attention-500 inline-block !h-7 !w-7" />
 };
 
 export default function Alerts() {
@@ -96,15 +94,15 @@ export default function Alerts() {
     return (
       <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
-          title="No alerts configured!"
-          description={null}
+          title="Configure alerts!"
+          description="You have not configured any alerts"
           buttonProps={{
-            children: 'Configure',
+            children: 'Get Started',
             onClick: handleClickConfigureAlerts,
             size: 'default'
           }}
           mainIcon={
-            <MdNotificationAdd className="text-brand-400 inline-block !h-12 !w-12" />
+            <MdOutlineAddAlert className="text-base-400 inline-block !h-12 !w-12" />
           }
         />
       </div>
@@ -118,8 +116,7 @@ export default function Alerts() {
           description="We found zero alerts in this build"
           buttonProps={null}
           mainIcon={
-            // no-data-rocket icon to be added
-            <MdErrorOutline className="text-brand-400 inline-block !h-12 !w-12" />
+            <MdOutlineAddAlert className="text-base-400 inline-block !h-12 !w-12" />
           }
         />
       </div>

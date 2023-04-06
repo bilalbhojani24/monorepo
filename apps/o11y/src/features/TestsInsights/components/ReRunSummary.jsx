@@ -1,14 +1,9 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  MdBarChart,
-  MdNotInterested,
-  MdOpenInNew
-} from '@browserstack/bifrost';
+import { MdNotInterested, MdOutlineNextPlan } from '@browserstack/bifrost';
 import {
   O11yEmptyState,
-  O11yHyperlink,
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
@@ -26,8 +21,8 @@ import {
 import { getRerunStats } from 'features/TestsInsights/slices/selectors';
 import { getRerunData } from 'features/TestsInsights/slices/testInsightsSlice';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
-import { abbrNumber, docsLink } from 'utils/common';
+import isEmpty from 'lodash/isEmpty';
+import { abbrNumber } from 'utils/common';
 
 import BigNumber from './BigNumber';
 
@@ -96,22 +91,10 @@ export default function ReRunSummary() {
     return (
       <div className="flex h-full flex-col overflow-auto">
         <O11yEmptyState
-          title="No re-runs!"
-          description={
-            <>
-              There were no re-runs in this build{' '}
-              <O11yHyperlink
-                target="_blank"
-                href={docsLink().reRun}
-                iconPlacement="right"
-              >
-                Learn more
-                <MdOpenInNew className="ml-1 h-4 w-4" />
-              </O11yHyperlink>
-            </>
-          }
+          title="No Re-runs!"
+          description="There were no re-runs in this build"
           mainIcon={
-            <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
+            <MdOutlineNextPlan className="text-base-400 inline-block !h-12 !w-12" />
           }
           buttonProps={{
             children: buildMeta?.reRun ? 'Re-run' : 'Configure',

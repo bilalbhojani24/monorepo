@@ -1,21 +1,16 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { MdBarChart, MdErrorOutline, MdOpenInNew } from '@browserstack/bifrost';
+import { MdErrorOutline, MdOutlineFindInPage } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yEmptyState,
-  O11yHyperlink,
-  O11yTooltip
-} from 'common/bifrostProxy';
+import { O11yEmptyState, O11yTooltip } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 // import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
 // import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
-import { isEmpty } from 'lodash';
-import { docsLink } from 'utils/common';
+import isEmpty from 'lodash/isEmpty';
 
 import { getDefectsStats } from '../slices/selectors';
 import { getDefectsData } from '../slices/testInsightsSlice';
@@ -119,15 +114,14 @@ export default function FailureCategories() {
 
   if (!totalDefects) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No failed tests found"
           description={null}
           buttonProps={null}
           mainIcon={
-            // show Rocket icon here
-            <MdErrorOutline
-              className={twClassNames('text-danger-600 inline-block h-8 w-8')}
+            <MdOutlineFindInPage
+              className={twClassNames('text-base-400 inline-block h-8 w-8')}
             />
           }
         />
@@ -139,24 +133,16 @@ export default function FailureCategories() {
     return (
       <div className="flex h-full flex-col">
         <O11yEmptyState
-          title="Manual investigation yet to start"
-          description={
-            <div className="flex flex-col items-center">
-              Start tagging failures manually for Auto Analysis to kick-in{' '}
-              <O11yHyperlink target="_blank" href={docsLink().autoAnalyser}>
-                Learn more
-                <MdOpenInNew className="ml-1 h-4 w-4" />
-              </O11yHyperlink>
-            </div>
-          }
+          title="Investigation needed!"
+          description="All failed tests are to be investigated"
           buttonProps={{
             children: 'Start Investigation',
             onClick: handleClickStartInvestigation,
             size: 'default'
           }}
           mainIcon={
-            <MdBarChart
-              className={twClassNames('text-danger-600 inline-block w-8 h-8')}
+            <MdOutlineFindInPage
+              className={twClassNames('text-base-400 inline-block w-8 h-8')}
             />
           }
         />
