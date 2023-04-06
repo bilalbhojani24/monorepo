@@ -12,7 +12,8 @@ const TestCaseView = ({
   isFromTestRun,
   resultUpdatable,
   onResultClick,
-  testRunId
+  testRunId,
+  testResultsArray
 }) => {
   const { testCaseDetails, testCaseId } = useTestCaseViewDetails();
 
@@ -40,6 +41,7 @@ const TestCaseView = ({
             onResultClick={onResultClick}
             resultUpdatable={resultUpdatable}
             testRunId={testRunId}
+            testResultsArray={testResultsArray}
           />
         </div>
         {/* <div className="flex w-full justify-between">
@@ -60,7 +62,8 @@ TestCaseView.propTypes = {
   testRunId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
-  onResultClick: PropTypes.func
+  onResultClick: PropTypes.func,
+  testResultsArray: PropTypes.arrayOf({})
 };
 
 TestCaseView.defaultProps = {
@@ -68,7 +71,8 @@ TestCaseView.defaultProps = {
   testRunId: null,
   isFromTestRun: false,
   resultUpdatable: false,
-  onResultClick: () => {}
+  onResultClick: () => {},
+  testResultsArray: []
 };
 
 export default TestCaseView;

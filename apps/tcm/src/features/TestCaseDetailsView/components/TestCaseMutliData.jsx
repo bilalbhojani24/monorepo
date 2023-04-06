@@ -19,16 +19,24 @@ const TestCaseMutliData = ({
   isFromTestRun,
   resultUpdatable,
   onResultClick,
-  testRunId
+  testRunId,
+  testResultsArray
 }) => {
   const {
     testRunsCount,
     selectedTab,
     projectId,
-    testCaseIssues,
     handleTabChange,
     onJiraButtonClick
   } = useTestCaseViewDetails();
+
+  const testCaseIssues = [];
+
+  testResultsArray.forEach((item) => {
+    for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
+      testCaseIssues.push(item?.issues[i]);
+    }
+  });
 
   const issuesTableColumn = [
     {
@@ -134,14 +142,16 @@ TestCaseMutliData.propTypes = {
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
-  onResultClick: PropTypes.bool
+  onResultClick: PropTypes.bool,
+  testResultsArray: PropTypes.arrayOf({})
 };
 
 TestCaseMutliData.defaultProps = {
   isFromTestRun: false,
   resultUpdatable: false,
   testRunId: null,
-  onResultClick: () => {}
+  onResultClick: () => {},
+  testResultsArray: []
 };
 
 export default TestCaseMutliData;

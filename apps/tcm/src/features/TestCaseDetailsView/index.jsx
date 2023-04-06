@@ -72,6 +72,7 @@ const TestCaseDetailsView = ({
         resultUpdatable={resultUpdatable}
         onResultClick={onResultClick}
         testRunId={testRunId}
+        testResultsArray={testResultsArray}
       />
     </TMSlideover>
   );
