@@ -123,7 +123,8 @@ const UpdateIssueForm = ({
             dispatch(
               setGlobalAlert({
                 kind: 'success',
-                message: 'Ticket updated successfully'
+                message: 'Ticket updated successfully.',
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {
@@ -151,7 +152,8 @@ const UpdateIssueForm = ({
               setGlobalAlert({
                 kind: 'warn',
                 message:
-                  'Ticket updated successfully. Error in  uploading attachments'
+                  'Ticket updated successfully. Error in  uploading attachments',
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {

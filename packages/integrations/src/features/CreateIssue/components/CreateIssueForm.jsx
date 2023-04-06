@@ -99,7 +99,10 @@ const CreateIssueForm = ({
             dispatch(
               setGlobalAlert({
                 kind: 'success',
-                message: 'Ticket added successfully'
+                message: 'Ticket created successfully.',
+                linkUrl: response?.data?.ticket_url,
+                linkText: 'View',
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {
@@ -108,6 +111,7 @@ const CreateIssueForm = ({
                 data: {
                   issueId: response?.data?.ticket_id,
                   issureUrl: response?.data?.ticket_url,
+                  issueKey: response?.data?.tickey_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
@@ -132,7 +136,8 @@ const CreateIssueForm = ({
                 message:
                   'Ticket created successfully. Error in  uploading attachments',
                 linkText: 'View',
-                linkUrl: res.cause.ticket_url
+                linkUrl: res.cause.ticket_url,
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {

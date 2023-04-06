@@ -47,7 +47,8 @@ const APIToken = ({
         dispatch(
           setGlobalAlert({
             kind: 'error',
-            message
+            message,
+            autoDismiss: true
           })
         );
       } else {

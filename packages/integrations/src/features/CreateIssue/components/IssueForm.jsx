@@ -210,7 +210,8 @@ const IssueForm = ({
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`,
+          autoDismiss: true
         })
       );
     }

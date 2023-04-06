@@ -58,7 +58,8 @@ const IntegrationAuth = ({
           dispatch(
             setGlobalAlert({
               kind: 'error',
-              message: `There was some problem connecting to ${label} software`
+              message: `There was some problem connecting to ${label} software`,
+              autoDismiss: true
             })
           );
           setIsSyncInProgress(false);
