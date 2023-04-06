@@ -46,7 +46,7 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   return (
     <>
-      <O11yTable containerWrapperClass="m-3 xl:w-[380px]">
+      <O11yTable containerWrapperClass="m-3">
         <TopErrorsBulkUpdateTrigger clusterId={parentId} />
         <O11yTableBody>
           <TestDataItem data={data} />

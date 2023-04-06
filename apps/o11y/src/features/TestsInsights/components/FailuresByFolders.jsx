@@ -266,6 +266,8 @@ export default function FailuresByFolders() {
         <O11yTooltip
           theme="dark"
           wrapperClassName="py-2"
+          placementSide="top"
+          placementAlign="center"
           content={
             tooltipData?.options?.id ? (
               <FailureByFoldersTooltip data={tooltipData.options || {}} />
@@ -273,7 +275,7 @@ export default function FailuresByFolders() {
           }
         >
           <div
-            className="bg-danger-500 absolute z-10 rounded-sm"
+            className="absolute z-10 rounded-sm"
             key={tooltipData?.options?.id}
             style={{
               ...tooltipData?.styles,

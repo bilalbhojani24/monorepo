@@ -2,10 +2,16 @@ import React from 'react';
 import { MdBarChart, MdError, MdErrorOutline } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import classnames from 'classnames';
-import { O11yEmptyState, O11yTableCell } from 'common/bifrostProxy';
+import {
+  O11yBadge,
+  O11yEmptyState,
+  O11yTable,
+  O11yTableBody,
+  O11yTableCell,
+  O11yTableRow
+} from 'common/bifrostProxy';
 import Chart from 'common/Chart/containers/Chart';
 import O11yLoader from 'common/O11yLoader';
-import VirtualisedTable from 'common/VirtualisedTable';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -124,11 +130,48 @@ function WidgetLayoutCard({
       )}
       {!!tableData.length && (
         <div
-          className={classnames('relative h-full overflow-auto', {
+          className={classnames('relative h-2/4 overflow-hidden', {
             // 'ti-layout-card__table--withChart': chartOptions?.series?.length
           })}
         >
-          <VirtualisedTable
+          <O11yTable
+            containerWrapperClass="ring-0 shadow-none"
+            tableWrapperClass="divide-y-0 shadow-none"
+          >
+            <O11yTableBody wrapperClassName="divide-y-0">
+              {tableData.map((singleBuildData) => (
+                <O11yTableRow
+                  handleRowClick={() => tableConfig?.onClickFlaky() || null}
+                >
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none">
+                    <div className="flex items-center">
+                      <div
+                        className="mr-2 h-2 w-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: singleBuildData.color || '' }}
+                      />
+                      {singleBuildData.label || singleBuildData.name}
+                    </div>
+                  </O11yTableCell>
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end">
+                    {!!singleBuildData.filterCount && (
+                      <O11yBadge
+                        modifier="warn"
+                        hasRemoveButton={false}
+                        isRounded={false}
+                        text={`${singleBuildData.filterCount}/${singleBuildData.value} Flaky`}
+                        wrapperClassName="mr-1"
+                        onClick={() =>
+                          tableConfig?.onClickFlaky(singleBuildData) || null
+                        }
+                      />
+                    )}
+                    {singleBuildData.value}
+                  </O11yTableCell>
+                </O11yTableRow>
+              ))}
+            </O11yTableBody>
+          </O11yTable>
+          {/* <VirtualisedTable
             data={tableData}
             tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none"
             tableWrapperClassName="divide-y-0 border-none bg-black/0"
@@ -151,7 +194,7 @@ function WidgetLayoutCard({
             )}
             fixedHeaderContent={null}
             handleRowClick={() => tableConfig?.onClickFlaky() || null}
-          />
+          /> */}
         </div>
       )}
     </div>

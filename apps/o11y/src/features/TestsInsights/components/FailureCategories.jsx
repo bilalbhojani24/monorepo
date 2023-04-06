@@ -93,7 +93,7 @@ export default function FailureCategories() {
   }
   if (defectsStats?.hasNetworkError || hasNoData) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -131,7 +131,7 @@ export default function FailureCategories() {
 
   if (areAllTBI.status) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="Investigation needed!"
           description="All failed tests are to be investigated"

@@ -25,19 +25,19 @@ export default function FailureByFoldersTooltip({ data }) {
     // dispatch(setAppliedFiltersTagsViaURL());
   };
   return (
-    <div className="flex flex-col-reverse">
-      <section className="flex flex-col gap-1 py-0 px-2">
+    <div className="flex flex-col p-2 text-white">
+      <section className="flex flex-col gap-1">
         <p className="text-xs font-medium">{data.name}</p>
         <p className="text-xs">
           <span
-            className="mb-0.5 inline-block h-1.5 w-1.5 rounded-full"
+            className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: data?.color }}
           />
           <span>Failure rate: </span>
           <span className="font-semibold">{data?.colorValue}%</span>
         </p>
       </section>
-      <section className="flex flex-col gap-1 py-0 px-1">
+      <section className="flex flex-col gap-1">
         <p className="text-xs">
           <span> Failed tests: </span>
           <span className="font-semibold">{data?.failedTests}</span>
@@ -47,10 +47,11 @@ export default function FailureByFoldersTooltip({ data }) {
           <span className="font-semibold">{data?.value}</span>
         </p>
       </section>
-      <section className="pointer-events-auto flex flex-col gap-1 py-0 px-1">
+      <section className="pointer-events-auto flex flex-col gap-1">
         <Button
           wrapperClassName="font-medium flex items-center gap-1"
           onClick={handleActionClick}
+          variant="minimal"
         >
           Click to view tests
         </Button>

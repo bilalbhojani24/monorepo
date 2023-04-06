@@ -37,20 +37,32 @@ export default function BigNumber({ data, onClick, config }) {
           {data.title}
         </p>
       )}
-      <p className="hover:text-brand-600 mr-2.5 text-3xl font-semibold">
+      <p
+        className={twClassNames('mr-2.5 text-3xl font-semibold', {
+          'hover:text-brand-600': !config.noHover
+        })}
+      >
         {data?.count !== undefined && abbrNumber(data.count)}
         {(data.inPercentage || config.inPercentage) && (
           <span className="text-3xl">%</span>
         )}
       </p>
-      <div className="hover:text-brand-600 my-1 flex">
+      <div
+        className={twClassNames('text-base-500 my-1 flex items-center', {
+          'hover:text-brand-600': !config.noHover
+        })}
+      >
         {!isEmpty(data.insights) && (
           <p className="flex items-center">
             <span>{renderIcon(data.insights.type)}</span>
             <span className="mr-1">{data.insights.text}</span>
           </p>
         )}
-        <p className="text-base-500 hover:text-brand-600 text-sm font-medium">
+        <p
+          className={twClassNames('text-base-500 text-sm font-medium', {
+            'hover:text-brand-600': !config.noHover
+          })}
+        >
           {data.meta}
         </p>
       </div>

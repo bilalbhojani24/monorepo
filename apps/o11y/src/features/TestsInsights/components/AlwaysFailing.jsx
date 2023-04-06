@@ -34,7 +34,6 @@ export default function AlwaysFailing() {
   };
   return (
     <WidgetLayoutCard
-      title="Always Failing"
       showMoreButton
       isLoading={alwaysFailingStats?.isLoading}
       bigNumberData={alwaysFailingStats?.data}

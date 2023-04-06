@@ -147,16 +147,16 @@ export default function TopErrors() {
       <div className="mt-4 h-full flex-1">
         <VirtualisedTable
           data={getFormattedData(topErrorsStats?.data?.data || [])}
-          tableHeaderWrapperClassName="w-[400px]"
+          tableHeaderWrapperClassName=""
           itemContent={(index, singleBuildData) => (
             <>
               <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0 p-0">
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white xl:w-[400px]"
+                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white"
                     title={
-                      <div className="overflow-hidden text-ellipsis break-all">
+                      <div className="overflow-hidden text-ellipsis break-all text-left">
                         {singleBuildData.title}
                       </div>
                     }
@@ -183,10 +183,7 @@ export default function TopErrors() {
           )}
           fixedHeaderContent={() => (
             <O11yTableRow>
-              <O11yTableCell
-                wrapperClassName="text-base-900 xl:w-[400px]"
-                isSticky
-              >
+              <O11yTableCell wrapperClassName="text-base-900" isSticky>
                 Error
               </O11yTableCell>
               <O11yTableCell wrapperClassName="text-base-900" isSticky>
