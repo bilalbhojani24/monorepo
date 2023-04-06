@@ -237,7 +237,7 @@ const AllBuildsPage = () => {
               </O11yTableRow>
             )}
             handleRowClick={handleClickBuildItem}
-            tableWrapperClassName="border-b border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0"
+            tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
             tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
           />
         )}

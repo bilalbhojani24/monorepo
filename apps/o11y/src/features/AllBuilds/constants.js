@@ -35,7 +35,7 @@ export const TABLE_CLASSES = {
     BUILD: '',
     TEST: 'w-52',
     DURATION: 'w-24',
-    FAILURE_CATEGORY: 'w-36',
+    FAILURE_CATEGORY: 'w-44',
     SMART_TAGS: 'w-48'
   }
 };

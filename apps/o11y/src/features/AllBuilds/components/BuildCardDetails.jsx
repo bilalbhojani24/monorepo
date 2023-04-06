@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -23,14 +22,15 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
-import { aggregateColors, TABLE_CLASSES } from '../constants';
+import { TABLE_CLASSES } from '../constants';
 import { setAppliedFilters } from '../slices/dataSlice';
 import { getAppliedFilterTags } from '../slices/selectors';
 
-import DividedPill from './DividedPill';
+import FailureCategoriesPill from './FailureCategoriesPill';
 
 const BuildCardDetails = ({ data }) => {
   const dispatch = useDispatch();
@@ -89,9 +89,6 @@ const BuildCardDetails = ({ data }) => {
   };
 
   const handleCIClicked = () => logBuildListingInteracted('ci_link_clicked');
-  const investigationRequiredClicked = () =>
-    logBuildListingInteracted('to_be_investigated_clicked');
-  const noDefectClicked = () => logBuildListingInteracted('no_defect_clicked');
   const buildCardNameClicked = () =>
     logBuildListingInteracted('build_name_card_clicked');
   const onAutoDetectLearnMoreClick = () =>
@@ -287,118 +284,10 @@ const BuildCardDetails = ({ data }) => {
           TABLE_CLASSES.ROW_CLASSES
         )}
       >
-        <div>
-          {Object.entries(data?.issueTypeAggregate)?.every(
-            (item) =>
-              (item[1] === 0 && item[0] !== 'To be Investigated') ||
-              (item[1] !== 0 && item[0] === 'To be Investigated')
-          ) ? (
-            <O11yTooltip
-              theme="dark"
-              content={
-                <div className="mx-4">
-                  <p className="text-base-50 mb-2 text-sm font-medium">
-                    Manual investigation yet to start
-                  </p>
-                  <p className="text-base-300 mb-2 text-sm">
-                    Start tagging failures manually for Auto Analysis to kick-in
-                  </p>
-                  <O11yHyperlink
-                    wrapperClassName="text-base-50 text-sm font-medium underline"
-                    target="_blank"
-                    href={getDocUrl({ path: DOC_KEY_MAPPING.auto_analyser })}
-                  >
-                    Learn more
-                  </O11yHyperlink>
-                </div>
-              }
-            >
-              <p
-                role="presentation"
-                className="flex w-full justify-start"
-                onClick={investigationRequiredClicked}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    investigationRequiredClicked();
-                  }
-                }}
-              >
-                Investigation required
-              </p>
-            </O11yTooltip>
-          ) : (
-            <O11yTooltip
-              size="lg"
-              theme="light"
-              placementSide="top"
-              triggerWrapperClassName="flex overflow-hidden rounded-xl w-28"
-              content={
-                <div className="mx-4 w-96">
-                  <div className="mb-2 flex overflow-hidden rounded-xl">
-                    <DividedPill
-                      data={data}
-                      logBuildListingInteracted={logBuildListingInteracted}
-                    />
-                  </div>
-                  <ul>
-                    {Object.keys(data?.issueTypeAggregate)?.map(
-                      (item) =>
-                        !!data?.issueTypeAggregate[item] && (
-                          <li key={item}>
-                            <span
-                              className="mr-2 inline-block h-2 w-2 rounded-full"
-                              style={{
-                                backgroundColor: aggregateColors[item]
-                              }}
-                              data-d={data?.issueTypeAggregate[item]}
-                            />
-                            <span>{item}</span>
-                          </li>
-                        )
-                    )}
-                  </ul>
-                </div>
-              }
-            >
-              <DividedPill
-                data={data}
-                logBuildListingInteracted={logBuildListingInteracted}
-              />
-            </O11yTooltip>
-          )}
-          {Object.values(data?.issueTypeAggregate)?.every(
-            (item) => item === 0
-          ) && (
-            <div className="flex w-28 overflow-hidden rounded-xl">
-              <O11yTooltip
-                theme="dark"
-                placementSide="top"
-                triggerWrapperClassName="w-full"
-                content={
-                  <p
-                    role="presentation"
-                    className="text-base-100 px-2"
-                    onClick={noDefectClicked}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        noDefectClicked();
-                      }
-                    }}
-                  >
-                    No Failures Found
-                  </p>
-                }
-              >
-                <div
-                  label="No Failures Found"
-                  className="bg-base-200 h-3 w-full"
-                  tabIndex={0}
-                  role="button"
-                />
-              </O11yTooltip>
-            </div>
-          )}
-        </div>
+        <FailureCategoriesPill
+          data={data}
+          logBuildListingInteracted={logBuildListingInteracted}
+        />
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
@@ -465,6 +354,10 @@ const BuildCardDetails = ({ data }) => {
       </O11yTableCell>
     </>
   );
+};
+
+BuildCardDetails.propTypes = {
+  data: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 export default BuildCardDetails;
