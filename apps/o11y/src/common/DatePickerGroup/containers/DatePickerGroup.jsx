@@ -31,9 +31,7 @@ const DatePickerGroup = ({
     const dateString = dateObj.toString();
     const date = new Date(dateString);
     onChangeFromDateValue(dateString);
-    // onChangeFromDateValue(date);
-    // const toDateMonth = toDateRef.current.wrapper.children[0].children[2];
-    // toDateMonth.click();
+    // TODO: open endDate datepicker
     onDateSelect({ from: date.getTime(), to: new Date(toDateValue).getTime() });
   };
 
