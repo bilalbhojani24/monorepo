@@ -25,7 +25,7 @@ const UploadFile = () => {
     fileConfig,
     projectId,
     folderId,
-    allCSVFolders,
+    // allCSVFolders,
     showMoreFields,
     showChangeFolderModal,
     selectedFolderLocation,
@@ -178,7 +178,7 @@ const UploadFile = () => {
         actionOptions={[
           { id: 'add_folder', body: 'Add Sub Folder', value: 'add-folder' }
         ]}
-        allFolders={allCSVFolders}
+        allFolders={null}
         confirmButtonCb={handleUpdateFolderLocationClick}
         confirmButtonText="Update Location"
         folderExplorerHeader="Folders"
