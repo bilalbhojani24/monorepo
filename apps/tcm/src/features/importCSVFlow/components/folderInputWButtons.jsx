@@ -18,22 +18,45 @@ const FolderInputWButton = ({
   secondCtaClick,
   descriptionIcon
 }) => {
-  const { textRef } = useTextTransformer({ text });
+  const { isOverflowing, textRef, lastFolderName } = useTextTransformer({
+    text
+  });
 
   return (
     <div className="my-5">
       <div className="text-base-500 mb-2 text-sm font-medium">{label}</div>
       <div className="border-base-100 flex items-center justify-between rounded-md border-2 p-2">
-        <span className="flex overflow-auto whitespace-nowrap">
+        <span className="flex overflow-hidden whitespace-nowrap">
           <span>{icon}</span>
-          <div
-            ref={textRef}
-            className="text-base-900 ml-2 overflow-hidden text-sm"
-          >
-            {text}
-          </div>
+          {isOverflowing ? (
+            <TMTooltip
+              size="xs"
+              placementSide="top"
+              theme="dark"
+              triggerWrapperClassName="overflow-hidden"
+              content={
+                <>
+                  <TMTooltipBody>{lastFolderName}</TMTooltipBody>
+                </>
+              }
+            >
+              <div
+                ref={textRef}
+                className="text-base-900 ml-2 overflow-hidden text-ellipsis text-sm"
+              >
+                {text}
+              </div>
+            </TMTooltip>
+          ) : (
+            <div
+              ref={textRef}
+              className="text-base-900 ml-2 overflow-hidden text-ellipsis text-sm"
+            >
+              {text}
+            </div>
+          )}
         </span>
-        <span className="text-brand-500 flex text-sm font-medium">
+        <span className="text-brand-500 flex min-w-max pl-4 text-sm font-medium">
           <button
             type="button"
             className="disabled:text-brand-300 cursor-pointer disabled:cursor-not-allowed "
@@ -42,7 +65,7 @@ const FolderInputWButton = ({
           >
             {firstCta}
           </button>
-          <span className="text-base-300 mx-2"> | </span>
+          <span className="text-base-300 px-2"> | </span>
           {secondBtnDisabled ? (
             <TMTooltip
               size="xs"
