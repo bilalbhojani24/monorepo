@@ -172,7 +172,7 @@ function BuildDetailsHeader({
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b px-6 pt-6">
+    <div className="border-base-200 sticky top-[4rem] z-10 border-b bg-white px-6 pt-6">
       <div className="flex">
         <h1 className="w-full text-2xl font-bold leading-8">
           {isAutoDetectedName ? originalName : name}{' '}

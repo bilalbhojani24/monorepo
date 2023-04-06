@@ -167,32 +167,32 @@ const TestList = ({
   }, [appliedFilters]);
 
   return (
-    <div className="flex h-full flex-col bg-white">
-      <div className="border-base-200 flex justify-between border-b px-6 py-4">
-        <div className="flex w-full">
-          <O11yButton
-            isIconOnlyButton
-            colors="white"
-            variant="minimal"
-            wrapperClassName="mr-4"
-            icon={
-              expandAll ? (
-                <MdUnfoldLess className="h-5 w-5" />
-              ) : (
-                <MdUnfoldMore className="h-5 w-5" />
-              )
-            }
-            onClick={invertExpandAll}
-          />
-          <TestListSearch />
+    <>
+      <div className="flex h-full flex-col bg-white">
+        <div className="border-base-200 z-0 flex justify-between border-b bg-white px-6 py-4">
+          <div className="flex w-full">
+            <O11yButton
+              isIconOnlyButton
+              colors="white"
+              variant="minimal"
+              wrapperClassName="mr-4"
+              icon={
+                expandAll ? (
+                  <MdUnfoldLess className="h-5 w-5" />
+                ) : (
+                  <MdUnfoldMore className="h-5 w-5" />
+                )
+              }
+              onClick={invertExpandAll}
+            />
+            <TestListSearch />
+          </div>
+          <div className="flex items-center">
+            <TestListFilters />
+          </div>
+          <div />
         </div>
-        <div className="flex items-center">
-          <TestListFilters />
-        </div>
-        <div />
-      </div>
-      <FilterPills viewAllBuilds={viewAllTests} />
-      <div className="h-full">
+        <FilterPills viewAllBuilds={viewAllTests} />
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso
@@ -230,7 +230,7 @@ const TestList = ({
             </div>
           )}
       </div>
-    </div>
+    </>
   );
 };
 

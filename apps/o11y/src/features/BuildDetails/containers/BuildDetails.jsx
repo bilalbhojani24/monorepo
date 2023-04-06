@@ -168,18 +168,16 @@ function BuildDetails() {
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
       />
-      <div className="h-full">
-        {activeTab.id === TABS.insights.id && (
-          <div className="px-8 py-4">Build Insights</div>
-        )}
-        {activeTab.id === TABS.tests.id && (
-          <TestList
-            buildUUID={buildUUID}
-            testDefectTypeMapping={testDefectTypeMapping}
-            updateTestDefectTypeMapping={updateTestDefectTypeMapping}
-          />
-        )}
-      </div>
+      {activeTab.id === TABS.insights.id && (
+        <div className="px-8 py-4">Build Insights</div>
+      )}
+      {activeTab.id === TABS.tests.id && (
+        <TestList
+          buildUUID={buildUUID}
+          testDefectTypeMapping={testDefectTypeMapping}
+          updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+        />
+      )}
     </>
   );
 }
