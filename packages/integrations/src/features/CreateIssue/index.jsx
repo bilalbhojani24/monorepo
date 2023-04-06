@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
+import { clearGlobalAlert } from '../../common/slices/globalAlertSlice';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { widgetHeightSelector } from '../slices/widgetSlice';
@@ -57,6 +58,7 @@ export const CreateIssue = ({
   }, []);
 
   const confirmIssueDiscard = useCallback(() => {
+    dispatch(clearGlobalAlert());
     if (tab !== mode) {
       setMode(tab);
     } else {
@@ -64,7 +66,7 @@ export const CreateIssue = ({
     }
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [handleClose, mode, tab]);
+  }, [dispatch, handleClose, mode, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -78,6 +80,7 @@ export const CreateIssue = ({
         discardIssue();
         setTab(nextTab);
       } else {
+        dispatch(clearGlobalAlert());
         setTab(nextTab);
         setMode(nextTab);
       }
