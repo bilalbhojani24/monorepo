@@ -97,7 +97,7 @@ const BuildInfo = ({ buildDetails }) => (
             dateString: buildDetails.startedAt
           })}`}
           icon={<MdOutlineAccessTime className="text-base-400 h-4 w-4" />}
-          metaTitle="Started at"
+          // metaTitle="Started at"
           textColorClass="text-base-500"
         />
       )}
