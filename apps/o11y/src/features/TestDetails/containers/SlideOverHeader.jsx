@@ -65,7 +65,7 @@ const TestDetailsHeader = () => {
   return (
     <O11ySlideoverHeader
       handleDismissClick={handleCloseDetails}
-      heading={<TestDetailsHeading testMeta={testMeta} />}
+      heading={testMeta.data?.testName}
       headingWrapperClassName="leading-7"
     />
   );
