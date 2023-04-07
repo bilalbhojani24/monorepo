@@ -42,7 +42,7 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
 };
 
 export const getDocUrl = ({ path, prependO11y = true }) =>
-  `${getEnvConfig().baseDocUrl}/docs/${
+  `${getEnvConfig().baseUrl}/docs/${
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 

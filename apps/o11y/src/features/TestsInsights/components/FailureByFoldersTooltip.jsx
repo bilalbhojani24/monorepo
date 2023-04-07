@@ -20,8 +20,10 @@ export default function FailureByFoldersTooltip({ data }) {
     navigate({ search: searchString });
   };
   return (
-    <div className="flex flex-col p-2 text-white">
-      <section className="flex flex-col gap-1">
+    <div className="flex flex-col p-3 pb-0 text-white">
+      {/* Note Will Remove once will have the updated design for tooltip */}
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <section className="flex flex-col gap-1 border-b border-[#155080] pb-2">
         <p className="text-xs font-medium">{data.name}</p>
         <p className="text-xs">
           <span
@@ -32,7 +34,9 @@ export default function FailureByFoldersTooltip({ data }) {
           <span className="font-semibold">{data?.colorValue}%</span>
         </p>
       </section>
-      <section className="flex flex-col gap-1">
+      {/* Note Will Remove once will have the updated design for tooltip */}
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <section className="flex flex-col gap-1 border-b border-[#155080] py-2">
         <p className="text-xs">
           <span> Failed tests: </span>
           <span className="font-semibold">{data?.failedTests}</span>
@@ -42,9 +46,9 @@ export default function FailureByFoldersTooltip({ data }) {
           <span className="font-semibold">{data?.value}</span>
         </p>
       </section>
-      <section className="pointer-events-auto flex flex-col gap-1">
+      <section className="pointer-events-auto flex flex-col py-2">
         <Button
-          wrapperClassName="font-medium flex items-center gap-1"
+          wrapperClassName="font-medium flex items-center gap-1 text-white hover:text-white"
           onClick={handleActionClick}
           variant="minimal"
         >

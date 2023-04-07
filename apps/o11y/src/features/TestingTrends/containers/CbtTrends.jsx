@@ -15,7 +15,7 @@ import {
 } from 'constants/common';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';

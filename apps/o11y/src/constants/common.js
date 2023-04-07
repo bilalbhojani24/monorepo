@@ -8,7 +8,8 @@ export const DOC_KEY_MAPPING = {
   re_run: 'features/re-run',
   mute: 'features/mute-tests',
   source_code: 'integrations/source-code',
-  automation_build: 'how-to-guides/organize-test-runs'
+  automation_build: 'how-to-guides/organize-test-runs',
+  application_logs: 'integrations/application-logs'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -162,3 +163,8 @@ export const UNSUPPORTED_HTML_TAGS = [
   'tr',
   'td'
 ];
+
+export const NOTIFICATION_TYPES = {
+  dailySummary: 'DAILY_SUMMARY_EMAIL',
+  buildInsights: 'BUILD_FINISH_EMAIL'
+};
