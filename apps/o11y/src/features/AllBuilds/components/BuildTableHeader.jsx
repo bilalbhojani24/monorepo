@@ -17,7 +17,7 @@ function BuildTableHeader() {
         )}
         isSticky
       >
-        TESTS
+        <span className="mr-2">TESTS</span>
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
@@ -36,15 +36,6 @@ function BuildTableHeader() {
         isSticky
       >
         FAILURE CATEGORIES
-      </O11yTableCell>
-      <O11yTableCell
-        wrapperClassName={twClassNames(
-          TABLE_CLASSES.COL.SMART_TAGS,
-          TABLE_CLASSES.HEADER_COMMON
-        )}
-        isSticky
-      >
-        SMART TAGS
       </O11yTableCell>
     </O11yTableRow>
   );

@@ -29,38 +29,25 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
   }
   if (areAllZero(data.issueTypeAggregate)) {
     return (
-      <O11yTooltip
-        theme="dark"
-        placementSide="top"
-        triggerWrapperClassName="w-full"
-        content={
-          <p
-            role="presentation"
-            className="text-base-100 px-2 text-sm"
-            onClick={noDefectClicked}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                noDefectClicked();
-              }
-            }}
-          >
-            No Failures Found
-          </p>
-        }
+      <p
+        role="presentation"
+        className="text-sm"
+        onClick={noDefectClicked}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            noDefectClicked();
+          }
+        }}
       >
-        <div
-          label="No Failures Found"
-          className="bg-base-200 h-3 w-full rounded-xl"
-          tabIndex={0}
-          role="button"
-        />
-      </O11yTooltip>
+        No Failures
+      </p>
     );
   }
   if (areAllTbi(data.issueTypeAggregate)) {
     return (
       <O11yTooltip
         theme="dark"
+        triggerWrapperClassName="w-full"
         content={
           <div className="mx-4">
             <p className="text-base-50 mb-2 text-sm font-medium">
@@ -81,16 +68,14 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
       >
         <p
           role="presentation"
-          className="flex w-full justify-start"
+          className="bg-base-200 m-auto h-3 w-28 rounded-xl"
           onClick={investigationRequiredClicked}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               investigationRequiredClicked();
             }
           }}
-        >
-          Investigation required
-        </p>
+        />
       </O11yTooltip>
     );
   }
@@ -99,7 +84,7 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
       size="lg"
       theme="light"
       placementSide="top"
-      triggerWrapperClassName="flex overflow-hidden rounded-xl"
+      triggerWrapperClassName="flex overflow-hidden rounded-xl w-28 m-auto"
       content={
         <div className="mx-4 w-96">
           <div className="mb-2 flex overflow-hidden rounded-xl">
@@ -113,14 +98,21 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
               (item) =>
                 !!data?.issueTypeAggregate[item] && (
                   <li key={item}>
-                    <span
-                      className="mr-2 inline-block h-2 w-2 rounded-full"
-                      style={{
-                        backgroundColor: aggregateColors[item]
-                      }}
-                      data-d={data?.issueTypeAggregate[item]}
-                    />
-                    <span>{item}</span>
+                    <p className="flex items-center justify-between">
+                      <span>
+                        <span
+                          className="mr-2 inline-block h-2 w-2 rounded-full"
+                          style={{
+                            backgroundColor: aggregateColors[item]
+                          }}
+                          data-d={data?.issueTypeAggregate[item]}
+                        />
+                        <span className="text-sm">{item}</span>
+                      </span>
+                      <span className="text-sm font-medium">
+                        {data?.issueTypeAggregate[item]}
+                      </span>
+                    </p>
                   </li>
                 )
             )}

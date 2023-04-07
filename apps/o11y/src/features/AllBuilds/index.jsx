@@ -69,6 +69,9 @@ const AllBuildsPage = () => {
   );
 
   const viewAllBuilds = useCallback(() => {
+    navigate({
+      search: ''
+    });
     resetReduxStore(['selected', 'applied', 'buildsData']);
     dispatch(
       getBuildsData({
@@ -76,7 +79,7 @@ const AllBuildsPage = () => {
         currentPagingParams: {}
       })
     );
-  }, [dispatch, projectNormalisedName, resetReduxStore]);
+  }, [dispatch, navigate, projectNormalisedName, resetReduxStore]);
 
   const loadFreshBuildsData = useCallback(() => {
     dispatch(
@@ -142,10 +145,10 @@ const AllBuildsPage = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="border-base-300 border-b px-6 py-5">
-        <h1 className="text-2xl font-bold leading-6">All builds</h1>
+        <h1 className="text-2xl font-bold leading-6">Build Runs</h1>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-6 pt-5">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />

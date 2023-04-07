@@ -33,9 +33,9 @@ export const TABLE_CLASSES = {
     'overflow-hidden border-b border-base-300 whitespace-normal break-words',
   COL: {
     BUILD: '',
-    TEST: 'w-52',
-    DURATION: 'w-24',
-    FAILURE_CATEGORY: 'w-44',
+    TEST: 'w-48 text-right',
+    DURATION: 'w-24 text-center',
+    FAILURE_CATEGORY: 'w-[164px] text-center',
     SMART_TAGS: 'w-48'
   }
 };
