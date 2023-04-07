@@ -17,6 +17,8 @@ import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import DescriptionListBody from './modules/DescriptionListBody/index';
+import DescriptionListHeader from './modules/DescriptionListHeader/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
@@ -38,6 +40,7 @@ import InputGroupAddOn from './modules/InputField/components/InputGroupAddOn';
 import InputGroupButton from './modules/InputField/components/InputGroupButton';
 import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
+import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -125,6 +128,8 @@ export {
   ComboboxTrigger,
   DataVisualization,
   DescriptionList,
+  DescriptionListBody,
+  DescriptionListHeader,
   Draggable,
   Dropdown,
   DropdownOptionGroup,
@@ -146,6 +151,7 @@ export {
   InputGroupAddOn,
   InputGroupButton,
   InputGroupSelectMenuTrigger,
+  KeyValue,
   ListTree,
   ListTreeNode,
   ListTreeNodeContents,
