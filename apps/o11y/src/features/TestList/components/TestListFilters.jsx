@@ -109,7 +109,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 isMulti
@@ -124,7 +124,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 isMulti
@@ -139,7 +139,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 isMulti
@@ -154,7 +154,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 placeholder="Select"
@@ -170,7 +170,7 @@ const TestListFilters = () => {
                 }
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 isMulti
@@ -185,7 +185,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 placeholder="Select"
@@ -201,7 +201,7 @@ const TestListFilters = () => {
                 }
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <div>
                 <span className="text-base-700 mb-1 block text-sm font-medium">
