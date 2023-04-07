@@ -94,7 +94,7 @@ const TestListFilters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
+                optionsListWrapperClassName="min-w-max overflow-hidden"
               />
               <O11yComboBox
                 isMulti

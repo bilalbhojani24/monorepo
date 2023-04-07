@@ -66,7 +66,7 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
   },
   platforms: {
     key: 'platforms',
-    label: 'Impacted tests',
+    label: 'Platforms',
     headerClass:
       'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
     bodyClass: 'w-[300px] py-4 pl-6 text-sm'
