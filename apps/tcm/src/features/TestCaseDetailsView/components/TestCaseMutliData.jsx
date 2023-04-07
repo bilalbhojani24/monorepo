@@ -20,7 +20,8 @@ const TestCaseMutliData = ({
   resultUpdatable,
   onResultClick,
   testRunId,
-  testResultsArray
+  testResultsArray,
+  testRunName
 }) => {
   const {
     testRunsCount,
@@ -56,16 +57,16 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Test Run',
-      key: 'test_run_id',
-      cell: (rowData) => (
+      // key: 'test_run_id',
+      cell: () => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
-            testRunId: rowData?.test_run_id
+            testRunId
           })}
           className="text-base-900"
         >
-          {rowData?.test_run_name}
+          {testRunName}
         </Link>
       )
       // isFromTestRun ? (
@@ -143,7 +144,8 @@ TestCaseMutliData.propTypes = {
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
   onResultClick: PropTypes.bool,
-  testResultsArray: PropTypes.arrayOf({})
+  testResultsArray: PropTypes.arrayOf({}),
+  testRunName: PropTypes.string
 };
 
 TestCaseMutliData.defaultProps = {
@@ -151,7 +153,8 @@ TestCaseMutliData.defaultProps = {
   resultUpdatable: false,
   testRunId: null,
   onResultClick: () => {},
-  testResultsArray: []
+  testResultsArray: [],
+  testRunName: ''
 };
 
 export default TestCaseMutliData;
