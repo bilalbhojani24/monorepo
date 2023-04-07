@@ -1,4 +1,7 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -35,6 +38,11 @@ const options = [
   }
 ];
 
+const footerText = 'Subtext or supplementary info here';
+const footerLink = 'Learn more';
+const tooltipAria = 'header-info-tooltip';
+const optionsArr = ['Edit', 'Duplicate', 'Archive'];
+
 const defaultConfig = {
   title: 'Application/Components/DataVisualization',
   component: DataVisualization,
@@ -51,10 +59,6 @@ const defaultConfig = {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=505-8706&t=TWCLo3KWhysdxj9F-0'
-    },
-    percy: {
-      skip: true,
-      name: 'dataviz snapshot'
     }
   },
   argTypes: {
@@ -70,7 +74,7 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT' },
       description: 'Title of data visualization card',
-      defaultValue: 'lorem'
+      defaultValue: 'loream'
     },
     desc: {
       control: { type: 'text' },
@@ -99,8 +103,8 @@ const defaultConfig = {
       description: 'Object of props belonging to the Alerts component',
       control: { type: 'object' },
       defaultValue: {
-        description: 'Subtext or supplementary info here',
-        linkText: 'Learn more',
+        description: footerText,
+        linkText: footerLink,
         linkTo: 'https://www.google.com'
       }
     },
@@ -186,7 +190,50 @@ const DataVizWithFooterOnClickTemplate = (args) => (
 );
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('loream')).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await expect(canvas.getByText('02%')).toBeVisible();
+  await expect(canvas.getByText('69%')).toBeVisible();
+  await expect(canvas.getByText('65%')).toBeVisible();
+  await expect(canvas.getByText('35%')).toBeVisible();
+  await expect(canvas.getByText(footerText)).toBeVisible();
+  await expect(canvas.getByText(footerLink)).toBeVisible();
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await delay(1);
+  const buttons = document.querySelectorAll('button');
+  await delay(1);
+  buttons.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(buttons, item) > 4) {
+      await expect(optionsArr.includes(item.firstChild.nodeValue)).toBe(true);
+    }
+  });
+  await userEvent.hover(canvas.getByLabelText(tooltipAria));
+};
+
 const DataVizWithFooterOnClick = DataVizWithFooterOnClickTemplate.bind({});
+DataVizWithFooterOnClick.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('loream')).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await expect(canvas.getByText('02%')).toBeVisible();
+  await expect(canvas.getByText('69%')).toBeVisible();
+  await expect(canvas.getByText('65%')).toBeVisible();
+  await expect(canvas.getByText('35%')).toBeVisible();
+  await expect(canvas.getByText(footerText)).toBeVisible();
+  await expect(canvas.getByText(footerLink)).toBeVisible();
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await delay(1);
+  const buttons = document.querySelectorAll('button');
+  await delay(1);
+  buttons.forEach(async (item) => {
+    if (Array.prototype.indexOf.call(buttons, item) > 4) {
+      await expect(optionsArr.includes(item.firstChild.nodeValue)).toBe(true);
+    }
+  });
+  await userEvent.hover(canvas.getByLabelText(tooltipAria));
+};
 
 Primary.parameters = {
   controls: {}
@@ -204,11 +251,20 @@ DataVizWithFooterOnClick.args = {
 };
 
 const DataVisualizationDetail = Template.bind({});
+DataVisualizationDetail.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('loream')).toBeVisible();
+  await expect(canvas.getByText('02%')).toBeVisible();
+  await expect(canvas.getByText('69%')).toBeVisible();
+  await expect(canvas.getByText('65%')).toBeVisible();
+  await expect(canvas.getByText('35%')).toBeVisible();
+  await userEvent.hover(canvas.getByLabelText(tooltipAria));
+};
 
 DataVisualizationDetail.args = {
   hasWiderColumns: true,
   size: 'large',
-  title: 'This is title',
+  title: 'loream',
   desc: '',
   descPosition: DATA_VISUALIZATION_DESC_POSITION[0],
   analytics: null,
