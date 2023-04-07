@@ -19,7 +19,10 @@ import { getElementOffsetXRatio } from './utils/getElementOffsetXRatio';
 import useMediaPlayerSeekbar from './useMediaPlayerSeekbar';
 
 const MediaPlayerSeekbar = forwardRef(
-  ({ exceptions, showMarkers, onSeekTime, wrapperClassName }, ref) => {
+  (
+    { exceptions, showMarkers, onMarkerClick, onSeekTime, wrapperClassName },
+    ref
+  ) => {
     const { duration, currentTime, bufferedTime } = useContext(
       MediaPlayerContextData
     );
@@ -145,7 +148,7 @@ const MediaPlayerSeekbar = forwardRef(
                 )}
                 style={{ width: `calc(${progress}% - 2px)` }}
               />
-              {!hoverState && showMarkers && (
+              {showMarkers && (
                 <div className={twClassNames('absolute top-0 w-full h-2')}>
                   {exceptions?.map(
                     (exception) =>
@@ -157,6 +160,7 @@ const MediaPlayerSeekbar = forwardRef(
                           type={exception.type}
                           onMarkerMouseEnter={handleMarkerMouseEnter}
                           onMarkerMouseLeave={handleMarkerMouseLeave}
+                          onMarkerClick={onMarkerClick}
                         />
                       )
                   )}
@@ -193,7 +197,7 @@ const MediaPlayerSeekbar = forwardRef(
               {hoverState && !draggingSeekbar ? (
                 <div
                   className={twClassNames(
-                    '-mt-3.5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center',
+                    'absolute -mt-3.5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center',
                     {
                       'bg-attention-400': hoverOnWarningMarker,
                       'bg-danger-600': hoverOnErrorMarker
@@ -202,6 +206,7 @@ const MediaPlayerSeekbar = forwardRef(
                   style={{ marginLeft: `calc(${hoverSeekPosition}% - 4px` }}
                 >
                   <Tooltip
+                    show
                     content={
                       <TooltipBody wrapperClassName="px-1 mb-0 text-xs">
                         {hoverTime}
@@ -220,27 +225,6 @@ const MediaPlayerSeekbar = forwardRef(
                         'mx-auto h-[1rem] w-1 rounded-full bg-white'
                       )}
                     />
-                    {showMarkers && (
-                      <div
-                        className={twClassNames(
-                          'absolute left-0 top-0 w-full h-2'
-                        )}
-                      >
-                        {exceptions?.map(
-                          (exception) =>
-                            exception.startTime <= duration && (
-                              <Marker
-                                key={`marker_${exception.id}`}
-                                startTime={exception.startTime}
-                                duration={duration}
-                                type={exception.type}
-                                onMarkerMouseEnter={handleMarkerMouseEnter}
-                                onMarkerMouseLeave={handleMarkerMouseLeave}
-                              />
-                            )
-                        )}
-                      </div>
-                    )}
                   </Tooltip>
                 </div>
               ) : null}
@@ -268,12 +252,14 @@ MediaPlayerSeekbar.propTypes = {
       type: PropTypes.oneOf(['warning', 'error'])
     })
   ),
+  onMarkerClick: PropTypes.func,
   onSeekTime: PropTypes.func,
   showMarkers: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 MediaPlayerSeekbar.defaultProps = {
   exceptions: [],
+  onMarkerClick: () => {},
   onSeekTime: () => {},
   showMarkers: true,
   wrapperClassName: ''

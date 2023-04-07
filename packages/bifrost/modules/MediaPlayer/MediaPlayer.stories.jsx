@@ -51,7 +51,7 @@ const defaultConfig = {
     },
     wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: ''
+      defaultValue: 'w-[640px] h-[360px]'
     }
   },
   controls: {}
@@ -78,6 +78,7 @@ export const Primary = (args) => (
         }
       ]}
       showMarkers
+      onMarkerClick={() => {}}
       onSeekTime={() => {}}
       wrapperClassName=""
     />

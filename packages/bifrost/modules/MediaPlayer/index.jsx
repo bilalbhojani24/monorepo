@@ -9,6 +9,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { MediaPlayerContextData } from '../../shared/mediaPlayerContext';
+import Loader from '../Loader';
 
 const MediaPlayer = forwardRef(
   (
@@ -28,6 +29,7 @@ const MediaPlayer = forwardRef(
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [bufferedTime, setBufferedTime] = useState(0);
+    const [isBuffering, setIsBuffering] = useState(false);
     const videoRef = useRef(null);
 
     const handleDuration = (videoDuration) => {
@@ -50,6 +52,13 @@ const MediaPlayer = forwardRef(
     const handleOnPause = () => {
       if (isPlaying) setIsPlaying(false);
       onPauseCallback?.();
+    };
+
+    const handleBuffering = () => {
+      setIsBuffering(true);
+    };
+    const handleReady = () => {
+      setIsBuffering(false);
     };
 
     useImperativeHandle(ref, () => ({
@@ -77,19 +86,32 @@ const MediaPlayer = forwardRef(
     });
 
     return (
-      <div className={wrapperClassName}>
+      <div className={twClassNames('relative', wrapperClassName)}>
         <ReactPlayer
           url={url}
+          width="100%"
+          height="100%"
           ref={videoRef}
           playing={isPlaying}
           onPlay={handleOnPlay}
           onPause={handleOnPause}
-          // onBuffer={}
-          // onSeek={}
+          onBuffer={handleBuffering}
+          onReady={handleReady}
           onError={() => onVideoError()}
           onProgress={handleProgress}
           onDuration={handleDuration}
         />
+        {isBuffering && (
+          <div
+            className={twClassNames(
+              'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
+            )}
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Loader wrapperClassName="w-6 h-6" />
+            </div>
+          </div>
+        )}
         <MediaPlayerContextData.Provider
           value={{ duration, currentTime, bufferedTime }}
         >

@@ -43,6 +43,7 @@ import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
+import MediaPlayerErrorState from './modules/MediaPlayerErrorState';
 import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
 import MediaPlayerRightControls from './modules/MediaPlayerRightControls';
 import MediaPlayerSeekbar from './modules/MediaPlayerSeekbar';
@@ -150,6 +151,7 @@ export {
   ListTreeNodeContents,
   Loader,
   MediaPlayer,
+  MediaPlayerErrorState,
   MediaPlayerLeftControls,
   MediaPlayerRightControls,
   MediaPlayerSeekbar,
