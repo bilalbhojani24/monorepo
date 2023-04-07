@@ -23,7 +23,7 @@ export const LOG_LEVELS = {
 };
 
 export const TEST_DETAILS_TABS = {
-  logs: 'Logs',
+  logs: 'Debug',
   info: 'Info'
 };
 
