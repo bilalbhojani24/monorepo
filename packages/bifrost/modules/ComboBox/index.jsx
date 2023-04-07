@@ -62,7 +62,7 @@ const ComboBox = forwardRef((props, ref) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
-          disabled={disabled || isLoading}
+          disabled={disabled}
         >
           {({ open: dropdownOpen }) => (
             <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
