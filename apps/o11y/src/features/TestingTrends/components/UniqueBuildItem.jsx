@@ -11,7 +11,7 @@
 // import { twClassNames } from '@browserstack/utils';
 // import { TEST_STATUS } from 'constants/common';
 // import { getActiveProject } from 'globalSlice/selectors';
-// import { isEmpty } from 'lodash';
+// import isEmpty from 'lodash/isEmpty';;
 // import PropTypes from 'prop-types';
 // import PropagationBlocker from 'testops/components/PropagationBlocker';
 // import StatusIcon from 'testops/components/StatusIcon';

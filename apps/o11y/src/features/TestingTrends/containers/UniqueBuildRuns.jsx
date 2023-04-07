@@ -4,7 +4,7 @@ import { Virtuoso } from 'react-virtuoso';
 import O11yLoader from 'common/O11yLoader';
 import { getTrendUniqueBuildsData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
