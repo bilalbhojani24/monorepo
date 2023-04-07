@@ -1,7 +1,7 @@
 export const TABS = {
   tests: 'Tests',
-  unique_errors: 'Unique Errors',
-  build_performance: 'Build Performance'
+  unique_errors: 'Unique Errors'
+  // build_performance: 'Build Performance'
 };
 
 export const TESTS_HEADER_LABEL_MAPPING = {
