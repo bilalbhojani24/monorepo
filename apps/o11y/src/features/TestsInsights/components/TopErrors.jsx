@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { forwardRef, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Virtuoso } from 'react-virtuoso';
 import {
   AccordionInteractiveHeader,
   AccordionPanel,
@@ -11,12 +12,10 @@ import {
   O11yAccordian,
   O11yBadge,
   O11yEmptyState,
-  O11yTableCell,
-  O11yTableRow,
   O11yTooltip
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import VirtualisedTable from 'common/VirtualisedTable';
+// import VirtualisedTable from 'common/VirtualisedTable';
 import {
   getBuildMeta,
   getBuildUUID
@@ -29,6 +28,7 @@ import { getTopErrorsData } from '../slices/testInsightsSlice';
 
 import BigNumber from './BigNumber';
 import TopErrorsTestRun from './TopErrorsTestRun';
+import UniqueErrorTableHeader from './UniqueErrorTableHeader';
 
 const getFormattedData = (data) =>
   data.map((item, idx) => {
@@ -38,7 +38,7 @@ const getFormattedData = (data) =>
       title: (
         <>
           {titleSplit.slice(0, 3).map((text) => (
-            <p className="whitespace-pre-line" key={text}>
+            <p className="truncate" key={text}>
               {text}
             </p>
           ))}
@@ -136,6 +136,14 @@ export default function TopErrors() {
     }
   };
 
+  const List = forwardRef((props, ref) => (
+    <div
+      {...props}
+      ref={ref}
+      className="border-base-300 rounded-b-md border border-t-0"
+    />
+  ));
+
   return (
     <div className="flex h-full flex-col">
       <div className="mt-4">
@@ -148,55 +156,49 @@ export default function TopErrors() {
           config={{ noHover: true }}
         />
       </div>
-      <div className="mt-4 h-full flex-1">
-        <VirtualisedTable
-          data={getFormattedData(topErrorsStats?.data?.data || [])}
-          tableHeaderWrapperClassName=""
-          itemContent={(index, singleBuildData) => (
-            <>
-              <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 last:pr-0 sm:last:pr-0 p-0">
+      <div className="mt-4 flex h-full flex-1 flex-col">
+        <UniqueErrorTableHeader />
+        <div className="h-full flex-1 overflow-auto">
+          <Virtuoso
+            data={getFormattedData(topErrorsStats?.data?.data || [])}
+            components={{
+              List
+            }}
+            itemContent={(index, singleBuildData) => (
+              <>
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-0 text-danger-600 flex-1 bg-white"
+                    wrapperClassName="px-3 py-3 flex-1 bg-white"
                     title={
-                      <div className="overflow-hidden text-ellipsis break-all text-left">
+                      // eslint-disable-next-line tailwindcss/no-arbitrary-value
+                      <div className="w-[380px] overflow-hidden text-ellipsis text-left">
                         {singleBuildData.title}
+                      </div>
+                    }
+                    asideContent={
+                      <div className="m-4 flex">
+                        <O11yBadge
+                          wrapperClassName="text-sm font-medium"
+                          onClick={() => {}}
+                          hasRemoveButton={false}
+                          modifier="error"
+                          hasDot={false}
+                          text={singleBuildData.badge}
+                        />
                       </div>
                     }
                   />
                   <AccordionPanel wrapperClassName="bg-white w-full overflow-hidden">
-                    <div className="overflow-hidden">
+                    <div className="border-base-300 mx-8 overflow-hidden rounded-t-md border">
                       {singleBuildData.content}
                     </div>
                   </AccordionPanel>
                 </O11yAccordian>
-              </O11yTableCell>
-              <O11yTableCell wrapperClassName="bg-white">
-                {' '}
-                <O11yBadge
-                  wrapperClassName="text-sm font-medium"
-                  onClick={() => {}}
-                  hasRemoveButton={false}
-                  modifier="error"
-                  hasDot={false}
-                  text={singleBuildData.badge}
-                />
-              </O11yTableCell>
-            </>
-          )}
-          fixedHeaderContent={() => (
-            <O11yTableRow>
-              <O11yTableCell wrapperClassName="text-base-900" isSticky>
-                Error
-              </O11yTableCell>
-              <O11yTableCell wrapperClassName="text-base-900" isSticky>
-                Tests
-              </O11yTableCell>
-            </O11yTableRow>
-          )}
-          handleRowClick={() => {}}
-        />
+              </>
+            )}
+          />
+        </div>
       </div>
     </div>
   );

@@ -128,6 +128,7 @@ export default function ReRunSummary() {
         {reRunStats.data?.retryData?.length > 0 && (
           <VirtualisedTable
             data={reRunStats.data?.retryData}
+            showFixedFooter={false}
             itemContent={(index, item) => (
               <>
                 <O11yTableCell>{item.label}</O11yTableCell>

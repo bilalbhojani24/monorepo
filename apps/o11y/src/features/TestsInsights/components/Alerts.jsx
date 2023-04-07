@@ -15,8 +15,6 @@ import {
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
-// import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -44,14 +42,12 @@ export default function Alerts() {
 
   const handleFilterRedirect = (filterQuery) => {
     logInsightsInteractionEvent({ interaction: 'alerts_clicked' });
-    // dispatch(setTestRuns([]));
     window.scroll(0, 0);
     let searchString = `?tab=tests`;
     if (filterQuery) {
       searchString += `&${filterQuery}`;
     }
     navigate({ search: searchString });
-    // dispatch(setAppliedFiltersTagsViaURL());
   };
 
   const handleClickConfigureAlerts = () => {

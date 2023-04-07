@@ -65,7 +65,7 @@ export default function RootNodeMetaData({
         <MdFolderOpen className="h-8 w-8" />
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="overflow-hidden text-ellipsis whitespace-nowrap  text-sm"
+          className="truncate  text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}
@@ -98,7 +98,7 @@ export default function RootNodeMetaData({
         </p>
       )}
       {!!middleScopes?.length && (
-        <div className={twClassNames('flex items-center max-w-[300px]')}>
+        <div className={twClassNames('flex items-center text-left')}>
           <ScopeLine scopes={middleScopes} />
         </div>
       )}

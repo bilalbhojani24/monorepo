@@ -5,8 +5,6 @@ import { MdErrorOutline, MdOutlineFindInPage } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState, O11yTooltip } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-// import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -48,11 +46,8 @@ export default function FailureCategories() {
 
   const handleChartClick = useCallback(
     (data) => {
-      // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-      // dispatch(setTestRuns([]));
       const searchString = `?tab=tests&issueTypeGroup=${data.id}`;
       navigate({ search: searchString });
-      // dispatch(setAppliedFiltersTagsViaURL());
     },
     [navigate]
   );
@@ -228,7 +223,6 @@ export default function FailureCategories() {
               <div
                 className="flex cursor-pointer items-center justify-between pb-2 text-sm"
                 key={item.id}
-                // role="button"
                 onClick={() => handleCategoryClick(item)}
               >
                 <p className="flex items-center gap-2">

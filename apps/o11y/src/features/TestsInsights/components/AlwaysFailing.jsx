@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -26,11 +24,9 @@ export default function AlwaysFailing() {
 
   const handleFilterRedirect = () => {
     logInsightsInteractionEvent({ interaction: 'always_failing_clicked' });
-    // dispatch(setTestRuns([]));
     window.scroll(0, 0);
     const searchString = `?tab=tests&history=isAlwaysFailing`;
     navigate({ search: searchString });
-    // dispatch(setAppliedFiltersTagsViaURL());
   };
   return (
     <WidgetLayoutCard

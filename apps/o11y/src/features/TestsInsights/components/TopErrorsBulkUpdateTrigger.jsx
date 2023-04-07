@@ -1,11 +1,6 @@
 import React from 'react';
 // import { useDispatch } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
-import {
-  O11yTableCell,
-  O11yTableHead,
-  O11yTableRow
-} from 'common/bifrostProxy';
 // import { setCurrentSelectedTestId } from 'app/testops/TestList/slices/dataSlice';
 // import { setShowBulkDefectTypeModal } from 'app/testops/TestList/slices/uiSlice';
 import PropTypes from 'prop-types';
@@ -26,22 +21,16 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId }) {
     // );
   };
   return (
-    <>
-      <O11yTableHead>
-        <O11yTableRow wrapperClassName="w-full">
-          <O11yTableCell>Failed tests</O11yTableCell>
-          <O11yTableCell>
-            <Button
-              variant="minimal"
-              wrapperClassName="text-brand-500 font-semibold w-1/3"
-              onClick={handleClickTrigger}
-            >
-              Bulk update failure category
-            </Button>
-          </O11yTableCell>
-        </O11yTableRow>
-      </O11yTableHead>
-    </>
+    <div className="bg-base-50 border-base-300 flex justify-between border-b py-2 px-4">
+      <div>Failed tests</div>
+      <Button
+        variant="minimal"
+        wrapperClassName="text-brand-500 font-semibold"
+        onClick={handleClickTrigger}
+      >
+        Bulk update failure category
+      </Button>
+    </div>
   );
 }
 TopErrorsBulkUpdateTrigger.propTypes = {

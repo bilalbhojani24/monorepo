@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -55,8 +54,6 @@ export default function BuildStability() {
           interaction: 'stability_other_build_clicked'
         });
 
-        // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-        // dispatch(setTestRuns([]));
         window.scroll(0, 0);
         navigate(
           `${getBuildPath(

@@ -56,7 +56,8 @@ export default function BigNumber({ data, onClick, config }) {
         </p>
         <div
           className={twClassNames('text-base-500 my-1 flex items-center', {
-            'hover:text-brand-600': !config.noHover
+            'hover:text-brand-600': !config.noHover,
+            'w-[calc(100%-50px)]': !config.noHover
           })}
         >
           {!isEmpty(data.insights) && (
@@ -66,9 +67,12 @@ export default function BigNumber({ data, onClick, config }) {
             </p>
           )}
           <p
-            className={twClassNames('text-base-500 text-sm font-medium', {
-              'hover:text-brand-600': !config.noHover
-            })}
+            className={twClassNames(
+              'text-base-500 text-sm font-medium truncate',
+              {
+                'hover:text-brand-600': !config.noHover
+              }
+            )}
           >
             {data.meta}
           </p>

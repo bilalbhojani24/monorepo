@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-// import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getStackedColumnChartData } from 'features/TestsInsights/utils';
@@ -53,8 +51,6 @@ export default function BuildHistory() {
           interaction: 'build_history_other_run_clicked'
         });
 
-        // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-        // dispatch(setTestRuns([]));
         window.scroll(0, 0);
         navigate(
           `${getBuildPath(
@@ -80,8 +76,6 @@ export default function BuildHistory() {
           interaction: 'build_history_other_run_clicked'
         });
 
-        // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-        // dispatch(setTestRuns([]));
         window.scroll(0, 0);
         navigate(
           `${getBuildPath(
@@ -90,7 +84,6 @@ export default function BuildHistory() {
             data.category
           )}?tab=tests&status=${data.series.name}`
         );
-        // dispatch(setAppliedFiltersTagsViaURL());
       }
     },
     [

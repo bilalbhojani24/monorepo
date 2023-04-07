@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import ScopeLine from 'common/ScopeLine/containers/ScopeLine';
 import {
   setIsDetailsVisible,
@@ -31,24 +30,29 @@ export default function TestDataItem({ data }) {
   return (
     <>
       {data.map((item) => (
-        <O11yTableRow onRowClick={() => handleClickTest(item?.details?.id)}>
-          <O11yTableCell>
+        <div
+          className="border-base-200 flex items-center justify-between border-b py-2 px-4"
+          onRowClick={() => handleClickTest(item?.details?.id)}
+          key={item?.details?.id}
+        >
+          <div>
             <>
               {!!item?.scopeList?.length && (
-                <div className="text-base-900 text-ellipsis whitespace-nowrap text-sm font-medium">
+                // eslint-disable-next-line tailwindcss/no-arbitrary-value
+                <div className="text-base-900 w-[330px] truncate text-left text-sm font-medium">
                   <ScopeLine scopes={item.scopeList} />
                 </div>
               )}
               <p className="text-base-600 text-xs font-normal">{item.title}</p>
               <RootNodeMetaData {...item?.details} />
             </>
-          </O11yTableCell>
-          <O11yTableCell>
+          </div>
+          <div>
             <p className="text-base-500">
               {milliSecondsToTime(item?.duration)}
             </p>
-          </O11yTableCell>
-        </O11yTableRow>
+          </div>
+        </div>
       ))}
     </>
   );

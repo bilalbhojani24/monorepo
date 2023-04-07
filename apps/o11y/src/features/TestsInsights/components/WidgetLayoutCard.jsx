@@ -156,7 +156,7 @@ function WidgetLayoutCard({
                       )}
                     </div>
                   </O11yTableCell>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2 sm:last:pr-0">
                     {!!singleBuildData.filterCount && (
                       <O11yBadge
                         modifier="warn"

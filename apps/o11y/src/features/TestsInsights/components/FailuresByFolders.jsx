@@ -261,30 +261,38 @@ export default function FailuresByFolders() {
   }
 
   return (
-    <div className=" relative flex h-full flex-col" ref={containerRef}>
-      <O11yTooltip
-        theme="dark"
-        wrapperClassName="py-2"
-        placementSide="top"
-        placementAlign="center"
-        triggerAsChild
-        content={
-          tooltipData?.options?.id ? (
-            <FailureByFoldersTooltip data={tooltipData.options || {}} />
-          ) : null
-        }
+    <div className="relative flex h-full flex-col" ref={containerRef}>
+      <div
+        className="absolute z-10 rounded-sm"
+        key={tooltipData?.options?.id}
+        style={{
+          ...tooltipData?.styles,
+          cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+        }}
+        onClick={handleClickTooltipInit}
+        role="presentation"
       >
-        <div
-          className="absolute z-10 rounded-sm"
-          key={tooltipData?.options?.id}
-          style={{
-            ...tooltipData?.styles,
-            cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
-          }}
-          onClick={handleClickTooltipInit}
-          role="presentation"
-        />
-      </O11yTooltip>
+        <O11yTooltip
+          theme="dark"
+          wrapperClassName="py-2"
+          placementSide="top"
+          placementAlign="center"
+          triggerAsChild
+          content={
+            tooltipData?.options?.id ? (
+              <FailureByFoldersTooltip data={tooltipData.options || {}} />
+            ) : null
+          }
+        >
+          <div
+            className="h-full w-full"
+            style={{
+              ...tooltipData?.styles,
+              cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+            }}
+          />
+        </O11yTooltip>
+      </div>
       <Chart options={chartOptions} />
     </div>
   );
