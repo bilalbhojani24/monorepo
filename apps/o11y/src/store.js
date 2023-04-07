@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import buildsReducer from 'features/AllBuilds/slices/dataSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
+import integrationsReducer from 'features/Integrations/slices/integrationsSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
 import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
 import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
@@ -13,25 +14,28 @@ import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
 import suiteHealthUIReducer from 'features/SuiteHealth/slices/uiSlice';
 import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
+import testingTrendReducer from 'features/TestingTrends/slices/testingTrendsSlice';
 import globalReducer from 'globalSlice';
 import { createLogger } from 'redux-logger';
 
 export const store = configureStore({
   reducer: {
-    global: globalReducer,
-    generalSettings: generalSettingsReducer,
     alertSettings: alertsSettingsReducer,
     autoAnalyserSettings: autoAnalyserSettingsReducer,
+    buildDetails: buildDetailsReducer,
+    buildsData: buildsReducer,
     failureCategoriesSettings: failureCategoriesSettingsReducer,
+    generalSettings: generalSettingsReducer,
+    global: globalReducer,
     reRunSettings: reRunSettingsReducer,
+    shErrordetails: shErrorDetailsReducer,
+    shTestdetails: shTestDetailsReducer,
     shTests: shTestsReducer,
     suiteHealthUI: suiteHealthUIReducer,
-    shTestdetails: shTestDetailsReducer,
-    shErrordetails: shErrorDetailsReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
-    buildsData: buildsReducer,
-    buildDetails: buildDetailsReducer,
+    integrations: integrationsReducer,
+    testingTrend: testingTrendReducer,
     modalToShow
   },
   middleware: (getDefaultMiddleware) => {
