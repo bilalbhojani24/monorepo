@@ -4,52 +4,19 @@ import {
   AccordionInteractiveHeader,
   AccordionPanel
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
-import { O11yTooltip } from 'common/bifrostProxy';
-import StackTraceTooltip from 'common/StackTraceTooltip';
 import PropTypes from 'prop-types';
 
 import UEBreakdown from '../components/UEBreakdown';
 import UERowHeader from '../components/UERowHeader';
-import { UNIQUE_ERROR_MAIN_HEADER } from '../constants';
 
 export default function UERow({ data }) {
   return (
     <>
       <Accordion>
         <AccordionInteractiveHeader
-          wrapperClassName="bg-white pr-0"
+          wrapperClassName="bg-white pr-0 py-0"
           title={
-            <div
-              className={twClassNames(
-                UNIQUE_ERROR_MAIN_HEADER.error.bodyClass,
-                'pl-1 pr-4 text-left items-center flex'
-              )}
-            >
-              <O11yTooltip
-                triggerWrapperClassName="max-w-full truncate"
-                content={
-                  <StackTraceTooltip
-                    traceLines={data?.error || []}
-                    copyText={data?.error?.join('\n')}
-                  />
-                }
-                wrapperClassName="p-1 shadow-lg max-w-xl sm:max-w-3xl"
-                placementSide="bottom"
-                placementAlign="start"
-                size="lg"
-                arrowWidth={0}
-                arrowHeight={0}
-                sideOffset={2}
-              >
-                <span className="text-base-900 text-sm font-medium leading-5">
-                  {data?.error?.[0]}
-                </span>
-              </O11yTooltip>
-            </div>
-          }
-          asideContent={
-            <div className="flex h-full w-full cursor-pointer items-center rounded-b-md">
+            <div className="flex w-full items-center py-3">
               <UERowHeader data={data} />
             </div>
           }
