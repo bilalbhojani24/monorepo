@@ -21,7 +21,7 @@ const ComboboxOptionItem = forwardRef(
     { disabled, option, checkPosition, wrapperClassName, isEmpty, emptyText },
     ref
   ) => {
-    const { isMulti, setCurrentSelected } = useContext(ComboboxContextData);
+    const { isMulti } = useContext(ComboboxContextData);
 
     return (
       <>
@@ -123,6 +123,8 @@ const ComboboxOptionItem = forwardRef(
 ComboboxOptionItem.propTypes = {
   checkPosition: oneOf(CHECK_POSITION),
   disabled: bool,
+  emptyText: string,
+  isEmpty: bool,
   option: shape({
     value: oneOfType([string, number]).isRequired,
     label: string.isRequired,
@@ -135,6 +137,8 @@ ComboboxOptionItem.propTypes = {
 ComboboxOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   disabled: false,
+  emptyText: '',
+  isEmpty: false,
   wrapperClassName: ''
 };
 

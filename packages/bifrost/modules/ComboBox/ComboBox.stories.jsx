@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
@@ -200,24 +200,29 @@ export const LoadingCombobox = () => {
 };
 
 export const CaseOne = () => {
+  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
   const [selectedPerson, setSelectedPerson] = useState(undefined);
-  const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
+  const [filteredOptions, setFilteredOptions] = useState(options);
   const [loading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const valueChange = useCallback((e) => {
-    const val = e.target.value;
+  const valueChange = useCallback(
+    (e) => {
+      const val = e.target.value;
 
-    setIsLoading(true);
+      setIsLoading(true);
 
-    setTimeout(() => {
-      setQuery(val);
-      const filtered = COMBOBOX_OPTIONS.filter((fv) => fv.label.includes(val));
-      setFilteredOptions(filtered);
-      setIsLoading(false);
-    }, 0);
-  }, []);
+      setTimeout(() => {
+        setQuery(val);
+        const filtered = options.filter((fv) => fv.label.includes(val));
+        setFilteredOptions(filtered);
+        setIsLoading(false);
+      }, 0);
+    },
+    [options]
+  );
 
+  const displayItemsArray = query ? filteredOptions : options;
   return (
     <>
       <ComboBox
@@ -225,10 +230,9 @@ export const CaseOne = () => {
         value={selectedPerson}
         onChange={(val) => {
           setSelectedPerson(val);
-          const hasValue = COMBOBOX_OPTIONS.find(
-            (item) => item.value === val.value
-          );
-          if (!hasValue) setFilteredOptions([...COMBOBOX_OPTIONS, val]);
+          const hasValue = options.find((item) => item.value === val.value);
+          if (!hasValue)
+            setOptions([{ ...val, visualLabel: val.label }, ...options]);
           setQuery('');
         }}
       >
@@ -244,14 +248,14 @@ export const CaseOne = () => {
               <ComboboxOptionItem isEmpty emptyText="No options available" />
               <ComboboxOptionItem
                 option={{
-                  value: null,
+                  value: Math.random(),
                   label: query,
                   visualLabel: `Create ${query}`
                 }}
               />
             </>
           )}
-          {filteredOptions.map((item) => (
+          {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
         </ComboboxOptionGroup>
@@ -261,43 +265,44 @@ export const CaseOne = () => {
 };
 
 export const CaseOneMulti = () => {
-  const [selectedPerson, setSelectedPerson] = useState(undefined);
+  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
+  const [selectedPerson, setSelectedPerson] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
   const [loading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const valueChange = useCallback((e) => {
-    const val = e.target.value;
-
-    setIsLoading(true);
-
-    setTimeout(() => {
+  const valueChange = useCallback(
+    (e) => {
+      const val = e.target.value;
       setQuery(val);
-      const filtered = COMBOBOX_OPTIONS.filter((fv) => fv.label.includes(val));
-      setFilteredOptions(filtered);
-      setIsLoading(false);
-    }, 0);
-  }, []);
 
-  console.log({ filteredOptions });
-  console.log({ query });
-  console.log({ selectedPerson });
+      setIsLoading(true);
+
+      setTimeout(() => {
+        setQuery(val);
+        const filtered = options.filter((fv) => fv.label.includes(val));
+        setFilteredOptions(filtered);
+        setIsLoading(false);
+      }, 0);
+    },
+    [options]
+  );
+
+  const displayItemsArray = query ? filteredOptions : options;
+
   return (
     <>
       <ComboBox
         isLoading={loading}
         value={selectedPerson}
         onChange={(val) => {
-          const matchingObjects = [];
-          COMBOBOX_OPTIONS.forEach((obj1) => {
-            const obj2 = val.find((obj) => obj.value === obj1.value);
-            if (obj2) {
-              matchingObjects.push(obj1);
-            }
-          });
           setSelectedPerson(val);
-          if (!matchingObjects.length) {
-            setFilteredOptions([...COMBOBOX_OPTIONS, ...val]);
+
+          const nonMatchingObjects = val.filter(
+            (obj) => !options.find((option) => option.value === obj.value)
+          );
+          if (nonMatchingObjects.length) {
+            setOptions([...nonMatchingObjects, ...options]);
           }
           setQuery('');
         }}
@@ -315,14 +320,14 @@ export const CaseOneMulti = () => {
               <ComboboxOptionItem isEmpty emptyText="No options available" />
               <ComboboxOptionItem
                 option={{
-                  value: null,
+                  value: Math.random(),
                   label: query,
                   visualLabel: `Create ${query}`
                 }}
               />
             </>
           )}
-          {filteredOptions.map((item) => (
+          {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
         </ComboboxOptionGroup>

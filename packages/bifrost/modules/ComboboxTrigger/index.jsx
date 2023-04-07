@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
+import { func, node, string } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
-import { func, string } from '../../shared/proptypesConstants';
 import { ExclamationCircleIcon } from '../Icon';
 import Loader from '../Loader';
 
@@ -19,8 +19,15 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     useContext(ComboboxContextData);
 
   useEffect(() => {
-    if (open) setWidth(buttonRef.current?.offsetWidth);
+    if (open) {
+      setWidth(buttonRef.current?.offsetWidth);
+      comboInputRef.current.focus();
+    }
   }, [setWidth, open]);
+
+  useEffect(() => {
+    comboInputRef.current.value = '';
+  }, [value]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -38,7 +45,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
         )}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
-        {!isMulti && value?.image && (
+        {!isMulti && !open && value?.image && (
           <img
             src={value.image}
             alt={value.label}
@@ -46,7 +53,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           />
         )}
         <Combobox.Input
-          // key={open}
+          key={open}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
             'flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0',
@@ -54,7 +61,9 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
               'bg-base-50': disabled || isLoading
             }
           )}
-          onChange={onInputValueChange}
+          onChange={(e) => {
+            onInputValueChange(e);
+          }}
           displayValue={(dv) => {
             if (open) return '';
             return isMulti && Array.isArray(dv)
@@ -81,7 +90,15 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           )}
         </div>
 
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center justify-end rounded-r-md px-2 focus:outline-none">
+        <Combobox.Button
+          className="absolute inset-y-0 right-0 flex w-full items-center justify-end rounded-r-md px-2 focus:outline-none"
+          onClick={(e) => {
+            if (open && isMulti) {
+              e.preventDefault();
+              comboInputRef.current.focus();
+            }
+          }}
+        >
           {({ value: buttonValue }) => (
             <TriggerButton
               value={buttonValue?.length}
@@ -96,10 +113,12 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
 };
 
 ComboboxTrigger.propTypes = {
+  leadingIcon: node,
   onInputValueChange: func,
   placeholder: string
 };
 ComboboxTrigger.defaultProps = {
+  leadingIcon: null,
   onInputValueChange: null,
   placeholder: ''
 };
