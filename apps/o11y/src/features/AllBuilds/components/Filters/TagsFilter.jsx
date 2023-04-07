@@ -60,7 +60,6 @@ const TagsFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
       value={selectedTagsOptions}
       checkPosition
       virtuosoWidth="350px"
-      optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
     />
   );
 };

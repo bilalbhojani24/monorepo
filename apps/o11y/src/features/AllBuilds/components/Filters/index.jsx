@@ -101,7 +101,6 @@ const Filters = () => {
                 )}
                 checkPosition
                 virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
               />
               <UsersFilters
                 onChangeArrayFilter={onChangeArrayFilter}

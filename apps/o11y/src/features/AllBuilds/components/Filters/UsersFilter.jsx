@@ -40,7 +40,6 @@ const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
       value={selectedUserOptions}
       checkPosition
       virtuosoWidth="350px"
-      optionsListWrapperClassName="min-w-max h-52 overflow-hidden"
     />
   ) : null;
 };
