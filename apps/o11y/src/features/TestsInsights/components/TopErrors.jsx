@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
 import {
@@ -8,14 +8,8 @@ import {
   MdErrorOutline,
   MdOutlineTask
 } from '@browserstack/bifrost';
-import {
-  O11yAccordian,
-  O11yBadge,
-  O11yEmptyState,
-  O11yTooltip
-} from 'common/bifrostProxy';
+import { O11yAccordian, O11yBadge, O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-// import VirtualisedTable from 'common/VirtualisedTable';
 import {
   getBuildMeta,
   getBuildUUID
@@ -29,31 +23,7 @@ import { getTopErrorsData } from '../slices/testInsightsSlice';
 import BigNumber from './BigNumber';
 import TopErrorsTestRun from './TopErrorsTestRun';
 import UniqueErrorTableHeader from './UniqueErrorTableHeader';
-
-const getFormattedData = (data) =>
-  data.map((item, idx) => {
-    const titleSplit = item.title.split('\n');
-    return {
-      ...item,
-      title: (
-        <>
-          {titleSplit.slice(0, 3).map((text) => (
-            <p className="truncate" key={text}>
-              {text}
-            </p>
-          ))}
-          {titleSplit.length > 3 && (
-            <O11yTooltip placementSide="bottom" mouseEnterDelay={250}>
-              <p className="text-xs">...{titleSplit.length - 3} more line(s)</p>
-            </O11yTooltip>
-          )}
-        </>
-      ),
-      id: idx,
-      badge: item.count,
-      content: <TopErrorsTestRun data={item.testRuns} parentId={item.id} />
-    };
-  });
+import UniqueErrorTitle from './UniqueErrorTitle';
 
 export default function TopErrors() {
   const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
@@ -136,14 +106,6 @@ export default function TopErrors() {
     }
   };
 
-  const List = forwardRef((props, ref) => (
-    <div
-      {...props}
-      ref={ref}
-      className="border-base-300 rounded-b-md border border-t-0"
-    />
-  ));
-
   return (
     <div className="flex h-full flex-col">
       <div className="mt-4">
@@ -158,40 +120,39 @@ export default function TopErrors() {
       </div>
       <div className="mt-4 flex h-full flex-1 flex-col">
         <UniqueErrorTableHeader />
-        <div className="h-full flex-1 overflow-auto">
+        <div className="border-base-300 h-full flex-1 overflow-auto border border-t-0">
           <Virtuoso
-            data={getFormattedData(topErrorsStats?.data?.data || [])}
-            components={{
-              List
-            }}
+            data={topErrorsStats?.data?.data || []}
             itemContent={(index, singleBuildData) => (
               <>
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-3 flex-1 bg-white"
+                    wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0"
                     title={
-                      // eslint-disable-next-line tailwindcss/no-arbitrary-value
-                      <div className="w-[380px] overflow-hidden text-ellipsis text-left">
-                        {singleBuildData.title}
+                      <div className="overflow-hidden whitespace-normal break-words text-left text-sm">
+                        <UniqueErrorTitle title={singleBuildData.title} />
                       </div>
                     }
                     asideContent={
-                      <div className="m-4 flex">
+                      <div className="flex">
                         <O11yBadge
-                          wrapperClassName="text-sm font-medium"
+                          wrapperClassName="m-2 text-sm font-medium"
                           onClick={() => {}}
                           hasRemoveButton={false}
                           modifier="error"
                           hasDot={false}
-                          text={singleBuildData.badge}
+                          text={singleBuildData.count}
                         />
                       </div>
                     }
                   />
                   <AccordionPanel wrapperClassName="bg-white w-full overflow-hidden">
                     <div className="border-base-300 mx-8 overflow-hidden rounded-t-md border">
-                      {singleBuildData.content}
+                      <TopErrorsTestRun
+                        data={singleBuildData.testRuns}
+                        parentId={singleBuildData.id}
+                      />
                     </div>
                   </AccordionPanel>
                 </O11yAccordian>

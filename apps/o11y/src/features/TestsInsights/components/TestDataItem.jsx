@@ -31,19 +31,19 @@ export default function TestDataItem({ data }) {
     <>
       {data.map((item) => (
         <div
-          className="border-base-200 flex items-center justify-between border-b py-2 px-4"
+          className="border-base-200 flex items-center justify-between border-b py-2 px-4 text-sm"
           onRowClick={() => handleClickTest(item?.details?.id)}
           key={item?.details?.id}
         >
           <div>
             <>
+              <p className="text-base-900 text-sm font-medium">{item.title}</p>
               {!!item?.scopeList?.length && (
                 // eslint-disable-next-line tailwindcss/no-arbitrary-value
-                <div className="text-base-900 w-[330px] truncate text-left text-sm font-medium">
+                <div className="text-base-600 w-[330px] truncate text-left text-xs font-normal">
                   <ScopeLine scopes={item.scopeList} />
                 </div>
               )}
-              <p className="text-base-600 text-xs font-normal">{item.title}</p>
               <RootNodeMetaData {...item?.details} />
             </>
           </div>

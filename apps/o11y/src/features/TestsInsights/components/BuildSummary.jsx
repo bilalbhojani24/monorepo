@@ -76,7 +76,7 @@ export default function BuildSummary() {
           title: {
             text: `<p class="text-5xl text-center">${getTotalValues(
               buildSummaryStats.data?.data || []
-            )}</p><p class="text-base font-medium">Tests</p>`,
+            )}</p><p class="text-base font-medium text-center">Tests</p>`,
             verticalAlign: 'middle',
             useHTML: true
           }

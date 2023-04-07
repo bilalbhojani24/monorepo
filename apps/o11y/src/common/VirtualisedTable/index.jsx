@@ -41,10 +41,16 @@ const TableHead = ({ wrapperClassName, ...restProps }) => (
 
 TableHead.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 
-const TableBodyWithRef = forwardRef(({ wrapperClassName, ...restProps }) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <O11yRefTableBody {...restProps} wrapperClassName={wrapperClassName} />
-));
+const TableBodyWithRef = forwardRef(
+  ({ wrapperClassName, ...restProps }, ref) => (
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <O11yRefTableBody
+      {...restProps}
+      wrapperClassName={wrapperClassName}
+      ref={ref}
+    />
+  )
+);
 TableBodyWithRef.propTypes = { wrapperClassName: PropTypes.string.isRequired };
 
 const Table = ({
@@ -135,12 +141,13 @@ const VirtualisedTable = ({
             wrapperClassName={tableHeaderWrapperClassName}
           />
         ),
-        TableBody: (props) => (
+        TableBody: forwardRef((props, ref) => (
           <TableBodyWithRef
             wrapperClassName={tableBodyWrapperClassName}
             {...props}
+            ref={ref}
           />
-        ),
+        )),
         TableRow: (props) => (
           <TableRow
             {...props}

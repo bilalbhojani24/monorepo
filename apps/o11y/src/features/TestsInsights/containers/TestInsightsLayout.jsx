@@ -157,16 +157,19 @@ export default function TestInsightsLayout() {
                   theme: 'dark'
                 }}
                 KpiProps={null}
-                filterDropdown={
-                  <Button
-                    icon={<MdDragIndicator />}
-                    isIconOnlyButton
-                    colors="white"
-                    variant="minimal"
-                    wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
-                  />
+                otherOptions={
+                  <div className="flex gap-2">
+                    <Button
+                      icon={<MdDragIndicator />}
+                      isIconOnlyButton
+                      size="xs"
+                      colors="white"
+                      variant="minimal"
+                      wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
+                    />
+                    {getOtherOptions(key)}
+                  </div>
                 }
-                otherOptions={getOtherOptions(key)}
                 size="fit-content"
                 title={cards[key].title}
                 wrapperClassName="bg-white relative h-full"
