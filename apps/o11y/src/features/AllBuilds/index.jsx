@@ -7,8 +7,7 @@ import {
   useSearchParams
 } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
-import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import { O11yButton } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
@@ -18,6 +17,7 @@ import { logOllyEvent } from 'utils/common';
 import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
+import BuildTableHeader from './components/BuildTableHeader';
 import Filters from './components/Filters';
 import FilterPills from './components/Filters/FilterPills';
 import SearchBuilds from './components/SearchBuilds';
@@ -38,8 +38,7 @@ import { getParamsFromFiltersObject } from './utils/common';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_METADATA_FILTERS,
-  EMPTY_SELECTED_FILTERS,
-  TABLE_CLASSES
+  EMPTY_SELECTED_FILTERS
 } from './constants';
 
 const AllBuildsPage = () => {
@@ -190,52 +189,7 @@ const AllBuildsPage = () => {
                 data={singleBuildData}
               />
             )}
-            fixedHeaderContent={() => (
-              <O11yTableRow>
-                <O11yTableCell
-                  wrapperClassName={TABLE_CLASSES.HEADER_COMMON}
-                  isSticky
-                >
-                  BUILD
-                </O11yTableCell>
-                <O11yTableCell
-                  wrapperClassName={twClassNames(
-                    TABLE_CLASSES.COL.TEST,
-                    TABLE_CLASSES.HEADER_COMMON
-                  )}
-                  isSticky
-                >
-                  TESTS
-                </O11yTableCell>
-                <O11yTableCell
-                  wrapperClassName={twClassNames(
-                    TABLE_CLASSES.COL.DURATION,
-                    TABLE_CLASSES.HEADER_COMMON
-                  )}
-                  isSticky
-                >
-                  DURATION
-                </O11yTableCell>
-                <O11yTableCell
-                  wrapperClassName={twClassNames(
-                    TABLE_CLASSES.COL.FAILURE_CATEGORY,
-                    TABLE_CLASSES.HEADER_COMMON
-                  )}
-                  isSticky
-                >
-                  FAILURE CATEGORIES
-                </O11yTableCell>
-                <O11yTableCell
-                  wrapperClassName={twClassNames(
-                    TABLE_CLASSES.COL.SMART_TAGS,
-                    TABLE_CLASSES.HEADER_COMMON
-                  )}
-                  isSticky
-                >
-                  SMART TAGS
-                </O11yTableCell>
-              </O11yTableRow>
-            )}
+            fixedHeaderContent={BuildTableHeader}
             handleRowClick={handleClickBuildItem}
             tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
             tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"

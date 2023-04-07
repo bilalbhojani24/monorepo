@@ -28,7 +28,7 @@ export const aggregateColors = {
 };
 
 export const TABLE_CLASSES = {
-  HEADER_COMMON: 'py-3 border-t border-base-300 text-xs font-medium',
+  HEADER_COMMON: 'py-3 border-t border-base-300 text-xs font-medium z-auto',
   ROW_CLASSES:
     'overflow-hidden border-b border-base-300 whitespace-normal break-words',
   COL: {
