@@ -23,6 +23,7 @@ const renderChild = ({
   resetCreateMeta,
   resetUpdateMeta,
   projectFieldData,
+  isWorkInProgress,
   projectsHaveError,
   clearErrorMessage,
   cleanedIssueTypes,
@@ -82,6 +83,7 @@ const renderChild = ({
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
@@ -101,6 +103,7 @@ const renderChild = ({
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
           clearErrorMessage={clearErrorMessage}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}

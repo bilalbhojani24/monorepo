@@ -277,6 +277,7 @@ const IssueForm = ({
             resetCreateMeta,
             resetUpdateMeta,
             projectFieldData,
+            isWorkInProgress,
             projectsHaveError,
             cleanedIssueTypes,
             attachments: files,

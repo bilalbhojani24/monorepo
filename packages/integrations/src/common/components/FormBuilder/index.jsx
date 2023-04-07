@@ -12,6 +12,7 @@ const FormBuilder = ({
   handleSubmit,
   setAttachments,
   descriptionMeta,
+  isWorkInProgress,
   setIsWorkInProgress,
   hideDescription = false
 }) => {
@@ -102,6 +103,7 @@ const FormBuilder = ({
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    if (!isWorkInProgress) return null;
     if (typeof handleSubmit === 'function') {
       const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];

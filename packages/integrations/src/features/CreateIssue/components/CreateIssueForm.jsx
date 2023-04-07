@@ -23,13 +23,14 @@ const CreateIssueForm = ({
   attachments,
   setFieldsData,
   setAttachments,
+  isWorkInProgress,
   projectFieldData,
   cleanedIssueTypes,
   issueTypeFieldData,
   isCreateMetaLoading,
   setIsWorkInProgress,
-  integrationToolFieldData,
-  setIsFormBeingSubmitted
+  setIsFormBeingSubmitted,
+  integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
   const [fieldErrors, setFieldErrors] = useState({});
@@ -206,6 +207,7 @@ const CreateIssueForm = ({
           handleSubmit={handleSubmit}
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
+          isWorkInProgress={isWorkInProgress}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}

@@ -24,6 +24,7 @@ const UpdateIssueForm = ({
   setFieldsData,
   issueFieldData,
   setAttachments,
+  isWorkInProgress,
   projectFieldData,
   isUpdateMetaLoading,
   setIsWorkInProgress,
@@ -234,6 +235,7 @@ const UpdateIssueForm = ({
           handleSubmit={handleSubmit}
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
+          isWorkInProgress={isWorkInProgress}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}

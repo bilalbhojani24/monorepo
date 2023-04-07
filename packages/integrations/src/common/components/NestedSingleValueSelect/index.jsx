@@ -40,7 +40,7 @@ const NestedSingleValueSelect = ({
       const val = currOption.value || currOption.id || currOption.key;
 
       acc.push({
-        val,
+        value: val,
         image,
         label: currOption.label,
         ticketTypes: currOption.ticket_types,
@@ -141,6 +141,8 @@ const NestedSingleValueSelect = ({
     }
   };
 
+  console.log(optionsToRender);
+
   return (
     <div className="py-3">
       <ComboBox
@@ -167,7 +169,7 @@ const NestedSingleValueSelect = ({
           <ComboBox
             onChange={handleChildChange}
             value={
-              !childOptions?.length ? null : fieldsData[fieldKey].child ?? {}
+              !childOptions?.length ? null : fieldsData?.[fieldKey]?.child ?? {}
             }
           >
             <ComboboxTrigger />
