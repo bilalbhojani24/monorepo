@@ -63,7 +63,7 @@ const AddFolderModal = ({
           <TMInputField
             wrapperClassName="mb-2"
             label="Folder name *"
-            placeholder="Folder name 01"
+            placeholder="Enter folder name"
             value={filledFormData.name}
             errorText={formError.nameError}
             ref={modalFocusRef}

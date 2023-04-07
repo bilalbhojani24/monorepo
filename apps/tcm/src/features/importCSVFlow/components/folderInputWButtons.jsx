@@ -18,7 +18,7 @@ const FolderInputWButton = ({
   secondCtaClick,
   descriptionIcon
 }) => {
-  const { isOverflowing, textRef, lastFolderName } = useTextTransformer({
+  const { isOverflowing, textRef } = useTextTransformer({
     text
   });
 
@@ -30,13 +30,14 @@ const FolderInputWButton = ({
           <span>{icon}</span>
           {isOverflowing ? (
             <TMTooltip
-              size="xs"
+              size="6xl"
               placementSide="top"
               theme="dark"
               triggerWrapperClassName="overflow-hidden"
+              wrapperClassName="break-words"
               content={
                 <>
-                  <TMTooltipBody>{lastFolderName}</TMTooltipBody>
+                  <TMTooltipBody>{text}</TMTooltipBody>
                 </>
               }
             >

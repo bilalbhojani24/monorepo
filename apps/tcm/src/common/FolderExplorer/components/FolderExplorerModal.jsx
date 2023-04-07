@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdOutlineCreateNewFolder } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   TMAlerts,
   TMButton,
@@ -36,7 +37,8 @@ const FolderExplorerModal = ({
   rootFolderText,
   show,
   showEmptyModal,
-  subHeading
+  subHeading,
+  folderExplorerWrapperClassName
 }) => {
   const {
     handleActionClick,
@@ -87,7 +89,12 @@ const FolderExplorerModal = ({
                 </div>
               )}
               {primaryMoveLocation === moveFolderOptions[0].id ? (
-                <div className="border-base-300 mb-4 max-h-64 overflow-auto rounded-md border">
+                <div
+                  className={twClassNames(
+                    'border-base-300 mb-4 overflow-auto rounded-md border',
+                    folderExplorerWrapperClassName
+                  )}
+                >
                   <div className="border-base-200 flex justify-between border-b py-2 px-4">
                     <span>{folderExplorerHeader}</span>
                     {isCreateFolderButton && (
@@ -205,7 +212,8 @@ FolderExplorerModal.propTypes = {
   rootFolderText: PropTypes.string,
   isCreateFolderButton: PropTypes.bool,
   showEmptyModal: PropTypes.bool,
-  folderExplorerHeader: PropTypes.string
+  folderExplorerHeader: PropTypes.string,
+  folderExplorerWrapperClassName: PropTypes.string
 };
 
 FolderExplorerModal.defaultProps = {
@@ -227,7 +235,8 @@ FolderExplorerModal.defaultProps = {
   rootFolderText: '',
   isCreateFolderButton: false,
   showEmptyModal: false,
-  folderExplorerHeader: ''
+  folderExplorerHeader: '',
+  folderExplorerWrapperClassName: ''
 };
 
 export default FolderExplorerModal;

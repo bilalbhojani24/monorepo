@@ -2,6 +2,7 @@
 // if folderId provided then the selected folder will be based on that param
 
 import React from 'react';
+import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
 
 import ConrolledNestedTree from './ConrolledNestedTree';
@@ -35,16 +36,24 @@ const FolderExplorer = ({
 
   return (
     <>
-      <ConrolledNestedTree
-        actionOptions={actionOptions}
-        foldersArray={foldersArray}
-        actionsEnabled={actionsEnabled}
-        onFolderClick={folderClickHandler}
-        onFolderOpen={subFolderOpenHandler}
-        onActionClick={actionClickHandler}
-        // disabledFolders={disabledFolders}
-        selectedNodesId={folderId ? [parseInt(folderId, 10)] : selectedNodesId}
-      />
+      {foldersArray.length ? (
+        <ConrolledNestedTree
+          actionOptions={actionOptions}
+          foldersArray={foldersArray}
+          actionsEnabled={actionsEnabled}
+          onFolderClick={folderClickHandler}
+          onFolderOpen={subFolderOpenHandler}
+          onActionClick={actionClickHandler}
+          // disabledFolders={disabledFolders}
+          selectedNodesId={
+            folderId ? [parseInt(folderId, 10)] : selectedNodesId
+          }
+        />
+      ) : (
+        <div className="flex h-3/4 items-center justify-center">
+          <Loader />
+        </div>
+      )}
     </>
   );
 };
