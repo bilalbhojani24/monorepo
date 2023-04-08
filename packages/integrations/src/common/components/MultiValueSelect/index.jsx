@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -50,6 +50,7 @@ const MultiSelect = ({
     fieldsData[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
 
   useEffect(() => {
     if (value || defaultValue) {
@@ -85,23 +86,33 @@ const MultiSelect = ({
     return res;
   };
 
-  useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(
-            mergeTwoOptionsArray(optionsData, value || defaultValue)
-          );
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(
+          mergeTwoOptionsArray(optionsData, value || defaultValue)
+        );
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     if (value || defaultValue) {
@@ -164,6 +175,7 @@ const MultiSelect = ({
         isMulti={Boolean(optionsToRender?.length)}
         isLoading={areOptionsLoading}
         loadingText="Loading"
+        onOpenChange={handleOpen}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />

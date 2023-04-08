@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -76,6 +76,7 @@ const SingleValueSelect = ({
     fieldsData[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
 
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
@@ -88,23 +89,33 @@ const SingleValueSelect = ({
     return optionList;
   };
 
-  useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(
-            appendOptionIfMissing(optionsData, value || defaultValue)
-          );
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(
+          appendOptionIfMissing(optionsData, value || defaultValue)
+        );
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     setOptionsToRender(
@@ -117,10 +128,10 @@ const SingleValueSelect = ({
       (typeof setFieldsData === 'function' &&
         !fieldsData?.[fieldKey] &&
         selectFirstByDefault &&
-        optionsToRender[0]) ||
+        optionsToRender?.[0]) ||
       (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
+      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender?.[0] });
     }
   }, [
     selectFirstByDefault,
@@ -180,6 +191,7 @@ const SingleValueSelect = ({
     <div className="py-3">
       <ComboBox
         onChange={handleChange}
+        onOpenChange={handleOpen}
         value={
           !optionsToRender?.length
             ? null

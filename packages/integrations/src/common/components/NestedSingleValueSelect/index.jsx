@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -57,22 +57,33 @@ const NestedSingleValueSelect = ({
     fieldsData[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
 
-  useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(optionsData);
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(optionsData);
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     setOptionsToRender(cleanOptions(options));
@@ -141,8 +152,6 @@ const NestedSingleValueSelect = ({
     }
   };
 
-  console.log(optionsToRender);
-
   return (
     <div className="py-3">
       <ComboBox
@@ -151,6 +160,7 @@ const NestedSingleValueSelect = ({
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         isLoading={areOptionsLoading}
         loadingText="Loading"
+        onOpenChange={handleOpen}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger

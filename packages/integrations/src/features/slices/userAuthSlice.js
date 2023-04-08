@@ -23,15 +23,24 @@ export const userAuthSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTokenThunk.pending, (state) => {
-      state.loading = LOADING_STATUS.PENDING;
-      state.error = null;
+    builder.addCase(fetchTokenThunk.pending, (state, action) => {
+      // don't update loading state for refresh flow
+      if (!action?.meta?.arg?.refreshToken) {
+        state.loading = LOADING_STATUS.PENDING;
+        state.error = null;
+      }
     });
-    builder.addCase(fetchTokenThunk.fulfilled, (state) => {
-      state.loading = LOADING_STATUS.SUCCEEDED;
+    builder.addCase(fetchTokenThunk.fulfilled, (state, action) => {
+      // don't update loading state for refresh flow
+      if (!action?.meta?.arg?.refreshToken) {
+        state.loading = LOADING_STATUS.SUCCEEDED;
+      }
     });
     builder.addCase(fetchTokenThunk.rejected, (state, action) => {
-      state.loading = LOADING_STATUS.FAILED;
+      // don't update loading state for refresh flow
+      if (!action?.meta?.arg?.refreshToken) {
+        state.loading = LOADING_STATUS.FAILED;
+      }
       state.error = action;
     });
   }

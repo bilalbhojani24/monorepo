@@ -53,6 +53,7 @@ export const responseInterceptor = axios.interceptors.response.use(
 
       // run refresh token flow
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
+      config.refreshToken = true;
       return store.dispatch(fetchTokenThunk(config)).then(() => {
         // new UAT has been issued and stored in cookie
         const token = cookie.read(UAT_COOKIE_NAME);
