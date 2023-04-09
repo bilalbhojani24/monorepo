@@ -25,7 +25,7 @@ export default function TestInfo({ testDetails }) {
         className="text-base-500 flex items-center"
         title={testDetails?.filePath}
       >
-        <MdOutlineFolderOpen className="text-base-500 mr-1 h-4 w-4" />
+        <MdOutlineFolderOpen className="text-base-400 mr-1 h-4 w-4" />
         {testDetails?.vcFileUrl ? (
           <PropagationBlocker
             className={twClassNames('max-w-[150px] truncate pr-1', {
