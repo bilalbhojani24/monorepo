@@ -40,7 +40,8 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
     handleScrollIntoView,
     sessionTestToggle,
     setActiveStep,
-    setTotalSteps
+    setTotalSteps,
+    setShowStepNavigation
   } = useLogsContext();
 
   const [searchText, setSearchText] = useState('');
@@ -88,13 +89,21 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
       promise = dispatch(
         getConsolidatedLogsData({ testRunId: currentTestRunId })
       );
+      promise
+        .unwrap()
+        .then(() => {
+          setShowStepNavigation(true);
+        })
+        .catch(() => {
+          setShowStepNavigation(false);
+        });
     }
     return () => {
       if (promise) {
         promise?.abort();
       }
     };
-  }, [dispatch, currentTestRunId]);
+  }, [dispatch, currentTestRunId, setShowStepNavigation]);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {

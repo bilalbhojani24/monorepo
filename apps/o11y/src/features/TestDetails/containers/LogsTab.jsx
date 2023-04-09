@@ -49,6 +49,7 @@ const LogsTab = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const [showStepNavigation, setShowStepNavigation] = useState(false);
   const [activeTab, setActiveTab] = useState({
     idx: 0,
     value: LOGS_INFO_TAB_KEYS.logs
@@ -208,7 +209,8 @@ const LogsTab = () => {
           setActiveStep,
           setTotalSteps,
           activeTab,
-          setActiveTab
+          setActiveTab,
+          setShowStepNavigation
         }}
       >
         <TestVideoPlayer
@@ -216,7 +218,7 @@ const LogsTab = () => {
           floatingVideoRef={floatingVideoComponentRef}
         />
         <TestsLogsInfoTabs />
-        {activeTab.value === LOGS_INFO_TAB_KEYS.logs && (
+        {activeTab.value === LOGS_INFO_TAB_KEYS.logs && showStepNavigation && (
           <div className="sticky bottom-0 z-20 w-full">
             <div className="mb-2 flex items-center justify-center">
               <O11yButton
