@@ -26,6 +26,7 @@ const UpdateIssueForm = ({
   setAttachments,
   isWorkInProgress,
   projectFieldData,
+  scrollWidgetToTop,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   setIsFormBeingSubmitted,
@@ -99,6 +100,7 @@ const UpdateIssueForm = ({
             });
           }
           setIsFormBeingSubmitted(false);
+          scrollWidgetToTop();
           return Promise.reject(Error('update_failed'));
         })
         .then((response) => {
@@ -146,6 +148,7 @@ const UpdateIssueForm = ({
             }
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         })
         .catch((res) => {
@@ -176,6 +179,7 @@ const UpdateIssueForm = ({
             }
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         });
     },
@@ -236,6 +240,7 @@ const UpdateIssueForm = ({
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
           isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}

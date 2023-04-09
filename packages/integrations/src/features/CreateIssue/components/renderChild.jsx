@@ -25,6 +25,7 @@ const renderChild = ({
   projectFieldData,
   isWorkInProgress,
   projectsHaveError,
+  scrollWidgetToTop,
   clearErrorMessage,
   cleanedIssueTypes,
   areProjectsLoading,
@@ -84,6 +85,7 @@ const renderChild = ({
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
           isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
@@ -104,6 +106,7 @@ const renderChild = ({
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
           isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}

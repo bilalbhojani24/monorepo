@@ -25,6 +25,7 @@ const CreateIssueForm = ({
   setAttachments,
   isWorkInProgress,
   projectFieldData,
+  scrollWidgetToTop,
   cleanedIssueTypes,
   issueTypeFieldData,
   isCreateMetaLoading,
@@ -76,6 +77,7 @@ const CreateIssueForm = ({
             });
           }
           setIsFormBeingSubmitted(false);
+          scrollWidgetToTop();
           return Promise.reject(Error('create_failed'));
         })
         .then((response) => {
@@ -126,6 +128,7 @@ const CreateIssueForm = ({
             }
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
             return response;
           }
           return null;
@@ -161,6 +164,7 @@ const CreateIssueForm = ({
             }
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         });
     },
@@ -208,6 +212,7 @@ const CreateIssueForm = ({
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
           isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}

@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, ChevronDownIcon, ChevronUpIcon } from '@browserstack/bifrost';
+
+import { setGlobalAlert } from '../../slices/globalAlertSlice';
 
 import FormFieldMap from './FormFieldMap';
 import { splitFields } from './helpers';
@@ -13,9 +16,11 @@ const FormBuilder = ({
   setAttachments,
   descriptionMeta,
   isWorkInProgress,
+  scrollWidgetToTop,
   setIsWorkInProgress,
   hideDescription = false
 }) => {
+  const dispatch = useDispatch();
   const [fieldsData, setFieldsData] = useState({});
   const [formFieldErrors, setFormFieldErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
@@ -112,6 +117,14 @@ const FormBuilder = ({
       });
       if (hasSomeEmptyRequiredFields) {
         setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message: `Please fill all mandatory fields to continue`,
+            autoDismiss: true
+          })
+        );
+        scrollWidgetToTop();
       } else {
         handleSubmit(fieldsData).then((response) => {
           if (response?.success) {

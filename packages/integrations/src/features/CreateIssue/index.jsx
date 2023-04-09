@@ -90,6 +90,13 @@ export const CreateIssue = ({
 
   const widgetHeight = useSelector(widgetHeightSelector);
   const maxHeight = widgetHeight ? widgetHeight - 120 : 0;
+  const containerRef = useRef(null);
+
+  const scrollWidgetToTop = () => {
+    if (containerRef?.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  };
 
   return (
     <BasicWidget
@@ -103,6 +110,7 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
+        ref={containerRef}
         className={'bg-white h-full'.concat(
           hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
@@ -121,6 +129,7 @@ export const CreateIssue = ({
           continueEditing={continueEditing}
           isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}
+          scrollWidgetToTop={scrollWidgetToTop}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}

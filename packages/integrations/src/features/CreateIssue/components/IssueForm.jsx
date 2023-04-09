@@ -36,6 +36,7 @@ const IssueForm = ({
   continueEditing,
   isWorkInProgress,
   isBeingDiscarded,
+  scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
   setIsFormBeingSubmitted
@@ -279,6 +280,7 @@ const IssueForm = ({
             projectFieldData,
             isWorkInProgress,
             projectsHaveError,
+            scrollWidgetToTop,
             cleanedIssueTypes,
             attachments: files,
             areProjectsLoading,

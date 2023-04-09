@@ -37,6 +37,7 @@ const ListOfIntegrations = ({
   continueEditing,
   isBeingDiscarded,
   isWorkInProgress,
+  scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
   setIsFormBeingSubmitted
@@ -53,13 +54,14 @@ const ListOfIntegrations = ({
         tab={tab}
         mode={mode}
         options={options}
+        changeTabTo={changeTabTo}
         attachments={attachments}
         discardIssue={discardIssue}
         integrations={integrations}
-        changeTabTo={changeTabTo}
         continueEditing={continueEditing}
         isBeingDiscarded={isBeingDiscarded}
         isWorkInProgress={isWorkInProgress}
+        scrollWidgetToTop={scrollWidgetToTop}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}
         setIsFormBeingSubmitted={setIsFormBeingSubmitted}
