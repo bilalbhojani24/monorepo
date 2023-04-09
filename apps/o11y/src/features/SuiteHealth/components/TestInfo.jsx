@@ -1,6 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { MdOutlineFolderOpen } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import JiraTag from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
@@ -27,7 +28,9 @@ export default function TestInfo({ testDetails }) {
         <MdOutlineFolderOpen className="text-base-500 mr-1 h-4 w-4" />
         {testDetails?.vcFileUrl ? (
           <PropagationBlocker
-            className="border-base-300 max-w-[150px] truncate border-r pr-1"
+            className={twClassNames('max-w-[150px] truncate pr-1', {
+              'border-r border-base-300': testDetails?.scopeList?.length > 0
+            })}
             dir="rtl"
           >
             <O11yHyperlink
@@ -40,7 +43,12 @@ export default function TestInfo({ testDetails }) {
           </PropagationBlocker>
         ) : (
           <span
-            className="border-base-300 mr-1 max-w-[150px] truncate border-r pr-1 text-sm"
+            className={twClassNames(
+              'mr-1 max-w-[150px] truncate pr-1 text-sm',
+              {
+                'border-r border-base-300': testDetails?.scopeList?.length > 0
+              }
+            )}
             dir="rtl"
           >
             {testDetails?.filePath}
