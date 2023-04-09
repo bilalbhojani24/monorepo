@@ -96,6 +96,8 @@ const LogsTab = () => {
       showStepNavigation
     ) {
       scrollRef.current.addEventListener('scroll', handleScroll);
+    } else if (activeTab.value === LOGS_INFO_TAB_KEYS.network) {
+      scrollRef.current?.removeEventListener('scroll', handleScroll);
     }
     return () => {
       if (scrollRef.current) {
