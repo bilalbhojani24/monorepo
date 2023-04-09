@@ -85,9 +85,9 @@ const FormBuilder = ({
               schema={schema}
               options={options}
               required={required}
-              attachments={attachments}
               searchPath={searchPath}
               fieldsData={fieldsData}
+              attachments={attachments}
               optionsPath={optionsPath}
               placeholder={placeholder}
               validations={validations}
@@ -130,6 +130,7 @@ const FormBuilder = ({
           if (response?.success) {
             resetFieldsData();
             setIsWorkInProgress(false);
+            setAreSomeRequiredFieldsEmpty(false);
           }
         });
       }

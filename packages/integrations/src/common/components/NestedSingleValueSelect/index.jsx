@@ -16,14 +16,16 @@ import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const NestedSingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
   required,
-  fieldErrors,
   fieldsData,
   searchPath,
+  fieldErrors,
   optionsPath,
   placeholder,
+  defaultValue,
   setFieldsData,
   wrapperClassName,
   areSomeRequiredFieldsEmpty
@@ -54,7 +56,7 @@ const NestedSingleValueSelect = ({
   const [childOptions, setChildOptions] = useState(null);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(true);
@@ -84,6 +86,28 @@ const NestedSingleValueSelect = ({
       getOptions();
     }
   };
+
+  useEffect(() => {
+    if (
+      (value || defaultValue) &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
+      const [cleanedValue] = cleanOptions([value || defaultValue]);
+      const [cleanedChild] = cleanOptions([cleanedValue.options]);
+      cleanedValue.child = cleanedChild;
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      const currentParentItem = options?.find(
+        (parentOption) => parentOption.key === cleanedValue.value
+      );
+      if (currentParentItem) {
+        const cleanedChildOptions = cleanOptions(
+          currentParentItem.options ?? []
+        );
+        setChildOptions(cleanedChildOptions);
+      }
+    }
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, options]);
 
   useEffect(() => {
     setOptionsToRender(cleanOptions(options));
@@ -178,9 +202,7 @@ const NestedSingleValueSelect = ({
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
-            value={
-              !childOptions?.length ? null : fieldsData?.[fieldKey]?.child ?? {}
-            }
+            value={fieldsData?.[fieldKey]?.child}
           >
             <ComboboxTrigger />
             {Boolean(childOptions?.length) && (

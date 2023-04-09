@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { getTickets, updateIssue } from '../../../api';
@@ -33,6 +34,7 @@ const UpdateIssueForm = ({
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
+  const prevProject = usePrevious(projectFieldData);
   const [issuesOptions, setIssueOptions] = useState([]);
   const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -44,23 +46,26 @@ const UpdateIssueForm = ({
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
+  const getTicketForProject = () => {
+    setAreIssueOptionsLoading(true);
+    getTickets(
+      integrationToolFieldData?.value,
+      projectFieldData?.value,
+      'single-value-select'
+    )
+      .then((response) => {
+        setIssueOptions(response);
+        setAreIssueOptionsLoading(false);
+      })
+      .catch((err) => {
+        setAreIssueOptionsLoading(false);
+        throw err;
+      });
+  };
 
   useEffect(() => {
-    if (projectFieldData) {
-      setAreIssueOptionsLoading(true);
-      getTickets(
-        integrationToolFieldData?.value,
-        projectFieldData?.value,
-        'single-value-select'
-      )
-        .then((response) => {
-          setIssueOptions(response);
-          setAreIssueOptionsLoading(false);
-        })
-        .catch((err) => {
-          setAreIssueOptionsLoading(false);
-          throw err;
-        });
+    if (projectFieldData?.value !== prevProject?.value) {
+      getTicketForProject();
     }
   }, [projectFieldData, integrationToolFieldData]);
 
@@ -106,7 +111,7 @@ const UpdateIssueForm = ({
         .then((response) => {
           if (response?.success) {
             // ticket creation was successful
-            setIssueOptions([]);
+            getTicketForProject(); // renew ticket data
             resetMeta();
             if (attachments?.length) {
               // has attachments to add

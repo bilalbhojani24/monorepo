@@ -47,17 +47,21 @@ const MultiSelect = ({
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(true);
 
   useEffect(() => {
-    if (value || defaultValue) {
+    if (
+      (value || defaultValue) &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
       const cleanedValue = cleanOptions(value || defaultValue);
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
   const mergeTwoOptionsArray = (optionsOne, optionsTwo) => {
     let res = [];

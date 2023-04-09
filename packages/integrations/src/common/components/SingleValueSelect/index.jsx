@@ -63,17 +63,21 @@ const SingleValueSelect = ({
   const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
 
   useEffect(() => {
-    if ((value || defaultValue) && typeof setFieldsData === 'function') {
+    if (
+      cleanedValue?.value &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const previousOptions = usePrevious(optionsToRender);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(true);
