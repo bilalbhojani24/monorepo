@@ -33,7 +33,7 @@ export const responseInterceptor = axios.interceptors.response.use(
   // Do something with response data
   (error) => {
     // Do something with response error
-    const { status, data } = error.response;
+    const { status, data } = error.response || {};
 
     if (status === 401 && data.error?.refresh_token) {
       const { config } = error;

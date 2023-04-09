@@ -27,12 +27,12 @@ export const addAttachment = (
       }
     }))
     .catch((errorResponse) => {
-      throw Error(errorResponse.response.data?.error?.message, {
+      throw Error(errorResponse?.response?.data?.error?.message ?? '', {
         cause: {
           ticket_id: ticketId,
           ticket_url: ticketUrl,
           ticket_key: ticketKey,
-          attachment: errorResponse.response.data?.error
+          attachment: errorResponse?.response?.data?.error
         }
       });
     });

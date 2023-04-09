@@ -157,7 +157,7 @@ const UpdateIssueForm = ({
           }
         })
         .catch((res) => {
-          if (res.message !== 'update_failed') {
+          if (res?.message !== 'update_failed') {
             dispatch(
               setGlobalAlert({
                 kind: 'warn',
@@ -177,8 +177,8 @@ const UpdateIssueForm = ({
                   }
                 }
               };
-              if (res.cause.attachment) {
-                payload.data.attachments = [res.cause.attachment];
+              if (res?.cause?.attachment) {
+                payload.data.attachments = [res?.cause?.attachment];
               }
               successCallback(payload);
             }
