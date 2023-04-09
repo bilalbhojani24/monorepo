@@ -25,7 +25,6 @@ const initialState = {
   mappingFieldsError: '',
   showCSVFields: false,
   fieldsMapping: {},
-  // immutableFieldMappings: {},
   valueMappings: {},
   mapFieldModalConfig: { show: false, field: '', mapped_field: '' },
   usersForDropdown: [],
@@ -40,7 +39,6 @@ const initialState = {
     ...VALUE_MAPPING_OPTIONS
   },
   previewData: [],
-  folderName: '',
   retryCSVImport: false,
   uploadFileProceedLoading: false,
   confirmCSVImportNotificationConfig: {
@@ -219,7 +217,6 @@ const importCSVSlice = createSlice({
     },
     submitMappingDataFulfilled: (state, { payload }) => {
       state.totalImportedProjectsInPreview = payload.cases_count;
-      state.folderName = payload.folder;
       state.previewData = payload.test_cases;
       // next screen
       state.currentCSVScreen = THIRD_SCREEN;

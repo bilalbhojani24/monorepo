@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
+  Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  // AccordionSimpleHeader,
+  MdFolderOpen
 } from '@browserstack/bifrost';
+// import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
-  FolderIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon
 } from 'assets/icons';
 import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 
-import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
 import { resetImportCSVState } from '../slices/csvThunk';
 
-import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
+import PreviewAndConfirmSingleNode from './previewAndConfirmSingleNode';
 import usePreviewAndConfirm from './usePreviewAndConfirm';
 
 const PreviewAndConfirm = () => {
   const {
-    folderName,
+    previewData,
+    selectedFolderLocation,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
-    previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
   const dispatch = useDispatch();
@@ -98,54 +98,57 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <FolderInputWButton
-        label="Folder Location"
-        icon={<FolderIcon className="text-brand-400 h-4 w-4" />}
-        text={folderName}
-        firstCta="Change Folder"
-        secondCta="Upload to Root Folder"
-      />
-      <div className="text-base-500 mb-4 text-sm font-normal">
-        This is the folder location where test cases will be imported
-      </div>
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">
         Showing a preview of few test cases before importing:
       </div>
-      <Table className="h-full">
-        <TableHead wrapperClass="w-full rounded-xs">
-          <TableRow wrapperClass="relative">
-            {PREVIEW_AND_CONFIRM_COLUMNS.map((col) => (
-              <TableCell
-                key={col.key}
-                variant="header"
-                textTransform="uppercase"
-                wrapperClassName="text-base-500 font-medium"
-              >
-                {col.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {previewAndConfirmTableRows.map((row) => (
-            <TableRow key={row.title}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell wrapperClassName="text-base-900 font-medium">
-                {row.title}
-              </TableCell>
-              <TableCell>{formatTemplate(row.templateType)}</TableCell>
-              <TableCell>{formatPriority(row.priority)}</TableCell>
-              <TableCell>{row.owner}</TableCell>
-              <TableCell>
-                {row.type === 'smoke_sanity' ? 'smoke & sanity' : row.type}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {previewData.map((data, idx) => (
+        <div className="border-base-100 border-y">
+          <Accordion defaultOpen={idx === 0}>
+            <AccordionInteractiveHeader title={data?.name} />
+            <AccordionPanel>
+              <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
+                <div className="flex w-full justify-between">
+                  <PreviewAndConfirmSingleNode
+                    text="Folder"
+                    wrapperClassName="basis-1/3"
+                    description={
+                      <>
+                        <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5" />
+                        {selectedFolderLocation}
+                      </>
+                    }
+                  />
+                  <PreviewAndConfirmSingleNode
+                    text="Template Type"
+                    wrapperClassName="basis-1/3"
+                    description={formatTemplate(data?.template)}
+                  />
+                  <PreviewAndConfirmSingleNode
+                    text="Priority"
+                    wrapperClassName="basis-1/3"
+                    description={formatPriority(data?.priority)}
+                  />
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <PreviewAndConfirmSingleNode
+                    text="Steps"
+                    wrapperClassName="basis-1/2"
+                    description={ReactHtmlParser(data?.steps)}
+                  />
+                  <PreviewAndConfirmSingleNode
+                    text="Expected Results"
+                    wrapperClassName="basis-1/2"
+                    description={ReactHtmlParser(data?.expected_result)}
+                  />
+                </div>
+              </div>
+            </AccordionPanel>
+          </Accordion>
+        </div>
+      ))}
       {confirmCSVImportNotificationConfig.show && (
         <ImportCSVModal
           show={confirmCSVImportNotificationConfig.show}

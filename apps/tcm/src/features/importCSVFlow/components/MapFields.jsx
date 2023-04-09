@@ -47,6 +47,7 @@ const MapFields = () => {
     mapNameToDisplay,
     errorLabelInMapFields,
     mapFieldProceedLoading,
+    allImportFields,
     showSelectMenuErrorInMapFields,
     editMappingHandler,
     setDefaultDropdownValue,
@@ -193,6 +194,7 @@ const MapFields = () => {
               fieldMappings={myFieldMappings}
               onEditMapping={editMappingHandler}
               nameToDisplayMapper={mapNameToDisplay}
+              allImportFields={allImportFields}
             />
           )}
         </div>

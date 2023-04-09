@@ -401,6 +401,7 @@ const useMapFields = () => {
     valueMappings,
     errorLabelInMapFields,
     mapFieldProceedLoading,
+    allImportFields: mapFieldsConfig?.importFields,
     showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
     editMappingHandler,

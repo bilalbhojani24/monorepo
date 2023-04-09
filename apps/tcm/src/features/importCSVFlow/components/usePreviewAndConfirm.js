@@ -9,7 +9,6 @@ const usePreviewAndConfirm = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const previewData = useSelector((state) => state.importCSV.previewData);
-  const folderName = useSelector((state) => state.importCSV.folderName);
   const showFolderExplorerModal = useSelector(
     (state) => state.importCSV.showFolderExplorerModal
   );
@@ -23,15 +22,9 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
-
-  const previewAndConfirmTableRows = previewData.map((data, idx) => ({
-    id: idx + 1,
-    title: data.name,
-    templateType: data.template,
-    owner: data.owner,
-    priority: data.priority,
-    type: data.case_type
-  }));
+  const selectedFolderLocation = useSelector(
+    (state) => state.importCSV.selectedFolderLocation
+  );
 
   const handleImportTestCaseClick = () => {
     dispatch(
@@ -53,9 +46,8 @@ const usePreviewAndConfirm = () => {
   };
 
   return {
-    folderName,
     previewData,
-    previewAndConfirmTableRows,
+    selectedFolderLocation,
     showFolderExplorerModal,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
