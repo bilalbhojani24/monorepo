@@ -90,6 +90,10 @@ const IssueForm = ({
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
   };
 
+  const deselectIssueType = () => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: null });
+  };
+
   const cleanedIssueTypes = useMemo(
     () =>
       (projectFieldData?.ticketTypes ?? []).map((issueType) =>
@@ -279,6 +283,7 @@ const IssueForm = ({
             resetUpdateMeta,
             projectFieldData,
             isWorkInProgress,
+            deselectIssueType,
             projectsHaveError,
             scrollWidgetToTop,
             cleanedIssueTypes,

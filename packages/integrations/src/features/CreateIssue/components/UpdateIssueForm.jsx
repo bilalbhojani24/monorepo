@@ -110,9 +110,8 @@ const UpdateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
-            // ticket creation was successful
+            // ticket updation was successful
             getTicketForProject(); // renew ticket data
-            resetMeta();
             if (attachments?.length) {
               // has attachments to add
               return addAttachment(
@@ -128,6 +127,7 @@ const UpdateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            resetMeta();
             dispatch(
               setGlobalAlert({
                 kind: 'success',
@@ -158,6 +158,7 @@ const UpdateIssueForm = ({
         })
         .catch((res) => {
           if (res?.message !== 'update_failed') {
+            resetMeta();
             dispatch(
               setGlobalAlert({
                 kind: 'warn',

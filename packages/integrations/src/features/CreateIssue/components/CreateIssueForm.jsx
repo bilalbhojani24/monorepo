@@ -19,12 +19,14 @@ import { FIELD_KEYS } from './constants';
 const CreateIssueForm = ({
   fields,
   options,
+  resetMeta,
   fieldsData,
   attachments,
   setFieldsData,
   setAttachments,
   isWorkInProgress,
   projectFieldData,
+  deselectIssueType,
   scrollWidgetToTop,
   cleanedIssueTypes,
   issueTypeFieldData,
@@ -100,6 +102,8 @@ const CreateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            resetMeta();
+            deselectIssueType();
             dispatch(
               setGlobalAlert({
                 kind: 'success',
@@ -135,6 +139,8 @@ const CreateIssueForm = ({
         })
         .catch((res) => {
           if (res?.message !== 'create_failed' && res?.cause?.ticket_url) {
+            resetMeta();
+            deselectIssueType();
             dispatch(
               setGlobalAlert({
                 kind: 'warn',
@@ -157,8 +163,8 @@ const CreateIssueForm = ({
                   }
                 }
               };
-              if (res.cause.attachment) {
-                payload.data.attachments = [res.cause.attachment];
+              if (res.cause?.attachment) {
+                payload.data.attachments = [res.cause?.attachment];
               }
               successCallback(payload);
             }

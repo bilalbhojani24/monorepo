@@ -24,6 +24,7 @@ const renderChild = ({
   resetUpdateMeta,
   projectFieldData,
   isWorkInProgress,
+  deselectIssueType,
   projectsHaveError,
   scrollWidgetToTop,
   clearErrorMessage,
@@ -85,6 +86,7 @@ const renderChild = ({
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
           isWorkInProgress={isWorkInProgress}
+          deselectIssueType={deselectIssueType}
           scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
