@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Accordion,
   AccordionInteractiveHeader,
@@ -8,8 +9,15 @@ import PropTypes from 'prop-types';
 
 import UEBreakdown from '../components/UEBreakdown';
 import UERowHeader from '../components/UERowHeader';
+import { updateSingleBDOpenStatus } from '../slices/dataSlice';
+import { getUESingleBreakdownData } from '../slices/selectors';
 
 export default function UERow({ data }) {
+  const dispatch = useDispatch();
+  const singleBDData = useSelector((state) =>
+    getUESingleBreakdownData(state, data.id)
+  );
+
   return (
     <>
       <Accordion>
@@ -20,8 +28,17 @@ export default function UERow({ data }) {
               <UERowHeader data={data} />
             </div>
           }
+          controller={singleBDData?.defaultOpen}
+          onClick={() => {
+            dispatch(
+              updateSingleBDOpenStatus({
+                errorId: data.id,
+                defaultOpen: !singleBDData?.defaultOpen
+              })
+            );
+          }}
         />
-        <AccordionPanel>
+        <AccordionPanel controller={singleBDData?.defaultOpen}>
           <div className="overflow-hidden rounded-b-md">
             <UEBreakdown errorId={data.id} />
           </div>

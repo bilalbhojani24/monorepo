@@ -8,8 +8,12 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
-import { getSnPUEBreakdownData } from '../slices/dataSlice';
-import { getAllSnPTestFilters, getSnpErrorsSortBy } from '../slices/selectors';
+import { getSnPUEBreakdownData, updateSingleBDData } from '../slices/dataSlice';
+import {
+  getAllSnPTestFilters,
+  getSnpErrorsSortBy,
+  getUESingleBreakdownData
+} from '../slices/selectors';
 
 import UEBreakdownItem from './UEBreakdownItem';
 
@@ -21,25 +25,47 @@ export default function UEBreakdown({ errorId }) {
   const [isLoadingBD, setIsLoadingBD] = useState(true);
   const filters = useSelector(getAllSnPTestFilters);
   const sortBy = useSelector(getSnpErrorsSortBy);
+  const singleBDData = useSelector((state) =>
+    getUESingleBreakdownData(state, errorId)
+  );
 
   useEffect(() => {
-    setIsLoadingBD(true);
-    dispatch(
-      getSnPUEBreakdownData({
-        normalisedName: activeProject?.normalisedName,
-        errorId,
-        filters,
-        sortOptions: sortBy
-      })
-    )
-      .unwrap()
-      .then((res) => {
-        setBreakDownData(res);
-      })
-      .finally(() => {
-        setIsLoadingBD(false);
-      });
-  }, [activeProject?.normalisedName, dispatch, filters, sortBy, errorId]);
+    if (singleBDData?.defaultOpen && singleBDData?.data?.length > 0) {
+      setIsLoadingBD(false);
+      setBreakDownData(singleBDData?.data);
+    } else {
+      setIsLoadingBD(true);
+      dispatch(
+        getSnPUEBreakdownData({
+          normalisedName: activeProject?.normalisedName,
+          errorId,
+          filters,
+          sortOptions: sortBy
+        })
+      )
+        .unwrap()
+        .then((res) => {
+          setBreakDownData(res);
+          dispatch(
+            updateSingleBDData({
+              errorId,
+              data: res
+            })
+          );
+        })
+        .finally(() => {
+          setIsLoadingBD(false);
+        });
+    }
+  }, [
+    activeProject?.normalisedName,
+    dispatch,
+    filters,
+    sortBy,
+    errorId,
+    singleBDData?.defaultOpen,
+    singleBDData?.data
+  ]);
 
   if (isLoadingBD) {
     return (
