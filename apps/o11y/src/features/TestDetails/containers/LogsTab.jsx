@@ -54,6 +54,7 @@ const LogsTab = () => {
     idx: 0,
     value: LOGS_INFO_TAB_KEYS.logs
   });
+  const [showScrollToBottom, toggleShowScrollToBottom] = useState(false);
 
   useEffect(() => {
     const slideOverElement = document.getElementById(
@@ -76,14 +77,42 @@ const LogsTab = () => {
     }
   }, [activeTab.value]);
 
-  const handleLogDurationClick = (duration) => {
+  useEffect(() => {
+    const handleScroll = (event) => {
+      const { scrollHeight, scrollTop, clientHeight } = event.target;
+      if (scrollTop > 50) {
+        toggleShowScrollToBottom(true);
+      }
+      if (Math.abs(scrollHeight - clientHeight - scrollTop) < 1) {
+        setIsScrolledToBottom(true);
+      }
+      if (showScrollToBottom && scrollTop === 0) {
+        setIsScrolledToBottom(false);
+      }
+    };
+    if (
+      scrollRef.current &&
+      activeTab.value === LOGS_INFO_TAB_KEYS.logs &&
+      showStepNavigation
+    ) {
+      scrollRef.current.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (scrollRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        scrollRef.current?.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [activeTab.value, showScrollToBottom, showStepNavigation]);
+
+  const handleLogDurationClick = useCallback((duration) => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
     if (videoComponent && floatingVideoComponent) {
       videoComponent.currentTime = duration;
       floatingVideoComponent.currentTime = duration;
     }
-  };
+  }, []);
 
   const handleScrollIntoView = useCallback((distance) => {
     if (scrollRef.current) {
@@ -137,14 +166,14 @@ const LogsTab = () => {
     ]
   );
 
-  const highlightStep = (elem) => {
+  const highlightStep = useCallback((elem) => {
     elem.classList.add('animate-pulse-bg');
     setTimeout(() => {
       elem.classList.remove('animate-pulse-bg');
     }, 1000);
-  };
+  }, []);
 
-  const handleNextStep = () => {
+  const handleNextStep = useCallback(() => {
     if (activeStep < totalSteps) {
       const idxElem = document.querySelector(
         `[data-stepIdx="${activeStep + 1}"]`
@@ -156,8 +185,14 @@ const LogsTab = () => {
         handleLogTDInteractionEvent({ interaction: 'next_step_clicked' });
       }
     }
-  };
-  const handlePrevStep = () => {
+  }, [
+    activeStep,
+    handleLogTDInteractionEvent,
+    handleScrollIntoView,
+    highlightStep,
+    totalSteps
+  ]);
+  const handlePrevStep = useCallback(() => {
     if (activeStep > 0) {
       const idxElem = document.querySelector(
         `[data-stepidx="${activeStep - 1}"]`
@@ -169,9 +204,14 @@ const LogsTab = () => {
         handleLogTDInteractionEvent({ interaction: 'previous_step_clicked' });
       }
     }
-  };
+  }, [
+    activeStep,
+    handleLogTDInteractionEvent,
+    handleScrollIntoView,
+    highlightStep
+  ]);
 
-  const handleClickScrollButton = () => {
+  const handleClickScrollButton = useCallback(() => {
     if (isScrolledToBottom) {
       handleScrollIntoView(0);
     } else {
@@ -179,7 +219,12 @@ const LogsTab = () => {
     }
     handleLogTDInteractionEvent({ interaction: 'scroll_to_bottom_clicked' });
     setIsScrolledToBottom((t) => !t);
-  };
+  }, [
+    handleLogTDInteractionEvent,
+    handleScrollIntoView,
+    handleScrollToBottom,
+    isScrolledToBottom
+  ]);
 
   if (testMeta.isLoading) {
     return (
@@ -220,25 +265,27 @@ const LogsTab = () => {
         <TestsLogsInfoTabs />
         {activeTab.value === LOGS_INFO_TAB_KEYS.logs && showStepNavigation && (
           <div className="sticky bottom-0 z-20 w-full">
-            <div className="mb-2 flex items-center justify-center">
-              <O11yButton
-                variant="rounded"
-                wrapperClassName=""
-                icon={
-                  isScrolledToBottom ? (
-                    <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
-                  ) : (
-                    <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
-                  )
-                }
-                onClick={handleClickScrollButton}
-                disabled={activeStep === totalSteps}
-                colors="brand"
-                iconPlacement="end"
-              >
-                {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
-              </O11yButton>
-            </div>
+            {showScrollToBottom && (
+              <div className="mb-2 flex items-center justify-center">
+                <O11yButton
+                  variant="rounded"
+                  wrapperClassName=""
+                  icon={
+                    isScrolledToBottom ? (
+                      <DoubleArrowUpIcon className="h-4 w-4 fill-white" />
+                    ) : (
+                      <DoubleArrowDownIcon className="h-4 w-4 fill-white" />
+                    )
+                  }
+                  onClick={handleClickScrollButton}
+                  disabled={activeStep === totalSteps}
+                  colors="brand"
+                  iconPlacement="end"
+                >
+                  {isScrolledToBottom ? 'Scroll to top' : 'Scroll to bottom'}
+                </O11yButton>
+              </div>
+            )}
             <div className="flex items-center justify-between bg-white p-2">
               <div className="flex items-center gap-6">
                 <O11yButton
