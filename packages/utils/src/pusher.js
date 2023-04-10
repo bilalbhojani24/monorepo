@@ -19,7 +19,7 @@ export default class Pusher {
     this.eventHandlers = {};
     this.switched = false;
     this.buffer = [];
-    this.disconnected_at = null;
+    this.disconnectedAt = null;
     this.pusherLogging = loggingEnabled;
 
     if (window.navigator) {
@@ -93,13 +93,13 @@ export default class Pusher {
     switch (event) {
       case 'connect':
         this.subscribe();
-        if (this.info.time_ts) {
+        if (this.info.timeStamp) {
           this.trigger('reconnect');
         }
         break;
 
       case 'disconnect':
-        this.info.time_ts = new Date().getTime();
+        this.info.timeStamp = new Date().getTime();
         break;
 
       case 'invalid':
