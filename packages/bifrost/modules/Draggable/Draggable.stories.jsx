@@ -60,14 +60,12 @@ DraggableAndResizable.args = {
           />
         )}
         width={300}
-        height={450}
+        height={250}
         resizeHandles={['s']}
-        minConstraints={[300, 350]}
-        maxConstraints={[300, 600]}
+        minConstraints={[300, 200]}
+        maxConstraints={[300, 500]}
       >
-        <Button wrapperClassName="self-start mb-4 drag-handle">
-          Drag here
-        </Button>
+        <Button wrapperClassName="drag-handle">Drag here</Button>
         <p>
           Hello, this is the body of the draggable and resizable container.
           Cannot drag from here. If you don&apos;t want the text to overflow,
