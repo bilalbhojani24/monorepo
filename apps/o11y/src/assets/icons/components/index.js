@@ -1,4 +1,3 @@
-// browsers
 import ChromeIcon from './browser/ChromeIcon';
 import DefaultBrowserIcon from './browser/DefaultBrowserIcon';
 import EdgeIcon from './browser/EdgeIcon';
@@ -7,7 +6,6 @@ import IEIcon from './browser/IEIcon';
 import OperaIcon from './browser/OperaIcon';
 import SafariIcon from './browser/SafariIcon';
 import YandexIcon from './browser/YandexIcon';
-// devices
 import AmazonIcon from './device/AmazonIcon';
 import AppleIcon from './device/AppleIcon';
 import GoogleIcon from './device/Google';
@@ -23,7 +21,6 @@ import SamsungIcon from './device/SamsungIcon';
 import SonyIcon from './device/SonyIcon';
 import VivoIcon from './device/VivoIcon';
 import XiaomiIcon from './device/XiaomiIcon';
-// os
 import AndroidIcon from './os/AndroidIcon';
 import DefaultOSIcon from './os/DefaultOSIcon';
 import IOSIcon from './os/IOSIcon';
@@ -32,19 +29,25 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
-// Others
 import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
+import FilebeatNLogStashIcon from './FilebeatNLogStashIcon';
+import FluentdIcon from './FluentdIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
+import LogStashIcon from './LogStashIcon';
+import MochaIcon from './MochaIcon';
+import TestngIcon from './TestngIcon';
 import UnknownIcon from './UnknownIcon';
+import WdioIcon from './WdioIcon';
+import WinstonIcon from './WinstonIcon';
 
 export {
   AmazonIcon,
@@ -59,7 +62,9 @@ export {
   DefaultOSIcon,
   DeviceIcon,
   EdgeIcon,
+  FilebeatNLogStashIcon,
   FirefoxIcon,
+  FluentdIcon,
   GithubActionsIcon,
   GithubIcon,
   GitIcon,
@@ -73,7 +78,9 @@ export {
   JiraIcon,
   LgIcon,
   LinuxIcon,
+  LogStashIcon,
   MacOSIcon,
+  MochaIcon,
   MotorolaIcon,
   NokiaIcon,
   OneplusIcon,
@@ -84,10 +91,13 @@ export {
   SafariIcon,
   SamsungIcon,
   SonyIcon,
+  TestngIcon,
   UnknownIcon,
   VivoIcon,
+  WdioIcon,
   WindowsIcon,
   WindowsPhoneIcon,
+  WinstonIcon,
   XiaomiIcon,
   YandexIcon
 };

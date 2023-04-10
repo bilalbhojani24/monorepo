@@ -5,8 +5,10 @@ import { getProjectsListAPI } from 'api/projectlist';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 
+const SLICE_NAME = 'global';
+
 export const getProjectsList = createAsyncThunk(
-  'sidebar/getProjectsList',
+  `${SLICE_NAME}/getProjectsList`,
   async (data) => {
     try {
       const response = await getProjectsListAPI();
@@ -21,7 +23,7 @@ export const getProjectsList = createAsyncThunk(
 );
 
 export const getBuildInfoFromUuid = createAsyncThunk(
-  'base/getBuildInfoFromUuid',
+  `${SLICE_NAME}/getBuildInfoFromUuid`,
   async (data, { rejectWithValue }) => {
     try {
       const response = await getBuildInfoFromUuidApi(data.uuid);
@@ -33,7 +35,7 @@ export const getBuildInfoFromUuid = createAsyncThunk(
 );
 
 const { actions, reducer } = createSlice({
-  name: 'global',
+  name: SLICE_NAME,
   initialState: {
     projects: {
       isLoading: true,

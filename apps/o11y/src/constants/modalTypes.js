@@ -5,5 +5,8 @@ export const MODAL_TYPES = {
   delete_sub_cat: 'delete_sub_cat',
   mute_unmute_test: 'mute_unmute_test',
   rerun_test_modal: 'rerun_test_modal',
-  bulk_assign_issuetype: 'bulk_assign_issuetype'
+  bulk_assign_issuetype: 'bulk_assign_issuetype',
+  email_preference: 'email_preference',
+  jenkins_connect_modal: 'jenkins_connect_modal',
+  azure_connect_modal: 'azure_connect_modal'
 };
