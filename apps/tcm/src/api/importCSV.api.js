@@ -4,9 +4,16 @@ export const downloadSampleCSV = async () =>
   // eslint-disable-next-line no-return-await
   await fetchGet('/api/v1/import/csv/sample');
 
-export const getCSVConfigurations = async () =>
-  // eslint-disable-next-line no-return-await
-  await fetchGet('/api/v1/import/csv/configurations');
+export const getCSVConfigurations = async ({ projectId, folderId }) => {
+  let baseUrl = '/api/v1/import/csv/configurations';
+
+  if (projectId && folderId)
+    baseUrl = `${baseUrl}?project_id=${projectId}&folder_id=${folderId}`;
+  else if (projectId && projectId !== 'new')
+    baseUrl = `${baseUrl}?project_id=${projectId}`;
+
+  return fetchGet(baseUrl);
+};
 
 export const postCSV = async (payload) =>
   // eslint-disable-next-line no-return-await
