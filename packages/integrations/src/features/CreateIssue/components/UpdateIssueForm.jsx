@@ -118,7 +118,9 @@ const UpdateIssueForm = ({
               return addAttachment(
                 attachments[0],
                 integrationToolFieldData?.value,
-                issueFieldData?.value
+                issueFieldData?.value,
+                response.data.ticket_url,
+                response.data.ticket_key
               );
             }
             // no attachment, just form success
@@ -141,6 +143,8 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: response?.data?.ticket_id,
+                  issureUrl: response?.data?.ticket_url,
+                  issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
@@ -173,6 +177,8 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: res?.cause.ticket_id,
+                  issureUrl: res.cause.ticket_url,
+                  issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
