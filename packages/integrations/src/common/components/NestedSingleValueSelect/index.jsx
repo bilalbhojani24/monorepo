@@ -159,7 +159,9 @@ const NestedSingleValueSelect = ({
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
-      setOptionsToRender(filtered);
+      if (filtered.length) {
+        setOptionsToRender(filtered);
+      }
     },
     [optionsPath, dynamicOptions, options]
   );
@@ -215,7 +217,7 @@ const NestedSingleValueSelect = ({
                 ))}
               </ComboboxOptionGroup>
             )}
-            {!childOptions?.length && (
+            {!childOptions?.length && !areOptionsLoading && (
               <ComboboxOptionGroup>
                 <ComboboxOptionItem
                   key="no options"

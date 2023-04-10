@@ -173,7 +173,9 @@ const SingleValueSelect = ({
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
-      setOptionsToRender(filtered);
+      if (filtered.length) {
+        setOptionsToRender(filtered);
+      }
     },
     [optionsPath, dynamicOptions, options]
   );
@@ -193,6 +195,8 @@ const SingleValueSelect = ({
     }
   };
 
+  const isLoading = areOptionsLoading || areOptionsLoadingProps;
+
   return (
     <div className="py-3">
       <ComboBox
@@ -205,7 +209,7 @@ const SingleValueSelect = ({
         }
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
-        isLoading={areOptionsLoading || areOptionsLoadingProps}
+        isLoading={isLoading}
         loadingText="Loading"
       >
         <Label label={label} required={required} />
@@ -221,7 +225,7 @@ const SingleValueSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && (
+        {!optionsToRender?.length && !isLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"
