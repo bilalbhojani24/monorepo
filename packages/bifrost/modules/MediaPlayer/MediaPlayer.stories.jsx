@@ -47,7 +47,7 @@ const defaultConfig = {
     url: {
       option: { type: 'string' },
       defaultValue:
-        'https://app-automate.browserstack.com/s3-upload/bs-video-logs-aps/s3.ap-south-1/22028ca3dc54910bc630b841f1336b4a9ad49083/video-22028ca3dc54910bc630b841f1336b4a9ad49083.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230403%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230403T182818Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=63da7b07800296eaaf0f9997481ef7af16714e61045beb963c46430eed1c2c72#t=10,150'
+        'https://app-automate.browserstack.com/s3-upload/bs-video-logs-aps/s3.ap-south-1/22028ca3dc54910bc630b841f1336b4a9ad49083/video-22028ca3dc54910bc630b841f1336b4a9ad49083.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230403%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230403T182818Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=63da7b07800296eaaf0f9997481ef7af16714e61045beb963c46430eed1c2c72'
     },
     wrapperClassName: {
       option: { type: 'string' },
