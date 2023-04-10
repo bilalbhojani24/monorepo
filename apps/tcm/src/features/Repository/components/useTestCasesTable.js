@@ -10,6 +10,7 @@ import { logEventHelper } from 'utils/logEvent';
 // import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
+  resetBulkFormData,
   resetBulkSelection,
   setAddTestCaseVisibility,
   // setBulkAllSelected,
@@ -117,6 +118,8 @@ const useTestCasesTable = (prop) => {
       })
     );
     dispatch(setAddTestCaseVisibility(true));
+    dispatch(resetBulkFormData()); // resetting bulk form before edit, so that it we start afresh
+    dispatch(setIssuesArray([]));
     setBulkStatus(true);
   };
 

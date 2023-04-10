@@ -234,8 +234,7 @@ const TestCasesTable = ({
             onDropDownChange(selectedOption, data, true)
           }
         />
-      ),
-      class: 'w-4'
+      )
     }
   ];
 
@@ -259,7 +258,7 @@ const TestCasesTable = ({
             {!isSearchFilterView && (
               <td
                 variant="body"
-                className="border-base-50 text-base-500 p-2"
+                className="border-base-50 text-base-500 w-[1%] p-2"
                 textTransform="uppercase"
               >
                 {/* all checkbox */}
@@ -345,7 +344,6 @@ const TestCasesTable = ({
                   {!isSearchFilterView && (
                     <td
                       variant="body"
-                      // className="border-base-50 test-base-500 h-full min-w-[5%] p-2"
                       className={classNames(
                         'border-base-50 test-base-500 p-2',
                         !deSelectedTestCaseIDs.includes(row.id) &&
