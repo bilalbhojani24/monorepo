@@ -52,7 +52,7 @@ DraggableAndResizable.args = {
   children: (
     <div className="absolute">
       <Resizable
-        className="relative flex flex-col items-center border border-solid border-black p-4 text-center"
+        className="relative flex flex-col items-center justify-center border border-solid border-black p-4 text-center"
         handle={(__resizeHandleAxis, ref) => (
           <span
             className="absolute bottom-0 mb-1 h-1 w-6 rounded bg-black hover:cursor-s-resize"
