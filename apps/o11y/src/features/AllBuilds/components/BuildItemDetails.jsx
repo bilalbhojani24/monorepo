@@ -149,7 +149,7 @@ function BuildItemDetails({
           <O11yMetaData
             textColorClass="text-base-500 inline-flex text-sm"
             metaDescription={data?.user}
-            title="Triggered By"
+            metaTitle="Run By"
           />
           <span className="text-base-500 text-sm"> on </span>
           {data?.startedAt ? (
@@ -158,7 +158,7 @@ function BuildItemDetails({
               metaDescription={getCustomTimeStamp({
                 dateString: new Date(data.startedAt)
               })}
-              title="Started At"
+              metaTitle="Started At"
             />
           ) : null}{' '}
           {data?.ciBuildData?.buildNumber && (

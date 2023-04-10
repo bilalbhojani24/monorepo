@@ -84,7 +84,7 @@ const BuildCardDetails = ({ data }) => {
           <O11yMetaData
             textColorClass="text-base-500 inline-flex text-sm"
             metaDescription={milliSecondsToTime(data.duration)}
-            title="Duration"
+            metaTitle="Duration"
           />
         ) : null}
       </O11yTableCell>
