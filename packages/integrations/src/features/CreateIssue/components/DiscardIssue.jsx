@@ -7,7 +7,7 @@ const DiscardIssue = ({
   confirmIssueDiscard,
   integrationName
 }) => (
-  <div className="flex h-full flex-col items-center">
+  <div className="flex h-full flex-col items-center justify-center">
     <p className="bg-brand-100 w-fit rounded-full p-6">
       <MdSave className="text-brand-500 text-3xl" />
     </p>

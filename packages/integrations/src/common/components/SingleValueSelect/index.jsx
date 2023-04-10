@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -63,19 +63,24 @@ const SingleValueSelect = ({
   const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
 
   useEffect(() => {
-    if ((value || defaultValue) && typeof setFieldsData === 'function') {
+    if (
+      cleanedValue?.value &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const previousOptions = usePrevious(optionsToRender);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
 
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
@@ -88,23 +93,33 @@ const SingleValueSelect = ({
     return optionList;
   };
 
-  useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(
-            appendOptionIfMissing(optionsData, value || defaultValue)
-          );
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(
+          appendOptionIfMissing(optionsData, value || defaultValue)
+        );
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     setOptionsToRender(
@@ -117,11 +132,12 @@ const SingleValueSelect = ({
       (typeof setFieldsData === 'function' &&
         !fieldsData?.[fieldKey] &&
         selectFirstByDefault &&
-        optionsToRender[0]) ||
+        optionsToRender?.[0]) ||
       (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
+      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender?.[0] });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectFirstByDefault,
     optionsToRender,
@@ -159,9 +175,10 @@ const SingleValueSelect = ({
       );
       setOptionsToRender(filtered);
     },
-    [options, dynamicOptions, fetchQuery]
+    [optionsPath, dynamicOptions, options]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
 
   const handleInputChange = (e) => {
@@ -180,6 +197,7 @@ const SingleValueSelect = ({
     <div className="py-3">
       <ComboBox
         onChange={handleChange}
+        onOpenChange={handleOpen}
         value={
           !optionsToRender?.length
             ? null
@@ -225,7 +243,7 @@ SingleValueSelect.propTypes = {
 };
 
 SingleValueSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

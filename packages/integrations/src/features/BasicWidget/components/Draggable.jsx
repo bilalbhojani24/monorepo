@@ -27,7 +27,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
         y
       });
     }
-  }, [refAquired]);
+  }, [position, positionRef, refAquired]);
 
   useEffect(() => {
     setWidgetPosition(null);

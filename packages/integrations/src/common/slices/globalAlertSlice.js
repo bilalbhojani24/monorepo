@@ -5,7 +5,9 @@ const initialState = {
   title: '',
   message: '',
   linkText: '',
-  linkUrl: ''
+  linkUrl: '',
+  autoDismiss: false,
+  autoDismissDelay: 4
 };
 
 export const globalAlertSlice = createSlice({
@@ -18,6 +20,9 @@ export const globalAlertSlice = createSlice({
       state.message = action.payload.message ?? '';
       state.linkText = action.payload.linkText ?? '';
       state.linkUrl = action.payload.linkUrl ?? '';
+      state.autoDismiss = action.payload.autoDismiss ?? false;
+      state.autoDismissDelay =
+        action.payload.autoDismissDelay ?? initialState.autoDismissDelay;
     },
     clearGlobalAlert: (state) => {
       state.kind = initialState.kind;
@@ -25,6 +30,8 @@ export const globalAlertSlice = createSlice({
       state.message = initialState.message;
       state.linkText = initialState.linkText;
       state.linkUrl = initialState.linkUrl;
+      state.autoDismiss = initialState.autoDismiss;
+      state.autoDismissDelay = initialState.autoDismissDelay;
     }
   }
 });
@@ -38,5 +45,7 @@ export const globalAlertStateSelector = (state) => ({
   title: state.globalAlert.title,
   message: state.globalAlert.message,
   linkText: state.globalAlert.linkText,
-  linkUrl: state.globalAlert.linkUrl
+  linkUrl: state.globalAlert.linkUrl,
+  autoDismiss: state.globalAlert.autoDismiss,
+  autoDismissDelay: state.globalAlert.autoDismissDelay
 });

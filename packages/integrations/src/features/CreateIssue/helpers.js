@@ -5,6 +5,7 @@
 const parseFieldsForCreateHelper = (
   { $type, $items, $properties, $const },
   fieldData
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
   let val = null;
   switch ($type) {

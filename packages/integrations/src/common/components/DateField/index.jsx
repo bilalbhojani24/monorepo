@@ -16,7 +16,7 @@ const DateField = ({
 }) => {
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
 

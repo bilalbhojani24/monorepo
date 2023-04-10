@@ -9,18 +9,13 @@ import {
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
-import { Loader, Logo } from '../../../common/components';
-import {
-  clearGlobalAlert,
-  setGlobalAlert
-} from '../../../common/slices/globalAlertSlice';
-import { SYNC_POLL_MAX_ATTEMPTS } from '../constants';
+import { Logo } from '../../../common/components';
+import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
   integrationKey,
   label,
-  pollerFn,
   syncPoller,
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
@@ -34,26 +29,17 @@ const OAuth = ({
   const authWindowName = 'browser_oauth';
   useEffect(() => {
     const handleMessage = (event) => {
-      setIsOAuthConnecting(true);
       let message = {};
       try {
         message = JSON.parse(event.data);
       } catch (e) {
         return e;
-      } finally {
-        setIsOAuthConnecting(false);
       }
       // oauth has failed
       if (message.hasError) {
         setHasOAuthFailed(true);
-        dispatch(
-          setGlobalAlert({
-            kind: 'error',
-            message: `There was some problem connecting to ${label} software`
-          })
-        );
       } else {
-        syncPoller();
+        syncPoller(setIsOAuthConnecting);
       }
       authWindow?.close();
       return null;
@@ -76,6 +62,7 @@ const OAuth = ({
   };
 
   const handleOAuthConnection = () => {
+    setIsOAuthConnecting(true);
     getOAuthUrlForTool(integrationKey)
       .then((redirectUri) => {
         dispatch(clearGlobalAlert());
@@ -90,7 +77,7 @@ const OAuth = ({
 
         function checkChild() {
           if (childWindow.closed) {
-            pollerFn(SYNC_POLL_MAX_ATTEMPTS - 1);
+            syncPoller(setIsOAuthConnecting, 1);
             clearInterval(timer);
           }
         }
@@ -100,14 +87,6 @@ const OAuth = ({
         dispatch(clearGlobalAlert());
       });
   };
-
-  if (isOAuthConnecting || isSyncInProgress) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -142,6 +121,8 @@ const OAuth = ({
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
           onClick={handleOAuthConnection}
+          loading={isOAuthConnecting || isSyncInProgress}
+          loadingText="Loading"
         >
           {`Connect to ${label}`}
         </Button>
@@ -167,7 +148,6 @@ OAuth.propTypes = {
   hasOAuthFailed: PropTypes.bool,
   showAPIToken: PropTypes.func.isRequired,
   setHasOAuthFailed: PropTypes.func.isRequired,
-  pollerFn: PropTypes.func.isRequired,
   syncPoller: PropTypes.func.isRequired,
   isSyncInProgress: PropTypes.func.isRequired
 };

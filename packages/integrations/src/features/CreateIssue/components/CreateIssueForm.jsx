@@ -19,17 +19,21 @@ import { FIELD_KEYS } from './constants';
 const CreateIssueForm = ({
   fields,
   options,
+  resetMeta,
   fieldsData,
   attachments,
   setFieldsData,
   setAttachments,
+  isWorkInProgress,
   projectFieldData,
+  deselectIssueType,
+  scrollWidgetToTop,
   cleanedIssueTypes,
   issueTypeFieldData,
   isCreateMetaLoading,
   setIsWorkInProgress,
-  integrationToolFieldData,
-  setIsFormBeingSubmitted
+  setIsFormBeingSubmitted,
+  integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
   const [fieldErrors, setFieldErrors] = useState({});
@@ -75,6 +79,7 @@ const CreateIssueForm = ({
             });
           }
           setIsFormBeingSubmitted(false);
+          scrollWidgetToTop();
           return Promise.reject(Error('create_failed'));
         })
         .then((response) => {
@@ -86,7 +91,8 @@ const CreateIssueForm = ({
                 attachments[0],
                 integrationToolFieldData?.value,
                 response.data.ticket_id,
-                response.data.ticket_url
+                response.data.ticket_url,
+                response.data.ticket_key
               );
             }
             // no attachment, just form success
@@ -96,10 +102,14 @@ const CreateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            resetMeta();
+            deselectIssueType();
             dispatch(
               setGlobalAlert({
                 kind: 'success',
-                message: 'Ticket added successfully'
+                message: 'Ticket created successfully.',
+                linkUrl: response?.data?.ticket_url,
+                linkText: 'View'
               })
             );
             if (typeof successCallback === 'function') {
@@ -108,6 +118,7 @@ const CreateIssueForm = ({
                 data: {
                   issueId: response?.data?.ticket_id,
                   issureUrl: response?.data?.ticket_url,
+                  issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
@@ -119,13 +130,17 @@ const CreateIssueForm = ({
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
             return response;
           }
           return null;
         })
         .catch((res) => {
           if (res?.message !== 'create_failed' && res?.cause?.ticket_url) {
+            resetMeta();
+            deselectIssueType();
             dispatch(
               setGlobalAlert({
                 kind: 'warn',
@@ -141,21 +156,25 @@ const CreateIssueForm = ({
                 data: {
                   issueId: res.cause.ticket_id,
                   issureUrl: res.cause.ticket_url,
+                  issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
                   }
                 }
               };
-              if (res.cause.attachment) {
-                payload.data.attachments = [res.cause.attachment];
+              if (res.cause?.attachment) {
+                payload.data.attachments = [res.cause?.attachment];
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       attachments,
       descriptionMeta,
@@ -199,6 +218,8 @@ const CreateIssueForm = ({
           handleSubmit={handleSubmit}
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
+          isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}
@@ -206,11 +227,15 @@ const CreateIssueForm = ({
   );
 };
 CreateIssueForm.propTypes = {
+  resetMeta: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,
   fieldsData: PropTypes.shape({}).isRequired,
   options: CreateIssueOptionsType.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
+  deselectIssueType: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isCreateMetaLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,

@@ -27,14 +27,16 @@ import DiscardIssue from './DiscardIssue';
 import renderChild from './renderChild';
 
 const IssueForm = ({
+  tab,
   mode,
   options,
   attachments,
-  changeModeTo,
+  changeTabTo,
   integrations,
   continueEditing,
   isWorkInProgress,
   isBeingDiscarded,
+  scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
   setIsFormBeingSubmitted
@@ -88,6 +90,10 @@ const IssueForm = ({
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
   };
 
+  const deselectIssueType = () => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: null });
+  };
+
   const cleanedIssueTypes = useMemo(
     () =>
       (projectFieldData?.ticketTypes ?? []).map((issueType) =>
@@ -109,10 +115,12 @@ const IssueForm = ({
       if (mode === ISSUE_MODES.CREATION) resetCreateMeta();
       else resetUpdateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
@@ -156,6 +164,7 @@ const IssueForm = ({
     ) {
       debouncedGetCreateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
@@ -183,6 +192,7 @@ const IssueForm = ({
         [FIELD_KEYS.TICKET_ID_SEARCH]: {}
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
@@ -194,11 +204,12 @@ const IssueForm = ({
 
   const handleIssueTabChange = useCallback(
     (tabSelected) => {
-      if (tabSelected.mode !== mode) {
-        changeModeTo(tabSelected.mode);
+      if (tabSelected.mode !== tab) {
+        changeTabTo(tabSelected.mode);
       }
     },
-    [mode, changeModeTo]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mode, changeTabTo]
   );
 
   const handleTryAgain = useCallback(() => {
@@ -210,7 +221,8 @@ const IssueForm = ({
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`,
+          autoDismiss: true
         })
       );
     }
@@ -221,6 +233,7 @@ const IssueForm = ({
     if (mode === ISSUE_MODES.UPDATION) {
       setUpdateFields([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectFieldData]);
 
   return (
@@ -233,7 +246,7 @@ const IssueForm = ({
         />
       )}
       <div
-        className={'bg-white h-full'.concat(
+        className={'bg-white h-full '.concat(
           isBeingDiscarded ? 'invisible h-0' : ''
         )}
       >
@@ -262,6 +275,7 @@ const IssueForm = ({
           )}
         >
           {renderChild({
+            tab,
             mode,
             options,
             projects,
@@ -274,7 +288,10 @@ const IssueForm = ({
             resetCreateMeta,
             resetUpdateMeta,
             projectFieldData,
+            isWorkInProgress,
+            deselectIssueType,
             projectsHaveError,
+            scrollWidgetToTop,
             cleanedIssueTypes,
             attachments: files,
             areProjectsLoading,
@@ -295,13 +312,15 @@ const IssueForm = ({
 };
 
 IssueForm.propTypes = {
+  tab: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
-  changeModeTo: PropTypes.func.isRequired,
+  changeTabTo: PropTypes.func.isRequired,
   confirmIssueDiscard: PropTypes.isRequired,
   options: CreateIssueOptionsType.isRequired,
   continueEditing: PropTypes.func.isRequired,
   isBeingDiscarded: PropTypes.bool.isRequired,
   isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   integrations: PropTypes.arrayOf({}).isRequired,

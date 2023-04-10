@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -47,16 +47,21 @@ const MultiSelect = ({
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
 
   useEffect(() => {
-    if (value || defaultValue) {
+    if (
+      (value || defaultValue) &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
       const cleanedValue = cleanOptions(value || defaultValue);
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
   const mergeTwoOptionsArray = (optionsOne, optionsTwo) => {
     let res = [];
@@ -85,23 +90,33 @@ const MultiSelect = ({
     return res;
   };
 
-  useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(
-            mergeTwoOptionsArray(optionsData, value || defaultValue)
-          );
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(
+          mergeTwoOptionsArray(optionsData, value || defaultValue)
+        );
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     if (value || defaultValue) {
@@ -138,6 +153,7 @@ const MultiSelect = ({
     [options, dynamicOptions, optionsPath]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
 
   const handleInputChange = (e) => {
@@ -164,6 +180,7 @@ const MultiSelect = ({
         isMulti={Boolean(optionsToRender?.length)}
         isLoading={areOptionsLoading}
         loadingText="Loading"
+        onOpenChange={handleOpen}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
       >
         <Label label={label} required={required} />
@@ -205,7 +222,7 @@ MultiSelect.propTypes = {
 };
 
 MultiSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

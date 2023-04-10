@@ -1,15 +1,15 @@
 import { cookieUtils as Cookie } from '@browserstack/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import {
   setHasToken,
   uatConfigSelector
 } from '../features/slices/userAuthSlice';
 
+import axios from './axiosInstance';
 import { REQUEST_TIMOUT, UAT_COOKIE_NAME } from './constants';
 
-export const fetchToken = (config = {}, { getState, dispatch }) => {
+export const fetchToken = (_, { getState, dispatch }) => {
   const { url, headers } = uatConfigSelector(getState());
   const cookie = new Cookie();
   const integrationsToken = cookie.read(UAT_COOKIE_NAME);
@@ -26,7 +26,6 @@ export const fetchToken = (config = {}, { getState, dispatch }) => {
       timeout: REQUEST_TIMOUT,
       timeoutErrorMessage: 'Request timed out',
       headers,
-      ...config,
       retry: 1
     })
     .then((response) => {

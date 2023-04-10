@@ -8,6 +8,7 @@ import CreateIssueForm from './CreateIssueForm';
 import UpdateIssueForm from './UpdateIssueForm';
 
 const renderChild = ({
+  tab,
   mode,
   options,
   projects,
@@ -22,7 +23,10 @@ const renderChild = ({
   resetCreateMeta,
   resetUpdateMeta,
   projectFieldData,
+  isWorkInProgress,
+  deselectIssueType,
   projectsHaveError,
+  scrollWidgetToTop,
   clearErrorMessage,
   cleanedIssueTypes,
   areProjectsLoading,
@@ -68,7 +72,7 @@ const renderChild = ({
       <Tabs
         tabsArray={TABS}
         onTabChange={handleIssueTabChange}
-        defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
+        defaultIndex={tab === ISSUE_MODES.CREATION ? 0 : 1}
       />
 
       {mode === ISSUE_MODES.CREATION ? (
@@ -81,6 +85,9 @@ const renderChild = ({
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
+          deselectIssueType={deselectIssueType}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
@@ -100,6 +107,8 @@ const renderChild = ({
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}

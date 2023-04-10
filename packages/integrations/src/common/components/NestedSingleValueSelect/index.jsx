@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -16,14 +16,16 @@ import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const NestedSingleValueSelect = ({
   label,
+  value,
   options,
   fieldKey,
   required,
-  fieldErrors,
   fieldsData,
   searchPath,
+  fieldErrors,
   optionsPath,
   placeholder,
+  defaultValue,
   setFieldsData,
   wrapperClassName,
   areSomeRequiredFieldsEmpty
@@ -40,7 +42,7 @@ const NestedSingleValueSelect = ({
       const val = currOption.value || currOption.id || currOption.key;
 
       acc.push({
-        val,
+        value: val,
         image,
         label: currOption.label,
         ticketTypes: currOption.ticket_types,
@@ -54,25 +56,58 @@ const NestedSingleValueSelect = ({
   const [childOptions, setChildOptions] = useState(null);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
+
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
+        const cleanedOptions = cleanOptions(optionsData);
+        setOptionsToRender(cleanedOptions);
+        setDynamicOptions(cleanedOptions);
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
+      });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
+    }
+  };
 
   useEffect(() => {
-    if (optionsPath) {
-      setAreOptionsLoading(true);
-      dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
-        .then(({ payload: optionsData = [] }) => {
-          const cleanedOptions = cleanOptions(optionsData);
-          setOptionsToRender(cleanedOptions);
-          setDynamicOptions(cleanedOptions);
-          setAreOptionsLoading(false);
-        })
-        .catch(() => {
-          setAreOptionsLoading(false);
-        });
+    if (
+      (value || defaultValue) &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
+      const [cleanedValue] = cleanOptions([value || defaultValue]);
+      const [cleanedChild] = cleanOptions([cleanedValue.options]);
+      cleanedValue.child = cleanedChild;
+      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      const currentParentItem = options?.find(
+        (parentOption) => parentOption.key === cleanedValue.value
+      );
+      if (currentParentItem) {
+        const cleanedChildOptions = cleanOptions(
+          currentParentItem.options ?? []
+        );
+        setChildOptions(cleanedChildOptions);
+      }
     }
-  }, [optionsPath]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, options]);
 
   useEffect(() => {
     setOptionsToRender(cleanOptions(options));
@@ -127,6 +162,7 @@ const NestedSingleValueSelect = ({
     [optionsPath, dynamicOptions, options]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
 
   const handleInputChange = (e) => {
@@ -149,6 +185,7 @@ const NestedSingleValueSelect = ({
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         isLoading={areOptionsLoading}
         loadingText="Loading"
+        onOpenChange={handleOpen}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -166,9 +203,7 @@ const NestedSingleValueSelect = ({
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
-            value={
-              !childOptions?.length ? null : fieldsData[fieldKey].child ?? {}
-            }
+            value={fieldsData?.[fieldKey]?.child}
           >
             <ComboboxTrigger />
             {Boolean(childOptions?.length) && (
@@ -202,7 +237,7 @@ NestedSingleValueSelect.propTypes = {
 };
 
 NestedSingleValueSelect.defaultProps = {
-  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  options: [],
   searchPath: '',
   optionsPath: ''
 };

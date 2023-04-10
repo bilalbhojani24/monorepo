@@ -19,7 +19,7 @@ const TextAreaField = ({
 }) => {
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
   const handleChange = (e) => {
@@ -28,10 +28,12 @@ const TextAreaField = ({
   };
 
   useEffect(() => {
-    if (value || defaultValue) {
-      setFieldsData({ ...fieldsData, [fieldKey]: value || defaultValue });
+    const valueToHydrateWith = value || defaultValue;
+    const valueInState = fieldsData[fieldKey];
+    if (valueToHydrateWith && typeof valueInState !== 'string') {
+      setFieldsData({ ...fieldsData, [fieldKey]: valueToHydrateWith });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
   return (
     <>

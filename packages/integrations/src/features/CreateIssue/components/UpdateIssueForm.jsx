@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { getTickets, updateIssue } from '../../../api';
@@ -24,13 +25,16 @@ const UpdateIssueForm = ({
   setFieldsData,
   issueFieldData,
   setAttachments,
+  isWorkInProgress,
   projectFieldData,
+  scrollWidgetToTop,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
+  const prevProject = usePrevious(projectFieldData);
   const [issuesOptions, setIssueOptions] = useState([]);
   const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -42,24 +46,28 @@ const UpdateIssueForm = ({
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
+  const getTicketForProject = () => {
+    setAreIssueOptionsLoading(true);
+    getTickets(
+      integrationToolFieldData?.value,
+      projectFieldData?.value,
+      'single-value-select'
+    )
+      .then((response) => {
+        setIssueOptions(response);
+        setAreIssueOptionsLoading(false);
+      })
+      .catch((err) => {
+        setAreIssueOptionsLoading(false);
+        throw err;
+      });
+  };
 
   useEffect(() => {
-    if (projectFieldData) {
-      setAreIssueOptionsLoading(true);
-      getTickets(
-        integrationToolFieldData?.value,
-        projectFieldData?.value,
-        'single-value-select'
-      )
-        .then((response) => {
-          setIssueOptions(response);
-          setAreIssueOptionsLoading(false);
-        })
-        .catch((err) => {
-          setAreIssueOptionsLoading(false);
-          throw err;
-        });
+    if (projectFieldData?.value !== prevProject?.value) {
+      getTicketForProject();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectFieldData, integrationToolFieldData]);
 
   const handleSubmit = useCallback(
@@ -98,19 +106,21 @@ const UpdateIssueForm = ({
             });
           }
           setIsFormBeingSubmitted(false);
+          scrollWidgetToTop();
           return Promise.reject(Error('update_failed'));
         })
         .then((response) => {
           if (response?.success) {
-            // ticket creation was successful
-            setIssueOptions([]);
-            resetMeta();
+            // ticket updation was successful
+            getTicketForProject(); // renew ticket data
             if (attachments?.length) {
               // has attachments to add
               return addAttachment(
                 attachments[0],
                 integrationToolFieldData?.value,
-                issueFieldData?.value
+                issueFieldData?.value,
+                response.data.ticket_url,
+                response.data.ticket_key
               );
             }
             // no attachment, just form success
@@ -120,10 +130,12 @@ const UpdateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            resetMeta();
             dispatch(
               setGlobalAlert({
                 kind: 'success',
-                message: 'Ticket updated successfully'
+                message: 'Ticket updated successfully.',
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {
@@ -131,6 +143,8 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: response?.data?.ticket_id,
+                  issureUrl: response?.data?.ticket_url,
+                  issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
@@ -142,16 +156,20 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         })
         .catch((res) => {
-          if (res.message !== 'update_failed') {
+          if (res?.message !== 'update_failed') {
+            resetMeta();
             dispatch(
               setGlobalAlert({
                 kind: 'warn',
                 message:
-                  'Ticket updated successfully. Error in  uploading attachments'
+                  'Ticket updated successfully. Error in  uploading attachments',
+                autoDismiss: true
               })
             );
             if (typeof successCallback === 'function') {
@@ -159,21 +177,26 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: res?.cause.ticket_id,
+                  issureUrl: res.cause.ticket_url,
+                  issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
                     label: integrationToolFieldData.title
                   }
                 }
               };
-              if (res.cause.attachment) {
-                payload.data.attachments = [res.cause.attachment];
+              if (res?.cause?.attachment) {
+                payload.data.attachments = [res?.cause?.attachment];
               }
               successCallback(payload);
             }
+            setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
+            scrollWidgetToTop();
           }
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       attachments,
       descriptionMeta,
@@ -198,7 +221,7 @@ const UpdateIssueForm = ({
           fieldsData={fieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID_SEARCH}
           setFieldsData={setFieldsData}
-          placeholder="Select with issues number, title or description"
+          placeholder="Select Issue Number, Title or Description"
           options={issuesOptions}
           searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`}
           disabled={!projectFieldData?.value}
@@ -230,6 +253,8 @@ const UpdateIssueForm = ({
           handleSubmit={handleSubmit}
           setAttachments={setAttachments}
           descriptionMeta={descriptionMeta}
+          isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
         />
       )}
@@ -244,6 +269,8 @@ UpdateIssueForm.propTypes = {
   setAttachments: PropTypes.func.isRequired,
   fieldsData: PropTypes.shape({}).isRequired,
   options: CreateIssueOptionsType.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,

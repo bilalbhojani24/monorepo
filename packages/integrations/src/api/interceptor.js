@@ -1,9 +1,9 @@
 import { cookieUtils as Cookie } from '@browserstack/utils';
-import axios from 'axios';
 
 import { baseURLSelector } from '../common/slices/configSlice';
 import { store } from '../features/store';
 
+import axios from './axiosInstance';
 import { UAT_COOKIE_NAME } from './constants';
 import { fetchTokenThunk } from './fetchToken';
 
@@ -14,6 +14,7 @@ export const requestInterceptor = axios.interceptors.request.use(
     const configShallowCopy = config;
     configShallowCopy.baseURL = baseURLSelector(store.getState());
     configShallowCopy.retry = configShallowCopy.retry || 3;
+    configShallowCopy.withCredentials = true;
     const token = cookie.read(UAT_COOKIE_NAME);
     if (token) {
       configShallowCopy.headers.Authorization = `Bearer ${token}`;
@@ -32,7 +33,7 @@ export const responseInterceptor = axios.interceptors.response.use(
   // Do something with response data
   (error) => {
     // Do something with response error
-    const { status, data } = error.response;
+    const { status, data } = error.response || {};
 
     if (status === 401 && data.error?.refresh_token) {
       const { config } = error;
@@ -52,6 +53,7 @@ export const responseInterceptor = axios.interceptors.response.use(
 
       // run refresh token flow
       cookie.erase(UAT_COOKIE_NAME); // remove cookie
+      config.refreshToken = true;
       return store.dispatch(fetchTokenThunk(config)).then(() => {
         // new UAT has been issued and stored in cookie
         const token = cookie.read(UAT_COOKIE_NAME);

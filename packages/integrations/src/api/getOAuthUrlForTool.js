@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
+import axios from './axiosInstance';
 import { URLS } from './constants';
 
 export const getOAuthUrlForTool = (integrationKey) =>
