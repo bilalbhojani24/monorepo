@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ScopeLine from 'common/ScopeLine/containers/ScopeLine';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import RootNodeMetaData from 'features/TestList/components/RootNodeMetaData';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -21,8 +21,8 @@ export default function TestDataItem({ data }) {
     logInsightsInteractionEvent({
       interaction: 'unique_errors_test_details_opened'
     });
-    dispatch(setShowDetailsFor(id));
-    dispatch(setIsDetailsVisible(true));
+    dispatch(setShowTestDetailsFor(id));
+    dispatch(setIsTestDetailsVisible(true));
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set('details', id);
     navigate({ search: searchParams.toString() });

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   DataVisualization,
@@ -15,7 +15,11 @@ import {
   O11yDropdownOptionItem,
   O11yDropdownTrigger
 } from 'common/bifrostProxy';
+import { TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import TestDetailsSlideOver from 'features/TestDetails';
+import { getIsTestDetailsVisible } from 'features/TestDetails/slices/selectors';
+import { setIsTestDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 import useShowMoreOptions from 'features/TestsInsights/components/useShowMoreOptions';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -30,7 +34,9 @@ const RGL_LS_KEY = 'testops-rgl-layouts-v3';
 const RGL_LS_KEY_OLDER = 'testops-rgl-layouts-v2';
 
 export default function TestInsightsLayout() {
+  const dispatch = useDispatch();
   const buildMeta = useSelector(getBuildMeta);
+  const isDetailsVisible = useSelector(getIsTestDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const handleClickViewTrends = useShowMoreOptions();
   const [rglLayouts, setRglLayouts] = useState(() => {
@@ -97,8 +103,9 @@ export default function TestInsightsLayout() {
     window.scroll(0, 0);
     return () => {
       window.scroll(0, 0);
+      dispatch(setIsTestDetailsVisible(false));
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (buildMeta?.uuid) {
@@ -115,70 +122,80 @@ export default function TestInsightsLayout() {
   }, [activeProject.id, activeProject.name, buildMeta?.name, buildMeta?.uuid]);
 
   return (
-    <TestInsightsContext.Provider value={{ logInsightsInteractionEvent }}>
-      <div className="overflow-x-hidden pb-24">
-        <ResponsiveReactGridLayout
-          className=""
-          breakpoints={{ lg: 1440, md: 992, sm: 767, xs: 480, xxs: 0 }}
-          cols={{ lg: 4, md: 4, sm: 2, xs: 2, xxs: 2 }}
-          layouts={rglLayouts}
-          rowHeight={116}
-          margin={[20, 20]}
-          onLayoutChange={onLayoutChange}
-          onDragStop={() =>
-            logInsightsInteractionEvent({ interaction: 'chart_moved' })
-          }
-          isResizable
-          isDraggable
-          autoSize
-          draggableHandle=".ti-card-header__dragHandler"
-          onResizeStop={handleResize}
-          measureBeforeMount
-        >
-          {Object.keys(cards).map((key) => (
-            <div
-              className="group flex flex-col"
-              key={key}
-              data-grid={cards[key]}
-            >
-              <DataVisualization
-                analyticsWrapperClassName="h-full flex-1"
-                contentWrapperClassName={twClassNames('flex flex-col h-full', {
-                  'pb-0': key === 'failuresByFolders'
-                })}
-                analytics={<DashboardCard cardKey={key} />}
-                headerInfo={false}
-                headerInfoTooltipProps={{
-                  content: <>{cards[key].title}</>,
-                  children: <MdInfoOutline className="h-5 w-5" />,
-                  placementAlign: 'center',
-                  placementSide: 'bottom',
-                  size: 'xs',
-                  theme: 'dark'
-                }}
-                KpiProps={null}
-                otherOptions={
-                  <div className="flex gap-2">
-                    <Button
-                      icon={<MdDragIndicator />}
-                      isIconOnlyButton
-                      size="xs"
-                      colors="white"
-                      variant="minimal"
-                      wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
-                    />
-                    {getOtherOptions(key)}
-                  </div>
-                }
-                size="fit-content"
-                title={cards[key].title}
-                wrapperClassName="bg-white relative h-full"
-                descPosition={null}
-              />
-            </div>
-          ))}
-        </ResponsiveReactGridLayout>
-      </div>
-    </TestInsightsContext.Provider>
+    <>
+      <TestInsightsContext.Provider value={{ logInsightsInteractionEvent }}>
+        <div className="overflow-x-hidden pb-24">
+          <ResponsiveReactGridLayout
+            className=""
+            breakpoints={{ lg: 1440, md: 992, sm: 767, xs: 480, xxs: 0 }}
+            cols={{ lg: 4, md: 4, sm: 2, xs: 2, xxs: 2 }}
+            layouts={rglLayouts}
+            rowHeight={116}
+            margin={[20, 20]}
+            onLayoutChange={onLayoutChange}
+            onDragStop={() =>
+              logInsightsInteractionEvent({ interaction: 'chart_moved' })
+            }
+            isResizable
+            isDraggable
+            autoSize
+            draggableHandle=".ti-card-header__dragHandler"
+            onResizeStop={handleResize}
+            measureBeforeMount
+          >
+            {Object.keys(cards).map((key) => (
+              <div
+                className="group flex flex-col"
+                key={key}
+                data-grid={cards[key]}
+              >
+                <DataVisualization
+                  analyticsWrapperClassName="h-full flex-1"
+                  contentWrapperClassName={twClassNames(
+                    'flex flex-col h-full',
+                    {
+                      'pb-0': key === 'failuresByFolders'
+                    }
+                  )}
+                  analytics={<DashboardCard cardKey={key} />}
+                  headerInfo={false}
+                  headerInfoTooltipProps={{
+                    content: <>{cards[key].title}</>,
+                    children: <MdInfoOutline className="h-5 w-5" />,
+                    placementAlign: 'center',
+                    placementSide: 'bottom',
+                    size: 'xs',
+                    theme: 'dark'
+                  }}
+                  KpiProps={null}
+                  otherOptions={
+                    <div className="flex gap-2">
+                      <Button
+                        icon={<MdDragIndicator />}
+                        isIconOnlyButton
+                        size="xs"
+                        colors="white"
+                        variant="minimal"
+                        wrapperClassName="ti-card-header__dragHandler border-none invisible group-hover:visible group-hover:shadow-none"
+                      />
+                      {getOtherOptions(key)}
+                    </div>
+                  }
+                  size="fit-content"
+                  title={cards[key].title}
+                  wrapperClassName="bg-white relative h-full"
+                  descPosition={null}
+                />
+              </div>
+            ))}
+          </ResponsiveReactGridLayout>
+        </div>
+      </TestInsightsContext.Provider>
+      {isDetailsVisible && (
+        <TestDetailsSlideOver
+          source={TEST_DETAILS_SOURCE.BUILD_INSIGHTS_UNIQUE_ERRORS}
+        />
+      )}
+    </>
   );
 }
