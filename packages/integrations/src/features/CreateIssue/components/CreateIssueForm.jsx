@@ -174,6 +174,7 @@ const CreateIssueForm = ({
           }
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       attachments,
       descriptionMeta,
@@ -226,11 +227,15 @@ const CreateIssueForm = ({
   );
 };
 CreateIssueForm.propTypes = {
+  resetMeta: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,
   fieldsData: PropTypes.shape({}).isRequired,
   options: CreateIssueOptionsType.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
+  deselectIssueType: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isCreateMetaLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,

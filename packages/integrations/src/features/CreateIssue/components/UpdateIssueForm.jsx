@@ -67,6 +67,7 @@ const UpdateIssueForm = ({
     if (projectFieldData?.value !== prevProject?.value) {
       getTicketForProject();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectFieldData, integrationToolFieldData]);
 
   const handleSubmit = useCallback(
@@ -189,6 +190,7 @@ const UpdateIssueForm = ({
           }
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       attachments,
       descriptionMeta,
@@ -261,6 +263,8 @@ UpdateIssueForm.propTypes = {
   setAttachments: PropTypes.func.isRequired,
   fieldsData: PropTypes.shape({}).isRequired,
   options: CreateIssueOptionsType.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,

@@ -135,6 +135,7 @@ const FormBuilder = ({
         });
       }
     }
+    return null;
   };
 
   return (

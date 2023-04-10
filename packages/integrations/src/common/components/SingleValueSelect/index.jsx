@@ -137,6 +137,7 @@ const SingleValueSelect = ({
     ) {
       setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender?.[0] });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectFirstByDefault,
     optionsToRender,
@@ -174,10 +175,14 @@ const SingleValueSelect = ({
       );
       setOptionsToRender(filtered);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [options, dynamicOptions, fetchQuery]
   );
 
-  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
+  const debouncedFetchQuery = useCallback(() => {
+    makeDebounce(fetchQuery, 300);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleInputChange = (e) => {
     const query = e.target.value?.trim();

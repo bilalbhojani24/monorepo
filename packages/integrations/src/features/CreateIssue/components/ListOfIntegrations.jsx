@@ -76,12 +76,13 @@ ListOfIntegrations.propTypes = {
   mode: PropTypes.string.isRequired,
   changeTabTo: PropTypes.func.isRequired,
   discardIssue: PropTypes.func.isRequired,
-  confirmIssueDiscard: PropTypes.isRequired,
   options: CreateIssueOptionsType.isRequired,
   continueEditing: PropTypes.func.isRequired,
   isBeingDiscarded: PropTypes.bool.isRequired,
   isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
+  confirmIssueDiscard: PropTypes.func.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired
 };

@@ -85,7 +85,7 @@ export const CreateIssue = ({
         setMode(nextTab);
       }
     },
-    [discardIssue, isWorkInProgress]
+    [discardIssue, dispatch, isWorkInProgress]
   );
 
   const widgetHeight = useSelector(widgetHeightSelector);

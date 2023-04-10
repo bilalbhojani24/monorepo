@@ -115,10 +115,12 @@ const IssueForm = ({
       if (mode === ISSUE_MODES.CREATION) resetCreateMeta();
       else resetUpdateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   useEffect(() => {
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
@@ -162,6 +164,7 @@ const IssueForm = ({
     ) {
       debouncedGetCreateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
@@ -189,6 +192,7 @@ const IssueForm = ({
         [FIELD_KEYS.TICKET_ID_SEARCH]: {}
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
@@ -204,6 +208,7 @@ const IssueForm = ({
         changeTabTo(tabSelected.mode);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [mode, changeTabTo]
   );
 
@@ -228,6 +233,7 @@ const IssueForm = ({
     if (mode === ISSUE_MODES.UPDATION) {
       setUpdateFields([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectFieldData]);
 
   return (
@@ -314,6 +320,7 @@ IssueForm.propTypes = {
   continueEditing: PropTypes.func.isRequired,
   isBeingDiscarded: PropTypes.bool.isRequired,
   isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   integrations: PropTypes.arrayOf({}).isRequired,

@@ -19,6 +19,7 @@ const IntegrationAuth = ({
   label,
   oAuthMeta,
   apiTokenMeta
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const dispatch = useDispatch();
   const [hasOAuthFailed, setHasOAuthFailed] = useState(false);
