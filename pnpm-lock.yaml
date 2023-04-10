@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/accessibility:
+  apps/Accessibility:
     specifiers:
       '@browserstack/bifrost': 1.1.0
       '@browserstack/hooks': workspace:*
@@ -19872,7 +19872,6 @@ packages:
     dependencies:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
-    dev: false
 
   /postcss-nesting/10.2.0_postcss@8.4.20:
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
@@ -21193,7 +21192,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.76.0
       style-loader: 3.3.1_webpack@5.76.0
-      tailwindcss: 3.1.4_postcss@8.4.21
+      tailwindcss: 3.2.7_postcss@8.4.21
       terser-webpack-plugin: 5.3.7_webpack@5.76.0
       typescript: 4.9.5
       webpack: 5.76.0
@@ -23454,7 +23453,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-    dev: false
 
   /tapable/0.1.10:
     resolution: {integrity: sha512-jX8Et4hHg57mug1/079yitEKWGB3LCwoxByLsNim89LABq8NqgiX+6iYVOsq0vX8uJHkU+DZ5fnq95f800bEsQ==}
