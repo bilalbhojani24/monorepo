@@ -135,7 +135,8 @@ const UpdateIssueForm = ({
               setGlobalAlert({
                 kind: 'success',
                 message: 'Ticket updated successfully.',
-                autoDismiss: true
+                linkUrl: response?.data?.ticket_url,
+                linkText: 'View'
               })
             );
             if (typeof successCallback === 'function') {
@@ -169,7 +170,8 @@ const UpdateIssueForm = ({
                 kind: 'warn',
                 message:
                   'Ticket updated successfully. Error in  uploading attachments',
-                autoDismiss: true
+                linkText: 'View',
+                linkUrl: res.cause.ticket_url
               })
             );
             if (typeof successCallback === 'function') {

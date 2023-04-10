@@ -197,7 +197,7 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup maxWidth={300}>
           {optionsToRender?.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}

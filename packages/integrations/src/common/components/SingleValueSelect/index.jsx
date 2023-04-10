@@ -219,7 +219,7 @@ const SingleValueSelect = ({
           onInputValueChange={handleInputChange}
         />
         {Boolean(optionsToRender?.length) && (
-          <ComboboxOptionGroup>
+          <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem key={item.value} option={item} />
             ))}

@@ -192,7 +192,7 @@ const MultiSelect = ({
           onInputValueChange={handleInputChange}
         />
         {Boolean(optionsToRender?.length) && (
-          <ComboboxOptionGroup>
+          <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem
                 key={item.value}
