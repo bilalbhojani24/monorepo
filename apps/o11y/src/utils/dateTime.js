@@ -1,4 +1,5 @@
-import { SNP_DATE_RANGE } from 'constants/common';
+import { parseDate } from '@internationalized/date';
+import { ISO_DATE_FORMAT, SNP_DATE_RANGE } from 'constants/common';
 import {
   endOfDay,
   format,
@@ -148,3 +149,6 @@ export function getTTTimeBounds(activeKey) {
   }
   return timebounds;
 }
+
+export const getISOParsedDate = (date) =>
+  parseDate(getDateInFormat(date, ISO_DATE_FORMAT));

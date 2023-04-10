@@ -168,3 +168,5 @@ export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'
 };
+
+export const ISO_DATE_FORMAT = 'yyyy-MM-dd';
