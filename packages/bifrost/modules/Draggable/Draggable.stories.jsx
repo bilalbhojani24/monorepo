@@ -52,7 +52,7 @@ DraggableAndResizable.args = {
   children: (
     <div className="absolute">
       <Resizable
-        className="relative flex flex-col items-center justify-center border border-solid border-black p-4 text-center"
+        className="relative flex flex-col items-center border border-solid border-black p-4 text-center"
         handle={(__resizeHandleAxis, ref) => (
           <span
             className="absolute bottom-0 mb-1 h-1 w-6 rounded bg-black hover:cursor-s-resize"
@@ -60,15 +60,18 @@ DraggableAndResizable.args = {
           />
         )}
         width={300}
-        height={250}
+        height={450}
         resizeHandles={['s']}
-        minConstraints={[300, 200]}
-        maxConstraints={[300, 500]}
+        minConstraints={[300, 350]}
+        maxConstraints={[300, 600]}
       >
-        <Button wrapperClassName="drag-handle">Drag here</Button>
+        <Button wrapperClassName="self-start mb-4 drag-handle">
+          Drag here
+        </Button>
         <p>
           Hello, this is the body of the draggable and resizable container.
-          Cannot drag from here
+          Cannot drag from here. If you don&apos;t want the text to overflow,
+          please add tailwind overflow classname
         </p>
       </Resizable>
     </div>
