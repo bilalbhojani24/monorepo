@@ -15,12 +15,6 @@ if [ ! -d "$SOURCE" ]; then
   exit 1
 fi
 
-if ! aws s3 ls "s3://$DESTINATION/" >/dev/null 2>&1; then
-  echo "$DESTINATION does not exist. Creating now."
-  aws s3 mb "s3://$DESTINATION"
-fi
-
-
 if [ "$BCKP_FOLDERNAME" ] 
 then
   echo "*****PRODUCTION PUBLISH STARTED*****"
