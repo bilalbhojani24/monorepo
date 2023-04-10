@@ -35,7 +35,7 @@ const ReportBug = ({ setAlertMessage, positionRef }) => {
   };
 
   const auth = {
-    url: 'https://integrations.bsstag.com/api/user-access-tokens?unique_user_id=3',
+    url: 'https://integrations.bsstag.com/api/user-access-tokens?unique_user_id=4',
     headers: {
       Authorization:
         'Basic aW50ZWdyYXRpb25zc2Vydl9TZzFEUk46S0ZjenFmc1hhSEdqcE51eVJqZnc='
