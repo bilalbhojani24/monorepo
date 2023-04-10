@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Hyperlink,
+  MdAutoAwesome,
   MdCancel,
   MdCheckCircle,
   MdHelp,
   MdOutlineAutoFixHigh,
+  MdOutlineRefresh,
   MdOutlineTimer,
   MdPerson,
   MdRemoveCircle,
@@ -16,6 +18,7 @@ import {
 } from '@browserstack/bifrost';
 import {
   O11yBadge,
+  O11yButton,
   O11yMetaData,
   O11yTabs,
   O11yTooltip
@@ -28,6 +31,7 @@ import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
+import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
@@ -49,7 +53,11 @@ const tabsList = Object.keys(TABS).map((key) => ({
   icon: TABS[key].icon
 }));
 
-function BuildDetailsHeader() {
+function BuildDetailsHeader({
+  updateCount,
+  onUpdateBtnClick,
+  isNewItemLoading
+}) {
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -115,12 +123,15 @@ function BuildDetailsHeader() {
       buildMeta.data.status,
       buildMeta.data.statusStats
     );
-    if (TEST_STATUS.PENDING === status) {
+    if (
+      status !== TEST_STATUS.PENDING &&
+      buildMeta.data.isAutoAnalyzerRunning
+    ) {
       return (
         <O11yMetaData
-          icon={<O11yLoader loaderClass="h-4 w-4" />}
-          metaDescription="Running"
-          textColorClass="text-base-600"
+          icon={<MdAutoAwesome className="text-brand-600 h-4 w-4" />}
+          metaDescription="Analysing"
+          textColorClass="text-brand-800"
         />
       );
     }
@@ -180,55 +191,68 @@ function BuildDetailsHeader() {
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b p-6 pb-0">
-      <h1 className="text-2xl font-bold leading-7">
-        {isAutoDetectedName ? originalName : name}{' '}
-        <div className="inline-block">
-          {!!buildNumber && `#${buildNumber}`}
-          {isAutoDetectedName && (
-            <O11yTooltip
-              theme="dark"
-              placementSide="right"
-              content={
-                <div className="mx-4">
-                  <p className="text-base-300 text-sm leading-5">
-                    Static build name automatically detected: {name}
-                  </p>
-                  <Hyperlink
-                    target="_blank"
-                    href={getDocUrl({
-                      path: DOC_KEY_MAPPING.automation_build
-                    })}
-                    wrapperClassName="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
-                    onClick={() => {
-                      logMetaInteractionEvent('auto_detect_learn_more_clicked');
-                    }}
-                  >
-                    Learn More
-                  </Hyperlink>
-                </div>
-              }
-            >
-              <MdOutlineAutoFixHigh
-                className="text-base-500 mx-2 inline-block text-xl"
-                onMouseEnter={() => {
-                  logMetaInteractionEvent('auto_detect_hovered');
-                }}
-              />
-            </O11yTooltip>
-          )}
-        </div>
-        {tags?.map((tag) => (
-          <O11yBadge
-            key={tag}
-            wrapperClassName="mx-2 text-sm leading-5 font-medium"
-            hasRemoveButton={false}
-            modifier="base"
-            hasDot={false}
-            text={tag}
-          />
-        ))}
-      </h1>
+    <div className="border-base-200 sticky top-[4rem] z-10 border-b bg-white px-6 pt-6">
+      <div className="flex">
+        <h1 className="w-full text-2xl font-bold leading-7">
+          {isAutoDetectedName ? originalName : name}{' '}
+          <div className="inline-block">
+            {!!buildNumber && `#${buildNumber}`}
+            {isAutoDetectedName && (
+              <O11yTooltip
+                theme="dark"
+                placementSide="right"
+                content={
+                  <div className="mx-4">
+                    <p className="text-base-300 text-sm leading-5">
+                      Static build name automatically detected: {name}
+                    </p>
+                    <Hyperlink
+                      target="_blank"
+                      href={getDocUrl({
+                        path: DOC_KEY_MAPPING.automation_build
+                      })}
+                      className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                    >
+                      Learn More
+                    </Hyperlink>
+                  </div>
+                }
+              >
+                <MdOutlineAutoFixHigh
+                  className="text-base-500 mx-2 inline-block text-xl"
+                  onMouseEnter={() => {
+                    logMetaInteractionEvent('auto_detect_hovered');
+                  }}
+                />
+              </O11yTooltip>
+            )}
+          </div>
+          {tags?.map((tag) => (
+            <O11yBadge
+              key={tag}
+              wrapperClassName="mx-2 text-sm leading-5 font-medium"
+              hasRemoveButton={false}
+              modifier="base"
+              hasDot={false}
+              text={tag}
+            />
+          ))}
+        </h1>
+        {updateCount > 0 && (
+          <O11yButton
+            variant="rounded"
+            icon={<MdOutlineRefresh className="text-sm" />}
+            iconPlacement="end"
+            size="extra-small"
+            isIconOnlyButton={isNewItemLoading}
+            loading={isNewItemLoading}
+            onClick={onUpdateBtnClick}
+            wrapperClassName="flex-shrink-0"
+          >
+            {updateCount} new test{updateCount > 1 ? 's' : ''}
+          </O11yButton>
+        )}
+      </div>
       <div className="mt-2 flex flex-wrap items-center gap-4">
         {renderStatusIcon()}
         <O11yMetaData
@@ -328,3 +352,9 @@ function BuildDetailsHeader() {
 }
 
 export default BuildDetailsHeader;
+
+BuildDetailsHeader.propTypes = {
+  updateCount: PropTypes.number.isRequired,
+  onUpdateBtnClick: PropTypes.func.isRequired,
+  isNewItemLoading: PropTypes.bool.isRequired
+};

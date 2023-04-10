@@ -4,10 +4,13 @@ import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import { PUSHER_EVENTS } from 'constants/common';
 import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
+import { o11yNotify } from 'utils/notification';
 
+import TestList from '../../TestList';
+import { getTestListData } from '../../TestList/slices/testListSlice';
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
-import TestList from '../components/TestList';
 import { TABS } from '../constants';
 import {
   clearBuildUUID,
@@ -18,6 +21,9 @@ import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
+  const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
@@ -45,7 +51,13 @@ function BuildDetails() {
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
-  useEffect(() => () => dispatch(clearBuildUUID()), [dispatch]);
+  useEffect(
+    () => () => {
+      dispatch(clearBuildUUID());
+      setTestDefectTypeMapping({});
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -62,6 +74,51 @@ function BuildDetails() {
       );
     }
   }, [dispatch, location.search]);
+
+  const updateTestDefectTypeMapping = useCallback((data, bulk = false) => {
+    if (bulk) {
+      const formattedData = {};
+      data.forEach((item) => {
+        formattedData[item.id] = { ...item };
+      });
+      setTestDefectTypeMapping((prev) => ({
+        ...prev,
+        ...formattedData
+      }));
+    } else {
+      setTestDefectTypeMapping((prev) => ({
+        ...prev,
+        [data.id]: {
+          ...data
+        }
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    const unsub = window.pubSub.subscribe(
+      PUSHER_EVENTS.ANALYZER_COMPLETED,
+      (payload) => {
+        if (payload?.data?.length && payload.buildId === buildUUID) {
+          updateTestDefectTypeMapping(payload.data, true);
+        }
+      }
+    );
+    return () => {
+      unsub();
+    };
+  }, [buildUUID, updateTestDefectTypeMapping]);
+
+  useEffect(() => {
+    const unsub = window.pubSub.subscribe(PUSHER_EVENTS.NEW_TESTS, (data) => {
+      if (buildUUID === data.buildId) {
+        setUpdateCount((prev) => prev + data?.updatesCount || 0);
+      }
+    });
+    return () => {
+      unsub();
+    };
+  }, [buildUUID]);
 
   if (!buildUUID) {
     return (
@@ -88,13 +145,38 @@ function BuildDetails() {
     );
   }
 
+  const onUpdateBtnClick = () => {
+    setIsLoading(true);
+    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+      .unwrap()
+      .catch(() => {
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating tests',
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setUpdateCount(0);
+      });
+  };
+
   return (
     <>
-      <BuildDetailsHeader />
-      <div className="h-full">
-        {activeTab.id === TABS.insights.id && <TestInsightsLayout />}
-        {activeTab.id === TABS.tests.id && <TestList />}
-      </div>
+      <BuildDetailsHeader
+        isNewItemLoading={isLoading}
+        onUpdateBtnClick={onUpdateBtnClick}
+        updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
+      />
+      {activeTab.id === TABS.insights.id && <TestInsightsLayout />}
+      {activeTab.id === TABS.tests.id && (
+        <TestList
+          buildUUID={buildUUID}
+          testDefectTypeMapping={testDefectTypeMapping}
+          updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+        />
+      )}
     </>
   );
 }

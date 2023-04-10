@@ -35,6 +35,9 @@ const BuildCardDetails = ({ data }) => {
   const navigate = useNavigate();
   const { projectNormalisedName } = useParams();
   const tags = useSelector(getAppliedFilterTags);
+  const navigationEndPoint = `/projects/${projectNormalisedName}/builds/${
+    data?.isAutoDetectedName ? data?.originalName : data?.name
+  }/${data?.buildNumber}?tab=tests`;
 
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
@@ -67,9 +70,8 @@ const BuildCardDetails = ({ data }) => {
   };
 
   const navigateToTestPage = (itemCategory, clickData) => {
-    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/3?tab=tests`;
-    endpoint += `&${itemCategory}=${clickData.itemClicked}`;
-    navigate(endpoint);
+    const newEndPoint = `${navigationEndPoint}&${itemCategory}=${clickData.itemClicked}`;
+    navigate(newEndPoint);
   };
 
   return (
@@ -126,7 +128,7 @@ const BuildCardDetails = ({ data }) => {
               ))}
             </div>
             <p className="text-base-500 text-sm">
-              Ran by{' '}
+              Run by{' '}
               <O11yMetaData
                 textColorClass="text-base-500 inline-flex text-sm"
                 metaDescription={data?.user}
@@ -231,16 +233,35 @@ const BuildCardDetails = ({ data }) => {
                     {Object.keys(data?.issueTypeAggregate)?.map(
                       (item) =>
                         !!data?.issueTypeAggregate[item] && (
-                          <li key={item}>
-                            <span
-                              className="mr-2 inline-block h-2 w-2 rounded-full"
-                              style={{
-                                backgroundColor: aggregateColors[item]
+                          <PropagationBlocker as="li" key={item}>
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              key={item}
+                              onClick={(e) => {
+                                navigateToTestPage('issueType', {
+                                  eventData: e,
+                                  itemClicked: item
+                                });
                               }}
-                              data-d={data?.issueTypeAggregate[item]}
-                            />
-                            <span>{item}</span>
-                          </li>
+                              onKeyDown={(e) => {
+                                if (e.key === ' ' && e.key === 'Enter') {
+                                  navigateToTestPage('issueType', {
+                                    eventData: e,
+                                    itemClicked: item
+                                  });
+                                }
+                              }}
+                            >
+                              <span
+                                className="mr-2 inline-block h-2 w-2 cursor-pointer rounded-full"
+                                style={{
+                                  backgroundColor: aggregateColors[item]
+                                }}
+                              />
+                              <span className="cursor-pointer">{item}</span>
+                            </div>
+                          </PropagationBlocker>
                         )
                     )}
                   </ul>
@@ -263,7 +284,6 @@ const BuildCardDetails = ({ data }) => {
                 }
               >
                 <div
-                  id="pratik"
                   label="No Failures Found"
                   className="bg-base-200 h-3 w-full"
                   tabIndex={0}
@@ -281,12 +301,12 @@ const BuildCardDetails = ({ data }) => {
               variant="li"
               role="button"
               onClick={(e) =>
-                navigateToTestPage('smartTags', {
+                navigateToTestPage('history', {
                   eventData: e,
-                  itemClicked: 'New Failure'
+                  itemClicked: 'isNewFailure'
                 })
               }
-              className="text-danger-600"
+              className="text-danger-600 cursor-pointer"
             >
               {`New Failures (${data?.historyAggregate?.isNewFailure})`}
             </PropagationBlocker>
@@ -296,11 +316,12 @@ const BuildCardDetails = ({ data }) => {
               variant="li"
               role="button"
               onClick={(e) =>
-                navigateToTestPage('smartTags', {
+                navigateToTestPage('falky', {
                   eventData: e,
-                  itemClicked: 'Flaky'
+                  itemClicked: 'true'
                 })
               }
+              className="cursor-pointer"
             >{`Flaky (${data?.historyAggregate?.isFlaky})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isAlwaysFailing > 0 && (
@@ -308,11 +329,12 @@ const BuildCardDetails = ({ data }) => {
               variant="li"
               role="button"
               onClick={(e) =>
-                navigateToTestPage('smartTags', {
+                navigateToTestPage('history', {
                   eventData: e,
-                  itemClicked: 'Always Failing'
+                  itemClicked: 'isAlwaysFailing'
                 })
               }
+              className="cursor-pointer"
             >{`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}</PropagationBlocker>
           )}
           {data?.historyAggregate?.isPerformanceAnomaly > 0 && (
@@ -320,11 +342,12 @@ const BuildCardDetails = ({ data }) => {
               variant="li"
               role="button"
               onClick={(e) =>
-                navigateToTestPage('smartTags', {
+                navigateToTestPage('history', {
                   eventData: e,
-                  itemClicked: 'Performance Anomaly'
+                  itemClicked: 'isPerformanceAnomaly'
                 })
               }
+              className="cursor-pointer"
             >{`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}</PropagationBlocker>
           )}
           {Object.values(data?.historyAggregate).every((el) => el === 0) && (

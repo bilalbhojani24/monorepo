@@ -6,18 +6,24 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 
-export default function StackTraceTooltip({ traceLines, copyText }) {
+export default function StackTraceTooltip({
+  traceLines,
+  copyText,
+  showOnlyTraceData
+}) {
   return (
     <PropagationBlocker>
-      <div className="bg-base-100 flex items-center justify-between">
-        <p className="px-3 text-xs">Stack trace</p>
-        <Copy2Clipboard text={copyText} showBtnText />
-      </div>
+      {!showOnlyTraceData && (
+        <div className="bg-base-100 flex items-center justify-between">
+          <p className="px-3 text-xs">Stack trace</p>
+          <Copy2Clipboard text={copyText} showBtnText />
+        </div>
+      )}
 
       <pre className="text-danger-500 max-h-[250px] overflow-auto p-3">
         {traceLines.map((item, idx) => (
           // eslint-disable-next-line react/no-array-index-key
-          <p className="text-xs" key={`${item}-${idx}`}>
+          <p className="font-mono text-xs" key={`${item}-${idx}`}>
             {ReactHtmlParser(item, {
               transform: transformUnsupportedTags
             })}
@@ -30,10 +36,12 @@ export default function StackTraceTooltip({ traceLines, copyText }) {
 
 StackTraceTooltip.propTypes = {
   traceLines: PropTypes.arrayOf(PropTypes.string),
-  copyText: PropTypes.string
+  copyText: PropTypes.string,
+  showOnlyTraceData: PropTypes.bool
 };
 
 StackTraceTooltip.defaultProps = {
   traceLines: [],
-  copyText: ''
+  copyText: '',
+  showOnlyTraceData: false
 };

@@ -36,7 +36,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         number={statusStats.timeout}
         modifier="warn"
         onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.UNKNOWN })
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.TIMEOUT })
         }
       />
     </div>
