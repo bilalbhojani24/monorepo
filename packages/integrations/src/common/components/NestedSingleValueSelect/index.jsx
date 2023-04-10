@@ -94,8 +94,10 @@ const NestedSingleValueSelect = ({
       typeof setFieldsData === 'function'
     ) {
       const [cleanedValue] = cleanOptions([value || defaultValue]);
-      const [cleanedChild] = cleanOptions([cleanedValue.options]);
-      cleanedValue.child = cleanedChild;
+      if (cleanedValue.options) {
+        const [cleanedChild] = cleanOptions([cleanedValue.options]);
+        cleanedValue.child = cleanedChild;
+      }
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
       const currentParentItem = options?.find(
         (parentOption) => parentOption.key === cleanedValue.value
