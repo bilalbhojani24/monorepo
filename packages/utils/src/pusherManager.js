@@ -39,10 +39,8 @@ export default class PusherManager {
     this.socket.on('connect', () => {
       this.log('SocketIO Connected');
       this.instances.forEach((instance, i) => {
-        if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
-          this.instances[i].status = 'connected';
-          this.init(this.instances[i]);
-        }
+        this.instances[i].status = 'connected';
+        this.init(this.instances[i]);
       });
 
       this.customPusherConnectHandler?.();
@@ -51,11 +49,9 @@ export default class PusherManager {
     this.socket.on('disconnect', () => {
       this.log('SocketIO Disconnected');
       this.instances.forEach((instance, i) => {
-        if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
-          this.instances[i].status = 'disconnected';
-          this.instances[i].disconnected_at = new Date().getTime();
-          this.instances[i].trigger('disconnect');
-        }
+        this.instances[i].status = 'disconnected';
+        this.instances[i].disconnectedAt = new Date().getTime();
+        this.instances[i].trigger('disconnect');
       });
     });
 
@@ -63,10 +59,8 @@ export default class PusherManager {
       this.log(`Channel subscribed: ${data}`);
 
       this.instances.forEach((instance, i) => {
-        if (Object.prototype.hasOwnProperty.call(this.instances, i)) {
-          this.instances[i].status = 'subscribed';
-          this.instances[i].trigger('subscribed', data);
-        }
+        this.instances[i].status = 'subscribed';
+        this.instances[i].trigger('subscribed', data);
       });
     });
 
@@ -111,8 +105,13 @@ export default class PusherManager {
     if (!this.socket) {
       return;
     }
-    this.log(`Sending event:${event} message:${message}`);
-    this.socket.emit(event, message);
+    try {
+      const messageObj = JSON.stringify(message);
+      this.log(`Sending event:${event} message:${messageObj}`);
+      this.socket.emit(event, messageObj);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   reset = (prefix) => {
