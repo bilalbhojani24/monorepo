@@ -12,7 +12,7 @@ const useTextTransformer = ({ text }) => {
       setIsOverflowing(true);
       setTimeout(() => {
         textRef.current.textContent = `/${textArray[1]}/../${
-          textArray[textArray.length - 2]
+          textArray[textArray.length - 1]
         }`;
       }, 0);
     } else setIsOverflowing(false);
