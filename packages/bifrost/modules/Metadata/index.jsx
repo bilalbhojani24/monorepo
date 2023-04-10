@@ -2,8 +2,6 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const Metadata = ({ icon, metaDescription, textColorClass, metaTitle }) => (
   <span
     title={metaTitle}
