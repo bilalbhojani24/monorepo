@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getStackedColumnChartData } from 'features/TestsInsights/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { getBuildPath } from 'utils/routeUtils';
 
@@ -97,7 +98,7 @@ export default function BuildHistory() {
   const chartData = useMemo(
     () =>
       getStackedColumnChartData({
-        ...buildHistoryStats,
+        ...cloneDeep(buildHistoryStats),
         onClick: handleChartClick,
         xAxisOptions: {
           labels: {
@@ -130,6 +131,7 @@ export default function BuildHistory() {
     () => isEmpty(buildHistoryStats?.data) && !buildHistoryStats?.isLoading,
     [buildHistoryStats?.data, buildHistoryStats?.isLoading]
   );
+
   return (
     <WidgetLayoutCard
       chartOptions={chartData}
