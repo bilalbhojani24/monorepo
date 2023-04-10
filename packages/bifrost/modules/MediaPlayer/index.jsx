@@ -1,5 +1,6 @@
 import React, {
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState
@@ -30,14 +31,39 @@ const MediaPlayer = forwardRef(
     const [currentTime, setCurrentTime] = useState(0);
     const [bufferedTime, setBufferedTime] = useState(0);
     const [isBuffering, setIsBuffering] = useState(false);
+    const [startTime, setStartTime] = useState(0);
+    const [endTime, setEndTime] = useState(0);
+    const [isReady, setIsReady] = useState(false);
+
     const videoRef = useRef(null);
 
-    const handleDuration = (videoDuration) => {
-      setDuration(videoDuration);
+    const handleOnReady = () => {
+      if (!isReady) {
+        const customStartAndEndInSeconds =
+          (url &&
+            url.includes('#') &&
+            url.split('#')[1].split('=')[1].split(',')) ||
+          null;
+        const customDurationTaken =
+          customStartAndEndInSeconds &&
+          customStartAndEndInSeconds[1] - customStartAndEndInSeconds[0];
+        setDuration(
+          customStartAndEndInSeconds
+            ? customDurationTaken
+            : videoRef.current.getDuration()
+        );
+        setStartTime(
+          customStartAndEndInSeconds ? customStartAndEndInSeconds[0] : 0
+        );
+        setEndTime(
+          customStartAndEndInSeconds ? customStartAndEndInSeconds[1] : duration
+        );
+        setIsReady(true);
+      }
     };
 
     const handleProgress = () => {
-      setCurrentTime(videoRef.current.getCurrentTime());
+      setCurrentTime(videoRef.current.getCurrentTime() - startTime);
       const { buffered } = videoRef.current.getInternalPlayer();
       if (buffered.length) {
         setBufferedTime(buffered.end(buffered.length - 1));
@@ -57,7 +83,7 @@ const MediaPlayer = forwardRef(
     const handleBuffering = () => {
       setIsBuffering(true);
     };
-    const handleReady = () => {
+    const handleBufferEnd = () => {
       setIsBuffering(false);
     };
 
@@ -74,6 +100,10 @@ const MediaPlayer = forwardRef(
         setIsPlaying(false);
       }
     }));
+
+    useEffect(() => {
+      videoRef.current.seekTo(startTime);
+    }, [startTime]);
 
     const modifiedChildren = React.Children.map(children, (child) => {
       // If child is not a DOM element, return it as-is
@@ -96,10 +126,10 @@ const MediaPlayer = forwardRef(
           onPlay={handleOnPlay}
           onPause={handleOnPause}
           onBuffer={handleBuffering}
-          onReady={handleReady}
+          onBufferEnd={handleBufferEnd}
           onError={() => onVideoError()}
           onProgress={handleProgress}
-          onDuration={handleDuration}
+          onReady={handleOnReady}
         />
         {isBuffering && (
           <div
@@ -113,7 +143,7 @@ const MediaPlayer = forwardRef(
           </div>
         )}
         <MediaPlayerContextData.Provider
-          value={{ duration, currentTime, bufferedTime }}
+          value={{ bufferedTime, currentTime, duration, endTime, startTime }}
         >
           <div
             className={twClassNames(

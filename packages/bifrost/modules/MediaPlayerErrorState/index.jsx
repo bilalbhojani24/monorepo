@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import { MdError, MdReplay } from '../Icon';
 
-const MediaPlayerErrorState = ({ wrapperClassName }) => (
+const MediaPlayerErrorState = ({ onReloadClick, wrapperClassName }) => (
   <div
     className={twClassNames(
       'flex justify-center items-center bg-base-200 rounded gap-1',
@@ -34,7 +34,7 @@ const MediaPlayerErrorState = ({ wrapperClassName }) => (
         <Button
           icon={<MdReplay />}
           iconPlacement="end"
-          onClick={() => {}}
+          onClick={onReloadClick}
           type="button"
           variant="minimal"
         >
@@ -46,9 +46,11 @@ const MediaPlayerErrorState = ({ wrapperClassName }) => (
 );
 
 MediaPlayerErrorState.propTypes = {
+  onReloadClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 MediaPlayerErrorState.defaultProps = {
+  onReloadClick: () => {},
   wrapperClassName: ''
 };
 

@@ -9,40 +9,25 @@ import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFullscreen } from '../Icon';
 
+import {
+  ADDITIONAL_SETTINGS_OPTIONS,
+  PLAYBACK_SPEED_OPTIONS
+} from './const/rightControlsConstants';
+
 const MediaPlayerRightControls = forwardRef(
   (
-    { onDownloadClick, onFullScreen, onPlaybackSpeedClick, wrapperClassName },
+    {
+      onDownloadClick,
+      onFullScreen,
+      onPlaybackSpeedClick,
+      showAdditionalSettings,
+      showFullScreenOption,
+      showSpeedOption,
+      wrapperClassName
+    },
     ref
   ) => {
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
-    const playbackSpeedOptions = [
-      {
-        id: '1',
-        value: 0.5,
-        body: '0.5x'
-      },
-      {
-        id: '2',
-        value: 1,
-        body: '1x'
-      },
-      {
-        id: '3',
-        value: 2,
-        body: '2x'
-      },
-      {
-        id: '4',
-        value: 4,
-        body: '4x'
-      }
-    ];
-    const additionalSettingOptions = [
-      {
-        id: '1',
-        body: 'Download'
-      }
-    ];
     const handlePlaybackOptionClick = (option) => {
       const newSpeed = option.value;
       setPlaybackSpeed(newSpeed);
@@ -77,42 +62,60 @@ const MediaPlayerRightControls = forwardRef(
           wrapperClassName
         )}
       >
-        <div className={twClassNames('flex flex-row items-start p-0')}>
-          <Dropdown onClick={(option) => handlePlaybackOptionClick(option)}>
-            <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-              {playbackSpeed}x
-            </DropdownTrigger>
-            <DropdownOptionGroup>
-              {playbackSpeedOptions.map((op) => (
-                <DropdownOptionItem option={op} key={op.id} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-        </div>
-        <div className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}>
-          <Button
-            variant="minimal"
-            wrapperClassName={twClassNames(
-              'flex flex-row justify-center items-center p-0 w-6 h-6'
-            )}
-            isIconOnlyButton
-            icon={<MdFullscreen className="text-base-500 h-5 w-5" />}
-            onClick={handleFullScreenClick}
-            aria-label="full screen video"
-          />
-        </div>
-        <div className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}>
-          <Dropdown onClick={(option) => handleAdditionalSettingClick(option)}>
-            <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-              <EllipsisVerticalIcon className="h-5 w-5" />
-            </DropdownTrigger>
-            <DropdownOptionGroup>
-              {additionalSettingOptions.map((op) => (
-                <DropdownOptionItem option={op} key={op.id} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-        </div>
+        {showSpeedOption && (
+          <div className={twClassNames('flex flex-row items-start p-0')}>
+            <Dropdown onClick={(option) => handlePlaybackOptionClick(option)}>
+              <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+                {playbackSpeed}x
+              </DropdownTrigger>
+              <DropdownOptionGroup>
+                {PLAYBACK_SPEED_OPTIONS.map((speedOption) => (
+                  <DropdownOptionItem
+                    option={speedOption}
+                    key={speedOption.id}
+                  />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
+          </div>
+        )}
+        {showFullScreenOption && (
+          <div
+            className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}
+          >
+            <Button
+              variant="minimal"
+              wrapperClassName={twClassNames(
+                'flex flex-row justify-center items-center p-0 w-6 h-6'
+              )}
+              isIconOnlyButton
+              icon={<MdFullscreen className="text-base-500 h-5 w-5" />}
+              onClick={handleFullScreenClick}
+              aria-label="full screen video"
+            />
+          </div>
+        )}
+        {showAdditionalSettings && (
+          <div
+            className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}
+          >
+            <Dropdown
+              onClick={(option) => handleAdditionalSettingClick(option)}
+            >
+              <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+                <EllipsisVerticalIcon className="h-5 w-5" />
+              </DropdownTrigger>
+              <DropdownOptionGroup>
+                {ADDITIONAL_SETTINGS_OPTIONS.map((settingsOption) => (
+                  <DropdownOptionItem
+                    option={settingsOption}
+                    key={settingsOption.id}
+                  />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
+          </div>
+        )}
       </div>
     );
   }
@@ -122,12 +125,18 @@ MediaPlayerRightControls.propTypes = {
   onDownloadClick: PropTypes.func,
   onFullScreen: PropTypes.func,
   onPlaybackSpeedClick: PropTypes.func,
+  showAdditionalSettings: PropTypes.bool,
+  showFullScreenOption: PropTypes.bool,
+  showSpeedOption: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 MediaPlayerRightControls.defaultProps = {
   onDownloadClick: () => {},
   onFullScreen: () => {},
   onPlaybackSpeedClick: () => {},
+  showAdditionalSettings: true,
+  showFullScreenOption: true,
+  showSpeedOption: true,
   wrapperClassName: ''
 };
 

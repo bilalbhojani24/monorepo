@@ -1,12 +1,24 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import { MediaPlayerContextData } from '../../shared/mediaPlayerContext';
 import Button from '../Button';
 import { MdForward10, MdPause, MdPlayArrow, MdReplay10 } from '../Icon';
 
 const MediaPlayerLeftControls = forwardRef(
-  ({ showRewindForwardButtons, onTimeJumpClick, wrapperClassName }, ref) => {
+  (
+    {
+      showRewindForwardButtons,
+      onForwardClick,
+      onRewindClick,
+      wrapperClassName
+    },
+    ref
+  ) => {
+    const { currentTime, duration, endTime, startTime } = useContext(
+      MediaPlayerContextData
+    );
     const handlePlayPauseClick = () => {
       if (ref.current?.player?.isPlaying) {
         ref.current.getInternalPlayer().pause();
@@ -15,9 +27,26 @@ const MediaPlayerLeftControls = forwardRef(
       }
     };
 
-    const handleForwardRewindClick = (timeJump) => {
-      ref.current.seekTo(ref.current.getCurrentTime() + timeJump);
-      onTimeJumpClick?.(timeJump);
+    const handleRewindClick = (timeJump) => {
+      if (startTime && currentTime - timeJump < startTime) {
+        ref.current.seekTo(startTime);
+      } else if (currentTime - timeJump < 0) {
+        ref.current.seekTo(0);
+      } else {
+        ref.current.seekTo(currentTime - timeJump);
+      }
+      onRewindClick?.();
+    };
+
+    const handleForwardClick = (timeJump) => {
+      if (endTime && currentTime + timeJump > endTime) {
+        ref.current.seekTo(endTime);
+      } else if (currentTime + timeJump > duration) {
+        ref.current.seekTo(duration);
+      } else {
+        ref.current.seekTo(currentTime + timeJump);
+      }
+      onForwardClick?.();
     };
 
     return (
@@ -38,7 +67,7 @@ const MediaPlayerLeftControls = forwardRef(
               )}
               isIconOnlyButton
               icon={<MdReplay10 className="text-base-500 h-5 w-5" />}
-              onClick={() => handleForwardRewindClick(-10)}
+              onClick={() => handleRewindClick(10)}
               aria-label="rewind 10 sec"
             />
           </div>
@@ -74,7 +103,7 @@ const MediaPlayerLeftControls = forwardRef(
               )}
               isIconOnlyButton
               icon={<MdForward10 className="text-base-500 h-5 w-5" />}
-              onClick={() => handleForwardRewindClick(10)}
+              onClick={() => handleForwardClick(10)}
               aria-label="forward 10 sec"
             />
           </div>
@@ -86,12 +115,14 @@ const MediaPlayerLeftControls = forwardRef(
 
 MediaPlayerLeftControls.propTypes = {
   showRewindForwardButtons: PropTypes.bool,
-  onTimeJumpClick: PropTypes.func,
+  onForwardClick: PropTypes.func,
+  onRewindClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 MediaPlayerLeftControls.defaultProps = {
   showRewindForwardButtons: false,
-  onTimeJumpClick: () => {},
+  onForwardClick: () => {},
+  onRewindClick: () => {},
   wrapperClassName: ''
 };
 

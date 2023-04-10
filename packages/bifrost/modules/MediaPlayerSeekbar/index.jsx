@@ -23,7 +23,7 @@ const MediaPlayerSeekbar = forwardRef(
     { exceptions, showMarkers, onMarkerClick, onSeekTime, wrapperClassName },
     ref
   ) => {
-    const { duration, currentTime, bufferedTime } = useContext(
+    const { duration, currentTime, bufferedTime, startTime } = useContext(
       MediaPlayerContextData
     );
     const [draggingSeekbar, setDraggingSeekbar] = useState(false);
@@ -35,7 +35,8 @@ const MediaPlayerSeekbar = forwardRef(
     const durationInTimeFormat = convertSecondsToTimeFormat(duration);
     const currentTimeInTimeFormat = convertSecondsToTimeFormat(currentTime);
     const seekbarRef = useRef(null);
-    const bufferProgress = (bufferedTime / duration) * 100;
+    const bufferedRatio = bufferedTime / duration;
+    const bufferProgress = bufferedRatio > 1 ? 100 : bufferedRatio * 100;
     const progress = (currentTime / duration) * 100;
     const { warningProgress, errorProgress } = useMediaPlayerSeekbar(
       exceptions,
@@ -71,7 +72,11 @@ const MediaPlayerSeekbar = forwardRef(
 
     const handleSeekbarDrag = (event) => {
       const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
-      ref.current.seekTo(offsetXRatio * duration);
+      const timeStampDefault = offsetXRatio * duration;
+      const finalTimestamp = startTime
+        ? timeStampDefault + startTime
+        : timeStampDefault;
+      ref.current.seekTo(finalTimestamp);
       onSeekTime?.();
     };
 
