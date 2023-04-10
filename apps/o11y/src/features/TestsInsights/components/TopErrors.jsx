@@ -124,11 +124,11 @@ export default function TopErrors() {
           <Virtuoso
             data={topErrorsStats?.data?.data || []}
             itemContent={(index, singleBuildData) => (
-              <>
+              <div className="border-base-200 border-b">
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0 font-mono border-b border-base-200"
+                    wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0 font-mono"
                     title={
                       <div className="overflow-hidden whitespace-normal break-words text-left text-sm">
                         <UniqueErrorTitle title={singleBuildData.title} />
@@ -148,7 +148,7 @@ export default function TopErrors() {
                     }
                   />
                   <AccordionPanel wrapperClassName="bg-white w-full overflow-hidden">
-                    <div className="border-base-300 mx-8 overflow-hidden rounded-t-md border">
+                    <div className="border-base-300 mx-8 mb-2 overflow-hidden rounded-t-md border">
                       <TopErrorsTestRun
                         data={singleBuildData.testRuns}
                         parentId={singleBuildData.id}
@@ -156,7 +156,7 @@ export default function TopErrors() {
                     </div>
                   </AccordionPanel>
                 </O11yAccordian>
-              </>
+              </div>
             )}
           />
         </div>
