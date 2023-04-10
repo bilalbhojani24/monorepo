@@ -36,7 +36,7 @@ export default function TrendStatesWrapper({
         <div className="flex flex-1 items-center justify-center">
           <O11yEmptyState
             title="No data found"
-            description="Please update your access privileges by Contacting your administrator"
+            description={null}
             mainIcon={
               <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
             }
@@ -47,7 +47,7 @@ export default function TrendStatesWrapper({
     );
   }
   return (
-    <div className="relative h-80">
+    <div className="relative h-full">
       {children}
       {isLoading && (
         <div className="top-0 z-10 flex h-full w-full items-center justify-center bg-white opacity-70">

@@ -59,7 +59,7 @@ export default function TrendsCard({
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="flex flex-col">
+        <div className="flex h-full flex-col">
           {!isEmpty(chartData.insights) && (
             <div className="flex flex-col">
               {chartData?.insights?.count !== undefined && (
@@ -83,7 +83,7 @@ export default function TrendsCard({
             </div>
           )}
           {!isEmpty(chartData.data) && (
-            <div className={twClassNames('pt-2 pb-2 h-80')}>
+            <div className={twClassNames('pt-2 pb-2 h-full')}>
               <TrendsGenericChart
                 data={chartData.data}
                 config={config}

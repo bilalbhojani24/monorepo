@@ -155,10 +155,10 @@ export default function TestingTrends() {
         return (
           <div className="flex h-full flex-col">
             <p className="text-lg font-semibold">{TREND_CARDS[key].title}</p>
-            <div className="flex h-80 flex-1 items-center justify-center">
+            <div className="flex h-full flex-1 items-center justify-center">
               <O11yEmptyState
                 title="No data found"
-                description="Please update your access privileges by Contacting your administrator"
+                description={null}
                 mainIcon={
                   <MdBarChart className="text-base-400 inline-block !h-12 !w-12" />
                 }
@@ -194,11 +194,13 @@ export default function TestingTrends() {
         >
           {Object.keys(TREND_CARDS).map((key) => (
             <div
-              className="border-base-200 group relative h-96 max-h-full flex-1"
+              className="border-base-200 group relative h-full flex-1"
               key={key}
               data-grid={TREND_CARDS[key]}
             >
               <DataVisualization
+                analyticsWrapperClassName="h-full flex-1"
+                contentWrapperClassName="flex flex-col h-full"
                 analytics={renderDashboardCard(key)}
                 headerInfo={false}
                 headerInfoTooltipProps={{
@@ -213,13 +215,13 @@ export default function TestingTrends() {
                   size: 'xs',
                   theme: 'dark'
                 }}
-                filterDropdown={
+                otherOptions={
                   <Button
-                    colors="white"
-                    onClick={() => {}}
-                    icon={<MdDragIndicator className="ml-1" />}
+                    icon={<MdDragIndicator />}
                     isIconOnlyButton
-                    size="small"
+                    size="xs"
+                    colors="white"
+                    variant="minimal"
                     wrapperClassName="border-none to-test-trend__dragHandler invisible group-hover:visible group-hover:shadow-none"
                   />
                 }

@@ -83,7 +83,7 @@ export default function BuildRunFreqTrend() {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-96 flex-1">
+        <div className="h-full flex-1">
           <VirtualisedTable
             data={buildData?.data}
             showFixedFooter={isAtBottom}

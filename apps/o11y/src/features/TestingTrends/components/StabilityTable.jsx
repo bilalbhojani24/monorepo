@@ -15,9 +15,12 @@ import { logOllyEvent } from 'utils/common';
 const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-900', {
-        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
-      })}
+      wrapperClassName={twClassNames(
+        'font-medium text-base-900 whitespace-normal',
+        {
+          'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+        }
+      )}
     >
       {item?.buildName}
     </O11yTableCell>
@@ -136,7 +139,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
       onClickCTA={loadInitialData}
     >
       {!isLoading && (
-        <div className="h-96 flex-1">
+        <div className="h-full flex-1">
           <VirtualisedTable
             data={stabilityData?.data}
             endReached={loadMoreRows}

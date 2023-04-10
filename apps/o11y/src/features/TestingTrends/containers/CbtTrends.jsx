@@ -197,11 +197,11 @@ export default function CbtTrends() {
     >
       {!isLoading && (
         <div className="flex h-full flex-col">
-          <div className="grid h-96 flex-1 grid-cols-2 gap-1">
+          <div className="grid h-full flex-1 grid-cols-2 gap-1">
             {!!chartData.data?.length && (
               <Chart options={getOptions} chartRef={chart} />
             )}
-            <div className="h-96 overflow-y-auto p-3">
+            <div className="h-full overflow-y-auto p-3">
               {activeSeriesData.map((item, idx) => (
                 <div
                   className={classNames(

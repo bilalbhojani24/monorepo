@@ -19,9 +19,12 @@ const FontMediumBase500 = 'font-medium text-base-500';
 const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-900', {
-        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
-      })}
+      wrapperClassName={twClassNames(
+        'font-medium text-base-900 whitespace-normal',
+        {
+          'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+        }
+      )}
     >
       {item?.buildName}
     </O11yTableCell>
@@ -30,17 +33,21 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
-      <div className="flex">
-        <div className="h-5 w-12 shrink-0">
-          <MiniChart
-            data={item?.lineChartData || []}
-            lineColor="#376D98"
-            color="#E5EEF8"
-            chartType="area"
-          />
-        </div>
-        <p className="pl-2">{abbrNumber(item?.testCount)}</p>
+      <div className="h-5 w-12 shrink-0">
+        <MiniChart
+          data={item?.lineChartData || []}
+          lineColor="#376D98"
+          color="#E5EEF8"
+          chartType="area"
+        />
       </div>
+    </O11yTableCell>
+    <O11yTableCell
+      wrapperClassName={twClassNames(FontMediumBase500, {
+        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+      })}
+    >
+      <p className="pl-2">{abbrNumber(item?.testCount)}</p>
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames(FontMediumBase500, {
@@ -172,6 +179,10 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
                 >
                   BUILD NAME
                 </O11yTableCell>
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName="text-base-900 bg-white"
+                />
                 <O11yTableCell
                   isSticky
                   wrapperClassName="text-base-900 bg-white"
