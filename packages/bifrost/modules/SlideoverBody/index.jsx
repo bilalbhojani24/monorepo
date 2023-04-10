@@ -7,6 +7,8 @@ import './styles.scss';
 const SlideoverBody = ({ children, wrapperClassName }) => (
   <div
     className={twClassNames(`overflow-scroll py-4 flex-1`, wrapperClassName)}
+    tabIndex={0}
+    role="button"
   >
     {children}
   </div>
