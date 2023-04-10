@@ -31,15 +31,66 @@ const TestCaseMutliData = ({
     onJiraButtonClick
   } = useTestCaseViewDetails();
 
-  const testCaseIssues = [];
+  let testCaseIssues = [];
 
-  testResultsArray.forEach((item) => {
-    for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
-      testCaseIssues.push(item?.issues[i]);
+  if (isFromTestRun) {
+    testResultsArray.forEach((item) => {
+      for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
+        testCaseIssues.push(item?.issues[i]);
+      }
+    });
+  } else testCaseIssues = testResultsArray;
+
+  console.log('fbnkndskf', testCaseIssues, testResultsArray);
+  const trTcIssuesTableColumn = [
+    {
+      name: 'Issue',
+      key: 'jira_id',
+      cell: (rowData) => (
+        <div
+          className="text-base-900 cursor-pointer font-medium"
+          role="button"
+          tabIndex={0}
+          onClick={() => onJiraButtonClick(rowData.jira_id)}
+          onKeyDown={(e) =>
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.jira_id))
+          }
+        >{`${rowData.jira_id}`}</div>
+      )
+    },
+    {
+      name: 'Test Run',
+      // key: 'test_run_id',
+      cell: () => (
+        <Link
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+            projectId,
+            testRunId
+          })}
+          className="text-base-900"
+        >
+          {testRunName}
+        </Link>
+      )
+      // isFromTestRun ? (
+      //   <div className="text-base-900">{rowData?.test_run_name}</div>
+      // ) : (
+      //   <div className="flex flex-col">
+      //     <div className="text-base-900 font-medium">{`${
+      //       rowData?.jira_id || ''
+      //     }`}</div>
+      //     <div className="text-base-500">{rowData?.test_run_name}</div>
+      //   </div>
+      // )
+    },
+    {
+      name: 'Linked On',
+      key: 'created_at',
+      cell: (rowData) => formatTime(rowData.created_at, 'date')
     }
-  });
+  ];
 
-  const issuesTableColumn = [
+  const tcIssuesTableColumn = [
     {
       name: 'Issue',
       key: 'jira_id',
@@ -117,7 +168,9 @@ const TestCaseMutliData = ({
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
-                columns={issuesTableColumn}
+                columns={
+                  isFromTestRun ? trTcIssuesTableColumn : tcIssuesTableColumn
+                }
                 rows={testCaseIssues}
               />
             </div>

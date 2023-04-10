@@ -42,7 +42,11 @@ const TestCaseView = ({
             onResultClick={onResultClick}
             resultUpdatable={resultUpdatable}
             testRunId={testRunId}
-            testResultsArray={testResultsArray}
+            testResultsArray={
+              isFromTestRun
+                ? testResultsArray
+                : testCaseDetails?.test_run_results
+            }
             testRunName={testRunName}
           />
         </div>
