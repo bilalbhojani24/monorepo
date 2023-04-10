@@ -128,7 +128,7 @@ export default function TopErrors() {
                 <O11yAccordian>
                   <AccordionInteractiveHeader
                     onClick={handleAccordionExpand}
-                    wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0"
+                    wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0 font-mono border-b border-base-200"
                     title={
                       <div className="overflow-hidden whitespace-normal break-words text-left text-sm">
                         <UniqueErrorTitle title={singleBuildData.title} />

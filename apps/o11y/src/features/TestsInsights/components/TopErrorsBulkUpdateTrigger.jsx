@@ -1,31 +1,30 @@
 import React from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
-// import { setCurrentSelectedTestId } from 'app/testops/TestList/slices/dataSlice';
-// import { setShowBulkDefectTypeModal } from 'app/testops/TestList/slices/uiSlice';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import PropTypes from 'prop-types';
 
-export default function TopErrorsBulkUpdateTrigger({ clusterId }) {
-  // const dispatch = useDispatch();
+export default function TopErrorsBulkUpdateTrigger({ clusterId, buildId }) {
+  const dispatch = useDispatch();
 
   const handleClickTrigger = () => {
-    console.log('clusterId', clusterId);
-    // dispatch(setCurrentSelectedTestId(''));
-    // dispatch(
-    //   setShowBulkDefectTypeModal({
-    //     status: true,
-    //     currentIssueType: {},
-    //     clusterId,
-    //     source: 'build_insights_errors'
-    //   })
-    // );
+    dispatch(
+      toggleModal({
+        version: MODAL_TYPES.bulk_assign_issuetype,
+        data: {
+          clusterIds: [clusterId],
+          buildId
+        }
+      })
+    );
   };
   return (
-    <div className="bg-base-50 border-base-300 flex justify-between border-b py-2 px-4">
+    <div className="bg-base-50 border-base-300 flex justify-between border-b py-2 px-4 text-sm">
       <div>Failed tests</div>
       <Button
         variant="minimal"
-        wrapperClassName="text-brand-500 font-semibold"
+        wrapperClassName="text-brand-500 font-semibold text-xs"
         onClick={handleClickTrigger}
       >
         Bulk update failure category
@@ -35,5 +34,6 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId }) {
 }
 TopErrorsBulkUpdateTrigger.propTypes = {
   clusterId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired
+    .isRequired,
+  buildId: PropTypes.string.isRequired
 };

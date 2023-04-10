@@ -7,13 +7,10 @@ import {
   O11yTableCell,
   O11yTableRow
 } from 'common/bifrostProxy';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { MODAL_TYPES } from 'constants/modalTypes';
 import { ROUTES } from 'constants/routes';
-// import { portalize } from 'testops/_utils/portalize';
-// import { setAppliedFiltersTagsViaURL } from 'testops/TestFilters/slices/dataSlice';
-// import ReRunTriggerModal from 'testops/TestList/components/ReRunTriggerModal';
-// import { setTestRuns } from 'testops/TestList/slices/dataSlice';
-// import { setShowReRunModal } from 'testops/TestList/slices/uiSlice';
 import {
   getBuildMeta,
   getBuildUUID
@@ -47,11 +44,9 @@ export default function ReRunSummary() {
     });
 
     // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-    // dispatch(setTestRuns([]));
     window.scroll(0, 0);
     const searchString = `?tab=tests&run=${id}`;
     navigate({ search: searchString });
-    // dispatch(setAppliedFiltersTagsViaURL());
   };
 
   const hasNoData = useMemo(
@@ -61,9 +56,14 @@ export default function ReRunSummary() {
 
   const handleClickPlaceholderCTA = () => {
     if (buildMeta.reRun) {
-      // dispatch(
-      //   setShowReRunModal({ status: true, data: { source: 'test_insights' } })
-      // );
+      dispatch(
+        toggleModal({
+          version: MODAL_TYPES.rerun_test_modal,
+          data: {
+            buildId
+          }
+        })
+      );
     } else {
       navigate(ROUTES.settings_re_run);
     }
@@ -71,7 +71,7 @@ export default function ReRunSummary() {
 
   if (reRunStats?.hasNetworkError) {
     return (
-      <div className="flex h-full flex-col overflow-auto">
+      <div className="flex h-full flex-col justify-center overflow-auto">
         <O11yEmptyState
           title="Something went wrong"
           description={null}
@@ -89,7 +89,7 @@ export default function ReRunSummary() {
   }
   if (hasNoData) {
     return (
-      <div className="flex h-full flex-col overflow-auto">
+      <div className="flex h-full flex-col justify-center overflow-auto">
         <O11yEmptyState
           title="No Re-runs!"
           description="There were no re-runs in this build"
@@ -102,15 +102,6 @@ export default function ReRunSummary() {
             size: 'default'
           }}
         />
-        {buildMeta?.reRun && (
-          <>
-            {/* {portalize(
-              true,
-              <ReRunTriggerModal showReRunTest={false} />,
-              REACT_ROOT_ELEMENT_ID
-            )} */}
-          </>
-        )}
       </div>
     );
   }

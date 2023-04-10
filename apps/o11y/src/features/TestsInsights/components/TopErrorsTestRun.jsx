@@ -35,8 +35,8 @@ export default function TopErrorsTestRun({ data, parentId }) {
         <O11yLoader
           text="Fetching data"
           loaderClass="w-6 h-6"
-          textClass="text-base"
-          wrapperClassName="my-3"
+          textClass="text-sm"
+          wrapperClassName="my-4"
         />
       </div>
     );
@@ -48,7 +48,7 @@ export default function TopErrorsTestRun({ data, parentId }) {
 
   return (
     <>
-      <TopErrorsBulkUpdateTrigger clusterId={parentId} />
+      <TopErrorsBulkUpdateTrigger clusterId={parentId} buildId={buildId} />
       <TestDataItem data={data} />
     </>
   );
