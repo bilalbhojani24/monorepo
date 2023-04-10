@@ -1,6 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Accordion, Badge } from '@browserstack/bifrost';
+import {
+  Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  Badge
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
@@ -35,34 +40,39 @@ export default function Violation({ violation, index }) {
     : 'calc(((100vw - 256px) / 2) - 190px)';
 
   return (
-    <Accordion
-      triggerClassName={twClassNames(
-        'flex w-full bg-white py-3 px-6 border-t',
-        {
-          'border-0': index === 0
-        }
-      )}
-      triggerContentNode={
-        <div className="flex w-full cursor-pointer items-center justify-between bg-white">
-          <div className="ml-2 flex items-center">
-            <p
-              className="text-base-900 mr-2 truncate text-sm"
-              style={{
-                maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
-              }}
-            >
-              {violation.help}
-            </p>
-            <div>
-              <Badge
-                hasDot={false}
-                hasRemoveButton={false}
-                isRounded
-                text={totalCount}
-              />
+    <Accordion>
+      <AccordionInteractiveHeader
+        wrapperClassName={twClassNames(
+          'border-t border-base-200 py-1.5 bg-white',
+          {
+            'border-0': index === 0
+          }
+        )}
+        onClick={updateOpenViolation}
+        title={
+          <div className="flex w-full cursor-pointer items-center justify-between bg-white">
+            <div className="ml-2 flex items-center">
+              <p
+                className="text-base-900 mr-2 truncate text-sm"
+                style={{
+                  maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
+                }}
+              >
+                {violation.help}
+              </p>
+              <div>
+                <Badge
+                  hasDot={false}
+                  hasRemoveButton={false}
+                  isRounded
+                  text={totalCount}
+                />
+              </div>
             </div>
           </div>
-          {impact && (
+        }
+        asideContent={
+          impact && (
             <Badge
               wrapperClassName={
                 violation.impact === 'serious'
@@ -78,15 +88,13 @@ export default function Violation({ violation, index }) {
               }
               text={impact}
             />
-          )}
-        </div>
-      }
-      panelContentNode={
+          )
+        }
+      />
+      <AccordionPanel>
         <ComponentList nodes={violation.nodes} violationId={violation.id} />
-      }
-      onTriggerClick={updateOpenViolation}
-      onChevronClick={updateOpenViolation}
-    />
+      </AccordionPanel>
+    </Accordion>
   );
 }
 
