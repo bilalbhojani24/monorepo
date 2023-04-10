@@ -101,7 +101,8 @@ export default function BuildSummary() {
       isLoading={buildSummaryStats.isLoading}
       tableData={buildSummaryStats.data?.data || []}
       tableConfig={{
-        onClickFlaky: handleFlakyClick
+        onClickFlaky: handleFlakyClick,
+        onRowCLick: handleChartClick
       }}
       showNoData={hasNoData}
       hasNetworkError={buildSummaryStats.hasNetworkError}

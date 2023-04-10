@@ -122,7 +122,7 @@ export default function Alerts() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto">
-        <StackedListGroup>
+        <StackedListGroup isCard={false}>
           {alerts?.data?.data.map((item) => (
             <StackedListItem
               wrapperClassName="px-0 py-3 sm:px-0"

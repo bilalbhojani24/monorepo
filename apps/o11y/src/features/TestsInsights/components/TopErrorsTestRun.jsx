@@ -32,7 +32,12 @@ export default function TopErrorsTestRun({ data, parentId }) {
   if (isLoading) {
     return (
       <div className="flex flex-1 items-center">
-        <O11yLoader text="Fetching data" />
+        <O11yLoader
+          text="Fetching data"
+          loaderClass="w-6 h-6"
+          textClass="text-base"
+          wrapperClassName="my-3"
+        />
       </div>
     );
   }

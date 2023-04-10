@@ -143,7 +143,9 @@ function WidgetLayoutCard({
             <O11yTableBody wrapperClassName="divide-y-0">
               {tableData.map((singleBuildData) => (
                 <O11yTableRow
-                  handleRowClick={() => tableConfig?.onClickFlaky() || null}
+                  onRowClick={() =>
+                    tableConfig?.onRowCLick(singleBuildData) || null
+                  }
                 >
                   <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none py-2">
                     <div className="flex items-center">

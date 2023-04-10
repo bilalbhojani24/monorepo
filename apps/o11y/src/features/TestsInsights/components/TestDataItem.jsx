@@ -32,7 +32,8 @@ export default function TestDataItem({ data }) {
       {data.map((item) => (
         <div
           className="border-base-200 flex items-center justify-between border-b py-2 px-4 text-sm"
-          onRowClick={() => handleClickTest(item?.details?.id)}
+          onClick={() => handleClickTest(item?.details?.id)}
+          role="presentation"
           key={item?.details?.id}
         >
           <div>

@@ -176,6 +176,7 @@ export default function FailureCategories() {
                             backgroundColor: item.color,
                             width: `${(item.value * 100) / totalDefects}%`
                           }}
+                          key={item.id}
                         >
                           {!!item.value && (
                             <O11yTooltip
@@ -203,7 +204,9 @@ export default function FailureCategories() {
                             >
                               <div
                                 type="button"
-                                className="contents overflow-hidden"
+                                className="pointer-events-auto contents w-full cursor-pointer overflow-hidden"
+                                onClick={() => handleCategoryClick(item)}
+                                role="presentation"
                               >
                                 {item.name}
                               </div>
