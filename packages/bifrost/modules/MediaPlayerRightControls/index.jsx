@@ -31,7 +31,8 @@ const MediaPlayerRightControls = forwardRef(
     const handlePlaybackOptionClick = (option) => {
       const newSpeed = option.value;
       setPlaybackSpeed(newSpeed);
-      // eslint-disable-next-line no-param-reassign
+      // no immediate solution to this eslint error
+      // will pick this up later
       ref.current.getInternalPlayer().playbackRate = newSpeed;
       onPlaybackSpeedClick?.(newSpeed);
     };

@@ -21,8 +21,13 @@ const Marker = ({
     onMarkerClick(startTime, type);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleOnClick();
+    }
+  };
+
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       role="button"
       tabIndex={-1}
@@ -43,6 +48,7 @@ const Marker = ({
       data-markertype={type}
       onMouseEnter={onMarkerMouseEnter}
       onMouseLeave={onMarkerMouseLeave}
+      onKeyDown={handleKeyDown}
     />
   );
 };
