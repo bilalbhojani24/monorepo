@@ -4,20 +4,28 @@ import { Combobox, Transition } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
-import { node, string } from '../../shared/proptypesConstants';
+import { node, oneOf, string } from '../../shared/proptypesConstants';
+import { OPTION_GROUP_ALIGNMENT } from '../ComboBox/const/comboBoxConstants';
 
-const ComboboxOptionGroup = ({ children, wrapperClassName }) => {
+const ComboboxOptionGroup = ({
+  alignment,
+  children,
+  wrapperClassName,
+  maxWidth
+}) => {
   const { width } = useContext(ComboboxContextData);
   return (
     <Popover.Portal>
       <Popover.Content
         asChild
         style={{
-          width: `${width}px`
+          minWidth: `${width}px`,
+          maxWidth
         }}
         onOpenAutoFocus={(e) => {
           e.preventDefault();
         }}
+        align={alignment}
       >
         <Transition
           as={Fragment}
@@ -41,11 +49,15 @@ const ComboboxOptionGroup = ({ children, wrapperClassName }) => {
 };
 
 ComboboxOptionGroup.propTypes = {
+  alignment: oneOf(OPTION_GROUP_ALIGNMENT),
   children: node.isRequired,
+  maxWidth: string,
   wrapperClassName: string
 };
 
 ComboboxOptionGroup.defaultProps = {
+  alignment: OPTION_GROUP_ALIGNMENT[0],
+  maxWidth: '80vw',
   wrapperClassName: ''
 };
 
