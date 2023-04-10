@@ -14,6 +14,11 @@ export const ROUTES = {
   welcome: '/welcome'
 };
 
+export const TEST_TYPE = {
+  ASSITIVE_TEST: 'assistiveTest',
+  WORKFLOW_SCAN: 'workflowScan'
+};
+
 export const EDSKey = 'accessibility_dashboard_web_events';
 export const ENVS = {
   STAGING: 'STAGING',
