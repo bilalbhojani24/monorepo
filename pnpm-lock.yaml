@@ -237,7 +237,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 2.1.0
+      '@browserstack/bifrost': 2.3.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -278,7 +278,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 2.1.0_2dww6gez5vudtpgd7qn6thheyu
+      '@browserstack/bifrost': 2.3.0_2dww6gez5vudtpgd7qn6thheyu
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
@@ -2379,8 +2379,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/2.1.0_2dww6gez5vudtpgd7qn6thheyu:
-    resolution: {integrity: sha512-pHGauIPM/CwpK3Ua22kNxk7ap8yju1hNLPq+M8yYksRYn6gQx2MPtLJKuQxEsnjJYwPMdvGpNFXfbyV4/yULoA==, tarball: download/@browserstack/bifrost/2.1.0/97bf4f2c47199d201be01e243e12ef76d7ccd716}
+  /@browserstack/bifrost/2.3.0_2dww6gez5vudtpgd7qn6thheyu:
+    resolution: {integrity: sha512-bQ/HisxE2RE7FCqU+SfLmkUADibSJGtPyhh8t91gEjVzI5v2SgNwqY6NCY7TRzATHXfiJgt1Men/6KKMz2AgEA==, tarball: download/@browserstack/bifrost/2.3.0/b8f4c2645b1ecd7509a98edc0dab59387a2e0e47}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -21713,7 +21713,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
@@ -21779,7 +21779,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.20.7
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.26
       '@types/use-sync-external-store': 0.0.3

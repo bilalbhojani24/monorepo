@@ -3,6 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import { Listbox } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 
+import CheckboxClone from '../../shared/CheckboxClone';
 import {
   bool,
   node,
@@ -82,20 +83,12 @@ const SelectMenuOptionItem = forwardRef(
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  id={option.name}
-                  className={twClassNames(
-                    `border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
-                      active
-                        ? 'ring-2 ring-offset-2 ring-brand-500 group-hover:ring-0 group-hover:ring-offset-0'
-                        : ''
-                    }`
-                  )}
-                  readOnly
-                />
-                <label htmlFor={option.name} className="cursor-pointer">
+                <CheckboxClone />
+
+                <label
+                  htmlFor={option.name}
+                  className="cursor-pointer truncate"
+                >
                   {option.label}
                 </label>
               </div>
