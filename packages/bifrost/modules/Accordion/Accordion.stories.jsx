@@ -35,6 +35,10 @@ const defaultConfig = {
     },
     children: {
       default: <></>
+    },
+    wrapperClassName: {
+      option: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
