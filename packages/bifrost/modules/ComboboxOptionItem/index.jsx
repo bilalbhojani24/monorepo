@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef, useContext, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import { oneOf } from 'prop-types';
@@ -21,7 +21,8 @@ const ComboboxOptionItem = forwardRef(
     { disabled, option, checkPosition, wrapperClassName, isEmpty, emptyText },
     ref
   ) => {
-    const { isMulti } = useContext(ComboboxContextData);
+    const { isMulti, isBadge, currentSelectedValues } =
+      useContext(ComboboxContextData);
 
     return (
       <>
@@ -31,6 +32,7 @@ const ComboboxOptionItem = forwardRef(
               'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-8',
               wrapperClassName
             )}
+            disabled={disabled}
           >
             {emptyText}
           </Combobox.Option>
@@ -39,7 +41,7 @@ const ComboboxOptionItem = forwardRef(
             ref={ref}
             key={option.value}
             value={option}
-            className={({ active }) =>
+            className={({ active, selected }) =>
               twClassNames(
                 'group relative cursor-pointer select-none py-2 pl-3 pr-9',
                 active && !isMulti
@@ -51,7 +53,8 @@ const ComboboxOptionItem = forwardRef(
                   'py-2 pl-8 pr-4':
                     checkPosition === CHECK_POSITION[0] && !isMulti,
                   'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti,
-                  'bg-base-50 text-base-500': disabled
+                  'bg-base-50 text-base-500': disabled,
+                  'pl-3': isBadge && !selected
                 },
                 wrapperClassName
               )
@@ -82,7 +85,7 @@ const ComboboxOptionItem = forwardRef(
                         {option?.visualLabel || option.label}
                       </span>
                     </div>
-                    {selected && (
+                    {selected && !isBadge && (
                       <span
                         className={twClassNames(
                           'absolute inset-y-0 right-0 flex items-center pr-4',

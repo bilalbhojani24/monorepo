@@ -4,15 +4,21 @@ import PropTypes from 'prop-types';
 
 import { ComboboxContextData } from '../../../shared/comboboxContext';
 
-const Render = ({ children, open, onOpenChange }) => {
-  const { setOpen } = useContext(ComboboxContextData);
+const Render = ({ children, currentValues, open, onOpenChange }) => {
+  const { setOpen, setCurrentSelectedValues, isBadge, setQuery } =
+    useContext(ComboboxContextData);
   const openChangeFunc = useLatestRef(onOpenChange);
   const setOpenRef = useLatestRef(setOpen);
 
   useEffect(() => {
     openChangeFunc.current?.(open);
     setOpenRef.current?.(open);
-  }, [open, openChangeFunc, setOpenRef]);
+    if (!open) setQuery('');
+  }, [open, openChangeFunc, setQuery, setOpenRef]);
+
+  useEffect(() => {
+    if (isBadge) setCurrentSelectedValues(currentValues);
+  }, [isBadge, currentValues, setCurrentSelectedValues]);
 
   return <>{children}</>;
 };

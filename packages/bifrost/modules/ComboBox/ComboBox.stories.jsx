@@ -4,6 +4,7 @@ import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import ComboboxBadgeTrigger from '../ComboboxBadgeTrigger';
 import ComboboxLabel from '../ComboboxLabel';
 import ComboboxOptionGroup from '../ComboboxOptionGroup';
 import ComboboxOptionItem from '../ComboboxOptionItem';
@@ -209,9 +210,7 @@ export const CaseOne = () => {
   const valueChange = useCallback(
     (e) => {
       const val = e.target.value;
-
       setIsLoading(true);
-
       setTimeout(() => {
         setQuery(val);
         const filtered = options.filter((fv) => fv.label.includes(val));
@@ -230,10 +229,13 @@ export const CaseOne = () => {
         value={selectedPerson}
         onChange={(val) => {
           setSelectedPerson(val);
-          const hasValue = options.find((item) => item.value === val.value);
-          if (!hasValue)
-            setOptions([{ ...val, visualLabel: val.label }, ...options]);
+          if (val.isNew) {
+            setOptions([...options, val]);
+          }
           setQuery('');
+        }}
+        onOpenChange={(status) => {
+          if (!status) setQuery('');
         }}
       >
         <ComboboxLabel>Assigned to</ComboboxLabel>
@@ -243,18 +245,57 @@ export const CaseOne = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup>
-          {query.length > 0 && (
-            <>
-              <ComboboxOptionItem isEmpty emptyText="No options available" />
-              <ComboboxOptionItem
-                option={{
-                  value: Math.random(),
-                  label: query,
-                  visualLabel: `Create ${query}`
-                }}
-              />
-            </>
-          )}
+          {displayItemsArray.map((item) => (
+            <ComboboxOptionItem
+              key={item.value}
+              option={item}
+              checkPosition="right"
+            />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+    </>
+  );
+};
+
+export const CaseOneUncontrolled = () => {
+  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
+  const [filteredOptions, setFilteredOptions] = useState(options);
+
+  const [query, setQuery] = useState('');
+
+  const valueChange = useCallback(
+    (e) => {
+      const val = e.target.value;
+      const filtered = options.filter((fv) => fv.label.includes(val));
+      setQuery(val);
+      setFilteredOptions(filtered);
+    },
+    [options]
+  );
+
+  const displayItemsArray = query ? filteredOptions : options;
+  return (
+    <>
+      <ComboBox
+        onChange={(val) => {
+          if (val.isNew) {
+            setOptions([...options, { ...val, visualLabel: val.label }]);
+          }
+          setQuery('');
+        }}
+        defaultValue={options[0]}
+        onOpenChange={(status) => {
+          if (!status) setQuery('');
+        }}
+      >
+        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxTrigger
+          placeholder="Placeholder"
+          onInputValueChange={valueChange}
+          leadingIcon={<MdSearch className="h-5 w-5" />}
+        />
+        <ComboboxOptionGroup>
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
@@ -267,6 +308,65 @@ export const CaseOne = () => {
 export const CaseOneMulti = () => {
   const [options, setOptions] = useState(COMBOBOX_OPTIONS);
   const [selectedPerson, setSelectedPerson] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
+  const [loading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState('');
+
+  const valueChange = (e) => {
+    const val = e.target.value;
+    setQuery(val);
+
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setQuery(val);
+      const filtered = options.filter((fv) => fv.label.includes(val));
+      setFilteredOptions(filtered);
+      setIsLoading(false);
+    }, 100);
+  };
+
+  const displayItemsArray = query ? filteredOptions : options;
+
+  return (
+    <>
+      <ComboBox
+        isLoading={loading}
+        value={selectedPerson}
+        onChange={(val) => {
+          setSelectedPerson(val);
+          // :TODO
+          const nonMatchingObjects = val.filter(
+            (obj) => !options.find((option) => option.value === obj.value)
+          );
+          if (nonMatchingObjects.length) {
+            setOptions([...nonMatchingObjects, ...options]);
+          }
+          setQuery('');
+        }}
+        onOpenChange={(status) => {
+          if (!status) setQuery('');
+        }}
+        isMulti
+      >
+        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxTrigger
+          placeholder="Placeholder"
+          onInputValueChange={valueChange}
+          leadingIcon={<MdSearch className="h-5 w-5" />}
+        />
+        <ComboboxOptionGroup>
+          {displayItemsArray.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+    </>
+  );
+};
+
+export const CaseOneMultiUncontrolled = () => {
+  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
   const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
   const [loading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
@@ -294,9 +394,8 @@ export const CaseOneMulti = () => {
     <>
       <ComboBox
         isLoading={loading}
-        value={selectedPerson}
         onChange={(val) => {
-          setSelectedPerson(val);
+          console.log(val);
 
           const nonMatchingObjects = val.filter(
             (obj) => !options.find((option) => option.value === obj.value)
@@ -306,6 +405,10 @@ export const CaseOneMulti = () => {
           }
           setQuery('');
         }}
+        onOpenChange={(status) => {
+          if (!status) setQuery('');
+        }}
+        defaultValue={[options[0], options[1]]}
         isMulti
       >
         <ComboboxLabel>Assigned to</ComboboxLabel>
@@ -315,18 +418,75 @@ export const CaseOneMulti = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup>
-          {query.length > 0 && (
-            <>
-              <ComboboxOptionItem isEmpty emptyText="No options available" />
-              <ComboboxOptionItem
-                option={{
-                  value: Math.random(),
-                  label: query,
-                  visualLabel: `Create ${query}`
-                }}
-              />
-            </>
-          )}
+          {displayItemsArray.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+    </>
+  );
+};
+
+export const BadgeTeigger = () => {
+  const [selectedPerson, setSelectedPerson] = useState([]);
+  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
+  const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
+  const [loading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState('');
+
+  const valueChange = useCallback(
+    (e) => {
+      const val = e.target.value;
+      setQuery(val);
+
+      setIsLoading(true);
+
+      setTimeout(() => {
+        setQuery(val);
+        const filtered = options.filter((fv) => fv.label.includes(val));
+        setFilteredOptions(filtered);
+        setIsLoading(false);
+      }, 0);
+    },
+    [options]
+  );
+
+  const displayItemsArray = query ? filteredOptions : options;
+
+  return (
+    <>
+      <ComboBox
+        isLoading={loading}
+        onChange={(val) => {
+          setSelectedPerson(val);
+          const nonMatchingObjects = val.filter(
+            (obj) => !options.find((option) => option.value === obj.value)
+          );
+          if (nonMatchingObjects.length) {
+            setOptions([...nonMatchingObjects, ...options]);
+          }
+          setQuery('');
+        }}
+        value={selectedPerson}
+        onOpenChange={(status) => {
+          if (!status) setQuery('');
+        }}
+        isBadge
+      >
+        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxBadgeTrigger
+          placeholder="Placeholder"
+          onInputValueChange={valueChange}
+          leadingIcon={<MdSearch className="h-5 w-5" />}
+          onBadgeClose={(val) => {
+            const nonMatchingObjects = selectedPerson.filter(
+              (obj) => obj.value !== val.value
+            );
+            setSelectedPerson(nonMatchingObjects);
+            setQuery('');
+          }}
+        />
+        <ComboboxOptionGroup>
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}

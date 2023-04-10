@@ -15,8 +15,17 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
 
-  const { isMulti, setWidth, errorText, isLoading, open, disabled, value } =
-    useContext(ComboboxContextData);
+  const {
+    isMulti,
+    setWidth,
+    errorText,
+    isLoading,
+    open,
+    disabled,
+    value,
+    query,
+    setQuery
+  } = useContext(ComboboxContextData);
 
   useEffect(() => {
     if (open) {
@@ -25,9 +34,9 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     }
   }, [setWidth, open]);
 
-  useEffect(() => {
-    comboInputRef.current.value = '';
-  }, [value]);
+  // useEffect(() => {
+  //   comboInputRef.current.value = '';
+  // }, [value]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -63,6 +72,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           )}
           onChange={(e) => {
             onInputValueChange(e);
+            setQuery(e.target.value);
           }}
           displayValue={(dv) => {
             if (open) return '';

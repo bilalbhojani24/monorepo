@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 import {
@@ -19,12 +19,15 @@ import RenderChildren from './components/RenderChildren';
 const ComboBox = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState(0);
+  const [query, setQuery] = useState('');
+  const [currentSelectedValues, setCurrentSelectedValues] = useState([]);
 
   const {
     children,
     defaultValue,
     errorText,
     onChange,
+    isBadge,
     isMulti,
     value,
     onOpenChange,
@@ -45,7 +48,12 @@ const ComboBox = forwardRef((props, ref) => {
         setOpen,
         isLoading,
         loadingText,
-        disabled
+        disabled,
+        query,
+        setQuery,
+        isBadge,
+        currentSelectedValues,
+        setCurrentSelectedValues
       }}
     >
       <Popover.Root open={open}>
@@ -56,16 +64,21 @@ const ComboBox = forwardRef((props, ref) => {
           defaultValue={defaultValue ?? undefined}
           onChange={(val) => {
             if (onChange) onChange(val);
+            if (query) setQuery('');
           }}
-          multiple={isMulti}
+          multiple={isMulti || isBadge}
           by={(o, n) => {
             if (o && n) return o.value === n.value;
             return null;
           }}
           disabled={disabled}
         >
-          {({ open: dropdownOpen }) => (
-            <RenderChildren open={dropdownOpen} onOpenChange={onOpenChange}>
+          {({ open: dropdownOpen, value: currentValues }) => (
+            <RenderChildren
+              open={dropdownOpen}
+              onOpenChange={onOpenChange}
+              currentValues={currentValues}
+            >
               {children}
             </RenderChildren>
           )}
