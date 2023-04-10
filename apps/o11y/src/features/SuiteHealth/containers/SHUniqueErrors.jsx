@@ -10,8 +10,8 @@ import {
   setShowUEDetailsFor
 } from 'features/SHErrorDetails/slices/dataSlice';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -114,11 +114,11 @@ const SnPUniqueErrors = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const testDetails = searchParams.get('details');
     if (testDetails) {
-      dispatch(setIsDetailsVisible(true));
-      dispatch(setShowDetailsFor(testDetails));
+      dispatch(setIsTestDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(testDetails));
     }
     return () => {
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsTestDetailsVisible(false));
     };
   }, [dispatch]);
 

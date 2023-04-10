@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
-import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import {
+  SNP_PARAMS_MAPPING,
+  TEST_DETAILS_SOURCE,
+  WRAPPER_GAP_CLASS
+} from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
-import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
-import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
+import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
+import { getIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/selectors';
 import TestDetailsSlideOver from 'features/TestDetails';
-import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
-import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
+import { getIsTestDetailsVisible } from 'features/TestDetails/slices/selectors';
+import { setIsTestDetailsVisible } from 'features/TestDetails/slices/uiSlice';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
@@ -25,15 +29,15 @@ import SHUniqueErrors from './SHUniqueErrors';
 export default function SnP() {
   const dispatch = useDispatch();
   const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
-  const isDetailsVisible = useSelector(getIsDetailsVisible);
-  const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
+  const isDetailsVisible = useSelector(getIsTestDetailsVisible);
+  const isSnPDetailsVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
   const navigate = useNavigate();
 
   useEffect(
     () => () => {
-      dispatch(setIsSnPDetailsVisible(false));
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsSHTestsDetailsVisible(false));
+      dispatch(setIsTestDetailsVisible(false));
       dispatch(clearSnPTests());
     },
     [dispatch]
@@ -98,7 +102,9 @@ export default function SnP() {
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
         {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
         {isDetailsVisible && (
-          <TestDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
+          <TestDetailsSlideOver
+            source={TEST_DETAILS_SOURCE.SUITE_HEALTH_TESTS}
+          />
         )}
       </div>
     </div>

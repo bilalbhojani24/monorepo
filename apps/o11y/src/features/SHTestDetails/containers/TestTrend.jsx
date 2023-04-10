@@ -13,8 +13,8 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -25,7 +25,7 @@ import {
   getSnPDetailsTrendData,
   setSHTestDetailsChartBounds
 } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getSnPCbtInfo } from '../slices/selectors';
+import { getShowSHTestsDetailsFor, getSnPCbtInfo } from '../slices/selectors';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
@@ -127,7 +127,7 @@ const CHART_DEFAULT_OPTION = {
 export default function TestTrend() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [trendData, setTrendData] = useState({});
@@ -195,8 +195,8 @@ export default function TestTrend() {
 
   const handleClickChartItem = useCallback(
     ({ point: { options } }) => {
-      dispatch(setShowDetailsFor(options?.id));
-      dispatch(setIsDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(options?.id));
+      dispatch(setIsTestDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.set('details', options.id);
       navigate({ search: searchParams.toString() });
