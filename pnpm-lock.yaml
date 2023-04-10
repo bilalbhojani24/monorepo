@@ -182,7 +182,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
       '@browserstack/vite-config': workspace:*
-      '@internationalized/date': ^3.1.0
+      '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1
       '@tailwindcss/forms': 0.5.3
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
@@ -3007,7 +3007,7 @@ packages:
   /@figspec/components/1.0.1:
     resolution: {integrity: sha512-UvnEamPEAMh9HExViqpobWmX25g1+soA9kcJu+It3VerMa7CeVyaIbQydNf1Gys5v/rxJVdTDRgQ7OXW2zAAig==}
     dependencies:
-      lit: 2.7.0
+      lit: 2.7.1
     dev: true
 
   /@figspec/react/1.0.3_react@18.2.0:
@@ -10352,7 +10352,7 @@ packages:
       mississippi: 3.0.0
       mkdirp: 0.5.6
       move-concurrently: 1.0.1
-      promise-inflight: 1.0.1
+      promise-inflight: 1.0.1_bluebird@3.7.2
       rimraf: 2.7.1
       ssri: 6.0.2
       unique-filename: 1.1.1
@@ -17355,26 +17355,26 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
-  /lit-element/3.3.0:
-    resolution: {integrity: sha512-M3OIoblNS7LZdRxOIk8g0wyLEA/lRw/UGJ1TX+767OpkuDsRdSoxBIvewpWqCo7sMd9xt1XedUNZIr9jUO1X3g==}
+  /lit-element/3.3.1:
+    resolution: {integrity: sha512-Gl+2409uXWbf7n6cCl7Kzasm7zjT9xmdwi2BhLNi70sRKAgRkqueDu5mSIH3hPYMM0/vqBCdPXod3NbGkRA2ww==}
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.1.0
       '@lit/reactive-element': 1.6.1
-      lit-html: 2.7.0
+      lit-html: 2.7.1
     dev: true
 
-  /lit-html/2.7.0:
-    resolution: {integrity: sha512-/zPOl8EfeB3HHpTzINSpnWgvgQ8N07g/j272EOAIyB0Ys2RzBqTVT23i+JZuUlNbB2WHHeSsTCFi92NtWrtpqQ==}
+  /lit-html/2.7.1:
+    resolution: {integrity: sha512-san46v7VXK6+2RXS4yveQYFUf9CoO/1bcNb0NibxLoTqlP48vs+l28tRPFDYcXGKWm0XoqcDuCC6mxIs8Jj3Zw==}
     dependencies:
       '@types/trusted-types': 2.0.3
     dev: true
 
-  /lit/2.7.0:
-    resolution: {integrity: sha512-qSy2BAVA+OiWtNptP404egcC/izDdNRw6iHGIbUmkZtbMJvPKfNsaoKrNs8Zmsbjmv5ZX2tur1l9TfzkSWWT4g==}
+  /lit/2.7.1:
+    resolution: {integrity: sha512-t1cVWUVQj+ucdx16QPvqzyHWYTj/bvlv6vRCUuZ5T/dA4W2Ui4a4tz7uJ1IhoTb9rKe3pTJiWmoN2GJGGteszw==}
     dependencies:
       '@lit/reactive-element': 1.6.1
-      lit-element: 3.3.0
-      lit-html: 2.7.0
+      lit-element: 3.3.1
+      lit-html: 2.7.1
     dev: true
 
   /load-json-file/1.1.0:
@@ -20460,6 +20460,17 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: true
+
+  /promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: 3.7.2
     dev: true
 
   /promise.allsettled/1.0.6:
@@ -23707,6 +23718,7 @@ packages:
 
   /trim/0.0.1:
     resolution: {integrity: sha512-YzQV+TZg4AxpKxaTHK3c3D+kRDCGVEE7LemdlQZoQXn0iennk10RsIoY6ikzAqJTc9Xjl9C1/waHom/J86ziAQ==}
+    deprecated: Use String.prototype.trim() instead
     dev: true
 
   /trough/1.0.5:
