@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const SingleValueSelect = ({
   label,
@@ -31,8 +32,10 @@ const SingleValueSelect = ({
   wrapperClassName,
   selectFirstByDefault = false,
   selectFirstOnOptionChange = false,
-  areSomeRequiredFieldsEmpty
+  areSomeRequiredFieldsEmpty,
+  areOptionsLoading: areOptionsLoadingProps = false
 }) => {
+  const [areOptionsLoading, setAreOptionsLoading] = useState(false);
   const dispatch = useDispatch();
   const cleanOptions = (data) =>
     Array.isArray(data) &&
@@ -58,21 +61,26 @@ const SingleValueSelect = ({
     }, []);
 
   const [cleanedValue] = cleanOptions([(value || defaultValue) ?? {}]);
-
   useEffect(() => {
-    if ((value || defaultValue) && typeof setFieldsData === 'function') {
+    if (
+      cleanedValue?.value &&
+      !fieldsData?.[fieldKey] &&
+      typeof setFieldsData === 'function'
+    ) {
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
   const [optionsToRender, setOptionsToRender] = useState([]);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const previousOptions = usePrevious(optionsToRender);
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
+  const shouldFetchIntialOptions = useRef(true);
+  const initialOptions = useRef(null);
 
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
@@ -85,19 +93,36 @@ const SingleValueSelect = ({
     return optionList;
   };
 
-  useEffect(() => {
-    if (optionsPath) {
-      dispatch(
-        fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true })
-      ).then(({ payload: optionsData }) => {
+  const getOptions = makeDebounce(() => {
+    setAreOptionsLoading(true);
+    dispatch(fetchOptionsThunk({ path: optionsPath, isDefaultOptions: true }))
+      .then(({ payload: optionsData = [] }) => {
         const cleanedOptions = cleanOptions(
           appendOptionIfMissing(optionsData, value || defaultValue)
         );
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
+        if (shouldFetchIntialOptions.current) {
+          initialOptions.current = cleanedOptions;
+        }
+        setAreOptionsLoading(false);
+        shouldFetchIntialOptions.current = false;
+      })
+      .catch(() => {
+        setAreOptionsLoading(false);
       });
+  }, 500);
+
+  const handleOpen = (isOpen) => {
+    if (
+      shouldFetchIntialOptions.current &&
+      isOpen &&
+      optionsPath &&
+      !optionsToRender?.length
+    ) {
+      getOptions();
     }
-  }, [optionsPath]);
+  };
 
   useEffect(() => {
     setOptionsToRender(
@@ -106,15 +131,20 @@ const SingleValueSelect = ({
   }, [value, options, defaultValue]);
 
   useEffect(() => {
+    initialOptions.current = cleanOptions(options);
+  }, [options]);
+
+  useEffect(() => {
     if (
       (typeof setFieldsData === 'function' &&
         !fieldsData?.[fieldKey] &&
         selectFirstByDefault &&
-        optionsToRender[0]) ||
+        optionsToRender?.[0]) ||
       (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender[0] });
+      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender?.[0] });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectFirstByDefault,
     optionsToRender,
@@ -130,14 +160,26 @@ const SingleValueSelect = ({
     }
   };
 
+  const [searchLoading, setSearchLoading] = useState(false);
+
   const fetchQuery = (query) => {
-    dispatch(
-      fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
-    ).then(({ payload: optionsData }) => {
-      const cleanedOptions = cleanOptions(optionsData);
-      setOptionsToRender(cleanedOptions);
-      setDynamicOptions(cleanedOptions);
-    });
+    if (query) {
+      setSearchLoading(true);
+      dispatch(
+        fetchOptionsThunk({ path: searchPath + query, isDefautOptions: false })
+      )
+        .then(({ payload: optionsData = [] }) => {
+          setSearchLoading(false);
+          if (Array.isArray(options) && optionsData.length) {
+            const cleanedOptions = cleanOptions(optionsData);
+            setOptionsToRender(cleanedOptions);
+            setDynamicOptions(cleanedOptions);
+          }
+        })
+        .catch(() => {
+          setSearchLoading(false);
+        });
+    }
   };
 
   const searchInOptions = useCallback(
@@ -150,10 +192,13 @@ const SingleValueSelect = ({
       );
       setOptionsToRender(filtered);
     },
-    [options, dynamicOptions, fetchQuery]
+    [optionsPath, dynamicOptions, options]
   );
 
-  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 500), [
+    searchPath
+  ]);
 
   const handleInputChange = (e) => {
     const query = e.target.value?.trim();
@@ -163,17 +208,26 @@ const SingleValueSelect = ({
     if (query) {
       searchInOptions(query);
     } else {
-      setOptionsToRender(optionsPath ? dynamicOptions : cleanOptions(options));
+      setOptionsToRender(initialOptions.current);
     }
   };
+
+  const isLoading = areOptionsLoading || areOptionsLoadingProps;
 
   return (
     <div className="py-3">
       <ComboBox
         onChange={handleChange}
-        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
+        onOpenChange={handleOpen}
+        value={
+          !optionsToRender?.length
+            ? null
+            : (fieldsData[fieldKey] || cleanedValue) ?? {}
+        }
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
+        isLoading={isLoading}
+        loadingText="Loading"
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -181,34 +235,47 @@ const SingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup>
-          {optionsToRender?.map((item) => (
-            <ComboboxOptionItem key={item.value} option={item} />
-          ))}
-        </ComboboxOptionGroup>
+        {Boolean(optionsToRender?.length) && (
+          <ComboboxOptionGroup maxWidth={300}>
+            {optionsToRender?.map((item) => (
+              <ComboboxOptionItem key={item.value} option={item} />
+            ))}
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && !isLoading && !searchLoading && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && searchLoading && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="searching-for-options"
+              option={{ label: 'Searching...' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
       </ComboBox>
     </div>
   );
 };
 
 SingleValueSelect.propTypes = {
-  fieldsData: PropTypes.string.isRequired,
-  setFieldsData: PropTypes.func.isRequired,
-  fieldKey: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  options: PropTypes.arrayOf(),
-  label: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  wrapperClassName: PropTypes.string,
-  searchPath: PropTypes.string.isRequired,
-  optionsPath: PropTypes.string.isRequired
+  ...FieldType,
+  options: PropTypes.arrayOf(SingleValueSelectRawOptionType),
+  searchPath: PropTypes.string,
+  optionsPath: PropTypes.string
 };
 
 SingleValueSelect.defaultProps = {
-  placeholder: null,
   options: [],
-  required: false,
-  wrapperClassName: ''
+  searchPath: '',
+  optionsPath: ''
 };
 
 export default SingleValueSelect;

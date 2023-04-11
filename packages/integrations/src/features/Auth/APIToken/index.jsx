@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Alerts,
-  Button,
-  MdArrowBack,
-  MdArrowForward
-} from '@browserstack/bifrost';
+import { Button, MdArrowBack, MdArrowForward } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { getTokenConnectionForToolThunk } from '../../../api';
-import { Loader, Logo } from '../../../common/components';
+import { Logo } from '../../../common/components';
+import {
+  clearGlobalAlert,
+  setGlobalAlert
+} from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
 import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -17,9 +16,11 @@ import { APITokenMetaType } from '../types';
 import APITokenFormField from './APITokenFormField';
 
 const APIToken = ({
-  integrationKey,
   label,
   showOAuth,
+  syncPoller,
+  integrationKey,
+  isSyncInProgress,
   apiTokenMeta: { logo_url: logo, title, description, fields }
 }) => {
   const [data, setData] = useState({});
@@ -31,16 +32,30 @@ const APIToken = ({
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
-    dispatch(getTokenConnectionForToolThunk({ integrationKey, data }));
+    dispatch(clearGlobalAlert());
+    dispatch(
+      getTokenConnectionForToolThunk({
+        integrationKey,
+        data,
+        integrationLabel: label
+      })
+    ).then((res) => {
+      if (!res?.payload?.success) {
+        const message =
+          res?.payload?.message ||
+          `There was some problem connecting to ${label} software`;
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message,
+            autoDismiss: true
+          })
+        );
+      } else {
+        syncPoller();
+      }
+    });
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loader />;
-      </div>
-    );
-  }
 
   return (
     <>
@@ -87,6 +102,8 @@ const APIToken = ({
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
           onClick={handleConnect}
+          loading={isLoading || isSyncInProgress}
+          loadingText="Loading"
         >
           {`Connect to ${label}`}
         </Button>
@@ -99,7 +116,9 @@ APIToken.propTypes = {
   integrationKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   apiTokenMeta: PropTypes.shape(APITokenMetaType),
-  showOAuth: PropTypes.func.isRequired
+  showOAuth: PropTypes.func.isRequired,
+  syncPoller: PropTypes.func.isRequired,
+  isSyncInProgress: PropTypes.func.isRequired
 };
 
 APIToken.defaultProps = {

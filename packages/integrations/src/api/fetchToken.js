@@ -25,7 +25,8 @@ export const fetchToken = (_, { getState, dispatch }) => {
     .get(url, {
       timeout: REQUEST_TIMOUT,
       timeoutErrorMessage: 'Request timed out',
-      headers
+      headers,
+      retry: 1
     })
     .then((response) => {
       cookie.create(UAT_COOKIE_NAME, response.data.access_token);

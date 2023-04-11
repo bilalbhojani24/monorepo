@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { fetchTokenThunk, getIntegrationsThunk } from '../../api/index';
@@ -26,17 +27,23 @@ import DraggableResizableContainer from './components/DraggableResizable';
 import WidgetHeader from './components/WidgetHeader';
 
 const Widget = ({
+  hasError,
+  position,
   children,
-  handleClose,
-  hasAtLeastOneIntegrationSetup,
   isLoading,
-  hasError
+  handleClose,
+  positionRef,
+  hasAtLeastOneIntegrationSetup
 }) => {
   const childRef = useRef(null);
   if (hasAtLeastOneIntegrationSetup) {
     return (
-      <DraggableResizableContainer childRef={childRef}>
-        <div ref={childRef} className="relative">
+      <DraggableResizableContainer
+        position={position}
+        childRef={childRef}
+        positionRef={positionRef}
+      >
+        <div ref={childRef} className="relative h-full flex-1 bg-white">
           <WidgetHeader handleClose={handleClose} />
           {children}
         </div>
@@ -44,7 +51,7 @@ const Widget = ({
     );
   }
   return (
-    <DraggableContainer>
+    <DraggableContainer position={position} positionRef={positionRef}>
       <WidgetHeader handleClose={handleClose} />
       <div
         className={'flex-1 bg-white p-6'.concat(
@@ -59,14 +66,20 @@ const Widget = ({
 
 Widget.propTypes = {
   children: PropTypes.node,
-  hasToken: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
-  hasAtLeastOneIntegrationSetup: PropTypes.bool
+  hasAtLeastOneIntegrationSetup: PropTypes.bool,
+  position: PropTypes.string.isRequired,
+  positionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  hasError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 Widget.defaultProps = {
   children: null,
-  hasToken: true,
-  hasAtLeastOneIntegrationSetup: false
+  hasAtLeastOneIntegrationSetup: false,
+  positionRef: null
 };
 
 const renderChild = ({
@@ -99,6 +112,7 @@ const WidgetPortal = ({
   componentKey
 }) => {
   const hasToken = useSelector(hasTokenSelector);
+  const prevAuth = usePrevious(auth);
   const userAuthLoadingStatus = useSelector(userAuthLoadingSelector);
   const integrationsLoadingStatus = useSelector(integrationsLoadingSelector);
   const integrationsHasError = Boolean(useSelector(integrationsErrorSelector));
@@ -114,20 +128,18 @@ const WidgetPortal = ({
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setUATConfig(auth));
-    dispatch(fetchTokenThunk()).then(() => {
-      if (hasToken) {
+    if (auth?.url !== prevAuth?.url) {
+      dispatch(setUATConfig(auth));
+      dispatch(fetchTokenThunk()).then(() => {
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
-      }
-    });
-  }, [hasToken, dispatch, projectId, componentKey]);
+      });
+    }
+  }, [auth, componentKey, dispatch, hasToken, prevAuth, projectId]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
       dispatch(fetchTokenThunk()).then(() => {
-        if (hasToken) {
-          dispatch(getIntegrationsThunk({ projectId, componentKey }));
-        }
+        dispatch(getIntegrationsThunk({ projectId, componentKey }));
       });
     } else {
       dispatch(getIntegrationsThunk({ projectId, componentKey }));

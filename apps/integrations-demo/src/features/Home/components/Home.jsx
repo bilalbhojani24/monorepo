@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alerts } from '@browserstack/bifrost';
 
 import BugReport from './BugReport';
@@ -9,8 +9,10 @@ const Home = () => {
     setAlertMessage('');
   };
 
+  const dockRef = useRef(null);
+
   return (
-    <div>
+    <>
       {alertMessage && (
         <Alerts
           description={alertMessage}
@@ -20,8 +22,15 @@ const Home = () => {
           dismissButtonFn={handleDismissButton}
         />
       )}
-      <BugReport setAlertMessage={setAlertMessage} />
-    </div>
+      <div
+        ref={dockRef}
+        className="absolute right-0 top-1/4 flex h-3/4 w-1/2 flex-col"
+      >
+        <div className="bg-base-200 mb-4 h-full">
+          <BugReport setAlertMessage={setAlertMessage} positionRef={dockRef} />
+        </div>
+      </div>
+    </>
   );
 };
 

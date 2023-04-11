@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@browserstack/bifrost';
 import { CreateIssue } from '@browserstack/integrations';
 
-const ReportBug = ({ setAlertMessage }) => {
+const ReportBug = ({ setAlertMessage, positionRef }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen(true);
@@ -13,9 +13,15 @@ const ReportBug = ({ setAlertMessage }) => {
 
   const handleSuccess = ({
     event,
-    data: { issueId, issueUrl, attachments, integration: { label } = {} }
+    data: {
+      issueId,
+      issueUrl,
+      attachments,
+      issueKey,
+      integration: { label } = {}
+    }
   }) => {
-    setAlertMessage(`Your ${label} issue (${issueId}) ${event}d successfully`);
+    setAlertMessage(`Your ${label} issue (${issueKey}) ${event}d successfully`);
   };
 
   const handleError = (args) => {};
@@ -32,7 +38,7 @@ const ReportBug = ({ setAlertMessage }) => {
     url: 'https://integrations.bsstag.com/api/user-access-tokens?unique_user_id=4',
     headers: {
       Authorization:
-        'Basic aW50ZWdyYXRpb25zc2Vydl9YOEE2cDM6bUxzZDhpc05lU3RnOHBzNXhwUDg='
+        'Basic aW50ZWdyYXRpb25zc2Vydl9TZzFEUk46S0ZjenFmc1hhSEdqcE51eVJqZnc='
     }
   };
   const [attachments, setAttachments] = useState(null);
@@ -52,12 +58,14 @@ const ReportBug = ({ setAlertMessage }) => {
       <input type="file" onChange={handleChange} />
       <Button onClick={handleOpen}>Report a bug</Button>
       <CreateIssue
-        isOpen={isOpen}
-        handleClose={handleClose}
         auth={auth}
-        options={options}
+        position="left"
+        isOpen={isOpen}
         config={config}
+        options={options}
+        handleClose={handleClose}
         attachments={attachments}
+        // positionRef={positionRef}
       />
     </div>
   );

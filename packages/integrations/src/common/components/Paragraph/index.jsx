@@ -8,9 +8,9 @@ import {
 import PropTypes from 'prop-types';
 
 import TextAreaField from '../TextArea';
+import { FieldType } from '../types';
 
 const Paragraph = ({
-  key,
   label,
   value,
   fieldKey,
@@ -47,7 +47,7 @@ const Paragraph = ({
         <>
           <Button
             variant="minimal"
-            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-base-500 text-sm"
+            wrapperClassName="border-0 shadow-none focus:ring-0 focus:ring-offset-0 px-0 text-base-500 text-sm"
             icon={
               shouldShowMetaSection ? <ChevronUpIcon /> : <ChevronDownIcon />
             }
@@ -72,13 +72,14 @@ const Paragraph = ({
 };
 
 Paragraph.propTypes = {
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType,
+  descriptionMeta: PropTypes.string,
+  hideDescription: PropTypes.bool
 };
 
 Paragraph.defaultProps = {
-  placeholder: null
+  descriptionMeta: '',
+  hideDescription: false
 };
 
 export default Paragraph;

@@ -8,6 +8,7 @@ import CreateIssueForm from './CreateIssueForm';
 import UpdateIssueForm from './UpdateIssueForm';
 
 const renderChild = ({
+  tab,
   mode,
   options,
   projects,
@@ -22,19 +23,28 @@ const renderChild = ({
   resetCreateMeta,
   resetUpdateMeta,
   projectFieldData,
+  isWorkInProgress,
+  deselectIssueType,
   projectsHaveError,
+  scrollWidgetToTop,
   clearErrorMessage,
   cleanedIssueTypes,
   areProjectsLoading,
   issueTypeFieldData,
+  isCreateMetaLoading,
+  isUpdateMetaLoading,
   setIsWorkInProgress,
-  issueSearchFieldData,
   handleIssueTabChange,
-  integrationToolFieldData,
-  setIsFormBeingSubmitted
+  setIsFormBeingSubmitted,
+  integrationToolFieldData
 }) => {
   if (areProjectsLoading) {
-    return <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />;
+    return (
+      <div className="flex flex-col items-center py-6">
+        <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+        <p className="text-base-500 mt-6 text-center">Loading...</p>
+      </div>
+    );
   }
   if (projectsHaveError) {
     return (
@@ -56,13 +66,12 @@ const renderChild = ({
           required
           placeholder="Select project"
           options={projects}
-          selectFirstByDefault
         />
       </div>
       <Tabs
         tabsArray={TABS}
         onTabChange={handleIssueTabChange}
-        defaultIndex={mode === ISSUE_MODES.CREATION ? 0 : 1}
+        defaultIndex={tab === ISSUE_MODES.CREATION ? 0 : 1}
       />
 
       {mode === ISSUE_MODES.CREATION ? (
@@ -75,12 +84,16 @@ const renderChild = ({
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
+          deselectIssueType={deselectIssueType}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
           cleanedIssueTypes={cleanedIssueTypes}
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
-          integrationToolFieldData={integrationToolFieldData}
+          isCreateMetaLoading={isCreateMetaLoading}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
+          integrationToolFieldData={integrationToolFieldData}
         />
       ) : (
         <UpdateIssueForm
@@ -93,11 +106,13 @@ const renderChild = ({
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
+          isWorkInProgress={isWorkInProgress}
+          scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
+          isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}
-          issueSearchFieldData={issueSearchFieldData}
-          integrationToolFieldData={integrationToolFieldData}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
+          integrationToolFieldData={integrationToolFieldData}
         />
       )}
     </>

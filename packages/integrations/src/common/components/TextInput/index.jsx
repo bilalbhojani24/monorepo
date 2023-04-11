@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { InputField } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
 
+import { ALLOWED_TYPES } from '../../constants';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const TextField = ({
-  fieldsData,
-  setFieldsData,
-  placeholder,
-  required,
   label,
   value,
-  fieldKey,
   schema,
+  fieldKey,
+  required,
+  fieldsData,
+  placeholder,
+  fieldErrors,
   validations,
   defaultValue,
-  fieldErrors,
-  areSomeRequiredFieldsEmpty,
-  disabled = false
+  setFieldsData,
+  disabled = false,
+  areSomeRequiredFieldsEmpty
 }) => {
   const [error, setError] = useState(null);
   const handleChange = (e) => {
@@ -40,7 +41,7 @@ const TextField = ({
 
   const requiredFieldError = useRequiredFieldError(
     required,
-    valueToRender,
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
 
@@ -52,6 +53,17 @@ const TextField = ({
     setError(requiredFieldError || fieldErrors?.[fieldKey]);
   }, [requiredFieldError, fieldErrors, fieldKey]);
 
+  useEffect(() => {
+    if (
+      valueToRender &&
+      !ALLOWED_TYPES.includes(typeof fieldsData?.[fieldKey]) &&
+      typeof setFieldsData === 'function'
+    ) {
+      setFieldsData({ ...fieldsData, [fieldKey]: valueToRender });
+    }
+  }, [value, defaultValue, setFieldsData, fieldKey, fieldsData, valueToRender]);
+
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const validateInput = (e) => {
     const input = e.target.value.trim();
     if (validations) {
@@ -60,11 +72,7 @@ const TextField = ({
         validations.forEach(
           ({ regex, 'error-message': validationErrorMessage }) => {
             let validationRegex = null;
-            try {
-              validationRegex = new RegExp(regex);
-            } catch (err) {
-              console.error(err);
-            }
+            validationRegex = new RegExp(regex);
             if (validationRegex) {
               const isValid = validationRegex.test(input);
               if (!isValid) {
@@ -101,9 +109,7 @@ const TextField = ({
 };
 
 TextField.propTypes = {
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType
 };
 
 TextField.defaultProps = {

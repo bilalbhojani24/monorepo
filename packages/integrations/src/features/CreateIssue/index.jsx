@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 
 import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
+import { clearGlobalAlert } from '../../common/slices/globalAlertSlice';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
+import { widgetHeightSelector } from '../slices/widgetSlice';
 import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
@@ -14,7 +16,7 @@ import ListOfIntegrations from './components/ListOfIntegrations';
 import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
-const WIDGET_POSITIONS = ['left', 'right'];
+const WIDGET_POSITIONS = ['left', 'right', 'center'];
 
 export const CreateIssue = ({
   auth,
@@ -42,28 +44,29 @@ export const CreateIssue = ({
   const [isWorkInProgress, setIsWorkInProgress] = useState(false);
   const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
-  const previousModeRef = useRef(null);
+  const [tab, setTab] = useState(ISSUE_MODES.CREATION);
 
   const continueEditing = useCallback(() => {
-    if (previousModeRef.current) {
-      setMode(previousModeRef.current);
-      previousModeRef.current = null;
+    if (tab !== mode) {
+      setTab(mode);
     }
     setIsBeingDiscarded(false);
-  }, []);
+  }, [mode, tab]);
 
   const discardIssue = useCallback(() => {
     setIsBeingDiscarded(true);
   }, []);
+
   const confirmIssueDiscard = useCallback(() => {
-    if (previousModeRef.current) {
-      previousModeRef.current = null;
+    dispatch(clearGlobalAlert());
+    if (tab !== mode) {
+      setMode(tab);
     } else {
       handleClose();
     }
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [handleClose]);
+  }, [dispatch, handleClose, mode, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -71,16 +74,29 @@ export const CreateIssue = ({
     }
   }, [isBeingDiscarded, isWorkInProgress, confirmIssueDiscard]);
 
-  const changeModeTo = useCallback(
-    (nextMode) => {
+  const changeTabTo = useCallback(
+    (nextTab) => {
       if (isWorkInProgress) {
         discardIssue();
-        previousModeRef.current = mode;
+        setTab(nextTab);
+      } else {
+        dispatch(clearGlobalAlert());
+        setTab(nextTab);
+        setMode(nextTab);
       }
-      setMode(nextMode);
     },
-    [discardIssue, isWorkInProgress, mode]
+    [discardIssue, dispatch, isWorkInProgress]
   );
+
+  const widgetHeight = useSelector(widgetHeightSelector);
+  const maxHeight = widgetHeight ? widgetHeight - 120 : 0;
+  const containerRef = useRef(null);
+
+  const scrollWidgetToTop = () => {
+    if (containerRef?.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  };
 
   return (
     <BasicWidget
@@ -94,30 +110,33 @@ export const CreateIssue = ({
       componentKey="create-issue"
     >
       <div
-        className={'bg-white'.concat(
-          hasAtLeastOneIntegrationSetup ? ' p-6' : '',
+        ref={containerRef}
+        className={'bg-white h-full'.concat(
+          hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
-        style={{ maxHeight: '650px' }}
+        style={{ maxHeight: `${maxHeight}px` }}
       >
         {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
+          tab={tab}
           mode={mode}
           options={options}
           projectId={projectId}
           attachments={attachments}
-          changeModeTo={changeModeTo}
+          changeTabTo={changeTabTo}
           discardIssue={discardIssue}
           continueEditing={continueEditing}
           isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}
+          scrollWidgetToTop={scrollWidgetToTop}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 left-0 flex w-full justify-end rounded-b-md border bg-white px-5 pt-4 pb-6">
+        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pt-4 pb-6">
           <Button wrapperClassName="mr-4" colors="white" onClick={discardIssue}>
             Cancel
           </Button>
@@ -140,7 +159,12 @@ export const CreateIssue = ({
 
 CreateIssue.propTypes = {
   isOpen: PropTypes.bool,
-  authUrl: PropTypes.string.isRequired,
+  auth: PropTypes.shape({
+    url: PropTypes.string,
+    headers: PropTypes.shape({
+      [PropTypes.string]: PropTypes.string
+    })
+  }).isRequired,
   options: CreateIssueOptionsType,
   position: PropTypes.oneOf(WIDGET_POSITIONS),
   projectId: PropTypes.string,
@@ -150,10 +174,11 @@ CreateIssue.propTypes = {
   ]),
   handleClose: PropTypes.func.isRequired
 };
+
 CreateIssue.defaultProps = {
   isOpen: false,
   options: null,
-  position: WIDGET_POSITIONS[0],
+  position: WIDGET_POSITIONS[2],
   projectId: null,
   positionRef: null
 };

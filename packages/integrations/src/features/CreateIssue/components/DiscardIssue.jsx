@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, MdSave } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 const DiscardIssue = ({
   continueEditing,
   confirmIssueDiscard,
   integrationName
 }) => (
-  <div className="flex h-full flex-col items-center">
+  <div className="flex h-full flex-col items-center justify-center">
     <p className="bg-brand-100 w-fit rounded-full p-6">
       <MdSave className="text-brand-500 text-3xl" />
     </p>
@@ -30,4 +31,10 @@ const DiscardIssue = ({
     </Button>
   </div>
 );
+
+DiscardIssue.propTypes = {
+  continueEditing: PropTypes.func.isRequired,
+  integrationName: PropTypes.string.isRequired,
+  confirmIssueDiscard: PropTypes.isRequired
+};
 export default DiscardIssue;

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { TextArea } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
+import { FieldType } from '../types';
 
 const TextAreaField = ({
   label,
@@ -19,7 +19,7 @@ const TextAreaField = ({
 }) => {
   const requiredFieldError = useRequiredFieldError(
     required,
-    fieldsData[fieldKey],
+    fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
   const handleChange = (e) => {
@@ -28,10 +28,12 @@ const TextAreaField = ({
   };
 
   useEffect(() => {
-    if (value || defaultValue) {
-      setFieldsData({ ...fieldsData, [fieldKey]: value || defaultValue });
+    const valueToHydrateWith = value || defaultValue;
+    const valueInState = fieldsData[fieldKey];
+    if (valueToHydrateWith && typeof valueInState !== 'string') {
+      setFieldsData({ ...fieldsData, [fieldKey]: valueToHydrateWith });
     }
-  }, [value, defaultValue]);
+  }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
   return (
     <>
@@ -47,11 +49,7 @@ const TextAreaField = ({
 };
 
 TextAreaField.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  required: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired
+  ...FieldType
 };
 
 TextAreaField.defaultProps = {

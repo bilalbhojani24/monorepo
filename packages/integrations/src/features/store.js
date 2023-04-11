@@ -8,6 +8,7 @@ import integrationsReducers from './slices/integrationsSlice';
 import projectsReducers from './slices/projectsSlice';
 import toolAuthRedducers from './slices/toolAuthSlice';
 import userAuthReducers from './slices/userAuthSlice';
+import widgetReducers from './slices/widgetSlice';
 
 export const reducers = {
   projects: projectsReducers,
@@ -16,7 +17,8 @@ export const reducers = {
   toolAuth: toolAuthRedducers,
   globalAlert: globalAlertReducers,
   config: configReducers,
-  options: optionsReducers
+  options: optionsReducers,
+  widget: widgetReducers
 };
 export const store = configureStore({
   reducer: reducers

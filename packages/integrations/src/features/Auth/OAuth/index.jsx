@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Button,
@@ -9,132 +9,84 @@ import {
 import PropTypes from 'prop-types';
 
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
-import { getSetupStatus } from '../../../api/getSetupStatus';
-import { Loader, Logo } from '../../../common/components';
-import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { setHasIntegrated } from '../../slices/integrationsSlice';
+import { Logo } from '../../../common/components';
+import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
   integrationKey,
   label,
+  syncPoller,
   oAuthMeta: { logo_url: logo, title, feature_list: features, description },
   showAPIToken,
   hasOAuthFailed,
+  isSyncInProgress,
   setHasOAuthFailed
 }) => {
   const [isOAuthConnecting, setIsOAuthConnecting] = useState(false);
   const dispatch = useDispatch();
   const [authWindow, setAuthWindow] = useState({});
-  const OAUTH_POLL_MAX = 5;
-  const pollTimers = useRef([]);
   const authWindowName = 'browser_oauth';
-  const clearTimersAfter = (start) => {
-    for (let idx = start; idx < pollTimers.length; idx += 1) {
-      if (pollTimers[idx]) {
-        clearTimeout(pollTimers[idx]);
-      }
-    }
-  };
-
-  const pollerFn = (attempt = 1) => {
-    if (attempt <= OAUTH_POLL_MAX) {
-      getSetupStatus(integrationKey).then((response) => {
-        if (response?.data?.success && response?.data?.setup_completed) {
-          clearTimersAfter(attempt);
-          dispatch(setHasIntegrated(integrationKey));
-        } else {
-          setHasOAuthFailed(true);
-          dispatch(
-            setGlobalAlert({
-              kind: 'error',
-              message: 'There was some problem connecting to JIRA software'
-            })
-          );
-        }
-      });
-    }
-  };
-
-  const oAuthSyncPoller = () => {
-    for (
-      let oAuthPollCounter = 0;
-      oAuthPollCounter < OAUTH_POLL_MAX;
-      oAuthPollCounter += 1
-    ) {
-      // 1, 3, 6, 10, 15 ... nth term  = n(n + 1) / 2
-      const n = oAuthPollCounter + 1;
-      const delayConstant = (n * (n + 1)) / 2;
-      const timer = setTimeout(() => {
-        pollerFn(n);
-      }, delayConstant * 1000);
-      pollTimers.push(timer);
-    }
-  };
   useEffect(() => {
     const handleMessage = (event) => {
-      setIsOAuthConnecting(true);
       let message = {};
       try {
         message = JSON.parse(event.data);
       } catch (e) {
         return e;
-      } finally {
-        setIsOAuthConnecting(false);
       }
       // oauth has failed
       if (message.hasError) {
         setHasOAuthFailed(true);
-        dispatch(
-          setGlobalAlert({
-            kind: 'error',
-            message: 'There was some problem connecting to JIRA software'
-          })
-        );
       } else {
-        oAuthSyncPoller();
+        syncPoller(setIsOAuthConnecting);
       }
-      console.log(authWindow);
       authWindow?.close();
+      return null;
     };
     window.addEventListener('message', handleMessage);
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [setHasOAuthFailed, dispatch, integrationKey, authWindow]);
+  }, [
+    label,
+    dispatch,
+    authWindow,
+    syncPoller,
+    integrationKey,
+    setHasOAuthFailed
+  ]);
 
   const handleAPIConnect = () => {
     showAPIToken();
   };
 
   const handleOAuthConnection = () => {
-    getOAuthUrlForTool(integrationKey).then((redirectUri) => {
-      const childWindow = window.open(
-        redirectUri,
-        authWindowName,
-        'height=640,width=960'
-      );
-      setAuthWindow(childWindow);
+    setIsOAuthConnecting(true);
+    getOAuthUrlForTool(integrationKey)
+      .then((redirectUri) => {
+        dispatch(clearGlobalAlert());
+        const childWindow = window.open(
+          redirectUri,
+          authWindowName,
+          'height=640,width=960'
+        );
+        setAuthWindow(childWindow);
 
-      let timer = null;
+        let timer = null;
 
-      function checkChild() {
-        if (childWindow.closed) {
-          pollerFn(OAUTH_POLL_MAX);
-          clearInterval(timer);
+        function checkChild() {
+          if (childWindow.closed) {
+            syncPoller(setIsOAuthConnecting, 1);
+            clearInterval(timer);
+          }
         }
-      }
-      timer = setInterval(checkChild, 500);
-    });
+        timer = setInterval(checkChild, 500);
+      })
+      .catch(() => {
+        dispatch(clearGlobalAlert());
+      });
   };
-
-  if (isOAuthConnecting) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Loader />;
-      </div>
-    );
-  }
 
   return (
     <>
@@ -154,7 +106,7 @@ const OAuth = ({
               {features?.map((feature) => (
                 <li className="text-base-700 flex py-2.5 text-sm">
                   <CheckCircleIcon className="text-success-500 mr-2.5 w-6" />
-                  {feature}
+                  <p className="flex-1">{feature}</p>
                 </li>
               ))}
             </ul>
@@ -169,6 +121,8 @@ const OAuth = ({
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
           onClick={handleOAuthConnection}
+          loading={isOAuthConnecting || isSyncInProgress}
+          loadingText="Loading"
         >
           {`Connect to ${label}`}
         </Button>
@@ -192,15 +146,15 @@ OAuth.propTypes = {
   label: PropTypes.string.isRequired,
   oAuthMeta: PropTypes.shape(OAuthMetaType),
   hasOAuthFailed: PropTypes.bool,
-  shouldShowFailedAuthMessage: PropTypes.bool,
   showAPIToken: PropTypes.func.isRequired,
-  setHasOAuthFailed: PropTypes.func.isRequired
+  setHasOAuthFailed: PropTypes.func.isRequired,
+  syncPoller: PropTypes.func.isRequired,
+  isSyncInProgress: PropTypes.func.isRequired
 };
 
 OAuth.defaultProps = {
   oAuthMeta: {},
-  hasOAuthFailed: false,
-  shouldShowFailedAuthMessage: false
+  hasOAuthFailed: false
 };
 
 export default OAuth;

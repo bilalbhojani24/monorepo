@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alerts } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
 import {
   clearGlobalAlert,
@@ -8,28 +9,57 @@ import {
 } from '../../slices/globalAlertSlice';
 
 const GlobalAlert = ({ className }) => {
-  const { kind, title, message, linkText, linkUrl } = useSelector(
-    globalAlertStateSelector
-  );
+  const {
+    kind,
+    title,
+    linkUrl,
+    message,
+    linkText,
+    autoDismiss,
+    linkPosition,
+    hasMessageBody,
+    autoDismissDelay
+  } = useSelector(globalAlertStateSelector);
   const dispatch = useDispatch();
 
   const handleDismissButton = () => {
     dispatch(clearGlobalAlert());
   };
 
-  return message ? (
+  const handleLinkClick = (url) => {
+    window.open(url, '_blank').focus();
+  };
+
+  useEffect(() => {
+    if (message && autoDismiss && autoDismissDelay) {
+      setTimeout(() => {
+        dispatch(clearGlobalAlert());
+      }, autoDismissDelay * 1000);
+    }
+  }, [message, dispatch, autoDismiss, autoDismissDelay]);
+
+  return message || !hasMessageBody ? (
     <div className={className}>
       <Alerts
         title={title}
-        description={message}
+        dismissButton={!autoDismiss}
         modifier={kind}
-        linkText={linkText}
         linkUrl={linkUrl}
-        dismissButton
+        linkText={linkText}
+        description={message}
+        alertLinkPosition={linkPosition}
+        handleLinkClick={handleLinkClick}
         dismissButtonFn={handleDismissButton}
-        alertLinkPosition="inline"
       />
     </div>
   ) : null;
+};
+
+GlobalAlert.propTypes = {
+  className: PropTypes.string
+};
+
+GlobalAlert.defaultProps = {
+  className: ''
 };
 export default GlobalAlert;

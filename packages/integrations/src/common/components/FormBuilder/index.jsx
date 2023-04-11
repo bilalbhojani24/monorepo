@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, ChevronDownIcon, ChevronUpIcon } from '@browserstack/bifrost';
+
+import { setGlobalAlert } from '../../slices/globalAlertSlice';
 
 import FormFieldMap from './FormFieldMap';
 import { splitFields } from './helpers';
@@ -12,9 +15,12 @@ const FormBuilder = ({
   handleSubmit,
   setAttachments,
   descriptionMeta,
+  isWorkInProgress,
+  scrollWidgetToTop,
   setIsWorkInProgress,
   hideDescription = false
 }) => {
+  const dispatch = useDispatch();
   const [fieldsData, setFieldsData] = useState({});
   const [formFieldErrors, setFormFieldErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
@@ -79,9 +85,9 @@ const FormBuilder = ({
               schema={schema}
               options={options}
               required={required}
-              attachments={attachments}
               searchPath={searchPath}
               fieldsData={fieldsData}
+              attachments={attachments}
               optionsPath={optionsPath}
               placeholder={placeholder}
               validations={validations}
@@ -102,6 +108,7 @@ const FormBuilder = ({
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    if (!isWorkInProgress) return null;
     if (typeof handleSubmit === 'function') {
       const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];
@@ -110,15 +117,25 @@ const FormBuilder = ({
       });
       if (hasSomeEmptyRequiredFields) {
         setAreSomeRequiredFieldsEmpty(hasSomeEmptyRequiredFields);
+        dispatch(
+          setGlobalAlert({
+            kind: 'error',
+            message: `Please fill all mandatory fields to continue`,
+            autoDismiss: true
+          })
+        );
+        scrollWidgetToTop();
       } else {
         handleSubmit(fieldsData).then((response) => {
           if (response?.success) {
             resetFieldsData();
             setIsWorkInProgress(false);
+            setAreSomeRequiredFieldsEmpty(false);
           }
         });
       }
     }
+    return null;
   };
 
   return (
@@ -127,10 +144,9 @@ const FormBuilder = ({
       {renderFields(requiredFields)}
       {optionalFields && (
         <>
-          {shouldShowOptionalFields && renderFields(optionalFields)}
           <Button
             variant="minimal"
-            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm"
+            wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm focus:ring-offset-0 mb-2"
             icon={
               shouldShowOptionalFields ? <ChevronUpIcon /> : <ChevronDownIcon />
             }
@@ -139,6 +155,7 @@ const FormBuilder = ({
           >
             {showAllFieldsButtonText}
           </Button>
+          {shouldShowOptionalFields && renderFields(optionalFields)}
         </>
       )}
     </form>

@@ -9,30 +9,35 @@ import {
 } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
+import PropTypes from 'prop-types';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
 import { baseURLSelector } from '../../../common/slices/configSlice';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
+import { setActiveIntegration } from '../../slices/integrationsSlice';
 import {
   projectsErrorSelector,
   projectsLoadingSelector,
   projectsSelector
 } from '../../slices/projectsSlice';
+import { CreateIssueOptionsType } from '../types';
 
 import { FIELD_KEYS, ISSUE_MODES } from './constants';
 import DiscardIssue from './DiscardIssue';
 import renderChild from './renderChild';
 
 const IssueForm = ({
+  tab,
   mode,
   options,
   attachments,
-  changeModeTo,
+  changeTabTo,
   integrations,
   continueEditing,
   isWorkInProgress,
   isBeingDiscarded,
+  scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
   setIsFormBeingSubmitted
@@ -41,6 +46,8 @@ const IssueForm = ({
   const projects = useSelector(projectsSelector);
   const [createFields, setCreateFields] = useState([]);
   const [updateFields, setUpdateFields] = useState([]);
+  const [isCreateMetaLoading, setIsCreateMetaLoading] = useState(false);
+  const [isUpdateMetaLoading, setIsUpdateMetaLoading] = useState(false);
   const [files, setFiles] = useState(attachments);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
   const baseURL = useSelector(baseURLSelector);
@@ -73,11 +80,16 @@ const IssueForm = ({
   const projectFieldData = fieldsData[FIELD_KEYS.PROJECT];
   const previousProjectId = usePrevious(projectFieldData?.value ?? null);
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
+  const previousIssueType = usePrevious(issueTypeFieldData?.value ?? null);
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
-  const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
+  const previousIssueFieldData = usePrevious(issueFieldData?.value ?? null);
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
+  };
+
+  const deselectIssueType = () => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: null });
   };
 
   const cleanedIssueTypes = useMemo(
@@ -101,82 +113,95 @@ const IssueForm = ({
       if (mode === ISSUE_MODES.CREATION) resetCreateMeta();
       else resetUpdateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
   useEffect(() => {
+    dispatch(setActiveIntegration(integrationToolFieldData));
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const debouncedGetCreateMeta = makeDebounce(() => {
+    setIsCreateMetaLoading(true);
     getCreateMeta(
       integrationToolFieldData.value,
       projectFieldData.value,
       issueTypeFieldData.value
-    ).then(({ fields: responseFields }) => {
-      setCreateFields(responseFields);
-    });
+    )
+      .then(({ fields: responseFields }) => {
+        setCreateFields(responseFields);
+        setIsCreateMetaLoading(false);
+      })
+      .catch(() => {
+        setIsCreateMetaLoading(false);
+      });
   }, 300);
 
   const debouncedGetUpdateMeta = makeDebounce((issue) => {
-    getUpdateMeta(integrationToolFieldData.value, issue.value).then(
-      ({ fields: responseFields }) => {
+    setIsUpdateMetaLoading(true);
+    getUpdateMeta(integrationToolFieldData.value, issue.value)
+      .then(({ fields: responseFields }) => {
         setUpdateFields(responseFields);
-      }
-    );
+        setIsUpdateMetaLoading(false);
+      })
+      .catch(() => {
+        setIsUpdateMetaLoading(false);
+      });
   }, 300);
 
   useEffect(() => {
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
-      projectFieldData &&
-      issueTypeFieldData &&
+      projectFieldData?.value &&
+      issueTypeFieldData?.value &&
       mode === ISSUE_MODES.CREATION &&
-      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
+      (previousProjectId !== projectFieldData.value ||
+        previousIssueType !== issueTypeFieldData.value ||
+        !isWorkInProgress)
     ) {
       debouncedGetCreateMeta();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
     integrationToolFieldData,
     projectFieldData,
     issueTypeFieldData
-    // debouncedGetCreateMeta
   ]);
 
   useEffect(() => {
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
-      projectFieldData &&
-      issueSearchFieldData?.value &&
+      projectFieldData?.value &&
+      issueFieldData?.value &&
       mode === ISSUE_MODES.UPDATION &&
-      (previousProjectId !== projectFieldData.value || !isWorkInProgress)
+      (previousProjectId !== projectFieldData.value ||
+        previousIssueFieldData !== issueFieldData.value ||
+        !isWorkInProgress)
     ) {
-      debouncedGetUpdateMeta(issueSearchFieldData);
-      setFieldsData({
-        ...fieldsData,
-        [FIELD_KEYS.TICKET_ID]: issueSearchFieldData,
-        [FIELD_KEYS.TICKET_ID_SEARCH]: {}
-      });
+      debouncedGetUpdateMeta(issueFieldData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     mode,
     areProjectsLoaded,
     integrationToolFieldData,
     projectFieldData,
-    issueSearchFieldData
-    // debouncedGetUpdateMeta
+    issueFieldData
   ]);
 
   const handleIssueTabChange = useCallback(
     (tabSelected) => {
-      if (tabSelected.mode !== mode) {
-        changeModeTo(tabSelected.mode);
+      if (tabSelected.mode !== tab) {
+        changeTabTo(tabSelected.mode);
       }
     },
-    [mode, changeModeTo]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mode, changeTabTo]
   );
 
   const handleTryAgain = useCallback(() => {
@@ -188,11 +213,24 @@ const IssueForm = ({
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`
+          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`,
+          autoDismiss: true
         })
       );
     }
   }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
+
+  useEffect(() => {
+    setFieldsData({
+      ...fieldsData,
+      [FIELD_KEYS.ISSUE_TYPE]: {},
+      [FIELD_KEYS.TICKET_ID]: {}
+    });
+    if (mode === ISSUE_MODES.UPDATION) {
+      setUpdateFields([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectFieldData]);
 
   return (
     <>
@@ -203,7 +241,11 @@ const IssueForm = ({
           integrationName={integrationToolFieldData.title}
         />
       )}
-      <div className={''.concat(isBeingDiscarded ? 'invisible h-0' : '')}>
+      <div
+        className={'bg-white h-full '.concat(
+          isBeingDiscarded ? 'invisible h-0' : ''
+        )}
+      >
         <SelectMenu
           onChange={(val) => selectTool(val)}
           value={integrationToolFieldData}
@@ -224,11 +266,12 @@ const IssueForm = ({
         <div
           className={''.concat(
             areProjectsLoading || projectsHaveError
-              ? 'flex justify-center items-center h-full flex-1'
+              ? 'flex flex-col justify-center h-full'
               : ''
           )}
         >
           {renderChild({
+            tab,
             mode,
             options,
             projects,
@@ -241,14 +284,18 @@ const IssueForm = ({
             resetCreateMeta,
             resetUpdateMeta,
             projectFieldData,
+            isWorkInProgress,
+            deselectIssueType,
             projectsHaveError,
+            scrollWidgetToTop,
             cleanedIssueTypes,
             attachments: files,
             areProjectsLoading,
             issueTypeFieldData,
             setIsWorkInProgress,
+            isCreateMetaLoading,
+            isUpdateMetaLoading,
             handleIssueTabChange,
-            issueSearchFieldData,
             setAttachments: setFiles,
             integrationToolFieldData,
             setIsFormBeingSubmitted
@@ -257,6 +304,22 @@ const IssueForm = ({
       </div>
     </>
   );
+};
+
+IssueForm.propTypes = {
+  tab: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  changeTabTo: PropTypes.func.isRequired,
+  confirmIssueDiscard: PropTypes.isRequired,
+  options: CreateIssueOptionsType.isRequired,
+  continueEditing: PropTypes.func.isRequired,
+  isBeingDiscarded: PropTypes.bool.isRequired,
+  isWorkInProgress: PropTypes.bool.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  integrations: PropTypes.arrayOf({}).isRequired,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default IssueForm;
