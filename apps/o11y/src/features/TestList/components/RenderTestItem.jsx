@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
@@ -14,6 +14,7 @@ import {
   singleItemPropType,
   singleItemTestDetails
 } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
@@ -31,7 +32,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
-
+  const { o11yTestListingInteraction } = useContext(TestListContext);
   const addFilterOnClick = (filterCategory, filterValue) => {
     if (filterCategory === 'tags' && !tags.includes(filterValue)) {
       dispatch(
@@ -52,6 +53,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
         })
       );
     }
+    o11yTestListingInteraction('filter_applied');
   };
 
   return (
@@ -73,7 +75,6 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
                 {ReactHtmlParser(displayName, {
                   transform: transformUnsupportedTags
                 })}
-                {data?.details?.id}
               </p>
             </div>
             <div className="flex">
@@ -181,7 +182,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
             <TestListTimeline details={details} />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="group min-w-[100px]">
+          <div className="group min-h-[34px] min-w-[100px]">
             <div className="flex content-end items-center justify-end group-hover:hidden">
               <MdOutlineTimer className="text-base-500 block h-4 w-4" />
               <p className="text-base-500 ml-1 text-sm">

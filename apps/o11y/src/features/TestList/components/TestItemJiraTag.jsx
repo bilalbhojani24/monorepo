@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import JiraTag from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { singleItemTestDetails } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import PropTypes from 'prop-types';
 
 const generatedIssueName = (url) => url.split('/').pop();
@@ -9,6 +10,7 @@ const generatedIssueName = (url) => url.split('/').pop();
 export default function TestItemJiraTag({ details }) {
   const { id, jiraUrl } = details;
   const [createdJiraIssue, setCreatedJiraIssue] = useState({});
+  const { o11yTestListingInteraction } = useContext(TestListContext);
 
   useEffect(() => {
     window.pubSub.subscribe('onCreateJiraIssue', ({ testRunId, url }) => {
@@ -23,7 +25,10 @@ export default function TestItemJiraTag({ details }) {
 
   if (jiraUrl || createdJiraIssue?.url) {
     return (
-      <PropagationBlocker className="flex items-center">
+      <PropagationBlocker
+        className="flex items-center"
+        onClick={() => o11yTestListingInteraction('jira_link_clicked')}
+      >
         <JiraTag
           jiraUrl={jiraUrl || createdJiraIssue.url}
           wrapperClassName="tl-test__jira-tag"
