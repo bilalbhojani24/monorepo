@@ -13,14 +13,20 @@ export default function TestItemJiraTag({ details }) {
   const { o11yTestListingInteraction } = useContext(TestListContext);
 
   useEffect(() => {
-    window.pubSub.subscribe('onCreateJiraIssue', ({ testRunId, url }) => {
-      if (id === testRunId) {
-        setCreatedJiraIssue({
-          url,
-          label: generatedIssueName(url)
-        });
+    const unSubscribe = window.pubSub.subscribe(
+      'onCreateJiraIssue',
+      ({ testRunId, url }) => {
+        if (id === testRunId) {
+          setCreatedJiraIssue({
+            url,
+            label: generatedIssueName(url)
+          });
+        }
       }
-    });
+    );
+    return () => {
+      unSubscribe();
+    };
   }, [id]);
 
   if (jiraUrl || createdJiraIssue?.url) {

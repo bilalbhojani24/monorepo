@@ -95,7 +95,7 @@ function BuildDetails() {
   }, []);
 
   useEffect(() => {
-    const unsub = window.pubSub.subscribe(
+    const unSubscribe = window.pubSub.subscribe(
       PUSHER_EVENTS.ANALYZER_COMPLETED,
       (payload) => {
         if (payload?.data?.length && payload.buildId === buildUUID) {
@@ -104,18 +104,21 @@ function BuildDetails() {
       }
     );
     return () => {
-      unsub();
+      unSubscribe();
     };
   }, [buildUUID, updateTestDefectTypeMapping]);
 
   useEffect(() => {
-    const unsub = window.pubSub.subscribe(PUSHER_EVENTS.NEW_TESTS, (data) => {
-      if (buildUUID === data.buildId) {
-        setUpdateCount((prev) => prev + data?.updatesCount || 0);
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.NEW_TESTS,
+      (data) => {
+        if (buildUUID === data.buildId) {
+          setUpdateCount((prev) => prev + data?.updatesCount || 0);
+        }
       }
-    });
+    );
     return () => {
-      unsub();
+      unSubscribe();
     };
   }, [buildUUID]);
 

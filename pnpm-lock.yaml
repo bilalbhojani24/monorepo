@@ -593,6 +593,7 @@ importers:
       postcss: 8.4.21
       postcss-loader: 7.0.2
       postcss-preset-env: 7.8.3
+      tailwind-scrollbar-hide: 1.1.7
       tailwindcss: 3.1.4
     dependencies:
       '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.1.4
@@ -602,6 +603,7 @@ importers:
       postcss: 8.4.21
       postcss-loader: 7.0.2_6jdsrmfenkuhhw3gx4zvjlznce
       postcss-preset-env: 7.8.3_postcss@8.4.21
+      tailwind-scrollbar-hide: 1.1.7
       tailwindcss: 3.1.4_postcss@8.4.21
 
   packages/utils:
@@ -7348,7 +7350,7 @@ packages:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_xsftmjzvfioxqs4ify53ibh7ay
       '@storybook/node-logger': 6.5.16
       '@storybook/react': 6.5.16_cqxort74uqhfvfv5v6mgw3ncnq
-      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.630821.0_3fkjkrd3audxnith3e7fo4fnxi
+      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0_3fkjkrd3audxnith3e7fo4fnxi
       '@types/babel__core': 7.1.20
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0_typescript@4.9.4
@@ -7412,8 +7414,8 @@ packages:
       - supports-color
     dev: true
 
-  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.630821.0_3fkjkrd3audxnith3e7fo4fnxi:
-    resolution: {integrity: sha512-adrUdN/hb/bzRBmSJtHBEwoPpZzmMbr9WIEp83As69j0hkSa2Rp/Fvp+f97A2FyEx0+skiSX8ENLnwuup+5yuA==}
+  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.0c3f3b7.0_3fkjkrd3audxnith3e7fo4fnxi:
+    resolution: {integrity: sha512-KUqXC3oa9JuQ0kZJLBhVdS4lOneKTOopnNBK4tUAgoxWQ3u/IjzdueZjFr7gyBrXMoU6duutk3RQR9u8ZpYJ4Q==}
     peerDependencies:
       typescript: '>= 4.x'
       webpack: '>= 4'
@@ -23389,6 +23391,10 @@ packages:
 
   /tailwind-merge/1.8.1:
     resolution: {integrity: sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==}
+    dev: false
+
+  /tailwind-scrollbar-hide/1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
     dev: false
 
   /tailwindcss/3.1.4_postcss@8.4.20:

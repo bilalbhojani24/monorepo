@@ -15,7 +15,7 @@ const FilterBadge = ({ text, onClose }) => (
     modifier="base"
     text={text}
     onClose={onClose}
-    wrapperClassName="bg-base-50 text-base-900 font-bold bg-white ml-4 mb-1"
+    wrapperClassName="bg-white font-medium ml-4 mb-1"
   />
 );
 
