@@ -9,7 +9,14 @@ function twClassNames(...classes) {
 }
 
 const RadioSmallCards = (props) => {
-  const { heading, label, options, onChange } = props;
+  const {
+    heading,
+    label,
+    options,
+    onChange,
+    wrapperClassName,
+    cardWrapperClassName
+  } = props;
   const [mem, setMem] = useState(options[2]);
 
   const handleChange = (e) => {
@@ -17,14 +24,11 @@ const RadioSmallCards = (props) => {
     onChange(e);
   };
   return (
-    <div>
+    <div className={wrapperClassName}>
       <div className="flex items-center justify-between">
         {heading && (
           <h2 className="text-base-900 text-sm font-medium">{heading}</h2>
         )}
-        {/* <a href="#" className="text-sm font-medium text-brand-600 hover:text-brand-500">
-          See performance specs
-        </a> */}
       </div>
 
       <RadioGroup value={mem} onChange={handleChange} className="mt-2">
@@ -45,7 +49,8 @@ const RadioSmallCards = (props) => {
                   checked
                     ? 'bg-brand-600 border-transparent text-white hover:bg-brand-700'
                     : 'bg-white border-base-200 text-base-900 hover:bg-base-50',
-                  'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1'
+                  'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1',
+                  cardWrapperClassName
                 )
               }
               disabled={option.disabled}
@@ -68,20 +73,16 @@ RadioSmallCards.propTypes = {
       disabled: PropTypes.bool
     })
   ).isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  wrapperClassName: PropTypes.string,
+  cardWrapperClassName: PropTypes.string
 };
 RadioSmallCards.defaultProps = {
-  heading: 'RAM',
-  label: 'Choose a memory option',
-  options: [
-    { name: '4 GB', disabled: false },
-    { name: '8 GB', disabled: false },
-    { name: '16 GB', disabled: false },
-    { name: '32 GB', disabled: false },
-    { name: '64 GB', disabled: false },
-    { name: '128 GB', disabled: true }
-  ],
-  onChange: () => {}
+  heading: '',
+  label: '',
+  onChange: () => {},
+  wrapperClassName: '',
+  cardWrapperClassName: ''
 };
 
 export default RadioSmallCards;
