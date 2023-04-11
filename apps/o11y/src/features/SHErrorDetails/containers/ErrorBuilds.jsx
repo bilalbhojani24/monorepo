@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
-import {
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -39,7 +35,6 @@ export default function ErrorBuilds() {
     builds: []
   });
   const mounted = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     mounted.current = true;
@@ -120,11 +115,7 @@ export default function ErrorBuilds() {
   const handleRowClick = (rest) => {
     const activeData = buildsData?.builds[rest];
     if (activeData) {
-      dispatch(setIsTestDetailsVisible(true));
-      dispatch(setShowTestDetailsFor(activeData?.id));
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.set('details', activeData.id);
-      navigate({ search: searchParams.toString() });
+      dispatch(showTestDetailsDrawer(activeData.id));
 
       logOllyEvent({
         event: 'O11ySuiteHealthErrorsTimelineInteracted',

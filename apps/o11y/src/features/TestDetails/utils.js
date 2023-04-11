@@ -1,5 +1,9 @@
-import { TEST_STATUS } from 'constants/common';
+import { o11yHistory, TEST_STATUS } from 'constants/common';
 
+import {
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
+} from './slices/uiSlice';
 import { LOG_LEVELS, TEXT_LOG_HUMANIZE } from './constants';
 
 const FORMAT_KEYWORDS_MAP = {
@@ -170,4 +174,20 @@ export const getStatusColors = (status) => {
     default:
       return 'bg-base-400';
   }
+};
+
+export const showTestDetailsDrawer = (testId) => (dispatch) => {
+  dispatch(setIsTestDetailsVisible(true));
+  dispatch(setShowTestDetailsFor(testId));
+  const searchParams = new URLSearchParams(window?.location?.search);
+  searchParams.set('details', testId);
+  o11yHistory.navigate({ search: searchParams.toString() });
+};
+
+export const hideTestDetailsDrawer = () => (dispatch) => {
+  dispatch(setIsTestDetailsVisible(false));
+  dispatch(setShowTestDetailsFor(''));
+  const searchParams = new URLSearchParams(window?.location?.search);
+  searchParams.delete('details');
+  o11yHistory.navigate({ search: searchParams.toString() });
 };

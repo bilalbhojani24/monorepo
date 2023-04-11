@@ -190,3 +190,9 @@ export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'
 };
+
+// custom history object to allow navigation outside react components
+export const o11yHistory = {
+  navigate: null,
+  location: null
+};
