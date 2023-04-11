@@ -41,7 +41,6 @@ const TestCaseMutliData = ({
     });
   } else testCaseIssues = testResultsArray;
 
-  console.log('fbnkndskf', testCaseIssues, testResultsArray);
   const trTcIssuesTableColumn = [
     {
       name: 'Issue',
@@ -72,16 +71,6 @@ const TestCaseMutliData = ({
           {testRunName}
         </Link>
       )
-      // isFromTestRun ? (
-      //   <div className="text-base-900">{rowData?.test_run_name}</div>
-      // ) : (
-      //   <div className="flex flex-col">
-      //     <div className="text-base-900 font-medium">{`${
-      //       rowData?.jira_id || ''
-      //     }`}</div>
-      //     <div className="text-base-500">{rowData?.test_run_name}</div>
-      //   </div>
-      // )
     },
     {
       name: 'Linked On',
@@ -93,43 +82,33 @@ const TestCaseMutliData = ({
   const tcIssuesTableColumn = [
     {
       name: 'Issue',
-      key: 'jira_id',
+      key: 'test_run_identifier',
       cell: (rowData) => (
         <div
           className="text-base-900 cursor-pointer font-medium"
           role="button"
           tabIndex={0}
-          onClick={() => onJiraButtonClick(rowData.jira_id)}
+          onClick={() => onJiraButtonClick(rowData.test_run_id)}
           onKeyDown={(e) =>
-            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.jira_id))
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.test_run_id))
           }
-        >{`${rowData.jira_id}`}</div>
+        >{`${rowData.test_run_identifier}`}</div>
       )
     },
     {
       name: 'Test Run',
-      // key: 'test_run_id',
-      cell: () => (
+      key: 'test_run_name',
+      cell: (rowData) => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
-            testRunId
+            testRunId: rowData?.test_run_id
           })}
           className="text-base-900"
         >
-          {testRunName}
+          {rowData?.test_run_name}
         </Link>
       )
-      // isFromTestRun ? (
-      //   <div className="text-base-900">{rowData?.test_run_name}</div>
-      // ) : (
-      //   <div className="flex flex-col">
-      //     <div className="text-base-900 font-medium">{`${
-      //       rowData?.jira_id || ''
-      //     }`}</div>
-      //     <div className="text-base-500">{rowData?.test_run_name}</div>
-      //   </div>
-      // )
     },
     {
       name: 'Linked On',
