@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
 import RadioSmallCards from './index';
 
+const options = [
+  { name: '4 gb', disabled: false },
+  { name: '8 gb', disabled: false },
+  { name: '16 gb', disabled: false },
+  { name: '32 gb', disabled: false },
+  { name: '64 gb', disabled: false },
+  { name: '128 gb', disabled: true }
+];
 const defaultConfig = {
   title: 'Application/Components/RadioSmallCards',
   component: RadioSmallCards,
@@ -20,14 +28,7 @@ const defaultConfig = {
   },
   argTypes: {
     options: {
-      defaultValue: [
-        { name: '4 gb', disabled: false },
-        { name: '8 gb', disabled: false },
-        { name: '16 gb', disabled: false },
-        { name: '32 gb', disabled: false },
-        { name: '64 gb', disabled: false },
-        { name: '128 gb', disabled: true }
-      ]
+      defaultValue: options
     },
     heading: {
       type: { summary: 'STRING', required: false },
@@ -53,6 +54,9 @@ const defaultConfig = {
         'Provide additional styles to inner card section of the component',
       control: { type: 'text' },
       defaultValue: ''
+    },
+    value: {
+      defaultValue: options[2]
     }
   },
   controls: {}
@@ -61,6 +65,24 @@ const Template = (args) => <RadioSmallCards {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}
+};
+
+export const ControlledExample = () => {
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  return (
+    <RadioSmallCards
+      value={selectedValue}
+      onChange={(e) => setSelectedValue(e)}
+      options={[
+        { name: '4 gb', disabled: false },
+        { name: '8 gb', disabled: false },
+        { name: '16 gb', disabled: false },
+        { name: '32 gb', disabled: false },
+        { name: '64 gb', disabled: false }
+      ]}
+    />
+  );
 };
 
 export default defaultConfig;

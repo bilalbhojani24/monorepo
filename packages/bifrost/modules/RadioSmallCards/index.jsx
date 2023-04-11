@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
@@ -15,12 +15,12 @@ const RadioSmallCards = (props) => {
     options,
     onChange,
     wrapperClassName,
-    cardWrapperClassName
+    cardWrapperClassName,
+    value,
+    columnWrapperClassName
   } = props;
-  const [mem, setMem] = useState(options[2]);
 
   const handleChange = (e) => {
-    setMem(e);
     onChange(e);
   };
   return (
@@ -31,11 +31,16 @@ const RadioSmallCards = (props) => {
         )}
       </div>
 
-      <RadioGroup value={mem} onChange={handleChange} className="mt-2">
+      <RadioGroup onChange={handleChange} className="mt-2" value={value}>
         {label && (
           <RadioGroup.Label className="sr-only"> {label} </RadioGroup.Label>
         )}
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+        <div
+          className={twClassNames(
+            'grid grid-cols-3 gap-3 sm:grid-cols-6',
+            columnWrapperClassName
+          )}
+        >
           {options.map((option) => (
             <RadioGroup.Option
               key={option.name}
@@ -75,14 +80,21 @@ RadioSmallCards.propTypes = {
   ).isRequired,
   onChange: PropTypes.func,
   wrapperClassName: PropTypes.string,
-  cardWrapperClassName: PropTypes.string
+  cardWrapperClassName: PropTypes.string,
+  value: PropTypes.shape({
+    name: PropTypes.string,
+    disabled: PropTypes.bool
+  }),
+  columnWrapperClassName: PropTypes.string
 };
 RadioSmallCards.defaultProps = {
   heading: '',
   label: '',
   onChange: () => {},
   wrapperClassName: '',
-  cardWrapperClassName: ''
+  cardWrapperClassName: '',
+  value: null,
+  columnWrapperClassName: ''
 };
 
 export default RadioSmallCards;
