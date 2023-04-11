@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
-import {
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -25,7 +21,6 @@ import {
 
 export default function TestBuilds() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
@@ -105,12 +100,7 @@ export default function TestBuilds() {
   const handleRowClick = (currentIndex) => {
     const activeData = buildsData.builds?.[currentIndex];
     if (activeData) {
-      dispatch(setIsTestDetailsVisible(true));
-      dispatch(setShowTestDetailsFor(activeData?.id));
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.set('details', activeData.id);
-      navigate({ search: searchParams.toString() });
-
+      dispatch(showTestDetailsDrawer(activeData.id));
       logOllyEvent({
         event: 'O11ySuiteHealthTestsTimelineInteracted',
         data: {

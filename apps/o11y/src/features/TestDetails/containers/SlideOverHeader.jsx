@@ -8,11 +8,8 @@ import PropTypes from 'prop-types';
 
 import { clearTestMeta, getTestMetaData } from '../slices/dataSlice';
 import { getShowTestDetailsFor, getTestMeta } from '../slices/selectors';
-import {
-  setCurrentTestRunId,
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from '../slices/uiSlice';
+import { setCurrentTestRunId } from '../slices/uiSlice';
+import { hideTestDetailsDrawer } from '../utils';
 
 const TestDetailsHeading = ({ testMeta }) => (
   <div className="flex flex-wrap items-center gap-1">
@@ -54,8 +51,7 @@ const TestDetailsHeader = () => {
   }, [dispatch, testRunId, activeProject?.normalisedName]);
 
   const handleCloseDetails = () => {
-    dispatch(setIsTestDetailsVisible(false));
-    dispatch(setShowTestDetailsFor(''));
+    dispatch(hideTestDetailsDrawer());
 
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete('details');
