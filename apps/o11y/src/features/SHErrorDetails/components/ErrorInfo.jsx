@@ -55,7 +55,7 @@ const ErrorInfo = () => {
     return null;
   }
   return (
-    <div className="mb-6 flex items-center gap-6">
+    <div className="mb-5 flex items-center gap-6">
       <div className="bg-danger-50 flex-1 rounded-md p-4 pb-6">
         <div className="flex items-center gap-3">
           <MdCancel className="text-danger-400 h-4 w-4" />

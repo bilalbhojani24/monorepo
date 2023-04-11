@@ -304,8 +304,8 @@ export default function ErrorTrend() {
   }
 
   return (
-    <div className="mb-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mb-2">
+      <div className="mb-5 flex items-center justify-between">
         <p className="text-base-900 text-lg font-medium leading-6">
           Test duration across builds
         </p>
