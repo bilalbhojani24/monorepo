@@ -75,7 +75,6 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
                 {ReactHtmlParser(displayName, {
                   transform: transformUnsupportedTags
                 })}
-                {data?.details?.id}
               </p>
             </div>
             <div className="flex">

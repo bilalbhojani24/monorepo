@@ -9,12 +9,12 @@ import {
   O11yModal,
   O11yModalBody,
   O11yModalFooter,
-  O11yModalHeader,
-  O11yRadioSmallCards
+  O11yModalHeader
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import O11yLoader from 'common/O11yLoader';
+import RadioSmallCards from 'common/RadioSmallCards';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   getAnalyzerSimilarTests,
@@ -157,6 +157,10 @@ function BulkTaggingModal() {
           id: parseInt(el, 10),
           issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
         }));
+        updateTestDefectTypeMappingPayload.push({
+          id: testRunId,
+          issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
+        });
         onSuccess?.(updateTestDefectTypeMappingPayload);
         handleCloseModal();
       })
@@ -209,12 +213,12 @@ function BulkTaggingModal() {
         handleDismissClick={handleCloseModal}
       />
       <O11yModalBody wrapperClassName="px-2">
-        <p className="text-base-900 text-sm">Failure category options</p>
-        <div className="mb-8">
-          <O11yRadioSmallCards
-            heading=""
-            options={availableIssueTypes.map((el) => ({ name: el.name }))}
+        <p className="text-base-900 mt-4 text-sm">Failure category options</p>
+        <div className="mb-8 mt-4">
+          <RadioSmallCards
+            options={availableIssueTypes}
             onChange={handleRadioChange}
+            selectedItem={selectedStatus}
           />
         </div>
         <div className="flex items-center justify-between">
