@@ -332,7 +332,7 @@ const LogsTab = () => {
                   >
                     <div className="flex gap-1">
                       <span className="text-base-700 text-xs font-medium leading-4">
-                        Automate session
+                        BrowserStack session
                       </span>
                       <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
                     </div>
