@@ -5,13 +5,16 @@ const {
   deepLinkingSetup,
   initializeRemoteHandlers,
   backendServerOps,
-  autoUpdateOps
+  autoUpdateOps,
+  serverAnalyticsOps
 } = require('./mainThreadFunctions');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+serverAnalyticsOps.saveInitializationTimestamp();
 
 const mainThreadGlobals = {
   /**
@@ -28,9 +31,11 @@ const closeSplashAndLoadMainWindow = () => {
   mainThreadGlobals.mainWindow.once('ready-to-show', () => {
     mainThreadGlobals.splashScreen.destroy();
     mainThreadGlobals.mainWindow.show();
-  });
 
-  autoUpdateOps.initializeAutoUpdate();
+    serverAnalyticsOps.sendAppStartAnalyticsEvent(true);
+
+    autoUpdateOps.initializeAutoUpdate();
+  });
 };
 
 const createWindow = async () => {

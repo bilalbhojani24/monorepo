@@ -1,4 +1,11 @@
 /* eslint-disable no-param-reassign */
+
+import {
+  getServerLaunchAnalyticsEntities,
+  sendAppStartAnalyticsEvent,
+  sendBackendAnalyticsEvent
+} from './serverAnalyticsOps';
+
 const { default: getPort } = require('get-port');
 const axios = require('axios');
 
@@ -16,6 +23,8 @@ const processPaths = IS_DEV
       pyIos: `${binPath}/../Resources/nodeBE/py-ios/server`,
       bsPerf: `${binPath}/../Resources/nodeBE/mobile-performance/bs-perf-tool`
     };
+
+const analyticsEntities = getServerLaunchAnalyticsEntities();
 
 const findProcessIdFromRecord = (inputProcess) =>
   inputProcess?.split?.(' ').filter?.((fragment) => fragment !== '')?.[1];
@@ -53,6 +62,8 @@ export const initializeBackendServerForMac = async (
   mainThreadGlobals
 ) => {
   try {
+    analyticsEntities.pyInitTS = new Date();
+
     killPreExistingServersForMac();
 
     serverEntities.pyServerPort = await getPort({ port: 8000 });
@@ -60,6 +71,8 @@ export const initializeBackendServerForMac = async (
     serverEntities.pyServerInstance = await exec(
       `${processPaths.pyIos} ${serverEntities.pyServerPort}`
     );
+
+    analyticsEntities.nodeInitTS = new Date();
 
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
@@ -88,17 +101,49 @@ export const waitForSuccessfulServerReplyForMac = async (
   intervalDuration
 ) => {
   try {
-    const pyServerResponse = await axios.get(
-      `http://localhost:${serverEntities.pyServerPort}/`
-    );
+    const pyServerResponse = await axios
+      .get(`http://localhost:${serverEntities.pyServerPort}/`)
+      .then((e) => e);
 
-    const nodeServerResponse = await axios.get(
-      `http://localhost:${serverEntities.nodeServerPort}/`
-    );
+    const nodeServerResponse = await axios
+      .get(`http://localhost:${serverEntities.nodeServerPort}/`)
+      .then((e) => e);
+
+    if (nodeServerResponse.status === 200 && !analyticsEntities.nodeReadyTS) {
+      /**
+       * we do this one-line here because until this point node server will not be able
+       * to record analytics because it's not started, and if node server fails,
+       * we send analytics to the failure endpoint instead of pager,
+       * and that is decided based on availability of server port in analytics logic */
+      analyticsEntities.bsPerfPort = serverEntities.nodeServerPort;
+
+      analyticsEntities.nodeReadyTS = new Date() - analyticsEntities.nodeInitTS;
+
+      sendBackendAnalyticsEvent('node-start-time', {
+        time: analyticsEntities.nodeReadyTS,
+        type: 'Time'
+      });
+    }
+
+    if (pyServerResponse.status === 200 && !analyticsEntities.pyReadyTS) {
+      analyticsEntities.pyReadyTS = new Date() - analyticsEntities.pyInitTS;
+    }
 
     if (nodeServerResponse.status !== 200 || pyServerResponse.status !== 200) {
-      throw nodeServerResponse;
+      // we need these two values in the catch block
+      // eslint-disable-next-line no-throw-literal
+      throw { pyServerResponse, nodeServerResponse };
     }
+
+    /**
+     * we send py server analytics event after node's event because
+     * without node server, analytics cant be logged, hence,
+     * we cache the time taken by py server, but send event only when,
+     * both servers are ready, since in mac, node server requires py server */
+    sendBackendAnalyticsEvent('py-start-time', {
+      time: analyticsEntities.pyReadyTS,
+      type: 'Time'
+    });
 
     return [pyServerResponse, nodeServerResponse];
   } catch (error) {
@@ -116,6 +161,16 @@ export const waitForSuccessfulServerReplyForMac = async (
         }, intervalDuration);
       });
     }
+
+    if (error?.pyServerResponse?.status !== 200) {
+      sendBackendAnalyticsEvent('py-failed-start', { type: 'Failure' });
+    }
+
+    if (error?.nodeServerResponse?.status !== 200) {
+      sendBackendAnalyticsEvent('node-failed-start', { type: 'Failure' });
+    }
+
+    sendAppStartAnalyticsEvent(false);
 
     throw new Error('Too Many Retries');
   }

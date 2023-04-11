@@ -1,5 +1,11 @@
 /* eslint-disable no-param-reassign */
 
+import {
+  getServerLaunchAnalyticsEntities,
+  sendAppStartAnalyticsEvent,
+  sendBackendAnalyticsEvent
+} from './serverAnalyticsOps';
+
 const { default: getPort } = require('get-port');
 const axios = require('axios');
 
@@ -16,6 +22,8 @@ const processPaths = IS_DEV
       bsPerf: `${binPath}/resources/nodeBE/mobile-performance/bs-perf-tool`
     };
 
+const analyticsEntities = getServerLaunchAnalyticsEntities();
+
 export const killServersForWindows = () => {
   try {
     execSync('taskkill /IM bs-perf-tool.exe /F');
@@ -29,6 +37,8 @@ export const initializeBackendServerForWindows = async (
   mainThreadGlobals
 ) => {
   try {
+    analyticsEntities.nodeInitTS = new Date();
+
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
     serverEntities.nodeServerInstance = await exec(
@@ -54,12 +64,27 @@ export const waitForSuccessfulServerReplyForWindows = async (
   intervalDuration
 ) => {
   try {
-    const nodeServerResponse = await axios.get(
-      `http://localhost:${serverEntities.nodeServerPort}/`
-    );
+    const nodeServerResponse = await axios
+      .get(`http://localhost:${serverEntities.nodeServerPort}/`)
+      .then((e) => e);
 
     if (nodeServerResponse.status !== 200) {
       throw nodeServerResponse;
+    } else {
+      /**
+       * we do this one-line here because until this point node server will not be able
+       * to record analytics because it's not started, and if node server fails,
+       * we send analytics to the failure endpoint instead of pager,
+       * and that is decided based on availability of server port in analytics logic
+       * */
+      analyticsEntities.bsPerfPort = serverEntities.nodeServerPort;
+
+      analyticsEntities.nodeReadyTS = new Date() - analyticsEntities.nodeInitTS;
+
+      sendBackendAnalyticsEvent('node-start-time', {
+        time: analyticsEntities.nodeReadyTS,
+        type: 'Time'
+      });
     }
 
     return [nodeServerResponse];
@@ -78,6 +103,9 @@ export const waitForSuccessfulServerReplyForWindows = async (
         }, intervalDuration);
       });
     }
+
+    sendBackendAnalyticsEvent('node-failed-start', { type: 'Failure' });
+    sendAppStartAnalyticsEvent(false);
 
     throw new Error('Too Many Retries');
   }
