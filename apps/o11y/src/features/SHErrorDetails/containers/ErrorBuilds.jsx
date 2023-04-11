@@ -139,8 +139,10 @@ export default function ErrorBuilds() {
             <O11yTableCell
               key={key}
               wrapperClassName={twClassNames(
-                BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
+                BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass,
+                'bg-white -top-6'
               )}
+              isSticky
             >
               <div className="text-xs font-medium uppercase leading-4">
                 {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
@@ -152,8 +154,8 @@ export default function ErrorBuilds() {
       itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
       showFixedFooter={isLoadingMore}
       handleRowClick={handleRowClick}
-      tableContainerWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none border-b"
-      tableHeaderWrapperClassName="bg-white"
+      tableContainerWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none overflow-visible overflow-x-visible"
+      tableWrapperClassName="border-separate border-spacing-0 divide-y-0"
     />
   );
 }
