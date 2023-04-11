@@ -96,7 +96,7 @@ export default function NetworkLogItem({ data, searchText }) {
           <div className="flex items-center gap-2">
             <span className="inline-flex max-w-xs items-center gap-1">
               <span>
-                <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
+                <DefaultBrowserIcon className="fill-base-500 h-4 w-4" />
               </span>
               <O11yHyperlink
                 href={logData?.request?.url}
