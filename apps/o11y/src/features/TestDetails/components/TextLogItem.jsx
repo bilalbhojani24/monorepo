@@ -251,7 +251,7 @@ export default function TextLogItem({ data, searchText }) {
   return (
     <div
       className={twClassNames(
-        'border-base-200 flex px-2 flex-col break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 flex-col break-words border-b py-3 text-left',
         {
           'bg-danger-50':
             LOG_LEVELS.ERROR === data?.logLevel ||
