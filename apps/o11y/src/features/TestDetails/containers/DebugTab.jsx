@@ -280,7 +280,6 @@ const DebugTab = () => {
                     )
                   }
                   onClick={handleClickScrollButton}
-                  disabled={activeStep === totalSteps}
                   colors="brand"
                   iconPlacement="end"
                 >
