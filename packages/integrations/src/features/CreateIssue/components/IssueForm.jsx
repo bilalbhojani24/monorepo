@@ -15,6 +15,7 @@ import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
 import { baseURLSelector } from '../../../common/slices/configSlice';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
+import { setActiveIntegration } from '../../slices/integrationsSlice';
 import {
   projectsErrorSelector,
   projectsLoadingSelector,
@@ -81,10 +82,7 @@ const IssueForm = ({
   const issueTypeFieldData = fieldsData[FIELD_KEYS.ISSUE_TYPE];
   const previousIssueType = usePrevious(issueTypeFieldData?.value ?? null);
   const issueFieldData = fieldsData[FIELD_KEYS.TICKET_ID];
-  const issueSearchFieldData = fieldsData[FIELD_KEYS.TICKET_ID_SEARCH];
-  const previousIssueSearchFieldData = usePrevious(
-    issueSearchFieldData?.value ?? null
-  );
+  const previousIssueFieldData = usePrevious(issueFieldData?.value ?? null);
 
   const selectTool = (item) => {
     setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
@@ -119,6 +117,7 @@ const IssueForm = ({
   }, [mode]);
 
   useEffect(() => {
+    dispatch(setActiveIntegration(integrationToolFieldData));
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -171,7 +170,6 @@ const IssueForm = ({
     integrationToolFieldData,
     projectFieldData,
     issueTypeFieldData
-    // debouncedGetCreateMeta
   ]);
 
   useEffect(() => {
@@ -179,18 +177,13 @@ const IssueForm = ({
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData?.value &&
-      issueSearchFieldData?.value &&
+      issueFieldData?.value &&
       mode === ISSUE_MODES.UPDATION &&
       (previousProjectId !== projectFieldData.value ||
-        previousIssueSearchFieldData !== issueSearchFieldData.value ||
+        previousIssueFieldData !== issueFieldData.value ||
         !isWorkInProgress)
     ) {
-      debouncedGetUpdateMeta(issueSearchFieldData);
-      setFieldsData({
-        ...fieldsData,
-        [FIELD_KEYS.TICKET_ID]: issueSearchFieldData,
-        [FIELD_KEYS.TICKET_ID_SEARCH]: {}
-      });
+      debouncedGetUpdateMeta(issueFieldData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -198,8 +191,7 @@ const IssueForm = ({
     areProjectsLoaded,
     integrationToolFieldData,
     projectFieldData,
-    issueSearchFieldData
-    // debouncedGetUpdateMeta
+    issueFieldData
   ]);
 
   const handleIssueTabChange = useCallback(
@@ -229,7 +221,11 @@ const IssueForm = ({
   }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
 
   useEffect(() => {
-    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: {} });
+    setFieldsData({
+      ...fieldsData,
+      [FIELD_KEYS.ISSUE_TYPE]: {},
+      [FIELD_KEYS.TICKET_ID]: {}
+    });
     if (mode === ISSUE_MODES.UPDATION) {
       setUpdateFields([]);
     }
@@ -300,7 +296,6 @@ const IssueForm = ({
             isCreateMetaLoading,
             isUpdateMetaLoading,
             handleIssueTabChange,
-            issueSearchFieldData,
             setAttachments: setFiles,
             integrationToolFieldData,
             setIsFormBeingSubmitted

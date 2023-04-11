@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { fetchTokenThunk, getIntegrationsThunk } from '../../api/index';
@@ -111,6 +112,7 @@ const WidgetPortal = ({
   componentKey
 }) => {
   const hasToken = useSelector(hasTokenSelector);
+  const prevAuth = usePrevious(auth);
   const userAuthLoadingStatus = useSelector(userAuthLoadingSelector);
   const integrationsLoadingStatus = useSelector(integrationsLoadingSelector);
   const integrationsHasError = Boolean(useSelector(integrationsErrorSelector));
@@ -126,20 +128,18 @@ const WidgetPortal = ({
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setUATConfig(auth));
-    dispatch(fetchTokenThunk()).then(() => {
-      if (hasToken) {
+    if (auth?.url !== prevAuth?.url) {
+      dispatch(setUATConfig(auth));
+      dispatch(fetchTokenThunk()).then(() => {
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
-      }
-    });
-  }, [auth, componentKey, dispatch, hasToken, projectId]);
+      });
+    }
+  }, [auth, componentKey, dispatch, hasToken, prevAuth, projectId]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
       dispatch(fetchTokenThunk()).then(() => {
-        if (hasToken) {
-          dispatch(getIntegrationsThunk({ projectId, componentKey }));
-        }
+        dispatch(getIntegrationsThunk({ projectId, componentKey }));
       });
     } else {
       dispatch(getIntegrationsThunk({ projectId, componentKey }));

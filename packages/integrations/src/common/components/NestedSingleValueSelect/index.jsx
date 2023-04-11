@@ -60,6 +60,7 @@ const NestedSingleValueSelect = ({
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(true);
+  const initialOptions = useRef(null);
 
   const getOptions = makeDebounce(() => {
     setAreOptionsLoading(true);
@@ -68,6 +69,9 @@ const NestedSingleValueSelect = ({
         const cleanedOptions = cleanOptions(optionsData);
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
+        if (shouldFetchIntialOptions.current) {
+          initialOptions.current = cleanedOptions;
+        }
         setAreOptionsLoading(false);
         shouldFetchIntialOptions.current = false;
       })
@@ -112,7 +116,7 @@ const NestedSingleValueSelect = ({
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, options]);
 
   useEffect(() => {
-    setOptionsToRender(cleanOptions(options));
+    initialOptions.current = cleanOptions(options);
   }, [options]);
 
   const handleChange = (val) => {
@@ -144,9 +148,11 @@ const NestedSingleValueSelect = ({
         path: searchPath + query,
         isDefaultOptions: false
       }).then(({ payload: optionsData = [] }) => {
-        const cleanedOptions = cleanOptions(optionsData);
-        setOptionsToRender(cleanedOptions);
-        setDynamicOptions(cleanedOptions);
+        if (Array.isArray(options) && optionsData.length) {
+          const cleanedOptions = cleanOptions(optionsData);
+          setOptionsToRender(cleanedOptions);
+          setDynamicOptions(cleanedOptions);
+        }
       });
     }
   };
@@ -159,15 +165,15 @@ const NestedSingleValueSelect = ({
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
-      if (filtered.length) {
-        setOptionsToRender(filtered);
-      }
+      setOptionsToRender(filtered);
     },
     [optionsPath, dynamicOptions, options]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
+  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 500), [
+    searchPath
+  ]);
 
   const handleInputChange = (e) => {
     const query = e.target.value?.trim();
@@ -177,7 +183,7 @@ const NestedSingleValueSelect = ({
     if (query) {
       searchInOptions(query);
     } else {
-      setOptionsToRender(optionsPath ? dynamicOptions : cleanOptions(options));
+      setOptionsToRender(initialOptions.current);
     }
   };
 

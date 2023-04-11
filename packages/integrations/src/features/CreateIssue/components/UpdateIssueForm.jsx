@@ -8,7 +8,6 @@ import { getTickets, updateIssue } from '../../../api';
 import { addAttachment } from '../../../api/addAttachment';
 import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
-import TextField from '../../../common/components/TextInput';
 import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
@@ -214,20 +213,24 @@ const UpdateIssueForm = ({
     ]
   );
 
+  const searchPath = projectFieldData?.value
+    ? `/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`
+    : null;
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
           required
-          label="Search Issue to update"
+          label="Issue"
           fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.TICKET_ID_SEARCH}
-          setFieldsData={setFieldsData}
-          placeholder="Select Issue Number, Title or Description"
           options={issuesOptions}
-          searchPath={`/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`}
+          searchPath={searchPath}
+          setFieldsData={setFieldsData}
+          fieldKey={FIELD_KEYS.TICKET_ID}
           disabled={!projectFieldData?.value}
           areOptionsLoading={areIssueOptionsLoading}
+          placeholder="Select Issue Number or Description"
         />
       </div>
       {!fields?.length && (
@@ -236,9 +239,6 @@ const UpdateIssueForm = ({
           attachments={attachments}
           setAttachments={setAttachments}
         />
-      )}
-      {Boolean(fields?.length) && issueFieldData && !isUpdateMetaLoading && (
-        <TextField disabled label="Issue" value={issueFieldData.label} />
       )}
       {isUpdateMetaLoading && (
         <div className="flex flex-col items-center py-6">
