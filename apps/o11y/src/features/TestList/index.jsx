@@ -5,8 +5,9 @@ import { Virtuoso } from 'react-virtuoso';
 import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { API_STATUSES } from 'constants/common';
+import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import TestDetails from 'features/TestDetails';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
@@ -289,6 +290,7 @@ const TestList = ({
             </div>
           )}
       </div>
+      <TestDetails source={TEST_DETAILS_SOURCE.TESTS_LISTING} />
     </>
   );
 };
