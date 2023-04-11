@@ -149,7 +149,10 @@ export default function useAddEditTestCase(prop) {
     if (checkRTE) {
       // check html parse value only
       if (Array.isArray(value)) {
-        if (templateOptions[0].value === testCaseFormData.template) {
+        if (
+          templateOptions[0].value === testCaseFormData.template ||
+          testCaseFormData.template === 'bdd'
+        ) {
           return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
         }
         // if array of values

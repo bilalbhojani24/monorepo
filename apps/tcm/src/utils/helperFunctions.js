@@ -67,6 +67,8 @@ export const capitalizeString = (phrase) =>
     .join(' ');
 
 export const getMappedValue = (mapArray, value) => {
+  if (value === 'bdd') return 'Text';
+
   const match = mapArray.find((item) => item.value === value);
   return match?.label ? match.label : '--';
 };

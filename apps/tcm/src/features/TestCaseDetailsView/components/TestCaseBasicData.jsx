@@ -48,7 +48,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
         />
         <div className="flex flex-col">
           {testCaseDetails.template === templateOptions?.[0].value ||
-          testCaseDetails.template === templateOptions?.[2].value ? (
+          testCaseDetails.template === 'bdd' ? (
             <>
               <DetailsSnippet
                 title="Steps"
