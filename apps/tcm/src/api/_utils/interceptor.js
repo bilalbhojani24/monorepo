@@ -11,6 +11,11 @@ const setupInterceptors = (navigateTo, dispatch) => {
       navigateTo(AppRoute.NO_ACCESS);
     }
 
+    if (res?.response?.status === 404) {
+      // if API doesnt exist go to 404 page
+      navigateTo(AppRoute.NOT_FOUND);
+    }
+
     if (res?.response?.status === 500) {
       // if server error, show toast
       dispatch(
