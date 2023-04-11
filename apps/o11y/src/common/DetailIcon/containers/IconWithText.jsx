@@ -44,7 +44,11 @@ const IconWithText = ({
       )}
       data-analytics-id={analyticsId}
     >
-      <IconComponent className={`h-4 w-4 ${getIconSizeClass()} ${iconClass}`} />
+      {ICON_LIST[icon] !== null && (
+        <IconComponent
+          className={twClassNames('h-4 w-4', getIconSizeClass(), iconClass)}
+        />
+      )}
       <div
         className={`text-base-500 overflow-hidden text-ellipsis font-normal leading-5 ${textClass}`}
       >

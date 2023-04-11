@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Hyperlink,
+  MdAutoAwesome,
   MdCancel,
   MdCheckCircle,
-  MdContactSupport,
+  MdHelp,
   MdOutlineAutoFixHigh,
+  MdOutlineRefresh,
   MdOutlineTimer,
   MdPerson,
   MdRemoveCircle,
@@ -16,6 +18,7 @@ import {
 } from '@browserstack/bifrost';
 import {
   O11yBadge,
+  O11yButton,
   O11yMetaData,
   O11yTabs,
   O11yTooltip
@@ -26,8 +29,10 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
+import PropTypes from 'prop-types';
+import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
@@ -48,12 +53,32 @@ const tabsList = Object.keys(TABS).map((key) => ({
   icon: TABS[key].icon
 }));
 
-function BuildDetailsHeader() {
+function BuildDetailsHeader({
+  updateCount,
+  onUpdateBtnClick,
+  isNewItemLoading
+}) {
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
   const dispatch = useDispatch();
   const buildUUID = useSelector(getBuildUUID);
+  const activeProject = useSelector(getActiveProject);
+
+  const logMetaInteractionEvent = (interaction, addOns = {}) => {
+    logOllyEvent({
+      event: 'O11yBuildMetaHeaderInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        build_name: buildMeta.data?.name,
+        build_uuid: buildMeta.data?.uuid,
+        interaction,
+        ...addOns
+      }
+    });
+  };
+
   useEffect(() => {
     if (buildUUID) {
       dispatch(getBuildMetaData({ buildUUID }));
@@ -75,7 +100,14 @@ function BuildDetailsHeader() {
       })
     );
     searchParams.set('tab', tabInfo.value);
+    logMetaInteractionEvent('tab_changed', {
+      active: tabInfo.value
+    });
     navigate({ search: searchParams.toString() });
+  };
+
+  const handleClickStatusBadge = ({ itemClicked }) => {
+    logMetaInteractionEvent(`${itemClicked}_clicked`);
   };
 
   if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
@@ -91,12 +123,15 @@ function BuildDetailsHeader() {
       buildMeta.data.status,
       buildMeta.data.statusStats
     );
-    if (TEST_STATUS.PENDING === status) {
+    if (
+      status !== TEST_STATUS.PENDING &&
+      buildMeta.data.isAutoAnalyzerRunning
+    ) {
       return (
         <O11yMetaData
-          icon={<O11yLoader loaderClass="text-brand-600 h-4 w-4" />}
-          metaDescription="Running"
-          textColorClass="text-brand-600"
+          icon={<MdAutoAwesome className="text-brand-600 h-4 w-4" />}
+          metaDescription="Analysing"
+          textColorClass="text-brand-800"
         />
       );
     }
@@ -119,7 +154,7 @@ function BuildDetailsHeader() {
     if (TEST_STATUS.UNKNOWN === status)
       return (
         <O11yMetaData
-          icon={<MdContactSupport className="h-5 w-5" />}
+          icon={<MdHelp className="h-5 w-5" />}
           metaDescription="Unknown"
           textColorClass="text-attention-500"
         />
@@ -134,7 +169,7 @@ function BuildDetailsHeader() {
       );
     return (
       <O11yMetaData
-        icon={<MdContactSupport className="h-5 w-5" />}
+        icon={<MdHelp className="h-5 w-5" />}
         metaDescription="Unknown"
         textColorClass="text-attention-500"
       />
@@ -156,47 +191,68 @@ function BuildDetailsHeader() {
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b px-8 pt-6">
-      <h1 className="text-2xl font-bold leading-7">
-        {isAutoDetectedName ? originalName : name}{' '}
-        <div className="inline-block">
-          {!!buildNumber && `#${buildNumber}`}
-          {isAutoDetectedName && (
-            <O11yTooltip
-              theme="dark"
-              placementSide="right"
-              content={
-                <div className="mx-4">
-                  <p className="text-base-300 text-sm leading-5">
-                    Static build name automatically detected: {name}
-                  </p>
-                  <a
-                    target="_new"
-                    href={getDocUrl({
-                      path: DOC_KEY_MAPPING.automation_build
-                    })}
-                    className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
-                  >
-                    Learn More
-                  </a>
-                </div>
-              }
-            >
-              <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block text-xl" />
-            </O11yTooltip>
-          )}
-        </div>
-        {tags?.map((tag) => (
-          <O11yBadge
-            key={tag}
-            wrapperClassName="mx-2 text-sm leading-5 font-medium"
-            hasRemoveButton={false}
-            modifier="base"
-            hasDot={false}
-            text={tag}
-          />
-        ))}
-      </h1>
+    <div className="border-base-200 sticky top-[4rem] z-10 border-b bg-white px-6 pt-6">
+      <div className="flex">
+        <h1 className="w-full text-2xl font-bold leading-7">
+          {isAutoDetectedName ? originalName : name}{' '}
+          <div className="inline-block">
+            {!!buildNumber && `#${buildNumber}`}
+            {isAutoDetectedName && (
+              <O11yTooltip
+                theme="dark"
+                placementSide="right"
+                content={
+                  <div className="mx-4">
+                    <p className="text-base-300 text-sm leading-5">
+                      Static build name automatically detected: {name}
+                    </p>
+                    <Hyperlink
+                      target="_blank"
+                      href={getDocUrl({
+                        path: DOC_KEY_MAPPING.automation_build
+                      })}
+                      className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                    >
+                      Learn More
+                    </Hyperlink>
+                  </div>
+                }
+              >
+                <MdOutlineAutoFixHigh
+                  className="text-base-500 mx-2 inline-block text-xl"
+                  onMouseEnter={() => {
+                    logMetaInteractionEvent('auto_detect_hovered');
+                  }}
+                />
+              </O11yTooltip>
+            )}
+          </div>
+          {tags?.map((tag) => (
+            <O11yBadge
+              key={tag}
+              wrapperClassName="mx-2 text-sm leading-5 font-medium"
+              hasRemoveButton={false}
+              modifier="base"
+              hasDot={false}
+              text={tag}
+            />
+          ))}
+        </h1>
+        {updateCount > 0 && (
+          <O11yButton
+            variant="rounded"
+            icon={<MdOutlineRefresh className="text-sm" />}
+            iconPlacement="end"
+            size="extra-small"
+            isIconOnlyButton={isNewItemLoading}
+            loading={isNewItemLoading}
+            onClick={onUpdateBtnClick}
+            wrapperClassName="flex-shrink-0"
+          >
+            {updateCount} new test{updateCount > 1 ? 's' : ''}
+          </O11yButton>
+        )}
+      </div>
       <div className="mt-2 flex flex-wrap items-center gap-4">
         {renderStatusIcon()}
         <O11yMetaData
@@ -214,7 +270,11 @@ function BuildDetailsHeader() {
           />
         )}
         {versionControlInfo?.commitId && (
-          <Hyperlink href={versionControlInfo?.url}>
+          <Hyperlink
+            href={versionControlInfo?.url}
+            target="_blank"
+            onClick={() => logMetaInteractionEvent('commit_sha_clicked')}
+          >
             <O11yMetaData
               icon={
                 <VCIcon
@@ -244,7 +304,11 @@ function BuildDetailsHeader() {
               </>
             }
           >
-            <Hyperlink href={versionControlInfo?.url}>
+            <Hyperlink
+              href={versionControlInfo?.url}
+              target="_blank"
+              onClick={() => logMetaInteractionEvent('ci_url_clicked')}
+            >
               <O11yMetaData
                 icon={
                   <CiIcon
@@ -265,7 +329,12 @@ function BuildDetailsHeader() {
             textColorClass="text-base-500"
           />
         )}
-        <ViewMetaPopOver data={buildMeta.data || {}} />
+        <ViewMetaPopOver
+          data={buildMeta.data || {}}
+          handleInteraction={({ interaction }) =>
+            logMetaInteractionEvent(interaction)
+          }
+        />
       </div>
       <div className="-mb-[1px] flex justify-between">
         <O11yTabs
@@ -273,10 +342,19 @@ function BuildDetailsHeader() {
           tabsArray={tabsList}
           onTabChange={onTabChange}
         />
-        <StatusBadges statusStats={statusStats} />
+        <StatusBadges
+          statusStats={statusStats}
+          onClickHandler={handleClickStatusBadge}
+        />
       </div>
     </div>
   );
 }
 
 export default BuildDetailsHeader;
+
+BuildDetailsHeader.propTypes = {
+  updateCount: PropTypes.number.isRequired,
+  onUpdateBtnClick: PropTypes.func.isRequired,
+  isNewItemLoading: PropTypes.bool.isRequired
+};
