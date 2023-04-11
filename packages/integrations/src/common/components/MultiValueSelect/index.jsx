@@ -51,6 +51,8 @@ const MultiSelect = ({
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(true);
+  const initialOptions = useRef(null);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -99,6 +101,9 @@ const MultiSelect = ({
         );
         setOptionsToRender(cleanedOptions);
         setDynamicOptions(cleanedOptions);
+        if (shouldFetchIntialOptions.current) {
+          initialOptions.current = cleanedOptions;
+        }
         setAreOptionsLoading(false);
         shouldFetchIntialOptions.current = false;
       })
@@ -128,15 +133,27 @@ const MultiSelect = ({
     } else setOptionsToRender(cleanOptions(options));
   }, [options, value, defaultValue]);
 
+  useEffect(() => {
+    initialOptions.current = cleanOptions(options);
+  }, [options]);
+
   const fetchQuery = (query) => {
     if (query) {
+      setSearchLoading(true);
       dispatch(
         fetchOptionsThunk({ path: searchPath + query, isDefaultOptions: false })
-      ).then(({ payload: optionsData = [] }) => {
-        const cleanedOptions = cleanOptions(optionsData);
-        setOptionsToRender(cleanedOptions);
-        setDynamicOptions(cleanedOptions);
-      });
+      )
+        .then(({ payload: optionsData = [] }) => {
+          setSearchLoading(false);
+          if (Array.isArray(options) && optionsData.length) {
+            const cleanedOptions = cleanOptions(optionsData);
+            setOptionsToRender(cleanedOptions);
+            setDynamicOptions(cleanedOptions);
+          }
+        })
+        .catch(() => {
+          setSearchLoading(false);
+        });
     }
   };
 
@@ -156,7 +173,9 @@ const MultiSelect = ({
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 300), []);
+  const debouncedFetchQuery = useCallback(makeDebounce(fetchQuery, 500), [
+    searchPath
+  ]);
 
   const handleInputChange = (e) => {
     const queryArr = e.target.value?.trim().split(',');
@@ -167,7 +186,7 @@ const MultiSelect = ({
     if (query) {
       searchInOptions(query);
     } else {
-      setOptionsToRender(optionsPath ? dynamicOptions : cleanOptions(options));
+      setOptionsToRender(initialOptions.current);
     }
   };
 
@@ -207,6 +226,15 @@ const MultiSelect = ({
             <ComboboxOptionItem
               key="no options"
               option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && searchLoading && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="searching-for-options"
+              option={{ label: 'Searching...' }}
               disabled
             />
           </ComboboxOptionGroup>
