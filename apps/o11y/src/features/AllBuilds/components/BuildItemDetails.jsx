@@ -16,7 +16,11 @@ import {
 import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
-import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import {
+  DOC_KEY_MAPPING,
+  TEST_LIST_FILTERS_TAGS,
+  TEST_STATUS
+} from 'constants/common';
 import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
@@ -201,35 +205,35 @@ function BuildItemDetails({
               </PropagationBlocker>
             </div>
           )}
+          {data?.historyAggregate?.isFlaky > 0 && (
+            <PropagationBlocker className="mr-2 inline">
+              <O11yBadge
+                onClick={(e) =>
+                  navigateToTestPage('flaky', {
+                    eventData: e,
+                    itemClicked: true
+                  })
+                }
+                hasRemoveButton={false}
+                modifier="warn"
+                hasDot={false}
+                text={`Flaky (${data?.historyAggregate?.isFlaky})`}
+              />
+            </PropagationBlocker>
+          )}
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker className="mr-2 inline">
               <O11yBadge
                 onClick={(e) => {
                   navigateToTestPage('history', {
                     eventData: e,
-                    itemClicked: 'New Failure'
+                    itemClicked: TEST_LIST_FILTERS_TAGS.isNewFailure
                   });
                 }}
                 hasRemoveButton={false}
                 modifier="error"
                 hasDot={false}
-                text={`New Failures(${data?.historyAggregate?.isNewFailure})`}
-              />
-            </PropagationBlocker>
-          )}
-          {data?.historyAggregate?.isFlaky > 0 && (
-            <PropagationBlocker className="mr-2 inline">
-              <O11yBadge
-                onClick={(e) =>
-                  navigateToTestPage('history', {
-                    eventData: e,
-                    itemClicked: 'flaky'
-                  })
-                }
-                hasRemoveButton={false}
-                modifier="warn"
-                hasDot={false}
-                text={`Flaky(${data?.historyAggregate?.isFlaky})`}
+                text={`New Failures (${data?.historyAggregate?.isNewFailure})`}
               />
             </PropagationBlocker>
           )}
@@ -239,13 +243,13 @@ function BuildItemDetails({
                 onClick={(e) =>
                   navigateToTestPage('history', {
                     eventData: e,
-                    itemClicked: 'Always Failing'
+                    itemClicked: TEST_LIST_FILTERS_TAGS.isAlwaysFailing
                   })
                 }
                 hasRemoveButton={false}
                 modifier="error"
                 hasDot={false}
-                text={`Always Failing(${data?.historyAggregate?.isAlwaysFailing})`}
+                text={`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}
               />
             </PropagationBlocker>
           )}
@@ -256,13 +260,13 @@ function BuildItemDetails({
                 onClick={(e) =>
                   navigateToTestPage('history', {
                     eventData: e,
-                    itemClicked: 'Performance Anomaly'
+                    itemClicked: TEST_LIST_FILTERS_TAGS.isPerformanceAnomaly
                   })
                 }
                 hasRemoveButton={false}
                 modifier="error"
                 hasDot={false}
-                text={`Performance Anomaly(${data?.historyAggregate?.isPerformanceAnomaly})`}
+                text={`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}
               />
             </PropagationBlocker>
           )}

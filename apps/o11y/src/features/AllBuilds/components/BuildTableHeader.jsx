@@ -17,7 +17,7 @@ function BuildTableHeader() {
         )}
         isSticky
       >
-        <span className="mr-2">TESTS</span>
+        <span className="mr-2">TESTS STATUS</span>
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
