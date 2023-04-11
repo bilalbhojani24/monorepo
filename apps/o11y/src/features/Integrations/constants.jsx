@@ -43,7 +43,7 @@ const CI_INTEGRATIONS = [
       <CIStackItem
         analyticKey="jenkins_connect_clicked"
         title="Jenkins"
-        icon=<JenkinsIcon width="40" height="40" />
+        icon={<JenkinsIcon width="40" height="40" />}
         cta="Configure"
         apiSlug={CI_API_SLUGS.JENKINS}
         modalKey={MODAL_TYPES.jenkins_connect_modal}
@@ -56,7 +56,7 @@ const CI_INTEGRATIONS = [
       <CIStackItem
         analyticKey="azure_connect_clicked"
         title="Azure Pipelines"
-        icon=<AzurePipelinesIcon width="40" height="40" />
+        icon={<AzurePipelinesIcon width="40" height="40" />}
         cta="Configure"
         apiSlug={CI_API_SLUGS.AZURE_DEVOPS}
         modalKey={MODAL_TYPES.azure_connect_modal}
@@ -74,7 +74,7 @@ const TESTING_FRAMEWORKS = [
         title="TestNG"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.testng, prependO11y: true })}
-        icon=<TestngIcon width="40" height="40" />
+        icon={<TestngIcon width="40" height="40" />}
       />
     )
   },
@@ -86,7 +86,7 @@ const TESTING_FRAMEWORKS = [
         title="Mocha"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.mocha, prependO11y: true })}
-        icon=<MochaIcon width="40" height="40" />
+        icon={<MochaIcon width="40" height="40" />}
       />
     )
   },
@@ -98,7 +98,7 @@ const TESTING_FRAMEWORKS = [
         title="Webdriver-IO"
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.wdio, prependO11y: true })}
-        icon=<WdioIcon width="40" height="40" />
+        icon={<WdioIcon width="40" height="40" />}
       />
     )
   }
@@ -113,7 +113,7 @@ const PROJECT_MANAGEMENT_TOOLS = [
         title="Jira"
         subTitle=""
         link={`${getEnvConfig().baseUrl}/accounts/integrations`}
-        icon=<JiraIcon width="40" height="40" />
+        icon={<JiraIcon width="40" height="40" />}
         cta="Manage"
       />
     )
@@ -139,7 +139,7 @@ const SOURCE_CODE_VIEWER = [
           path: DOC_KEY_MAPPING.source_code,
           prependO11y: true
         })}
-        icon=<GithubIcon width="40" height="40" />
+        icon={<GithubIcon width="40" height="40" />}
       />
     )
   },
@@ -154,7 +154,7 @@ const SOURCE_CODE_VIEWER = [
           path: DOC_KEY_MAPPING.source_code,
           prependO11y: true
         })}
-        icon=<GitLabIcon width="40" height="40" />
+        icon={<GitLabIcon width="40" height="40" />}
       />
     )
   }
@@ -172,7 +172,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<LogStashIcon width="40" height="40" />
+        icon={<LogStashIcon width="40" height="40" />}
       />
     )
   },
@@ -187,7 +187,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<FilebeatNLogStashIcon width="40" height="40" />
+        icon={<FilebeatNLogStashIcon width="40" height="40" />}
       />
     )
   },
@@ -202,7 +202,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<FluentdIcon width="40" height="40" />
+        icon={<FluentdIcon width="40" height="40" />}
       />
     )
   },
@@ -217,7 +217,7 @@ const APPLICATION_LOGS_READER = [
           path: DOC_KEY_MAPPING.application_logs,
           prependO11y: true
         })}
-        icon=<WinstonIcon width="40" height="40" />
+        icon={<WinstonIcon width="40" height="40" />}
       />
     )
   }
