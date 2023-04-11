@@ -10,7 +10,7 @@ import Button from '../Button';
 import {
   ChevronUpDownIcon,
   ExclamationCircleIcon,
-  MdCircle,
+  MdCancel,
   QuestionMarkCircleIcon
 } from '../Icon';
 import Loader from '../Loader';
@@ -59,6 +59,14 @@ const ComboboxBadgeTrigger = ({
       window.removeEventListener('keydown', handleBackspace);
     };
   }, [query, currentSelectedValues, setCurrentSelectedValues]);
+
+  const keepDrawerOpen = (e) => {
+    if (open) {
+      e.preventDefault();
+      comboInputRef.current.focus();
+    }
+  };
+
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <div
@@ -85,7 +93,6 @@ const ComboboxBadgeTrigger = ({
               modifier={errorText.length ? 'error' : 'base'}
               onClose={() => {
                 if (open) {
-                  console.log('inside');
                   comboInputRef.current.focus();
                 }
                 onBadgeClose(i);
@@ -111,8 +118,8 @@ const ComboboxBadgeTrigger = ({
 
         <div className="mr-5 flex space-x-2">
           {currentSelectedValues.length > 0 && (
-            <Button variant="minimal" colors="white">
-              <MdCircle className="h-5 w-5" />
+            <Button variant="minimal" wrapperClassName="z-10">
+              <MdCancel className="h-5 w-5" />
             </Button>
           )}
           {isLoading && (
@@ -132,10 +139,7 @@ const ComboboxBadgeTrigger = ({
         <Combobox.Button
           className="absolute inset-y-0 left-0 flex w-full items-center justify-end rounded-r-md focus:outline-none"
           onClick={(e) => {
-            if (open) {
-              e.preventDefault();
-              comboInputRef.current.focus();
-            }
+            keepDrawerOpen(e);
           }}
         >
           <ChevronUpDownIcon
