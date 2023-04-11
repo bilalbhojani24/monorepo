@@ -112,7 +112,7 @@ const Issues = () => {
           {isIssuesLoading ? (
             <Loader wrapperClassName="h-96" />
           ) : (
-            <div>
+            <>
               {issuesArray.length ? (
                 <>
                   <div className="text-base-900 text-sm">
@@ -139,7 +139,7 @@ const Issues = () => {
                   />
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>
