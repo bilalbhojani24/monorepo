@@ -44,7 +44,7 @@ function TestlistTimeline({ details }) {
   }
 
   return (
-    <div className="flex scale-75 items-center" onMouseEnter={loadHistory}>
+    <div className="flex h-5 items-center" onMouseEnter={loadHistory}>
       {history?.map((singleHistoryItem) => (
         <O11yTooltip
           size="md"
@@ -60,14 +60,14 @@ function TestlistTimeline({ details }) {
         >
           <div
             className={twClassNames(
-              'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
+              'flex h-3 w-3 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
               getClassesByStatus(singleHistoryItem.status),
               'bg-white'
             )}
           >
             <div
               className={twClassNames(
-                'bg-base-500 h-1.5 w-1.5 shrink-0 rounded-full cursor-pointer',
+                'bg-base-500 h-1 w-1 shrink-0 rounded-full cursor-pointer',
                 getClassesByStatus(singleHistoryItem.status)
               )}
             />

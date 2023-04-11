@@ -233,6 +233,7 @@ const TestListFilters = () => {
         variant="primary"
         colors="white"
         wrapperClassName="rounded"
+        size="default"
         icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
         onClick={showSlideover}
       >

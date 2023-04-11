@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   MdOutlineBugReport,
-  MdOutlineNotificationsActive,
-  MdOutlineNotificationsOff,
+  MdOutlineVolumeOff,
+  MdOutlineVolumeUp,
   MdRedo
 } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
@@ -40,7 +40,6 @@ function TestListActionItems({ details }) {
           buildId: buildUUID,
           testRunId: itemID,
           shouldMute,
-          itemType: 'mute',
           onSuccess: () => {
             setUpdatedMutedStatus(shouldMute);
           }
@@ -101,7 +100,7 @@ function TestListActionItems({ details }) {
   }, [details.id]);
 
   return (
-    <div className="hidden items-center justify-end group-hover:flex">
+    <div className="hidden items-center justify-end gap-1 group-hover:flex">
       {details.status === TEST_STATUS.FAIL && (
         <O11yButton
           type="button"
@@ -112,27 +111,6 @@ function TestListActionItems({ details }) {
           icon={<MdRedo className="h-5 w-5" />}
         />
       )}
-      <div className="mx-1">
-        {getMutedStatus() ? (
-          <O11yButton
-            type="button"
-            colors="white"
-            isIconOnlyButton
-            size="extra-small"
-            onClick={() => handleMuteUnmuteTestCase(false)}
-            icon={<MdOutlineNotificationsOff className="h-5 w-5" />}
-          />
-        ) : (
-          <O11yButton
-            type="button"
-            colors="white"
-            isIconOnlyButton
-            size="extra-small"
-            onClick={() => handleMuteUnmuteTestCase(true)}
-            icon={<MdOutlineNotificationsActive className="h-5 w-5" />}
-          />
-        )}
-      </div>
       {details.status === TEST_STATUS.FAIL && (
         <O11yButton
           type="button"
@@ -141,6 +119,26 @@ function TestListActionItems({ details }) {
           size="extra-small"
           onClick={handleReportBugClick}
           icon={<MdOutlineBugReport className="h-5 w-5" />}
+        />
+      )}
+
+      {getMutedStatus() ? (
+        <O11yButton
+          type="button"
+          colors="white"
+          isIconOnlyButton
+          size="extra-small"
+          onClick={() => handleMuteUnmuteTestCase(false)}
+          icon={<MdOutlineVolumeOff className="h-5 w-5" />}
+        />
+      ) : (
+        <O11yButton
+          type="button"
+          colors="white"
+          isIconOnlyButton
+          size="extra-small"
+          onClick={() => handleMuteUnmuteTestCase(true)}
+          icon={<MdOutlineVolumeUp className="h-5 w-5" />}
         />
       )}
     </div>

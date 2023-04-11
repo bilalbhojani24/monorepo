@@ -83,7 +83,7 @@ export const getHistoryDetails = createAsyncThunk(
   `${sliceName}/getHistoryDetails`,
   async (data, { rejectWithValue, getState }) => {
     const allHistories = getAllTestHistoryDetails(getState());
-    const allHistoryKeys = Object.keys(allHistories);
+    const allHistoryKeys = Object.keys(allHistories.data);
     const isHistoryLoaded = data.testRunIds.every((id) =>
       allHistoryKeys.includes(id.toString())
     );

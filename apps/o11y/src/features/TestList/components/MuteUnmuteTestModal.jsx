@@ -17,7 +17,7 @@ import { o11yNotify } from 'utils/notification';
 
 function UnmuteTestModal() {
   const dispatch = useDispatch();
-  const { buildId, testRunId, shouldMute, itemType, onSuccess } =
+  const { buildId, testRunId, shouldMute, onSuccess } =
     useSelector(getModalData);
   const [isUpdating, setIsUpdating] = useState(false);
   const buildMeta = useSelector(getBuildMeta);
@@ -33,7 +33,7 @@ function UnmuteTestModal() {
         project_id: activeProject.id,
         build_name: buildMeta.data?.name,
         build_uuid: buildMeta.data?.uuid,
-        action: itemType === 'mute' ? 'mute' : 'unmute',
+        action: shouldMute ? 'mute' : 'unmute',
         test_id: testRunId
       }
     });
@@ -42,7 +42,7 @@ function UnmuteTestModal() {
     activeProject.name,
     buildMeta.data?.name,
     buildMeta.data?.uuid,
-    itemType,
+    shouldMute,
     testRunId
   ]);
 
@@ -54,7 +54,7 @@ function UnmuteTestModal() {
         project_id: activeProject.id,
         build_name: buildMeta.data?.name,
         build_uuid: buildMeta.data?.uuid,
-        action: itemType === 'mute' ? 'mute' : 'unmute',
+        action: shouldMute ? 'mute' : 'unmute',
         test_id: testRunId
       }
     });
@@ -69,9 +69,7 @@ function UnmuteTestModal() {
       .unwrap()
       .then(() => {
         o11yNotify({
-          title: `Test ${
-            itemType === 'mute' ? 'muted' : 'un-muted'
-          } successfully!`,
+          title: `Test ${shouldMute ? 'muted' : 'un-muted'} successfully!`,
           description: '',
           type: 'success'
         });
@@ -93,12 +91,12 @@ function UnmuteTestModal() {
     <O11yModal show size="sm" onClose={handleCloseModal}>
       <O11yModalHeader
         dismissButton
-        heading={`${itemType === 'mute' ? 'Mute' : 'Un-mute'} the test case?`}
+        heading={`${shouldMute ? 'Mute' : 'Un-mute'} the test case?`}
         handleDismissClick={handleCloseModal}
       />
       <O11yModalBody>
         <p className="text-base-600 text-sm">
-          {itemType === 'mute'
+          {shouldMute
             ? 'Muting a test case leads to muted tests not being populated in the build run and insights. You would still be able to view the status of all muted tests using relevant filters.'
             : 'Unmuting a test leads to the test result being populated as part of build result and other build insights.'}
         </p>

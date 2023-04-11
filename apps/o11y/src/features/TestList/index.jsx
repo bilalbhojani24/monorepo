@@ -182,8 +182,8 @@ const TestList = ({
         }
       });
       dispatch(setAppliedFilters(transformedAppliedFilters));
-      // Onload we dont make a call to load data instead we update applied
-      // - filters and its in use effect dependcy which trigger loading of freh data
+      // Onload we don't make a call to load data instead we update applied
+      // - filters and its in use effect dependency which trigger loading of fresh data
       dispatch(getTestlistFiltersData({ buildId: buildUUID }));
     }
     return () => {

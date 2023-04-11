@@ -68,7 +68,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
             Build #{historyData?.serialId}
           </p>
           <div className="mt-3 text-sm">
-            <p className="text-xs font-medium leading-4">Status</p>
+            <p className="text-sm font-medium leading-4">Status</p>
             <p className="mt-1 flex items-center">
               {historyData?.status && (
                 <StatusIcon status={historyData?.status} />
@@ -87,11 +87,11 @@ function TestListHistoryTooltip({ testRunId, status }) {
               </span>
             </p>
             {!!historyData?.logs?.[LOG_TYPES.STACKTRACE]?.length && (
-              <div className="bg-base-50 mt-2">
+              <div className="border-base-200 mt-2 border">
                 <StackTraceTooltip
                   showOnlyTraceData
                   traceLines={historyData?.logs[LOG_TYPES.STACKTRACE] || []}
-                  maxHeight={116}
+                  size="small"
                 />
               </div>
             )}
@@ -116,7 +116,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
           {!!historyData?.tags?.length ||
             (historyData?.isFlaky && (
               <div className="mt-3">
-                <p className="font-medium leading-tight">Tags</p>
+                <p className="text-sm font-medium leading-tight">Tags</p>
                 <div className="mt-2 flex flex-wrap items-center">
                   {historyData?.tags?.map((item) => (
                     <PropagationBlocker className="ml-1" key={item}>

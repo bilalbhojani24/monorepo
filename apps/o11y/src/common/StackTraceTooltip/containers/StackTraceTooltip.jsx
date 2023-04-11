@@ -11,7 +11,7 @@ export default function StackTraceTooltip({
   traceLines,
   copyText,
   showOnlyTraceData,
-  maxHeight
+  size
 }) {
   return (
     <PropagationBlocker>
@@ -23,10 +23,11 @@ export default function StackTraceTooltip({
       )}
 
       <pre
-        className={twClassNames(
-          'text-danger-600 overflow-auto p-3',
-          `max-h-[${maxHeight}px]`
-        )}
+        className={twClassNames('text-danger-600 overflow-auto p-3', {
+          'max-h-60': size === 'large',
+          'max-h-40': size === 'medium',
+          'max-h-28': size === 'small'
+        })}
       >
         {traceLines.map((item, idx) => (
           // eslint-disable-next-line react/no-array-index-key
@@ -45,12 +46,12 @@ StackTraceTooltip.propTypes = {
   traceLines: PropTypes.arrayOf(PropTypes.string),
   copyText: PropTypes.string,
   showOnlyTraceData: PropTypes.bool,
-  maxHeight: PropTypes.number
+  size: PropTypes.oneOf(['small', 'medium', 'large'])
 };
 
 StackTraceTooltip.defaultProps = {
   traceLines: [],
   copyText: '',
   showOnlyTraceData: false,
-  maxHeight: 250
+  size: 'large'
 };

@@ -58,10 +58,13 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
 
   return (
     <div
-      className={twClassNames(`border-base-100 border-b pt-2 pr-6`, {
-        'pb-2': !isLastItem,
-        'pb-4': isLastItem
-      })}
+      className={twClassNames(
+        `border-base-100 border-b pt-2 pr-6 group cursor-pointer hover:bg-base-50`,
+        {
+          'pb-2': !isLastItem,
+          'pb-4': isLastItem
+        }
+      )}
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
       }}
@@ -69,7 +72,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
       <div className="flex justify-between">
         <div className="flex w-full flex-col items-center">
           <div className="flex items-center self-start">
-            <div className="mt-1 flex items-center">
+            <div className="flex items-center">
               <StatusIcon status={data.details.status || TEST_STATUS.SKIPPED} />
               <p className="text-base-900 ml-2 text-sm">
                 {ReactHtmlParser(displayName, {
@@ -182,7 +185,7 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
             <TestListTimeline details={details} />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="group min-h-[34px] min-w-[100px]">
+          <div className="min-h-[34px] min-w-[100px]">
             <div className="flex content-end items-center justify-end group-hover:hidden">
               <MdOutlineTimer className="text-base-500 block h-4 w-4" />
               <p className="text-base-500 ml-1 text-sm">

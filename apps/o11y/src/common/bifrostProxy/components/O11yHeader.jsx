@@ -73,6 +73,10 @@ const O11yHeader = () => (
         }
       ]
     }}
+    onSignoutClick={(e) => {
+      e.preventDefault();
+      window.location.href = 'https://local.bsstag.com/users/sign_out';
+    }}
   />
 );
 

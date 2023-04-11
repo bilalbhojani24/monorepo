@@ -8,6 +8,7 @@ import {
 } from '@browserstack/bifrost';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
+import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import {
   HIERARCHY_SPACING,
@@ -111,30 +112,28 @@ const RenderRootItem = ({ item }) => {
             title={
               <div className="flex w-full items-center px-3">
                 <div>
-                  <p className="text-base-900 text-left text-sm">
+                  <p className="text-base-900 text-left text-sm font-normal">
                     {ReactHtmlParser(displayName, {
                       transform: transformUnsupportedTags
                     })}
                   </p>
                   <div className="flex">
                     {details?.vcFileUrl && (
-                      <p className="text-base-500 flex items-center text-sm">
+                      <PropagationBlocker>
                         <O11yHyperlink
                           target="_blank"
                           href={details?.vcFileUrl}
-                          wrapperClassName="text-base-500 font-normal text-sm overflow-hidden w-full"
+                          wrapperClassName="font-normal text-sm text-base-500 hover:text-brand-500"
                         >
                           <MdFolderOpen className="mr-1" />
-                          <span className="text-base-500 max-w-xs text-sm font-normal">
-                            {details?.filePath.length > 20
-                              ? `...${details?.filePath.slice(
-                                  details?.filePath.length - 20,
-                                  details?.filePath.length
-                                )}`
-                              : details?.filePath}
+                          <span
+                            dir="rtl"
+                            className="max-w-xs truncate text-sm font-normal"
+                          >
+                            {details?.filePath}
                           </span>
                         </O11yHyperlink>
-                      </p>
+                      </PropagationBlocker>
                     )}
                     {!!details?.middleScopes && (
                       <p className="text-base-500 flex items-center text-sm font-normal">
