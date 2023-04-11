@@ -68,7 +68,8 @@ DraggableAndResizable.args = {
         <Button wrapperClassName="drag-handle">Drag here</Button>
         <p>
           Hello, this is the body of the draggable and resizable container.
-          Cannot drag from here
+          Cannot drag from here. If you don&apos;t want the text to overflow,
+          please add tailwind overflow classname
         </p>
       </Resizable>
     </div>

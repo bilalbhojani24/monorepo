@@ -49,6 +49,7 @@ const DataVisualization = ({
           <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
           {headerInfo && (
             <ToolTip
+              triggerAriaLabel="header-info-tooltip"
               arrowClassName={headerInfoTooltipProps?.arrowClassName}
               arrowWidth={headerInfoTooltipProps?.arrowWidth}
               arrowHeight={headerInfoTooltipProps?.arrowHeight}

@@ -28,6 +28,7 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
+  SingleDatepicker,
   Slideover,
   SlideoverBody,
   SlideoverFooter,
@@ -108,6 +109,7 @@ export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 export const O11yTruncateText = TruncateText;
 export const O11yAccordian = (props) => <Accordion {...props} />;
+export const O11ySingleDatePicker = (props) => <SingleDatepicker {...props} />;
 export const O11yPageHeadings = (props) => <PageHeadings {...props} />;
 export const O11yStackedList = (props) => <StackedList {...props} />;
 export const O11yStackedListGroup = (props) => <StackedListGroup {...props} />;
