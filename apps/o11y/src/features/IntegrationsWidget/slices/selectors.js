@@ -1,2 +1,4 @@
-export const getIsWidgetOpen = (state) => state.integrationWidget.isOpen;
-export const getWidgetData = (state) => state.integrationWidget.data;
+export const getIsWidgetOpen = (state) => state.integrationsWidget.isOpen;
+export const getWidgetData = (state) => state.integrationsWidget.data;
+export const getWidgetConfiguration = (state) =>
+  state.integrationsWidget.configuration;

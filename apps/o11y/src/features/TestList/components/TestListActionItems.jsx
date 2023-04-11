@@ -11,11 +11,14 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import { toggleWidget } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import { singleItemTestDetails } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
+
+import { getTestReportDetails } from '../slices/testListSlice';
 
 function TestListActionItems({ details }) {
   const dispatch = useDispatch();
@@ -83,8 +86,15 @@ function TestListActionItems({ details }) {
     });
   };
 
-  const handleReportBugClick = () => {
+  const handleReportBugClick = async () => {
     OllyTestListingEvent('O11yReportBugClicked');
+    dispatch(toggleWidget(true));
+    dispatch(
+      getTestReportDetails({
+        buildId: buildUUID,
+        testRunId: details.id
+      })
+    );
   };
 
   // eslint-disable-next-line no-unused-vars

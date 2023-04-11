@@ -4,10 +4,16 @@ import { CreateIssue } from '@browserstack/integrations';
 import { getEnvConfig } from 'utils/common';
 
 import { toggleWidget } from './slices/integrationsWidgetSlice';
-import { getIsWidgetOpen } from './slices/selectors';
+import {
+  getIsWidgetOpen,
+  getWidgetConfiguration,
+  getWidgetData
+} from './slices/selectors';
 
-const IntegrationsWidget = forwardRef((props, ref) => {
+const IntegrationsWidget = forwardRef((_, ref) => {
   const isOpen = useSelector(getIsWidgetOpen);
+  const configuration = useSelector(getWidgetConfiguration);
+  const data = useSelector(getWidgetData);
   const dispatch = useDispatch();
 
   const handleCloseWidget = () => {
@@ -23,8 +29,7 @@ const IntegrationsWidget = forwardRef((props, ref) => {
   };
 
   const options = {
-    description:
-      '| Build Name | TestNG-Sanity | | Build Id | 4 | | Test Name | testng/src/test/java/com/bstackdemo/HomePageBasicTest.java > All-P1-Suite > HomePage-Suite > com.bstackdemo.HomePageBasicTest > testBrowserstackLogoTextFail | | Test Url | TBD | | Test Status | failed | | OS | ANDROID,12 | | Browser | Chrome,Unknown | | Host name | Dinesh*con-C02DM1WBML7H | | Defect Type | Product Bug | | Duration | 801.00ms | | isAutoAnalyzed | true |',
+    description: data.description,
     attachments: [],
     successCallback: ({ ticketId, ticketUrl, attachment }) => {
       // eslint-disable-next-line no-console
@@ -32,7 +37,7 @@ const IntegrationsWidget = forwardRef((props, ref) => {
     },
     errorCallback: (error) => {
       // eslint-disable-next-line no-console
-      console.log('error :>> ', error, props, ref);
+      console.log('error :>> ', error, ref);
     }
   };
 
@@ -40,8 +45,8 @@ const IntegrationsWidget = forwardRef((props, ref) => {
     <CreateIssue
       isOpen={isOpen}
       handleClose={handleCloseWidget}
-      // position="right"
-      // positionRef={buttonRef}
+      position={configuration.position}
+      positionRef={ref?.current ? ref : null}
       // auth={{
       //   url: `${versionedBaseRoute()}/integration-service/accessToken`
       // }}

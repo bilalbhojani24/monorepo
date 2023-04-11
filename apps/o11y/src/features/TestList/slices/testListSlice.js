@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getAnalyzerSimilarTests as getAnalyzerSimilarTestsAPI,
+  getBugDetails,
   getTestHistoryData,
   getTestList,
   getTestlistFilters,
@@ -9,13 +10,17 @@ import {
   updateIssueTypes as updateIssueTypesAPI
 } from 'api/testlist';
 import { API_STATUSES } from 'constants/common';
+import { setWidgetData } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
-  EMPTY_TESTLIST_DATA_STATE
+  EMPTY_TESTLIST_DATA_STATE,
+  LOG_TYPES
 } from 'features/TestList/constants';
 import { getAllTestHistoryDetails } from 'features/TestList/slices/selectors';
+
+import { getRetryInfoTable, getStaticDescription, getTableRow } from './utils';
 
 const sliceName = 'testList';
 
@@ -107,6 +112,43 @@ export const getTestListData = createAsyncThunk(
       return { ...response?.data, sentData: data };
     } catch (err) {
       return rejectWithValue(err);
+    }
+  }
+);
+
+export const getTestReportDetails = createAsyncThunk(
+  `${sliceName}/getTestReportDetails`,
+  async (data, { dispatch }) => {
+    let description = `\n\n Open [URL|${window.location.href}] on Browserstack\n`;
+    try {
+      const response = await getBugDetails(data.buildId, data.testRunId);
+      const details = response.data;
+      description += `\n\n ${getStaticDescription(details)}`;
+      if (details?.retries?.length) {
+        description += `\n\n ${getRetryInfoTable(details?.retries)}`;
+      }
+      if (details?.logStruct?.[LOG_TYPES.STACKTRACE]?.length) {
+        let assertionString = '';
+        details.logStruct[LOG_TYPES.STACKTRACE].forEach((item) => {
+          if (item) {
+            assertionString += `${item}\n`;
+          }
+        });
+        description += `\n\n{code:title=Exception|theme=FadeToGrey|language=shell|collapse=true}${assertionString}{code}`;
+      }
+      dispatch(
+        setWidgetData({
+          description
+        })
+      );
+    } catch (err) {
+      description += `\n\n ${getTableRow('Build Id', data.buildId)}`;
+      description += getTableRow('Test Id', data.testRunId);
+      dispatch(
+        setWidgetData({
+          description
+        })
+      );
     }
   }
 );
