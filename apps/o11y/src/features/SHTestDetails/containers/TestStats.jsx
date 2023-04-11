@@ -53,11 +53,11 @@ const TestStats = () => {
     return <O11yLoader wrapperClassName="py-6" />;
   }
   if (!isLoadingData && isEmpty(stats)) {
-    return <p className="py-6 text-center">No data found</p>;
+    return <p className="py-5 text-center">No data found</p>;
   }
 
   return (
-    <div className="flex flex-wrap gap-3 py-6">
+    <div className="flex flex-wrap gap-3 py-5">
       {stats?.failureOccurrence?.failed !== undefined && (
         <StatsCard
           title="Failure Occurrence"

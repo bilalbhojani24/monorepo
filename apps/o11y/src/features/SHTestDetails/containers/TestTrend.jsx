@@ -266,8 +266,8 @@ export default function TestTrend() {
   }
 
   return (
-    <div className="mb-8">
-      <p className="text-base-900 mb-6 text-lg font-medium leading-6">
+    <div className="mb-0">
+      <p className="text-base-900 mb-5 text-lg font-medium leading-6">
         Test duration across builds
       </p>
       <div className="h-40">

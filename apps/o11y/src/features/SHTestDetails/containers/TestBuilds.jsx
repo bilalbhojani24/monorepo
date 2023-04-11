@@ -126,7 +126,7 @@ export default function TestBuilds() {
               key={key}
               wrapperClassName={twClassNames(
                 BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass,
-                'bg-white -top-6'
+                'bg-white -top-5'
               )}
               isSticky
             >
