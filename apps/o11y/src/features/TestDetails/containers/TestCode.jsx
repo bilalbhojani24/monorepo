@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineOpenInNew } from '@browserstack/bifrost';
-import { O11yHyperlink } from 'common/bifrostProxy';
+import {
+  MdCheck,
+  MdOutlineContentCopy,
+  MdOutlineOpenInNew
+} from '@browserstack/bifrost';
+import { O11yHyperlink, O11yTruncateText } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import PrismHighlight from 'common/PrismHighlight';
@@ -18,6 +23,7 @@ export default function TestCode() {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const [isLoading, setIsLoading] = useState(true);
   const [testCode, setTestCode] = useState({});
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     handleLogTDInteractionEvent({ interaction: 'info_test_code_viewed' });
@@ -46,6 +52,15 @@ export default function TestCode() {
     };
   }, [dispatch, currentTestRunId]);
 
+  const handleClick = () => {
+    setIsCopied(true);
+    setTimeout(() => {
+      if (mounted.current) {
+        setIsCopied(false);
+      }
+    }, 2000);
+  };
+
   if (isLoading) {
     return <O11yLoader wrapperClassName="py-6" />;
   }
@@ -60,25 +75,56 @@ export default function TestCode() {
   return (
     <section className="bg-base-50 rounded-md p-6">
       {testCode?.filename && (
-        <div className="">
-          {testCode?.url ? (
-            <>
-              <O11yHyperlink
-                href={testCode?.url}
-                target="_blank"
-                wrapperClassName="flex items-center gap-2"
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            {testCode?.url ? (
+              <>
+                <O11yHyperlink
+                  href={testCode?.url}
+                  target="_blank"
+                  wrapperClassName="flex items-center gap-2"
+                >
+                  <O11yTruncateText
+                    wrapperClassName="line-clamp-1"
+                    tooltipContent={
+                      <p className="break-words px-4 text-sm font-medium leading-5 text-white">
+                        {testCode.filename}
+                      </p>
+                    }
+                    hidetooltipTriggerIcon
+                  >
+                    <p className="text-base-900 text-sm font-medium leading-5">
+                      {testCode.filename}
+                    </p>
+                    <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                  </O11yTruncateText>
+                </O11yHyperlink>
+              </>
+            ) : (
+              <O11yTruncateText
+                wrapperClassName="line-clamp-1"
+                tooltipContent={
+                  <p className="break-words px-4 text-sm font-medium leading-5 text-white">
+                    {testCode.filename}
+                  </p>
+                }
+                hidetooltipTriggerIcon
               >
                 <p className="text-base-900 text-sm font-medium leading-5">
                   {testCode.filename}
                 </p>
-                <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
-              </O11yHyperlink>
-            </>
-          ) : (
-            <p className="text-base-900 text-sm font-medium leading-5">
-              {testCode.filename}
-            </p>
-          )}
+              </O11yTruncateText>
+            )}
+          </div>
+          <div>
+            <CopyToClipboard text={testCode?.code} onCopy={handleClick}>
+              {isCopied ? (
+                <MdCheck className="text-brand-500 h-4 w-4" />
+              ) : (
+                <MdOutlineContentCopy className="text-base-500 h-4 w-4" />
+              )}
+            </CopyToClipboard>
+          </div>
         </div>
       )}
       <div className="">
