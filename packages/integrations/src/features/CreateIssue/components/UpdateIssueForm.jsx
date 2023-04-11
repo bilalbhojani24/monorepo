@@ -45,6 +45,9 @@ const UpdateIssueForm = ({
   const resetFieldErrors = () => {
     setFieldErrors({});
   };
+  const resetIssueField = () => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
+  };
   const getTicketForProject = () => {
     setAreIssueOptionsLoading(true);
     getTickets(
@@ -156,6 +159,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            resetIssueField();
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
             scrollWidgetToTop();
@@ -191,6 +195,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            resetIssueField();
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
             scrollWidgetToTop();

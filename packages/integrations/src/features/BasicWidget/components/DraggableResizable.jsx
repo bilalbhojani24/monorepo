@@ -11,8 +11,9 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
-  const intialWidgetHeight = window.innerHeight - 16;
-  const [widgetHeight, setWidgetHeight] = useState(intialWidgetHeight);
+  const [widgetHeight, setWidgetHeight] = useState(
+    DEFAULT_WIDGET_DIMENSIONS.MAX[1]
+  );
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [showWidget, setShowWidget] = useState(false);
@@ -77,6 +78,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
           minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
+          maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
         >
           <div
             className="h-auto w-full bg-white"

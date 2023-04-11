@@ -19,7 +19,7 @@ export const getWidgetRenderPosition = (
           dockRight + widgetWidth > bodyWidth
             ? bodyWidth - widgetWidth - 8
             : dockRight;
-        y = dockTop - widgetTop;
+        y = dockTop - widgetTop + 8;
         break;
       }
       default:
@@ -27,7 +27,7 @@ export const getWidgetRenderPosition = (
         const dockLeft = dockRefClientRect.left;
         const dockTop = dockRefClientRect.top;
         x = dockLeft - widgetWidth < 0 ? 8 : dockLeft - widgetWidth;
-        y = dockTop - widgetTop;
+        y = dockTop - widgetTop + 8;
         break;
       }
     }
@@ -44,7 +44,7 @@ export const getWidgetRenderPosition = (
       default:
         x = 8;
     }
-    y = -widgetTop;
+    y = -widgetTop + 8;
   }
   return [x, y];
 };

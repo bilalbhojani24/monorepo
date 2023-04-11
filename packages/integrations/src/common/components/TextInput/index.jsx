@@ -36,8 +36,8 @@ const TextField = ({
     setFieldsData({ ...fieldsData, [fieldKey]: val });
   };
   const valueToRender = Array.isArray(fieldsData?.[fieldKey])
-    ? (fieldsData?.[fieldKey] || value || defaultValue || []).join(',')
-    : (fieldsData?.[fieldKey] || value || defaultValue) ?? '';
+    ? (fieldsData?.[fieldKey] ?? (value || defaultValue || [])).join(',')
+    : fieldsData?.[fieldKey] ?? (value || defaultValue) ?? '';
 
   const requiredFieldError = useRequiredFieldError(
     required,
