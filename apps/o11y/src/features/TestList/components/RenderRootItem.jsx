@@ -32,13 +32,16 @@ const RenderRootItem = ({ item }) => {
     onAccordionChange,
     expandAll,
     closedAccordionIds,
-    setClosedAccordionIds
+    setClosedAccordionIds,
+    o11yTestListingInteraction
   } = useContext(TestListContext);
   const [opened, setOpened] = useState(() => !closedAccordionIds[item?.id]);
   const toggleAccordion = () => {
     if (opened) {
+      o11yTestListingInteraction('collapse_item');
       setClosedAccordionIds((prev) => ({ ...prev, [item.id]: true }));
     } else {
+      o11yTestListingInteraction('expand_item');
       setClosedAccordionIds((prev) => {
         const newData = { ...prev };
         delete newData[item.id];

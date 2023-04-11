@@ -4,8 +4,9 @@ import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
 import { getSearchTextFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
+import PropTypes from 'prop-types';
 
-function TestListSearch() {
+function TestListSearch({ o11yTestListingInteraction }) {
   const dispatch = useDispatch();
   const searchTextRedux = useSelector(getSearchTextFilters);
   const [searchText, setSearchText] = useState('');
@@ -17,6 +18,7 @@ function TestListSearch() {
   const handleSearchTextChange = (e) => {
     const newValue = e.target.value;
     if (newValue.length && e.key === 'Enter') {
+      o11yTestListingInteraction('search_applied');
       dispatch(
         setAppliedFilters({
           search: newValue
@@ -63,3 +65,9 @@ function TestListSearch() {
 }
 
 export default TestListSearch;
+
+TestListSearch.propTypes = {
+  o11yTestListingInteraction: PropTypes.func.isRequired
+};
+
+TestListSearch.defaultProps = {};

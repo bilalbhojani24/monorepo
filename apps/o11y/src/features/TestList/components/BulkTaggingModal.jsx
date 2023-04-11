@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOpenInNew } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -21,6 +21,7 @@ import {
   updateIssueTypes
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import TestListStackTrace from './TestListStackTrace';
@@ -51,7 +52,7 @@ function BulkTaggingModal() {
     onSuccess,
     selectedTestItemData
   } = useSelector(getModalData);
-  const { data: buildMeta } = useSelector(getBuildMeta);
+  const { data: buildMeta, analyticsData } = useSelector(getBuildMeta);
   const availableIssueTypes = buildMeta?.issueTypes;
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedTestRunIds, setSelectedTestRunIds] = useState({});
@@ -66,6 +67,34 @@ function BulkTaggingModal() {
   const handleRadioChange = (e) => {
     setSelectedStatus(e);
   };
+
+  const OllyTestListingEvent = useCallback(
+    (eventName, data = {}) => {
+      logOllyEvent({
+        event: eventName,
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          build_name: buildMeta.data?.name,
+          build_uuid: buildMeta.data?.uuid,
+          source: analyticsData?.source,
+          ...data
+        }
+      });
+    },
+    [
+      activeProject.id,
+      activeProject.name,
+      analyticsData?.source,
+      buildMeta.data?.name,
+      buildMeta.data?.uuid
+    ]
+  );
+
+  useEffect(() => {
+    OllyTestListingEvent('O11yAnalyzerBulkTaggingInvoked');
+  }, [OllyTestListingEvent]);
+
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
   };
@@ -91,6 +120,13 @@ function BulkTaggingModal() {
     }
   };
   const handleSubmitChanges = () => {
+    OllyTestListingEvent('O11yAnalyzerBulkTaggingExecuted', {
+      similar_error_in: timeFrame.toLowerCase(),
+      issue_type: selectedStatus.name.replace(' ', '_').toLowerCase(),
+      select_all_clicked:
+        Object.keys(selectedTestRunIds).length ===
+        similarIssues?.data?.similar?.length
+    });
     setIsUpdating(true);
     const payloadData = Object.keys(selectedTestRunIds).map((el) => ({
       testRunId: parseInt(el, 10),

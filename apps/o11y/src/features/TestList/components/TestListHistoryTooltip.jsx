@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -8,6 +8,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import { LOG_TYPES, statusObjectPropType } from 'features/TestList/constants';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -17,12 +18,13 @@ import { milliSecondsToTime } from 'utils/dateTime';
 function TestListHistoryTooltip({ testRunId, status }) {
   const dispatch = useDispatch();
   const mounted = useRef(false);
-
+  const { o11yTestListingInteraction } = useContext(TestListContext);
   const historyData = useSelector((state) =>
     getTestHistoryDetails(state, testRunId)
   );
   const [isLoading, setIsLoading] = useState(false);
   const getClassesByStatus = (historyStatus) => {
+    o11yTestListingInteraction('history_hovered');
     switch (historyStatus) {
       case TEST_STATUS.FAIL:
         return 'text-danger-600';
