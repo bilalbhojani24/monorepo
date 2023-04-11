@@ -15,13 +15,11 @@ export default class Pusher {
     this.info.reconnects = -1;
     this.prefix = prefix;
     this.manager = manager;
-    this.auth_endpoint = authEndpoint;
+    this.authEndpoint = authEndpoint;
     this.eventHandlers = {};
     this.switched = false;
-    this.flushing = false;
     this.buffer = [];
-    this.status = 'not-connected';
-    this.disconnected_at = null;
+    this.disconnectedAt = null;
     this.pusherLogging = loggingEnabled;
 
     if (window.navigator) {
@@ -77,40 +75,37 @@ export default class Pusher {
     this.log('Subscribing');
     this.switched = false;
     this.info.reconnects += 1;
-    this.manager.send('subscribe', JSON.stringify(this.info));
+    this.manager.send('subscribe', this.info);
   };
 
   unsubscribe = () => {
     this.log('Unsubscribing');
     this.switched = false;
-    this.manager?.send('unsubscribe', JSON.stringify(this.info));
+    this.manager?.send('unsubscribe', this.info);
   };
 
   send = (event, message) => {
     this.log(`Sending event:${event} message:${message}`);
-    this.manager?.send(
-      `${this.prefix}push`,
-      JSON.stringify({ event, message })
-    );
+    this.manager?.send(`${this.prefix}push`, { event, message });
   };
 
   trigger = (event, data) => {
     switch (event) {
       case 'connect':
         this.subscribe();
-        if (this.info.time_ts) {
+        if (this.info.timeStamp) {
           this.trigger('reconnect');
         }
         break;
 
       case 'disconnect':
-        this.info.time_ts = new Date().getTime();
+        this.info.timeStamp = new Date().getTime();
         break;
 
       case 'invalid':
         this.log(data);
-        axios.get(this.auth_endpoint).then(({ data: dataObj }) => {
-          this.log(`Got reconnect token ${JSON.stringify(dataObj)}`);
+        axios.get(this.authEndpoint).then(({ data: dataObj }) => {
+          this.log(`Got reconnect token ${dataObj?.token}`);
           this.info.token = dataObj.token;
           this.info.channel = dataObj.channel;
           this.subscribe();
