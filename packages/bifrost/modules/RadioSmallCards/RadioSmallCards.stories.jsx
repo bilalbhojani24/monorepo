@@ -40,7 +40,7 @@ const defaultConfig = {
       type: { summary: 'STRING', required: false },
       description: 'Provide a label to component',
       control: { type: 'text' },
-      defaultValue: 'sample label'
+      defaultValue: ''
     },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
