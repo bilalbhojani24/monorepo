@@ -9,7 +9,7 @@
     "react-dom": "18.2.0"
   },
   "dependencies": {
-    "@browserstack/bifrost": "workspace:*",
+    "@browserstack/bifrost": "2.6.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*",
     "@reduxjs/toolkit": "^1.9.1",
