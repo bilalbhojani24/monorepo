@@ -24,6 +24,7 @@ import {
 } from 'common/bifrostProxy';
 
 import {
+  BDD,
   priorityOptions,
   statusOptions,
   templateOptions,
@@ -164,10 +165,11 @@ const AddEditTestCase = () => {
               label="Choose Template"
               options={templateOptions}
               value={
-                testCaseFormData.template &&
-                templateOptions.find(
-                  (item) => item.value === testCaseFormData.template
-                )
+                (testCaseFormData.template &&
+                  templateOptions.find(
+                    (item) => item.value === testCaseFormData.template
+                  )) ||
+                templateOptions[0]
               }
               onChange={(e) => handleTestCaseFieldChange('template', e.value)}
             />
@@ -186,7 +188,8 @@ const AddEditTestCase = () => {
             projectId={projectId}
           />
         </div>
-        {testCaseFormData.template === templateOptions[0].value ? (
+        {testCaseFormData.template === templateOptions[0].value ||
+        testCaseFormData.template === BDD ? (
           <>
             <div className="mt-4 flex gap-4">
               <div className="flex-1">
