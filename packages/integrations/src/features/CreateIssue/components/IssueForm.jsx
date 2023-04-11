@@ -171,7 +171,6 @@ const IssueForm = ({
     integrationToolFieldData,
     projectFieldData,
     issueTypeFieldData
-    // debouncedGetCreateMeta
   ]);
 
   useEffect(() => {
@@ -199,7 +198,6 @@ const IssueForm = ({
     integrationToolFieldData,
     projectFieldData,
     issueSearchFieldData
-    // debouncedGetUpdateMeta
   ]);
 
   const handleIssueTabChange = useCallback(
