@@ -1,3 +1,5 @@
+import { TEST_STATUS } from 'constants/common';
+
 import { LOG_LEVELS, TEXT_LOG_HUMANIZE } from './constants';
 
 const FORMAT_KEYWORDS_MAP = {
@@ -153,4 +155,19 @@ export const isError = (logLevel) => {
 export const isWarning = (logLevel) => {
   if (!logLevel) return false;
   return [LOG_LEVELS.WARN, LOG_LEVELS.WARNING].includes(logLevel);
+};
+
+export const getStatusColors = (status) => {
+  switch (status) {
+    case TEST_STATUS.PASS:
+      return 'bg-success-400';
+    case TEST_STATUS.FAIL:
+      return 'bg-danger-400';
+    case TEST_STATUS.PENDING:
+      return 'bg-brand-400';
+    case TEST_STATUS.TIMEOUT:
+      return 'bg-attention-400';
+    default:
+      return 'bg-base-400';
+  }
 };
