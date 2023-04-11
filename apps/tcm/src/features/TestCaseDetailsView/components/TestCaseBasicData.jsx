@@ -17,7 +17,7 @@ import {
   testCaseTypesOptions
 } from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
-import { getMappedValue } from 'utils/helperFunctions';
+import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
 
 import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
@@ -34,8 +34,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
     isShowAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick,
-    getAssignedTo
+    onJiraButtonClick
   } = useTestCaseViewDetails();
 
   return (
@@ -48,7 +47,8 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           value={testCaseDetails?.description || '--'}
         />
         <div className="flex flex-col">
-          {testCaseDetails.template === templateOptions?.[0].value ? (
+          {testCaseDetails.template === templateOptions?.[0].value ||
+          testCaseDetails.template === templateOptions?.[2].value ? (
             <>
               <DetailsSnippet
                 title="Steps"
@@ -90,7 +90,13 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           <div className="border-base-200 mb-4 w-full border-b" />
           <div className="flex w-full flex-wrap">
             <div className="w-3/6">
-              <DetailsSnippet title="Assigned to" value={getAssignedTo()} />
+              <DetailsSnippet
+                title={isFromTestRun ? 'Assign To' : 'Owner'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.assignee?.full_name,
+                  testCaseDetails?.owner_imported
+                )}
+              />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
@@ -111,30 +117,31 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={
-                  testCaseDetails?.status
-                    ? getMappedValue(statusOptions, testCaseDetails.status)
-                    : '--'
-                }
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.status,
+                  testCaseDetails?.status_imported,
+                  statusOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
-                value={
-                  testCaseDetails?.case_type
-                    ? getMappedValue(
-                        testCaseTypesOptions,
-                        testCaseDetails.case_type
-                      )
-                    : '--'
-                }
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.case_type,
+                  testCaseDetails?.case_type_imported,
+                  testCaseTypesOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                value={testCaseDetails?.priority || '--'}
+                // value={testCaseDetails?.priority || '--'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.priority,
+                  testCaseDetails?.priority_imported
+                )}
               />
             </div>
             <div className="w-full">

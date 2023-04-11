@@ -116,7 +116,7 @@ const TestCaseMutliData = ({
             <div className="mt-10">
               <TMEmptyState
                 title="No Issues"
-                description="Once you start linking issues with this test run, it will show here"
+                description="Once you start linking issues for this test case in test runs, they will show here"
                 mainIcon={
                   <InfoOutlinedIcon className="text-base-400 !h-12 !w-12" />
                 }
