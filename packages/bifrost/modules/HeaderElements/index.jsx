@@ -568,7 +568,7 @@ const HeaderElements = ({
             >
               <p
                 className={twClassNames(
-                  'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5 float-left whitespace-nowrap'
+                  'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5'
                 )}
               >
                 {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
