@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 import StatusBadgeItem from './StatusBadgeItem';
 
-function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
+function StatusBadges({ statusStats, onClickHandler, size }) {
   return (
     <div className="flex items-center gap-2">
       <StatusBadgeItem
+        size={size}
         text="Passed"
-        isSmallBadges={isSmallBadges}
         number={statusStats.passed}
         modifier="success"
         onClickHandler={(e) => {
@@ -17,8 +17,8 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         }}
       />
       <StatusBadgeItem
+        size={size}
         text="Failed"
-        isSmallBadges={isSmallBadges}
         number={statusStats.failed}
         modifier="error"
         onClickHandler={(e) =>
@@ -26,8 +26,8 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         }
       />
       <StatusBadgeItem
+        size={size}
         text="Skipped"
-        isSmallBadges={isSmallBadges}
         number={statusStats.skipped}
         modifier="base"
         onClickHandler={(e) =>
@@ -35,8 +35,8 @@ function StatusBadges({ statusStats, onClickHandler, isSmallBadges }) {
         }
       />
       <StatusBadgeItem
+        size={size}
         text="Unknown"
-        isSmallBadges={isSmallBadges}
         number={statusStats.timeout}
         modifier="warn"
         onClickHandler={(e) =>
@@ -55,7 +55,7 @@ StatusBadges.propTypes = {
     timeout: PropTypes.number
   }),
   onClickHandler: PropTypes.func,
-  isSmallBadges: PropTypes.bool
+  size: PropTypes.string
 };
 StatusBadges.defaultProps = {
   statusStats: {
@@ -65,7 +65,7 @@ StatusBadges.defaultProps = {
     timeout: 0
   },
   onClickHandler: () => {},
-  isSmallBadges: false
+  size: 'basic'
 };
 
 export default StatusBadges;

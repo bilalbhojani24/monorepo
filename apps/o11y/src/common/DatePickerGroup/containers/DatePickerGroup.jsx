@@ -151,11 +151,11 @@ DatePickerGroup.propTypes = {
   startDate: PropTypes.oneOfType([
     PropTypes.objectOf(PropTypes.any),
     PropTypes.number
-  ]).isRequired,
+  ]),
   endDate: PropTypes.oneOfType([
     PropTypes.objectOf(PropTypes.any),
     PropTypes.number
-  ]).isRequired,
+  ]),
   onDateSelect: PropTypes.func.isRequired,
   onErrorCb: PropTypes.func
 };
@@ -163,7 +163,9 @@ DatePickerGroup.propTypes = {
 DatePickerGroup.defaultProps = {
   onErrorCb: () => {},
   minDate: null,
-  maxDate: null
+  maxDate: null,
+  startDate: null,
+  endDate: null
 };
 
 export default DatePickerGroup;

@@ -1,4 +1,5 @@
-import { SNP_DATE_RANGE } from 'constants/common';
+import { parseDate } from '@internationalized/date';
+import { ISO_DATE_FORMAT, SNP_DATE_RANGE } from 'constants/common';
 import {
   endOfDay,
   format,
@@ -38,20 +39,20 @@ export function getCustomTimeStamp({
   if (dateFormat) {
     const formattedDate = format(dateObject, dateFormat);
     const returnDate = timeZone
-      ? `${formattedDate} ( ${timeZone} )`
+      ? `${formattedDate} (${timeZone})`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
   if (withoutTime) {
     const formattedDate = format(dateObject, 'MMM dd, yyyy');
     const returnDate = timeZone
-      ? `${formattedDate} ( ${timeZone} )`
+      ? `${formattedDate} (${timeZone})`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
   const formattedDate = format(dateObject, 'MMM dd, yyyy | h:mm:ss a');
   const returnDate = timeZone
-    ? `${formattedDate} ( ${timeZone} )`
+    ? `${formattedDate} (${timeZone})`
     : formattedDate;
   return withoutTZ ? formattedDate : returnDate;
 }
@@ -78,8 +79,8 @@ export function milliSecondsToTime(ms, html) {
   switch (true) {
     case hrs > 0:
       return html
-        ? `${hrs}${timeUnit}h${timeUnitCloseTag} ${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
-        : `${hrs}h ${mins}m ${secs}s`;
+        ? `${hrs}${timeUnit}h${timeUnitCloseTag} ${mins}${timeUnit}m${timeUnitCloseTag}`
+        : `${hrs}h ${mins}m`;
     case mins > 0:
       return html
         ? `${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
@@ -148,3 +149,6 @@ export function getTTTimeBounds(activeKey) {
   }
   return timebounds;
 }
+
+export const getISOParsedDate = (date) =>
+  parseDate(getDateInFormat(date, ISO_DATE_FORMAT));

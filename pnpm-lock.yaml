@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/Accessibility:
+  apps/accessibility:
     specifiers:
       '@browserstack/bifrost': 1.1.0
       '@browserstack/hooks': workspace:*
@@ -176,13 +176,13 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 2.4.0
+      '@browserstack/bifrost': 2.6.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
       '@browserstack/vite-config': workspace:*
-      '@internationalized/date': ^3.1.0
+      '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1
       '@tailwindcss/forms': 0.5.3
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
@@ -218,7 +218,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 2.4.0_2dww6gez5vudtpgd7qn6thheyu
+      '@browserstack/bifrost': 2.6.0_2dww6gez5vudtpgd7qn6thheyu
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -2270,8 +2270,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/2.4.0_2dww6gez5vudtpgd7qn6thheyu:
-    resolution: {integrity: sha512-N8K46R3lKtNdLHp6oTPTfmZjmCliSAoLm9nHkAoo/gsM/IiVwbHURlZAQoSrJk1FWboy+1fTHYYz3vFZjCW8sw==, tarball: download/@browserstack/bifrost/2.4.0/30aff85cf940d16916c8a249ffad116071c7722f}
+  /@browserstack/bifrost/2.6.0_2dww6gez5vudtpgd7qn6thheyu:
+    resolution: {integrity: sha512-IBDye4YCCgXiAlrbEdoAR0657yP1v8JgQeEQcePGLMeu4awObvEJp7Af9IpC3c/dRIR5og/hsDJg9goviZ9HXw==, tarball: download/@browserstack/bifrost/2.6.0/ec6386b07dafade268f28200c607cbceed9c2cb4}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -19777,6 +19777,7 @@ packages:
     dependencies:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nesting/10.2.0_postcss@8.4.20:
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
@@ -21097,7 +21098,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.76.0
       style-loader: 3.3.1_webpack@5.76.0
-      tailwindcss: 3.2.7_postcss@8.4.21
+      tailwindcss: 3.1.4_postcss@8.4.21
       terser-webpack-plugin: 5.3.7_webpack@5.76.0
       typescript: 4.9.5
       webpack: 5.76.0
@@ -23328,6 +23329,7 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tapable/0.1.10:
     resolution: {integrity: sha512-jX8Et4hHg57mug1/079yitEKWGB3LCwoxByLsNim89LABq8NqgiX+6iYVOsq0vX8uJHkU+DZ5fnq95f800bEsQ==}

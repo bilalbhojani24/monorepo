@@ -121,6 +121,7 @@ function BuildDetailsHeader() {
           icon={<O11yLoader loaderClass="h-4 w-4" />}
           metaDescription="Running"
           textColorClass="text-base-600"
+          metaTitle="Status"
         />
       );
     }
@@ -130,6 +131,7 @@ function BuildDetailsHeader() {
           icon={<MdCancel className="h-5 w-5" />}
           metaDescription="Failed"
           textColorClass="text-danger-600"
+          metaTitle="Status"
         />
       );
     if (TEST_STATUS.PASS === status)
@@ -138,6 +140,7 @@ function BuildDetailsHeader() {
           icon={<MdCheckCircle className="h-5 w-5" />}
           metaDescription="Passed"
           textColorClass="text-success-600"
+          metaTitle="Status"
         />
       );
     if (TEST_STATUS.UNKNOWN === status)
@@ -146,6 +149,7 @@ function BuildDetailsHeader() {
           icon={<MdHelp className="h-5 w-5" />}
           metaDescription="Unknown"
           textColorClass="text-attention-500"
+          metaTitle="Status"
         />
       );
     if (TEST_STATUS.SKIPPED === status)
@@ -154,6 +158,7 @@ function BuildDetailsHeader() {
           icon={<MdRemoveCircle className="h-5 w-5" />}
           metaDescription="Skipped"
           textColorClass="text-base-500"
+          metaTitle="Status"
         />
       );
     return (
@@ -161,6 +166,7 @@ function BuildDetailsHeader() {
         icon={<MdHelp className="h-5 w-5" />}
         metaDescription="Unknown"
         textColorClass="text-attention-500"
+        metaTitle="Status"
       />
     );
   };
@@ -235,6 +241,7 @@ function BuildDetailsHeader() {
           icon={<MdPerson className="h-5 w-5" />}
           metaDescription={user}
           textColorClass="text-base-500"
+          metaTitle="Run by"
         />
         {startedAt && (
           <O11yMetaData
@@ -243,6 +250,7 @@ function BuildDetailsHeader() {
               dateString: new Date(startedAt)
             })}
             textColorClass="text-base-500"
+            metaTitle="Started at"
           />
         )}
         {versionControlInfo?.commitId && (
@@ -260,6 +268,7 @@ function BuildDetailsHeader() {
               }
               metaDescription={versionControlInfo.commitId.slice(0, 8)}
               textColorClass="text-base-500 hover:text-brand-700"
+              metaTitle="Commit Id"
             />
           </Hyperlink>
         )}
@@ -303,6 +312,7 @@ function BuildDetailsHeader() {
             icon={<MdOutlineTimer className="h-5 w-5" />}
             metaDescription={milliSecondsToTime(duration)}
             textColorClass="text-base-500"
+            metaTitle="Duration"
           />
         )}
         <ViewMetaPopOver
