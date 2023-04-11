@@ -6,7 +6,6 @@ import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES } from 'constants/common';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   EMPTY_APPLIED_FILTERS,
@@ -14,6 +13,7 @@ import {
   EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE
 } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import {
   getAppliedFilters,
   getTestList

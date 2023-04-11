@@ -9,12 +9,12 @@ import {
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import StatusBadges from 'common/StatusBadges';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
   singleItemPropType
 } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import PropTypes from 'prop-types';
 import {
   capitalize,

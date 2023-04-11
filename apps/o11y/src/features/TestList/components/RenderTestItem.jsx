@@ -7,7 +7,6 @@ import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
@@ -15,6 +14,7 @@ import {
   singleItemPropType,
   singleItemTestDetails
 } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';

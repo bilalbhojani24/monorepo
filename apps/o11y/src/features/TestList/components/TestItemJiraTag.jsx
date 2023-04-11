@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import JiraTag from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import { singleItemTestDetails } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import PropTypes from 'prop-types';
 
 const generatedIssueName = (url) => url.split('/').pop();
