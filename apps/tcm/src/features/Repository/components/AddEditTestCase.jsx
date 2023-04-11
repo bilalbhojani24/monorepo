@@ -24,6 +24,7 @@ import {
 } from 'common/bifrostProxy';
 
 import {
+  BDD,
   priorityOptions,
   statusOptions,
   templateOptions,
@@ -188,7 +189,7 @@ const AddEditTestCase = () => {
           />
         </div>
         {testCaseFormData.template === templateOptions[0].value ||
-        testCaseFormData.template === 'bdd' ? (
+        testCaseFormData.template === BDD ? (
           <>
             <div className="mt-4 flex gap-4">
               <div className="flex-1">

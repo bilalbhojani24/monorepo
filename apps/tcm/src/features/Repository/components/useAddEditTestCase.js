@@ -18,7 +18,7 @@ import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
+import { BDD, stepTemplate, templateOptions } from '../const/addTestCaseConst';
 import {
   addSingleTestCase,
   // resetBulkFormData,
@@ -151,7 +151,7 @@ export default function useAddEditTestCase(prop) {
       if (Array.isArray(value)) {
         if (
           templateOptions[0].value === testCaseFormData.template ||
-          testCaseFormData.template === 'bdd'
+          testCaseFormData.template === BDD
         ) {
           return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
         }

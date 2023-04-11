@@ -12,6 +12,7 @@ import {
 } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import {
+  BDD,
   statusOptions,
   templateOptions,
   testCaseTypesOptions
@@ -48,7 +49,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
         />
         <div className="flex flex-col">
           {testCaseDetails.template === templateOptions?.[0].value ||
-          testCaseDetails.template === 'bdd' ? (
+          testCaseDetails.template === BDD ? (
             <>
               <DetailsSnippet
                 title="Steps"
