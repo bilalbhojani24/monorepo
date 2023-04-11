@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -63,6 +65,18 @@ const defaultConfig = {
 };
 const Template = (args) => <RadioSmallCards {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('sample text')).toBeVisible();
+  await expect(canvas.getByRole('radiogroup')).toBeVisible();
+  await expect(canvas.queryAllByRole('radio')[4]).toBeChecked();
+  await userEvent.click(canvas.queryAllByRole('radio')[0]);
+  await expect(canvas.queryAllByRole('radio')[0]).toBeChecked();
+  await userEvent.click(canvas.queryAllByRole('radio')[1]);
+  await expect(canvas.queryAllByRole('radio')[1]).toBeChecked();
+  await userEvent.click(canvas.queryAllByRole('radio')[5]);
+  await expect(canvas.queryAllByRole('radio')[1]).toBeChecked();
+};
 Primary.parameters = {
   controls: {}
 };
