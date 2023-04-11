@@ -8,7 +8,7 @@ import { MdError, MdReplay } from '../Icon';
 const MediaPlayerErrorState = ({ onReloadClick, wrapperClassName }) => (
   <div
     className={twClassNames(
-      'flex justify-center items-center bg-base-200 rounded gap-1',
+      'flex justify-center items-center bg-base-100 rounded gap-1',
       wrapperClassName
     )}
   >

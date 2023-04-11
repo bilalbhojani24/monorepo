@@ -103,7 +103,10 @@ const MediaPlayerRightControls = forwardRef(
             <Dropdown
               onClick={(option) => handleAdditionalSettingClick(option)}
             >
-              <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+              <DropdownTrigger
+                wrapperClassName="p-0 border-0 shadow-transparent"
+                triggerAriaLabel="additional settings"
+              >
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </DropdownTrigger>
               <DropdownOptionGroup>
