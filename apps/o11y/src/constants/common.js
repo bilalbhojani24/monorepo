@@ -178,6 +178,14 @@ export const PUSHER_EVENTS = {
   NEW_PROJECT: 'NEW_PROJECT'
 };
 
+export const TEST_DETAILS_SOURCE = {
+  TESTS_LISTING: 'test_listing',
+  BUILD_INSIGHTS_UNIQUE_ERRORS: 'build_insights_unique_errors',
+  SUITE_HEALTH_TESTS: 'suite_health_tests',
+  SUITE_HEALTH_ERRORS: 'suite_health_errors'
+};
+
+export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
 export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'

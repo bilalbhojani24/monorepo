@@ -7,13 +7,13 @@ import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
-  setIsSnPDetailsVisible,
-  setShowSnPDetailsFor,
+  setIsSHTestsDetailsVisible,
+  setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
 import {
-  setIsDetailsVisible,
-  setShowDetailsFor
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
 } from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -102,11 +102,11 @@ export default function SHTests() {
     const searchParams = new URLSearchParams(window.location.search);
     const testDetails = searchParams.get('details');
     if (testDetails) {
-      dispatch(setIsDetailsVisible(true));
-      dispatch(setShowDetailsFor(testDetails));
+      dispatch(setIsTestDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(testDetails));
     }
     return () => {
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsTestDetailsVisible(false));
     };
   }, [dispatch]);
 
@@ -127,11 +127,11 @@ export default function SHTests() {
           deviceKey: searchParams.get(SNP_PARAMS_MAPPING.snpDeviceKeys) || ''
         })
       );
-      dispatch(setIsSnPDetailsVisible(true));
-      dispatch(setShowSnPDetailsFor(snpDetails));
+      dispatch(setIsSHTestsDetailsVisible(true));
+      dispatch(setShowSHTestsDetailsFor(snpDetails));
     }
     return () => {
-      dispatch(setIsSnPDetailsVisible(false));
+      dispatch(setIsSHTestsDetailsVisible(false));
     };
   }, [dispatch]);
 
@@ -160,9 +160,9 @@ export default function SHTests() {
           deviceKey: ''
         })
       );
-      dispatch(setIsDetailsVisible(false));
-      dispatch(setShowSnPDetailsFor(activeRow.id));
-      dispatch(setIsSnPDetailsVisible(true));
+      dispatch(setIsTestDetailsVisible(false));
+      dispatch(setShowSHTestsDetailsFor(activeRow.id));
+      dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.delete('details');
       searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);

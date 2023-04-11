@@ -12,6 +12,7 @@ import {
   EmptyState,
   Hyperlink,
   InputField,
+  MediaPlayerControlPanel,
   Metadata,
   Modal,
   ModalBody,
@@ -19,6 +20,8 @@ import {
   ModalHeader,
   PageHeadings,
   Popover,
+  PopoverBody,
+  PopoverFooter,
   RadioGroup,
   RadioSmallCards,
   SelectMenu,
@@ -45,6 +48,7 @@ import {
   Tooltip,
   TruncateText
 } from '@browserstack/bifrost';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
 import O11yComboBox from './components/O11yComboBox';
 import O11yHeader from './components/O11yHeader';
@@ -80,6 +84,8 @@ export const O11yMetaData = (props) => <Metadata {...props} />;
 export const O11yModalHeader = (props) => <ModalHeader {...props} />;
 export const O11yModalFooter = (props) => <ModalFooter {...props} />;
 export const O11yPopover = (props) => <Popover {...props} />;
+export const O11yPopoverBody = (props) => <PopoverBody {...props} />;
+export const O11yPopoverFooter = (props) => <PopoverFooter {...props} />;
 export const O11yRadioGroup = (props) => <RadioGroup {...props} />;
 export const O11yRadioSmallCards = (props) => <RadioSmallCards {...props} />;
 export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
@@ -98,10 +104,10 @@ export const O11yTabs = (props) => <Tabs {...props} />;
 export const O11yInputField = forwardRef((props, ref) => (
   <InputField {...props} ref={ref} />
 ));
-export const O11ySlideover = (props) => {
-  const topMarginElementId = 'bstack-header';
-  return <Slideover {...props} topMarginElementId={topMarginElementId} />;
-};
+
+export const O11ySlideover = (props) => (
+  <Slideover {...props} topMarginElementId={BSTACK_TOPNAV_ELEMENT_ID} />
+);
 export const O11ySlideoverHeader = (props) => <SlideoverHeader {...props} />;
 export const O11ySlideoverBody = (props) => <SlideoverBody {...props} />;
 export const O11yTruncateText = TruncateText;
@@ -113,6 +119,10 @@ export const O11yStackedListGroup = (props) => <StackedListGroup {...props} />;
 export const O11yStackedListItem = (props) => <StackedListItem {...props} />;
 export const O11yStackedListCommon = (props) => (
   <StackedListCommon {...props} />
+);
+
+export const O11yMediaPlayerControlPanel = (props) => (
+  <MediaPlayerControlPanel {...props} />
 );
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };
