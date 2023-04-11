@@ -76,6 +76,10 @@ const HistorySlider = () => {
     [dispatch, navigate, tabs]
   );
 
+  if (isEmpty(tabs)) {
+    return null;
+  }
+
   return (
     <div className="mb-4 px-6">
       <O11yTabs

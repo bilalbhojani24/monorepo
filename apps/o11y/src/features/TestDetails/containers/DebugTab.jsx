@@ -33,7 +33,7 @@ export const LOGS_INFO_TAB_KEYS = {
   network: 'network'
 };
 
-const LogsTab = () => {
+const DebugTab = () => {
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const videoRef = useRef(null);
@@ -347,6 +347,6 @@ const LogsTab = () => {
   );
 };
 
-LogsTab.propTypes = {};
+DebugTab.propTypes = {};
 
-export default LogsTab;
+export default DebugTab;

@@ -6,9 +6,9 @@ import {
   TEST_DETAILS_TABS
 } from '../constants';
 
+import DebugTab from './DebugTab';
 import HistorySlider from './HistorySlider';
 import InfoTab from './InfoTab';
-import LogsTab from './LogsTab';
 import TestDetailsHeader from './TestDetailsHeader';
 
 const SlideOverBody = () => {
@@ -45,7 +45,7 @@ const SlideOverBody = () => {
         <HistorySlider />
         <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
         <div className="flex-1 overflow-hidden px-6" ref={scrollParentRef}>
-          {activeTab.value === TEST_DETAILS_TABS.logs && <LogsTab />}
+          {activeTab.value === TEST_DETAILS_TABS.logs && <DebugTab />}
           {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
         </div>
       </div>

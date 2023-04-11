@@ -8,7 +8,7 @@ import { useLogsContext } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import { getTestDetails } from '../slices/selectors';
 
-import { LOGS_INFO_TAB_KEYS } from './LogsTab';
+import { LOGS_INFO_TAB_KEYS } from './DebugTab';
 import TestConsolidatedLogs from './TestConsolidatedLogs';
 import TestNetworkLogs from './TestNetworkLogs';
 
