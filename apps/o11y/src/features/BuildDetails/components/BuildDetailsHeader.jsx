@@ -8,7 +8,7 @@ import {
   MdAutoAwesome,
   MdCancel,
   MdCheckCircle,
-  MdContactSupport,
+  MdHelp,
   MdOutlineAutoFixHigh,
   MdOutlineTimer,
   MdPerson,
@@ -27,8 +27,9 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
+import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
@@ -55,6 +56,22 @@ function BuildDetailsHeader() {
   const buildMeta = useSelector(getBuildMeta);
   const dispatch = useDispatch();
   const buildUUID = useSelector(getBuildUUID);
+  const activeProject = useSelector(getActiveProject);
+
+  const logMetaInteractionEvent = (interaction, addOns = {}) => {
+    logOllyEvent({
+      event: 'O11yBuildMetaHeaderInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        build_name: buildMeta.data?.name,
+        build_uuid: buildMeta.data?.uuid,
+        interaction,
+        ...addOns
+      }
+    });
+  };
+
   useEffect(() => {
     if (buildUUID) {
       dispatch(getBuildMetaData({ buildUUID }));
@@ -76,7 +93,14 @@ function BuildDetailsHeader() {
       })
     );
     searchParams.set('tab', tabInfo.value);
+    logMetaInteractionEvent('tab_changed', {
+      active: tabInfo.value
+    });
     navigate({ search: searchParams.toString() });
+  };
+
+  const handleClickStatusBadge = ({ itemClicked }) => {
+    logMetaInteractionEvent(`${itemClicked}_clicked`);
   };
 
   if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
@@ -142,7 +166,7 @@ function BuildDetailsHeader() {
       default:
         return (
           <O11yMetaData
-            icon={<MdContactSupport className="h-5 w-5" />}
+            icon={<MdHelp className="h-5 w-5" />}
             metaDescription="Unknown"
             textColorClass="text-attention-500"
           />
@@ -165,7 +189,7 @@ function BuildDetailsHeader() {
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 border-b px-8 pt-6">
+    <div className="border-base-200 border-b p-6 pb-0">
       <h1 className="text-2xl font-bold leading-7">
         {isAutoDetectedName ? originalName : name}{' '}
         <div className="inline-block">
@@ -179,19 +203,27 @@ function BuildDetailsHeader() {
                   <p className="text-base-300 text-sm leading-5">
                     Static build name automatically detected: {name}
                   </p>
-                  <a
-                    target="_new"
+                  <Hyperlink
+                    target="_blank"
                     href={getDocUrl({
                       path: DOC_KEY_MAPPING.automation_build
                     })}
-                    className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                    wrapperClassName="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                    onClick={() => {
+                      logMetaInteractionEvent('auto_detect_learn_more_clicked');
+                    }}
                   >
                     Learn More
-                  </a>
+                  </Hyperlink>
                 </div>
               }
             >
-              <MdOutlineAutoFixHigh className="text-base-500 mx-2 inline-block text-xl" />
+              <MdOutlineAutoFixHigh
+                className="text-base-500 mx-2 inline-block text-xl"
+                onMouseEnter={() => {
+                  logMetaInteractionEvent('auto_detect_hovered');
+                }}
+              />
             </O11yTooltip>
           )}
         </div>
@@ -223,7 +255,11 @@ function BuildDetailsHeader() {
           />
         )}
         {versionControlInfo?.commitId && (
-          <Hyperlink href={versionControlInfo?.url}>
+          <Hyperlink
+            href={versionControlInfo?.url}
+            target="_blank"
+            onClick={() => logMetaInteractionEvent('commit_sha_clicked')}
+          >
             <O11yMetaData
               icon={
                 <VCIcon
@@ -253,7 +289,11 @@ function BuildDetailsHeader() {
               </>
             }
           >
-            <Hyperlink href={versionControlInfo?.url}>
+            <Hyperlink
+              href={versionControlInfo?.url}
+              target="_blank"
+              onClick={() => logMetaInteractionEvent('ci_url_clicked')}
+            >
               <O11yMetaData
                 icon={
                   <CiIcon
@@ -274,7 +314,12 @@ function BuildDetailsHeader() {
             textColorClass="text-base-500"
           />
         )}
-        <ViewMetaPopOver data={buildMeta.data || {}} />
+        <ViewMetaPopOver
+          data={buildMeta.data || {}}
+          handleInteraction={({ interaction }) =>
+            logMetaInteractionEvent(interaction)
+          }
+        />
       </div>
       <div className="-mb-[1px] flex justify-between">
         <O11yTabs
@@ -282,7 +327,10 @@ function BuildDetailsHeader() {
           tabsArray={tabsList}
           onTabChange={onTabChange}
         />
-        <StatusBadges statusStats={statusStats} />
+        <StatusBadges
+          statusStats={statusStats}
+          onClickHandler={handleClickStatusBadge}
+        />
       </div>
     </div>
   );

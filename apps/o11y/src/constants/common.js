@@ -8,17 +8,21 @@ export const DOC_KEY_MAPPING = {
   re_run: 'features/re-run',
   mute: 'features/mute-tests',
   source_code: 'integrations/source-code',
-  automation_build: 'how-to-guides/organize-test-runs'
+  automation_build: 'how-to-guides/organize-test-runs',
+  application_logs: 'integrations/application-logs'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
 
 export const API_STATUSES = {
-  IDLE: 'idle',
-  PENDING: 'pending',
+  EMPTY: 'empty',
+  ERROR: 'error',
+  FAILED: 'failed',
   FULFILLED: 'fulfilled',
-  FAILED: 'failed'
+  IDLE: 'idle',
+  LOADING: 'loading',
+  PENDING: 'pending'
 };
 
 export const TEST_STATUS = {
@@ -79,6 +83,61 @@ export const TOOLTIP_STYLES = {
   }
 };
 
+export const COMMON_CHART_CONFIGS = {
+  title: {
+    text: null
+  },
+  exporting: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
+  },
+  time: {
+    timezoneOffset: new Date().getTimezoneOffset()
+  },
+  legend: {
+    symbolHeight: 8,
+    symbolWidth: 8,
+    symbolRadius: 8,
+    align: 'left',
+    verticalAlign: 'top',
+    x: -10,
+    itemStyle: {
+      color: '#333',
+      fontWeight: 'normal',
+      textTransform: 'capitalize'
+    }
+  }
+};
+
+export const COMMON_CHART_STYLES = {
+  panning: true,
+  panKey: 'shift',
+  resetZoomButton: {
+    position: {
+      x: 0,
+      y: -10
+    },
+    theme: {
+      fill: 'white',
+      stroke: 'silver',
+      r: 3,
+      states: {
+        hover: {
+          fill: '#0067dd',
+          style: {
+            color: 'white'
+          }
+        }
+      }
+    }
+  },
+  style: {
+    fontFamily: '"Inter", sans-serif'
+  }
+};
+
 export const UNSUPPORTED_HTML_TAGS = [
   'anonymous',
   'html',
@@ -117,4 +176,9 @@ export const PUSHER_EVENTS = {
   UE_ANALYZER_STARTED: 'UE_ANALYZER_STARTED',
   UE_ANALYZER_COMPLETED: 'UE_ANALYZER_COMPLETED',
   NEW_PROJECT: 'NEW_PROJECT'
+};
+
+export const NOTIFICATION_TYPES = {
+  dailySummary: 'DAILY_SUMMARY_EMAIL',
+  buildInsights: 'BUILD_FINISH_EMAIL'
 };
