@@ -1,12 +1,12 @@
 import { cookieUtils as Cookie } from '@browserstack/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 import {
   setHasToken,
   uatConfigSelector
 } from '../features/slices/userAuthSlice';
 
-import axios from './axiosInstance';
 import { REQUEST_TIMOUT, UAT_COOKIE_NAME } from './constants';
 
 export const fetchToken = (_, { getState, dispatch }) => {

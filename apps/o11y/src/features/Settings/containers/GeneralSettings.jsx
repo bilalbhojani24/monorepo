@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateIssue } from '@browserstack/integrations';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
-import { versionedBaseRoute } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getEnvConfig, getNumericValue, logOllyEvent } from 'utils/common';
+import { getNumericValue, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
@@ -19,10 +17,6 @@ export default function GeneralSettings() {
   const activeProject = useSelector(getActiveProject);
   const [buildTimeout, setBuildTimeout] = useState(0);
   const [buildTimeoutError, setBuildTimeoutError] = useState('');
-
-  const [showBugReport, setShowBugReport] = useState(false);
-
-  const buttonRef = useRef();
 
   const dispatch = useDispatch();
   const mounted = useRef(false);
@@ -99,20 +93,6 @@ export default function GeneralSettings() {
       });
   };
 
-  const options = {
-    description:
-      '| Build Name | TestNG-Sanity | | Build Id | 4 | | Test Name | testng/src/test/java/com/bstackdemo/HomePageBasicTest.java > All-P1-Suite > HomePage-Suite > com.bstackdemo.HomePageBasicTest > testBrowserstackLogoTextFail | | Test Url | TBD | | Test Status | failed | | OS | ANDROID,12 | | Browser | Chrome,Unknown | | Host name | Dinesh*con-C02DM1WBML7H | | Defect Type | Product Bug | | Duration | 801.00ms | | isAutoAnalyzed | true |',
-    attachments: [],
-    successCallback: ({ ticketId, ticketUrl, attachment }) => {
-      // eslint-disable-next-line no-console
-      console.log('object :>> ', ticketId, ticketUrl, attachment);
-    },
-    errorCallback: (error) => {
-      // eslint-disable-next-line no-console
-      console.log('error :>> ', error);
-    }
-  };
-
   return (
     <SettingsCard>
       <div className="p-6">
@@ -151,26 +131,6 @@ export default function GeneralSettings() {
           Save Changes
         </O11yButton>
       </div>
-      <div ref={buttonRef}>
-        <O11yButton onClick={() => setShowBugReport(true)}>
-          Report bug
-        </O11yButton>
-      </div>
-      <CreateIssue
-        isOpen={showBugReport}
-        handleClose={() => setShowBugReport(false)}
-        position="right"
-        // positionRef={buttonRef}
-        auth={{
-          url: `${versionedBaseRoute()}/integration-service/accessToken`
-        }}
-        // Used to configure the Env
-        config={{
-          baseURL: getEnvConfig().integrationsBaseUrl
-        }}
-        // Optional Fields
-        options={options}
-      />
     </SettingsCard>
   );
 }
