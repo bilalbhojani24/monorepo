@@ -252,7 +252,7 @@ function BulkTaggingModal() {
               )}
               onClick={() => setTimeFrame(DATE_RANGE.LAST_10_BUILDS.value)}
             >
-              {DATE_RANGE.CURRENT_BUILD.label}
+              {DATE_RANGE.LAST_10_BUILDS.label}
             </O11yButton>
             <O11yButton
               colors="white"
