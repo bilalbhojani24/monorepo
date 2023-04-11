@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 
 const DraggableWrapper = (
-  { children, isBodyBounded, bounds, handle, initialPosition, position },
+  { children, isBodyBounded, bounds, handle, initialPosition },
   nodeRef
 ) => {
   const [activeDrags, setActiveDrags] = useState(0);
@@ -23,7 +23,6 @@ const DraggableWrapper = (
       bounds={isBodyBounded ? 'body' : bounds}
       handle={handle}
       defaultPosition={initialPosition}
-      position={position}
       nodeRef={nodeRef}
     >
       {children}
@@ -43,10 +42,6 @@ DraggableWrapper.propTypes = {
   initialPosition: PropTypes.objectOf({
     x: PropTypes.number,
     y: PropTypes.number
-  }),
-  position: PropTypes.objectOf({
-    x: PropTypes.number,
-    y: PropTypes.number
   })
 };
 
@@ -55,8 +50,7 @@ DraggableWrapper.defaultProps = {
   isBodyBounded: false,
   bounds: false,
   handle: null,
-  initialPosition: { x: 0, y: 0 },
-  position: null
+  initialPosition: { x: 0, y: 0 }
 };
 
 export default forwardRef(DraggableWrapper);

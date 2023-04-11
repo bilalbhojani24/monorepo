@@ -2,8 +2,6 @@ import React from 'react';
 import { ResizableBox } from 'react-resizable';
 import PropTypes from 'prop-types';
 
-import { RESIZE_HANDLE_AXES } from './const/resizableConstants';
-
 import './styles.scss';
 
 const ResizableWrapper = ({
@@ -15,8 +13,7 @@ const ResizableWrapper = ({
   resizeHandles,
   minConstraints,
   maxConstraints,
-  handleSize,
-  ...rest
+  handleSize
 }) => (
   <ResizableBox
     className={className}
@@ -27,7 +24,6 @@ const ResizableWrapper = ({
     resizeHandles={resizeHandles}
     minConstraints={minConstraints}
     maxConstraints={maxConstraints}
-    { ...rest }
   >
     {children}
   </ResizableBox>
@@ -39,7 +35,7 @@ ResizableWrapper.propTypes = {
   className: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
-  resizeHandles: PropTypes.oneOf(RESIZE_HANDLE_AXES),
+  resizeHandles: PropTypes.oneOf(['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']),
   maxConstraints: PropTypes.arrayOf(PropTypes.number),
   minConstraints: PropTypes.arrayOf(PropTypes.number),
   handleSize: PropTypes.arrayOf(PropTypes.number)
