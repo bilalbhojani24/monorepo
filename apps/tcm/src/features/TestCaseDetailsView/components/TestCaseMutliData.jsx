@@ -82,7 +82,7 @@ const TestCaseMutliData = ({
   const tcIssuesTableColumn = [
     {
       name: 'Issue',
-      key: 'test_run_identifier',
+      key: 'jira_id',
       cell: (rowData) => (
         <div
           className="text-base-900 cursor-pointer font-medium"
@@ -90,9 +90,9 @@ const TestCaseMutliData = ({
           tabIndex={0}
           onClick={() => onJiraButtonClick(rowData.test_run_id)}
           onKeyDown={(e) =>
-            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData.test_run_id))
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData?.jira_id))
           }
-        >{`${rowData.test_run_identifier}`}</div>
+        >{`${rowData?.jira_id}`}</div>
       )
     },
     {
@@ -113,7 +113,7 @@ const TestCaseMutliData = ({
     {
       name: 'Linked On',
       key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at, 'date')
+      cell: (rowData) => formatTime(rowData?.test_run_created_at, 'date')
     }
   ];
 

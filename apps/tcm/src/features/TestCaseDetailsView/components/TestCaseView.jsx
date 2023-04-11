@@ -45,7 +45,7 @@ const TestCaseView = ({
             testResultsArray={
               isFromTestRun
                 ? testResultsArray
-                : testCaseDetails?.test_run_results
+                : testCaseDetails?.test_run_issues
             }
             testRunName={testRunName}
           />
