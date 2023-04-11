@@ -82,6 +82,17 @@ const { actions, reducer } = createSlice({
     },
     setFiltersMetaData: (state, { payload }) => {
       state.filtersMetaData = { ...state.filtersMetaData, ...payload };
+    },
+    findAndUpdateBuilds: (state, { payload }) => {
+      const updatedBuilds = payload || [];
+      updatedBuilds.forEach((build) => {
+        const idxToUpdate = state.builds.findIndex(
+          (item) => item.uuid === build.uuid
+        );
+        if (idxToUpdate !== -1) {
+          state.builds[idxToUpdate] = build;
+        }
+      });
     }
   },
   extraReducers: (builder) => {
@@ -109,7 +120,8 @@ export const {
   setBuilds,
   setAppliedFilters,
   setSelectedFilters,
-  setFiltersMetaData
+  setFiltersMetaData,
+  findAndUpdateBuilds
 } = actions;
 
 export default reducer;
