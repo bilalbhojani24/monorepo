@@ -293,27 +293,27 @@ const DebugTab = () => {
                 <O11yButton
                   variant="minimal"
                   wrapperClassName=""
-                  icon={<MdArrowDownward className="text-base-700 h-4 w-4" />}
+                  icon={<MdArrowDownward className="h-4 w-4" />}
                   onClick={handleNextStep}
                   disabled={activeStep === totalSteps}
                   size="small"
                   colors="white"
                 >
-                  <span className="text-base-700 text-xs font-medium leading-4">
+                  <span className="text-xs font-medium leading-4">
                     Next step
                   </span>
                 </O11yButton>
                 <O11yButton
                   variant="minimal"
                   wrapperClassName=""
-                  icon={<MdArrowUpward className="text-base-700 h-4 w-4" />}
+                  icon={<MdArrowUpward className="h-4 w-4" />}
                   onClick={handlePrevStep}
                   disabled={activeStep <= 0}
                   size="small"
                   colors="white"
                   iconPlacement="end"
                 >
-                  <span className="text-base-700 text-xs font-medium leading-4">
+                  <span className="text-xs font-medium leading-4">
                     Previous step
                   </span>
                 </O11yButton>
