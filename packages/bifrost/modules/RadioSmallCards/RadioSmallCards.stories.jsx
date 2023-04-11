@@ -5,12 +5,12 @@ import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import RadioSmallCards from './index';
 
 const options = [
-  { name: '4 gb', disabled: false },
-  { name: '8 gb', disabled: false },
-  { name: '16 gb', disabled: false },
-  { name: '32 gb', disabled: false },
-  { name: '64 gb', disabled: false },
-  { name: '128 gb', disabled: true }
+  { id: '1', name: '4 gb', disabled: false },
+  { id: '2', name: '8 gb', disabled: false },
+  { id: '3', name: '16 gb', disabled: false },
+  { id: '4', name: '32 gb', disabled: false },
+  { id: '5', name: '64 gb', disabled: false },
+  { id: '6', name: '128 gb', disabled: true }
 ];
 const defaultConfig = {
   title: 'Application/Components/RadioSmallCards',
@@ -55,8 +55,8 @@ const defaultConfig = {
       control: { type: 'text' },
       defaultValue: ''
     },
-    value: {
-      defaultValue: options[2]
+    defaultValue: {
+      defaultValue: options[4]
     }
   },
   controls: {}
@@ -68,19 +68,14 @@ Primary.parameters = {
 };
 
 export const ControlledExample = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(options[1]);
 
   return (
     <RadioSmallCards
       value={selectedValue}
       onChange={(e) => setSelectedValue(e)}
-      options={[
-        { name: '4 gb', disabled: false },
-        { name: '8 gb', disabled: false },
-        { name: '16 gb', disabled: false },
-        { name: '32 gb', disabled: false },
-        { name: '64 gb', disabled: false }
-      ]}
+      columnWrapperClassName="sm:grid-cols-5"
+      options={options}
     />
   );
 };
