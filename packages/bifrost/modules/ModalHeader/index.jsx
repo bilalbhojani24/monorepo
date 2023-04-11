@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { XMarkIcon } from '../Icon';
 
-import './styles.scss';
-
 const ModalHeader = ({
   dismissButton,
   handleDismissClick,
@@ -38,12 +36,11 @@ const ModalHeader = ({
       {heading || dismissButton ? (
         <div
           className={twClassNames('flex w-full', {
-            'justify-between': heading,
             'justify-end': !heading
           })}
         >
           {heading ? (
-            <h3 className="text-base-900 text-lg font-medium leading-6">
+            <h3 className="text-base-900 flex-1 text-lg font-medium leading-6">
               {heading}
             </h3>
           ) : null}
