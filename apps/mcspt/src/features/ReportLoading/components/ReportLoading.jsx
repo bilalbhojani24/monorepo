@@ -125,25 +125,27 @@ const ReportLoading = () => {
             />
           )}
 
-          {sessionState !== REPORT_LOADING_STATES.STOPPING && (
-            <div className="mt-6">
-              <Button
-                loading={isSessionStopInProgress}
-                icon={<MdOutlineAnalytics />}
-                variant="primary"
-                colors="brand"
-                size="extra-large"
-                onClick={() => {
-                  setShowGenerateReportPrompt(true);
-                }}
-                disabled={sessionState !== REPORT_LOADING_STATES.RECORDING}
-              >
-                Generate Performance Report
-              </Button>
-            </div>
-          )}
+          {sessionState !== REPORT_LOADING_STATES.STOPPING &&
+            sessionState !== REPORT_LOADING_STATES.COMPLETE && (
+              <div className="mt-6">
+                <Button
+                  loading={isSessionStopInProgress}
+                  icon={<MdOutlineAnalytics />}
+                  variant="primary"
+                  colors="brand"
+                  size="extra-large"
+                  onClick={() => {
+                    setShowGenerateReportPrompt(true);
+                  }}
+                  disabled={sessionState !== REPORT_LOADING_STATES.RECORDING}
+                >
+                  Generate Performance Report
+                </Button>
+              </div>
+            )}
 
-          {sessionState === REPORT_LOADING_STATES.STOPPING && (
+          {(sessionState === REPORT_LOADING_STATES.STOPPING ||
+            sessionState === REPORT_LOADING_STATES.COMPLETE) && (
             <div className="bg-info-50 mt-2 flex rounded-md p-4">
               <div className="text-info-400 mr-3 text-xl">
                 <MdTipsAndUpdates />
