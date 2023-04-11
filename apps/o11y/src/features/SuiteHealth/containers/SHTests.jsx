@@ -11,10 +11,7 @@ import {
   setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
-import {
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -100,18 +97,6 @@ export default function SHTests() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const testDetails = searchParams.get('details');
-    if (testDetails) {
-      dispatch(setIsTestDetailsVisible(true));
-      dispatch(setShowTestDetailsFor(testDetails));
-    }
-    return () => {
-      dispatch(setIsTestDetailsVisible(false));
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
     const snpDetails = searchParams.get(SNP_PARAMS_MAPPING.snpTestDetails);
     if (snpDetails) {
       dispatch(
@@ -160,11 +145,10 @@ export default function SHTests() {
           deviceKey: ''
         })
       );
-      dispatch(setIsTestDetailsVisible(false));
+      dispatch(hideTestDetailsDrawer());
       dispatch(setShowSHTestsDetailsFor(activeRow.id));
       dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.delete('details');
       searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
       navigate({ search: searchParams.toString() });
     }

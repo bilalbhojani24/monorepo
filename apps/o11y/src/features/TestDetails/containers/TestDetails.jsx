@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { O11ySlideover } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
@@ -11,6 +11,10 @@ import {
   getIsTestDetailsVisible,
   getShowTestDetailsFor
 } from '../slices/selectors';
+import {
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor
+} from '../slices/uiSlice';
 
 import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
@@ -20,6 +24,7 @@ const TestDetails = ({ source }) => {
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowTestDetailsFor);
   const currentTestRunId = useSelector(getCurrentTestRunId); // #TODO: CHECK behaviour
+  const dispatch = useDispatch();
 
   useEffect(() => {
     logOllyEvent({
@@ -48,6 +53,18 @@ const TestDetails = ({ source }) => {
     },
     [activeProject.id, activeProject.name, source, currentTestRunId]
   );
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const testDetails = searchParams.get('details');
+    if (testDetails) {
+      dispatch(setIsTestDetailsVisible(true));
+      dispatch(setShowTestDetailsFor(testDetails));
+    }
+    return () => {
+      dispatch(setIsTestDetailsVisible(false));
+    };
+  }, [dispatch]);
 
   return (
     <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
