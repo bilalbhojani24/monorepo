@@ -34,9 +34,12 @@ export const responseInterceptor = axios.interceptors.response.use(
   (error) => {
     // Do something with response error
     const { status, data } = error.response || {};
+    const { config } = error;
 
-    if (status === 401 && data.error?.refresh_token) {
-      const { config } = error;
+    if (
+      status === 401 &&
+      (data.error?.refresh_token || !config.headers.Authorization)
+    ) {
       // If config does not exist or the retry option is not set, reject
       if (!config || !config.retry) return Promise.reject(error);
       // Set the variable for keeping track of the retry count
