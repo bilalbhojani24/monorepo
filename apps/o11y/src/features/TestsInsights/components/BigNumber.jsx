@@ -34,13 +34,13 @@ export default function BigNumber({ data, onClick, config }) {
         )}
       </div>
       <div
-        className={twClassNames('flex items-center justify-start', {
+        className={twClassNames('flex items-end justify-start', {
           'hover:text-brand-600 cursor-pointer pointer-events-auto':
             !config.noHover
         })}
       >
         {!!data.title && (
-          <p className="text-base-600 hover:text-brand-600 mb-1 text-base">
+          <p className="text-base-600 hover:text-brand-600 mb-1 text-sm">
             {data.title}
           </p>
         )}
@@ -55,10 +55,13 @@ export default function BigNumber({ data, onClick, config }) {
           )}
         </p>
         <div
-          className={twClassNames('text-base-500 my-1 flex items-center', {
-            'hover:text-brand-600': !config.noHover,
-            'w-[calc(100%-50px)]': !config.noHover
-          })}
+          className={twClassNames(
+            'text-base-500 my-1 flex items-center text-sm font-medium',
+            {
+              'hover:text-brand-600': !config.noHover,
+              'w-[calc(100%-50px)]': !config.noHover
+            }
+          )}
         >
           {!isEmpty(data.insights) && (
             <p className="flex items-center">

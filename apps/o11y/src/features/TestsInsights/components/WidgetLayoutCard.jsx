@@ -147,7 +147,7 @@ function WidgetLayoutCard({
                     tableConfig?.onRowCLick(singleBuildData) || null
                   }
                 >
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none py-2">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 border-none border-b-none py-2 text-base-800">
                     <div className="flex items-center">
                       <div
                         className="mr-1 h-2 w-2 shrink-0 rounded-full"
@@ -158,7 +158,7 @@ function WidgetLayoutCard({
                       )}
                     </div>
                   </O11yTableCell>
-                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2 sm:last:pr-0">
+                  <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2 sm:last:pr-0 text-base-800">
                     {!!singleBuildData.filterCount && (
                       <O11yBadge
                         modifier="warn"
