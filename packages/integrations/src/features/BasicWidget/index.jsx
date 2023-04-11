@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '@browserstack/hooks';
@@ -170,4 +170,4 @@ const WidgetPortal = ({
     : null;
 };
 
-export default memo(WidgetPortal);
+export default WidgetPortal;
