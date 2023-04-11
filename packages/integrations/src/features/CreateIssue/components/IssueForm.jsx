@@ -109,9 +109,12 @@ const IssueForm = ({
   }, []);
 
   useEffect(() => {
-    if (!isBeingDiscarded && !isWorkInProgress) {
-      if (mode === ISSUE_MODES.CREATION) resetCreateMeta();
-      else resetUpdateMeta();
+    if (mode === ISSUE_MODES.CREATION) {
+      resetUpdateMeta();
+      setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
+    } else {
+      resetCreateMeta();
+      setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: {} });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
