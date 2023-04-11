@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InputField } from '@browserstack/bifrost';
 
+import { ALLOWED_TYPES } from '../../constants';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 import { FieldType } from '../types';
@@ -55,7 +56,7 @@ const TextField = ({
   useEffect(() => {
     if (
       valueToRender &&
-      typeof fieldsData?.[fieldKey] !== 'string' &&
+      !ALLOWED_TYPES.includes(typeof fieldsData?.[fieldKey]) &&
       typeof setFieldsData === 'function'
     ) {
       setFieldsData({ ...fieldsData, [fieldKey]: valueToRender });

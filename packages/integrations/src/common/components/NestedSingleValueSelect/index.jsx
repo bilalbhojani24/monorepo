@@ -94,8 +94,10 @@ const NestedSingleValueSelect = ({
       typeof setFieldsData === 'function'
     ) {
       const [cleanedValue] = cleanOptions([value || defaultValue]);
-      const [cleanedChild] = cleanOptions([cleanedValue.options]);
-      cleanedValue.child = cleanedChild;
+      if (cleanedValue.options) {
+        const [cleanedChild] = cleanOptions([cleanedValue.options]);
+        cleanedValue.child = cleanedChild;
+      }
       setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
       const currentParentItem = options?.find(
         (parentOption) => parentOption.key === cleanedValue.value
@@ -157,7 +159,9 @@ const NestedSingleValueSelect = ({
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
-      setOptionsToRender(filtered);
+      if (filtered.length) {
+        setOptionsToRender(filtered);
+      }
     },
     [optionsPath, dynamicOptions, options]
   );
@@ -193,7 +197,7 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup maxWidth={300}>
           {optionsToRender?.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
@@ -213,7 +217,7 @@ const NestedSingleValueSelect = ({
                 ))}
               </ComboboxOptionGroup>
             )}
-            {!childOptions?.length && (
+            {!childOptions?.length && !areOptionsLoading && (
               <ComboboxOptionGroup>
                 <ComboboxOptionItem
                   key="no options"

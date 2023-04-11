@@ -148,7 +148,9 @@ const MultiSelect = ({
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
-      setOptionsToRender(filtered);
+      if (filtered.length) {
+        setOptionsToRender(filtered);
+      }
     },
     [options, dynamicOptions, optionsPath]
   );
@@ -190,7 +192,7 @@ const MultiSelect = ({
           onInputValueChange={handleInputChange}
         />
         {Boolean(optionsToRender?.length) && (
-          <ComboboxOptionGroup>
+          <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem
                 key={item.value}
@@ -200,7 +202,7 @@ const MultiSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && (
+        {!optionsToRender?.length && !areOptionsLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"
