@@ -61,7 +61,6 @@ InteractiveAccordion.play = async ({ canvasElement }) => {
 };
 InteractiveAccordion.args = {
   defaultOpen: true,
-  wrapperAriaLabel: 'My Accordion',
   children: [
     <AccordionInteractiveHeader
       trigger={
@@ -188,7 +187,6 @@ const InteractiveAccordionHeaderWCustomStyle = Template.bind({});
 
 InteractiveAccordionHeaderWCustomStyle.args = {
   defaultOpen: true,
-  wrapperAriaLabel: 'My Accordion',
   children: [
     <AccordionInteractiveHeader
       trigger={
