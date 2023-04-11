@@ -55,3 +55,5 @@ export const integrationsLoadingSelector = (state) =>
 export const integrationsErrorSelector = (state) => state.integrations.error;
 export const hasIntegratedSelector = (state) =>
   state.integrations.hasIntegrated;
+export const activeIntegrationSelector = (state) =>
+  state.integrations.activeIntegration;

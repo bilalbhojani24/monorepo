@@ -12,10 +12,12 @@ const GlobalAlert = ({ className }) => {
   const {
     kind,
     title,
+    linkUrl,
     message,
     linkText,
-    linkUrl,
     autoDismiss,
+    linkPosition,
+    hasMessageBody,
     autoDismissDelay
   } = useSelector(globalAlertStateSelector);
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const GlobalAlert = ({ className }) => {
     }
   }, [message, dispatch, autoDismiss, autoDismissDelay]);
 
-  return message ? (
+  return message || !hasMessageBody ? (
     <div className={className}>
       <Alerts
         title={title}
@@ -45,7 +47,7 @@ const GlobalAlert = ({ className }) => {
         linkUrl={linkUrl}
         linkText={linkText}
         description={message}
-        alertLinkPosition="inline"
+        alertLinkPosition={linkPosition}
         handleLinkClick={handleLinkClick}
         dismissButtonFn={handleDismissButton}
       />

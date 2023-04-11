@@ -15,6 +15,7 @@ import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
 import { baseURLSelector } from '../../../common/slices/configSlice';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { LOADING_STATUS } from '../../slices/constants';
+import { setActiveIntegration } from '../../slices/integrationsSlice';
 import {
   projectsErrorSelector,
   projectsLoadingSelector,
@@ -116,6 +117,7 @@ const IssueForm = ({
   }, [mode]);
 
   useEffect(() => {
+    dispatch(setActiveIntegration(integrationToolFieldData));
     dispatch(getProjectsThunk(integrationToolFieldData?.value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
