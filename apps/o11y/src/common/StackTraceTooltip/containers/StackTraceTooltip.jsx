@@ -1,6 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
+import { twClassNames } from '@browserstack/utils';
 import Copy2Clipboard from 'common/Copy2Clipboard';
 import PropagationBlocker from 'common/PropagationBlocker';
 import PropTypes from 'prop-types';
@@ -9,7 +10,8 @@ import { transformUnsupportedTags } from 'utils/common';
 export default function StackTraceTooltip({
   traceLines,
   copyText,
-  showOnlyTraceData
+  showOnlyTraceData,
+  maxHeight
 }) {
   return (
     <PropagationBlocker>
@@ -20,7 +22,12 @@ export default function StackTraceTooltip({
         </div>
       )}
 
-      <pre className="text-danger-500 max-h-[250px] overflow-auto p-3">
+      <pre
+        className={twClassNames(
+          'text-danger-600 overflow-auto p-3',
+          `max-h-[${maxHeight}px]`
+        )}
+      >
         {traceLines.map((item, idx) => (
           // eslint-disable-next-line react/no-array-index-key
           <p className="font-mono text-xs" key={`${item}-${idx}`}>
@@ -37,11 +44,13 @@ export default function StackTraceTooltip({
 StackTraceTooltip.propTypes = {
   traceLines: PropTypes.arrayOf(PropTypes.string),
   copyText: PropTypes.string,
-  showOnlyTraceData: PropTypes.bool
+  showOnlyTraceData: PropTypes.bool,
+  maxHeight: PropTypes.number
 };
 
 StackTraceTooltip.defaultProps = {
   traceLines: [],
   copyText: '',
-  showOnlyTraceData: false
+  showOnlyTraceData: false,
+  maxHeight: 250
 };

@@ -48,7 +48,7 @@ function TestlistTimeline({ details }) {
       {history?.map((singleHistoryItem) => (
         <O11yTooltip
           size="md"
-          placementSide="left"
+          placementSide="bottom"
           key={singleHistoryItem.testRunId}
           triggerWrapperClassName="inline-flex items-center"
           content={
@@ -60,14 +60,14 @@ function TestlistTimeline({ details }) {
         >
           <div
             className={twClassNames(
-              'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
+              'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
               getClassesByStatus(singleHistoryItem.status),
               'bg-white'
             )}
           >
             <div
               className={twClassNames(
-                'bg-base-500 h-2 w-2 shrink-0 rounded-full',
+                'bg-base-500 h-1.5 w-1.5 shrink-0 rounded-full cursor-pointer',
                 getClassesByStatus(singleHistoryItem.status)
               )}
             />

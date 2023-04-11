@@ -91,6 +91,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                 <StackTraceTooltip
                   showOnlyTraceData
                   traceLines={historyData?.logs[LOG_TYPES.STACKTRACE] || []}
+                  maxHeight={116}
                 />
               </div>
             )}
