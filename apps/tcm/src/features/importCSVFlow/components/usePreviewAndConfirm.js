@@ -22,9 +22,6 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
-  const selectedFolderLocation = useSelector(
-    (state) => state.importCSV.selectedFolderLocation
-  );
 
   const handleImportTestCaseClick = () => {
     dispatch(
@@ -47,7 +44,6 @@ const usePreviewAndConfirm = () => {
 
   return {
     previewData,
-    selectedFolderLocation,
     showFolderExplorerModal,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,

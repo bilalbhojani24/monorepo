@@ -27,7 +27,6 @@ import usePreviewAndConfirm from './usePreviewAndConfirm';
 const PreviewAndConfirm = () => {
   const {
     previewData,
-    selectedFolderLocation,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
     handleImportTestCaseClick
@@ -117,7 +116,7 @@ const PreviewAndConfirm = () => {
                     description={
                       <>
                         <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5" />
-                        {selectedFolderLocation}
+                        {data?.import_folder}
                       </>
                     }
                   />
