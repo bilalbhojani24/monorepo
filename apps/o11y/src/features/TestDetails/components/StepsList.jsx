@@ -8,29 +8,13 @@ import {
   O11yDropdownTrigger,
   O11yTruncateText
 } from 'common/bifrostProxy';
-import { TEST_STATUS } from 'constants/common';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
-import { getParsedJSON } from '../utils';
+import { getParsedJSON, getStatusColors } from '../utils';
 
 import LogItemDuration from './LogItemDuration';
-
-const getStatusColors = (status) => {
-  switch (status) {
-    case TEST_STATUS.PASS:
-      return 'bg-success-500';
-    case TEST_STATUS.FAIL:
-      return 'bg-danger-500';
-    case TEST_STATUS.PENDING:
-      return 'bg-brand-500';
-    case TEST_STATUS.TIMEOUT:
-      return 'bg-attention-500';
-    default:
-      return 'bg-base-500';
-  }
-};
 
 const StepsList = memo(({ steps, onClickStep }) => {
   const { handleLogTDInteractionEvent } = useTestDetailsContentContext();

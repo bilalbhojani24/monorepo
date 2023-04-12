@@ -6,16 +6,12 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
-import {
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -131,7 +127,6 @@ export default function TestTrend() {
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [trendData, setTrendData] = useState({});
-  const navigate = useNavigate();
   const mounted = useRef(null);
 
   useEffect(() => {
@@ -195,11 +190,7 @@ export default function TestTrend() {
 
   const handleClickChartItem = useCallback(
     ({ point: { options } }) => {
-      dispatch(setShowTestDetailsFor(options?.id));
-      dispatch(setIsTestDetailsVisible(true));
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.set('details', options.id);
-      navigate({ search: searchParams.toString() });
+      dispatch(showTestDetailsDrawer(options.id));
       logOllyEvent({
         event: 'O11ySuiteHealthTestsTimelineInteracted',
         data: {
@@ -209,7 +200,7 @@ export default function TestTrend() {
         }
       });
     },
-    [activeProject.id, activeProject.name, dispatch, navigate]
+    [activeProject.id, activeProject.name, dispatch]
   );
 
   const getChartOptions = useMemo(

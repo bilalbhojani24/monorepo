@@ -13,9 +13,8 @@ import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors'
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
 import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
 import { getIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/selectors';
-import TestDetailsSlideOver from 'features/TestDetails';
-import { getIsTestDetailsVisible } from 'features/TestDetails/slices/selectors';
-import { setIsTestDetailsVisible } from 'features/TestDetails/slices/uiSlice';
+import TestDetails from 'features/TestDetails';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
@@ -29,7 +28,6 @@ import SHUniqueErrors from './SHUniqueErrors';
 export default function SnP() {
   const dispatch = useDispatch();
   const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
-  const isDetailsVisible = useSelector(getIsTestDetailsVisible);
   const isSnPDetailsVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
   const navigate = useNavigate();
@@ -37,8 +35,8 @@ export default function SnP() {
   useEffect(
     () => () => {
       dispatch(setIsSHTestsDetailsVisible(false));
-      dispatch(setIsTestDetailsVisible(false));
       dispatch(clearSnPTests());
+      dispatch(hideTestDetailsDrawer());
     },
     [dispatch]
   );
@@ -49,7 +47,6 @@ export default function SnP() {
 
   const removeCommonParams = useCallback(() => {
     const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.delete('details');
     searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
     searchParams.delete(SNP_PARAMS_MAPPING.snpOsName);
     searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserName);
@@ -62,6 +59,7 @@ export default function SnP() {
 
   const onTabChange = useCallback(
     (tabInfo) => {
+      dispatch(hideTestDetailsDrawer());
       const searchParams = removeCommonParams();
       let activeIndex = Object.keys(TABS).findIndex(
         (item) => item === tabInfo.value
@@ -101,11 +99,13 @@ export default function SnP() {
         )}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
         {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
-        {isDetailsVisible && (
-          <TestDetailsSlideOver
-            source={TEST_DETAILS_SOURCE.SUITE_HEALTH_TESTS}
-          />
-        )}
+        <TestDetails
+          source={
+            activeTab.value === TABS.tests
+              ? TEST_DETAILS_SOURCE.SUITE_HEALTH_TESTS
+              : TEST_DETAILS_SOURCE.SUITE_HEALTH_ERRORS
+          }
+        />
       </div>
     </div>
   );
