@@ -45,6 +45,7 @@ export default {
     apiUrl: 'https://api-observability.browserstack.com',
     baseUrl: 'https://browserstack.com',
     withCredentials: true,
-    enableAnalytics: true
+    enableAnalytics: true,
+    disableLogs: true
   }
 };

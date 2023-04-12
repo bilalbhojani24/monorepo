@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildInfoFromUuidApi } from 'api/builds';
 import { getProjectsListAPI } from 'api/projectlist';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
+import isEmpty from 'lodash/isEmpty';
 
 const SLICE_NAME = 'global';
 
@@ -61,6 +62,11 @@ const { actions, reducer } = createSlice({
         PROJECT_NORMALISED_NAME_IDENTIFIER,
         state.projects.active.normalisedName
       );
+    },
+    updateProjectList: (state, { payload }) => {
+      if (!isEmpty(payload)) {
+        state.projects.list = [payload, ...state.projects.list];
+      }
     }
   },
   extraReducers: (builder) => {
@@ -114,6 +120,6 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setProjectList, setActiveProject } = actions;
+export const { setProjectList, setActiveProject, updateProjectList } = actions;
 
 export default reducer;
