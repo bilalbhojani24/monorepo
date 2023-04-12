@@ -45,18 +45,18 @@ export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   },
   testStatus: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[100px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-24`
   },
   failureCategory: {
     name: BUILDS_HEADER_LABEL_MAPPING.failureCategory,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[170px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-40`
   },
   testDuration: {
     name: BUILDS_HEADER_LABEL_MAPPING.testDuration,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[100px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-24`
   },
   tags: {
     name: BUILDS_HEADER_LABEL_MAPPING.tags,
-    defaultClass: `!pr-0 w-[100px] ${BUILDS_HEADER_COMMON_STYLES}`
+    defaultClass: `!pr-0 w-24 ${BUILDS_HEADER_COMMON_STYLES}`
   }
 };
