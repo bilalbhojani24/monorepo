@@ -63,6 +63,25 @@ const importCSVSlice = createSlice({
   initialState,
   reducers: {
     setCSVCurrentScreen: (state, { payload }) => {
+      if (payload === SECOND_SCREEN)
+        state.topInfoSteps = [
+          {
+            title: `Uploaded CSV: ${state.fileConfig?.fileName}`,
+            description: `Import Location: ${state.selectedFolderLocation}`,
+            ctaText: 'Update File',
+            redirectTo: FIRST_SCREEN
+          }
+        ];
+      else if (payload === THIRD_SCREEN)
+        state.topInfoSteps = [
+          ...state.topInfoSteps,
+          {
+            title: 'Mapped Fields',
+            description: 'All fields and values are mapped',
+            ctaText: 'Update Mapping',
+            redirectTo: SECOND_SCREEN
+          }
+        ];
       state.currentCSVScreen = payload;
     },
     setCSVImportSteps: (state, { payload }) => {
@@ -96,9 +115,6 @@ const importCSVSlice = createSlice({
     setShowSelectMenuErrorInMapFields: (state, { payload }) => {
       state.showSelectMenuErrorInMapFields = payload;
     },
-    // setBulkValueMapping: (state, { payload }) => {
-    //   state.valueMappings
-    // },
     setValueMappings: (state, { payload }) => {
       if (payload.value === 'delete') {
         delete state.valueMappings[payload.key];
@@ -163,18 +179,6 @@ const importCSVSlice = createSlice({
       for (const [key, value] of Object.entries(payload?.field_mappings)) {
         state.fieldsMapping[key] = value;
       }
-
-      state.topInfoSteps = [
-        {
-          title: `Uploaded CSV: ${state.fileConfig?.fileName}`,
-          description: `Import Location: ${state.selectedFolderLocation}`,
-          ctaText: 'Update File',
-          redirectTo: FIRST_SCREEN
-        }
-      ];
-
-      state.currentCSVScreen = 'mapFields';
-      // state.immutableFieldMappings = state.fieldsMapping;
       state.showMappings = true;
     },
     uploadFileRejected: (state, { payload }) => {
@@ -222,20 +226,9 @@ const importCSVSlice = createSlice({
     submitMappingDataFulfilled: (state, { payload }) => {
       state.totalImportedProjectsInPreview = payload.cases_count;
       state.previewData = payload.test_cases;
-      // next screen
-      state.currentCSVScreen = THIRD_SCREEN;
       state.mapFieldsProceedLoading = false;
       state.showSelectMenuErrorInMapFields = false;
       state.errorLabelInMapFields = new Set();
-      state.topInfoSteps = [
-        ...state.topInfoSteps,
-        {
-          title: 'Mapped Fields',
-          description: 'All fields and values are mapped',
-          ctaText: 'Update Mapping',
-          redirectTo: SECOND_SCREEN
-        }
-      ];
     },
     submitMappingDataRejected: (state, { payload }) => {
       state.mappingFieldsError = payload.response.data.message;
@@ -269,10 +262,6 @@ const importCSVSlice = createSlice({
           payload?.confirmCSVImportNotificationConfig,
         ...restInitialState
       };
-    },
-    setTopSectionInfoSteps: (state) => {
-      const { 0: firstStep } = state.topInfoSteps;
-      state.topInfoSteps = [firstStep];
     },
     setShowMappings: (state, { payload }) => {
       state.showMappings = payload;
@@ -313,7 +302,6 @@ export const {
   submitMappingDataPending,
   submitMappingDataFulfilled,
   submitMappingDataRejected,
-  setTopSectionInfoSteps,
   setShowMappings,
   setSingleFieldValueMapping,
   updateSingleFieldValueMapping,

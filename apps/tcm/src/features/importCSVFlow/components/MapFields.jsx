@@ -184,9 +184,9 @@ const MapFields = () => {
           />
         </div>
       )}
-      <div className="border-base-200 max-h-max rounded-md border-2 border-solid bg-white">
-        <div className="relative pt-5">
-          <div className="px-5">
+      <div className="border-base-200 max-h-max rounded-md border-2 border-solid bg-white pt-5">
+        <div className="relative">
+          <div className="bg-white px-5">
             <TMSectionHeadings
               title="Map Fields"
               variant="buttons"

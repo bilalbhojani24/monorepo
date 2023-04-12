@@ -4,18 +4,11 @@ import { MdCheckCircle } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { SECOND_SCREEN } from '../const/importCSVConstants';
-import {
-  setCSVCurrentScreen,
-  setTopSectionInfoSteps
-} from '../slices/importCSVSlice';
+import { setCSVCurrentScreen } from '../slices/importCSVSlice';
 
 const SingleStep = ({ title, description, ctaText, redirectTo }) => {
   const dispatch = useDispatch();
   const handleCtaClick = () => {
-    if (redirectTo === SECOND_SCREEN) {
-      dispatch(setTopSectionInfoSteps());
-    }
     dispatch(setCSVCurrentScreen(redirectTo));
   };
 

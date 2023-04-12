@@ -7,11 +7,16 @@ import {
   postMappingData,
   startCSVImport
 } from '../../../api/importCSV.api';
-import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
+import {
+  DEFAULT_MODAL_DROPDOWN_OPTIONS,
+  SECOND_SCREEN,
+  THIRD_SCREEN
+} from '../const/importCSVConstants';
 
 import {
   importCSVCleanUp,
   setCSVConfigurationsFulfilled,
+  setCSVCurrentScreen,
   setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldsError,
@@ -73,6 +78,7 @@ export const uploadFile = (payload) => async (dispatch) => {
     const response = await postCSV(payload);
 
     dispatch(uploadFileFulfilled(response));
+    dispatch(setCSVCurrentScreen(SECOND_SCREEN));
   } catch (err) {
     dispatch(uploadFileRejected(err));
   }
@@ -160,6 +166,7 @@ export const submitMappingData =
         }
       });
       dispatch(submitMappingDataFulfilled(response));
+      dispatch(setCSVCurrentScreen(THIRD_SCREEN));
     } catch (err) {
       dispatch(submitMappingDataRejected(err));
     }
