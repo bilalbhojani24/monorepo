@@ -95,7 +95,7 @@ const ErrorInfo = () => {
               />
             </div>
             <span className="text-base-700 text-2xl font-semibold leading-8">
-              {errorData?.errorCount.toString().padStart(2, '0')}
+              {errorData?.errorCount?.toString().padStart(2, '0')}
             </span>
           </div>
         </div>

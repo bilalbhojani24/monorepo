@@ -83,7 +83,7 @@ const SelectMenuOptionItem = forwardRef(
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <CheckboxClone />
+                <CheckboxClone checked={selected} active={active} />
 
                 <label
                   htmlFor={option.name}
