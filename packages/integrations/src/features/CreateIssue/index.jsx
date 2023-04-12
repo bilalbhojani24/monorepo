@@ -132,6 +132,7 @@ export const CreateIssue = ({
           scrollWidgetToTop={scrollWidgetToTop}
           confirmIssueDiscard={confirmIssueDiscard}
           setIsWorkInProgress={setIsWorkInProgress}
+          isFormBeingSubmitted={isFormBeingSubmitted}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
         />
       </div>

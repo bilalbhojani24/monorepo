@@ -40,6 +40,7 @@ const IssueForm = ({
   scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   setIsFormBeingSubmitted
 }) => {
   const dispatch = useDispatch();
@@ -216,7 +217,7 @@ const IssueForm = ({
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue`,
+          message: `Create a project in your ${integrationToolFieldData?.title} in order to continue.`,
           autoDismiss: true
         })
       );
@@ -298,6 +299,7 @@ const IssueForm = ({
             setIsWorkInProgress,
             isCreateMetaLoading,
             isUpdateMetaLoading,
+            isFormBeingSubmitted,
             handleIssueTabChange,
             setAttachments: setFiles,
             integrationToolFieldData,
@@ -320,6 +322,7 @@ IssueForm.propTypes = {
   isWorkInProgress: PropTypes.bool.isRequired,
   scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
+  isFormBeingSubmitted: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   integrations: PropTypes.arrayOf({}).isRequired,
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired

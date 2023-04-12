@@ -2,7 +2,10 @@ import { cookieUtils as Cookie } from '@browserstack/utils';
 
 import { baseURLSelector } from '../common/slices/configSlice';
 import { setGlobalAlert } from '../common/slices/globalAlertSlice';
-import { activeIntegrationSelector } from '../features/slices/integrationsSlice';
+import {
+  activeIntegrationSelector,
+  setHasIntegrated
+} from '../features/slices/integrationsSlice';
 import { store } from '../features/store';
 
 import axios from './axiosInstance';
@@ -73,16 +76,18 @@ export const responseInterceptor = axios.interceptors.response.use(
       if (data?.setup_completed === false) {
         const activeIntegration = activeIntegrationSelector(store.getState());
         store.dispatch(
+          setHasIntegrated({
+            integrationKey: activeIntegration.value,
+            setupCompleted: false
+          })
+        );
+        store.dispatch(
           setGlobalAlert({
             kind: 'error',
-            linkText: `Please disconnect ${
-              activeIntegration ? activeIntegration.title : ''
-            } and re-authenticate`,
-            showOnTop: true,
-            linkPosition: 'end',
             title: 'Authentication Error',
-            hasMessageBody: false,
-            linkUrl: 'https://www.browserstack.com/accounts/integrations'
+            message: `Please connect to ${
+              activeIntegration ? activeIntegration.title : ''
+            } and re-authenticate.`
           })
         );
       }
