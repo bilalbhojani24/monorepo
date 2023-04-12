@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -17,6 +19,7 @@ const tabs = [
   { name: 'Team Members', icon: UsersIcon, count: '52' },
   { name: 'Billing', icon: CreditCardIcon, count: '52' }
 ];
+
 const defaultConfig = {
   title: 'Application/Components/Tabs',
   component: Tabs,
@@ -82,10 +85,54 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => <Tabs {...args} />;
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const attribute = 'aria-current';
+  await expect(canvas.queryAllByRole('button').length).toBe(4);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await expect(canvas.queryAllByRole('button')[0]).toHaveAttribute(
+    attribute,
+    'page'
+  );
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+  await expect(canvas.queryAllByRole('button')[1]).toHaveAttribute(
+    attribute,
+    'page'
+  );
+  await expect(canvas.queryAllByRole('button')[3]).not.toHaveAttribute(
+    attribute
+  );
+};
+
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
 export { Primary };
+
+const slidableTabs = [
+  { name: 'My Account', icon: UserIcon, count: '52' },
+  { name: 'Company', icon: BuildingOfficeIcon, count: '52' },
+  { name: 'Team Members', icon: UsersIcon, count: '52' },
+  { name: 'Billing 1', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 2', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 3', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 4', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 5', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 6', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 7', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 8', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 9', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 10', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 11', icon: CreditCardIcon, count: '52' },
+  { name: 'Billing 12', icon: CreditCardIcon, count: '52' }
+];
+
+export const SlidableTabs = () => (
+  <>
+    <Tabs tabsArray={slidableTabs} isSlideableTabs />
+  </>
+);
