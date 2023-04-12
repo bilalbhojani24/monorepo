@@ -90,7 +90,7 @@ const ComboBox = forwardRef((props, ref) => {
           }}
           disabled={disabled}
           className={twClassNames({
-            'pointer-events-none': isLoading
+            'pointer-events-none': isLoading || isLoadingRight
           })}
         >
           {({ open: dropdownOpen, value: selectedValues }) => (
