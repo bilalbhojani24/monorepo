@@ -10,12 +10,13 @@ import { LoadingIcon } from 'assets/icons/components';
 import { TEST_STATUS } from 'constants/common';
 import PropTypes from 'prop-types';
 
+const commonStatusClass = "'w-4 h-4 flex-shrink-0";
 export default function StatusIcon({ status, customClass, noColor }) {
   if (status === TEST_STATUS.PASS) {
     return (
       <MdOutlineCheckCircleOutline
         className={twClassNames(
-          'w-4 h-4',
+          commonStatusClass,
           {
             'text-success-500': !noColor,
             'text-base-400': noColor
@@ -29,7 +30,8 @@ export default function StatusIcon({ status, customClass, noColor }) {
     return (
       <LoadingIcon
         className={twClassNames(
-          'w-4 h-4 fill-brand-500',
+          commonStatusClass,
+          'fill-brand-500',
           {
             'text-brand-500': !noColor,
             'text-base-400': noColor
@@ -43,7 +45,7 @@ export default function StatusIcon({ status, customClass, noColor }) {
     return (
       <MdOutlineCancel
         className={twClassNames(
-          'w-4 h-4',
+          commonStatusClass,
           {
             'text-danger-500': !noColor,
             'text-base-400': noColor
@@ -57,7 +59,7 @@ export default function StatusIcon({ status, customClass, noColor }) {
     return (
       <MdHelpOutline
         className={twClassNames(
-          'w-4 h-4',
+          commonStatusClass,
           {
             'text-attention-500': !noColor,
             'text-base-400': noColor
@@ -71,7 +73,7 @@ export default function StatusIcon({ status, customClass, noColor }) {
   return (
     <MdRemoveCircleOutline
       className={twClassNames(
-        'w-4 h-4',
+        commonStatusClass,
         {
           'text-base-500': !noColor,
           'text-base-400': noColor

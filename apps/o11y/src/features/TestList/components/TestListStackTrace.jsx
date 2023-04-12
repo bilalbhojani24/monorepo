@@ -42,7 +42,7 @@ function TestListStackTrace({ wrapperClassName, details }) {
         wrapperClassName
       )}
     >
-      <p className="text-danger-700 my-1 line-clamp-1 cursor-default break-all font-mono text-xs">
+      <p className="text-danger-700 line-clamp-1 my-1 cursor-default break-all font-mono text-xs">
         {ReactHtmlParser(
           retries[retries.length - 1].logs?.[LOG_TYPES.STACKTRACE][0],
           {

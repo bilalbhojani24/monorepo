@@ -119,7 +119,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'tags');
                 }}
-                value={tags.filter((el) =>
+                value={tags?.filter((el) =>
                   selectedFilters?.tags?.includes(el.value)
                 )}
                 checkPosition

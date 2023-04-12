@@ -62,106 +62,103 @@ const RenderTestItem = ({ item: data }) => {
 
   return (
     <div
-      className={twClassNames(
-        `border-base-100 border-b pt-2 pr-6 group cursor-pointer hover:bg-base-50`
-      )}
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-2 pr-6"
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
       }}
       role="presentation"
       onClick={handleClickTestItem}
     >
-      <div className="flex justify-between">
-        <div className="flex w-full flex-col items-center">
-          <div className="flex items-center self-start">
-            <div className="flex items-center">
-              <StatusIcon status={data.details.status || TEST_STATUS.SKIPPED} />
-              <p className="text-base-900 ml-2 text-sm">
-                {ReactHtmlParser(displayName, {
-                  transform: transformUnsupportedTags
-                })}
-              </p>
+      <div className="flex justify-between gap-4">
+        <div className="flex w-full flex-col items-start">
+          <div className="flex items-start">
+            <div className="flex items-start">
+              <div className="flex h-5 items-center">
+                <StatusIcon
+                  status={data.details.status || TEST_STATUS.SKIPPED}
+                />
+              </div>
+              <div className="text-base-900 ml-2 text-sm">
+                <span>
+                  {ReactHtmlParser(displayName, {
+                    transform: transformUnsupportedTags
+                  })}
+                </span>
+                <div className="ml-1 inline shrink-0">
+                  {data?.details?.tags.map((singleTag) => (
+                    <PropagationBlocker className="ml-1 inline" key={singleTag}>
+                      <O11yBadge
+                        text={singleTag}
+                        wrapperClassName="mx-1"
+                        hasRemoveButton={false}
+                        onClick={() => {
+                          addFilterOnClick('tags', singleTag);
+                        }}
+                        modifier="base"
+                        hasDot={false}
+                      />
+                    </PropagationBlocker>
+                  ))}
+                  {details?.isFlaky && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Flaky"
+                        modifier="warn"
+                        onClick={() => {
+                          addFilterOnClick('flaky', 'true');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isAlwaysFailing && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Always Failing"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isAlwaysFailing');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isNewFailure && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="New Failures"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isNewFailure');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isPerformanceAnomaly && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Performance Anomaly"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isPerformanceAnomaly');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex">
-              {data?.details?.tags.map((singleTag) => (
-                <PropagationBlocker className="ml-1" key={singleTag}>
-                  <O11yBadge
-                    text={singleTag}
-                    wrapperClassName="mx-1"
-                    hasRemoveButton={false}
-                    onClick={() => {
-                      addFilterOnClick('tags', singleTag);
-                    }}
-                    modifier="base"
-                    hasDot={false}
-                  />
-                </PropagationBlocker>
-              ))}
-              {details?.isFlaky && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Flaky"
-                    modifier="warn"
-                    onClick={() => {
-                      addFilterOnClick('flaky', 'true');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isAlwaysFailing && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Always Failing"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isAlwaysFailing');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isNewFailure && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="New Failures"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isNewFailure');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isPerformanceAnomaly && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Performance Anomaly"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isPerformanceAnomaly');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-            </div>
-            {details?.sessionUrl && (
-              <PropagationBlocker className="mt-1">
-                <O11yHyperlink
-                  href={data?.details?.sessionUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  wrapperClassName="ml-2"
-                >
-                  <MdOutlineAirplay className="text-base-500 h-4 w-4" />
-                  <span className="text-base-500 ml-1 text-sm font-normal">
-                    Interactive Session
-                  </span>
-                </O11yHyperlink>
-              </PropagationBlocker>
-            )}
           </div>
-          <div className="flex items-center self-start">
+          <div className="flex items-center">
             <TestListStackTrace details={details} />
           </div>
-          <div className="flex items-center gap-3.5 self-start pl-6">
+          <div
+            className={twClassNames('mb-2 flex items-center gap-3.5 pl-6', {
+              'mt-1':
+                !details.retries?.length ||
+                !details.retries[details.retries.length - 1].logs?.[
+                  LOG_TYPES.STACKTRACE
+                ]?.length
+            })}
+          >
             <TestListDefectType data={data} />
             {details?.runCount > 1 && (
               <div>
@@ -180,6 +177,21 @@ const RenderTestItem = ({ item: data }) => {
               />
             </PropagationBlocker>
             <TestItemJiraTag details={details} />
+            {details?.sessionUrl && (
+              <PropagationBlocker className="inline-flex">
+                <O11yHyperlink
+                  href={data?.details?.sessionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  wrapperClassName="inline-flex hover:text-brand-600"
+                >
+                  <MdOutlineAirplay className="text-base" />
+                  <span className="ml-1 text-sm font-normal">
+                    Interactive Session
+                  </span>
+                </O11yHyperlink>
+              </PropagationBlocker>
+            )}
           </div>
         </div>
         <div className="flex w-auto gap-1">
