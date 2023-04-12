@@ -137,6 +137,7 @@ const TestCapabilities = () => {
         defaultIndex={activeTab.idx}
         tabsArray={tabs}
         onTabChange={onTabChange}
+        isSlideableTabs
       />
       <TestCapabilitiesList data={capabilities[activeTab.value]} />
     </div>

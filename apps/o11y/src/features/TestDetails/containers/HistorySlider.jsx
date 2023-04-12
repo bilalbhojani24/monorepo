@@ -86,6 +86,7 @@ const HistorySlider = () => {
         defaultIndex={activeTab.idx}
         tabsArray={tabs}
         onTabChange={onTabChange}
+        isSlideableTabs
       />
     </div>
   );

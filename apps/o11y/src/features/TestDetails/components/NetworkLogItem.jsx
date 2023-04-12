@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { DefaultBrowserIcon } from 'assets/icons/components';
 import { O11yHyperlink, O11yTruncateText } from 'common/bifrostProxy';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useLogsContext } from '../contexts/LogsContext';
@@ -68,7 +68,7 @@ export default function NetworkLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex px-2 pl-8 break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 pl-8 break-words border-b py-3 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)
@@ -96,7 +96,7 @@ export default function NetworkLogItem({ data, searchText }) {
           <div className="flex items-center gap-2">
             <span className="inline-flex max-w-xs items-center gap-1">
               <span>
-                <DefaultBrowserIcon className="text-base-500 h-4 w-4" />
+                <DefaultBrowserIcon className="fill-base-500 h-4 w-4" />
               </span>
               <O11yHyperlink
                 href={logData?.request?.url}

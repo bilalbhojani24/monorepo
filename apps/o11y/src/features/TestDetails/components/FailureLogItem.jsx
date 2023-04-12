@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import Copy2Clipboard from 'common/Copy2Clipboard';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -61,7 +61,7 @@ export default function FailureLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        `border-base-200 px-2 pl-8 flex break-words border-b py-4 text-left`,
+        `border-base-200 px-2 pl-8 flex break-words border-b py-3 text-left`,
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)
