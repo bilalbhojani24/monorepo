@@ -28,7 +28,7 @@ import TestListGalleryContainer from './TestListGalleryContainer';
 import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
-const RenderTestItem = ({ item: data, isLastItem }) => {
+const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
@@ -63,11 +63,7 @@ const RenderTestItem = ({ item: data, isLastItem }) => {
   return (
     <div
       className={twClassNames(
-        `border-base-100 border-b pt-2 pr-6 group cursor-pointer hover:bg-base-50`,
-        {
-          'pb-2': !isLastItem,
-          'pb-4': isLastItem
-        }
+        `border-base-100 border-b pt-2 pr-6 group cursor-pointer hover:bg-base-50`
       )}
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
@@ -206,10 +202,9 @@ const RenderTestItem = ({ item: data, isLastItem }) => {
   );
 };
 
-export default RenderTestItem;
+export default React.memo(RenderTestItem);
 
 RenderTestItem.propTypes = {
-  item: PropTypes.shape(singleItemTestDetails).isRequired,
-  isLastItem: PropTypes.bool.isRequired
+  item: PropTypes.shape(singleItemTestDetails).isRequired
 };
 RenderTestItem.defaultProps = {};

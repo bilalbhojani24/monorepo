@@ -12,7 +12,8 @@ import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
-  EMPTY_TESTLIST_DATA_STATE
+  EMPTY_TESTLIST_DATA_STATE,
+  TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import {
@@ -34,7 +35,7 @@ import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
 import FilterPills from './components/FilterPills';
-import RenderChildrens from './components/RenderTestChildrens';
+import RenderChildren from './components/RenderChildren';
 import TestListFilters from './components/TestListFilters';
 import TestListSearch from './components/TestListSearch';
 
@@ -50,9 +51,9 @@ const TestList = ({
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
-  const onAccordionChange = useCallback(() => {
-    setExpandAll(null);
-  }, []);
+  // const onAccordionChange = useCallback(() => {
+  //   setExpandAll(null);
+  // }, []);
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -147,7 +148,7 @@ const TestList = ({
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       expandAll,
-      onAccordionChange,
+      // onAccordionChange,
       closedAccordionIds,
       setClosedAccordionIds,
       o11yTestListingInteraction
@@ -155,7 +156,7 @@ const TestList = ({
     [
       expandAll,
       buildUUID,
-      onAccordionChange,
+      // onAccordionChange,
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       closedAccordionIds,
@@ -231,6 +232,23 @@ const TestList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appliedFilters]);
 
+  useEffect(() => {
+    setClosedAccordionIds((data) => {
+      const updatedData = {};
+      Object.keys(data).forEach((key) => {
+        if (data[key].type === TESTLIST_TYPES.ROOT) {
+          updatedData[key] = {
+            ...data[key],
+            status: expandAll
+          };
+        } else {
+          updatedData[key] = { ...data[key] };
+        }
+      });
+      return updatedData;
+    });
+  }, [expandAll]);
+
   const isFiltersApplied = useMemo(() => {
     const emptyFilters = { ...EMPTY_APPLIED_FILTERS };
     emptyFilters.tab = 'tests';
@@ -276,11 +294,7 @@ const TestList = ({
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
-              itemContent={(index, data) => (
-                <RenderChildrens
-                  listOfItems={{ children: [data], type: 'ROOT' }}
-                />
-              )}
+              itemContent={(index, data) => <RenderChildren data={data} />}
             />
           </TestListContext.Provider>
         )}

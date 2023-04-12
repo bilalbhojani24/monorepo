@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
   Accordion,
@@ -14,7 +14,8 @@ import StatusBadges from 'common/StatusBadges';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
-  singleItemPropType
+  singleItemPropType,
+  TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import PropTypes from 'prop-types';
@@ -26,37 +27,70 @@ import {
   transformUnsupportedTags
 } from 'utils/common';
 
-import RenderChildrens from './RenderTestChildrens';
+import RenderChildren from './RenderChildren';
+import RenderTestListItems from './RenderTestListItems';
 
-const RenderRootItem = ({ item }) => {
-  const { details, displayName, status, rank } = item;
+const RenderRootItem = ({ data }) => {
+  const { details, displayName, status, rank } = data;
   const {
-    onAccordionChange,
     expandAll,
     closedAccordionIds,
     setClosedAccordionIds,
     o11yTestListingInteraction
   } = useContext(TestListContext);
-  const [opened, setOpened] = useState(() => !closedAccordionIds[item?.id]);
+
+  const isOpen = useMemo(() => {
+    if (
+      data.type === TESTLIST_TYPES.ROOT &&
+      closedAccordionIds[data?.id]?.status === undefined
+    ) {
+      return expandAll;
+    }
+    return closedAccordionIds[data?.id]?.status === undefined
+      ? true
+      : closedAccordionIds[data?.id]?.status;
+  }, [closedAccordionIds, expandAll, data?.id, data.type]);
+
   const toggleAccordion = () => {
-    if (opened) {
+    if (isOpen) {
       o11yTestListingInteraction('collapse_item');
-      setClosedAccordionIds((prev) => ({ ...prev, [item.id]: true }));
+      setClosedAccordionIds((prev) => ({
+        ...prev,
+        [data.id]: {
+          status: false,
+          type: data.type
+        }
+      }));
     } else {
       o11yTestListingInteraction('expand_item');
-      setClosedAccordionIds((prev) => {
-        const newData = { ...prev };
-        delete newData[item.id];
-        return newData;
-      });
+      setClosedAccordionIds((prev) => ({
+        ...prev,
+        [data.id]: {
+          status: true,
+          type: data.type
+        }
+      }));
     }
-    setOpened((prev) => !prev);
-    onAccordionChange();
   };
 
-  useEffect(() => {
-    if (expandAll !== null) setOpened(expandAll);
-  }, [expandAll]);
+  const childrenElements = useMemo(() => {
+    const testRuns = [];
+    const testListItems = [];
+    data?.children.forEach((item) => {
+      if (
+        item.type === TESTLIST_TYPES.DESCRIBE ||
+        item.type === TESTLIST_TYPES.ROOT
+      ) {
+        testRuns.push(item);
+      } else {
+        testListItems.push(item);
+      }
+    });
+    return {
+      testListItems,
+      testRuns
+    };
+  }, [data.children]);
 
   return (
     <>
@@ -68,7 +102,7 @@ const RenderRootItem = ({ item }) => {
           }}
         >
           <AccordionInteractiveHeader
-            controller={opened}
+            controller={isOpen}
             onClick={toggleAccordion}
             wrapperClassName="px-0 py-2"
             asideContent={
@@ -147,8 +181,13 @@ const RenderRootItem = ({ item }) => {
             }
           />
         </div>
-        <AccordionPanel wrapperClassName="bg-white pl-0" controller={opened}>
-          <RenderChildrens listOfItems={item} />
+        <AccordionPanel wrapperClassName="bg-white pl-0" controller={isOpen}>
+          {!!childrenElements?.testListItems.length && (
+            <RenderTestListItems data={childrenElements.testListItems} />
+          )}
+          {childrenElements?.testRuns?.map((item) => (
+            <RenderChildren data={item} key={item.id} />
+          ))}
         </AccordionPanel>
       </Accordion>
     </>
@@ -156,7 +195,7 @@ const RenderRootItem = ({ item }) => {
 };
 
 RenderRootItem.propTypes = {
-  item: PropTypes.shape(singleItemPropType).isRequired
+  data: PropTypes.shape(singleItemPropType).isRequired
 };
 
-export default RenderRootItem;
+export default React.memo(RenderRootItem);
