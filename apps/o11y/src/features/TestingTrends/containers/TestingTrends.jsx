@@ -15,6 +15,7 @@ import PerformanceTrend from 'features/TestingTrends/containers/PerformanceTrend
 import StabilityTrend from 'features/TestingTrends/containers/StabilityTrend';
 import TestingTrendsHeader from 'features/TestingTrends/containers/TestingTrendsHeader';
 import TrendsCard from 'features/TestingTrends/containers/TrendsCard';
+import UniqueBuildRuns from 'features/TestingTrends/containers/UniqueBuildRuns';
 import useTestingTrends from 'features/TestingTrends/containers/useTestingTrends';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -49,8 +50,7 @@ export default function TestingTrends() {
           />
         );
       case 'latestUniqueBuildRuns':
-        return 'latestUniqueBuildRuns';
-      // return <UniqueBuildRuns />;
+        return <UniqueBuildRuns />;
       case 'flakiness':
         return (
           <TrendsCard

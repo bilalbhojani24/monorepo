@@ -137,14 +137,18 @@ export function getTTTimeBounds(activeKey) {
     upperBound: Date.now(),
     lowerBound: 0
   };
-  if (TT_DATE_RANGE.days7.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
-  }
-  if (TT_DATE_RANGE.days30.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
-  }
-  if (TT_DATE_RANGE.months2.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
+  switch (activeKey) {
+    case TT_DATE_RANGE.days7.key:
+      timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
+      break;
+    case TT_DATE_RANGE.days30.key:
+      timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+      break;
+    case TT_DATE_RANGE.months2.key:
+      timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
+      break;
+    default:
+      break;
   }
   return timebounds;
 }
