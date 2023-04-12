@@ -2,10 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
-// import EmptyPage from 'common/EmptyPage';
 import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
-import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
 import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
 import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
@@ -13,7 +11,6 @@ import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors'
 import TestDetailsSlideOver from 'features/TestDetails';
 import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
 import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
-import { getActiveProject } from 'globalSlice/selectors';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
@@ -30,7 +27,6 @@ export default function SnP() {
   const isDetailsVisible = useSelector(getIsDetailsVisible);
   const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
-  const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
 
   useEffect(
@@ -45,12 +41,6 @@ export default function SnP() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [activeTab.value]);
-
-  useEffect(() => {
-    dispatch(setIsSnPDetailsVisible(false));
-    dispatch(setIsDetailsVisible(false));
-    dispatch(setIsUEDetailsVisible(false));
-  }, [activeProject.id, dispatch]);
 
   const removeCommonParams = useCallback(() => {
     const searchParams = new URLSearchParams(window?.location?.search);
@@ -97,13 +87,6 @@ export default function SnP() {
       <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
-        {/* {activeTab.value === TABS.build_performance && (
-          <div
-            className={twClassNames('flex items-center justify-center h-full')}
-          >
-            <EmptyPage text="Something awesome is coming soon" isUpcoming />
-          </div>
-        )} */}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
         {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
         {isDetailsVisible && (
