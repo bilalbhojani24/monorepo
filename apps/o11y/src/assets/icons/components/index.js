@@ -29,12 +29,17 @@ import MacOSIcon from './os/MacOSIcon';
 import OSXIcon from './os/OSXIcon';
 import WindowsIcon from './os/WindowsIcon';
 import WindowsPhoneIcon from './os/WindowsPhoneIcon';
+import ApplicationIcon from './ApplicationIcon';
+// Others
 import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
 import DeviceIcon from './DeviceIcon';
+import DoubleArrowDownIcon from './DoubleArrowDownIcon';
+import DoubleArrowUpIcon from './DoubleArrowUpIcon';
 import FilebeatNLogStashIcon from './FilebeatNLogStashIcon';
+import FindElementIcon from './FindElementIcon';
 import FluentdIcon from './FluentdIcon';
 import GithubActionsIcon from './GithubActionsIcon';
 import GithubIcon from './GithubIcon';
@@ -42,8 +47,14 @@ import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
+import JSIcon from './JSIcon';
+import LoadingIcon from './LoadingIcon';
 import LogStashIcon from './LogStashIcon';
 import MochaIcon from './MochaIcon';
+import ScreenshotFailureIcon from './ScreenshotFailureIcon';
+import ScreenshotLoadingIcon from './ScreenshotLoadingIcon';
+import SeleniumIcon from './SeleniumIcon';
+import TerminalIcon from './TerminalIcon';
 import TestngIcon from './TestngIcon';
 import UnknownIcon from './UnknownIcon';
 import WdioIcon from './WdioIcon';
@@ -53,6 +64,7 @@ export {
   AmazonIcon,
   AndroidIcon,
   AppleIcon,
+  ApplicationIcon,
   AzurePipelinesIcon,
   BitBucketIcon,
   BuildKiteIcon,
@@ -61,8 +73,11 @@ export {
   DefaultBrowserIcon,
   DefaultOSIcon,
   DeviceIcon,
+  DoubleArrowDownIcon,
+  DoubleArrowUpIcon,
   EdgeIcon,
   FilebeatNLogStashIcon,
+  FindElementIcon,
   FirefoxIcon,
   FluentdIcon,
   GithubActionsIcon,
@@ -76,8 +91,10 @@ export {
   IOSIcon,
   JenkinsIcon,
   JiraIcon,
+  JSIcon,
   LgIcon,
   LinuxIcon,
+  LoadingIcon,
   LogStashIcon,
   MacOSIcon,
   MochaIcon,
@@ -90,7 +107,11 @@ export {
   RealmeIcon,
   SafariIcon,
   SamsungIcon,
+  ScreenshotFailureIcon,
+  ScreenshotLoadingIcon,
+  SeleniumIcon,
   SonyIcon,
+  TerminalIcon,
   TestngIcon,
   UnknownIcon,
   VivoIcon,

@@ -7,11 +7,11 @@ import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
   LOG_TYPES,
-  singleItemPropType,
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
@@ -28,7 +28,7 @@ import TestListGalleryContainer from './TestListGalleryContainer';
 import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
-const RenderTestChildrens = ({ item: data, isLastItem }) => {
+const RenderTestItem = ({ item: data, isLastItem }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
@@ -56,6 +56,10 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
     o11yTestListingInteraction('filter_applied');
   };
 
+  const handleClickTestItem = () => {
+    dispatch(showTestDetailsDrawer(details.id));
+  };
+
   return (
     <div
       className={twClassNames(
@@ -68,6 +72,8 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
       }}
+      role="presentation"
+      onClick={handleClickTestItem}
     >
       <div className="flex justify-between">
         <div className="flex w-full flex-col items-center">
@@ -200,14 +206,10 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
   );
 };
 
-RenderTestChildrens.propTypes = {
-  item: PropTypes.shape(singleItemPropType).isRequired
-};
+export default RenderTestItem;
 
-export default RenderTestChildrens;
-
-RenderTestChildrens.propTypes = {
+RenderTestItem.propTypes = {
   item: PropTypes.shape(singleItemTestDetails).isRequired,
   isLastItem: PropTypes.bool.isRequired
 };
-RenderTestChildrens.defaultProps = {};
+RenderTestItem.defaultProps = {};
