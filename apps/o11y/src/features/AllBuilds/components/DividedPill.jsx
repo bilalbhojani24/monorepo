@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PropagationBlocker from 'common/PropagationBlocker';
+import { getBuildPath } from 'utils/routeUtils';
 
 import { aggregateColors } from '../constants';
 
@@ -13,8 +14,12 @@ function DividedPill({ data, logBuildListingInteracted }) {
       .replace(' ', '_')
       .toLowerCase()}_clicked`;
     logBuildListingInteracted(interactionName);
-    let endpoint = `/projects/${projectNormalisedName}/builds/alertbuild/${data?.buildNumber}?tab=tests`;
-    endpoint += `&issueTypeGroup=${itemClicked}`;
+    let endpoint = getBuildPath(
+      projectNormalisedName,
+      data.normalisedName,
+      data?.buildNumber
+    );
+    endpoint += `?tab=tests&issueTypeGroup=${itemClicked}`;
     navigate(endpoint);
   };
 
